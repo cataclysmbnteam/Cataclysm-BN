@@ -43,6 +43,7 @@
         "^": "t_chaingate_l",
         "+": "t_door_glass_c",
         "_": "t_pavement",
+        "'": "t_pavement",
         "U": "t_pavement",
         "2": "t_pavement",
         ".": "t_strconc_floor",
@@ -53,6 +54,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "H": "f_bench",
         "S": "f_sink",
         "#": "f_stool",

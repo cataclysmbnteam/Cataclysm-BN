@@ -20,25 +20,18 @@
         { "item": "stick", "repeat": [ 1, 16 ], "x": 23, "y": 5 }
       ],
       "furniture": {
-        "#": "f_null",
-        "-": "f_null",
-        ".": "f_null",
+        "'": "f_street_light",
         "0": "f_boulder_medium",
         "O": "f_boulder_large",
-        "^": "f_null",
-        "_": "f_null",
         "a": "f_woodchips",
-        "c": "f_null",
         "h": "f_hay",
         "P": "f_sign",
         "n": "f_slab",
         "o": "f_boulder_small",
-        "r": "f_rubble_rock",
-        "s": "f_null",
-        "|": "f_null"
+        "r": "f_rubble_rock"
       },
       "rows": [
-        "........................",
+        ".......................'",
         ".|||||||||||||||||||||||",
         ".|......................",
         ".|..sss.__.aaaa_________",
@@ -67,6 +60,7 @@
         "#": "t_dirtmound",
         "-": "t_concrete_wall",
         ".": "t_grass",
+        "'": "t_dirt",
         "0": "t_dirt",
         "O": "t_dirt",
         "^": "t_railroad_rubble",
@@ -129,23 +123,16 @@
         { "item": "fertilizer_commercial", "repeat": [ 1, 6 ], "x": 11, "y": 5 }
       ],
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "&": "f_trashcan",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
         "P": "f_sign",
         "^": "f_rubble_rock",
-        "_": "f_null",
-        "c": "f_null",
-        "f": "f_null",
         "l": "f_stool",
         "n": "f_slab",
         "o": "f_boulder_small",
         "s": "f_sign",
-        "w": "f_null",
         "{": "f_rack",
-        "|": "f_null",
         "S": "f_sink"
       },
       "place_items": [
@@ -156,7 +143,7 @@
       ],
       "place_vehicles": [ { "chance": 55, "fuel": 15, "rotation": 90, "status": -1, "vehicle": "pickup", "x": 5, "y": 18 } ],
       "rows": [
-        "_____________......_____",
+        "_____________......____'",
         "|||||||||||||......||||_",
         "_____________......___|_",
         "............_......___|_",
@@ -190,6 +177,7 @@
         "+": "t_door_c",
         "-": "t_brick_wall",
         ".": "t_dirt",
+        "'": "t_dirt",
         "P": "t_dirt",
         "^": "t_dirt",
         "_": "t_grass",

@@ -8,8 +8,8 @@
       "//": "Default terrain is floor but some things are outside (tables)",
       "fill_ter": "t_floor",
       "rows": [
-        "-||||||||||||||-        ",
-        "-FwlwL-P#######-4      Y",
+        "-||||||||||||||-       Y",
+        "-FwlwL-P#######-4       ",
         "-Flwlw#..U.U.U.g        ",
         "-Zwlwl@........g        ",
         "-#lwlw#........g        ",
@@ -182,7 +182,7 @@
       "//": "Default terrain is floor but some things are outside (tables)",
       "fill_ter": "t_floor",
       "rows": [
-        "      ************* SS  ",
+        "      ************* SS Y",
         "      *SSSSSSSSSSS* SS  ",
         "  SSSSSSbxbSSSbxbSSSSSSS",
         "  S   *SbxbSSSbxbS|gGGg|",
@@ -205,7 +205,7 @@
         "|...|   |LLlL|||||||||||",
         "|...DSSSDlllL|W..<|     ",
         "|...|   |||||||D|||     ",
-        "|...|                  Y"
+        "|...|                   "
       ],
       "terrain": {
         " ": [

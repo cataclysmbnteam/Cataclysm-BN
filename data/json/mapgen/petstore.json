@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "...........2rrrrrrrrrrrr",
+        "...........2rrrrrrrrrrr'",
         ".|--6666--|2yrrryrrryrrr",
         ".| 4      |2yrrryrrryrrr",
         ".|--  CC I72yrrryrrryrrr",
@@ -44,6 +44,7 @@
         "5": "t_wall_wood",
         "6": "t_wall_glass_h",
         "7": "t_wall_glass_v",
+        "'": "t_pavement",
         "g": "t_door_glass_c",
         "o": "t_carpet_green",
         "r": "t_pavement",
@@ -53,6 +54,7 @@
         "R": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "A": "f_rack",
         "C": "f_counter",
         "F": "f_chair",
@@ -141,6 +143,7 @@
         { "item": "bathroom_scale", "x": 21, "y": 19 }
       ],
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "&": "f_sink",
         "^": "f_indoor_plant",
@@ -165,7 +168,7 @@
         { "monster": "mon_dog_zombie_rot", "x": 10, "y": 19 }
       ],
       "rows": [
-        "ssssssssssssssssssssssss",
+        "sssssssssssssssssssssss'",
         "ssssssssssssssssssssssss",
         "_||||www||ss||wwww|||||_",
         "_|CCW...^|ss|^.....-ff|_",
@@ -198,6 +201,7 @@
         "D": "t_door_c",
         "W": "t_wall_glass",
         "_": "t_grass",
+        "'": "t_sidewalk",
         "a": "t_chaingate_c",
         "b": "t_door_locked",
         "c": "t_chainfence",
@@ -268,6 +272,7 @@
     "object": {
       "fill_ter": "t_floor",
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "&": "f_trashcan",
         "H": "f_sofa",
@@ -313,7 +318,7 @@
       ],
       "place_toilets": [ { "x": 2, "y": 19 } ],
       "rows": [
-        "___________pppssppp_____",
+        "___________pppssppp____'",
         "__9____9___p9psspKppppp_",
         "_____9_____pppssp|||--||",
         "____duduuudu__ss_|HH..^|",
@@ -341,6 +346,7 @@
       "terrain": {
         "+": "t_door_glass_c",
         "_": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "'": "t_dirt",
         "p": "t_grass",
         "K": "t_grass",
         "-": "t_wall_glass",
