@@ -931,7 +931,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "//": "process sugar beets into sugar",
     "skill_used": "cooking",
-    "byproducts": [ [ "molasses", 1 ] ], 
+    "byproducts": [ [ "molasses", 1 ] ],
     "difficulty": 5,
     "time": "1 h 30 m",
     "batch_time_factors": [ 50, 3 ],
