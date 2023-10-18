@@ -424,7 +424,6 @@ void monexamine::insert_battery( monster &z )
     item *bat_item = bat_inv[index - 1];
     int item_pos = you.get_item_position( bat_item );
     if( item_pos != INT_MIN ) {
-        //TODO!: check owner here
         z.set_battery_item( you.i_rem( item_pos ) );
     }
 }
@@ -544,7 +543,6 @@ bool monexamine::mfriend_menu( monster &z )
 
 void monexamine::attach_or_remove_saddle( monster &z )
 {
-    //TODO!: check ownership/null
     if( z.has_effect( effect_saddled ) ) {
         z.remove_effect( effect_saddled );
         get_avatar().i_add( z.remove_tack_item() );
@@ -666,13 +664,11 @@ bool monexamine::give_items_to( monster &z )
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
     units::volume max_volume = storage.get_storage() - z.get_carried_volume();
     avatar &you = get_avatar();
-    //TODO!: check this
     drop_locations items = game_menus::inv::multidrop( you );
     drop_locations to_move;
     for( const drop_location &itq : items ) {
         item *it_copy = &*itq.loc;
         if( it_copy->count_by_charges() ) {
-            //TODO!: check moving this upwards
             it_copy = item::spawn_temporary( *it_copy );
             it_copy->charges = itq.count;
         }
@@ -800,7 +796,6 @@ void monexamine::kill_zslave( monster &z )
 
     if( !one_in( 3 ) ) {
         you.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
-        //TODO!: is this meant to be temp??
         item *ball = item::spawn_temporary( "pheromone", calendar::start_of_cataclysm );
         iuse::pheromone( &you, ball, true, you.pos() );
     }

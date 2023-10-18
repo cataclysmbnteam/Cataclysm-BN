@@ -43,12 +43,6 @@ class item_stack
         // Moves all of the items from this stack to the destination stack;
         void move_all_to( item_stack *destination );
 
-        // While iterators to colonies are stable, indexes are not.
-        // These functions should only be used for serialization/deserialization
-        //TODO!: delete these entirly, they're not being used for serialization anyway
-        iterator get_iterator_from_pointer( item *it );
-        iterator get_iterator_from_index( size_t idx );
-
         iterator begin();
         iterator end();
         const_iterator begin() const;

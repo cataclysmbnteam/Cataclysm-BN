@@ -255,7 +255,6 @@ detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
     }
 
     // create container here from modifier or from default to get max charges later
-    //TODO!: check all this function
     detached_ptr<item> cont;
     if( container != nullptr ) {
         cont = container->create_single( new_item->birthday() );
@@ -329,7 +328,6 @@ detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
                 new_item->ammo_set( new_item->ammo_default(), ch );
             }
         } else {
-            //TODO!: push up somehow, this is an awkward one
             detached_ptr<item> am = ammo->create_single( new_item->birthday() );
             new_item->ammo_set( am->typeId(), ch );
         }

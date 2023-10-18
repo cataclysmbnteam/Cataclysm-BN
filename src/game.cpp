@@ -5134,7 +5134,6 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     if( m.has_flag( "NOITEM", p ) ) {
         map_stack items = m.i_at( p );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-            //TODO!:CHECK
             if( ( *it )->made_of( LIQUID ) ) {
                 it = items.erase( it );
                 continue;
@@ -8370,7 +8369,6 @@ void game::butcher()
 
     const item *first_item_without_tools = nullptr;
     // Indices of relevant items
-    //TODO!:CHECK
     std::vector<item *> corpses;
     std::vector<item *> disassembles;
     std::vector<item *> salvageables;
@@ -9699,7 +9697,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( dst_items > 0 && only_liquid_items ) {
         m.i_clear( fdest );
     }
-    //TODO!: CHECK
+    
     if( src_items > 0 ) { // Move the stuff inside.
         if( dst_item_ok && src_item_ok ) {
             // Assume contents of both cells are legal, so we can just swap contents.

@@ -349,7 +349,6 @@ void iuse_transform::finalize( const itype_id & )
             debugmsg( "Invalid transform container: %s", container.c_str() );
         }
 
-        //TODO!: push to item type
         item *dummy = item::spawn_temporary( target );
         if( ammo_qty > 1 && !dummy->count_by_charges() ) {
             debugmsg( "Transform target with container must be an item with charges, got non-charged: %s",
@@ -1045,7 +1044,6 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
     p.moves -= moves;
     if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
         for( auto &amdef : newmon.ammo ) {
-            //TODO!: I think this is temp
             item &ammo_item = *item::spawn_temporary( amdef.first, calendar::start_of_cataclysm );
             const int available = p.charges_of( amdef.first );
             if( available == 0 ) {
@@ -2828,7 +2826,6 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
             p.add_msg_if_player( _( "Never mind." ) );
             return 0;
         }
-        //TODO!: check this
         store( p, it, loc->detach() );
     }
 
@@ -2919,7 +2916,6 @@ bool bandolier_actor::reload( player &p, item &obj ) const
         debugmsg( "Invalid item passed to bandolier_actor" );
         return false;
     }
-    //TODO!: check
     // find all nearby compatible ammo (matching type currently contained if appropriate)
     auto found = p.nearby( [&]( const item * e, const item * parent ) {
         return parent != &obj && can_store( obj, *e );

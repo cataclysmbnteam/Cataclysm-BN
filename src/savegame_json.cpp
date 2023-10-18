@@ -2150,7 +2150,6 @@ static bool migration_required( const item &i )
  */
 static void migrate( std::vector<detached_ptr<item>> &stack )
 {
-    //TODO!: Another stack merge, check
     for( auto it_src = stack.begin(); it_src != stack.end(); ) {
         if( !migration_required( **it_src ) ) {
             it_src++;

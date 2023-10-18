@@ -354,7 +354,6 @@ class JsonIn
             return false;
         }
 
-        //TODO!: not sure this is correct, needs a proper check
         /// Overload for game objects
         template<typename T>
         auto read( detached_ptr<T> &out, bool throw_on_error = false ) -> decltype( T::spawn( *this ),

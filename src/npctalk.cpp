@@ -1677,7 +1677,6 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
         } else if( tag == "<topic_item>" ) {
             phrase.replace( fa, l, item::nname( item_type, 2 ) );
         } else if( tag == "<topic_item_price>" ) {
-            //TODO!: check these temps
             item *tmp = item::spawn_temporary( item_type );
             phrase.replace( fa, l, format_money( tmp->price( true ) ) );
         } else if( tag == "<topic_item_my_total_price>" ) {
@@ -2121,7 +2120,6 @@ void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int
                 popup( _( "%1$s gives you %2$d %3$s." ), p.name, count, obj.tname() );
             }
         } else {
-            //TODO!: check
             detached_ptr<item> container = item::spawn( container_name, calendar::turn );
             container->put_in( item::spawn( item_name, calendar::turn, count ) );
             //~ %1%s is the NPC name, %2$s is an item
@@ -2173,14 +2171,12 @@ void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::strin
     jo.read( member, item_name, true );
     function = [is_npc, item_name, count]( const dialogue & d ) {
         // this is stupid, but I couldn't get the assignment to work
-        //TODO!: You can say that again brother
         const auto consume_item = [&]( player & p, const itype_id & item_name, int count ) {
             if( p.has_charges( item_name, count ) ) {
                 p.use_charges( item_name, count );
             } else if( p.has_amount( item_name, count ) ) {
                 p.use_amount( item_name, count );
             } else {
-                //TODO!: Push this up? Hard but valuable
                 item *old_item = item::spawn_temporary( item_name );
                 //~ %1%s is the "You" or the NPC name, %2$s are a translated item name
                 popup( _( "%1$s doesn't have a %2$s!" ), p.disp_name(), old_item->tname() );

@@ -2109,7 +2109,6 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     // if item is unloaded (or is RELOAD_AND_SHOOT) shows approximate stats using default ammo
     const item *loaded_mod = mod;
     if( mod->ammo_required() && !mod->ammo_remaining() ) {
-        //TODO!: get rid of this one, I think it could be bad
         item &tmp = *item::spawn_temporary( *mod );
         tmp.ammo_set( mod->magazine_current() ? tmp.common_ammo_default() : tmp.ammo_default() );
         if( tmp.ammo_data() == nullptr ) {
@@ -8491,7 +8490,6 @@ bool item::reload( player &u, item &loc, int qty )
             container->remove_item( container->contents.front() );
             u.inv_restack( ); // emptied containers do not stack with non-empty ones
         } else {
-            //TODO!: check
             loc.detach();
         }
     }

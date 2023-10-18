@@ -91,7 +91,7 @@ static const std::string flag_LADDER( "LADDER" );
 #define dbg(x) DebugLog((x), DC::SDL)
 
 bool can_fire_turret( avatar &you, const map &m, const turret_data &turret );
-//TODO!: check
+
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
@@ -1004,8 +1004,7 @@ void avatar_action::use_item( avatar &you, item *loc )
             use_in_place = true;
         } else {
             const int obtain_cost = loc->obtain_cost( you );
-            //TODO!: check
-            loc = &( loc->obtain( you ) );
+            loc->obtain( you );
 
             // TODO: the following comment is inaccurate and this mechanic needs to be rexamined
             // This method only handles items in the inventory, so refund the obtain cost.
@@ -1096,7 +1095,6 @@ void avatar_action::wield( item &loc )
             case item_location_type::container:
                 // this will not cause things to spill, as it is inside another item
                 loc.obtain( u );
-                //TODO!: check location stuff, this may debugmsg
                 wield( loc );
                 break;
             case item_location_type::character:
@@ -1140,7 +1138,6 @@ void avatar_action::wield( item &loc )
 static item_reload_option favorite_ammo_or_select(
     const player &u, item &it, bool empty, bool prompt )
 {
-    //TODO!: check
     if( u.ammo_location ) {
         std::vector<item_reload_option> ammo_list;
         if( character_funcs::list_ammo( u, it, ammo_list, empty, false ) ) {

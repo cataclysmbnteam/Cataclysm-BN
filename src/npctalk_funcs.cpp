@@ -478,7 +478,6 @@ void talk_function::bionic_remove( npc &p )
         popup( _( "You don't have any bionics installed…" ) );
         return;
     }
-    //TODO!: check all the temps in here
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
     for( const bionic &bio : all_bio ) {

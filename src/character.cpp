@@ -1263,7 +1263,7 @@ void Character::set_stashed_activity( std::unique_ptr<player_activity> &&act,
 
 bool Character::has_stashed_activity() const
 {
-    return static_cast<bool>( stashed_outbounds_activity );//TODO! check
+    return static_cast<bool>( *stashed_outbounds_activity );
 }
 
 std::unique_ptr<player_activity> Character::remove_stashed_activity()
@@ -4188,7 +4188,6 @@ void Character::reset_encumbrance()
 
 char_encumbrance_data Character::calc_encumbrance() const
 {
-    //TODO!: what the shit
     return calc_encumbrance( null_item_reference() );
 }
 
@@ -10164,7 +10163,6 @@ bool Character::has_charges( const itype_id &it, int quantity,
     if( it == itype_UPS && is_mounted() &&
         mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
         auto mons = mounted_creature.get();
-        //TODO!: null check?
         return quantity <= mons->get_battery_item()->ammo_remaining();
     }
     if( it == itype_bio_armor ) {

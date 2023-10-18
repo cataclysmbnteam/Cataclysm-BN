@@ -409,10 +409,8 @@ void inventory::restack( player &p )
                 stack_iter->invlet = topmost.invlet;
             }
         }
-        //TODO!: check
         // remove non-matching items, stripping off end of stack so the first item keeps the invlet.
         while( stack.size() > 1 && !topmost.stacks_with( *stack.back() ) ) {
-            //TODO!: check since the order has been reversed here but I don't think it matters
             to_restack.push_back( iter->back() );
             iter->pop_back();
         }
@@ -426,7 +424,6 @@ void inventory::restack( player &p )
                 if( other->front()->count_by_charges() ) {
                     iter->front()->charges += other->front()->charges;
                 } else {
-                    //TODO!: check, ordering also reversed
                     for( auto &elem : *other ) {
                         iter->push_back( elem );
                     }
@@ -515,7 +512,6 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             const std::vector<itype> tool_list = f.crafting_pseudo_item_types();
             if( !tool_list.empty() ) {
                 for( const itype &type : tool_list ) {
-                    //TODO!: check
                     item &furn_item = *item::spawn_temporary( type.get_id(), calendar::turn, 0 );
                     furn_item.set_flag( flag_PSEUDO );
                     const itype_id &ammo = furn_item.ammo_default();

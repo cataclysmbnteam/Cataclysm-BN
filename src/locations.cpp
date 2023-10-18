@@ -18,7 +18,7 @@
 namespace
 {
 
-auto cost_split_helper( const item *it, int qty ) -> const item *
+const item *cost_split_helper( const item *it, int qty )
 {
     if( !it->count_by_charges() || qty <= 0 || qty >= it->charges ) {
         return it;
@@ -31,7 +31,7 @@ auto cost_split_helper( const item *it, int qty ) -> const item *
 } // namespace
 
 
-auto fake_item_location::detach( item * ) -> detached_ptr<item>
+detached_ptr<item> fake_item_location::detach( item * )
 {
     debugmsg( "Attempted to detach a fake item" );
     return detached_ptr<item>();
@@ -42,40 +42,35 @@ void fake_item_location::attach( detached_ptr<item> && )
     debugmsg( "Attempted to attach to a fake location" );
 }
 
-auto fake_item_location::is_loaded( const item * ) const -> bool
+bool fake_item_location::is_loaded( const item * ) const
 {
     return false; //Loaded means in the reality bubble so no
 }
 
-auto fake_item_location::position( const item * ) const -> tripoint
+tripoint fake_item_location::position( const item * ) const
 {
     debugmsg( "Attempted to find the position of a fake item" );
     return tripoint_zero;
 }
 
-auto fake_item_location::where() const -> item_location_type
+item_location_type fake_item_location::where() const
 {
     debugmsg( "Attempted to get the where of a fake item" );
     return item_location_type::invalid;
 }
 
-auto fake_item_location::obtain_cost( const Character &, int, const item * ) const -> int
+int fake_item_location::obtain_cost( const Character &, int, const item * ) const
 {
     debugmsg( "Attempted to get the obtain cost of a fake item" );
     return 0;
 }
 
-auto fake_item_location::describe( const Character *, const item * ) const -> std::string
+std::string fake_item_location::describe( const Character *, const item * ) const
 {
     return "Error: Nowhere";
 }
 
-auto fake_item_location::check_for_corruption( const item * ) const -> bool
-{
-    return true;
-}
-
-auto character_item_location::detach( item *it ) -> detached_ptr<item>
+detached_ptr<item> character_item_location::detach( item *it )
 {
     return holder->i_rem( it );
 }
@@ -85,30 +80,30 @@ void character_item_location::attach( detached_ptr<item> &&obj )
     holder->i_add( std::move( obj ) );
 }
 
-auto character_item_location::is_loaded( const item * ) const -> bool
+bool character_item_location::is_loaded( const item * ) const
 {
     return holder->is_loaded();
 }
 
-auto character_item_location::position( const item * ) const -> tripoint
+tripoint character_item_location::position( const item * ) const
 {
     return holder->pos();
 }
 
-auto character_item_location::where() const -> item_location_type
+item_location_type character_item_location::where() const
 {
     return item_location_type::character;
 }
 
-auto character_item_location::obtain_cost( const Character &ch, int qty,
-        const item *it ) const -> int
+int character_item_location::obtain_cost( const Character &ch, int qty,
+        const item *it ) const
 {
     const item *split_stack = cost_split_helper( it, qty );
     return dynamic_cast<const player *>( &ch )->item_handling_cost( *split_stack, true,
             INVENTORY_HANDLING_PENALTY );
 }
 
-auto character_item_location::describe( const Character *ch, const item *it ) const -> std::string
+std::string character_item_location::describe( const Character *ch, const item *it ) const
 {
     if( ch == holder ) {
         auto parents = holder->parents( *it );
@@ -126,17 +121,9 @@ auto character_item_location::describe( const Character *ch, const item *it ) co
     }
 }
 
-auto character_item_location::check_for_corruption( const item *it ) const -> bool
-{
-    if( !holder->has_item_directly( *it ) ) {
-        return false;
-    }
-    return holder->get_item_position( it ) >= 0;
-}
-
 npc_mission_item_location::npc_mission_item_location( npc *h ) : character_item_location( h ) {};
 
-auto npc_mission_item_location::detach( item *it ) -> detached_ptr<item>
+detached_ptr<item> npc_mission_item_location::detach( item *it )
 {
     npc *as_npc = static_cast<npc *>( holder );
     return as_npc->companion_mission_inv.remove_item( it );
@@ -148,13 +135,7 @@ void npc_mission_item_location::attach( detached_ptr<item> &&obj )
     as_npc->companion_mission_inv.add_item( std::move( obj ) );
 }
 
-auto npc_mission_item_location::check_for_corruption( const item *it ) const -> bool
-{
-    npc *as_npc = static_cast<npc *>( holder );
-    return as_npc->companion_mission_inv.position_by_item( it ) >= 0;
-}
-
-auto wield_item_location::detach( item *it ) -> detached_ptr<item>
+detached_ptr<item> wield_item_location::detach( item *it )
 {
     for( std::pair<const bodypart_str_id, bodypart> &part : holder->get_body() ) {
         if( &*part.second.wielding.wielded == it ) {
@@ -176,13 +157,13 @@ void wield_item_location::attach( detached_ptr<item> &&obj )
     }
 }
 
-auto wield_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const -> int
+int wield_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const
 {
     const item *split_stack = cost_split_helper( it, qty );
     return dynamic_cast<const player *>( &ch )->item_handling_cost( *split_stack, false, 0 );
 }
 
-auto wield_item_location::describe( const Character *ch, const item * ) const -> std::string
+std::string wield_item_location::describe( const Character *ch, const item * ) const
 {
     if( ch == holder ) {
         return _( "wield" );
@@ -190,27 +171,22 @@ auto wield_item_location::describe( const Character *ch, const item * ) const ->
     return holder->get_name();
 }
 
-auto wield_item_location::is_loaded( const item * ) const -> bool
+bool wield_item_location::is_loaded( const item * ) const
 {
     return holder->is_loaded();
 }
 
-auto wield_item_location::position( const item * ) const -> tripoint
+tripoint wield_item_location::position( const item * ) const
 {
     return holder->pos();
 }
 
-auto wield_item_location::where( ) const -> item_location_type
+item_location_type wield_item_location::where( ) const
 {
     return item_location_type::character;
 }
 
-auto wield_item_location::check_for_corruption( const item * ) const -> bool
-{
-    return false;
-}
-
-auto worn_item_location::detach( item *it ) -> detached_ptr<item>
+detached_ptr<item> worn_item_location::detach( item *it )
 {
     detached_ptr<item> res;
     holder->remove_worn_items_with( [&it, &res]( detached_ptr<item> &&ch ) {
@@ -231,14 +207,14 @@ void worn_item_location::attach( detached_ptr<item> &&obj )
     holder->add_worn( std::move( obj ) );
 }
 
-auto worn_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const -> int
+int worn_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const
 {
     const item *split_stack = cost_split_helper( it, qty );
     return dynamic_cast<const player *>( &ch )->item_handling_cost( *split_stack, false,
             INVENTORY_HANDLING_PENALTY / 2 );
 }
 
-auto worn_item_location::describe( const Character *ch, const item * ) const -> std::string
+std::string worn_item_location::describe( const Character *ch, const item * ) const
 {
     if( ch == holder ) {
         return _( "worn" );
@@ -246,20 +222,12 @@ auto worn_item_location::describe( const Character *ch, const item * ) const -> 
     return holder->name;
 }
 
-auto worn_item_location::check_for_corruption( const item *it ) const -> bool
-{
-    if( !holder->has_item_directly( *it ) ) {
-        return false;
-    }
-    return holder->get_item_position( it ) < -1;
-}
-
 tile_item_location::tile_item_location( tripoint position )
 {
     pos = position;
 }
 
-auto tile_item_location::detach( item *it ) -> detached_ptr<item>
+detached_ptr<item> tile_item_location::detach( item *it )
 {
     map &here = get_map();
     tripoint local = here.getlocal( pos );
@@ -283,23 +251,23 @@ void tile_item_location::attach( detached_ptr<item> &&obj )
     items.insert( std::move( obj ) );
 }
 
-auto tile_item_location::is_loaded( const item * ) const -> bool
+bool tile_item_location::is_loaded( const item * ) const
 {
     map &here = get_map();
     return here.inbounds( here.getlocal( pos ) );
 }
 
-auto tile_item_location::position( const item * ) const -> tripoint
+tripoint tile_item_location::position( const item * ) const
 {
     return get_map().getlocal( pos );
 }
 
-auto tile_item_location::where() const -> item_location_type
+item_location_type tile_item_location::where() const
 {
     return item_location_type::map;
 }
 
-auto tile_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const -> int
+int tile_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const
 {
     const item *split_stack = cost_split_helper( it, qty );
     int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( *split_stack, true,
@@ -308,7 +276,7 @@ auto tile_item_location::obtain_cost( const Character &ch, int qty, const item *
     return mv;
 }
 
-auto tile_item_location::describe( const Character *ch, const item * ) const -> std::string
+std::string tile_item_location::describe( const Character *ch, const item * ) const
 {
     map &here = get_map();
     tripoint local = here.getlocal( pos );
@@ -319,67 +287,38 @@ auto tile_item_location::describe( const Character *ch, const item * ) const -> 
     return res;
 }
 
-auto tile_item_location::check_for_corruption( const item *it ) const -> bool
-{
-    map &here = get_map();
-    tripoint local = here.getlocal( pos );
-    if( !here.inbounds( local ) ) {
-        return true;
-    }
-    map_stack items = here.i_at( local );
-    auto iter = std::find( items.begin(), items.end(), it );
-    if( iter == items.end() ) {
-        tripoint p( 0, 0, local.z );
-        while( p.x < 11 * 12 ) {
-            p.y = 0;
-            while( p.y < 11 * 12 ) {
-                map_stack si = here.i_at( p );
-                if( std::find( si.begin(), si.end(), it ) != si.end() ) {
-                    debugmsg( "Found upcoming at %d,%d,%d", p.x, p.y, p.z );
-                    return false;
-                }
-                p.y++;
-            }
-            p.x++;
-        }
-        debugmsg( "Couldn't find upcoming at all" );
-        return false;
-    }
-    return true;
-}
-
 void tile_item_location::move_by( tripoint offset )
 {
     pos += offset;
 }
 
-auto monster_item_location::is_loaded( const item * ) const -> bool
+bool monster_item_location::is_loaded( const item * ) const
 {
     return on->is_loaded();
 }
 
-auto monster_item_location::position( const item * ) const -> tripoint
+tripoint monster_item_location::position( const item * ) const
 {
     return on->pos();
 }
 
-auto monster_item_location::where() const -> item_location_type
+item_location_type monster_item_location::where() const
 {
     return item_location_type::monster;
 }
 
-auto monster_item_location::obtain_cost( const Character &, int, const item * ) const -> int
+int monster_item_location::obtain_cost( const Character &, int, const item * ) const
 {
     debugmsg( "Tried to find the obtain cost of an item on a monster" );
     return 0;
 }
 
-auto monster_item_location::describe( const Character *, const item * ) const -> std::string
+std::string monster_item_location::describe( const Character *, const item * ) const
 {
     return "on monster";
 }
 
-auto monster_item_location::detach( item *it ) -> detached_ptr<item>
+detached_ptr<item> monster_item_location::detach( item *it )
 {
     return on->remove_item( it );
 }
@@ -389,15 +328,7 @@ void monster_item_location::attach( detached_ptr<item> &&obj )
     on->add_item( std::move( obj ) );
 }
 
-
-auto monster_item_location::check_for_corruption( const item *it ) const -> bool
-{
-    const std::vector<item *> &items = on->get_items();
-    auto iter = std::find( items.begin(), items.end(), it );
-    return iter != items.end();
-}
-
-auto monster_component_item_location::detach( item *it ) -> detached_ptr<item>
+detached_ptr<item> monster_component_item_location::detach( item *it )
 {
     return on->remove_corpse_component( *it );
 }
@@ -407,15 +338,7 @@ void monster_component_item_location::attach( detached_ptr<item> &&obj )
     on->add_corpse_component( std::move( obj ) );
 }
 
-auto monster_component_item_location::check_for_corruption( const item * ) const -> bool
-{
-    return true;
-    //std::vector<item *> &items = on->get_corpse_components();
-    //auto search = std::find( items.begin(), items.end(), it );
-    //return search != items.end();
-}
-
-auto monster_tied_item_location::detach( item * ) -> detached_ptr<item>
+detached_ptr<item> monster_tied_item_location::detach( item * )
 {
     return on->remove_tied_item();
 }
@@ -425,12 +348,7 @@ void monster_tied_item_location::attach( detached_ptr<item> &&obj )
     on->set_tied_item( std::move( obj ) );
 }
 
-auto monster_tied_item_location::check_for_corruption( const item *it ) const -> bool
-{
-    return on->get_tied_item() == it;
-}
-
-auto monster_tack_item_location::detach( item * ) -> detached_ptr<item>
+detached_ptr<item> monster_tack_item_location::detach( item * )
 {
     return on->remove_tack_item( );
 }
@@ -440,12 +358,7 @@ void monster_tack_item_location::attach( detached_ptr<item> &&obj )
     on->set_tack_item( std::move( obj ) );
 }
 
-auto monster_tack_item_location::check_for_corruption( const item *it ) const -> bool
-{
-    return on->get_tack_item() == it;
-}
-
-auto monster_armor_item_location::detach( item * ) -> detached_ptr<item>
+detached_ptr<item> monster_armor_item_location::detach( item * )
 {
     return on->remove_armor_item( );
 }
@@ -455,12 +368,7 @@ void monster_armor_item_location::attach( detached_ptr<item> &&obj )
     on->set_armor_item( std::move( obj ) );
 }
 
-auto monster_armor_item_location::check_for_corruption( const item *it ) const -> bool
-{
-    return on->get_armor_item() == it;
-}
-
-auto monster_storage_item_location::detach( item * ) -> detached_ptr<item>
+detached_ptr<item> monster_storage_item_location::detach( item * )
 {
     return on->remove_storage_item( );
 }
@@ -470,12 +378,7 @@ void monster_storage_item_location::attach( detached_ptr<item> &&obj )
     on->set_storage_item( std::move( obj ) );
 }
 
-auto monster_storage_item_location::check_for_corruption( const item *it ) const -> bool
-{
-    return on->get_storage_item() == it;
-}
-
-auto monster_battery_item_location::detach( item * ) -> detached_ptr<item>
+detached_ptr<item> monster_battery_item_location::detach( item * )
 {
     return on->remove_battery_item( );
 }
@@ -485,12 +388,7 @@ void monster_battery_item_location::attach( detached_ptr<item> &&obj )
     on->set_battery_item( std::move( obj ) );
 }
 
-auto monster_battery_item_location::check_for_corruption( const item *it ) const -> bool
-{
-    return on->get_battery_item() == it;
-}
-
-auto vehicle_item_location::is_loaded( const item * ) const -> bool
+bool vehicle_item_location::is_loaded( const item * ) const
 {
     if( !veh->is_loaded() ) {
         return false;
@@ -500,17 +398,17 @@ auto vehicle_item_location::is_loaded( const item * ) const -> bool
     return get_map().inbounds( veh->mount_to_tripoint( veh->get_part_hack( hack_id ).mount ) );
 }
 
-auto vehicle_item_location::position( const item * ) const -> tripoint
+tripoint vehicle_item_location::position( const item * ) const
 {
     return veh->mount_to_tripoint( veh->get_part_hack( hack_id ).mount );
 }
 
-auto vehicle_item_location::where() const -> item_location_type
+item_location_type vehicle_item_location::where() const
 {
     return item_location_type::vehicle;
 }
 
-auto vehicle_item_location::detach( item *it ) -> detached_ptr<item>
+detached_ptr<item> vehicle_item_location::detach( item *it )
 {
     return veh->get_part_hack( hack_id ).remove_item( *it );
 }
@@ -520,7 +418,7 @@ void vehicle_item_location::attach( detached_ptr<item> &&obj )
     veh->get_part_hack( hack_id ).add_item( std::move( obj ) );
 }
 
-auto vehicle_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const -> int
+int vehicle_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const
 {
     const item *obj = cost_split_helper( it, qty );
     int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( *obj, true,
@@ -529,7 +427,7 @@ auto vehicle_item_location::obtain_cost( const Character &ch, int qty, const ite
     return mv;
 }
 
-auto vehicle_item_location::describe( const Character *ch, const item * ) const -> std::string
+std::string vehicle_item_location::describe( const Character *ch, const item * ) const
 {
     vpart_position part_pos( *veh, veh->get_part_id_hack( hack_id ) );
     std::string res;
@@ -547,15 +445,7 @@ auto vehicle_item_location::describe( const Character *ch, const item * ) const 
     return res;
 }
 
-auto vehicle_item_location::check_for_corruption( const item *it ) const -> bool
-{
-    vehicle_part &part = veh->get_part_hack( hack_id );
-    std::vector<item *> items = part.get_items();
-    auto iter = std::find( items.begin(), items.end(), it );
-    return iter != items.end();
-}
-
-auto vehicle_base_item_location::detach( item * ) -> detached_ptr<item>
+detached_ptr<item> vehicle_base_item_location::detach( item * )
 {
     debugmsg( "Attempted to detach a vehicle base part" );
     return detached_ptr<item>();
@@ -566,23 +456,18 @@ void vehicle_base_item_location::attach( detached_ptr<item> && )
     debugmsg( "Tried to attach to a vehicle base location" );
 }
 
-auto vehicle_base_item_location::obtain_cost( const Character &, int, const item * ) const -> int
+int vehicle_base_item_location::obtain_cost( const Character &, int, const item * ) const
 {
     debugmsg( "Attempted to find the obtain cost of a vehicle part's base item" );
     return 0;
 }
 
-auto vehicle_base_item_location::describe( const Character *, const item * ) const -> std::string
+std::string vehicle_base_item_location::describe( const Character *, const item * ) const
 {
     return "Error: Vehicle base part";
 }
 
-auto vehicle_base_item_location::check_for_corruption( const item *it ) const -> bool
-{
-    return veh->get_part_hack( hack_id ).base == it;
-}
-
-auto contents_item_location::detach( item *it ) -> detached_ptr<item>
+detached_ptr<item> contents_item_location::detach( item *it )
 {
     return container->contents.remove_top( it );
 }
@@ -592,59 +477,37 @@ void contents_item_location::attach( detached_ptr<item> &&obj )
     container->contents.insert_item( std::move( obj ) );
 }
 
-auto contents_item_location::is_loaded( const item * ) const -> bool
+bool contents_item_location::is_loaded( const item * ) const
 {
     return container->is_loaded();
 }
 
-auto contents_item_location::where() const -> item_location_type
+item_location_type contents_item_location::where() const
 {
     return item_location_type::container;
 }
 
-auto contents_item_location::obtain_cost( const Character &ch, int qty, const item * ) const -> int
+int contents_item_location::obtain_cost( const Character &ch, int qty, const item * ) const
 {
     return INVENTORY_HANDLING_PENALTY + container->obtain_cost( ch, qty );
-
-    /* TODO!: decode this and make holsters work again
-    if( parents.back()->can_holster( obj, true ) ) {
-        auto ptr = dynamic_cast<const holster_actor *>
-                   ( parents.back()->type->get_use( "holster" )->get_actor_ptr() );
-        mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false, ptr->draw_cost );
-
-    } else if( parents.back()->is_bandolier() ) {
-        auto ptr = dynamic_cast<const bandolier_actor *>
-                   ( parents.back()->type->get_use( "bandolier" )->get_actor_ptr() );
-        mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false, ptr->draw_cost );
-
-    } else {
-        mv +=
-    }*/
 }
 
-auto contents_item_location::position( const item * ) const -> tripoint
+tripoint contents_item_location::position( const item * ) const
 {
     return container->position();
 }
 
-auto contents_item_location::describe( const Character *, const item * ) const -> std::string
+std::string contents_item_location::describe( const Character *, const item * ) const
 {
     return string_format( _( "inside %s" ), container->tname() );
 }
 
-auto contents_item_location::check_for_corruption( const item *it ) const -> bool
-{
-    const std::vector<item *> &items = container->contents.all_items_top();
-    auto search = std::find( items.begin(), items.end(), it );
-    return search != items.end();
-}
-
-auto contents_item_location::parent() const -> item *
+item *contents_item_location::parent() const
 {
     return container;
 }
 
-auto component_item_location::detach( item *it ) -> detached_ptr<item>
+detached_ptr<item> component_item_location::detach( item *it )
 {
     return container->remove_component( *it );
 }
@@ -654,17 +517,10 @@ void component_item_location::attach( detached_ptr<item> &&obj )
     return container->add_component( std::move( obj ) );
 }
 
-auto component_item_location::check_for_corruption( const item *it ) const -> bool
-{
-    const location_vector<item> &items = container->get_components();
-    auto search = std::find( items.begin(), items.end(), it );
-    return search != items.end();
-}
-
-
 partial_con_item_location::partial_con_item_location( tripoint position ) : tile_item_location(
         position ) {}
-auto partial_con_item_location::detach( item * ) -> detached_ptr<item>
+
+detached_ptr<item> partial_con_item_location::detach( item * )
 {
     debugmsg( "Tried to detach an item from a partial construction" );
     return detached_ptr<item>();
@@ -673,9 +529,4 @@ auto partial_con_item_location::detach( item * ) -> detached_ptr<item>
 void partial_con_item_location::attach( detached_ptr<item> && )
 {
     debugmsg( "Tried to attach an item to a partial construction" );
-}
-
-auto partial_con_item_location::check_for_corruption( const item * ) const -> bool
-{
-    return true;
 }
