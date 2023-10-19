@@ -2677,6 +2677,12 @@ bool mattack::ranged_pull( monster *z )
         if( z->type->bodytype == "human" || z->type->bodytype == "angel" ) {
             add_msg( _( "The %1$s's arms fly out and pull and grab %2$s!" ), z->name(),
                      target->disp_name() );
+
+            // Stop player from hauling when grabbed and pulled
+            if( z->is_player() && z->as_character()->is_hauling() ) {
+                z->as_character()->stop_hauling();
+            }
+
         } else {
             add_msg( _( "The %1$s reaches out and pulls %2$s!" ), z->name(),
                      target->disp_name() );
@@ -2745,6 +2751,11 @@ bool mattack::grab( monster *z )
                         prev_effect + z->get_grab_strength() );
     target->add_msg_player_or_npc( m_bad, _( "The %s grabs you!" ), _( "The %s grabs <npcname>!" ),
                                    z->name() );
+
+    // Stop player from hauling since they have been grabbed
+    if( pl->is_player() && pl->is_hauling() ) {
+        pl->stop_hauling();
+    }
 
     // A hit to use up our moves
     z->melee_attack( *target );
