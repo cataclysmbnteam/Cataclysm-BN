@@ -9613,9 +9613,9 @@ time_duration item::get_plant_epoch() const
     if( !type->seed ) {
         return 0_turns;
     }
-    const int scaling = get_option<int>("GROWTH_SCALING");
+    const int scaling = get_option<int>( "GROWTH_SCALING" );
     // incorporate growth time scaling option
-    if ( scaling == 0 ) {
+    if( scaling == 0 ) {
         // If scaling factor is not set, scale growth time based on
         // current season length relative to the default of 14 days
         return type->seed->grow * calendar::season_ratio() / 3;
