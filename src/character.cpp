@@ -9321,7 +9321,8 @@ bool Character::has_activity( const std::vector<activity_id> &types ) const
 void Character::cancel_activity()
 {
     activity.canceled( *this );
-    if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() && !item_hauling::has_haulable_items( position ) ) {
+    if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() &&
+        !item_hauling::has_haulable_items( position ) ) {
         stop_hauling();
     }
     if( has_activity( ACT_TRY_SLEEP ) ) {
