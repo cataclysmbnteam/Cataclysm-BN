@@ -2275,10 +2275,6 @@ more structured function.
     "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
 },
 "use_action": {
-    "type": "picklock", // picking a lock on a door
-    "pick_quality": 3 // "quality" of the tool, higher values mean higher success chance, and using it takes less moves.
-},
-"use_action": {
     "type": "firestarter", // Start a fire, like with a lighter.
     "moves_cost": 15 // Number of moves it takes to start the fire.
 },
@@ -2612,6 +2608,8 @@ entries.
   "examine_action": "toilet",
   "close": "f_foo_closed",
   "open": "f_foo_open",
+  "lockpick_result": "f_safe_open",
+  "lockpick_message": "With a click, you unlock the safe.",
   "bash": "TODO",
   "deconstruct": "TODO",
   "max_volume": "1000 L",
@@ -2632,6 +2630,15 @@ Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
 Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the
 underlying terrain.
+
+#### `lockpick_result`
+
+(Optional) When the furniture is successfully lockpicked, this is the furniture it will turn into.
+
+#### `lockpick_message`
+
+(Optional) When the furniture is successfully lockpicked, this is the message that will be printed
+to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
 
 #### `light_emitted`
 
@@ -2683,6 +2690,8 @@ it for the purpose of surgery.
   "connects_to": "WALL",
   "close": "t_foo_closed",
   "open": "t_foo_open",
+  "lockpick_result": "t_door_unlocked",
+  "lockpick_message": "With a click, you unlock the door.",
   "bash": "TODO",
   "deconstruct": "TODO",
   "harvestable": "blueberries",
@@ -2712,6 +2721,15 @@ uses `2 * 50 = 100` move points when moving across the terrain.
 How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile
 and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the
 source. For examples: An overhead light is 120, a utility light, 240, and a console, 10.
+
+#### `lockpick_result`
+
+(Optional) When the terrain is successfully lockpicked, this is the terrain it will turn into.
+
+#### `lockpick_message`
+
+(Optional) When the terrain is successfully lockpicked, this is the message that will be printed to
+the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
 
 #### `trap`
 

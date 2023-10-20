@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        ".`''''`''''`''''`''''`..",
+        ".`''''`''''`''''`''''`.]",
         ".`''''`''''`''''`''''`..",
         ".`''''`''''`''''`''''`..",
         ".`''''`''''`''''`''''`..",
@@ -34,6 +34,7 @@
       ],
       "terrain": {
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "]": "t_dirt",
         " ": "t_floor",
         "'": "t_pavement",
         "U": "t_pavement",
@@ -50,6 +51,7 @@
         "<": "t_ladder_up"
       },
       "furniture": {
+        "]": "f_street_light",
         "U": [ "f_dumpster", "f_recycle_bin" ],
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "X": "f_safe_l",
@@ -147,7 +149,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "...........''...........",
+        "...........''..........]",
         ".|-~~~~~~--**--~~~~~~-|.",
         ".|y                  y|.",
         ".|{  ##############  }|.",
@@ -174,6 +176,7 @@
       ],
       "terrain": {
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "]": "t_dirt",
         " ": "t_floor",
         "'": "t_sidewalk",
         "^": "t_door_c",
@@ -190,6 +193,7 @@
         "8": "t_sidewalk"
       },
       "furniture": {
+        "]": "f_street_light",
         "X": "f_safe_l",
         "d": "f_desk",
         "#": "f_counter",
@@ -292,7 +296,7 @@
     "weight": 50,
     "object": {
       "rows": [
-        ".`''''`''''`''''`''''`..",
+        ".`''''`''''`''''`''''`.]",
         ".`''''`''''`''''`''''`..",
         ".`''''`''''`''''`''''`..",
         ".`''''`''''`''''`''''`..",
@@ -319,6 +323,7 @@
       ],
       "terrain": {
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "]": "t_dirt",
         " ": "t_floor",
         "{": "t_floor",
         "}": "t_floor",
@@ -342,6 +347,7 @@
         "<": "t_ladder_up"
       },
       "furniture": {
+        "]": "f_street_light",
         "d": "f_displaycase",
         "D": "f_displaycase",
         "h": "f_chair",

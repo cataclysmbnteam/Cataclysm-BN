@@ -9184,3 +9184,19 @@ tripoint drawsq_params::center() const
         return view_center;
     }
 }
+
+static bool is_haulable( const item &item )
+{
+    return !item.made_of( phase_id::LIQUID );
+}
+
+bool map::has_haulable_items( const tripoint &pos )
+{
+    const map_stack items = i_at( pos );
+    for( const item &item : items ) {
+        if( is_haulable( item ) ) {
+            return true;
+        }
+    }
+    return false;
+}

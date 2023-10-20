@@ -2,11 +2,12 @@
   {
     "id": "crude_firestarter",
     "type": "TOOL",
-    "category": "tools",
     "name": { "str": "electric firestarter" },
     "description": "This is a crudely made electric firestarter, which can function as an inefficient lighter.",
-    "weight": "14 g",
+    "copy-from": "lighter",
     "volume": "250 ml",
+    "magazine_well": "250 ml",
+    "max_charges": 10,
     "price": 100,
     "price_postapoc": 10,
     "material": "steel",
@@ -14,7 +15,7 @@
     "color": "light_gray",
     "ammo": "battery",
     "charges_per_use": 5,
-    "use_action": { "type": "firestarter" },
+    "use_action": { "type": "firestarter", "moves": 50 },
     "magazines": [
       [
         "battery",
@@ -29,8 +30,7 @@
         ]
       ]
     ],
-    "flags": [ "FIRESTARTER" ],
-    "magazine_well": "250 ml"
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "fire_drill",
@@ -261,5 +261,36 @@
       }
     ],
     "flags": [ "FIRESTARTER" ]
+  },
+  {
+    "id": "electric_lighter",
+    "type": "TOOL",
+    "name": { "str": "electric lighter" },
+    "description": "A battery-powered lighter.  More efficient than a crude electric firestarter, its batteries last for quite a while.",
+    "copy-from": "lighter",
+    "volume": "25 ml",
+    "magazine_well": "25 ml",
+    "max_charges": 5,
+    "price": 100,
+    "price_postapoc": 10,
+    "material": "steel",
+    "color": "light_gray",
+    "looks_like": "lighter",
+    "ammo": "battery",
+    "use_action": { "type": "firestarter", "moves": 50 },
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ]
   }
 ]

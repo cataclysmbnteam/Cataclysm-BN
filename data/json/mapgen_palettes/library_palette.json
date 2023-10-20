@@ -2,8 +2,15 @@
   {
     "type": "palette",
     "id": "library_palette",
-    "terrain": { "%": "t_console_broken", "p": "t_region_groundcover_urban", ";": "t_door_locked", "5": "t_region_tree_evergreen" },
+    "terrain": {
+      "'": "t_sidewalk",
+      "%": "t_console_broken",
+      "p": "t_region_groundcover_urban",
+      ";": "t_door_locked",
+      "5": "t_region_tree_evergreen"
+    },
     "furniture": {
+      "'": "f_street_light",
       "c": "f_counter",
       "d": "f_desk",
       "[": "f_table",

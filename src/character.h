@@ -964,7 +964,8 @@ class Character : public Creature, public visitable<Character>
 
         // --------------- Bionic Stuff ---------------
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
-        bool activate_bionic( bionic &bio, bool eff_only = false );
+        bool activate_bionic( bionic &bio, bool eff_only = false,
+                              bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
         /** Get state of bionic with given id */
         bionic &get_bionic_state( const bionic_id &id );

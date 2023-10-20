@@ -2677,9 +2677,9 @@ bool mattack::ranged_pull( monster *z )
         if( z->type->bodytype == "human" || z->type->bodytype == "angel" ) {
             add_msg( _( "The %1$s's arms fly out and pull and grab %2$s!" ), z->name(),
                      target->disp_name() );
-            
+
             // Stop player from hauling when grabbed and pulled
-            if(z->is_player() && z->as_character()->is_hauling()){
+            if( z->is_player() && z->as_character()->is_hauling() ) {
                 z->as_character()->stop_hauling();
             }
 
@@ -2753,7 +2753,7 @@ bool mattack::grab( monster *z )
                                    z->name() );
 
     // Stop player from hauling since they have been grabbed
-    if (pl->is_player() && pl->is_hauling()) {
+    if( pl->is_player() && pl->is_hauling() ) {
         pl->stop_hauling();
     }
 

@@ -387,6 +387,7 @@
       { "item": "cowboy_hat", "prob": 2 },
       { "item": "lighter", "prob": 60 },
       { "item": "ref_lighter", "prob": 1 },
+      { "item": "electric_lighter", "prob": 1 },
       { "item": "flashlight", "prob": 40 },
       { "item": "radio", "prob": 20 },
       { "item": "mp3", "prob": 18 },

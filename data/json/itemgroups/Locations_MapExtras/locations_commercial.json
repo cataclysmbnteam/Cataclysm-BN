@@ -19,6 +19,7 @@
       { "item": "mag_porn", "prob": 20 },
       { "item": "lighter", "prob": 60 },
       { "item": "ref_lighter", "prob": 5 },
+      { "item": "electric_lighter", "prob": 5 },
       { "item": "matches", "prob": 60 },
       { "item": "flashlight", "prob": 40 },
       { "item": "extinguisher", "prob": 20 },

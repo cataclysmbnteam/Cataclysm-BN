@@ -9321,7 +9321,7 @@ bool Character::has_activity( const std::vector<activity_id> &types ) const
 void Character::cancel_activity()
 {
     activity.canceled( *this );
-    if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() && !item_hauling::has_haulable_items(position)) {
+    if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() && !item_hauling::has_haulable_items( position ) ) {
         stop_hauling();
     }
     if( has_activity( ACT_TRY_SLEEP ) ) {
@@ -9859,11 +9859,13 @@ bool Character::has_fire( const int quantity ) const
                 return true;
             }
         }
-    } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
+    } else if( has_active_bionic( bio_tools ) && get_power_level() >= quantity * 5_kJ ) {
         return true;
-    } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
+    } else if( has_bionic( bio_lighter ) &&
+               get_power_level() >= quantity * bio_lighter->power_activate ) {
         return true;
-    } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
+    } else if( has_bionic( bio_laser ) &&
+               get_power_level() >= quantity * bio_laser->power_activate ) {
         return true;
     } else if( is_npc() ) {
         // HACK: A hack to make NPCs use their Molotovs
@@ -9919,14 +9921,16 @@ void Character::use_fire( const int quantity )
                 return;
             }
         }
-    } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
+    } else if( has_active_bionic( bio_tools ) && get_power_level() >= quantity * 5_kJ ) {
         mod_power_level( -quantity * 5_kJ );
         return;
-    } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
-        mod_power_level( -quantity * 5_kJ );
+    } else if( has_bionic( bio_lighter ) &&
+               get_power_level() >= quantity * bio_lighter->power_activate ) {
+        mod_power_level( -quantity * bio_lighter->power_activate );
         return;
-    } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
-        mod_power_level( -quantity * 5_kJ );
+    } else if( has_bionic( bio_laser ) &&
+               get_power_level() >= quantity * bio_laser->power_activate ) {
+        mod_power_level( -quantity * bio_laser->power_activate );
         return;
     }
 }
@@ -11045,9 +11049,9 @@ int Character::impact( const int force, const tripoint &p )
         add_msg_if_player( m_warning, _( "You land on %s." ), target_name );
     }
 
-    // Check if creature being impacted is player, 
+    // Check if creature being impacted is player,
     // stop hauling if so (Since player has been flung away from haul spot)
-    if (is_player() && is_hauling()) {
+    if( is_player() && is_hauling() ) {
         stop_hauling();
     }
 

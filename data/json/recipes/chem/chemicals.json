@@ -466,6 +466,7 @@
   {
     "type": "recipe",
     "result": "chem_ammonium_nitrate",
+    "id_suffix": "neutralization",
     "byproducts": [ [ "water" ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",

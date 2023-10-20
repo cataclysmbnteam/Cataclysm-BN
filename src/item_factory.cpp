@@ -978,6 +978,7 @@ void Item_factory::init()
     add_iuse( "PACK_CBM", &iuse::pack_cbm );
     add_iuse( "PACK_ITEM", &iuse::pack_item );
     add_iuse( "PHEROMONE", &iuse::pheromone );
+    add_iuse( "PICK_LOCK", &iuse::pick_lock );
     add_iuse( "PICKAXE", &iuse::pickaxe );
     add_iuse( "PLANTBLECH", &iuse::plantblech );
     add_iuse( "POISON", &iuse::poison );
@@ -1067,7 +1068,6 @@ void Item_factory::init()
     add_actor( std::make_unique<countdown_actor>() );
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
-    add_actor( std::make_unique<pick_lock_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
     add_actor( std::make_unique<place_monster_iuse>() );
     add_actor( std::make_unique<change_scent_iuse>() );
@@ -1130,14 +1130,15 @@ void Item_factory::check_definitions() const
         if( type->armor ) {
             cata::flat_set<bodypart_str_id> observed_bps;
             for( const armor_portion_data &portion : type->armor->data ) {
-                if( portion.covers.has_value() ) {
-                    for( const body_part &bp : all_body_parts ) {
-                        if( portion.covers->test( convert_bp( bp ) ) ) {
-                            if( observed_bps.count( convert_bp( bp ) ) ) {
-                                msg += "multiple portions with same body_part defined\n";
-                            }
-                            observed_bps.insert( convert_bp( bp ) );
+                if( portion.covers.none() ) {
+                    continue;
+                }
+                for( const body_part &bp : all_body_parts ) {
+                    if( portion.covers.test( convert_bp( bp ) ) ) {
+                        if( observed_bps.count( convert_bp( bp ) ) ) {
+                            msg += "multiple portions with same body_part defined\n";
                         }
+                        observed_bps.insert( convert_bp( bp ) );
                     }
                 }
             }
