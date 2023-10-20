@@ -49,6 +49,7 @@
 #include "int_id.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_hauling.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -9320,7 +9321,7 @@ bool Character::has_activity( const std::vector<activity_id> &types ) const
 void Character::cancel_activity()
 {
     activity.canceled( *this );
-    if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() && !get_map().has_haulable_items(position)) {
+    if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() && !item_hauling::has_haulable_items(position)) {
         stop_hauling();
     }
     if( has_activity( ACT_TRY_SLEEP ) ) {

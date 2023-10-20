@@ -51,6 +51,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
+#include "item_hauling.h"
 #include "itype.h"
 #include "iuse.h"
 #include "lightmap.h"
@@ -667,7 +668,7 @@ static void haul()
         else if (!here.can_put_items(u.pos())) {
             add_msg(m_info, _("You cannot haul items here."));
         }
-        else if (!here.has_haulable_items(u.pos())) {
+        else if (!item_hauling::has_haulable_items(u.pos())) {
             add_msg(m_info, _("There are no items to haul here."));
         } else {
             u.start_hauling();
