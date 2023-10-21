@@ -66,4 +66,3 @@ title: Stable 0.2
 ## Other
 
 - Add missing damage sources kills and suicide to kills list.
-

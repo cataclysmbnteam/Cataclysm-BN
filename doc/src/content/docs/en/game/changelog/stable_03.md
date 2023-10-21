@@ -49,4 +49,3 @@ title: Stable 0.3
 
 - Feral humans (with additional tweaks).
 - Additional achievements.
-

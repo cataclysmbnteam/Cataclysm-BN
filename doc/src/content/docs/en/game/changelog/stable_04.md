@@ -33,17 +33,16 @@ title: Stable 0.4
 - [Finish up mapgen renovations for Urban Dev mod](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3038)
 - [Removed dead obsolete mods](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3026)
 
-
 ## Balance
 
 - [Update Prove You're A Survivor mission to be more clear about time requirement, reduce from 10 days to 7 days](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3468)
 - [Add growth scaling world option to control speed of crop growth instead of directly binding it to season length](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3464)
 - [Rework EXP table of Stats Through Kills to scale more sanely relative to EXP values of slain monsters](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3463)
-- [Removed molasses from sugar production and made it a byproduct of sugar" ](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3460)
+- [Removed molasses from sugar production and made it a byproduct of sugar"](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3460)
 - [Made bionic claws as good as the monomolecular blade.](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3451)
 - [Zombie dogs and zombie german shepherds now have hides](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3430)
 - [Universally change chitin from bone to skin, and add specific harvest messages for chitinous animals.](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3426)
-- [This PR changes the weight of tea leaves to be more inline with reality" ](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3415)
+- [This PR changes the weight of tea leaves to be more inline with reality"](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3415)
 - [Consistency updates for flintlock, 20ga, and blunderbuss rounds](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3413)
 - [Gas turbine weight reduction according to real life equivalents](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3396)
 - [Add street lights to city locations, H-P](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3392)
@@ -90,7 +89,6 @@ title: Stable 0.4
 - [Feral survivors can no longer tame animals or become marloss vectors, some improvements to monster behavior with feral survivors](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2956)
 - [Above-average strength steadily reduces stamina cost of melee attacks, rework how dexterity affects movecost of melee attacks to match](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2936)
 - [Streamline book morale checks slightly, fix multiplier on spiritual books, add support for psychopaths liking morbid books](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2910)
-
 
 ## Bugfixes
 
@@ -179,7 +177,6 @@ title: Stable 0.4
 - [Port over DDA PR changing salvaging to go by weight instead of volume](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2142)
 - [Security camera doesn't overlap vehicle doors anymore](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/1925)
 
-
 ## Build
 
 - [Silence more lab type warnings](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3459)
@@ -207,7 +204,6 @@ title: Stable 0.4
 - [[DDA Port] Various improvements to CMake builds](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3208)
 - [remove extra ';' to make compiler stop complaining](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3084)
 
-
 ## Features
 
 - [Ported & merged over fix https://github.com/CleverRaven/Cataclysm-DDA/commit/7445cfe0db80d4f5d43d5f099c4ef5cd19cf99d0 to BN](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3440)
@@ -223,7 +219,6 @@ title: Stable 0.4
 - [Uninstalling bionic complications yields burnt-out bionics instead of CBMs, replace spawns of useless bionic fault CBMs in cyborg harvest with bionic components](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2959)
 - [Port - Decouple encumbrance, max_encumbrance and coverage in armor on a per bodypart_id basis](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2776)
 
-
 ## Interface
 
 - [Overhauled encumbrance UI](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3434)
@@ -234,7 +229,6 @@ title: Stable 0.4
 - [Update external tileset](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3244)
 - [Change RPG-7 ammo to have organized names](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3050)
 - [Vehicle speed is shown when cruise control is disabled.](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3011)
-
 
 ## Infrastructure
 
@@ -269,13 +263,11 @@ title: Stable 0.4
 - [Replace fahrenheit usage to celsius in codebase, part 1](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2570)
 - [Bring back Lua](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2216)
 
-
 ## I18n
 
 - [You forgot the s](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3389)
 - [fix translation generator script ignoring JSONs](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3106)
 - [fix SPECIES not in needs_plural breaking translation](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3096)
-
 
 ## Performance
 
@@ -292,7 +284,6 @@ title: Stable 0.4
 - [Port Advanced Inventory Management UI update optimization from DDA](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3047)
 - [Rework has_trait_flag to check mutation cache instead of all traits, overhaul with support for trait flag strings leading to IDs instead of using std::string](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2911)
 
-
 ## Mods
 
 - [Added Goblins, Dragonbone weapons, and armor mods](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3322)
@@ -305,4 +296,3 @@ title: Stable 0.4
 - [Magiclysm dragon meat can be cooked](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3123)
 - [Stop aftershock mapgen turning the world into ocean](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3055)
 - [Porting equipment enchantment recipes from DDA version of Magiclysm](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2991)
-
