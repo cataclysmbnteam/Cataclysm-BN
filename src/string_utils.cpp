@@ -1,36 +1,45 @@
 #include "string_utils.h"
 
+#include <algorithm>
+#include <locale>
+#include <regex>
+#include <sstream>
+
 #include "catacharset.h"
 #include "color.h"
 #include "name.h"
 #include "translations.h"
 
-#include <algorithm>
-#include <locale>
-#include <sstream>
-
-bool lcmatch( const std::string &str, const std::string &qry )
+namespace
 {
-    auto temp_locale = std::locale{};
-    if( temp_locale.name() != "en_US.UTF-8" && temp_locale.name() != "C" ) {
-        auto &f = std::use_facet<std::ctype<wchar_t>>( temp_locale );
-        std::wstring wneedle = utf8_to_wstr( qry );
-        std::wstring whaystack = utf8_to_wstr( str );
 
-        f.tolower( &whaystack[0], &whaystack[0] + whaystack.size() );
-        f.tolower( &wneedle[0], &wneedle[0] + wneedle.size() );
+// algorithm from https://github.com/lodash/lodash/blob/main/src/escapeRegExp.ts
+auto escape_regex( const wchar_t c ) -> std::wstring
+{
+    constexpr auto escape = std::wstring_view{L"\\^$.|?*+()[]{}"};
 
-        return whaystack.find( wneedle ) != std::wstring::npos;
+    if( escape.find( c ) == std::wstring::npos ) {
+        return std::wstring( 1, c );
     }
-    std::string needle;
-    needle.reserve( qry.size() );
-    std::transform( qry.begin(), qry.end(), std::back_inserter( needle ), tolower );
+    return L"\\" + std::wstring( 1, c );
+}
 
-    std::string haystack;
-    haystack.reserve( str.size() );
-    std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
+auto fuzzy_search( const std::wstring_view input ) -> std::wregex
+{
+    auto pattern = std::wstring{};
+    for( const auto c : input ) {
+        pattern += escape_regex( c ) + L".*?";
+    }
+    return std::wregex( pattern, std::regex_constants::icase );
+}
 
-    return haystack.find( needle ) != std::string::npos;
+} // namespace
+
+auto lcmatch( const std::string &str, const std::string &qry ) -> bool
+{
+    const auto regex = fuzzy_search( utf8_to_wstr( qry ) );
+
+    return std::regex_search( utf8_to_wstr( str ), regex );
 }
 
 bool lcmatch( const translation &str, const std::string &qry )
