@@ -20,7 +20,14 @@
       "spiral",
       "spiral_hub",
       "underground_sub_station",
-      "sewer_sub_station"
+      "sewer_sub_station",
+      "anthill",
+      "acid_anthill",
+      "ants_food",
+      "ants_larvae",
+      "ants_larvae_acid",
+      "ants_queen",
+      "ants_queen_acid"
     ]
   }
 ]
