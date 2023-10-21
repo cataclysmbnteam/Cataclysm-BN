@@ -18,7 +18,9 @@
       "mine_entrance",
       "mine_shaft",
       "spiral",
-      "spiral_hub"
+      "spiral_hub",
+      "underground_sub_station",
+      "sewer_sub_station"
     ]
   }
 ]
