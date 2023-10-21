@@ -51,12 +51,13 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
         overmap_buffer.create_custom_overmap( candidate_addr, test_specials );
         for( const auto &special_placement : test_specials ) {
             auto special = special_placement.special_details;
-            if( special->flags.count( "UNIQUE" ) > 0 ) {
+            if( special->has_flag( "UNIQUE" ) ) {
                 continue;
             }
             INFO( "In attempt #" << overmaps_to_construct
                   << " failed to place " << special->id.str() );
-            CHECK( special->occurrences.min <= special_placement.instances_placed );
+            int min_occur = special->get_constraints().occurrences.min;
+            CHECK( min_occur <= special_placement.instances_placed );
         }
         if( --overmaps_to_construct <= 0 ) {
             break;

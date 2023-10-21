@@ -433,7 +433,7 @@ class overmap
         pf::directed_path<point_om_omt> lay_out_street(
             const overmap_connection &connection, const point_om_omt &source,
             om_direction::type dir, size_t len ) const;
-
+    public:
         void build_connection(
             const overmap_connection &connection, const pf::directed_path<point_om_omt> &path, int z,
             const om_direction::type &initial_dir = om_direction::type::invalid );
@@ -447,6 +447,7 @@ class overmap
                        const tripoint_om_omt &p ) const;
         bool check_overmap_special_type( const overmap_special_id &id,
                                          const tripoint_om_omt &location ) const;
+    private:
         void chip_rock( const tripoint_om_omt &p );
 
         void polish_rivers( const overmap *north, const overmap *east, const overmap *south,
@@ -458,7 +459,7 @@ class overmap
         bool can_place_special( const overmap_special &special, const tripoint_om_omt &p,
                                 om_direction::type dir, bool must_be_unexplored ) const;
 
-        void place_special(
+        std::vector<tripoint_om_omt> place_special(
             const overmap_special &special, const tripoint_om_omt &p, om_direction::type dir,
             const city &cit, bool must_be_unexplored, bool force );
         /**

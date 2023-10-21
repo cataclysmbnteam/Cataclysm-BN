@@ -231,8 +231,14 @@ tripoint_abs_omt start_location::find_player_initial_location() const
 
         // Look for special having that terrain
         for( const auto &special : overmap_specials::get_all() ) {
-            if( std::none_of( special.terrains.begin(),
-            special.terrains.end(), [&loc]( const overmap_special_terrain & t ) {
+            if( special.get_subtype() != overmap_special_subtype::fixed ) {
+                // Mutable specials may end not spawning whatever we need, skip them
+                continue;
+            }
+
+            const fixed_overmap_special_data &data = special.get_fixed_data();
+            if( std::none_of( data.terrains.begin(), data.terrains.end(),
+            [&loc]( const overmap_special_terrain & t ) {
             return is_ot_match( loc.first, t.terrain, loc.second );
             } ) ) {
                 continue;
