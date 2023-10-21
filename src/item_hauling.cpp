@@ -1,11 +1,11 @@
 #include "item_hauling.h"
 
-bool is_haulable(const item& item)
+bool is_haulable( const item &item )
 {
     return !item.made_of( phase_id::LIQUID );
 }
 
-bool has_haulable_items(const tripoint& pos)
+bool has_haulable_items( const tripoint &pos )
 {
     map &here = get_map();
     const map_stack items = here.i_at( pos );
@@ -15,6 +15,6 @@ bool has_haulable_items(const tripoint& pos)
             return true;
         }
     }
-    
+
     return false;
 }
