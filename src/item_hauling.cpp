@@ -2,18 +2,18 @@
 
 bool is_haulable(const item& item)
 {
-    return !item.made_of(phase_id::LIQUID);
+    return !item.made_of( phase_id::LIQUID );
 }
 
 bool has_haulable_items(const tripoint& pos)
 {
-    map& here = get_map();
-    const map_stack items = here.i_at(pos);
+    map &here = get_map();
+    const map_stack items = here.i_at( pos );
 
-    for (const item& item : items)
-    {
-        if (is_haulable(item))
+    for( const item &item : items ) {
+        if( is_haulable( item ) ) {
             return true;
+        }
     }
     
     return false;
