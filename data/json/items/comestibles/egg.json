@@ -196,7 +196,7 @@
     "material": "egg",
     "rot_spawn": "GROUP_EGG_LOCUST"
   },
-    {
+  {
     "type": "COMESTIBLE",
     "id": "egg_firefly",
     "name": "firefly egg",

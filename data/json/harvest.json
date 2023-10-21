@@ -476,7 +476,6 @@
       { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
     ]
   },
-  
   {
     "id": "arachnid_firefly",
     "type": "harvest",
@@ -486,8 +485,7 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
     ]
-  },  
-  
+  },
   {
     "id": "zombie_leather",
     "//": "any zombie that might drop leather. mostly animals.",
