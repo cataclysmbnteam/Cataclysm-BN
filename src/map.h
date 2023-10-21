@@ -2053,9 +2053,6 @@ class map
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
         bool dont_draw_lower_floor( const tripoint &p );
-
-        /**/
-        bool has_haulable_items( const tripoint &pos );
 };
 
 map &get_map();
