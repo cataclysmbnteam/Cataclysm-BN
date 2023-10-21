@@ -805,7 +805,7 @@
         { "item": "2x4", "count": 8 },
         { "item": "pointy_stick", "count": 2 },
         { "item": "nail", "charges": 20 },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "hinge", "count": 2 }
       ]
     },
     "bash": {
@@ -842,7 +842,7 @@
         { "item": "2x4", "count": 8 },
         { "item": "pointy_stick", "count": 2 },
         { "item": "nail", "charges": 20 },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "hinge", "count": 2 }
       ]
     }
   },
