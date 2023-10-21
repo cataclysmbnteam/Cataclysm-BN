@@ -1156,19 +1156,13 @@
     "max_volume": "5000 ml",
     "active": [ "vehicle_connector", {  } ],
     "flags": [ "TRANSPARENT" ],
-    "deconstruct": { "items": [
-      { "item": "solder_wire", "charges": 20 },
-      { "item": "power_supply" } ]
-    },
+    "deconstruct": { "items": [ { "item": "solder_wire", "charges": 20 }, { "item": "power_supply" } ] },
     "bash": {
       "str_min": 4,
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "power_supply", "prob": 50 }
-      ]
+      "items": [ { "item": "solder_wire", "charges": [ 10, 20 ] }, { "item": "power_supply", "prob": 50 } ]
     }
   },
   {
@@ -1463,11 +1457,9 @@
     "required_str": -1,
     "crafting_pseudo_item": [ "fake_gridfood_processor", "fake_griddehydrator", "fake_gridvac_sealer", "fake_gridwater_purifier", "press" ],
     "flags": [ "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [
-      { "item": "solder_wire", "charges": 20 },
-      { "item": "craftrig", "count": 1 },
-      { "item": "cable", "charges": 5 }
-    ] },
+    "deconstruct": {
+      "items": [ { "item": "solder_wire", "charges": 20 }, { "item": "craftrig", "count": 1 }, { "item": "cable", "charges": 5 } ]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 50,
