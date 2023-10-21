@@ -3799,5 +3799,5 @@
     "id": "s_games",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_games_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_games_roof_north" } ]
-  }  
+  }
 ]
