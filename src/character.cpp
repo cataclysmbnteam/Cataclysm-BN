@@ -49,6 +49,7 @@
 #include "int_id.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_hauling.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -9320,7 +9321,7 @@ bool Character::has_activity( const std::vector<activity_id> &types ) const
 void Character::cancel_activity()
 {
     activity.canceled( *this );
-    if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() ) {
+    if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() && !has_haulable_items( position ) ) {
         stop_hauling();
     }
     if( has_activity( ACT_TRY_SLEEP ) ) {
@@ -11046,6 +11047,12 @@ int Character::impact( const int force, const tripoint &p )
     } else {
         // No landing message for NPCs
         add_msg_if_player( m_warning, _( "You land on %s." ), target_name );
+    }
+
+    // Check if creature being impacted is player,
+    // stop hauling if so (Since player has been flung away from haul spot)
+    if( is_player() && is_hauling() ) {
+        stop_hauling();
     }
 
     if( x_in_y( mod, 1.0f ) ) {
