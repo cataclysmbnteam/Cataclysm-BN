@@ -163,7 +163,7 @@
         "B": [ { "item": "bags", "chance": 5 }, { "item": "snacks", "chance": 20 }, { "item": "vending_food_items", "chance": 10 } ],
         "Q": [ { "item": "bags", "chance": 20 }, { "item": "shoestore_shoes", "chance": 30 } ]
       },
-     "place_monster": [ { "group": "GROUP_MALL", "x": [ 10, 23 ], "y": [ 2, 23 ], "repeat": [ 7, 9 ] } ]
+      "place_monster": [ { "group": "GROUP_MALL", "x": [ 10, 23 ], "y": [ 2, 23 ], "repeat": [ 7, 9 ] } ]
     }
   },
   {

@@ -186,7 +186,7 @@
         { "group": "GROUP_MALL", "x": [ 144, 167 ], "y": [ 2, 23 ], "repeat": [ 2, 4 ] },
         { "group": "GROUP_MALL", "x": [ 168, 191 ], "y": [ 2, 23 ], "repeat": [ 2, 4 ] },
         { "group": "GROUP_MALL", "x": [ 192, 215 ], "y": [ 2, 23 ], "repeat": [ 2, 4 ] }
-		],
+      ],
       "place_vehicles": [
         { "vehicle": "food_cart", "x": 81, "y": 17, "chance": 35, "rotation": 90 },
         { "vehicle": "car", "x": 132, "y": 1, "chance": 35, "rotation": 0 },
