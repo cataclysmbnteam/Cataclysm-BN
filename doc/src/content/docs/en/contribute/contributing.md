@@ -250,7 +250,7 @@ to explain the problem your PR is solving in full detail.
 ### All PRs should have a `"Summary"` line
 
 Summary is a one-line description of your change that will be extracted and added to the
-[project changelog](../game/changelog.md)
+[project changelog](../game/changelog/index.md)
 
 The format is: `SUMMARY: Category "description"`
 
