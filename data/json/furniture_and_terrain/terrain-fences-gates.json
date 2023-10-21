@@ -778,7 +778,7 @@
     "connects_to": "WOODFENCE",
     "deconstruct": {
       "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 }, { "item": "hinge", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 } ]
     },
     "bash": {
       "str_min": 5,
@@ -786,7 +786,7 @@
       "sound": "whump!",
       "sound_fail": "whack!",
       "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": [ 4, 10 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "2x4", "count": [ 4, 10 ] } ]
     }
   },
   {
