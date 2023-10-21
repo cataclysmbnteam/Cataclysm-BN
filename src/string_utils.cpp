@@ -9,37 +9,13 @@
 #include "color.h"
 #include "name.h"
 #include "translations.h"
-
-namespace
-{
-
-// algorithm from https://github.com/lodash/lodash/blob/main/src/escapeRegExp.ts
-auto escape_regex( const wchar_t c ) -> std::wstring
-{
-    constexpr auto escape = std::wstring_view{L"\\^$.|?*+()[]{}"};
-
-    if( escape.find( c ) == std::wstring::npos ) {
-        return std::wstring( 1, c );
-    }
-    return L"\\" + std::wstring( 1, c );
-}
-
-auto fuzzy_search( const std::wstring_view input ) -> std::wregex
-{
-    auto pattern = std::wstring{};
-    for( const auto c : input ) {
-        pattern += escape_regex( c ) + L".*?";
-    }
-    return std::wregex( pattern, std::regex_constants::icase );
-}
-
-} // namespace
+#include "string_utils_fuzzy.h"
 
 auto lcmatch( const std::string &str, const std::string &qry ) -> bool
 {
-    const auto regex = fuzzy_search( utf8_to_wstr( qry ) );
+    const auto matcher = fuzzy_search( utf8_to_wstr( qry ) ).regex;
 
-    return std::regex_search( utf8_to_wstr( str ), regex );
+    return std::regex_search( utf8_to_wstr( str ), matcher );
 }
 
 bool lcmatch( const translation &str, const std::string &qry )
