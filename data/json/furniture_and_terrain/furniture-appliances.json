@@ -899,10 +899,10 @@
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "sheet_metal_small", "count": 6 },
         { "item": "plastic_chunk", "count": 2 },
         { "item": "pipe", "count": 4 },
-        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "cable", "charges": 10 },
         { "item": "medium_storage_battery", "count": 1 }
       ]
     },
@@ -938,10 +938,10 @@
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "sheet_metal_small", "count": 6 },
         { "item": "plastic_chunk", "count": 2 },
         { "item": "pipe", "count": 4 },
-        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "cable", "charges": 10 },
         { "item": "storage_battery", "count": 1 }
       ]
     },
@@ -977,10 +977,10 @@
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "sheet_metal_small", "count": 6 },
         { "item": "plastic_chunk", "count": 2 },
         { "item": "pipe", "count": 4 },
-        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "cable", "charges": 10 },
         { "item": "large_storage_battery", "count": 1 }
       ]
     },
@@ -1015,8 +1015,8 @@
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 10 },
-        { "item": "sheet_metal_small", "count": [ 2, 4 ] },
-        { "item": "cable", "charges": [ 2, 5 ] },
+        { "item": "sheet_metal_small", "count": 4 },
+        { "item": "cable", "charges": 5 },
         { "item": "small_storage_battery", "count": 1 }
       ]
     },
@@ -1045,8 +1045,8 @@
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 10 },
-        { "item": "sheet_metal_small", "count": [ 2, 4 ] },
-        { "item": "cable", "charges": [ 2, 5 ] },
+        { "item": "sheet_metal_small", "count": 4 },
+        { "item": "cable", "charges": 5 },
         { "item": "battery_car", "count": 1 }
       ]
     }
@@ -1063,8 +1063,8 @@
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 10 },
-        { "item": "sheet_metal_small", "count": [ 2, 4 ] },
-        { "item": "cable", "charges": [ 2, 5 ] },
+        { "item": "sheet_metal_small", "count": 4 },
+        { "item": "cable", "charges": 5 },
         { "item": "battery_motorbike", "count": 1 }
       ]
     }
@@ -1081,8 +1081,8 @@
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 10 },
-        { "item": "sheet_metal_small", "count": [ 2, 4 ] },
-        { "item": "cable", "charges": [ 2, 5 ] },
+        { "item": "sheet_metal_small", "count": 4 },
+        { "item": "cable", "charges": 5 },
         { "item": "battery_motorbike_small", "count": 1 }
       ]
     }
