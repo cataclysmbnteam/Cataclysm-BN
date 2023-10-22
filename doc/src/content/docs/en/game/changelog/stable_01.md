@@ -1,140 +1,15 @@
 ---
-title: Changelog
+title: Stable 0.1
 ---
 
-This is an incomplete list compiled for convenience, see pull requests for all changes.
-
-Starts with
-[revision 10614 (just before pockets)](https://github.com/cataclysmbnteam/Cataclysm-BN/commit/8cea0fce70c87ea93c6fd4e409c68558e24ce42e)
-of [CleverRaven/Cataclysm-DDA.](https://github.com/CleverRaven/Cataclysm-DDA)
-
-## Stable v 0.3
-
-### Gameplay
-
-- New scenario: Play as Feral and befriend with zombies (on certain conditions).
-- Added ability to manually connect and disconnect multiple power grids via voltmeter and some
-  materials.
-- Added shields to the game.
-- Further improvements to Rule of Cool explosions:
-  - Chain explosions.
-  - Items turn into shrapnel.
-  - Custom animations.
-
-### Balance
-
-- Improved mechs.
-- Added craftable helicopter rotors.
-- Water cannons can now fire acid.
-- Buffed water purification methods.
-- Yet more tweaks to bows (decreased damage, strength cap is now a soft cap).
-- Tweaked power armor spawn locations.
-
-### New content
-
-- Added new CBMs. Some CBMs ported from existing mods.
-- A lot of locations reworked and improved.
-- Expansion to the Old Guard faction.
-
-### Infrastructure
-
-- Lab Finale rework.
-- Updates to build files.
-- Weapon categories for martial arts and gunmods (eases mod integrations).
-- Allow NPCs to use all bionic weapons not just the hardcoded list.
-- Improve code for NPC method of attack, generally improving their ability to choose weapons and
-  attacks. Allows them to reload magazines and perform combat reloads with single shot weapons.
-
-### Bugfixes
-
-- Multiple bugfixes related to NPC AI weapon selection and ranged attacks.
-- Fixes to off-road vehicle behavior.
-- Fix to the long-standing issue when not all overmap specials could spawn if there were too many
-  mods enabled.
-- Fixes to monster attacks and movement over z-levels.
-
-### Ported from later versions of DDA
-
-- Feral humans (with additional tweaks).
-- Additional achievements.
-
-## Stable v 0.2
-
-### Gameplay
-
-- Rework teleglow, nether attention, stare monattack.
-- AI now can target and shoot moving cars.
-- Food items now show how temperature affects it rot.
-- Graphical overmap now enabled by default. Obsolete Graphical Overmap mod, rename to Larwick's
-  Overmap.
-- Reorganized mod resources. All Bright Nights resources now labeled with unique id.
-- Allows pushing vehicles over ramps.
-- Melee skill actually impacts attack stamina usage.
-- Add the ability to mark items as favorite from the multidrop menu.
-
-### Balance
-
-- Finished ammo and armor rebalance. Armour piercing ammunition now more effective agaisnt armored
-  targets, but armor in certain cases provides somewhat better protection against gunshots. Changes
-  included reworked power armor stats.
-- remove glare protection requirement for forged frames.
-- Make bicycle alternators (dynamos) craftable.
-- Allow repairing items with forges.
-- Allow easier installing/removing of some parts.
-- Robots no longer completely immune to lasers.
-- Prevents dodge gain exploit.
-- Wraith and shadow special attack updates.
-- Shadow and cult creature updates from Arcana.
-- Adjustments to mi-go locations, atmosphere field.
-
-### Quality of Life
-
-- Added ability Submit bug report directly from game.
-- Reduce blinking effects speed (300 -> 800ms), and add an option to change it in game.
-- Deactivate pet robots in pet menu instead of query.
-- While flying, warn when letting go of control or stop driving.
-
-### Infrastructure
-
-- Migrate to C++17.
-- Implement relic recharge.
-- Grid constructions now use workshop category.
-- Allow marking construction recipes as favorite, sort recipes by name in construction UI.
-
-### New Content
-
-- Added new electric grid appliances.
-- Adds grid forge rigs, chemistry sets, and chemlabs.
-- Added hauler bot.
-- Most of the building contains built in electric grids.
-- Add grid flag to more specials, mods in particular.
-- Added new helicopter parts group to helipad.
-- Add mountable autodoc and autodoc couch.
-
-### Ported from later versions of DDA
-
-- Port complete leash and lead system.
-- Port over fix for spellcasting monsters and summon spells.
-- Updated DinoMod.
-- Add in-game progression diary.
-- Cathedral overhaul.
-- add NPCs to biker_dump.
-- Port Barbaran Montante and rebalance.
-
-### Other
-
-- Add missing damage sources kills and suicide to kills list.
-
-## Stable v 0.1
-
-### Gameplay
+## Gameplay
 
 - Victory condition: <details><summary>spoilers</summary>Somewhere in the rectangular region of the
   overmap from (0'0, 0'0) to (0'179, 0'179), there's a central lab (accessible from a tile named
   "access shaft" on z = -1) that has a red-colored "L" tile at its bottom z-level. Find the lab,
   reach the bottom, then either sacrifice your own life or put in a mininuke.</details>
 - (Currently WIP, but already functional) Electric grid system, without use of vehicles, but able to
-  connect to them. See [Electric Grids page](../mod/json/explanation/electric_grids.md) for more
+  connect to them. See [Electric Grids page](../../mod/json/explanation/electric_grids.md) for more
   info.
 - Lower height levels (z-levels) drawn.
 - Angled vehicles don't develop "holes" in their normally-impenetrable walls. This affects all
@@ -202,7 +77,7 @@ of [CleverRaven/Cataclysm-DDA.](https://github.com/CleverRaven/Cataclysm-DDA)
 - Reworked food temerature mechanics. Removed "mushy" mechanics. Rot still affected by temperature.
   Note that freezers still work as intended and prevent rot, and fire makes you warm.
 
-### Quality of life
+## Quality of life
 
 - Crafting defaults to in inventory/on the ground, best workbench in radius is used anyway
 - Can read items on the floor, in vehicles etc. Reading doesn't automatically pick up books, but
@@ -219,14 +94,14 @@ of [CleverRaven/Cataclysm-DDA.](https://github.com/CleverRaven/Cataclysm-DDA)
 - Added accurate firearm dispersion/recoil stats that include all the modifiers (from skill,
   bionics, encumbrance and so on)
 
-### New content
+## New content
 
 - Medical zombie tree, focused on debuffing
 - New automated gun turrets replacing CROWS based ones. Less deadly, but don't drop tons of valuable
   rifle ammo.
 - Bionic scanner, to detect which corpses are worth cutting up
 
-### Performance
+## Performance
 
 - Fires do not produce hot air and smoke, no longer affected by wind
 - Option to disable event bus system (in Debug tab) - removes one big cycle hog, but also
@@ -235,7 +110,7 @@ of [CleverRaven/Cataclysm-DDA.](https://github.com/CleverRaven/Cataclysm-DDA)
 - Removed slow fd_clairvoyant check which only benefited Magiclysm, but slowed down everyone
 - Cache list of all vehicles on map, since getting it is slow in 3D mode
 
-### Ported from later versions of DDA
+## Ported from later versions of DDA
 
 - Ground vehicle z-level transitions and z+1 bridges. Ramps can be enabled through "Z-levels" world
   setting, new bridge generation - through "Elevated bridges" mod.
@@ -244,7 +119,7 @@ of [CleverRaven/Cataclysm-DDA.](https://github.com/CleverRaven/Cataclysm-DDA)
 - Various under-the-hood improvements, such as refactors and optimizations.
 - Hundreds of bugfixes and small changes.
 
-### Other
+## Other
 
 - 3rd party mods translation support
 - UnDeadPeople tileset included
