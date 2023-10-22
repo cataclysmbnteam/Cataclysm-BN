@@ -661,7 +661,10 @@ void show_armor_layers_ui( Character &who )
                 continue;
             }
             if( curr >= rightListOffset && pos <= rightListLines ) {
-                mvwprintz( w_sort_right, point( 1, pos ), ( cover == bp ? c_yellow : c_white ),
+                const bool is_highlighted = cover == bp || ( combine_bp( cover ) &&
+                                            static_cast<bodypart_id>( cover.obj().opposite_part ) == bp );
+
+                mvwprintz( w_sort_right, point( 1, pos ), ( is_highlighted ? c_yellow : c_white ),
                            "%s:", body_part_name_as_heading( cover, combine_bp( cover ) ? 2 : 1 ) );
                 pos++;
             }
