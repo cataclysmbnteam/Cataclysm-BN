@@ -279,7 +279,7 @@
     "color": "yellow",
     "see_cost": 5,
     "extras": "subway",
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -289,7 +289,7 @@
     "color": "yellow",
     "see_cost": 5,
     "extras": "subway",
-    "flags": [ "KNOWN_UP", "NO_ROTATE" ]
+    "flags": [ "KNOWN_UP" ]
   },
   {
     "type": "overmap_terrain",

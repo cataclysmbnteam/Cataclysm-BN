@@ -505,19 +505,6 @@ void overmap_specials::finalize()
 
 void overmap_specials::check_consistency()
 {
-    const size_t max_count = ( OMAPX / OMSPEC_FREQ ) * ( OMAPY / OMSPEC_FREQ );
-    const size_t actual_count = std::accumulate( specials.get_all().begin(), specials.get_all().end(),
-                                static_cast< size_t >( 0 ),
-    []( size_t sum, const overmap_special & elem ) {
-        return sum + ( elem.flags.count( "UNIQUE" ) ? static_cast<size_t>( 0 )  : static_cast<size_t>( (
-                           std::max( elem.occurrences.min, 0 ) ) ) ) ;
-    } );
-
-    if( actual_count > max_count ) {
-        debugmsg( "There are too many mandatory overmap specials (%d > %d). Some of them may not be placed.",
-                  actual_count, max_count );
-    }
-
     specials.check();
 }
 
@@ -999,11 +986,10 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
 
     mandatory( jo, was_loaded, "overmaps", terrains );
     optional( jo, was_loaded, "locations", default_locations );
+    optional( jo, was_loaded, "connections", connections );
 
     if( is_special ) {
         mandatory( jo, was_loaded, "occurrences", occurrences );
-
-        optional( jo, was_loaded, "connections", connections );
 
         assign( jo, "city_sizes", city_size, strict );
         assign( jo, "city_distance", city_distance, strict );
@@ -1695,6 +1681,21 @@ bool overmap::generate_sub( const int z )
     std::vector<point_om_omt> lab_train_points;
     std::vector<point_om_omt> central_lab_train_points;
     std::vector<city> mine_points;
+
+    // Connect subways of cities
+    const overmap_connection_id subway_tunnel( "subway_tunnel" );
+    for( const auto &elem : cities ) {
+        if( subway_tunnel->has( ter( tripoint_om_omt( elem.pos, z ) ) ) ) {
+            subway_points.emplace_back( elem.pos );
+        }
+    }
+    // Connect outer subways
+    for( const auto &p : connections_out[subway_tunnel] ) {
+        if( p.z() == z ) {
+            subway_points.emplace_back( p.xy() );
+        }
+    }
+
     // These are so common that it's worth checking first as int.
     const oter_id skip_above[5] = {
         oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
@@ -1753,15 +1754,7 @@ bool overmap::generate_sub( const int z )
                 continue;
             }
 
-            if( is_ot_match( "sub_station", oter_ground, ot_match_type::type ) && z == -1 ) {
-                ter_set( p, oter_id( "sewer_sub_station" ) );
-                requires_sub = true;
-            } else if( is_ot_match( "sub_station", oter_ground, ot_match_type::type ) && z == -2 ) {
-                ter_set( p, oter_id( "subway_isolated" ) );
-                subway_points.emplace_back( i, j - 1 );
-                subway_points.emplace_back( i, j );
-                subway_points.emplace_back( i, j + 1 );
-            } else if( oter_above == "road_nesw_manhole" ) {
+            if( oter_above == "road_nesw_manhole" ) {
                 ter_set( p, oter_id( "sewer_isolated" ) );
                 sewer_points.emplace_back( i, j );
             } else if( oter_above == "sewage_treatment" ) {
@@ -1878,17 +1871,9 @@ bool overmap::generate_sub( const int z )
     create_real_train_lab_points( lab_train_points, subway_lab_train_points );
     create_real_train_lab_points( central_lab_train_points, subway_lab_train_points );
 
-    const overmap_connection_id subway_tunnel( "subway_tunnel" );
-
     subway_points.insert( subway_points.end(), subway_lab_train_points.begin(),
                           subway_lab_train_points.end() );
     connect_closest_points( subway_points, z, *subway_tunnel );
-
-    for( auto &i : subway_points ) {
-        if( is_ot_match( "sub_station", ter( tripoint_om_omt( i, z + 2 ) ), ot_match_type::type ) ) {
-            ter_set( tripoint_om_omt( i, z ), oter_id( "underground_sub_station" ) );
-        }
-    }
 
     // The first lab point is adjacent to a lab, set it a depot (as long as track was actually laid).
     const auto create_train_depots = [this, z, &subway_tunnel]( const oter_id & train_type,
@@ -4455,257 +4440,101 @@ void overmap::place_special(
     }
 }
 
-om_special_sectors get_sectors( const int sector_width )
+int overmap::place_special_attempt( const overmap_special &special, const int max,
+                                    std::vector<tripoint_om_omt> &points, const bool must_be_unexplored )
 {
-    std::vector<point_om_omt> res;
-
-    res.reserve( ( OMAPX / sector_width ) * ( OMAPY / sector_width ) );
-    for( int x = 0; x < OMAPX; x += sector_width ) {
-        for( int y = 0; y < OMAPY; y += sector_width ) {
-            res.emplace_back( x, y );
-        }
+    if( max < 1 ) {
+        return 0;
     }
-    std::shuffle( res.begin(), res.end(), rng_get_engine() );
-    return om_special_sectors{ res, sector_width };
-}
+    int placed = 0;
+    for( auto p = points.begin(); p != points.end(); ) {
+        const city &nearest_city = get_nearest_city( *p );
 
-bool overmap::place_special_attempt(
-    overmap_special_batch &enabled_specials, const point_om_omt &sector,
-    const int sector_width, const bool place_optional, const bool must_be_unexplored )
-{
-    const tripoint_om_omt p{
-        rng( sector.x(), sector.x() + sector_width - 1 ),
-        rng( sector.y(), sector.y() + sector_width - 1 ),
-        0};
-    const city &nearest_city = get_nearest_city( p );
-
-    std::shuffle( enabled_specials.begin(), enabled_specials.end(), rng_get_engine() );
-    for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ++iter ) {
-        const auto &special = *iter->special_details;
-        // If we haven't finished placing minimum instances of all specials,
-        // skip specials that are at their minimum count already.
-        if( !place_optional && iter->instances_placed >= special.occurrences.min ) {
-            continue;
-        }
         // City check is the fastest => it goes first.
-        if( !special.can_belong_to_city( p, nearest_city ) ) {
+        if( !special.can_belong_to_city( *p, nearest_city ) ) {
+            p++;
             continue;
         }
         // See if we can actually place the special there.
-        const auto rotation = random_special_rotation( special, p, must_be_unexplored );
+        const auto rotation = random_special_rotation( special, *p, must_be_unexplored );
         if( rotation == om_direction::type::invalid ) {
+            p++;
             continue;
         }
+        place_special( special, *p, rotation, nearest_city, false, must_be_unexplored );
 
-        place_special( special, p, rotation, nearest_city, false, must_be_unexplored );
-
-        if( ++iter->instances_placed >= special.occurrences.max ) {
-            enabled_specials.erase( iter );
-        }
-
-        return true;
-    }
-
-    return false;
-}
-
-void overmap::place_specials_pass( overmap_special_batch &enabled_specials,
-                                   om_special_sectors &sectors, const bool place_optional, const bool must_be_unexplored )
-{
-    // Walk over sectors in random order, to minimize "clumping".
-    std::shuffle( sectors.sectors.begin(), sectors.sectors.end(), rng_get_engine() );
-    for( auto it = sectors.sectors.begin(); it != sectors.sectors.end(); ) {
-        const size_t attempts = 10;
-        bool placed = false;
-        for( size_t i = 0; i < attempts; ++i ) {
-            if( place_special_attempt( enabled_specials, *it, sectors.sector_width, place_optional,
-                                       must_be_unexplored ) ) {
-                placed = true;
-                it = sectors.sectors.erase( it );
-                if( enabled_specials.empty() ) {
-                    return; // Job done. Bail out.
-                }
-                break;
-            }
-        }
-
-        if( !placed ) {
-            it++;
+        // Sometimes points can be reused with different rotation
+        // wa want to avoid that for better dispertion
+        p = points.erase( p );
+        if( ++placed >= max ) {
+            break;
         }
     }
+    return placed;
 }
 
-// Split map into sections, iterate through sections iterate through specials,
-// check if special is valid  pick & place special.
-// When a sector is populated it's removed from the list,
-// and when a special reaches max instances it is also removed.
+// Iterate over overmap searching for valid locations, and placing specials
 void overmap::place_specials( overmap_special_batch &enabled_specials )
 {
-    // Calculate if this overmap has any lake terrain--if it doesn't, we should just
-    // completely skip placing any lake specials here since they'll never place and if
-    // they're mandatory they just end up causing us to spiral out into adjacent overmaps
-    // which probably don't have lakes either.
-    bool overmap_has_lake = false;
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT && !overmap_has_lake; z++ ) {
-        for( int x = 0; x < OMAPX && !overmap_has_lake; x++ ) {
-            for( int y = 0; y < OMAPY && !overmap_has_lake; y++ ) {
-                overmap_has_lake = ter( { x, y, z } )->is_lake();
-            }
-        }
-    }
-
-    om_special_sectors sectors = get_sectors( OMSPEC_FREQ );
-
-    // At true center, central lab is truly mandatory and can't be pushed to neighbors
+    // Sort specials be they sizes - placing big things is faster
+    // and easier while we have most of map still empty, and also
+    // that central lab will have top priority
     bool is_true_center = pos() == point_abs_om();
-    if( is_true_center ) {
-        std::vector<const overmap_special *> truly_mandatory_specials;
-        // Ugly hack. TODO: Un-ugly
-        for( const auto &s :  overmap_specials::get_all() ) {
-            if( s.flags.count( "ENDGAME" ) > 0 ) {
-                truly_mandatory_specials.push_back( &s );
-            }
-        }
-        overmap_special_batch truly_mandatory_batch( point_abs_om(), truly_mandatory_specials );
-        place_specials_pass( truly_mandatory_batch, sectors, false, false );
-        // Add instances_placed from truly mandatory batch to regular batch, to avoid double placement
-        // But only if they exist in both - we don't want endgame specials to be pushed to neighbor OMs
-        for( const overmap_special_placement &truly_mandatory_placement : truly_mandatory_batch ) {
-            const overmap_special_id &special_id = truly_mandatory_placement.special_details->id;
-            auto iter_normal = std::find_if( enabled_specials.begin(),
-            enabled_specials.end(), [special_id]( const overmap_special_placement & pl ) {
-                return pl.special_details->id == special_id;
-            } );
-            if( iter_normal != enabled_specials.end() ) {
-                iter_normal->instances_placed += truly_mandatory_placement.instances_placed;
-            }
-        }
+    const auto special_weight = [&is_true_center]( const overmap_special * s ) {
+        return s->terrains.size() * ( is_true_center && s->flags.count( "ENDGAME" ) ? 1000 : 1 );
+    };
+    std::sort( enabled_specials.begin(), enabled_specials.end(),
+    [&special_weight]( const overmap_special_placement & a, const overmap_special_placement & b ) {
+        return special_weight( a.special_details ) > special_weight( b.special_details );
+    } );
 
-        for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ) {
-            if( iter->special_details->flags.count( "ENDGAME" ) > 0 ) {
-                iter = enabled_specials.erase( iter );
-                continue;
-            }
-            ++iter;
-        }
-    }
-
-    for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ) {
-        // If this special has the LAKE flag and the overmap doesn't have any
-        // lake terrain, then remove this special from the candidates for this
-        // overmap.
-        if( iter->special_details->flags.count( "LAKE" ) > 0 && !overmap_has_lake ) {
-            iter = enabled_specials.erase( iter );
-            continue;
-        }
-
-        // Endgame specials were placed above, don't let UNIQUE overwrite that
-        if( iter->special_details->flags.count( "UNIQUE" ) > 0 ) {
-            const int min = iter->special_details->occurrences.min;
-            const int max = iter->special_details->occurrences.max;
-
-            if( x_in_y( min, max ) ) {
-                // Min and max are overloaded to be the chance of occurrence,
-                // so reset instances placed to one short of max so we don't place several.
-                iter->instances_placed = max - 1;
+    // Prepare overmap points
+    std::vector<tripoint_om_omt> lake_points;
+    std::vector<tripoint_om_omt> land_points;
+    for( int x = 0; x < OMAPX; x++ ) {
+        for( int y = 0; y < OMAPY; y++ ) {
+            const tripoint_om_omt p = {x, y, 0};
+            if( ter( p )->is_lake() ) {
+                lake_points.push_back( p );
             } else {
-                iter = enabled_specials.erase( iter );
-                continue;
+                land_points.push_back( p );
             }
         }
-        ++iter;
-    }
-    // Bail out early if we have nothing to place.
-    if( enabled_specials.empty() ) {
-        return;
     }
 
-    std::shuffle( enabled_specials.begin(), enabled_specials.end(), rng_get_engine() );
+    // Calculate water to land ratio to normalize specials occurencies
+    // we don't want to dump all specials on overmap covered by water
+    float lake_rate = lake_points.size() / static_cast<float>( OMAPX * OMAPY ) *
+                      get_option<float>( "SPECIALS_DENSITY" );
+    float land_rate = land_points.size() / static_cast<float>( OMAPX * OMAPY ) *
+                      get_option<float>( "SPECIALS_DENSITY" );
 
-    // First, place the mandatory specials to ensure that all minimum instance
-    // counts are met.
-    place_specials_pass( enabled_specials, sectors, false, false );
+    // Shuffle all points to distribute specials across the overmap
+    std::shuffle( lake_points.begin(), lake_points.end(), rng_get_engine() );
+    std::shuffle( land_points.begin(), land_points.end(), rng_get_engine() );
+    // And here we go
+    for( auto &iter : enabled_specials ) {
+        const overmap_special &special = *iter.special_details;
 
-    // Snapshot remaining specials, which will be the optional specials and
-    // any unplaced mandatory specials. By passing a copy into the creation of
-    // the adjacent overmaps, we ensure that when we unwind the overmap creation
-    // back to filling in our non-mandatory specials for this overmap, we won't
-    // count the placement of the specials in those maps when looking for optional
-    // specials to place here.
-    overmap_special_batch custom_overmap_specials = overmap_special_batch( enabled_specials );
+        const int min = special.occurrences.min;
+        const int max = special.occurrences.max;
 
-    // Check for any unplaced mandatory specials, and if there are any, attempt to
-    // place them on adajacent uncreated overmaps.
-    if( std::any_of( custom_overmap_specials.begin(), custom_overmap_specials.end(),
-    []( overmap_special_placement placement ) {
-    return placement.instances_placed <
-           placement.special_details->occurrences.min;
-} ) ) {
-        // Randomly select from among the nearest uninitialized overmap positions.
-        int previous_distance = 0;
-        std::vector<point_abs_om> nearest_candidates;
-        // Since this starts at enabled_specials::origin, it will only place new overmaps
-        // in the 5x5 area surrounding the initial overmap, bounding the amount of work we will do.
-        for( const point_abs_om &candidate_addr : closest_points_first(
-                 custom_overmap_specials.get_origin(), 2 ) ) {
-            if( !overmap_buffer.has( candidate_addr ) ) {
-                int current_distance = square_dist( pos(), candidate_addr );
-                if( nearest_candidates.empty() || current_distance == previous_distance ) {
-                    nearest_candidates.push_back( candidate_addr );
-                    previous_distance = current_distance;
-                } else {
-                    break;
-                }
-            }
-        }
-        if( !nearest_candidates.empty() ) {
-            std::shuffle( nearest_candidates.begin(), nearest_candidates.end(), rng_get_engine() );
-            point_abs_om new_om_addr = nearest_candidates.front();
-            overmap_buffer.create_custom_overmap( new_om_addr, custom_overmap_specials );
+        const bool is_lake = special.flags.count( "LAKE" );
+        const float rate = is_true_center && special.flags.count( "ENDGAME" ) ? 1 :
+                           ( is_lake ? lake_rate : land_rate );
+
+        int amount_to_place;
+        if( special.flags.count( "UNIQUE" ) ) {
+            int chance = roll_remainder( min * rate );
+            amount_to_place = x_in_y( chance, max ) ? 1 : 0;
         } else {
-            add_msg( _( "Unable to place all configured specials, some missions may fail to initialize." ) );
+            // Number of instances normalized to terrain ratio
+            float real_max = std::max( static_cast<float>( min ), max * rate );
+            amount_to_place = roll_remainder( rng_float( min, real_max ) );
         }
-    }
-    // Then fill in non-mandatory specials.
-    place_specials_pass( enabled_specials, sectors, true, false );
 
-    // Clean up...
-    // Because we passed a copy of the specials for placement in adjacent overmaps rather than
-    // the original, but our caller is concerned with whether or not they were placed at all,
-    // regardless of whether we placed them or our callee did, we need to reconcile the placement
-    // that we did of the optional specials with the placement our callee did of optional
-    // and mandatory.
-
-    // Make a lookup of our callee's specials after processing.
-    // Because specials are removed from the list once they meet their maximum
-    // occurrences, this will only contain those which have not yet met their
-    // maximum.
-    std::map<overmap_special_id, int> processed_specials;
-    for( auto &elem : custom_overmap_specials ) {
-        processed_specials[elem.special_details->id] = elem.instances_placed;
-    }
-
-    // Loop through the specials we started with.
-    for( auto it = enabled_specials.begin(); it != enabled_specials.end(); ) {
-        // Determine if this special is still in our callee's list of specials...
-        std::map<overmap_special_id, int>::iterator iter = processed_specials.find(
-                    it->special_details->id );
-        if( iter != processed_specials.end() ) {
-            // ... and if so, increment the placement count to reflect the callee's.
-            it->instances_placed += ( iter->second - it->instances_placed );
-
-            // If, after incrementing the placement count, we're at our max, remove
-            // this special from our list.
-            if( it->instances_placed >= it->special_details->occurrences.max ) {
-                it = enabled_specials.erase( it );
-            } else {
-                it++;
-            }
-        } else {
-            // This special is no longer in our callee's list, which means it was completely
-            // placed, and we can remove it from our list.
-            it = enabled_specials.erase( it );
-        }
+        iter.instances_placed += place_special_attempt( special,
+                                 amount_to_place, ( is_lake ? lake_points : land_points ), false );
     }
 }
 

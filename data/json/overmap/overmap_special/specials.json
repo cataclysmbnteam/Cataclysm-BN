@@ -317,8 +317,7 @@
     ],
     "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],
-    "occurrences": [ 50, 100 ],
-    "//": "Inflated chance, effective rate ~40%",
+    "occurrences": [ 40, 100 ],
     "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE", "ELECTRIC_GRID" ]
   },
   {
@@ -4758,8 +4757,7 @@
     ],
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 6, -1 ],
-    "occurrences": [ 70, 100 ],
-    "//": "Inflated chance, effective rate ~40%",
+    "occurrences": [ 40, 100 ],
     "flags": [ "CLASSIC", "UNIQUE", "ELECTRIC_GRID" ]
   },
   {
@@ -4857,8 +4855,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, 20 ],
     "city_sizes": [ 6, -1 ],
-    "occurrences": [ 40, 100 ],
-    "//": "Inflated chance, in effect 15%",
+    "occurrences": [ 15, 100 ],
     "flags": [ "CLASSIC", "UNIQUE" ]
   },
   {
@@ -6464,8 +6461,7 @@
     ],
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
-    "occurrences": [ 95, 100 ],
-    "//": "Inflated chance, effective rate ~ 30%",
+    "occurrences": [ 30, 100 ],
     "flags": [ "CLASSIC", "FARM", "UNIQUE" ]
   },
   {
@@ -6654,8 +6650,7 @@
     "connections": [ { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 2, 0, 0 ] } ],
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 4, -1 ],
-    "occurrences": [ 75, 100 ],
-    "//": "Inflated chance, effective rate ~55%",
+    "occurrences": [ 55, 100 ],
     "flags": [ "CLASSIC", "UNIQUE", "ELECTRIC_GRID" ]
   },
   {
@@ -6743,8 +6738,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 8, 40 ],
     "city_sizes": [ 6, -1 ],
-    "occurrences": [ 50, 100 ],
-    "//": "Inflated chance, effective rate ~30%",
+    "occurrences": [ 30, 100 ],
     "flags": [ "CLASSIC", "URBAN", "UNIQUE", "ELECTRIC_GRID" ]
   },
   {
@@ -7006,8 +7000,7 @@
     "connections": [ { "point": [ 3, -2, 0 ], "from": [ 3, -1, 0 ], "connection": "local_road" } ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 4, -1 ],
-    "occurrences": [ 45, 100 ],
-    "//": "Inflated chance, in effect ~10%",
+    "occurrences": [ 10, 100 ],
     "flags": [ "MILITARY", "UNIQUE", "ELECTRIC_GRID" ]
   },
   {

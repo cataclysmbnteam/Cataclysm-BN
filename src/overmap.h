@@ -42,7 +42,6 @@ class npc;
 class overmap_connection;
 class overmap_special;
 class overmap_special_batch;
-struct om_special_sectors;
 struct regional_settings;
 template <typename E> struct enum_traits;
 
@@ -469,24 +468,18 @@ class overmap
          * @param enabled_specials specifies what specials to place, and tracks how many have been placed.
          **/
         void place_specials( overmap_special_batch &enabled_specials );
-        /**
-         * Walk over the overmap and attempt to place specials.
-         * @param enabled_specials vector of objects that track specials being placed.
-         * @param sectors sectors in which to attempt placement.
-         * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
-         */
-        void place_specials_pass( overmap_special_batch &enabled_specials,
-                                  om_special_sectors &sectors, bool place_optional, bool must_be_unexplored );
 
         /**
-         * Attempts to place specials within a sector.
-         * @param enabled_specials vector of objects that track specials being placed.
-         * @param sector sector identifies the location where specials are being placed.
-         * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
-         */
-        bool place_special_attempt(
-            overmap_special_batch &enabled_specials, const point_om_omt &sector, int sector_width,
-            bool place_optional, bool must_be_unexplored );
+         * Iterate over given points, placing specials if possible.
+         * @param special The overmap special to place.
+         * @param max Maximum amount of specials to place.
+         * @param points Vector of allowed origins for new specials, used points will be erased.
+         * @param must_be_unexplored If true, will require that all of the
+         * terrains where the special would be placed are unexplored.
+         * @returns Actual amount of placed specials.
+         **/
+        int place_special_attempt( const overmap_special &special, const int max,
+                                   std::vector<tripoint_om_omt> &points, const bool must_be_unexplored );
 
         void place_mongroups();
         void place_radios();

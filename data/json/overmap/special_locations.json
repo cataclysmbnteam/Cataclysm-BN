@@ -99,5 +99,10 @@
     "type": "overmap_location",
     "id": "lake_shore",
     "terrains": [ "lake_shore" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "underground_sub_station",
+    "terrains": [ "underground_sub_station" ]
   }
 ]

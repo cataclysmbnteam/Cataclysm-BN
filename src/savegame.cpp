@@ -373,7 +373,8 @@ void overmap::convert_terrain(
         if( old == "fema" || old == "fema_entrance" || old == "fema_1_3" ||
             old == "fema_2_1" || old == "fema_2_2" || old == "fema_2_3" ||
             old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ||
-            old == "mine_entrance" ) {
+            old == "mine_entrance" || old == "underground_sub_station" ||
+            old == "sewer_sub_station" ) {
             ter_set( pos, oter_id( old + "_north" ) );
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
