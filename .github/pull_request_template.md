@@ -59,16 +59,10 @@ Remember to attribute the original author(s): if you've just copied over the cha
 -->
 
 ## Describe alternatives you've considered
-<!--
-Explain any alternative solutions, different approaches, or possibilities you've considered using to solve the same problem.
--->
+<!-- Explain any alternative solutions, different approaches, or possibilities you've considered using to solve the same problem. -->
 
 ## Testing
-<!--
-Describe what steps you took to test that this PR resolved the bug or added the feature, and what tests you performed to make sure it didn't cause any regressions.  Also include testing suggestions for reviewers and maintainers.
--->
+<!-- Describe what steps you took to test that this PR resolved the bug or added the feature, and what tests you performed to make sure it didn't cause any regressions.  Also include testing suggestions for reviewers and maintainers. -->
 
 ## Additional context
-<!--
-Add any other context (such as mock-ups, proof of concepts or screenshots) about the feature or bugfix here.
--->
+<!-- Add any other context (such as mock-ups, proof of concepts or screenshots) about the feature or bugfix here. -->
