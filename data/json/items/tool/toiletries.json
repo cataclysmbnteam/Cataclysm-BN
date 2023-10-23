@@ -75,22 +75,6 @@
     "use_action": "MOP"
   },
   {
-    "id": "rag",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": { "str": "rag" },
-    "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
-    "weight": "80 g",
-    "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "material": "cotton",
-    "symbol": ",",
-    "color": "white",
-    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 }, "WASH_HARD_ITEMS" ],
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
     "type": "GENERIC",
     "category": "tools",
     "id": "razor_blade",

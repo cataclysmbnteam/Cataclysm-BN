@@ -47,7 +47,8 @@
     "bashing": 5,
     "cutting": 2,
     "to_hit": -1,
-    "qualities": [ [ "BUTCHER", -66 ] ]
+    "qualities": [ [ "BUTCHER", -66 ] ],
+    "stackable": true
   },
   {
     "id": "fighter_sting",
