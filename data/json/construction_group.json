@@ -1071,6 +1071,11 @@
   },
   {
     "type": "construction_group",
+    "id": "constr_wall_standard",
+    "name": "Build Standard Wall"
+  },
+  {
+    "type": "construction_group",
     "id": "place_arc_welder",
     "name": "Place Arc Welder"
   },
