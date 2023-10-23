@@ -38,9 +38,6 @@ For more on the meaning of each category, see:
 https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/
 
 If the PR is a port or adaptation of DDA content, please indicate it to be so.
-
-If PR is approved and merged, your summary will be added to the project changelog:
-https://docs.cataclysmbn.org/en/game/changelog/
 -->
 
 ## Purpose of change
