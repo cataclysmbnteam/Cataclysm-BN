@@ -3802,5 +3802,11 @@
       { "point": [ 0, 0, 0 ], "overmap": "s_laundromat_1_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_laundromat_roof_1_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_games",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_games_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_games_roof_north" } ]
   }
 ]
