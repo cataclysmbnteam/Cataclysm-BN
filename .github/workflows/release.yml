@@ -1,4 +1,4 @@
-name: "Experimental Release"
+name: Release
 concurrency: release
 on:
   push:
@@ -8,8 +8,17 @@ on:
       - "doc/**"
       - "scripts/**"
 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version string for manual release (e.g 2023-11)"
+        required: true
+        type: string
+
 env:
+  VERSION: ${{ inputs.version }}
   VCPKG_BINARY_SOURCES: "default"
+  IS_MANUAL_RELEASE: ${{ github.event_name == 'workflow_dispatch' }}
 
 jobs:
   release:
@@ -18,22 +27,41 @@ jobs:
 
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
-      timestamp: ${{ steps.get-timestamp.outputs.time }}
       release_already_exists: ${{ steps.tag_check.outputs.exists }}
 
-    steps:
-      - name: Get build timestamp
-        id: get-timestamp
-        uses: nanzm/get-time-action@v1.1
-        with:
-          timeZone: 0
-          format: "YYYY-MM-DD-HHmm"
+      # used in VERSION.txt
+      build_info: ${{ steps.generate_env_vars.outputs.build_info }}
 
+      # used in mv bindist src
+      # e.g experimental, 2023-11
+      src: ${{ steps.generate_env_vars.outputs.src }}
+
+      # used in mv bindist dest
+      # e.g 2023-11-01-1234, 0.4
+      dest: ${{ steps.generate_env_vars.outputs.dest }}
+
+    steps:
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          echo "tag_name=cbn-experimental-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
-          echo "release_name=Cataclysm-BN experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
+          if [[ ${{ env.IS_MANUAL_RELEASE }} == "true" ]]
+          then
+            version="${{ github.event.inputs.version }}"
+
+            echo "tag_name=cbn-${version}" >> $GITHUB_OUTPUT
+            echo "release_name=Cataclysm-BN ${version}" >> $GITHUB_OUTPUT
+            echo "build_info"="build version stirng: ${version}" >> $GITHUB_OUTPUT
+            echo "src=${version}" >> $GITHUB_OUTPUT
+            echo "dest=${version}" >> $GITHUB_OUTPUT
+          else
+            timestamp=$(date -u +"%Y-%m-%d-%H%M")
+
+            echo "tag_name=cbn-experimental-${timestamp}" >> $GITHUB_OUTPUT
+            echo "release_name=Cataclysm-BN experimental ${timestamp}" >> $GITHUB_OUTPUT
+            echo "build_info=\"build number: ${timestamp}\"" >> $GITHUB_OUTPUT
+            echo "src=experimental" >> $GITHUB_OUTPUT
+            echo "dest=${timestamp}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Check if there is existing git tag
         id: tag_check
@@ -77,9 +105,9 @@ jobs:
           release_name: ${{ steps.generate_env_vars.outputs.release_name }}
           body: |
             ${{ steps.build_changelog.outputs.changelog }}
-            These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
-          draft: false
-          prerelease: true
+            These are the outputs for the build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+          draft: ${{ env.IS_MANUAL_RELEASE == 'false' }}
+          prerelease: ${{ env.IS_MANUAL_RELEASE == 'true' }}
 
   builds:
     needs: release
@@ -180,7 +208,7 @@ jobs:
         run: |
           cat >VERSION.txt <<EOL
           build type: ${{ matrix.artifact }}
-          build number: ${{ needs.release.outputs.timestamp }}
+          ${{ needs.release.outputs.build_info }}
           commit sha: ${{ github.sha }}
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
@@ -251,7 +279,7 @@ jobs:
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none'
         run: |
           make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} LUA=1 RELEASE=1 LANGUAGES=all PCH=0 bindist
-          mv cataclysmbn-unstable.tar.gz cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
+          mv cataclysmbn-${{ needs.release.outputs.src }}.tar.gz cbn-${{ matrix.artifact }}-${{ needs.release.outputs.dest }}.tar.gz
 
       - name: Build CBN (windows)
         if: matrix.mxe != 'none'
@@ -259,7 +287,7 @@ jobs:
           PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc11-
         run: |
           make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 LUA=1 RELEASE=1 LANGUAGES=all PCH=0 bindist
-          mv cataclysmbn-unstable.zip cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
+          mv cataclysmbn-${{ needs.release.outputs.src }}.zip cbn-${{ matrix.artifact }}-${{ needs.release.outputs.dest }}.zip
 
       - name: Build CBN (windows msvc)
         if: runner.os == 'Windows'
@@ -268,13 +296,13 @@ jobs:
         run: |
           msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features\Cataclysm-vcpkg-static.sln
           .\build-scripts\windist.ps1
-          mv cataclysmbn.zip cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
+          mv cataclysmbn.zip cbn-${{ matrix.artifact }}-${{ needs.release.outputs.dest }}.zip
 
       - name: Build CBN (osx)
         if: runner.os == 'macOS'
         run: |
           make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} LUA=1 RELEASE=1 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=11 PCH=0 dmgdist COMPILER=clang++
-          mv CataclysmBN-unstable.dmg cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
+          mv CataclysmBN-${{ needs.release.outputs.src }}.dmg cbn-${{ matrix.artifact }}-${{ needs.release.outputs.dest }}.dmg
 
       - name: Set up JDK 11 (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
@@ -297,21 +325,41 @@ jobs:
           gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch release.keystore.asc > app/release.keystore
           echo "${{ secrets.KEYSTORE_PROPERTIES }}" > keystore.properties.asc
           gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch keystore.properties.asc > keystore.properties
-          export UPSTREAM_BUILD_NUMBER="$((2037 + ${{ github.run_number }}))"
-          chmod +x gradlew
-          if [ ${{ matrix.android }} = arm64 ]
+
+          if [[ "${{ env.IS_MANUAL_RELEASE }}" == "true" ]]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleExperimentalRelease
-               mv ./app/build/outputs/apk/experimental/release/*.apk ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
-          elif [ ${{ matrix.android }} = arm32 ]
-          then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease
-               mv ./app/build/outputs/apk/experimental/release/*.apk ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
-          elif [ ${{ matrix.android }} = bundle ]
-          then
-               ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
-               mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab
+            dir_lower=stable
+            dir_capital=Stable
+          else
+            dir_lower=experimental
+            dir_capital=Experimental
+            export UPSTREAM_BUILD_NUMBER="$((2037 + ${{ github.run_number }}))"\
           fi
+
+          # extract stable and experimental path to variable
+          case ${{ matrix.android }} in
+            arm32)
+              arm_flag="-Pabi_arm_64=false"
+            arm64)
+              arm_flag="-Pabi_arm_32=false"
+            arm32 | arm64)
+              output_kind="apk"
+              ext="apk"
+              flags="${arm_flag} assemble${dir_capital}Release"
+              path="${dir_lower}/release" ;;
+            bundle)
+              output_kind="bundle"
+              ext="aab"
+              flags="bundle${dir_capital}Release"
+              path="${dir_lower}Release" ;;
+          esac
+
+          src="./app/build/outputs/${output_kind}/${path}/*.${ext}"
+          dest="../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.dest }}.${ext}"
+
+          chmod +x gradlew
+          ./gradlew -Pj=$((`nproc`+0)) ${flags}
+          mv ${src} ${dest}
 
       - name: Upload release asset
         id: upload-release-asset
@@ -320,6 +368,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.upload_url }}
-          asset_path: cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
-          asset_name: cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
+          asset_path: cbn-${{ matrix.artifact }}-${{ needs.release.outputs.dest }}.${{ matrix.ext }}
+          asset_name: cbn-${{ matrix.artifact }}-${{ needs.release.outputs.dest }}.${{ matrix.ext }}
           asset_content_type: ${{ matrix.content }}
