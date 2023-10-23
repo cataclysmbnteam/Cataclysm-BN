@@ -332,6 +332,7 @@
       [ "chess", 50 ],
       [ "checkers", 50 ],
       [ "deck_of_cards", 50 ],
+      [ "cards", 50 ],
       [ "cards_magic", 50 ],
       [ "pictionary", 50 ],
       [ "monopoly", 50 ],
