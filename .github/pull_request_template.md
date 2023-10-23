@@ -1,30 +1,32 @@
-<!-- HOW TO USE: Under each "## Heading" below, enter information relevant to your pull request.
+<!--
+HOW TO USE: Under each "## Heading" below, enter information relevant to your pull request.
 Leave the headings unless they don't apply to your PR, and remove the comment blocks (surrounded with <!–– and ––>) when you are done.
 
-NOTE: Please grant permission for repository maintainers to edit your PR.  It is EXTREMELY common for PRs to be held up due to trivial changes being requested and the author being unavailable to make them.
+NOTE: Please grant permission for repository maintainers to edit your PR.  It is EXTREMELY common for PRs to be held up due to trivial changes being requested and the author being unavailable to make them.  In web UI, you can do it by clicking the "Allow edits and access to secrets by maintainers" checkbox next to "Create Pull Request" button at the bottom of the editor, or by clicking the same checkbox in the sidebar after PR has been created.
 
-CODE STYLE: please follow below guide.
-JSON: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/src/content/docs/en/mod/json/explanation/json_style.md
-C++ and Markdown: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/src/content/docs/en/dev/explanation/code_style.md
+CODE STYLE: The game uses automatic code formatting tools to keep code style consistent.  If your PR does not adhere to the style, the autofix.ci app will format the code for you and push the changes as a new commit.  You can also format the code yourself before committing it, it's faster that way and avoids the hurdle of keeping your branch up to date.  See relevant guides for more information: https://docs.cataclysmbn.org/en/contribute/contributing/#code-style
 
-!!!!!!!!!! WARNING !!!!!!!!!!
-
-If you forget to format the PR, autofix.ci app will run automated format commit for you.
-When this happens, YOU MUST DO EITHER OF THE FOLLOWING:
-
-- Run `git pull` to merge the automated commit into your PR branch.
+WARNING: If autofix.ci app did the formatting for you, YOU MUST DO EITHER OF THE FOLLOWING:
+- Run `git pull` to merge the automated commit into your local PR branch.
 - Format your code locally, and force push to your PR branch. 
+If you don't do this, your following work will be based on the old commit, and may cause MERGE CONFLICT.
+If you use GitHub's web editor to edit files, you shouldn't need to do this as the web editor works directly on the remote branch.
 
-If you don't do this, your following work will be based on the old commit, and cause MERGE CONFLICT.
+PR TITLE: Please use a descriptive name for the PR title, so it's clear at a glance what the PR is about.
+Bad examples: "Small fix", "Solved issue #1234", "Turnips".
+Good examples: "Fixed small text overlap in bionics UI", "Solved reloading issue of crossbows when using broadhead bolts", "Added turnips"
+
+This template is available on GitHub if you want to see the unedited version:
+https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/.github/pull_request_template.md?plain=1
 -->
 
 ## Summary
 
 <!-- This section should consist of exactly one line, formatted like this:
 
-SUMMARY: [Category] "[Briefly describe the change in these quotation marks]"
+SUMMARY: Category "Brief description of the change"
 
-Do not enter the square brackets [].  Category must be one of these:
+'Category' must be one of these:
 
 - Features
 - Content
@@ -38,22 +40,35 @@ Do not enter the square brackets [].  Category must be one of these:
 - I18N
 
 For more on the meaning of each category, see:
-https://github.com/cataclysmbnteam/Cataclysm-BN/blob/master/doc/src/content/docs/en/contribute/changelog_guidelines.md
+https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/
 
-If approved and merged, your summary will be added to the project changelog:
-https://github.com/cataclysmbnteam/Cataclysm-BN/blob/master/data/changelog.txt
+If the PR is mostly a port of DDA content, please indicate it to be so.
+
+Examples of the final summary line:
+
+SUMMARY: Bugfixes "Fixed t-shirt yielding too much rags when cut up"
+SUMMARY: Interface "Added keybind highlights in character info"
+SUMMARY: Content "Ported 5 new mapgen variations of houses from DDA"
+
+If PR is approved and merged, your summary will be added to the project changelog:
+https://docs.cataclysmbn.org/en/game/changelog/
 -->
 
 ## Purpose of change
 
-<!-- With a few sentences, describe your reasons for making this change.  If it relates to an existing issue, you can link it with a # followed by the Github issue number, like #1234.  If your pull request *fully* resolves an issue, include the word "Fix" or "Fixes" before the issue number, like: Fixes #1234.
+<!-- With a few sentences, describe your reasons for making this change.  If it relates to an existing issue, you can link it with a # followed by the Github issue number, like #1234.
+
+If your pull request *fully* resolves an issue, include the word "Fix" or "Fixes" before the issue number, like: "Fixes #1234".  This will make GitHub automatically close the issue once the PR is merged.  For multiple issues, repeat 'Fixes' multiple times: "Fixes #1234, Fixes #5678".
 
 If there is no related issue, explain here what issue, feature, or other concern you are addressing.  If this is a bugfix, include steps to reproduce the original bug, so your fix can be verified.
 -->
 
 ## Describe the solution
 
-<!-- How does the feature work, or how does this fix a bug?  The easier you make your solution to understand, the faster it can get merged.  -->
+<!-- How does the feature work, or how does this fix a bug?  The easier you make your solution to understand, the faster it can get merged.
+
+If this is a port or adaptation of DDA content, provide the link to the original PR (or PRs, if there were multiple) and explain what additional changes, if any, you made to the behavior.  Don't forget to attribute the original author(s): if you've just copied over the changes, add "Co-Authored-By: Author Name <author_email@example.com>" to the commit message (not the PR description!).  If you've cherry-picked the commits, which is the recommended way of porting, git should preserve the authorship information for you.
+-->
 
 ## Describe alternatives you've considered
 
