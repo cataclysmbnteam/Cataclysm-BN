@@ -12,9 +12,7 @@ WARNING: If autofix.ci app did the formatting for you, YOU MUST DO EITHER OF THE
 If you don't do this, your following work will be based on the old commit, and may cause MERGE CONFLICT.
 If you use GitHub's web editor to edit files, you shouldn't need to do this as the web editor works directly on the remote branch.
 
-PR TITLE: Please use a descriptive name for the PR title, so it's clear at a glance what the PR is about.
-Bad examples: "Small fix", "Solved issue #1234", "Turnips".
-Good examples: "Fixed small text overlap in bionics UI", "Solved reloading issue of crossbows when using broadhead bolts", "Added turnips"
+Please use a descriptive name for the PR title, so it's clear at a glance what the PR is about.
 -->
 
 ## Summary
