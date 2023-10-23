@@ -870,7 +870,7 @@
       { "point": [ 0, 0, 0 ], "overmap": "s_electronics_2_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_electronics_roof_2_north" }
     ]
-  },  
+  },
   {
     "type": "city_building",
     "id": "stripclub",
