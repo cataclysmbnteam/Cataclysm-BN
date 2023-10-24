@@ -65,6 +65,7 @@ Release*/
 
 # Temporary CMakeFiles
 CMakeUserPresets.json
+out/
 
 # Visual Studio 2015
 /msvc-full-features/*db
