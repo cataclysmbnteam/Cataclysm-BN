@@ -101,8 +101,7 @@ if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
 build type: ${BUILD_PRESET_NAME}\n\
 build number: ${_timestamp}\n\
 commit sha: ${_sha1}\n\
-commit url: https://github.com/CleverRaven/Cataclysm-DDA/commit/${_sha1}"
-    )
+commit url: https://github.com/cataclysmbnteam/Cataclysm-BN/commit/${_sha1}")
 endif ()
 
 #OS Check Placeholders. Will be used for BINDIST
