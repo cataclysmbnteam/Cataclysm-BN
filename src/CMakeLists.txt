@@ -9,9 +9,8 @@ list(REMOVE_ITEM CATACLYSM_BN_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
 file(GLOB CATACLYSM_BN_HEADERS ${CMAKE_SOURCE_DIR}/src/*.h)
 
 if (LUA)
-    file(GLOB LUA_C_SOURCES ${CMAKE_SOURCE_DIR}/src/lua/*.c)
-else ()
-    set(LUA_C_SOURCES "")
+    add_subdirectory(lua)
+    add_subdirectory(sol)
 endif ()
 
 # Get GIT version strings
@@ -30,8 +29,7 @@ add_custom_command(
 
 # Build tiles version if requested
 if (TILES)
-    add_library(cataclysm-tiles-common OBJECT ${CATACLYSM_BN_SOURCES} ${CATACLYSM_BN_HEADERS}
-                                              ${LUA_C_SOURCES})
+    add_library(cataclysm-tiles-common OBJECT ${CATACLYSM_BN_SOURCES} ${CATACLYSM_BN_HEADERS})
     target_include_directories(cataclysm-tiles-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
     if (NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
@@ -48,8 +46,7 @@ if (TILES)
 
     if (LUA)
         target_compile_definitions(cataclysm-tiles-common PUBLIC LUA)
-        target_include_directories(cataclysm-tiles-common PUBLIC ${CMAKE_SOURCE_DIR}/src)
-        target_include_directories(cataclysm-tiles-common PUBLIC ${CMAKE_SOURCE_DIR}/src/lua)
+        target_link_libraries(cataclysm-tiles-common PUBLIC libsol)
     endif ()
 
     add_dependencies(cataclysm-tiles-common get_version)
@@ -144,8 +141,7 @@ endif ()
 
 # Build curses version if requested
 if (CURSES)
-    add_library(cataclysm-common OBJECT ${CATACLYSM_BN_SOURCES} ${CATACLYSM_BN_HEADERS}
-                                        ${LUA_C_SOURCES})
+    add_library(cataclysm-common OBJECT ${CATACLYSM_BN_SOURCES} ${CATACLYSM_BN_HEADERS})
     target_include_directories(cataclysm-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
     if (NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
@@ -161,8 +157,7 @@ if (CURSES)
 
     if (LUA)
         target_compile_definitions(cataclysm-common PUBLIC LUA)
-        target_include_directories(cataclysm-common PUBLIC ${CMAKE_SOURCE_DIR}/src)
-        target_include_directories(cataclysm-common PUBLIC ${CMAKE_SOURCE_DIR}/src/lua)
+        target_link_libraries(cataclysm-common PUBLIC libsol)
     endif ()
 
     add_dependencies(cataclysm-common get_version)

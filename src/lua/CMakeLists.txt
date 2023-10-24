@@ -1,0 +1,5 @@
+file(GLOB LUA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
+file(GLOB LUA_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+
+add_library(liblua ${LUA_SOURCES} ${LUA_HEADERS})
+target_include_directories(liblua PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
