@@ -34,7 +34,7 @@ if (TILES)
                                               ${LUA_C_SOURCES})
     target_include_directories(cataclysm-tiles-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
-    if (USE_PCH_HEADER)
+    if (NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
         target_precompile_headers(cataclysm-tiles-common PRIVATE
                                   ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
     endif ()
@@ -55,11 +55,7 @@ if (TILES)
     add_dependencies(cataclysm-tiles-common get_version)
 
     target_link_libraries(cataclysm-tiles PRIVATE cataclysm-tiles-common)
-    target_compile_definitions(cataclysm-tiles-common PUBLIC TILES )
-    if(NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
-        target_precompile_headers(cataclysm-tiles-common PUBLIC
-            ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
-    endif ()
+    target_compile_definitions(cataclysm-tiles-common PUBLIC TILES)
 
     if (CMAKE_USE_PTHREADS_INIT)
         target_compile_options(cataclysm-tiles-common PUBLIC "-pthread")
@@ -152,8 +148,9 @@ if (CURSES)
                                         ${LUA_C_SOURCES})
     target_include_directories(cataclysm-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
-    if (USE_PCH_HEADER)
-        target_precompile_headers(cataclysm-common PRIVATE ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
+    if (NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
+        target_precompile_headers(cataclysm-common PRIVATE
+                                  ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
     endif ()
 
     if (WIN32)

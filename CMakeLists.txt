@@ -31,7 +31,6 @@ set(LANGUAGES
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."
        "ON")
 option(USE_UNITY_BUILD "Use unity build." "OFF")
-option(USE_PCH_HEADER "Use precompiled PCH header." "OFF")
 option(JSON_FORMAT "Build JSON formatter" "OFF")
 option(CATA_CCACHE "Try to find and build with ccache" "ON")
 option(TESTS "Compile Cata's tests" "ON")
@@ -268,7 +267,6 @@ message(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}\n")
 message(STATUS "USE_XDG_DIR                   : ${USE_XDG_DIR}")
 
 message(STATUS "UNITY_BUILD                   : ${USE_UNITY_BUILD}")
-message(STATUS "PCH_HEADER                    : ${USE_PCH_HEADER}")
 message(STATUS "LANGUAGES                     : ${LANGUAGES}\n")
 
 if (LINKER)
