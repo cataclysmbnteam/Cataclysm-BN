@@ -15,6 +15,7 @@
 #include "cata_utility.h"
 #include "character_id.h"
 #include "color.h"
+#include "map_iterator.h"
 #include "numeric_interval.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -1602,10 +1603,6 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
         return false;
     }
 
-    // Force our special to occur just once when we're spawning it here.
-    special.occurrences.min = 1;
-    special.occurrences.max = 1;
-
     // Figure out the longest side of the special for purposes of determining our sector size
     // when attempting placements.
     const auto calculate_longest_side = [&special]() {
@@ -1624,57 +1621,38 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
         const int special_longest_side = std::max( min_max_x.second->p.x - min_max_x.first->p.x,
                                          min_max_y.second->p.y - min_max_y.first->p.y ) + 1;
 
-        // If our longest side is greater than the OMSPEC_FREQ, just use that instead.
-        return std::min( special_longest_side, OMSPEC_FREQ );
+        return special_longest_side;
     };
 
     const int longest_side = calculate_longest_side();
-
-    // Predefine our sectors to search in.
-    om_special_sectors sectors = get_sectors( longest_side );
 
     // Get all of the overmaps within the defined radius of the center.
     for( const auto &om : get_overmaps_near(
              project_to<coords::sm>( center ), omt_to_sm_copy( radius ) ) ) {
 
-        // Build an overmap_special_batch for the special on this overmap.
-        std::vector<const overmap_special *> specials;
-        specials.push_back( &special );
-        overmap_special_batch batch( om->pos(), specials );
-
-        // Filter the sectors to those which are in in range of our center point, so
-        // that we don't end up creating specials in areas that are outside of our radius,
-        // since the whole point is to create a special that is within the parameters.
-        std::vector<point_om_omt> sector_points_in_range;
-        std::copy_if( sectors.sectors.begin(), sectors.sectors.end(),
-        std::back_inserter( sector_points_in_range ), [&]( point_om_omt & p ) {
-            const point_abs_omt global_sector_point = project_combine( om->pos(), p );
-            // We'll include this sector if it's within our radius. We reduce the radius by
-            // the length of the longest side of our special so that we don't end up in a
-            // scenario where one overmap terrain of the special is within the radius but the
-            // rest of it is outside the radius (due to size, rotation, etc), which would
-            // then result in us placing the special but then not finding it later if we
-            // search using the same radius value we used in placing it.
-            return square_dist( global_sector_point, center.xy() ) <= radius - longest_side;
-        } );
-        om_special_sectors sectors_in_range {sector_points_in_range, sectors.sector_width};
-
-        // Attempt to place the specials using our batch and sectors. We
-        // require they be placed in unexplored terrain right now.
-        om->place_specials_pass( batch, sectors_in_range, true, true );
-
-        // The place special pass will erase specials that have reached their
-        // maximum number of instances so first check if its been erased.
-        if( batch.empty() ) {
-            return true;
+        // We'll include points that within our radius. We reduce the radius by
+        // the length of the longest side of our special so that we don't end up in a
+        // scenario where one overmap terrain of the special is within the radius but the
+        // rest of it is outside the radius (due to size, rotation, etc), which would
+        // then result in us placing the special but then not finding it later if we
+        // search using the same radius value we used in placing it.
+        std::vector<tripoint_om_omt> points_in_range;
+        for( const tripoint_abs_omt &p : points_in_radius( center, radius - longest_side ) ) {
+            point_abs_om overmap;
+            tripoint_om_omt omt_within_overmap;
+            std::tie( overmap, omt_within_overmap ) = project_remain<coords::om>( p );
+            if( overmap == om->pos() ) {
+                points_in_range.push_back( omt_within_overmap );
+            }
         }
 
-        // Hasn't been erased, so lets check placement counts.
-        for( const auto &special_placement : batch ) {
-            if( special_placement.instances_placed > 0 ) {
-                // It was placed, lets get outta here.
-                return true;
-            }
+        // First points will have a priority, let's randomize placement
+        std::shuffle( points_in_range.begin(), points_in_range.end(), rng_get_engine() );
+
+        // Attempt to place the specials using filtered points. We
+        // require they be placed in unexplored terrain right now.
+        if( om->place_special_attempt( special, 1, points_in_range, true ) > 0 ) {
+            return true;
         }
     }
 

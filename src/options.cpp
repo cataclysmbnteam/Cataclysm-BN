@@ -2243,6 +2243,11 @@ void options_manager::add_options_world_default()
          0, 8, 4
        );
 
+    add( "SPECIALS_DENSITY", world_default, translate_marker( "Overmap specials density" ),
+         translate_marker( "A scaling factor that determines density of overmap specials." ),
+         0.0, 10.0, 1, 0.1
+       );
+
     add( "SPAWN_DENSITY", world_default, translate_marker( "Spawn rate scaling factor" ),
          translate_marker( "A scaling factor that determines density of monster spawns." ),
          0.0, 50.0, 1.0, 0.1
@@ -2317,6 +2322,11 @@ void options_manager::add_options_world_default()
     add( "CONSTRUCTION_SCALING", world_default, translate_marker( "Construction scaling" ),
          translate_marker( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length." ),
          0, 1000, 100
+       );
+
+    add( "GROWTH_SCALING", world_default, translate_marker( "Growth scaling" ),
+         translate_marker( "Sets the time of crop growth in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales growth time to match the world's season length." ),
+         0, 1000, 0
        );
 
     add( "ETERNAL_SEASON", world_default, translate_marker( "Eternal season" ),

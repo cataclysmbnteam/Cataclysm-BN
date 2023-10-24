@@ -22,7 +22,10 @@
     "type": "overmap_connection",
     "id": "subway_tunnel",
     "default_terrain": "subway",
-    "subtypes": [ { "terrain": "subway", "locations": [ "subterranean_subway" ], "flags": [ "ORTHOGONAL" ] } ]
+    "subtypes": [
+      { "terrain": "underground_sub_station", "locations": [ "underground_sub_station" ], "flags": [ "ORTHOGONAL" ] },
+      { "terrain": "subway", "locations": [ "subterranean_subway" ], "flags": [ "ORTHOGONAL" ] }
+    ]
   },
   {
     "type": "overmap_connection",

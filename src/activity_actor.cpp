@@ -28,6 +28,7 @@
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "item_hauling.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
@@ -950,6 +951,9 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
     if( target_items.empty() ) {
         // Nuke the current activity, leaving the backlog alone.
         act.set_to_null();
+        if( who.is_hauling() && !has_haulable_items( who.pos() ) ) {
+            who.stop_hauling();
+        }
     }
 }
 
