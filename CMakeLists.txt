@@ -223,7 +223,7 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     message(STATUS "Build ${PROJECT_NAME} in development mode --")
     message(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
     set(CMAKE_VERBOSE_MAKEFILE ON)
-    # Since CataclysmDDA does not respect PREFIX for development builds
+    # Since CataclysmBN does not respect PREFIX for development builds
     # and has funny path handlers, we should create resulting Binaries
     # in the source directory
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
