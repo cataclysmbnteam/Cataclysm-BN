@@ -189,7 +189,7 @@ void mapgen_crater( mapgendata &dat )
 {
     map *const m = &dat.m;
     for( int i = 0; i < 4; i++ ) {
-        if( dat.t_nesw[i] != "crater" && dat.t_nesw[i] != "crater_core" ) {
+        if( dat.t_nesw[i] != "crater" ) {
             dat.set_dir( i, 6 );
         }
     }
