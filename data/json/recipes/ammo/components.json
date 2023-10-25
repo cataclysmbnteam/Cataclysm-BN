@@ -47,6 +47,7 @@
   {
     "type": "recipe",
     "result": "gunpowder",
+    "id_suffix": "from_cotton",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "cooking",
@@ -65,6 +66,7 @@
       [ [ "cotton_ball", 5 ] ],
       [ [ "chem_nitric_acid", 3 ] ],
       [ [ "acid", 3 ], [ "chem_sulphuric_acid", 2 ] ],
+      [ [ "ether", 125 ] ],
       [ [ "water", 9 ], [ "water_clean", 9 ] ],
       [
         [ "edible_tallow_lard", 2, "LIST" ],
