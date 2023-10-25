@@ -23,6 +23,7 @@
 #include "mapdata.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_special.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "pldata.h"
@@ -220,6 +221,36 @@ tripoint_abs_omt start_location::find_player_initial_location() const
         const tripoint_om_omt omtstart = omap.find_random_omt( random_target() );
         if( omtstart.raw() != tripoint_min ) {
             return project_combine( omp, omtstart );
+        }
+    }
+    // Still no location, let's spawn one
+    static const tripoint_om_omt om_mid{ OMAPX / 2, OMAPY / 2, 0 };
+
+    // Check terrains where we're allowed to spawn
+    for( const auto &loc : _omt_types ) {
+
+        // Look for special having that terrain
+        for( const auto &special : overmap_specials::get_all() ) {
+            if( std::none_of( special.terrains.begin(),
+            special.terrains.end(), [&loc]( const overmap_special_terrain & t ) {
+            return is_ot_match( loc.first, t.terrain, loc.second );
+            } ) ) {
+                continue;
+            }
+
+            // Look for place where it can be spawned
+            for( const point_abs_om &omp : overmaps ) {
+                const tripoint_abs_omt abs_mid = project_combine( omp, om_mid );
+                if( overmap_buffer.place_special( special.id, abs_mid, OMAPX / 2 ) ) {
+
+                    // Now try to find what we spawned
+                    const tripoint_abs_omt start = overmap_buffer.find_closest( abs_mid, loc.first, OMAPX / 2, false,
+                                                   loc.second );
+                    if( start != overmap::invalid_tripoint ) {
+                        return start;
+                    }
+                }
+            }
         }
     }
     // Should never happen, if it does we messed up.

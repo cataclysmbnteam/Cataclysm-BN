@@ -30,11 +30,6 @@ class overmap_special;
 // Overmap specials--these are "special encounters," dungeons, nests, etc.
 // This specifies how often and where they may be placed.
 
-// OMSPEC_FREQ determines the length of the side of the square in which each
-// overmap special will be placed.  At OMSPEC_FREQ 6, the overmap is divided
-// into 900 squares; lots of space for interesting stuff!
-static constexpr int OMSPEC_FREQ = 15;
-
 struct overmap_special_spawns : public overmap_spawns {
     numeric_interval<int> radius;
 
@@ -126,17 +121,6 @@ namespace city_buildings
 void load( const JsonObject &jo, const std::string &src );
 
 } // namespace city_buildings
-
-struct om_special_sectors {
-    std::vector<point_om_omt> sectors;
-    int sector_width;
-};
-
-/**
-* Gets a collection of sectors and their width for usage in placing overmap specials.
-* @param sector_width used to divide the OMAPX by OMAPY map into sectors.
-*/
-om_special_sectors get_sectors( int sector_width );
 
 // Wrapper around an overmap special to track progress of placing specials.
 struct overmap_special_placement {

@@ -802,7 +802,7 @@
   },
   {
     "type": "recipe",
-    "result": "dagger_medieval",
+    "result": "dagger_bronze",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",

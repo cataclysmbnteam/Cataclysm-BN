@@ -2405,10 +2405,6 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
 
     std::vector<detached_ptr<item>> planted = p.use_charges( fertilizer, 1 );
 
-    // Reduce the amount of time it takes until the next stage of the plant by
-    // 20% of a seasons length. (default 2.8 days).
-    const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
-
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( tile );
@@ -2425,9 +2421,11 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
 
     item *&seed = *seed_it;
     seed_it = map_stack::iterator();
+    // Reduce the amount of time it takes until the next stage of growth
+    // by 60% of the seed's stage duration, or 20% of its overall growth time
+    const time_duration fertilized_boost = seed->get_plant_epoch() * 0.6;
 
-    // TODO: item should probably clamp the value on its own
-    seed->set_birthday( seed->birthday() - fertilizerEpoch );
+    seed->set_birthday( seed->birthday() - fertilized_boost );
     // The plant furniture has the NOITEM token which prevents adding items on that square,
     // spawned items are moved to an adjacent field instead, but the fertilizer token
     // must be on the square of the plant, therefore this hack:
@@ -2459,7 +2457,7 @@ itype_id iexamine::choose_fertilizer( player &p, const std::string &pname, bool 
         }
     }
 
-    if( ask_player && !query_yn( _( "Fertilize the %s" ), pname ) ) {
+    if( ask_player && !query_yn( _( "Fertilize the %s?" ), pname ) ) {
         return itype_id();
     }
 
