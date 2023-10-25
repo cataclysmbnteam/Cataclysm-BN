@@ -62,6 +62,7 @@
       [ [ "cotton_ball", 5 ] ],
       [ [ "chem_nitric_acid", 3 ] ],
       [ [ "acid", 3 ], [ "chem_sulphuric_acid", 2 ] ],
+      [ [ "ether", 125 ] ],
       [ [ "water", 9 ], [ "water_clean", 9 ] ],
       [ [ "edible_tallow_lard", 2, "LIST" ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ] ]
     ]
