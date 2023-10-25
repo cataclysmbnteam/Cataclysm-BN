@@ -4224,7 +4224,7 @@ detached_ptr<item> map::i_rem( const tripoint &p, item *it )
             res = std::move( e );
             return detached_ptr<item>();
         }
-        return e;
+        return std::move(e);
     } );
     return res;
 }
