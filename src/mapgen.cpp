@@ -3625,6 +3625,7 @@ void map::draw_lab( mapgendata &dat )
     bool ice_lab = true;
     bool central_lab = false;
     bool tower_lab = false;
+    bool ants_lab = false;
 
     point p2;
 
@@ -3644,6 +3645,10 @@ void map::draw_lab( mapgendata &dat )
         ice_lab = is_ot_match( "ice_lab", terrain_type, ot_match_type::prefix );
         central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::prefix );
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
+        ants_lab = is_ot_match( "ants", dat.north(), ot_match_type::contains ) ||
+                   is_ot_match( "ants", dat.east(), ot_match_type::contains ) ||
+                   is_ot_match( "ants", dat.south(), ot_match_type::contains ) ||
+                   is_ot_match( "ants", dat.west(), ot_match_type::contains );
 
         if( ice_lab ) {
             int temperature = -20 + 30 * ( dat.zlevel() );
@@ -4040,7 +4045,7 @@ void map::draw_lab( mapgendata &dat )
         } // end aboveground vs belowground
 
         // Ants will totally wreck up the place
-        if( is_ot_match( "ants", terrain_type, ot_match_type::contains ) ) {
+        if( ants_lab ) {
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     // Carve out a diamond area that covers 2 spaces on each edge.
