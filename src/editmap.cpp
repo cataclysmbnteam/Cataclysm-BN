@@ -1426,7 +1426,9 @@ void editmap::edit_itm()
 
         ilmenu.query();
         if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
-            item &it = **items.get_iterator_from_index( ilmenu.ret );
+            auto iter = items.begin();
+            std::advance( iter, ilmenu.ret );
+            item &it = **iter;
             uilist imenu;
             imenu.w_x_setup = offsetX;
             imenu.w_y_setup = [this]( int ) -> int {

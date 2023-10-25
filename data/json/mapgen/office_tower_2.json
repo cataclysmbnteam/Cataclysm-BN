@@ -19,8 +19,8 @@
     "//": "low weight due to low randomness, remove when house mapgen pool is big",
     "object": {
       "rows": [
+        "....sssssssssssssssssss'",
         "....ssssssssssssssssssss",
-        "....s...................",
         "....s.zzzzzzzzzzzzzzzzzz",
         "....s.z22222---22---22--",
         "....s.z1CCC 4|CC l|CCC |",
@@ -66,6 +66,7 @@
         ">": "t_floor",
         "?": "t_floor",
         "@": "t_floor",
+        "'": "t_sidewalk",
         "A": "t_floor",
         "B": "t_floor",
         "C": "t_floor",
@@ -89,6 +90,7 @@
         "~": "t_water_sh"
       },
       "furniture": {
+        "'": "f_street_light",
         "4": "f_indoor_plant",
         "6": "f_table",
         "7": "f_bookcase",
@@ -129,8 +131,8 @@
     "weight": 300,
     "object": {
       "rows": [
+        "....sssssssssssssssssss'",
         "....ssssssssssssssssssss",
-        "....s...................",
         "....s.zzzzzzzzzzzzzzzzzz",
         "....s.z22222---22---22--",
         "....s.z1CCC 4|CC l|CCC |",
@@ -177,6 +179,7 @@
         "<": "t_stairs_up",
         "?": "t_floor",
         "@": "t_floor",
+        "'": "t_sidewalk",
         "A": "t_floor",
         "B": "t_floor",
         "C": "t_floor",
@@ -200,6 +203,7 @@
         "~": "t_water_sh"
       },
       "furniture": {
+        "'": "f_street_light",
         "4": "f_indoor_plant",
         "6": "f_table",
         "8": "f_bathtub",
@@ -249,8 +253,8 @@
     "//": "low weight due to low randomness, remove when house mapgen pool is big",
     "object": {
       "rows": [
+        "sssssssssssssssssssssss'",
         "ssssssssssssssssssssssss",
-        ".....................sss",
         "zzzzzzzzzzzzzzzzzzzzzsss",
         "2222---2222222222---zsss",
         "   4|#|4          4|zsss",
@@ -280,6 +284,7 @@
         "+": "t_door_c",
         "-": "t_wall",
         ".": "t_grass",
+        "'": "t_sidewalk",
         "0": "t_column",
         "1": "t_wall_glass",
         "2": "t_wall_glass",
@@ -319,6 +324,7 @@
         "~": "t_water_sh"
       },
       "furniture": {
+        "'": "f_street_light",
         "4": "f_indoor_plant",
         "6": "f_table",
         "7": "f_bookcase",
@@ -356,7 +362,7 @@
     "//": "low weight due to low randomness, remove when house mapgen pool is big",
     "object": {
       "rows": [
-        "ssssssssssssssssssssssss",
+        "sssssssssssssssssssssss'",
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss",
@@ -387,6 +393,7 @@
         "+": "t_door_c",
         "-": "t_wall",
         ".": "t_grass",
+        "'": "t_sidewalk",
         "0": "t_column",
         "1": "t_wall_glass",
         "2": "t_wall_glass",
@@ -427,6 +434,7 @@
         "~": "t_water_sh"
       },
       "furniture": {
+        "'": "f_street_light",
         "4": "f_indoor_plant",
         "6": "f_table",
         "7": "f_bookcase",

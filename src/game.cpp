@@ -9697,7 +9697,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( dst_items > 0 && only_liquid_items ) {
         m.i_clear( fdest );
     }
-    
+
     if( src_items > 0 ) { // Move the stuff inside.
         if( dst_item_ok && src_item_ok ) {
             // Assume contents of both cells are legal, so we can just swap contents.

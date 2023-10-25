@@ -4218,13 +4218,15 @@ map_stack::iterator map::i_rem( const tripoint &p, map_stack::const_iterator it,
 detached_ptr<item> map::i_rem( const tripoint &p, item *it )
 {
     map_stack map_items = i_at( p );
-    map_stack::const_iterator iter = map_items.get_iterator_from_pointer( it );
-    if( iter != map_items.end() ) {
-        detached_ptr<item> ret;
-        i_rem( p, iter, &ret );
-        return ret;
-    }
-    return detached_ptr<item>();
+    detached_ptr<item> res;
+    map_items.remove_top_items_with( [&res, it]( detached_ptr<item> &&e ) {
+        if( &*e == it ) {
+            res = std::move( e );
+            return detached_ptr<item>();
+        }
+        return e;
+    } );
+    return res;
 }
 
 std::vector<detached_ptr<item>> map::i_clear( const tripoint &p )

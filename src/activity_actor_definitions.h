@@ -9,6 +9,7 @@
 #include "memory_fast.h"
 #include "pickup_token.h"
 #include "location_ptr.h"
+#include "locations.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_energy.h"
@@ -292,6 +293,53 @@ class hacking_activity_actor : public activity_actor
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character &who ) override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class lockpick_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        safe_reference<item> lockpick;
+        location_ptr<item> fake_lockpick;
+        tripoint target;
+
+        lockpick_activity_actor(
+            int moves_total,
+            safe_reference<item> lockpick,
+            detached_ptr<item> &&fake_lockpick,
+            const tripoint &target
+        ) : moves_total( moves_total ), lockpick( lockpick ), fake_lockpick( new fake_item_location() ),
+            target( target ) {
+            this->fake_lockpick = std::move( fake_lockpick );
+        };
+
+    public:
+        /** Use regular lockpick. 'target' is in global coords */
+        static std::unique_ptr<lockpick_activity_actor> use_item(
+            int moves_total,
+            item &lockpick,
+            const tripoint &target
+        );
+
+        /** Use bionic lockpick. 'target' is in global coords */
+        static std::unique_ptr<lockpick_activity_actor> use_bionic(
+            detached_ptr<item> &&fake_lockpick,
+            const tripoint &target
+        );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_LOCKPICK" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        static bool is_pickable( const tripoint &p );
+        static std::optional<tripoint> select_location( avatar &you );
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );

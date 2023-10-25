@@ -231,6 +231,10 @@ template <>
 bool visitable<vehicle_selector>::has_quality( const quality_id &qual, int level, int qty ) const
 {
     for( const auto &cursor : static_cast<const vehicle_selector &>( *this ) ) {
+        if( cursor.ignore_vpart ) {
+            continue;
+        }
+
         qty -= has_quality_from_vpart( cursor.veh, cursor.part, qual, level, qty );
         if( qty <= 0 ) {
             return true;
@@ -245,7 +249,9 @@ bool visitable<vehicle_cursor>::has_quality( const quality_id &qual, int level, 
 {
     auto self = static_cast<const vehicle_cursor *>( this );
 
-    qty -= has_quality_from_vpart( self->veh, self->part, qual, level, qty );
+    if( !self->ignore_vpart ) {
+        qty -= has_quality_from_vpart( self->veh, self->part, qual, level, qty );
+    }
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
@@ -332,8 +338,8 @@ template <>
 int visitable<vehicle_cursor>::max_quality( const quality_id &qual ) const
 {
     auto self = static_cast<const vehicle_cursor *>( this );
-    return std::max( max_quality_from_vpart( self->veh, self->part, qual ),
-                     max_quality_internal( *this, qual ) );
+    int vpart = self->ignore_vpart ? 0 : max_quality_from_vpart( self->veh, self->part, qual );
+    return std::max( vpart, max_quality_internal( *this, qual ) );
 }
 
 /** @relates visitable */

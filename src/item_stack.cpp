@@ -63,18 +63,6 @@ item_stack::const_reverse_iterator item_stack::rend() const
     return items->crend();
 }
 
-item_stack::iterator item_stack::get_iterator_from_pointer( item *it )
-{
-    return std::find_if( items->begin(), items->end(), [it]( item * const & e ) {
-        return e == it;
-    } );
-}
-
-item_stack::iterator item_stack::get_iterator_from_index( size_t idx )
-{
-    return std::next( items->begin(), idx );
-}
-
 item &item_stack::only_item()
 {
     if( empty() ) {

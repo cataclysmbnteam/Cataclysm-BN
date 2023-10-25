@@ -10,6 +10,7 @@
 #include "activity_type.h"
 #include "clone_ptr.h"
 
+class avatar;
 class Character;
 class JsonIn;
 class JsonOut;
