@@ -520,6 +520,38 @@ void overmap_special_connection::deserialize( const JsonObject &jo )
     optional( jo, false, "from", from );
 }
 
+void overmap_special_connection::finalize() {
+    // If the connection has a "from" hint specified, then figure out what the
+    // resulting direction from the hinted location to the connection point is,
+    // and use that as the intial direction to be passed off to the connection
+    // building code.
+    if( from ) {
+        const direction calculated_direction = direction_from( *from, p );
+        switch( calculated_direction ) {
+            case direction::NORTH:
+                initial_dir = om_direction::type::north;
+                break;
+            case direction::EAST:
+                initial_dir = om_direction::type::east;
+                break;
+            case direction::SOUTH:
+                initial_dir = om_direction::type::south;
+                break;
+            case direction::WEST:
+                initial_dir = om_direction::type::west;
+                break;
+            default:
+                // The only supported directions are north/east/south/west
+                // as those are the four directions that overmap connections
+                // can be made in. If the direction we figured out wasn't
+                // one of those, just set this as invalid. We'll provide
+                // a warning to the user/developer in overmap_special::check().
+                initial_dir = om_direction::type::invalid;
+                break;
+        }
+    }
+}
+
 void overmap_spawns::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "group", group );
@@ -1305,6 +1337,12 @@ struct mutable_overmap_placement_rule_piece {
     }
 };
 
+struct connection_node {
+    tripoint_om_omt origin;
+    om_direction::type rot;
+    const overmap_special_connection *connection;
+};
+
 struct mutable_overmap_placement_rule_remainder;
 
 struct mutable_overmap_placement_rule {
@@ -1314,6 +1352,7 @@ struct mutable_overmap_placement_rule {
     z_constraints z;
     bool rotate_allowed = true;
     std::vector<mutable_overmap_placement_rule_piece> pieces;
+    std::vector<overmap_special_connection> connections;
     // NOLINTNEXTLINE(cata-serialize)
     std::vector<std::pair<rel_pos_dir, const mutable_overmap_terrain_join *>> outward_joins;
     int_distribution max = int_distribution( INT_MAX );
@@ -1389,8 +1428,12 @@ struct mutable_overmap_placement_rule {
                 }
             }
         }
+        for( auto &elem : connections ) {
+            elem.finalize();
+        }
     }
-    void check( const std::string &context ) const {
+    void check( const std::string &context,
+                const std::unordered_map<std::string, mutable_overmap_join *> &joins ) const {
         if( pieces.empty() ) {
             debugmsg( "phase of %s has chunk with zero pieces" );
             abort();
@@ -1399,6 +1442,12 @@ struct mutable_overmap_placement_rule {
         if( min_max < 0 ) {
             debugmsg( "phase of %s specifies max which might be as low as %d; this should "
                       "be a positive number", context, min_max );
+        }
+        if( !required_join.empty() ) {
+            auto join = joins.find( required_join );
+            if( join == joins.end() ) {
+                debugmsg( "invalid join id %s in phase of %s", required_join, context );
+            }
         }
     }
 
@@ -1414,6 +1463,7 @@ struct mutable_overmap_placement_rule {
         } else {
             jo.throw_error( R"(placement rule must specify at least one of "overmap" or "chunk")" );
         }
+        jo.read( "connections", connections );
         jo.read( "join", required_join );
         jo.read( "scale", scale );
         jo.read( "z", z );
@@ -2161,7 +2211,7 @@ struct mutable_overmap_special_data {
         }
         for( const mutable_overmap_phase &phase : phases ) {
             for( const mutable_overmap_placement_rule &rule : phase.rules ) {
-                rule.check( context );
+                rule.check( context, joins );
             }
         }
     }
@@ -2178,13 +2228,14 @@ struct mutable_overmap_special_data {
 
     // Returns a list of the points placed and a list of the joins used
     auto place( overmap &om, const tripoint_om_omt &origin ) const ->
-    std::pair<std::vector<tripoint_om_omt>, std::vector<std::pair<om_pos_dir, std::string>>> {
+    std::tuple<std::vector<tripoint_om_omt>, std::vector<connection_node>, std::vector<std::pair<om_pos_dir, std::string>>> {
         std::vector<tripoint_om_omt> result;
+        std::vector<connection_node> connections;
 
         auto it = overmaps.find( root );
         if( it == overmaps.end() ) {
             debugmsg( "Invalid root %s", root );
-            return { result, {} };
+            return { result, {}, {} };
         }
         const mutable_overmap_terrain &root_omt = it->second;
         om.ter_set( origin, root_omt.terrain );
@@ -2228,6 +2279,9 @@ struct mutable_overmap_special_data {
                     z_max = std::max( z_max, piece.pos.z() );
                     result.push_back( piece.pos );
                 }
+                for ( const overmap_special_connection &con : rule->parent->connections ) {
+                    connections.push_back( { origin, rot, &con } );
+                }
             } else {
                 unresolved.postpone( next_pos );
             }
@@ -2267,7 +2321,7 @@ struct mutable_overmap_special_data {
                     joins, p.to_string(), parent_id.str() ) );
         }
 
-        return { result, unresolved.all_used() };
+        return { result, connections, unresolved.all_used() };
     }
 };
 
@@ -2477,35 +2531,7 @@ void overmap_special::finalize()
     }
 
     for( auto &elem : connections ) {
-        // If the connection has a "from" hint specified, then figure out what the
-        // resulting direction from the hinted location to the connection point is,
-        // and use that as the intial direction to be passed off to the connection
-        // building code.
-        if( elem.from ) {
-            const direction calculated_direction = direction_from( *elem.from, elem.p );
-            switch( calculated_direction ) {
-                case direction::NORTH:
-                    elem.initial_dir = om_direction::type::north;
-                    break;
-                case direction::EAST:
-                    elem.initial_dir = om_direction::type::east;
-                    break;
-                case direction::SOUTH:
-                    elem.initial_dir = om_direction::type::south;
-                    break;
-                case direction::WEST:
-                    elem.initial_dir = om_direction::type::west;
-                    break;
-                default:
-                    // The only supported directions are north/east/south/west
-                    // as those are the four directions that overmap connections
-                    // can be made in. If the direction we figured out wasn't
-                    // one of those, just set this as invalid. We'll provide
-                    // a warning to the user/developer in overmap_special::check().
-                    elem.initial_dir = om_direction::type::invalid;
-                    break;
-            }
-        }
+        elem.finalize();
     }
 }
 
@@ -5711,6 +5737,7 @@ std::vector<tripoint_om_omt> overmap::place_special(
     const bool grid = special.has_flag( "ELECTRIC_GRID" );
 
     std::vector<tripoint_om_omt> result;
+    std::vector<connection_node> connections;
     switch( special.get_subtype() ) {
         case overmap_special_subtype::fixed: {
             const fixed_overmap_special_data &fixed_data = special.get_fixed_data();
@@ -5719,7 +5746,10 @@ std::vector<tripoint_om_omt> overmap::place_special(
         }
         case overmap_special_subtype::mutable_: {
             std::vector<std::pair<om_pos_dir, std::string>> joins;
-            std::tie( result, joins ) = special.get_mutable_data().place( *this, p );
+            auto placement = special.get_mutable_data().place( *this, p );
+            result = std::get<0>(placement);
+            connections = std::get<1>(placement);
+            joins = std::get<2>(placement);
             for( const std::pair<om_pos_dir, std::string> &join : joins ) {
                 joins_used[join.first] = join.second;
             }
@@ -5729,23 +5759,28 @@ std::vector<tripoint_om_omt> overmap::place_special(
             debugmsg( "Invalid overmap_special_subtype" );
             abort();
     }
-    // Make connections.
-    for( const auto &elem : special.connections ) {
+    // Combine fixed connections with mutable
+    for( const overmap_special_connection &elem : special.connections ) {
+        connections.push_back( { p, dir, &elem } );
+    }
+    // Place connection
+    for( const connection_node &node : connections ) {
+        const overmap_special_connection &elem = *node.connection;
         if( elem.connection ) {
-            const tripoint_om_omt rp = p + om_direction::rotate( elem.p, dir );
+            const tripoint_om_omt rp = node.origin + om_direction::rotate( elem.p, node.rot );
             om_direction::type initial_dir = elem.initial_dir;
             if( initial_dir != om_direction::type::invalid ) {
-                initial_dir = om_direction::add( initial_dir, dir );
+                initial_dir = om_direction::add( initial_dir, node.rot );
             }
             if( cit ) {
-                build_connection( cit.pos, rp.xy(), elem.p.z, *elem.connection,
+                build_connection( cit.pos, rp.xy(), rp.z(), *elem.connection,
                                   must_be_unexplored, initial_dir );
             }
             // if no city present, search for nearby road within 50 tiles and make connection to it instead
             else {
                 for( const tripoint_om_omt &nearby_point : closest_points_first( rp, 50 ) ) {
                     if( check_ot( "road", ot_match_type::contains, nearby_point ) ) {
-                        build_connection( nearby_point.xy(), rp.xy(), elem.p.z, *elem.connection,
+                        build_connection( nearby_point.xy(), rp.xy(), rp.z(), *elem.connection,
                                           must_be_unexplored, initial_dir );
                     }
                 }

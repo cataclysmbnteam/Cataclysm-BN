@@ -761,11 +761,12 @@ join id.  Alternatively it can be a JSON object with the following keys:
 
 | Identifier  |                                Description                                 |
 | ----------- | -------------------------------------------------------------------------- |
-| `overmap`   | Id of the `overmap` to place. |
-| `scale` | Id of shared multiplier of max |
-| `join` | Id of `join` which must be resolved during current phase |
-| `z` | Z level restrictions for this phase |
-| `rotate` | False, if this overmap or chunk shouldn't not be rotated
+| `overmap` or `chunk`  | Id of the `overmap` to place, chunk configuration. |
+| `connections`   | List of overmap connections and their relative `[ x, y, z ]` location to overmap or chunk. |
+| `join` | Id of `join` which must be resolved during current phase. |
+| `z` | Z level restrictions for this phase. |
+| `rotate` | False, if this overmap or chunk shouldn't not be rotated. |
+| `scale` | Id of shared multiplier of max. |
 | `max`       | Maximum number of times this rule should be used. |
 | `weight`    | Weight with which to select this rule. |
 

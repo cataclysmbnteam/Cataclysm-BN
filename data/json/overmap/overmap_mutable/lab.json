@@ -63,6 +63,13 @@
         "east": { "id": "xy_to_xy", "type": "optional" },
         "south": { "id": "xy_to_xy", "type": "optional" },
         "west": { "id": "xy_to_xy", "type": "optional" }
+      },
+      "depot": {
+        "overmap": "lab_train_depot",
+        "north": { "id": "xy_to_xy", "type": "reject" },
+        "east": { "id": "xy_to_xy", "type": "optional" },
+        "south": { "id": "xy_to_xy", "type": "optional" },
+        "west": { "id": "xy_to_xy", "type": "optional" }
       }
     },
     "root": "surface",
@@ -86,6 +93,16 @@
           "rotate": false,
           "z": "bottom",
           "scale": "size", "max": { "poisson": 0.35 }
+        }
+      ],
+      [
+        {
+          "overmap": "depot",
+          "connections": [
+            { "point": [ 0, -1, 0 ], "connection": "subway_tunnel", "from": [ 0, 0, 0 ] }
+          ],
+          "z": -2,
+          "scale": "size", "max": { "poisson": 0.25 }
         }
       ],
       [ { "overmap": "core", "join": "z_to_z", "weight": 1 },

@@ -75,6 +75,7 @@ struct overmap_special_connection {
     bool existing = false;
 
     void deserialize( const JsonObject &jo );
+    void finalize();
 };
 
 struct overmap_special_placement_constraints {
