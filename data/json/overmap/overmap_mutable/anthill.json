@@ -48,16 +48,22 @@
       "food": { "overmap": "ants_food_north", "north": "tunnel_to_tunnel" }
     },
     "root": "surface",
+    "shared": {
+        "size": [1, 5]
+    },
     "phases": [
       [ { "overmap": "below_entrance", "max": 1 } ],
       [
-        { "overmap": "straight_tunnel", "max": { "poisson": 20 } },
-        { "overmap": "corner", "max": { "poisson": 5 } },
-        { "overmap": "tee", "max": { "poisson": 10 } },
-        { "overmap": "below_entrance", "max": { "poisson": 0.7 } }
+        { "overmap": "straight_tunnel", "scale": "size", "max": { "poisson": 10 } },
+        { "overmap": "corner", "scale": "size", "max": { "poisson": 2.5 } },
+        { "overmap": "tee", "scale": "size", "max": { "poisson": 5 } },
+        { "overmap": "below_entrance", "scale": "size", "max": { "poisson": 0.35 } }
       ],
       [ { "overmap": "queen", "max": 1 } ],
-      [ { "overmap": "food", "max": { "poisson": 5 } }, { "overmap": "larvae", "max": { "poisson": 5 } } ],
+      [
+        { "overmap": "food", "scale": "size", "max": { "poisson": 2.5 } },
+        { "overmap": "larvae", "scale": "size", "max": { "poisson": 2.5 } }
+      ],
       [
         { "overmap": "dead_end", "weight": 2000 },
         { "overmap": "straight_tunnel", "weight": 100 },
@@ -116,16 +122,22 @@
       "food": { "overmap": "acid_ants_food_north", "north": "tunnel_to_tunnel" }
     },
     "root": "surface",
+    "shared": {
+        "size": [1, 5]
+    },
     "phases": [
       [ { "overmap": "below_entrance", "max": 1 } ],
       [
-        { "overmap": "straight_tunnel", "max": { "poisson": 20 } },
-        { "overmap": "corner", "max": { "poisson": 5 } },
-        { "overmap": "tee", "max": { "poisson": 10 } },
-        { "overmap": "below_entrance", "max": { "poisson": 0.7 } }
+        { "overmap": "straight_tunnel", "scale": "size", "max": { "poisson": 10 } },
+        { "overmap": "corner", "scale": "size", "max": { "poisson": 2.5 } },
+        { "overmap": "tee", "scale": "size", "max": { "poisson": 5 } },
+        { "overmap": "below_entrance", "scale": "size", "max": { "poisson": 0.35 } }
       ],
       [ { "overmap": "queen", "max": 1 } ],
-      [ { "overmap": "food", "max": { "poisson": 5 } }, { "overmap": "larvae", "max": { "poisson": 5 } } ],
+      [
+        { "overmap": "food", "scale": "size", "max": { "poisson": 2.5 } },
+        { "overmap": "larvae", "scale": "size", "max": { "poisson": 2.5 } }
+      ],
       [
         { "overmap": "dead_end", "weight": 2000 },
         { "overmap": "straight_tunnel", "weight": 100 },

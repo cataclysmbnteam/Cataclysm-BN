@@ -96,7 +96,6 @@ struct enum_traits<overmap_special_subtype> {
 
 struct fixed_overmap_special_data {
     std::vector<overmap_special_terrain> terrains;
-    std::vector<overmap_special_connection> connections;
 };
 
 struct mutable_overmap_special_data;
@@ -108,7 +107,7 @@ class overmap_special
         overmap_special( const overmap_special_id &i, const overmap_special_terrain &ter )
             : id( i )
             , subtype_( overmap_special_subtype::fixed )
-            , fixed_data_{ { overmap_special_terrain{ ter } }, {} }
+            , fixed_data_{ { overmap_special_terrain{ ter } } }
         {};
         overmap_special_subtype get_subtype() const {
             return subtype_;
@@ -160,6 +159,7 @@ class overmap_special
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
+        std::vector<overmap_special_connection> connections;
     private:
         overmap_special_subtype subtype_;
         overmap_special_placement_constraints constraints_;

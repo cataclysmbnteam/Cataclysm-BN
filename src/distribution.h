@@ -15,7 +15,7 @@ class int_distribution
         explicit int_distribution( int value );
 
         int minimum() const;
-        int sample() const;
+        int sample( int scale = 1 ) const;
         std::string description() const;
 
         void deserialize( JsonIn & );

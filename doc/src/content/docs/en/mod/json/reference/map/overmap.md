@@ -299,6 +299,7 @@ level value and then only specify it for individual entries that differ.
 | --------------- | ----------------------------------------------------------------------------------------------------- |
 | `type`          | Must be `"overmap_special"`.                                                                          |
 | `id`            | Unique id.                                                                                            |
+| `connections`   | List of overmap connections and their relative `[ x, y, z ]` location within the special.             |
 | `subtype`       | Either `"fixed"` or `"mutable"`. Defaults to `"fixed"` if not specified.                              |
 | `locations`     | List of `overmap_location` ids that the special may be placed on.                                     |
 | `city_distance` | Min/max distance from a city that the special may be placed. Use -1 for unbounded.                    |
@@ -314,7 +315,6 @@ Depending on the subtype, there are further relevant fields:
 |   Identifier    |                                              Description                                              |
 | --------------- | ----------------------------------------------------------------------------------------------------- |
 | `overmaps`      | List of overmap terrains and their relative `[ x, y, z ]` location within the special.                |
-| `connections`   | List of overmap connections and their relative `[ x, y, z ]` location within the special.             |
 
 #### Further fields for mutable overmap specials
 
@@ -325,6 +325,7 @@ Depending on the subtype, there are further relevant fields:
 | `connections`         | List of connections and their relative `[ x, y, z ]` location within the special. |
 | `overmaps`            | Definitions of the various overmaps and how they join to one another. |
 | `root`                | The initial overmap from which the mutable overmap will be grown. |
+| `shared`              | List of pairs `{ "id": value }` of multiplier, where value in same format as rule weight |
 | `phases`              | A specification of how to grow the overmap special from the root OMT. |
 
 ### Example fixed special
@@ -473,9 +474,11 @@ integer `max` and/or `weight`.
 
 Weight must always be a simple integer, but `max` may also be an object
 defining a probability distribution over integers.  Each time the special is
-spawned, a value is sampled from that distribution.  Currently only a Poisson
-distribution is supported, specified via an object such as `{ "poisson": 5 }`
-where 5 will be the mean of the distribution (λ).
+spawned, a value is sampled from that distribution.  Poisson distribution is
+supported via an object such as `{ "poisson": 5 }` where 5 will be the mean
+of the distribution (λ). Flat distribution is supported via `[min, max]` pairs.
+`max` can also be `scale`d by another multiplier `shared` within special, allowing
+scale amount of multiple different overmaps proportionaly to each others.
 
 Within each phase, the game looks for unsatisfied joins from the existing
 overmaps and attempts to find an overmap from amongst those available in its
@@ -638,6 +641,10 @@ As such, this `crater_edge` overmap can satisfy any unresolved joins for the
 `Crater` special without generating any new unresolved joins of its own.  This
 makes it great to finish off the special in the final phase.
 
+Third type of joins - 'optional', it's a mix of both above - they do actively
+generate new unresolved joins to build upon, but such joins are not mandatory,
+and can be left unvesolved.
+
 #### Asymmetric joins
 
 Sometimes you want two different OMTs to connect, but wouldn't want either to
@@ -751,8 +758,13 @@ join id.  Alternatively it can be a JSON object with the following keys:
 | Identifier  |                                Description                                 |
 | ----------- | -------------------------------------------------------------------------- |
 | `overmap`   | Id of the `overmap` to place. |
+| `scale` | Id of shared multiplier of max |
+| `join` | Id of `join` which must be resolved during current phase |
+| `z` | Z level restrictions for this phase |
 | `max`       | Maximum number of times this rule should be used. |
 | `weight`    | Weight with which to select this rule. |
+
+Z level restrictions supports number, range, and either "top" or "bottom" relative to other special tiles placed so far.
 
 One of `max` and `weight` must be specified.  `max` will be used as the weight
 when `weight` is not specified.

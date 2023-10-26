@@ -1,0 +1,72 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "lab_mutable",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty" ],
+    "city_distance": [ 4, -1 ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "LAB", "UNIQUE" ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road" } ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "wilderness" ] ],
+      [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ -1, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, -1, -1 ], [ "subterranean_empty" ] ]
+    ],
+    "joins": [ "z_to_z", "xy_to_xy" ],
+    "overmaps": {
+      "surface": {
+        "overmap": "lab_stairs", "locations": [ "wilderness" ],
+        "below": "z_to_z"
+      },
+      "stairs": {
+        "overmap": "lab_stairs",
+        "below": "z_to_z",
+        "north": { "id": "xy_to_xy", "type": "optional" },
+        "east": { "id": "xy_to_xy", "type": "optional" },
+        "south": { "id": "xy_to_xy", "type": "optional" },
+        "west": { "id": "xy_to_xy", "type": "optional" }
+      },
+      "core": {
+        "overmap": "lab_core",
+        "above": "z_to_z",
+        "north": { "id": "xy_to_xy", "type": "optional" },
+        "east": { "id": "xy_to_xy", "type": "optional" },
+        "south": { "id": "xy_to_xy", "type": "optional" },
+        "west": { "id": "xy_to_xy", "type": "optional" }
+      },
+      "lab": {
+        "overmap": "lab",
+        "north": { "id": "xy_to_xy", "type": "optional" },
+        "east": { "id": "xy_to_xy", "type": "optional" },
+        "south": { "id": "xy_to_xy", "type": "optional" },
+        "west": { "id": "xy_to_xy", "type": "optional" }
+      },
+      "finale": {
+        "overmap": "lab_finale",
+        "north": { "id": "xy_to_xy", "type": "optional" },
+        "east": { "id": "xy_to_xy", "type": "optional" },
+        "south": { "id": "xy_to_xy", "type": "optional" },
+        "west": { "id": "xy_to_xy", "type": "optional" }
+      }
+    },
+    "root": "surface",
+    "shared": {
+        "size": [1, 3]
+    },
+    "phases": [
+      [ { "overmap": "core", "max": 1 } ],
+      [ { "overmap": "lab", "scale": "size", "max": { "poisson": 30 } },
+        { "overmap": "stairs", "scale": "size", "max": { "poisson": 5 } },
+        { "overmap": "core", "scale": "size", "max": { "poisson": 5 } }
+      ],
+      [ { "overmap": "core", "join": "z_to_z", "weight": 1 },
+        { "overmap": "stairs", "join": "z_to_z", "weight": 1 }
+      ],
+      [ { "overmap": "finale", "z": "bottom", "scale": "size", "max": 1 } ]
+    ]
+  }
+]
