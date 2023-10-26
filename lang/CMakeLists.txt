@@ -56,5 +56,5 @@ foreach (LANG ${LANGUAGES})
                 ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-bn.mo
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     # FIXME: check if this works
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${DATA_PREFIX})
+    # install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${DATA_PREFIX})
 endforeach ()
