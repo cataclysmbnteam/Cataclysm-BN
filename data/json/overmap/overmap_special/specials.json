@@ -642,17 +642,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "Lab with Anthill",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "lab_stairs" }, { "point": [ 3, 1, 0 ], "overmap": "anthill_north" } ],
-    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road" } ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 4, -1 ],
-    "occurrences": [ 30, 100 ],
-    "flags": [ "ANT", "UNIQUE" ],
-    "spawns": { "group": "GROUP_ANT", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] }
-  },
-  {
-    "type": "overmap_special",
     "id": "Central Lab",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "central_lab_entrance" },

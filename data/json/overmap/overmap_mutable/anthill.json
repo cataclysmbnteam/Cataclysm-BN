@@ -2,18 +2,6 @@
   {
     "type": "overmap_special",
     "id": "Anthill",
-    "occurrences": [ 0, 0 ],
-    "overmaps": [  ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "Acid Anthill",
-    "occurrences": [ 0, 0 ],
-    "overmaps": [  ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "anthill",
     "subtype": "mutable",
     "locations": [ "subterranean_empty" ],
     "city_distance": [ 10, -1 ],
@@ -82,7 +70,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "acid_anthill",
+    "id": "Acid Anthill",
     "subtype": "mutable",
     "locations": [ "subterranean_empty" ],
     "city_distance": [ 10, -1 ],
