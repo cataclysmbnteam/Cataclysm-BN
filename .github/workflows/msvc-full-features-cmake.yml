@@ -60,6 +60,17 @@ jobs:
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.3.1
 
+    - name: Remove Strawberry Perl from PATH
+      run: |
+        echo $env:PATH
+        echo =========================
+        $env:PATH = $env:PATH -replace "C:\\Strawberry\\c\\bin;", ""
+        $env:PATH = $env:PATH -replace "C:\\Strawberry\\perl\\site\\bin;", ""
+        $env:PATH = $env:PATH -replace "C:\\Strawberry\\perl\\bin;", ""
+        "PATH=$env:PATH" | Out-File -FilePath $env:GITHUB_ENV -Append
+        echo =========================
+        echo $env:PATH
+
     - name: Install stable CMake
       uses: lukka/get-cmake@latest
 
