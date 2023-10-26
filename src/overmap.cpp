@@ -1118,6 +1118,7 @@ enum class join_type {
     mandatory,
     optional,
     available,
+    reject,
     last
 };
 
@@ -1137,6 +1138,7 @@ std::string enum_to_string<join_type>( join_type data )
         case join_type::mandatory: return "mandatory";
         case join_type::optional: return "optional";
         case join_type::available: return "available";
+        case join_type::reject: return "reject";
         // *INDENT-ON*
         case join_type::last:
             break;
@@ -1310,6 +1312,7 @@ struct mutable_overmap_placement_rule {
     std::string required_join;
     std::string scale;
     z_constraints z;
+    bool rotate_allowed = true;
     std::vector<mutable_overmap_placement_rule_piece> pieces;
     // NOLINTNEXTLINE(cata-serialize)
     std::vector<std::pair<rel_pos_dir, const mutable_overmap_terrain_join *>> outward_joins;
@@ -1414,6 +1417,7 @@ struct mutable_overmap_placement_rule {
         jo.read( "join", required_join );
         jo.read( "scale", scale );
         jo.read( "z", z );
+        jo.read( "rotate", rotate_allowed );
         jo.read( "max", max );
         jo.read( "weight", weight );
         if( !jo.has_member( "max" ) && weight == INT_MAX ) {
@@ -1576,13 +1580,15 @@ class joins_tracker
             };
 
             if( const join *existing = resolved.find( other_side ) ) {
-                join_type other_type = join_type::last;
-                if ( const join *other_side_join = unresolved.find( this_side ) ) {
-                    other_type = other_side_join->type;
-                }
+                join_type other_type = existing->type;
                 if( is_allowed_opposite( existing->join->id ) ) {
-                    return other_type == join_type::mandatory
-                           ? join_status::matched_non_available : join_status::matched_available;
+                    if( other_type == join_type::mandatory ) {
+                        return join_status::matched_non_available;
+                    } else if( other_type == join_type::reject || this_ter_join.type == join_type::reject ) {
+                        return join_status::disallowed;
+                    } else {
+                        return join_status::matched_available;
+                    }
                 } else {
                     if( other_type == join_type::mandatory || this_ter_join.type == join_type::mandatory ) {
                         return join_status::disallowed;
@@ -1627,7 +1633,8 @@ class joins_tracker
                     // so we need to un-postpone them because it might now be
                     // possible to satisfy them.
                     restore_postponed_at( other_side.p );
-                    if( this_side_join.type != join_type::available ) {
+                    if( this_side_join.type == join_type::mandatory ||
+                        this_side_join.type == join_type::optional ) {
                         const mutable_overmap_join *opposite_join = this_side_join.join->opposite;
                         add_unresolved( other_side, this_side_join.type, opposite_join );
                     }
@@ -1949,6 +1956,10 @@ struct mutable_overmap_phase_remainder {
                                                 {} } );
                         }
                     }
+                }
+
+                if ( !rule.parent->rotate_allowed ) {
+                    break;
                 }
             }
 

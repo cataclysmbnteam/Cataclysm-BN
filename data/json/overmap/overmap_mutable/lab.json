@@ -51,6 +51,18 @@
         "east": { "id": "xy_to_xy", "type": "optional" },
         "south": { "id": "xy_to_xy", "type": "optional" },
         "west": { "id": "xy_to_xy", "type": "optional" }
+      },
+      "escape_cells": {
+        "overmap": "lab_escape_cells",
+        "north": { "id": "xy_to_xy", "type": "reject" },
+        "east": { "id": "xy_to_xy", "type": "reject" },
+        "west": { "id": "xy_to_xy", "type": "reject" }
+      },
+      "escape_entrance": {
+        "overmap": "lab_escape_entrance",
+        "east": { "id": "xy_to_xy", "type": "optional" },
+        "south": { "id": "xy_to_xy", "type": "optional" },
+        "west": { "id": "xy_to_xy", "type": "optional" }
       }
     },
     "root": "surface",
@@ -63,10 +75,24 @@
         { "overmap": "stairs", "scale": "size", "max": { "poisson": 5 } },
         { "overmap": "core", "scale": "size", "max": { "poisson": 5 } }
       ],
+      [
+        {
+          "//": "Should always pointing north, this mapgen doesn't rotate",
+          "name": "lab_escape",
+          "chunk": [
+            { "overmap": "escape_entrance", "pos": [ 0, 0, 0 ] },
+            { "overmap": "escape_cells", "pos": [ 0, -1, 0 ] }
+          ],
+          "rotate": false,
+          "z": "bottom",
+          "scale": "size", "max": { "poisson": 0.35 }
+        }
+      ],
       [ { "overmap": "core", "join": "z_to_z", "weight": 1 },
         { "overmap": "stairs", "join": "z_to_z", "weight": 1 }
       ],
-      [ { "overmap": "finale", "z": "bottom", "scale": "size", "max": 1 } ]
+      [ { "overmap": "lab", "z": "bottom", "scale": "size", "max": { "poisson": 2 } } ],
+      [ { "overmap": "finale", "z": "bottom", "max": 1 } ]
     ]
   }
 ]

@@ -645,6 +645,10 @@ Third type of joins - 'optional', it's a mix of both above - they do actively
 generate new unresolved joins to build upon, but such joins are not mandatory,
 and can be left unvesolved.
 
+Since 'optional' and 'available' joins does not require any kind of resolving
+they may end in undesired places, that can be preventrd by adding pseudo-join
+of 'reject' type, which will forbid other joins of same id linking to it.
+
 #### Asymmetric joins
 
 Sometimes you want two different OMTs to connect, but wouldn't want either to
@@ -761,6 +765,7 @@ join id.  Alternatively it can be a JSON object with the following keys:
 | `scale` | Id of shared multiplier of max |
 | `join` | Id of `join` which must be resolved during current phase |
 | `z` | Z level restrictions for this phase |
+| `rotate` | False, if this overmap or chunk shouldn't not be rotated
 | `max`       | Maximum number of times this rule should be used. |
 | `weight`    | Weight with which to select this rule. |
 
