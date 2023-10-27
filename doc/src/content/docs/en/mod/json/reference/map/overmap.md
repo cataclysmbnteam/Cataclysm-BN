@@ -321,6 +321,7 @@ Depending on the subtype, there are further relevant fields:
 |   Identifier          |                                              Description                                              |
 | --------------------- | ----------------------------------------------------------------------------------------------------- |
 | `check_for_locations` | List of pairs `[ [ x, y, z ], [ locations, ... ] ]` defining the locations that must exist for initial placement. |
+| `check_for_locations_area` | List of check_for_locations area objects to be considered in addition to the explicit `check_for_locations` pairs. |
 | `connections`         | List of connections and their relative `[ x, y, z ]` location within the special. |
 | `overmaps`            | Definitions of the various overmaps and how they join to one another. |
 | `root`                | The initial overmap from which the mutable overmap will be grown. |
