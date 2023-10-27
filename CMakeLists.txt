@@ -27,56 +27,30 @@ cmake_dependent_option(USE_PREFIX_DATA_DIR
     "Use UNIX system directories for game data in release build." ON
     "UNIX" OFF
 )
-set(LANGUAGES
-    ""
-    CACHE STRING "Compile localization files for specified languages. \
+set(LANGUAGES "" CACHE STRING
+        "Compile localization files for specified languages. \
         List of language ids separated by semicolon. \
         Set to 'all' or leave empty to compile all, set to 'none' to compile none.")
-option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."
-       "ON")
+option(DYNAMIC_LINKING
+        "Use dynamic linking. Or use static to remove MinGW dependency instead." "ON")
 option(USE_UNITY_BUILD "Use unity build." "OFF")
 option(JSON_FORMAT "Build JSON formatter" "OFF")
 option(CATA_CCACHE "Try to find and build with ccache" "ON")
 option(TESTS "Compile Cata's tests" "ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
-set(CATA_CLANG_TIDY_INCLUDE_DIR
-    ""
-    CACHE STRING "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
-set(CATA_CHECK_CLANG_TIDY
-    ""
-    CACHE STRING "Path to check_clang_tidy.py for plugin tests")
-set(GIT_BINARY
-    ""
-    CACHE STRING "Git binary name or path.")
-set(LINKER
-    ""
-    CACHE STRING "Custom Linker to use")
+set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING
+        "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
+set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
+set(GIT_BINARY "" CACHE STRING "Git binary name or path.")
+set(LINKER "" CACHE STRING "Custom Linker to use")
 set(GETTEXT_MSGFMT_BINARY "" CACHE FILEPATH "msgfmt binary name or path.")
 
 if (TESTS)
 include(CTest)
 endif()
 
-include(GetGitRevisionDescription)
-git_describe(GIT_VERSION --tags --always --match "[0-9A-Z]*.[0-9A-Z]*")
-
-message("\n * Cataclysm: Bright Nights is a roguelike set in a post-apocalyptic world.")
-message("   _________            __                   .__                                ")
-message("   \\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____      ")
-message(
-    "   /    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\     ")
-message(
-    "   \\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\    ")
-message("    \\______  /\(____  / |__|  \(____  / \\___  >|____/ / ____|/____  >|__|_|  /    ")
-message("           \\/      \\/             \\/      \\/        \\/          \\/       \\/     ")
-message("                                --= Bright Nights =--")
-
-message("\n * https://github.com/cataclysmbnteam/Cataclysm-BN\n")
-
-message(STATUS "${PROJECT_NAME} build environment -- \n")
-
-message(
-    STATUS "Build realm is                : ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+message(STATUS "${PROJECT_NAME} build environment --")
+message(STATUS "Build realm is: ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
 if (LINKER)
     add_link_options("-fuse-ld=${LINKER}")
@@ -88,11 +62,13 @@ endif ()
 
 add_definitions(-DCMAKE)
 
+include(GetGitRevisionDescription)
+git_describe(GIT_VERSION --tags --always --match "[0-9A-Z]*.[0-9A-Z]*")
 if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
     file(WRITE ${CMAKE_SOURCE_DIR}/src/version.h
          "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
-    message(STATUS "${PROJECT_NAME} build version is  : ${GIT_VERSION}\n")
+    message(STATUS "${PROJECT_NAME} build version is: ${GIT_VERSION}")
     add_definitions(-DGIT_VERSION)
 
     # get_git_head_revision() does not work with worktrees in Windows
@@ -105,7 +81,8 @@ if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
 build type: ${BUILD_PRESET_NAME}\n\
 build number: ${_timestamp}\n\
 commit sha: ${_sha1}\n\
-commit url: https://github.com/cataclysmbnteam/Cataclysm-BN/commit/${_sha1}")
+commit url: https://github.com/cataclysmbnteam/Cataclysm-BN/commit/${_sha1}"
+    )
 endif ()
 
 #OS Check Placeholders. Will be used for BINDIST
@@ -140,16 +117,16 @@ if (NOT DYNAMIC_LINKING)
         set(CMAKE_FIND_LIBRARY_SUFFIXES ".a;.dll.a")
     endif()
     set(BUILD_SHARED_LIBRARIES OFF)
-    check_cxx_compiler_flag(-static HAVE_STATIC_FLAG)
+    check_cxx_compiler_flag (-static HAVE_STATIC_FLAG)
     if (HAVE_STATIC_FLAG)
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
     endif ()
     # Workaround for cmake link library guesser
-    set(CMAKE_EXE_LINK_DYNAMIC_C_FLAGS) # remove -Wl,-Bdynamic
+    set(CMAKE_EXE_LINK_DYNAMIC_C_FLAGS)       # remove -Wl,-Bdynamic
     set(CMAKE_EXE_LINK_DYNAMIC_CXX_FLAGS)
-    set(CMAKE_SHARED_LIBRARY_C_FLAGS) # remove -fPIC
+    set(CMAKE_SHARED_LIBRARY_C_FLAGS)         # remove -fPIC
     set(CMAKE_SHARED_LIBRARY_CXX_FLAGS)
-    set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS) # remove -rdynamic
+    set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS)    # remove -rdynamic
     set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS)
 else ()
     if (MINGW AND NOT "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
@@ -170,8 +147,9 @@ if (GIT_BINARY)
 else ()
     find_package(Git)
     if (NOT GIT_FOUND)
-        message(WARNING "Git binary not found. Build version will be set to NULL. \
-                Install Git package or use -DGIT_BINARY to set path to git binary.")
+        message(WARNING
+            "Git binary not found. Build version will be set to NULL. \
+            Install Git package or use -DGIT_BINARY to set path to git binary.")
     endif ()
 endif ()
 
@@ -227,24 +205,21 @@ endif ()
 
 message(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
 message(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
-
 message(STATUS "TILES                         : ${TILES}")
 message(STATUS "CURSES                        : ${CURSES}")
 message(STATUS "SOUND                         : ${SOUND}")
 message(STATUS "LUA                           : ${LUA}")
 message(STATUS "BACKTRACE                     : ${BACKTRACE}")
 message(STATUS "LIBBACKTRACE                  : ${LIBBACKTRACE}")
-message(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}\n")
 message(STATUS "USE_XDG_DIR                   : ${USE_XDG_DIR}")
-
+message(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}")
 message(STATUS "UNITY_BUILD                   : ${USE_UNITY_BUILD}")
-message(STATUS "LANGUAGES                     : ${LANGUAGES}\n")
-
+message(STATUS "LANGUAGES                     : ${LANGUAGES}")
 if (LINKER)
-    message(STATUS "LINKER                        : ${LINKER}\n")
+    message(STATUS "LINKER                        : ${LINKER}")
 endif ()
 
-message(STATUS "See CMake compiling guide for details and more info --\n")
+message(STATUS "See CMake compiling guide for details and more info --")
 
 if (NOT MSVC)
     set(CATA_WARNINGS
@@ -282,15 +257,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Force out-of-source build
 if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
-    message(
-        FATAL_ERROR
+    message(FATAL_ERROR
             "This project requires an out of source build. \
-            Remove the file 'CMakeCache.txt' found in this directory before continuing, \
+            Remove the file 'CMakeCache.txt' found in this directory before continuing; \
             create a separate build directory and run 'cmake [options] <srcs>' from there. \
             See CMake compiling guide for details and more info.")
 endif ()
 
-#SET(THREADS_USE_PTHREADS_WIN32 True)
+#set(THREADS_USE_PTHREADS_WIN32 True)
 set(CMAKE_THREAD_PREFER_PTHREAD True)
 find_package(Threads REQUIRED)
 
@@ -320,11 +294,10 @@ if (TILES)
     message(STATUS "Searching for SDL2_TTF library --")
     find_package(SDL2_ttf)
     if (NOT (SDL2_TTF_FOUND OR TARGET SDL2::SDL2_ttf OR TARGET SDL2_ttf::SDL2_ttf-static))
-        message(
-            FATAL_ERROR
-                "This project requires SDL2_ttf to be installed to be compiled in graphical mode. \
-                Please install the SDL2_ttf development libraries, or try compiling \
-                without the -DTILES=1 for a text only compilation. \
+        message(FATAL_ERROR
+                "This project requires SDL2_ttf to be installed to compile in graphical mode. \
+                Please install the SDL2_ttf development libraries, \
+                or try compiling without -DTILES=1 for a text-only compilation. \
                 See CMake compiling guide for details and more info.")
     endif ()
 
@@ -342,16 +315,15 @@ endif ()
 
 if (CURSES)
     # Find the ncurses library for a text based compile
-    message(STATUS "Searching for Curses library --\n")
+    message(STATUS "Searching for Curses library --")
     set(CURSES_NEED_NCURSES TRUE)
     set(CURSES_NEED_WIDE TRUE)
     find_package(Curses)
     if (NOT CURSES_FOUND)
-        message(
-            FATAL_ERROR
-                "This project requires ncurses to be installed to be compiled in text only mode. \
-                Please install the ncurses development libraries, or try compiling \
-                with the -DTILES=1 for a graphical compilation. \
+        message(FATAL_ERROR
+                "This project requires ncurses to be installed to be compiled in text-only mode. \
+                Please install the ncurses development libraries, \
+                or try compiling with -DTILES=1 for a graphical compilation. \
                 See CMake compiling guide for details and more info.")
     endif ()
     if (NOT DYNAMIC_LINKING)
@@ -362,9 +334,9 @@ endif ()
 if (SOUND)
     # You need TILES to be able to use SOUND
     if (NOT TILES)
-        message(
-            FATAL_ERROR
-                "You must enable graphical support with -DTILES=1 to be able to enable sound support. \
+        message(FATAL_ERROR
+                "You must enable graphical support with -DTILES=1 \
+                to be able to enable sound support. \
                 See CMake compiling guide for details and more info.")
     endif ()
 
@@ -399,6 +371,8 @@ if (NOT GETTEXT_MSGFMT_EXECUTABLE )
 endif()
 
 # Ok. Now create build and install recipes
+add_subdirectory(lang)
+
 if (USE_HOME_DIR)
     add_definitions(-DUSE_HOME_DIR)
 endif ()
@@ -417,17 +391,17 @@ endif ()
 
 add_subdirectory(src)
 add_subdirectory(data)
-add_subdirectory(lang)
 
 if(TESTS)
     add_subdirectory(tests)
 endif()
+
 if (JSON_FORMAT)
     add_subdirectory(tools/format)
-endif ()
+endif()
 if (CATA_CLANG_TIDY_PLUGIN)
     add_subdirectory(tools/clang-tidy-plugin)
-endif ()
+endif()
 
 install(DIRECTORY doc TYPE DOC)
 
@@ -446,16 +420,17 @@ if (RELEASE)
             install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx
                 DESTINATION .)
         endif()
-    endif ()
-endif ()
+    endif()
+endif()
 
 configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
         "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
         IMMEDIATE @ONLY)
 
-add_custom_target(uninstall "${CMAKE_COMMAND}" -P
-                            "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+add_custom_target(uninstall
+        "${CMAKE_COMMAND}"
+        -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
 if (USE_UNITY_BUILD)
     set_property(GLOBAL PROPERTY UNITY_BUILD ON)
