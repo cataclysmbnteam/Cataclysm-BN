@@ -13,7 +13,7 @@
         },
         "sdl2-ttf"
     ],
-    "builtin-baseline": "5b1214315250939257ef5d62ecdcbca18cf4fb1c",
+    "builtin-baseline": "c9aba300923c8ec0ab190e2bff23085209925c97",
     "vcpkg-configuration": {
         "overlay-ports": [
             "../.github/vcpkg_ports"
