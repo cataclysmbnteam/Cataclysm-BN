@@ -1,5 +1,6 @@
 if (BUILD_TESTING)
-    file(GLOB CATACLYSM_BN_TEST_SOURCES ${CMAKE_SOURCE_DIR}/tests/*.cpp)
+    file(GLOB CATACLYSM_BN_TEST_SOURCES
+            ${CMAKE_SOURCE_DIR}/tests/*.cpp)
 
     # Enabling benchmarks
     add_definitions(-DCATCH_CONFIG_ENABLE_BENCHMARKING)
@@ -24,5 +25,3 @@ if (BUILD_TESTING)
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     endif ()
 endif ()
-
-# vim:noet
