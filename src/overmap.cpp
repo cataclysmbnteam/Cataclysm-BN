@@ -72,6 +72,8 @@ static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
+static const overmap_special_id lab_basement( "lab_basement" );
+
 class map_extra;
 
 #define dbg(x) DebugLogFL((x),DC::MapGen)
@@ -3118,22 +3120,10 @@ bool overmap::generate_sub( const int z )
     std::vector<city> goo_points;
     std::vector<city> mine_points;
 
-    // Connect subways of cities
-    const overmap_connection_id subway_tunnel( "subway_tunnel" );
-    for( const auto &elem : cities ) {
-        if( subway_tunnel->has( ter( tripoint_om_omt( elem.pos, z ) ) ) ) {
-            subway_points.emplace_back( elem.pos );
-        }
-    }
-    // Connect outer subways
-    for( const auto &p : connections_out[subway_tunnel] ) {
-        if( p.z() == z ) {
-            subway_points.emplace_back( p.xy() );
-        }
-    }
+    std::vector<tripoint_om_omt> lab_points;
 
     // These are so common that it's worth checking first as int.
-    const oter_id skip_above[5] = {
+    const std::unordered_set<oter_id> skip_above = {
         oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
         oter_id( "forest_thick" ), oter_id( "forest_water" )
     };
@@ -3144,25 +3134,15 @@ bool overmap::generate_sub( const int z )
             const oter_id oter_above = ter( p + tripoint_above );
             const oter_id oter_ground = ter( tripoint_om_omt( p.xy(), 0 ) );
 
-            if( is_ot_match( "microlab_sub_connector", ter( p ), ot_match_type::type ) ) {
-                om_direction::type rotation = ter( p )->get_dir();
-                ter_set( p, oter_id( "subway_end_north" )->get_rotated( rotation ) );
-                subway_points.emplace_back( p.xy() );
-            }
-
             // implicitly skip skip_above oter_ids
-            bool skipme = false;
-            for( auto &elem : skip_above ) {
-                if( oter_above == elem ) {
-                    skipme = true;
-                    break;
-                }
-            }
-            if( skipme ) {
+            if( skip_above.count( oter_above ) > 0 ) {
                 continue;
             }
 
-            if( oter_above == "road_nesw_manhole" ) {
+            if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains) ||
+                ( z == -1 && oter_above == "lab_stairs") ) {
+                lab_points.push_back( p );
+            } else if( oter_above == "road_nesw_manhole" ) {
                 ter_set( p, oter_id( "sewer_isolated" ) );
                 sewer_points.emplace_back( i, j );
             } else if( oter_above == "sewage_treatment" ) {
@@ -3189,10 +3169,31 @@ bool overmap::generate_sub( const int z )
     for( auto &i : goo_points ) {
         requires_sub |= build_slimepit( tripoint_om_omt( i.pos, z ), i.size );
     }
+
+    for( auto &p : lab_points ) {
+        if( can_place_special( *lab_basement, p, om_direction::type::none, false ) ) {
+            place_special( *lab_basement, p, om_direction::type::none, get_nearest_city( p ), false, false );
+            break;
+        }
+    }
+
+    // Connect subways of cities
+    const overmap_connection_id subway_tunnel( "subway_tunnel" );
+    for( const auto &elem : cities ) {
+        if( subway_tunnel->has( ter( tripoint_om_omt( elem.pos, z ) ) ) ) {
+            subway_points.emplace_back( elem.pos );
+        }
+    }
+    // Connect outer subways
+    for( const auto &p : connections_out[subway_tunnel] ) {
+        if( p.z() == z ) {
+            subway_points.emplace_back( p.xy() );
+        }
+    }
+    connect_closest_points( subway_points, z, *subway_tunnel );
+
     const overmap_connection_id sewer_tunnel( "sewer_tunnel" );
     connect_closest_points( sewer_points, z, *sewer_tunnel );
-
-    connect_closest_points( subway_points, z, *subway_tunnel );
 
     for( auto &i : cities ) {
         tripoint_om_omt omt_pos( i.pos, z );
