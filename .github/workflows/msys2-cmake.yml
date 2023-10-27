@@ -90,6 +90,10 @@ jobs:
       run: |
         cmake.exe --build build -j$((`nproc`+0))
 
+    - name: Compile translations
+      run: |
+        cmake.exe --build build --target translations_compile
+
     - name: Run tests
       run: |
           ./build/tests/cata_test-tiles.exe --rng-seed time

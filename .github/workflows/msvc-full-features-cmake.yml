@@ -104,7 +104,7 @@ jobs:
 
     - name: Compile .mo files for localization
       run: |
-          & "C:\msys64\mingw64\bin\mingw32-make" localization
+          cmake --build out/build/$env:CMAKE_PRESET --target translations_compile
 
     - name: Run tests
       run: |
