@@ -1226,12 +1226,13 @@ struct z_constraints {
         any,
         range,
         top,
-        bottom
+        bottom,
+        offset
     };
 
     constraint_type type = constraint_type::any;
-    int min;
-    int max;
+    int min = INT_MIN;
+    int max = INT_MAX;
 
     bool check( const tripoint_om_omt &pos, const int z_min, const int z_max ) const {
         switch( type ) {
@@ -1243,6 +1244,8 @@ struct z_constraints {
                 return pos.z() >= z_max;
             case constraint_type::bottom:
                 return pos.z() <= z_min;
+            case constraint_type::offset:
+                return pos.z() == max + z_max || pos.z() == min + z_min;
         }
         return false;
     }
@@ -1256,7 +1259,7 @@ struct z_constraints {
         } else if( jsin.test_array() ) {
             JsonArray ja = jsin.get_array();
             if( ja.size() != 2 ) {
-                ja.throw_error( "Range should be in format [min, max]" );
+                ja.throw_error( "Array should be in format [min, max]" );
             }
             min = ja.get_int( 0 );
             max = ja.get_int( 1 );
@@ -1270,8 +1273,16 @@ struct z_constraints {
             } else {
                 jsin.error( "String should be 'top' or 'bottom'" );
             }
+        } else if( jsin.test_object() ) {
+            JsonObject jo = jsin.get_object();
+            jo.read( "top", max, true );
+            jo.read( "bottom", min, true );
+            type = constraint_type::offset;
+            if( max == INT_MAX && min == INT_MIN ) {
+                jo.throw_error( "Object should have at least one of 'top' and 'bottom' properties." );
+            }
         } else {
-            jsin.error( "Expected number, array, or string" );
+            jsin.error( "Unrecognized z-constraints" );
         }
     }
 };
@@ -1350,7 +1361,8 @@ struct mutable_overmap_placement_rule {
     std::string required_join;
     std::string scale;
     z_constraints z;
-    bool rotate_allowed = true;
+    std::optional<bool> rotate;
+    std::optional<point_abs_om> om_pos;
     std::vector<mutable_overmap_placement_rule_piece> pieces;
     std::vector<overmap_special_connection> connections;
     // NOLINTNEXTLINE(cata-serialize)
@@ -1400,6 +1412,9 @@ struct mutable_overmap_placement_rule {
                 auto opposite_piece = pieces_by_pos.find( other_side.p );
                 if( opposite_piece == pieces_by_pos.end() ) {
                     outward_joins.emplace_back( this_side, &ter_join );
+                } else if ( ter_join.type != join_type::mandatory ) {
+                    // TODO: Validate rejects in chunks
+                    continue;
                 } else {
                     const std::string &opposite_join = ter_join.join->opposite_id;
                     const mutable_overmap_placement_rule_piece &other_piece =
@@ -1433,7 +1448,8 @@ struct mutable_overmap_placement_rule {
         }
     }
     void check( const std::string &context,
-                const std::unordered_map<std::string, mutable_overmap_join *> &joins ) const {
+                const std::unordered_map<std::string, mutable_overmap_join *> &joins,
+                const std::unordered_map<std::string, int_distribution> &shared ) const {
         if( pieces.empty() ) {
             debugmsg( "phase of %s has chunk with zero pieces" );
             abort();
@@ -1447,6 +1463,12 @@ struct mutable_overmap_placement_rule {
             auto join = joins.find( required_join );
             if( join == joins.end() ) {
                 debugmsg( "invalid join id %s in phase of %s", required_join, context );
+            }
+        }
+        if( !scale.empty() ) {
+            auto dist = shared.find( scale );
+            if( dist == shared.end() ) {
+                debugmsg( "invalid shared multiplier %s in phase of %s", scale, context );
             }
         }
     }
@@ -1467,12 +1489,10 @@ struct mutable_overmap_placement_rule {
         jo.read( "join", required_join );
         jo.read( "scale", scale );
         jo.read( "z", z );
-        jo.read( "rotate", rotate_allowed );
+        jo.read( "rotate", rotate );
+        jo.read( "om_pos", om_pos );
         jo.read( "max", max );
         jo.read( "weight", weight );
-        if( !jo.has_member( "max" ) && weight == INT_MAX ) {
-            jo.throw_error( R"(placement rule must specify at least one of "max" or "weight")" );
-        }
     }
 };
 
@@ -1978,7 +1998,7 @@ struct mutable_overmap_phase_remainder {
     }
 
     satisfy_result satisfy( const overmap &om, const tripoint_om_omt &pos,
-                            const joins_tracker &unresolved,
+                            const joins_tracker &unresolved, const bool rotatable,
                             const int z_min, const int z_max ) {
         weighted_int_list<satisfy_result> options;
 
@@ -1987,6 +2007,9 @@ struct mutable_overmap_phase_remainder {
             can_place_result best_result{ 0, 0, {} };
 
             if ( !rule.parent->z.check( pos, z_min, z_max ) ) {
+                continue;
+            }
+            if ( rule.parent->om_pos && *rule.parent->om_pos != om.pos() ) {
                 continue;
             }
 
@@ -2008,7 +2031,7 @@ struct mutable_overmap_phase_remainder {
                     }
                 }
 
-                if ( !rule.parent->rotate_allowed ) {
+                if ( rule.parent->rotate ? !(*rule.parent->rotate) : !rotatable ) {
                     break;
                 }
             }
@@ -2211,7 +2234,7 @@ struct mutable_overmap_special_data {
         }
         for( const mutable_overmap_phase &phase : phases ) {
             for( const mutable_overmap_placement_rule &rule : phase.rules ) {
-                rule.check( context, joins );
+                rule.check( context, joins, shared_dist );
             }
         }
     }
@@ -2227,7 +2250,7 @@ struct mutable_overmap_special_data {
     }
 
     // Returns a list of the points placed and a list of the joins used
-    auto place( overmap &om, const tripoint_om_omt &origin ) const ->
+    auto place( overmap &om, const tripoint_om_omt &origin, const bool rotatable ) const ->
     std::tuple<std::vector<tripoint_om_omt>, std::vector<connection_node>, std::vector<std::pair<om_pos_dir, std::string>>> {
         std::vector<tripoint_om_omt> result;
         std::vector<connection_node> connections;
@@ -2262,7 +2285,7 @@ struct mutable_overmap_special_data {
         while( unresolved.any_unresolved() ) {
             tripoint_om_omt next_pos = unresolved.pick_top_priority();
             mutable_overmap_phase_remainder::satisfy_result satisfy_result =
-                phase_remaining.satisfy( om, next_pos, unresolved, z_min, z_max );
+                phase_remaining.satisfy( om, next_pos, unresolved, rotatable, z_min, z_max );
             descriptions.push_back( std::move( satisfy_result.description ) );
             const mutable_overmap_placement_rule_remainder *rule = satisfy_result.rule;
             if( rule ) {
@@ -5746,7 +5769,7 @@ std::vector<tripoint_om_omt> overmap::place_special(
         }
         case overmap_special_subtype::mutable_: {
             std::vector<std::pair<om_pos_dir, std::string>> joins;
-            auto placement = special.get_mutable_data().place( *this, p );
+            auto placement = special.get_mutable_data().place( *this, p, special.is_rotatable() );
             result = std::get<0>(placement);
             connections = std::get<1>(placement);
             joins = std::get<2>(placement);

@@ -23,7 +23,7 @@
     "id": "subway_tunnel",
     "default_terrain": "subway",
     "subtypes": [
-      { "terrain": "underground_sub_station", "locations": [ "underground_sub_station" ], "flags": [ "ORTHOGONAL" ] },
+      { "terrain": "underground_sub_station", "locations": [  ], "flags": [ "ORTHOGONAL" ] },
       { "terrain": "subway", "locations": [ "subterranean_subway" ], "flags": [ "ORTHOGONAL" ] }
     ]
   },

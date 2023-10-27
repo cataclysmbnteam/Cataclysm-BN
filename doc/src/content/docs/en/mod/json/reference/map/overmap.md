@@ -765,12 +765,15 @@ join id.  Alternatively it can be a JSON object with the following keys:
 | `connections`   | List of overmap connections and their relative `[ x, y, z ]` location to overmap or chunk. |
 | `join` | Id of `join` which must be resolved during current phase. |
 | `z` | Z level restrictions for this phase. |
-| `rotate` | False, if this overmap or chunk shouldn't not be rotated. |
+| `om_pos` | This phase only allowd on specified point_om_abs |
+| `rotate` | True or false, whether current piece can be rotated or not. Takes a priority over special's rotatable property. |
 | `scale` | Id of shared multiplier of max. |
 | `max`       | Maximum number of times this rule should be used. |
 | `weight`    | Weight with which to select this rule. |
 
-Z level restrictions supports number, range, and either "top" or "bottom" relative to other special tiles placed so far.
+Z level restrictions supports numbers, `["min", "mix"]` ranges with absolute coordinate
+restrictions, "top"\"bottom" strings refering to boundaries of other tiles of special placed
+so far, and objects with "top"\"bottom" properties and offsets from above boundaries.
 
 One of `max` and `weight` must be specified.  `max` will be used as the weight
 when `weight` is not specified.
