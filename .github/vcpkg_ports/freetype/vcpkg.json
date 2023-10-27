@@ -16,7 +16,6 @@
     }
   ],
   "default-features": [
-    "brotli",
     "bzip2",
     "png",
     "zlib"
