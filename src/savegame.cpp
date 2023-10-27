@@ -508,26 +508,6 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                 }
                 cities.push_back( new_city );
             }
-        } else if( name == "labs" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                jsin.start_object();
-                lab new_lab;
-                while( !jsin.end_object() ) {
-                    std::string lab_member_name = jsin.get_member_name();
-                    if( lab_member_name == "type" ) {
-                        std::string string_type;
-                        jsin.read( string_type );
-                        new_lab.type = io::string_to_enum<lab_type>( string_type );
-                    } else if( lab_member_name == "tiles" ) {
-                        jsin.read( new_lab.tiles );
-                    } else if( lab_member_name == "finales" ) {
-                        jsin.read( new_lab.finales );
-                    }
-                }
-
-                labs.push_back( new_lab );
-            }
         } else if( name == "connections_out" ) {
             jsin.read( connections_out );
         } else if( name == "electric_grid_connections" ) {
@@ -684,6 +664,8 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
             for( const std::pair<om_pos_dir, std::string> &p : flat_index ) {
                 joins_used.insert( p );
             }
+        } else {
+            jsin.skip_value();
         }
     }
 }
@@ -978,18 +960,6 @@ void overmap::serialize( std::ostream &fout ) const
         json.member( "x", i.pos.x() );
         json.member( "y", i.pos.y() );
         json.member( "size", i.size );
-        json.end_object();
-    }
-    json.end_array();
-    fout << std::endl;
-
-    json.member( "labs" );
-    json.start_array();
-    for( auto &l : labs ) {
-        json.start_object();
-        json.member_as_string( "type", l.type );
-        json.member( "tiles", l.tiles );
-        json.member( "finales", l.finales );
         json.end_object();
     }
     json.end_array();

@@ -66,32 +66,6 @@ struct city {
     int get_distance_from( const tripoint_om_omt &p ) const;
 };
 
-enum class lab_type : int {
-    standard = 0,
-    ice,
-    central,
-    invalid
-};
-
-namespace io
-{
-
-template<>
-std::string enum_to_string<lab_type>( lab_type data );
-
-} // namespace io
-
-template<>
-struct enum_traits<lab_type> {
-    static constexpr auto last = lab_type::invalid;
-};
-
-struct lab {
-    lab_type type;
-    std::set<tripoint_om_omt> tiles;
-    std::set<tripoint_om_omt> finales;
-};
-
 struct om_note {
     std::string text;
     point_om_omt p;
@@ -324,7 +298,6 @@ class overmap
         void clear_mon_groups();
         void clear_overmap_special_placements();
         void clear_cities();
-        void clear_labs();
         void clear_connections_out();
         void place_special_forced( const overmap_special_id &special_id, const tripoint_om_omt &p,
                                    om_direction::type dir );
@@ -348,7 +321,6 @@ class overmap
         std::map<int, om_vehicle> vehicles;
         std::vector<basecamp> camps;
         std::vector<city> cities;
-        std::vector<lab> labs;
         std::map<overmap_connection_id, std::vector<tripoint_om_omt>> connections_out;
         std::optional<basecamp *> find_camp( const point_abs_omt &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
@@ -455,9 +427,6 @@ class overmap
 
         void build_city_street( const overmap_connection &connection, const point_om_omt &p, int cs,
                                 om_direction::type dir, const city &town, int block_width = 2 );
-        bool build_lab( const tripoint_om_omt &p, lab &l, int size,
-                        std::vector<point_om_omt> &lab_train_points,
-                        const std::string &prefix, int train_odds );
         bool build_slimepit( const tripoint_om_omt &origin, int s );
         void build_mine( const tripoint_om_omt &origin, int s );
 
