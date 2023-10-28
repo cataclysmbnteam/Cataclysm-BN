@@ -2988,6 +2988,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_extract_bog_iron",
+    "group": "extract_bog_iron",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 0 ], [ "survival", 2 ] ],
+    "time": "45 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "iron_ore", "count": [ 1, 4 ] } ],
+    "pre_terrain": "t_bog_iron",
+    "post_special": "done_extract_maybe_revert_to_dirt"
+  },
+  {
+    "type": "construction",
     "id": "constr_remove_gravel",
     "group": "remove_gravel_and_replace_with_dirt",
     "category": "OTHER",
