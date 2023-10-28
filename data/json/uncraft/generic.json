@@ -3510,14 +3510,6 @@
     "components": [ [ [ "voltmeter", 1 ] ], [ [ "glass_tube_small", 2 ] ] ]
   },
   {
-    "result": "voltmeter",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "time": "1 h",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 2 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 6 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "e_scrap", 3 ] ] ]
-  },
-  {
     "result": "microscope",
     "type": "uncraft",
     "skill_used": "fabrication",
