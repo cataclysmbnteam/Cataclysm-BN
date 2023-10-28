@@ -501,7 +501,8 @@ void overmap_special_connection::deserialize( const JsonObject &jo )
     optional( jo, false, "from", from );
 }
 
-void overmap_special_connection::finalize() {
+void overmap_special_connection::finalize()
+{
     // If the connection has a "from" hint specified, then figure out what the
     // resulting direction from the hinted location to the connection point is,
     // and use that as the intial direction to be passed off to the connection
@@ -1061,7 +1062,8 @@ cube_direction operator+( const cube_direction d, int i )
         case cube_direction::last:
             break;
     }
-    constexpr_fatal( cube_direction::last, "Invalid cube_direction" );
+    debugmsg( "Invalid cube_direction" );
+    abort();
 }
 
 cube_direction operator-( const cube_direction l, const om_direction::type r )
@@ -1083,7 +1085,8 @@ cube_direction operator-( const cube_direction d, int i )
         case cube_direction::last:
             break;
     }
-    constexpr_fatal( cube_direction::last, "Invalid cube_direction" );
+    debugmsg( "Invalid cube_direction" );
+    abort();
 }
 
 static tripoint displace( cube_direction d )
@@ -1156,7 +1159,8 @@ std::string enum_to_string<join_type>( join_type data )
         case join_type::last:
             break;
     }
-    constexpr_fatal( join_type::last, "Invalid join_type" );
+    debugmsg( "Invalid join_type" );
+    abort();
 }
 
 } // namespace io
@@ -1393,7 +1397,7 @@ struct mutable_overmap_placement_rule {
                 auto opposite_piece = pieces_by_pos.find( other_side.p );
                 if( opposite_piece == pieces_by_pos.end() ) {
                     outward_joins.emplace_back( this_side, &ter_join );
-                } else if ( ter_join.type != join_type::mandatory ) {
+                } else if( ter_join.type != join_type::mandatory ) {
                     // TODO: Validate rejects in chunks
                     continue;
                 } else {
@@ -1553,7 +1557,7 @@ class joins_tracker
         int mandatory_amount_at( const tripoint_om_omt &pos ) const {
             int ret = 0;
             for( iterator it : unresolved.all_at( pos ) ) {
-                if ( it->type == join_type::mandatory ) {
+                if( it->type == join_type::mandatory ) {
                     ret++;
                 }
             }
@@ -1569,8 +1573,8 @@ class joins_tracker
         }
 
         bool is_finished() const {
-            for ( const auto &join : postponed ) {
-                if ( join.type == join_type::mandatory ) {
+            for( const auto &join : postponed ) {
+                if( join.type == join_type::mandatory ) {
                     return false;
                 }
             }
@@ -1590,13 +1594,14 @@ class joins_tracker
                 if( unresolved.any_at( j_pos ) ) {
                     std::vector<iterator> unr = unresolved.all_at( j_pos );
                     if( unr.empty() ) {
-                        constexpr_fatal( "inconcistency between all_at and any_at" );
+                        debugmsg( "inconcistency between all_at and any_at" );
                     } else {
                         const join &unr_j = *unr.front();
-                        constexpr_fatal( "postponed and unresolved should be disjoint but are not at "
-                                         "%s where unresolved has %s: %s",
-                                         j_pos.to_string(), unr_j.where.p.to_string(), unr_j.join_id );
+                        debugmsg( "postponed and unresolved should be disjoint but are not at "
+                                  "%s where unresolved has %s: %s",
+                                  j_pos.to_string(), unr_j.where.p.to_string(), unr_j.join_id );
                     }
+                    abort();
                 }
             }
 #endif
@@ -1712,7 +1717,7 @@ class joins_tracker
             consistency_check();
             for( iterator it : unresolved.all_at( pos ) ) {
                 postponed.add( *it );
-                bool erased = erase_unresolved( it->where );
+                [[maybe_unused]] const bool erased = erase_unresolved( it->where );
                 assert( erased );
             }
             consistency_check();
@@ -1800,13 +1805,13 @@ class joins_tracker
             iterator add( const join &j ) {
                 joins.push_front( j );
                 auto it = joins.begin();
-                auto insert_result = position_index.emplace( j.where, it );
-                assert( insert_result.second );
+                [[maybe_unused]] const bool inserted = position_index.emplace( j.where, it ).second;
+                assert( inserted );
                 return it;
             }
 
             void erase( const iterator it ) {
-                size_t erased = position_index.erase( it->where );
+                [[maybe_unused]] const size_t erased = position_index.erase( it->where );
                 assert( erased );
                 joins.erase( it );
             }
@@ -1823,8 +1828,8 @@ class joins_tracker
             if( unresolved_priority_index.size() <= priority ) {
                 unresolved_priority_index.resize( priority + 1 );
             }
-            auto insert_result_2 = unresolved_priority_index[priority].insert( it );
-            assert( insert_result_2.second );
+            [[maybe_unused]] const bool inserted = unresolved_priority_index[priority].insert( it ).second;
+            assert( inserted );
         }
 
         bool erase_unresolved( const om_pos_dir &p ) {
@@ -1835,7 +1840,7 @@ class joins_tracker
             iterator it = pos_it->second;
             unsigned priority = it->join->priority;
             assert( priority < unresolved_priority_index.size() );
-            size_t erased = unresolved_priority_index[priority].erase( it );
+            [[maybe_unused]] const size_t erased = unresolved_priority_index[priority].erase( it );
             assert( erased );
             unresolved.erase( it );
             return true;
@@ -1915,9 +1920,9 @@ struct mutable_overmap_phase_remainder {
             if( unresolved.any_postponed_at( piece.pos ) ) {
                 return std::nullopt;
             }
-            if ( !have_required_join ) {
-                for ( const auto &join : piece.overmap->joins ) {
-                    if ( join.second.join_id == rule.parent->required_join ) {
+            if( !have_required_join ) {
+                for( const auto &join : piece.overmap->joins ) {
+                    if( join.second.join_id == rule.parent->required_join ) {
                         have_required_join = true;
                         break;
                     }
@@ -1955,7 +1960,7 @@ struct mutable_overmap_phase_remainder {
                     suppressed_joins.push_back( pos_d );
                 // fallthrough
                 case joins_tracker::join_status::free:
-                    if ( join.id == rule.parent->required_join ) {
+                    if( join.id == rule.parent->required_join ) {
                         return std::nullopt;
                     }
                     break;
@@ -1987,10 +1992,10 @@ struct mutable_overmap_phase_remainder {
             std::vector<satisfy_result> pos_dir_options;
             can_place_result best_result{ 0, 0, {} };
 
-            if ( !rule.parent->z.check( pos, z_min, z_max ) ) {
+            if( !rule.parent->z.check( pos, z_min, z_max ) ) {
                 continue;
             }
-            if ( rule.parent->om_pos && *rule.parent->om_pos != om.pos() ) {
+            if( rule.parent->om_pos && *rule.parent->om_pos != om.pos() ) {
                 continue;
             }
 
@@ -2012,7 +2017,7 @@ struct mutable_overmap_phase_remainder {
                     }
                 }
 
-                if ( rule.parent->rotate ? !(*rule.parent->rotate) : !rotatable ) {
+                if( rule.parent->rotate ? !( *rule.parent->rotate ) : !rotatable ) {
                     break;
                 }
             }
@@ -2283,7 +2288,7 @@ struct mutable_overmap_special_data {
                     z_max = std::max( z_max, piece.pos.z() );
                     result.push_back( piece.pos );
                 }
-                for ( const overmap_special_connection &con : rule->parent->connections ) {
+                for( const overmap_special_connection &con : rule->parent->connections ) {
                     connections.push_back( { origin, rot, &con } );
                 }
             } else {
@@ -2474,7 +2479,7 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
             break;
         case overmap_special_subtype::mutable_: {
             shared_ptr_fast<mutable_overmap_special_data> mutable_data;
-            if ( was_loaded ) {
+            if( was_loaded ) {
                 mutable_data = make_shared_fast<mutable_overmap_special_data>( *mutable_data_ );
             } else {
                 mutable_data = make_shared_fast<mutable_overmap_special_data>( id );
@@ -3161,8 +3166,8 @@ bool overmap::generate_sub( const int z )
                 continue;
             }
 
-            if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains) ||
-                ( z == -1 && oter_above == "lab_stairs") ) {
+            if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ||
+                ( z == -1 && oter_above == "lab_stairs" ) ) {
                 lab_points.push_back( p );
             } else if( oter_above == "road_nesw_manhole" ) {
                 ter_set( p, oter_id( "sewer_isolated" ) );
@@ -5353,9 +5358,9 @@ std::vector<tripoint_om_omt> overmap::place_special(
         case overmap_special_subtype::mutable_: {
             std::vector<std::pair<om_pos_dir, std::string>> joins;
             auto placement = special.get_mutable_data().place( *this, p, special.is_rotatable() );
-            result = std::get<0>(placement);
-            connections = std::get<1>(placement);
-            joins = std::get<2>(placement);
+            result = std::get<0>( placement );
+            connections = std::get<1>( placement );
+            joins = std::get<2>( placement );
             for( const std::pair<om_pos_dir, std::string> &join : joins ) {
                 joins_used[join.first] = join.second;
             }

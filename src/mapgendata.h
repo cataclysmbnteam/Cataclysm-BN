@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_MAPGENDATA_H
 #define CATA_SRC_MAPGENDATA_H
 
+#include <unordered_map>
+
 #include "calendar.h"
 #include "coordinates.h"
 #include "cube_direction.h"

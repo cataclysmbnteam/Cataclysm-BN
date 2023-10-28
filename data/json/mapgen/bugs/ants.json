@@ -4,14 +4,10 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "ant_tunnel_bounds_vn",
-    "object": {
-      "mapgensize": [ 2, 2 ],
-      "rows": [
+    "object": { "mapgensize": [ 2, 2 ], "rows": [
         ". ",
         ". "
-      ],
-      "terrain": { "#": "t_rock", ".": "t_dirt" }
-    }
+      ], "terrain": { "#": "t_rock", ".": "t_dirt" } }
   },
   {
     "//": "horizontal narrow passage",
@@ -28,14 +24,14 @@
       ],
       "terrain": { "#": "t_rock" },
       "place_nested": [
-        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 0, "y": [0, 1] },
-        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 0, "y": [1, 2] },
-        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 1, "y": [0, 1] },
-        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 1, "y": [1, 2] },
-        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 2, "y": [0, 1] },
-        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 2, "y": [1, 2] },
-        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 3, "y": [0, 1] },
-        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 3, "y": [1, 2] }
+        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 0, "y": [ 0, 1 ] },
+        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 0, "y": [ 1, 2 ] },
+        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 1, "y": [ 0, 1 ] },
+        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 1, "y": [ 1, 2 ] },
+        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 2, "y": [ 0, 1 ] },
+        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 2, "y": [ 1, 2 ] },
+        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 3, "y": [ 0, 1 ] },
+        { "chunks": [ "ant_tunnel_bounds_vn" ], "x": 3, "y": [ 1, 2 ] }
       ]
     }
   },
@@ -44,14 +40,10 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "ant_tunnel_bounds_hn",
-    "object": {
-      "mapgensize": [ 2, 2 ],
-      "rows": [
+    "object": { "mapgensize": [ 2, 2 ], "rows": [
         "..",
         "  "
-      ],
-      "terrain": { "#": "t_rock", ".": "t_dirt" }
-    }
+      ], "terrain": { "#": "t_rock", ".": "t_dirt" } }
   },
   {
     "//": "vertical narrow passage",
@@ -68,14 +60,14 @@
       ],
       "terrain": { "#": "t_rock" },
       "place_nested": [
-        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [0, 1], "y": 0 },
-        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [1, 2], "y": 0 },
-        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [0, 1], "y": 1 },
-        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [1, 2], "y": 1 },
-        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [0, 1], "y": 2 },
-        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [1, 2], "y": 2 },
-        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [0, 1], "y": 3 },
-        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [1, 2], "y": 3 }
+        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [ 0, 1 ], "y": 0 },
+        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [ 1, 2 ], "y": 0 },
+        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [ 0, 1 ], "y": 1 },
+        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [ 1, 2 ], "y": 1 },
+        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [ 0, 1 ], "y": 2 },
+        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [ 1, 2 ], "y": 2 },
+        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [ 0, 1 ], "y": 3 },
+        { "chunks": [ "ant_tunnel_bounds_hn" ], "x": [ 1, 2 ], "y": 3 }
       ]
     }
   },

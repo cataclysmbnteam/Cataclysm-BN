@@ -1,5 +1,7 @@
 #include "catch/catch.hpp"
 
+#include <sstream>
+
 #include "distribution.h"
 #include "json.h"
 

@@ -45,6 +45,12 @@ struct overmap_special_spawns : public overmap_spawns {
 // This is the information needed to know whether you can place a particular
 // piece of an overmap_special at a particular location
 struct overmap_special_locations {
+    overmap_special_locations() = default;
+    overmap_special_locations( const tripoint &p,
+                               const cata::flat_set<overmap_location_id> &l )
+        : p( p )
+        , locations( l )
+    {};
     tripoint p;
     cata::flat_set<overmap_location_id> locations;
 
@@ -59,9 +65,9 @@ struct overmap_special_locations {
 struct overmap_special_terrain : overmap_special_locations {
     overmap_special_terrain() = default;
     overmap_special_terrain( const tripoint &p, const oter_str_id &t,
-                             const cata::flat_set<overmap_location_id> &l )
-        : overmap_special_locations{ p, l }
-        , terrain( t ) {};
+                             const cata::flat_set<overmap_location_id> &l ): overmap_special_locations{ p, l }
+        , terrain( t )
+    {};
     oter_str_id terrain;
 
     void deserialize( JsonIn &jsin );

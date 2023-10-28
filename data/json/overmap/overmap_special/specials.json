@@ -4164,9 +4164,7 @@
       { "point": [ 3, 4, -2 ], "overmap": "microlab_rock_border" },
       { "point": [ 4, 4, -2 ], "overmap": "microlab_rock_border" }
     ],
-    "connections": [
-      { "point": [ 2, -2, -2 ], "connection": "subway_tunnel", "from": [ 2, -1, -2 ] }
-    ],
+    "connections": [ { "point": [ 2, -2, -2 ], "connection": "subway_tunnel", "from": [ 2, -1, -2 ] } ],
     "locations": [ "land" ],
     "occurrences": [ 0, 2 ],
     "flags": [ "LAB", "ELECTRIC_GRID" ]
@@ -4267,9 +4265,7 @@
       { "point": [ 3, 4, -4 ], "overmap": "microlab_rock_border" },
       { "point": [ 4, 4, -4 ], "overmap": "microlab_rock_border" }
     ],
-    "connections": [
-      { "point": [ 2, -2, -4 ], "connection": "subway_tunnel", "from": [ 2, -1, -4 ] }
-    ],
+    "connections": [ { "point": [ 2, -2, -4 ], "connection": "subway_tunnel", "from": [ 2, -1, -4 ] } ],
     "locations": [ "forest" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 30, 100 ],

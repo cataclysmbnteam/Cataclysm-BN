@@ -76,34 +76,42 @@
       }
     },
     "root": "lab_core_stub",
-    "shared": {
-        "size": [1, 7]
-    },
+    "shared": { "size": [ 1, 7 ] },
     "phases": [
-      [ { "overmap": "lab", "scale": "size", "max": { "poisson": 15 } },
+      [
+        { "overmap": "lab", "scale": "size", "max": { "poisson": 15 } },
         { "overmap": "lab_stairs", "scale": "size", "max": { "poisson": 3 } },
         { "overmap": "lab_core", "z": "bottom", "join": "stairs_to_stairs" }
       ],
       [ { "overmap": "lab_core", "join": "stairs_to_stairs" } ],
       [ { "overmap": "lab_stairs", "join": "stairs_to_stairs" } ],
       [ { "overmap": "two_way_stairs", "join": "stairs_to_stairs" } ],
-      [ {
+      [
+        {
           "//": "Should always pointing north, this mapgen doesn't rotate",
           "name": "lab_escape",
-          "chunk": [
-            { "overmap": "lab_escape_entrance", "pos": [ 0, 0, 0 ] },
-            { "overmap": "lab_escape_cells", "pos": [ 0, -1, 0 ] }
-          ],
-          "rotate": false, "z": [-10, -4], "scale": "size", "max": { "chance": 0.20 }
+          "chunk": [ { "overmap": "lab_escape_entrance", "pos": [ 0, 0, 0 ] }, { "overmap": "lab_escape_cells", "pos": [ 0, -1, 0 ] } ],
+          "rotate": false,
+          "z": [ -10, -4 ],
+          "scale": "size",
+          "max": { "chance": 0.2 }
         }
       ],
-      [ {
-          "overmap": "lab_train_depot", "z": -2, "scale": "size", "max": { "chance": 0.15 },
+      [
+        {
+          "overmap": "lab_train_depot",
+          "z": -2,
+          "scale": "size",
+          "max": { "chance": 0.15 },
           "connections": [ { "point": [ 0, -1, 0 ], "connection": "subway_tunnel", "from": [ 0, 0, 0 ] } ]
         }
       ],
-      [ {
-          "overmap": "lab_train_depot", "z": -4, "scale": "size", "max": { "chance": 0.05 },
+      [
+        {
+          "overmap": "lab_train_depot",
+          "z": -4,
+          "scale": "size",
+          "max": { "chance": 0.05 },
           "connections": [ { "point": [ 0, -1, 0 ], "connection": "subway_tunnel", "from": [ 0, 0, 0 ] } ]
         }
       ],
@@ -130,10 +138,7 @@
     ],
     "joins": [ "stairs_to_stairs", "lab_to_lab" ],
     "overmaps": {
-      "surface": {
-        "overmap": "ice_lab_stairs", "locations": [ "wilderness" ],
-        "below": "stairs_to_stairs"
-      },
+      "surface": { "overmap": "ice_lab_stairs", "locations": [ "wilderness" ], "below": "stairs_to_stairs" },
       "ice_lab_stairs": {
         "overmap": "ice_lab_stairs",
         "below": "stairs_to_stairs",
@@ -194,35 +199,43 @@
       }
     },
     "root": "surface",
-    "shared": {
-        "size": [1, 7]
-    },
+    "shared": { "size": [ 1, 7 ] },
     "phases": [
       [ { "overmap": "ice_lab_core", "max": 1 } ],
-      [ { "overmap": "ice_lab", "scale": "size", "max": { "poisson": 15 } },
+      [
+        { "overmap": "ice_lab", "scale": "size", "max": { "poisson": 15 } },
         { "overmap": "ice_lab_stairs", "scale": "size", "max": { "poisson": 3 } },
         { "overmap": "ice_lab_core", "z": "bottom", "join": "stairs_to_stairs" }
       ],
       [ { "overmap": "ice_lab_core", "join": "stairs_to_stairs" } ],
       [ { "overmap": "ice_lab_stairs", "join": "stairs_to_stairs" } ],
       [ { "overmap": "two_way_stairs", "join": "stairs_to_stairs" } ],
-      [ {
+      [
+        {
           "//": "Should always pointing north, this mapgen doesn't rotate",
           "name": "lab_escape",
-          "chunk": [
-            { "overmap": "lab_escape_entrance", "pos": [ 0, 0, 0 ] },
-            { "overmap": "lab_escape_cells", "pos": [ 0, -1, 0 ] }
-          ],
-          "rotate": false, "z": [-10, -4], "scale": "size", "max": { "chance": 0.20 }
+          "chunk": [ { "overmap": "lab_escape_entrance", "pos": [ 0, 0, 0 ] }, { "overmap": "lab_escape_cells", "pos": [ 0, -1, 0 ] } ],
+          "rotate": false,
+          "z": [ -10, -4 ],
+          "scale": "size",
+          "max": { "chance": 0.2 }
         }
       ],
-      [ {
-          "overmap": "lab_train_depot", "z": -2, "scale": "size", "max": { "chance": 0.15 },
+      [
+        {
+          "overmap": "lab_train_depot",
+          "z": -2,
+          "scale": "size",
+          "max": { "chance": 0.15 },
           "connections": [ { "point": [ 0, -1, 0 ], "connection": "subway_tunnel", "from": [ 0, 0, 0 ] } ]
         }
       ],
-      [ {
-          "overmap": "lab_train_depot", "z": -4, "scale": "size", "max": { "chance": 0.05 },
+      [
+        {
+          "overmap": "lab_train_depot",
+          "z": -4,
+          "scale": "size",
+          "max": { "chance": 0.05 },
           "connections": [ { "point": [ 0, -1, 0 ], "connection": "subway_tunnel", "from": [ 0, 0, 0 ] } ]
         }
       ],
@@ -287,13 +300,8 @@
     ],
     "joins": [ "stairs_to_stairs", "lab_to_lab", "entrance_to_shaft" ],
     "overmaps": {
-      "surface": {
-        "overmap": "central_lab_entrance", "locations": [ "wilderness" ],
-        "below": "entrance_to_shaft"
-      },
-      "central_lab_shaft": {
-        "overmap": "central_lab_shaft", "above": "entrance_to_shaft"
-      },
+      "surface": { "overmap": "central_lab_entrance", "locations": [ "wilderness" ], "below": "entrance_to_shaft" },
+      "central_lab_shaft": { "overmap": "central_lab_shaft", "above": "entrance_to_shaft" },
       "central_lab_hq_1": { "overmap": "central_lab_hq_1_north" },
       "central_lab_hq_2": { "overmap": "central_lab_hq_2_north" },
       "central_lab_hq_3": { "overmap": "central_lab_hq_3_north" },
@@ -360,7 +368,8 @@
     },
     "root": "surface",
     "phases": [
-      [ {
+      [
+        {
           "name": "main_lab",
           "chunk": [
             { "overmap": "central_lab_shaft", "pos": [ 0, 0, 0 ] },
@@ -409,22 +418,26 @@
           "max": 1
         }
       ],
-      [ { "overmap": "central_lab", "z": [-10, -3], "max": { "poisson": 120 } },
-        { "overmap": "central_lab_stairs", "z": [-10, -3], "max": { "poisson": 60 } },
+      [
+        { "overmap": "central_lab", "z": [ -10, -3 ], "max": { "poisson": 120 } },
+        { "overmap": "central_lab_stairs", "z": [ -10, -3 ], "max": { "poisson": 60 } },
         { "overmap": "central_lab_core", "z": "bottom", "join": "stairs_to_stairs" }
       ],
       [ { "overmap": "central_lab_core", "join": "stairs_to_stairs" } ],
       [ { "overmap": "central_lab_stairs", "join": "stairs_to_stairs" } ],
       [ { "overmap": "two_way_stairs", "join": "stairs_to_stairs" } ],
-      [ {
-          "overmap": "central_lab_train_depot", "z": -4, "max": { "poisson": 1.5 },
+      [
+        {
+          "overmap": "central_lab_train_depot",
+          "z": -4,
+          "max": { "poisson": 1.5 },
           "connections": [ { "point": [ 0, -1, 0 ], "connection": "subway_tunnel", "from": [ 0, 0, 0 ] } ]
         }
       ],
       [ { "overmap": "central_lab", "z": "bottom", "max": { "poisson": 3 } } ],
       [ { "overmap": "central_lab_finale", "z": "bottom", "max": 1 } ],
-      [ { "overmap": "central_lab_finale", "z": [-10, -5], "max": { "poisson": 2 } } ],
-      [ { "overmap": "central_lab_endgame", "om_pos": [0, 0], "z": "bottom", "max": 1 } ]
+      [ { "overmap": "central_lab_finale", "z": [ -10, -5 ], "max": { "poisson": 2 } } ],
+      [ { "overmap": "central_lab_endgame", "om_pos": [ 0, 0 ], "z": "bottom", "max": 1 } ]
     ]
   }
 ]

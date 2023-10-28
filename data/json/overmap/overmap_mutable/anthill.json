@@ -48,9 +48,7 @@
       "food": { "overmap": "ants_food_north", "north": "tunnel_to_tunnel" }
     },
     "root": "surface",
-    "shared": {
-        "size": [1, 5]
-    },
+    "shared": { "size": [ 1, 5 ] },
     "phases": [
       [ { "overmap": "below_entrance", "max": 1 } ],
       [
@@ -122,9 +120,7 @@
       "food": { "overmap": "acid_ants_food_north", "north": "tunnel_to_tunnel" }
     },
     "root": "surface",
-    "shared": {
-        "size": [1, 5]
-    },
+    "shared": { "size": [ 1, 5 ] },
     "phases": [
       [ { "overmap": "below_entrance", "max": 1 } ],
       [
@@ -172,7 +168,8 @@
     "joins": [
       { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
       { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land" ] },
-      "tunnel_to_tunnel", "none"
+      "tunnel_to_tunnel",
+      "none"
     ],
     "overmaps": {
       "surface": { "overmap": "anthill_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
@@ -208,11 +205,10 @@
       "food": { "overmap": "ants_food_north", "north": "tunnel_to_tunnel" }
     },
     "root": "surface",
-    "shared": {
-        "size": [1, 5]
-    },
+    "shared": { "size": [ 1, 5 ] },
     "phases": [
-      [ {
+      [
+        {
           "name": "ants_lab",
           "chunk": [
             { "overmap": "below_entrance", "pos": [ 0, 0, 0 ] },

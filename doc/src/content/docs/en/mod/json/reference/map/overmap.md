@@ -261,18 +261,17 @@ minimum should be 0.
 
 ### Fixed vs mutable specials
 
-There are two subtypes of overmap special: fixed and mutable.  Fixed overmap
-specials have a fixed defined layout which can span many OMTs, and can rotate
-(see below) but will always look essentially the same.
+There are two subtypes of overmap special: fixed and mutable. Fixed overmap specials have a fixed
+defined layout which can span many OMTs, and can rotate (see below) but will always look essentially
+the same.
 
-Mutable overmap specials have a more flexible layout.  They are defined in
-terms of a collection of overmap terrains and the ways they can fit together,
-like a jigsaw puzzle where pieces can fit together in multiple ways.  This can
-be used to form more organic shapes, such as tunnels dug underground by giant
-ants, or larger sprawling buildings with mismatched wings and extensions.
+Mutable overmap specials have a more flexible layout. They are defined in terms of a collection of
+overmap terrains and the ways they can fit together, like a jigsaw puzzle where pieces can fit
+together in multiple ways. This can be used to form more organic shapes, such as tunnels dug
+underground by giant ants, or larger sprawling buildings with mismatched wings and extensions.
 
-Mutable specials require a lot more care to design such that they can be
-reliably placed without error.
+Mutable specials require a lot more care to design such that they can be reliably placed without
+error.
 
 ### Rotation
 
@@ -312,21 +311,21 @@ Depending on the subtype, there are further relevant fields:
 
 #### Further fields for fixed overmap specials
 
-|   Identifier    |                                              Description                                              |
-| --------------- | ----------------------------------------------------------------------------------------------------- |
-| `overmaps`      | List of overmap terrains and their relative `[ x, y, z ]` location within the special.                |
+| Identifier | Description                                                                            |
+| ---------- | -------------------------------------------------------------------------------------- |
+| `overmaps` | List of overmap terrains and their relative `[ x, y, z ]` location within the special. |
 
 #### Further fields for mutable overmap specials
 
-|   Identifier          |                                              Description                                              |
-| --------------------- | ----------------------------------------------------------------------------------------------------- |
-| `check_for_locations` | List of pairs `[ [ x, y, z ], [ locations, ... ] ]` defining the locations that must exist for initial placement. |
+| Identifier                 | Description                                                                                                        |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `check_for_locations`      | List of pairs `[ [ x, y, z ], [ locations, ... ] ]` defining the locations that must exist for initial placement.  |
 | `check_for_locations_area` | List of check_for_locations area objects to be considered in addition to the explicit `check_for_locations` pairs. |
-| `connections`         | List of connections and their relative `[ x, y, z ]` location within the special. |
-| `overmaps`            | Definitions of the various overmaps and how they join to one another. |
-| `root`                | The initial overmap from which the mutable overmap will be grown. |
-| `shared`              | List of pairs `{ "id": value }` of multiplier, where value in same format as rule weight |
-| `phases`              | A specification of how to grow the overmap special from the root OMT. |
+| `connections`              | List of connections and their relative `[ x, y, z ]` location within the special.                                  |
+| `overmaps`                 | Definitions of the various overmaps and how they join to one another.                                              |
+| `root`                     | The initial overmap from which the mutable overmap will be grown.                                                  |
+| `shared`                   | List of pairs `{ "id": value }` of multiplier, where value in same format as rule weight                           |
+| `phases`                   | A specification of how to grow the overmap special from the root OMT.                                              |
 
 ### Example fixed special
 
@@ -376,22 +375,22 @@ Depending on the subtype, there are further relevant fields:
     "type": "overmap_special",
     "id": "anthill",
     "subtype": "mutable",
-    "locations": [ "subterranean_empty" ],
-    "city_distance": [ 25, -1 ],
-    "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "WILDERNESS" ],
+    "locations": ["subterranean_empty"],
+    "city_distance": [25, -1],
+    "city_sizes": [0, 20],
+    "occurrences": [0, 1],
+    "flags": ["CLASSIC", "WILDERNESS"],
     "check_for_locations": [
-      [ [ 0, 0, 0 ], [ "land" ] ],
-      [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
-      [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
-      [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
-      [ [ -1, 0, -1 ], [ "subterranean_empty" ] ],
-      [ [ 0, -1, -1 ], [ "subterranean_empty" ] ]
+      [[0, 0, 0], ["land"]],
+      [[0, 0, -1], ["subterranean_empty"]],
+      [[1, 0, -1], ["subterranean_empty"]],
+      [[0, 1, -1], ["subterranean_empty"]],
+      [[-1, 0, -1], ["subterranean_empty"]],
+      [[0, -1, -1], ["subterranean_empty"]]
     ],
-    "joins": [ "surface_to_tunnel", "tunnel_to_tunnel" ],
+    "joins": ["surface_to_tunnel", "tunnel_to_tunnel"],
     "overmaps": {
-      "surface": { "overmap": "anthill", "below": "surface_to_tunnel", "locations": [ "land" ] },
+      "surface": { "overmap": "anthill", "below": "surface_to_tunnel", "locations": ["land"] },
       "below_entrance": {
         "overmap": "ants_nesw",
         "above": "surface_to_tunnel",
@@ -407,8 +406,17 @@ Depending on the subtype, there are further relevant fields:
         "south": "tunnel_to_tunnel",
         "west": "tunnel_to_tunnel"
       },
-      "tee": { "overmap": "ants_nes", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
-      "straight_tunnel": { "overmap": "ants_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "tee": {
+        "overmap": "ants_nes",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel"
+      },
+      "straight_tunnel": {
+        "overmap": "ants_ns",
+        "north": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel"
+      },
       "corner": { "overmap": "ants_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
       "dead_end": { "overmap": "ants_end_south", "north": "tunnel_to_tunnel" },
       "queen": { "overmap": "ants_queen", "north": "tunnel_to_tunnel" },
@@ -417,14 +425,14 @@ Depending on the subtype, there are further relevant fields:
     },
     "root": "surface",
     "phases": [
-      [ { "overmap": "below_entrance", "max": 1 } ],
+      [{ "overmap": "below_entrance", "max": 1 }],
       [
         { "overmap": "straight_tunnel", "max": 20 },
         { "overmap": "corner", "max": { "poisson": 5 } },
         { "overmap": "tee", "max": 10 }
       ],
-      [ { "overmap": "queen", "max": 1 } ],
-      [ { "overmap": "food", "max": 5 }, { "overmap": "larvae", "max": 5 } ],
+      [{ "overmap": "queen", "max": 1 }],
+      [{ "overmap": "food", "max": 5 }, { "overmap": "larvae", "max": 5 }],
       [
         { "overmap": "dead_end", "weight": 2000 },
         { "overmap": "straight_tunnel", "weight": 100 },
@@ -441,122 +449,109 @@ Depending on the subtype, there are further relevant fields:
 
 #### Overmaps and joins
 
-A mutable special has a collection of *overmaps* which define the OMTs used to
-build it and *joins* which define the way in which they are permitted to
-connect with one another.  Each overmap may specify a join for each of its
-edges (four cardinal directions, above, and below).  These joins must match the
-opposite join for the adjacent overmap in that direction.
+A mutable special has a collection of _overmaps_ which define the OMTs used to build it and _joins_
+which define the way in which they are permitted to connect with one another. Each overmap may
+specify a join for each of its edges (four cardinal directions, above, and below). These joins must
+match the opposite join for the adjacent overmap in that direction.
 
-In the above example, we see that the `surface` overmap specifies `"below":
-"surface_to_tunnel"`, meaning that the join below it must be
-`surface_to_tunnel`.  So, the overmap below must specify `"above":
-"surface_to_tunnel"`.  Only the `below_entrance` overmap does that, so we know
-that overmap must be placed beneath the `surface` overmap.
+In the above example, we see that the `surface` overmap specifies `"below": "surface_to_tunnel"`,
+meaning that the join below it must be `surface_to_tunnel`. So, the overmap below must specify
+`"above": "surface_to_tunnel"`. Only the `below_entrance` overmap does that, so we know that overmap
+must be placed beneath the `surface` overmap.
 
-Overmaps can always be rotated, so a `north` constraint can correspond to other
-directions.  So, the above `dead_end` overmap can represent a dead end tunnel
-in any direction, but it's important that the chosen OMT `ants_end_south` is
-consistent with the `north` join for the generated map to make sense.
+Overmaps can always be rotated, so a `north` constraint can correspond to other directions. So, the
+above `dead_end` overmap can represent a dead end tunnel in any direction, but it's important that
+the chosen OMT `ants_end_south` is consistent with the `north` join for the generated map to make
+sense.
 
 #### Layout phases
 
-After all the joins and overmaps are defined, the manner in which the special
-is laid out is given by `root` and `phases`.
+After all the joins and overmaps are defined, the manner in which the special is laid out is given
+by `root` and `phases`.
 
-`root` specifies the overmap which is placed first, at the origin point for
-this special.
+`root` specifies the overmap which is placed first, at the origin point for this special.
 
-Then `phases` gives a list of growth phases used to place more overmaps.  These
-phases are processed strictly in order.
+Then `phases` gives a list of growth phases used to place more overmaps. These phases are processed
+strictly in order.
 
-Each *phase* is a list of rules.  Each *rule* specifies an overmap and an
-integer `max` and/or `weight`.
+Each _phase_ is a list of rules. Each _rule_ specifies an overmap and an integer `max` and/or
+`weight`.
 
-Weight must always be a simple integer, but `max` may also be an object
-defining a probability distribution over integers.  Each time the special is
-spawned, a value is sampled from that distribution.  Poisson distribution is
-supported via an object such as `{ "poisson": 5 }` where 5 will be the mean
-of the distribution (λ). Flat distribution is supported via `[min, max]` pairs.
-`max` can also be `scale`d by another multiplier `shared` within special, allowing
-scale amount of multiple different overmaps proportionaly to each others.
+Weight must always be a simple integer, but `max` may also be an object defining a probability
+distribution over integers. Each time the special is spawned, a value is sampled from that
+distribution. Poisson distribution is supported via an object such as `{ "poisson": 5 }` where 5
+will be the mean of the distribution (λ). Flat distribution is supported via `[min, max]` pairs.
+`max` can also be `scale`d by another multiplier `shared` within special, allowing scale amount of
+multiple different overmaps proportionaly to each others.
 
-Within each phase, the game looks for unsatisfied joins from the existing
-overmaps and attempts to find an overmap from amongst those available in its
-rules to satisfy that join.  Priority is given to whichever joins are listed
-first in the list which defines the joins for this special, but if multiple
-joins of the same (highest priority) id are present then one is chosen at
-random.
+Within each phase, the game looks for unsatisfied joins from the existing overmaps and attempts to
+find an overmap from amongst those available in its rules to satisfy that join. Priority is given to
+whichever joins are listed first in the list which defines the joins for this special, but if
+multiple joins of the same (highest priority) id are present then one is chosen at random.
 
-First the rules are filtered to contain only those which can satisfy the joins
-for a particular location, and then a weighted selection from the filtered list
-is made.  The weight is given by the minimum of `max` and `weight` specified in
-the rule.  The difference between `max` and `weight` is that each time a rule
-is used, `max` is decremented by one.  Therefore, it limits the number of times
-that rule can be chosen.  Rules which only specify `weight` can be chosen an
-arbitrary number of times.
+First the rules are filtered to contain only those which can satisfy the joins for a particular
+location, and then a weighted selection from the filtered list is made. The weight is given by the
+minimum of `max` and `weight` specified in the rule. The difference between `max` and `weight` is
+that each time a rule is used, `max` is decremented by one. Therefore, it limits the number of times
+that rule can be chosen. Rules which only specify `weight` can be chosen an arbitrary number of
+times.
 
-If no rule in the current phase is able to satisfy the joins for a particular
-location, that location is set aside to be tried again in later phases.
+If no rule in the current phase is able to satisfy the joins for a particular location, that
+location is set aside to be tried again in later phases.
 
-Once all joins are either satisfied or set aside, the phase ends and generation
-proceeds to the next phase.
+Once all joins are either satisfied or set aside, the phase ends and generation proceeds to the next
+phase.
 
-If all phases complete and unsatisfied joins remain, this is considered an
-error and a debugmsg will be displayed with more details.
+If all phases complete and unsatisfied joins remain, this is considered an error and a debugmsg will
+be displayed with more details.
 
 #### Chunks
 
-A placement rule in the phases can specify multiple overmaps to be placed in a
-particular configuration.  This is useful if you want to place some feature
-that's larger than a single OMT.  Here is an example from the microlab:
+A placement rule in the phases can specify multiple overmaps to be placed in a particular
+configuration. This is useful if you want to place some feature that's larger than a single OMT.
+Here is an example from the microlab:
 
 ```json
 {
   "name": "subway_chunk_at_-2",
   "chunk": [
-    { "overmap": "microlab_sub_entry", "pos": [ 0, 0, 0 ], "rot": "north" },
-    { "overmap": "microlab_sub_station", "pos": [ 0, -1, 0 ] },
-    { "overmap": "microlab_subway", "pos": [ 0, -2, 0 ] }
+    { "overmap": "microlab_sub_entry", "pos": [0, 0, 0], "rot": "north" },
+    { "overmap": "microlab_sub_station", "pos": [0, -1, 0] },
+    { "overmap": "microlab_subway", "pos": [0, -2, 0] }
   ],
   "max": 1
 }
 ```
 
-The `"name"` of a chunk is only for debugging messages when something goes
-wrong.  `"max"` and `"weight"` are handled as above.
+The `"name"` of a chunk is only for debugging messages when something goes wrong. `"max"` and
+`"weight"` are handled as above.
 
-The new feature is `"chunks"` which specifies a list of overmaps and their
-relative positions and rotations.  The overmaps are taken from the ones defined
-for this special.  Rotation of `"north"` is the default, so specifying that has
-no effect, but it's included here to demonstrate the syntax.
+The new feature is `"chunks"` which specifies a list of overmaps and their relative positions and
+rotations. The overmaps are taken from the ones defined for this special. Rotation of `"north"` is
+the default, so specifying that has no effect, but it's included here to demonstrate the syntax.
 
-The postions and rotations are relative.  The chunk can be placed at any offset
-and rotation, so long as all the overmaps are shifted and rotated together like
-a rigid body.
+The postions and rotations are relative. The chunk can be placed at any offset and rotation, so long
+as all the overmaps are shifted and rotated together like a rigid body.
 
 #### Techniques to avoid placement errors
 
-To help avoid these errors, some additional features of the mutable special
-placement can help you.
+To help avoid these errors, some additional features of the mutable special placement can help you.
 
 ##### `check_for_locations`
 
-`check_for_locations` defines a list of extra constraints that are
-checked before the special is attempted to be placed.  Each constraint is a
-pair of a position (relative to the root) and a set of locations.  The existing
-OMT in each postion must fall into one of the given locations, else the
+`check_for_locations` defines a list of extra constraints that are checked before the special is
+attempted to be placed. Each constraint is a pair of a position (relative to the root) and a set of
+locations. The existing OMT in each postion must fall into one of the given locations, else the
 attempted placement is aborted.
 
-The `check_for_locations` constraints ensure that the `below_entrance` overmap
-can be placed below the root and that all four cardinal-adjacent OMTs are
-`subterranean_empty`, which is needed to add any further overmaps satisfying
-the four other joins of `below_entrance`.
+The `check_for_locations` constraints ensure that the `below_entrance` overmap can be placed below
+the root and that all four cardinal-adjacent OMTs are `subterranean_empty`, which is needed to add
+any further overmaps satisfying the four other joins of `below_entrance`.
 
 ##### `into_locations`
 
-Each join also has an associated list of locations.  This defaults to
-the locations for the special, but it can be overridden for a particular join
-like this:
+Each join also has an associated list of locations. This defaults to the locations for the special,
+but it can be overridden for a particular join like this:
 
 ```json
 "joins": [
@@ -565,47 +560,41 @@ like this:
 ]
 ```
 
-For an overmap to be placed when satisfying an unresolved
-join, it is not sufficient for it to satisfy the
-existing joins adjacent to a particular location.  Any residual joins it
-possesses beyond those which already match up must point to OMTs with
-terrains consistent with that join's locations.
+For an overmap to be placed when satisfying an unresolved join, it is not sufficient for it to
+satisfy the existing joins adjacent to a particular location. Any residual joins it possesses beyond
+those which already match up must point to OMTs with terrains consistent with that join's locations.
 
-For the particular case of the anthill example above, we can see how these two
-additions ensure that placement is always successful and no unsatisfied joins
-remain.
+For the particular case of the anthill example above, we can see how these two additions ensure that
+placement is always successful and no unsatisfied joins remain.
 
-The next few phases of placement will attempt to place various tunnels.  The
-join constraints will ensure that the unsatisfied joins (the open ends of
-tunnels) will always point into `subterranean_empty` OMTs.
+The next few phases of placement will attempt to place various tunnels. The join constraints will
+ensure that the unsatisfied joins (the open ends of tunnels) will always point into
+`subterranean_empty` OMTs.
 
 ##### Ensuring complete coverage in the final phase
 
-In the final phase, we have five different rules intended to cap off any
-unsatisfied joins without growing the anthill further.  It is important that
-the rules whose overmaps have fewer joins get higher weights.  In the normal
-case, every unsatisfied join will be simply closed off using `dead_end`.
-However, we also have to cater for the possibility that two unsatisfied joins
-point to the same OMT, in which case `dead_end` will not fit (and will be
-filtered out), but `straight_tunnel` or `corner` will, and one of those will
-likely be chosen since they have the highest weights.  We don't want `tee` to
-be chosen (even though it might fit) because that would lead to a new
-unsatisfied join and further grow the tunnels.  But it's not a big problem if
-`tee` is chosen occasionally in this situation; the new join will likely simply
-be satisfied using `dead_end`.
+In the final phase, we have five different rules intended to cap off any unsatisfied joins without
+growing the anthill further. It is important that the rules whose overmaps have fewer joins get
+higher weights. In the normal case, every unsatisfied join will be simply closed off using
+`dead_end`. However, we also have to cater for the possibility that two unsatisfied joins point to
+the same OMT, in which case `dead_end` will not fit (and will be filtered out), but
+`straight_tunnel` or `corner` will, and one of those will likely be chosen since they have the
+highest weights. We don't want `tee` to be chosen (even though it might fit) because that would lead
+to a new unsatisfied join and further grow the tunnels. But it's not a big problem if `tee` is
+chosen occasionally in this situation; the new join will likely simply be satisfied using
+`dead_end`.
 
-When designing your own mutable overmap specials, you will have to think
-through these permutations to ensure that all joins will be satisfied by the
-end of the last phase.
+When designing your own mutable overmap specials, you will have to think through these permutations
+to ensure that all joins will be satisfied by the end of the last phase.
 
 #### Optional joins
 
-Rather than having lots of rules designed to satisfy all possible situations in
-the final phase, in some situations you can make this easier using optional
-joins.  This feature can also be used in other phases.
+Rather than having lots of rules designed to satisfy all possible situations in the final phase, in
+some situations you can make this easier using optional joins. This feature can also be used in
+other phases.
 
-When specifying the joins associated with an overmap in a mutable special, you
-can elaborate with a type, like this example from the `Crater` overmap special:
+When specifying the joins associated with an overmap in a mutable special, you can elaborate with a
+type, like this example from the `Crater` overmap special:
 
 ```json
 "overmaps": {
@@ -626,41 +615,36 @@ can elaborate with a type, like this example from the `Crater` overmap special:
 },
 ```
 
-The definition of `crater_edge` has one mandatory join to the north, and three
-'available' joins to the other cardinal directions.  The semantics of an
-'available' join are that it will not be considered an unresolved join, and
-therefore will never cause more overmaps to be placed, but it can satisfy other
-joins into a particular tile when necessary to allow an existing unresolved
-join to be satisfied.
+The definition of `crater_edge` has one mandatory join to the north, and three 'available' joins to
+the other cardinal directions. The semantics of an 'available' join are that it will not be
+considered an unresolved join, and therefore will never cause more overmaps to be placed, but it can
+satisfy other joins into a particular tile when necessary to allow an existing unresolved join to be
+satisfied.
 
-The overmap will always be rotated in such a way that as many of its mandatory
-joins as possible are satisfied and available joins are left to point in other
-directions that don't currently need joins.
+The overmap will always be rotated in such a way that as many of its mandatory joins as possible are
+satisfied and available joins are left to point in other directions that don't currently need joins.
 
-As such, this `crater_edge` overmap can satisfy any unresolved joins for the
-`Crater` special without generating any new unresolved joins of its own.  This
-makes it great to finish off the special in the final phase.
+As such, this `crater_edge` overmap can satisfy any unresolved joins for the `Crater` special
+without generating any new unresolved joins of its own. This makes it great to finish off the
+special in the final phase.
 
-Third type of joins - 'optional', it's a mix of both above - they do actively
-generate new unresolved joins to build upon, but such joins are not mandatory,
-and can be left unvesolved.
+Third type of joins - 'optional', it's a mix of both above - they do actively generate new
+unresolved joins to build upon, but such joins are not mandatory, and can be left unvesolved.
 
-Since 'optional' and 'available' joins does not require any kind of resolving
-they may end in undesired places, that can be preventrd by adding pseudo-join
-of 'reject' type, which will forbid other joins of same id linking to it.
+Since 'optional' and 'available' joins does not require any kind of resolving they may end in
+undesired places, that can be preventrd by adding pseudo-join of 'reject' type, which will forbid
+other joins of same id linking to it.
 
 #### Asymmetric joins
 
-Sometimes you want two different OMTs to connect, but wouldn't want either to
-connect with themselves.  In this case you wouldn't want to use the same join
-on both.  Instead, you can define two joins which form a pair, by specifying
-one as the opposite of the other.
+Sometimes you want two different OMTs to connect, but wouldn't want either to connect with
+themselves. In this case you wouldn't want to use the same join on both. Instead, you can define two
+joins which form a pair, by specifying one as the opposite of the other.
 
-Another situation where this can arise is when the two sides of a join need
-different location constraints.  For example, in the anthill, the surface and
-subterranean components need different locations.  We could improve the
-definition of its joins by making the join between surface and tunnels
-asymmetric, like this:
+Another situation where this can arise is when the two sides of a join need different location
+constraints. For example, in the anthill, the surface and subterranean components need different
+locations. We could improve the definition of its joins by making the join between surface and
+tunnels asymmetric, like this:
 
 ```json
 "joins": [
@@ -670,26 +654,24 @@ asymmetric, like this:
 ],
 ```
 
-As you can see, the `tunnel_to_surface` part of the pair needs to override the
-default value of `into_locations` because it points towards the surface.
+As you can see, the `tunnel_to_surface` part of the pair needs to override the default value of
+`into_locations` because it points towards the surface.
 
 #### Alternative joins
 
-Sometimes you want the next phase(s) of a mutable special to be able to link to
-existing unresolved joins without themselves generating any unresolved joins of
-that type.  This helps to create a clean break between the old and the new.
+Sometimes you want the next phase(s) of a mutable special to be able to link to existing unresolved
+joins without themselves generating any unresolved joins of that type. This helps to create a clean
+break between the old and the new.
 
-For example, this happens in the `microlab_mutable` special.  This special has
-some structured `hallway` OMTs surrounded by a clump of `microlab` OMTs.  The
-hallways have `hallway_to_microlab` joins pointing out to their sides, so we
-need `microlab` OMTs to have `microlab_to_hallway` joins (the opposite of
-`hallway_to_microlab`) in order to match them.
+For example, this happens in the `microlab_mutable` special. This special has some structured
+`hallway` OMTs surrounded by a clump of `microlab` OMTs. The hallways have `hallway_to_microlab`
+joins pointing out to their sides, so we need `microlab` OMTs to have `microlab_to_hallway` joins
+(the opposite of `hallway_to_microlab`) in order to match them.
 
-However, we don't want the unresolved edges of a `microlab` OMT to require more
-hallways all around, so we mostly want them to use `microlab_to_microlab`
-joins.  How can we satisfy these apparently conflicting requirements without
-making many different variants of `microlab` with different numbers of each
-type of join?  Alternative joins can help us here.
+However, we don't want the unresolved edges of a `microlab` OMT to require more hallways all around,
+so we mostly want them to use `microlab_to_microlab` joins. How can we satisfy these apparently
+conflicting requirements without making many different variants of `microlab` with different numbers
+of each type of join? Alternative joins can help us here.
 
 The definition of the `microlab` overmap might look like this:
 
@@ -703,80 +685,78 @@ The definition of the `microlab` overmap might look like this:
 },
 ```
 
-This allows it to join with hallways which are already placed on the overmap,
-but new unresolved joins will only match more `microlab`s.
+This allows it to join with hallways which are already placed on the overmap, but new unresolved
+joins will only match more `microlab`s.
 
 #### Testing your new mutable special
 
-If you want to exhaustively test your mutable special for placement errors, and
-you are in a position to compile the game, then an easy way to do so is to use
-the existing test in `tests/overmap_test.cpp`.
+If you want to exhaustively test your mutable special for placement errors, and you are in a
+position to compile the game, then an easy way to do so is to use the existing test in
+`tests/overmap_test.cpp`.
 
-In that file, look for `TEST_CASE( "mutable_overmap_placement"`.  At the start
-of that function there is a list of mutable special ids that tests tries
-spawning.  Replace one of them with your new special's id, recompile and run
-the test.
+In that file, look for `TEST_CASE( "mutable_overmap_placement"`. At the start of that function there
+is a list of mutable special ids that tests tries spawning. Replace one of them with your new
+special's id, recompile and run the test.
 
-The test will attempt to place your special a few thousand times, and should
-find most ways in which placement might fail.
+The test will attempt to place your special a few thousand times, and should find most ways in which
+placement might fail.
 
 ### Joins
 
-A join definition can be a simple string, which will be its id.  Alternatively,
-it can be a dictionary with some of these keys:
+A join definition can be a simple string, which will be its id. Alternatively, it can be a
+dictionary with some of these keys:
 
-| Identifier  |                                Description                                 |
-| ----------- | -------------------------------------------------------------------------- |
-| `id`        | Id of the join being defined. |
-| `opposite`  | Id of the join which must match this one from the adjacent terrain. |
-| `into_locations` | List of `overmap_location` ids that this join may point towards. |
+| Identifier       | Description                                                         |
+| ---------------- | ------------------------------------------------------------------- |
+| `id`             | Id of the join being defined.                                       |
+| `opposite`       | Id of the join which must match this one from the adjacent terrain. |
+| `into_locations` | List of `overmap_location` ids that this join may point towards.    |
 
 ### Mutable special overmaps
 
-The overmaps are a JSON dictionary.  Each overmap must have an id (local to
-this special) which is the JSON dictionary key, and then the fields within the
-value may be:
+The overmaps are a JSON dictionary. Each overmap must have an id (local to this special) which is
+the JSON dictionary key, and then the fields within the value may be:
 
-| Identifier  |                                Description                                 |
-| ----------- | -------------------------------------------------------------------------- |
-| `overmap`   | Id of the `overmap_terrain` to place at the location. |
-| `locations` | List of `overmap_location` ids that this overmap terrain may be placed on.  If not specified, defaults to the `locations` value from the special definition. |
-| `north`     | Join which must align with the north edge of this OMT |
-| `east`      | Join which must align with the east edge of this OMT |
-| `south`     | Join which must align with the south edge of this OMT |
-| `west`      | Join which must align with the west edge of this OMT |
-| `above`     | Join which must link this to the OMT above |
-| `below`     | Join which must link this to the OMT below |
+| Identifier  | Description                                                                                                                                                 |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `overmap`   | Id of the `overmap_terrain` to place at the location.                                                                                                       |
+| `locations` | List of `overmap_location` ids that this overmap terrain may be placed on. If not specified, defaults to the `locations` value from the special definition. |
+| `north`     | Join which must align with the north edge of this OMT                                                                                                       |
+| `east`      | Join which must align with the east edge of this OMT                                                                                                        |
+| `south`     | Join which must align with the south edge of this OMT                                                                                                       |
+| `west`      | Join which must align with the west edge of this OMT                                                                                                        |
+| `above`     | Join which must link this to the OMT above                                                                                                                  |
+| `below`     | Join which must link this to the OMT below                                                                                                                  |
 
-Each join associated with a direction can be a simple string, interpreted as a
-join id.  Alternatively it can be a JSON object with the following keys:
+Each join associated with a direction can be a simple string, interpreted as a join id.
+Alternatively it can be a JSON object with the following keys:
 
-| Identifier  |                                Description                                 |
-| ----------- | -------------------------------------------------------------------------- |
-| `id`        | Id of the join used here. |
-| `type`      | Either `"mandatory"` or `"available"`.  Default: `"mandatory"`. |
-| `alternatives` | List of join ids that may be used instead of the one listed under `id`, but only when placing this overmap.  Unresolved joins created by its placement will only be the primary join `id`. |
+| Identifier     | Description                                                                                                                                                                               |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`           | Id of the join used here.                                                                                                                                                                 |
+| `type`         | Either `"mandatory"` or `"available"`. Default: `"mandatory"`.                                                                                                                            |
+| `alternatives` | List of join ids that may be used instead of the one listed under `id`, but only when placing this overmap. Unresolved joins created by its placement will only be the primary join `id`. |
 
 ### Generation rules
 
-| Identifier  |                                Description                                 |
-| ----------- | -------------------------------------------------------------------------- |
-| `overmap` or `chunk`  | Id of the `overmap` to place, chunk configuration. |
-| `connections`   | List of overmap connections and their relative `[ x, y, z ]` location to overmap or chunk. |
-| `join` | Id of `join` which must be resolved during current phase. |
-| `z` | Z level restrictions for this phase. |
-| `om_pos` | This phase only allowd on specified point_om_abs |
-| `rotate` | True or false, whether current piece can be rotated or not. Takes a priority over special's rotatable property. |
-| `scale` | Id of shared multiplier of max. |
-| `max`       | Maximum number of times this rule should be used. |
-| `weight`    | Weight with which to select this rule. |
+| Identifier           | Description                                                                                                     |
+| -------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `overmap` or `chunk` | Id of the `overmap` to place, chunk configuration.                                                              |
+| `connections`        | List of overmap connections and their relative `[ x, y, z ]` location to overmap or chunk.                      |
+| `join`               | Id of `join` which must be resolved during current phase.                                                       |
+| `z`                  | Z level restrictions for this phase.                                                                            |
+| `om_pos`             | This phase only allowd on specified point_om_abs                                                                |
+| `rotate`             | True or false, whether current piece can be rotated or not. Takes a priority over special's rotatable property. |
+| `scale`              | Id of shared multiplier of max.                                                                                 |
+| `max`                | Maximum number of times this rule should be used.                                                               |
+| `weight`             | Weight with which to select this rule.                                                                          |
 
 Z level restrictions supports numbers, `["min", "mix"]` ranges with absolute coordinate
-restrictions, "top"\"bottom" strings refering to boundaries of other tiles of special placed
-so far, and objects with "top"\"bottom" properties and offsets from above boundaries.
+restrictions, "top"\"bottom" strings refering to boundaries of other tiles of special placed so far,
+and objects with "top"\"bottom" properties and offsets from above boundaries.
 
-One of `max` and `weight` must be specified.  `max` will be used as the weight
-when `weight` is not specified.
+One of `max` and `weight` must be specified. `max` will be used as the weight when `weight` is not
+specified.
 
 ## City Building
 
