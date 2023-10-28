@@ -231,30 +231,26 @@ tripoint_abs_omt start_location::find_player_initial_location() const
 
         // Look for special having that terrain
         for( const auto &special : overmap_specials::get_all() ) {
-            if( special.get_subtype() != overmap_special_subtype::fixed ) {
-                // Mutable specials may end not spawning whatever we need, skip them
-                continue;
-            }
-
-            const fixed_overmap_special_data &data = special.get_fixed_data();
-            if( std::none_of( data.terrains.begin(), data.terrains.end(),
-            [&loc]( const overmap_special_terrain & t ) {
-            return is_ot_match( loc.first, t.terrain, loc.second );
+            const auto &terrains = special.all_terrains();
+            if( std::none_of( terrains.begin(), terrains.end(),
+            [&loc]( const oter_str_id & t ) {
+            return is_ot_match( loc.first, t, loc.second );
             } ) ) {
                 continue;
             }
 
             // Look for place where it can be spawned
-            for( const point_abs_om &omp : overmaps ) {
-                const tripoint_abs_omt abs_mid = project_combine( omp, om_mid );
-                if( overmap_buffer.place_special( special.id, abs_mid, OMAPX / 2 ) ) {
+            // If there's not a single matching spot in whole overmap - most likely
+            // that special is bad, no need to check all other overmaps for same thing
+            const point_abs_om &omp = random_entry( overmaps );
+            const tripoint_abs_omt abs_mid = project_combine( omp, om_mid );
+            if( overmap_buffer.place_special( special.id, abs_mid, OMAPX / 2 ) ) {
 
-                    // Now try to find what we spawned
-                    const tripoint_abs_omt start = overmap_buffer.find_closest( abs_mid, loc.first, OMAPX / 2, false,
-                                                   loc.second );
-                    if( start != overmap::invalid_tripoint ) {
-                        return start;
-                    }
+                // Now try to find what we spawned
+                const tripoint_abs_omt start = overmap_buffer.find_closest( abs_mid, loc.first,
+                                               OMAPX / 2, false, loc.second );
+                if( start != overmap::invalid_tripoint ) {
+                    return start;
                 }
             }
         }

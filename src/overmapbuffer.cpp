@@ -1623,7 +1623,7 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
         // then result in us placing the special but then not finding it later if we
         // search using the same radius value we used in placing it.
         std::vector<tripoint_om_omt> points_in_range;
-        for( const tripoint_abs_omt &p : points_in_radius( center, radius - longest_side ) ) {
+        for( const tripoint_abs_omt &p : points_in_radius( center, std::max( 1, radius - longest_side ) ) ) {
             point_abs_om overmap;
             tripoint_om_omt omt_within_overmap;
             std::tie( overmap, omt_within_overmap ) = project_remain<coords::om>( p );

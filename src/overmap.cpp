@@ -2380,19 +2380,41 @@ int overmap_special::longest_side() const
 {
     // Figure out the longest side of the special for purposes of determining our sector size
     // when attempting placements.
-    auto min_max_x = std::minmax_element( fixed_data_.terrains.begin(), fixed_data_.terrains.end(),
-    []( const overmap_special_terrain & lhs, const overmap_special_terrain & rhs ) {
+    const auto &locs = required_locations();
+    auto min_max_x = std::minmax_element( locs.begin(), locs.end(),
+    []( const overmap_special_locations & lhs, const overmap_special_locations & rhs ) {
         return lhs.p.x < rhs.p.x;
     } );
 
-    auto min_max_y = std::minmax_element( fixed_data_.terrains.begin(), fixed_data_.terrains.end(),
-    []( const overmap_special_terrain & lhs, const overmap_special_terrain & rhs ) {
+    auto min_max_y = std::minmax_element( locs.begin(), locs.end(),
+    []( const overmap_special_locations & lhs, const overmap_special_locations & rhs ) {
         return lhs.p.y < rhs.p.y;
     } );
 
     const int width = min_max_x.second->p.x - min_max_x.first->p.x;
     const int height = min_max_y.second->p.y - min_max_y.first->p.y;
     return std::max( width, height ) + 1;
+}
+
+std::vector<oter_str_id> overmap_special::all_terrains() const
+{
+    std::vector<oter_str_id> result;
+    switch( subtype_ ) {
+        case overmap_special_subtype::fixed:
+            for( const overmap_special_terrain &ter : fixed_data_.terrains ) {
+                result.push_back( ter.terrain );
+            }
+            break;
+        case overmap_special_subtype::mutable_:
+            for( const auto &ter : mutable_data_->overmaps ) {
+                result.push_back( ter.second.terrain );
+            }
+            break;
+        case overmap_special_subtype::last:
+            debugmsg( "invalid overmap_special_subtype" );
+            abort();
+    }
+    return result;
 }
 
 std::vector<overmap_special_terrain> overmap_special::preview_terrains() const

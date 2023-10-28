@@ -138,6 +138,7 @@ class overmap_special
             flags_.insert( flag );
         }
         int longest_side() const;
+        std::vector<oter_str_id> all_terrains() const;
         std::vector<overmap_special_terrain> preview_terrains() const;
         std::vector<overmap_special_locations> required_locations() const;
 
