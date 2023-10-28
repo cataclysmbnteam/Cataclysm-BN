@@ -15,7 +15,7 @@
     "min_duration": 100,
     "max_duration": 300,
     "spell_class": "NONE",
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_TARGET" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_TARGET", "NO_EXPLOSION_VFX" ],
     "energy_source": "NONE",
     "damage_type": "bio"
   }

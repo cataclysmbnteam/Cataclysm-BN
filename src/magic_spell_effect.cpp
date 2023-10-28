@@ -412,6 +412,11 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
     std::set<tripoint> targets = calculate_spell_effect_area( sp, target, aoe_func, caster,
                                  ignore_walls );
 
+    // Return early if spell is flagged to not draw visual effects
+    if( sp.has_flag( spell_flag::NO_EXPLOSION_VFX ) ) {
+        return targets;
+    }
+
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
     for( auto &pt : targets ) {

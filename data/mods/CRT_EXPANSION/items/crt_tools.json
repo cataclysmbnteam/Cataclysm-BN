@@ -129,7 +129,7 @@
     "effect": "target_attack",
     "min_range": 2,
     "max_range": 2,
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_VFX" ],
     "extra_effects": [ { "id": "crt_lifedrain_berserk_2", "hit_self": true } ]
   },
   {
@@ -143,7 +143,7 @@
     "effect": "target_attack",
     "min_damage": -2,
     "max_damage": -5,
-    "flags": [ "RANDOM_DAMAGE", "SILENT" ]
+    "flags": [ "RANDOM_DAMAGE", "SILENT", "NO_EXPLOSION_VFX" ]
   },
   {
     "id": "blade_crt",

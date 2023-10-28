@@ -101,6 +101,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::HOSTILE_SUMMON: return "HOSTILE_SUMMON";
         case spell_flag::HOSTILE_50: return "HOSTILE_50";
         case spell_flag::SILENT: return "SILENT";
+        case spell_flag::NO_EXPLOSION_VFX: return "NO_EXPLOSION_VFX";
         case spell_flag::LOUD: return "LOUD";
         case spell_flag::VERBAL: return "VERBAL";
         case spell_flag::SOMATIC: return "SOMATIC";
