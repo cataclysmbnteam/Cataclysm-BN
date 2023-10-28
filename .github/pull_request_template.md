@@ -84,7 +84,7 @@ If this is a C++ PR that modifies JSON loading or behavior:
 - [ ] If it modifies format of save files, please add migration from the old format.
 
 If this is a PR that modifies build process or code organization:
-- [ ] Please documented the changes in the appropriate location in the `doc/` folder.
+- [ ] Please document the changes in the appropriate location in the `doc/` folder.
 - [ ] If documentation for this feature or process does not exist, please write it.
 - [ ] If the change alters versions of software required to build or work with the game, please document it.
 
