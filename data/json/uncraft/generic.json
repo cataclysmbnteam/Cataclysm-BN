@@ -392,6 +392,13 @@
     "components": [ [ [ "silver_small", 2 ] ], [ [ "diamond", 1 ] ] ]
   },
   {
+    "result": "leather_collar",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 1 ] ] ]
+  },
+  {
     "result": "rad_badge",
     "type": "uncraft",
     "time": "30 s",
@@ -411,6 +418,69 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "fur_cat_ears",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fur", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "faux_fur_cat_ears",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "faux_fur", 1 ] ] ]
+  },
+  {
+    "result": "fur_cat_tail",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fur", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "faux_fur_cat_tail",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "faux_fur", 1 ] ] ]
+  },
+  {
+    "result": "fur_collar",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fur", 1 ] ] ]
+  },
+  {
+    "result": "faux_fur_collar",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "faux_fur", 1 ] ] ]
+  },
+  {
+    "result": "leather_belt",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 1 ] ] ]
+  },
+  {
+    "result": "leather_cat_ears",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 1 ] ] ]
+  },
+  {
+    "result": "leather_cat_tail",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 1 ] ] ]
   },
   {
     "result": "alarmclock",
@@ -558,6 +628,14 @@
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "boots_steel",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 8 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "result": "box_cigarette",
@@ -2453,15 +2531,6 @@
     "components": [ [ [ "scrap_copper", 5 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
-    "result": "copper_pan",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "7 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap_copper", 4 ] ], [ [ "scrap", 1 ] ] ]
-  },
-  {
     "result": "power_armor_basic",
     "type": "uncraft",
     "skill_used": "fabrication",
@@ -2545,14 +2614,14 @@
   {
     "result": "rag",
     "type": "uncraft",
-    "time": "20 m",
+    "time": "1 h",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread", 80 ] ] ]
   },
   {
     "result": "stick_fiber",
     "type": "uncraft",
-    "time": "20 m",
+    "time": "1 h",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plant_fibre", 80 ] ] ]
   },
@@ -2561,7 +2630,7 @@
     "type": "uncraft",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "2 m",
+    "time": "6 m",
     "components": [ [ [ "plant_fibre", 10 ] ] ]
   },
   {
@@ -2569,7 +2638,7 @@
     "type": "uncraft",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "2 m",
+    "time": "6 m",
     "components": [ [ [ "plant_fibre", 25 ] ] ]
   },
   {
@@ -3030,6 +3099,14 @@
     "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "rag", 2 ] ], [ [ "RAM", 1 ] ], [ [ "e_scrap", 2 ] ] ]
   },
   {
+    "result": "tank_top",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "30 s",
+    "components": [ [ [ "rag", 4 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
     "result": "television",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -3073,6 +3150,22 @@
     "time": "30 s",
     "components": [ [ [ "paper", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "tshirt",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "30 s",
+    "components": [ [ [ "rag", 5 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "tshirt_tour",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "30 s",
+    "components": [ [ [ "rag", 5 ] ] ],
+    "flags": [ "BLIND_HARD" ]
   },
   {
     "result": "usb_drive",
@@ -3915,13 +4008,6 @@
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "razor_blade", 1 ] ] ]
   },
   {
-    "result": "razor_blade",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "time": "2 s",
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
     "result": "hair_dryer",
     "type": "uncraft",
     "skill_used": "mechanics",
@@ -3952,160 +4038,133 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
   },
   {
     "result": "button_plastic",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 3 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 3 ] ] ]
   },
   {
     "result": "bottle_folding",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 2 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 2 ] ] ]
   },
   {
     "result": "plastic_straw",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 3 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 3 ] ] ]
   },
   {
     "result": "plastic_knife",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 5 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 5 ] ] ]
   },
   {
     "result": "plastic_spoon",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 5 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 5 ] ] ]
   },
   {
     "result": "plastic_spoon_kids",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 5 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 5 ] ] ]
   },
   {
     "result": "plastic_fork",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 5 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 5 ] ] ]
   },
   {
     "result": "plastic_six_dice",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
   },
   {
     "result": "bag_plastic",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
   },
   {
     "result": "bag_zipper",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
   },
   {
     "result": "cup_plastic",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
   },
   {
-    "result": "cup_plastic_unsealed",
+    "result": "cup_plastic",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
   },
   {
     "result": "sippy_cup",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
   },
   {
     "result": "comb_pocket",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
   },
   {
     "result": "hairbrush",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
   },
   {
     "result": "barrette",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
   },
   {
     "result": "fc_hairpin",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "hairpin",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "time": "6 s",
-    "components": [ [ [ "scrap", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
   },
   {
     "result": "heatpack_used",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 5 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "plastic_scrap", 5 ] ] ]
   },
   {
     "result": "thermostat",
@@ -4113,8 +4172,7 @@
     "skill_used": "fabrication",
     "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "bathroom_scale",
