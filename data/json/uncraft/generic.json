@@ -2614,14 +2614,14 @@
   {
     "result": "rag",
     "type": "uncraft",
-    "time": "1 h",
+    "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread", 80 ] ] ]
   },
   {
     "result": "stick_fiber",
     "type": "uncraft",
-    "time": "1 h",
+    "time": "8 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plant_fibre", 80 ] ] ]
   },
