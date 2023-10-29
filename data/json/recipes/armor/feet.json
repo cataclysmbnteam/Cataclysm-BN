@@ -502,7 +502,7 @@
     "time": "90 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_wool_knitting", 320 ] ]
+    "using": [ [ "tailoring_wool_knitting", 120 ] ]
   },
   {
     "result": "straw_sandals",
