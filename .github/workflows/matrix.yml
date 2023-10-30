@@ -200,7 +200,7 @@ jobs:
           ${{ matrix.compiler }} --version | grep -q -E "${{ matrix.grep_clang_version_rxp }}"
 
       - name: set up a mock GCC toolchain root for Clang (Ubuntu)
-        if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-12') }}
+        if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-14') }}
         run: |
           sudo mkdir /opt/mock-gcc-11
           sudo ln -s /usr/include /opt/mock-gcc-11/include
