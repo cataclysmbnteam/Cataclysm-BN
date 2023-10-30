@@ -2517,11 +2517,11 @@ void npc::die( Creature *nkiller )
         add_msg( _( "%s dies!" ), name );
     }
 
-    if( Character *ch = dynamic_cast<Character *>( killer ) ) {
+    if( Character *ch = dynamic_cast<Character *>( get_killer() ) ) {
         g->events().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
     }
 
-    if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
+    if( get_killer() == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
         bool cannibal = g->u.has_trait( trait_CANNIBAL );
         bool psycho = g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_KILLER );
         if( g->u.has_trait( trait_SAPIOVORE ) || psycho ) {
@@ -2533,14 +2533,14 @@ void npc::die( Creature *nkiller )
         }
     }
 
-    if( killer == &g->u && g->u.has_trait( trait_KILLER ) ) {
+    if( get_killer() == &g->u && g->u.has_trait( trait_KILLER ) ) {
         const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
         g->u.add_msg_if_player( m_good, "%s", snip );
         g->u.add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
         g->u.rem_morale( MORALE_KILLER_NEED_TO_KILL );
     }
 
-    if( killer == &g->u && g->u.has_trait( trait_PROF_FERAL ) ) {
+    if( get_killer() == &g->u && g->u.has_trait( trait_PROF_FERAL ) ) {
         if( !g->u.has_effect( effect_feral_killed_recently ) ) {
             g->u.add_msg_if_player( m_good, _( "The voices in your head quiet down a bit." ) );
         }

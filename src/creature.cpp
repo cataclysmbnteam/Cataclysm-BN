@@ -102,7 +102,7 @@ Creature::Creature()
 {
     moves = 0;
     pain = 0;
-    killer = nullptr;
+    killer.reset();
     speed_base = 100;
     underwater = false;
 
@@ -1466,15 +1466,15 @@ bool Creature::in_sleep_state() const
  */
 Creature *Creature::get_killer() const
 {
-    return killer;
+    return killer.lock().get();
 }
 
-void Creature::set_killer( Creature *const killer )
+void Creature::set_killer( Creature *nkiller )
 {
     // Only the first killer will be stored, calling set_killer again with a different
     // killer would mean it's called on a dead creature and therefore ignored.
-    if( killer != nullptr && !killer->is_fake() && this->killer == nullptr ) {
-        this->killer = killer;
+    if( !get_killer() && nkiller && !nkiller->is_fake() ) {
+        killer = g->shared_from( *nkiller );
     }
 }
 

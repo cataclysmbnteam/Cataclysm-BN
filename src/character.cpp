@@ -8525,7 +8525,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 
     if( is_dead_state() ) {
         // if the player killed himself, add it to the kill count list
-        if( !is_npc() && !killer && source == g->u.as_character() ) {
+        if( !is_npc() && !get_killer() && source == g->u.as_character() ) {
             g->events().send<event_type::character_kills_character>( get_player_character().getID(), getID(),
                     get_name() );
         }
