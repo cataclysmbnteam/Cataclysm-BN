@@ -439,5 +439,59 @@
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 8 ] ], [ [ "scrap", 6 ] ] ]
+  },
+  {
+    "result": "socks_wool",
+    "type": "uncraft",
+    "time": "6 m",
+    "components": [ [ [ "yarn", 80 ] ] ]
+  },
+  {
+    "result": "stockings_wool",
+    "type": "uncraft",
+    "time": "9 m",
+    "components": [ [ [ "yarn", 120 ] ] ]
+  },
+  {
+    "result": "gloves_wool_fingerless",
+    "type": "uncraft",
+    "time": "7 m 30 s",
+    "components": [ [ [ "yarn", 140 ] ] ]
+  },
+  {
+    "result": "mittens",
+    "type": "uncraft",
+    "time": "5 m",
+    "components": [ [ [ "yarn", 125 ] ] ]
+  },
+  {
+    "result": "knit_scarf",
+    "type": "uncraft",
+    "time": "4 m",
+    "components": [ [ [ "thread", 100 ] ] ]
+  },
+  {
+    "result": "long_knit_scarf",
+    "type": "uncraft",
+    "time": "6 m",
+    "components": [ [ [ "thread", 200 ] ] ]
+  },
+  {
+    "result": "scarf",
+    "type": "uncraft",
+    "time": "6 m",
+    "components": [ [ [ "yarn", 75 ] ] ]
+  },
+  {
+    "result": "poncho",
+    "type": "uncraft",
+    "time": "36 m",
+    "components": [ [ [ "yarn", 900 ] ] ]
+  },
+  {
+    "result": "sweater",
+    "type": "uncraft",
+    "time": "18 m",
+    "components": [ [ [ "yarn", 350 ] ] ]
   }
 ]

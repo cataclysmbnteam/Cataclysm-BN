@@ -835,7 +835,6 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "40 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "tailoring_cotton_knitting", 100 ] ]
   },
@@ -860,7 +859,6 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "1 h",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "tailoring_cotton_knitting", 200 ] ]
   },
@@ -1323,7 +1321,6 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "1 h",
-    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
     "components": [ [ [ "yarn", 75 ] ] ]
