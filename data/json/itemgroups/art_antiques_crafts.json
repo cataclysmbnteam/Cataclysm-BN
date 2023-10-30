@@ -133,6 +133,7 @@
       { "item": "cheese_hard", "prob": 1 },
       { "item": "tinderbox", "prob": 4 },
       { "item": "flint_steel", "prob": 7 },
+      { "item": "crossbow_lever", "prob": 2 },
       { "item": "canteen_wood", "prob": 5 },
       { "item": "shield_wooden", "prob": 3 },
       { "item": "shield_wooden_large", "prob": 3 },

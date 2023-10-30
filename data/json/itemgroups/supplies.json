@@ -558,5 +558,11 @@
     "type": "item_group",
     "//": "GParts for military helicopter",
     "items": [ [ "medium_turbine_engine", 30 ], [ "large_turbine_engine", 20 ], [ "heavy_duty_military_rotor", 50 ] ]
+  },
+  {
+    "id": "survivor_currency",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "FMCNote", "prob": 80, "count": [ 1, 8 ] }, { "item": "RobofacCoin", "prob": 20, "count": [ 1, 2 ] } ]
   }
 ]

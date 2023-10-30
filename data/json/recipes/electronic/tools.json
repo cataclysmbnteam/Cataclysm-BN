@@ -809,5 +809,20 @@
     "book_learn": [ [ "mag_electronics", 3 ], [ "manual_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
     "components": [ [ [ "wire", 3 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "e_scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "voltmeter",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": "1 h",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": [ [ "electronics", 3 ] ],
+    "book_learn": [ [ "manual_electronics", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 2 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 6 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "e_scrap", 3 ] ] ]
   }
 ]

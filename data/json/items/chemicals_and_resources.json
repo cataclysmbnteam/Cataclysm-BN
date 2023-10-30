@@ -765,6 +765,21 @@
     "ammo_type": "components"
   },
   {
+    "type": "GENERIC",
+    "id": "iron_ore",
+    "category": "spare_parts",
+    "price": 250,
+    "name": { "str": "chunk of iron ore", "str_pl": "chunks of iron ore" },
+    "symbol": ",",
+    "color": "brown",
+    "description": "A large chunk of iron ore, from one source or another.  With the right knowhow, it could be smelted into usable metal.",
+    "material": "stone",
+    "volume": "750 ml",
+    "//": "rounded down from 5.04 to 5.17 grams/cc depending on which ore it is",
+    "weight": "3750 g",
+    "bashing": 2
+  },
+  {
     "type": "AMMO",
     "id": "chem_aluminium_sulphate",
     "category": "chems",
