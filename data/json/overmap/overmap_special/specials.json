@@ -633,11 +633,9 @@
   {
     "type": "overmap_special",
     "id": "Lab",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "lab_stairs", "locations": [ "wilderness" ] },
-      { "point": [ 0, 0, -1 ], "overmap": "empty_rock", "locations": [ "subterranean_empty" ] }
-    ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "lab_stairs", "locations": [ "wilderness" ] } ],
     "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road" } ],
+    "place_nested": [ { "point": [ 0, 0, -1 ], "special": "lab_basement" } ],
     "city_distance": [ 4, -1 ],
     "occurrences": [ 50, 100 ],
     "flags": [ "LAB", "UNIQUE" ]
@@ -908,6 +906,7 @@
       { "point": [ 1, 2, 2 ], "overmap": "prison_1_3f_7_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "from": [ 0, 0, 0 ], "connection": "local_road" } ],
+    "place_nested": [ { "point": [ 0, 2, -2 ], "special": "lab_basement" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 4, -1 ],
@@ -4634,6 +4633,7 @@
       { "point": [ 4, 4, 4 ], "overmap": "lab_surface_brick_block5E4_north" }
     ],
     "connections": [ { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 2, 0, 0 ] } ],
+    "place_nested": [ { "point": [ 3, 1, -2 ], "special": "lab_basement" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 120 ],
     "city_sizes": [ 4, -1 ],

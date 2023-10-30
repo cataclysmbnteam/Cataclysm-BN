@@ -154,24 +154,34 @@
     "occurrences": [ 30, 100 ],
     "flags": [ "ANT", "UNIQUE" ],
     "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road" } ],
+    "place_nested": [ { "point": [ 0, 0, -1 ], "special": "lab_basement" } ],
     "spawns": { "group": "GROUP_ANT", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] },
     "check_for_locations": [
-      [ [ 0, 0, 0 ], [ "land" ] ],
-      [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
-      [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
-      [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
-      [ [ -1, 0, -1 ], [ "subterranean_empty" ] ],
-      [ [ 0, -1, -1 ], [ "subterranean_empty" ] ],
       [ [ 3, 1, 0 ], [ "land" ] ],
-      [ [ 3, 1, -1 ], [ "subterranean_empty" ] ]
+      [ [ 3, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ 4, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ 3, 2, -1 ], [ "subterranean_empty" ] ],
+      [ [ 2, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ 3, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 0, 0, -1 ], [ "subterranean_empty" ] ]
     ],
     "joins": [
       { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
       { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land" ] },
       "tunnel_to_tunnel",
-      "none"
+      "lab"
     ],
     "overmaps": {
+      "lab_stairs": { "overmap": "lab_stairs", "below": "lab", "locations": [ "land" ] },
+      "below_stairs": {
+        "overmap": "empty_rock",
+        "above": "lab",
+        "north": { "id": "lab", "type": "available" },
+        "east": { "id": "lab", "type": "available" },
+        "south": { "id": "lab", "type": "available" },
+        "west": { "id": "lab", "type": "available" }
+      },
       "surface": { "overmap": "anthill_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
       "below_entrance": {
         "overmap": "ants_nesw",
@@ -180,14 +190,6 @@
         "east": "tunnel_to_tunnel",
         "south": "tunnel_to_tunnel",
         "west": "tunnel_to_tunnel"
-      },
-      "lab_stairs": { "overmap": "lab_stairs", "locations": [ "land" ] },
-      "below_stairs": {
-        "overmap": "empty_rock",
-        "north": { "id": "none", "type": "available" },
-        "east": { "id": "none", "type": "available" },
-        "south": { "id": "none", "type": "available" },
-        "west": { "id": "none", "type": "available" }
       },
       "crossroads": {
         "overmap": "ants_nesw",
@@ -204,16 +206,16 @@
       "larvae": { "overmap": "ants_larvae_north", "north": "tunnel_to_tunnel" },
       "food": { "overmap": "ants_food_north", "north": "tunnel_to_tunnel" }
     },
-    "root": "surface",
+    "root": "lab_stairs",
     "shared": { "size": [ 1, 5 ] },
     "phases": [
       [
         {
           "name": "ants_lab",
           "chunk": [
-            { "overmap": "below_entrance", "pos": [ 0, 0, 0 ] },
-            { "overmap": "lab_stairs", "pos": [ 3, 1, 1 ] },
-            { "overmap": "below_stairs", "pos": [ 3, 1, 0 ] }
+            { "overmap": "below_stairs", "pos": [ 0, 0, 0 ] },
+            { "overmap": "surface", "pos": [ 3, 1, 1 ] },
+            { "overmap": "below_entrance", "pos": [ 3, 1, 0 ] }
           ],
           "max": 1
         }

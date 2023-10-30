@@ -72,8 +72,6 @@ static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
-static const overmap_special_id lab_basement( "lab_basement" );
-
 class map_extra;
 
 #define dbg(x) DebugLogFL((x),DC::MapGen)
@@ -2419,6 +2417,12 @@ std::vector<oter_str_id> overmap_special::all_terrains() const
             debugmsg( "invalid overmap_special_subtype" );
             abort();
     }
+
+    for( const auto &nested : get_nested_specials() ) {
+        auto inner = nested.second->all_terrains();
+        result.insert( result.end(), std::make_move_iterator( inner.begin() ),
+                       std::make_move_iterator( inner.end() ) );
+    }
     return result;
 }
 
@@ -2440,26 +2444,46 @@ std::vector<overmap_special_terrain> overmap_special::preview_terrains() const
             debugmsg( "invalid overmap_special_subtype" );
             abort();
     }
+
+    for( const auto &nested : get_nested_specials() ) {
+        for( const auto &ter : nested.second->preview_terrains() ) {
+            overmap_special_terrain rel_ter = ter;
+            rel_ter.p += nested.first.raw();
+            if( rel_ter.p.z == 0 ) {
+                result.push_back( rel_ter );
+            }
+        }
+    }
     return result;
 }
 
 std::vector<overmap_special_locations> overmap_special::required_locations() const
 {
+    std::vector<overmap_special_locations> result;
     switch( subtype_ ) {
         case overmap_special_subtype::fixed: {
-            std::vector<overmap_special_locations> result;
             std::copy( fixed_data_.terrains.begin(), fixed_data_.terrains.end(),
                        std::back_inserter( result ) );
-            return result;
+            break;
         }
         case overmap_special_subtype::mutable_: {
-            return mutable_data_->check_for_locations;
+            std::copy( mutable_data_->check_for_locations.begin(), mutable_data_->check_for_locations.end(),
+                       std::back_inserter( result ) );
+            break;
         }
         case overmap_special_subtype::last:
-            break;
+            debugmsg( "invalid overmap_special_subtype" );
+            abort();
     }
-    debugmsg( "invalid overmap_special_subtype" );
-    abort();
+
+    for( const auto &nested : get_nested_specials() ) {
+        for( const auto &loc : nested.second->required_locations() ) {
+            overmap_special_locations rel_loc = loc;
+            rel_loc.p += nested.first.raw();
+            result.push_back( rel_loc );
+        }
+    }
+    return result;
 }
 
 void overmap_special::load( const JsonObject &jo, const std::string &src )
@@ -2529,6 +2553,17 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
         default:
             jo.throw_error( string_format( "subtype %s not implemented",
                                            io::enum_to_string( subtype_ ) ) );
+    }
+
+    if( jo.has_array( "place_nested" ) ) {
+        JsonArray jar = jo.get_array( "place_nested" );
+        while( jar.has_more() ) {
+            JsonObject joc = jar.next_object();
+            std::pair<tripoint_rel_omt, overmap_special_id> nested;
+            mandatory( joc, was_loaded, "point", nested.first );
+            mandatory( joc, was_loaded, "special", nested.second );
+            nested_.insert( nested );
+        }
     }
 
     if( is_special ) {
@@ -2634,6 +2669,32 @@ void overmap_special::check() const
                     break;
             }
         }
+    }
+
+    // Make sure nested specials doesn't loop back to parents
+    std::function<std::optional<overmap_special_id>( const overmap_special_id, std::unordered_set<overmap_special_id> ) >
+    check_recursion = [&check_recursion]( const overmap_special_id special,
+    std::unordered_set<overmap_special_id> parents ) -> std::optional<overmap_special_id> {
+        for( const auto &nested : special->get_nested_specials() )
+        {
+            if( parents.count( nested.second ) > 0 ) {
+                return nested.second;
+            } else {
+                std::unordered_set<overmap_special_id> copy = parents;
+                copy.insert( nested.second );
+                std::optional<overmap_special_id> recures = check_recursion( nested.second, copy );
+                if( recures ) {
+                    return *recures;
+                }
+            }
+        }
+        return std::nullopt;
+    };
+    std::unordered_set<overmap_special_id> parents{ id };
+    std::optional<overmap_special_id> recurse = check_recursion( id, parents );
+    if( recurse ) {
+        debugmsg( "In overmap special \"%s\", nested special \"%s\" places itself recursively.",
+                  id, *recurse );
     }
 
     if( mutable_data_ ) {
@@ -3147,8 +3208,6 @@ bool overmap::generate_sub( const int z )
     std::vector<city> goo_points;
     std::vector<city> mine_points;
 
-    std::vector<tripoint_om_omt> lab_points;
-
     // These are so common that it's worth checking first as int.
     const std::unordered_set<oter_id> skip_above = {
         oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
@@ -3166,10 +3225,7 @@ bool overmap::generate_sub( const int z )
                 continue;
             }
 
-            if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ||
-                ( z == -1 && oter_above == "lab_stairs" ) ) {
-                lab_points.push_back( p );
-            } else if( oter_above == "road_nesw_manhole" ) {
+            if( oter_above == "road_nesw_manhole" ) {
                 ter_set( p, oter_id( "sewer_isolated" ) );
                 sewer_points.emplace_back( i, j );
             } else if( oter_above == "sewage_treatment" ) {
@@ -3195,13 +3251,6 @@ bool overmap::generate_sub( const int z )
 
     for( auto &i : goo_points ) {
         requires_sub |= build_slimepit( tripoint_om_omt( i.pos, z ), i.size );
-    }
-
-    for( auto &p : lab_points ) {
-        if( can_place_special( *lab_basement, p, om_direction::type::none, false ) ) {
-            place_special( *lab_basement, p, om_direction::type::none, get_nearest_city( p ), false, false );
-            break;
-        }
     }
 
     // Connect subways of cities
@@ -5417,6 +5466,15 @@ std::vector<tripoint_om_omt> overmap::place_special(
         const int rad = rng( spawns.radius.min, spawns.radius.max );
         add_mon_group( mongroup( spawns.group, project_to<coords::sm>( p ), rad, pop ) );
     }
+
+    for( const auto &nested : special.get_nested_specials() ) {
+        const tripoint_om_omt rp = p + om_direction::rotate( nested.first, dir );
+        if( can_place_special( *nested.second, rp, dir, false ) ) {
+            place_special( *nested.second, rp, dir, get_nearest_city( rp ), false, false );
+            break;
+        }
+    }
+
     return result;
 }
 
@@ -5461,9 +5519,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     // that central lab will have top priority
     bool is_true_center = pos() == point_abs_om();
     const auto special_weight = [&is_true_center]( const overmap_special * s ) {
-        int weight = s->get_subtype() == overmap_special_subtype::mutable_ ?
-                     s->get_mutable_data().check_for_locations.size() :
-                     s->get_fixed_data().terrains.size();
+        int weight = s->required_locations().size();
         if( is_true_center && s->has_flag( "ENDGAME" ) ) {
             weight *= 1000;
         }

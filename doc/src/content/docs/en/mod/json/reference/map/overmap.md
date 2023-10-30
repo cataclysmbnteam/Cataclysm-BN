@@ -299,6 +299,7 @@ level value and then only specify it for individual entries that differ.
 | `type`          | Must be `"overmap_special"`.                                                                          |
 | `id`            | Unique id.                                                                                            |
 | `connections`   | List of overmap connections and their relative `[ x, y, z ]` location within the special.             |
+| `place_nested`  | Array of `{ "point": [x, y, z], "special": id }` with nested specials, relative to this one.          |
 | `subtype`       | Either `"fixed"` or `"mutable"`. Defaults to `"fixed"` if not specified.                              |
 | `locations`     | List of `overmap_location` ids that the special may be placed on.                                     |
 | `city_distance` | Min/max distance from a city that the special may be placed. Use -1 for unbounded.                    |

@@ -65,7 +65,8 @@ struct overmap_special_locations {
 struct overmap_special_terrain : overmap_special_locations {
     overmap_special_terrain() = default;
     overmap_special_terrain( const tripoint &p, const oter_str_id &t,
-                             const cata::flat_set<overmap_location_id> &l ): overmap_special_locations{ p, l }
+                             const cata::flat_set<overmap_location_id> &l )
+        : overmap_special_locations{ p, l }
         , terrain( t )
     {};
     oter_str_id terrain;
@@ -159,6 +160,9 @@ class overmap_special
         const overmap_special_spawns &get_monster_spawns() const {
             return monster_spawns_;
         }
+        const std::unordered_map<tripoint_rel_omt, overmap_special_id> &get_nested_specials() const {
+            return nested_;
+        }
 
         overmap_special_id id;
 
@@ -180,6 +184,7 @@ class overmap_special
 
         // These locations are the default values if ones are not specified for the individual OMTs.
         cata::flat_set<overmap_location_id> default_locations_;
+        std::unordered_map<tripoint_rel_omt, overmap_special_id> nested_;
 };
 
 namespace overmap_specials
