@@ -10871,8 +10871,7 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
         elem.amount -= block_amount;
         blocked_damage += block_amount;
         const resistances res = resistances( shield );
-        elem.res_pen -= res.type_resist( elem.type );
-        elem.res_pen = std::max( 0.0f, elem.res_pen );
+        elem.res_pen = std::max( 0.0f, elem.res_pen - res.type_resist( elem.type ) );
     }
     blocked_damage = std::min( total_damage, blocked_damage );
     add_msg( m_debug, _( "expected base damage: %i" ), total_damage );
