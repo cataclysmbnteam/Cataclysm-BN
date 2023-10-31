@@ -429,6 +429,7 @@
       [
         {
           "overmap": "central_lab_train_depot",
+          "rotate": true,
           "z": -4,
           "max": { "poisson": 1.5 },
           "connections": [ { "point": [ 0, -1, 0 ], "connection": "subway_tunnel", "from": [ 0, 0, 0 ] } ]

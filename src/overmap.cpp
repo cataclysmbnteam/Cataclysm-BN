@@ -1993,9 +1993,6 @@ struct mutable_overmap_phase_remainder {
             if( !rule.parent->z.check( pos, z_min, z_max ) ) {
                 continue;
             }
-            if( rule.parent->om_pos && *rule.parent->om_pos != om.pos() ) {
-                continue;
-            }
 
             for( om_direction::type dir : om_direction::all ) {
                 for( const tripoint_rel_omt &piece_pos : rule.positions( dir ) ) {
@@ -2067,9 +2064,13 @@ struct mutable_overmap_phase_remainder {
 struct mutable_overmap_phase {
     std::vector<mutable_overmap_placement_rule> rules;
 
-    mutable_overmap_phase_remainder realise( std::unordered_map<std::string, int> scales ) const {
+    mutable_overmap_phase_remainder realise( overmap &om,
+            std::unordered_map<std::string, int> scales ) const {
         std::vector<mutable_overmap_placement_rule_remainder> realised_rules;
         for( const mutable_overmap_placement_rule &rule : rules ) {
+            if( rule.om_pos && *rule.om_pos != om.pos() ) {
+                continue;
+            }
             int scale = !rule.scale.empty() ? scales[rule.scale] : 1;
             realised_rules.push_back( rule.realise( scale ) );
         }
@@ -2264,7 +2265,7 @@ struct mutable_overmap_special_data {
         unresolved.add_joins_for( root_omt, origin, om_direction::type::none, {} );
 
         auto current_phase = phases.begin();
-        mutable_overmap_phase_remainder phase_remaining = current_phase->realise( scales );
+        mutable_overmap_phase_remainder phase_remaining = current_phase->realise( om, scales );
 
         while( unresolved.any_unresolved() ) {
             tripoint_om_omt next_pos = unresolved.pick_top_priority();
@@ -2299,7 +2300,7 @@ struct mutable_overmap_special_data {
                 }
                 descriptions.push_back(
                     string_format( "## Entering phase %td", current_phase - phases.begin() ) );
-                phase_remaining = current_phase->realise( scales );
+                phase_remaining = current_phase->realise( om, scales );
                 unresolved.restore_postponed();
             }
         }
@@ -2595,6 +2596,8 @@ void overmap_special::finalize()
             }
         }
     }
+
+    // TODO: Check if piece and joins are uniform, to determine default "rotate" value
 
     for( auto &elem : connections ) {
         elem.finalize();
