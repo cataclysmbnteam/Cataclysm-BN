@@ -93,7 +93,7 @@ jobs:
     - uses: ammaraskar/msvc-problem-matcher@master
     - name: Build
       run: |
-          cmake --build out/build/$env:CMAKE_PRESET
+          cmake --build out/build/$env:CMAKE_PRESET --config RelWithDebInfo
 
     - name: Dump logs if build failed
       if: failure()
@@ -104,7 +104,7 @@ jobs:
 
     - name: Compile .mo files for localization
       run: |
-          cmake --build out/build/$env:CMAKE_PRESET --target translations_compile
+          cmake --build out/build/$env:CMAKE_PRESET --target translations_compile --config RelWithDebInfo
 
     - name: Run tests
       run: |
