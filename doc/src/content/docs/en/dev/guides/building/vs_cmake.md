@@ -80,17 +80,18 @@ suffix are targeting VS2019.
 
 Run the command
 
-- `cmake --build --preset <preset> --config RelWithDebInfo`
+- `cmake --build --preset <preset> --config Release`
 
-You can replace `RelWithDebInfo` with `Debug` to get a debug build.
+You can replace `Release` with `Debug` to get a debug build, or `RelWithDebInfo` for a release build
+with less optimizations but more debug information.
 
 ### Visual Studio
 
 From the Standard toolbar's `Build Preset` drop-down menu select the build preset. From the main
 menu, select `Build` -> `Build All`.
 
-You can also select between `RelWithDebInfo` and `Debug` builds, though depending on UI layout the
-drop-down menu for this may be hidden behind the overflow button.
+You can also select between `Release`, `Debug` and `RelWithDebInfo` builds, though depending on UI
+layout the drop-down menu for this may be hidden behind the overflow button.
 
 ## Translations
 
@@ -125,14 +126,14 @@ From the main menu, select `Build` -> `Install CataclysmBN`
 
 Run the command
 
-- `cmake --install out/build/<preset>/ --config RelWithDebInfo`
+- `cmake --install out/build/<preset>/ --config Release`
 
-Replace `RelWithDebInfo` with your chosen build type.
+Replace `Release` with your chosen build type.
 
 ## Run
 
-The game and test executables will both be available in `.\RelWithDebInfo\` folder (or `.\Debug`, if
-you've chosen `Debug` build; folder name matches build type).
+The game and test executables will both be available in `.\Release\` folder (folder name matches
+build type, so for other build types you'll get other folder names).
 
 You can run them manually from the terminal, as long as you do it from the project's top directory
 as by default the game expects data files to be in current path.
@@ -147,11 +148,11 @@ for the game executable (and tests).
 
 To start the game, run
 
-- `.\RelWithDebInfo\cataclysm-tiles.exe`
+- `.\Release\cataclysm-tiles.exe`
 
 To execute tests, run
 
-- `.\RelWithDebInfo\cata_test-tiles.exe`
+- `.\Release\cata_test-tiles.exe`
 
 ### Visual Studio (Option 1, Recommended)
 
