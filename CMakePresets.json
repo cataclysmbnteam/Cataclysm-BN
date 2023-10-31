@@ -17,8 +17,8 @@
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/MSVC.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-windows-static",
         "DYNAMIC_LINKING": "False",
-        "CMAKE_CONFIGURATION_TYPES": "RelWithDebInfo",
-        "CURSES": "False", "LOCALIZE": "True", "TILES": "True", "SOUND": "True", "LUA": "True", "TESTS": "False",
+        "CMAKE_CONFIGURATION_TYPES": "Debug;RelWithDebInfo",
+        "CURSES": "False", "LOCALIZE": "True", "TILES": "True", "SOUND": "True", "LUA": "True", "TESTS": "True",
         "CMAKE_INSTALL_MESSAGE": "NEVER"
       }
     },
