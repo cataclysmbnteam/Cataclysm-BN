@@ -3081,7 +3081,7 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "moves", moves );
     jsin.read( "pain", pain );
 
-    killer = nullptr; // see Creature::load
+    killer.reset();
 
     if( jsin.has_object( "effects" ) ) {
         // Because JSON requires string keys we need to convert back to our bp keys

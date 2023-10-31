@@ -19,6 +19,7 @@
 #include "units.h"
 #include "cached_options.h"
 #include "enums.h"
+#include "memory_fast.h"
 
 enum game_message_type : int;
 class nc_color;
@@ -809,8 +810,8 @@ class Creature
         effects_map get_all_effects() const;
 
     protected:
-        Creature *killer = nullptr; // whoever killed us. this should be NULL unless we are dead
-        void set_killer( Creature *killer );
+        weak_ptr_fast<Creature> killer; // whoever killed us. this should be NULL unless we are dead
+        void set_killer( Creature *nkiller );
 
         /**
          * Processes one effect on the Creature.
