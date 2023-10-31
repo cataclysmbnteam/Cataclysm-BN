@@ -108,4 +108,4 @@ jobs:
 
     - name: Run tests
       run: |
-          .\out\build\windows-tiles-sounds-x64-msvc\tests\Debug\cata_test-tiles.exe --rng-seed time
+          .\RelWithDebInfo\cata_test-tiles.exe --rng-seed time
