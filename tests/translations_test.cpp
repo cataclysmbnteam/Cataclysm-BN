@@ -185,7 +185,7 @@ TEST_CASE( "translations_actually_translate", "[translations][i18n]" )
     }
 
     // Restore language
-    get_options().get_option(USE_LANG).setValue("en_US");
+    get_options().get_option( USE_LANG ).setValue( "en_US" );
     get_options().save();
     set_language();
 }
