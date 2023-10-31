@@ -15,6 +15,7 @@
 #include <memory>
 #include <string>
 #include <utility>
+#include <filesystem>
 #include <vector>
 #if defined(_WIN32)
 #   include "platform_win.h"
@@ -600,23 +601,29 @@ int main( int argc, char *argv[] )
         }
     }
 
+    std::string current_path = std::filesystem::current_path().string();
+
     if( !dir_exist( PATH_INFO::datadir() ) ) {
         std::string msg = string_format(
                               "Can't find directory \"%s\"\n"
+                              "Current path: \"%s\"\n"
                               "Please ensure the current working directory is correct.\n"
                               "Perhaps you meant to start \"cataclysm-launcher\"?\n",
-                              PATH_INFO::datadir().c_str()
+                              PATH_INFO::datadir(),
+                              current_path
                           );
         report_fatal_error( msg );
         exit( 1 );
     }
 
-    const auto check_dir_good = []( const std::string & dir ) {
+    const auto check_dir_good = [&current_path]( const std::string & dir ) {
         if( !assure_dir_exist( dir ) ) {
             std::string msg = string_format(
                                   "Can't open or create \"%s\"\n"
+                                  "Current path: \"%s\"\n"
                                   "Please ensure you have write permission.\n",
-                                  dir.c_str()
+                                  dir.c_str(),
+                                  current_path
                               );
             report_fatal_error( msg );
             exit( 1 );
@@ -624,8 +631,10 @@ int main( int argc, char *argv[] )
         if( !can_write_to_dir( dir ) ) {
             std::string msg = string_format(
                                   "Can't write to \"%s\"\n"
+                                  "Current path: \"%s\"\n"
                                   "Please ensure you have write permission and free storage space.\n",
-                                  dir.c_str()
+                                  dir.c_str(),
+                                  current_path
                               );
             report_fatal_error( msg );
             exit( 1 );
