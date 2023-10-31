@@ -127,6 +127,8 @@ if (TILES)
     if (RELEASE)
         install(TARGETS cataclysm-tiles RUNTIME)
     endif ()
+
+    set_target_properties( cataclysm-tiles PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
 endif ()
 
 # Build curses version if requested

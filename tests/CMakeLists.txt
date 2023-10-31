@@ -14,6 +14,8 @@ if (BUILD_TESTING)
             NAME test-tiles
             COMMAND sh -c "$<TARGET_FILE:cata_test-tiles> --rng-seed time"
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
+        set_target_properties( cata_test-tiles PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
     endif ()
 
     if (CURSES)
