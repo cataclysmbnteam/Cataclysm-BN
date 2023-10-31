@@ -53,11 +53,9 @@ cmake --preset <preset>
 It will download all dependencies and generate build files, as long as `vcpkg` installation is
 available.
 
-If you're using VS2022, you may need to tell CMake to generate VS2022-compatible project files with
-`-G "Visual Studio 17 2022"`, as by default it will try to generate for VS2019.
+If you're using VS2022, be sure to select a preset with `2022` in its name, as presets without that suffix will target VS2019.
 
-You can override any option by appending `-Doption=value` to this command, see
-[Build options](./cmake.md/#build-options) in CMake guide.
+You can override any option by appending `-Doption=value` to this command, see [Build options](./cmake.md/#build-options) in CMake guide. For example, you can disable building of tests with `-DTESTS=OFF` if you don't care about them.
 
 ### Visual Studio
 
@@ -70,18 +68,25 @@ The Standard toolbar shows the presets in the `Configuration` drop-down box. Cho
 (should contain `windows` and `msvc`), then from the main menu, select `Project` ->
 `Configure Cache`.
 
+If you're using VS2022, be sure to select a preset with `2022` in its name, as presets without that suffix are targeting VS2019.
+
 ## Build
 
 ### Terminal
 
 Run the command
 
-- `cmake --build --preset <preset>`
+- `cmake --build --preset <preset> --config RelWithDebInfo`
+
+You can replace `RelWithDebInfo` with `Debug` to get a debug build.
 
 ### Visual Studio
 
 From the Standard toolbar's `Build Preset` drop-down menu select the build preset. From the main
 menu, select `Build` -> `Build All`.
+
+You can also select between `RelWithDebInfo` and `Debug` builds, though depending on UI layout
+the drop-down menu for this may be hidden behind the overflow button.
 
 ## Translations
 
@@ -96,8 +101,7 @@ Run the command
 
 ### Visual Studio
 
-Visual Studio should have built the translations in the previous step. If it did not, refer to the
-terminal guide.
+Visual Studio should have built the translations in the previous step. If it did not, open Solution Explorer, switch it into CMake Targets mode (can be done with a right click), then right click on `translations_compile` target -> `Build translations_compile`.
 
 ## Install
 
@@ -117,20 +121,60 @@ Run the command
 
 - `cmake --install out/build/<preset>/ --config RelWithDebInfo`
 
+Replace `RelWithDebInfo` with your chosen build type.
+
 ## Run
 
-### Visual Studio
+The game and test executables will both be available in `.\RelWithDebInfo\` folder (or `.\Debug`, if you've chosen `Debug` build; folder name matches build type).
 
-TBD
+You can run them manually from the terminal, as long as you do it from the project's top directory as by default the game expects data files to be in current path.
 
-The game executable is available at `.\out\build\<preset>\src\Debug\cataclysm-tiles.exe`.
-
-If you run with `TESTS=ON`, the test executable is available at
-`.\out\build\<preset>\tests\Debug\cata_test-tiles.exe`.
+For running and debugging from Visual Studio, it's recommended to open the generated VS solution located at `out\build\<preset>\CataclysmBN.sln` (should be there regardless of whether you've completed the previous steps in VS or terminal) and work with it instead. Alternatively, it's possible to stay in the "Open Folder" mode, but then you'll have to customize launch configuration for the game executable (and tests).
 
 ### Terminal
 
-Run the commands
+To start the game, run
 
-- `cd out/install/<preset>/`
-- `cataclysm` or `cataclysm-tiles.exe`
+- `.\RelWithDebInfo\cataclysm-tiles.exe`
+
+To execute tests, run
+
+- `.\RelWithDebInfo\cata_test-tiles.exe`
+
+### Visual Studio (Option 1, Recommended)
+
+Close Visual Studio, then navigate to `out\build\<preset>\` and open `CataclysmBN.sln`. Set `cataclysm-tiles` as Startup Project (can be done with a right click from Solution Explorer), and you'll be able to run and debug the game executable and tests without additional issues. It will already be preconfigured to look for the data files in the top project directory.
+
+### Visual Studio (Option 2)
+
+Due to how Visual Studio handles CMake projects, it's impossible to specify the working directory for the executable while VS is in the "Open Folder" mode. This StackOverflow answer explains it nicely: https://stackoverflow.com/a/62309569 Fortunately, VS allows customizing exe launch options on individual basis.
+
+Open solution explorer and switch it into CMake Targets mode if you haven't already (can be done with a right click). There, right click on the `cataclysm-tiles` target -> `Add Debug Configuration`. Visual Studio will open launch configurations file for this project, with new configuration for the `cataclysm-tiles` target. Add the following line:
+
+```
+"currentDir": "${workspaceRoot}",
+```
+
+to the config and save the file.
+
+The final result should look something like this:
+
+```json
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "currentDir": "${workspaceRoot}",
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "cataclysm-tiles.exe (<PATH_TO_SOURCE_FOLDER>\\Debug\\cataclysm-tiles.exe)",
+      "name": "cataclysm-tiles.exe (<PATH_TO_SOURCE_FOLDER>\\Debug\\cataclysm-tiles.exe)"
+    }
+  ]
+}
+```
+
+Now, you should be able to run and debug the game executable from inside Visual Studio.
+
+If you'd like to run tests, repeat this process for the `cata_test-tiles` target.
