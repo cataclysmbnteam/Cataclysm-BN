@@ -129,6 +129,7 @@ jobs:
             sound: 0
             lua: 0
             sanitize: address,undefined
+            cxxflags: --gcc-toolchain=/opt/mock-gcc-11
             native: linux64
             ccache_limit: 2G
             ccache_key: linux-llvm-14-asan
@@ -152,6 +153,7 @@ jobs:
       ZSTD_CLEVEL: 17
       CMAKE: ${{ matrix.cmake }}
       COMPILER: ${{ matrix.compiler }}
+      CXXFLAGS: ${{ matrix.cxxflags }}
       OS: ${{ matrix.os }}
       TILES: ${{ matrix.tiles }}
       SOUND: ${{ matrix.sound }}
@@ -196,6 +198,15 @@ jobs:
           ${{ matrix.compiler }} --version
           # Ensure that it is actually needed version
           ${{ matrix.compiler }} --version | grep -q -E "${{ matrix.grep_clang_version_rxp }}"
+
+      - name: set up a mock GCC toolchain root for Clang (Ubuntu)
+        if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-14') }}
+        run: |
+          sudo mkdir /opt/mock-gcc-11
+          sudo ln -s /usr/include /opt/mock-gcc-11/include
+          sudo ln -s /usr/bin /opt/mock-gcc-11/bin
+          sudo mkdir -p /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu
+          sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/11 /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu/11
 
       - name: install dependencies (mac)
         if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
