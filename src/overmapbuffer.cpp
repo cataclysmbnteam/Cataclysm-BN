@@ -1633,12 +1633,9 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
             }
         }
 
-        // First points will have a priority, let's randomize placement
-        std::shuffle( points_in_range.begin(), points_in_range.end(), rng_get_engine() );
-
         // Attempt to place the specials using filtered points. We
         // require they be placed in unexplored terrain right now.
-        if( om->place_special_attempt( special, 1, points_in_range, true ) > 0 ) {
+        if( om->place_special_custom( special, points_in_range ) > 0 ) {
             return true;
         }
     }

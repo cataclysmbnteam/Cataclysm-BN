@@ -5471,22 +5471,86 @@ std::vector<tripoint_om_omt> overmap::place_special(
     }
 
     for( const auto &nested : special.get_nested_specials() ) {
-        const tripoint_om_omt rp = p + om_direction::rotate( nested.first, dir );
+        const tripoint_rel_omt shift = om_direction::rotate( nested.first, dir );
+        const tripoint_om_omt rp = p + shift;
         if( can_place_special( *nested.second, rp, dir, false ) ) {
-            place_special( *nested.second, rp, dir, get_nearest_city( rp ), false, false );
-            break;
+            std::vector<tripoint_om_omt> nested_result = place_special( *nested.second, rp, dir,
+                    get_nearest_city( rp ), false, false );
+            for( const auto &nested_point : nested_result ) {
+                result.push_back( nested_point + shift );
+            }
         }
     }
 
     return result;
 }
 
+// Points list maintaining custom order, and allowing fast removal by coordinates
+struct specials_overlay {
+    std::list<tripoint_om_omt> order;
+    std::list<tripoint_om_omt>::iterator lookup[OMAPX][OMAPY];
+
+    specials_overlay( std::vector<tripoint_om_omt> &points ) {
+        // Shuffle all points to randomly distribute specials across the overmap
+        std::shuffle( points.begin(), points.end(), rng_get_engine() );
+
+        order = { std::make_move_iterator( points.begin() ),
+                  std::make_move_iterator( points.end() )
+                };
+
+        for( int x = 0; x < OMAPX; x++ ) {
+            for( int y = 0; y < OMAPY; y++ ) {
+                lookup[x][y] = order.end();
+            }
+        }
+        for( auto it = order.begin(); it != order.end(); it++ ) {
+            lookup[it->x()][it->y()] = it;
+        }
+    }
+
+    std::list<tripoint_om_omt>::iterator begin() {
+        return order.begin();
+    }
+    std::list<tripoint_om_omt>::iterator end() {
+        return order.end();
+    }
+
+    void erase_other( const std::list<tripoint_om_omt>::iterator &i, const tripoint_om_omt &pos ) {
+        if( !overmap::inbounds( pos ) || i->raw() == pos.raw() ) {
+            return;
+        }
+        auto it = lookup[pos.x()][pos.y()];
+        if( it != order.end() ) {
+            lookup[pos.x()][pos.y()] = order.end();
+            order.erase( it );
+        }
+    }
+    std::list<tripoint_om_omt>::iterator erase_this( const std::list<tripoint_om_omt>::iterator &i ) {
+        auto it = lookup[i->x()][i->y()];
+        if( it != order.end() ) {
+            lookup[i->x()][i->y()] = order.end();
+            return order.erase( it );
+        }
+        return i;
+    }
+};
+
+int overmap::place_special_custom( const overmap_special &special,
+                                   std::vector<tripoint_om_omt> &points )
+{
+    specials_overlay target( points );
+    return place_special_attempt( special, 1, target, true );
+}
+
 int overmap::place_special_attempt( const overmap_special &special, const int max,
-                                    std::vector<tripoint_om_omt> &points, const bool must_be_unexplored )
+                                    specials_overlay &points, const bool must_be_unexplored )
 {
     if( max < 1 ) {
         return 0;
     }
+
+    const int RANGE = get_option<int>( "SPECIALS_SPACING" );
+
     int placed = 0;
     for( auto p = points.begin(); p != points.end(); ) {
         const city &nearest_city = get_nearest_city( *p );
@@ -5502,11 +5566,39 @@ int overmap::place_special_attempt( const overmap_special &special, const int ma
             p++;
             continue;
         }
-        place_special( special, *p, rotation, nearest_city, false, must_be_unexplored );
+        std::vector<tripoint_om_omt> result = place_special( special, *p, rotation, nearest_city, false,
+                                              must_be_unexplored );
 
-        // Sometimes points can be reused with different rotation
-        // wa want to avoid that for better dispertion
-        p = points.erase( p );
+        // Remove all used points from our candidates list
+        if( RANGE == 0 ) {
+            for( const auto &dest : result ) {
+                if( dest.z() == 0 ) {
+                    points.erase_other( p, dest );
+                }
+            }
+        } else if( RANGE > 0 ) {
+            tripoint_om_omt p_min = { INT_MAX, INT_MAX, 0 };
+            tripoint_om_omt p_max = { INT_MIN, INT_MIN, 0 };
+            for( const auto &dest : result ) {
+                if( dest.z() == 0 ) {
+                    p_min.raw().x = std::min( p_min.x(), dest.x() );
+                    p_max.raw().x = std::max( p_max.x(), dest.x() );
+                    p_min.raw().y = std::min( p_min.y(), dest.y() );
+                    p_max.raw().y = std::max( p_max.y(), dest.y() );
+                }
+            }
+            const point_rel_omt shift( RANGE, RANGE );
+            for( const tripoint_om_omt &dest : tripoint_range<tripoint_om_omt>( p_min - shift,
+                    p_max + shift ) ) {
+                points.erase_other( p, dest );
+            }
+        }
+
+        // Sometimes points can be reused with different rotation, wa want to avoid
+        // that for better dispertion - make sure current origin is removed even if
+        // this special doesn't place any surface omt
+        p = points.erase_this( p );
+
         if( ++placed >= max ) {
             break;
         }
@@ -5554,9 +5646,9 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     float land_rate = land_points.size() / static_cast<float>( OMAPX * OMAPY ) *
                       get_option<float>( "SPECIALS_DENSITY" );
 
-    // Shuffle all points to distribute specials across the overmap
-    std::shuffle( lake_points.begin(), lake_points.end(), rng_get_engine() );
-    std::shuffle( land_points.begin(), land_points.end(), rng_get_engine() );
+    specials_overlay lake( lake_points );
+    specials_overlay land( land_points );
+
     // And here we go
     for( auto &iter : enabled_specials ) {
         const overmap_special &special = *iter.special_details;
@@ -5580,7 +5672,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         }
 
         iter.instances_placed += place_special_attempt( special,
-                                 amount_to_place, ( is_lake ? lake_points : land_points ), false );
+                                 amount_to_place, ( is_lake ? lake : land ), false );
     }
 }
 

@@ -44,6 +44,7 @@ class overmap_connection;
 class overmap_special;
 class overmap_special_batch;
 struct regional_settings;
+struct specials_overlay;
 template <typename E> struct enum_traits;
 
 namespace pf
@@ -478,13 +479,15 @@ class overmap
          * Iterate over given points, placing specials if possible.
          * @param special The overmap special to place.
          * @param max Maximum amount of specials to place.
-         * @param points Vector of allowed origins for new specials, used points will be erased.
+         * @param points Struct tracking points allowed to spawn special.
          * @param must_be_unexplored If true, will require that all of the
          * terrains where the special would be placed are unexplored.
          * @returns Actual amount of placed specials.
          **/
         int place_special_attempt( const overmap_special &special, const int max,
-                                   std::vector<tripoint_om_omt> &points, const bool must_be_unexplored );
+                                   specials_overlay &points, const bool must_be_unexplored );
+
+        int place_special_custom( const overmap_special &special, std::vector<tripoint_om_omt> &points );
 
         void place_mongroups();
         void place_radios();
