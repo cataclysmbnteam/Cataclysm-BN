@@ -110,7 +110,7 @@ avatar &get_avatar()
     return g->u;
 }
 
-avatar::avatar() : player()
+avatar::avatar()
 {
     player_map_memory = std::make_unique<map_memory>();
     show_map_memory = true;
@@ -289,7 +289,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         reasons.emplace_back( _( "You're illiterate!" ) );
     } else if( has_trait( trait_HYPEROPIC ) &&
-               !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
+               !worn_with_flag( flag_FIX_FARSIGHT ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( !character_funcs::can_see_fine_details( *this ) ) {

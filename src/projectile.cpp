@@ -15,8 +15,7 @@
 #include "rng.h"
 #include "string_id.h"
 
-projectile::projectile() :
-    drop(), custom_explosion( nullptr )
+projectile::projectile() : custom_explosion( nullptr )
 { }
 
 projectile::~projectile() = default;

@@ -40,7 +40,7 @@ static void wield_check_internal( player &dummy, item &the_item,
     SECTION( section_text) { \
         detached_ptr<item> det=the_item;\
         item &obj=*det;\
-        dummy.i_add(std::move(det));\
+        (dummy).i_add(std::move(det));\
         wield_check_internal(dummy, obj, #section_text, #the_item, generating_cases ? -1 : (expected_cost)); \
     }
 

@@ -60,7 +60,9 @@ void submap::swap( submap &first, submap &second )
 //There's not a briefer way to write this I don't think
 template<int sx, int sy>
 maptile_soa<sx, sy>::maptile_soa( tripoint offset ) : itm{{
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
         location_vector{ new tile_item_location( offset + point( 0, 0 ) )},
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
         location_vector{ new tile_item_location( offset + point( 0, 1 ) )},
         location_vector{ new tile_item_location( offset + point( 0, 2 ) )},
         location_vector{ new tile_item_location( offset + point( 0, 3 ) )},
@@ -74,7 +76,9 @@ maptile_soa<sx, sy>::maptile_soa( tripoint offset ) : itm{{
         location_vector{ new tile_item_location( offset + point( 0, 11 ) )},
     },
     {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
         location_vector{ new tile_item_location( offset + point( 1, 0 ) )},
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
         location_vector{ new tile_item_location( offset + point( 1, 1 ) )},
         location_vector{ new tile_item_location( offset + point( 1, 2 ) )},
         location_vector{ new tile_item_location( offset + point( 1, 3 ) )},
@@ -231,11 +235,7 @@ submap::submap( tripoint offset ) : maptile_soa<SEEX, SEEY>( offset )
     is_uniform = false;
 }
 
-submap::~submap()
-{
-
-}
-
+submap::~submap() = default;
 
 void submap::update_lum_rem( point p, const item &i )
 {

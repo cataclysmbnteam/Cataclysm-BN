@@ -166,7 +166,7 @@ void safe_reference<T>::cleanup()
     }
     for( record *rec : records ) {
         if( rec->mem_count > 0 ) {
-            debugmsg( "Found a safe_reference entry with a mem_count. It's advised to fully restart the game now in case of crashes." );
+            debugmsg( "Found a safe_reference entry with a mem_count.  It's advised to fully restart the game now in case of crashes." );
         }
         delete rec;
     }

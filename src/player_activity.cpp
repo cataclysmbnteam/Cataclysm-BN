@@ -505,7 +505,8 @@ void activity_ptr::check_active()
         //If the activity is active then we're currently inside it's do_turn so it's not safe to delete it.
         //It will delete itself at the end of it's do_turn function.
         act->active = false;
-        act.release();
+        player_activity *ptr = act.release();
+        ( void )ptr;
     }
 }
 

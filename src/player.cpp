@@ -89,7 +89,7 @@
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
-player::player() : Character()
+player::player()
 {
     str_cur = 8;
     str_max = 8;
