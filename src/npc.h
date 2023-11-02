@@ -904,7 +904,7 @@ class npc : public player
         void do_npc_read();
         void stow_weapon( );
         bool wield( item &it ) override;
-        detached_ptr<item> wield( detached_ptr<item> &&it ) override;
+        detached_ptr<item> wield( detached_ptr<item> &&target ) override;
         void drop( const drop_locations &what, const tripoint &target,
                    bool stash ) override;
         bool adjust_worn();

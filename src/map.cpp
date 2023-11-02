@@ -146,9 +146,9 @@ map &get_map()
 }
 
 // Map stack methods.
-map_stack::iterator map_stack::erase( map_stack::const_iterator it, detached_ptr<item> *ret )
+map_stack::iterator map_stack::erase( map_stack::const_iterator it, detached_ptr<item> *out )
 {
-    return myorigin->i_rem( location, std::move( it ), ret );
+    return myorigin->i_rem( location, std::move( it ), out );
 }
 
 void map_stack::insert( detached_ptr<item> &&newitem )

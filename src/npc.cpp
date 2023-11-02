@@ -912,14 +912,14 @@ int npc::time_to_read( const item &book, const player &reader ) const
     return retval;
 }
 
-void npc::finish_read( item *loc )
+void npc::finish_read( item *it )
 {
-    if( !loc ) {
+    if( !it ) {
         revert_after_activity();
         return;
     }
 
-    item &book = *loc;
+    item &book = *it;
     const auto &reading = book.type->book;
     if( !reading ) {
         revert_after_activity();
@@ -1006,7 +1006,7 @@ void npc::finish_read( item *loc )
         activity->set_to_null();
         player *pl = dynamic_cast<player *>( this );
         if( pl ) {
-            start_read( *loc, pl );
+            start_read( book, pl );
         }
         if( activity ) {
             return;
@@ -1016,14 +1016,14 @@ void npc::finish_read( item *loc )
     revert_after_activity();
 }
 
-void npc::start_read( item &loc, player *pl )
+void npc::start_read( item &it, player *pl )
 {
-    item &chosen = loc;
+    item &chosen = it;
     const int time_taken = time_to_read( chosen, *pl );
     const double penalty = static_cast<double>( time_taken ) / time_to_read( chosen, *pl );
     std::unique_ptr<player_activity> act = std::make_unique<player_activity>( ACT_READ, time_taken, 0,
                                            pl->getID().get_value() );
-    act->targets.emplace_back( loc );
+    act->targets.emplace_back( it );
     act->str_values.push_back( std::to_string( penalty ) );
     // push an identifier of martial art book to the action handling
     if( chosen.type->use_methods.count( "MA_MANUAL" ) ) {

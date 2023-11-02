@@ -1147,9 +1147,9 @@ void monster::shift( point sm_shift )
     }
 }
 
-detached_ptr<item> monster::set_tack_item( detached_ptr<item> &&it )
+detached_ptr<item> monster::set_tack_item( detached_ptr<item> &&to )
 {
-    return tack_item.swap( std::move( it ) );
+    return tack_item.swap( std::move( to ) );
 }
 
 detached_ptr<item> monster::remove_tack_item()
@@ -1165,9 +1165,9 @@ item *monster::get_tack_item() const
     return nullptr;
 }
 
-detached_ptr<item> monster::set_tied_item( detached_ptr<item> &&it )
+detached_ptr<item> monster::set_tied_item( detached_ptr<item> &&to )
 {
-    return tied_item.swap( std::move( it ) );
+    return tied_item.swap( std::move( to ) );
 }
 
 detached_ptr<item> monster::remove_tied_item()
@@ -1183,9 +1183,9 @@ item *monster::get_tied_item() const
     return nullptr;
 }
 
-detached_ptr<item> monster::set_armor_item( detached_ptr<item> &&it )
+detached_ptr<item> monster::set_armor_item( detached_ptr<item> &&to )
 {
-    return armor_item.swap( std::move( it ) );
+    return armor_item.swap( std::move( to ) );
 }
 
 detached_ptr<item> monster::remove_armor_item()
@@ -1201,9 +1201,9 @@ item *monster::get_armor_item() const
     return nullptr;
 }
 
-detached_ptr<item> monster::set_storage_item( detached_ptr<item> &&it )
+detached_ptr<item> monster::set_storage_item( detached_ptr<item> &&to )
 {
-    return storage_item.swap( std::move( it ) );
+    return storage_item.swap( std::move( to ) );
 }
 
 detached_ptr<item> monster::remove_storage_item()
@@ -1219,9 +1219,9 @@ item *monster::get_storage_item() const
     return nullptr;
 }
 
-detached_ptr<item> monster::set_battery_item( detached_ptr<item> &&it )
+detached_ptr<item> monster::set_battery_item( detached_ptr<item> &&to )
 {
-    return battery_item.swap( std::move( it ) );
+    return battery_item.swap( std::move( to ) );
 }
 
 detached_ptr<item> monster::remove_battery_item()

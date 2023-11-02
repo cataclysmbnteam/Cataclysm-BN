@@ -50,7 +50,7 @@ std::pair<int, int> gunmod_installation_odds( const avatar &you, const item &gun
 void toolmod_add( avatar &you, item &tool, item &mod );
 
 /** Use a tool at given location */
-void use_item( avatar &you, item &loc );
+void use_item( avatar &you, item &used );
 
 /** Unload an item at given location */
 bool unload_item( avatar &you, item &loc );
