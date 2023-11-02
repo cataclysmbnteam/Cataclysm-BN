@@ -342,7 +342,7 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
                 }
                 break;
             }
-            case SPILL:
+            case SPILL: {
                 if( newloc->is_container_empty() ) {
                     debugmsg( "Tried to spill contents from an empty container" );
                     break;
@@ -352,16 +352,18 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
                 if( !picked_up ) {
                     break;
                 }
+            }
             // Intentional fallthrough
             case EMPTY:
             // Handled later
-            case STASH:
+            case STASH: {
                 auto &entry = map_pickup[newloc->tname()];
                 entry.second += newloc->count();
                 entry.first = &*newloc;
                 u.i_add( std::move( newloc ) );
                 picked_up = true;
                 break;
+            }
         }
         return std::move( newloc );
     };
