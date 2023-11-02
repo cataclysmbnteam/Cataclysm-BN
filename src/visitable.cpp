@@ -921,22 +921,25 @@ void location_visitable<monster>::remove_items_with( const
         return last;
     };
 
-
     visit_internal( filter_and_collect, mon->inv );
-
-    //TODO!: clean these up, they don't remove location correctly I don't think
-
 
     auto check_item = [&filter_and_collect]( detached_ptr<item> &&it ) {
         filter_and_collect( std::move( it ) );
         return std::move( it );
     };
 
-    mon->get_storage_item()->attempt_detach( check_item );
-    mon->get_armor_item()->attempt_detach( check_item );
-    mon->get_tack_item()->attempt_detach( check_item );
-    mon->get_tied_item()->attempt_detach( check_item );
-
+    if( mon->get_storage_item() ) {
+        mon->get_storage_item()->attempt_detach( check_item );
+    }
+    if( mon->get_armor_item() ) {
+        mon->get_armor_item()->attempt_detach( check_item );
+    }
+    if( mon->get_tack_item() ) {
+        mon->get_tack_item()->attempt_detach( check_item );
+    }
+    if( mon->get_tied_item() ) {
+        mon->get_tied_item()->attempt_detach( check_item );
+    }
 }
 
 template <typename T, typename M>
