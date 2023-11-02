@@ -1218,7 +1218,7 @@ class Character : public Creature, public location_visitable<Character>
          */
         int get_item_position( const item *it ) const;
 
-        const std::vector<item *> inv_const_stack( int position ) const;
+        const std::vector<item *> &inv_const_stack( int position ) const;
 
         const_invslice inv_const_slice() const;
 
@@ -2036,9 +2036,9 @@ class Character : public Creature, public location_visitable<Character>
         item &get_consumable_from( item &it ) const;
 
         /**
-         * Consume item (food, fuel, medicine, ...) at given location @p loc .
+         * Consume item (food, fuel, medicine, ...) at given location @p target .
          */
-        void consume( item &loc );
+        void consume( item &target );
 
         /**
          * Consume given item (food, fuel, medicine, ...).

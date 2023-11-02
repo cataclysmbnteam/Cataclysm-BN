@@ -2746,7 +2746,7 @@ int Character::get_item_position( const item *it ) const
     return inv.position_by_item( it );
 }
 
-const std::vector<item *> Character::inv_const_stack( int position ) const
+const std::vector<item *> &Character::inv_const_stack( int position ) const
 {
     return inv.const_stack( position );
 }
