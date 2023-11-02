@@ -401,7 +401,7 @@ item::item( const recipe *rec, int qty, std::vector<detached_ptr<item>> &&items,
     }
 }
 
-item::item( const item &source ) : game_object<item>(source), contents( this ),
+item::item( const item &source ) : game_object<item>( source ), contents( this ),
     components( new component_item_location( this ) )
 {
     //TODO!: back to defaults
@@ -6373,8 +6373,10 @@ void item::mitigate_damage( damage_unit &du ) const
 {
     const resistances res = resistances( *this );
     const float mitigation = res.get_effective_resist( du );
-    du.amount -= mitigation;
-    du.amount = std::max( 0.0f, du.amount );
+    // get_effective_resist subtracts the flat penetration value before multiplying the remaining armor.
+    // therefore, res_pen is reduced by the full value of the item's armor value even though mitigation might be smaller (such as an attack with a 0.5 armor multiplier)
+    du.res_pen = std::max( 0.0f, du.res_pen - res.type_resist( du.type ) );
+    du.amount = std::max( 0.0f, du.amount - mitigation );
 }
 
 int item::damage_resist( damage_type dt, bool to_self ) const
@@ -9217,7 +9219,7 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
     if( !self->active ) {
         return std::move( self );
     }
-    item &it=*self;
+    item &it = *self;
     map &here = get_map();
     // if carried by someone:
     if( carrier != nullptr ) {
@@ -9246,7 +9248,7 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
             carrier->add_msg_if_player( m_bad, _( "You fall asleep and drop your %s." ),
                                         it.tname() );
             here.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), std::move( self ) );
-            self=detached_ptr<item>();
+            self = detached_ptr<item>();
         }
     } else {
         // If not carried by someone, but laying on the ground:

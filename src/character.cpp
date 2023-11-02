@@ -771,7 +771,7 @@ noexcept
     return *this;
 }
 
-Character::~Character() =default;
+Character::~Character() = default;
 
 void Character::setID( character_id i, bool force )
 {
@@ -8969,7 +8969,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 
     if( is_dead_state() ) {
         // if the player killed himself, add it to the kill count list
-        if( !is_npc() && !killer && source == g->u.as_character() ) {
+        if( !is_npc() && !get_killer() && source == g->u.as_character() ) {
             g->events().send<event_type::character_kills_character>( get_player_character().getID(), getID(),
                     get_name() );
         }
@@ -11345,7 +11345,7 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
     }
     // Modify chance based on coverage and blocking ability, with lowered chance if hitting the legs. Exclude armguards here.
     const float technic_modifier = coverage_modifier_by_technic( level, is_leg_hit( bp_hit ) );
-    const float shield_coverage_modifier = shield.get_coverage( bp_hit ) * technic_modifier;
+    const float shield_coverage_modifier = shield.get_avg_coverage() * technic_modifier;
 
     add_msg( m_debug, _( "block_ranged_hit success rate: %i%%" ),
              static_cast<int>( shield_coverage_modifier ) );
@@ -11367,6 +11367,8 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
         const float block_amount = get_block_amount( shield, elem );
         elem.amount -= block_amount;
         blocked_damage += block_amount;
+        const resistances res = resistances( shield );
+        elem.res_pen = std::max( 0.0f, elem.res_pen - res.type_resist( elem.type ) );
     }
     blocked_damage = std::min( total_damage, blocked_damage );
     add_msg( m_debug, _( "expected base damage: %i" ), total_damage );
