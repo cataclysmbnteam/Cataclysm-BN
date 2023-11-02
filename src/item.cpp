@@ -4849,7 +4849,7 @@ std::string item::display_name( unsigned int quantity ) const
 
 std::string item::debug_name() const
 {
-    return type->nname( charges );
+    return typeId().str();
 }
 
 nc_color item::color() const
