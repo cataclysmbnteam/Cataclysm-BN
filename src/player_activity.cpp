@@ -1,4 +1,5 @@
 #include "player_activity.h"
+#include "cata_utility.h"
 #include "player_activity_ptr.h"
 
 #include <algorithm>
@@ -286,6 +287,10 @@ void player_activity::start_or_resume( Character &who, bool resuming )
 void player_activity::do_turn( player &p )
 {
     active = true;
+    on_out_of_scope _resolve_on_return( [this]() {
+        this->resolve_active();
+    } );
+
     // Should happen before activity or it may fail du to 0 moves
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
@@ -330,7 +335,6 @@ void player_activity::do_turn( player &p )
         // be still unloaded, can cause infinite loops.
         set_to_null();
         p.drop_invalid_inventory();
-        resolve_active();
         return;
     }
     const bool travel_activity = id() == activity_id( "ACT_TRAVELLING" );
@@ -358,7 +362,6 @@ void player_activity::do_turn( player &p )
                 ( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
         new_act->values.push_back( 200 + p.get_stamina_max() / 3 );
         p.assign_activity( std::move( new_act ) );
-        resolve_active();
         return;
     }
     if( *this && type->rooted() ) {
@@ -387,7 +390,6 @@ void player_activity::do_turn( player &p )
         // handle it, drop any overflow that may have caused
         p.drop_invalid_inventory();
     }
-    resolve_active();
 }
 
 void player_activity::canceled( Character &who )
