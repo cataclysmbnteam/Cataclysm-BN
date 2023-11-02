@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "...........!s________sssssssssssssssPyyyyy___s!s",
+        "...........!s________sssssssssssssssOyyyyy___s!s",
         "....,,,....ss________s,;,,,;,,;,,,;,syyyyy___s,s",
         "||||www||||ss________ssssssssssssssss________s;s",
         "|p       p|ss________________________________s,s",
@@ -83,7 +83,6 @@
         "h": "f_chair",
         "Y": "f_rack_coat",
         "F": "f_filing_cabinet",
-        "P": "f_traffic_light",
         "G": "f_bulletin"
       },
       "items": {
@@ -95,9 +94,13 @@
         "F": { "item": "file_room", "chance": 70, "repeat": [ 1, 3 ] }
       },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 15 ] } ],
+      "mapping": {
+        "P": { "terrain": "t_thconc_floor", "furniture": "f_traffic_light" },
+        "O": { "terrain": "t_concrete", "furniture": "f_traffic_light" }
+      },
       "place_vehicles": [
-        { "vehicle": "buses", "x": 35, "y": [ 6, 7 ], "chance": 35, "rotation": 360 },
-        { "vehicle": "buses", "x": 35, "y": [ 16, 17 ], "chance": 35, "rotation": 360 }
+        { "vehicle": "buses", "x": 35, "y": [ 5, 6 ], "chance": 35, "rotation": 360 },
+        { "vehicle": "buses", "x": 35, "y": [ 15, 16 ], "chance": 35, "rotation": 360 }
       ],
       "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
       "toilets": { "T": {  } }
