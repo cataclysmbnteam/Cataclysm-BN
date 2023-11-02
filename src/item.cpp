@@ -401,7 +401,7 @@ item::item( const recipe *rec, int qty, std::vector<detached_ptr<item>> &&items,
     }
 }
 
-item::item( const item &source ) : game_object<item>(), contents( this ),
+item::item( const item &source ) : game_object<item>(source), contents( this ),
     components( new component_item_location( this ) )
 {
     //TODO!: back to defaults
@@ -8523,6 +8523,7 @@ detached_ptr<item> item::use_amount( detached_ptr<item> &&self, const itype_id &
     if( quantity > 0 && self->typeId() == it && filter( *self ) ) {
         used.push_back( std::move( self ) );
         quantity--;
+        return detached_ptr<item>();
     }
     return std::move( self );
 }
@@ -8633,6 +8634,7 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
                     split->charges = n;
                     used.push_back( std::move( split ) );
                 }
+                return detached_ptr<item>();
             }
         } else if( e->count_by_charges() ) {
             if( e->typeId() == what ) {
@@ -8646,6 +8648,7 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
                     qty -= e->charges;
                     used.push_back( std::move( e ) );
                 }
+                return detached_ptr<item>();
             }
         }
         return std::move( e );
@@ -9214,6 +9217,7 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
     if( !self->active ) {
         return std::move( self );
     }
+    item &it=*self;
     map &here = get_map();
     // if carried by someone:
     if( carrier != nullptr ) {
@@ -9223,8 +9227,8 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
         } else if( carrier->has_trait( trait_LIGHTWEIGHT ) ) {
             duration = 30_seconds;
         }
-        carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), self->tname() );
-        if( self->has_flag( flag_TOBACCO ) ) {
+        carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), it.tname() );
+        if( it.has_flag( flag_TOBACCO ) ) {
             carrier->add_effect( effect_cig, duration );
         } else {
             carrier->add_effect( effect_weed_high, duration / 2 );
@@ -9233,19 +9237,20 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
 
         if( ( carrier->has_effect( effect_shakes ) && one_in( 10 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
-                                        self->tname() );
+                                        it.tname() );
             here.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), std::move( self ) );
             return detached_ptr<item>(); // removes the item that has just been added to the map
         }
 
         if( carrier->has_effect( effect_sleep ) ) {
             carrier->add_msg_if_player( m_bad, _( "You fall asleep and drop your %s." ),
-                                        self->tname() );
+                                        it.tname() );
             here.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), std::move( self ) );
+            self=detached_ptr<item>();
         }
     } else {
         // If not carried by someone, but laying on the ground:
-        if( self->item_counter % 5 == 0 ) {
+        if( it.item_counter % 5 == 0 ) {
             // lit cigarette can start fires
             if( here.flammable_items_at( pos ) ||
                 here.has_flag( flag_FLAMMABLE, pos ) ||
@@ -9256,23 +9261,23 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
     }
 
     // cig dies out
-    if( self->item_counter == 0 ) {
+    if( it.item_counter == 0 ) {
         if( carrier != nullptr ) {
-            carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), self->tname() );
+            carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), it.tname() );
         }
-        if( self->typeId() == itype_cig_lit ) {
-            self->convert( itype_cig_butt );
-        } else if( self->typeId() == itype_cigar_lit ) {
-            self->convert( itype_cigar_butt );
+        if( it.typeId() == itype_cig_lit ) {
+            it.convert( itype_cig_butt );
+        } else if( it.typeId() == itype_cigar_lit ) {
+            it.convert( itype_cigar_butt );
         } else { // joint
-            self->convert( itype_joint_roach );
+            it.convert( itype_joint_roach );
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
                 here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), fd_weedsmoke, 2 );
                 weed_msg( *carrier );
             }
         }
-        self->active = false;
+        it.active = false;
     }
     // Item remains
     return std::move( self );

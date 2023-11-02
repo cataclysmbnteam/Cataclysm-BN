@@ -382,7 +382,6 @@ Character &get_player_character()
 
 // *INDENT-OFF*
 Character::Character() :
-	Creature(),
     location_visitable<Character>(),
     worn(new worn_item_location(this)),
     damage_bandaged( {{ 0 }} ),
@@ -772,9 +771,7 @@ noexcept
     return *this;
 }
 
-Character::~Character()
-{
-}
+Character::~Character() =default;
 
 void Character::setID( character_id i, bool force )
 {
@@ -4266,9 +4263,9 @@ bool Character::change_side( item &it, bool interactive )
     return true;
 }
 
-bool Character::change_side( item *loc, bool interactive )
+bool Character::change_side( item *it, bool interactive )
 {
-    if( !loc || !is_worn( *loc ) ) {
+    if( !it || !is_worn( *it ) ) {
         if( interactive ) {
             add_msg_player_or_npc( m_info,
                                    _( "You are not wearing that item." ),
@@ -4277,7 +4274,7 @@ bool Character::change_side( item *loc, bool interactive )
         return false;
     }
 
-    return change_side( *loc, interactive );
+    return change_side( *it, interactive );
 }
 
 static void layer_item( char_encumbrance_data &vals,
