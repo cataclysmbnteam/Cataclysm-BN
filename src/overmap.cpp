@@ -5609,12 +5609,50 @@ int overmap::place_special_attempt( const overmap_special &special, const int ma
 // Iterate over overmap searching for valid locations, and placing specials
 void overmap::place_specials( overmap_special_batch &enabled_specials )
 {
+    const int RANGE = std::max( 0, get_option<int>( "SPECIALS_SPACING" ) );
+    const float DENSITY = get_option<float>( "SPECIALS_DENSITY" );
+
+    // Rough estimate how many space our specials about to take with
+    // our range, density, and available specials, if we can't possibly
+    // have that much - tune density down
+    float land_needed = 0;
+    float lake_needed = 0;
+
+    std::unordered_map<overmap_special_id, int> special_area;
+    for( auto &iter : enabled_specials ) {
+        const overmap_special &special = *iter.special_details;
+
+        // preview_terrains() would give more accurate area, but
+        // since we don't taking in account cities, and assumes
+        // tight packig of terrains - some overestimation won't hurt
+        special_area[special.id] = special.required_locations().size();
+        const numeric_interval<int> &o = special.get_constraints().occurrences;
+
+        float average_amount = special.has_flag( "UNIQUE" ) ?
+                               static_cast<float>( o.min ) / o.max :
+                               static_cast<float>( o.min + o.max ) / 2;
+
+        float total_area = std::pow( std::sqrt( special_area[special.id] ) + RANGE, 2.0 ) *
+                           average_amount * DENSITY;
+        if( special.has_flag( "LAKE" ) ) {
+            lake_needed += total_area;
+        } else {
+            land_needed += total_area;
+        }
+    }
+
+    // Most of the setups should end with x1 multiplier, but some dire combinations
+    // of settings like maxed spacing and density may actually need adjusting to
+    // give a things on bottom of the list a chance to spawn
+    float lake_crowd_ratio = std::min( 1.0f, OMAPX * OMAPY / lake_needed );
+    float land_crowd_ratio = std::min( 1.0f, OMAPX * OMAPY / land_needed );
+
     // Sort specials be they sizes - placing big things is faster
     // and easier while we have most of map still empty, and also
     // that central lab will have top priority
     bool is_true_center = pos() == point_abs_om();
-    const auto special_weight = [&is_true_center]( const overmap_special * s ) {
-        int weight = s->required_locations().size();
+    const auto special_weight = [&]( const overmap_special * s ) {
+        int weight = special_area[s->id];
         if( is_true_center && s->has_flag( "ENDGAME" ) ) {
             weight *= 1000;
         }
@@ -5642,9 +5680,9 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     // Calculate water to land ratio to normalize specials occurencies
     // we don't want to dump all specials on overmap covered by water
     float lake_rate = lake_points.size() / static_cast<float>( OMAPX * OMAPY ) *
-                      get_option<float>( "SPECIALS_DENSITY" );
+                      lake_crowd_ratio * DENSITY;
     float land_rate = land_points.size() / static_cast<float>( OMAPX * OMAPY ) *
-                      get_option<float>( "SPECIALS_DENSITY" );
+                      land_crowd_ratio * DENSITY;
 
     specials_overlay lake( lake_points );
     specials_overlay land( land_points );
