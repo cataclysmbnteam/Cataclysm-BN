@@ -408,6 +408,7 @@ static VisitResponse visit_internal( std::function < VisitResponse( detached_ptr
             return std::move( e );
         }
         last = filter( std::move( e ) );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         if( last == VisitResponse::NEXT && e ) {
             e->contents.remove_items_with( [&last, &filter]( detached_ptr<item> &&e ) {
                 if( last == VisitResponse::ABORT ) {
@@ -729,6 +730,7 @@ void location_visitable<location_inventory>::remove_items_with( const
 
             last = filter( std::move( t ) );
 
+            // NOLINTNEXTLINE(bugprone-use-after-move)
             if( !t ) {
                 istack_iter = istack.erase( istack_iter );
                 if( istack_iter == istack.begin() && istack_iter != istack.end() ) {
@@ -793,6 +795,7 @@ void location_visitable<Character>::remove_items_with( const
 
     if( !ch->primary_weapon().attempt_detach( [&last, &filter]( detached_ptr<item> &&e ) {
     last = filter( std::move( e ) );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         return std::move( e );
     } ) ) {
         if( last == VisitResponse::NEXT ) {
@@ -821,6 +824,7 @@ void location_visitable<map_cursor>::remove_items_with( const
     visit_internal( [&filter, sub, offset]( detached_ptr<item> &&e ) {
         item &obj = *e;
         VisitResponse res = filter( std::move( e ) );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         if( !e ) {
             // remove from the active items cache (if it isn't there does nothing)
             sub->active_items.remove( &obj );
@@ -871,6 +875,7 @@ void location_visitable<vehicle_cursor>::remove_items_with( const
 
     visit_internal( [&filter, &removed]( detached_ptr<item> &&e ) {
         VisitResponse ret = filter( std::move( e ) );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         if( !e ) {
             removed = true;
         }
@@ -925,6 +930,7 @@ void location_visitable<monster>::remove_items_with( const
 
     auto check_item = [&filter_and_collect]( detached_ptr<item> &&it ) {
         filter_and_collect( std::move( it ) );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         return std::move( it );
     };
 

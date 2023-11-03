@@ -365,6 +365,7 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
                 break;
             }
         }
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         return std::move( newloc );
     };
 

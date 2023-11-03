@@ -4681,6 +4681,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( m_info, _( "…but acidic blood damages the %s!" ), it->tname() );
         }
         if( !liquid_handler::handle_liquid( std::move( acid ), 1 ) ) {
+            // NOLINTNEXTLINE(bugprone-use-after-move)
             it->put_in( std::move( acid ) );
         }
         return it->type->charges_to_use();
@@ -4692,6 +4693,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 
     detached_ptr<item> blood = item::spawn( "blood", calendar::turn );
     if( !liquid_handler::handle_liquid( std::move( blood ), 1 ) ) {
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         it->put_in( std::move( blood ) );
     }
     return it->type->charges_to_use();

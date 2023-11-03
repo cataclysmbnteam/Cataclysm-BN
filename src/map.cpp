@@ -4377,6 +4377,7 @@ detached_ptr<item> map::add_item_or_charges( const tripoint &pos, detached_ptr<i
     auto place_item = [&]( const tripoint & tile ) {
         if( obj->count_by_charges() ) {
             for( auto &e : i_at( tile ) ) {
+                // NOLINTNEXTLINE(bugprone-use-after-move)
                 if( e->merge_charges( std::move( obj ) ) ) {
                     return;
                 }
@@ -4899,6 +4900,7 @@ std::vector<detached_ptr<item>> use_amount_stack( Stack stack, const itype_id &t
             return std::move( it );
         }
         detached_ptr<item> new_it = item::use_amount( std::move( it ), type, quantity, ret, filter );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         if( it && !new_it ) {
             ret.push_back( std::move( it ) );
         }
@@ -4962,6 +4964,7 @@ std::vector<detached_ptr<item>> use_charges_from_stack( Stack stack, const itype
             return std::move( it );
         }
         detached_ptr<item> new_it = item::use_charges( std::move( it ), type, quantity, ret, pos, filter );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         if( it && !new_it ) {
             ret.push_back( std::move( it ) );
         }

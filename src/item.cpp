@@ -8176,6 +8176,7 @@ bool item::reload( player &u, item &loc, int qty )
             }
         }
         if( !merged ) {
+            // NOLINTNEXTLINE(bugprone-use-after-move)
             put_in( std::move( to_reload ) );
         }
     } else if( is_watertight_container() ) {

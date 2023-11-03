@@ -190,6 +190,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason,
             continue;
         }
         veh.add_item( part, std::move( it ) );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         if( !it ) {
             into_vehicle = true;
         } else {

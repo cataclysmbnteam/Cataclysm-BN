@@ -855,6 +855,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                                   colorize( it->tname(), it->color_in_inventory() ) ) ) {
                         detached_ptr<item> water = item::spawn( itype_water_clean, calendar::turn, avail );
                         liquid_handler::consume_liquid( std::move( water ) );
+                        // NOLINTNEXTLINE(bugprone-use-after-move)
                         if( water && water->charges < avail ) {
                             add_msg_activate();
                             extracted = true;

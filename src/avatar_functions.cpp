@@ -625,6 +625,7 @@ static detached_ptr<item> add_or_drop_with_msg( avatar &you, detached_ptr<item> 
 {
     if( it->made_of( LIQUID ) ) {
         liquid_handler::consume_liquid( std::move( it ), 1 );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         return std::move( it );
     }
     it = you.i_add_to_container( std::move( it ), unloading );

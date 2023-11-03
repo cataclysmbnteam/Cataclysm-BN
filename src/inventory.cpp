@@ -1404,7 +1404,9 @@ item &location_inventory::add_item( detached_ptr<item> &&newit, bool keep_invlet
     if( should_stack ) {
         for( auto &elem : inv.items ) {
             item *&it = *elem.begin();
+            // NOLINTNEXTLINE(bugprone-use-after-move)
             if( it->stacks_with( *newit ) ) {
+                // NOLINTNEXTLINE(bugprone-use-after-move)
                 if( it->merge_charges( std::move( newit ) ) ) {
                     return *it;
                 }

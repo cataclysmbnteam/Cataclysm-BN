@@ -5457,6 +5457,7 @@ detached_ptr<item> vehicle::add_item( int part, detached_ptr<item> &&itm )
         if( here ) {
             invalidate_mass();
             if( !here->merge_charges( std::move( itm ) ) ) {
+                // NOLINTNEXTLINE(bugprone-use-after-move)
                 return std::move( itm );
             } else {
                 return detached_ptr<item>();

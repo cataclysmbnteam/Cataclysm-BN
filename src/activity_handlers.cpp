@@ -1477,6 +1477,7 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
     }
     detached_ptr<item> milk = item::spawn( milked_item->first, calendar::turn, milked_item->second );
     liquid_handler::handle_liquid( std::move( milk ) );
+    // NOLINTNEXTLINE(bugprone-use-after-move)
     if( !milk ) {
         milked_item->second = 0;
         p->add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );

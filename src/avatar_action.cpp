@@ -1118,6 +1118,7 @@ void avatar_action::wield( item &loc )
 
                 }
 
+                // NOLINTNEXTLINE(bugprone-use-after-move)
                 if( detached ) {
                     here.add_item( pos, std::move( detached ) );
                 }

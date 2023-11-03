@@ -76,6 +76,7 @@ namespace liquid_handler
 {
 void handle_all_liquid( detached_ptr<item> &&liquid, const int radius )
 {
+    // NOLINTNEXTLINE(bugprone-use-after-move)
     while( liquid ) {
         // handle_liquid allows to pour onto the ground, which will handle all the liquid and
         // set charges to 0. This allows terminating the loop.
@@ -96,6 +97,7 @@ bool consume_liquid( item &liquid, const int radius )
 bool consume_liquid( detached_ptr<item> &&liquid, const int radius )
 {
     const auto original_charges = liquid->charges;
+    // NOLINTNEXTLINE(bugprone-use-after-move)
     while( liquid && handle_liquid( std::move( liquid ), radius ) ) {
         // try again with the remaining charges
     }

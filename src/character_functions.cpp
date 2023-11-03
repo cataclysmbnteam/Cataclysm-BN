@@ -96,6 +96,7 @@ void siphon( Character &ch, vehicle &veh, const itype_id &desired_liquid )
 
     detached_ptr<item> liquid = item::spawn( desired_liquid, calendar::turn, qty );
     liquid_handler::handle_liquid( std::move( liquid ) );
+    // NOLINTNEXTLINE(bugprone-use-after-move)
     if( liquid ) {
         veh.drain( desired_liquid, qty - liquid->charges );
     } else {
