@@ -243,7 +243,7 @@ void JsonObject::show_warning( const std::string &err ) const
 {
 #ifndef CATA_IN_TOOL
     try {
-        throw_error( std::move( err ) );
+        throw_error( err );
     } catch( const std::exception &e ) {
         debugmsg( "%s", e.what() );
     }
@@ -256,7 +256,7 @@ void JsonObject::show_warning( const std::string &err, const std::string &name )
 {
 #ifndef CATA_IN_TOOL
     try {
-        throw_error( std::move( err ), name );
+        throw_error( err, name );
     } catch( const std::exception &e ) {
         debugmsg( "%s", e.what() );
     }
@@ -270,7 +270,7 @@ void JsonArray::show_warning( const std::string &err )
 {
 #ifndef CATA_IN_TOOL
     try {
-        throw_error( std::move( err ) );
+        throw_error( err );
     } catch( const std::exception &e ) {
         debugmsg( "%s", e.what() );
     }
@@ -283,7 +283,7 @@ void JsonArray::show_warning( const std::string &err, int idx )
 {
 #ifndef CATA_IN_TOOL
     try {
-        throw_error( std::move( err ), idx );
+        throw_error( err, idx );
     } catch( const std::exception &e ) {
         debugmsg( "%s", e.what() );
     }

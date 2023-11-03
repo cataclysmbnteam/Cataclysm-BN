@@ -166,7 +166,7 @@ struct talk_effect_t {
           * Sets an effect to a function object and consequence to explicitly given one.
           */
         void set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con );
-        void set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con );
+        void set_effect_consequence( const std::function<void( npc &p )> &ptr, dialogue_consequence con );
 
         void load_effect( const JsonObject &jo );
         void parse_sub_effect( const JsonObject &jo );
