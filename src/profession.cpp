@@ -683,16 +683,13 @@ std::vector<detached_ptr<item>> json_item_substitution::get_substitution( const 
 
     const int old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
-        detached_ptr<item> result = item::spawn( inf.new_item, advanced_spawn_time() );
         const int new_amt = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
-        if( !result->count_by_charges() ) {
+        if( !inf.new_item->count_by_charges() ) {
             for( int i = 0; i < new_amt; i++ ) {
-                ret.push_back( item::in_its_container( std::move( result ) ) );
-                if( i < new_amt ) {
-                    result = item::spawn( inf.new_item, advanced_spawn_time() );
-                }
+                ret.push_back( item::in_its_container( item::spawn( inf.new_item, advanced_spawn_time() ) ) );
             }
         } else {
+            detached_ptr<item> result = item::spawn( inf.new_item, advanced_spawn_time() );
             result->mod_charges( -result->charges + new_amt );
             while( result->charges > 0 ) {
                 item &pushed = *result;

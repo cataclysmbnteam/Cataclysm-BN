@@ -21,6 +21,7 @@
 #include "coordinate_conversions.h"
 #include "damage.h"
 #include "debug.h"
+#include "detached_ptr.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -1759,8 +1760,10 @@ void npc::shop_restock()
             cursor.remove_top_items_with( [this]( detached_ptr<item> &&it ) {
                 if( it->is_owned_by( *this ) ) {
                     inv.push_back( std::move( it ) );
+                    return detached_ptr<item>();
+                } else {
+                    return std::move( it );
                 }
-                return std::move( it );
             } );
         }
         set_moves( old_moves );

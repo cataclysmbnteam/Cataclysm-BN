@@ -2,6 +2,7 @@
 
 #include "character.h"
 #include "coordinates.h"
+#include "detached_ptr.h"
 #include "item.h"
 #include "location_ptr.h"
 #include "map.h"
@@ -192,8 +193,10 @@ detached_ptr<item> worn_item_location::detach( item *it )
     holder->remove_worn_items_with( [&it, &res]( detached_ptr<item> &&ch ) {
         if( &*ch == it ) {
             res = std::move( ch );
+            return detached_ptr<item>();
+        } else {
+            return std::move( ch );
         }
-        return std::move( ch );
     } );
     if( !res ) {
         debugmsg( "Failed to find worn item in detach" );

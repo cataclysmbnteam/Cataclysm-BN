@@ -32,6 +32,7 @@
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "detached_ptr.h"
 #include "distribution_grid.h"
 #include "drawing_primitives.h"
 #include "enums.h"
@@ -3143,8 +3144,10 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
             it->contents.remove_top_items_with( [&contents]( detached_ptr<item> &&it ) {
                 if( !it->is_irremovable() ) {
                     contents.push_back( std::move( it ) );
+                    return detached_ptr<item>();
+                } else {
+                    return std::move( it );
                 }
-                return std::move( it );
             } );
             if( items_damaged == 0 ) {
                 damaged_item_name = it->tname();
