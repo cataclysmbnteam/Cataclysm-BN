@@ -754,7 +754,8 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     } else {
         you.i_add( std::move( granted ) );
     }
-    if( !granted->count_by_charges() ) {
+    // NOLINTNEXTLINE(bugprone-use-after-move)
+    if( granted && !granted->count_by_charges() ) {
         for( int i = 1; i < sp.damage(); i++ ) {
             you.i_add( item::spawn( as_item ) );
         }

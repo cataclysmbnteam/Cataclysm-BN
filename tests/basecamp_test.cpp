@@ -41,7 +41,8 @@ static detached_ptr<item> make_food( const itype_id &inner_food_id, int amount,
             can = item::spawn( unsealed_can_id, calendar::turn_zero );
             break;
     }
-    REQUIRE( can->contents.insert_item( std::move( food ) ).success() );
+    ret_val<bool> retval = can->contents.insert_item( std::move( food ) );
+    REQUIRE( retval.success() );
     return can;
 }
 
