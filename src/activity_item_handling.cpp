@@ -186,7 +186,8 @@ static void put_into_vehicle( Character &c, item_drop_reason reason,
     // can't use constant reference here because of the spill_contents()
     for( detached_ptr<item> &it : items ) {
         item &obj = *it;
-        if( !( it = pickup::handle_spillable_contents( c, std::move( it ), here ) ) ) {
+        it = pickup::handle_spillable_contents( c, std::move( it ), here );
+        if( !it ) {
             continue;
         }
         veh.add_item( part, std::move( it ) );
