@@ -815,6 +815,7 @@ void location_inventory::dump_remove( std::vector<detached_ptr<item>> &dest )
             dest.push_back( detached_ptr<item>( elem_stack_iter ) );
         }
     }
+    inv.clear();
 }
 
 std::vector<detached_ptr<item>> location_inventory::dump_remove( )
