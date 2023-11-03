@@ -235,6 +235,8 @@ if (NOT MSVC)
        -Wsuggest-override \
        -Wunused-macros \
        -Wzero-as-null-pointer-constant \
+       -Wno-unknown-warning-option \
+       -Wno-dangling-reference \
        -Wno-range-loop-analysis")
     if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
        set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-unknown-warning-option")
