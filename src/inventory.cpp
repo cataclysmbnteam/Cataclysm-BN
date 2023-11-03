@@ -1438,7 +1438,6 @@ item &location_inventory::add_item_by_items_type_cache( detached_ptr<item> &&new
             item *&it = *elem.begin();
             if( it->stacks_with( *newit ) ) {
                 if( it->merge_charges( std::move( newit ) ) ) {
-                    newit.release();
                     return null_item_reference();
                 }
             }
@@ -1467,7 +1466,6 @@ void location_inventory::add_item_keep_invlet( detached_ptr<item> &&newit )
         item *&it = *elem.begin();
         if( it->stacks_with( *newit ) ) {
             if( it->merge_charges( std::move( newit ) ) ) {
-                newit.release();
                 return;
             }
         }
