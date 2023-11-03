@@ -2371,12 +2371,6 @@ bool overmap_special::requires_city() const
 
 bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const
 {
-    if( !requires_city() ) {
-        return true;
-    }
-    if( !cit || !constraints_.city_size.contains( cit.size ) ) {
-        return false;
-    }
     return constraints_.city_distance.contains( cit.get_distance_from( p ) - ( cit.size ) );
 }
 
@@ -5551,15 +5545,39 @@ int overmap::place_special_attempt( const overmap_special &special, const int ma
 
     const int RANGE = get_option<int>( "SPECIALS_SPACING" );
 
+    // Check how many cities are suitable for this specials
+    // and try to distribute specials between then
+    bool need_city = special.requires_city();
+    int max_per_city = INT_MAX;
+    std::unordered_map<const city *, int> valid_city;
+    if( need_city ) {
+        int valid_cities = 0;
+        for( const auto &city : cities ) {
+            if( special.get_constraints().city_size.contains( city.size ) ) {
+                valid_cities++;
+                valid_city[&city] = 0;
+            }
+        }
+        if( valid_cities < 1 ) {
+            return 0;
+        }
+        max_per_city = std::ceil( static_cast<float>( max ) / valid_cities );
+    }
+
     int placed = 0;
     for( auto p = points.begin(); p != points.end(); ) {
         const city &nearest_city = get_nearest_city( *p );
 
         // City check is the fastest => it goes first.
-        if( !special.can_belong_to_city( *p, nearest_city ) ) {
-            p++;
-            continue;
+        if( need_city ) {
+            if( valid_city.count( &nearest_city ) < 1 ||
+                valid_city[&nearest_city] >= max_per_city ||
+                !special.can_belong_to_city( *p, nearest_city ) ) {
+                p++;
+                continue;
+            }
         }
+
         // See if we can actually place the special there.
         const auto rotation = random_special_rotation( special, *p, must_be_unexplored );
         if( rotation == om_direction::type::invalid ) {
@@ -5568,6 +5586,9 @@ int overmap::place_special_attempt( const overmap_special &special, const int ma
         }
         std::vector<tripoint_om_omt> result = place_special( special, *p, rotation, nearest_city, false,
                                               must_be_unexplored );
+        if( need_city ) {
+            valid_city[&nearest_city]++;
+        }
 
         // Remove all used points from our candidates list
         if( RANGE == 0 ) {
