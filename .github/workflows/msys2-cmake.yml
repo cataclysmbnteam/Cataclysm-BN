@@ -67,9 +67,10 @@ jobs:
           -DSOUND=ON \
           -DLUA=ON \
           -DTESTS=ON \
-          -DCMAKE_BUILD_TYPE=Debug \
+          -DDYNAMIC_LINKING=ON \
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo \
           -DCMAKE_CXX_FLAGS="-w" \
-          -G "MSYS Makefiles" \
+          -G "Ninja" \
           ..
 
     - name: Build
