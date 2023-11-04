@@ -30,7 +30,7 @@
     "base_casting_time": 100,
     "base_energy_cost": 800,
     "energy_source": "MANA",
-    "flags": [ "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
+    "flags": [ "SOMATIC", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
     "spell_class": "BIOMANCER",
     "difficulty": 4,
     "max_level": 1
@@ -52,7 +52,7 @@
     "duration_increment": 3000,
     "difficulty": 6,
     "max_level": 30,
-    "flags": [ "SOMATIC", "LOUD" ],
+    "flags": [ "SOMATIC", "LOUD", "NO_EXPLOSION_VFX" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA"
   },
@@ -70,7 +70,7 @@
     "spell_class": "BIOMANCER",
     "difficulty": 6,
     "max_level": 30,
-    "flags": [ "SOMATIC", "LOUD" ],
+    "flags": [ "SOMATIC", "LOUD", "NO_EXPLOSION_VFX" ],
     "//": "duration is in moves",
     "min_duration": 15000,
     "max_duration": 27000,
@@ -119,7 +119,7 @@
     "duration_increment": 15000,
     "difficulty": 4,
     "max_level": 30,
-    "flags": [ "NO_HANDS", "NO_LEGS", "SOMATIC" ],
+    "flags": [ "NO_HANDS", "NO_LEGS", "SOMATIC", "NO_EXPLOSION_VFX" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA"
   },
@@ -140,7 +140,7 @@
     "duration_increment": 3000,
     "difficulty": 14,
     "max_level": 30,
-    "flags": [ "LOUD", "SOMATIC" ],
+    "flags": [ "LOUD", "SOMATIC", "NO_EXPLOSION_VFX" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA"
   },
@@ -163,7 +163,7 @@
     "max_level": 0,
     "spell_class": "BIOMANCER",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX" ]
   },
   {
     "id": "biomancer_paralytic_dart",
@@ -229,7 +229,7 @@
     "valid_targets": [ "ally", "hostile" ],
     "effect": "target_attack",
     "effect_str": "biomancer_dart_venom",
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_VFX" ],
     "max_level": 30,
     "min_aoe": 5,
     "max_aoe": 12,
@@ -251,7 +251,7 @@
     "valid_targets": [ "self" ],
     "effect": "target_attack",
     "effect_str": "biomancer_visceral_side_effects",
-    "flags": [ "VERBAL" ],
+    "flags": [ "VERBAL", "NO_EXPLOSION_VFX" ],
     "min_duration": 600,
     "max_duration": 600
   },
@@ -263,7 +263,7 @@
     "valid_targets": [ "self" ],
     "effect": "target_attack",
     "effect_str": "bio_weave",
-    "flags": [ "SOMATIC", "VERBAL" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_EXPLOSION_VFX" ],
     "energy_source": "MANA",
     "spell_class": "BIOMANCER",
     "difficulty": 5,

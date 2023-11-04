@@ -140,7 +140,7 @@
     "max_level": 35,
     "effect": "recover_energy",
     "effect_str": "MANA",
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ]
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_VFX" ]
   },
   {
     "type": "enchantment",
