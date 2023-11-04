@@ -897,7 +897,8 @@ void show_armor_layers_ui( Character &who )
                 if( you.query_yn( _( "Remove selected armor?" ) ) ) {
                     do_return_entry();
                     // remove the item, asking to drop it if necessary
-                    who.as_player()->takeoff( **access_tmp_worn( leftListIndex ) );
+                    item& to_takeoff=**access_tmp_worn( leftListIndex );
+                    who.as_player()->takeoff( to_takeoff );
                     if( !you.has_activity( ACT_ARMOR_LAYERS ) ) {
                         // An activity has been created to take off the item;
                         // we must surrender control until it is done.
