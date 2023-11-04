@@ -190,7 +190,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason,
         if( !it ) {
             continue;
         }
-        it=veh.add_item( part, std::move( it ) );
+        it = veh.add_item( part, std::move( it ) );
         if( !it ) {
             into_vehicle = true;
         } else {
