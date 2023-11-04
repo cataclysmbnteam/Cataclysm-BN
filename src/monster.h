@@ -97,7 +97,6 @@ class monster : public Creature, public location_visitable<monster>
         monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
         monster( const monster & );
-        monster( monster && ) noexcept ;
         ~monster() override;
         monster &operator=( const monster & ) = delete;
         monster &operator=( monster && ) = delete;

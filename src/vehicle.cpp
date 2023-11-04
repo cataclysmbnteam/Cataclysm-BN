@@ -256,6 +256,111 @@ units::volume vehicle_stack::max_volume() const
 
 // Vehicle class methods.
 
+void vehicle::copy_static_from(const vehicle & source){
+	//next_hack_id isn't copied
+    //parts isn't copied;
+	collision_check_points=source.collision_check_points;
+	owner=source.owner;
+	old_owner=source.old_owner;
+	coefficient_air_resistance=source.coefficient_air_resistance;
+	coefficient_rolling_resistance=source.coefficient_rolling_resistance;
+	coefficient_water_resistance=source.coefficient_water_resistance;
+	draft_m=source.draft_m;
+	hull_height=source.hull_height;
+	hull_area=source.hull_area;
+	occupied_points=source.occupied_points;
+	alternators=source.alternators;
+	engines=source.engines;
+	reactors=source.reactors;
+	solar_panels=source.solar_panels;
+	wind_turbines=source.wind_turbines;
+	water_wheels=source.water_wheels;
+	sails=source.sails;
+	funnels=source.funnels;
+	emitters=source.emitters;
+	loose_parts=source.loose_parts;
+	wheelcache=source.wheelcache;
+	rotors=source.rotors;
+	rail_wheelcache=source.rail_wheelcache;
+	steering=source.steering;
+	speciality=source.speciality;
+	floating=source.floating;
+	rail_profile=source.rail_profile;
+	name=source.name;
+	type=source.type;
+	relative_parts=source.relative_parts;
+	labels=source.labels;
+	tags=source.tags;
+	fuel_remainder=source.fuel_remainder;
+	fuel_used_last_turn=source.fuel_used_last_turn;
+	loot_zones=source.loot_zones;
+	active_items=source.active_items;
+	magic=source.magic;
+	summon_time_limit=source.summon_time_limit;
+	mass_cache=source.mass_cache;
+	pivot_cache=source.pivot_cache;
+	mount_max=source.mount_max;
+	mount_min=source.mount_min;
+	mass_center_precalc=source.mass_center_precalc;
+	mass_center_no_precalc=source.mass_center_no_precalc;
+	autodrive_local_target=source.autodrive_local_target;
+	active_autodrive_controller=source.active_autodrive_controller;
+	removed_part_count=source.removed_part_count;
+	sm_pos=source.sm_pos;
+	alternator_load=source.alternator_load;
+	occupied_cache_time=source.occupied_cache_time;
+	last_update=source.last_update;
+	pos=source.pos;
+	velocity=source.velocity;
+	cruise_velocity=source.cruise_velocity;
+	vertical_velocity=source.vertical_velocity;
+	om_id=source.om_id;
+	turn_dir=source.turn_dir;
+	last_turn=source.last_turn;
+	of_turn=source.of_turn;
+	of_turn_carry=source.of_turn_carry;
+	extra_drag=source.extra_drag;
+	last_fluid_check=source.last_fluid_check;
+	theft_time=source.theft_time;
+	pivot_rotation=source.pivot_rotation;
+	front_left=source.front_left;
+	front_right=source.front_right;
+	tow_data=source.tow_data;
+	pivot_anchor=source.pivot_anchor;
+	face=source.face;
+	move=source.move;
+	no_refresh=source.no_refresh;
+	pivot_dirty=source.pivot_dirty;
+	mass_dirty=source.mass_dirty;
+	mass_center_precalc_dirty=source.mass_center_precalc_dirty;
+	mass_center_no_precalc_dirty=source.mass_center_no_precalc_dirty;
+	coeff_rolling_dirty=source.coeff_rolling_dirty;
+	coeff_air_dirty=source.coeff_air_dirty;
+	coeff_water_dirty=source.coeff_water_dirty;
+	coeff_air_changed=source.coeff_air_changed;
+	is_floating=source.is_floating;
+	in_water=source.in_water;
+	is_flying=source.is_flying;
+	requested_z_change=source.requested_z_change;
+	attached=source.attached;
+	is_autodriving=source.is_autodriving;
+	is_following=source.is_following;
+	is_patrolling=source.is_patrolling;
+	cruise_on=source.cruise_on;
+	engine_on=source.engine_on;
+	tracking_on=source.tracking_on;
+	is_locked=source.is_locked;
+	is_alarm_on=source.is_alarm_on;
+	camera_on=source.camera_on;
+	autopilot_on=source.autopilot_on;
+	skidding=source.skidding;
+	check_environmental_effects=source.check_environmental_effects;
+	insides_dirty=source.insides_dirty;
+	is_falling=source.is_falling;
+	zones_dirty=source.zones_dirty;
+	vehicle_noise=source.vehicle_noise;
+}
+
 vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
                   int init_veh_status ): type( type_id )
 {
@@ -268,10 +373,10 @@ vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
         const vehicle_prototype &proto = type.obj();
         // Copy the already made vehicle. The blueprint is created when the json data is loaded
         // and is guaranteed to be valid (has valid parts etc.).
-        *this = *proto.blueprint;
-        for( vehicle_part &part : parts ) {
-            part.set_vehicle_hack( this );
-        }
+        copy_static_from(*proto.blueprint);
+        for(vehicle_part & part : proto.blueprint->parts){
+			parts.emplace_back(part, this);
+		}
         init_state( init_veh_fuel, init_veh_status );
     }
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
@@ -1109,7 +1214,7 @@ bool vehicle::is_part_on( const int p ) const
 
 bool vehicle::is_alternator_on( const int a ) const
 {
-    auto alt = parts[ alternators [ a ] ];
+    auto& alt = parts[ alternators [ a ] ];
     if( alt.is_unavailable() ) {
         return false;
     }
@@ -1545,7 +1650,7 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
                     }
                 }
                 if( !found ) {
-                    vehicle_part next_part = parts[parts_there[0]];
+                    const vehicle_part &next_part = parts[parts_there[0]];
                     discovered.push_back( &next_part );
                 }
             }
@@ -2327,8 +2432,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                 }
             }
             // transfer the vehicle_part to the new vehicle
-            new_vehicle->parts.emplace_back( std::move( parts[ mov_part ] ) );
-            new_vehicle->refresh_locations_hack();
+            new_vehicle->parts.emplace_back( parts[ mov_part ], new_vehicle );
             vehicle_part &np = new_vehicle->parts.back();
             np.mount = new_mount;
             np.set_vehicle_hack( new_vehicle );
@@ -2401,6 +2505,9 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             new_vehicle->relocate_passengers( passengers );
         }
     }
+    if(did_split){
+		part_removal_cleanup();
+	}
     return did_split;
 }
 
@@ -2612,7 +2719,7 @@ int vehicle::obstacle_at_position( point pos ) const
         return -1;
     }
 
-    auto ref = parts[i];
+    auto& ref = parts[i];
 
     if( ref.info().has_flag( VPFLAG_OPENABLE ) && ref.open ) {
         return -1;
@@ -2629,7 +2736,7 @@ int vehicle::opaque_at_position( point pos ) const
         return -1;
     }
 
-    auto ref = parts[i];
+    auto& ref = parts[i];
 
     if( ref.info().has_flag( VPFLAG_OPENABLE ) && ref.open ) {
         return -1;
