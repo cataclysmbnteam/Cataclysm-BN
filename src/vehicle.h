@@ -449,6 +449,7 @@ class vehicle
 
         vehicle_part &get_part_hack( int );
         int get_part_id_hack( int );
+        void refresh_locations_hack();
 
         int get_next_hack_id() {
             return next_hack_id++;

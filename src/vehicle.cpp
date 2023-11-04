@@ -345,8 +345,8 @@ void vehicle::add_missing_frames()
         }
         if( !found ) {
             // Install missing frame
-            //TODO!: check
             parts.emplace_back( frame_id, i.mount, item::spawn( frame_id->item ), this );
+            refresh_locations_hack();
         }
     }
 }
@@ -1625,6 +1625,7 @@ int vehicle::install_part( point dp, vehicle_part &&new_part )
     }
 
     parts.push_back( std::move( new_part ) );
+    refresh_locations_hack();
     auto &pt = parts.back();
     pt.set_vehicle_hack( this );
 
@@ -1782,6 +1783,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
             for( int carry_part : carry_map.carry_parts_here ) {
                 //TODO!: check that the carry veh is really destroyed after this
                 parts.push_back( std::move( carry_veh->parts[ carry_part ] ) );
+                refresh_locations_hack();
                 vehicle_part &carried_part = parts.back();
 
                 carried_part.mount = carry_map.carry_mount;
@@ -2326,6 +2328,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             }
             // transfer the vehicle_part to the new vehicle
             new_vehicle->parts.emplace_back( std::move( parts[ mov_part ] ) );
+            new_vehicle->refresh_locations_hack();
             vehicle_part &np = new_vehicle->parts.back();
             np.mount = new_mount;
             np.set_vehicle_hack( new_vehicle );
@@ -7213,6 +7216,13 @@ bool vehicle_part_with_feature_range<vpart_bitflags>::matches( const size_t part
 bool vehicle::is_loaded() const
 {
     return attached && get_map().inbounds( global_pos3() );
+}
+
+void vehicle::refresh_locations_hack()
+{
+    for( vehicle_part &part : parts ) {
+        part.refresh_locations_hack( this );
+    }
 }
 
 vehicle_part &vehicle::get_part_hack( int id )
