@@ -13,7 +13,6 @@
 #include "active_item_cache.h"
 #include "active_tile_data.h"
 #include "calendar.h"
-#include "colony.h"
 #include "computer.h"
 #include "construction_partial.h"
 #include "field.h"
@@ -49,26 +48,25 @@ struct spawn_point {
 
 template<int sx, int sy>
 struct maptile_soa {
-    ter_id             ter[sx][sy];  // Terrain on each square
-    furn_id            frn[sx][sy];  // Furniture on each square
-    std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
-    cata::colony<item> itm[sx][sy];  // Items on each square
-    field              fld[sx][sy];  // Field on each square
-    trap_id            trp[sx][sy];  // Trap on each square
-    int                rad[sx][sy];  // Irradiation of each square
+    protected:
+        maptile_soa( tripoint offset );
+    public:
+        ter_id             ter[sx][sy];  // Terrain on each square
+        furn_id            frn[sx][sy];  // Furniture on each square
+        std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
+        location_vector<item> itm[sx][sy]; // Items on each square
+        field              fld[sx][sy];  // Field on each square
+        trap_id            trp[sx][sy];  // Trap on each square
+        int                rad[sx][sy];  // Irradiation of each square
 
-    void swap_soa_tile( point p1, point p2 );
-    void swap_soa_tile( point p, maptile_soa<1, 1> &other );
+        void swap_soa_tile( point p1, point p2 );
 };
 
 class submap : maptile_soa<SEEX, SEEY>
 {
     public:
-        submap();
-        submap( submap && );
+        submap( tripoint offset );
         ~submap();
-
-        submap &operator=( submap && );
 
         trap_id get_trap( point p ) const {
             return trp[p.x][p.y];
@@ -137,11 +135,11 @@ class submap : maptile_soa<SEEX, SEEY>
         void update_lum_rem( point p, const item &i );
 
         // TODO: Replace this as it essentially makes itm public
-        cata::colony<item> &get_items( point p ) {
+        location_vector<item> &get_items( const point &p ) {
             return itm[p.x][p.y];
         }
 
-        const cata::colony<item> &get_items( point p ) const {
+        const location_vector<item> &get_items( const point &p ) const {
             return itm[p.x][p.y];
         }
 
@@ -197,7 +195,7 @@ class submap : maptile_soa<SEEX, SEEY>
         void rotate( int turns );
 
         void store( JsonOut &jsout ) const;
-        void load( JsonIn &jsin, const std::string &member_name, int version );
+        void load( JsonIn &jsin, const std::string &member_name, int version, const tripoint offset );
 
         // If is_uniform is true, this submap is a solid block of terrain
         // Uniform submaps aren't saved/loaded, because regenerating them is faster
@@ -216,9 +214,11 @@ class submap : maptile_soa<SEEX, SEEY>
          * deleted.
          */
         std::vector<std::unique_ptr<vehicle>> vehicles;
-        std::map<tripoint, partial_con> partial_constructions;
+        std::map<tripoint, std::unique_ptr<partial_con>> partial_constructions;
         std::unique_ptr<basecamp> camp;  // only allowing one basecamp per submap
         std::map<point_sm_ms, cata::poly_serialized<active_tile_data>> active_furniture;
+
+        static void swap( submap &first, submap &second );
 
     private:
         std::map<point, computer> computers;
@@ -307,7 +307,7 @@ struct maptile {
 
         // Assumes there is at least one item
         const item &get_uppermost_item() const {
-            return *std::prev( sm->get_items( pos() ).cend() );
+            return **std::prev( sm->get_items( pos() ).cend() );
         }
 };
 

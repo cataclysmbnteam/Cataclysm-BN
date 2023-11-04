@@ -347,6 +347,8 @@ to find which flags work elsewhere.
 - `NONE` Do nothing.
 - `PACK_CBM` Put CBM in special autoclave pouch so that they stay sterile once sterilized.
 - `PHEROMONE` Makes zombies ignore you.
+- `PICK_LOCK` Pick a lock on a door. Speed and success chance are determined by skill, 'LOCKPICK'
+  item quality and 'PERFECT_LOCKPICK' item flag
 - `PICKAXE` Does nothing but berate you for having it (I'm serious).
 - `PLACE_RANDOMLY` This is very much like the flag in the manhack iuse, it prevents the item from
   querying the player as to where they want the monster unloaded to, and instead choses randomly.
@@ -462,7 +464,6 @@ to find which flags work elsewhere.
   flags: BIRD, CATTLE.
 - `FERTILIZER` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function
   penalties will be reversed for plants.
-- `FREEZERBURN` First thaw is MUSHY, second is rotten
 - `FUNGAL_VECTOR` Will give a fungal infection when consumed.
 - `HIDDEN_HALLU` ... Food causes hallucinations, visible only with a certain survival skill level.
 - `HIDDEN_POISON` ... Food displays as poisonous with a certain survival skill level. Note that this
@@ -720,6 +721,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `NPC_THROWN` ... NPCs will throw this item (without activating it first) as an alternative attack.
 - `NPC_THROW_NOW` ... NPCs will try to throw this item away, preferably at enemies. Implies
   "TRADER_AVOID" and "NPC_THROWN".
+- `PERFECT_LOCKPICK` ... Item is a perfect lockpick. Takes only 5 seconds to pick a lock and never
+  fails, but using it grants only a small amount of lock picking xp. The item should have "LOCKPICK"
+  quality of at least 1.
 - `PSEUDO` ... Used internally to mark items that are referred to in the crafting inventory but are
   not actually items. They can be used as tools, but not as components. Implies "TRADER_AVOID".
 - `RADIOACTIVE` ... Is radioactive (can be used with LEAK_*).
@@ -1479,8 +1483,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `HIDDEN_ITEM` This item cannot be seen in AIM.
 - `HOT` Item is hot (see EATEN_HOT).
 - `LITCIG` Marks a lit smoking item (cigarette, joint etc.).
-- `MUSHY` FREEZERBURN item was frozen and is now mushy and tasteless and will go bad after freezing
-  again.
 - `NO_PARASITES` Invalidates parasites count set in food->type->comestible->parasites
 - `QUARTERED` Corpse was quartered into parts. Affects butcher results, weight, volume.
 - `REVIVE_SPECIAL` ... Corpses revives when the player is nearby.

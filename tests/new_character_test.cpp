@@ -150,29 +150,31 @@ TEST_CASE( "starting_items", "[slow]" )
                     ch.worn.clear();
                     ch.reset_encumbrance();
                     ch.male = i == 0;
-                    std::list<item> items = prof->items( ch.male, traits );
-                    for( const item &it : items ) {
-                        const std::list<const item *> it_contents = it.contents.all_items_top();
-                        for( const item *top_content_item : it_contents ) {
-                            items.push_back( *top_content_item );
+                    std::vector<detached_ptr<item>> items = prof->items( ch.male, traits );
+                    /*
+                    for( item * const &it : items ) {
+                        const std::vector<item *> it_contents = it->contents.all_items_top();
+                        for( item * const &top_content_item : it_contents ) {
+                            items.push_back( top_content_item );
                         }
-                    }
+                    }*/
 
-                    for( const item &it : items ) {
-                        const bool is_food =  !it.is_seed() && it.is_food() &&
-                                              !ch.can_eat( it ).success() && control.can_eat( it ).success();
-                        const bool is_armor = it.is_armor() && !ch.wear_item( it, false );
+                    for( detached_ptr<item> &det_it : items ) {
+                        item *it = &*det_it;
+                        const bool is_food =  !it->is_seed() && it->is_food() &&
+                                              !ch.can_eat( *it ).success() && control.can_eat( *it ).success();
+                        const bool is_armor = it->is_armor() && ch.wear_item( std::move( det_it ), false );
                         // Seeds don't count- they're for growing things, not eating
                         if( is_food || is_armor ) {
-                            failures.insert( failure{ prof->ident(), ch.get_mutations(), it.typeId(), is_food ? "Couldn't eat it" : "Couldn't wear it." } );
+                            failures.insert( failure{ prof->ident(), ch.get_mutations(), it->typeId(), is_food ? "Couldn't eat it" : "Couldn't wear it." } );
                         }
 
-                        const bool is_holster = it.is_armor() && it.type->get_use( "holster" );
+                        const bool is_holster = it->is_armor() && it->type->get_use( "holster" );
                         if( is_holster ) {
-                            const item &holstered_it = it.get_contained();
+                            const item &holstered_it = it->get_contained();
                             const bool empty_holster = holstered_it.is_null();
-                            if( !empty_holster && !it.can_holster( holstered_it, true ) ) {
-                                failures.insert( failure{ prof->ident(), ch.get_mutations(), it.typeId(), "Couldn't put item back to holster" } );
+                            if( !empty_holster && !it->can_holster( holstered_it, true ) ) {
+                                failures.insert( failure{ prof->ident(), ch.get_mutations(), it->typeId(), "Couldn't put item back to holster" } );
                             }
                         }
                     }

@@ -2414,6 +2414,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_wall",
+    "group": "constr_wall_standard",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nail", 40 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_wall"
+  },
+  {
+    "type": "construction",
     "id": "constr_wall_r",
     "group": "paint_wall_red",
     "category": "DECORATE",
@@ -2972,6 +2984,18 @@
     "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ] } ],
     "pre_terrain": "t_clay",
     "dark_craftable": true,
+    "post_special": "done_extract_maybe_revert_to_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_extract_bog_iron",
+    "group": "extract_bog_iron",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 0 ], [ "survival", 2 ] ],
+    "time": "45 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "iron_ore", "count": [ 1, 4 ] } ],
+    "pre_terrain": "t_bog_iron",
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
   {

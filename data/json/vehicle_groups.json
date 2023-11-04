@@ -346,6 +346,11 @@
     "vehicles": [ [ "engine_crane", 50 ], [ "handjack", 150 ], [ "wheelbarrow", 100 ], [ "forklift", 100 ] ]
   },
   {
+    "id": "warehouse_truck",
+    "type": "vehicle_group",
+    "vehicles": [ [ "flatbed_truck", 50 ], [ "tatra_truck", 50 ] ]
+  },
+  {
     "id": "school_vehicles",
     "type": "vehicle_group",
     "//": "School bus or fire truck found near school locations",

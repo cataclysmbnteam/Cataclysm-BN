@@ -6,13 +6,6 @@ sidebar:
     variant: caution
 ---
 
-:::caution
-
-[A PR may change current JSON style](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3118) in
-favor of better tooling.
-
-:::
-
 Like in [C++ Code Style](../../../dev/explanation/code_style.md), the JSON styling policy is to
 update JSON as it is added or edited, and in relatively small chunks otherwise in order to prevent
 undue disruption to development.

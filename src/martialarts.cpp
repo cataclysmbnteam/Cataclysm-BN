@@ -44,7 +44,7 @@ static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
 
-static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
+static const flag_id json_flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
 namespace
 {
@@ -172,7 +172,7 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
-    optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<flag_id> {} );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
@@ -493,7 +493,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
     bool melee_style = u.martial_arts_data->selected_strictly_melee();
     bool is_armed = u.is_armed();
-    bool unarmed_weapon = is_armed && u.primary_weapon().has_flag( flag_UNARMED_WEAPON );
+    bool unarmed_weapon = is_armed && u.primary_weapon().has_flag( json_flag_UNARMED_WEAPON );
     bool forced_unarmed = u.martial_arts_data->selected_force_unarmed();
     bool weapon_ok = is_valid_weapon( u.primary_weapon() );
     bool style_weapon = u.martial_arts_data->selected_has_weapon( u.primary_weapon().typeId() );
@@ -524,7 +524,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
 
 bool ma_requirements::is_valid_weapon( const item &i ) const
 {
-    for( const std::string &flag : req_flags ) {
+    for( const flag_id &flag : req_flags ) {
         if( !i.has_flag( flag ) ) {
             return false;
         }
@@ -895,7 +895,8 @@ bool martialart::weapon_valid( const item &it ) const
         return true;
     }
 
-    if( !strictly_unarmed && !strictly_melee && !it.is_null() && it.has_flag( "UNARMED_WEAPON" ) ) {
+    if( !strictly_unarmed && !strictly_melee && !it.is_null() &&
+        it.has_flag( json_flag_UNARMED_WEAPON ) ) {
         return true;
     }
 
@@ -954,7 +955,7 @@ ma_technique character_martial_arts::get_miss_recovery_tec( const item &weap ) c
 // This one isn't used with a weapon
 bool character_martial_arts::has_grab_break_tec() const
 {
-    for( const matec_id &technique : get_all_techniques( item() ) ) {
+    for( const matec_id &technique : get_all_techniques( null_item_reference() ) ) {
         if( technique->grab_break ) {
             return true;
         }

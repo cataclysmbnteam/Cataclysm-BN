@@ -19,6 +19,8 @@ class JsonObject;
 class item;
 class time_duration;
 class Character;
+template<typename T>
+class detached_ptr;
 
 enum class recipe_filter_flags : int {
     none = 0,
@@ -112,7 +114,7 @@ class recipe
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
         std::map<itype_id, int> booksets; // Books containing this recipe, and the skill level required
-        std::set<std::string> flags_to_delete; // Flags to delete from the resultant item.
+        std::set<flag_id> flags_to_delete; // Flags to delete from the resultant item.
 
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
@@ -137,11 +139,11 @@ class recipe
 
         // Create an item instance as if the recipe was just finished,
         // Contain charges multiplier
-        item create_result() const;
-        std::vector<item> create_results( int batch = 1 ) const;
+        detached_ptr<item> create_result() const;
+        std::vector<detached_ptr<item>> create_results( int batch = 1 ) const;
 
         // Create byproduct instances as if the recipe was just finished
-        std::vector<item> create_byproducts( int batch = 1 ) const;
+        std::vector<detached_ptr<item>> create_byproducts( int batch = 1 ) const;
 
         bool has_byproducts() const;
 

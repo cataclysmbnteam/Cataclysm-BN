@@ -61,7 +61,8 @@
     "initial_charges": 5,
     "max_charges": 5,
     "charges_per_use": 1,
-    "use_action": { "type": "picklock", "pick_quality": 50 }
+    "qualities": [ [ "LOCKPICK", 50 ] ],
+    "flags": [ "PERFECT_LOCKPICK" ]
   },
   {
     "id": "mtorch_everburning",

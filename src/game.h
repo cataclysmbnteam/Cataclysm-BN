@@ -25,7 +25,6 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "item_location.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "point.h"
@@ -185,7 +184,7 @@ class game
         bool dump_stats( const std::string &what, dump_mode mode, const std::vector<std::string> &opts );
 
         /** Returns false if saving failed. */
-        bool save();
+        bool save( bool quitting );
 
         /** Returns a list of currently active character saves. */
         std::vector<std::string> list_active_saves();
@@ -219,7 +218,7 @@ class game
          * Otherwise the callback may not take effect until the main ui is invalidated
          * due to resizing or other menus closing. The callback is disabled once all
          * shared pointers to the callback are deconstructed, and is removed afterwards. */
-        void add_draw_callback( shared_ptr_fast<draw_callback_t> cb );
+        void add_draw_callback( const shared_ptr_fast<draw_callback_t> &cb );
     private:
         bool is_looking = false;
         std::vector<weak_ptr_fast<draw_callback_t>> draw_callbacks;
@@ -581,15 +580,15 @@ class game
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
-        item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
-                                      const std::string &none_message = "" );
+        item *inv_map_splice( const item_filter &filter, const std::string &title, int radius = 0,
+                              const std::string &none_message = "" );
 
         bool has_gametype() const;
         special_game_type gametype() const;
 
         void toggle_fullscreen();
         void toggle_pixel_minimap();
-        void reload_tileset( std::function<void( std::string )> out );
+        void reload_tileset( const std::function<void( std::string )> &out );
         void temp_exit_fullscreen();
         void reenter_fullscreen();
         void zoom_in();
@@ -979,7 +978,7 @@ class game
         bool new_game = false;
 
         const scenario *scen = nullptr;
-        std::vector<monster> coming_to_stairs;
+        std::vector<shared_ptr_fast<monster>> coming_to_stairs;
         int monstairz = 0;
 
         tripoint ter_view_p;

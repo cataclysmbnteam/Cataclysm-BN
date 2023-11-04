@@ -16,6 +16,7 @@
 #include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "flag.h"
 #include "game.h"
 #include "iexamine.h"
 #include "input.h"
@@ -44,10 +45,8 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
 static const std::string flag_CONSOLE( "CONSOLE" );
-static const std::string flag_FLOTATION( "FLOTATION" );
 static const std::string flag_GOES_DOWN( "GOES_DOWN" );
 static const std::string flag_GOES_UP( "GOES_UP" );
-static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
@@ -563,12 +562,12 @@ bool can_butcher_at( const tripoint &p )
     bool has_corpse = false;
 
     const inventory &crafting_inv = you.crafting_inventory();
-    for( item &items_it : items ) {
-        if( items_it.is_corpse() ) {
+    for( item *&items_it : items ) {
+        if( items_it->is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
             }
-        } else if( crafting::can_disassemble( you, items_it, crafting_inv ).success() ) {
+        } else if( crafting::can_disassemble( you, *items_it, crafting_inv ).success() ) {
             has_item = true;
         }
     }

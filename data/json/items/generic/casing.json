@@ -8,7 +8,8 @@
     "material": "brass",
     "symbol": "=",
     "color": "yellow",
-    "damage_states": [ 0, 0 ]
+    "damage_states": [ 0, 0 ],
+    "price": "50 cent"
   },
   {
     "id": "223_casing",
@@ -31,13 +32,9 @@
   },
   {
     "id": "22_casing_new",
+    "copy-from": "22_casing",
     "type": "GENERIC",
-    "category": "spare_parts",
-    "price": 100,
-    "price_postapoc": 0,
     "name": { "str": "unused .22 casing" },
-    "symbol": "=",
-    "color": "yellow",
     "description": "An unfired, like-new .22 round casing, with the primer still intact.",
     "material": [ "powder", "brass" ],
     "volume": "3 ml",

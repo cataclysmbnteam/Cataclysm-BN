@@ -708,7 +708,7 @@ void monster::move()
         }
         static const auto volume_per_hp = 250_ml;
         for( auto &elem : g->m.i_at( pos() ) ) {
-            hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
+            hp += elem->volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
             if( has_flag( MF_ABSORBS_SPLITS ) ) {
                 while( hp / 2 > type->hp ) {
                     monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
@@ -1386,7 +1386,7 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
     for( const tripoint &p : path ) {
         std::vector<point> swath = squares_in_direction( previous.xy(), p.xy() );
         for( point q : swath ) {
-            zone.push_back( tripoint( q, bashee.z ) );
+            zone.emplace_back( q, bashee.z );
         }
 
         previous = p;
@@ -1753,7 +1753,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         if( one_in( 10 ) ) {
             // if it has more napalm, drop some and reduce ammo in tank
             if( ammo[itype_pressurized_tank] > 0 ) {
-                g->m.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
+                g->m.add_item_or_charges( pos(), item::spawn( "napalm", calendar::turn, 50 ) );
                 ammo[itype_pressurized_tank] -= 50;
             } else {
                 // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
@@ -1764,7 +1764,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( has_flag( MF_DRIPS_GASOLINE ) ) {
         if( one_in( 5 ) ) {
             // TODO: use same idea that limits napalm dripping
-            g->m.add_item_or_charges( pos(), item( "gasoline" ) );
+            g->m.add_item_or_charges( pos(), item::spawn( "gasoline" ) );
         }
     }
     return true;
@@ -1921,9 +1921,9 @@ void monster::stumble()
     for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
         if( dest != pos() ) {
             if( here.has_flag( TFLAG_RAMP_DOWN, dest ) ) {
-                valid_stumbles.push_back( tripoint( dest.xy(), dest.z - 1 ) );
+                valid_stumbles.emplace_back( dest.xy(), dest.z - 1 );
             } else if( here.has_flag( TFLAG_RAMP_UP, dest ) ) {
-                valid_stumbles.push_back( tripoint( dest.xy(), dest.z + 1 ) );
+                valid_stumbles.emplace_back( dest.xy(), dest.z + 1 );
             } else {
                 valid_stumbles.push_back( dest );
             }

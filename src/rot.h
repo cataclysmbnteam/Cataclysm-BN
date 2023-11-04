@@ -5,14 +5,14 @@
 enum class temperature_flag : int;
 
 class map;
-class item_location;
+class item;
 
 namespace rot
 {
 
 // TODO: Move to item_location method?
-temperature_flag temperature_flag_for_location( const map &m, const item_location &loc );
+auto temperature_flag_for_location( const map &m, const item &loc ) -> temperature_flag;
 
-}
+} // namespace rot
 
 #endif // CATA_SRC_ROT_H

@@ -58,7 +58,14 @@
     "price": 10000,
     "price_postapoc": 1000,
     "displacement": 30,
-    "faults": [ "fault_engine_starter" ]
+    "//": "No power consumed to start so no starter",
+    "faults": [
+      "fault_engine_belt_drive",
+      "fault_engine_filter_air",
+      "fault_engine_filter_fuel",
+      "fault_engine_immobiliser",
+      "fault_engine_pump_fuel"
+    ]
   },
   {
     "id": "1cyl_combustion_large",
@@ -71,7 +78,14 @@
     "price": 10000,
     "price_postapoc": 1250,
     "displacement": 55,
-    "faults": [ "fault_engine_starter" ]
+    "//": "No power consumed to start so no starter",
+    "faults": [
+      "fault_engine_belt_drive",
+      "fault_engine_filter_air",
+      "fault_engine_filter_fuel",
+      "fault_engine_immobiliser",
+      "fault_engine_pump_fuel"
+    ]
   },
   {
     "id": "i4_combustion",
@@ -201,7 +215,9 @@
     "weight": "180000 g",
     "volume": "37500 ml",
     "price": 555000,
-    "price_postapoc": 8000
+    "price_postapoc": 8000,
+    "//": "No power consumed to start so no starter",
+    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_pump_water" ]
   },
   {
     "id": "steam_triple_medium",
@@ -219,9 +235,9 @@
     "copy-from": "engine_steam",
     "looks_like": "large_turbine_engine",
     "type": "ENGINE",
-    "name": { "str": "750 hp steam turbine engine" },
+    "name": { "str": "1350 hp steam turbine engine" },
     "description": "A powerful steam engine for power plants, burning coal to heat water into steam and driving a turbine.  A condenser recaptures the water, making this a closed cycle system.  Known for its high rate of fuel consumption, but installing multiple turbines will not affect vehicle power.",
-    "weight": "1400 kg",
+    "weight": "700 kg",
     "volume": "230 L",
     "price": "32000 USD",
     "price_postapoc": "110 USD"
@@ -291,8 +307,9 @@
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
     "name": { "str": "1350 hp gas turbine engine" },
+    "//": "Weight based on the General Electric CT58-110-1 gas turbine. Used to be widely used on light/medium helicopters, but a bit old for Cataclysm timeframe. If someone have a better fitting equivalent, feel free to update this part.",
     "description": "A gas turbine engine, usually used for military vehicles.  Known for its high rate of fuel consumption, but installing multiple turbines will not affect vehicle power.",
-    "weight": "1130000 g",
+    "weight": "150 kg",
     "volume": "45 L",
     "price": 96000,
     "price_postapoc": 2500,
@@ -303,8 +320,9 @@
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
     "name": { "str": "1900 hp gas turbine engine" },
+    "//": "Weight based on the General Electric T700-GE-701D gas turbine, a 1944 hp engine used on several variants of AH-64 Apache and UH-60 Blackhawk.",
     "description": "A large gas turbine engine, usually used for military helicopters.  Known for its high rate of fuel consumption, but installing multiple turbines will not affect vehicle power.",
-    "weight": "1582000 g",
+    "weight": "200 kg",
     "volume": "63 L",
     "price": 192000,
     "price_postapoc": 5000,
@@ -315,8 +333,9 @@
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
     "name": { "str": "6000 hp gas turbine engine" },
+    "//": "Weight based on the Rolls Royce Allison T406-AD-400 gas turbine.",
     "description": "A massive gas turbine engine, used to power the V-22 Osprey.  Known for its high rate of fuel consumption, but installing multiple turbines will not affect vehicle power.",
-    "weight": "3164000 g",
+    "weight": "450 kg",
     "volume": "95 L",
     "price": 960000,
     "price_postapoc": 7500,

@@ -1,44 +1,47 @@
 #!/usr/bin/env python3
 "Resolve duplicates and conflicts within POT file."
 
-import polib
 import os
 from optparse import OptionParser
+from typing import Dict, List, Tuple
+
+import polib
+from polib import POEntry
 
 ##
 ##  FUNCTIONS
 ##
 
-def first_occurence(entry):
+def first_occurence(entry: POEntry) -> str:
     if len(entry.occurrences) > 0:
         return entry.occurrences[0][0]
     else:
         return 'unknown_file'
 
 
-def merged_flags(entry1, entry2):
+def merged_flags(entry1: POEntry, entry2: POEntry) -> List[str]:
     flags1 = set(entry1.flags)
     flags2 = set(entry2.flags)
     return entry1.flags + list(flags2 - flags1)
 
 
 # Assumes 2nd entry has only 1 comment.
-def merged_comments(entry1, entry2):
+def merged_comments(entry1: POEntry, entry2: POEntry) -> str:
     if entry2.comment[0] in entry1.comment:
         return entry1.comment
     else:
         return entry1.comment + entry2.comment
 
 
-def merged_occurrences(entry1, entry2):
+def merged_occurrences(entry1: POEntry, entry2: POEntry) -> List[Tuple[str, int]]:
     res = entry1.occurrences
     for x in entry2.occurrences:
-        if not x in res:
+        if x not in res:
             res.append(x)
     return res
 
 
-def merged_msgid_pl(entry1, entry2):
+def merged_msgid_pl(entry1: POEntry, entry2: POEntry) -> str:
     pl1 = entry1.msgid_plural
     pl2 = entry2.msgid_plural
     if not pl1:
@@ -46,30 +49,26 @@ def merged_msgid_pl(entry1, entry2):
     elif not pl2:
         return pl1
     if pl1 != pl2:
-        print("WARNING: plural form mismatch for msgid='{}' msgctxt='{}' in {} and {}: '{}' vs '{}'".format( \
-                entry1.msgid, entry1.msgctxt, first_occurence(entry1), first_occurence(entry2), pl1, pl2 \
-            ))
+        print(f"WARNING: plural form mismatch for msgid='{entry1.msgid}' msgctxt='{entry1.msgctxt}' in {first_occurence(entry1)} and {first_occurence(entry2)}: '{pl1}' vs '{pl2}'")
     return pl1
 
 
-def resolve_duplicates(entries):
-    nodup = []
-    nodup_keys = {}
+def resolve_duplicates(entries: List[POEntry]) -> List[POEntry]:
+    nodup: List[POEntry] = []
+    nodup_keys: Dict[Tuple[str, str], int] = {}
     for entry in entries:
         # Strip line numbers, remove repeating occurrences
         entry.occurrences = list(dict.fromkeys([(x[0], None) for x in entry.occurrences]))
 
         # The only flag we use is c-format
         if entry.flags != [] and entry.flags != ['c-format']:
-            print("WARNING: unexpected flags {} for msgid='{}' in {}".format( \
-                entry.flags, entry.msgid, first_occurence(entry)
-            ))
+            print(f"WARNING: unexpected flags {entry.flags} for msgid='{entry.msgid}' in {first_occurence(entry)}")
 
         # Convert comment string into list of strings (simplifies merging of comments)
         entry.comment = [entry.comment]
 
         key = (entry.msgid, entry.msgctxt)
-        if not key in nodup_keys:
+        if key not in nodup_keys:
             # Add new entry
             nodup_keys[key] = len(nodup)
             nodup.append(entry)

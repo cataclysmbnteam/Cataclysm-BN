@@ -228,7 +228,7 @@ void achievement::add_kill_requirements( const JsonObject &jo, const std::string
     }
 }
 
-void achievement::add_kill_requirement( const JsonObject inner, const std::string & )
+void achievement::add_kill_requirement( const JsonObject &inner, const std::string & )
 {
     if( inner.has_string( "monster" ) && inner.has_string( "species" ) ) {
         inner.throw_error( "Cannot have both id and species identifiers" );
@@ -268,7 +268,7 @@ void achievement::add_skill_requirements( const JsonObject &jo, const std::strin
     }
 }
 
-void achievement::add_skill_requirement( const JsonObject inner, const std::string & )
+void achievement::add_skill_requirement( const JsonObject &inner, const std::string & )
 {
     const skill_id skill = static_cast<skill_id>( inner.get_string( "skill" ) );
     const achievement_comparison compare = inner.get_enum_value<achievement_comparison>( "is" );

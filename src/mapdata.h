@@ -160,12 +160,6 @@ struct plant_data {
     }
 };
 
-struct lockpicking_open_result {
-    ter_id new_ter_type;
-    furn_id new_furn_type;
-    std::string open_message;
-};
-
 struct pry_result {
     // Minimum prying quality required to pry open
     int pry_quality;
@@ -467,6 +461,8 @@ struct ter_t : map_data_common_t {
     ter_str_id id;    // The terrain's ID. Must be set, must be unique.
     ter_str_id open;  // Open action: transform into terrain with matching id
     ter_str_id close; // Close action: transform into terrain with matching id
+    ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
@@ -490,8 +486,6 @@ struct ter_t : map_data_common_t {
 void set_ter_ids();
 void finalize_furn();
 void reset_furn_ter();
-/** Gets lockpicked object and message */
-lockpicking_open_result get_lockpicking_open_result( ter_id ter_type, furn_id furn_type );
 
 /*
  * The terrain list contains the master list of  information and metadata for a given type of terrain.
@@ -505,6 +499,8 @@ struct furn_t : map_data_common_t {
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
     furn_str_id transforms_into; // Transform into what furniture?
+    furn_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
     std::set<itype_id> crafting_pseudo_items;
     units::volume keg_capacity = 0_ml;

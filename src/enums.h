@@ -198,7 +198,7 @@ enum object_type {
     NUM_OBJECTS,
 };
 
-enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};
+enum liquid_source_type { LST_INFINITE_MAP = 1, LST_VEHICLE = 2};
 
 enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
 
@@ -228,6 +228,11 @@ enum layer_level {
     AURA_LAYER,
     /* Not a valid layer; used for C-style iteration through this enum */
     MAX_CLOTHING_LAYER
+};
+
+template<>
+struct enum_traits<layer_level> {
+    static constexpr layer_level last = layer_level::MAX_CLOTHING_LAYER;
 };
 
 inline layer_level &operator++( layer_level &l )

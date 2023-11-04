@@ -720,7 +720,7 @@
     "type": "COMESTIBLE",
     "id": "tea_raw",
     "name": { "str": "tea leaf", "str_pl": "tea leaves" },
-    "weight": "14 g",
+    "weight": "2 g",
     "color": "green",
     "fatigue_mod": 3,
     "stim": 1,

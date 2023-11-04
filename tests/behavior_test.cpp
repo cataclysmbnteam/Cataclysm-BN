@@ -8,7 +8,6 @@
 #include "behavior_strategy.h"
 #include "character_oracle.h"
 #include "item.h"
-#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
@@ -158,13 +157,15 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         weather.clear_temp_cache();
         test_npc.update_bodytemp( get_map(), weather );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        item &sweater = test_npc.i_add( item( itype_id( "sweater" ) ) );
+        detached_ptr<item> det = item::spawn( itype_id( "sweater" ) );
+        item &sweater = *det;
+        test_npc.i_add( std::move( det ) );
         CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );
-        item sweater_copy = test_npc.i_rem( &sweater );
-        test_npc.wear_item( sweater_copy );
+        det = test_npc.i_rem( &sweater );
+        test_npc.wear_item( std::move( det ) );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        test_npc.i_add( item( itype_id( "lighter" ) ) );
-        test_npc.i_add( item( itype_id( "2x4" ) ) );
+        test_npc.i_add( item::spawn( itype_id( "lighter" ) ) );
+        test_npc.i_add( item::spawn( itype_id( "2x4" ) ) );
         CHECK( npc_needs.tick( &oracle ) == "start_fire" );
     }
     SECTION( "Hungry" ) {
@@ -172,20 +173,22 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         test_npc.set_thirst( 100 );
         CHECK( oracle.needs_food_badly() == behavior::status_t::running );
         REQUIRE( npc_needs.tick( &oracle ) == "idle" );
-        item &food = test_npc.i_add( item( itype_id( "sandwich_cheese_grilled" ) ) );
-        item_location loc = item_location( test_npc, &food );
+        detached_ptr<item> det = item::spawn( itype_id( "sandwich_cheese_grilled" ) );
+        item &food = *det;
+        test_npc.i_add( std::move( det ) );
         REQUIRE( oracle.has_food() == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "eat_food" );
-        test_npc.consume( loc );
+        test_npc.consume( food );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
     SECTION( "Thirsty" ) {
         test_npc.set_thirst( 700 );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        item &water = test_npc.i_add( item( itype_id( "water" ) ) );
-        item_location loc = item_location( test_npc, &water );
+        detached_ptr<item> det = item::spawn( itype_id( "water" ) );
+        item &water = *det;
+        test_npc.i_add( std::move( det ) );
         CHECK( npc_needs.tick( &oracle ) == "drink_water" );
-        test_npc.consume( loc );
+        test_npc.consume( water );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
 }

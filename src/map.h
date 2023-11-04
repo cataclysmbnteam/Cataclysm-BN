@@ -19,7 +19,6 @@
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "enums.h"
@@ -52,7 +51,6 @@ class character_id;
 class computer;
 class field;
 class field_entry;
-class item_location;
 class map_cursor;
 class mapgendata;
 class monster;
@@ -107,10 +105,11 @@ class map_stack : public item_stack
         tripoint location;
         map *myorigin;
     public:
-        map_stack( cata::colony<item> *newstack, tripoint newloc, map *neworigin ) :
+        map_stack( location_vector<item> *newstack, tripoint newloc, map *neworigin ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
-        void insert( const item &newitem ) override;
-        iterator erase( const_iterator it ) override;
+        void insert( detached_ptr<item> &&newitem ) override;
+        iterator erase( const_iterator it, detached_ptr<item> *out = nullptr ) override;
+        detached_ptr<item> remove( item *to_remove ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_SQUARE;
         }
@@ -384,6 +383,7 @@ class map
 {
         friend class editmap;
         friend class visitable<map_cursor>;
+        friend class location_visitable<map_cursor>;
 
     public:
         // Constructors & Initialization
@@ -392,7 +392,7 @@ class map
         virtual ~map();
 
         map &operator=( const map & ) = delete;
-        map &operator=( map && );
+        map &operator=( map && ) noexcept ;
 
         /**
          * Sets a dirty flag on the a given cache.
@@ -801,7 +801,7 @@ class map
         * @param new_active Override default active tile of new furniture
         */
         void furn_set( const tripoint &p, const furn_id &new_furniture,
-                       cata::poly_serialized<active_tile_data> new_active = nullptr );
+                       const cata::poly_serialized<active_tile_data> &new_active = nullptr );
         void furn_set( point p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
@@ -1182,20 +1182,23 @@ class map
         map_stack i_at( point p ) {
             return i_at( tripoint( p, abs_sub.z ) );
         }
-        item water_from( const tripoint &p );
-        void i_clear( const tripoint &p );
-        void i_clear( point p ) {
-            i_clear( tripoint( p, abs_sub.z ) );
+        detached_ptr<item> water_from( const tripoint &p );
+        std::vector<detached_ptr<item>> i_clear( const tripoint &p );
+        std::vector<detached_ptr<item>> i_clear( point p ) {
+            return i_clear( tripoint( p, abs_sub.z ) );
         }
         // i_rem() methods that return values act like container::erase(),
         // returning an iterator to the next item after removal.
-        map_stack::iterator i_rem( const tripoint &p, map_stack::const_iterator it );
-        map_stack::iterator i_rem( point location, map_stack::const_iterator it ) {
-            return i_rem( tripoint( location, abs_sub.z ), it );
+        map_stack::iterator i_rem( const tripoint &p, map_stack::const_iterator it,
+                                   detached_ptr<item> *out = nullptr );
+        map_stack::iterator i_rem( point location, map_stack::const_iterator it,
+                                   detached_ptr<item> *out = nullptr ) {
+            return i_rem( tripoint( location, abs_sub.z ), it, out );
         }
-        void i_rem( const tripoint &p, item *it );
-        void i_rem( point p, item *it ) {
-            i_rem( tripoint( p, abs_sub.z ), it );
+
+        detached_ptr<item> i_rem( const tripoint &p, item *it );
+        detached_ptr<item> i_rem( point p, item *it ) {
+            return i_rem( tripoint( p, abs_sub.z ), it );
         }
         void spawn_artifact( const tripoint &p );
         void spawn_natural_artifact( const tripoint &p, artifact_natural_property prop );
@@ -1229,12 +1232,13 @@ class map
          *  @param pos Where to add item
          *  @param obj Item to add
          *  @param overflow if destination is full attempt to drop on adjacent tiles
-         *  @return reference to dropped (and possibly stacked) item or null item on failure
+         *  @return the item if it could not be handled
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
-        item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
-        item &add_item_or_charges( point p, item obj, bool overflow = true ) {
-            return add_item_or_charges( tripoint( p, abs_sub.z ), obj, overflow );
+        detached_ptr<item> add_item_or_charges( const tripoint &pos, detached_ptr<item> &&obj,
+                                                bool overflow = true );
+        detached_ptr<item> add_item_or_charges( point p, detached_ptr<item> &&obj, bool overflow = true ) {
+            return add_item_or_charges( tripoint( p, abs_sub.z ), std::move( obj ), overflow );
         }
 
         /**
@@ -1244,25 +1248,27 @@ class map
          *
          * @returns The item that got added, or nulitem.
          */
-        item &add_item( const tripoint &p, item new_item );
-        void add_item( point p, item new_item ) {
-            add_item( tripoint( p, abs_sub.z ), new_item );
+        void add_item( const tripoint &p, detached_ptr<item> &&new_item );
+        void add_item( point p, detached_ptr<item> &&new_item ) {
+            add_item( tripoint( p, abs_sub.z ), std::move( new_item ) );
         }
-        item &spawn_an_item( const tripoint &p, item new_item, int charges, int damlevel );
-        void spawn_an_item( point p, item new_item, int charges, int damlevel ) {
-            spawn_an_item( tripoint( p, abs_sub.z ), new_item, charges, damlevel );
+        detached_ptr<item> spawn_an_item( const tripoint &p, detached_ptr<item> &&new_item, int charges,
+                                          int damlevel );
+        detached_ptr<item> spawn_an_item( point p, detached_ptr<item> &&new_item, int charges,
+                                          int damlevel ) {
+            return spawn_an_item( tripoint( p, abs_sub.z ), std::move( new_item ), charges, damlevel );
         }
 
         /**
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
          */
-        void make_active( item_location &loc );
+        void make_active( item &loc );
 
         /**
          * Update luminosity before and after item's transformation
          */
-        void update_lum( item_location &loc, bool add );
+        void update_lum( item &loc, bool add );
 
         /**
          * @name Consume items on the map
@@ -1277,11 +1283,12 @@ class map
          * somewhere else.
          */
         /*@{*/
-        std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
-                                           int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> use_amount( const tripoint &origin, int range, const itype_id &type,
-                                    int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
+        std::vector<detached_ptr<item>> use_amount_square( const tripoint &p, const itype_id &type,
+                                     int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
+        std::vector<detached_ptr<item>> use_amount( const tripoint &origin, int range, const itype_id &type,
+                                     int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
+        std::vector<detached_ptr<item>> use_charges( const tripoint &origin, int range,
+                                     const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );
         /*@}*/
@@ -1324,9 +1331,10 @@ class map
                                                 const time_point &turn = calendar::start_of_cataclysm );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
-        std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
-        void spawn_items( point p, const std::vector<item> &new_items ) {
-            spawn_items( tripoint( p, abs_sub.z ), new_items );
+        std::vector<detached_ptr<item>> spawn_items( const tripoint &p,
+                                     std::vector<detached_ptr<item>> new_items );
+        std::vector<detached_ptr<item>> spawn_items( point p, std::vector<detached_ptr<item>> new_items ) {
+            return spawn_items( tripoint( p, abs_sub.z ), std::move( new_items ) );
         }
 
         void create_anomaly( const tripoint &p, artifact_natural_property prop, bool create_rubble = true );
@@ -1335,7 +1343,7 @@ class map
         }
 
         // Partial construction functions
-        void partial_con_set( const tripoint &p, const partial_con &con );
+        void partial_con_set( const tripoint &p, std::unique_ptr<partial_con> con );
         void partial_con_remove( const tripoint &p );
         partial_con *partial_con_at( const tripoint &p );
         // Traps
@@ -1350,8 +1358,9 @@ class map
         const std::vector<tripoint> &get_furn_field_locations() const;
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
 
-        // Spawns byproducts from items destroyed in fire.
-        void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
+        // Adds to a list of byproducts from items destroyed in fire.
+        void create_burnproducts( std::vector<detached_ptr<item>> &out, const item &fuel,
+                                  const units::mass &burned_mass );
         // See fields.cpp
         void process_fields();
         void process_fields_in_submap( submap *current_submap, const tripoint &submap_pos );
@@ -1900,8 +1909,8 @@ class map
                               units::angle wideangle = 30_degrees );
         void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
                               const tripoint &s, const tripoint &e, float luminance );
-        void add_light_from_items( const tripoint &p, item_stack::iterator begin,
-                                   item_stack::iterator end );
+        void add_light_from_items( const tripoint &p, const item_stack::iterator &begin,
+                                   const item_stack::iterator &end );
         std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features
@@ -2034,8 +2043,8 @@ class map
         /// returns an empty range.
         tripoint_range<tripoint> points_on_zlevel( int z ) const;
 
-        std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
-        std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius,
+        std::vector<item *> get_active_items_in_radius( const tripoint &center, int radius ) const;
+        std::vector<item *> get_active_items_in_radius( const tripoint &center, int radius,
                 special_item_type type ) const;
 
         /**returns positions of furnitures with matching flag in the specified radius*/

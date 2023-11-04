@@ -12,14 +12,14 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ], [ "chem_match_head_powder", 24 ] ],
+      [ [ "gunpowder", 8 ], [ "chem_black_powder", 10 ], [ "chem_match_head_powder", 10 ] ],
       [
-        [ "bb", 24 ],
+        [ "bb", 20 ],
         [ "clockworks", 1 ],
-        [ "pebble", 16 ],
-        [ "pebble_clay", 16 ],
-        [ "marble", 16 ],
-        [ "bearing", 16 ],
+        [ "pebble", 10 ],
+        [ "pebble_clay", 10 ],
+        [ "marble", 10 ],
+        [ "bearing", 10 ],
         [ "glass_shard", 1 ]
       ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
@@ -39,8 +39,8 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ], [ "chem_match_head_powder", 24 ] ],
-      [ [ "scrap", 1 ], [ "nail", 8 ], [ "copper", 16 ], [ "lead", 16 ] ],
+      [ [ "gunpowder", 8 ], [ "chem_black_powder", 10 ], [ "chem_match_head_powder", 10 ] ],
+      [ [ "scrap", 1 ], [ "nail", 10 ], [ "copper", 10 ], [ "lead", 10 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },
@@ -57,7 +57,7 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ], [ "chem_match_head_powder", 24 ] ],
+      [ [ "gunpowder", 8 ], [ "chem_black_powder", 10 ], [ "chem_match_head_powder", 10 ] ],
       [ [ "rebar", 1 ], [ "spear_rebar", 1 ], [ "rebar_rail", 1 ], [ "steel_rail", 1 ], [ "scrap", 1 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
@@ -77,8 +77,8 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "surface_heat", 2 ] ],
     "components": [
-      [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ], [ "chem_match_head_powder", 24 ] ],
-      [ [ "lead", 24 ] ],
+      [ [ "gunpowder", 8 ], [ "chem_black_powder", 10 ], [ "chem_match_head_powder", 10 ] ],
+      [ [ "lead", 20 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },
@@ -95,8 +95,8 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ], [ "chem_match_head_powder", 24 ] ],
-      [ [ "nail", 8 ], [ "combatnail", 8 ] ],
+      [ [ "gunpowder", 8 ], [ "chem_black_powder", 10 ], [ "chem_match_head_powder", 10 ] ],
+      [ [ "nail", 10 ], [ "combatnail", 10 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },

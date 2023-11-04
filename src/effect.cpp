@@ -227,7 +227,8 @@ static void extract_effect(
     const JsonObject &j,
     std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double,
     cata::tuple_hash> &data,
-    const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key )
+    const std::string &mod_type, const std::string &data_key, const std::string &type_key,
+    const std::string &arg_key )
 {
     double val = 0;
     double reduced_val = 0;
@@ -406,6 +407,11 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
     }
 }
 
+bool effect_type::has_flag( const flag_id &flag ) const
+{
+    return flags.count( flag );
+}
+
 effect_rating effect_type::get_rating() const
 {
     return rating;
@@ -507,7 +513,7 @@ bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &membe
 {
     if( jo.has_array( member ) ) {
         for( JsonArray inner : jo.get_array( member ) ) {
-            miss_msgs.push_back( std::make_pair( inner.get_string( 0 ), inner.get_int( 1 ) ) );
+            miss_msgs.emplace_back( inner.get_string( 0 ), inner.get_int( 1 ) );
         }
         return true;
     }
@@ -531,7 +537,7 @@ bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &memb
             } else {
                 rate = m_neutral;
             }
-            decay_msgs.push_back( std::make_pair( msg, rate ) );
+            decay_msgs.emplace_back( msg, rate );
         }
         return true;
     }
@@ -651,32 +657,32 @@ std::string effect::disp_desc( bool reduced ) const
     // place to add them.
     int val = 0;
     val = get_avg_mod( "PAIN", reduced );
-    values.push_back( desc_freq( get_percentage( "PAIN", val, reduced ), val, _( "pain" ),
-                                 _( "pain" ) ) );
+    values.emplace_back( get_percentage( "PAIN", val, reduced ), val, _( "pain" ),
+                         _( "pain" ) );
     val = get_avg_mod( "HURT", reduced );
-    values.push_back( desc_freq( get_percentage( "HURT", val, reduced ), val, _( "damage" ),
-                                 _( "damage" ) ) );
+    values.emplace_back( get_percentage( "HURT", val, reduced ), val, _( "damage" ),
+                         _( "damage" ) );
     val = get_avg_mod( "STAMINA", reduced );
-    values.push_back( desc_freq( get_percentage( "STAMINA", val, reduced ), val,
-                                 _( "stamina recovery" ), _( "fatigue" ) ) );
+    values.emplace_back( get_percentage( "STAMINA", val, reduced ), val,
+                         _( "stamina recovery" ), _( "fatigue" ) );
     val = get_avg_mod( "THIRST", reduced );
-    values.push_back( desc_freq( get_percentage( "THIRST", val, reduced ), val, _( "thirst" ),
-                                 _( "quench" ) ) );
+    values.emplace_back( get_percentage( "THIRST", val, reduced ), val, _( "thirst" ),
+                         _( "quench" ) );
     val = get_avg_mod( "HUNGER", reduced );
-    values.push_back( desc_freq( get_percentage( "HUNGER", val, reduced ), val, _( "hunger" ),
-                                 _( "sate" ) ) );
+    values.emplace_back( get_percentage( "HUNGER", val, reduced ), val, _( "hunger" ),
+                         _( "sate" ) );
     val = get_avg_mod( "FATIGUE", reduced );
-    values.push_back( desc_freq( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ),
-                                 _( "rest" ) ) );
+    values.emplace_back( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ),
+                         _( "rest" ) );
     val = get_avg_mod( "COUGH", reduced );
-    values.push_back( desc_freq( get_percentage( "COUGH", val, reduced ), val, _( "coughing" ),
-                                 _( "coughing" ) ) );
+    values.emplace_back( get_percentage( "COUGH", val, reduced ), val, _( "coughing" ),
+                         _( "coughing" ) );
     val = get_avg_mod( "VOMIT", reduced );
-    values.push_back( desc_freq( get_percentage( "VOMIT", val, reduced ), val, _( "vomiting" ),
-                                 _( "vomiting" ) ) );
+    values.emplace_back( get_percentage( "VOMIT", val, reduced ), val, _( "vomiting" ),
+                         _( "vomiting" ) );
     val = get_avg_mod( "SLEEP", reduced );
-    values.push_back( desc_freq( get_percentage( "SLEEP", val, reduced ), val, _( "blackouts" ),
-                                 _( "blackouts" ) ) );
+    values.emplace_back( get_percentage( "SLEEP", val, reduced ), val, _( "blackouts" ),
+                         _( "blackouts" ) );
 
     for( auto &i : values ) {
         if( i.val > 0 ) {
@@ -907,7 +913,7 @@ std::vector<efftype_id> effect::get_blocks_effects() const
     return ret;
 }
 
-int effect::get_mod( std::string arg, bool reduced ) const
+int effect::get_mod( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double min = 0;
@@ -939,7 +945,7 @@ int effect::get_mod( std::string arg, bool reduced ) const
     }
 }
 
-int effect::get_avg_mod( std::string arg, bool reduced ) const
+int effect::get_avg_mod( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double min = 0;
@@ -971,7 +977,7 @@ int effect::get_avg_mod( std::string arg, bool reduced ) const
     }
 }
 
-int effect::get_amount( std::string arg, bool reduced ) const
+int effect::get_amount( const std::string &arg, bool reduced ) const
 {
     int intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
                                eff_type->max_effective_intensity, intensity ) : intensity;
@@ -988,7 +994,7 @@ int effect::get_amount( std::string arg, bool reduced ) const
     return static_cast<int>( ret );
 }
 
-int effect::get_min_val( std::string arg, bool reduced ) const
+int effect::get_min_val( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
@@ -1003,7 +1009,7 @@ int effect::get_min_val( std::string arg, bool reduced ) const
     return static_cast<int>( ret );
 }
 
-int effect::get_max_val( std::string arg, bool reduced ) const
+int effect::get_max_val( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
@@ -1028,7 +1034,7 @@ bool effect::get_sizing( const std::string &arg ) const
     return false;
 }
 
-double effect::get_percentage( std::string arg, int val, bool reduced ) const
+double effect::get_percentage( const std::string &arg, int val, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
@@ -1105,7 +1111,7 @@ double effect::get_percentage( std::string arg, int val, bool reduced ) const
     return ret;
 }
 
-bool effect::activated( const time_point &when, std::string arg, int val, bool reduced,
+bool effect::activated( const time_point &when, const std::string &arg, int val, bool reduced,
                         double mod ) const
 {
     auto &mod_data = eff_type->mod_data;
@@ -1280,7 +1286,7 @@ void load_effect_type( const JsonObject &jo )
             new_etype.desc.push_back( line );
         }
     } else {
-        new_etype.desc.push_back( "" );
+        new_etype.desc.emplace_back( "" );
     }
     if( jo.has_member( "reduced_desc" ) ) {
         for( const std::string line : jo.get_array( "reduced_desc" ) ) {
@@ -1316,16 +1322,16 @@ void load_effect_type( const JsonObject &jo )
     new_etype.blood_analysis_description = jo.get_string( "blood_analysis_description", "" );
 
     for( auto &&f : jo.get_string_array( "resist_traits" ) ) { // *NOPAD*
-        new_etype.resist_traits.push_back( trait_id( f ) );
+        new_etype.resist_traits.emplace_back( f );
     }
     for( auto &&f : jo.get_string_array( "resist_effects" ) ) { // *NOPAD*
-        new_etype.resist_effects.push_back( efftype_id( f ) );
+        new_etype.resist_effects.emplace_back( f );
     }
     for( auto &&f : jo.get_string_array( "removes_effects" ) ) { // *NOPAD*
-        new_etype.removes_effects.push_back( efftype_id( f ) );
+        new_etype.removes_effects.emplace_back( f );
     }
     for( auto &&f : jo.get_string_array( "blocks_effects" ) ) { // *NOPAD*
-        new_etype.blocks_effects.push_back( efftype_id( f ) );
+        new_etype.blocks_effects.emplace_back( f );
     }
 
     if( jo.has_string( "max_duration" ) ) {
@@ -1367,7 +1373,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
-    new_etype.flags = jo.get_tags( "flags" );
+    new_etype.flags = jo.get_tags<flag_id>( "flags" );
 
     assign( jo, "morale", new_etype.morale );
 
@@ -1407,9 +1413,9 @@ void load_effect_type( const JsonObject &jo )
     effect_types[new_etype.id] = new_etype;
 }
 
-bool effect::has_flag( const std::string &flag ) const
+bool effect::has_flag( const flag_id &flag ) const
 {
-    return eff_type->flags.count( flag ) > 0;
+    return eff_type->has_flag( flag );
 }
 
 void reset_effect_types()

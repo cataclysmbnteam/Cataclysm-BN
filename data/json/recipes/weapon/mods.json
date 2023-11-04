@@ -1073,5 +1073,29 @@
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ], [ "fur", 1 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "xbow_string",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_archery", 3 ], [ "manual_archery", 2 ] ],
+    "using": [ [ "blacksmithing_advanced", 10 ], [ "steel_standard", 2 ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "crossbow_lever",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ [ "mechanics", 3 ] ],
+    "time": "45 m",
+    "book_learn": [ [ "recipe_bows", 4 ], [ "textbook_weapwest", 5 ], [ "textbook_armschina", 5 ] ],
+    "using": [ [ "blacksmithing_advanced", 5 ], [ "steel_standard", 1 ] ]
   }
 ]

@@ -2544,5 +2544,34 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "frying_oil", 1, "LIST" ] ], [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [ [ [ "offal_raw", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sandwich_okay",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "2 m 30 s",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "meat_cooked", 1, "LIST" ] ], [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "veggy_any", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sandwich_deluxe_nocheese",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "2 m 30 s",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "bread_sandwich", 2, "LIST" ] ],
+      [ [ "veggy_any", 1, "LIST" ] ],
+      [ [ "condiment", 1, "LIST" ], [ "seasoning_salt", 5 ] ]
+    ]
   }
 ]

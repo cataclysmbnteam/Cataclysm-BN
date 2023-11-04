@@ -167,8 +167,7 @@ static decltype( player::temp_cur ) converge_temperature( player &p, size_t iter
 static void equip_clothing( player &p, const std::vector<std::string> &clothing )
 {
     for( const std::string &c : clothing ) {
-        const item article( itype_id( c ), calendar::start_of_cataclysm );
-        p.wear_item( article );
+        p.wear_item( item::spawn( itype_id( c ), calendar::start_of_cataclysm ) );
     }
 }
 
@@ -456,7 +455,10 @@ TEST_CASE( "Player body temperatures in water.", "[.][bodytemp]" )
     REQUIRE( !g->is_in_sunlight( pos ) );
     get_weather().weather_id = WEATHER_CLOUDY;
 
-    dummy.drench( 100, body_part_set::all(), true );
+    dummy.drench( 100, { bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+                         bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ),
+                         bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
+                       }, true );
 
     SECTION( "Nude target temperatures." ) {
         test_water_temperature_spread( dummy, {{ 38, 53, 70, 86, 102, 118, 135 }} );
@@ -510,7 +512,10 @@ TEST_CASE( "Water hypothermia check.", "[.][bodytemp]" )
     REQUIRE( !g->is_in_sunlight( pos ) );
     get_weather().weather_id = WEATHER_CLOUDY;
 
-    dummy.drench( 100, body_part_set::all(), true );
+    dummy.drench( 100, { bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+                         bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ),
+                         bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
+                       }, true );
 
     SECTION( "Cold" ) {
         hypothermia_check( dummy, units::celsius_to_fahrenheit( 20 ), 5_minutes, BODYTEMP_COLD );

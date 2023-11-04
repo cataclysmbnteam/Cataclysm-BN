@@ -89,13 +89,14 @@ static void connect_grid_vehicle( map &m, vehicle &veh, vehicle_connector_tile &
                                   const tripoint_abs_ms &connector_abs_pos )
 {
     const point cable_part_pos;
-    vehicle_part source_part( vpart_id( "jumper_cable" ), cable_part_pos, item( "jumper_cable" ) );
+    vehicle_part source_part( vpart_id( "jumper_cable" ), cable_part_pos,
+                              item::spawn( "jumper_cable" ), &veh );
     source_part.target.first = connector_abs_pos.raw();
     source_part.target.second = connector_abs_pos.raw();
     source_part.set_flag( vehicle_part::targets_grid );
     connector.connected_vehicles.clear();
     connector.connected_vehicles.emplace_back( m.getabs( veh.global_pos3() ) );
-    int part_index = veh.install_part( cable_part_pos, source_part );
+    int part_index = veh.install_part( cable_part_pos, std::move( source_part ) );
 
     REQUIRE( part_index >= 0 );
 }
