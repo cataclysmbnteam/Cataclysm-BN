@@ -34,7 +34,6 @@ struct tripoint;
 enum hp_part : int;
 enum body_part : int;
 class JsonObject;
-class item_location;
 struct furn_t;
 struct itype;
 
@@ -572,7 +571,7 @@ class salvage_actor : public iuse_actor
         };
 
         bool try_to_cut_up( player &p, item &it ) const;
-        int cut_up( player &p, item &it, item_location &cut ) const;
+        int cut_up( player &p, item &it, item &cut ) const;
         int time_to_cut_up( const item &it ) const;
         bool valid_to_cut_up( const item &it ) const;
 
@@ -845,7 +844,7 @@ class holster_actor : public iuse_actor
         bool can_holster( const item &obj ) const;
 
         /** Store an object in the holster */
-        bool store( player &p, item &holster, item &obj ) const;
+        detached_ptr<item> store( player &p, item &holster, detached_ptr<item> &&obj ) const;
 
         holster_actor( const std::string &type = "holster" ) : iuse_actor( type ) {}
 
@@ -951,7 +950,7 @@ class repair_item_actor : public iuse_actor
         };
 
         /** Attempts to repair target item with selected tool */
-        attempt_hint repair( player &pl, item &tool, item_location &fix ) const;
+        attempt_hint repair( player &pl, item &tool, item &fix ) const;
         /** Checks if repairs on target item are possible. Excludes checks on tool.
           * Doesn't just estimate - should not return true if repairs are not possible or false if they are. */
         bool can_repair_target( player &pl, const item &fix, bool print_msg ) const;

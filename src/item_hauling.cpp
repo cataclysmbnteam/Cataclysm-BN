@@ -10,8 +10,8 @@ bool has_haulable_items( const tripoint &pos )
     map &here = get_map();
     const map_stack items = here.i_at( pos );
 
-    for( const item &item : items ) {
-        if( is_haulable( item ) ) {
+    for( const item * const &item : items ) {
+        if( is_haulable( *item ) ) {
             return true;
         }
     }

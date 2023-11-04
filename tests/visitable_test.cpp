@@ -8,14 +8,14 @@ TEST_CASE( "visitable_summation" )
 {
     inventory test_inv;
 
-    item bottle_of_water( "bottle_plastic", calendar::turn );
-    item water_in_bottle( "water", calendar::turn );
-    water_in_bottle.charges = bottle_of_water.get_remaining_capacity_for_liquid( water_in_bottle );
-    bottle_of_water.put_in( water_in_bottle );
-    test_inv.add_item( bottle_of_water );
+    detached_ptr<item> bottle_of_water = item::spawn( "bottle_plastic", calendar::turn );
+    detached_ptr<item> water_in_bottle = item::spawn( "water", calendar::turn );
+    water_in_bottle->charges = bottle_of_water->get_remaining_capacity_for_liquid( *water_in_bottle );
+    bottle_of_water->put_in( std::move( water_in_bottle ) );
+    test_inv.add_item( *bottle_of_water );
 
-    const item unlimited_water( "water", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
-    test_inv.add_item( unlimited_water );
+    test_inv.add_item( *item::spawn_temporary( "water", calendar::start_of_cataclysm,
+                       item::INFINITE_CHARGES ) );
 
     CHECK( test_inv.charges_of( itype_id( "water" ), item::INFINITE_CHARGES ) > 1 );
 }

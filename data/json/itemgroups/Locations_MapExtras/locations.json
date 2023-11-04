@@ -269,7 +269,11 @@
     "type": "item_group",
     "id": "cave_minerals",
     "subtype": "distribution",
-    "entries": [ { "item": "material_niter", "prob": 20 }, { "item": "material_limestone", "prob": 5 } ]
+    "entries": [
+      { "item": "material_niter", "prob": 20 },
+      { "item": "iron_ore", "prob": 10 },
+      { "item": "material_limestone", "prob": 5 }
+    ]
   },
   {
     "id": "prison_textile",
@@ -1183,6 +1187,7 @@
       [ "toolbox", 5 ],
       [ "coal_lump", 20 ],
       [ "material_shrd_limestone", 40 ],
+      [ "iron_ore", 10 ],
       [ "material_niter", 5 ],
       [ "chem_rdx", 5 ],
       [ "chem_hmtd", 10 ],
@@ -1198,6 +1203,7 @@
       { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
       { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
       { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "iron_ore", "prob": 20, "count": [ 1, 10 ] },
       { "item": "material_niter", "prob": 5, "count": [ 1, 10 ] },
       { "item": "material_sand", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
       { "item": "material_soil", "prob": 50, "charges": 500, "container-item": "bag_canvas" },

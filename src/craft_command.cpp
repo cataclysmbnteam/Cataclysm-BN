@@ -220,20 +220,21 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
     return query_yn( ss );
 }
 
-item craft_command::create_in_progress_craft()
+detached_ptr<item> craft_command::create_in_progress_craft()
 {
     // Use up the components and tools
-    std::list<item> used;
+    std::vector<detached_ptr<item>> used;
     std::vector<item_comp> comps_used;
     if( crafter->has_trait( trait_DEBUG_HS ) ) {
-        item new_craft( rec, batch_size, used, comps_used );
-        new_craft.set_tools_to_continue( true );
+        detached_ptr<item> new_craft = item::spawn( rec, batch_size, std::move( used ),
+                                       std::move( comps_used ) );
+        new_craft->set_tools_to_continue( true );
         return new_craft;
     }
 
     if( empty() ) {
         debugmsg( "Warning: attempted to consume items from an empty craft_command" );
-        return item();
+        return detached_ptr<item>();
     }
 
     inventory map_inv;
@@ -241,14 +242,15 @@ item craft_command::create_in_progress_craft()
 
     if( !check_item_components_missing( map_inv ).empty() ) {
         debugmsg( "Aborting crafting: couldn't find cached components" );
-        return item();
+        return detached_ptr<item>();
     }
 
     const auto filter = rec->get_component_filter( flags );
 
     for( const auto &it : item_selections ) {
-        std::list<item> tmp = crafter->consume_items( it, batch_size, filter );
-        used.splice( used.end(), tmp );
+        std::vector<detached_ptr<item>> tmp = crafter->consume_items( it, batch_size, filter );
+        used.insert( used.end(), std::make_move_iterator( tmp.begin() ),
+                     std::make_move_iterator( tmp.end() ) );
     }
 
     for( const comp_selection<item_comp> &selection : item_selections ) {
@@ -268,13 +270,14 @@ item craft_command::create_in_progress_craft()
         }
     }
 
-    item new_craft( rec, batch_size, used, comps_used );
+    detached_ptr<item> new_craft = item::spawn( rec, batch_size, std::move( used ),
+                                   std::move( comps_used ) );
 
-    new_craft.set_cached_tool_selections( tool_selections );
-    new_craft.set_tools_to_continue( true );
+    new_craft->set_cached_tool_selections( tool_selections );
+    new_craft->set_tools_to_continue( true );
     // Pass true to indicate that we are starting the craft and the remainder should be consumed as well
-    crafter->craft_consume_tools( new_craft, 1, true );
-    new_craft.set_next_failure_point( *crafter );
+    crafter->craft_consume_tools( *new_craft, 1, true );
+    new_craft->set_next_failure_point( *crafter );
 
     return new_craft;
 }

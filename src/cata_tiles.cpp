@@ -845,7 +845,7 @@ void tileset_loader::process_variations_after_loading( weighted_int_list<std::ve
         std::remove_if(
             vs.begin(),
             vs.end(),
-    [&]( weighted_object<int, std::vector<int>> o ) {
+    [&]( const weighted_object<int, std::vector<int>> &o ) {
         return o.obj.empty();
     }
         ),
@@ -2022,14 +2022,15 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                 col = t.color;
             }
         } else if( category == C_ITEM ) {
-            item tmp;
+            //TODO!: push this up, it's a bad one
+            item *tmp;
             if( string_starts_with( found_id, "corpse_" ) ) {
-                tmp = item( itype_corpse, calendar::start_of_cataclysm );
+                tmp = item::spawn_temporary( itype_corpse, calendar::start_of_cataclysm );
             } else {
-                tmp = item( found_id, calendar::start_of_cataclysm );
+                tmp = item::spawn_temporary( found_id, calendar::start_of_cataclysm );
             }
-            sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
-            col = tmp.color();
+            sym = tmp->symbol().empty() ? ' ' : tmp->symbol().front();
+            col = tmp->color();
         } else if( category == C_OVERMAP_TERRAIN ) {
             const oter_type_str_id tmp( id );
             if( tmp.is_valid() ) {
@@ -3178,7 +3179,7 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
     if( tileset_ptr->find_tile_type( ZOMBIE_REVIVAL_INDICATOR ) && !invisible[0] &&
         item_override.find( pos ) == item_override.end() && here.could_see_items( pos, g->u ) ) {
         for( auto &i : here.i_at( pos ) ) {
-            if( i.can_revive() ) {
+            if( i->can_revive() ) {
                 return draw_from_id_string( ZOMBIE_REVIVAL_INDICATOR, C_NONE, empty_string, pos, 0, 0,
                                             lit_level::LIT, false, z_drop );
             }
@@ -3870,7 +3871,7 @@ void cata_tiles::get_tile_values( const int t, const int *tn, int &subtile, int 
     get_rotation_and_subtile( val, rotation, subtile );
 }
 
-void cata_tiles::do_tile_loading_report( std::function<void( std::string )> out )
+void cata_tiles::do_tile_loading_report( const std::function<void( std::string )> &out )
 {
     out( "Loaded tileset: " + get_option<std::string>( "TILES" ) );
 
@@ -4005,6 +4006,7 @@ std::vector<options_manager::id_and_option> cata_tiles::build_display_list()
     };
 
     int numdisplays = SDL_GetNumVideoDisplays();
+    display_names.reserve( numdisplays );
     for( int i = 0 ; i < numdisplays ; i++ ) {
         display_names.emplace_back( std::to_string( i ), std::string( SDL_GetDisplayName( i ) ) );
     }

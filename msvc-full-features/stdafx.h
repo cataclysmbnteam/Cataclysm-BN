@@ -74,7 +74,6 @@
 #include <vector>
 
 #include "../src/platform_win.h"
-#include "../src/colony.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

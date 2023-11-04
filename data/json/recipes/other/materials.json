@@ -1222,6 +1222,28 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
+    "result": "steel_lump",
+    "id_suffix": "smelt",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "survival", 4 ],
+    "time": "75 m",
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": [ [ "fabrication", 5 ], [ "survival", 5 ] ],
+    "book_learn": [ [ "textbook_armschina", 3 ], [ "survival_book", 3 ], [ "welding_book", 4 ] ],
+    "using": [ [ "forging_standard", 6 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "//": "Additional coal required for carburization, proportionate by weight.  Yield is roughly 25%.",
+    "components": [
+      [ [ "iron_ore", 1 ] ],
+      [ [ "coal_lump", 4 ], [ "charcoal", 16 ] ],
+      [ [ "material_limestone", 2 ], [ "material_quicklime", 2 ], [ "chem_carbide", 40 ] ]
+    ]
+  },
+  {
     "result": "tin",
     "type": "recipe",
     "byproducts": [ [ "steel_chunk" ] ],

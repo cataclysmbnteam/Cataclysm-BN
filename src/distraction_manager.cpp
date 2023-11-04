@@ -88,6 +88,7 @@ void distraction_manager_gui::show()
     ui.mark_resize();
 
     std::vector<distraction_type> distractions_status;
+    distractions_status.reserve( distraction_desc.size() );
     for( auto &dist : distraction_desc ) {
         distractions_status.emplace_back( dist.first );
     };

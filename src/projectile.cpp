@@ -15,13 +15,13 @@
 #include "rng.h"
 #include "string_id.h"
 
-projectile::projectile() :
-    drop( nullptr ), custom_explosion( nullptr )
+projectile::projectile() : custom_explosion( nullptr )
 { }
 
 projectile::~projectile() = default;
 
-projectile::projectile( projectile && ) = default;
+projectile::projectile( projectile && )  noexcept = default;
+
 
 projectile::projectile( const projectile &other )
 {
@@ -34,43 +34,30 @@ projectile &projectile::operator=( const projectile &other )
     speed = other.speed;
     range = other.range;
     proj_effects = other.proj_effects;
-    set_drop( other.get_drop() );
+    set_drop( item::spawn( *other.get_drop() ) );
     set_custom_explosion( other.get_custom_explosion() );
 
     return *this;
 }
 
-const item &projectile::get_drop() const
+detached_ptr<item> projectile::unset_drop()
 {
-    if( drop != nullptr ) {
-        return *drop;
-    }
-
-    static const item null_drop;
-    return null_drop;
+    detached_ptr<item> ret;
+    ret = std::move( drop );
+    return ret;
 }
 
-void projectile::set_drop( const item &it )
+void projectile::set_drop( detached_ptr<item> &&it )
 {
-    if( it.is_null() ) {
-        unset_drop();
-    } else {
-        drop = std::make_unique<item>( it );
-    }
+    drop = std::move( it );
 }
 
-void projectile::set_drop( item &&it )
+item *projectile::get_drop() const
 {
-    if( it.is_null() ) {
-        unset_drop();
-    } else {
-        drop = std::make_unique<item>( std::move( it ) );
+    if( !drop ) {
+        return &null_item_reference();
     }
-}
-
-void projectile::unset_drop()
-{
-    drop.reset( nullptr );
+    return &*drop;
 }
 
 const explosion_data &projectile::get_custom_explosion() const

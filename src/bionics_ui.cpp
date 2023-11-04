@@ -196,7 +196,8 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
     for( const bionic &bio : *p->my_bionics ) {
         for( const itype_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
-            const item temp_fuel( fuel );
+            //TODO!: figure out tname so we don't need this, it's an infinite one
+            const item &temp_fuel = *item::spawn_temporary( fuel );
             if( temp_fuel.has_flag( json_flag_PERPETUAL ) ) {
                 if( fuel == itype_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
                     continue;
@@ -210,7 +211,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
         if( bio.info().is_remote_fueled && p->has_active_bionic( bio.id ) ) {
             const itype_id rem_fuel = p->find_remote_fuel( true );
             if( !rem_fuel.is_empty() ) {
-                const item tmp_rem_fuel( rem_fuel );
+                const item &tmp_rem_fuel = *item::spawn_temporary( rem_fuel );
                 if( tmp_rem_fuel.has_flag( json_flag_PERPETUAL ) ) {
                     fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
                 } else {
@@ -311,14 +312,14 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
                                                bio_data.charge_time ) );
     }
     if( bio_data.has_flag( STATIC( flag_id( "BIONIC_TOGGLED" ) ) ) ) {
-        properties.push_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
+        properties.emplace_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
     if( bio.incapacitated_time > 0_turns ) {
-        properties.push_back( _( "(incapacitated)" ) );
+        properties.emplace_back( _( "(incapacitated)" ) );
     }
     if( !bio.has_flag( flag_SAFE_FUEL_OFF ) && ( !bio.info().fuel_opts.empty() ||
             bio.info().is_remote_fueled ) ) {
-        properties.push_back( _( "(fuel saving ON)" ) );
+        properties.emplace_back( _( "(fuel saving ON)" ) );
     }
     if( bio.is_auto_start_on() && ( !bio.info().fuel_opts.empty() || bio.info().is_remote_fueled ) ) {
         const std::string label = string_format( _( "(auto start < %d %%)" ),

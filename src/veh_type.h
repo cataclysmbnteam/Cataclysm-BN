@@ -383,10 +383,10 @@ struct vehicle_prototype {
     vehicle_prototype( const std::string &name, const std::vector<part_def> &parts,
                        const std::vector<vehicle_item_spawn> &item_spawns,
                        std::unique_ptr<vehicle> &&blueprint );
-    vehicle_prototype( vehicle_prototype && );
+    vehicle_prototype( vehicle_prototype && ) noexcept ;
     ~vehicle_prototype();
 
-    vehicle_prototype &operator=( vehicle_prototype && );
+    vehicle_prototype &operator=( vehicle_prototype && ) noexcept ;
 
     std::string name;
     std::vector<part_def> parts;

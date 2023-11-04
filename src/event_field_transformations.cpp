@@ -14,7 +14,7 @@ static std::vector<cata_variant> flags_of_terrain( const cata_variant &v )
     std::vector<cata_variant> result;
     result.reserve( flags.size() );
     for( const std::string &s : flags ) {
-        result.push_back( cata_variant( s ) );
+        result.emplace_back( s );
     }
     return result;
 }
@@ -41,7 +41,7 @@ static std::vector<cata_variant> species_of_monster( const cata_variant &v )
     std::vector<cata_variant> result;
     result.reserve( species.size() );
     for( const species_id &s : species ) {
-        result.push_back( cata_variant( s ) );
+        result.emplace_back( s );
     }
     return result;
 }

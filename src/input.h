@@ -132,6 +132,7 @@ struct input_event {
     }
 
 #if defined(__ANDROID__)
+    input_event( const input_event &other ) = default;
     input_event &operator=( const input_event &other ) {
         type = other.type;
         modifiers = other.modifiers;

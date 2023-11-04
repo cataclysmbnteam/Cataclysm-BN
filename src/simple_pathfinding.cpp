@@ -41,7 +41,7 @@ struct point_node {
 } // namespace
 
 directed_path<point> greedy_path( point source, point dest, point max,
-                                  two_node_scoring_fn<point> scorer )
+                                  const two_node_scoring_fn<point> &scorer )
 {
     using Node = point_node;
     const auto inbounds = [ max ]( point  p ) {

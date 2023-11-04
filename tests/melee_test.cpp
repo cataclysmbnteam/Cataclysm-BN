@@ -87,7 +87,7 @@ TEST_CASE( "Character attacking a zombie", "[.melee]" )
 
     SECTION( "8/8/8/8, 3 all skills, two-by-four" ) {
         standard_npc dude( "TestCharacter", dude_pos, {}, 3, 8, 8, 8, 8 );
-        dude.primary_weapon() = item( "2x4" );
+        dude.set_primary_weapon( item::spawn( "2x4" ) );
         const float prob = brute_probability( dude, zed, num_iters );
         INFO( full_attack_details( dude ) );
         check_near( prob, 0.8f, 0.05f );
@@ -95,7 +95,7 @@ TEST_CASE( "Character attacking a zombie", "[.melee]" )
 
     SECTION( "10/10/10/10, 8 all skills, katana" ) {
         standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
-        dude.primary_weapon() = item( "katana" );
+        dude.set_primary_weapon( item::spawn( "katana" ) );
         const float prob = brute_probability( dude, zed, num_iters );
         INFO( full_attack_details( dude ) );
         check_near( prob, 0.975f, 0.025f );
@@ -116,7 +116,7 @@ TEST_CASE( "Character attacking a manhack", "[.melee]" )
 
     SECTION( "8/8/8/8, 3 all skills, two-by-four" ) {
         standard_npc dude( "TestCharacter", dude_pos, {}, 3, 8, 8, 8, 8 );
-        dude.primary_weapon() = item( "2x4" );
+        dude.set_primary_weapon( item::spawn( "2x4" ) );
         const float prob = brute_probability( dude, manhack, num_iters );
         INFO( full_attack_details( dude ) );
         check_near( prob, 0.4f, 0.05f );
@@ -124,7 +124,7 @@ TEST_CASE( "Character attacking a manhack", "[.melee]" )
 
     SECTION( "10/10/10/10, 8 all skills, katana" ) {
         standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
-        dude.primary_weapon() = item( "katana" );
+        dude.set_primary_weapon( item::spawn( "katana" ) );
         const float prob = brute_probability( dude, manhack, num_iters );
         INFO( full_attack_details( dude ) );
         check_near( prob, 0.7f, 0.05f );

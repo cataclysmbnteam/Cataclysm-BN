@@ -52,7 +52,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_location.h"
 #include "json.h"
 #include "json_export.h"
 #include "language.h"
@@ -339,7 +338,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
         menu.insert( menu.begin() + 1, debug_menu.begin(), debug_menu.end() );
 
         if( cata::has_lua() ) {
-            menu.push_back( uilist_entry( 7, true, 'l', _( "Lua console" ) ) );
+            menu.emplace_back( 7, true, 'l', _( "Lua console" ) );
         }
     }
 
@@ -658,23 +657,23 @@ void character_edit_menu( Character &c )
                 break;
             }
             for( auto &it : p.worn ) {
-                it.on_takeoff( p );
+                it->on_takeoff( p );
             }
             p.worn.clear();
-            p.inv.clear();
-            p.set_primary_weapon( item() );
+            p.inv_clear();
+            p.remove_primary_weapon( );
             break;
         case edit_character::item_worn: {
-            item_location loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
+            item *loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
             if( !loc ) {
                 break;
             }
             item &to_wear = *loc;
             if( to_wear.is_armor() ) {
+                p.worn.push_back( to_wear.detach() );
                 p.on_item_wear( to_wear );
-                p.worn.push_back( to_wear );
             } else if( !to_wear.is_null() ) {
-                p.set_primary_weapon( to_wear );
+                p.set_primary_weapon( to_wear.detach() );
             }
         }
         break;
@@ -1440,8 +1439,10 @@ void debug()
         case DEBUG_GAME_STATE: {
             std::string mfus;
             std::vector<std::pair<m_flag, int>> sorted;
+            sorted.reserve( m_flag::MF_MAX );
             for( int f = 0; f < m_flag::MF_MAX; f++ ) {
-                sorted.push_back( {static_cast<m_flag>( f ), MonsterGenerator::generator().m_flag_usage_stats[f]} );
+                sorted.emplace_back( static_cast<m_flag>( f ),
+                                     MonsterGenerator::generator().m_flag_usage_stats[f] );
             }
             std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
                 return a.second != b.second ? a.second > b.second : a.first < b.first;
@@ -1589,7 +1590,7 @@ void debug()
             break;
 
         case DEBUG_SPAWN_CLAIRVOYANCE:
-            u.i_add( item( "architect_cube", calendar::turn ) );
+            u.i_add( item::spawn( "architect_cube", calendar::turn ) );
             break;
 
         case DEBUG_MAP_EDITOR:
@@ -2121,7 +2122,7 @@ void debug()
             break;
         case DEBUG_RELOAD_TILES:
             std::ostringstream ss;
-            g->reload_tileset( [&ss]( std::string str ) {
+            g->reload_tileset( [&ss]( const std::string & str ) {
                 ss << str << std::endl;
             } );
             add_msg( ss.str() );

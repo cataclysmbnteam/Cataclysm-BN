@@ -167,8 +167,7 @@ static decltype( player::temp_cur ) converge_temperature( player &p, size_t iter
 static void equip_clothing( player &p, const std::vector<std::string> &clothing )
 {
     for( const std::string &c : clothing ) {
-        const item article( itype_id( c ), calendar::start_of_cataclysm );
-        p.wear_item( article );
+        p.wear_item( item::spawn( itype_id( c ), calendar::start_of_cataclysm ) );
     }
 }
 

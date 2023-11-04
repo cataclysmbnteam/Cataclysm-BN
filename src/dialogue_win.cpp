@@ -146,9 +146,9 @@ static void print_keybindings( const catacurses::window &w )
 void dialogue_window::cache_msg( const std::string &msg, size_t idx )
 {
     const std::vector<std::string> folded = foldstring( msg, getmaxx( d_win ) / 2 );
-    draw_cache.push_back( {"", idx} );
+    draw_cache.emplace_back( "", idx );
     for( const std::string &fs : folded ) {
-        draw_cache.push_back( {fs, idx} );
+        draw_cache.emplace_back( fs, idx );
     }
 }
 

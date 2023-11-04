@@ -70,6 +70,24 @@
     "loudness_modifier": -8
   },
   {
+    "id": "crossbow_lever",
+    "type": "GUNMOD",
+    "name": { "str": "crossbow spanning lever" },
+    "description": "A medieval-style \"goat's foot\" lever, that hooks onto medium-sized crossbows to assist with drawing them.  Makes reloading easier, but takes a bit longer to set up when wielding.",
+    "weight": "700 g",
+    "volume": "750 ml",
+    "integral_volume": "250 ml",
+    "price": "40 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "location": "accessories",
+    "mod_target_category": [ [ "M_XBOWS" ] ],
+    "reload_modifier": -25,
+    "flags": [ "NEEDS_UNFOLD" ]
+  },
+  {
     "id": "belt_clip",
     "type": "GUNMOD",
     "name": { "str": "belt clip" },

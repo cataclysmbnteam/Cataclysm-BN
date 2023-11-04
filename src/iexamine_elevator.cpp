@@ -1,5 +1,5 @@
+#include "detached_ptr.h"
 #include <optional>
-
 #include "cata_algo.h"
 #include "game.h"
 #include "iexamine.h"
@@ -19,15 +19,13 @@
 namespace
 {
 
-// still not sure whether there's a utility function for this
 // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 auto move_item( map &here, const tripoint &src, const tripoint &dest ) -> void
 {
-    map_stack items = here.i_at( src );
-    for( auto it = items.begin(); it != items.end(); ) {
-        here.add_item_or_charges( dest, *it );
-        it = here.i_rem( src, it );
-    }
+    map_stack items_src = here.i_at( src );
+    map_stack items_dest = here.i_at( dest );
+
+    items_src.move_all_to( &items_dest );
 }
 
 namespace elevator
@@ -181,17 +179,19 @@ auto move_creatures_away( const elevator::tiles &dest ) -> void
     }
 }
 
-auto move_items( const elevator::tiles from, const elevator::tiles dest ) -> void
+auto move_items( const elevator::tiles &from, const elevator::tiles &dest ) -> void
 {
+    using size_type = elevator::tiles::size_type;
     map &here = get_map();
 
-    for( decltype( from )::size_type i = 0; i < from.size(); i++ ) {
+    // oh how i wish i could use zip here
+    for( size_type i = 0; i < from.size(); i++ ) {
         const tripoint &src = from[i];
         move_item( here, src, dest[i] );
     }
 }
 
-auto move_creatures( const elevator::tiles from, const elevator::tiles dest ) -> void
+auto move_creatures( const elevator::tiles &from, const elevator::tiles &dest ) -> void
 {
     for( Creature &critter : g->all_creatures() ) {
         const auto eit = std::find( from.cbegin(), from.cend(), critter.pos() );

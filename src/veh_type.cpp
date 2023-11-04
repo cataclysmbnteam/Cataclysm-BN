@@ -228,7 +228,7 @@ void vpart_info::load_engine( std::optional<vpslot_engine> &eptr, const JsonObje
     if( !fuel_opts.empty() ) {
         e_info.fuel_opts.clear();
         for( const std::string line : fuel_opts ) {
-            e_info.fuel_opts.push_back( itype_id( line ) );
+            e_info.fuel_opts.emplace_back( line );
         }
     } else if( e_info.fuel_opts.empty() && fuel_type != itype_id( "null" ) ) {
         e_info.fuel_opts.push_back( fuel_type );
@@ -739,7 +739,8 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         long_descrip += "  " + _( nobelt.info() );
     }
     if( has_flag( "TURRET" ) ) {
-        class::item base( item );
+        //TODO!: push up
+        class::item &base = *item::spawn_temporary( item );
         if( base.ammo_required() && !base.ammo_remaining() ) {
             itype_id default_ammo = base.magazine_current() ? base.common_ammo_default() : base.ammo_default();
             base.ammo_set( default_ammo );
@@ -953,10 +954,10 @@ vehicle_prototype::vehicle_prototype( const std::string &name,
 {
 }
 
-vehicle_prototype::vehicle_prototype( vehicle_prototype && ) = default;
+vehicle_prototype::vehicle_prototype( vehicle_prototype && )  noexcept = default;
 vehicle_prototype::~vehicle_prototype() = default;
 
-vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype && ) = default;
+vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype && )  noexcept = default;
 
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
@@ -1043,15 +1044,15 @@ void vehicle_prototype::load( const JsonObject &jo )
             spawn_info.read( "items", next_spawn.item_ids, true );
         } else if( spawn_info.has_string( "items" ) ) {
             //Treat single item as array
-            next_spawn.item_ids.push_back( itype_id( spawn_info.get_string( "items" ) ) );
+            next_spawn.item_ids.emplace_back( spawn_info.get_string( "items" ) );
         }
         if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items
             for( const std::string line : spawn_info.get_array( "item_groups" ) ) {
-                next_spawn.item_groups.push_back( item_group_id( line ) );
+                next_spawn.item_groups.emplace_back( line );
             }
         } else if( spawn_info.has_string( "item_groups" ) ) {
-            next_spawn.item_groups.push_back( item_group_id( spawn_info.get_string( "item_groups" ) ) );
+            next_spawn.item_groups.emplace_back( spawn_info.get_string( "item_groups" ) );
         }
         vproto.item_spawns.push_back( std::move( next_spawn ) );
     }

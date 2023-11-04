@@ -35,7 +35,7 @@ static void print_stats( const player &p, const std::vector<const itype *> &weap
 {
     std::vector<std::pair<std::string, double>> weapon_stats;
     for( const itype *w : weapons ) {
-        item wp( w );
+        item &wp = *item::spawn_temporary( w );
         weapon_stats.emplace_back( wp.tname( 1, false ), wp.effective_dps( p, m ) );
     }
     std::sort( weapon_stats.begin(), weapon_stats.end(), []( const auto & l, const auto & r ) {

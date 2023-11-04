@@ -28,7 +28,6 @@
 #include "character_functions.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
-#include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "construction_partial.h"
@@ -60,7 +59,6 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
-#include "item_location.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
@@ -400,9 +398,9 @@ activity_handlers::finish_functions = {
 bool activity_handlers::resume_for_multi_activities( player &p )
 {
     if( !p.backlog.empty() ) {
-        player_activity &back_act = p.backlog.front();
-        if( back_act.is_multi_type() ) {
-            p.assign_activity( p.backlog.front().id() );
+        activity_ptr &back_act = p.backlog.front();
+        if( back_act->is_multi_type() ) {
+            p.assign_activity( p.backlog.front()->id() );
             p.backlog.clear();
             return true;
         }
@@ -456,31 +454,31 @@ static bool check_butcher_cbm( const int roll )
     return !failed;
 }
 
-static void extract_or_wreck_cbms( const std::list<item> &cbms, int roll,
+static void extract_or_wreck_cbms( std::vector<detached_ptr<item>> &cbms, int roll,
                                    player &p )
 {
     if( roll < 0 ) {
         return;
     }
-    for( item it : cbms ) {
+    for( detached_ptr<item> &it : cbms ) {
         // For some stupid reason, zombie pheromones are dropped using bionic type
         // This complicates things
-        if( it.is_bionic() ) {
-            if( check_butcher_cbm( roll ) || it.typeId() == itype_burnt_out_bionic ) {
-                if( it.has_flag( flag_BIONIC_FAULTY ) ) {
-                    it.convert( itype_burnt_out_bionic );
+        if( it->is_bionic() ) {
+            if( check_butcher_cbm( roll ) || it->typeId() == itype_burnt_out_bionic ) {
+                if( it->has_flag( flag_BIONIC_FAULTY ) ) {
+                    it->convert( itype_burnt_out_bionic );
                     // We don't need the non-sterile fault on a piece of burnt-out bionic
-                    if( it.has_fault( fault_bionic_nonsterile ) ) {
-                        it.faults.erase( fault_bionic_nonsterile );
+                    if( it->has_fault( fault_bionic_nonsterile ) ) {
+                        it->faults.erase( fault_bionic_nonsterile );
                     }
                 }
-                add_msg( m_good, _( "You discover: %s!" ), it.tname() );
+                add_msg( m_good, _( "You discover: %s!" ), it->tname() );
             } else {
-                it.convert( itype_burnt_out_bionic );
-                if( it.has_fault( fault_bionic_nonsterile ) ) {
-                    it.faults.erase( fault_bionic_nonsterile );
+                it->convert( itype_burnt_out_bionic );
+                if( it->has_fault( fault_bionic_nonsterile ) ) {
+                    it->faults.erase( fault_bionic_nonsterile );
                 }
-                add_msg( m_bad, _( "Your imprecise surgery damaged a bionic, producing a %s." ), it.tname() );
+                add_msg( m_bad, _( "Your imprecise surgery damaged a bionic, producing a %s." ), it->tname() );
             }
         } else {
             if( !check_butcher_cbm( roll ) ) {
@@ -488,22 +486,22 @@ static void extract_or_wreck_cbms( const std::list<item> &cbms, int roll,
                 continue;
             } else {
                 // If we have non-bionic loot in a harvest's bionic_group it doesn't need to be marked non-sterile either.
-                if( it.has_fault( fault_bionic_nonsterile ) ) {
-                    it.faults.erase( fault_bionic_nonsterile );
+                if( it->has_fault( fault_bionic_nonsterile ) ) {
+                    it->faults.erase( fault_bionic_nonsterile );
                 }
-                add_msg( m_good, _( "You discover: %s!" ), it.tname() );
+                add_msg( m_good, _( "You discover: %s!" ), it->tname() );
             }
         }
 
-        if( it.type->phase == LIQUID ) {
+        if( it->type->phase == LIQUID ) {
             // TODO: smarter NPC liquid handling
             if( p.is_npc() ) {
-                drop_on_map( p, item_drop_reason::deliberate, { it }, p.pos() );
+                drop_on_map( p, item_drop_reason::deliberate, { std::move( it ) }, p.pos() );
             } else {
-                liquid_handler::handle_all_liquid( it, 1 );
+                liquid_handler::handle_all_liquid( std::move( it ), 1 );
             }
         } else {
-            get_map().add_item( p.pos(), it );
+            get_map().add_item( p.pos(), std::move( it ) );
         }
     }
 }
@@ -1050,7 +1048,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 continue;
             }
             if( drop->phase == LIQUID ) {
-                item obj( drop, calendar::turn, roll );
+                detached_ptr<item> it = item::spawn( drop, calendar::turn, roll );
+                item &obj = *it;
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
@@ -1062,12 +1061,13 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 }
                 // TODO: smarter NPC liquid handling
                 if( p.is_npc() ) {
-                    drop_on_map( p, item_drop_reason::deliberate, { obj }, p.pos() );
+                    drop_on_map( p, item_drop_reason::deliberate, std::move( it ), p.pos() );
                 } else {
-                    liquid_handler::handle_all_liquid( obj, 1 );
+                    liquid_handler::handle_all_liquid( std::move( it ), 1 );
                 }
             } else if( drop->count_by_charges() ) {
-                item obj( drop, calendar::turn, roll );
+                detached_ptr<item> it = item::spawn( drop, calendar::turn, roll );
+                item &obj = *it;
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
@@ -1077,12 +1077,12 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
+                if( !p.backlog.empty() && p.backlog.front()->id() == ACT_MULTIPLE_BUTCHER ) {
                     obj.set_var( "activity_var", p.name );
                 }
-                here.add_item_or_charges( p.pos(), obj );
+                here.add_item_or_charges( p.pos(), std::move( it ) );
             } else {
-                item obj( drop, calendar::turn );
+                item &obj = *item::spawn_temporary( drop, calendar::turn );
                 obj.set_mtype( &mt );
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
@@ -1093,11 +1093,11 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
+                if( !p.backlog.empty() && p.backlog.front()->id() == ACT_MULTIPLE_BUTCHER ) {
                     obj.set_var( "activity_var", p.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
-                    here.add_item_or_charges( p.pos(), obj );
+                    here.add_item_or_charges( p.pos(), item::spawn( obj ) );
                 }
             }
             p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
@@ -1120,7 +1120,7 @@ static void butchery_quarter( item *corpse_item, const player &p )
     map &here = get_map();
     // 4 quarters (one exists, add 3, flag does the rest)
     for( int i = 1; i <= 3; i++ ) {
-        here.add_item_or_charges( p.pos(), *corpse_item, true );
+        here.add_item_or_charges( p.pos(), item::spawn( *corpse_item ), true );
     }
 }
 
@@ -1134,7 +1134,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     map &here = get_map();
-    item_location target = act->targets.back();
+    safe_reference<item> &target = act->targets.back();
     const inventory &inv = p->crafting_inventory();
 
     // Corpses can disappear (rezzing!), so check for that
@@ -1227,7 +1227,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         }
 
         // Remove the target from the map
-        target.remove_item();
+        target->detach();
+
         act->targets.pop_back();
 
         here.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
@@ -1258,9 +1259,10 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         int roll = roll_butchery() - corpse_item.damage_level( 4 );
         roll = roll < 0 ? 0 : roll;
         add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item.damage_level( 4 ) );
-        std::list<item> cbms = corpse_item.components;
-        for( const item *it : corpse_item.contents.all_items_top() ) {
-            cbms.push_back( *it );
+        std::vector<detached_ptr<item>> cbms = corpse_item.remove_components();
+        std::vector<detached_ptr<item>> contents = corpse_item.contents.clear_items();
+        for( detached_ptr<item> &it : contents ) {
+            cbms.push_back( std::move( it ) );
         }
         extract_or_wreck_cbms( cbms, roll, *p );
         // those lines are for XP gain with dissecting. It depends on the size of the corpse, time to dissect the corpse and the amount of bionics you would gather.
@@ -1284,7 +1286,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                                   corpse_item.tname() );
 
             // Remove the target from the map
-            target.remove_item();
+            target->detach();
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
@@ -1293,7 +1295,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             p->add_msg_if_player( m_good, _( "You finish butchering the %s." ), corpse_item.tname() );
 
             // Remove the target from the map
-            target.remove_item();
+            target->detach();
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
@@ -1394,7 +1396,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             }
 
             // Remove the target from the map
-            target.remove_item();
+            target->detach();
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
@@ -1403,7 +1405,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname() );
 
             // Remove the target from the map
-            target.remove_item();
+            target->detach();
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
@@ -1422,12 +1424,13 @@ void activity_handlers::shear_finish( player_activity *act, player *p )
         debugmsg( "shearing activity with no position of monster stored" );
         return;
     }
-    item_location &loc = act->targets[ 0 ];
-    item *shears = loc.get_item();
-    if( shears == nullptr ) {
+    safe_reference<item> &loc = act->targets[ 0 ];
+
+    if( !loc ) {
         debugmsg( "shearing item location lost" );
         return;
     }
+    item *shears = &*loc;
     map &here = get_map();
     const tripoint source_pos = here.getlocal( act->coords.at( 0 ) );
     monster *source_mon = g->critter_at<monster>( source_pos );
@@ -1437,8 +1440,8 @@ void activity_handlers::shear_finish( player_activity *act, player *p )
     }
     // 22 wool staples corresponds to an average wool-producing sheep yield of 10 lbs or so
     for( int i = 0; i != 22; ++i ) {
-        item wool_staple( itype_wool_staple, calendar::turn );
-        here.add_item_or_charges( p->pos(), wool_staple );
+        detached_ptr<item> wool_staple = item::spawn( itype_wool_staple, calendar::turn );
+        here.add_item_or_charges( p->pos(), std::move( wool_staple ) );
     }
     source_mon->add_effect( effect_sheared, calendar::season_length() );
     if( !act->str_values.empty() && act->str_values[0] == "temp_tie" ) {
@@ -1472,14 +1475,14 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
         debugmsg( "started milking but udders are now empty before milking finishes" );
         return;
     }
-    item milk( milked_item->first, calendar::turn, milked_item->second );
-    if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, source_mon ) ) {
+    detached_ptr<item> milk = item::spawn( milked_item->first, calendar::turn, milked_item->second );
+    liquid_handler::handle_liquid( std::move( milk ) );
+    // NOLINTNEXTLINE(bugprone-use-after-move)
+    if( !milk ) {
         milked_item->second = 0;
-        if( milk.charges > 0 ) {
-            milked_item->second = milk.charges;
-        } else {
-            p->add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );
-        }
+        p->add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );
+    } else {
+        milked_item->second = milk->charges;
     }
     // if the monster was not manually tied up, but needed to be fixed in place temporarily then
     // remove that now.
@@ -1492,146 +1495,82 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
 {
     player_activity &act_ref = *act;
+    map &here = get_map();
     try {
-        // 1. Gather the source item.
-        vehicle *source_veh = nullptr;
-        const tripoint source_pos = act_ref.coords.at( 0 );
-        map &here = get_map();
-        map_stack source_stack = here.i_at( source_pos );
-        map_stack::iterator on_ground;
-        monster *source_mon = nullptr;
-        item liquid;
-        const liquid_source_type source_type = static_cast<liquid_source_type>( act_ref.values.at( 0 ) );
-        int part_num = -1;
-        int veh_charges = 0;
-        switch( source_type ) {
-            case LST_VEHICLE:
-                source_veh = veh_pointer_or_null( here.veh_at( source_pos ) );
-                if( source_veh == nullptr ) {
-                    throw std::runtime_error( "could not find source vehicle for liquid transfer" );
-                }
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
-                part_num = static_cast<int>( act_ref.values.at( 1 ) );
-                veh_charges = liquid.charges;
-                break;
-            case LST_INFINITE_MAP:
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
-                liquid.charges = item::INFINITE_CHARGES;
-                break;
-            case LST_MAP_ITEM:
-                if( static_cast<size_t>( act_ref.values.at( 1 ) ) >= source_stack.size() ) {
-                    throw std::runtime_error( "could not find source item on ground for liquid transfer" );
-                }
-                on_ground = source_stack.begin();
-                std::advance( on_ground, act_ref.values.at( 1 ) );
-                liquid = *on_ground;
-                break;
-            case LST_MONSTER:
-                Creature *c = g->critter_at( source_pos );
-                source_mon = dynamic_cast<monster *>( c );
-                if( source_mon == nullptr ) {
-                    debugmsg( "could not find source creature for liquid transfer" );
-                    act_ref.set_to_null();
-                }
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
-                liquid.charges = 1;
-                break;
-        }
 
-        static const units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
-        const int charges_per_second = std::max( 1, liquid.charges_per_volume( volume_per_second ) );
-        liquid.charges = std::min( charges_per_second, liquid.charges );
-        const int original_charges = liquid.charges;
-
+        // 1. Prepare source lambda
+        liquid_source_type source_type = static_cast<liquid_source_type>( act_ref.values.at( 0 ) );
+        auto transfer = [source_type, &here,
+                     &act_ref]( const std::function < detached_ptr<item>( detached_ptr<item> &&it ) > & cb ) {
+            tripoint pos = act_ref.coords.at( 0 );
+            static const units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
+            int charges;
+            detached_ptr<item> source;
+            switch( source_type ) {
+                case LST_INFINITE_MAP:
+                    source = here.water_from( pos );
+                    charges = std::max( 1, source->charges_per_volume( volume_per_second ) );
+                    source->charges = charges;
+                    source = cb( std::move( source ) );
+                    return !( source && source->charges != charges );
+                case LST_VEHICLE:
+                    auto vp = here.veh_at( pos );
+                    if( !vp ) {
+                        debugmsg( "Lost track of vehicle source for fill_liquid activity" );
+                    }
+                    item &base = vp->vehicle().part( act_ref.values.at( 1 ) ).get_base();
+                    if( base.contents.empty() ) {
+                        return true;
+                    }
+                    item &source_it = base.contents.back();
+                    charges = std::max( 1, source_it.charges_per_volume( volume_per_second ) );
+                    int orig = source_it.charges;
+                    source_it.attempt_split( charges, cb );
+                    return source_it.charges == 0 || source_it.charges == orig;
+            }
+            return false;
+        };
+        bool finished = true;
         // 2. Transfer charges.
         switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
             case LTT_VEHICLE:
                 if( const optional_vpart_position vp = here.veh_at( act_ref.coords.at( 1 ) ) ) {
-                    p->pour_into( vp->vehicle(), liquid );
+                    finished = transfer( [&p, &vp]( detached_ptr<item> &&it ) {
+                        return p->pour_into( vp->vehicle(), std::move( it ) );
+                    } );
                 } else {
                     throw std::runtime_error( "could not find target vehicle for liquid transfer" );
                 }
                 break;
-            case LTT_CONTAINER:
-                p->pour_into( p->i_at( act_ref.values.at( 3 ) ), liquid );
-                break;
             case LTT_MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
-                    iexamine::pour_into_keg( act_ref.coords.at( 1 ), liquid );
+                    finished = transfer( [&act_ref]( detached_ptr<item> &&it ) {
+                        return iexamine::pour_into_keg( act_ref.coords.at( 1 ), std::move( it ) );
+                    } );
                 } else {
-                    here.add_item_or_charges( act_ref.coords.at( 1 ), liquid );
-                    p->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname() );
-                    liquid.charges = 0;
+                    finished = transfer( [&p, &act_ref, &here]( detached_ptr<item> &&it ) {
+                        p->add_msg_if_player( _( "You pour %1$s onto the ground." ), it->tname() );
+                        here.add_item_or_charges( act_ref.coords.at( 1 ), std::move( it ) );
+                        return detached_ptr<item>();
+                    } );
                 }
                 break;
             case LTT_MONSTER:
-                liquid.charges = 0;
+                //Do nothing here
+                break;
+            case LTT_CONTAINER:
+                safe_reference<item> &container = act_ref.targets.at( 0 );
+                if( !container ) {
+                    throw std::runtime_error( "could not find target container for liquid transfer" );
+                }
+
+                finished = transfer( [&p, &container]( detached_ptr<item> &&it ) {
+                    return p->pour_into( *container,  std::move( it ) );
+                } );
+
                 break;
         }
-
-        const int removed_charges = original_charges - liquid.charges;
-        if( removed_charges == 0 ) {
-            // Nothing has been transferred, target must be full.
-            act_ref.set_to_null();
-            return;
-        }
-
-        // 3. Remove charges from source.
-        switch( source_type ) {
-            case LST_VEHICLE:
-                if( part_num != -1 ) {
-                    source_veh->drain( part_num, removed_charges );
-                    liquid.charges = veh_charges - removed_charges;
-                    // If there's no liquid left in this tank we're done, otherwise
-                    // we need to update our liquid serialization to reflect how
-                    // many charges are actually left for the next time we come
-                    // around this loop.
-                    if( !liquid.charges ) {
-                        act_ref.set_to_null();
-                    } else {
-                        if( act_ref.str_values.empty() ) {
-                            act_ref.str_values.push_back( std::string() );
-                        }
-                        act_ref.str_values.at( 0 ) = serialize( liquid );
-                    }
-                } else {
-                    source_veh->drain( liquid.typeId(), removed_charges );
-                }
-                if( source_veh->fuel_left( liquid.typeId() ) <= 0 ) {
-                    act_ref.set_to_null();
-                }
-                break;
-            case LST_MAP_ITEM:
-                on_ground->charges -= removed_charges;
-                if( on_ground->charges <= 0 ) {
-                    source_stack.erase( on_ground );
-                    if( here.ter( source_pos ).obj().examine == &iexamine::gaspump ) {
-                        add_msg( _( "With a clang and a shudder, the %s pump goes silent." ),
-                                 liquid.type_name( 1 ) );
-                    } else if( here.furn( source_pos ).obj().examine == &iexamine::fvat_full ) {
-                        add_msg( _( "You squeeze the last drops of %s from the vat." ),
-                                 liquid.type_name( 1 ) );
-                        map_stack items_here = here.i_at( source_pos );
-                        if( items_here.empty() ) {
-                            here.furn_set( source_pos, f_fvat_empty );
-                        }
-                    }
-                    act_ref.set_to_null();
-                }
-                break;
-            case LST_INFINITE_MAP:
-                // nothing, the liquid source is infinite
-                break;
-            case LST_MONSTER:
-                // liquid source charges handled in monexamine::milk_source
-                if( liquid.charges == 0 ) {
-                    act_ref.set_to_null();
-                }
-                break;
-        }
-
-        if( removed_charges < original_charges ) {
-            // Transferred less than the available charges -> target must be full
+        if( finished ) {
             act_ref.set_to_null();
         }
 
@@ -1839,13 +1778,16 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
-
-    for( item &it : items ) {
-        if( actor->valid_to_cut_up( it ) ) {
-            item_location item_loc( map_cursor( p->pos() ), &it );
-            actor->cut_up( *p, *salvage_tool, item_loc );
-            return;
+    item *target = nullptr;
+    for( item *&it : items ) {
+        if( actor->valid_to_cut_up( *it ) ) {
+            target = it;
         }
+    }
+
+    if( target ) {
+        actor->cut_up( *p, *salvage_tool, *target );
+        return;
     }
 
     add_msg( _( "You finish salvaging." ) );
@@ -1859,9 +1801,9 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     const std::string corpse_name = act->str_values[0];
     item *body = nullptr;
 
-    for( item &it : items ) {
-        if( it.display_name() == corpse_name ) {
-            body = &it;
+    for( item *&it : items ) {
+        if( it->display_name() == corpse_name ) {
+            body = it;
         }
     }
 
@@ -1969,8 +1911,8 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
         debugmsg( "pickaxe activity targets empty" );
     }
     if( resume_for_multi_activities( *p ) ) {
-        for( item &elem : here.i_at( pos ) ) {
-            elem.set_var( "activity_var", p->name );
+        for( item *&elem : here.i_at( pos ) ) {
+            elem->set_var( "activity_var", p->name );
         }
     }
 }
@@ -1997,32 +1939,32 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     // use this to collect how many corpse are pulped
     int &num_corpses = act->index;
     map_stack corpse_pile = here.i_at( pos );
-    for( item &corpse : corpse_pile ) {
-        const mtype *corpse_mtype = corpse.get_mtype();
-        if( !corpse.is_corpse() || !corpse_mtype->has_flag( MF_REVIVES ) ||
+    for( item *&corpse : corpse_pile ) {
+        const mtype *corpse_mtype = corpse->get_mtype();
+        if( !corpse->is_corpse() || !corpse_mtype->has_flag( MF_REVIVES ) ||
             ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
               act->str_values.end() && corpse_mtype->bloodType().obj().has_acid ) ) {
             // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping
             continue;
         }
 
-        while( corpse.damage() < corpse.max_damage() ) {
+        while( corpse->damage() < corpse->max_damage() ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
-            if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
-                corpse.inc_damage( DT_BASH );
-                if( corpse.damage() == corpse.max_damage() ) {
+            if( x_in_y( pulp_power, corpse->volume() / units::legacy_volume_factor ) ) {
+                corpse->inc_damage( DT_BASH );
+                if( corpse->damage() == corpse->max_damage() ) {
                     num_corpses++;
                 }
             }
 
-            if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
+            if( x_in_y( pulp_power, corpse->volume() / units::legacy_volume_factor ) ) {
                 // Splatter some blood around
                 // Splatter a bit more randomly, so that it looks cooler
                 const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
                 const tripoint dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
                 const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
-                                                 corpse.get_mtype()->gibType() :
-                                                 corpse.get_mtype()->bloodType();
+                                                 corpse->get_mtype()->gibType() :
+                                                 corpse->get_mtype()->bloodType();
                 here.add_splatter_trail( type_blood, pos, dest );
             }
 
@@ -2045,7 +1987,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 return;
             }
         }
-        corpse.set_flag( flag_PULPED );
+        corpse->set_flag( flag_PULPED );
     }
     // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;
@@ -2096,7 +2038,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
     const bool ammo_is_filthy = ammo.is_filthy();
 
-    if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
+    if( !reloadable.reload( *p, ammo, qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname() );
         return;
     }
@@ -2588,12 +2530,12 @@ tripoint get_position( const player_activity &activity )
     return activity.coords.at( 0 );
 }
 
-item get_fake_tool( hack_type_t hack_type, const player_activity &activity )
+item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
 {
     const tripoint position = get_position( activity );
     const map &m = get_map();
-
-    item fake_item;
+    //TODO!: chhhecks of big
+    item *fake_item = &null_item_reference();
 
     switch( hack_type ) {
         case hack_type_t::vehicle_weldrig: {
@@ -2604,8 +2546,8 @@ item get_fake_tool( hack_type_t hack_type, const player_activity &activity )
             }
             const vehicle &veh = pos->vehicle();
 
-            fake_item = item( itype_welder, calendar::turn, 0 );
-            fake_item.charges = veh.fuel_left( itype_battery );
+            fake_item = item::spawn_temporary( itype_welder, calendar::turn, 0 );
+            fake_item->charges = veh.fuel_left( itype_battery );
 
             break;
         }
@@ -2630,8 +2572,8 @@ item get_fake_tool( hack_type_t hack_type, const player_activity &activity )
                     }
                     const tripoint_abs_ms abspos( m.getabs( position ) );
                     const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
-                    fake_item = item( item_type.get_id(), calendar::turn, 0 );
-                    fake_item.charges = grid.get_resource( true );
+                    fake_item = item::spawn_temporary( item_type.get_id(), calendar::turn, 0 );
+                    fake_item->charges = grid.get_resource( true );
                     break;
                 }
             }
@@ -2639,7 +2581,7 @@ item get_fake_tool( hack_type_t hack_type, const player_activity &activity )
         }
     }
 
-    fake_item.set_flag( flag_PSEUDO );
+    fake_item->set_flag( flag_PSEUDO );
     return fake_item;
 }
 
@@ -2746,14 +2688,14 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = static_cast<repeat_type>( act->get_value( 0, REPEAT_INIT ) );
-    item_location *ploc = nullptr;
-    if( !act->targets.empty() ) {
-        ploc = &act->targets[0];
+    item *ploc = nullptr;
+    if( !act->targets.empty() && act->targets[0] ) {
+        ploc = &*act->targets[0];
     }
 
     // nullopt if used real tool
     std::optional<hack::hack_type_t> hack_type = hack::get_hack_type( *act );
-    std::optional<item> fake_tool = std::nullopt;
+    item *fake_tool = nullptr;
     if( hack_type ) {
         fake_tool = hack::get_fake_tool( hack_type.value(), *act );
     }
@@ -2762,10 +2704,10 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     item *main_tool = nullptr;
     if( hack_type.has_value() ) {
-        main_tool = &fake_tool.value();
+        main_tool = fake_tool;
     }
     if( main_tool == nullptr && ploc ) {
-        main_tool = & **ploc;
+        main_tool = ploc;
     }
     if( main_tool == nullptr ) {
         main_tool = &p->i_at( act->index );
@@ -2795,13 +2737,13 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // Valid Repeat choice and target, attempt repair.
     if( repeat != REPEAT_INIT && act->targets.size() >= 2 ) {
-        item_location &fix_location = act->targets[1];
+        safe_reference<item> &fix_location = act->targets[1];
 
         // Remember our level: we want to stop retrying on level up
         const int old_level = p->get_skill_level( actor->used_skill );
-        const repair_item_actor::attempt_hint attempt = actor->repair( *p, *used_tool, fix_location );
+        const repair_item_actor::attempt_hint attempt = actor->repair( *p, *used_tool, *fix_location );
         if( attempt != repair_item_actor::AS_CANT ) {
-            if( ploc && ploc->where() == item_location::type::map ) {
+            if( ploc && ploc->where() == item_location_type::map ) {
                 used_tool->ammo_consume( used_tool->ammo_required(), ploc->position() );
             } else {
                 p->consume_charges( *used_tool, used_tool->ammo_required() );
@@ -2856,9 +2798,9 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // target selection and validation.
     while( act->targets.size() < 2 ) {
-        item_location item_loc = game_menus::inv::repair( *p, actor, main_tool );
+        item *item_loc = game_menus::inv::repair( *p, actor, main_tool );
 
-        if( item_loc == item_location::nowhere ) {
+        if( item_loc == nullptr ) {
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             act->set_to_null();
             return;
@@ -2910,7 +2852,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->values[0] = static_cast<int>( repeat );
             // BACK selected, redo target selection next.
             if( repeat == REPEAT_INIT ) {
-                p->activity.targets.pop_back();
+                p->activity->targets.pop_back();
                 return;
             }
             if( repeat == REPEAT_FULL && fix.damage() <= 0 ) {
@@ -2932,7 +2874,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
         return;
     }
 
-    item_location &target = act->targets[ 0 ];
+    item *target = &*act->targets[ 0 ];
 
     const auto f = target->faults.find( fault_id( act->name ) );
     if( f == target->faults.end() ) {
@@ -2951,7 +2893,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
         return;
     }
 
-    const inventory inv = p->crafting_inventory();
+    const inventory &inv = p->crafting_inventory();
     const requirement_data &reqs = method->requirements.obj();
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname() );
@@ -3045,9 +2987,9 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     item &mod = *act->targets[1];
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname(), tool.tname() );
+
     mod.set_flag( flag_IRREMOVABLE );
-    tool.put_in( mod );
-    act->targets[1].remove_item();
+    tool.put_in( mod.detach() );
 }
 
 void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
@@ -3144,7 +3086,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
                                                p->get_path_avoid() );
         if( !route_to.empty() ) {
             const activity_id act_travel = ACT_TRAVELLING;
-            p->set_destination( route_to, player_activity( act_travel ) );
+            p->set_destination( route_to, std::make_unique<player_activity>( act_travel ) );
         } else {
             p->add_msg_if_player( _( "You cannot reach that destination" ) );
         }
@@ -3174,8 +3116,9 @@ static void rod_fish( player *p, const std::vector<monster *> &fishables )
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
                     mongroup_id( "GROUP_FISH" ) );
         const mtype_id fish_mon = random_entry_ref( fish_group );
-        here.add_item_or_charges( p->pos(), item::make_corpse( fish_mon, calendar::turn + rng( 0_turns,
-                                  3_hours ) ) );
+        here.add_item_or_charges( p->pos(), item::make_corpse( fish_mon,
+                                  calendar::turn + rng( 0_turns,
+                                          3_hours ) ) );
         p->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
     } else {
         monster *chosen_fish = random_entry( fishables );
@@ -3189,9 +3132,9 @@ static void rod_fish( player *p, const std::vector<monster *> &fishables )
             p->add_msg_if_player( m_good, _( "You caught a %s." ), chosen_fish->type->nname() );
         }
     }
-    for( item &elem : here.i_at( p->pos() ) ) {
-        if( elem.is_corpse() && !elem.has_var( "activity_var" ) ) {
-            elem.set_var( "activity_var", p->name );
+    for( item *&elem : here.i_at( p->pos() ) ) {
+        if( elem->is_corpse() && !elem->has_var( "activity_var" ) ) {
+            elem->set_var( "activity_var", p->name );
         }
     }
 }
@@ -3235,7 +3178,7 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
 {
     act->set_to_null();
     p->add_msg_if_player( m_info, _( "You finish fishing" ) );
-    if( !p->backlog.empty() && p->backlog.front().id() == ACT_MULTIPLE_FISH ) {
+    if( !p->backlog.empty() && p->backlog.front()->id() == ACT_MULTIPLE_FISH ) {
         p->backlog.clear();
         p->assign_activity( ACT_TIDY_UP );
     }
@@ -3244,8 +3187,7 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
 void activity_handlers::cracking_do_turn( player_activity *act, player *p )
 {
     auto cracking_tool = p->crafting_inventory().items_with( []( const item & it ) -> bool {
-        item temporary_item( it.type );
-        return temporary_item.has_flag( flag_SAFECRACK );
+        return it.has_flag( flag_SAFECRACK );
     } );
     if( cracking_tool.empty() && !p->has_bionic( bio_ears ) ) {
         // We lost our cracking tool somehow, bail out.
@@ -3288,7 +3230,7 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
     }
 
     if( calendar::once_every( 1_minutes ) ) {
-        item_location loc = act->targets[0];
+        safe_reference<item> &loc = act->targets[0];
         if( !loc || !loc->is_book() ) {
             p->add_msg_if_player( m_bad, _( "You lost your book!  You stop reading." ) );
             act->set_to_null();
@@ -3304,10 +3246,10 @@ void activity_handlers::read_finish( player_activity *act, player *p )
     }
     if( p->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( p );
-        guy->finish_read( act->targets.front() );
+        guy->finish_read( &*act->targets.front() );
     } else {
         if( avatar *u = dynamic_cast<avatar *>( p ) ) {
-            u->do_read( act->targets.front() );
+            u->do_read( &*act->targets.front() );
         } else {
             act->set_to_null();
         }
@@ -3365,9 +3307,9 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
             mon->remove_effect( effect_ai_waiting );
             return;
         } else {
-            p->activity = player_activity();
+            p->activity->set_to_null();// = player_activity();
             mon->add_effect( effect_ai_waiting, 40_turns );
-            p->set_destination( route, player_activity( ACT_FIND_MOUNT ) );
+            p->set_destination( route, std::make_unique<player_activity>( ACT_FIND_MOUNT ) );
         }
     }
 }
@@ -3696,19 +3638,19 @@ void activity_handlers::plant_seed_finish( player_activity *act, player *p )
     map &here = get_map();
     tripoint examp = here.getlocal( act->placement );
     const itype_id seed_id( act->str_values[0] );
-    std::list<item> used_seed;
+    std::vector<detached_ptr<item>> used_seed;
     if( item::count_by_charges( seed_id ) ) {
         used_seed = p->use_charges( seed_id, 1 );
     } else {
         used_seed = p->use_amount( seed_id, 1 );
     }
     if( !used_seed.empty() ) {
-        used_seed.front().set_age( 0_turns );
-        if( used_seed.front().has_var( "activity_var" ) ) {
-            used_seed.front().erase_var( "activity_var" );
+        used_seed.front()->set_age( 0_turns );
+        if( used_seed.front()->has_var( "activity_var" ) ) {
+            used_seed.front()->erase_var( "activity_var" );
         }
-        used_seed.front().set_flag( flag_HIDDEN_ITEM );
-        here.add_item_or_charges( examp, used_seed.front() );
+        used_seed.front()->set_flag( flag_HIDDEN_ITEM );
+        here.add_item_or_charges( examp, std::move( used_seed.front() ) );
         if( here.has_flag_furn( flag_PLANTABLE, examp ) ) {
             here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
         } else {
@@ -3731,7 +3673,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     if( !pc ) {
         if( p->is_npc() ) {
             // if player completes the work while NPC still in activity loop
-            p->activity = player_activity();
+            p->activity->set_to_null();// = player_activity();
             p->set_moves( 0 );
         } else {
             p->cancel_activity();
@@ -3746,7 +3688,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
         add_msg( m_info, _( "%s can't work on this construction anymore." ), p->disp_name() );
         p->cancel_activity();
         if( p->is_npc() ) {
-            p->activity = player_activity();
+            p->activity->set_to_null();// = player_activity();
             p->set_moves( 0 );
         }
         return;
@@ -3835,7 +3777,7 @@ void activity_handlers::fetch_do_turn( player_activity *act, player *p )
 
 void activity_handlers::craft_do_turn( player_activity *act, player *p )
 {
-    item *craft = act->targets.front().get_item();
+    item *craft = &*act->targets.front();
 
     // item_location::get_item() will return nullptr if the item is lost
     if( !craft ) {
@@ -3917,12 +3859,13 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 
     // if item_counter has reached 100% or more
     if( craft->item_counter >= 10'000'000 ) {
-        item craft_copy = *craft;
-        act->targets.front().remove_item();
+        //TODO!: CHEEKY check
+        item *craft_copy = craft;
         p->cancel_activity();
-        complete_craft( *p, craft_copy, bench_location{bench_t, bench_pos} );
+        complete_craft( *p, *craft_copy, bench_location{bench_t, bench_pos} );
+        act->targets.front()->detach();
         if( is_long ) {
-            if( p->making_would_work( p->lastrecipe, craft_copy.charges ) ) {
+            if( p->making_would_work( p->lastrecipe, craft_copy->charges ) ) {
                 p->last_craft->execute( bench_pos );
             }
         }
@@ -3932,7 +3875,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         if( destroy ) {
             p->add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
                                       _( "There is nothing left of the %s <npcname> was crafting." ), craft->tname() );
-            act->targets.front().remove_item();
+            act->targets.front()->detach();
             p->cancel_activity();
         }
     }
@@ -4108,7 +4051,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
 
     tripoint direction;
     if( !p->is_npc() ) {
-        if( p->backlog.empty() || p->backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) {
+        if( p->backlog.empty() || p->backlog.front()->id() != ACT_MULTIPLE_CHOP_TREES ) {
             while( true ) {
                 if( const std::optional<tripoint> dir = choose_direction(
                         _( "Select a direction for the tree to fall in." ) ) ) {
@@ -4177,13 +4120,14 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
         return;
     }
 
-    item_location &loc = act->targets[ 0 ];
-    item *it = loc.get_item();
-    if( it == nullptr ) {
+    safe_reference<item> &loc = act->targets[ 0 ];
+    if( !loc ) {
         debugmsg( "woodcutting item location lost" );
         resume_for_multi_activities( *p );
         return;
     }
+
+    item *it = &*loc;
 
     int act_exertion = iuse::chop_moves( *p, *it );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
@@ -4218,19 +4162,19 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
         splint_quan = 0;
     }
     for( int i = 0; i != log_quan; ++i ) {
-        item obj( itype_log, calendar::turn );
-        obj.set_var( "activity_var", p->name );
-        here.add_item_or_charges( pos, obj );
+        detached_ptr<item> obj = item::spawn( itype_log, calendar::turn );
+        obj->set_var( "activity_var", p->name );
+        here.add_item_or_charges( pos, std::move( obj ) );
     }
     for( int i = 0; i != stick_quan; ++i ) {
-        item obj( itype_stick_long, calendar::turn );
-        obj.set_var( "activity_var", p->name );
-        here.add_item_or_charges( pos, obj );
+        detached_ptr<item> obj = item::spawn( itype_stick_long, calendar::turn );
+        obj->set_var( "activity_var", p->name );
+        here.add_item_or_charges( pos, std::move( obj ) );
     }
     for( int i = 0; i != splint_quan; ++i ) {
-        item obj( itype_splinter, calendar::turn );
-        obj.set_var( "activity_var", p->name );
-        here.add_item_or_charges( pos, obj );
+        detached_ptr<item> obj = item::spawn( itype_splinter, calendar::turn );
+        obj->set_var( "activity_var", p->name );
+        here.add_item_or_charges( pos, std::move( obj ) );
     }
     here.ter_set( pos, t_dirt );
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
@@ -4238,13 +4182,14 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     act->set_to_null();
 
     // Quality of tool used and assistants can together both reduce intensity of work.
-    item_location &loc = act->targets[ 0 ];
-    item *it = loc.get_item();
-    if( it == nullptr ) {
+
+    safe_reference<item> &loc = act->targets[ 0 ];
+    if( !loc ) {
         debugmsg( "woodcutting item location lost" );
         return;
     }
 
+    item *it = &*loc;
     int act_exertion = iuse::chop_moves( *p, *it );
     const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     act_exertion = act_exertion * ( 10 - helpers.size() ) / 10;
@@ -4317,8 +4262,8 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
         debugmsg( "jackhammer activity targets empty" );
     }
     if( resume_for_multi_activities( *p ) ) {
-        for( item &elem : here.i_at( pos ) ) {
-            elem.set_var( "activity_var", p->name );
+        for( item *&elem : here.i_at( pos ) ) {
+            elem->set_var( "activity_var", p->name );
         }
     }
 }
@@ -4438,8 +4383,8 @@ static void perform_zone_activity_turn( player *p,
         if( route.size() > 1 ) {
             route.pop_back();
 
-            p->set_destination( route, p->activity );
-            p->activity.set_to_null();
+            p->set_destination( route, p->remove_activity() );
+            p->activity = std::make_unique<player_activity>( );
             return;
         } else {
             // we are at destination already
@@ -4451,7 +4396,7 @@ static void perform_zone_activity_turn( player *p,
         }
     }
     add_msg( m_info, finished_msg );
-    p->activity.set_to_null();
+    p->activity->set_to_null();
 }
 
 void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p )
@@ -4460,7 +4405,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
     auto check_fertilizer = [&]( bool ask_user = true ) -> void {
         if( act->str_values.empty() )
         {
-            act->str_values.push_back( "" );
+            act->str_values.emplace_back( "" );
         }
         fertilizer = itype_id( act->str_values[0] );
 
@@ -4850,5 +4795,5 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
     data_card.contents.clear_items();
-    data_card.put_in( item( itype_mind_scan_robofac ) );
+    data_card.put_in( item::spawn( itype_mind_scan_robofac ) );
 }

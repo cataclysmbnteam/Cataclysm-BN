@@ -71,3 +71,22 @@ Remember to attribute the original author(s): if you've just copied over the cha
 ## Additional context
 
 <!-- Add any other context (such as mock-ups, proof of concepts or screenshots) about the feature or bugfix here. -->
+
+## Checklist
+
+<!-- Please follow these steps and tick the checkboxes once you're done.  If your PR does not fall under these categories, you can ignore these lists.  If you have any questions or advice on how to improve these, feel free to contact us on our Discord server.  -->
+
+If this is a C++ PR that modifies JSON loading or behavior:
+- [ ] Document the changes in the appropriate location in the `doc/` folder.
+- [ ] If documentation for this feature does not exist, please write it or at least note its lack in PR description.
+- [ ] New localizable fields need to be added to the `lang/bn_extract_json_strings.sh` script if it does not support them yet.
+- [ ] If applicable, add checks on game load that would validate the loaded data.
+- [ ] If it modifies format of save files, please add migration from the old format.
+
+If this is a PR that modifies build process or code organization:
+- [ ] Please document the changes in the appropriate location in the `doc/` folder.
+- [ ] If documentation for this feature or process does not exist, please write it.
+- [ ] If the change alters versions of software required to build or work with the game, please document it.
+
+If this is a PR that removes JSON entities:
+- [ ] The removed JSON entities have new entries in `data/json/obsoletion/` folder.

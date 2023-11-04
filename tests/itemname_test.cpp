@@ -18,21 +18,21 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
         g->u.clear_mutations();
 
         WHEN( "the item is a normal size" ) {
-            std::string name = item( "bookplate" ).display_name();
+            std::string name = item::spawn_temporary( "bookplate" )->display_name();
             THEN( "the item name has no qualifier" ) {
                 CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate" );
             }
         }
 
         WHEN( "the item is oversized" ) {
-            std::string name = item( "bootsheath" ).display_name();
+            std::string name = item::spawn_temporary( "bootsheath" )->display_name();
             THEN( "the item name has no qualifier" ) {
                 CHECK( name == "<color_c_light_green>||\u00A0</color>ankle sheath" );
             }
         }
 
         WHEN( "the item is undersized" ) {
-            item i = item( "tunic" );
+            item &i = *item::spawn_temporary( "tunic" );
             i.set_flag( flag_UNDERSIZE );
             i.set_flag( flag_FIT );
             std::string name = i.display_name();
@@ -54,21 +54,21 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
         g->u.toggle_trait( trait_id( "HUGE_OK" ) );
 
         WHEN( "the item is a normal size" ) {
-            std::string name = item( "bookplate" ).display_name();
+            std::string name = item::spawn_temporary( "bookplate" )->display_name();
             THEN( "the item name says its too small" ) {
                 CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate (too small)" );
             }
         }
 
         WHEN( "the item is oversized" ) {
-            std::string name = item( "bootsheath" ).display_name();
+            std::string name = item::spawn_temporary( "bootsheath" )->display_name();
             THEN( "the item name has no qualifier" ) {
                 CHECK( name == "<color_c_light_green>||\u00A0</color>ankle sheath" );
             }
         }
 
         WHEN( "the item is undersized" ) {
-            item i = item( "tunic" );
+            item &i = *item::spawn_temporary( "tunic" );
             i.set_flag( flag_UNDERSIZE );
             i.set_flag( flag_FIT );
             std::string name = i.display_name();
@@ -90,21 +90,21 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
         g->u.toggle_trait( trait_id( "SMALL_OK" ) );
 
         WHEN( "the item is a normal size" ) {
-            std::string name = item( "bookplate" ).display_name();
+            std::string name = item::spawn_temporary( "bookplate" )->display_name();
             THEN( "the item name says its too big" ) {
                 CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate (too big)" );
             }
         }
 
         WHEN( "the item is oversized" ) {
-            std::string name = item( "bootsheath" ).display_name();
+            std::string name = item::spawn_temporary( "bootsheath" )->display_name();
             THEN( "the item name has no qualifier" ) {
                 CHECK( name == "<color_c_light_green>||\u00A0</color>ankle sheath (huge!)" );
             }
         }
 
         WHEN( "the item is undersized" ) {
-            item i = item( "tunic" );
+            item &i = *item::spawn_temporary( "tunic" );
             i.set_flag( flag_UNDERSIZE );
             i.set_flag( flag_FIT );
             std::string name = i.display_name();

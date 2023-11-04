@@ -188,10 +188,10 @@ static void board_up( map &m, const tripoint_range<tripoint> &range )
         m.furn_set( bp, m.furn( fp ) );
         m.furn_set( fp, f_null );
         auto destination_items = m.i_at( bp );
-        for( const item &moved_item : m.i_at( fp ) ) {
-            destination_items.insert( moved_item );
+        for( detached_ptr<item> &moved_item : m.i_clear( fp ) ) {
+            destination_items.insert( std::move( moved_item ) );
         }
-        m.i_clear( fp );
+        ;
     }
 }
 

@@ -185,12 +185,9 @@ struct hash<pos_dir<Tripoint>> {
 class overmap
 {
     public:
-        overmap( const overmap & );
-        overmap( overmap && );
+        overmap( overmap && ) noexcept ;
         overmap( const point_abs_om &p );
         ~overmap();
-
-        overmap &operator=( const overmap & );
 
         /**
          * Create content in the overmap.
@@ -325,7 +322,7 @@ class overmap
         std::map<overmap_connection_id, std::vector<tripoint_om_omt>> connections_out;
         std::optional<basecamp *> find_camp( const point_abs_omt &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
-        void insert_npc( shared_ptr_fast<npc> who );
+        void insert_npc( const shared_ptr_fast<npc> &who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
         shared_ptr_fast<npc> erase_npc( const character_id &id );
 

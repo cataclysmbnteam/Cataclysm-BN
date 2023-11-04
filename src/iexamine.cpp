@@ -31,7 +31,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_functions.h"
-#include "colony.h"
+#include "flag.h"
 #include "color.h"
 #include "construction.h"
 #include "construction_group.h"
@@ -61,7 +61,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_location.h"
 #include "item_stack.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -305,9 +304,10 @@ void iexamine::nanofab( player &p, const tripoint &examp )
         return;
     }
 
-    item new_item( nanofab_template->get_var( "NANOFAB_ITEM_ID" ), calendar::turn );
+    detached_ptr<item> new_item = item::spawn( nanofab_template->get_var( "NANOFAB_ITEM_ID" ),
+                                  calendar::turn );
 
-    auto qty = std::max( 1, new_item.volume() / 250_ml );
+    auto qty = std::max( 1, new_item->volume() / 250_ml );
     auto reqs = *requirement_id( "nanofabricator" ) * qty;
 
     if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
@@ -324,11 +324,11 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     }
     p.invalidate_crafting_inventory();
 
-    if( new_item.is_armor() && new_item.has_flag( flag_VARSIZE ) ) {
-        new_item.set_flag( flag_FIT );
+    if( new_item->is_armor() && new_item->has_flag( flag_VARSIZE ) ) {
+        new_item->set_flag( flag_FIT );
     }
 
-    here.add_item_or_charges( spawn_point, new_item );
+    here.add_item_or_charges( spawn_point, std::move( new_item ) );
 
 }
 
@@ -345,25 +345,22 @@ void iexamine::gaspump( player &p, const tripoint &examp )
 
     auto items = here.i_at( examp );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
-        if( item_it->made_of( LIQUID ) ) {
+        item *content = *item_it;
+        if( content->made_of( LIQUID ) ) {
             ///\EFFECT_DEX decreases chance of spilling gas from a pump
             if( one_in( 10 + p.get_dex() ) ) {
-                add_msg( m_bad, _( "You accidentally spill the %s." ), item_it->type_name() );
+                add_msg( m_bad, _( "You accidentally spill the %s." ), content->type_name() );
                 static const auto max_spill_volume = units::from_liter( 1 );
-                const int max_spill_charges = std::max( 1, item_it->charges_per_volume( max_spill_volume ) );
+                const int max_spill_charges = std::max( 1, content->charges_per_volume( max_spill_volume ) );
                 ///\EFFECT_DEX decreases amount of gas spilled from a pump
                 const int qty = rng( 1, max_spill_charges * 8.0 / std::max( 1, p.get_dex() ) );
 
-                item spill = item_it->split( qty );
-                if( spill.is_null() ) {
-                    here.add_item_or_charges( p.pos(), *item_it );
-                    items.erase( item_it );
-                } else {
-                    here.add_item_or_charges( p.pos(), spill );
-                }
-
+                //This could invalidate the iterator, but it's not used again as we return right after
+                detached_ptr<item> spill = content->split( qty );
+                here.add_item_or_charges( p.pos(), std::move( spill ) );
+                return;
             } else {
-                liquid_handler::handle_liquid_from_ground( item_it, examp, 1 );
+                liquid_handler::handle_liquid( *content, 1 );
             }
             return;
         }
@@ -428,7 +425,7 @@ class atm_menu
                     default:
                         return;
                 }
-                if( !u.activity.is_null() ) {
+                if( !u.activity->is_null() ) {
                     break;
                 }
             }
@@ -442,8 +439,8 @@ class atm_menu
         }
 
         options choose_option() {
-            if( u.activity.id() == ACT_ATM ) {
-                return static_cast<options>( u.activity.index );
+            if( u.activity->id() == ACT_ATM ) {
+                return static_cast<options>( u.activity->index );
             }
             amenu.query();
             uistate.iexamine_atm_selected = amenu.selected;
@@ -529,9 +526,9 @@ class atm_menu
                 return false;
             }
 
-            item card( "cash_card", calendar::turn );
-            card.charges = 0;
-            u.i_add( card );
+            detached_ptr<item> card = item::spawn( "cash_card", calendar::turn );
+            card->charges = 0;
+            u.i_add( std::move( card ) );
             u.cash -= 1000;
             u.moves -= to_turns<int>( 5_seconds );
             finish_interaction();
@@ -569,7 +566,7 @@ class atm_menu
         bool do_withdraw_money() {
             //We may want to use visit_items here but that's fairly heavy.
             //For now, just check weapon if we didn't find it in the inventory.
-            int pos = u.inv.position_by_type( itype_cash_card );
+            int pos = u.inv_position_by_type( itype_cash_card );
             item *dst;
             if( pos == INT_MIN ) {
                 dst = &u.primary_weapon();
@@ -577,7 +574,7 @@ class atm_menu
                 dst = &u.i_at( pos );
             }
 
-            if( dst->is_null() ) {
+            if( dst == nullptr || dst->is_null() ) {
                 //Just in case we run into an edge case
                 popup( _( "You do not have a cash card to withdraw money!" ) );
                 return false;
@@ -602,14 +599,15 @@ class atm_menu
         //!Move the money from all the cash cards in inventory to a single card.
         bool do_transfer_all_money() {
             item *dst;
-            if( u.activity.id() == ACT_ATM ) {
-                u.activity.set_to_null(); // stop for now, if required, it will be created again.
-                dst = u.activity.targets.front().get_item();
-                if( dst->is_null() || dst->typeId() != itype_cash_card ) {
+            if( u.activity->id() == ACT_ATM ) {
+                u.activity->set_to_null(); // stop for now, if required, it will be created again.
+                //TODO!: safety check?
+                dst = &*u.activity->targets.front();
+                if( dst == nullptr || dst->is_null() || dst->typeId() != itype_cash_card ) {
                     return false;
                 }
             } else {
-                const int pos = u.inv.position_by_type( itype_cash_card );
+                const int pos = u.inv_position_by_type( itype_cash_card );
 
                 if( pos == INT_MIN ) {
                     return false;
@@ -626,7 +624,7 @@ class atm_menu
                     // the next turn. Putting this here makes sure there will be something to be
                     // done next turn.
                     u.assign_activity( ACT_ATM, 0, transfer_all_money );
-                    u.activity.targets.push_back( item_location( u, dst ) );
+                    u.activity->targets.emplace_back( dst );
                     break;
                 }
 
@@ -708,27 +706,27 @@ void iexamine::vending( player &p, const tripoint &examp )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    // Collate identical items.
-    // First, build a map {item::tname} => {item_it, item_it, item_it...}
-    using iterator_t = decltype( std::begin( vend_items ) ); // map_stack::iterator doesn't exist.
-
-    std::map<std::string, std::vector<iterator_t>> item_map;
-    for( auto it = std::begin( vend_items ); it != std::end( vend_items ); ++it ) {
+    std::vector<std::vector<item *>> item_map;
+    for( item *&it : vend_items ) {
         // |# {name}|
         // 123      4
-        item_map[it->tname()].push_back( it );
-    }
-
-    // Next, put pointers to the pairs in the map in a vector to allow indexing.
-    std::vector<std::map<std::string, std::vector<iterator_t>>::value_type *> item_list;
-    item_list.reserve( item_map.size() );
-    for( auto &pair : item_map ) {
-        item_list.emplace_back( &pair );
+        std::string name = it->tname();
+        bool found = false;
+        for( auto item_list : item_map ) {
+            if( item_list.front()->tname() == name ) {
+                item_list.push_back( it );
+                found = true;
+                break;
+            }
+        }
+        if( !found ) {
+            item_map.push_back( {it} );
+        }
     }
 
     int cur_pos = 0;
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        const int num_items = item_list.size();
+        const int num_items = item_map.size();
         const int page_size = std::min( num_items, list_lines );
 
         werase( w );
@@ -753,24 +751,25 @@ void iexamine::vending( player &p, const tripoint &examp )
         for( int line = 0; line < page_size; ++line ) {
             const int i = page_beg + line;
             const auto color = ( i == cur_pos ) ? h_light_gray : c_light_gray;
-            const auto &elem = item_list[i];
-            const int count = elem->second.size();
+            const auto &elem = item_map[i];
+            const int count = elem.size();
             const char c = ( count < 10 ) ? ( '0' + count ) : '*';
             trim_and_print( w, point( 1, first_item_offset + line ), w_items_w - 3, color, "%c %s", c,
-                            elem->first.c_str() );
+                            elem.front()->tname().c_str() );
         }
 
         draw_scrollbar( w, cur_pos, list_lines, num_items, point( 0, first_item_offset ) );
         wnoutrefresh( w );
 
         // Item info
-        auto &cur_items = item_list[static_cast<size_t>( cur_pos )]->second;
+        auto &cur_items = item_map[static_cast<size_t>( cur_pos )];
         auto &cur_item  = cur_items.back();
 
         werase( w_item_info );
         // | {line}|
         // 12      3
-        fold_and_print( w_item_info, point( 2, 1 ), w_info_w - 3, c_light_gray, cur_item->info_string() );
+        fold_and_print( w_item_info, point( 2, 1 ), w_info_w - 3, c_light_gray,
+                        cur_item->info_string( ) );
         wborder( w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -787,10 +786,10 @@ void iexamine::vending( player &p, const tripoint &examp )
     for( ;; ) {
         ui_manager::redraw();
 
-        const int num_items = item_list.size();
+        const int num_items = item_map.size();
 
         // Item info
-        auto &cur_items = item_list[static_cast<size_t>( cur_pos )]->second;
+        auto &cur_items = item_map[static_cast<size_t>( cur_pos )];
         auto &cur_item  = cur_items.back();
 
         const std::string &action = ctxt.handle_input();
@@ -813,16 +812,15 @@ void iexamine::vending( player &p, const tripoint &examp )
 
             money -= iprice;
             p.use_charges( itype_cash_card, iprice );
-            p.i_add_or_drop( *cur_item );
+            p.i_add_or_drop( vend_items.remove( cur_item ) );
 
-            vend_items.erase( cur_item );
             cur_items.pop_back();
             if( !cur_items.empty() ) {
                 continue;
             }
 
-            item_list.erase( std::begin( item_list ) + cur_pos );
-            if( item_list.empty() ) {
+            item_map.erase( std::begin( item_map ) + cur_pos );
+            if( item_map.empty() ) {
                 add_msg( _( "With a beep, the empty vending machine shuts down." ) );
                 return;
             } else if( cur_pos == num_items - 1 ) {
@@ -842,22 +840,22 @@ void iexamine::toilet( player &p, const tripoint &examp )
     auto items = get_map().i_at( examp );
     auto water = items.begin();
     for( ; water != items.end(); ++water ) {
-        if( water->typeId() == itype_water ) {
+        if( ( *water )->typeId() == itype_water ) {
             break;
         }
     }
 
     if( water == items.end() ) {
         add_msg( m_info, _( "This toilet is empty." ) );
-    } else if( !water->made_of( LIQUID ) ) {
+    } else if( !( *water )->made_of( LIQUID ) ) {
         add_msg( m_info, _( "The toilet water is frozen solid!" ) );
     } else {
         // Use a different poison value each time water is drawn from the toilet.
-        water->poison = one_in( 3 ) ? 0 : rng( 1, 3 );
+        ( *water )->poison = one_in( 3 ) ? 0 : rng( 1, 3 );
 
         // TODO: use me
         ( void ) p;
-        liquid_handler::handle_liquid_from_ground( water, examp );
+        liquid_handler::handle_liquid( **water );
     }
 }
 
@@ -905,13 +903,14 @@ static bool try_start_hacking( player &p, const tripoint &examp )
     }
     if( use_bionic ) {
         p.mod_power_level( -25_kJ );
-        p.assign_activity( player_activity( hacking_activity_actor(
-                                                hacking_activity_actor::use_bionic {} ) ) );
+        p.assign_activity( std::make_unique<player_activity>( std::make_unique<hacking_activity_actor>(
+                               hacking_activity_actor::use_bionic {} ) ) );
     } else {
         p.use_charges( itype_electrohack, 25 );
-        p.assign_activity( player_activity( hacking_activity_actor() ) );
+        p.assign_activity( std::make_unique<player_activity>
+                           ( std::make_unique<hacking_activity_actor>() ) );
     }
-    p.activity.placement = examp;
+    p.activity->placement = examp;
     return true;
 }
 
@@ -1048,7 +1047,7 @@ void iexamine::rubble( player &p, const tripoint &examp )
         return;
     }
     p.assign_activity( ACT_CLEAR_RUBBLE, moves, -1, 0 );
-    p.activity.placement = examp;
+    p.activity->placement = examp;
     return;
 }
 
@@ -1143,7 +1142,7 @@ void iexamine::deployed_furniture( player &p, const tripoint &pos )
     p.add_msg_if_player( m_info, _( "You take down the %s." ),
                          here.furn( pos ).obj().name() );
     const auto furn_item = here.furn( pos ).obj().deployed_item;
-    here.add_item_or_charges( pos, item( furn_item, calendar::turn ) );
+    here.add_item_or_charges( pos, item::spawn( furn_item, calendar::turn ) );
     here.furn_set( pos, f_null );
 }
 
@@ -1210,7 +1209,7 @@ void iexamine::portable_structure( player &p, const tripoint &examp )
         here.furn_set( pt, f_null );
     }
 
-    here.add_item_or_charges( examp, item( dropped, calendar::turn ) );
+    here.add_item_or_charges( examp, item::spawn( dropped, calendar::turn ) );
 }
 
 /**
@@ -1224,7 +1223,7 @@ void iexamine::pit( player &p, const tripoint &examp )
         return;
     }
     std::vector<item_comp> planks;
-    planks.push_back( item_comp( itype_2x4, 1 ) );
+    planks.emplace_back( itype_2x4, 1 );
 
     map &here = get_map();
     if( query_yn( _( "Place a plank over the pit?" ) ) ) {
@@ -1252,9 +1251,8 @@ void iexamine::pit_covered( player &p, const tripoint &examp )
     }
 
     map &here = get_map();
-    item plank( "2x4", calendar::turn );
     add_msg( _( "You remove the plank." ) );
-    here.add_item_or_charges( p.pos(), plank );
+    here.add_item_or_charges( p.pos(), item::spawn( "2x4", calendar::turn ) );
 
     if( here.ter( examp ) == t_pit_covered ) {
         here.ter_set( examp, t_pit );
@@ -1317,8 +1315,8 @@ void iexamine::slot_machine( player &p, const tripoint & )
 void iexamine::safe( player &p, const tripoint &examp )
 {
     auto cracking_tool = p.crafting_inventory().items_with( []( const item & it ) -> bool {
-        item temporary_item( it.type );
-        return temporary_item.has_flag( flag_SAFECRACK );
+        //Why not just check the item
+        return it.has_flag( flag_SAFECRACK );
     } );
 
     if( !( !cracking_tool.empty() || p.has_bionic( bio_ears ) ) ) {
@@ -1351,7 +1349,7 @@ void iexamine::safe( player &p, const tripoint &examp )
                 skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
 
         p.assign_activity( ACT_CRACKING, to_moves<int>( time ) );
-        p.activity.placement = examp;
+        p.activity->placement = examp;
     }
 }
 
@@ -1365,7 +1363,7 @@ void iexamine::gunsafe_el( player &p, const tripoint &examp )
     }
 }
 
-static safe_reference<item> find_best_prying_tool( player &p )
+static item *find_best_prying_tool( player &p )
 {
     std::vector<item *> prying_items = p.items_with( []( const item & it ) {
         // we want to get worn items (eg crowbar in toolbelt), so no check on item position
@@ -1380,12 +1378,12 @@ static safe_reference<item> find_best_prying_tool( player &p )
     // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
     // changes to the original item.
     if( prying_items.empty() ) {
-        return safe_reference<item>();
+        return nullptr;
     }
-    return ( *prying_items[0] ).get_safe_reference();
+    return prying_items[0];
 }
 
-static safe_reference<item> find_best_lock_picking_tool( player &p )
+static item *find_best_lock_picking_tool( player &p )
 {
     std::vector<item *> picklocks = p.items_with( []( const item & it ) {
         // we want to get worn items (eg hairpin), so no check on item position
@@ -1398,10 +1396,10 @@ static safe_reference<item> find_best_lock_picking_tool( player &p )
     } );
 
     if( picklocks.empty() ) {
-        return safe_reference<item>();
+        return nullptr;
     }
 
-    return ( *picklocks[0] ).get_safe_reference();
+    return picklocks[0];
 }
 
 static void apply_prying_tool( player &p, item *it, const tripoint &examp )
@@ -1440,8 +1438,8 @@ static bool pick_lock( player &p, const tripoint &examp )
         if( p.get_power_level() >= bio_lockpick->power_activate ) {
             p.mod_power_level( -bio_lockpick->power_activate );
             p.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
-            p.assign_activity( lockpick_activity_actor::use_bionic(
-                                   item( bio_lockpick->fake_item ), here.getabs( examp ) ) );
+            p.assign_activity( std::make_unique<player_activity>( lockpick_activity_actor::use_bionic(
+                                   item::spawn( bio_lockpick->fake_item ), here.getabs( examp ) ) ) );
             return true;
         } else {
             p.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
@@ -1607,8 +1605,7 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
             query_yn( _( "Remove the petrified eye from the pedestal?" ) ) ) {
             here.i_clear( examp );
 
-            item eye( itype_petrified_eye );
-            p.i_add_or_drop( eye );
+            p.i_add_or_drop( item::spawn( itype_petrified_eye ) );
 
             // Send in a few wyrms to start things off.
             get_event_bus().send<event_type::awakes_dark_wyrms>();
@@ -1791,7 +1788,7 @@ static bool can_drink_nectar( const player &p, const item &nectar )
  */
 static bool drink_nectar( player &p )
 {
-    item nectar( "nectar", calendar::turn, 1 );
+    item &nectar = *item::spawn_temporary( "nectar", calendar::turn, 1 );
     if( can_drink_nectar( p, nectar ) ) {
         p.moves -= to_moves<int>( 30_seconds );
         add_msg( _( "You drink some nectar." ) );
@@ -1807,14 +1804,15 @@ static bool drink_nectar( player &p )
  */
 static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
-    item harvest = item( itemid );
-    if( !force_drop && p.can_pick_volume( harvest ) &&
-        p.can_pick_weight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-        p.i_add( harvest );
-        p.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
+    detached_ptr<item> harvest = item::spawn( itemid );
+    if( !force_drop && p.can_pick_volume( *harvest ) &&
+        p.can_pick_weight( *harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+
+        p.add_msg_if_player( _( "You harvest: %s." ), harvest->tname() );
+        p.i_add( std::move( harvest ) );
     } else {
-        get_map().add_item_or_charges( p.pos(), harvest );
-        p.add_msg_if_player( _( "You harvest and drop: %s." ), harvest.tname() );
+        p.add_msg_if_player( _( "You harvest and drop: %s." ), harvest->tname() );
+        get_map().add_item_or_charges( p.pos(), std::move( harvest ) );
     }
 }
 
@@ -1832,7 +1830,7 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
     map &here = get_map();
     // TODO: Get rid of this section and move it to eating
     // Two y/n prompts is just too much
-    item poppy( "nectar", calendar::turn, 1 );
+    item &poppy = *item::spawn_temporary( "nectar", calendar::turn, 1 );
     if( can_drink_nectar( p, poppy ) ) {
         if( !query_yn( _( "You feel woozy as you explore the %s. Drink?" ),
                        here.furnname( examp ) ) ) {
@@ -2056,7 +2054,7 @@ void iexamine::flower_marloss( player &p, const tripoint &examp )
         add_msg( m_info, _( "This flower is still alive, despite the harsh conditions…" ) );
     }
     map &here = get_map();
-    item nectar( "nectar" );
+    item &nectar = *item::spawn_temporary( "nectar" );
     if( can_drink_nectar( p, nectar ) ) {
         if( !query_yn( _( "You feel out of place as you explore the %s. Drink?" ),
                        here.furnname( examp ) ) ) {
@@ -2202,10 +2200,11 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
  */
 void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &seed_id )
 {
-    player_activity act( ACT_PLANT_SEED, to_moves<int>( 30_seconds ) );
-    act.placement = get_map().getabs( examp );
-    act.str_values.emplace_back( seed_id );
-    p.assign_activity( act );
+    std::unique_ptr<player_activity> act = std::make_unique<player_activity>( ACT_PLANT_SEED,
+                                           to_moves<int>( 30_seconds ) );
+    act->placement = get_map().getabs( examp );
+    act->str_values.emplace_back( seed_id );
+    p.assign_activity( std::move( act ) );
 }
 
 /**
@@ -2259,10 +2258,11 @@ void iexamine::dirtmound( player &p, const tripoint &examp )
  * @param byproducts If true, byproducts (like straw, withered plants, see
  * @ref islot_seed::byproducts) are included.
  */
-std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_count,
-        const int seed_count, const bool byproducts )
+std::vector<detached_ptr<item>> iexamine::get_harvest_items( const itype &type,
+                             const int plant_count,
+                             const int seed_count, const bool byproducts )
 {
-    std::list<item> result;
+    std::vector<detached_ptr<item>> result;
     if( !type.seed ) {
         return result;
     }
@@ -2271,17 +2271,22 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
     // to expose data about the seed item to allow harvesting to function.
     const itype_id &seed_type = type.get_id();
 
-    const auto add = [&]( const itype_id & id, const int count ) {
-        item new_item( id, calendar::turn );
-        if( new_item.count_by_charges() && count > 0 ) {
-            new_item.charges *= count;
-            new_item.charges /= seed_data.fruit_div;
-            if( new_item.charges <= 0 ) {
-                new_item.charges = 1;
+    const auto add = [&]( const itype_id & id, int count ) {
+
+        //TODO!:check
+        detached_ptr<item> new_item = item::spawn( id, calendar::turn );
+        if( new_item->count_by_charges() && count > 0 ) {
+            new_item->charges *= count;
+            new_item->charges /= seed_data.fruit_div;
+            if( new_item->charges <= 0 ) {
+                new_item->charges = 1;
             }
-            result.push_back( new_item );
-        } else if( count > 0 ) {
-            result.insert( result.begin(), count, new_item );
+            result.push_back( std::move( new_item ) );
+        } else {
+            while( count > 0 ) {
+                result.push_back( item::spawn( id, calendar::turn ) );
+                count--;
+            }
         }
     };
 
@@ -2308,17 +2313,19 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( examp );
-    const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-        return it.is_seed();
+    map_stack::iterator seed_it = std::find_if( items.begin(),
+    items.end(), []( const item * const & it ) {
+        return it->is_seed();
     } );
 
-    if( seed == items.end() ) {
+    if( seed_it == items.end() ) {
         debugmsg( "Missing seed for plant at (%d, %d, %d)", examp.x, examp.y, examp.z );
         here.i_clear( examp );
         here.furn_set( examp, f_null );
         return;
     }
-
+    item *&seed = *seed_it;
+    seed_it = map_stack::iterator();
     const itype_id &seedType = seed->typeId();
     if( seedType == itype_fungal_seeds ) {
         fungus( p, examp );
@@ -2360,9 +2367,9 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
         const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
         for( auto &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
             if( from_activity ) {
-                i.set_var( "activity_var", p.name );
+                i->set_var( "activity_var", p.name );
             }
-            here.add_item_or_charges( examp, i );
+            here.add_item_or_charges( examp, std::move( i ) );
         }
         here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
         p.moves -= to_moves<int>( 10_seconds );
@@ -2396,21 +2403,24 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
         return;
     }
 
-    std::list<item> planted = p.use_charges( fertilizer, 1 );
+    std::vector<detached_ptr<item>> planted = p.use_charges( fertilizer, 1 );
 
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( tile );
-    const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-        return it.is_seed();
+    map_stack::iterator seed_it = std::find_if( items.begin(),
+    items.end(), []( const item * const & it ) {
+        return it->is_seed();
     } );
-    if( seed == items.end() ) {
+    if( seed_it == items.end() ) {
         debugmsg( "Missing seed for plant at (%d, %d, %d)", tile.x, tile.y, tile.z );
         here.i_clear( tile );
         here.furn_set( tile, f_null );
         return;
     }
 
+    item *&seed = *seed_it;
+    seed_it = map_stack::iterator();
     // Reduce the amount of time it takes until the next stage of growth
     // by 60% of the seed's stage duration, or 20% of its overall growth time
     const time_duration fertilized_boost = seed->get_plant_epoch() * 0.6;
@@ -2427,12 +2437,12 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
 
     //~ %1$s: plant name, %2$s: fertilizer name
     add_msg( m_info, _( "You fertilize the %1$s with the %2$s." ), seed->get_plant_name(),
-             planted.front().tname() );
+             planted.front()->tname() );
 }
 
 itype_id iexamine::choose_fertilizer( player &p, const std::string &pname, bool ask_player )
 {
-    std::vector<const item *> f_inv = p.all_items_with_flag( flag_FERTILIZER );
+    std::vector<item *> f_inv = p.all_items_with_flag( flag_FERTILIZER );
     if( f_inv.empty() ) {
         add_msg( m_info, _( "You have no fertilizer for the %s." ), pname );
         return itype_id();
@@ -2468,16 +2478,20 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( examp );
-    const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-        return it.is_seed();
+    map_stack::iterator seed_it = std::find_if( items.begin(),
+    items.end(), []( const item * const & it ) {
+        return it->is_seed();
     } );
 
-    if( seed == items.end() ) {
+    if( seed_it == items.end() ) {
         debugmsg( "Missing seed for plant at (%d, %d, %d)", examp.x, examp.y, examp.z );
         here.i_clear( examp );
         here.furn_set( examp, f_null );
         return;
     }
+
+    const item *const &seed = *seed_it;
+    seed_it = map_stack::iterator();
 
     const std::string pname = seed->get_plant_name();
 
@@ -2516,15 +2530,15 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
     static const std::set<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ) };
     bool fuel_present = false;
     auto items = here.i_at( examp );
-    for( const item &i : items ) {
-        if( i.typeId() == itype_charcoal ) {
+    for( const item * const &i : items ) {
+        if( i->typeId() == itype_charcoal ) {
             add_msg( _( "This kiln already contains charcoal." ) );
             add_msg( _( "Remove it before firing the kiln again." ) );
             return;
-        } else if( i.made_of_any( kilnable ) ) {
+        } else if( i->made_of_any( kilnable ) ) {
             fuel_present = true;
         } else {
-            add_msg( m_bad, _( "This kiln contains %s, which can't be made into charcoal!" ), i.tname( 1,
+            add_msg( m_bad, _( "This kiln contains %s, which can't be made into charcoal!" ), i->tname( 1,
                      false ) );
             return;
         }
@@ -2542,8 +2556,8 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
 
     // Burn stuff that should get charred, leave out the rest
     units::volume total_volume = 0_ml;
-    for( const item &i : items ) {
-        total_volume += i.volume();
+    for( const item * const &i : items ) {
+        total_volume += i->volume();
     }
 
     units::volume char_volume = ( 100 - loss ) * total_volume / 100;
@@ -2567,9 +2581,9 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
     p.use_charges( itype_fire, 1 );
     here.i_clear( examp );
     here.furn_set( examp, next_kiln_type );
-    item result( itype_unfinished_charcoal, calendar::turn );
-    result.charges = char_charges;
-    here.add_item( examp, result );
+    detached_ptr<item> result = item::spawn( itype_unfinished_charcoal, calendar::turn );
+    result->charges = char_charges;
+    here.add_item( examp, std::move( result ) );
     add_msg( _( "You fire the charcoal kiln." ) );
 }
 
@@ -2615,19 +2629,19 @@ void iexamine::kiln_full( player &, const tripoint &examp )
     units::volume total_volume = 0_ml;
     // Burn stuff that should get charred, leave out the rest
     for( auto item_it = items.begin(); item_it != items.end(); ) {
-        if( item_it->typeId() == itype_unfinished_charcoal || item_it->typeId() == itype_charcoal ) {
-            total_volume += item_it->volume();
+        if( ( *item_it )->typeId() == itype_unfinished_charcoal ||
+            ( *item_it )->typeId() == itype_charcoal ) {
+            total_volume += ( *item_it )->volume();
             item_it = items.erase( item_it );
         } else {
             item_it++;
         }
     }
-
-    item result( itype_charcoal, calendar::turn );
-    result.charges = itype_charcoal->charges_per_volume( total_volume );
-    here.add_item( examp, result );
+    detached_ptr<item> result = item::spawn( itype_charcoal, calendar::turn );
+    result->charges = itype_charcoal->charges_per_volume( total_volume );
+    add_msg( _( "It has finished burning, yielding %d charcoal." ), result->charges );
+    here.add_item( examp, std::move( result ) );
     here.furn_set( examp, next_kiln_type );
-    add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
 }
 //arc furnance start
 void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
@@ -2646,16 +2660,16 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
     static const std::set<material_id> arcfurnaceable{ material_id( "cac2powder" ) };
     bool fuel_present = false;
     auto items = here.i_at( examp );
-    for( const item &i : items ) {
-        if( i.typeId() == itype_chem_carbide ) {
+    for( const item * const &i : items ) {
+        if( i->typeId() == itype_chem_carbide ) {
             add_msg( _( "This furnace already contains calcium carbide." ) );
             add_msg( _( "Remove it before activating the arc furnace again." ) );
             return;
-        } else if( i.made_of_any( arcfurnaceable ) ) {
+        } else if( i->made_of_any( arcfurnaceable ) ) {
             fuel_present = true;
         } else {
             add_msg( m_bad, _( "This furnace contains %s, which can't be made into calcium carbide!" ),
-                     i.tname( 1, false ) );
+                     i->tname( 1, false ) );
             return;
         }
     }
@@ -2672,8 +2686,8 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
 
     // Burn stuff that should get charred, leave out the rest
     units::volume total_volume = 0_ml;
-    for( const item &i : items ) {
-        total_volume += i.volume();
+    for( const item * const &i : items ) {
+        total_volume += i->volume();
     }
 
     units::volume char_volume = ( 100 - loss ) * total_volume / 100;
@@ -2697,9 +2711,9 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
     p.use_charges( itype_UPS, 1250 );
     here.i_clear( examp );
     here.furn_set( examp, next_arcfurnace_type );
-    item result( itype_unfinished_cac2, calendar::turn );
-    result.charges = char_charges;
-    here.add_item( examp, result );
+    detached_ptr<item> result = item::spawn( itype_unfinished_cac2, calendar::turn );
+    result->charges = char_charges;
+    here.add_item( examp, std::move( result ) );
     add_msg( _( "You turn on the furnace." ) );
 }
 
@@ -2743,27 +2757,29 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
     units::volume total_volume = 0_ml;
     // Burn stuff that should get charred, leave out the rest
     for( auto item_it = items.begin(); item_it != items.end(); ) {
-        if( item_it->typeId() == itype_unfinished_cac2 || item_it->typeId() == itype_chem_carbide ) {
-            total_volume += item_it->volume();
+        if( ( *item_it )->typeId() == itype_unfinished_cac2 ||
+            ( *item_it )->typeId() == itype_chem_carbide ) {
+            total_volume += ( *item_it )->volume();
             item_it = items.erase( item_it );
         } else {
             item_it++;
         }
     }
 
-    item result( itype_chem_carbide, calendar::turn );
-    result.charges = itype_chem_carbide->charges_per_volume( total_volume );
-    here.add_item( examp, result );
+    detached_ptr<item> result = item::spawn( itype_chem_carbide, calendar::turn );
+    result->charges = itype_chem_carbide->charges_per_volume( total_volume );
+
+    add_msg( _( "It has finished burning, yielding %d calcium carbide." ), result->charges );
+    here.add_item( examp, std::move( result ) );
     here.furn_set( examp, next_arcfurnace_type );
-    add_msg( _( "It has finished burning, yielding %d calcium carbide." ), result.charges );
 }
 //arc furnace end
 
 void iexamine::autoclave_empty( player &p, const tripoint & )
 {
-    item_location bionic = game_menus::inv::sterilize_cbm( p );
+    item *bionic = game_menus::inv::sterilize_cbm( p );
     if( bionic ) {
-        avatar_funcs::mend_item( *p.as_avatar(), item_location( bionic ) );
+        avatar_funcs::mend_item( *p.as_avatar(), *bionic );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -2783,12 +2799,12 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
     }
 
     map_stack items = here.i_at( examp );
-    bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
-        return i.is_bionic();
+    bool cbms = std::all_of( items.begin(), items.end(), []( const item * const & i ) {
+        return i->is_bionic();
     } );
 
-    bool cbms_not_packed = std::all_of( items.begin(), items.end(), []( const item & i ) {
-        return i.is_bionic() && i.has_flag( flag_NO_PACKED );
+    bool cbms_not_packed = std::all_of( items.begin(), items.end(), []( const item * const & i ) {
+        return i->is_bionic() && i->has_flag( flag_NO_PACKED );
     } );
 
     if( items.empty() ) {
@@ -2803,7 +2819,7 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
     }
     add_msg( _( "The autoclave is running." ) );
 
-    const item &clock = *items.begin();
+    const item &clock = **items.begin();
     const time_duration Cycle_time = 90_minutes;
     const time_duration time_left = Cycle_time - clock.age();
 
@@ -2813,9 +2829,9 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
     }
 
     here.furn_set( examp, next_autoclave_type );
-    for( item &it : items ) {
-        if( !it.has_flag( flag_NO_PACKED ) ) {
-            it.unset_flag( flag_NO_STERILE );
+    for( item * const &it : items ) {
+        if( !it->has_flag( flag_NO_PACKED ) ) {
+            it->unset_flag( flag_NO_STERILE );
         }
     }
     add_msg( m_good, _( "The cycle is complete, the CBMs are now sterile." ) );
@@ -2908,7 +2924,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
             p.add_msg_if_player( m_info, _( "You take down the %s." ),
                                  here.furnname( examp ) );
             const auto furn_item = here.furn( examp ).obj().deployed_item;
-            here.add_item_or_charges( examp, item( furn_item, calendar::turn ) );
+            here.add_item_or_charges( examp, item::spawn( furn_item, calendar::turn ) );
             here.furn_set( examp, f_null );
             return;
         }
@@ -2938,12 +2954,14 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
     map &here = get_map();
     auto items = here.i_at( examp );
     for( auto item_it = items.begin(); item_it != items.end(); ) {
-        if( !item_it->is_brewable() || brew_present ) {
+        //TODO!: check
+        if( !( *item_it )->is_brewable() || brew_present ) {
             // This isn't a brew or there was already another kind of brew inside,
             // so this has to be moved.
-            items.insert( *item_it );
             // This will add items to a space near the vat, because it's flagged as NOITEM.
-            item_it = items.erase( item_it );
+            detached_ptr<item> det;
+            item_it = items.erase( item_it, &det );
+            items.insert( std::move( det ) );
         } else {
             item_it++;
             brew_present = true;
@@ -3006,7 +3024,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
                 break;
             }
             case REMOVE_BREW: {
-                liquid_handler::handle_liquid_from_ground( here.i_at( examp ).begin(), examp );
+                liquid_handler::handle_liquid( **here.i_at( examp ).begin() );
                 return;
             }
             case START_FERMENT: {
@@ -3019,22 +3037,22 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         }
     }
     if( to_deposit ) {
-        item brew( brew_type, calendar::start_of_cataclysm );
+        detached_ptr<item> brew = item::spawn( brew_type, calendar::start_of_cataclysm );
         int charges_held = p.charges_of( brew_type );
-        brew.charges = charges_on_ground;
+        brew->charges = charges_on_ground;
         for( int i = 0; i < charges_held && !vat_full; i++ ) {
             p.use_charges( brew_type, 1 );
-            brew.charges++;
-            if( brew.volume() >= vat_volume ) {
+            brew->charges++;
+            if( brew->volume() >= vat_volume ) {
                 vat_full = true;
             }
         }
         add_msg( _( "Set %s in the vat." ), brew_nname );
         add_msg( _( "The keg now contains %s (%d), %0.f%% full." ),
-                 brew.tname(), brew.charges, brew.volume() * 100.0 / vat_volume );
+                 brew->tname(), brew->charges, brew->volume() * 100.0 / vat_volume );
         here.i_clear( examp );
         //This is needed to bypass NOITEM
-        here.add_item( examp, brew );
+        here.add_item( examp, std::move( brew ) );
         p.moves -= to_moves<int>( 20_seconds );
         if( !vat_full ) {
             ferment = query_yn( _( "Start fermenting cycle?" ) );
@@ -3061,11 +3079,14 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         return;
     }
 
-    for( item &it : items_here ) {
-        if( !it.made_of( LIQUID ) ) {
-            add_msg( _( "You remove %s from the vat." ), it.tname() );
-            here.add_item_or_charges( p.pos(), it );
-            here.i_rem( examp, &it );
+    for( auto it = items_here.begin(); it != items_here.end(); ) {
+        if( !( *it )->made_of( LIQUID ) ) {
+            add_msg( _( "You remove %s from the vat." ), ( *it )->tname() );
+            detached_ptr<item> det;
+            it = here.i_rem( examp, it, &det );
+            here.add_item_or_charges( p.pos(), std::move( det ) );
+        } else {
+            it++;
         }
     }
 
@@ -3074,7 +3095,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         return;
     }
 
-    item &brew_i = *items_here.begin();
+    item &brew_i = **items_here.begin();
     // Does the vat contain unfermented brew, or already fermented booze?
     // TODO: Allow "recursive brewing" to continue without player having to check on it
     if( brew_i.is_brewable() ) {
@@ -3101,11 +3122,11 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
             here.i_clear( examp );
             for( const auto &result : results ) {
                 // TODO: Different age based on settings
-                item booze( result, brew_i.birthday(), brew_i.charges );
-                here.add_item( examp, booze );
-                if( booze.made_of( LIQUID ) ) {
-                    add_msg( _( "The %s is now ready for bottling." ), booze.tname() );
+                detached_ptr<item> booze = item::spawn( result, brew_i.birthday(), brew_i.charges );
+                if( booze->made_of( LIQUID ) ) {
+                    add_msg( _( "The %s is now ready for bottling." ), booze->tname() );
                 }
+                here.add_item( examp, std::move( booze ) );
             }
 
             p.moves -= to_moves<int>( 5_seconds );
@@ -3118,7 +3139,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     }
 
     const std::string booze_name = brew_i.tname();
-    if( liquid_handler::handle_liquid_from_ground( items_here.begin(), examp ) ) {
+    if( liquid_handler::handle_liquid( **items_here.begin() ) ) {
         here.furn_set( examp, f_fvat_empty );
         add_msg( _( "You squeeze the last drops of %s from the vat." ), booze_name );
     }
@@ -3148,12 +3169,14 @@ static void displace_items_except_one_liquid( const tripoint &examp )
     bool liquid_present = false;
     map_stack items = here.i_at( examp );
     for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-        if( !it->made_of( LIQUID ) || liquid_present ) {
+        //TODO!:check
+        if( !( *it )->made_of( LIQUID ) || liquid_present ) {
             // This isn't a liquid or there was already another kind of liquid inside,
             // so this has to be moved.
             // This will add items to a space near the vat, because it's flagged as NOITEM.
-            items.insert( *it );
-            it = items.erase( it );
+            detached_ptr<item> det;
+            it = items.erase( it, &det );
+            items.insert( std::move( det ) );
         } else {
             it++;
             liquid_present = true;
@@ -3227,14 +3250,14 @@ void iexamine::keg( player &p, const tripoint &examp )
         //Store liquid chosen in the keg
         itype_id drink_type = drink_types[ drink_index ];
         int charges_held = p.charges_of( drink_type );
-        item drink( drink_type, calendar::start_of_cataclysm );
-        drink.set_relative_rot( drink_rot[ drink_index ] );
-        drink.charges = 0;
+        detached_ptr<item> drink = item::spawn( drink_type, calendar::start_of_cataclysm );
+        drink->set_relative_rot( drink_rot[ drink_index ] );
+        drink->charges = 0;
         bool keg_full = false;
         for( int i = 0; i < charges_held && !keg_full; i++ ) {
-            g->u.use_charges( drink.typeId(), 1 );
-            drink.charges++;
-            keg_full = drink.volume() >= keg_cap;
+            g->u.use_charges( drink->typeId(), 1 );
+            drink->charges++;
+            keg_full = drink->volume() >= keg_cap;
         }
         if( keg_full ) {
             add_msg( _( "You completely fill the %1$s with %2$s." ),
@@ -3245,7 +3268,7 @@ void iexamine::keg( player &p, const tripoint &examp )
         }
         p.moves -= to_moves<int>( 10_seconds );
         here.i_clear( examp );
-        here.add_item( examp, drink );
+        here.add_item( examp, std::move( drink ) );
         return;
     } else {
         // First empty the keg of foreign objects
@@ -3274,7 +3297,7 @@ void iexamine::keg( player &p, const tripoint &examp )
 
         switch( selectmenu.ret ) {
             case DISPENSE:
-                if( liquid_handler::handle_liquid_from_ground( items.begin(), examp ) ) {
+                if( liquid_handler::handle_liquid( **items.begin() ) ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
                              drink_tname, keg_name );
                 }
@@ -3304,9 +3327,9 @@ void iexamine::keg( player &p, const tripoint &examp )
                              drink_nname, keg_name );
                     return;
                 }
-                item tmp( drink.typeId(), calendar::turn, charges_held );
-                pour_into_keg( examp, tmp );
-                p.use_charges( drink.typeId(), charges_held - tmp.charges );
+                detached_ptr<item> tmp = item::spawn( drink.typeId(), calendar::turn, charges_held );
+                tmp = pour_into_keg( examp, std::move( tmp ) );
+                p.use_charges( drink.typeId(), charges_held - tmp->charges );
                 add_msg( _( "You fill the %1$s with %2$s." ), keg_name, drink_nname );
                 p.moves -= to_moves<int>( 10_seconds );
                 return;
@@ -3327,39 +3350,52 @@ void iexamine::keg( player &p, const tripoint &examp )
 /**
  * Pour liquid into a keg (furniture) on the map. The transferred charges (if any)
  * will be removed from the liquid item.
- * @return Whether any charges have been transferred at all.
+ * @return Any remaining liquid.
  */
-bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
+detached_ptr<item> iexamine::pour_into_keg( const tripoint &pos, detached_ptr<item> &&liquid )
 {
     const units::volume keg_cap = get_keg_capacity( pos );
     if( keg_cap <= 0_ml ) {
-        return false;
+        return std::move( liquid );
     }
     map &here = get_map();
     const auto keg_name = here.name( pos );
+    item &obj = *liquid;
 
     map_stack stack = here.i_at( pos );
     if( stack.empty() ) {
-        here.add_item( pos, liquid );
-        here.i_at( pos ).only_item().charges = 0; // Will be set later
-    } else if( stack.only_item().typeId() != liquid.typeId() ) {
+        int charges = liquid->charges;
+        here.add_item( pos, std::move( liquid ) );
+        obj.charges = 0;
+        while( charges > 0 && obj.volume() < keg_cap ) {
+            obj.charges++;
+            charges--;
+        }
+        add_msg( _( "You pour %1$s into the %2$s." ), obj.tname(), keg_name );
+        if( charges > 0 ) {
+            detached_ptr<item> ret = item::spawn( obj );
+            ret->charges = charges;
+            return ret;
+        }
+        return detached_ptr<item>();
+    } else if( stack.only_item().typeId() != liquid->typeId() ) {
         add_msg( _( "The %s already contains some %s, you can't add a different liquid to it." ),
                  keg_name, item::nname( stack.only_item().typeId() ) );
-        return false;
+        return std::move( liquid );
+    } else {
+        item &drink = stack.only_item();
+        if( drink.volume() >= keg_cap ) {
+            add_msg( _( "The %s is full." ), keg_name );
+            return std::move( liquid );
+        }
+        while( liquid->charges > 0 && drink.volume() < keg_cap ) {
+            drink.charges++;
+            liquid->charges--;
+        }
+        add_msg( _( "You pour %1$s into the %2$s." ), obj.tname(), keg_name );
     }
 
-    item &drink = stack.only_item();
-    if( drink.volume() >= keg_cap ) {
-        add_msg( _( "The %s is full." ), keg_name );
-        return false;
-    }
-
-    add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname(), keg_name );
-    while( liquid.charges > 0 && drink.volume() < keg_cap ) {
-        drink.charges++;
-        liquid.charges--;
-    }
-    return true;
+    return std::move( liquid );
 }
 
 static void pick_plant( player &p, const tripoint &examp,
@@ -3416,9 +3452,9 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
     p.moves -= to_moves<int>( 20_seconds ) / ( p.get_skill_level( skill_survival ) + 1 ) + 100;
 }
 
-static item_location maple_tree_sap_container()
+static item *maple_tree_sap_container()
 {
-    const item maple_sap = item( itype_maple_sap, calendar::start_of_cataclysm );
+    const item &maple_sap = *item::spawn_temporary( itype_maple_sap, calendar::start_of_cataclysm );
     return g->inv_map_splice( [&]( const item & it ) {
         return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
     }, _( "Which container?" ), PICKUP_RANGE );
@@ -3446,20 +3482,16 @@ void iexamine::tree_maple( player &p, const tripoint &examp )
     }
 
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( itype_tree_spile, 1 ) );
+    comps.emplace_back( itype_tree_spile, 1 );
     p.consume_items( comps, 1, is_crafting_component );
 
     p.mod_moves( -to_moves<int>( 20_seconds ) );
     map &here = get_map();
     here.ter_set( examp, t_tree_maple_tapped );
 
-    auto cont_loc = maple_tree_sap_container();
-
-    item *container = cont_loc.get_item();
+    item *container = maple_tree_sap_container();
     if( container ) {
-        here.add_item_or_charges( examp, *container, false );
-
-        cont_loc.remove_item();
+        here.add_item_or_charges( examp, container->detach(), false );
     } else {
         add_msg( m_info, _( "No container added.  The sap will just spill on the ground." ) );
     }
@@ -3511,12 +3543,12 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
                 return;
             }
 
-            item tree_spile( "tree_spile" );
-            add_msg( _( "You remove the %s." ), tree_spile.tname( 1 ) );
-            here.add_item_or_charges( p.pos(), tree_spile );
+            detached_ptr<item> tree_spile = item::spawn( "tree_spile" );
+            add_msg( _( "You remove the %s." ), tree_spile->tname( 1 ) );
+            here.add_item_or_charges( p.pos(), std::move( tree_spile ) );
 
             if( container ) {
-                here.add_item_or_charges( p.pos(), *container );
+                here.add_item_or_charges( p.pos(), container->detach() );
             }
             here.i_clear( examp );
 
@@ -3527,13 +3559,10 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         }
 
         case ADD_CONTAINER: {
-            auto cont_loc = maple_tree_sap_container();
-
-            container = cont_loc.get_item();
+            container = maple_tree_sap_container();
             if( container ) {
-                here.add_item_or_charges( examp, *container, false );
+                here.add_item_or_charges( examp, container->detach(), false );
 
-                cont_loc.remove_item();
             } else {
                 add_msg( m_info, _( "No container added.  The sap will just spill on the ground." ) );
             }
@@ -3542,13 +3571,13 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         }
 
         case HARVEST_SAP: {
-            liquid_handler::handle_liquid_from_container( *container, PICKUP_RANGE );
+            liquid_handler::handle_liquid( *container, PICKUP_RANGE );
             return;
         }
 
         case REMOVE_CONTAINER: {
-            g->u.assign_activity( player_activity( pickup_activity_actor(
-            { { item_location( map_cursor( examp ), container ), std::nullopt, {} } }, g->u.pos() ) ) );
+            g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
+            std::vector<pickup::pick_drop_selection> { { container, std::nullopt, {} } }, g->u.pos() ) ) );
             return;
         }
 
@@ -3611,8 +3640,8 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, p.per_cur ), 4 + p.per_cur * 2 );
     p.assign_activity( ACT_FORAGE, move_cost, 0 );
-    p.activity.placement = here.getabs( examp );
-    p.activity.auto_resume = true;
+    p.activity->placement = here.getabs( examp );
+    p.activity->auto_resume = true;
     return;
 }
 
@@ -3641,19 +3670,19 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     std::set<material_id> accepts( ca.begin(), ca.end() );
     accepts.insert( m.id );
     for( auto &input : inputs ) {
-        if( !input.only_made_of( accepts ) ) {
+        if( !input->only_made_of( accepts ) ) {
             //~ %1$s: an item in the compactor , %2$s: desired compactor output material
             add_msg( _( "You realize this isn't going to work because %1$s is not made purely of %2$s." ),
-                     input.tname(), m.name() );
+                     input->tname(), m.name() );
             return;
         }
-        if( input.is_container() && !input.is_container_empty() ) {
+        if( input->is_container() && !input->is_container_empty() ) {
             //~ %1$s: an item in the compactor
             add_msg( _( "You realize this isn't going to work because %1$s has not been emptied of its contents." ),
-                     input.tname() );
+                     input->tname() );
             return;
         }
-        sum_weight += input.weight();
+        sum_weight += input->weight();
     }
     if( sum_weight <= 0_gram ) {
         //~ %1$s: desired compactor output material
@@ -3673,11 +3702,12 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     choose_output.text = string_format( _( "Compact %1$.3f %2$s of %3$s into:" ),
                                         convert_weight( sum_weight ), weight_units(), m.name() );
     for( auto &ci : m.compacts_into() ) {
-        auto it = item( ci, calendar::start_of_cataclysm, item::solitary_tag{} );
-        const int amount = norm_recover_weight / it.weight();
+        //TODO!: check
+        auto it = item::spawn_temporary( ci, calendar::start_of_cataclysm, item::solitary_tag{} );
+        const int amount = norm_recover_weight / it->weight();
         //~ %1$d: number of, %2$s: output item
         choose_output.addentry( string_format( _( "about %1$d %2$s" ), amount,
-                                               it.tname( amount ) ) );
+                                               it->tname( amount ) ) );
     }
     choose_output.query();
     int o_idx = choose_output.ret;
@@ -3698,7 +3728,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     bool out_desired = false;
     bool out_any = false;
     for( auto it = m.compacts_into().begin() + o_idx; it != m.compacts_into().end(); ++it ) {
-        const units::mass ow = item( *it, calendar::start_of_cataclysm, item::solitary_tag{} ).weight();
+        const units::mass ow = item::spawn_temporary( *it, calendar::start_of_cataclysm, item::solitary_tag{} )->weight();
         int count = sum_weight / ow;
         sum_weight -= count * ow;
         if( count > 0 ) {
@@ -3748,8 +3778,8 @@ void iexamine::trap( player &p, const tripoint &examp )
                            built.group->name(), pc->counter / 100000 ) ) {
                 if( query_yn( _( "Cancel construction?" ) ) ) {
                     here.disarm_trap( examp );
-                    for( const item &it : pc->components ) {
-                        here.add_item_or_charges( p.pos(), it );
+                    for( detached_ptr<item> &it : pc->components.clear() ) {
+                        here.add_item_or_charges( p.pos(), std::move( it ) );
                     }
                     here.partial_con_remove( examp );
                     return;
@@ -3758,7 +3788,7 @@ void iexamine::trap( player &p, const tripoint &examp )
                 }
             } else {
                 p.assign_activity( ACT_BUILD );
-                p.activity.placement = here.getabs( examp );
+                p.activity->placement = here.getabs( examp );
                 return;
             }
         } else {
@@ -3780,25 +3810,22 @@ void iexamine::trap( player &p, const tripoint &examp )
         here.disarm_trap( examp );
     }
 }
-
-void iexamine::water_source( player &p, const tripoint &examp )
+//Note that these two functions are checked by pointer in map::water_from. Yes it's awful.
+void iexamine::water_source( player &, const tripoint &examp )
 {
-    map &here = get_map();
-    item water = here.water_from( examp );
-    // TODO: use me
-    ( void ) p;
-    liquid_handler::handle_liquid( water, nullptr, 0, &examp );
+    liquid_handler::handle_liquid( examp );
 }
 
+//Note that these two functions are checked by pointer in map::water_from. Yes it's awful.
 void iexamine::clean_water_source( player &, const tripoint &examp )
 {
-    item water = item( "water_clean", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
-    liquid_handler::handle_liquid( water, nullptr, 0, &examp );
+    liquid_handler::handle_liquid( examp );
 }
 
 std::vector<itype> furn_t::crafting_pseudo_item_types() const
 {
     std::vector<itype> conversion;
+    conversion.reserve( crafting_pseudo_items.size() );
     for( const itype_id &itid : crafting_pseudo_items ) {
         conversion.push_back( *itid );
     }
@@ -3824,8 +3851,8 @@ std::vector<itype> furn_t::crafting_ammo_item_types() const
 static int count_charges_in_list( const itype *type, const map_stack &items )
 {
     for( const auto &candidate : items ) {
-        if( candidate.type == type ) {
-            return candidate.charges;
+        if( candidate->type == type ) {
+            return candidate->charges;
         }
     }
     return 0;
@@ -3879,9 +3906,9 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
                         cur_ammo->nname( amount_in_furn ) ) ) {
             auto items = here.i_at( examp );
             for( auto &itm : items ) {
-                if( itm.type == cur_ammo ) {
-                    g->u.assign_activity( player_activity( pickup_activity_actor(
-                    { { item_location( map_cursor( examp ), &itm ), std::nullopt, {} } }, g->u.pos() ) ) );
+                if( itm->type == cur_ammo ) {
+                    g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
+                    std::vector<pickup::pick_drop_selection> { { itm, std::nullopt, {} } }, g->u.pos() ) ) );
                     return;
                 }
             }
@@ -3917,15 +3944,14 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     p.use_charges( cur_ammo->get_id(), amount );
     auto items = here.i_at( examp );
     for( auto &itm : items ) {
-        if( itm.type == cur_ammo ) {
-            itm.charges += amount;
+        if( itm->type == cur_ammo ) {
+            itm->charges += amount;
             amount = 0;
             break;
         }
     }
     if( amount != 0 ) {
-        item it( cur_ammo->get_id(), calendar::turn, amount );
-        here.add_item( examp, it );
+        here.add_item( examp, item::spawn( cur_ammo->get_id(), calendar::turn, amount ) );
     }
 
     const int amount_in_furn_after_placing = count_charges_in_list( &ammo_types.at( ammo_index ),
@@ -3985,7 +4011,7 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     }
 
     const itype &cur_tool = usable_item_types.at( tool_index );
-    item fake_item( cur_tool.get_id(), calendar::turn, 0 );
+    item &fake_item = *item::spawn_temporary( cur_tool.get_id(), calendar::turn, 0 );
     const itype_id ammo = fake_item.ammo_default();
     fake_item.set_flag( flag_PSEUDO );
 
@@ -4009,7 +4035,7 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     p.invoke_item( &fake_item );
 
     // HACK: Evil hack incoming
-    activity_handlers::repair_activity_hack::patch_activity_for_furniture( g->u.activity, examp,
+    activity_handlers::repair_activity_hack::patch_activity_for_furniture( *g->u.activity, examp,
             cur_tool.get_id() );
 
     const int discharged_ammo = original_charges - fake_item.charges;
@@ -4108,12 +4134,12 @@ void iexamine::sign( player &p, const tripoint &examp )
 
     // Allow chance to modify message.
     std::vector<tool_comp> tools;
-    std::vector<const item *> filter = p.crafting_inventory().items_with( []( const item & it ) {
+    std::vector<item *> filter = p.crafting_inventory().items_with( []( const item & it ) {
         return it.has_flag( flag_WRITE_MESSAGE ) && it.charges > 0;
     } );
     tools.reserve( filter.size() );
     for( const item *writing_item : filter ) {
-        tools.push_back( tool_comp( writing_item->typeId(), 1 ) );
+        tools.emplace_back( writing_item->typeId(), 1 );
     }
 
     if( !tools.empty() ) {
@@ -4179,10 +4205,10 @@ std::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, 
             tank_loc.emplace( tmp );
         }
         for( auto &k : here.i_at( tmp ) ) {
-            if( k.made_of( LIQUID ) ) {
+            if( k->made_of( LIQUID ) ) {
                 distance = new_distance;
                 tank_loc.emplace( tmp );
-                gas_units = k.charges;
+                gas_units = k->charges;
                 break;
             }
         }
@@ -4205,8 +4231,8 @@ static int findBestGasDiscount( player &p )
 {
     int discount = 0;
 
-    for( size_t i = 0; i < p.inv.size(); i++ ) {
-        item &it = p.inv.find_item( i );
+    for( size_t i = 0; i < p.inv_size(); i++ ) {
+        item &it = p.inv_find_item( i );
 
         if( it.has_flag( flag_GAS_DISCOUNT ) ) {
 
@@ -4281,21 +4307,20 @@ bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
     map &here = get_map();
     auto items = here.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
-        if( item_it->made_of( LIQUID ) ) {
-            if( item_it->charges < units ) {
+        item *content = *item_it;
+        if( content->made_of( LIQUID ) ) {
+            if( content->charges < units ) {
                 return false;
             }
 
-            item_it->charges -= units;
-
-            item liq_d( item_it->type, calendar::turn, units );
+            content->charges -= units;
 
             const auto backup_pump = here.ter( dst );
             here.ter_set( dst, ter_str_id::NULL_ID() );
-            here.add_item_or_charges( dst, liq_d );
+            here.add_item_or_charges( dst, item::spawn( content->type, calendar::turn, units ) );
             here.ter_set( dst, backup_pump );
 
-            if( item_it->charges < 1 ) {
+            if( content->charges < 1 ) {
                 items.erase( item_it );
             }
 
@@ -4311,18 +4336,18 @@ static int fromPumpFuel( const tripoint &dst, const tripoint &src )
     map &here = get_map();
     auto items = here.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
-        if( item_it->made_of( LIQUID ) ) {
+        item *content = *item_it;
+        if( content->made_of( LIQUID ) ) {
             // how much do we have in the pump?
-            item liq_d( item_it->type, calendar::turn, item_it->charges );
 
             // add the charges to the destination
             const auto backup_tank = here.ter( dst );
             here.ter_set( dst, ter_str_id::NULL_ID() );
-            here.add_item_or_charges( dst, liq_d );
+            here.add_item_or_charges( dst, item::spawn( content->type, calendar::turn, content->charges ) );
             here.ter_set( dst, backup_tank );
 
             // remove the liquid from the pump
-            int amount = item_it->charges;
+            int amount = content->charges;
             items.erase( item_it );
             return amount;
         }
@@ -4489,7 +4514,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( refund == choice ) {
-        const int pos = p.inv.position_by_type( itype_id( "cash_card" ) );
+        const int pos = p.inv_position_by_type( itype_id( "cash_card" ) );
 
         if( pos == INT_MIN ) {
             add_msg( _( "Never mind." ) );
@@ -4713,14 +4738,14 @@ static Character &operator_present( Character &p, const tripoint &autodoc_loc,
     return null_patient;
 }
 
-static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
+static item *cyborg_on_couch( const tripoint &couch_pos )
 {
-    for( item &it : get_map().i_at( couch_pos ) ) {
-        if( it.typeId() == itype_bot_broken_cyborg || it.typeId() == itype_bot_prototype_cyborg ) {
+    for( item * const &it : get_map().i_at( couch_pos ) ) {
+        if( it->typeId() == itype_bot_broken_cyborg || it->typeId() == itype_bot_prototype_cyborg ) {
             return it;
         }
-        if( it.typeId() == itype_corpse ) {
-            if( it.get_mtype()->id == mon_broken_cyborg || it.get_mtype()->id == mon_prototype_cyborg ) {
+        if( it->typeId() == itype_corpse ) {
+            if( it->get_mtype()->id == mon_broken_cyborg || it->get_mtype()->id == mon_prototype_cyborg ) {
                 return it;
             }
         }
@@ -4730,18 +4755,18 @@ static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
                 flag_AUTODOC_COUCH, false ) ) {
         auto dest_veh = &vp->vehicle();
         int dest_part = vp->part_index();
-        for( item &it : dest_veh->get_items( dest_part ) ) {
-            if( it.typeId() == itype_bot_broken_cyborg || it.typeId() == itype_bot_prototype_cyborg ) {
+        for( item * const &it : dest_veh->get_items( dest_part ) ) {
+            if( it->typeId() == itype_bot_broken_cyborg || it->typeId() == itype_bot_prototype_cyborg ) {
                 return it;
             }
-            if( it.typeId() == itype_corpse ) {
-                if( it.get_mtype()->id == mon_broken_cyborg || it.get_mtype()->id == mon_prototype_cyborg ) {
+            if( it->typeId() == itype_corpse ) {
+                if( it->get_mtype()->id == mon_broken_cyborg || it->get_mtype()->id == mon_prototype_cyborg ) {
                     return it;
                 }
             }
         }
     }
-    return null_cyborg;
+    return nullptr;
 }
 
 static player &best_installer( player &p, player &null_player, int difficulty )
@@ -4823,19 +4848,19 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     player &patient = player_on_couch( p, examp, null_player, adjacent_couch, couch_pos );
     Character &Operator = operator_present( p, examp, null_player );
 
-    static item null_cyborg;
-    item &cyborg = cyborg_on_couch( couch_pos, null_cyborg );
+    //static item null_cyborg;
+    item *cyborg = cyborg_on_couch( couch_pos );
 
     if( !adjacent_couch ) {
         popup( _( "No connected couches found.  Operation impossible.  Exiting." ) );
         return;
     }
     if( &patient == &null_player ) {
-        if( &cyborg != &null_cyborg ) {
-            if( cyborg.typeId() == itype_corpse && !cyborg.active ) {
+        if( cyborg != nullptr ) {
+            if( cyborg->typeId() == itype_corpse && !cyborg->active ) {
                 popup( _( "Patient is dead.  Please remove corpse to proceed.  Exiting." ) );
                 return;
-            } else if( cyborg.typeId() == itype_bot_broken_cyborg || cyborg.typeId() == itype_corpse ) {
+            } else if( cyborg->typeId() == itype_bot_broken_cyborg || cyborg->typeId() == itype_corpse ) {
                 popup( _( "ERROR Bionic Level Assessement: FULL CYBORG.  Autodoc Mk. XI can't opperate.  Please move patient to appropriate facility.  Exiting." ) );
                 return;
             }
@@ -4853,13 +4878,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
                 case 2: {
                     std::vector<std::string> choice_names;
-                    choice_names.push_back( _( "Personality_Override" ) );
+                    choice_names.emplace_back( _( "Personality_Override" ) );
                     for( size_t i = 0; i < 6; i++ ) {
-                        choice_names.push_back( _( "C0RR#PTED?D#TA" ) );
+                        choice_names.emplace_back( _( "C0RR#PTED?D#TA" ) );
                     }
                     int choice_index = uilist( _( "Choose bionic to uninstall" ), choice_names );
                     if( choice_index == 0 ) {
-                        g->save_cyborg( &cyborg, couch_pos, p );
+                        g->save_cyborg( cyborg, couch_pos, p );
                     } else {
                         popup( _( "UNKNOWN COMMAND.  Autodoc Mk. XI. Crashed." ) );
                         return;
@@ -4874,9 +4899,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
             return;
         }
-    } else if( patient.activity.id() == activity_id( "ACT_OPERATION" ) ) {
+    } else if( patient.activity->id() == activity_id( "ACT_OPERATION" ) ) {
         popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
-               to_string( time_duration::from_turns( patient.activity.moves_left / 100 ) ) );
+               to_string( time_duration::from_turns( patient.activity->moves_left / 100 ) ) );
         p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
         return;
     }
@@ -4892,15 +4917,15 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                          _( "\n Using the Autodoc without an operator can lead to <color_light_cyan>serious injuries</color> and <color_light_cyan>various internal bionic malfunctions</color>.\n Manufacturer <color_light_green>guarantees automated bionic installation in functional condition</color>.\n Manufacturer <color_light_cyan>does not guarantee automated bionic uninstallation</color>.\n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident.\n\nThe following skills affect autodoc installation: Computers, First Aid, and Electronics." );
     }
 
-    std::vector<item> arm_splints;
-    std::vector<item> leg_splints;
+    std::vector<item *> arm_splints;
+    std::vector<item *> leg_splints;
 
     // find splints on the ground
-    for( const item &supplies : get_map().i_at( examp ) ) {
-        if( supplies.typeId() == itype_arm_splint ) {
+    for( item *&supplies : get_map().i_at( examp ) ) {
+        if( supplies->typeId() == itype_arm_splint ) {
             arm_splints.push_back( supplies );
         }
-        if( supplies.typeId() == itype_leg_splint ) {
+        if( supplies->typeId() == itype_leg_splint ) {
             leg_splints.push_back( supplies );
         }
     }
@@ -4909,11 +4934,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 flag_AUTODOC, false ) ) {
         auto dest_veh = &vp->vehicle();
         int dest_part = vp->part_index();
-        for( item &it : dest_veh->get_items( dest_part ) ) {
-            if( it.typeId() == itype_arm_splint ) {
+        for( item *&it : dest_veh->get_items( dest_part ) ) {
+            if( it->typeId() == itype_arm_splint ) {
                 arm_splints.push_back( it );
             }
-            if( it.typeId() == itype_leg_splint ) {
+            if( it->typeId() == itype_leg_splint ) {
                 leg_splints.push_back( it );
             }
         }
@@ -4943,25 +4968,25 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         needs_anesthesia = false;
     } else {
         const inventory &crafting_inv = p.crafting_inventory();
-        std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
+        std::vector<item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( qual_ANESTHESIA );
         } );
         for( const item *anesthesia_item : a_filter ) {
             if( anesthesia_item->ammo_remaining() >= 1 ) {
-                anesth_kit.push_back( tool_comp( anesthesia_item->typeId(), 1 ) );
+                anesth_kit.emplace_back( anesthesia_item->typeId(), 1 );
             }
         }
     }
 
     switch( amenu.ret ) {
         case INSTALL_CBM: {
-            item_location bionic = game_menus::inv::install_bionic( p, patient );
+            item *bionic = game_menus::inv::install_bionic( p, patient );
 
             if( !bionic ) {
                 return;
             }
 
-            const itype *itemtype = bionic.get_item()->type;
+            const itype *itemtype = bionic->type;
 
             player &installer = best_installer( p, null_player, itemtype->bionic->difficulty );
             if( &installer == &null_player ) {
@@ -4971,8 +4996,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             std::vector<item_comp> progs;
             bool has_install_program = false;
 
-            std::vector<const item *> install_programs = p.crafting_inventory().items_with( [itemtype](
-                        const item & it ) -> bool { return it.typeId() == itemtype->bionic->installation_data; } );
+            std::vector<item *> install_programs = p.crafting_inventory().items_with( [itemtype](
+                    const item & it ) -> bool { return it.typeId() == itemtype->bionic->installation_data; } );
 
             if( !install_programs.empty() ) {
                 has_install_program = true;
@@ -4987,7 +5012,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             if( patient.can_install_bionics( ( *itemtype ), installer, true, has_install_program ? 10 : -1 ) ) {
                 const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
-                bionic.remove_item();
+                bionic->detach();
                 if( needs_anesthesia ) {
                     for( const auto &e : req_anesth.get_components() ) {
                         p.consume_items( e, 1, is_crafting_component );
@@ -5020,28 +5045,34 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     bio.id != bio_power_storage_mkII ) {
                     if( bio.info().itype().is_valid() ) {
                         // put cbm items in your inventory
-                        item bionic_to_uninstall( bio.id.str(), calendar::turn );
-                        bionic_to_uninstall.set_flag( flag_IN_CBM );
-                        bionic_to_uninstall.set_flag( flag_NO_STERILE );
-                        bionic_to_uninstall.set_flag( flag_NO_PACKED );
-                        g->u.i_add( bionic_to_uninstall );
+                        detached_ptr<item> bionic_to_uninstall = item::spawn( bio.id.str(), calendar::turn );
+                        bionic_to_uninstall->set_flag( flag_IN_CBM );
+                        bionic_to_uninstall->set_flag( flag_NO_STERILE );
+                        bionic_to_uninstall->set_flag( flag_NO_PACKED );
+                        g->u.i_add( std::move( bionic_to_uninstall ) );
                     }
                 }
             }
 
-            const item_location bionic = game_menus::inv::uninstall_bionic( p, patient );
+            const item *bionic = game_menus::inv::uninstall_bionic( p, patient );
             if( !bionic ) {
-                g->u.remove_items_with( []( const item & it ) {// remove cbm items from inventory
-                    return it.has_flag( flag_IN_CBM );
+                g->u.remove_items_with( []( detached_ptr<item> &&it ) { // remove cbm items from inventory
+                    if( it->has_flag( flag_IN_CBM ) ) {
+                        detached_ptr<item> del = std::move( it ); //This acts as a delete
+                    }
+                    return VisitResponse::SKIP;
                 } );
                 return;
             }
-            const item *it = bionic.get_item();
+            const item *it = bionic;
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            g->u.remove_items_with( []( const item & it ) {// remove cbm items from inventory
-                return it.has_flag( flag_IN_CBM );
+            g->u.remove_items_with( []( detached_ptr<item> &&it ) { // remove cbm items from inventory
+                if( it->has_flag( flag_IN_CBM ) ) {
+                    detached_ptr<item> del = std::move( it ); //This acts as a delete
+                }
+                return VisitResponse::SKIP;
             } );
 
             // Malfunctioning bionics that don't have associated items and get a difficulty of 12
@@ -5084,8 +5115,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 int quantity = 1;
                 if( part == bodypart_id( "arm_l" ) || part == bodypart_id( "arm_r" ) ) {
                     if( !arm_splints.empty() ) {
-                        for( const item &it : get_map().use_amount( examp, 1, itype_arm_splint, quantity ) ) {
-                            patient.wear_item( it, false );
+                        for( detached_ptr<item> &it : get_map().use_amount( examp, 1, itype_arm_splint, quantity ) ) {
+                            patient.wear_item( std::move( it ), false );
                         }
                     } else {
                         popup( _( "Internal supply of arm splints exhausted.  Splinting broken arms impossible.  Exiting." ) );
@@ -5093,8 +5124,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
                 } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
                     if( !leg_splints.empty() ) {
-                        for( const item &it : get_map().use_amount( examp, 1, itype_leg_splint, quantity ) ) {
-                            patient.wear_item( it, false );
+                        for( detached_ptr<item> &it : get_map().use_amount( examp, 1, itype_leg_splint, quantity ) ) {
+                            patient.wear_item( std::move( it ), false );
                         }
                     } else {
                         popup( _( "Internal supply of leg splints exhausted.  Splinting broken legs impossible.  Exiting." ) );
@@ -5254,17 +5285,16 @@ static void mill_activate( player &p, const tripoint &examp )
     map_stack items = here.i_at( examp );
     units::volume food_volume = 0_ml;
 
-    for( item &it : items ) {
-        if( it.type->milling_data ) {
+    for( item *&it : items ) {
+        if( it->type->milling_data ) {
             food_present = true;
-            food_volume += it.volume();
+            food_volume += it->volume();
             continue;
         } else {
-            add_msg( m_bad, _( "This mill contains %s, which can't be milled!" ), it.tname( 1, false ) );
-            add_msg( _( "You remove the %s from the mill." ), it.tname() );
-            here.add_item_or_charges( p.pos(), it );
-            p.mod_moves( -p.item_handling_cost( it ) );
-            here.i_rem( examp, &it );
+            add_msg( m_bad, _( "This mill contains %s, which can't be milled!" ), it->tname( 1, false ) );
+            add_msg( _( "You remove the %s from the mill." ), it->tname() );
+            p.mod_moves( -p.item_handling_cost( *it ) );
+            here.add_item_or_charges( p.pos(), here.i_rem( examp, it ) );
             return;
         }
     }
@@ -5281,17 +5311,15 @@ static void mill_activate( player &p, const tripoint &examp )
     }
 
     for( auto &it : here.i_at( examp ) ) {
-        if( it.type->milling_data ) {
-            // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_rot( examp );
-            it.set_flag( flag_PROCESSING );
+        if( it->type->milling_data ) {
+            it->set_flag( flag_PROCESSING );
         }
     }
     here.furn_set( examp, next_mill_type );
-    item result( "fake_milling_item", calendar::turn );
-    result.item_counter = to_turns<int>( milling_time );
-    result.activate();
-    here.add_item( examp, result );
+    detached_ptr<item> result = item::spawn( "fake_milling_item", calendar::turn );
+    result->item_counter = to_turns<int>( milling_time );
+    result->activate();
+    here.add_item( examp, std::move( result ) );
     add_msg( _( "You remove the brake on the millstone and it slowly starts to turn." ) );
 }
 
@@ -5317,31 +5345,30 @@ static void smoker_activate( player &p, const tripoint &examp )
     units::volume food_volume = 0_ml;
     item *charcoal = nullptr;
 
-    for( item &it : items ) {
-        if( it.has_flag( flag_SMOKED ) && !it.has_flag( flag_SMOKABLE ) ) {
+    for( item * const &it : items ) {
+        if( it->has_flag( flag_SMOKED ) && !it->has_flag( flag_SMOKABLE ) ) {
             add_msg( _( "This rack already contains smoked food." ) );
             add_msg( _( "Remove it before firing the smoking rack again." ) );
             return;
         }
-        if( it.has_flag( flag_SMOKABLE ) ) {
+        if( it->has_flag( flag_SMOKABLE ) ) {
             food_present = true;
-            food_volume += it.volume();
+            food_volume += it->volume();
             continue;
         }
-        if( it.typeId() == itype_charcoal ) {
+        if( it->typeId() == itype_charcoal ) {
             charcoal_present = true;
-            charcoal = &it;
+            charcoal = it;
         }
-        if( it.typeId() != itype_charcoal && !it.has_flag( flag_SMOKABLE ) ) {
-            add_msg( m_bad, _( "This rack contains %s, which can't be smoked!" ), it.tname( 1,
+        if( it->typeId() != itype_charcoal && !it->has_flag( flag_SMOKABLE ) ) {
+            add_msg( m_bad, _( "This rack contains %s, which can't be smoked!" ), it->tname( 1,
                      false ) );
-            add_msg( _( "You remove %s from the rack." ), it.tname() );
-            here.add_item_or_charges( p.pos(), it );
-            p.mod_moves( -p.item_handling_cost( it ) );
-            here.i_rem( examp, &it );
+            add_msg( _( "You remove %s from the rack." ), it->tname() );
+            here.add_item_or_charges( p.pos(), here.i_rem( examp, it ) );
+            p.mod_moves( -p.item_handling_cost( *it ) );
             return;
         }
-        if( it.has_flag( flag_SMOKED ) && it.has_flag( flag_SMOKABLE ) ) {
+        if( it->has_flag( flag_SMOKED ) && it->has_flag( flag_SMOKABLE ) ) {
             add_msg( _( "This rack has some smoked food that might be dehydrated by smoking it again." ) );
         }
     }
@@ -5383,21 +5410,21 @@ static void smoker_activate( player &p, const tripoint &examp )
 
     p.use_charges( itype_fire, 1 );
     for( auto &it : here.i_at( examp ) ) {
-        if( it.has_flag( flag_SMOKABLE ) ) {
-            it.process_rot( examp );
-            it.set_flag( flag_PROCESSING );
+        if( it->has_flag( flag_SMOKABLE ) ) {
+            it->set_flag( flag_PROCESSING );
         }
     }
     here.furn_set( examp, next_smoker_type );
     if( charcoal->charges == char_charges ) {
+        //TODO!: check
         here.i_rem( examp, charcoal );
     } else {
         charcoal->charges -= char_charges;
     }
-    item result( "fake_smoke_plume", calendar::turn );
-    result.item_counter = to_turns<int>( 6_hours );
-    result.activate();
-    here.add_item( examp, result );
+    detached_ptr<item> result = item::spawn( "fake_smoke_plume", calendar::turn );
+    result->item_counter = to_turns<int>( 6_hours );
+    result->activate();
+    here.add_item( examp, std::move( result ) );
     add_msg( _( "You light a small fire under the rack and it starts to smoke." ) );
 }
 
@@ -5421,26 +5448,37 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
         here.furn_set( examp, next_mill_type );
         return;
     }
-
-    for( item &it : items ) {
-        if( it.type->milling_data ) {
-            it.mod_last_rot_check( milling_time );
-            const islot_milling &mdata = *it.type->milling_data;
-            item result( mdata.into_, start_time + milling_time, it.count() * mdata.conversion_rate_ );
-            result.components.push_back( it );
+    std::vector<detached_ptr<item>> results;
+    for( auto iter = items.begin(); iter != items.end(); ) {
+        item *it = *iter;
+        if( it->type->milling_data ) {
+            it->mod_last_rot_check( milling_time );
+            const islot_milling &mdata = *it->type->milling_data;
+            detached_ptr<item> result = item::spawn( mdata.into_, start_time + milling_time,
+                                        it->count() * mdata.conversion_rate_ );
+            detached_ptr<item> det;
+            iter = items.erase( iter, &det );
+            result->add_component( std::move( det ) );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-            for( const flag_id &f : it.type->get_flags() ) {
+            for( const flag_id &f : it->type->get_flags() ) {
                 if( f->craft_inherit() ) {
-                    result.set_flag( f );
+                    result->set_flag( f );
                 }
             }
-            result.recipe_charges = result.charges;
+            result->recipe_charges = result->charges;
             // Set flag to tell set_relative_rot() to calc from bday not now
-            result.set_flag( flag_PROCESSING_RESULT );
-            result.set_relative_rot( it.get_relative_rot() );
-            result.unset_flag( flag_PROCESSING_RESULT );
-            it = result;
+            result->set_flag( flag_PROCESSING_RESULT );
+            result->set_relative_rot( it->get_relative_rot() );
+            result->unset_flag( flag_PROCESSING_RESULT );
+
+            results.push_back( std::move( result ) );
+        } else {
+            iter++;
         }
+    }
+
+    for( detached_ptr<item> &it : results ) {
+        items.insert( std::move( it ) );
     }
     here.furn_set( examp, next_mill_type );
 }
@@ -5466,38 +5504,52 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
         return;
     }
 
-    for( item &it : items ) {
-        if( it.has_flag( flag_SMOKABLE ) && it.get_comestible() ) {
-            if( it.get_comestible()->smoking_result.is_empty() ) {
-                it.unset_flag( flag_PROCESSING );
+    std::vector<detached_ptr<item>> results;
+    for( auto iter = items.begin(); iter != items.end(); ) {
+        item *it = *iter;
+        if( it->has_flag( flag_SMOKABLE ) && it->get_comestible() ) {
+            if( it->get_comestible()->smoking_result.is_empty() ) {
+                it->unset_flag( flag_PROCESSING );
+                iter++;
             } else {
-                it.mod_last_rot_check( 6_hours );
+                it->mod_last_rot_check( 6_hours );
 
-                item result( it.get_comestible()->smoking_result, start_time + 6_hours, it.charges );
+                detached_ptr<item> result = item::spawn( it->get_comestible()->smoking_result, start_time + 6_hours,
+                                            it->charges );
 
                 // Set flag to tell set_relative_rot() to calc from bday not now
-                result.set_flag( flag_PROCESSING_RESULT );
-                result.set_relative_rot( it.get_relative_rot() );
-                result.unset_flag( flag_PROCESSING_RESULT );
+                result->set_flag( flag_PROCESSING_RESULT );
+                result->set_relative_rot( it->get_relative_rot() );
+                result->unset_flag( flag_PROCESSING_RESULT );
 
                 recipe rec;
-                result.inherit_flags( it, rec );
-                if( !result.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
-                    // If the item has "cooks_like" it will be replaced by that item as a component.
-                    if( !it.get_comestible()->cooks_like.is_empty() ) {
-                        // Set charges to 1 for stacking purposes.
-                        it = item( it.get_comestible()->cooks_like, it.birthday(), 1 );
-                    }
-                    result.components.push_back( it );
-                    // Smoking is always 1:1, so these must be equal for correct kcal/vitamin calculation.
-                    result.recipe_charges = it.charges;
-                    result.set_flag_recursive( flag_COOKED );
-                }
+                result->inherit_flags( *it, rec );
 
-                it = result;
+                detached_ptr<item> det;
+                iter = items.erase( iter, &det );
+
+                if( !result->has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+                    // If the item has "cooks_like" it will be replaced by that item as a component.
+                    if( !it->get_comestible()->cooks_like.is_empty() ) {
+                        // Set charges to 1 for stacking purposes.
+                        det = item::spawn( it->get_comestible()->cooks_like, it->birthday(), 1 );
+                    }
+                    // Smoking is always 1:1, so these must be equal for correct kcal/vitamin calculation.
+                    result->recipe_charges = det->charges;
+                    result->add_component( std::move( det ) );
+                    result->set_flag_recursive( flag_COOKED );
+                }
+                results.push_back( std::move( result ) );
             }
+        } else {
+            iter++;
         }
     }
+
+    for( detached_ptr<item> &it : results ) {
+        items.insert( std::move( it ) );
+    }
+
     here.furn_set( examp, next_smoker_type );
 }
 
@@ -5517,7 +5569,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
-    std::vector<const item *> filtered = p.crafting_inventory().items_with( []( const item & it ) {
+    std::vector<item *> filtered = p.crafting_inventory().items_with( []( const item & it ) {
         return it.has_flag( flag_SMOKABLE );
     } );
 
@@ -5540,7 +5592,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
                 entries.push_back( smokable_item );
             }
             names.push_back( item::nname( smokable_item->typeId(), 1 ) );
-            comps.push_back( item_comp( smokable_item->typeId(), count ) );
+            comps.emplace_back( smokable_item->typeId(), count );
         }
     }
 
@@ -5589,7 +5641,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
 
     // reload comps with chosen items and quantity
     comps.clear();
-    comps.push_back( item_comp( what->typeId(), amount ) );
+    comps.emplace_back( what->typeId(), amount );
 
     // select from where to get the items from and place them
     inv.form_from_map( g->u.pos(), PICKUP_RANGE, &g->u );
@@ -5599,13 +5651,14 @@ static void smoker_load_food( player &p, const tripoint &examp,
 
     comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true,
                                          is_non_rotten_crafting_component );
-    std::list<item> moved = p.consume_items( selected, 1, is_non_rotten_crafting_component );
+    std::vector<detached_ptr<item>> moved = p.consume_items( selected, 1,
+                                            is_non_rotten_crafting_component );
 
-    for( const item &m : moved ) {
-        here.add_item( examp, m );
-        p.mod_moves( -p.item_handling_cost( m ) );
+    for( detached_ptr<item> &m : moved ) {
+        p.mod_moves( -p.item_handling_cost( *m ) );
         add_msg( m_info, _( "You carefully place %s %s in the rack." ), amount,
-                 item::nname( m.typeId(), amount ) );
+                 item::nname( m->typeId(), amount ) );
+        here.add_item( examp, std::move( m ) );
     }
     p.invalidate_crafting_inventory();
 }
@@ -5625,7 +5678,7 @@ static void mill_load_food( player &p, const tripoint &examp,
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
-    std::vector<const item *> filtered = p.crafting_inventory().items_with( []( const item & it ) {
+    std::vector<item *> filtered = p.crafting_inventory().items_with( []( const item & it ) {
         return static_cast<bool>( it.type->milling_data );
     } );
 
@@ -5648,7 +5701,7 @@ static void mill_load_food( player &p, const tripoint &examp,
                 entries.push_back( millable_item );
             }
             names.push_back( item::nname( millable_item->typeId(), 1 ) );
-            comps.push_back( item_comp( millable_item->typeId(), count ) );
+            comps.emplace_back( millable_item->typeId(), count );
         }
     }
 
@@ -5697,7 +5750,7 @@ static void mill_load_food( player &p, const tripoint &examp,
 
     // reload comps with chosen items and quantity
     comps.clear();
-    comps.push_back( item_comp( what->typeId(), amount ) );
+    comps.emplace_back( what->typeId(), amount );
 
     // select from where to get the items from and place them
     inv.form_from_map( g->u.pos(), PICKUP_RANGE, &g->u );
@@ -5707,12 +5760,14 @@ static void mill_load_food( player &p, const tripoint &examp,
 
     comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true,
                                          is_non_rotten_crafting_component );
-    std::list<item> moved = p.consume_items( selected, 1, is_non_rotten_crafting_component );
-    for( const item &m : moved ) {
-        here.add_item( examp, m );
-        p.mod_moves( -p.item_handling_cost( m ) );
+    std::vector<detached_ptr<item>> moved = p.consume_items( selected, 1,
+                                            is_non_rotten_crafting_component );
+    for( detached_ptr<item> &m : moved ) {
+        p.mod_moves( -p.item_handling_cost( *m ) );
         add_msg( m_info, pgettext( "item amount and name", "You carefully place %s %s in the mill." ),
-                 amount, item::nname( m.typeId(), amount ) );
+                 amount, item::nname( m->typeId(), amount ) );
+
+        here.add_item( examp, std::move( m ) );
     }
     p.invalidate_crafting_inventory();
 }
@@ -5756,7 +5811,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
         return;
     }
 
-    if( items_here.size() == 1 && items_here.begin()->typeId() == itype_fake_milling_item ) {
+    if( items_here.size() == 1 && ( *items_here.begin() )->typeId() == itype_fake_milling_item ) {
         debugmsg( "f_mill_active was empty, and had fake_milling_item!" );
         if( here.furn( examp ) == furn_str_id( "f_water_mill_active" ) ) {
             here.furn_set( examp, f_water_mill );
@@ -5771,13 +5826,13 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
     units::volume f_volume = 0_ml;
     bool f_check = false;
 
-    for( const item &it : items_here ) {
-        if( it.typeId() != itype_fake_milling_item ) {
+    for( const item * const &it : items_here ) {
+        if( it->typeId() != itype_fake_milling_item ) {
             f_check = true;
-            f_volume += it.volume();
+            f_volume += it->volume();
         }
-        if( active && it.typeId() == itype_fake_milling_item ) {
-            time_left = time_duration::from_turns( it.item_counter );
+        if( active && it->typeId() == itype_fake_milling_item ) {
+            time_left = time_duration::from_turns( it->item_counter );
         }
     }
 
@@ -5832,18 +5887,18 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
             if( items_here.empty() ) {
                 pop += _( "…that it is empty." );
             } else {
-                std::map<item, int> mill_list;
-                for( const item &it : items_here ) {
-                    if( it.typeId() == itype_fake_milling_item ) {
+                std::map<const item *, int> mill_list;
+                for( const item * const &it : items_here ) {
+                    if( it->typeId() == itype_fake_milling_item ) {
                         pop += "\n" + colorize( _( "You see that the milling process is not yet complete." ),
                                                 c_red ) + "\n";
                         continue;
                     }
-                    mill_list[it] += it.count();
+                    mill_list[it] += it->count();
                 }
                 for( auto it_mill : mill_list ) {
-                    pop += "-> " + item::nname( it_mill.first.typeId(),
-                                                it_mill.first.count() ) + ( ( it_mill.second > 1 ) ? " (" + std::to_string(
+                    pop += "-> " + item::nname( it_mill.first->typeId(),
+                                                it_mill.first->count() ) + ( ( it_mill.second > 1 ) ? " (" + std::to_string(
                                                             it_mill.second ) + ")\n" : "\n" );
                 }
             }
@@ -5865,13 +5920,14 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
         case 3:
             // remove food
             for( map_stack::iterator it = items_here.begin(); it != items_here.end(); ) {
-                if( it->typeId() != itype_fake_milling_item ) {
+                if( ( *it )->typeId() != itype_fake_milling_item ) {
                     // get handling cost before the item reference is invalidated
-                    const int handling_cost = -p.item_handling_cost( *it );
+                    const int handling_cost = -p.item_handling_cost( **it );
 
-                    add_msg( _( "You remove %s from the mill." ), it->tname() );
-                    here.add_item_or_charges( p.pos(), *it );
-                    it = items_here.erase( it );
+                    add_msg( _( "You remove %s from the mill." ), ( *it )->tname() );
+                    detached_ptr<item> det;
+                    it = items_here.erase( it, &det );
+                    here.add_item_or_charges( p.pos(), std::move( det ) );
                     p.mod_moves( handling_cost );
                 } else {
                     ++it;
@@ -5918,12 +5974,13 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         here.furn_set( examp, f_smoking_rack );
         return;
     }
-    if( portable && items_here.size() == 1 && items_here.begin()->typeId() == itype_fake_smoke_plume ) {
+    if( portable && items_here.size() == 1 &&
+        ( *items_here.begin() )->typeId() == itype_fake_smoke_plume ) {
         debugmsg( "f_metal_smoking_rack_active was empty, and had fake_smoke_plume!" );
         here.furn_set( examp, f_metal_smoking_rack );
         items_here.erase( items_here.begin() );
         return;
-    } else if( items_here.size() == 1 && items_here.begin()->typeId() == itype_fake_smoke_plume ) {
+    } else if( items_here.size() == 1 && ( *items_here.begin() )->typeId() == itype_fake_smoke_plume ) {
         debugmsg( "f_smoking_rack_active was empty, and had fake_smoke_plume!" );
         here.furn_set( examp, f_smoking_rack );
         items_here.erase( items_here.begin() );
@@ -5937,13 +5994,13 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     units::volume f_volume = 0_ml;
     bool f_check = false;
 
-    for( const item &it : items_here ) {
-        if( it.is_food() ) {
+    for( const item * const &it : items_here ) {
+        if( it->is_food() ) {
             f_check = true;
-            f_volume += it.volume();
+            f_volume += it->volume();
         }
-        if( active && it.typeId() == itype_fake_smoke_plume ) {
-            time_left = time_duration::from_turns( it.item_counter );
+        if( active && it->typeId() == itype_fake_smoke_plume ) {
+            time_left = time_duration::from_turns( it->item_counter );
             hours_left = to_hours<int>( time_left );
             minutes_left = to_minutes<int>( time_left ) + 1;
         }
@@ -6044,12 +6101,13 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             if( items_here.empty() ) {
                 pop += _( "…that it is empty." );
             } else {
-                for( const item &it : items_here ) {
-                    if( it.typeId() == itype_fake_smoke_plume ) {
+                for( const item * const &it : items_here ) {
+                    if( it->typeId() == itype_fake_smoke_plume ) {
                         pop += "\n" + colorize( _( "You see some smoldering embers there." ), c_red ) + "\n";
                         continue;
                     }
-                    pop += "-> " + item::nname( it.typeId(), it.charges ) + " (" + std::to_string( it.charges ) + ")\n";
+                    pop += "-> " + item::nname( it->typeId(),
+                                                it->charges ) + " (" + std::to_string( it->charges ) + ")\n";
                 }
             }
             popup( pop, PF_NONE );
@@ -6082,13 +6140,15 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
         case 5: {
             //remove charcoal
             for( map_stack::iterator it = items_here.begin(); it != items_here.end(); ) {
-                if( ( rem_f_opt && it->is_food() ) || ( !rem_f_opt && ( it->typeId() == itype_charcoal ) ) ) {
+                if( ( rem_f_opt && ( *it )->is_food() ) || ( !rem_f_opt &&
+                        ( ( *it )->typeId() == itype_charcoal ) ) ) {
                     // get handling cost before the item reference is invalidated
-                    const int handling_cost = -p.item_handling_cost( *it );
+                    const int handling_cost = -p.item_handling_cost( **it );
 
-                    add_msg( _( "You remove %s from the rack." ), it->tname() );
-                    here.add_item_or_charges( p.pos(), *it );
-                    it = items_here.erase( it );
+                    add_msg( _( "You remove %s from the rack." ), ( *it )->tname() );
+                    detached_ptr<item> det;
+                    it = items_here.erase( it, &det );
+                    here.add_item_or_charges( p.pos(), std::move( det ) );
                     p.mod_moves( handling_cost );
                 } else {
                     ++it;
@@ -6139,7 +6199,7 @@ void iexamine::dimensional_portal( player &p, const tripoint &examp )
     menu.text = _( "What to do with the portal:" );
     menu.desc_enabled = true;
 
-    std::vector<const item *> nukes = p.all_items_with_flag( flag_CLOSES_PORTAL );
+    std::vector<item *> nukes = p.all_items_with_flag( flag_CLOSES_PORTAL );
     menu.addentry_desc( 0, !nukes.empty(), 'e', _( "Close from here" ),
                         _( "Requires a nuclear explosive" ) );
     menu.addentry_desc( 1, true, 'Q', _( "Sacrifice yourself" ),
@@ -6148,7 +6208,7 @@ void iexamine::dimensional_portal( player &p, const tripoint &examp )
 
     switch( menu.ret ) {
         case 0: {
-            item_location the_nuke = game_menus::inv::titled_filter_menu( []( const item & it ) {
+            item *the_nuke = game_menus::inv::titled_filter_menu( []( const item & it ) {
                 return it.has_flag( flag_CLOSES_PORTAL );
             }, static_cast<avatar &>( p ), _( "What to use to close the portal?" ) );
             if( !the_nuke ) {
@@ -6157,7 +6217,7 @@ void iexamine::dimensional_portal( player &p, const tripoint &examp )
             }
 
             add_msg( m_good, _( "You throw the armed %s into the portal!" ), the_nuke->tname() );
-            the_nuke.remove_item();
+            the_nuke->detach();
             g->m.translate_radius( t_dimensional_portal, t_thconc_floor, 5, examp, true );
             g->win();
             break;
