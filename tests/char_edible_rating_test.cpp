@@ -53,10 +53,10 @@ TEST_CASE( "cannot eat non-comestible", "[can_eat][will_eat][edible_rating][nonf
     clear_all_state();
     avatar dummy = prepare_avatar();
     GIVEN( "something not edible" ) {
-        item rag( "rag" );
+        item *rag = item::spawn_temporary( "rag" );
 
         THEN( "they cannot eat it" ) {
-            expect_cannot_eat( dummy, rag, "That doesn't look edible.", edible_rating::inedible );
+            expect_cannot_eat( dummy, *rag, "That doesn't look edible.", edible_rating::inedible );
         }
     }
 }
@@ -65,8 +65,8 @@ TEST_CASE( "who can eat while underwater", "[can_eat][edible_rating][underwater]
 {
     clear_all_state();
     avatar dummy = prepare_avatar();
-    item sushi( "sushi_fishroll" );
-    item water( "water_clean" );
+    item &sushi = *item::spawn_temporary( "sushi_fishroll" );
+    item &water = *item::spawn_temporary( "water_clean" );
 
     GIVEN( "character is underwater" ) {
         dummy.set_underwater( true );
@@ -111,8 +111,8 @@ TEST_CASE( "who can eat inedible animal food", "[can_eat][edible_rating][inedibl
     // "birdfood" and "cattlefodder" are the only INEDIBLE items that exist in the game.
 
     GIVEN( "food for animals" ) {
-        item birdfood( "birdfood" );
-        item cattlefodder( "cattlefodder" );
+        item &birdfood = *item::spawn_temporary( "birdfood" );
+        item &cattlefodder = *item::spawn_temporary( "cattlefodder" );
 
         REQUIRE( birdfood.has_flag( flag_INEDIBLE ) );
         REQUIRE( cattlefodder.has_flag( flag_INEDIBLE ) );
@@ -167,14 +167,14 @@ TEST_CASE( "what herbivores can eat", "[can_eat][edible_rating][herbivore]" )
         std::string expect_reason = "The thought of eating that makes you feel sick.";
 
         THEN( "they cannot eat meat" ) {
-            item meat( "meat_cooked" );
+            item &meat = *item::spawn_temporary( "meat_cooked" );
             REQUIRE( meat.has_flag( flag_ALLERGEN_MEAT ) );
 
             expect_cannot_eat( dummy, meat, expect_reason, edible_rating::inedible_mutation );
         }
 
         THEN( "they cannot eat eggs" ) {
-            item eggs( "scrambled_eggs" );
+            item &eggs = *item::spawn_temporary( "scrambled_eggs" );
             REQUIRE( eggs.has_flag( flag_ALLERGEN_EGG ) );
 
             expect_cannot_eat( dummy, eggs, expect_reason, edible_rating::inedible_mutation );
@@ -194,35 +194,35 @@ TEST_CASE( "what carnivores can eat", "[can_eat][edible_rating][carnivore]" )
         std::string expect_reason = "Eww.  Inedible plant stuff!";
 
         THEN( "they cannot eat veggies" ) {
-            item veggy( "veggy" );
+            item &veggy = *item::spawn_temporary( "veggy" );
             REQUIRE( veggy.has_flag( flag_ALLERGEN_VEGGY ) );
 
             expect_cannot_eat( dummy, veggy, expect_reason, edible_rating::inedible_mutation );
         }
 
         THEN( "they cannot eat fruit" ) {
-            item apple( "apple" );
+            item &apple = *item::spawn_temporary( "apple" );
             REQUIRE( apple.has_flag( flag_ALLERGEN_FRUIT ) );
 
             expect_cannot_eat( dummy, apple, expect_reason, edible_rating::inedible_mutation );
         }
 
         THEN( "they cannot eat wheat" ) {
-            item bread( "sourdough_bread" );
+            item &bread = *item::spawn_temporary( "sourdough_bread" );
             REQUIRE( bread.has_flag( flag_ALLERGEN_WHEAT ) );
 
             expect_cannot_eat( dummy, bread, expect_reason, edible_rating::inedible_mutation );
         }
 
         THEN( "they cannot eat nuts" ) {
-            item nuts( "pine_nuts" );
+            item &nuts = *item::spawn_temporary( "pine_nuts" );
             REQUIRE( nuts.has_flag( flag_ALLERGEN_NUT ) );
 
             expect_cannot_eat( dummy, nuts, expect_reason, edible_rating::inedible_mutation );
         }
 
         THEN( "they can eat junk food, but are allergic to it" ) {
-            item chocolate( "chocolate" );
+            item &chocolate = *item::spawn_temporary( "chocolate" );
             REQUIRE( chocolate.has_flag( flag_ALLERGEN_JUNK ) );
 
             expect_can_eat( dummy, chocolate );
@@ -242,7 +242,7 @@ TEST_CASE( "what you can eat with a mycus dependency", "[can_eat][edible_rating]
         REQUIRE( dummy.has_trait( trait_id( "M_DEPENDENT" ) ) );
 
         THEN( "they cannot eat normal food" ) {
-            item nuts( "pine_nuts" );
+            item &nuts = *item::spawn_temporary( "pine_nuts" );
             REQUIRE_FALSE( nuts.has_flag( flag_MYCUS_OK ) );
 
             expect_cannot_eat( dummy, nuts, "We can't eat that.  It's not right for us.",
@@ -250,7 +250,7 @@ TEST_CASE( "what you can eat with a mycus dependency", "[can_eat][edible_rating]
         }
 
         THEN( "they can eat mycus food" ) {
-            item berry( "marloss_berry" );
+            item &berry = *item::spawn_temporary( "marloss_berry" );
             REQUIRE( berry.has_flag( flag_MYCUS_OK ) );
 
             expect_can_eat( dummy, berry );
@@ -271,7 +271,7 @@ TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][prob
         std::string expect_reason = "Ugh, you can't drink that!";
 
         GIVEN( "a drink that is 'eaten' (USE_EAT_VERB)" ) {
-            item soup( "soup_veggy" );
+            item &soup = *item::spawn_temporary( "soup_veggy" );
             REQUIRE( soup.has_flag( flag_USE_EAT_VERB ) );
 
             THEN( "they cannot drink it" ) {
@@ -280,7 +280,7 @@ TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][prob
         }
 
         GIVEN( "food that must be chewed" ) {
-            item toastem( "toastem" );
+            item &toastem = *item::spawn_temporary( "toastem" );
             REQUIRE( toastem.get_comestible()->comesttype == "FOOD" );
 
             THEN( "they cannot drink it" ) {
@@ -291,7 +291,7 @@ TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][prob
         // Can drink
 
         GIVEN( "a drink that is not 'eaten'" ) {
-            item broth( "broth" );
+            item &broth = *item::spawn_temporary( "broth" );
             REQUIRE_FALSE( broth.has_flag( flag_USE_EAT_VERB ) );
 
             THEN( "they can drink it" ) {
@@ -300,7 +300,7 @@ TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][prob
         }
 
         GIVEN( "some medicine" ) {
-            item aspirin( "aspirin" );
+            item &aspirin = *item::spawn_temporary( "aspirin" );
             REQUIRE( aspirin.is_medication() );
 
             THEN( "they can consume it" ) {
@@ -314,7 +314,7 @@ TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
 {
     clear_all_state();
     avatar dummy = prepare_avatar();
-    item toastem( "toastem" );
+    item &toastem = *item::spawn_temporary( "toastem" );
     const efftype_id effect_nausea( "nausea" );
 
     GIVEN( "character has nausea" ) {
@@ -333,7 +333,7 @@ TEST_CASE( "can eat with allergies", "[will_eat][edible_rating][allergy]" )
 {
     clear_all_state();
     avatar dummy = prepare_avatar();
-    item fruit( "apple" );
+    item &fruit = *item::spawn_temporary( "apple" );
     REQUIRE( fruit.has_flag( flag_ALLERGEN_FRUIT ) );
 
     GIVEN( "character hates fruit" ) {
@@ -353,7 +353,7 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
     avatar dummy = prepare_avatar();
 
     GIVEN( "food just barely rotten" ) {
-        item toastem_rotten = item( "toastem" );
+        item &toastem_rotten = *item::spawn_temporary( "toastem" );
         toastem_rotten.set_relative_rot( 1.01 );
         REQUIRE( toastem_rotten.rotten() );
 
@@ -404,7 +404,7 @@ TEST_CASE( "who will eat human flesh", "[will_eat][edible_rating][cannibal]" )
     avatar dummy = prepare_avatar();
 
     GIVEN( "some human flesh" ) {
-        item flesh( "human_flesh" );
+        item &flesh = *item::spawn_temporary( "human_flesh" );
         REQUIRE( flesh.has_flag( flag_CANNIBALISM ) );
 
         WHEN( "character is not a cannibal" ) {

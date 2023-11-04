@@ -1,8 +1,9 @@
-#include <unordered_set>
 #include "catch/catch.hpp"
 
-#include "colony_list_test_helpers.h"
+#include <unordered_set>
+
 #include "generic_factory.h"
+#include "xor_rand.h"
 
 #ifdef _MSC_VER
 #  include <intrin.h>

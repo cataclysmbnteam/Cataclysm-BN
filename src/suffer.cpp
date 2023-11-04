@@ -31,7 +31,6 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_location.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "messages.h"
@@ -111,6 +110,7 @@ static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_rad_badge( "rad_badge" );
+static const itype_id itype_plut_cell( "plut_cell" );
 
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ALBINO( "ALBINO" );
@@ -491,8 +491,7 @@ void Character::suffer_from_schizophrenia()
         str[0] = toupper( str[0] );
 
         add_msg_if_player( m_bad, "%s", str );
-        item_location loc( *this, &weapon );
-        drop( loc, pos() );
+        drop( primary_weapon(), pos() );
         return;
     }
     // Talk to self
@@ -872,15 +871,15 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
         bp_exposure[bp] = 1.0;
     }
     // For every item worn, for every body part, adjust coverage
-    for( const item &it : worn ) {
+    for( const item * const &it : worn ) {
         // What body parts does this item cover?
-        body_part_set covered = it.get_covered_body_parts();
+        body_part_set covered = it->get_covered_body_parts();
         for( const bodypart_id &bp : all_body_parts )  {
             if( bp->token != num_bp && !covered.test( bp.id() ) ) {
                 continue;
             }
             // How much exposure does this item leave on this part? (1.0 == naked)
-            float part_exposure = 1.0 - it.get_coverage( bp ) / 100.0f;
+            float part_exposure = 1.0 - it->get_coverage( bp ) / 100.0f;
             // Coverage multiplies, so two layers with 50% coverage will together give 75%
             bp_exposure[bp] = bp_exposure[bp] * part_exposure;
         }
@@ -1230,8 +1229,7 @@ void Character::suffer_from_radiation()
     }
 
     // Microreactor CBM
-    const itype_id &plut_cell = item( "plut_cell" ).typeId();
-    if( get_fuel_type_available( plut_cell ) > 0 ) {
+    if( get_fuel_type_available( itype_plut_cell ) > 0 ) {
         if( calendar::once_every( 60_minutes ) ) {
             int rad_mod = 0;
             rad_mod += has_bionic( bio_reactor ) ? 3 : 0;
@@ -1262,12 +1260,12 @@ void Character::suffer_from_radiation()
 
         if( has_bionic( bio_reactoroverride ) && powered_reactor ) {
             if( get_bionic_state( bio_reactoroverride ).powered ) {
-                int current_fuel_stock = std::stoi( get_value( plut_cell.str() ) );
+                int current_fuel_stock = std::stoi( get_value( itype_plut_cell.str() ) );
 
                 current_fuel_stock -= 50;
 
-                set_value( plut_cell.str(), std::to_string( current_fuel_stock ) );
-                update_fuel_storage( plut_cell );
+                set_value( itype_plut_cell.str(), std::to_string( current_fuel_stock ) );
+                update_fuel_storage( itype_plut_cell );
 
                 mod_power_level( 40_kJ );
                 mod_rad( 2 );

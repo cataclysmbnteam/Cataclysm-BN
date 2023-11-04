@@ -319,8 +319,8 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     file << eol;
 
     file << _( "Equipment:" ) << eol;
-    for( const item &elem : u.worn ) {
-        item next_item = elem;
+    for( const item * const &elem : u.worn ) {
+        const item &next_item = *elem;
         file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
@@ -333,10 +333,10 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     //Inventory
     file << _( "Inventory:" ) << eol;
-    u.inv.restack( u );
-    invslice slice = u.inv.slice();
-    for( const std::list<item> *elem : slice ) {
-        const item &next_item = elem->front();
+    u.inv_restack( );
+    const_invslice slice = u.inv_const_slice();
+    for( const std::vector<item *> *elem : slice ) {
+        const item &next_item = *elem->front();
         file << indent << next_item.invlet << " - " <<
              next_item.tname( static_cast<unsigned>( elem->size() ), false );
         if( elem->size() > 1 ) {

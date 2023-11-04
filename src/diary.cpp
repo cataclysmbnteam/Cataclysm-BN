@@ -6,6 +6,7 @@
 #include <fstream>
 #include <algorithm>
 #include <string_view>
+#include <utility>
 
 #include "avatar.h"
 #include "bionics.h"
@@ -32,6 +33,7 @@ diary_page::diary_page() = default;
 std::vector<std::string> diary::get_pages_list()
 {
     std::vector<std::string> result;
+    result.reserve( pages.size() );
     for( std::unique_ptr<diary_page> &n : pages ) {
         result.push_back( to_string( n->turn ) );
     }
@@ -64,7 +66,7 @@ diary_page *diary::get_page_ptr( int offset )
     return nullptr;
 }
 
-void diary::add_to_change_list( std::string entry, std::string desc )
+void diary::add_to_change_list( const std::string &entry, const std::string &desc )
 {
     if( !desc.empty() ) {
         desc_map[change_list.size() + get_head_text().size()] = desc;
@@ -177,7 +179,7 @@ void diary::mission_changes()
         return;
     }
     if( prev_page == nullptr ) {
-        auto add_missions = [&]( const std::string name, const std::vector<int> *missions ) {
+        auto add_missions = [&]( const std::string & name, const std::vector<int> *missions ) {
             if( !missions->empty() ) {
                 bool flag = true;
 
@@ -201,7 +203,7 @@ void diary::mission_changes()
         add_missions( _( "Failed missions:" ), &curr_page->mission_failed );
 
     } else {
-        auto add_missions = [&]( const std::string name, const std::vector<int> *missions,
+        auto add_missions = [&]( const std::string & name, const std::vector<int> *missions,
         const std::vector<int> *prev_missions ) {
             bool flag = true;
             for( const int uid : *missions ) {
@@ -684,7 +686,7 @@ diary::diary()
 }
 void diary::set_page_text( std::string text )
 {
-    get_page_ptr()->m_text = text;
+    get_page_ptr()->m_text = std::move( text );
 }
 
 void diary::new_page()

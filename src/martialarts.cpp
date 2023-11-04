@@ -955,7 +955,7 @@ ma_technique character_martial_arts::get_miss_recovery_tec( const item &weap ) c
 // This one isn't used with a weapon
 bool character_martial_arts::has_grab_break_tec() const
 {
-    for( const matec_id &technique : get_all_techniques( item() ) ) {
+    for( const matec_id &technique : get_all_techniques( null_item_reference() ) ) {
         if( technique->grab_break ) {
             return true;
         }

@@ -65,7 +65,7 @@ static void eat_all_nutrients( player &p )
 {
     // Vitamin target: 100% DV -- or 96 vitamin "units" since all vitamins currently decay every 15m.
     // Energy target: 2100 kcal -- debug target will be completely sedentary.
-    item f( "debug_nutrition" );
+    item &f = *item::spawn_temporary( "debug_nutrition" );
     p.eat( f );
 }
 
@@ -249,7 +249,7 @@ TEST_CASE( "Eating food fills up stomach calories", "[stomach]" )
     clear_stomach( dummy );
     dummy.set_stored_kcal( 100 );
     dummy.set_thirst( 500 );
-    item food( "protein_drink", calendar::start_of_cataclysm, 10 );
+    item &food = *item::spawn_temporary( "protein_drink", calendar::start_of_cataclysm, 10 );
     REQUIRE( dummy.compute_effective_nutrients( food ).kcal == 100 );
     int attempts = 10;
     do {
@@ -265,7 +265,7 @@ TEST_CASE( "Eating above max kcal causes bloating", "[stomach]" )
     reset_time();
     clear_stomach( dummy );
     dummy.set_stored_kcal( dummy.max_stored_kcal() - 10 );
-    item food( "protein_drink", calendar::start_of_cataclysm, 10 );
+    item &food = *item::spawn_temporary( "protein_drink", calendar::start_of_cataclysm, 10 );
     REQUIRE( dummy.compute_effective_nutrients( food ).kcal > 0 );
     WHEN( "Character consumes calories above max" ) {
         dummy.eat( food, true );

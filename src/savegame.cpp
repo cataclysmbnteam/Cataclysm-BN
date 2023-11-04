@@ -110,6 +110,12 @@ void game::serialize( std::ostream &fout )
 
     json.member( "token_provider", *token_provider_ptr );
 
+    json.member( "safe_references" );
+    json.start_object();
+    json.member( "items" );
+    safe_reference<item>::serialize_global( json );
+    json.end_object();
+
     json.member( "player", u );
     Messages::serialize( json );
 
@@ -225,8 +231,8 @@ void game::unserialize( std::istream &fin )
 
         coming_to_stairs.clear();
         for( auto elem : data.get_array( "stair_monsters" ) ) {
-            monster stairtmp;
-            elem.read( stairtmp );
+            shared_ptr_fast<monster> stairtmp = make_shared_fast<monster>();
+            elem.read( *stairtmp );
             coming_to_stairs.push_back( stairtmp );
         }
 
@@ -245,6 +251,14 @@ void game::unserialize( std::istream &fin )
             }
 
             kill_tracker_ptr->reset( kills, npc_kills );
+        }
+
+        if( data.has_object( "safe_references" ) ) {
+            for( const JsonMember member : data.get_object( "safe_references" ) ) {
+                if( member.name() == "items" ) {
+                    safe_reference<item>::deserialize_global( member.get_array() );
+                }
+            }
         }
 
         data.read( "player", u );
@@ -1271,6 +1285,7 @@ void game::serialize_master( std::ostream &fout )
 void faction_manager::serialize( JsonOut &jsout ) const
 {
     std::vector<faction> local_facs;
+    local_facs.reserve( factions.size() );
     for( auto &elem : factions ) {
         local_facs.push_back( elem.second );
     }

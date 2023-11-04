@@ -300,7 +300,7 @@ class ExplosionEvent
         ExplosionEvent( Kind kind, const tripoint position ) :
             kind( kind ), position( position ) {};
         ExplosionEvent( Kind kind, const tripoint position, target_types target ) :
-            kind( kind ), target( target ), position( position ) {};
+            kind( kind ), target( std::move( target ) ), position( position ) {};
 };
 
 class ExplosionProcess
@@ -355,7 +355,7 @@ class ExplosionProcess
             const tripoint blast_center,
             const int blast_power,
             const int blast_radius,
-            const std::optional<projectile> proj = std::nullopt,
+            const std::optional<projectile> &proj = std::nullopt,
             const bool is_fiery = false,
             const std::optional<Creature *> responsible = std::nullopt
         ) : center( blast_center ),
@@ -375,7 +375,7 @@ class ExplosionProcess
         static bool dist_comparator( dist_point_pair a, dist_point_pair b ) {
             return a.first < b.first;
         };
-        static bool time_comparator( time_event_pair a, time_event_pair b ) {
+        static bool time_comparator( const time_event_pair &a, const time_event_pair &b ) {
             return a.first < b.first;
         };
 
@@ -401,9 +401,9 @@ class ExplosionProcess
         void init_event_queue();
         inline float generate_fling_angle( const tripoint from, const tripoint to );
         inline bool is_occluded( const tripoint from, const tripoint to );
-        inline void add_event( const float delay, const ExplosionEvent event ) {
+        inline void add_event( const float delay, const ExplosionEvent &event ) {
             assert( delay >= 0 );
-            event_queue.push( { cur_relative_time + delay + std::numeric_limits<float>::epsilon(), event } );
+            event_queue.emplace( cur_relative_time + delay + std::numeric_limits<float>::epsilon(), event );
         }
         inline bool is_animated() {
             return !test_mode && get_option<int>( "ANIMATION_DELAY" ) > 0;
@@ -453,12 +453,12 @@ void ExplosionProcess::fill_maps()
         // We static_cast<int> in order to keep parity with legacy blasts using rl_dist for distance
         //   which, as stated above, converts trig_dist into int implicitly
         if( blast_radius > 0 && static_cast<int>( z_aware_distance ) <= blast_radius ) {
-            blast_map.push_back( { z_aware_distance, target } );
+            blast_map.emplace_back( z_aware_distance, target );
         }
 
         if( shrapnel && static_cast<int>( distance ) <= shrapnel_range && target.z == center.z &&
             !is_occluded( center, target ) ) {
-            shrapnel_map.push_back( { distance, target } );
+            shrapnel_map.emplace_back( distance, target );
         }
     }
 
@@ -673,7 +673,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
             here.smash_items( position, smash_force, cause, true );
             // Don't forget to mark them as explosion smashed already
             for( auto &item : here.i_at( position ) ) {
-                item.set_flag( flag_EXPLOSION_SMASHED );
+                item->set_flag( flag_EXPLOSION_SMASHED );
             }
         }
 
@@ -797,27 +797,21 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
 
         {
             // Split items here into stacks
-            std::vector<item> stacks;
 
-            for( auto &it : here.i_at( position ) ) {
+            for( auto &it : here.i_clear( position ) ) {
                 while( true ) {
-                    const int amt = it.count();
+                    const int amt = it->count();
                     const int split_cnt = rng( 1, amt - 1 );
                     const bool is_final = amt <= 1;
 
                     // If the item is already propelled, ignore it
-                    if( !is_final && !it.has_flag( flag_EXPLOSION_PROPELLED ) ) {
-                        stacks.push_back( it.split( split_cnt ) );
+                    if( !is_final && !it->has_flag( flag_EXPLOSION_PROPELLED ) ) {
+                        here.add_item( position, it->split( split_cnt ) );
                     } else {
-                        stacks.push_back( item( it ) );
+                        here.add_item( position, std::move( it ) );
                         break;
                     }
                 }
-            }
-            here.i_clear( position );
-
-            for( const auto &it : stacks ) {
-                here.add_item( position, it );
             }
             recombination_targets.push_back( position );
         }
@@ -825,7 +819,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
         // Now give items velocity
         for( auto &it : here.i_at( position ) ) {
             // If the item is already propelled, ignore it
-            if( it.has_flag( flag_EXPLOSION_PROPELLED ) ) {
+            if( it->has_flag( flag_EXPLOSION_PROPELLED ) ) {
                 continue;
             };
 
@@ -835,7 +829,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
                                                   0.0f ) * blast_power;
             const float move_power = ExplosionConstants::ITEM_FLING_FACTOR * push_strength;
 
-            const int weight = to_gram( it.weight() );
+            const int weight = to_gram( it->weight() );
             const float inertia = std::max( weight, 1 ) * ExplosionConstants::EXPLOSION_CALIBRATION_POWER;
             const float real_velocity = move_power / inertia;
             const float velocity = real_velocity > ExplosionConstants::FLING_THRESHOLD ?
@@ -846,12 +840,12 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
                 continue;
             }
 
-            it.set_flag( flag_EXPLOSION_PROPELLED );
+            it->set_flag( flag_EXPLOSION_PROPELLED );
 
             add_event(
                 one_tile_at_vel( velocity ),
                 ExplosionEvent::item_movement(
-                    position, it.get_safe_reference(),
+                    position, safe_reference<item>( it ),
                     generate_fling_angle( center, position ), velocity, cur_relative_time )
             );
         }
@@ -970,34 +964,14 @@ void ExplosionProcess::move_entity( const tripoint position,
         if( is_mob ) {
             std::get<Creature *>( cur_target )->setpos( new_position );
         } else {
-            item *target = std::get<safe_reference<item>>( cur_target ).get();
-            item copy = *target;
+            item *target = &*std::get<safe_reference<item>>( cur_target );
 
-            if( !copy.is_null() ) {
-                here.i_rem( position, target );
+            detached_ptr<item> detached = target->detach();
 
-                item *new_item = &here.add_item( new_position, copy );
-                recombination_targets.push_back( position );
-                recombination_targets.push_back( new_position );
+            here.add_item( new_position, std::move( detached ) );
 
-                // add_item may in fact change the item in a number of ways
-                //   so we _have_ to check if it's in the location we expect
-                // It's slow, but what can you do?
-                new_item->set_flag( flag_IS_EXPLOSION_PROPELLED );
-                bool is_safe = false;
-                for( auto &it : here.i_at( new_position ) ) {
-                    if( it.has_flag( flag_IS_EXPLOSION_PROPELLED ) ) {
-                        is_safe = true;
-                        break;
-                    }
-                }
-                new_item->unset_flag( flag_IS_EXPLOSION_PROPELLED );
-                if( !is_safe ) {
-                    do_next = false;
-                } else {
-                    cur_target = new_item->get_safe_reference();
-                }
-            }
+            recombination_targets.push_back( position );
+            recombination_targets.push_back( new_position );
         }
         request_redraw |= position.z == g->u.posz();
         request_redraw |= new_position.z == g->u.posz();
@@ -1048,8 +1022,8 @@ void ExplosionProcess::run()
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         for( const auto &pos : here.points_on_zlevel( z ) ) {
             for( auto &it : here.i_at( pos ) ) {
-                it.unset_flag( flag_EXPLOSION_SMASHED );
-                it.unset_flag( flag_EXPLOSION_PROPELLED );
+                it->unset_flag( flag_EXPLOSION_SMASHED );
+                it->unset_flag( flag_EXPLOSION_PROPELLED );
             }
         }
     }
@@ -1065,13 +1039,8 @@ void ExplosionProcess::run()
     recombination_targets.erase( end, recombination_targets.end() );
 
     for( const auto &position : recombination_targets ) {
-        std::vector<item> storage;
-        for( item &it : here.i_at( position ) ) {
-            storage.push_back( it );
-        }
-        here.i_clear( position );
-        for( item &it : storage ) {
-            here.add_item_or_charges( position, it );
+        for( detached_ptr<item> &it : here.i_clear( position ) ) {
+            here.add_item_or_charges( position, std::move( it ) );
         }
     }
 }
@@ -1215,7 +1184,7 @@ static std::map<const Creature *, int> legacy_shrapnel( const tripoint &src,
         const float z_distance = abs( target.z - blast_center.z );
         const float z_aware_distance = distance + ( Z_LEVEL_DIST - 1 ) * z_distance;
         if( z_aware_distance <= raw_blast_radius ) {
-            blast_map.emplace_back( std::make_pair( z_aware_distance, target ) );
+            blast_map.emplace_back( z_aware_distance, target );
         }
     }
 
@@ -1302,7 +1271,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
     open;
     std::set<tripoint> closed;
     std::map<tripoint, float> dist_map;
-    open.push( std::make_pair( 0.0f, p ) );
+    open.emplace( 0.0f, p );
     dist_map[p] = 0.0f;
     // Find all points to blast
     while( !open.empty() ) {
@@ -1357,7 +1326,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
             }
 
             if( dist_map.count( dest ) == 0 || dist_map[dest] > next_dist ) {
-                open.push( std::make_pair( next_dist, dest ) );
+                open.emplace( next_dist, dest );
                 dist_map[dest] = next_dist;
             }
         }
@@ -1505,7 +1474,7 @@ void explosion_funcs::regular( const queued_explosion &qe )
     }
 
     const auto print_damage = [&]( const std::pair<const Creature *, int> &pr,
-    std::function<bool( const Creature & )> predicate ) {
+    const std::function<bool( const Creature & )> &predicate ) {
         if( predicate( *pr.first ) && g->u.sees( *pr.first ) ) {
             const Creature *critter = pr.first;
             bool blasted = damaged_by_blast.find( critter ) != damaged_by_blast.end();
@@ -1790,8 +1759,8 @@ void emp_blast( const tripoint &p )
     }
     // Drain any items of their battery charge
     for( auto &it : here.i_at( p ) ) {
-        if( it.is_tool() && it.ammo_current() == itype_battery ) {
-            it.charges = 0;
+        if( it->is_tool() && it->ammo_current() == itype_battery ) {
+            it->charges = 0;
         }
     }
     // TODO: Drain NPC energy reserves

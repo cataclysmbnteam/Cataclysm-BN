@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cmath>
 #include <list>
+#include <memory>
 #include <string>
 #include <utility>
 
@@ -27,10 +28,10 @@
 #include "int_id.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_location.h"
 #include "item_hauling.h"
 #include "json.h"
 #include "line.h"
+#include "locations.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -69,29 +70,30 @@ static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 static const std::string has_thievery_witness( "has_thievery_witness" );
 
-aim_activity_actor::aim_activity_actor()
+aim_activity_actor::aim_activity_actor() : fake_weapon( new fake_item_location() )
 {
     initial_view_offset = get_avatar().view_offset;
 }
 
-aim_activity_actor aim_activity_actor::use_wielded()
+std::unique_ptr<aim_activity_actor> aim_activity_actor::use_wielded()
 {
-    return aim_activity_actor();
+    return std::make_unique<aim_activity_actor>();
 }
 
-aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
+std::unique_ptr<aim_activity_actor> aim_activity_actor::use_bionic( detached_ptr<item> &&fake_gun,
         const units::energy &cost_per_shot )
 {
-    aim_activity_actor act = aim_activity_actor();
-    act.bp_cost_per_shot = cost_per_shot;
-    act.fake_weapon = fake_gun;
+    std::unique_ptr<aim_activity_actor> act( new aim_activity_actor() );
+    act->bp_cost_per_shot = cost_per_shot;
+    act->fake_weapon = std::move( fake_gun );
     return act;
 }
 
-aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
+std::unique_ptr<aim_activity_actor> aim_activity_actor::use_mutation( detached_ptr<item>
+        &&fake_gun )
 {
-    aim_activity_actor act = aim_activity_actor();
-    act.fake_weapon = fake_gun;
+    std::unique_ptr<aim_activity_actor> act( new aim_activity_actor() );
+    act->fake_weapon = std::move( fake_gun );
     return act;
 }
 
@@ -179,7 +181,9 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     // Fire!
     gun_mode gun = weapon->gun_current_mode();
 
-    int shots_fired = ranged::fire_gun( who, fin_trajectory.back(), gun.qty, *gun, reload_loc );
+    item *ammo_loc = reload_loc ? &*reload_loc : nullptr;
+
+    int shots_fired = ranged::fire_gun( who, fin_trajectory.back(), gun.qty, *gun, ammo_loc );
 
     if( shots_fired > 0 ) {
         // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
@@ -197,18 +201,18 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     }
 
     // re-enter aiming UI with same parameters
-    aim_activity_actor aim_actor;
-    aim_actor.abort_if_no_targets = true;
-    aim_actor.fake_weapon = this->fake_weapon;
-    aim_actor.bp_cost_per_shot = this->bp_cost_per_shot;
-    aim_actor.initial_view_offset = this->initial_view_offset;
+    std::unique_ptr<aim_activity_actor> aim_actor = std::make_unique<aim_activity_actor>();
+    aim_actor->abort_if_no_targets = true;
+    aim_actor->fake_weapon = std::move( this->fake_weapon );
+    aim_actor->bp_cost_per_shot = this->bp_cost_per_shot;
+    aim_actor->initial_view_offset = this->initial_view_offset;
 
     // if invalid target or it's dead - reset it so a new one is acquired
     shared_ptr_fast<Creature> last_target = who.as_player()->last_target.lock();
     if( last_target && last_target->is_dead_state() ) {
         who.as_player()->last_target.reset();
     }
-    who.assign_activity( player_activity( aim_actor ), false );
+    who.assign_activity( std::make_unique<player_activity>( std::move( aim_actor ) ), false );
 }
 
 void aim_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
@@ -220,7 +224,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "fake_weapon", fake_weapon );
+    jsout.member( "fake_weapon", fake_weapon ? *fake_weapon : null_item_reference() );
     jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
     jsout.member( "stamina_cost_per_shot", stamina_cost_per_shot );
     jsout.member( "action", action );
@@ -240,33 +244,33 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 {
-    aim_activity_actor actor = aim_activity_actor();
+    std::unique_ptr<aim_activity_actor> actor( new aim_activity_actor() );
 
     JsonObject data = jsin.get_object();
 
-    data.read( "fake_weapon", actor.fake_weapon );
-    data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
-    data.read( "stamina_cost_per_shot", actor.stamina_cost_per_shot );
-    data.read( "action", actor.action );
-    data.read( "aif_duration", actor.aif_duration );
-    data.read( "aiming_at_critter", actor.aiming_at_critter );
-    data.read( "snap_to_target", actor.snap_to_target );
-    data.read( "shifting_view", actor.shifting_view );
-    data.read( "initial_view_offset", actor.initial_view_offset );
-    data.read( "loaded_RAS_weapon", actor.loaded_RAS_weapon );
-    data.read( "reload_loc", actor.reload_loc );
-    data.read( "aborted", actor.aborted );
-    data.read( "reload_requested", actor.reload_requested );
-    data.read( "abort_if_no_targets", actor.abort_if_no_targets );
+    data.read( "fake_weapon", actor->fake_weapon );
+    data.read( "bp_cost_per_shot", actor->bp_cost_per_shot );
+    data.read( "stamina_cost_per_shot", actor->stamina_cost_per_shot );
+    data.read( "action", actor->action );
+    data.read( "aif_duration", actor->aif_duration );
+    data.read( "aiming_at_critter", actor->aiming_at_critter );
+    data.read( "snap_to_target", actor->snap_to_target );
+    data.read( "shifting_view", actor->shifting_view );
+    data.read( "initial_view_offset", actor->initial_view_offset );
+    data.read( "loaded_RAS_weapon", actor->loaded_RAS_weapon );
+    data.read( "reload_loc", actor->reload_loc );
+    data.read( "aborted", actor->aborted );
+    data.read( "reload_requested", actor->reload_requested );
+    data.read( "abort_if_no_targets", actor->abort_if_no_targets );
 
-    return actor.clone();
+    return actor;
 }
 
 item *aim_activity_actor::get_weapon()
 {
-    if( fake_weapon.has_value() ) {
+    if( fake_weapon ) {
         // TODO: check if the player lost relevant bionic/mutation
-        return &fake_weapon.value();
+        return &*fake_weapon;
     } else {
         // Check for lost gun (e.g. yanked by zombie technician)
         // TODO: check that this is the same gun that was used to start aiming
@@ -302,24 +306,22 @@ bool aim_activity_actor::load_RAS_weapon()
     }
 
     const auto ammo_location_is_valid = [&]() -> bool {
-        you.ammo_location.make_dirty();
         if( !you.ammo_location )
         {
-            you.ammo_location = item_location();
             return false;
         }
         if( !gun->can_reload_with( you.ammo_location->typeId() ) )
         {
             return false;
         }
-        if( square_dist( you.pos(), you.ammo_location.position() ) > 1 )
+        if( square_dist( you.pos(), you.ammo_location->position() ) > 1 )
         {
             return false;
         }
         return true;
     };
     item_reload_option opt = ammo_location_is_valid() ? item_reload_option( &you, weapon,
-                             weapon, you.ammo_location ) : character_funcs::select_ammo( you, *gun );
+                             weapon, *you.ammo_location ) : character_funcs::select_ammo( you, *gun );
     if( !opt ) {
         // Menu canceled
         return false;
@@ -398,7 +400,7 @@ void autodrive_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & )
 {
-    return autodrive_activity_actor().clone();
+    return std::make_unique<autodrive_activity_actor>();
 }
 
 void dig_activity_actor::start( player_activity &act, Character & )
@@ -490,19 +492,19 @@ void dig_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
 {
-    dig_activity_actor actor( 0, tripoint_zero,
-                              {}, tripoint_zero, 0, {} );
+    std::unique_ptr<dig_activity_actor> actor( new dig_activity_actor( 0, tripoint_zero,
+            {}, tripoint_zero, 0, {} ) );
 
     JsonObject data = jsin.get_object();
 
-    data.read( "moves", actor.moves_total );
-    data.read( "location", actor.location );
-    data.read( "result_terrain", actor.result_terrain );
-    data.read( "byproducts_location", actor.byproducts_location );
-    data.read( "byproducts_count", actor.byproducts_count );
-    data.read( "byproducts_item_group", actor.byproducts_item_group );
+    data.read( "moves", actor->moves_total );
+    data.read( "location", actor->location );
+    data.read( "result_terrain", actor->result_terrain );
+    data.read( "byproducts_location", actor->byproducts_location );
+    data.read( "byproducts_count", actor->byproducts_count );
+    data.read( "byproducts_item_group", actor->byproducts_item_group );
 
-    return actor.clone();
+    return actor;
 }
 
 void dig_channel_activity_actor::start( player_activity &act, Character & )
@@ -558,19 +560,19 @@ void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn &jsin )
 {
-    dig_channel_activity_actor actor( 0, tripoint_zero,
-                                      {}, tripoint_zero, 0, {} );
+    std::unique_ptr<dig_channel_activity_actor> actor( new dig_channel_activity_actor( 0, tripoint_zero,
+            {}, tripoint_zero, 0, {} ) );
 
     JsonObject data = jsin.get_object();
 
-    data.read( "moves", actor.moves_total );
-    data.read( "location", actor.location );
-    data.read( "result_terrain", actor.result_terrain );
-    data.read( "byproducts_location", actor.byproducts_location );
-    data.read( "byproducts_count", actor.byproducts_count );
-    data.read( "byproducts_item_group", actor.byproducts_item_group );
+    data.read( "moves", actor->moves_total );
+    data.read( "location", actor->location );
+    data.read( "result_terrain", actor->result_terrain );
+    data.read( "byproducts_location", actor->byproducts_location );
+    data.read( "byproducts_count", actor->byproducts_count );
+    data.read( "byproducts_item_group", actor->byproducts_item_group );
 
-    return actor.clone();
+    return actor;
 }
 
 bool disassemble_activity_actor::try_start_single( player_activity &act, Character &who )
@@ -655,16 +657,16 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn &jsin )
 {
-    disassemble_activity_actor actor;
+    std::unique_ptr<disassemble_activity_actor> actor( new disassemble_activity_actor() );
 
     JsonObject data = jsin.get_object();
 
-    data.read( "targets", actor.targets );
-    data.read( "pos", actor.pos );
-    data.read( "recursive", actor.recursive );
-    data.read( "initial_num_targets", actor.initial_num_targets );
+    data.read( "targets", actor->targets );
+    data.read( "pos", actor->pos );
+    data.read( "recursive", actor->recursive );
+    data.read( "initial_num_targets", actor->initial_num_targets );
 
-    return actor.clone();
+    return actor;
 }
 
 act_progress_message disassemble_activity_actor::get_progress_message(
@@ -718,15 +720,15 @@ void drop_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
 {
-    drop_activity_actor actor;
+    std::unique_ptr<drop_activity_actor> actor( new drop_activity_actor() );
 
     JsonObject data = jsin.get_object();
 
-    data.read( "items", actor.items );
-    data.read( "force_ground", actor.force_ground );
-    data.read( "relpos", actor.relpos );
+    data.read( "items", actor->items );
+    data.read( "force_ground", actor->force_ground );
+    data.read( "relpos", actor->relpos );
 
-    return actor.clone();
+    return actor;
 }
 
 void hacking_activity_actor::start( player_activity &act, Character & )
@@ -884,17 +886,17 @@ void hacking_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn &jsin )
 {
-    hacking_activity_actor actor;
+    std::unique_ptr<hacking_activity_actor> actor( new hacking_activity_actor() );
     if( jsin.test_null() ) {
         // Old saves might contain a null instead of an object.
         // Since we do not know whether a bionic or an item was chosen we assume
         // it was an item.
-        actor.using_bionic = false;
+        actor->using_bionic = false;
     } else {
         JsonObject jsobj = jsin.get_object();
-        jsobj.read( "using_bionic", actor.using_bionic );
+        jsobj.read( "using_bionic", actor->using_bionic );
     }
-    return actor.clone();
+    return actor;
 }
 
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )
@@ -902,49 +904,42 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
     const tripoint dest = relative_destination + who.pos();
 
     while( who.moves > 0 && !target_items.empty() ) {
-        item_location target = std::move( target_items.back() );
+        safe_reference<item> target = std::move( target_items.back() );
         const int quantity = quantities.back();
         target_items.pop_back();
         quantities.pop_back();
 
         if( !target ) {
+            //TODO!: might not be appropriate to debugmsg just because something was destroyed/unloaded
             debugmsg( "Lost target item of ACT_MOVE_ITEMS" );
             continue;
         }
 
-        // Don't need to make a copy here since movement can't be canceled
-        item &leftovers = *target;
-        // Make a copy to be put in the destination location
-        item newit = leftovers;
-
         // Check that we can pick it up.
-        if( !newit.made_of( LIQUID ) ) {
-            // This is for hauling across zlevels, remove when going up and down stairs
-            // is no longer teleportation
-            if( newit.is_owned_by( who, true ) ) {
-                newit.set_owner( who );
-            } else {
-                continue;
-            }
-            // Handle charges, quantity == 0 means move all
-            if( quantity != 0 && newit.count_by_charges() ) {
-                newit.charges = std::min( newit.charges, quantity );
-                leftovers.charges -= quantity;
-            } else {
-                leftovers.charges = 0;
-            }
-            const tripoint src = target.position();
-            const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            who.mod_moves( -pickup::cost_to_move_item( who, newit ) * distance );
-            if( to_vehicle ) {
-                put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
-            } else {
-                drop_on_map( who, item_drop_reason::deliberate, { newit }, dest );
-            }
-            // If we picked up a whole stack, remove the leftover item
-            if( leftovers.charges <= 0 ) {
-                target.remove_item();
-            }
+        if( target->made_of( LIQUID ) ) {
+            continue;
+        }
+
+        // This is for hauling across zlevels, remove when going up and down stairs
+        // is no longer teleportation
+        if( target->is_owned_by( who, true ) ) {
+            target->set_owner( who );
+        } else {
+            continue;
+        }
+
+        const tripoint src = target->position();
+        detached_ptr<item> newit = quantity == 0 ? target->detach() : target->split( quantity );
+
+        const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
+        who.mod_moves( -pickup::cost_to_move_item( who, *newit ) * distance );
+
+        std::vector<detached_ptr<item>> vec;
+        vec.push_back( std::move( newit ) );
+        if( to_vehicle ) {
+            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, vec, dest );
+        } else {
+            drop_on_map( who, item_drop_reason::deliberate, vec, dest );
         }
     }
 
@@ -971,16 +966,17 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonIn &jsin )
 {
-    move_items_activity_actor actor( {}, {}, false, tripoint_zero );
+    std::unique_ptr<move_items_activity_actor> actor( new move_items_activity_actor( {}, {}, false,
+            tripoint_zero ) );
 
     JsonObject data = jsin.get_object();
 
-    data.read( "target_items", actor.target_items );
-    data.read( "quantities", actor.quantities );
-    data.read( "to_vehicle", actor.to_vehicle );
-    data.read( "relative_destination", actor.relative_destination );
+    data.read( "target_items", actor->target_items );
+    data.read( "quantities", actor->quantities );
+    data.read( "to_vehicle", actor->to_vehicle );
+    data.read( "relative_destination", actor->relative_destination );
 
-    return actor.clone();
+    return actor;
 }
 
 void pickup_activity_actor::do_turn( player_activity &act, Character &who )
@@ -1000,7 +996,7 @@ void pickup_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     // Auto_resume implies autopickup.
-    const bool autopickup = who.activity.auto_resume;
+    const bool autopickup = who.activity->auto_resume;
 
     // False indicates that the player canceled pickup when met with some prompt
     const bool keep_going = pickup::do_pickup( target_items, autopickup );
@@ -1052,41 +1048,41 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin )
 {
-    pickup_activity_actor actor( {}, std::nullopt );
+    std::unique_ptr<pickup_activity_actor> actor( new pickup_activity_actor( {}, std::nullopt ) );
 
     JsonObject data = jsin.get_object();
 
-    data.read( "target_items", actor.target_items );
-    data.read( "starting_pos", actor.starting_pos );
+    data.read( "target_items", actor->target_items );
+    data.read( "starting_pos", actor->starting_pos );
 
-    return actor.clone();
+    return actor;
 }
 
-lockpick_activity_actor lockpick_activity_actor::use_item(
+std::unique_ptr<lockpick_activity_actor> lockpick_activity_actor::use_item(
     int moves_total,
-    const item_location &lockpick,
+    item &lockpick,
     const tripoint &target
 )
 {
-    return lockpick_activity_actor {
-        moves_total,
-        lockpick,
-        std::nullopt,
-        target
-    };
+    return std::unique_ptr<lockpick_activity_actor> ( new lockpick_activity_actor(
+                moves_total,
+                safe_reference<item>( lockpick ),
+                detached_ptr<item>(),
+                target
+            ) );
 }
 
-lockpick_activity_actor lockpick_activity_actor::use_bionic(
-    const item &fake_lockpick,
+std::unique_ptr<lockpick_activity_actor> lockpick_activity_actor::use_bionic(
+    detached_ptr<item> &&fake_lockpick,
     const tripoint &target
 )
 {
-    return lockpick_activity_actor {
-        to_moves<int>( 5_seconds ),
-        std::nullopt,
-        fake_lockpick,
-        target
-    };
+    return std::unique_ptr<lockpick_activity_actor>( new lockpick_activity_actor(
+                to_moves<int>( 5_seconds ),
+                safe_reference<item>(),
+                std::move( fake_lockpick ),
+                target
+            ) );
 }
 
 void lockpick_activity_actor::start( player_activity &act, Character & )
@@ -1099,10 +1095,10 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
 
-    item *it;
-    if( lockpick.has_value() ) {
-        it = lockpick->get_item();
-    } else {
+    item *it = nullptr;
+    if( lockpick ) {
+        it = &*lockpick;
+    } else if( fake_lockpick ) {
         it = &*fake_lockpick;
     }
 
@@ -1188,8 +1184,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         }
     }
 
-    if( destroy && lockpick.has_value() ) {
-        lockpick->remove_item();
+    if( destroy && lockpick ) {
+        lockpick->detach();
     }
 }
 
@@ -1244,16 +1240,17 @@ void lockpick_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonIn &jsin )
 {
-    lockpick_activity_actor actor( 0, std::nullopt, std::nullopt, tripoint_zero );
+    std::unique_ptr<lockpick_activity_actor> actor( new lockpick_activity_actor( 0,
+            safe_reference<item>(), detached_ptr<item>(), tripoint_zero ) );
 
     JsonObject data = jsin.get_object();
 
-    data.read( "moves_total", actor.moves_total );
-    data.read( "lockpick", actor.lockpick );
-    data.read( "fake_lockpick", actor.fake_lockpick );
-    data.read( "target", actor.target );
+    data.read( "moves_total", actor->moves_total );
+    data.read( "lockpick", actor->lockpick );
+    data.read( "fake_lockpick", actor->fake_lockpick );
+    data.read( "target", actor->target );
 
-    return actor.clone();
+    return actor;
 }
 
 void migration_cancel_activity_actor::do_turn( player_activity &act, Character &who )
@@ -1281,7 +1278,7 @@ void migration_cancel_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( JsonIn & )
 {
-    return migration_cancel_activity_actor().clone();
+    return std::unique_ptr<migration_cancel_activity_actor>();
 }
 
 void toggle_gate_activity_actor::start( player_activity &act, Character & )
@@ -1308,14 +1305,15 @@ void toggle_gate_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> toggle_gate_activity_actor::deserialize( JsonIn &jsin )
 {
-    toggle_gate_activity_actor actor( 0, tripoint_zero );
+    std::unique_ptr<toggle_gate_activity_actor> actor( new toggle_gate_activity_actor( 0,
+            tripoint_zero ) );
 
     JsonObject data = jsin.get_object();
 
-    data.read( "moves", actor.moves_total );
-    data.read( "placement", actor.placement );
+    data.read( "moves", actor->moves_total );
+    data.read( "placement", actor->placement );
 
-    return actor.clone();
+    return actor;
 }
 
 void wash_activity_actor::start( player_activity &act, Character & )
@@ -1349,26 +1347,31 @@ void stash_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin )
 {
-    stash_activity_actor actor;
+    std::unique_ptr<stash_activity_actor> actor( new stash_activity_actor() );
 
     JsonObject data = jsin.get_object();
 
-    data.read( "items", actor.items );
-    data.read( "relpos", actor.relpos );
+    data.read( "items", actor->items );
+    data.read( "relpos", actor->relpos );
 
-    return actor.clone();
+    return actor;
 }
 
 void throw_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // Make copies of relevant values since the class would
     // not be available after act.set_to_null()
-    item_location target = target_loc;
+    if( !target ) {
+        debugmsg( "Lost weapon while throwing" );
+        act.set_to_null();
+        return;
+    }
+
+    item *it = &*target;
     std::optional<tripoint> blind_throw_pos = blind_throw_from_pos;
 
     // Stop the activity. Whether we will or will not throw doesn't matter.
     act.set_to_null();
-
     if( !who.is_avatar() ) {
         // Sanity check
         debugmsg( "ACT_THROW is not applicable for NPCs." );
@@ -1383,7 +1386,7 @@ void throw_activity_actor::do_turn( player_activity &act, Character &who )
         who.setpos( *blind_throw_pos );
     }
 
-    target_handler::trajectory trajectory = target_handler::mode_throw( *who.as_avatar(), *target,
+    target_handler::trajectory trajectory = target_handler::mode_throw( *who.as_avatar(), *it,
                                             blind_throw_pos.has_value() );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
@@ -1395,27 +1398,20 @@ void throw_activity_actor::do_turn( player_activity &act, Character &who )
         return;
     }
 
-    if( &*target != &who.primary_weapon() ) {
+    if( it != &who.primary_weapon() ) {
         // This is to represent "implicit offhand wielding"
-        int extra_cost = who.item_handling_cost( *target, true, INVENTORY_HANDLING_PENALTY / 2 );
+        int extra_cost = who.item_handling_cost( *it, true, INVENTORY_HANDLING_PENALTY / 2 );
         who.mod_moves( -extra_cost );
     }
-
-    item thrown = *target.get_item();
-    if( target->count_by_charges() && target->charges > 1 ) {
-        target->mod_charges( -1 );
-        thrown.charges = 1;
-    } else {
-        target.remove_item();
-    }
-    ranged::throw_item( who, trajectory.back(), thrown, blind_throw_pos );
+    detached_ptr<item> det = target->split( 1 );
+    ranged::throw_item( who, trajectory.back(), std::move( det ), blind_throw_pos );
 }
 
 void throw_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "target_loc", target_loc );
+    jsout.member( "target_loc", target );
     jsout.member( "blind_throw_from_pos", blind_throw_from_pos );
 
     jsout.end_object();
@@ -1423,14 +1419,14 @@ void throw_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> throw_activity_actor::deserialize( JsonIn &jsin )
 {
-    throw_activity_actor actor;
+    std::unique_ptr<throw_activity_actor> actor;
 
     JsonObject data = jsin.get_object();
 
-    data.read( "target_loc", actor.target_loc );
-    data.read( "blind_throw_from_pos", actor.blind_throw_from_pos );
+    data.read( "target_loc", actor->target );
+    data.read( "blind_throw_from_pos", actor->blind_throw_from_pos );
 
-    return actor.clone();
+    return actor;
 }
 
 void wash_activity_actor::serialize( JsonOut &jsout ) const
@@ -1445,14 +1441,14 @@ void wash_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonIn &jsin )
 {
-    wash_activity_actor actor;
+    std::unique_ptr<wash_activity_actor> actor;
 
     JsonObject data = jsin.get_object();
 
-    data.read( "targets", actor.targets );
-    data.read( "moves_total", actor.moves_total );
+    data.read( "targets", actor->targets );
+    data.read( "moves_total", actor->moves_total );
 
-    return actor.clone();
+    return actor;
 }
 
 namespace activity_actors
@@ -1478,7 +1474,7 @@ deserialize_functions = {
 };
 } // namespace activity_actors
 
-void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout )
+void serialize( const std::unique_ptr<activity_actor> &actor, JsonOut &jsout )
 {
     if( !actor ) {
         jsout.write_null();
@@ -1492,7 +1488,7 @@ void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout )
     }
 }
 
-void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin )
+void deserialize( std::unique_ptr<activity_actor> &actor, JsonIn &jsin )
 {
     if( jsin.test_null() ) {
         actor = nullptr;

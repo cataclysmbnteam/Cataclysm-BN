@@ -39,7 +39,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "kill_tracker.h"
@@ -96,6 +95,11 @@ static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 
+static const flag_id flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
+
+static const morale_type MORALE_FOOD_COLD( "morale_food_cold" );
+static const morale_type MORALE_FOOD_VERY_COLD( "morale_food_very_cold" );
+
 class JsonIn;
 class JsonOut;
 
@@ -116,8 +120,8 @@ avatar::avatar()
 }
 
 avatar::~avatar() = default;
-avatar::avatar( avatar && ) = default;
-avatar &avatar::operator=( avatar && ) = default;
+avatar::avatar( avatar && )  noexcept = default;
+avatar &avatar::operator=( avatar && )  noexcept = default;
 
 void avatar::toggle_map_memory()
 {
@@ -285,7 +289,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         reasons.emplace_back( _( "You're illiterate!" ) );
     } else if( has_trait( trait_HYPEROPIC ) &&
-               !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
+               !worn_with_flag( flag_FIX_FARSIGHT ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( !character_funcs::can_see_fine_details( *this ) ) {
@@ -386,7 +390,7 @@ diary *avatar::get_avatar_diary()
  * str_values: Parallel to values, these contain the learning penalties (as doubles in string form) as follows:
  *             Experience gained = Experience normally gained * penalty
  */
-bool avatar::read( item_location loc, const bool continuous )
+bool avatar::read( item *loc, const bool continuous )
 {
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -410,7 +414,7 @@ bool avatar::read( item_location loc, const bool continuous )
     const int time_taken = time_to_read( it, *reader );
 
     add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );
-    player_activity act( ACT_READ, time_taken, continuous ? activity.index : 0,
+    player_activity act( ACT_READ, time_taken, continuous ? activity->index : 0,
                          reader->getID().get_value() );
     act.targets.emplace_back( loc );
 
@@ -546,7 +550,7 @@ bool avatar::read( item_location loc, const bool continuous )
 
             if( martial_arts_data->has_martialart( martial_art_learned_from( *it.type ) ) ) {
                 add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
-                activity.set_to_null();
+                activity->set_to_null();
                 return false;
             }
 
@@ -568,7 +572,7 @@ bool avatar::read( item_location loc, const bool continuous )
 
     // Print some informational messages, but only the first time or if the information changes
 
-    if( !continuous || activity.position != act.position ) {
+    if( !continuous || activity->position != act.position ) {
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
             add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
@@ -579,10 +583,10 @@ bool avatar::read( item_location loc, const bool continuous )
 
     if( !continuous ||
     !std::all_of( learners.begin(), learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
-    return std::count( activity.values.begin(), activity.values.end(),
+    return std::count( activity->values.begin(), activity->values.end(),
                        elem.first->getID().get_value() ) != 0;
     } ) ||
-    !std::all_of( activity.values.begin(), activity.values.end(), [&]( int elem ) {
+    !std::all_of( activity->values.begin(), activity->values.end(), [&]( int elem ) {
         return learners.find( g->find_npc( character_id( elem ) ) ) != learners.end();
     } ) ) {
 
@@ -642,7 +646,7 @@ bool avatar::read( item_location loc, const bool continuous )
         act.str_values.emplace_back( "martial_art" );
     }
 
-    assign_activity( act );
+    assign_activity( std::make_unique<player_activity>( std::move( act ) ) ) ;
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
     // away while you read more.
@@ -741,17 +745,17 @@ static void skim_book_msg( const item &book, avatar &u )
     add_msg( _( "You note that you have a copy of %s in your possession." ), book.type_name() );
 }
 
-void avatar::do_read( item_location loc )
+void avatar::do_read( item *loc )
 {
     if( !loc ) {
-        activity.set_to_null();
+        activity->set_to_null();
         return;
     }
 
     item &book = *loc;
     const auto &reading = book.type->book;
     if( !reading ) {
-        activity.set_to_null();
+        activity->set_to_null();
         return;
     }
     const skill_id &skill = reading->skill;
@@ -760,7 +764,7 @@ void avatar::do_read( item_location loc )
         // Note that we've read the book.
         items_identified.insert( book.typeId() );
         skim_book_msg( book, *this );
-        activity.set_to_null();
+        activity->set_to_null();
         return;
     }
 
@@ -768,15 +772,15 @@ void avatar::do_read( item_location loc )
 
     //learners and their penalties
     std::vector<std::pair<player *, double>> learners;
-    for( size_t i = 0; i < activity.values.size(); i++ ) {
-        player *n = g->find_npc( character_id( activity.values[i] ) );
+    for( size_t i = 0; i < activity->values.size(); i++ ) {
+        player *n = g->find_npc( character_id( activity->values[i] ) );
         if( n != nullptr ) {
-            const std::string &s = activity.get_str_value( i, "1" );
-            learners.push_back( { n, strtod( s.c_str(), nullptr ) } );
+            const std::string &s = activity->get_str_value( i, "1" );
+            learners.emplace_back( n, strtod( s.c_str(), nullptr ) );
         }
         // Otherwise they must have died/teleported or something
     }
-    learners.push_back( { this, 1.0 } );
+    learners.emplace_back( this, 1.0 );
     //whether to continue reading or not
     bool continuous = false;
     // NPCs who learned a little about the skill
@@ -854,7 +858,7 @@ void avatar::do_read( item_location loc )
                 }
             } else {
                 //skill_level == originalSkillLevel
-                if( activity.index == learner->getID().get_value() ) {
+                if( activity->index == learner->getID().get_value() ) {
                     continuous = true;
                 }
                 if( learner->is_player() ) {
@@ -915,7 +919,7 @@ void avatar::do_read( item_location loc )
             m->second.call( *this, book, false, pos() );
             continuous = false;
         } else {
-            if( activity.index == getID().get_value() ) {
+            if( activity->index == getID().get_value() ) {
                 continuous = true;
                 switch( rng( 1, 5 ) ) {
                     case 1:
@@ -942,14 +946,14 @@ void avatar::do_read( item_location loc )
     }
 
     if( continuous ) {
-        activity.set_to_null();
+        activity->set_to_null();
         read( loc, true );
         if( activity ) {
             return;
         }
     }
 
-    activity.set_to_null();
+    activity->set_to_null();
 }
 
 bool avatar::has_identified( const itype_id &item_id ) const
@@ -984,6 +988,8 @@ void avatar::vomit()
         // Remove all joy from previously eaten food and apply the penalty
         rem_morale( MORALE_FOOD_GOOD );
         rem_morale( MORALE_FOOD_HOT );
+        rem_morale( MORALE_FOOD_COLD );
+        rem_morale( MORALE_FOOD_VERY_COLD );
         // bears must suffer too
         rem_morale( MORALE_HONEY );
         // 1.5 times longer
@@ -1241,18 +1247,46 @@ bool avatar::wield( item &target )
     if( has_item( target ) ) {
         set_primary_weapon( i_rem( &target ) );
     } else {
-        set_primary_weapon( target );
+        set_primary_weapon( target.detach() );
     }
 
-    last_item = primary_weapon().typeId();
+    last_item = target.typeId();
     recoil = MAX_RECOIL;
 
-    primary_weapon().on_wield( *this, mv );
+    target.on_wield( *this, mv );
 
-    inv.update_invlet( primary_weapon() );
-    inv.update_cache_with_item( primary_weapon() );
+    inv.update_invlet( target );
+    inv.update_cache_with_item( target );
 
     return true;
+}
+
+
+detached_ptr<item> avatar::wield( detached_ptr<item> &&target )
+{
+    if( !can_wield( *target ).success() ) {
+        return std::move( target );
+    }
+
+    if( !unwield() ) {
+        return std::move( target );
+    }
+    clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
+    if( !target || target->is_null() ) {
+        return std::move( target );
+    }
+    item &obj = *target;
+    set_primary_weapon( std::move( target ) );
+
+    last_item = obj.typeId();
+    recoil = MAX_RECOIL;
+    int mv = item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
+    obj.on_wield( *this, mv );
+
+
+    inv.update_invlet( obj );
+    inv.update_cache_with_item( obj );
+    return detached_ptr<item>();
 }
 
 bool avatar::invoke_item( item *used, const tripoint &pt )

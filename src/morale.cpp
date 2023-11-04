@@ -945,12 +945,6 @@ void player_morale::on_item_takeoff( const item &it )
     set_worn( it, false );
 }
 
-void player_morale::on_worn_item_transform( const item &old_it, const item &new_it )
-{
-    set_worn( old_it, false );
-    set_worn( new_it, true );
-}
-
 void player_morale::on_worn_item_washed( const item &it )
 {
     const auto update_body_part = [&]( body_part_data & bp_data ) {

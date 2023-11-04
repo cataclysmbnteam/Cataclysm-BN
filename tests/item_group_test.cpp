@@ -14,17 +14,17 @@ TEST_CASE( "spawn with default charges and with ammo", "[item_group]" )
     Item_modifier default_charges;
     default_charges.with_ammo = 100;
     SECTION( "tools without ammo" ) {
-        item matches( "matches" );
-        REQUIRE( matches.ammo_default() == itype_id::NULL_ID() );
-        default_charges.modify( matches );
-        CHECK( matches.ammo_remaining() == matches.ammo_capacity() );
+        detached_ptr<item> matches = item::spawn( "matches" );
+        REQUIRE( matches->ammo_default() == itype_id::NULL_ID() );
+        matches = default_charges.modify( std::move( matches ) );
+        CHECK( matches->ammo_remaining() == matches->ammo_capacity() );
     }
 
     SECTION( "gun with ammo type" ) {
-        item glock( "glock_19" );
-        REQUIRE( !glock.ammo_default().is_null() );
-        default_charges.modify( glock );
-        CHECK( glock.ammo_remaining() == glock.ammo_capacity() );
+        detached_ptr<item> glock = item::spawn( "glock_19" );
+        REQUIRE( !glock->ammo_default().is_null() );
+        glock = default_charges.modify( std::move( glock ) );
+        CHECK( glock->ammo_remaining() == glock->ammo_capacity() );
     }
 }
 
@@ -34,18 +34,18 @@ TEST_CASE( "Item_modifier damages item", "[item_group]" )
     damaged.damage.first = 1;
     damaged.damage.second = 1;
     SECTION( "except when it's an ammunition" ) {
-        item rock( "rock" );
-        REQUIRE( rock.damage() == 0 );
-        REQUIRE( rock.max_damage() == 0 );
-        damaged.modify( rock );
-        CHECK( rock.damage() == 0 );
+        detached_ptr<item> rock = item::spawn( "rock" );
+        REQUIRE( rock->damage() == 0 );
+        REQUIRE( rock->max_damage() == 0 );
+        rock = damaged.modify( std::move( rock ) );
+        CHECK( rock->damage() == 0 );
     }
     SECTION( "when it can be damaged" ) {
-        item glock( "glock_19" );
-        REQUIRE( glock.damage() == 0 );
-        REQUIRE( glock.max_damage() > 1000 );
-        damaged.modify( glock );
-        CHECK( glock.damage() == 1000 );
+        detached_ptr<item> glock = item::spawn( "glock_19" );
+        REQUIRE( glock->damage() == 0 );
+        REQUIRE( glock->max_damage() > 1000 );
+        glock = damaged.modify( std::move( glock ) );
+        CHECK( glock->damage() == 1000 );
     }
 }
 
@@ -54,18 +54,18 @@ TEST_CASE( "Item_modifier gun fouling", "[item_group]" )
     Item_modifier fouled;
     fouled.dirt.first = 1;
     SECTION( "guns can be fouled" ) {
-        item glock( "glock_19" );
-        REQUIRE( !glock.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) );
-        REQUIRE( !glock.has_var( "dirt" ) );
-        fouled.modify( glock );
-        CHECK( glock.get_var( "dirt", 0.0 ) > 0.0 );
+        detached_ptr<item> glock = item::spawn( "glock_19" );
+        REQUIRE( !glock->has_flag( flag_PRIMITIVE_RANGED_WEAPON ) );
+        REQUIRE( !glock->has_var( "dirt" ) );
+        glock = fouled.modify( std::move( glock ) );
+        CHECK( glock->get_var( "dirt", 0.0 ) > 0.0 );
     }
     SECTION( "bows can't be fouled" ) {
-        item bow( "longbow" );
-        REQUIRE( !bow.has_var( "dirt" ) );
-        REQUIRE( bow.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) );
-        fouled.modify( bow );
-        CHECK( !bow.has_var( "dirt" ) );
+        detached_ptr<item> bow = item::spawn( "longbow" );
+        REQUIRE( !bow->has_var( "dirt" ) );
+        REQUIRE( bow->has_flag( flag_PRIMITIVE_RANGED_WEAPON ) );
+        bow = fouled.modify( std::move( bow ) );
+        CHECK( !bow->has_var( "dirt" ) );
     }
 }
 
@@ -73,23 +73,23 @@ TEST_CASE( "item_modifier modifies charges for item", "[item_group]" )
 {
     GIVEN( "an ammo item that uses charges" ) {
         const std::string item_id = "40x46mm_m1006";
-        item subject( item_id );
+        detached_ptr<item> subject = item::spawn( item_id );
 
         const int default_charges = 6;
 
-        REQUIRE( subject.is_ammo() );
-        REQUIRE( subject.count_by_charges() );
-        REQUIRE( subject.count() == default_charges );
-        REQUIRE( subject.charges == default_charges );
+        REQUIRE( subject->is_ammo() );
+        REQUIRE( subject->count_by_charges() );
+        REQUIRE( subject->count() == default_charges );
+        REQUIRE( subject->charges == default_charges );
 
         AND_GIVEN( "a modifier that does not modify charges" ) {
             Item_modifier modifier;
 
             WHEN( "the item is modified" ) {
-                modifier.modify( subject );
+                subject = modifier.modify( std::move( subject ) );
 
                 THEN( "charges should be unchanged" ) {
-                    CHECK( subject.charges == default_charges );
+                    CHECK( subject->charges == default_charges );
                 }
             }
         }
@@ -101,10 +101,10 @@ TEST_CASE( "item_modifier modifies charges for item", "[item_group]" )
             modifier.charges = { min_charges, max_charges };
 
             WHEN( "the item is modified" ) {
-                modifier.modify( subject );
+                subject = modifier.modify( std::move( subject ) );
 
                 THEN( "charges are set to 1" ) {
-                    CHECK( subject.charges == 1 );
+                    CHECK( subject->charges == 1 );
                 }
             }
         }
@@ -116,10 +116,10 @@ TEST_CASE( "item_modifier modifies charges for item", "[item_group]" )
             modifier.charges = { min_charges, max_charges };
 
             WHEN( "the item is modified" ) {
-                modifier.modify( subject );
+                subject = modifier.modify( std::move( subject ) );
 
                 THEN( "charges should be unchanged" ) {
-                    CHECK( subject.charges == default_charges );
+                    CHECK( subject->charges == default_charges );
                 }
             }
         }
@@ -137,8 +137,8 @@ TEST_CASE( "item_modifier modifies charges for item", "[item_group]" )
                 std::vector<int> results;
                 results.reserve( 100 );
                 for( int i = 0; i < 100; i++ ) {
-                    modifier.modify( subject );
-                    results.emplace_back( subject.charges );
+                    subject = modifier.modify( std::move( subject ) );
+                    results.emplace_back( subject->charges );
                 }
 
                 THEN( "charges are set to the expected range of values" ) {
@@ -163,8 +163,8 @@ TEST_CASE( "item_modifier modifies charges for item", "[item_group]" )
                 std::vector<int> results;
                 results.reserve( 100 );
                 for( int i = 0; i < 100; i++ ) {
-                    modifier.modify( subject );
-                    results.emplace_back( subject.charges );
+                    subject = modifier.modify( std::move( subject ) );
+                    results.emplace_back( subject->charges );
                 }
 
                 THEN( "charges are set to the expected value" ) {

@@ -18,7 +18,6 @@
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_location.h"
 #include "json.h"
 #include "map_helpers.h"
 #include "npc.h"
@@ -80,9 +79,9 @@ static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel
 {
     CHECK( !shooter.in_vehicle );
     shooter.worn.clear();
-    shooter.inv.clear();
+    shooter.inv_clear();
     for( const std::string &article : apparel ) {
-        shooter.wear_item( item( article ) );
+        shooter.wear_item( item::spawn( article ) );
     }
 }
 

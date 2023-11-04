@@ -59,7 +59,7 @@ void mission_start::place_dog( mission *miss )
         debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
-    g->u.i_add( item( "dog_whistle", calendar::start_of_cataclysm ) );
+    g->u.i_add( item::spawn( "dog_whistle", calendar::start_of_cataclysm ) );
     add_msg( _( "%s gave you a dog whistle." ), dev->name );
 
     miss->target = house;
@@ -192,7 +192,7 @@ void mission_start::place_npc_software( mission *miss )
         debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
-    g->u.i_add( item( "usb_drive", calendar::start_of_cataclysm ) );
+    g->u.i_add( item::spawn( "usb_drive", calendar::start_of_cataclysm ) );
     add_msg( _( "%s gave you a USB drive." ), dev->name );
 
     std::string type = "house";

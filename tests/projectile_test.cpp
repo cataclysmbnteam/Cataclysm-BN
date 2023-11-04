@@ -59,12 +59,12 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
     here.ter_set( range[1], ter_id( "t_chainfence" ) );
 
     // Create a gun to fire a projectile from
-    item gun( itype_id( "m1a" ) );
-    gun.ammo_set( itype_id( "308" ), 5 );
+    detached_ptr<item> gun = item::spawn( itype_id( "m1a" ) );
+    gun->ammo_set( itype_id( "308" ), 5 );
 
     // Check that a bullet with the correct amount of speed can through obstacles
-    CHECK( projectile_end_point( range, gun, 1000, 3 ) == range[2] );
+    CHECK( projectile_end_point( range, *gun, 1000, 3 ) == range[2] );
 
     // But that a bullet without the correct amount cannot
-    CHECK( projectile_end_point( range, gun, 10, 3 ) == range[0] );
+    CHECK( projectile_end_point( range, *gun, 10, 3 ) == range[0] );
 }

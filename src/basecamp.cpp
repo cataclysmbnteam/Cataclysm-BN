@@ -396,7 +396,7 @@ void basecamp::add_resource( const itype_id &camp_resource )
 {
     basecamp_resource bcp_r;
     bcp_r.fake_id = camp_resource;
-    item camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
+    item &camp_item = *item::spawn_temporary( bcp_r.fake_id, calendar::start_of_cataclysm );
     bcp_r.ammo_id = camp_item.ammo_default();
     resources.emplace_back( bcp_r );
     fuel_types.insert( bcp_r.ammo_id );
@@ -582,20 +582,20 @@ void basecamp::set_name( const std::string &new_name )
  * we could put this logic in map::use_charges() the way the vehicle code does, but I think
  * that's sloppy
  */
-std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
+std::vector<detached_ptr<item>> basecamp::use_charges( const itype_id &fake_id, int &quantity )
 {
-    std::list<item> ret;
+    std::vector<detached_ptr<item>> ret;
     if( quantity <= 0 ) {
         return ret;
     }
     for( basecamp_resource &bcp_r : resources ) {
         if( bcp_r.fake_id == fake_id ) {
-            item camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
-            camp_item.charges = std::min( bcp_r.available, quantity );
-            quantity -= camp_item.charges;
-            bcp_r.available -= camp_item.charges;
-            bcp_r.consumed += camp_item.charges;
-            ret.push_back( camp_item );
+            detached_ptr<item> camp_item = item::spawn( bcp_r.fake_id, calendar::start_of_cataclysm );
+            camp_item->charges = std::min( bcp_r.available, quantity );
+            quantity -= camp_item->charges;
+            bcp_r.available -= camp_item->charges;
+            bcp_r.consumed += camp_item->charges;
+            ret.push_back( std::move( camp_item ) );
             if( quantity <= 0 ) {
                 break;
             }
@@ -635,10 +635,10 @@ void basecamp::form_crafting_inventory( map &target_map )
     // find available fuel
     for( const tripoint &pt : target_map.points_in_radius( origin, inv_range ) ) {
         if( target_map.accessible_items( pt ) ) {
-            for( const item &i : target_map.i_at( pt ) ) {
+            for( const item * const &i : target_map.i_at( pt ) ) {
                 for( basecamp_fuel &bcp_f : fuels ) {
-                    if( bcp_f.ammo_id == i.typeId() ) {
-                        bcp_f.available += i.charges;
+                    if( bcp_f.ammo_id == i->typeId() ) {
+                        bcp_f.available += i->charges;
                         break;
                     }
                 }
@@ -647,14 +647,14 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
     for( basecamp_resource &bcp_r : resources ) {
         bcp_r.consumed = 0;
-        item camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
+        item &camp_item = *item::spawn_temporary( bcp_r.fake_id, calendar::start_of_cataclysm );
         camp_item.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
         if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {
                     if( bcp_f.available > 0 ) {
                         bcp_r.available = bcp_f.available;
-                        camp_item = camp_item.ammo_set( bcp_f.ammo_id, bcp_f.available );
+                        camp_item.ammo_set( bcp_f.ammo_id, bcp_f.available );
                     }
                     break;
                 }
@@ -776,3 +776,4 @@ void basecamp_action_components::consume_components()
         map_.reset();
     }
 }
+

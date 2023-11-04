@@ -207,7 +207,7 @@ class basecamp
         int recipe_batch_max( const recipe &making ) const;
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
-        std::list<item> use_charges( const itype_id &fake_id, int &quantity );
+        std::vector<detached_ptr<item>> use_charges( const itype_id &fake_id, int &quantity );
         item_group_id get_gatherlist() const;
         /**
          * spawn items or corpses based on search attempts
@@ -235,7 +235,7 @@ class basecamp
         inline void set_dumping_spot( const tripoint &spot ) {
             dumping_spot = spot;
         }
-        void place_results( item result );
+        void place_results( detached_ptr<item> &&result );
 
         // mission description functions
         void add_available_recipes( mission_data &mission_key, point dir,
@@ -293,7 +293,8 @@ class basecamp
         void start_farm_op( point dir, const tripoint_abs_omt &omt_tgt, farm_ops op );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
-        std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
+        std::vector<item *> give_equipment( std::vector<item *> equipment,
+                                            const std::string &msg );
 
         // mission return functions
         /// called to select a companion to return to the base

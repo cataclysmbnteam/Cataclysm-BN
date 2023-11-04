@@ -290,20 +290,20 @@ void Character::mutation_effect( const trait_id &mut )
         recalc_hp();
     }
 
-    remove_worn_items_with( [&]( item & armor ) {
-        if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
-            return false;
+    remove_worn_items_with( [&]( detached_ptr<item> &&armor ) {
+        if( armor->has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
+            return std::move( armor );
         }
-        if( !branch.conflicts_with_item( armor ) ) {
-            return false;
+        if( !branch.conflicts_with_item( *armor ) ) {
+            return std::move( armor );
         }
 
         add_msg_player_or_npc( m_bad,
                                _( "Your %s is pushed off!" ),
                                _( "<npcname>'s %s is pushed off!" ),
-                               armor.tname() );
-        get_map().add_item_or_charges( pos(), armor );
-        return true;
+                               armor->tname() );
+        get_map().add_item_or_charges( pos(), std::move( armor ) );
+        return detached_ptr<item>();
     } );
 
     if( branch.starts_active ) {
@@ -488,8 +488,8 @@ void Character::activate_mutation( const trait_id &mut )
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;
-        item burrowing_item( itype_id( "fake_burrowing" ) );
-        invoke_item( &burrowing_item );
+        item *burrowing_item = item::spawn_temporary( itype_id( "fake_burrowing" ) );
+        invoke_item( burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
         monster *const slime = g->place_critter_around( mtype_id( "mon_player_blob" ), pos(), 1 );
@@ -566,22 +566,22 @@ void Character::activate_mutation( const trait_id &mut )
         if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
             const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
                                                30_minutes ) : rng( 60_minutes, 90_minutes );
-            activity.values.push_back( to_turns<int>( startup_time ) );
+            activity->values.push_back( to_turns<int>( startup_time ) );
             return;
         } else {
             const time_duration startup_time = rng( 120_minutes, 180_minutes );
-            activity.values.push_back( to_turns<int>( startup_time ) );
+            activity->values.push_back( to_turns<int>( startup_time ) );
             return;
         }
     } else if( !mdata.spawn_item.is_empty() ) {
-        item tmpitem( mdata.spawn_item );
-        i_add_or_drop( tmpitem );
+        i_add_or_drop( item::spawn( mdata.spawn_item ) );
         add_msg_if_player( mdata.spawn_item_message() );
         tdata.powered = false;
         return;
     } else if( !mdata.ranged_mutation.is_empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
-        avatar_action::fire_ranged_mutation( g->u, item( mdata.ranged_mutation ) );
+        //TODO!: check later
+        avatar_action::fire_ranged_mutation( g->u, item::spawn( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
     }
@@ -1490,7 +1490,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
             "MYCUS", "MARLOSS", "MARLOSS_SEED", "MARLOSS_GEL"
         }
     };
-    if( std::any_of( safe.begin(), safe.end(), [it]( const std::string & flag ) {
+    if( std::any_of( safe.begin(), safe.end(), [&it]( const std::string & flag ) {
     return it.type->can_use( flag );
     } ) ) {
         return mutagen_rejection::accepted;
