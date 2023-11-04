@@ -133,7 +133,7 @@ Creature::Creature( const Creature &source )
     armor_bash_bonus = source.armor_bash_bonus;
     armor_cut_bonus = source.armor_cut_bonus;
     armor_bullet_bonus = source.armor_bullet_bonus;
-    speed_base = source.speed_bonus;
+    speed_base = source.speed_base;
 
     speed_bonus = source.speed_bonus;
     speed_mult = source.speed_mult;
