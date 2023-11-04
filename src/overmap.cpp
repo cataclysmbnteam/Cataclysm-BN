@@ -1378,9 +1378,9 @@ struct mutable_overmap_placement_rule {
             }
             auto it = special_overmaps.find( piece.overmap_id );
             if( it == special_overmaps.end() ) {
-                debugmsg( "phase of %s specifies overmap %s which is not defined for that "
-                          "special", context, piece.overmap_id );
-                abort();
+                throw std::runtime_error(
+                    string_format( "phase of %s specifies overmap %s which is not defined for that special",
+                                   context, piece.overmap_id ) );
             } else {
                 piece.overmap = &it->second;
             }
@@ -1434,8 +1434,7 @@ struct mutable_overmap_placement_rule {
                 const std::unordered_map<std::string, mutable_overmap_join *> &joins,
                 const std::unordered_map<std::string, int_distribution> &shared ) const {
         if( pieces.empty() ) {
-            debugmsg( "phase of %s has chunk with zero pieces" );
-            abort();
+            throw std::runtime_error( string_format( "phase of %s has chunk with zero pieces", context ) );
         }
         int min_max = max.minimum();
         if( min_max < 0 ) {
@@ -1584,25 +1583,26 @@ class joins_tracker
         }
 
         void consistency_check() const {
-#if 0 // Enable this to check the class invariants, at the cost of more runtime
-            // verify that there are no positions in common between the
-            // resolved and postponed lists
-            for( const join &j : postponed ) {
-                auto j_pos = j.where.p;
-                if( unresolved.any_at( j_pos ) ) {
-                    std::vector<iterator> unr = unresolved.all_at( j_pos );
-                    if( unr.empty() ) {
-                        debugmsg( "inconcistency between all_at and any_at" );
-                    } else {
-                        const join &unr_j = *unr.front();
-                        debugmsg( "postponed and unresolved should be disjoint but are not at "
-                                  "%s where unresolved has %s: %s",
-                                  j_pos.to_string(), unr_j.where.p.to_string(), unr_j.join_id );
+            if( test_mode ) {
+                // Enable this to check the class invariants, at the cost of more runtime
+                // verify that there are no positions in common between the
+                // resolved and postponed lists
+                for( const join &j : postponed ) {
+                    auto j_pos = j.where.p;
+                    if( unresolved.any_at( j_pos ) ) {
+                        std::vector<iterator> unr = unresolved.all_at( j_pos );
+                        if( unr.empty() ) {
+                            debugmsg( "inconsistency between all_at and any_at" );
+                        } else {
+                            const join &unr_j = *unr.front();
+                            debugmsg( "postponed and unresolved should be disjoint but are not at "
+                                      "%s where unresolved has %s: %s",
+                                      j_pos.to_string(), unr_j.where.p.to_string(), unr_j.join->id );
+                        }
+                        abort();
                     }
-                    abort();
                 }
             }
-#endif
         }
 
         enum class join_status {

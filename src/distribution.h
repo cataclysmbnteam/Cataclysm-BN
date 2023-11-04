@@ -2,7 +2,8 @@
 #define CATA_SRC_DISTRIBUTION_H
 
 #include "memory_fast.h"
-#include "json.h"
+
+class JsonIn;
 
 struct int_distribution_impl;
 
