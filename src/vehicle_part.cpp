@@ -65,10 +65,11 @@ vehicle_part::vehicle_part( const vpart_id &vp, point dp, detached_ptr<item> &&o
 void vehicle_part::set_vehicle_hack( vehicle *veh )
 {
     hack_id = veh->get_next_hack_id();
-	refresh_locations_hack(veh);
+    refresh_locations_hack( veh );
 }
 
-void vehicle_part::refresh_locations_hack(vehicle *veh){
+void vehicle_part::refresh_locations_hack( vehicle *veh )
+{
     base.set_loc_hack( new vehicle_base_item_location( veh, hack_id ) );
     items.set_loc_hack( new vehicle_item_location( veh, hack_id ) );
 }
@@ -92,7 +93,7 @@ void vehicle_part::copy_static_from( const vehicle_part &source )
     info_cache = source.info_cache;
     ammo_pref = source.ammo_pref;
     crew_id = source.crew_id;
-    hack_id=source.hack_id;
+    hack_id = source.hack_id;
 }
 
 //TODO!: This is a bit scuffed and will be until vehicles are game objects.

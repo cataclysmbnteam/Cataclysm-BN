@@ -7218,10 +7218,11 @@ bool vehicle::is_loaded() const
     return attached && get_map().inbounds( global_pos3() );
 }
 
-void vehicle::refresh_locations_hack(){
-	for(vehicle_part& part : parts){
-		part.refresh_locations_hack(this);
-	}
+void vehicle::refresh_locations_hack()
+{
+    for( vehicle_part &part : parts ) {
+        part.refresh_locations_hack( this );
+    }
 }
 
 vehicle_part &vehicle::get_part_hack( int id )
