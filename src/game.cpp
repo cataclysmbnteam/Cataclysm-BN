@@ -5018,7 +5018,7 @@ void game::exam_vehicle( vehicle &veh, point c )
         return;
     }
     std::unique_ptr<player_activity> act = veh_interact::run( veh, c );
-    if( act ) {
+    if( *act ) {
         u.moves = 0;
         u.assign_activity( std::move( act ) );
     }
