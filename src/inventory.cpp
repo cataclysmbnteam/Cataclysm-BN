@@ -228,7 +228,7 @@ void inventory::unsort()
 
 static bool stack_compare( const std::vector<item *> &lhs, const std::vector<item *> &rhs )
 {
-    return lhs.front() < rhs.front();
+    return *lhs.front() < *rhs.front();
 }
 
 void inventory::clear()
