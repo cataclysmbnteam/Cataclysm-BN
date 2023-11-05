@@ -77,8 +77,6 @@ class map_extra;
 #define dbg(x) DebugLogFL((x),DC::MapGen)
 
 #define BUILDINGCHANCE 4
-#define MIN_GOO_SIZE 1
-#define MAX_GOO_SIZE 2
 
 ////////////////
 oter_id  ot_null,
@@ -3198,7 +3196,6 @@ bool overmap::generate_sub( const int z )
     bool requires_sub = z > -4;
     std::vector<point_om_omt> sewer_points;
 
-    std::vector<city> goo_points;
     std::vector<city> mine_points;
 
     // These are so common that it's worth checking first as int.
@@ -3223,12 +3220,6 @@ bool overmap::generate_sub( const int z )
                 sewer_points.emplace_back( i, j );
             } else if( oter_above == "sewage_treatment" ) {
                 sewer_points.emplace_back( i, j );
-            } else if( oter_above == "slimepit_down" ) {
-                const int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
-                goo_points.emplace_back( p.xy(), size );
-            } else if( oter_above == "forest_water" ) {
-                ter_set( p, oter_id( "cavern" ) );
-                chip_rock( p );
             } else if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::prefix ) && z == -2 ) {
                 mine_points.emplace_back( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) );
                 requires_sub = true;
@@ -3240,10 +3231,6 @@ bool overmap::generate_sub( const int z )
                 requires_sub = true;
             }
         }
-    }
-
-    for( auto &i : goo_points ) {
-        requires_sub |= build_slimepit( tripoint_om_omt( i.pos, z ), i.size );
     }
 
     const overmap_connection_id sewer_tunnel( "sewer_tunnel" );
@@ -4648,28 +4635,6 @@ void overmap::build_city_street(
     }
 }
 
-bool overmap::build_slimepit( const tripoint_om_omt &origin, int s )
-{
-    const oter_id slimepit_down( "slimepit_down" );
-    const oter_id slimepit( "slimepit" );
-
-    bool requires_sub = false;
-    for( auto p : points_in_radius( origin, s + origin.z() + 1, 0 ) ) {
-        int dist = square_dist( origin.xy(), p.xy() );
-        if( one_in( 2 * dist ) ) {
-            chip_rock( p );
-            if( one_in( 8 ) && origin.z() > -OVERMAP_DEPTH ) {
-                ter_set( p, slimepit_down );
-                requires_sub = true;
-            } else {
-                ter_set( p, slimepit );
-            }
-        }
-    }
-
-    return requires_sub;
-}
-
 void overmap::build_mine( const tripoint_om_omt &origin, int s )
 {
     bool finale = s <= rng( 1, 3 );
@@ -5024,19 +4989,6 @@ void overmap::connect_closest_points( const std::vector<point_om_omt> &points, i
         }
         if( closest > 0 ) {
             build_connection( points[i], points[k], z, connection, false );
-        }
-    }
-}
-
-// Changes neighboring empty rock to partial rock
-void overmap::chip_rock( const tripoint_om_omt &p )
-{
-    const oter_id rock( "rock" );
-    const oter_id empty_rock( "empty_rock" );
-
-    for( point offset : four_adjacent_offsets ) {
-        if( ter( p + offset ) == empty_rock ) {
-            ter_set( p + offset, rock );
         }
     }
 }

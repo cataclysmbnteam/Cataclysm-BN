@@ -4986,19 +4986,25 @@ void map::draw_slimepit( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
     if( is_ot_match( "slimepit", terrain_type, ot_match_type::prefix ) ) {
+        if( dat.zlevel() == 0 ) {
+            dat.fill_groundcover();
+        } else {
+            draw_fill_background( t_rock_floor );
+        }
+
+        for( int i = 0; i < 4; i++ ) {
+            if( !is_ot_match( "slimepit", dat.t_nesw[i], ot_match_type::prefix ) ) {
+                dat.set_dir( i, SEEX );
+            }
+        }
+
         for( int i = 0; i < SEEX * 2; i++ ) {
             for( int j = 0; j < SEEY * 2; j++ ) {
-                if( !one_in( 10 ) && ( j < dat.n_fac * SEEX ||
-                                       i < dat.w_fac * SEEX ||
-                                       j > SEEY * 2 - dat.s_fac * SEEY ||
-                                       i > SEEX * 2 - dat.e_fac * SEEX ) ) {
-                    ter_set( point( i, j ), ( !one_in( 10 ) ? t_slime : t_rock_floor ) );
-                } else if( rng( 0, SEEX ) > std::abs( i - SEEX ) && rng( 0, SEEY ) > std::abs( j - SEEY ) ) {
+                if( !one_in( 5 ) && ( rng( 0, dat.n_fac ) <= j &&
+                                      rng( 0, dat.w_fac ) <= i &&
+                                      SEEY * 2 - rng( 0, dat.s_fac ) > j &&
+                                      SEEX * 2 - rng( 0, dat.e_fac ) > i ) ) {
                     ter_set( point( i, j ), t_slime );
-                } else if( dat.zlevel() == 0 ) {
-                    ter_set( point( i, j ), t_dirt );
-                } else {
-                    ter_set( point( i, j ), t_rock_floor );
                 }
             }
         }

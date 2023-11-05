@@ -435,7 +435,6 @@ class overmap
 
         void build_city_street( const overmap_connection &connection, const point_om_omt &p, int cs,
                                 om_direction::type dir, const city &town, int block_width = 2 );
-        bool build_slimepit( const tripoint_om_omt &origin, int s );
         void build_mine( const tripoint_om_omt &origin, int s );
 
         // Connection laying
@@ -459,7 +458,6 @@ class overmap
                        const tripoint_om_omt &p ) const;
         bool check_overmap_special_type( const overmap_special_id &id,
                                          const tripoint_om_omt &location ) const;
-        void chip_rock( const tripoint_om_omt &p );
 
         void polish_rivers( const overmap *north, const overmap *east, const overmap *south,
                             const overmap *west );
