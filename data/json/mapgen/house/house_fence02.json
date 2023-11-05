@@ -59,7 +59,7 @@
         "&": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] }
       },
       "place_loot": [ { "item": "television", "x": 16, "y": 17 } ],
-      "place_vehicles": [ { "vehicle": "car", "x": 14, "y": 3, "chance": 100, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "car", "x": 14, "y": 3, "chance": 20, "rotation": 90 } ]
     }
   },
   {
