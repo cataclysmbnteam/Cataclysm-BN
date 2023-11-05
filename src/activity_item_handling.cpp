@@ -3366,6 +3366,7 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 
     // We need to move fuel from stash to fire
     map_stack potential_fuel = here.i_at( *refuel_spot );
+    item *found = nullptr;
     for( item *&it : potential_fuel ) {
         if( it->made_of( LIQUID ) ) {
             continue;
@@ -3374,10 +3375,13 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         float last_fuel = fd.fuel_produced;
         it->simulate_burn( fd );
         if( fd.fuel_produced > last_fuel ) {
-            int quantity = std::max( 1, std::min( it->charges, it->charges_per_volume( 250_ml ) ) );
-            // Note: move_item() handles messages (they're the generic "you drop x")
-            move_item( p, *it, quantity, *refuel_spot, *best_fire );
-            return;
+            found = it;
+            break;
         }
+    }
+    if( found ) {
+        int quantity = std::max( 1, std::min( found->charges, found->charges_per_volume( 250_ml ) ) );
+        // Note: move_item() handles messages (they're the generic "you drop x")
+        move_item( p, *found, quantity, *refuel_spot, *best_fire );
     }
 }
