@@ -67,7 +67,7 @@
   },
   {
     "type": "recipe",
-    "result": "fur",
+    "result": "owlbear_fur",
     "id_suffix": "modern",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
