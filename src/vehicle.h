@@ -471,7 +471,7 @@ class vehicle
         ~vehicle();
 
     private:
-		void copy_static_from(const vehicle &);
+        void copy_static_from( const vehicle & );
         vehicle( const vehicle & ) = delete;
         vehicle( vehicle && ) = delete;
         vehicle &operator=( vehicle && ) = delete;

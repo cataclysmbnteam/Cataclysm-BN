@@ -271,10 +271,10 @@ monster::monster( const monster &source ) : Creature( source ),
     for( const item * const &it : source.corpse_components ) {
         corpse_components.push_back( item::spawn( *it ) );
     }
-    
-    for( const item * const &it : source.inv){
-		inv.push_back(item::spawn(*it));
-	}
+
+    for( const item * const &it : source.inv ) {
+        inv.push_back( item::spawn( *it ) );
+    }
 
     hp = source.hp;
     special_attacks = source.special_attacks;
