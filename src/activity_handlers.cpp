@@ -2974,6 +2974,11 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     }
     if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
         target->set_var( "dirt", 0 );
+        for ( const auto &mod : target->gunmods() ) {
+            if ( mod->has_var( "dirt" ) ) {
+                mod->set_var( "dirt", 0 );
+            }
+        }
     }
     add_msg( m_good, method->success_msg.translated(), target->tname() );
 }
