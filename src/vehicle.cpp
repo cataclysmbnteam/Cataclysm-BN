@@ -377,6 +377,7 @@ vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
         for(vehicle_part & part : proto.blueprint->parts){
 			parts.emplace_back(part, this);
 		}
+		refresh_locations_hack();
         init_state( init_veh_fuel, init_veh_status );
     }
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
@@ -1886,11 +1887,9 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                                                    static_cast<int>( to_degrees( relative_dir ) ),
                                                    carry_veh->name );
             for( int carry_part : carry_map.carry_parts_here ) {
-                //TODO!: check that the carry veh is really destroyed after this
                 parts.push_back( std::move( carry_veh->parts[ carry_part ] ) );
-                refresh_locations_hack();
                 vehicle_part &carried_part = parts.back();
-
+				carried_part.set_vehicle_hack(this);
                 carried_part.mount = carry_map.carry_mount;
                 carried_part.carry_names.push( unique_id );
                 carried_part.enabled = false;
@@ -1901,6 +1900,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 }
                 parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
             }
+            refresh_locations_hack();
 
             const std::pair<std::unordered_multimap<point, zone_data>::iterator, std::unordered_multimap<point, zone_data>::iterator>
             zones_on_point = carry_veh->loot_zones.equal_range( carry_map.old_mount );
@@ -2082,6 +2082,7 @@ void vehicle::part_removal_cleanup()
             ++it;
         }
     }
+    refresh_locations_hack();
     removed_part_count = 0;
     if( changed || parts.empty() ) {
         refresh();
@@ -2468,6 +2469,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             removed_part_count++;
         }
 
+		new_vehicle->refresh_locations_hack();
         // We want to create the vehicle zones after we've setup the parts
         // because we need only to move the zone once per mount, not per part. If we move per
         // part, we will end up with duplicates of the zone per part on the same mount
