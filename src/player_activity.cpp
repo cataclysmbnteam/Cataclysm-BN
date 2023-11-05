@@ -95,8 +95,6 @@ void player_activity::migrate_item_position( Character &guy )
 void player_activity::set_to_null()
 {
     type = activity_id::NULL_ID();
-    //Get rid of any safe references now
-    targets.clear();
     sfx::end_activity_sounds(); // kill activity sounds when activity is nullified
 }
 
