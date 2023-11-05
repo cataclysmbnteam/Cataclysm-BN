@@ -413,7 +413,7 @@ item_location_type vehicle_item_location::where() const
 
 detached_ptr<item> vehicle_item_location::detach( item *it )
 {
-    detached_ptr<item> ret=veh->get_part_hack( hack_id ).remove_item( *it );
+    detached_ptr<item> ret = veh->get_part_hack( hack_id ).remove_item( *it );
     veh->invalidate_mass();
     return ret;
 }
