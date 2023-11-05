@@ -8631,7 +8631,7 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
 
                 if( n == e->ammo_remaining() ) {
                     used.push_back( std::move( e ) );
-					return detached_ptr<item>();
+                    return detached_ptr<item>();
                 } else {
                     e->ammo_consume( n, pos );
                     detached_ptr<item> split = item::spawn( *e );
@@ -8650,7 +8650,7 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
                 } else {
                     qty -= e->charges;
                     used.push_back( std::move( e ) );
-					return detached_ptr<item>();
+                    return detached_ptr<item>();
                 }
             }
         }
@@ -8672,7 +8672,7 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
             return VisitResponse::NEXT;
         }
         item &obj = *e;
-        e=handle_item( std::move( e ) );
+        e = handle_item( std::move( e ) );
         if( obj.is_tool() || obj.count_by_charges() ) {
             return VisitResponse::SKIP;
         }
