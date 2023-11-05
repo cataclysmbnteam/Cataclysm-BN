@@ -531,7 +531,7 @@ std::vector<stacked_items> stack_for_pickup_ui( const
         // Each sub-stack has to be sorted separately
         std::sort( restacked_children.begin(), restacked_children.end(),
         []( const std::list<item_stack::iterator> &lhs, const std::list<item_stack::iterator> &rhs ) {
-            return *lhs.front() < *rhs.front();
+            return **lhs.front() < **rhs.front();
         } );
         restacked_with_parents.emplace_back( stacked_items{ pr.second.parent, restacked_children } );
     }
@@ -539,7 +539,7 @@ std::vector<stacked_items> stack_for_pickup_ui( const
     // Sorting by parent is a bit arbitrary (parent-less go last) - sort by count?
     std::sort( restacked_with_parents.begin(), restacked_with_parents.end(),
     []( const stacked_items & lhs, stacked_items & rhs ) {
-        return lhs.parent.has_value() && ( !rhs.parent.has_value() || *lhs.parent < *rhs.parent );
+        return lhs.parent.has_value() && ( !rhs.parent.has_value() || **lhs.parent < **rhs.parent );
     } );
 
 
