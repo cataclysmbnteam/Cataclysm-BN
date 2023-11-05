@@ -42,9 +42,10 @@ struct vehicle_part {
         vehicle_part( vehicle * );
 
         vehicle_part( const vpart_id &vp, point dp, detached_ptr<item> &&obj, vehicle * );
+        vehicle_part( const vehicle_part &, vehicle * );
 
-        vehicle_part( const vehicle_part & );
-        vehicle_part &operator=( const vehicle_part & );
+        vehicle_part( vehicle_part && );
+        vehicle_part &operator=( vehicle_part && );
 
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;

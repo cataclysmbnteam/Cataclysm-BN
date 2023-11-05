@@ -97,21 +97,31 @@ void vehicle_part::copy_static_from( const vehicle_part &source )
 }
 
 //TODO!: This is a bit scuffed and will be until vehicles are game objects.
-vehicle_part::vehicle_part( const vehicle_part &source ) : vehicle_part()
+vehicle_part::vehicle_part( const vehicle_part &source, vehicle *veh ) : vehicle_part( veh )
 {
     copy_static_from( source );
     base = item::spawn( *source.base );
-    for( item * const &it : source.items ) {
+    for( const item * const &it : source.items ) {
         items.push_back( item::spawn( *it ) );
     }
 }
 
-vehicle_part &vehicle_part::operator=( const vehicle_part &source )
+vehicle_part::vehicle_part( vehicle_part &&source ) : vehicle_part()
 {
     copy_static_from( source );
-    base = item::spawn( *source.base );
-    for( item * const &it : source.items ) {
-        items.push_back( item::spawn( *it ) );
+    base = source.base.release();
+    for( detached_ptr<item> &it : source.items.clear() ) {
+        items.push_back( std::move( it ) );
+    }
+}
+
+vehicle_part &vehicle_part::operator=( vehicle_part &&source )
+{
+    copy_static_from( source );
+    base = source.base.release();
+    items.clear();
+    for( detached_ptr<item> &it : source.items.clear() ) {
+        items.push_back( std::move( it ) );
     }
     return *this;
 }

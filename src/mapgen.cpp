@@ -5579,7 +5579,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
             for( const vpart_reference &vpr : old_veh->get_all_parts() ) {
                 const tripoint part_pos = old_veh->global_part_pos3( vpr.part() ) - global_pos;
-                wreckage->install_part( part_pos.xy(), vehicle_part{vpr.part()} );
+                wreckage->install_part( part_pos.xy(), vehicle_part{vpr.part(), &*wreckage} );
             }
 
             wreckage->name = _( "Wreckage" );
