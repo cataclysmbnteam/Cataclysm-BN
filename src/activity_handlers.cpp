@@ -1512,7 +1512,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     charges = std::max( 1, source->charges_per_volume( volume_per_second ) );
                     source->charges = charges;
                     source = cb( std::move( source ) );
-                    return !( source && source->charges != charges );
+                    return source && source->charges == charges;
                 case LST_VEHICLE:
                     auto vp = here.veh_at( pos );
                     if( !vp ) {
