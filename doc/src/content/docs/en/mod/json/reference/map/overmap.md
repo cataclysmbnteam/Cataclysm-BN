@@ -248,16 +248,29 @@ completed--they are the "non-city" counterpart to the **city_building** type. Th
 up of multiple overmap terrains (though not always), may have overmap connections (e.g. roads,
 sewers, subways), and have JSON-defined rules guiding their placement.
 
-### Mandatory Overmap Specials
+## Placement Rules
 
-There are a finite number of "slots" in which overmap specials can be placed during overmap
-generation, defined by the width of the overmap, height of the overmap, and an "overmap special
-frequency" (at the time of writing there are 72 "slots" per overmap). As a result, you are
-encouraged to exercise restraint when specifying some attributes of the overmap special, such as
-required minimum occurrences. The game gives precedence to "mandatory overmap specials" (e.g. those
-with a minimum greater than 0) and consequently too many mandatory overmap specials may exhaust the
-number of slots before any optional specials can even attempt placement. As a general rule, the
-minimum should be 0.
+For each special, mapgen first decides how many instances it wants to place by rolling a random
+number between `min` and `max` of its occurrences. This number will be adjusted with a few
+multipliers: configured specials density, terrain ratio, and crowdedness ratio.
+
+The "terrain ratio" is a number representing the ratio between land and lake tiles on the overmap. A
+30% flooded overmap will have a 0.7 multiplier for land specials and a 0.3 multiplier for lake
+specials.
+
+The "crowdedness ratio" is a number representing the ratio between the total overmap area and the
+expected average area required to place all specials with the current range and density settings. It
+is capped and normally stays at x1. However, trying to spawn more specials than physically possible
+will cause it to decrease.
+
+After considering all these factors, it may result in a number such as 2.4, which means that the
+overmap will have a 60% chance to place 2 instances and a 40% chance to place 3 instances of that
+special. The final number will never be lower than the raw `min` value of occurrences.
+
+Once the exact amount is chosen, mapgen will search for places to spawn specials. If a special
+depends on a city, its instances will be distributed in the vicinity of different matching cities.
+For example, if mapgen wants to place three instances and the overmap has two cities of the required
+size, it won't place more than two instances near the same city.
 
 ### Fixed vs mutable specials
 
