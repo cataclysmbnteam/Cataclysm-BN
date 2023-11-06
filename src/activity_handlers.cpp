@@ -2906,18 +2906,33 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     }
     p->invalidate_crafting_inventory();
 
-    target->faults.erase( *f );
-    if( method->turns_into ) {
-        target->faults.emplace( *method->turns_into );
+    const auto mend = [&]( item * target ) -> void {
+        target->faults.erase( *f );
+        if( method->turns_into )
+        {
+            target->faults.emplace( *method->turns_into );
+        }
+        // also_mends removes not just the fault picked to be mended, but this as well.
+        if( method->also_mends )
+        {
+            target->faults.erase( *method->also_mends );
+        }
+        if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" )
+        {
+            target->set_var( "dirt", 0 );
+        }
+        add_msg( m_good, method->success_msg.translated(), target->tname() );
+    };
+
+    mend( target );
+
+    // iterate over attachments and apply the same changes if they have the same fault
+    for( const auto &mod : target->gunmods() ) {
+        if( mod->faults.find( fault_id( act->name ) ) == mod->faults.end() ) {
+            continue;
+        }
+        mend( mod );
     }
-    // also_mends removes not just the fault picked to be mended, but this as well.
-    if( method->also_mends ) {
-        target->faults.erase( *method->also_mends );
-    }
-    if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
-        target->set_var( "dirt", 0 );
-    }
-    add_msg( m_good, method->success_msg.translated(), target->tname() );
 }
 
 void activity_handlers::gunmod_add_finish( player_activity *act, player *p )

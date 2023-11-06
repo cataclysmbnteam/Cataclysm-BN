@@ -208,7 +208,12 @@ void mend_item( avatar &you, item &obj, bool interactive )
     };
 
     std::vector<mending_option> mending_options;
-    for( const fault_id &f : obj.faults ) {
+
+    auto &faults( obj.faults );
+    for( const auto &mod : obj.gunmods() ) {
+        faults.insert( mod->faults.begin(), mod->faults.end() );
+    }
+    for( const fault_id &f : faults ) {
         for( const auto &m : f->mending_methods() ) {
             mending_option opt { f, m.second, true };
             for( const auto &sk : m.second.skills ) {
