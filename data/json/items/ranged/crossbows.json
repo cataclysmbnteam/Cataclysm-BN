@@ -282,7 +282,6 @@
     "price": 20000,
     "price_postapoc": 2000,
     "material": [ "wood", "iron" ],
-    "extend": { "flags": [ "STR_RELOAD" ] },
     "ammo": "pebble",
     "weight": "1906 g",
     "volume": "1250 ml",
@@ -421,6 +420,7 @@
     "price": 324000,
     "material": [ "steel", "wood" ],
     "extend": { "flags": [ "FIRE_TWOHAND", "TRADER_AVOID" ] },
+    "delete": { "flags": [ "STR_RELOAD" ] },
     "weight": "3628 g",
     "volume": "2500 ml",
     "price_postapoc": 6000,
@@ -432,7 +432,7 @@
     "recoil": 30,
     "durability": 6,
     "clip_size": 10,
-    "reload": 800,
+    "reload": 200,
     "valid_mod_locations": [ [ "dampening", 1 ], [ "grip", 1 ], [ "mechanism", 1 ] ]
   }
 ]

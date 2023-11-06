@@ -11710,8 +11710,9 @@ int Character::item_reload_cost( const item &it, item &ammo, int qty ) const
     mv += cost / ( 1.0f + std::min( get_skill_level( sk ) * 0.1f, 1.0f ) );
 
     if( it.has_flag( flag_STR_RELOAD ) ) {
-        /** @EFFECT_STR reduces reload time of some weapons */
-        mv -= get_str() * 20;
+        /** @EFFECT_STR over 10 reduces reload time of some weapons */
+        /** maximum reduction down to 25% of reload rate */
+        mv *= std::max<float>( 10.0f / std::max<float>( 10.0f, get_str() ), 0.25f );
     }
 
     return std::max( mv, 25 );
