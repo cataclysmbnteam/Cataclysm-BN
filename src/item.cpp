@@ -4516,14 +4516,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             truncate_override = utf8_width( damtext, false ) - utf8_width( damtext, true );
         }
     }
+
     if( !faults.empty() ) {
-        bool silent = true;
-        for( const auto &fault : faults ) {
-            if( !fault->has_flag( "SILENT" ) ) {
-                silent = false;
-                break;
-            }
-        }
+        const bool silent = std::any_of( faults.begin(), faults.end(), []( const fault_id & f ) -> bool { return f->has_flag( "SILENT" ); } );
         if( silent ) {
             damtext.insert( 0, dirt_symbol );
         } else {
