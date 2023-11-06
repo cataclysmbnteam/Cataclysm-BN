@@ -4,6 +4,8 @@
 #include "coordinates.h"
 #include "detached_ptr.h"
 #include "item.h"
+#include "itype.h"
+#include "iuse_actor.h"
 #include "location_ptr.h"
 #include "map.h"
 #include "monster.h"
@@ -493,8 +495,18 @@ item_location_type contents_item_location::where() const
     return item_location_type::container;
 }
 
-int contents_item_location::obtain_cost( const Character &ch, int qty, const item * ) const
+int contents_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const
 {
+    if( container->can_holster( *it ) ) {
+        auto ptr = dynamic_cast<const holster_actor *>
+                   ( container->type->get_use( "holster" )->get_actor_ptr() );
+        return dynamic_cast<const player *>( &ch )->item_handling_cost( *it, false, ptr->draw_cost );
+    } else if( container->is_bandolier() ) {
+        auto ptr = dynamic_cast<const bandolier_actor *>
+                   ( container->type->get_use( "bandolier" )->get_actor_ptr() );
+        return dynamic_cast<const player *>( &ch )->item_handling_cost( *it, false, ptr->draw_cost );
+    }
+
     return INVENTORY_HANDLING_PENALTY + container->obtain_cost( ch, qty );
 }
 
