@@ -1,24 +1,17 @@
 [
   {
-    "//": "Generated under surface 'lab_stairs', and all 'hidden_lab_stairs'",
+    "//": "Nested special, does not spawn by itself",
     "type": "overmap_special",
     "id": "lab_basement",
     "subtype": "mutable",
     "locations": [ "subterranean_empty" ],
     "occurrences": [ 0, 0 ],
     "check_for_locations": [ [ [ 0, 0, 0 ], [ "subterranean_empty" ] ] ],
-    "joins": [ "stairs_to_stairs", "lab_to_lab" ],
+    "joins": [ "lab_to_lab" ],
     "overmaps": {
       "lab_stairs": {
         "overmap": "lab_stairs",
-        "below": "stairs_to_stairs",
-        "north": { "id": "lab_to_lab", "type": "optional" },
-        "east": { "id": "lab_to_lab", "type": "optional" },
-        "south": { "id": "lab_to_lab", "type": "optional" },
-        "west": { "id": "lab_to_lab", "type": "optional" }
-      },
-      "lab_core_stub": {
-        "overmap": "lab_core",
+        "below": "lab_to_lab",
         "north": { "id": "lab_to_lab", "type": "optional" },
         "east": { "id": "lab_to_lab", "type": "optional" },
         "south": { "id": "lab_to_lab", "type": "optional" },
@@ -26,7 +19,7 @@
       },
       "lab_core": {
         "overmap": "lab_core",
-        "above": "stairs_to_stairs",
+        "above": { "id": "lab_to_lab", "type": "available" },
         "north": { "id": "lab_to_lab", "type": "optional" },
         "east": { "id": "lab_to_lab", "type": "optional" },
         "south": { "id": "lab_to_lab", "type": "optional" },
@@ -66,7 +59,7 @@
         "west": { "id": "lab_to_lab", "type": "optional" }
       }
     },
-    "root": "lab_core_stub",
+    "root": "lab_core",
     "shared": { "size": [ 1, 7 ] },
     "phases": [
       [
@@ -129,12 +122,12 @@
       [ [ -1, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 0, -1, -1 ], [ "subterranean_empty" ] ]
     ],
-    "joins": [ "stairs_to_stairs", "lab_to_lab" ],
+    "joins": [ "lab_to_lab" ],
     "overmaps": {
-      "surface": { "overmap": "ice_lab_stairs", "locations": [ "wilderness" ], "below": "stairs_to_stairs" },
+      "surface": { "overmap": "ice_lab_stairs", "locations": [ "wilderness" ], "below": "lab_to_lab" },
       "ice_lab_stairs": {
         "overmap": "ice_lab_stairs",
-        "below": "stairs_to_stairs",
+        "below": "lab_to_lab",
         "north": { "id": "lab_to_lab", "type": "optional" },
         "east": { "id": "lab_to_lab", "type": "optional" },
         "south": { "id": "lab_to_lab", "type": "optional" },
@@ -142,7 +135,7 @@
       },
       "ice_lab_core": {
         "overmap": "ice_lab_core",
-        "above": "stairs_to_stairs",
+        "above": "lab_to_lab",
         "north": { "id": "lab_to_lab", "type": "optional" },
         "east": { "id": "lab_to_lab", "type": "optional" },
         "south": { "id": "lab_to_lab", "type": "optional" },
@@ -284,7 +277,7 @@
       [ [ 1, -4, -2 ], [ "subterranean_empty" ] ],
       [ [ 1, -3, -3 ], [ "subterranean_empty" ] ]
     ],
-    "joins": [ "stairs_to_stairs", "lab_to_lab", "entrance_to_shaft" ],
+    "joins": [ "lab_to_lab", "entrance_to_shaft" ],
     "overmaps": {
       "surface": { "overmap": "central_lab_entrance", "locations": [ "wilderness" ], "below": "entrance_to_shaft" },
       "central_lab_shaft": { "overmap": "central_lab_shaft", "above": "entrance_to_shaft" },
@@ -301,7 +294,7 @@
       "central_lab_stub": { "overmap": "central_lab_core" },
       "central_lab_stairs_stub": {
         "overmap": "central_lab_core",
-        "below": "stairs_to_stairs",
+        "below": "lab_to_lab",
         "north": { "id": "lab_to_lab", "type": "reject" },
         "east": { "id": "lab_to_lab", "type": "reject" },
         "south": { "id": "lab_to_lab", "type": "reject" },
@@ -309,7 +302,7 @@
       },
       "central_lab_stairs": {
         "overmap": "central_lab_stairs",
-        "below": "stairs_to_stairs",
+        "below": "lab_to_lab",
         "north": { "id": "lab_to_lab", "type": "optional" },
         "east": { "id": "lab_to_lab", "type": "optional" },
         "south": { "id": "lab_to_lab", "type": "optional" },
@@ -317,7 +310,7 @@
       },
       "central_lab_core": {
         "overmap": "central_lab_core",
-        "above": "stairs_to_stairs",
+        "above": "lab_to_lab",
         "north": { "id": "lab_to_lab", "type": "optional" },
         "east": { "id": "lab_to_lab", "type": "optional" },
         "south": { "id": "lab_to_lab", "type": "optional" },
