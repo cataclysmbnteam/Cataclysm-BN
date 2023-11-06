@@ -2920,8 +2920,8 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     add_msg( m_good, method->success_msg.translated(), target->tname() );
 
     // iterate over attachments and apply the same changes if they have the same fault
-    for ( const auto &mod : target->gunmods() ) {
-        if ( mod->faults.find( fault_id( act->name ) ) == mod->faults.end() ) {
+    for( const auto &mod : target->gunmods() ) {
+        if( mod->faults.find( fault_id( act->name ) ) == mod->faults.end() ) {
             continue;
         }
         mod->faults.erase( *f );
@@ -2935,7 +2935,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
             mod->set_var( "dirt", 0 );
         }
 
-        add_msg(m_good, method->success_msg.translated(), mod->tname());
+        add_msg( m_good, method->success_msg.translated(), mod->tname() );
     }
 }
 
