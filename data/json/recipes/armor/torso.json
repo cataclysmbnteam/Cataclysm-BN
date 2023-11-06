@@ -595,7 +595,7 @@
     "time": "3 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "components": [ [ [ "felt_patch", 30 ] ] ]
+    "components": [ [ [ "felt_patch", 18 ] ] ]
   },
   {
     "result": "poncho",
@@ -605,10 +605,10 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": "3 h",
+    "time": "6 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 300 ] ] ]
+    "components": [ [ [ "yarn", 900 ] ] ]
   },
   {
     "result": "sleeveless_duster",
@@ -988,10 +988,10 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "6 h",
+    "time": "3 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 600 ] ] ]
+    "components": [ [ [ "yarn", 350 ] ] ]
   },
   {
     "result": "tank_top",

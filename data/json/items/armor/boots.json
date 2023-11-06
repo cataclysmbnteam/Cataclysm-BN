@@ -1344,7 +1344,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of wool socks", "str_pl": "pairs of wool socks" },
     "description": "Warm socks made of wool.",
-    "weight": "44 g",
+    "weight": "74 g",
     "volume": "250 ml",
     "price": 1200,
     "price_postapoc": 150,
