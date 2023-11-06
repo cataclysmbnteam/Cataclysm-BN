@@ -1515,10 +1515,10 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
             if( pattern != nullptr && lcmatch( note.text, *pattern ) ) {
                 continue;
             }
-            result.push_back( t_point_with_note(
-                                  project_combine( it.first, note.p ),
-                                  note.text
-                              ) );
+            result.emplace_back(
+                project_combine( it.first, note.p ),
+                note.text
+            );
         }
     }
     return result;
@@ -1541,10 +1541,10 @@ overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::stri
                     // pattern not found in note text
                     continue;
                 }
-                result.push_back( t_point_with_extra(
-                                      project_combine( om.pos(), p.xy() ),
-                                      om.extra( p )
-                                  ) );
+                result.emplace_back(
+                    project_combine( om.pos(), p.xy() ),
+                    om.extra( p )
+                );
             }
         }
     }

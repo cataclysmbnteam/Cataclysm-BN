@@ -203,7 +203,7 @@
     "name": { "str": "Glide on Ice" },
     "description": "Encases your feet in a magical coating of ice, allowing you to glide along smooth surfaces faster.",
     "valid_targets": [ "none" ],
-    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "CONCENTRATE" ],
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
@@ -251,7 +251,7 @@
     "name": { "str": "Ice Shield" },
     "description": "Creates a magical shield of ice on your arm, you can defend yourself with it in melee combat and use it to bash.",
     "valid_targets": [ "none" ],
-    "flags": [ "NO_LEGS", "CONCENTRATE", "VERBAL" ],
+    "flags": [ "NO_LEGS", "CONCENTRATE", "VERBAL", "NO_EXPLOSION_VFX" ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
@@ -272,7 +272,7 @@
     "name": { "str": "Frost Armor" },
     "description": "Covers you in a thin layer of magical ice to protect you from harm.",
     "valid_targets": [ "self" ],
-    "flags": [ "NO_LEGS", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "flags": [ "NO_LEGS", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_EXPLOSION_VFX" ],
     "effect": "spawn_item",
     "effect_str": "armor_frost",
     "affected_body_parts": [ "head", "torso", "leg_l", "leg_r", "arm_r", "arm_l" ],
@@ -305,6 +305,6 @@
     "max_level": 0,
     "spell_class": "KELVINIST",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX" ]
   }
 ]

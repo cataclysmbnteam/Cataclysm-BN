@@ -53,12 +53,11 @@ struct is_container<map_stack> : std::false_type {};
 } // namespace sol
 
 struct item_stack_lua_it_state {
-    using it_t = item_stack::iterator;
-    it_t it;
-    it_t last;
+    item_stack *stack;
+    size_t index;
 
     item_stack_lua_it_state( item_stack &stk )
-        : it( stk.begin() ), last( stk.end() ) {
+        : stack( &stk ), index( 0 ) {
     }
 };
 
@@ -75,22 +74,23 @@ item_stack_lua_next(
     // the key value is argument 2, but we do not
     // care about the key value here
     item_stack_lua_it_state &it_state = user_it_state;
-    auto &it = it_state.it;
-    if( it == it_state.last ) {
+    if( it_state.index >= it_state.stack->size() ) {
         // return nil to signify that
         // there's nothing more to work with.
         return std::make_tuple( sol::object( sol::lua_nil ),
                                 sol::object( sol::lua_nil ) );
     }
-    item *elem = &*it;
+    auto it = it_state.stack->begin();
+    std::advance( it, it_state.index );
+    item *elem = *it;
     // 2 values are returned (pushed onto the stack):
     // the key and the value
     // the state is left alone
     auto r = std::make_tuple(
-                 sol::object( l, sol::in_place, it ),
+                 sol::object( l,  sol::in_place, it_state.index ),
                  sol::object( l, sol::in_place, elem ) );
     // the iterator must be moved forward one before we return
-    std::advance( it, 1 );
+    it_state.index++;
     return r;
 }
 
@@ -462,7 +462,7 @@ void cata::detail::reg_debug_api( sol::state &lua )
     } );
     luna::set_fx( lib, "reload_lua_code", &cata::reload_lua_code );
     luna::set_fx( lib, "save_game", []() -> bool {
-        return g->save();
+        return g->save( false );
     } );
 
     luna::finalize_lib( lib );

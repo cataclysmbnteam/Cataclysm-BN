@@ -40,7 +40,7 @@ inline pf_special &operator &= ( pf_special &lhs, pf_special rhs )
 
 struct pathfinding_cache {
     pathfinding_cache();
-    ~pathfinding_cache();
+    ~pathfinding_cache() = default;
 
     bool dirty;
 

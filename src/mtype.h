@@ -235,7 +235,7 @@ struct mtype {
         void remove_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
                                             const std::string &src );
 
-        void add_regeneration_modifier( JsonObject inner, const std::string &src );
+        void add_regeneration_modifier( const JsonObject &inner, const std::string &src );
 
     public:
         mtype_id id;

@@ -17,7 +17,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "colony.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
 #include "damage.h"
@@ -94,7 +93,8 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 
-void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
+void map::create_burnproducts( std::vector < detached_ptr<item>> &out, const item &fuel,
+                               const units::mass &burned_mass )
 {
     std::vector<material_id> all_mats = fuel.made_of();
     if( all_mats.empty() ) {
@@ -116,7 +116,7 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
             if( n <= 0 ) {
                 continue;
             }
-            spawn_item( p, id, n, 1, calendar::turn );
+            out.push_back( item::spawn( id ) );
         }
     }
 }
@@ -538,26 +538,21 @@ void map::process_fields_in_submap( submap *const current_submap,
                     // without forcing the function to use i_at( p ) for fires without items
                     if( !is_sealed && map_tile.get_item_count() > 0 ) {
                         map_stack items_here = i_at( p );
-                        std::vector<item> new_content;
-                        for( auto explosive = items_here.begin(); explosive != items_here.end(); ) {
-                            if( explosive->will_explode_in_fire() ) {
-                                // We need to make a copy because the iterator validity is not predictable
-                                item copy = *explosive;
-                                explosive = items_here.erase( explosive );
-                                if( copy.detonate( p, new_content ) ) {
-                                    // Need to restart, iterators may not be valid
-                                    explosive = items_here.begin();
-                                }
-                            } else {
-                                ++explosive;
+                        std::vector<detached_ptr<item>> new_content;
+
+                        items_here.remove_top_items_with( [&p, &new_content]( detached_ptr<item> &&it ) {
+                            if( it->will_explode_in_fire() ) {
+                                it = item::detonate( std::move( it ), p, new_content );
                             }
-                        }
+                            return std::move( it );
+                        } );
 
                         fire_data frd( cur.get_field_intensity(), !can_spread );
                         // The highest # of items this fire can remove in one turn
                         int max_consume = cur.get_field_intensity() * 2;
 
-                        for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
+                        for( auto fuel_it = items_here.begin(); fuel_it != items_here.end() && consumed < max_consume; ) {
+                            item *fuel = *fuel_it;
                             // `item::burn` modifies the charges in order to simulate some of them getting
                             // destroyed by the fire, this changes the item weight, but may not actually
                             // destroy it. We need to spawn products anyway.
@@ -568,26 +563,25 @@ void map::process_fields_in_submap( submap *const current_submap,
                             // which we can not use, so only call `weight` when it's still an existing item.
                             const units::mass new_weight = destroyed ? 0_gram : fuel->weight( false );
                             if( old_weight != new_weight ) {
-                                create_burnproducts( p, *fuel, old_weight - new_weight );
+                                create_burnproducts( new_content, *fuel, old_weight - new_weight );
                             }
 
                             if( destroyed ) {
                                 // If we decided the item was destroyed by fire, remove it.
                                 // But remember its contents, except for irremovable mods, if any
-                                const std::list<item *> content_list = fuel->contents.all_items_top();
-                                for( item *it : content_list ) {
+                                for( detached_ptr<item> &it : fuel->contents.clear_items() ) {
                                     if( !it->is_irremovable() ) {
-                                        new_content.push_back( item( *it ) );
+                                        new_content.push_back( std::move( it ) );
                                     }
                                 }
-                                fuel = items_here.erase( fuel );
+                                fuel_it = items_here.erase( fuel_it );
                                 consumed++;
                             } else {
-                                ++fuel;
+                                ++fuel_it;
                             }
                         }
 
-                        spawn_items( p, new_content );
+                        spawn_items( p, std::move( new_content ) );
                         time_added = 1_turns * roll_remainder( frd.fuel_produced );
                     }
 
@@ -988,13 +982,15 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( cur_fd_type_id == fd_push_items ) {
                     map_stack items = i_at( p );
                     for( auto pushee = items.begin(); pushee != items.end(); ) {
-                        if( pushee->typeId() != itype_rock ||
-                            pushee->age() < 1_turns ) {
+                        if( ( *pushee )->typeId() != itype_rock ||
+                            ( *pushee )->age() < 1_turns ) {
                             pushee++;
                         } else {
-                            item tmp = *pushee;
+                            //TODO!: check
+                            item &tmp = **pushee;
                             tmp.set_age( 0_turns );
-                            pushee = items.erase( pushee );
+                            detached_ptr<item> detached;
+                            pushee = items.erase( pushee, &detached );
                             std::vector<tripoint> valid;
                             for( const tripoint &dst : points_in_radius( p, 1 ) ) {
                                 if( get_field( dst, fd_push_items ) != nullptr ) {
@@ -1003,7 +999,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             }
                             if( !valid.empty() ) {
                                 tripoint newp = random_entry( valid );
-                                add_item_or_charges( newp, tmp );
+                                add_item_or_charges( newp, std::move( detached ) );
                                 if( g->u.pos() == newp ) {
                                     add_msg( m_bad, _( "A %s hits you!" ), tmp.tname() );
                                     const bodypart_id hit = g->u.get_random_body_part();
@@ -1361,19 +1357,19 @@ void map::player_in_field( player &u )
                     if( !u.is_on_ground() ) {
                         switch( adjusted_intensity ) {
                             case 3:
-                                parts_burned.push_back( bodypart_id( "hand_l" ) );
-                                parts_burned.push_back( bodypart_id( "hand_r" ) );
-                                parts_burned.push_back( bodypart_id( "arm_l" ) );
-                                parts_burned.push_back( bodypart_id( "arm_r" ) );
+                                parts_burned.emplace_back( "hand_l" );
+                                parts_burned.emplace_back( "hand_r" );
+                                parts_burned.emplace_back( "arm_l" );
+                                parts_burned.emplace_back( "arm_r" );
                             /* fallthrough */
                             case 2:
-                                parts_burned.push_back( bodypart_id( "torso" ) );
+                                parts_burned.emplace_back( "torso" );
                             /* fallthrough */
                             case 1:
-                                parts_burned.push_back( bodypart_id( "foot_l" ) );
-                                parts_burned.push_back( bodypart_id( "foot_r" ) );
-                                parts_burned.push_back( bodypart_id( "leg_l" ) );
-                                parts_burned.push_back( bodypart_id( "leg_r" ) );
+                                parts_burned.emplace_back( "foot_l" );
+                                parts_burned.emplace_back( "foot_r" );
+                                parts_burned.emplace_back( "leg_l" );
+                                parts_burned.emplace_back( "leg_r" );
                         }
                     } else {
                         // Lying in the fire is BAAAD news, hits every body part.
@@ -1504,9 +1500,9 @@ void map::player_in_field( player &u )
                 for( int i = 0; i < rng( 1, 7 ); i++ ) {
                     bodypart_id bp = u.get_random_body_part();
                     int sum_cover = 0;
-                    for( const item &i : u.worn ) {
-                        if( i.covers( bp ) ) {
-                            sum_cover += i.get_coverage( bp );
+                    for( const item * const &i : u.worn ) {
+                        if( i->covers( bp ) ) {
+                            sum_cover += i->get_coverage( bp );
                         }
                     }
                     // Get stung if [clothing on a body part isn't thick enough (like t-shirt) OR clothing covers less than 100% of body part]
@@ -1945,7 +1941,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
     using gas_blast = std::pair<float, tripoint>;
     std::priority_queue<gas_blast, std::vector<gas_blast>, pair_greater_cmp_first> open;
     std::set<tripoint> closed;
-    open.push( { 0.0f, center } );
+    open.emplace( 0.0f, center );
 
     const bool not_gas = type.obj().phase != GAS;
 
@@ -1999,7 +1995,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
                     continue;
                 }
                 if( !obstructed_by_vehicle_rotation( gp.second, pt ) ) {
-                    open.push( { static_cast<float>( rl_dist( center, pt ) ), pt } );
+                    open.emplace( static_cast<float>( rl_dist( center, pt ) ), pt );
                 }
             }
         }

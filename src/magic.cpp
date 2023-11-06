@@ -101,6 +101,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::HOSTILE_SUMMON: return "HOSTILE_SUMMON";
         case spell_flag::HOSTILE_50: return "HOSTILE_50";
         case spell_flag::SILENT: return "SILENT";
+        case spell_flag::NO_EXPLOSION_VFX: return "NO_EXPLOSION_VFX";
         case spell_flag::LOUD: return "LOUD";
         case spell_flag::VERBAL: return "VERBAL";
         case spell_flag::SOMATIC: return "SOMATIC";
@@ -1264,7 +1265,7 @@ void known_magic::serialize( JsonOut &json ) const
 
     json.member( "spellbook" );
     json.start_array();
-    for( auto pair : spellbook ) {
+    for( const auto &pair : spellbook ) {
         json.start_object();
         json.member( "id", pair.second.id() );
         json.member( "xp", pair.second.xp() );
@@ -1411,6 +1412,7 @@ spell &known_magic::get_spell( const spell_id &sp )
 std::vector<spell *> known_magic::get_spells()
 {
     std::vector<spell *> spells;
+    spells.reserve( spellbook.size() );
     for( auto &spell_pair : spellbook ) {
         spells.emplace_back( &spell_pair.second );
     }
@@ -1465,7 +1467,8 @@ void known_magic::update_mana( const Character &guy, double turns )
 std::vector<spell_id> known_magic::spells() const
 {
     std::vector<spell_id> spell_ids;
-    for( auto pair : spellbook ) {
+    spell_ids.reserve( spellbook.size() );
+    for( const auto &pair : spellbook ) {
         spell_ids.emplace_back( pair.first );
     }
     return spell_ids;

@@ -36,6 +36,8 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const skill_id skill_melee( "melee" );
 
+static const itype_id itype_fungal_seeds( "fungal_seeds" );
+
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 static const mtype_id mon_spore( "mon_spore" );
 
@@ -209,13 +211,14 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             // Replace the (already existing) seed
             // Can't use item_stack::only_item() since there might be fertilizer
             map_stack items = m.i_at( p );
-            const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.is_seed();
+            const map_stack::iterator seed = std::find_if( items.begin(),
+            items.end(), []( const item * const & it ) {
+                return it->is_seed();
             } );
-            if( seed == items.end() || !seed->is_seed() ) {
+            if( seed == items.end() || !( *seed )->is_seed() ) {
                 dbg( DL::Warn ) << "No seed item in the PLANT terrain at position " << p;
             } else {
-                *seed = item( "fungal_seeds", calendar::turn );
+                ( *seed )->convert( itype_fungal_seeds );
             }
         }
     }

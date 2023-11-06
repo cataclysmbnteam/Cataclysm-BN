@@ -32,12 +32,12 @@
 int get_remaining_charges( const std::string &tool_id )
 {
     const inventory crafting_inv = g->u.crafting_inventory();
-    std::vector<const item *> items =
+    std::vector<item *> items =
     crafting_inv.items_with( [tool_id]( const item & i ) {
         return i.typeId() == itype_id( tool_id );
     } );
     int remaining_charges = 0;
-    for( const item *instance : items ) {
+    for( const item * const &instance : items ) {
         remaining_charges += instance->ammo_remaining();
     }
     return remaining_charges;
@@ -45,12 +45,12 @@ int get_remaining_charges( const std::string &tool_id )
 
 bool player_has_item_of_type( const std::string &type )
 {
-    std::vector<item *> matching_items = g->u.inv.items_with(
-    [&]( const item & i ) {
-        return i.type->get_id() == itype_id( type );
-    } );
 
-    return !matching_items.empty();
+    std::vector<item *> inv_items = g->u.inv_dump();
+
+    return std::any_of( inv_items.begin(), inv_items.end(), [&]( const item * const & i ) {
+        return i->type->get_id() == itype_id( type );
+    } );
 }
 
 void clear_character( player &dummy, bool debug_storage )
@@ -58,10 +58,10 @@ void clear_character( player &dummy, bool debug_storage )
     character_funcs::normalize( dummy );
 
     // Remove first worn item until there are none left.
-    std::list<item> temp;
+    std::vector<detached_ptr<item>> temp;
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
-    dummy.inv.clear();
-    dummy.remove_weapon();
+    dummy.inv_clear();
+    dummy.remove_primary_weapon();
     dummy.clear_mutations();
 
     // Prevent spilling, but don't cause encumbrance
@@ -79,7 +79,7 @@ void clear_character( player &dummy, bool debug_storage )
     // contents (needs to happen before clear_morale).
     dummy.stomach.empty();
     dummy.consumption_history->elems.clear();
-    item food( "debug_nutrition" );
+    item &food = *item::spawn_temporary( "debug_nutrition" );
     dummy.eat( food );
 
     // This sets HP to max, clears addictions and morale,
@@ -88,7 +88,9 @@ void clear_character( player &dummy, bool debug_storage )
 
     dummy.clear_skills();
     dummy.clear_morale();
-    dummy.activity.set_to_null();
+    dummy.activity->set_to_null();
+    //Make sure any lingering safe references from the activity are removed
+    dummy.activity->targets.clear();
     dummy.reset_chargen_attributes();
     dummy.set_pain( 0 );
     dummy.reset_bonuses();
@@ -138,7 +140,7 @@ void process_activity( player &dummy )
     do {
         dummy.moves += dummy.get_speed();
         while( dummy.moves > 0 && dummy.activity ) {
-            dummy.activity.do_turn( dummy );
+            dummy.activity->do_turn( dummy );
         }
     } while( dummy.activity );
 }
@@ -186,28 +188,36 @@ void arm_character( player &shooter, const std::string &gun_type,
                     const std::vector<std::string> &mods,
                     const std::string &ammo_type )
 {
-    shooter.remove_weapon();
+    shooter.remove_primary_weapon();
 
     itype_id gun_id( gun_type );
     // Give shooter a loaded gun of the requested type.
-    item &gun = shooter.i_add( item( gun_id ) );
+    detached_ptr<item> det = item::spawn( gun_id );
+    item &gun = *det;
+    shooter.i_add( std::move( det ) );
     const itype_id ammo_id = ammo_type.empty() ? gun.ammo_default() : itype_id( ammo_type );
     if( gun.magazine_integral() ) {
-        item &ammo = shooter.i_add( item( ammo_id, calendar::turn, gun.ammo_capacity() ) );
+        det = item::spawn( ammo_id, calendar::turn, gun.ammo_capacity() );
+        item &ammo = *det;
+        shooter.i_add( std::move( det ) );
         REQUIRE( gun.is_reloadable_with( ammo_id ) );
         REQUIRE( shooter.can_reload( gun, ammo_id ) );
-        gun.reload( shooter, item_location( shooter, &ammo ), gun.ammo_capacity() );
+        gun.reload( shooter, ammo, gun.ammo_capacity() );
     } else {
         const itype_id magazine_id = gun.magazine_default();
-        item &magazine = shooter.i_add( item( magazine_id ) );
-        item &ammo = shooter.i_add( item( ammo_id, calendar::turn, magazine.ammo_capacity() ) );
+        det = item::spawn( magazine_id );
+        item &magazine = *det;
+        shooter.i_add( std::move( det ) );
+        det = item::spawn( ammo_id, calendar::turn, magazine.ammo_capacity() );
+        item &ammo = *det;
+        shooter.i_add( std::move( det ) );
         REQUIRE( magazine.is_reloadable_with( ammo_id ) );
         REQUIRE( shooter.can_reload( magazine, ammo_id ) );
-        magazine.reload( shooter, item_location( shooter, &ammo ), magazine.ammo_capacity() );
-        gun.reload( shooter, item_location( shooter, &magazine ), magazine.ammo_capacity() );
+        magazine.reload( shooter, ammo, magazine.ammo_capacity() );
+        gun.reload( shooter, magazine, magazine.ammo_capacity() );
     }
     for( const auto &mod : mods ) {
-        gun.put_in( item( itype_id( mod ) ) );
+        gun.put_in( item::spawn( itype_id( mod ) ) );
     }
     shooter.wield( gun );
 }

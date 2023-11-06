@@ -65,10 +65,11 @@ struct item_penalties {
 };
 
 // Figure out encumbrance penalties this clothing is involved in
-item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
+item_penalties get_item_penalties( const location_vector<item>::const_iterator &worn_item_it,
                                    const Character &c, const bodypart_id &_bp )
 {
-    layer_level layer = worn_item_it->get_layer();
+    item *const &worn_item = *worn_item_it;
+    layer_level layer = worn_item->get_layer();
 
     std::vector<bodypart_id> body_parts_with_stacking_penalty;
     std::vector<bodypart_id> body_parts_with_out_of_order_penalty;
@@ -78,13 +79,13 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         if( _bp->token && _bp != body_part_appendix ) {
             continue;
         }
-        if( !worn_item_it->covers( bp ) ) {
+        if( !worn_item->covers( bp ) ) {
             continue;
         }
         const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
-        [layer, bp]( const item & i ) {
-            return i.get_layer() == layer && i.covers( bp ) && !( i.has_flag( flag_SEMITANGIBLE ) ||
-                    i.has_flag( flag_COMPACT ) );
+        [layer, bp]( item * const & i ) {
+            return i->get_layer() == layer && i->covers( bp ) && !( i->has_flag( flag_SEMITANGIBLE ) ||
+                    i->has_flag( flag_COMPACT ) );
         } );
         if( num_items > 1 ) {
             body_parts_with_stacking_penalty.push_back( bp );
@@ -92,8 +93,8 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
 
         std::set<std::string> bad_items_within;
         for( auto it = c.worn.begin(); it != worn_item_it; ++it ) {
-            if( it->get_layer() > layer && it->covers( bp ) ) {
-                bad_items_within.insert( it->type_name() );
+            if( ( *it )->get_layer() > layer && ( *it )->covers( bp ) ) {
+                bad_items_within.insert( ( *it )->type_name() );
             }
         }
         if( !bad_items_within.empty() ) {
@@ -150,21 +151,22 @@ std::string body_part_names( const std::vector<bodypart_id> &parts )
 }
 
 void draw_mid_pane( const catacurses::window &w_sort_middle,
-                    std::list<item>::const_iterator const worn_item_it,
+                    location_vector<item>::const_iterator const &worn_item_it,
                     const Character &c, const bodypart_id &bp )
 {
+    item *const &worn_item = *worn_item_it;
     const int win_width = getmaxx( w_sort_middle );
     const size_t win_height = static_cast<size_t>( getmaxy( w_sort_middle ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     size_t i = fold_and_print( w_sort_middle, point( 1, 0 ), win_width - 1, c_white,
-                               worn_item_it->type_name( 1 ) ) - 1;
-    std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 3, c, bp );
+                               worn_item->type_name( 1 ) ) - 1;
+    std::vector<std::string> props = clothing_properties( *worn_item, win_width - 3, c, bp );
     nc_color color = c_light_gray;
     for( std::string &iter : props ) {
         print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
     }
 
-    std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width - 3 );
+    std::vector<std::string> prot = clothing_protection( *worn_item, win_width - 3 );
     if( i + prot.size() < win_height ) {
         for( std::string &iter : prot ) {
             print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
@@ -174,15 +176,15 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     }
 
     i++;
-    std::vector<std::string> layer_desc = foldstring( clothing_layer( *worn_item_it ), win_width );
-    if( i + layer_desc.size() < win_height && !clothing_layer( *worn_item_it ).empty() ) {
+    std::vector<std::string> layer_desc = foldstring( clothing_layer( *worn_item ), win_width );
+    if( i + layer_desc.size() < win_height && !clothing_layer( *worn_item ).empty() ) {
         for( std::string &iter : layer_desc ) {
             mvwprintz( w_sort_middle, point( 0, ++i ), c_light_blue, iter );
         }
     }
 
     i++;
-    std::vector<std::string> desc = clothing_flags_description( *worn_item_it );
+    std::vector<std::string> desc = clothing_flags_description( *worn_item );
     if( !desc.empty() ) {
         for( size_t j = 0; j < desc.size() && i + j < win_height; ++j ) {
             i += fold_and_print( w_sort_middle, point( 0, i ), win_width, c_light_blue, desc[j] );
@@ -193,7 +195,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
 
     if( !penalties.body_parts_with_stacking_penalty.empty() ) {
         std::string layer_description = [&]() {
-            switch( worn_item_it->get_layer() ) {
+            switch( worn_item->get_layer() ) {
                 case PERSONAL_LAYER:
                     return _( "in your <color_light_blue>personal aura</color>" );
                 case UNDERWEAR_LAYER:
@@ -328,43 +330,43 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
     std::vector<std::string> description_stack;
 
     if( worn_item.has_flag( flag_FIT ) ) {
-        description_stack.push_back( _( "It fits you well." ) );
+        description_stack.emplace_back( _( "It fits you well." ) );
     } else if( worn_item.has_flag( flag_VARSIZE ) ) {
-        description_stack.push_back( _( "It could be refitted." ) );
+        description_stack.emplace_back( _( "It could be refitted." ) );
     }
 
     if( worn_item.has_flag( flag_HOOD ) ) {
-        description_stack.push_back( _( "It has a hood." ) );
+        description_stack.emplace_back( _( "It has a hood." ) );
     }
     if( worn_item.has_flag( flag_POCKETS ) ) {
-        description_stack.push_back( _( "It has pockets." ) );
+        description_stack.emplace_back( _( "It has pockets." ) );
     }
     if( worn_item.has_flag( flag_WATERPROOF ) ) {
-        description_stack.push_back( _( "It is waterproof." ) );
+        description_stack.emplace_back( _( "It is waterproof." ) );
     }
     if( worn_item.has_flag( flag_WATER_FRIENDLY ) ) {
-        description_stack.push_back( _( "It is water friendly." ) );
+        description_stack.emplace_back( _( "It is water friendly." ) );
     }
     if( worn_item.has_flag( flag_FANCY ) ) {
-        description_stack.push_back( _( "It looks fancy." ) );
+        description_stack.emplace_back( _( "It looks fancy." ) );
     }
     if( worn_item.has_flag( flag_SUPER_FANCY ) ) {
-        description_stack.push_back( _( "It looks really fancy." ) );
+        description_stack.emplace_back( _( "It looks really fancy." ) );
     }
     if( worn_item.has_flag( flag_FLOTATION ) ) {
-        description_stack.push_back( _( "You will not drown today." ) );
+        description_stack.emplace_back( _( "You will not drown today." ) );
     }
     if( worn_item.has_flag( flag_OVERSIZE ) ) {
-        description_stack.push_back( _( "It is very bulky." ) );
+        description_stack.emplace_back( _( "It is very bulky." ) );
     }
     if( worn_item.has_flag( flag_SWIM_GOGGLES ) ) {
-        description_stack.push_back( _( "It helps you to see clearly underwater." ) );
+        description_stack.emplace_back( _( "It helps you to see clearly underwater." ) );
     }
     if( worn_item.has_flag( flag_SEMITANGIBLE ) ) {
-        description_stack.push_back( _( "It can occupy the same space as other things." ) );
+        description_stack.emplace_back( _( "It can occupy the same space as other things." ) );
     }
     if( worn_item.has_flag( flag_COMPACT ) ) {
-        description_stack.push_back( _( "It won't encumber you when worn with other things." ) );
+        description_stack.emplace_back( _( "It won't encumber you when worn with other things." ) );
     }
 
     return description_stack;
@@ -394,10 +396,11 @@ static std::vector<layering_item_info> items_cover_bp( const Character &c, const
 {
     std::vector<layering_item_info> s;
     for( auto elem_it = c.worn.begin(); elem_it != c.worn.end(); ++elem_it ) {
-        if( elem_it->covers( bp ) ) {
+        item *const &elem = *elem_it;
+        if( elem->covers( bp ) ) {
             s.push_back( { get_item_penalties( elem_it, c, bp ),
-                           elem_it->get_encumber( c, bp ),
-                           elem_it->tname()
+                           elem->get_encumber( c, bp ),
+                           elem->tname()
                          } );
         }
     }
@@ -451,8 +454,8 @@ void show_armor_layers_ui( Character &who )
 
     int req_right_h = 3 + 1 + 2 + num_of_parts + 1;
     for( const bodypart_id &cover : armor_cat ) {
-        for( const item &elem : who.worn ) {
-            if( elem.covers( cover ) ) {
+        for( const item * const &elem : who.worn ) {
+            if( elem->covers( cover ) ) {
                 req_right_h++;
             }
         }
@@ -488,7 +491,14 @@ void show_armor_layers_ui( Character &who )
     int leftListLines = 0;
     int rightListLines = 0;
 
-    std::vector<std::list<item>::iterator> tmp_worn;
+    std::vector<int> tmp_worn;
+
+    auto access_tmp_worn = [&]( int index ) {
+        int worn_index = tmp_worn[index];
+        location_vector<item>::iterator it = who.worn.begin();
+        std::advance( it, worn_index );
+        return it;
+    };
 
     // Layout window
     catacurses::window w_sort_armor;
@@ -541,8 +551,8 @@ void show_armor_layers_ui( Character &who )
     auto do_return_entry = []() {
         avatar &you = get_avatar();
         you.assign_activity( ACT_ARMOR_LAYERS, 0 );
-        you.activity.auto_resume = true;
-        you.activity.moves_left = INT_MAX;
+        you.activity->auto_resume = true;
+        you.activity->moves_left = INT_MAX;
     };
 
     int leftListSize = 0;
@@ -593,15 +603,15 @@ void show_armor_layers_ui( Character &who )
                 mvwprintz( w_sort_left, point( 0, drawindex + 1 ), c_yellow, ">>" );
             }
 
-            std::string worn_armor_name = tmp_worn[itemindex]->tname();
+            std::string worn_armor_name = ( *access_tmp_worn( itemindex ) )->tname();
             item_penalties const penalties =
-                get_item_penalties( tmp_worn[itemindex], who, bp );
+                get_item_penalties( access_tmp_worn( itemindex ), who, bp );
 
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
             trim_and_print( w_sort_left, point( offset_x, drawindex + 1 ), left_w - offset_x - 3,
                             penalties.color_for_stacking_badness(), worn_armor_name );
             right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
-                         format_volume( tmp_worn[itemindex]->get_storage() ) );
+                         format_volume( ( *access_tmp_worn( itemindex ) )->get_storage() ) );
         }
 
         // Left footer
@@ -619,7 +629,7 @@ void show_armor_layers_ui( Character &who )
 
         // Items stats
         if( leftListSize > 0 ) {
-            draw_mid_pane( w_sort_middle, tmp_worn[leftListIndex], who, bp );
+            draw_mid_pane( w_sort_middle, access_tmp_worn( leftListIndex ), who, bp );
         } else {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             fold_and_print( w_sort_middle, point( 1, 0 ), middle_w - 1, c_white,
@@ -628,7 +638,7 @@ void show_armor_layers_ui( Character &who )
 
         mvwprintz( w_encumb, point_east, c_white, _( "Encumbrance and Warmth" ) );
         character_display::print_encumbrance( w_encumb, who, -1,
-                                              ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
+                                              ( leftListSize > 0 ) ? *access_tmp_worn( leftListIndex ) : nullptr );
 
         // Right header
         mvwprintz( w_sort_right, point_zero, c_light_gray, _( "(Innermost)" ) );
@@ -724,15 +734,18 @@ void show_armor_layers_ui( Character &who )
         const bodypart_id &bp = armor_cat[ tabindex ];
         if( bp == body_part_appendix ) {
             // All
+            int i = 0;
             for( auto it = who.worn.begin(); it != who.worn.end(); ++it ) {
-                tmp_worn.push_back( it );
+                tmp_worn.push_back( i++ );
             }
         } else {
             // bp_*
+            int i = 0;
             for( auto it = who.worn.begin(); it != who.worn.end(); ++it ) {
-                if( it->covers( bp ) ) {
-                    tmp_worn.push_back( it );
+                if( ( *it )->covers( bp ) ) {
+                    tmp_worn.push_back( i );
                 }
+                i++;
             }
         }
         leftListSize = tmp_worn.size();
@@ -751,11 +764,14 @@ void show_armor_layers_ui( Character &who )
         // Helper function for moving items in the list
         auto shift_selected_item = [&]() {
             if( selected >= 0 ) {
-                std::list<item>::iterator to = tmp_worn[leftListIndex];
-                if( leftListIndex > selected ) {
-                    ++to;
-                }
-                who.worn.splice( to, who.worn, tmp_worn[selected] );
+                auto selected_it = access_tmp_worn( selected );
+                auto left_it = access_tmp_worn( leftListIndex );
+
+                std::swap( *selected_it, *left_it );
+
+                int temp = tmp_worn[selected];
+                tmp_worn[selected] = tmp_worn[leftListIndex];
+                tmp_worn[leftListIndex] = temp;
                 selected = leftListIndex;
                 who.reset_encumbrance();
             }
@@ -815,44 +831,45 @@ void show_armor_layers_ui( Character &who )
                 selected = leftListIndex;
             }
         } else if( action == "CHANGE_SIDE" ) {
-            if( leftListIndex < leftListSize && tmp_worn[leftListIndex]->is_sided() ) {
+            if( leftListIndex < leftListSize && ( *access_tmp_worn( leftListIndex ) )->is_sided() ) {
                 if( you.query_yn( _( "Swap side for %s?" ),
-                                  colorize( tmp_worn[leftListIndex]->tname(),
-                                            tmp_worn[leftListIndex]->color_in_inventory() ) ) ) {
-                    who.change_side( *tmp_worn[leftListIndex] );
+                                  colorize( ( *access_tmp_worn( leftListIndex ) )->tname(),
+                                            ( *access_tmp_worn( leftListIndex ) )->color_in_inventory() ) ) ) {
+                    who.change_side( *access_tmp_worn( leftListIndex ) );
                 }
             }
         } else if( action == "SORT_ARMOR" ) {
-            // Copy to a vector because stable_sort requires random-access
-            // iterators
-            std::vector<item> worn_copy( who.worn.begin(), who.worn.end() );
-            std::stable_sort( worn_copy.begin(), worn_copy.end(),
-            []( const item & l, const item & r ) {
-                return l.get_layer() < r.get_layer();
+            std::stable_sort( who.worn.begin(),
+                              who.worn.end(),
+            []( item * const & l, item * const & r ) {
+                return l->get_layer() < r->get_layer();
             }
                             );
-            std::copy( worn_copy.begin(), worn_copy.end(), who.worn.begin() );
             who.reset_encumbrance();
         } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
-            item_location loc = game_menus::inv::wear( *who.as_player() );
+            item *loc = game_menus::inv::wear( *who.as_player() );
 
             // only equip if something valid selected!
             if( loc ) {
                 // wear the item
-                std::optional<std::list<item>::iterator> new_equip_it =
-                    who.as_player()->wear_possessed( *loc.obtain( who ) );
-                if( new_equip_it ) {
-                    const bodypart_id &bp = armor_cat[ tabindex ];
-                    if( tabindex == num_bp || ( **new_equip_it ).covers( bp ) ) {
+                loc->obtain( who );
+                bool equipped = who.as_player()->wear_possessed( *loc );
+                if( equipped ) {
+                    const bodypart_id &bp = armor_cat[tabindex];
+                    if( tabindex == num_bp || loc->covers( bp ) ) {
                         // Set ourselves up to be pointing at the new item
                         // TODO: This doesn't work yet because we don't save our
                         // state through other activities, but that's a thing
                         // that would be nice to do.
+                        bool found = false;
                         leftListIndex =
-                            std::count_if( who.worn.begin(), *new_equip_it,
-                        [&]( const item & i ) {
-                            return tabindex == num_bp || i.covers( bp );
+                            std::count_if( who.worn.begin(), who.worn.end(),
+                        [&]( item * const & i ) {
+                            if( i == loc ) {
+                                found = true;
+                            }
+                            return !found && ( tabindex == num_bp || i->covers( bp ) );
                         } );
                     }
                 } else if( who.is_npc() ) {
@@ -862,18 +879,14 @@ void show_armor_layers_ui( Character &who )
             }
         } else if( action == "EQUIP_ARMOR_HERE" ) {
             // filter inventory for all items that are armor/clothing
-            item_location loc = game_menus::inv::wear( *who.as_player() );
+            item *loc = game_menus::inv::wear( *who.as_player() );
 
             // only equip if something valid selected!
             if( loc ) {
                 // wear the item
-                if( std::optional<std::list<item>::iterator> new_equip_it =
-                        who.as_player()->wear_possessed( *loc.obtain( who ) ) ) {
-                    // save iterator to cursor's position
-                    std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
-                    // reorder `worn` vector to place new item at cursor
-                    who.worn.splice( cursor_it, who.worn, *new_equip_it );
-                } else if( who.is_npc() ) {
+                loc->obtain( who );
+                if( !who.as_player()->wear_possessed( *loc, true, access_tmp_worn( leftListIndex ) ) &&
+                    who.is_npc() ) {
                     // TODO: Pass the reason here
                     popup( _( "Can't put this on!" ) );
                 }
@@ -884,7 +897,8 @@ void show_armor_layers_ui( Character &who )
                 if( you.query_yn( _( "Remove selected armor?" ) ) ) {
                     do_return_entry();
                     // remove the item, asking to drop it if necessary
-                    who.as_player()->takeoff( *tmp_worn[leftListIndex] );
+                    item &to_takeoff = **access_tmp_worn( leftListIndex );
+                    who.as_player()->takeoff( to_takeoff );
                     if( !you.has_activity( ACT_ARMOR_LAYERS ) ) {
                         // An activity has been created to take off the item;
                         // we must surrender control until it is done.
@@ -904,13 +918,13 @@ void show_armor_layers_ui( Character &who )
                 auto witer = who.worn.rbegin();
                 while( witer != who.worn.rend() && iiter != inv_chars.rend() ) {
                     const char invlet = *iiter;
-                    item &w = *witer;
+                    item &w = **witer;
                     if( invlet == w.invlet ) {
                         ++witer;
                     } else if( who.invlet_to_item( invlet ) != nullptr ) {
                         ++iiter;
                     } else {
-                        who.inv.reassign_item( w, invlet );
+                        who.inv_reassign_item( w, invlet );
                         ++witer;
                         ++iiter;
                     }

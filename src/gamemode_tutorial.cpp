@@ -146,9 +146,7 @@ bool tutorial_game::init()
     starting_om.clear_mon_groups();
 
     you.toggle_trait( trait_QUICK );
-    item lighter( "lighter", calendar::start_of_cataclysm );
-    lighter.invlet = 'e';
-    you.inv.add_item( lighter, true, false );
+    you.i_add( item::spawn( "lighter", calendar::start_of_cataclysm ) );
     you.set_skill_level( skill_gun, 5 );
     you.set_skill_level( skill_melee, 5 );
     g->load_map( project_to<coords::sm>( lp_abs ) );
@@ -185,8 +183,8 @@ void tutorial_game::per_turn()
 
     map &here = get_map();
     if( !tutorials_seen[tut_lesson::LESSON_BUTCHER] ) {
-        for( const item &it : here.i_at( point( g->u.posx(), g->u.posy() ) ) ) {
-            if( it.is_corpse() ) {
+        for( const item * const &it : here.i_at( point( g->u.posx(), g->u.posy() ) ) ) {
+            if( it->is_corpse() ) {
                 add_message( tut_lesson::LESSON_BUTCHER );
                 break;
             }
@@ -278,7 +276,7 @@ void tutorial_game::post_action( action_id act )
             break;
 
         case ACTION_WEAR: {
-            item it( g->u.last_item, calendar::start_of_cataclysm );
+            item &it = *item::spawn_temporary( g->u.last_item, calendar::start_of_cataclysm );
             if( it.is_armor() ) {
                 if( it.get_avg_coverage() >= 2 || it.get_thickness() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_ARMOR );
@@ -303,7 +301,7 @@ void tutorial_game::post_action( action_id act )
             add_message( tut_lesson::LESSON_INTERACT );
         /* fallthrough */
         case ACTION_PICKUP: {
-            item it( g->u.last_item, calendar::start_of_cataclysm );
+            item &it = *item::spawn_temporary( g->u.last_item, calendar::start_of_cataclysm );
             if( it.is_armor() ) {
                 add_message( tut_lesson::LESSON_GOT_ARMOR );
             } else if( it.is_gun() ) {

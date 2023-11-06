@@ -120,7 +120,7 @@
     "name": { "str": "Haste" },
     "description": "This spell gives you an enormous boost of speed lasting a short period of time.",
     "valid_targets": [ "self" ],
-    "flags": [ "LOUD", "VERBAL", "SOMATIC" ],
+    "flags": [ "LOUD", "VERBAL", "SOMATIC", "NO_EXPLOSION_VFX" ],
     "effect": "target_attack",
     "effect_str": "haste",
     "spell_class": "MAGUS",
@@ -197,7 +197,7 @@
     "max_level": 0,
     "spell_class": "MAGUS",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX" ]
   },
   {
     "id": "cats_grace",
@@ -214,7 +214,7 @@
     "base_energy_cost": 500,
     "base_casting_time": 1000,
     "difficulty": 5,
-    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
     "effect": "target_attack",
     "effect_str": "cats_grace"
   },
@@ -233,7 +233,7 @@
     "base_energy_cost": 500,
     "base_casting_time": 1000,
     "difficulty": 5,
-    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
     "effect": "target_attack",
     "effect_str": "eagles_sight"
   },
@@ -252,7 +252,7 @@
     "base_energy_cost": 500,
     "base_casting_time": 1000,
     "difficulty": 5,
-    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
     "effect": "target_attack",
     "effect_str": "ogres_strength"
   },
@@ -271,7 +271,7 @@
     "base_energy_cost": 500,
     "base_casting_time": 1000,
     "difficulty": 5,
-    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
     "effect": "target_attack",
     "effect_str": "foxs_cunning"
   }
