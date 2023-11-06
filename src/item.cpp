@@ -438,7 +438,7 @@ item::item( const item &source ) : game_object<item>( source ), contents( this )
     invlet = source.invlet;
     active = source.active;
     activated_by = source.activated_by;
-    is_favorite=source.is_favorite;
+    is_favorite = source.is_favorite;
 
     for( item * const &it : source.contents.all_items_top() ) {
         contents.insert_item( item::spawn( *it ) );
