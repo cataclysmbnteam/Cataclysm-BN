@@ -5881,7 +5881,12 @@ int iuse::gun_clean( player *p, item *, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
         return 0;
     }
-    if( fix.faults.empty() ) {
+
+    const auto is_gunmods_not_faulty = []( const auto & xs ) -> bool {
+        return std::all_of( xs.begin(), xs.end(), []( const item * mod ) -> bool { return mod->faults.empty(); } );
+    };
+
+    if( fix.faults.empty() && is_gunmods_not_faulty( fix.gunmods() ) ) {
         p->add_msg_if_player( m_info, _( "There's nothing you can clean or mend with this." ) );
         return 0;
     }
