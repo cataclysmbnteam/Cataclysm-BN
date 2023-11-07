@@ -1852,7 +1852,7 @@ class jmapgen_nested : public jmapgen_piece
                         bool this_direction_matches = false;
                         for( const oter_type_str_id &allowed_neighbor : allowed_neighbors ) {
                             this_direction_matches |= is_ot_match( allowed_neighbor.str(), dat.neighbor_at( dir ).id(),
-                                                                   ot_match_type::contains );
+                                                                   ot_match_type::type );
                         }
                         all_directions_match &= this_direction_matches;
                     }
@@ -1860,7 +1860,7 @@ class jmapgen_nested : public jmapgen_piece
                     if( !above.empty() ) {
                         bool above_matches = false;
                         for( const oter_type_str_id &allowed_neighbor : above ) {
-                            above_matches |= is_ot_match( allowed_neighbor.str(), dat.above().id(), ot_match_type::contains );
+                            above_matches |= is_ot_match( allowed_neighbor.str(), dat.above().id(), ot_match_type::type );
                         }
                         all_directions_match &= above_matches;
                     }
