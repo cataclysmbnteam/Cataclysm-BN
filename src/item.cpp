@@ -483,6 +483,7 @@ item &item::operator=( const item &source )
     invlet = source.invlet;
     active = source.active;
     activated_by = source.activated_by;
+    is_favorite = source.is_favorite;
 
     contents.clear_items();
 
