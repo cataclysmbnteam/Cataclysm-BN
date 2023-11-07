@@ -12,7 +12,6 @@ C++ flags used by all builds:
 /MP     cl.exe build with multiple processes
 /utf-8  set source and execution character sets to UTF-8
 /bigobj increase # of sections in object files
-/permissive-   enforce more standards compliant behavior
 /sdl-   disable additional security checks
 /FC     full path in compiler messages
 /Gd     __cdecl
@@ -53,7 +52,7 @@ No need to force /TLBID:1 because is default
 set(CMAKE_C_COMPILER   cl.exe)
 set(CMAKE_CXX_COMPILER ${CMAKE_C_COMPILER})
 set(CMAKE_CXX_FLAGS_INIT "\
-/MP /utf-8 /bigobj /permissive- /sdl- /FC /Gd /GS- /Gy /GF \
+/MP /utf-8 /bigobj /sdl- /FC /Gd /GS- /Gy /GF \
 /wd4068 /wd4146 /wd4819 /wd6237 /wd6319 /wd26444 /wd26451 /wd26495 /WX- /W1 \
 /TP /Zc:forScope /Zc:inline /Zc:wchar_t"
 )
