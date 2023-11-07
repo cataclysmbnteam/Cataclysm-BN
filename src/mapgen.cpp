@@ -1811,29 +1811,28 @@ class jmapgen_nested : public jmapgen_piece
             private:
                 // To speed up the most common case: no checks
                 bool has_any = false;
-                std::array<std::set<oter_str_id>, om_direction::size> neighbors;
-                std::set<oter_str_id> above;
+                std::array<std::set<oter_type_str_id>, om_direction::size> neighbors;
+                std::set<oter_type_str_id> above;
             public:
                 neighbor_oter_check( const JsonObject &jsi ) {
                     for( om_direction::type dir : om_direction::all ) {
                         int index = static_cast<int>( dir );
-                        neighbors[index] = jsi.get_tags<oter_str_id>( io::enum_to_string( dir ) );
+                        neighbors[index] = jsi.get_tags<oter_type_str_id>( io::enum_to_string( dir ) );
                         has_any |= !neighbors[index].empty();
 
-                        above = jsi.get_tags<oter_str_id>( "above" );
+                        above = jsi.get_tags<oter_type_str_id>( "above" );
                         has_any |= !above.empty();
                     }
                 }
 
-                void check( const std::string & ) const {
-                    /* TODO: Throws errors on central lab depot, presumably due to loading order
-                    for( const std::set<oter_str_id> &p : neighbors ) {
-                        for( const oter_str_id &id : p ) {
+                void check( const std::string &oter_name ) const {
+                    for( const std::set<oter_type_str_id> &p : neighbors ) {
+                        for( const oter_type_str_id &id : p ) {
                             if( !id.is_valid() ) {
-                                debugmsg( "Invalid oter_str_id '%s' in %s", id.str(), oter_name );
+                                debugmsg( "Invalid oter_type_str_id '%s' in %s", id.str(), oter_name );
                             }
                         }
-                    }*/
+                    }
                 }
 
                 bool test( const mapgendata &dat ) const {
@@ -1844,14 +1843,14 @@ class jmapgen_nested : public jmapgen_piece
                     bool all_directions_match  = true;
                     for( om_direction::type dir : om_direction::all ) {
                         int index = static_cast<int>( dir );
-                        const std::set<oter_str_id> &allowed_neighbors = neighbors[index];
+                        const std::set<oter_type_str_id> &allowed_neighbors = neighbors[index];
 
                         if( allowed_neighbors.empty() ) {
                             continue;  // no constraints on this direction, skip.
                         }
 
                         bool this_direction_matches = false;
-                        for( const oter_str_id &allowed_neighbor : allowed_neighbors ) {
+                        for( const oter_type_str_id &allowed_neighbor : allowed_neighbors ) {
                             this_direction_matches |= is_ot_match( allowed_neighbor.str(), dat.neighbor_at( dir ).id(),
                                                                    ot_match_type::contains );
                         }
@@ -1860,7 +1859,7 @@ class jmapgen_nested : public jmapgen_piece
 
                     if( !above.empty() ) {
                         bool above_matches = false;
-                        for( const oter_str_id &allowed_neighbor : above ) {
+                        for( const oter_type_str_id &allowed_neighbor : above ) {
                             above_matches |= is_ot_match( allowed_neighbor.str(), dat.above().id(), ot_match_type::contains );
                         }
                         all_directions_match &= above_matches;
