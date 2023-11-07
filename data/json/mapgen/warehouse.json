@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "....S.SSSSSSSSSSSS......",
+        "....S.SSSSSSSSSSSS.....'",
         "zzzzSzSSSSSSSSSSSSzzzzzz",
         ".---3-MMMMMMMMMMMM-----.",
         ".|11 6            w111|.",
@@ -35,7 +35,7 @@
       "set": [
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] },
         { "point": "terrain", "id": "t_tree_pine", "x": [ 0, 5 ], "y": 0, "repeat": [ 0, 1 ] },
-        { "point": "terrain", "id": "t_tree_pine", "x": [ 18, 23 ], "y": 0, "repeat": [ 0, 1 ] },
+        { "point": "terrain", "id": "t_tree_pine", "x": [ 18, 21 ], "y": 0, "repeat": [ 0, 1 ] },
         { "point": "terrain", "id": "t_shrub", "x": 0, "y": [ 2, 19 ], "repeat": [ 1, 4 ] },
         { "point": "terrain", "id": "t_shrub", "x": 23, "y": [ 2, 19 ], "repeat": [ 1, 4 ] },
         { "point": "terrain", "id": "t_tree_pine", "x": 0, "y": [ 2, 19 ], "repeat": [ 0, 2 ] },
@@ -45,6 +45,7 @@
         " ": "t_thconc_floor",
         "-": "t_brick_wall",
         ".": "t_grass",
+        "'": "t_dirt",
         "3": "t_door_locked",
         "M": "t_door_metal_locked",
         "O": "t_window",
@@ -56,6 +57,7 @@
         "U": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "1": [ "f_crate_c", "f_cardboard_box" ],
         "2": "f_sink",
         "5": "f_counter",
