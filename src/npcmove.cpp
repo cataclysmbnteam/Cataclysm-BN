@@ -4736,7 +4736,7 @@ bool npc::adjust_worn()
         return false;
     };
 
-	item* splint=nullptr;
+    item *splint = nullptr;
     for( auto &elem : worn ) {
         if( !elem->has_flag( flag_SPLINT ) ) {
             continue;
@@ -4745,21 +4745,21 @@ bool npc::adjust_worn()
         if( !covers_broken( *elem, elem->get_side() ) ) {
             const bool needs_change = covers_broken( *elem, opposite_side( elem->get_side() ) );
             // Try to change side (if it makes sense), or take off.
-            if( needs_change && change_side(*elem) ){
-				return true;
-			}
-			
-			if(can_takeoff(*elem).success()){
-				splint=elem;
-				break;
-			}
-            
+            if( needs_change && change_side( *elem ) ) {
+                return true;
+            }
+
+            if( can_takeoff( *elem ).success() ) {
+                splint = elem;
+                break;
+            }
+
         }
     }
-    if(splint){
-		takeoff(*splint);
-		return true;
-	}
+    if( splint ) {
+        takeoff( *splint );
+        return true;
+    }
 
     return false;
 }
