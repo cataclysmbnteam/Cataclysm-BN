@@ -986,6 +986,7 @@ mutable structure.
 | x and y            | (required, int) the cardinal position in which the chunk will be placed.                                                                                                  |
 | neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk. Each direction is associated with a list of overmap `"id"` substrings.        |
 | joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk. Each direction is associated with a list of join `"id"` strings.            |
+| connections        | (optional) Any connection that should be directed toward this overmap before placing the chunk. Each direction is associated with a list of connection `"id"` strings.    |
 |                    |                                                                                                                                                                           |
 
 The adjacent overmaps which can be checked in this manner are:
