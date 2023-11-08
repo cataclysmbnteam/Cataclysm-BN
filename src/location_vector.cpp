@@ -215,7 +215,6 @@ void location_vector<T>::push_back( detached_ptr<T> &&obj )
 {
     if( locked > 0 ) {
         debugmsg( "Attempting to push_back to a vector with active iterators" );
-        return;
     }
     if( !obj ) {
         return;
@@ -263,7 +262,6 @@ detached_ptr<T> location_vector<T>::remove( T *obj )
 {
     if( locked > 0 ) {
         debugmsg( "Attempting to remove something from a vector with active iterators" );
-        return detached_ptr<T>();
     }
     if( destroyed ) {
         debugmsg( "Attempted to remove something from a destroyed location." );
@@ -294,7 +292,6 @@ typename location_vector<T>::iterator location_vector<T>::erase( typename
 {
     if( locked > 2 ) {
         debugmsg( "Attempting to erase something from a vector with more than 1 active iterator" );
-        return location_vector<T>::iterator( contents.end(), *this );
     }
     if( destroyed && out ) {
         debugmsg( "Attempted to erase something from a destroyed location." );
@@ -318,7 +315,6 @@ typename location_vector<T>::iterator location_vector<T>::insert( typename
 {
     if( locked > 2 ) {
         debugmsg( "Attempting to insert something into a vector with more than 1 active iterator" );
-        return it;
     }
     if( !obj ) {
         return it;
@@ -347,7 +343,6 @@ typename location_vector<T>::iterator location_vector<T>::insert( typename
 {
     if( locked > 2 ) {
         debugmsg( "Attempting to insert something into a vector with more than 1 active iterator" );
-        return it;
     }
     for( auto iter = start; iter != end; iter++ ) {
         if( !*iter ) {
@@ -469,7 +464,6 @@ typename std::vector<detached_ptr<T>> location_vector<T>::clear()
 {
     if( locked > 0 ) {
         debugmsg( "Attempting to clear a vector with active iterators" );
-        return std::vector<detached_ptr<T>>();
     }
     if( destroyed ) {
         debugmsg( "Attempted to clear a destroyed location." );
@@ -489,7 +483,6 @@ void location_vector<T>::remove_with( std::function < detached_ptr<T>( detached_
 {
     if( locked > 0 ) {
         debugmsg( "Attempting to clear a vector with active iterators" );
-        return;
     }
     if( destroyed ) {
         debugmsg( "Attempted to remove_with from a destroyed location." );
