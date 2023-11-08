@@ -30,7 +30,7 @@
         { "chance": 25, "item": "floor_trash", "x": 14, "y": 6 }
       ],
       "rows": [
-        "____d______d__1sss1__d__",
+        "____d______d__1sss1__d_'",
         "_|||--------|||sss|||||_",
         "_|M..........{|TTT|^.#|_",
         "_|M..........{|TTT|.g#|_",
@@ -62,6 +62,7 @@
         "D": "t_door_c",
         "T": "t_thconc_floor",
         "_": "t_grass",
+        "'": "t_dirt",
         "a": "t_pavement",
         "1": "t_dirt",
         "d": "t_dirt",
@@ -72,6 +73,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "S": "f_statue",
         "^": [ "f_indoor_plant_y", "f_indoor_plant" ],
@@ -176,7 +178,7 @@
       ],
       "fill_ter": "t_floor",
       "rows": [
-        "___d___1sss1____d_______",
+        "___d___1sss1____d______'",
         "_||---||ttt||||||||||||_",
         "_|{...^|D-D|cccc.^|RY&|d",
         "_|{....|..........+...|_",
@@ -206,6 +208,7 @@
         "-": "t_wall_glass",
         "D": "t_door_glass_c",
         "_": "t_grass",
+        "'": "t_dirt",
         "d": "t_dirt",
         "1": "t_dirt",
         "p": "t_pavement",
@@ -216,6 +219,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_table",
         "C": "f_chair",
         "H": "f_sofa",

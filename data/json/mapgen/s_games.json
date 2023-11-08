@@ -6,7 +6,7 @@
     "object": {
       "fill_ter": "t_carpet_purple",
       "rows": [
-        "......fg____g____g____gf",
+        "......fg____g____g____g'",
         "......fg____g____g____gf",
         "......fg____g____g____gf",
         "......fg____g____g____gf",
@@ -40,6 +40,7 @@
         "_": "t_pavement",
         ".": "t_region_groundcover_urban",
         "f": "t_sidewalk",
+        "'": "t_sidewalk",
         "g": "t_pavement_y",
         "h": "t_carpet_purple",
         "i": "t_carpet_purple",
@@ -56,6 +57,7 @@
         "9": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "h": "f_rack_wood",
         "i": "f_counter",
         "ƃ": "f_counter_gate_c",

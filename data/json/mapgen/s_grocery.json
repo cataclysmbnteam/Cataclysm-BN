@@ -6,7 +6,7 @@
     "weight": 500,
     "object": {
       "rows": [
-        "ssssssssssssssssssssssss",
+        "sssssssssssssssssssssss'",
         "ssWWWWWWWWssssssssssssss",
         "sswsssssssssssssssssssss",
         "sswsssssssssssssssssssss",
@@ -57,12 +57,14 @@
         "l": "t_linoleum_gray",
         "r": "t_linoleum_white",
         "s": "t_sidewalk",
+        "'": "t_sidewalk",
         "t": "t_linoleum_white",
         "w": "t_chainfence_v",
         "4": "t_gutter_downspout",
         "|": "t_wall_w"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "7": "f_bookcase",
         "C": "f_crate_c",
@@ -187,7 +189,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "                        ",
+        "                       '",
         "                        ",
         "  ---:::---++---:::---  ",
         "  |..................|  ",
@@ -214,6 +216,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_dirt",
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_floor",
@@ -221,7 +224,15 @@
         "4": "t_gutter_downspout",
         "|": "t_wall_w"
       },
-      "furniture": { "#": "f_counter", "&": "f_glass_fridge", "{": "f_rack", "b": "f_stool", "S": "f_sink", "L": "f_locker" },
+      "furniture": {
+        "'": "f_street_light",
+        "#": "f_counter",
+        "&": "f_glass_fridge",
+        "{": "f_rack",
+        "b": "f_stool",
+        "S": "f_sink",
+        "L": "f_locker"
+      },
       "toilets": { "T": {  } },
       "place_items": [
         { "item": "fridgesnacks", "x": 3, "y": [ 10, 15 ], "chance": 80, "repeat": [ 1, 12 ] },
