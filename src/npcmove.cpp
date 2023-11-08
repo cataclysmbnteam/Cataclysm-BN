@@ -4728,8 +4728,8 @@ bool npc::adjust_worn()
     }
     const auto covers_broken = [this]( const item & it, side s ) {
         const body_part_set covered = it.get_covered_body_parts( s );
-        for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-            if( elem.second.get_hp_cur() <= 0 && covered.test( elem.first ) ) {
+        for( const bodypart_str_id &bp_id : covered ) {
+            if( is_limb_broken( bp_id ) && covered.test( bp_id ) ) {
                 return true;
             }
         }
