@@ -123,7 +123,7 @@ std::string enum_to_string<om_direction::type>( om_direction::type d )
         case om_direction::type::last:
             break;
     }
-    debugmsg( "Invalid cube_direction" );
+    debugmsg( "Invalid om_direction" );
     abort();
 }
 
@@ -2504,34 +2504,29 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
                 mutable_data = make_shared_fast<mutable_overmap_special_data>( id );
             }
             optional( jo, was_loaded, "check_for_locations", mutable_data->check_for_locations );
-            if( jo.has_array( "check_for_locations_area" ) ) {
-                JsonArray jar = jo.get_array( "check_for_locations_area" );
-                while( jar.has_more() ) {
-                    JsonObject joc = jar.next_object();
-
-                    cata::flat_set<overmap_location_id> type;
-                    tripoint from;
-                    tripoint to;
-                    mandatory( joc, was_loaded, "type", type );
-                    mandatory( joc, was_loaded, "from", from );
-                    mandatory( joc, was_loaded, "to", to );
-                    if( from.x > to.x ) {
-                        std::swap( from.x, to.x );
-                    }
-                    if( from.y > to.y ) {
-                        std::swap( from.y, to.y );
-                    }
-                    if( from.z > to.z ) {
-                        std::swap( from.z, to.z );
-                    }
-                    for( int x = from.x; x <= to.x; x++ ) {
-                        for( int y = from.y; y <= to.y; y++ ) {
-                            for( int z = from.z; z <= to.z; z++ ) {
-                                overmap_special_locations loc;
-                                loc.p = tripoint( x, y, z );
-                                loc.locations = type;
-                                mutable_data->check_for_locations.push_back( loc );
-                            }
+            for( JsonObject joc : jo.get_array( "check_for_locations_area" ) ) {
+                cata::flat_set<overmap_location_id> type;
+                tripoint from;
+                tripoint to;
+                mandatory( joc, was_loaded, "type", type );
+                mandatory( joc, was_loaded, "from", from );
+                mandatory( joc, was_loaded, "to", to );
+                if( from.x > to.x ) {
+                    std::swap( from.x, to.x );
+                }
+                if( from.y > to.y ) {
+                    std::swap( from.y, to.y );
+                }
+                if( from.z > to.z ) {
+                    std::swap( from.z, to.z );
+                }
+                for( int x = from.x; x <= to.x; x++ ) {
+                    for( int y = from.y; y <= to.y; y++ ) {
+                        for( int z = from.z; z <= to.z; z++ ) {
+                            overmap_special_locations loc;
+                            loc.p = tripoint( x, y, z );
+                            loc.locations = type;
+                            mutable_data->check_for_locations.push_back( loc );
                         }
                     }
                 }
@@ -5427,14 +5422,14 @@ std::vector<tripoint_om_omt> overmap::place_special(
             if( initial_dir != om_direction::type::invalid ) {
                 initial_dir = om_direction::add( initial_dir, node.rot );
             }
-            if( cit ) {
+            if( cit && elem.connection->pick_subtype_for( ter( tripoint_om_omt{ cit.pos, rp.z() } ) ) ) {
                 build_connection( cit.pos, rp.xy(), rp.z(), *elem.connection,
                                   must_be_unexplored, initial_dir );
             }
             // if no city present, search for nearby road within 50 tiles and make connection to it instead
             else {
                 for( const tripoint_om_omt &nearby_point : closest_points_first( rp, 50 ) ) {
-                    if( check_ot( "road", ot_match_type::contains, nearby_point ) ) {
+                    if( check_ot( elem.connection->id->default_terrain.str(), ot_match_type::type, nearby_point ) ) {
                         build_connection( nearby_point.xy(), rp.xy(), rp.z(), *elem.connection,
                                           must_be_unexplored, initial_dir );
                     }

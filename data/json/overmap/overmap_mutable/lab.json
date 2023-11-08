@@ -74,7 +74,7 @@
       ],
       [
         {
-          "//": "Should always pointing north, this mapgen doesn't rotate",
+          "//": "Should always be pointing north, this mapgen doesn't rotate",
           "name": "lab_escape",
           "chunk": [ { "overmap": "lab_escape_entrance", "pos": [ 0, 0, 0 ] }, { "overmap": "lab_escape_cells", "pos": [ 0, -1, 0 ] } ],
           "rotate": false,
@@ -191,7 +191,7 @@
       ],
       [
         {
-          "//": "Should always pointing north, this mapgen doesn't rotate",
+          "//": "Should always be pointing north, this mapgen doesn't rotate",
           "name": "lab_escape",
           "chunk": [ { "overmap": "lab_escape_entrance", "pos": [ 0, 0, 0 ] }, { "overmap": "lab_escape_cells", "pos": [ 0, -1, 0 ] } ],
           "rotate": false,

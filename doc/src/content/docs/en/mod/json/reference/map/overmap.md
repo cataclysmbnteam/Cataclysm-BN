@@ -248,7 +248,7 @@ completed--they are the "non-city" counterpart to the **city_building** type. Th
 up of multiple overmap terrains (though not always), may have overmap connections (e.g. roads,
 sewers, subways), and have JSON-defined rules guiding their placement.
 
-## Placement Rules
+## Placement rules
 
 For each special, mapgen first decides how many instances it wants to place by rolling a random
 number between `min` and `max` of its occurrences. This number will be adjusted with a few
@@ -335,10 +335,9 @@ Depending on the subtype, there are further relevant fields:
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `check_for_locations`      | List of pairs `[ [ x, y, z ], [ locations, ... ] ]` defining the locations that must exist for initial placement.  |
 | `check_for_locations_area` | List of check_for_locations area objects to be considered in addition to the explicit `check_for_locations` pairs. |
-| `connections`              | List of connections and their relative `[ x, y, z ]` location within the special.                                  |
 | `overmaps`                 | Definitions of the various overmaps and how they join to one another.                                              |
-| `root`                     | The initial overmap from which the mutable overmap will be grown.                                                  |
-| `shared`                   | List of pairs `{ "id": value }` of multiplier, where value in same format as rule weight                           |
+| `root`                     | The initial overmap from which the mutable special will be grown.                                                  |
+| `shared`                   | List of multipliers defined as `"id": value` that can be used to scale some parts of the special.                  |
 | `phases`                   | A specification of how to grow the overmap special from the root OMT.                                              |
 
 ### Example fixed special
@@ -402,6 +401,12 @@ Depending on the subtype, there are further relevant fields:
       [[-1, 0, -1], ["subterranean_empty"]],
       [[0, -1, -1], ["subterranean_empty"]]
     ],
+    "//1": "Same as writing out 'check_for_locations' 9 times with different points.",
+    "check_for_locations_area": [
+        [ { "type": [ "subterranean_empty" ], "from": [ 1, 1, -2 ], "to": [ -1, -1, -2 ] } ]
+    ],
+    "//2": "The anthill will have 3 possible sizes",
+    "shared": { "size": [ 1, 3 ] },
     "joins": ["surface_to_tunnel", "tunnel_to_tunnel"],
     "overmaps": {
       "surface": { "overmap": "anthill", "below": "surface_to_tunnel", "locations": ["land"] },
@@ -441,9 +446,11 @@ Depending on the subtype, there are further relevant fields:
     "phases": [
       [{ "overmap": "below_entrance", "max": 1 }],
       [
-        { "overmap": "straight_tunnel", "max": 20 },
-        { "overmap": "corner", "max": { "poisson": 5 } },
-        { "overmap": "tee", "max": 10 }
+        "//1": "Shared multiplier 'size' will affect the size",
+        "//2": "of the tunnel system generated in this phase.",
+        { "overmap": "straight_tunnel", "max": 10, "scale": "size" },
+        { "overmap": "corner", "max": { "poisson": 2.5 }, "scale": "size" },
+        { "overmap": "tee", "max": 5, "scale": "size" }
       ],
       [{ "overmap": "queen", "max": 1 }],
       [{ "overmap": "food", "max": 5 }, { "overmap": "larvae", "max": 5 }],
@@ -462,6 +469,9 @@ Depending on the subtype, there are further relevant fields:
 ### How mutable specials are placed
 
 #### Overmaps and joins
+
+Note: "overmap" in the following context should not be confused with "overmap level" or "overmap" as
+a 180x180 chunk of OMTs that the near-infinite world map is divided into.
 
 A mutable special has a collection of _overmaps_ which define the OMTs used to build it and _joins_
 which define the way in which they are permitted to connect with one another. Each overmap may
@@ -495,8 +505,10 @@ Weight must always be a simple integer, but `max` may also be an object defining
 distribution over integers. Each time the special is spawned, a value is sampled from that
 distribution. Poisson distribution is supported via an object such as `{ "poisson": 5 }` where 5
 will be the mean of the distribution (λ). Flat distribution is supported via `[min, max]` pairs.
-`max` can also be `scale`d by another multiplier `shared` within special, allowing scale amount of
-multiple different overmaps proportionaly to each others.
+`max` can also be `scale`d by another multiplier `shared` within the special, allowing to scale
+amounts of multiple different overmaps proportionaly to each other. Each `shared` multiplier can be
+defined as a probability distribution same way as the `max` value, and it is also sampled once on
+special placement.
 
 Within each phase, the game looks for unsatisfied joins from the existing overmaps and attempts to
 find an overmap from amongst those available in its rules to satisfy that join. Priority is given to
@@ -540,7 +552,7 @@ Here is an example from the microlab:
 The `"name"` of a chunk is only for debugging messages when something goes wrong. `"max"` and
 `"weight"` are handled as above.
 
-The new feature is `"chunks"` which specifies a list of overmaps and their relative positions and
+The new feature is `"chunk"` which specifies a list of overmaps and their relative positions and
 rotations. The overmaps are taken from the ones defined for this special. Rotation of `"north"` is
 the default, so specifying that has no effect, but it's included here to demonstrate the syntax.
 
@@ -561,6 +573,9 @@ attempted placement is aborted.
 The `check_for_locations` constraints ensure that the `below_entrance` overmap can be placed below
 the root and that all four cardinal-adjacent OMTs are `subterranean_empty`, which is needed to add
 any further overmaps satisfying the four other joins of `below_entrance`.
+
+`check_for_locations_area` lets you define an area to check instead of having to repeat
+`check_for_locations` for individual points.
 
 ##### `into_locations`
 
@@ -759,10 +774,10 @@ Alternatively it can be a JSON object with the following keys:
 | `connections`        | List of overmap connections and their relative `[ x, y, z ]` location to overmap or chunk.                      |
 | `join`               | Id of `join` which must be resolved during current phase.                                                       |
 | `z`                  | Z level restrictions for this phase.                                                                            |
-| `om_pos`             | This phase only allowd on specified point_om_abs                                                                |
+| `om_pos`             | Absolute coordinates `[ x, y ]` of the overmap (180x180 chunk of the world) this phase is allowed to run in.    |
 | `rotate`             | True or false, whether current piece can be rotated or not. Takes a priority over special's rotatable property. |
-| `scale`              | Id of shared multiplier of max.                                                                                 |
 | `max`                | Maximum number of times this rule should be used.                                                               |
+| `scale`              | Id of the shared multiplier to scale the `max` by.                                                              |
 | `weight`             | Weight with which to select this rule.                                                                          |
 
 Z level restrictions supports numbers, `["min", "mix"]` ranges with absolute coordinate
