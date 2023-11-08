@@ -53,10 +53,10 @@
         "p": "t_sewage_pipe"
       },
       "place_nested": [
-        { "chunks": [ "lab_train_subway_east" ], "x": 0, "y": 0, "neighbors": { "east": [ "subway" ] } },
-        { "chunks": [ "lab_train_subway_west" ], "x": 0, "y": 0, "neighbors": { "west": [ "subway" ] } },
-        { "chunks": [ "lab_train_subway_north" ], "x": 0, "y": 0, "neighbors": { "north": [ "subway" ] } },
-        { "chunks": [ "lab_train_subway_south" ], "x": 0, "y": 0, "neighbors": { "south": [ "subway" ] } },
+        { "chunks": [ "lab_train_subway_east" ], "x": 0, "y": 0, "connections": { "east": [ "subway_tunnel" ] } },
+        { "chunks": [ "lab_train_subway_west" ], "x": 0, "y": 0, "connections": { "west": [ "subway_tunnel" ] } },
+        { "chunks": [ "lab_train_subway_north" ], "x": 0, "y": 0, "connections": { "north": [ "subway_tunnel" ] } },
+        { "chunks": [ "lab_train_subway_south" ], "x": 0, "y": 0, "connections": { "south": [ "subway_tunnel" ] } },
         { "chunks": [ "lab_train_entrance_north" ], "x": 0, "y": 0, "neighbors": { "north": [ "lab" ] } },
         { "chunks": [ "lab_train_entrance_south" ], "x": 0, "y": 0, "neighbors": { "south": [ "lab" ] } },
         { "chunks": [ "lab_train_entrance_east" ], "x": 0, "y": 0, "neighbors": { "east": [ "lab" ] } },

@@ -57,6 +57,7 @@
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "overmap_connection.h"
 #include "player.h"
 #include "point.h"
 #include "point_float.h"
@@ -1909,19 +1910,65 @@ class jmapgen_nested : public jmapgen_piece
                 }
         };
 
+        class neighbor_connection_check
+        {
+            private:
+                std::unordered_map<om_direction::type, std::set<overmap_connection_id>> neighbors;
+            public:
+                neighbor_connection_check( const JsonObject &jsi ) {
+                    for( om_direction::type dir : om_direction::all ) {
+                        std::set<overmap_connection_id> dir_connections = jsi.get_tags<overmap_connection_id>
+                                ( io::enum_to_string( dir ) );
+                        if( !dir_connections.empty() ) {
+                            neighbors[dir] = std::move( dir_connections );
+                        }
+                    }
+                }
+
+                void check( const std::string &oter_name ) const {
+                    for( const auto &p : neighbors ) {
+                        for( const overmap_connection_id &id : p.second ) {
+                            if( !id.is_valid() ) {
+                                debugmsg( "Invalid overmap_connection_id '%s' in %s", id.str(), oter_name );
+                            }
+                        }
+                    }
+                }
+
+                bool test( const mapgendata &dat ) const {
+                    for( const auto &p : neighbors ) {
+                        const om_direction::type dir = p.first;
+                        const std::set<overmap_connection_id> &allowed_connections = p.second;
+
+                        bool this_direction_matches = false;
+                        for( const overmap_connection_id &connection : allowed_connections ) {
+                            const oter_id neighbor = dat.neighbor_at( dir );
+                            this_direction_matches |= connection->has( neighbor ) &&
+                                                      neighbor->has_connection( om_direction::opposite( dir ) );
+                        }
+                        if( !this_direction_matches ) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+        };
+
     public:
         weighted_int_list<std::string> entries;
         weighted_int_list<std::string> else_entries;
         neighbor_oter_check neighbor_oters;
         neighbor_join_check neighbor_joins;
+        neighbor_connection_check neighbor_connections;
         jmapgen_nested( const JsonObject &jsi )
             : neighbor_oters( jsi.get_object( "neighbors" ) )
-            , neighbor_joins( jsi.get_object( "joins" ) ) {
+            , neighbor_joins( jsi.get_object( "joins" ) )
+            , neighbor_connections( jsi.get_object( "connections" ) ) {
             load_weighted_entries( jsi, "chunks", entries );
             load_weighted_entries( jsi, "else_chunks", else_entries );
         }
         const weighted_int_list<std::string> &get_entries( const mapgendata &dat ) const {
-            if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) ) {
+            if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_connections.test( dat ) ) {
                 return entries;
             } else {
                 return else_entries;
@@ -1952,6 +1999,7 @@ class jmapgen_nested : public jmapgen_piece
         void check( const std::string &oter_name ) const override {
             neighbor_oters.check( oter_name );
             neighbor_joins.check( oter_name );
+            neighbor_connections.check( oter_name );
         }
         bool has_vehicle_collision( mapgendata &dat, point p ) const override {
             const weighted_int_list<std::string> &selected_entries = get_entries( dat );
