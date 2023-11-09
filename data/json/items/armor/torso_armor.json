@@ -39,7 +39,6 @@
     "coverage": 80,
     "encumbrance": 12,
     "warmth": 15,
-    "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY" ]
   },
