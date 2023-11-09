@@ -61,7 +61,7 @@
     "encumbrance": 22,
     "storage": "1 L",
     "warmth": 20,
-    "material_thickness": 5,
+    "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
   },
