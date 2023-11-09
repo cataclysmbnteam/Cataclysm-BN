@@ -8,7 +8,7 @@
     "object": {
       "fill_ter": "t_linoleum_gray",
       "rows": [
-        "zs______,______,______sz",
+        "ss______,______,______s'",
         "zs______,______,______sz",
         "zs______,______,______sz",
         "zs______,______,______sz",
@@ -50,6 +50,7 @@
         "_": "t_pavement",
         "d": "t_pavement",
         "s": "t_sidewalk",
+        "'": "t_sidewalk",
         "x": "t_console_broken",
         "z": "t_shrub",
         "|": "t_wall_w",
@@ -57,6 +58,7 @@
         "<": "t_ladder_up"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "C": "f_displaycase",
         "E": "f_desk",
@@ -166,8 +168,8 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "          xxxxxxx     9 ",
-        "    9    xxxpJpxxx  9   ",
+        "          xxxxxxx    9 '",
+        "    9    xxxpJpxxx 9    ",
         "        xxxxxxxxxxxxxxxx",
         "   ------:::-+--:::--- x",
         " 9 |{{{{{y.......#..Y| x",
@@ -193,6 +195,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_dirt",
         ".": "t_floor",
         "p": "t_grass",
         "J": "t_grass",
@@ -232,6 +235,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "{": "f_rack",
         "S": "f_stool",
@@ -331,7 +335,7 @@
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
-        "  ____________________  ",
+        "  ____________________ '",
         "  *___*___*______*___*  ",
         "  ---:::---+----:::---  ",
         "  |H....#...........R|  ",
@@ -357,6 +361,7 @@
         "  ====================  "
       ],
       "terrain": {
+        "'": "t_region_groundcover_urban",
         "*": "t_pavement_y",
         "+": "t_door_metal_pickable",
         "-": "t_concrete_wall",
@@ -398,6 +403,7 @@
         ]
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "S": "f_stool",
         "{": "f_rack",

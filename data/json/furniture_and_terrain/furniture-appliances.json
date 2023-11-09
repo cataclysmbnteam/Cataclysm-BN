@@ -260,7 +260,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "BASHABLE" ],
+    "flags": [ "BASHABLE", "TRANSPARENT" ],
     "examine_action": "transform",
     "transforms_into": "f_street_light_rewired_on",
     "prompt": "Switch on the street light.",

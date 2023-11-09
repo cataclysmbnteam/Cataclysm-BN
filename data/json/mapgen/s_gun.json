@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "  ____________________  ",
+        "  ____________________ '",
         "  *___*___*______*___*  ",
         "  *___*___*______*___*  ",
         "  *___*___*______*___*  ",
@@ -38,6 +38,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_dirt",
         "*": "t_pavement_y",
         "+": "t_door_metal_pickable",
         "-": "t_wall_w",
@@ -57,6 +58,7 @@
       },
       "toilets": { "&": {  } },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "H": "f_counter",
         "S": "f_stool",
@@ -202,7 +204,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "_ssssssssssssssssssssss_",
+        "_ssssssssssssssssssssss'",
         "_s@@@@@@@_ssss_@@@@@@@s_",
         "_s||555||_ssss_||555||s_",
         "_s|#####5_ssss_5#####|s_",
@@ -239,6 +241,7 @@
         "D": "t_door_c",
         "L": "t_door_metal_locked",
         "_": "t_pavement",
+        "'": "t_pavement",
         "s": "t_sidewalk",
         "|": "t_wall_w",
         "?": "t_console_broken",
@@ -246,6 +249,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "a": "f_stool",
         "E": "f_desk",
@@ -346,7 +350,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "_ssssssssssssssssssssss_",
+        "_ssssssssssssssssssssss'",
         "_s@@xx@@@_ssss_@@@@@@@s_",
         "_s||5l5||_ssss_||555||s_",
         "_s|#lll#5_ssss_5#####|s_",
@@ -383,6 +387,7 @@
         "D": "t_door_o",
         "L": "t_door_metal_locked",
         "_": "t_pavement",
+        "'": "t_pavement",
         "p": "t_door_metal_o",
         "s": "t_sidewalk",
         "|": "t_wall_w",
@@ -391,6 +396,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "E": "f_desk",
         "S": "f_sink",
@@ -449,7 +455,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "....d...d....dss..dd.d..",
+        "....d...d....dss..dd.d.'",
         ".......d......ss........",
         "d.............ssd.d.....",
         "..d....d..d.dssss......d",
@@ -479,6 +485,7 @@
         "+": "t_door_metal_pickable",
         "-": "t_brick_wall",
         ".": "t_grass",
+        "'": "t_dirt",
         "S": "t_grass",
         "T": "t_dirt",
         "W": "t_wall_w",
@@ -498,6 +505,7 @@
       "toilets": { ";": {  } },
       "place_item": [ { "item": "corpse", "repeat": 1, "x": 19, "y": 12 } ],
       "furniture": {
+        "'": "f_street_light",
         "#": "f_sandbag_wall",
         "&": "f_trashcan",
         "C": "f_chair",
