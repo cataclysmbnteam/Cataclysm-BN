@@ -6,6 +6,8 @@ import {
   knit_scarf_loose,
   long_knit_scarf,
   long_knit_scarf_loose,
+  long_patchwork_scarf,
+  long_patchwork_scarf_loose,
   patchwork_scarf,
   patchwork_scarf_loose,
   scarf_fur,
@@ -30,3 +32,4 @@ Deno.test("scarf_long", checkScarf(wool_scarf_long, wool_scarf_long_loose))
 Deno.test("scarf_fur", checkScarf(scarf_fur, scarf_fur_loose))
 Deno.test("scarf_fur_long", checkScarf(scarf_fur_long, scarf_fur_long_loose))
 Deno.test("patchwork_scarf", checkScarf(patchwork_scarf, patchwork_scarf_loose))
+Deno.test("long_patchwork_scarf", checkScarf(long_patchwork_scarf, long_patchwork_scarf_loose))
