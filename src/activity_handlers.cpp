@@ -2688,16 +2688,17 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = static_cast<repeat_type>( act->get_value( 0, REPEAT_INIT ) );
-    item *ploc = nullptr;
-    if( !act->targets.empty() && act->targets[0] ) {
-        ploc = &*act->targets[0];
-    }
 
     // nullopt if used real tool
     std::optional<hack::hack_type_t> hack_type = hack::get_hack_type( *act );
     item *fake_tool = nullptr;
+    // real tool if used.
+    item *ploc = nullptr;
+
     if( hack_type ) {
         fake_tool = hack::get_fake_tool( hack_type.value(), *act );
+    } else {
+        ploc = &*act->targets[0];
     }
     const tripoint hack_position = hack_type ? hack::get_position( *act ) : tripoint{};
     const int hack_original_charges = fake_tool ? fake_tool->charges : 0;
