@@ -1,7 +1,6 @@
 import { assertEquals } from "https://deno.land/std@0.201.0/assert/assert_equals.ts"
 import scarfs from "./scarfs.json" with { type: "json" }
 import {
-  Item,
   knit_scarf,
   knit_scarf_loose,
   long_knit_scarf,
@@ -19,6 +18,7 @@ import {
   wool_scarf_long_loose,
   wool_scarf_loose,
 } from "./scarfs.ts"
+import { Item } from "./scarfs_transform.ts"
 
 const findScarf = ({ id }: Item) => scarfs.find((it) => it.id === id)! as any
 const checkScarf = (scarf: Item, looseScarf: Item) => async (t: Deno.TestContext) => {
