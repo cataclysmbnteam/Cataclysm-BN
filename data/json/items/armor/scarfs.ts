@@ -11,7 +11,7 @@ export type Item = {
 }
 
 type Scarf = {
-  long: boolean
+  desc?: string
   material: string
 }
 
@@ -23,9 +23,9 @@ const scarf_base = {
   flags: ["OUTER"],
 } as const
 
-const desc = ({ long, material }: Scarf) =>
+const desc = ({ desc = "long knitted", material }: Scarf) =>
   ({
-    description: `A long knitted ${material} scarf, worn over the mouth for warmth.`,
+    description: `A ${desc} ${material} scarf, worn over the mouth for warmth.`,
     material: [material],
   }) as const
 
@@ -33,7 +33,7 @@ const knit_scarf_base = {
   id: "knit_scarf",
   name: { str: "knit scarf", str_pl: "knit scarves" },
   ...scarf_base,
-  ...desc({ long: false, material: "cotton" }),
+  ...desc({ material: "cotton" }),
   color: "dark_gray",
   weight: "96 g",
   volume: "750 ml",
@@ -184,66 +184,34 @@ export const wool_scarf_long_loose = {
   ...loosened(wool_scarf_long_base),
   ...wool_loose_stat,
 }
+
+const scarf_fur_base = {
+  ...wool_scarf_base,
+  id: "scarf_fur",
+  name: { str: "fur scarf", str_pl: "fur scarves" },
+  ...desc({ desc: "long", material: "fur" }),
+  price: 9000,
+  price_postapoc: 250,
+  weight: "140 g",
+  volume: "1 L",
+  material_thickness: 3,
+} as const
+
 export const scarf_fur = {
-  "id": "scarf_fur",
-  "type": "TOOL_ARMOR",
-  "category": "clothing",
-  "symbol": "[",
-  "color": "brown",
-  "name": { "str": "fur scarf", "str_pl": "fur scarves" },
-  "description":
-    "A long fur scarf, worn over the mouth for warmth.  Use it to loosen it if you get too warm.",
-  "price": 9000,
-  "price_postapoc": 250,
-  "material": ["fur"],
-  "weight": "140 g",
-  "volume": "1 L",
-  "to_hit": -3,
-  "use_action": {
-    "type": "transform",
-    "msg": "You loosen your %s.",
-    "target": "scarf_fur_loose",
-    "menu_text": "Loosen",
-  },
-  "covers": ["mouth"],
-  "flags": ["OUTER"],
-  "warmth": 70,
-  "environmental_protection": 3,
-  "encumbrance": 10,
-  "coverage": 85,
-  "material_thickness": 3,
-}
+  ...tightened(scarf_fur_base),
+  warmth: 70,
+  environmental_protection: 3,
+  encumbrance: 10,
+  coverage: 85,
+} as const
 export const scarf_fur_loose = {
-  "id": "scarf_fur_loose",
-  "type": "TOOL_ARMOR",
-  "category": "clothing",
-  "repairs_like": "scarf_fur",
-  "symbol": "[",
-  "color": "brown",
-  "name": { "str": "fur scarf (loose)", "str_pl": "fur scarves (loose)" },
-  "description":
-    "A long fur scarf, worn over the mouth for warmth.  Use it to wear it tighter if you get too cold.",
-  "price": 9000,
-  "price_postapoc": 250,
-  "material": ["fur"],
-  "weight": "140 g",
-  "volume": "1 L",
-  "to_hit": -3,
-  "revert_to": "scarf_fur",
-  "use_action": {
-    "type": "transform",
-    "msg": "You wrap your scarf a bit tighter.",
-    "target": "scarf_fur",
-    "menu_text": "Wrap tighter",
-  },
-  "covers": ["mouth"],
-  "flags": ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
-  "warmth": 35,
-  "environmental_protection": 2,
-  "encumbrance": 10,
-  "coverage": 45,
-  "material_thickness": 3,
-}
+  ...loosened(scarf_fur_base, { tightenDesc: "a bit tighter" }),
+  warmth: 35,
+  environmental_protection: 2,
+  encumbrance: 10,
+  coverage: 45,
+} as const
+
 const scarf_fur_long = {
   "id": "scarf_fur_long",
   "type": "TOOL_ARMOR",
