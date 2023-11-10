@@ -1,5 +1,6 @@
 import { assertEquals } from "https://deno.land/std@0.201.0/assert/assert_equals.ts"
 import scarfs from "./scarfs.json" with { type: "json" }
+import { multiplyVolume, multiplyWeight, Volume, Weight } from "catjazz/units/mod.ts"
 
 type Item = {
   id: string
@@ -78,6 +79,26 @@ const loosened = <const T extends Item>(
     flags: [...flags, "ALLOWS_NATURAL_ATTACKS"],
   }) as const
 
+const longer = <const T extends Item, const U extends string>(
+  { id, name: { str, str_pl }, description, price, flags, ...rest }: T & {
+    price: number
+    weight: Weight
+    volume: Volume
+  },
+  newDescription: U,
+) => ({
+  id: `long_${id}`,
+  name: { str: `long ${str}`, str_pl: `long ${str_pl}` },
+  description: `${newDescription}, ${
+    description.split(", ")[1]
+  }  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.`,
+  price: price * 1.5,
+  flags: [...flags, "OVERSIZE", "POCKETS"],
+  ...rest,
+  weight: multiplyWeight(rest.weight, 2),
+  volume: multiplyVolume(rest.volume, 5 / 3),
+})
+
 const knit_scarf = {
   ...tightened(knit_scarf_base),
   coverage: 85,
@@ -94,74 +115,32 @@ const knit_scarf_loose = {
   environmental_protection: 1,
 }
 
+const long_knit_scarf_base = longer(knit_scarf_base, "A really long knitted cotton scarf")
+const long_knit_scarf = {
+  ...tightened(long_knit_scarf_base),
+  warmth: 30,
+  coverage: 85,
+  environmental_protection: 2,
+  encumbrance: 3,
+}
+
+const long_knit_scarf_loose = {
+  ...loosened(long_knit_scarf_base),
+  warmth: 15,
+  coverage: 45,
+  environmental_protection: 1,
+  encumbrance: 2,
+} as const
+
 const findScarf = ({ id }: Item) => scarfs.find((it) => it.id === id)! as any
-const checkScarf = (scarf: Item, looseScarf: Item) => () => {
-  assertEquals(scarf, findScarf(scarf))
-  assertEquals(looseScarf, findScarf(looseScarf))
+const checkScarf = (scarf: Item, looseScarf: Item) => async (t: Deno.TestContext) => {
+  await t.step(scarf.id, () => assertEquals(scarf, findScarf(scarf)))
+  await t.step(looseScarf.id, () => assertEquals(looseScarf, findScarf(looseScarf)))
 }
 
 Deno.test("knit_scarf", checkScarf(knit_scarf, knit_scarf_loose))
+Deno.test("long_knit_scarf", checkScarf(long_knit_scarf, long_knit_scarf_loose))
 
-const long_knit_scarf = {
-  "id": "long_knit_scarf",
-  "type": "TOOL_ARMOR",
-  "category": "clothing",
-  "symbol": "[",
-  "color": "dark_gray",
-  "name": { "str": "long knit scarf", "str_pl": "long knit scarves" },
-  "description":
-    "A really long knitted cotton scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to loosen it if you get too warm.",
-  "price": 3000,
-  "price_postapoc": 100,
-  "material": ["cotton"],
-  "weight": "192 g",
-  "volume": "1250 ml",
-  "to_hit": -3,
-  "use_action": {
-    "type": "transform",
-    "msg": "You loosen your %s.",
-    "target": "long_knit_scarf_loose",
-    "menu_text": "Loosen",
-  },
-  "covers": ["mouth"],
-  "flags": ["OVERSIZE", "POCKETS", "OUTER"],
-  "warmth": 30,
-  "environmental_protection": 2,
-  "encumbrance": 3,
-  "coverage": 85,
-  "material_thickness": 2,
-}
-const long_knit_scarf_loose = {
-  "id": "long_knit_scarf_loose",
-  "type": "TOOL_ARMOR",
-  "category": "clothing",
-  "repairs_like": "long_knit_scarf",
-  "symbol": "[",
-  "color": "dark_gray",
-  "name": { "str": "long knit scarf (loose)", "str_pl": "long knit scarves (loose)" },
-  "description":
-    "A really long knitted cotton scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
-  "price": 3000,
-  "price_postapoc": 100,
-  "material": ["cotton"],
-  "weight": "192 g",
-  "volume": "1250 ml",
-  "to_hit": -3,
-  "use_action": {
-    "type": "transform",
-    "msg": "You wrap your scarf tighter.",
-    "target": "long_knit_scarf",
-    "menu_text": "Wrap tighter",
-  },
-  "revert_to": "long_knit_scarf",
-  "covers": ["mouth"],
-  "flags": ["OVERSIZE", "POCKETS", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
-  "warmth": 15,
-  "environmental_protection": 1,
-  "encumbrance": 2,
-  "coverage": 45,
-  "material_thickness": 2,
-}
 const scarf = {
   "id": "scarf",
   "type": "TOOL_ARMOR",
