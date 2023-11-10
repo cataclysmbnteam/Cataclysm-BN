@@ -3169,9 +3169,24 @@ void mapgen_lake_shore( mapgendata &dat )
         }
 
         if( pair == i ) {
-            // No pair. Let's mirror it make at least some shoreline
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            line_segments.push_back( { slots[i], { mx - slots[i].x, my - slots[i].y } } );
+            // No pair. Let's attach coast line to the middle of closest non-water tile
+            bool water[8] = { n_water, n_water, w_water, w_water, s_water, s_water, e_water, e_water };
+            int fallback = i;
+            for( int j = modulo( i + dir, 8 ); j != i; j = modulo( j + dir, 8 ) ) {
+                if( !water[j] ) {
+                    fallback = j;
+                    break;
+                }
+            }
+            if( fallback < 2 ) {
+                line_segments.push_back( { slots[i], { mx / 2, 0 } } );
+            } else if( fallback < 4 ) {
+                line_segments.push_back( { slots[i], { 0, my / 2 } } );
+            } else if( fallback < 6 ) {
+                line_segments.push_back( { slots[i], { mx / 2, my } } );
+            } else if( fallback < 8 ) {
+                line_segments.push_back( { slots[i], { mx, my / 2 } } );
+            }
         } else if( pair == i + next ) {
             // We returned to our neighbour on same side, let's connect them in the middle
             point mid = { mx / 2, my / 2 };
