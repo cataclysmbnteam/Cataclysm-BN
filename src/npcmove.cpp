@@ -2022,18 +2022,20 @@ double npc::confidence_mult() const
 
 int npc::confident_shoot_range( const item &it, int recoil ) const
 {
-    int res = 0;
     if( !it.is_gun() ) {
-        return res;
+        return 0;
     }
     const auto gun_mode_cmp = []( const std::pair<gun_mode_id, gun_mode> &lhs,
     const std::pair<gun_mode_id, gun_mode> &rhs ) {
         return lhs.second.qty < rhs.second.qty;
     };
     std::map<gun_mode_id, gun_mode> modes = it.gun_all_modes();
+    if( modes.empty() ) {
+        debugmsg( "%s has no gun modes", it.tname() );
+        return 0;
+    }
     auto best = std::min_element( modes.begin(), modes.end(), gun_mode_cmp );
-    res = confident_gun_mode_range( ( *best ).second, recoil );
-    return res;
+    return confident_gun_mode_range( ( *best ).second, recoil );
 }
 
 int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
