@@ -60,10 +60,14 @@ const tightened = <const T extends Item>({ id, name, description, ...rest }: T) 
     },
   }) as const
 
-const loosened = <const T extends Item>(
+type LoosenOption = { tightenDesc?: string }
+const defaultLoosenOption = { tightenDesc: "tighter" } satisfies LoosenOption
+const loosened = <const T extends Item, const U extends LoosenOption>(
   { id, name: { str, str_pl }, description, flags, ...rest }: T,
-) =>
-  ({
+  option?: U,
+) => {
+  const { tightenDesc } = { ...defaultLoosenOption, ...option }
+  return ({
     id: `${id}_loose`,
     name: { str: `${str} (loose)`, str_pl: `${str_pl} (loose)` },
     description: `${description}  Use it to wear it tighter if you get too cold.`,
@@ -72,12 +76,13 @@ const loosened = <const T extends Item>(
     revert_to: id,
     use_action: {
       type: "transform",
-      msg: "You wrap your scarf tighter.",
+      msg: `You wrap your scarf ${tightenDesc}.`,
       target: id,
       menu_text: "Wrap tighter",
     },
     flags: [...flags, "ALLOWS_NATURAL_ATTACKS"],
   }) as const
+}
 
 const longer = <const T extends Item, const U extends string>(
   { id, name: { str, str_pl }, description, price, flags, ...rest }: T & {
@@ -132,6 +137,35 @@ const long_knit_scarf_loose = {
   encumbrance: 2,
 } as const
 
+const wool_scarf_base = {
+  ...knit_scarf_base,
+  id: "scarf",
+  name: { "str": "wool scarf", "str_pl": "wool scarves" },
+  description: "A long wool scarf, worn over the mouth for warmth.",
+  color: "brown",
+  material: ["wool"],
+  weight: "80 g",
+  material_thickness: 2,
+  price: 3800,
+  price_postapoc: 50,
+} as const
+
+const wool_scarf = {
+  ...tightened(wool_scarf_base),
+  warmth: 50,
+  environmental_protection: 2,
+  encumbrance: 3,
+  coverage: 85,
+} as const
+
+const wool_scarf_loose = {
+  ...loosened(wool_scarf_base, { tightenDesc: "a bit tighter" }),
+  warmth: 25,
+  environmental_protection: 1,
+  encumbrance: 2,
+  coverage: 45,
+} as const
+
 const findScarf = ({ id }: Item) => scarfs.find((it) => it.id === id)! as any
 const checkScarf = (scarf: Item, looseScarf: Item) => async (t: Deno.TestContext) => {
   await t.step(scarf.id, () => assertEquals(scarf, findScarf(scarf)))
@@ -140,68 +174,9 @@ const checkScarf = (scarf: Item, looseScarf: Item) => async (t: Deno.TestContext
 
 Deno.test("knit_scarf", checkScarf(knit_scarf, knit_scarf_loose))
 Deno.test("long_knit_scarf", checkScarf(long_knit_scarf, long_knit_scarf_loose))
+Deno.test("scarf", checkScarf(wool_scarf, wool_scarf_loose))
 
-const scarf = {
-  "id": "scarf",
-  "type": "TOOL_ARMOR",
-  "category": "clothing",
-  "symbol": "[",
-  "color": "brown",
-  "name": { "str": "wool scarf", "str_pl": "wool scarves" },
-  "description":
-    "A long wool scarf, worn over the mouth for warmth.  Use it to loosen it if you get too warm.",
-  "price": 3800,
-  "price_postapoc": 50,
-  "material": ["wool"],
-  "weight": "80 g",
-  "volume": "750 ml",
-  "to_hit": -3,
-  "use_action": {
-    "type": "transform",
-    "msg": "You loosen your %s.",
-    "target": "scarf_loose",
-    "menu_text": "Loosen",
-  },
-  "covers": ["mouth"],
-  "flags": ["OUTER"],
-  "warmth": 50,
-  "environmental_protection": 2,
-  "encumbrance": 3,
-  "coverage": 85,
-  "material_thickness": 2,
-}
-const scarf_loose = {
-  "id": "scarf_loose",
-  "type": "TOOL_ARMOR",
-  "category": "clothing",
-  "repairs_like": "scarf",
-  "symbol": "[",
-  "color": "brown",
-  "name": { "str": "wool scarf (loose)", "str_pl": "wool scarves (loose)" },
-  "description":
-    "A long wool scarf, worn over the mouth for warmth.  Use it to wear it tighter if you get too cold.",
-  "price": 3800,
-  "price_postapoc": 50,
-  "material": ["wool"],
-  "weight": "80 g",
-  "volume": "750 ml",
-  "to_hit": -3,
-  "revert_to": "scarf",
-  "use_action": {
-    "type": "transform",
-    "msg": "You wrap your scarf a bit tighter.",
-    "target": "scarf",
-    "menu_text": "Wrap tighter",
-  },
-  "covers": ["mouth"],
-  "flags": ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
-  "warmth": 25,
-  "environmental_protection": 1,
-  "encumbrance": 2,
-  "coverage": 45,
-  "material_thickness": 2,
-}
-const scarf_long = {
+const wool_scarf_long = {
   "id": "scarf_long",
   "type": "TOOL_ARMOR",
   "category": "clothing",
@@ -230,7 +205,7 @@ const scarf_long = {
   "coverage": 85,
   "material_thickness": 2,
 }
-const scarf_long_loose = {
+const wool_scarf_long_loose = {
   "id": "scarf_long_loose",
   "type": "TOOL_ARMOR",
   "category": "clothing",
