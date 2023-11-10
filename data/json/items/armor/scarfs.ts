@@ -94,7 +94,6 @@ const longer = <const T extends Item, const U extends string>(
   description: `${newDescription}, ${
     description.split(", ")[1]
   }  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.`,
-  price: price * 1.5,
   flags: [...flags, "OVERSIZE", "POCKETS"],
   ...rest,
   weight: multiplyWeight(rest.weight, 2),
@@ -117,7 +116,11 @@ export const knit_scarf_loose = {
   environmental_protection: 1,
 }
 
-const long_knit_scarf_base = longer(knit_scarf_base, "A really long knitted cotton scarf")
+const long_knit_scarf_base = {
+  ...longer(knit_scarf_base, "A really long knitted cotton scarf"),
+  price: 3000,
+} as const
+
 export const long_knit_scarf = {
   ...tightened(long_knit_scarf_base),
   warmth: 30,
@@ -137,93 +140,51 @@ export const long_knit_scarf_loose = {
 const wool_scarf_base = {
   ...knit_scarf_base,
   id: "scarf",
-  name: { "str": "wool scarf", "str_pl": "wool scarves" },
+  name: { str: "wool scarf", str_pl: "wool scarves" },
   description: "A long wool scarf, worn over the mouth for warmth.",
   color: "brown",
   material: ["wool"],
   weight: "80 g",
-  material_thickness: 2,
   price: 3800,
   price_postapoc: 50,
 } as const
 
-export const wool_scarf = {
-  ...tightened(wool_scarf_base),
+const wool_tight_stat = {
   warmth: 50,
-  environmental_protection: 2,
-  encumbrance: 3,
   coverage: 85,
+  encumbrance: 3,
+  environmental_protection: 2,
 } as const
 
-export const wool_scarf_loose = {
-  ...loosened(wool_scarf_base, { tightenDesc: "a bit tighter" }),
+const wool_loose_stat = {
   warmth: 25,
   environmental_protection: 1,
   encumbrance: 2,
   coverage: 45,
 } as const
 
-const wool_scarf_long = {
-  "id": "scarf_long",
-  "type": "TOOL_ARMOR",
-  "category": "clothing",
-  "symbol": "[",
-  "color": "brown",
-  "name": { "str": "long wool scarf", "str_pl": "long wool scarves" },
-  "description":
-    "A really long wool scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to loosen it if you get too warm.",
-  "price": 4500,
-  "price_postapoc": 100,
-  "material": ["wool"],
-  "weight": "160 g",
-  "volume": "1250 ml",
-  "to_hit": -3,
-  "use_action": {
-    "type": "transform",
-    "msg": "You loosen your %s.",
-    "target": "scarf_long_loose",
-    "menu_text": "Loosen",
-  },
-  "covers": ["mouth"],
-  "flags": ["OVERSIZE", "POCKETS", "OUTER"],
-  "warmth": 50,
-  "environmental_protection": 2,
-  "encumbrance": 3,
-  "coverage": 85,
-  "material_thickness": 2,
+export const wool_scarf = { ...tightened(wool_scarf_base), ...wool_tight_stat } as const
+export const wool_scarf_loose = {
+  ...loosened(wool_scarf_base, { tightenDesc: "a bit tighter" }),
+  ...wool_loose_stat,
+} as const
+
+const wool_scarf_long_base = {
+  ...longer(wool_scarf_base, "A really long wool scarf"),
+  id: "scarf_long",
+  price_postapoc: 100,
+  price: 4500,
+} as const
+
+export const wool_scarf_long = {
+  ...tightened(wool_scarf_long_base),
+  ...wool_tight_stat,
 }
-const wool_scarf_long_loose = {
-  "id": "scarf_long_loose",
-  "type": "TOOL_ARMOR",
-  "category": "clothing",
-  "repairs_like": "scarf_long",
-  "symbol": "[",
-  "color": "brown",
-  "name": { "str": "long wool scarf (loose)", "str_pl": "long wool scarves (loose)" },
-  "description":
-    "A really long wool scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
-  "price": 4500,
-  "price_postapoc": 100,
-  "material": ["wool"],
-  "weight": "160 g",
-  "volume": "1250 ml",
-  "to_hit": -3,
-  "use_action": {
-    "type": "transform",
-    "msg": "You wrap your scarf tighter.",
-    "target": "scarf_long",
-    "menu_text": "Wrap tighter",
-  },
-  "revert_to": "scarf_long",
-  "covers": ["mouth"],
-  "flags": ["OVERSIZE", "POCKETS", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
-  "warmth": 25,
-  "environmental_protection": 1,
-  "encumbrance": 2,
-  "coverage": 45,
-  "material_thickness": 2,
+export const wool_scarf_long_loose = {
+  ...loosened(wool_scarf_long_base),
+  ...wool_loose_stat,
 }
-const scarf_fur = {
+export const scarf_fur = {
   "id": "scarf_fur",
   "type": "TOOL_ARMOR",
   "category": "clothing",
@@ -252,7 +213,7 @@ const scarf_fur = {
   "coverage": 85,
   "material_thickness": 3,
 }
-const scarf_fur_loose = {
+export const scarf_fur_loose = {
   "id": "scarf_fur_loose",
   "type": "TOOL_ARMOR",
   "category": "clothing",
