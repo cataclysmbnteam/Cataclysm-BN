@@ -166,6 +166,23 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
     }
 }
 
+namespace
+{
+
+// TODO: add explicit action field to gun definitions
+auto defmode_name( itype &obj )
+{
+    if( obj.gun->clip == 1 ) {
+        return translate_marker( "manual" ); // break-type actions
+    } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.has_flag( flag_RELOAD_ONE ) ) {
+        return translate_marker( "revolver" );
+    } else {
+        return translate_marker( "semi" );
+    }
+};
+
+} //namespace
+
 void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
@@ -397,46 +414,41 @@ void Item_factory::finalize_pre( itype &obj )
         // replace those ammo types with that of the migrated ammo
         for( auto ammo_type_it = obj.gun->ammo.begin(); ammo_type_it != obj.gun->ammo.end(); ) {
             auto maybe_migrated = migrated_ammo.find( ammo_type_it->obj().default_ammotype() );
-            if( maybe_migrated != migrated_ammo.end() ) {
-                const ammotype old_ammo = *ammo_type_it;
-                // Remove the old ammotype add the migrated version
-                ammo_type_it = obj.gun->ammo.erase( ammo_type_it );
-                const ammotype &new_ammo = maybe_migrated->second;
-                obj.gun->ammo.insert( obj.gun->ammo.begin(), new_ammo );
-                // Migrate the compatible magazines
-                auto old_mag_it = obj.magazines.find( old_ammo );
-                if( old_mag_it != obj.magazines.end() ) {
-                    for( const itype_id &old_mag : old_mag_it->second ) {
-                        obj.magazines[new_ammo].insert( old_mag );
-                    }
-                    obj.magazines.erase( old_ammo );
-                }
-                // And the default magazines for each magazine type
-                auto old_default_mag_it = obj.magazine_default.find( old_ammo );
-                if( old_default_mag_it != obj.magazine_default.end() ) {
-                    const itype_id &old_default_mag = old_default_mag_it->second;
-                    obj.magazine_default[new_ammo] = old_default_mag;
-                    obj.magazine_default.erase( old_ammo );
-                }
-            } else {
+            if( maybe_migrated == migrated_ammo.end() ) {
                 ++ammo_type_it;
+                continue;
+            }
+
+            const ammotype old_ammo = *ammo_type_it;
+
+            // Remove the old ammotype add the migrated version
+            ammo_type_it = obj.gun->ammo.erase( ammo_type_it );
+            const ammotype &new_ammo = maybe_migrated->second;
+            obj.gun->ammo.insert( obj.gun->ammo.begin(), new_ammo );
+
+            // Migrate the compatible magazines
+            auto old_mag_it = obj.magazines.find( old_ammo );
+            if( old_mag_it != obj.magazines.end() ) {
+                for( const itype_id &old_mag : old_mag_it->second ) {
+                    obj.magazines[new_ammo].insert( old_mag );
+                }
+                obj.magazines.erase( old_ammo );
+            }
+
+            // And the default magazines for each magazine type
+            auto old_default_mag_it = obj.magazine_default.find( old_ammo );
+            if( old_default_mag_it != obj.magazine_default.end() ) {
+                const itype_id &old_default_mag = old_default_mag_it->second;
+                obj.magazine_default[new_ammo] = old_default_mag;
+                obj.magazine_default.erase( old_ammo );
             }
         }
 
-        // TODO: add explicit action field to gun definitions
-        const auto defmode_name = [&]() {
-            if( obj.gun->clip == 1 ) {
-                return translate_marker( "manual" ); // break-type actions
-            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.has_flag( flag_RELOAD_ONE ) ) {
-                return translate_marker( "revolver" );
-            } else {
-                return translate_marker( "semi" );
-            }
-        };
+
 
         // if the gun doesn't have a DEFAULT mode then add one now
         obj.gun->modes.emplace( gun_mode_id( "DEFAULT" ),
-                                gun_modifier_data( defmode_name(), 1, std::set<std::string>() ) );
+                                gun_modifier_data( defmode_name( obj ), 1, std::set<std::string>() ) );
 
         // If a "gun" has a reach attack, give it an additional melee mode.
         if( obj.has_flag( flag_REACH_ATTACK ) ) {
