@@ -232,67 +232,36 @@ export const scarf_fur_long_loose = {
   material_thickness: 3,
 } as const
 
-const patchwork_scarf = {
-  "id": "patchwork_scarf",
-  "type": "TOOL_ARMOR",
-  "category": "clothing",
-  "symbol": "[",
-  "color": "light_gray",
-  "name": { "str": "simple patchwork scarf", "str_pl": "simple patchwork scarves" },
-  "description":
-    "A simple and light cloth scarf, worn over the mouth for warmth.  Use it to loosen it if you get too warm.",
-  "price": 1000,
-  "price_postapoc": 50,
-  "material": ["cotton"],
-  "weight": "60 g",
-  "volume": "500 ml",
-  "to_hit": -3,
-  "use_action": {
-    "type": "transform",
-    "msg": "You loosen your %s.",
-    "target": "patchwork_scarf_loose",
-    "menu_text": "Loosen",
-  },
-  "covers": ["mouth"],
-  "flags": ["OUTER"],
-  "warmth": 20,
-  "environmental_protection": 1,
-  "encumbrance": 3,
-  "coverage": 85,
-  "material_thickness": 1,
-}
-const patchwork_scarf_loose = {
-  "id": "patchwork_scarf_loose",
-  "type": "TOOL_ARMOR",
-  "category": "clothing",
-  "repairs_like": "patchwork_scarf",
-  "symbol": "[",
-  "color": "light_gray",
-  "name": { "str": "simple patchwork scarf (loose)", "str_pl": "simple patchwork scarves (loose)" },
-  "description":
-    "A simple and light cloth scarf, worn over the mouth for warmth.  Use it to wear it tighter if you get too cold.",
-  "price": 1000,
-  "price_postapoc": 50,
-  "material": ["cotton"],
-  "weight": "60 g",
-  "volume": "500 ml",
-  "to_hit": -3,
-  "revert_to": "patchwork_scarf",
-  "use_action": {
-    "type": "transform",
-    "msg": "You wrap your scarf tighter.",
-    "target": "patchwork_scarf",
-    "menu_text": "Wrap tighter",
-  },
-  "covers": ["mouth"],
-  "flags": ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
-  "warmth": 10,
-  "environmental_protection": 1,
-  "encumbrance": 2,
-  "coverage": 45,
-  "material_thickness": 1,
-}
-const long_patchwork_scarf = {
+const patchwork_scarf_base = {
+  ...knit_scarf_base,
+  id: "patchwork_scarf",
+  name: { str: "simple patchwork scarf", str_pl: "simple patchwork scarves" },
+  ...desc({ desc: "simple and light", material: "cloth" }),
+  material: ["cotton"],
+  color: "light_gray",
+  weight: "60 g",
+  volume: "500 ml",
+  price: 1000,
+  price_postapoc: 50,
+  material_thickness: 1,
+  environmental_protection: 1,
+} as const
+
+export const patchwork_scarf = {
+  ...tightened(patchwork_scarf_base),
+  warmth: 20,
+  encumbrance: 3,
+  coverage: 85,
+} as const
+
+export const patchwork_scarf_loose = {
+  ...loosened(patchwork_scarf_base),
+  warmth: 10,
+  encumbrance: 2,
+  coverage: 45,
+} as const
+
+export const long_patchwork_scarf = {
   "id": "long_patchwork_scarf",
   "type": "TOOL_ARMOR",
   "category": "clothing",
@@ -320,8 +289,8 @@ const long_patchwork_scarf = {
   "encumbrance": 3,
   "coverage": 85,
   "material_thickness": 1,
-}
-const long_patchwork_scarf_loose = {
+} as const
+export const long_patchwork_scarf_loose = {
   "id": "long_patchwork_scarf_loose",
   "type": "TOOL_ARMOR",
   "category": "clothing",
@@ -351,4 +320,4 @@ const long_patchwork_scarf_loose = {
   "encumbrance": 2,
   "coverage": 45,
   "material_thickness": 1,
-}
+} as const
