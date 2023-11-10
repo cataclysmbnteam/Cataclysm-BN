@@ -4,11 +4,11 @@
     "doc:cli": "deno run --allow-run=./cataclysm-tiles --allow-write=doc/src/content/docs ./scripts/gen_cli_docs.ts",
     "doc:lua": "./cataclysm-tiles --lua-doc && cp config/lua_doc.md doc/src/content/docs/en/mod/lua/reference/lua.md"
   },
-  "test": { "include": ["scripts"] },
+  "test": { "include": ["scripts", "data/json/items/armor/**/*.ts"] },
   "lint": { "include": ["scripts"] },
   "fmt": {
     "exclude": ["doc/dist", "doc/.astro"],
-    "include": ["scripts", "doc", "*.md"],
+    "include": ["scripts", "doc", "*.md", "data/json/items/armor/**/*.ts"],
     "semiColons": false,
     "lineWidth": 100
   }
