@@ -2076,9 +2076,9 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
     return static_cast<int>( confident_range );
 }
 
-double item::ideal_ranged_dps( const Character &who, std::optional<gun_mode> &mode ) const
+auto item::ideal_ranged_dps( const Character &who, std::optional<gun_mode> &mode ) const -> double
 {
-    if( !is_gun() || !mode ) {
+    if( !is_gun() || is_gunmod() || !mode ) {
         return 0;
     }
     damage_instance gun_damage = this->gun_damage();
