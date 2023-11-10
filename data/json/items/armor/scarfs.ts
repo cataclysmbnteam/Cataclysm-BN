@@ -43,18 +43,17 @@ const knit_scarf_base = {
   to_hit: -3,
 } as const
 
-const tightened = <const T extends Item>({ id, name, description, ...rest }: T) =>
+const tightened = <const T extends Item>({ id, description, ...rest }: T) =>
   ({
     id,
-    name,
     description: `${description}  Use it to loosen it if you get too warm.`,
-    ...rest,
     use_action: {
       type: "transform",
       msg: "You loosen your %s.",
       target: `${id}_loose`,
       menu_text: "Loosen",
     },
+    ...rest,
   }) as const
 
 type LoosenOption = { tightenDesc?: string }
@@ -68,7 +67,6 @@ const loosened = <const T extends Item, const U extends LoosenOption>(
     id: `${id}_loose`,
     name: { str: `${str} (loose)`, str_pl: `${str_pl} (loose)` },
     description: `${description}  Use it to wear it tighter if you get too cold.`,
-    ...rest,
     repairs_like: id,
     revert_to: id,
     use_action: {
@@ -78,6 +76,7 @@ const loosened = <const T extends Item, const U extends LoosenOption>(
       menu_text: "Wrap tighter",
     },
     flags: [...flags, "ALLOWS_NATURAL_ATTACKS"],
+    ...rest,
   }) as const
 }
 
@@ -211,66 +210,28 @@ export const scarf_fur_loose = {
   encumbrance: 10,
   coverage: 45,
 } as const
+const scarf_fur_long_base = {
+  ...longer(scarf_fur_base, "A really long fur scarf"),
+  id: "scarf_fur_long",
+  price: 17700,
+  price_postapoc: 300,
+  volume: "2 L",
+} as const
+export const scarf_fur_long = {
+  ...tightened(scarf_fur_long_base),
+  warmth: 70,
+  environmental_protection: 3,
+  encumbrance: 10,
+  coverage: 85,
+} as const
+export const scarf_fur_long_loose = {
+  ...loosened(scarf_fur_long_base),
+  warmth: 35,
+  environmental_protection: 2,
+  coverage: 45,
+  material_thickness: 3,
+} as const
 
-const scarf_fur_long = {
-  "id": "scarf_fur_long",
-  "type": "TOOL_ARMOR",
-  "category": "clothing",
-  "symbol": "[",
-  "color": "brown",
-  "name": { "str": "long fur scarf", "str_pl": "long fur scarves" },
-  "description":
-    "A really long fur scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to loosen it if you get too warm.",
-  "price": 17700,
-  "price_postapoc": 300,
-  "material": ["fur"],
-  "weight": "280 g",
-  "volume": "2 L",
-  "to_hit": -3,
-  "use_action": {
-    "type": "transform",
-    "msg": "You loosen your %s.",
-    "target": "scarf_fur_long_loose",
-    "menu_text": "Loosen",
-  },
-  "covers": ["mouth"],
-  "flags": ["OVERSIZE", "POCKETS", "OUTER"],
-  "warmth": 70,
-  "environmental_protection": 3,
-  "encumbrance": 10,
-  "coverage": 85,
-  "material_thickness": 3,
-}
-const scarf_fur_long_loose = {
-  "id": "scarf_fur_long_loose",
-  "type": "TOOL_ARMOR",
-  "category": "clothing",
-  "repairs_like": "scarf_fur_long",
-  "symbol": "[",
-  "color": "brown",
-  "name": { "str": "long fur scarf (loose)", "str_pl": "long fur scarves (loose)" },
-  "description":
-    "A really long fur scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
-  "price": 17700,
-  "price_postapoc": 300,
-  "material": ["fur"],
-  "weight": "280 g",
-  "volume": "2 L",
-  "to_hit": -3,
-  "use_action": {
-    "type": "transform",
-    "msg": "You wrap your scarf tighter.",
-    "target": "scarf_fur_long",
-    "menu_text": "Wrap tighter",
-  },
-  "revert_to": "scarf_fur_long",
-  "covers": ["mouth"],
-  "flags": ["OVERSIZE", "POCKETS", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
-  "warmth": 35,
-  "environmental_protection": 2,
-  "coverage": 45,
-  "material_thickness": 3,
-}
 const patchwork_scarf = {
   "id": "patchwork_scarf",
   "type": "TOOL_ARMOR",
