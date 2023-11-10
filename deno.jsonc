@@ -7,7 +7,7 @@
   "imports": {
     "catjazz/": "../catjazz/"
   },
-  "test": { "include": ["scripts", "data/json/items/armor/**/*.ts"] },
+  "test": { "include": ["scripts", "data/json/items/armor"] },
   "lint": { "include": ["scripts"] },
   "fmt": {
     "exclude": ["doc/dist", "doc/.astro"],

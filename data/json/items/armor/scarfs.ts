@@ -1,8 +1,5 @@
-import { assertEquals } from "https://deno.land/std@0.201.0/assert/assert_equals.ts"
-import scarfs from "./scarfs.json" with { type: "json" }
 import { multiplyVolume, multiplyWeight, Volume, Weight } from "catjazz/units/mod.ts"
-
-type Item = {
+export type Item = {
   id: string
   type: "TOOL_ARMOR"
   category: "clothing"
@@ -104,7 +101,7 @@ const longer = <const T extends Item, const U extends string>(
   volume: multiplyVolume(rest.volume, 5 / 3),
 })
 
-const knit_scarf = {
+export const knit_scarf = {
   ...tightened(knit_scarf_base),
   coverage: 85,
   warmth: 30,
@@ -112,7 +109,7 @@ const knit_scarf = {
   environmental_protection: 2,
 }
 
-const knit_scarf_loose = {
+export const knit_scarf_loose = {
   ...loosened(knit_scarf_base),
   warmth: 15,
   coverage: 45,
@@ -121,7 +118,7 @@ const knit_scarf_loose = {
 }
 
 const long_knit_scarf_base = longer(knit_scarf_base, "A really long knitted cotton scarf")
-const long_knit_scarf = {
+export const long_knit_scarf = {
   ...tightened(long_knit_scarf_base),
   warmth: 30,
   coverage: 85,
@@ -129,7 +126,7 @@ const long_knit_scarf = {
   encumbrance: 3,
 }
 
-const long_knit_scarf_loose = {
+export const long_knit_scarf_loose = {
   ...loosened(long_knit_scarf_base),
   warmth: 15,
   coverage: 45,
@@ -150,7 +147,7 @@ const wool_scarf_base = {
   price_postapoc: 50,
 } as const
 
-const wool_scarf = {
+export const wool_scarf = {
   ...tightened(wool_scarf_base),
   warmth: 50,
   environmental_protection: 2,
@@ -158,23 +155,13 @@ const wool_scarf = {
   coverage: 85,
 } as const
 
-const wool_scarf_loose = {
+export const wool_scarf_loose = {
   ...loosened(wool_scarf_base, { tightenDesc: "a bit tighter" }),
   warmth: 25,
   environmental_protection: 1,
   encumbrance: 2,
   coverage: 45,
 } as const
-
-const findScarf = ({ id }: Item) => scarfs.find((it) => it.id === id)! as any
-const checkScarf = (scarf: Item, looseScarf: Item) => async (t: Deno.TestContext) => {
-  await t.step(scarf.id, () => assertEquals(scarf, findScarf(scarf)))
-  await t.step(looseScarf.id, () => assertEquals(looseScarf, findScarf(looseScarf)))
-}
-
-Deno.test("knit_scarf", checkScarf(knit_scarf, knit_scarf_loose))
-Deno.test("long_knit_scarf", checkScarf(long_knit_scarf, long_knit_scarf_loose))
-Deno.test("scarf", checkScarf(wool_scarf, wool_scarf_loose))
 
 const wool_scarf_long = {
   "id": "scarf_long",
