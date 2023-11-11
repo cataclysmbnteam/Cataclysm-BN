@@ -741,7 +741,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coca_leaf",
-	"looks_like": "raw_edamame",
+    "looks_like": "raw_edamame",
     "name": { "str": "coca leaf", "str_pl": "coca leaves" },
     "weight": "2 g",
     "color": "green",

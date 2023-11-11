@@ -998,7 +998,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coca_tea",
-	"looks_like": "tea",
+    "looks_like": "tea",
     "name": "coca tea",
     "weight": "250 g",
     "color": "brown",
