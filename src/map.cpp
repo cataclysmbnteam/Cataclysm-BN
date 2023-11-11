@@ -4547,7 +4547,7 @@ detached_ptr<item> map::water_from( const tripoint &p )
         return item::spawn( "water_clean", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
     }
     if( furn( p ).obj().examine == &iexamine::liquid_source ) {
-        return item::spawn( furn( p ).obj().provides_liquid, calendar::start_of_cataclysm, item::INFINITE_CHARGES );
+        return item::spawn( furn( p ).obj().provides_liquids, calendar::start_of_cataclysm, item::INFINITE_CHARGES );
     }
     return detached_ptr<item>();
 }
