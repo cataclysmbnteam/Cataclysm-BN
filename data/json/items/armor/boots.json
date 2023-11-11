@@ -1451,5 +1451,25 @@
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
+    "id": "sandal_armor",
+    "type": "ARMOR",
+    "name": { "str_sp": "armored sandals" },
+    "description": "A pair of strapped sandals with a leather plate in the front to serve as greaves, similar to those used by ancient Roman and Greek soldiers.",
+    "weight": "100 g",
+    "volume": "1 L",
+    "price": "100 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "leathersandals",
+    "color": "brown",
+    "covers": [ "feet" ],
+    "coverage": 85,
+    "encumbrance": 6,
+    "warmth": 2,
+    "material_thickness": 3,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
   }
 ]

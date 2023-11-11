@@ -5,8 +5,9 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "7 h 28 m",
+    "difficulty": 5,
+    "time": "4 h",
+    "autolearn": [ [ "tailor", 6 ], [ "fabrication", 6 ] ],
     "book_learn": [ [ "textbook_armwest", 8 ] ],
     "using": [ [ "blacksmithing_advanced", 5 ], [ "steel_standard", 5 ] ],
     "components": [ [ [ "fabric_hides_proper", 12, "LIST" ] ] ]
@@ -30,7 +31,8 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "4 h",
+    "time": "2 h",
+    "autolearn": [ [ "tailor", 6 ] ],
     "book_learn": [ [ "textbook_armschina", 2 ] ],
     "using": [ [ "sewing_standard", 68 ] ],
     "components": [ [ [ "cordage_superior", 4, "LIST" ] ], [ [ "rag", 4 ] ], [ [ "fabric_hides_proper", 42, "LIST" ] ] ]
