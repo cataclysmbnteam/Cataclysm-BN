@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "#": "f_rubble_landfill", ".": "f_null", "4": "f_null", "_": "f_null" },
+      "furniture": { "'": "f_street_light", "#": "f_rubble_landfill", ".": "f_null", "4": "f_null", "_": "f_null" },
       "items": {
         "#": [
           { "item": "road", "chance": 2 },
@@ -22,7 +22,7 @@
         ]
       },
       "rows": [
-        "...._____...............",
+        "...._____..............'",
         "..4._____.4..4..4..4..4.",
         "...._____...............",
         "..____________________..",
@@ -48,6 +48,7 @@
         "........................"
       ],
       "terrain": {
+        "'": "t_dirt",
         "#": "t_dirt",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "4": "t_tree_pine",
@@ -61,7 +62,7 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "#": "f_rubble_landfill", ".": "f_null", "P": "f_sign", "_": "f_null" },
+      "furniture": { "'": "f_street_light", "#": "f_rubble_landfill", ".": "f_null", "P": "f_sign", "_": "f_null" },
       "items": {
         "#": [
           { "item": "road", "chance": 2 },
@@ -81,7 +82,7 @@
         ]
       },
       "rows": [
-        "_______________......___",
+        "_______________......__'",
         "______________P......___",
         "_......................_",
         "_......................_",
@@ -107,6 +108,7 @@
         "________________________"
       ],
       "terrain": {
+        "'": "t_dirt",
         "#": "t_dirt",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "P": "t_grass",
@@ -121,7 +123,7 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "#": "f_rubble_landfill", ".": "f_null", "7": "f_null", "_": "f_null", "s": "f_null" },
+      "furniture": { "'": "f_street_light", "#": "f_rubble_landfill", ".": "f_null", "7": "f_null", "_": "f_null", "s": "f_null" },
       "items": {
         "#": [
           { "item": "road", "chance": 2 },
@@ -142,7 +144,7 @@
       },
       "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 90, "status": -1, "vehicle": "excavator", "x": 4, "y": 14 } ],
       "rows": [
-        "_________......_________",
+        "_________......________'",
         "_7_sss_7_......_7_sss_7_",
         "_________......_________",
         "___..................___",
@@ -168,6 +170,7 @@
         "________________________"
       ],
       "terrain": {
+        "'": "t_dirt",
         "#": "t_dirt",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "7": "t_tree_hickory",
@@ -182,7 +185,7 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "#": "f_rubble_landfill", ".": "f_null", "_": "f_null", "s": "f_null", "|": "f_null" },
+      "furniture": { "'": "f_street_light", "#": "f_rubble_landfill", ".": "f_null", "_": "f_null", "s": "f_null", "|": "f_null" },
       "items": {
         "#": [
           { "item": "road", "chance": 2 },
@@ -202,7 +205,7 @@
       },
       "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 180, "status": -1, "vehicle": "excavator", "x": 18, "y": 7 } ],
       "rows": [
-        ".........______.........",
+        ".........______........'",
         ".........______.........",
         ".|.ss.ss.______.ss.ss.|.",
         ".|.......______.......|.",
@@ -228,6 +231,7 @@
         "........................"
       ],
       "terrain": {
+        "'": "t_dirt",
         "#": "t_dirt",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "_": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
@@ -242,7 +246,7 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "#": "f_rubble_landfill", ".": "f_null", "7": "f_null", "_": "f_null", "|": "f_null" },
+      "furniture": { "'": "f_street_light", "#": "f_rubble_landfill", ".": "f_null", "7": "f_null", "_": "f_null", "|": "f_null" },
       "items": {
         "#": [
           { "item": "road", "chance": 2 },
@@ -262,7 +266,7 @@
         ]
       },
       "rows": [
-        ".........______.........",
+        ".........______........'",
         ".........______.........",
         ".||||||||______||||||||.",
         ".|......________......|.",
@@ -288,6 +292,7 @@
         "........................"
       ],
       "terrain": {
+        "'": "t_dirt",
         "#": "t_dirt",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "7": "t_tree_hickory",

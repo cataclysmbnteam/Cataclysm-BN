@@ -5,7 +5,7 @@
     "name": { "str": "Bless" },
     "description": "A spell of blessing that gives you energy and boosts your abilities.",
     "valid_targets": [ "self", "ally" ],
-    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "NO_EXPLOSION_VFX" ],
     "effect": "target_attack",
     "effect_str": "bless",
     "affected_body_parts": [ "torso" ],
@@ -33,7 +33,7 @@
     "name": { "str": "Holy Blade" },
     "description": "This blade of light will cut through any evil it makes contact with!",
     "valid_targets": [ "self" ],
-    "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE" ],
+    "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
     "min_range": 0,
     "max_range": 0,
     "min_damage": 1,
@@ -57,7 +57,7 @@
     "name": { "str": "Spiritual Armor" },
     "description": "Evil will not make it through your defenses if your faith is strong enough!",
     "valid_targets": [ "self" ],
-    "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE", "SOMATIC" ],
+    "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE", "SOMATIC", "NO_EXPLOSION_VFX" ],
     "min_range": 0,
     "max_range": 0,
     "min_damage": 1,
@@ -113,7 +113,7 @@
     "base_energy_cost": 5,
     "energy_increment": 1.0,
     "final_energy_cost": 60,
-    "flags": [ "SOMATIC", "VERBAL", "SILENT", "NO_LEGS" ],
+    "flags": [ "SOMATIC", "VERBAL", "SILENT", "NO_LEGS", "NO_EXPLOSION_VFX" ],
     "difficulty": 3
   },
   {
@@ -133,7 +133,7 @@
     "base_casting_time": 50000,
     "base_energy_cost": 5000,
     "energy_increment": 500.0,
-    "flags": [ "SOMATIC", "VERBAL", "PAIN_NORESIST" ],
+    "flags": [ "SOMATIC", "VERBAL", "PAIN_NORESIST", "NO_EXPLOSION_VFX" ],
     "final_energy_cost": 15000
   },
   {
@@ -159,7 +159,7 @@
     "max_range": 3,
     "min_aoe": 2,
     "max_aoe": 2,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
     "min_duration": 120000,
     "max_duration": 315000,
     "duration_increment": 4000
@@ -187,7 +187,7 @@
     "max_range": 3,
     "min_aoe": 2,
     "max_aoe": 2,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
     "min_duration": 120000,
     "max_duration": 315000,
     "duration_increment": 4000
@@ -215,7 +215,7 @@
     "max_range": 3,
     "min_aoe": 2,
     "max_aoe": 2,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
     "min_duration": 120000,
     "max_duration": 315000,
     "duration_increment": 4000
@@ -261,7 +261,7 @@
     "max_level": 0,
     "spell_class": "ANIMIST",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX" ]
   },
   {
     "id": "summon_wisps",
@@ -271,7 +271,7 @@
     "valid_targets": [ "ground" ],
     "effect": "summon",
     "effect_str": "mon_wisp",
-    "flags": [ "LOUD", "SOMATIC" ],
+    "flags": [ "LOUD", "SOMATIC", "NO_EXPLOSION_VFX" ],
     "energy_source": "MANA",
     "spell_class": "ANIMIST",
     "difficulty": 2,

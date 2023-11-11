@@ -460,7 +460,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "enchantments", enchantments );
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
-        no_cbm_on_bp.emplace( bodypart_str_id( s ) );
+        no_cbm_on_bp.emplace( s );
     }
 
     optional( jo, was_loaded, "body_size", body_size );
@@ -724,7 +724,7 @@ void mutation_branch::finalize()
 {
     for( const mutation_branch &branch : get_all() ) {
         for( const std::string &cat : branch.category ) {
-            mutations_category[cat].push_back( trait_id( branch.id ) );
+            mutations_category[cat].emplace_back( branch.id );
         }
     }
     finalize_trait_blacklist();

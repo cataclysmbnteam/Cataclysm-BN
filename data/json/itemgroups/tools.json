@@ -44,7 +44,8 @@
     "//": "Common household tools",
     "items": [
       [ "hacksaw", 50 ],
-      [ "hammer", 80 ],
+      [ "hammer", 70 ],
+      [ "hammer_bronze", 10 ],
       [ "misc_repairkit", 25 ],
       [ "pliers", 60 ],
       [ "saw", 60 ],
@@ -127,6 +128,7 @@
       [ "pockknife", 30 ],
       [ "pur_tablets", 10 ],
       [ "ref_lighter", 20 ],
+      [ "electric_lighter", 20 ],
       [ "rope_30", 20 ],
       [ "flint_steel", 10 ],
       [ "tinderbox", 10 ],
@@ -235,6 +237,7 @@
     "//": "Equipment of any size commonly used by engineers and mechanics",
     "ammo": 100,
     "items": [
+      [ "hammer_bronze", 5 ],
       { "group": "charged_UPS", "prob": 5 },
       [ "jack", 80 ],
       [ "jack_small", 80 ],
@@ -332,6 +335,7 @@
       [ "knife_folding", 30 ],
       [ "pur_tablets", 10 ],
       [ "ref_lighter", 20 ],
+      [ "electric_lighter", 20 ],
       [ "signal_flare", 20 ],
       [ "sm_extinguisher", 20 ],
       [ "whistle", 20 ],

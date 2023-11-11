@@ -14,7 +14,6 @@ class avatar;
 class Character;
 class inventory;
 class item;
-class item_location;
 class player;
 class recipe;
 struct iuse_location;
@@ -47,7 +46,7 @@ void remove_ammo( item &dis_item, Character &who );
 /**
  * @brief Removes any (removable) ammo from each item and stores it in character's inventory.
  */
-void remove_ammo( std::list<item> &dis_items, Character &who );
+void remove_ammo( std::vector<item *> &dis_items, Character &who );
 
 bench_location find_best_bench( const player &p, const item &craft );
 
@@ -114,7 +113,7 @@ bool disassemble( avatar &you );
 /**
  * Prompt to disassemble given item, then start activity.
  */
-bool disassemble( avatar &you, item_location target );
+bool disassemble( avatar &you, item &target );
 
 /**
  * Start an activity to disassemble all items in avatar's square.
@@ -124,7 +123,7 @@ bool disassemble_all( avatar &you, bool recursively );
 /**
  * Complete disassembly of target item.
  */
-void complete_disassemble( Character &who, iuse_location target, const tripoint &pos );
+void complete_disassemble( Character &who, const iuse_location &target, const tripoint &pos );
 
 } // namespace crafting
 

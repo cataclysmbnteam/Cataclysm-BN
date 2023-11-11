@@ -6,6 +6,7 @@
 #include <iterator>
 #include <string>
 #include <tuple>
+#include <utility>
 
 #include "avatar.h"
 #include "cata_utility.h"
@@ -293,14 +294,14 @@ plot_options::query_seed_result plot_options::query_seed()
             here.getabs( p.pos() ), 60 );
     for( const tripoint &elem : zone_src_set ) {
         tripoint elem_loc = here.getlocal( elem );
-        for( item &it : here.i_at( elem_loc ) ) {
-            if( it.is_seed() ) {
-                seed_inv.push_back( &it );
+        for( item * const &it : here.i_at( elem_loc ) ) {
+            if( it->is_seed() ) {
+                seed_inv.push_back( it );
             }
         }
     }
     std::vector<seed_tuple> seed_entries = iexamine::get_seed_entries( seed_inv );
-    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), _( "No seed" ), 0 ) );
+    seed_entries.emplace( seed_entries.begin(), itype_id( "null" ), _( "No seed" ), 0 );
 
     int seed_index = iexamine::query_seed( seed_entries );
 
@@ -309,9 +310,8 @@ plot_options::query_seed_result plot_options::query_seed()
         const itype_id &new_seed = std::get<0>( seed_entry );
         itype_id new_mark;
 
-        item it = item( new_seed );
-        if( it.is_seed() ) {
-            new_mark = it.type->seed->fruit_id;
+        if( new_seed->is_seed() ) {
+            new_mark = new_seed->seed->fruit_id;
         } else {
             new_mark = seed;
         }
@@ -358,8 +358,8 @@ std::string loot_options::get_zone_name_suggestion() const
 std::vector<std::pair<std::string, std::string>> loot_options::get_descriptions() const
 {
     std::vector<std::pair<std::string, std::string>> options;
-    options.emplace_back( std::make_pair( _( "Loot: Custom: " ),
-                                          !mark.empty() ? mark : _( "No filter" ) ) );
+    options.emplace_back( _( "Loot: Custom: " ),
+                          !mark.empty() ? mark : _( "No filter" ) );
 
     return options;
 }
@@ -407,9 +407,8 @@ std::string plot_options::get_zone_name_suggestion() const
 {
     if( !seed.is_empty() ) {
         auto type = itype_id( seed );
-        item it = item( type );
-        if( it.is_seed() ) {
-            return it.type->seed->plant_name.translated();
+        if( seed->is_seed() ) {
+            return seed->seed->plant_name.translated();
         } else {
             return item::nname( type );
         }
@@ -422,8 +421,8 @@ std::vector<std::pair<std::string, std::string>> blueprint_options::get_descript
 {
     std::vector<std::pair<std::string, std::string>> options =
                 std::vector<std::pair<std::string, std::string>>();
-    options.emplace_back( std::make_pair( _( "Construct: " ),
-                                          group ? group->name() : _( "No Construction" ) ) );
+    options.emplace_back( _( "Construct: " ),
+                          group ? group->name() : _( "No Construction" ) );
 
     return options;
 }
@@ -432,8 +431,8 @@ std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions(
 {
     auto options = std::vector<std::pair<std::string, std::string>>();
     options.emplace_back(
-        std::make_pair( _( "Plant seed: " ),
-                        !seed.is_empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) ) );
+        _( "Plant seed: " ),
+        !seed.is_empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) );
 
     return options;
 }
@@ -975,7 +974,8 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
                         const bool invert, const bool enabled, const tripoint &start,
                         const tripoint &end, shared_ptr_fast<zone_options> options )
 {
-    zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
+    zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end,
+                                    std::move( options ) );
     //the start is a vehicle tile with cargo space
     map &here = get_map();
     if( const std::optional<vpart_reference> vp = here.veh_at( here.getlocal(
@@ -1240,7 +1240,7 @@ void zone_manager::zone_edited( zone_data &zone )
             }
         }
         //Add it to the list of changed zones
-        changed_vzones.push_back( std::make_pair( zone_data( zone ), &zone ) );
+        changed_vzones.emplace_back( zone_data( zone ), &zone );
     }
 }
 

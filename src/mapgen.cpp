@@ -124,7 +124,7 @@ void map::generate( const tripoint &p, const time_point &when )
                 debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p.z );
                 continue;
             }
-            setsubmap( grid_pos, new submap() );
+            setsubmap( grid_pos, new submap( getabs( sm_to_ms_copy( {gridx, gridy, p.z} ) ) ) );
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
@@ -346,7 +346,7 @@ class mapgen_factory
             return mapgens_.count( key ) != 0;
         }
         /// @see mapgen_basic_container::add
-        int add( const std::string &key, const std::shared_ptr<mapgen_function> ptr ) {
+        int add( const std::string &key, const std::shared_ptr<mapgen_function> &ptr ) {
             return mapgens_[key].add( ptr );
         }
         /// @see mapgen_basic_container::generate
@@ -1144,11 +1144,12 @@ class jmapgen_liquid_item : public jmapgen_piece
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             if( one_in( chance.get() ) ) {
-                item newliquid( liquid, calendar::start_of_cataclysm );
+                detached_ptr<item> newliquid = item::spawn( liquid, calendar::start_of_cataclysm );
                 if( amount.valmax > 0 ) {
-                    newliquid.charges = amount.get();
+                    newliquid->charges = amount.get();
                 }
-                dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), newliquid );
+                dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ),
+                                           std::move( newliquid ) );
             }
         }
 };
@@ -1211,9 +1212,9 @@ class jmapgen_loot : public jmapgen_piece
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm );
+                std::vector<detached_ptr<item>> spawn = isd->create( calendar::start_of_cataclysm );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ),
-                                             dat.m.get_abs_sub().z ), spawn );
+                                             dat.m.get_abs_sub().z ), std::move( spawn ) );
             }
         }
 
@@ -1921,7 +1922,7 @@ bool jmapgen_objects::check_bounds( const jmapgen_place &place, const JsonObject
 }
 
 void jmapgen_objects::add( const jmapgen_place &place,
-                           shared_ptr_fast<const jmapgen_piece> piece )
+                           const shared_ptr_fast<const jmapgen_piece> &piece )
 {
     objects.emplace_back( place, piece );
 }
@@ -3839,37 +3840,37 @@ void map::draw_lab( mapgendata &dat )
                             if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) { // Stairs going down
                                 std::vector<point> stair_points;
                                 if( tw != 0 ) {
-                                    stair_points.push_back( point( SEEX - 1, 2 ) );
-                                    stair_points.push_back( point( SEEX - 1, 2 ) );
-                                    stair_points.push_back( point( SEEX, 2 ) );
-                                    stair_points.push_back( point( SEEX, 2 ) );
+                                    stair_points.emplace_back( SEEX - 1, 2 );
+                                    stair_points.emplace_back( SEEX - 1, 2 );
+                                    stair_points.emplace_back( SEEX, 2 );
+                                    stair_points.emplace_back( SEEX, 2 );
                                 }
                                 if( rw != 1 ) {
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY - 1 ) );
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY - 1 ) );
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY ) );
-                                    stair_points.push_back( point( SEEX * 2 - 3, SEEY ) );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY - 1 );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY - 1 );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY );
                                 }
                                 if( bw != 1 ) {
-                                    stair_points.push_back( point( SEEX - 1, SEEY * 2 - 3 ) );
-                                    stair_points.push_back( point( SEEX - 1, SEEY * 2 - 3 ) );
-                                    stair_points.push_back( point( SEEX, SEEY * 2 - 3 ) );
-                                    stair_points.push_back( point( SEEX, SEEY * 2 - 3 ) );
+                                    stair_points.emplace_back( SEEX - 1, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX - 1, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX, SEEY * 2 - 3 );
                                 }
                                 if( lw != 0 ) {
-                                    stair_points.push_back( point( 2, SEEY - 1 ) );
-                                    stair_points.push_back( point( 2, SEEY - 1 ) );
-                                    stair_points.push_back( point( 2, SEEY ) );
-                                    stair_points.push_back( point( 2, SEEY ) );
+                                    stair_points.emplace_back( 2, SEEY - 1 );
+                                    stair_points.emplace_back( 2, SEEY - 1 );
+                                    stair_points.emplace_back( 2, SEEY );
+                                    stair_points.emplace_back( 2, SEEY );
                                 }
-                                stair_points.push_back( point( int( SEEX / 2 ), SEEY ) );
-                                stair_points.push_back( point( int( SEEX / 2 ), SEEY - 1 ) );
-                                stair_points.push_back( point( int( SEEX / 2 ) + SEEX, SEEY ) );
-                                stair_points.push_back( point( int( SEEX / 2 ) + SEEX, SEEY - 1 ) );
-                                stair_points.push_back( point( SEEX, int( SEEY / 2 ) ) );
-                                stair_points.push_back( point( SEEX + 2, int( SEEY / 2 ) ) );
-                                stair_points.push_back( point( SEEX, int( SEEY / 2 ) + SEEY ) );
-                                stair_points.push_back( point( SEEX + 2, int( SEEY / 2 ) + SEEY ) );
+                                stair_points.emplace_back( int( SEEX / 2 ), SEEY );
+                                stair_points.emplace_back( int( SEEX / 2 ), SEEY - 1 );
+                                stair_points.emplace_back( int( SEEX / 2 ) + SEEX, SEEY );
+                                stair_points.emplace_back( int( SEEX / 2 ) + SEEX, SEEY - 1 );
+                                stair_points.emplace_back( SEEX, int( SEEY / 2 ) );
+                                stair_points.emplace_back( SEEX + 2, int( SEEY / 2 ) );
+                                stair_points.emplace_back( SEEX, int( SEEY / 2 ) + SEEY );
+                                stair_points.emplace_back( SEEX + 2, int( SEEY / 2 ) + SEEY );
                                 const point p = random_entry( stair_points );
                                 ter_set( p, t_stairs_down );
                             }
@@ -4189,10 +4190,10 @@ void map::draw_lab( mapgendata &dat )
                             point( marker_x, marker_y ), "mininuke", 1, 1, calendar::start_of_cataclysm, rng( 2, 4 )
                         );
                     } else {
-                        item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
-                        newliquid.charges = 1;
+                        detached_ptr<item> newliquid = item::spawn( "plut_slurry_dense", calendar::start_of_cataclysm );
+                        newliquid->charges = 1;
                         add_item_or_charges( tripoint( marker_x, marker_y, get_abs_sub().z ),
-                                             newliquid );
+                                             std::move( newliquid ) );
                     }
                     break;
                 }
@@ -4505,7 +4506,7 @@ void map::draw_temple( mapgendata &dat )
                         static const std::vector<ter_id> terrains = {
                             t_floor_red, t_floor_green, t_floor_blue,
                         };
-                        path.push_back( point( x, y ) );
+                        path.emplace_back( x, y );
                         ter_set( point( x, y ), random_entry( terrains ) );
                         if( y == SEEY * 2 - 2 ) {
                             if( x < SEEX - 1 ) {
@@ -4518,7 +4519,7 @@ void map::draw_temple( mapgendata &dat )
                             for( int nx = x - 1; nx <= x + 1; nx++ ) {
                                 for( int ny = y; ny <= y + 1; ny++ ) {
                                     if( ter( point( nx, ny ) ) == t_rock_floor ) {
-                                        next.push_back( point( nx, ny ) );
+                                        next.emplace_back( nx, ny );
                                     }
                                 }
                             }
@@ -5275,10 +5276,10 @@ void map::place_spawns( const mongroup_id &group, const int chance,
 
 void map::place_gas_pump( point p, int charges, const std::string &fuel_type )
 {
-    item fuel( fuel_type, calendar::start_of_cataclysm );
-    fuel.charges = charges;
-    add_item( p, fuel );
-    ter_set( p, ter_id( fuel.fuel_pump_terrain() ) );
+    detached_ptr<item> fuel = item::spawn( fuel_type, calendar::start_of_cataclysm );
+    fuel->charges = charges;
+    ter_set( p, ter_id( fuel->fuel_pump_terrain() ) );
+    add_item( p, std::move( fuel ) );
 }
 
 void map::place_gas_pump( point p, int charges )
@@ -5288,9 +5289,9 @@ void map::place_gas_pump( point p, int charges )
 
 void map::place_toilet( point p, int charges )
 {
-    item water( "water", calendar::start_of_cataclysm );
-    water.charges = charges;
-    add_item( p, water );
+    detached_ptr<item> water = item::spawn( "water", calendar::start_of_cataclysm );
+    water->charges = charges;
+    add_item( p, std::move( water ) );
     furn_set( p, f_toilet );
 }
 
@@ -5332,8 +5333,8 @@ void map::apply_faction_ownership( point p1, point p2, const faction_id &id )
     for( const tripoint &p : points_in_rectangle( tripoint( p1, abs_sub.z ), tripoint( p2,
             abs_sub.z ) ) ) {
         auto items = i_at( p.xy() );
-        for( item &elem : items ) {
-            elem.set_owner( id );
+        for( item * const &elem : items ) {
+            elem->set_owner( id );
         }
         vehicle *source_veh = veh_pointer_or_null( veh_at( p ) );
         if( source_veh ) {
@@ -5394,7 +5395,7 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
     for( auto e : res ) {
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
-                e->put_in( item( e->magazine_default(), e->birthday() ) );
+                e->put_in( item::spawn( e->magazine_default(), e->birthday() ) );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default(), e->ammo_capacity() );
@@ -5407,8 +5408,14 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
 std::vector<item *> map::put_items_from_loc( const item_group_id &loc, const tripoint &p,
         const time_point &turn )
 {
-    const auto items = item_group::items_from( loc, turn );
-    return spawn_items( p, items );
+    std::vector<detached_ptr<item>> items = item_group::items_from( loc, turn );
+    std::vector<item *> ret;
+    ret.reserve( items.size() );
+    for( detached_ptr<item> &it : items ) {
+        ret.push_back( &*it );
+    }
+    spawn_items( p, std::move( items ) );
+    return ret;
 }
 
 void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
@@ -5561,25 +5568,22 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             //Where are we on the global scale?
             const tripoint global_pos = wreckage->global_pos3();
 
+            // We must remove the vehicle from the map before we move away its parts
+            std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
+
             for( const vpart_reference &vpr : veh->get_all_parts() ) {
                 const tripoint part_pos = veh->global_part_pos3( vpr.part() ) - global_pos;
                 // TODO: change mount points to be tripoint
-                wreckage->install_part( part_pos.xy(), vpr.part() );
+                wreckage->install_part( part_pos.xy(), std::move( vpr.part() ) );
             }
 
-            for( const vpart_reference &vpr : other_veh->get_all_parts() ) {
-                const tripoint part_pos = other_veh->global_part_pos3( vpr.part() ) - global_pos;
-                wreckage->install_part( part_pos.xy(), vpr.part() );
-
+            for( const vpart_reference &vpr : old_veh->get_all_parts() ) {
+                const tripoint part_pos = old_veh->global_part_pos3( vpr.part() ) - global_pos;
+                wreckage->install_part( part_pos.xy(), vehicle_part{vpr.part(), &*wreckage} );
             }
 
             wreckage->name = _( "Wreckage" );
 
-            // Now get rid of the old vehicles
-            std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
-            // Failure has happened here when caches are corrupted due to bugs.
-            // Add an assertion to avoid null-pointer dereference later.
-            assert( old_veh );
 
             // Try again with the wreckage
             std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( wreckage ), true );
@@ -5695,19 +5699,29 @@ void map::rotate( int turns, const bool setpos_safe )
     clear_vehicle_list( abs_sub.z );
 
     // Move the submaps around.
+    // 2,2 <-> 1,1
+    // 1,1
+    //
+    auto swap_submaps = [&]( const point & p1, const point & p2 ) {
+
+        submap *sm1 = get_submap_at_grid( p1 );
+        submap *sm2 = get_submap_at_grid( p2 );
+        submap::swap( *sm1, *sm2 );
+
+    };
+
     if( turns == 2 ) {
-        std::swap( *get_submap_at_grid( point_zero ), *get_submap_at_grid( point_south_east ) );
-        std::swap( *get_submap_at_grid( point_east ), *get_submap_at_grid( point_south ) );
+        swap_submaps( point_zero, point_south_east );
+        swap_submaps( point_south, point_east );
     } else {
         point p;
-        submap tmp;
+        point p2 = p.rotate( turns, {2, 2} );
+        point p3 = p2.rotate( turns, {2, 2} );
+        point p4 = p3.rotate( turns, {2, 2} );
 
-        std::swap( *get_submap_at_grid( point_south_east - p ), tmp );
-
-        for( int k = 0; k < 4; ++k ) {
-            p = p.rotate( turns, { 2, 2 } );
-            std::swap( *get_submap_at_grid( point_south_east - p ), tmp );
-        }
+        swap_submaps( p, p2 );
+        swap_submaps( p, p3 );
+        swap_submaps( p, p4 );
     }
 
     // Then rotate them and recalculate vehicle positions.

@@ -88,8 +88,8 @@ struct talk_effect_fun_t {
     public:
         talk_effect_fun_t() = default;
         talk_effect_fun_t( talkfunction_ptr );
-        talk_effect_fun_t( std::function<void( npc & )> );
-        talk_effect_fun_t( std::function<void( const dialogue &d )> );
+        talk_effect_fun_t( const std::function<void( npc & )> & );
+        talk_effect_fun_t( const std::function<void( const dialogue &d )> & );
         void set_companion_mission( const std::string &role_id );
         void set_add_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -166,7 +166,7 @@ struct talk_effect_t {
           * Sets an effect to a function object and consequence to explicitly given one.
           */
         void set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con );
-        void set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con );
+        void set_effect_consequence( const std::function<void( npc &p )> &ptr, dialogue_consequence con );
 
         void load_effect( const JsonObject &jo );
         void parse_sub_effect( const JsonObject &jo );
@@ -335,7 +335,7 @@ struct dynamic_line_t {
         dynamic_line_t() = default;
         dynamic_line_t( const std::string &line );
         dynamic_line_t( const JsonObject &jo );
-        dynamic_line_t( JsonArray ja );
+        dynamic_line_t( const JsonArray &ja );
         static dynamic_line_t from_member( const JsonObject &jo, const std::string &member_name );
 
         std::string operator()( const dialogue &d ) const {

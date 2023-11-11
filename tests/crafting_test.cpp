@@ -172,14 +172,16 @@ TEST_CASE( "available_recipes", "[recipes]" )
     }
 
     GIVEN( "an appropriate book" ) {
-        item &craftbook = dummy.i_add( item( "manual_electronics" ) );
+        detached_ptr<item> det = item::spawn( "manual_electronics" );
+        item &craftbook = *det;
+        dummy.i_add( std::move( det ) );
 
         REQUIRE( craftbook.is_book() );
         REQUIRE_FALSE( craftbook.type->book->recipes.empty() );
         REQUIRE_FALSE( dummy.knows_recipe( r ) );
 
         WHEN( "the player read it and has an appropriate skill" ) {
-            dummy.do_read( item_location( dummy, &craftbook ) );
+            dummy.do_read( &craftbook );
             dummy.set_skill_level( r->skill_used, 2 );
             // Secondary skills are just set to be what the autolearn requires
             // but the primary is not
@@ -189,10 +191,10 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
             AND_WHEN( "he searches for the recipe in the book" ) {
                 THEN( "he finds it!" ) {
-                    CHECK( dummy.get_recipes_from_books( dummy.inv ).contains( *r ) );
+                    CHECK( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( *r ) );
                 }
                 THEN( "it's easier in the book" ) {
-                    CHECK( dummy.get_recipes_from_books( dummy.inv ).get_custom_difficulty( r ) == 2 );
+                    CHECK( dummy.get_recipes_from_books( dummy.crafting_inventory() ).get_custom_difficulty( r ) == 2 );
                 }
                 THEN( "he still hasn't the recipe memorized" ) {
                     CHECK_FALSE( dummy.knows_recipe( r ) );
@@ -202,7 +204,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
                 dummy.i_rem( &craftbook );
 
                 THEN( "he can't brew the recipe anymore" ) {
-                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( *r ) );
+                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( *r ) );
                 }
             }
         }
@@ -210,7 +212,9 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
     GIVEN( "an eink pc with a sushi recipe" ) {
         const recipe *r2 = &recipe_id( "sushi_rice" ).obj();
-        item &eink = dummy.i_add( item( "eink_tablet_pc" ) );
+        detached_ptr<item> det = item::spawn( "eink_tablet_pc" );
+        item &eink = *det;
+        dummy.i_add( std::move( det ) );
         eink.set_var( "EIPC_RECIPES", ",sushi_rice," );
         REQUIRE_FALSE( dummy.knows_recipe( r2 ) );
 
@@ -219,7 +223,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
             AND_WHEN( "he searches for the recipe in the tablet" ) {
                 THEN( "he finds it!" ) {
-                    CHECK( dummy.get_recipes_from_books( dummy.inv ).contains( *r2 ) );
+                    CHECK( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( *r2 ) );
                 }
                 THEN( "he still hasn't the recipe memorized" ) {
                     CHECK_FALSE( dummy.knows_recipe( r2 ) );
@@ -229,7 +233,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
                 dummy.i_rem( &eink );
 
                 THEN( "he can't make the recipe anymore" ) {
-                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( *r2 ) );
+                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( *r2 ) );
                 }
             }
         }
@@ -260,7 +264,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
         const auto helpers( character_funcs::get_crafting_helpers( dummy ) );
 
         REQUIRE( std::find( helpers.begin(), helpers.end(), &who ) != helpers.end() );
-        REQUIRE_FALSE( dummy.get_available_recipes( dummy.inv, &helpers ).contains( *r ) );
+        REQUIRE_FALSE( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( *r ) );
         REQUIRE_FALSE( who.knows_recipe( r ) );
 
         WHEN( "you have the required skill" ) {
@@ -270,33 +274,34 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
                 who.learn_recipe( r );
 
                 THEN( "he helps you" ) {
-                    CHECK( dummy.get_available_recipes( dummy.inv, &helpers ).contains( *r ) );
+                    CHECK( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( *r ) );
                 }
             }
             AND_WHEN( "he has the cookbook in his inventory" ) {
-                item &cookbook = who.i_add( item( "brewing_cookbook" ) );
+                detached_ptr<item> det = item::spawn( "brewing_cookbook" );
+                item &cookbook = *det;
+                who.i_add( std::move( det ) );
 
                 REQUIRE( cookbook.is_book() );
                 REQUIRE_FALSE( cookbook.type->book->recipes.empty() );
 
                 THEN( "he shows it to you" ) {
-                    CHECK( dummy.get_available_recipes( dummy.inv, &helpers ).contains( *r ) );
+                    CHECK( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( *r ) );
                 }
             }
         }
     }
 }
 
-static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
+static void prep_craft( const recipe_id &rid, std::vector<detached_ptr<item>> &tools,
                         bool expect_craftable )
 {
     clear_avatar();
     const tripoint test_origin( 60, 60, 0 );
     g->u.setpos( test_origin );
-    const item backpack( "backpack" );
-    g->u.wear_item( backpack, false );
-    for( const item &gear : tools ) {
-        g->u.i_add( gear );
+    g->u.wear_item( item::spawn( "backpack" ), false );
+    for( detached_ptr<item> &gear : tools ) {
+        g->u.i_add( std::move( gear ) );
     }
 
     const recipe &r = rid.obj();
@@ -320,7 +325,7 @@ static time_point midday = calendar::turn_zero + 12_hours;
 
 // This tries to actually run the whole craft activity, which is more thorough,
 // but slow
-static int actually_test_craft( const recipe_id &rid, const std::vector<item> &tools,
+static int actually_test_craft( const recipe_id &rid, std::vector<detached_ptr<item>> &tools,
                                 int interrupt_after_turns )
 {
     avatar &you = get_avatar();
@@ -338,23 +343,30 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> &t
 
     you.make_craft( rid, 1 );
     REQUIRE( you.activity );
-    REQUIRE( you.activity.id() == activity_id( "ACT_CRAFT" ) );
+    REQUIRE( you.activity->id() == activity_id( "ACT_CRAFT" ) );
     int turns = 0;
-    while( you.activity.id() == activity_id( "ACT_CRAFT" ) ) {
+    while( you.activity->id() == activity_id( "ACT_CRAFT" ) ) {
         if( turns >= interrupt_after_turns ) {
             set_time( midnight ); // Kill light to interrupt crafting
         }
         ++turns;
         you.moves = 100;
-        you.activity.do_turn( you );
+        you.activity->do_turn( you );
     }
     return turns;
+}
+
+static void add_tool( std::vector<detached_ptr<item>> &tools, const char *type, int count = 1 )
+{
+    while( count-- ) {
+        tools.push_back( item::spawn( type ) );
+    }
 }
 
 TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 {
     clear_all_state();
-    std::vector<item> tools;
+    std::vector<detached_ptr<item>> tools;
 
     GIVEN( "recipe and required tools/materials" ) {
         recipe_id carver( "carver_off" );
@@ -364,25 +376,25 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         // Learned from advanced_electronics or textbook_electronics
 
         // Tools needed:
-        tools.emplace_back( "screwdriver" );
-        tools.emplace_back( "mold_plastic" );
+        add_tool( tools, "screwdriver" );
+        add_tool( tools, "mold_plastic" );
 
         // Materials needed
-        tools.insert( tools.end(), 10, item( "solder_wire" ) );
-        tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
-        tools.insert( tools.end(), 2, item( "blade" ) );
-        tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.emplace_back( "motor_tiny" );
-        tools.emplace_back( "power_supply" );
-        tools.emplace_back( "scrap" );
+        add_tool( tools, "solder_wire", 10 );
+        add_tool( tools, "plastic_chunk", 6 );
+        add_tool( tools, "blade", 2 );
+        add_tool( tools, "cable", 5 );
+        add_tool( tools, "motor_tiny" );
+        add_tool( tools, "power_supply" );
+        add_tool( tools, "scrap" );
 
         // Charges needed to craft:
         // - 10 charges of soldering iron
         // - 10 charges of surface heat
 
         WHEN( "each tool has enough charges" ) {
-            tools.emplace_back( "hotplate", calendar::start_of_cataclysm, 20 );
-            tools.emplace_back( "soldering_iron", calendar::start_of_cataclysm, 20 );
+            tools.push_back( item::spawn( "hotplate", calendar::start_of_cataclysm, 20 ) );
+            tools.push_back( item::spawn( "soldering_iron", calendar::start_of_cataclysm, 20 ) );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
                 int turns = actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
@@ -393,10 +405,10 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         }
 
         WHEN( "multiple tools have enough combined charges" ) {
-            tools.emplace_back( "hotplate", calendar::start_of_cataclysm, 5 );
-            tools.emplace_back( "hotplate", calendar::start_of_cataclysm, 5 );
-            tools.emplace_back( "soldering_iron", calendar::start_of_cataclysm, 5 );
-            tools.emplace_back( "soldering_iron", calendar::start_of_cataclysm, 5 );
+            tools.emplace_back( item::spawn( "hotplate", calendar::start_of_cataclysm, 5 ) );
+            tools.emplace_back( item::spawn( "hotplate", calendar::start_of_cataclysm, 5 ) );
+            tools.emplace_back( item::spawn( "soldering_iron", calendar::start_of_cataclysm, 5 ) );
+            tools.emplace_back( item::spawn( "soldering_iron", calendar::start_of_cataclysm, 5 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
                 actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
@@ -406,13 +418,14 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         }
 
         WHEN( "UPS-modded tools have enough charges" ) {
-            item hotplate( "hotplate", calendar::start_of_cataclysm, 0 );
-            hotplate.put_in( item( "battery_ups" ) );
-            tools.push_back( hotplate );
-            item soldering_iron( "soldering_iron", calendar::start_of_cataclysm, 0 );
-            soldering_iron.put_in( item( "battery_ups" ) );
-            tools.push_back( soldering_iron );
-            tools.emplace_back( "UPS_off", calendar::start_of_cataclysm, 500 );
+            detached_ptr<item> hotplate = item::spawn( "hotplate", calendar::start_of_cataclysm, 0 );
+            hotplate->put_in( item::spawn( "battery_ups" ) );
+            tools.push_back( std::move( hotplate ) );
+            detached_ptr<item> soldering_iron = item::spawn( "soldering_iron", calendar::start_of_cataclysm,
+                                                0 );
+            soldering_iron->put_in( item::spawn( "battery_ups" ) );
+            tools.push_back( std::move( soldering_iron ) );
+            tools.push_back( item::spawn( "UPS_off", calendar::start_of_cataclysm, 500 ) );
 
             THEN( "crafting succeeds, and uses charges from the UPS" ) {
                 actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
@@ -423,13 +436,14 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         }
 
         WHEN( "UPS-modded tools do not have enough charges" ) {
-            item hotplate( "hotplate", calendar::start_of_cataclysm, 0 );
-            hotplate.put_in( item( "battery_ups" ) );
-            tools.push_back( hotplate );
-            item soldering_iron( "soldering_iron", calendar::start_of_cataclysm, 0 );
-            soldering_iron.put_in( item( "battery_ups" ) );
-            tools.push_back( soldering_iron );
-            tools.emplace_back( "UPS_off", calendar::start_of_cataclysm, 10 );
+            detached_ptr<item> hotplate = item::spawn( "hotplate", calendar::start_of_cataclysm, 0 );
+            hotplate->put_in( item::spawn( "battery_ups" ) );
+            tools.push_back( std::move( hotplate ) );
+            detached_ptr<item> soldering_iron = item::spawn( "soldering_iron", calendar::start_of_cataclysm,
+                                                0 );
+            soldering_iron->put_in( item::spawn( "battery_ups" ) );
+            tools.push_back( std::move( soldering_iron ) );
+            tools.push_back( item::spawn( "UPS_off", calendar::start_of_cataclysm, 10 ) );
 
             THEN( "crafting fails, and no charges are used" ) {
                 prep_craft( recipe_id( "carver_off" ), tools, false );
@@ -443,27 +457,27 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
 {
     clear_all_state();
     SECTION( "clean_water" ) {
-        std::vector<item> tools;
-        tools.emplace_back( "hotplate", calendar::start_of_cataclysm, 20 );
-        item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.put_in( item( "water", calendar::start_of_cataclysm, 2 ) );
-        tools.push_back( plastic_bottle );
-        tools.emplace_back( "pot" );
+        std::vector<detached_ptr<item>> tools;
+        tools.push_back( item::spawn( "hotplate", calendar::start_of_cataclysm, 20 ) );
+        detached_ptr<item> plastic_bottle = item::spawn( "bottle_plastic" );
+        plastic_bottle->put_in( item::spawn( "water", calendar::start_of_cataclysm, 2 ) );
+        tools.push_back( std::move( plastic_bottle ) );
+        tools.push_back( item::spawn( "pot" ) );
 
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_id( "water_clean" ), tools, true );
     }
     SECTION( "clean_water_in_occupied_cooking_vessel" ) {
-        std::vector<item> tools;
-        tools.emplace_back( "hotplate", calendar::start_of_cataclysm, 20 );
-        item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.put_in( item( "water", calendar::start_of_cataclysm, 2 ) );
-        tools.push_back( plastic_bottle );
-        item jar( "jar_glass" );
+        std::vector<detached_ptr<item>> tools;
+        tools.push_back( item::spawn( "hotplate", calendar::start_of_cataclysm, 20 ) );
+        detached_ptr<item> plastic_bottle = item::spawn( "bottle_plastic" );
+        plastic_bottle->put_in( item::spawn( "water", calendar::start_of_cataclysm, 2 ) );
+        tools.push_back( std::move( plastic_bottle ) );
+        detached_ptr<item> jar = item::spawn( "jar_glass" );
         // If it's not watertight the water will spill.
-        REQUIRE( jar.is_watertight_container() );
-        jar.put_in( item( "water", calendar::start_of_cataclysm, 2 ) );
-        tools.push_back( jar );
+        REQUIRE( jar->is_watertight_container() );
+        jar->put_in( item::spawn( "water", calendar::start_of_cataclysm, 2 ) );
+        tools.push_back( std::move( jar ) );
 
         prep_craft( recipe_id( "water_clean" ), tools, false );
     }
@@ -473,19 +487,19 @@ TEST_CASE( "Component same as tool", "[crafting][tool]" )
 {
     clear_all_state();
     SECTION( "primitive_hammer with one rock" ) {
-        std::vector<item> tools;
-        tools.emplace_back( "rock" );
-        tools.emplace_back( "2x4" );
-        tools.emplace_back( "thread", calendar::turn, 100 );
+        std::vector<detached_ptr<item>> tools;
+        tools.push_back( item::spawn( "rock" ) );
+        tools.push_back( item::spawn( "2x4" ) );
+        tools.push_back( item::spawn( "thread", calendar::turn, 100 ) );
 
         prep_craft( recipe_id( "primitive_hammer" ), tools, false );
     }
     SECTION( "primitive_hammer with two rocks" ) {
-        std::vector<item> tools;
-        tools.emplace_back( "rock" );
-        tools.emplace_back( "rock" );
-        tools.emplace_back( "2x4" );
-        tools.emplace_back( "thread", calendar::turn, 100 );
+        std::vector<detached_ptr<item>> tools;
+        tools.push_back( item::spawn( "rock" ) );
+        tools.push_back( item::spawn( "rock" ) );
+        tools.push_back( item::spawn( "2x4" ) );
+        tools.push_back( item::spawn( "thread", calendar::turn, 100 ) );
 
         prep_craft( recipe_id( "primitive_hammer" ), tools, true );
     }
@@ -504,14 +518,14 @@ static int resume_craft()
     REQUIRE( crafting_speed_multiplier( you, *craft, bench_location{bench_type::hands, you.pos()} ) ==
              1.0 );
     REQUIRE( !you.activity );
-    avatar_funcs::use_item( you, item_location( you, craft ) );
+    avatar_funcs::use_item( you, *craft );
     REQUIRE( you.activity );
-    REQUIRE( you.activity.id() == activity_id( "ACT_CRAFT" ) );
+    REQUIRE( you.activity->id() == activity_id( "ACT_CRAFT" ) );
     int turns = 0;
-    while( you.activity.id() == activity_id( "ACT_CRAFT" ) ) {
+    while( you.activity->id() == activity_id( "ACT_CRAFT" ) ) {
         ++turns;
         you.moves = 100;
-        you.activity.do_turn( you );
+        you.activity->do_turn( you );
     }
     return turns;
 }
@@ -548,15 +562,15 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
         int expected_time_taken = test_recipe->batch_time( 1, 1, 0 );
         int expected_turns_taken = divide_round_up( expected_time_taken, 100 );
 
-        std::vector<item> tools;
-        tools.emplace_back( "hammer" );
+        std::vector<detached_ptr<item>> tools;
+        tools.push_back( item::spawn( "hammer" ) );
 
         // Will interrupt after 2 turns, so craft needs to take at least that long
         REQUIRE( expected_turns_taken > 2 );
         int actual_turns_taken;
 
         WHEN( "crafting begins, and continues until the craft is completed" ) {
-            tools.emplace_back( "scrap", calendar::start_of_cataclysm, 1 );
+            tools.push_back( item::spawn( "scrap", calendar::start_of_cataclysm, 1 ) );
             actual_turns_taken = actually_test_craft( test_recipe, tools, INT_MAX );
 
             THEN( "it should take the expected number of turns" ) {
@@ -569,7 +583,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
         }
 
         WHEN( "crafting begins, but is interrupted after 2 turns" ) {
-            tools.emplace_back( "scrap", calendar::start_of_cataclysm, 1 );
+            tools.push_back( item::spawn( "scrap", calendar::start_of_cataclysm, 1 ) );
             actual_turns_taken = actually_test_craft( test_recipe, tools, 2 );
             REQUIRE( actual_turns_taken == 3 );
 
@@ -604,20 +618,20 @@ TEST_CASE( "debug hammerspace", "[crafting]" )
         dummy.set_body();
         // TODO: Debug vision should handle this part
         dummy.toggle_trait( trait_DEBUG_STORAGE );
-        dummy.i_add( item( itype_id( "atomic_lamp" ) ) );
+        dummy.i_add( item::spawn( itype_id( "atomic_lamp" ) ) );
         REQUIRE( character_funcs::can_see_fine_details( dummy ) );
 
         WHEN( "The character tries to craft a no-dachi" ) {
             craft_command command( &*test_recipe, 1, false, &dummy );
-            item_location craft_item = dummy.start_craft( command, dummy.pos() );
+            item *craft_item = dummy.start_craft( command, dummy.pos() );
 
             THEN( "The craft item is created" ) {
-                REQUIRE( craft_item );
+                REQUIRE( ( craft_item && !craft_item->is_null() ) );
                 AND_WHEN( "The character spends a second performing the activity set when starting the craft" ) {
                     dummy.set_moves( 100 );
-                    dummy.activity.do_turn( dummy );
+                    dummy.activity->do_turn( dummy );
                     THEN( "The activity isn't finished yet" ) {
-                        CHECK( !dummy.activity.is_null() );
+                        CHECK( !dummy.activity->is_null() );
                     }
                 }
             }
@@ -663,8 +677,8 @@ TEST_CASE( "oven electric grid", "[crafting][overmap][grids][slow]" )
             // Any way to clean it up without re-running the slow test for every check?
             AND_WHEN( "the player is near a pot and a chunk of meat" ) {
                 u.invalidate_crafting_inventory();
-                m.add_item( u.pos(), item( "pot" ) );
-                m.add_item( u.pos(), item( "meat" ) );
+                m.add_item( u.pos(), item::spawn( "pot" ) );
+                m.add_item( u.pos(), item::spawn( "meat" ) );
                 THEN( "cooked meat can be crafted" ) {
                     const recipe &r = *recipe_id( "meat_cooked" );
                     const inventory &crafting_inv = u.crafting_inventory();
@@ -678,16 +692,16 @@ TEST_CASE( "oven electric grid", "[crafting][overmap][grids][slow]" )
                         REQUIRE( tool_options.size() == 1u );
                         AND_WHEN( "the player crafts cooked meat" ) {
                             u.make_craft( r.ident(), 1 );
-                            REQUIRE( u.activity.id() == activity_id( "ACT_CRAFT" ) );
+                            REQUIRE( u.activity->id() == activity_id( "ACT_CRAFT" ) );
                             // TODO: Nice way to finish a craft job
                             for( size_t i = 0; i < 10000; i++ ) {
                                 u.set_moves( 100000 );
-                                u.activity.do_turn( u );
-                                if( u.activity.id() == activity_id::NULL_ID() ) {
+                                u.activity->do_turn( u );
+                                if( u.activity->id() == activity_id::NULL_ID() ) {
                                     break;
                                 }
                             }
-                            REQUIRE( u.activity.id() == activity_id::NULL_ID() );
+                            REQUIRE( u.activity->id() == activity_id::NULL_ID() );
                             THEN( "the crafting inventory now contains cooked meat" ) {
                                 u.invalidate_crafting_inventory();
                                 //TODO: Reinstate the below check. Prior to isolation improvements it would pass when run as part of the full suite but fail alone
@@ -717,7 +731,8 @@ TEST_CASE( "tool selection ui", "[crafting][ui]" )
     GIVEN( "One compatible tool in map inventory" ) {
         tool_comp tool_component( itype_id( "test_soldering_iron" ), 10 );
         tools = {tool_component};
-        map_inv.add_item( item( tool_component.type, calendar::start_of_cataclysm, 100 ) );
+        map_inv.add_item( *item::spawn_temporary( tool_component.type, calendar::start_of_cataclysm,
+                          100 ) );
 
         comp_selection<tool_comp> result = crafting::select_tool_component( tools, 1, map_inv,
                                            &dummy, false,
@@ -735,8 +750,8 @@ TEST_CASE( "tool selection ui", "[crafting][ui]" )
         tool_comp costly( itype_id( "test_soldering_iron" ), 10 );
         tool_comp free( itype_id( "test_screwdriver" ), -1 );
         tools = {costly, free};
-        map_inv.add_item( item( costly.type ) );
-        map_inv.add_item( item( free.type ) );
+        map_inv.add_item( *item::spawn_temporary( costly.type ) );
+        map_inv.add_item( *item::spawn_temporary( free.type ) );
 
         comp_selection<tool_comp> result = crafting::select_tool_component( tools, 1, map_inv,
                                            &dummy, false,
@@ -751,8 +766,8 @@ TEST_CASE( "tool selection ui", "[crafting][ui]" )
         tool_comp too_little( itype_id( "test_soldering_iron" ), 200 );
         tool_comp enough( itype_id( "test_battery_tool" ), 100 );
         tools = {too_little, enough};
-        map_inv.add_item( item( too_little.type, calendar::start_of_cataclysm, 100 ) );
-        map_inv.add_item( item( enough.type, calendar::start_of_cataclysm, 100 ) );
+        map_inv.add_item( *item::spawn_temporary( too_little.type, calendar::start_of_cataclysm, 100 ) );
+        map_inv.add_item( *item::spawn_temporary( enough.type, calendar::start_of_cataclysm, 100 ) );
 
         comp_selection<tool_comp> result = crafting::select_tool_component( tools, 1, map_inv,
                                            &dummy, false,

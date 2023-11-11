@@ -21,6 +21,18 @@
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
   },
   {
+    "id": "ax_bronze",
+    "copy-from": "ax",
+    "type": "GENERIC",
+    "name": { "str": "bronze axe" },
+    "description": "This is a large, two-handed wood axe with a bronze axehead.  It makes a good melee weapon, but is a bit slow to recover between swings.",
+    "weight": "3 kg",
+    "bashing": 25,
+    "cutting": 25,
+    "material": [ "wood", "bronze" ],
+    "color": "yellow"
+  },
+  {
     "id": "chainsaw_off",
     "type": "TOOL",
     "category": "tools",

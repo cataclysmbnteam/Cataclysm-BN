@@ -732,7 +732,7 @@ void Item_factory::finalize_item_blacklist()
         if( maybe_ammo != m_templates.end() && maybe_ammo->second.ammo ) {
             auto replacement = m_templates.find( migrate.second.replace );
             if( replacement->second.ammo ) {
-                migrated_ammo.emplace( std::make_pair( migrate.first, replacement->second.ammo->type ) );
+                migrated_ammo.emplace( migrate.first, replacement->second.ammo->type );
             } else {
                 debugmsg( "Replacement item %s for migrated ammo %s is not ammo.",
                           migrate.second.replace.str(), migrate.first.str() );
@@ -744,7 +744,7 @@ void Item_factory::finalize_item_blacklist()
         if( maybe_mag != m_templates.end() && maybe_mag->second.magazine ) {
             auto replacement = m_templates.find( migrate.second.replace );
             if( replacement->second.magazine ) {
-                migrated_magazines.emplace( std::make_pair( migrate.first, migrate.second.replace ) );
+                migrated_magazines.emplace( migrate.first, migrate.second.replace );
             } else {
                 debugmsg( "Replacement item %s for migrated magazine %s is not a magazine.",
                           migrate.second.replace.str(), migrate.first.str() );
@@ -978,6 +978,7 @@ void Item_factory::init()
     add_iuse( "PACK_CBM", &iuse::pack_cbm );
     add_iuse( "PACK_ITEM", &iuse::pack_item );
     add_iuse( "PHEROMONE", &iuse::pheromone );
+    add_iuse( "PICK_LOCK", &iuse::pick_lock );
     add_iuse( "PICKAXE", &iuse::pickaxe );
     add_iuse( "PLANTBLECH", &iuse::plantblech );
     add_iuse( "POISON", &iuse::poison );
@@ -1067,7 +1068,6 @@ void Item_factory::init()
     add_actor( std::make_unique<countdown_actor>() );
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
-    add_actor( std::make_unique<pick_lock_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
     add_actor( std::make_unique<place_monster_iuse>() );
     add_actor( std::make_unique<change_scent_iuse>() );
@@ -1130,14 +1130,15 @@ void Item_factory::check_definitions() const
         if( type->armor ) {
             cata::flat_set<bodypart_str_id> observed_bps;
             for( const armor_portion_data &portion : type->armor->data ) {
-                if( portion.covers.has_value() ) {
-                    for( const body_part &bp : all_body_parts ) {
-                        if( portion.covers->test( convert_bp( bp ) ) ) {
-                            if( observed_bps.count( convert_bp( bp ) ) ) {
-                                msg += "multiple portions with same body_part defined\n";
-                            }
-                            observed_bps.insert( convert_bp( bp ) );
+                if( portion.covers.none() ) {
+                    continue;
+                }
+                for( const body_part &bp : all_body_parts ) {
+                    if( portion.covers.test( convert_bp( bp ) ) ) {
+                        if( observed_bps.count( convert_bp( bp ) ) ) {
+                            msg += "multiple portions with same body_part defined\n";
                         }
+                        observed_bps.insert( convert_bp( bp ) );
                     }
                 }
             }
@@ -2513,7 +2514,7 @@ void hflesh_to_flesh( itype &item_template )
     // Only add "flesh" material if not already present
     if( old_size != mats.size() &&
         std::find( mats.begin(), mats.end(), material_id( "flesh" ) ) == mats.end() ) {
-        mats.push_back( material_id( "flesh" ) );
+        mats.emplace_back( "flesh" );
     }
 }
 
@@ -3026,10 +3027,10 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
         return false;
     }
     if( obj.has_string( iname ) ) {
-        entries.push_back( std::make_pair( obj.get_string( iname ), false ) );
+        entries.emplace_back( obj.get_string( iname ), false );
     }
     if( obj.has_string( gname ) ) {
-        entries.push_back( std::make_pair( obj.get_string( gname ), true ) );
+        entries.emplace_back( obj.get_string( gname ), true );
     }
 
     if( entries.size() > 1 && name != "contents" ) {
@@ -3364,7 +3365,7 @@ std::vector<item_group_id> Item_factory::get_all_group_names()
 {
     std::vector<item_group_id> rval;
     for( GroupMap::value_type &group_pair : m_template_groups ) {
-        rval.push_back( item_group_id( group_pair.first ) );
+        rval.emplace_back( group_pair.first );
     }
     return rval;
 }
@@ -3408,7 +3409,7 @@ void item_group::debug_spawn()
         for( size_t a = 0; a < 100; a++ ) {
             const auto items = items_from( groups[index], calendar::turn );
             for( auto &it : items ) {
-                itemnames[it.display_name()]++;
+                itemnames[it->display_name()]++;
             }
         }
         // Invert the map to get sorting!

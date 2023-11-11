@@ -56,6 +56,7 @@
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "overmap_special.h"
+#include "player_activity.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "sdltiles.h"
@@ -2051,7 +2052,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 }
                 if( query_yn( confirm_msg ) ) {
                     if( driving ) {
-                        player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
+                        player_character.assign_activity( std::make_unique<player_activity>
+                                                          ( std::make_unique<autodrive_activity_actor>() ) );
                     } else {
                         player_character.reset_move_mode();
                         player_character.assign_activity( ACT_TRAVELLING );

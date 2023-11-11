@@ -169,6 +169,7 @@
     "name": "Stormfist",
     "description": "Encases your arm and hand in a sheath of crackling magical lightning, you can punch and defend yourself with it in melee combat.",
     "valid_targets": [ "self" ],
+    "flags": [ "NO_EXPLOSION_VFX" ],
     "min_damage": 0,
     "max_damage": 0,
     "effect": "spawn_item",

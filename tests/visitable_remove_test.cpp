@@ -47,14 +47,14 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     const itype_id worn_id( "flask_hip" );
     const int count = 5;
 
-    REQUIRE( item( container_id ).is_container() );
-    REQUIRE( item( worn_id ).is_container() );
+    REQUIRE( item::spawn_temporary( container_id )->is_container() );
+    REQUIRE( item::spawn_temporary( worn_id )->is_container() );
 
     player &p = g->u;
     p.worn.clear();
-    p.inv.clear();
-    p.remove_weapon();
-    p.wear_item( item( "backpack" ) ); // so we don't drop anything
+    p.inv_clear();
+    p.remove_primary_weapon();
+    p.wear_item( item::spawn( "backpack" ) ); // so we don't drop anything
 
     // check if all tiles within radius are loaded within current submap and passable
     const auto suitable = []( const tripoint & pos, const int radius ) {
@@ -79,22 +79,28 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         p.setpos( random_entry( closest_points_first( p.pos(), 1 ) ) );
     }
 
-    item temp_liquid( liquid_id );
-    item obj =
-        temp_liquid.in_container( temp_liquid.type->default_container.value_or( itype_id::NULL_ID() ) );
+    detached_ptr<item> temp_liquid_d = item::spawn( liquid_id );
+    item &temp_liquid = *temp_liquid_d;
+    item &obj = *item::in_container( temp_liquid.type->default_container.value_or(
+                                         itype_id::NULL_ID() ), std::move( temp_liquid_d ) );
     REQUIRE( obj.contents.num_item_stacks() == 1 );
     REQUIRE( obj.contents.front().typeId() == liquid_id );
 
     GIVEN( "A player with several bottles of water" ) {
         for( int i = 0; i != count; ++i ) {
-            p.i_add( obj );
+            p.i_add( item::spawn( obj ) );
         }
         REQUIRE( count_items( p, container_id ) == count );
         REQUIRE( count_items( p, liquid_id ) == count );
 
         WHEN( "all the bottles are removed" ) {
-            std::list<item> del = p.remove_items_with( [&container_id]( const item & e ) {
-                return e.typeId() == container_id;
+            std::vector<detached_ptr<item>> del;
+            p.remove_top_items_with( [&container_id, &del]( detached_ptr<item> &&e ) {
+                if( e->typeId() == container_id ) {
+                    del.push_back( std::move( e ) );
+                    return detached_ptr<item>();
+                }
+                return std::move( e );
             } );
 
             THEN( "no bottles remain in the players possession" ) {
@@ -107,22 +113,27 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 REQUIRE( del.size() == count );
 
                 AND_THEN( "the removed items were all bottles" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item & e ) {
-                        return e.typeId() == container_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( detached_ptr<item> &e ) {
+                        return e->typeId() == container_id;
                     } ) );
                 }
                 AND_THEN( "the removed items all contain water" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( detached_ptr<item> &e ) {
+                        return e->contents.num_item_stacks() == 1 && e->contents.front().typeId() == liquid_id;
                     } ) );
                 }
             }
         }
 
         WHEN( "one of the bottles is removed" ) {
-            std::list<item> del = p.remove_items_with( [&container_id]( const item & e ) {
-                return e.typeId() == container_id;
-            }, 1 );
+            std::vector<detached_ptr<item>> del;
+            p.remove_items_with( [&container_id, &del]( detached_ptr<item> &&e ) {
+                if( e->typeId() == container_id ) {
+                    del.push_back( std::move( e ) );
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::SKIP;
+            } );
 
             THEN( "there is one less bottle in the players possession" ) {
                 REQUIRE( count_items( p, container_id ) == count - 1 );
@@ -134,13 +145,13 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 REQUIRE( del.size() == 1 );
 
                 AND_THEN( "the removed items were all bottles" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item & e ) {
-                        return e.typeId() == container_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( detached_ptr<item> &e ) {
+                        return e->typeId() == container_id;
                     } ) );
                 }
                 AND_THEN( "the removed items all contained water" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( detached_ptr<item> &e ) {
+                        return e->contents.num_item_stacks() == 1 && e->contents.front().typeId() == liquid_id;
                     } ) );
                 }
             }
@@ -153,8 +164,13 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             REQUIRE( count_items( p, liquid_id ) == count );
 
             AND_WHEN( "all the bottles are removed" ) {
-                std::list<item> del = p.remove_items_with( [&container_id]( const item & e ) {
-                    return e.typeId() == container_id;
+                std::vector<detached_ptr<item>> del;
+                p.remove_top_items_with( [&container_id, &del]( detached_ptr<item> &&e ) {
+                    if( e->typeId() == container_id ) {
+                        del.push_back( std::move( e ) );
+                        return detached_ptr<item>();
+                    }
+                    return std::move( e );
                 } );
 
                 THEN( "no bottles remain in the players possession" ) {
@@ -170,22 +186,29 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     REQUIRE( del.size() == count );
 
                     AND_THEN( "the removed items were all bottles" ) {
-                        CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item & e ) {
-                            return e.typeId() == container_id;
+                        CHECK( std::all_of( del.begin(), del.end(), [&container_id]( detached_ptr<item> &e ) {
+                            return e->typeId() == container_id;
                         } ) );
                     }
                     AND_THEN( "the removed items all contain water" ) {
-                        CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                            return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                        CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( detached_ptr<item> &e ) {
+                            return e->contents.num_item_stacks() == 1 && e->contents.front().typeId() == liquid_id;
                         } ) );
                     }
                 }
             }
 
             AND_WHEN( "all but one of the bottles is removed" ) {
-                std::list<item> del = p.remove_items_with( [&container_id]( const item & e ) {
-                    return e.typeId() == container_id;
-                }, count - 1 );
+                std::vector<detached_ptr<item>> del;
+                int limit = count - 1;
+                p.remove_items_with( [&container_id, &del, &limit]( detached_ptr<item> &&e ) {
+                    if( e->typeId() == container_id ) {
+                        del.push_back( std::move( e ) );
+                        limit--;
+                        return limit > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
+                    }
+                    return VisitResponse::NEXT;
+                } );
 
                 THEN( "there is only one bottle remaining in the players possession" ) {
                     REQUIRE( count_items( p, container_id ) == 1 );
@@ -206,13 +229,13 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     REQUIRE( del.size() == count - 1 );
 
                     AND_THEN( "the removed items were all bottles" ) {
-                        CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item & e ) {
-                            return e.typeId() == container_id;
+                        CHECK( std::all_of( del.begin(), del.end(), [&container_id]( detached_ptr<item> &e ) {
+                            return e->typeId() == container_id;
                         } ) );
                     }
                     AND_THEN( "the removed items all contained water" ) {
-                        CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                            return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                        CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( detached_ptr<item> &e ) {
+                            return e->contents.num_item_stacks() == 1 && e->contents.front().typeId() == liquid_id;
                         } ) );
                     }
                 }
@@ -220,18 +243,25 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         }
 
         WHEN( "a hip flask containing water is worn" ) {
-            item obj( worn_id );
-            obj.put_in( item( liquid_id, calendar::turn,
-                              temp_liquid.charges_per_volume( obj.get_container_capacity() ) ) );
-            p.wear_item( obj );
+            detached_ptr<item> flask = item::spawn( worn_id );
+            flask->put_in( item::spawn( liquid_id, calendar::turn,
+                                        temp_liquid.charges_per_volume( obj.get_container_capacity() ) ) );
+            p.wear_item( std::move( flask ) );
 
             REQUIRE( count_items( p, container_id ) == count );
             REQUIRE( count_items( p, liquid_id ) == count + 1 );
 
             AND_WHEN( "all but one of the water is removed" ) {
-                std::list<item> del = p.remove_items_with( [&liquid_id]( const item & e ) {
-                    return e.typeId() == liquid_id;
-                }, count );
+                std::list<detached_ptr<item>> del;
+                int limit = count;
+                p.remove_items_with( [&liquid_id, &del, &limit]( detached_ptr<item> &&e ) {
+                    if( e->typeId() == liquid_id ) {
+                        del.push_back( std::move( e ) );
+                        limit--;
+                        return limit > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
+                    }
+                    return VisitResponse::NEXT;
+                } );
 
                 THEN( "all of the bottles remain in the players possession" ) {
                     REQUIRE( count_items( p, container_id ) == 5 );
@@ -263,16 +293,21 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     REQUIRE( del.size() == count );
 
                     AND_THEN( "the removed items were all water" ) {
-                        CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                            return e.typeId() == liquid_id;
+                        CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( detached_ptr<item> &e ) {
+                            return e->typeId() == liquid_id;
                         } ) );
                     }
                 }
 
                 AND_WHEN( "the final water is removed" ) {
-                    std::list<item> del = p.remove_items_with( [&liquid_id]( const item & e ) {
-                        return e.typeId() == liquid_id;
-                    }, 1 );
+                    std::vector<detached_ptr<item>> del;
+                    p.remove_all_items_with( [&liquid_id, &del]( detached_ptr<item> &&e ) {
+                        if( e->typeId() == liquid_id ) {
+                            del.push_back( std::move( e ) );
+                            return detached_ptr<item>();
+                        }
+                        return std::move( e );
+                    } );
 
                     THEN( "no water remain in the players possession" ) {
                         REQUIRE( count_items( p, liquid_id ) == 0 );
@@ -307,11 +342,11 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             if( i == 0 || tiles.empty() ) {
                 // always place at least one bottle on player tile
                 our++;
-                g->m.add_item( p.pos(), obj );
+                g->m.add_item( p.pos(), item::spawn( obj ) );
             } else {
                 // randomly place bottles on adjacent tiles
                 adj++;
-                g->m.add_item( random_entry( tiles ), obj );
+                g->m.add_item( random_entry( tiles ), item::spawn( obj ) );
             }
         }
         REQUIRE( our + adj == count );
@@ -326,8 +361,13 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         REQUIRE( count_items( cur, liquid_id ) == our );
 
         WHEN( "all the bottles are removed" ) {
-            std::list<item> del = sel.remove_items_with( [&container_id]( const item & e ) {
-                return e.typeId() == container_id;
+            std::vector<detached_ptr<item>> del;
+            sel.remove_all_items_with( [&container_id, &del]( detached_ptr<item> &&e ) {
+                if( e->typeId() == container_id ) {
+                    del.push_back( std::move( e ) );
+                    return detached_ptr<item>();
+                }
+                return std::move( e );
             } );
 
             THEN( "no bottles remain on the map" ) {
@@ -340,22 +380,27 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 REQUIRE( del.size() == count );
 
                 AND_THEN( "the removed items were all bottles" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item & e ) {
-                        return e.typeId() == container_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( detached_ptr<item> &e ) {
+                        return e->typeId() == container_id;
                     } ) );
                 }
                 AND_THEN( "the removed items all contain water" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( detached_ptr<item> &e ) {
+                        return e->contents.num_item_stacks() == 1 && e->contents.front().typeId() == liquid_id;
                     } ) );
                 }
             }
         }
 
         WHEN( "one of the bottles is removed" ) {
-            std::list<item> del = sel.remove_items_with( [&container_id]( const item & e ) {
-                return e.typeId() == container_id;
-            }, 1 );
+            std::vector<detached_ptr<item>> del;
+            sel.remove_items_with( [&container_id, &del]( detached_ptr<item> &&e ) {
+                if( e->typeId() == container_id ) {
+                    del.push_back( std::move( e ) );
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
 
             THEN( "there is one less bottle on the map" ) {
                 REQUIRE( count_items( sel, container_id ) == count - 1 );
@@ -367,22 +412,29 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 REQUIRE( del.size() == 1 );
 
                 AND_THEN( "the removed items were all bottles" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item & e ) {
-                        return e.typeId() == container_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( detached_ptr<item> &e ) {
+                        return e->typeId() == container_id;
                     } ) );
                 }
                 AND_THEN( "the removed items all contained water" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( detached_ptr<item> &e ) {
+                        return e->contents.num_item_stacks() == 1 && e->contents.front().typeId() == liquid_id;
                     } ) );
                 }
             }
         }
 
         WHEN( "all of the bottles on the player tile are removed" ) {
-            std::list<item> del = cur.remove_items_with( [&container_id]( const item & e ) {
-                return e.typeId() == container_id;
-            }, our );
+            std::vector<detached_ptr<item>> del;
+            int limit = our;
+            cur.remove_items_with( [&container_id, &del, &limit]( detached_ptr<item> &&e ) {
+                if( e->typeId() == container_id ) {
+                    del.push_back( std::move( e ) );
+                    limit--;
+                    return limit > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
 
             THEN( "no bottles remain on the player tile" ) {
                 REQUIRE( count_items( cur, container_id ) == 0 );
@@ -400,13 +452,13 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 REQUIRE( static_cast<int>( del.size() ) == our );
 
                 AND_THEN( "the removed items were all bottles" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item & e ) {
-                        return e.typeId() == container_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( detached_ptr<item> &e ) {
+                        return e->typeId() == container_id;
                     } ) );
                 }
                 AND_THEN( "the removed items all contained water" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( detached_ptr<item> &e ) {
+                        return e->contents.num_item_stacks() == 1 && e->contents.front().typeId() == liquid_id;
                     } ) );
                 }
             }
@@ -431,7 +483,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         // Empty the vehicle of any cargo.
         v->get_items( part ).clear();
         for( int i = 0; i != count; ++i ) {
-            v->add_item( part, obj );
+            v->add_item( part, item::spawn( obj ) );
         }
 
         vehicle_selector sel( p.pos(), 1 );
@@ -440,8 +492,12 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         REQUIRE( count_items( sel, liquid_id ) == count );
 
         WHEN( "all the bottles are removed" ) {
-            std::list<item> del = sel.remove_items_with( [&container_id]( const item & e ) {
-                return e.typeId() == container_id;
+            std::vector<detached_ptr<item>> del;
+            sel.remove_items_with( [&container_id, &del]( detached_ptr<item> &&e ) {
+                if( e->typeId() == container_id ) {
+                    del.push_back( std::move( e ) );
+                }
+                return VisitResponse::NEXT;
             } );
 
             THEN( "no bottles remain within the vehicle" ) {
@@ -454,22 +510,27 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 REQUIRE( del.size() == count );
 
                 AND_THEN( "the removed items were all bottles" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item & e ) {
-                        return e.typeId() == container_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( detached_ptr<item> &e ) {
+                        return e->typeId() == container_id;
                     } ) );
                 }
                 AND_THEN( "the removed items all contain water" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( detached_ptr<item> &e ) {
+                        return e->contents.num_item_stacks() == 1 && e->contents.front().typeId() == liquid_id;
                     } ) );
                 }
             }
         }
 
         WHEN( "one of the bottles is removed" ) {
-            std::list<item> del = sel.remove_items_with( [&container_id]( const item & e ) {
-                return e.typeId() == container_id;
-            }, 1 );
+            std::vector<detached_ptr<item>> del;
+            sel.remove_items_with( [&container_id, &del]( detached_ptr<item> &&e ) {
+                if( e->typeId() == container_id ) {
+                    del.push_back( std::move( e ) );
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
 
             THEN( "there is one less bottle within the vehicle" ) {
                 REQUIRE( count_items( sel, container_id ) == count - 1 );
@@ -481,13 +542,13 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 REQUIRE( del.size() == 1 );
 
                 AND_THEN( "the removed items were all bottles" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item & e ) {
-                        return e.typeId() == container_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( detached_ptr<item> &e ) {
+                        return e->typeId() == container_id;
                     } ) );
                 }
                 AND_THEN( "the removed items all contained water" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( detached_ptr<item> &e ) {
+                        return e->contents.num_item_stacks() == 1 && e->contents.front().typeId() == liquid_id;
                     } ) );
                 }
             }
@@ -499,7 +560,7 @@ TEST_CASE( "inventory_remove_invalidates_binning_cache", "[visitable][inventory]
 {
     clear_all_state();
     inventory inv;
-    std::list<item> items = { item( "bone" ) };
+    std::vector<item *> items = { item::spawn_temporary( "bone" ) };
     inv += items;
     CHECK( inv.charges_of( itype_id( "bone" ) ) == 1 );
     inv.remove_items_with( return_true<item> );

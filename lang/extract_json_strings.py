@@ -1112,6 +1112,9 @@ def extract_json(state, item):
         if "break_message" in pry:
             writestr(state, pry["break_message"])
             wrote = True
+    if "lockpick_message" in item:
+        writestr(state, item["lockpick_message"])
+        wrote = True
     if "seed_data" in item:
         seed_data = item["seed_data"]
         writestr(state, seed_data["plant_name"])

@@ -465,7 +465,6 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "1 h",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "tailoring_wool_knitting", 80 ] ]
   },
@@ -500,9 +499,8 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "90 m",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_wool_knitting", 320 ] ]
+    "using": [ [ "tailoring_wool_knitting", 120 ] ]
   },
   {
     "result": "straw_sandals",

@@ -176,6 +176,23 @@ inline V random_entry_removed( C &container )
     return result;
 }
 
+
+template<typename T>
+class detached_ptr;
+template<typename T>
+class location_vector;
+
+template<typename C>
+inline detached_ptr<C> random_entry_detached( location_vector<C> &container )
+{
+    auto iter = container.begin();
+    std::advance( iter, rng( 0, container.size() - 1 ) );
+    detached_ptr<C> ret;
+    container.erase( iter, &ret );
+    return ret;
+}
+
+
 /// Returns a range enclosing all valid points of the map.
 tripoint_range<tripoint> points_in_range( const map &m );
 /// Returns a random point in the given range that satisfies the given predicate ( if any ).

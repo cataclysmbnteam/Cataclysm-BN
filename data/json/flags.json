@@ -647,6 +647,12 @@
     "info": "This item can be used to communicate with radio waves."
   },
   {
+    "id": "PERFECT_LOCKPICK",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item can be used to <info>pick locks</info> with <good>zero effort</good>."
+  },
+  {
     "id": "RAINPROOF",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -992,6 +998,12 @@
     "type": "json_flag",
     "context": [ "SPELL" ],
     "//": "The spell makes no sound at its point of impact."
+  },
+  {
+    "id": "NO_EXPLOSION_VFX",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "This makes the spell skip displaying visual effect sprites for faster rendering."
   },
   {
     "id": "LOUD",

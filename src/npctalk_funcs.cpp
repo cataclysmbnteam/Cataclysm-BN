@@ -27,7 +27,6 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
-#include "item_location.h"
 #include "line.h"
 #include "magic.h"
 #include "map.h"
@@ -451,13 +450,13 @@ void talk_function::insult_combat( npc &p )
 
 void talk_function::bionic_install( npc &p )
 {
-    item_location bionic = game_menus::inv::install_bionic( g->u, g->u, true );
+    item *bionic = game_menus::inv::install_bionic( g->u, g->u, true );
 
     if( !bionic ) {
         return;
     }
 
-    const item *tmp = bionic.get_item();
+    const item *tmp = bionic;
     const itype &it = *tmp->type;
 
     signed int price = tmp->price( true ) * 2;
@@ -467,7 +466,7 @@ void talk_function::bionic_install( npc &p )
 
     //Makes the doctor awesome at installing but not perfect
     if( g->u.can_install_bionics( it, p, false, 20 ) ) {
-        bionic.remove_item();
+        bionic->detach();
         g->u.install_bionics( it, p, false, 20 );
     }
 }
@@ -479,7 +478,6 @@ void talk_function::bionic_remove( npc &p )
         popup( _( "You don't have any bionics installed…" ) );
         return;
     }
-
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
     for( const bionic &bio : all_bio ) {
@@ -489,8 +487,8 @@ void talk_function::bionic_remove( npc &p )
                 bio.id != bio_power_storage_mkII ) {
                 bionic_types.push_back( bio.info().itype() );
                 if( bio.info().itype().is_valid() ) {
-                    item tmp = item( bio.id.str(), calendar::start_of_cataclysm );
-                    bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
+                    item *tmp = item::spawn_temporary( bio.id.str(), calendar::start_of_cataclysm );
+                    bionic_names.push_back( tmp->tname() + " - " + format_money( 50000 + ( tmp->price( true ) / 4 ) ) );
                 } else {
                     bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
                 }
@@ -508,7 +506,8 @@ void talk_function::bionic_remove( npc &p )
 
     int price;
     if( bionic_types[bionic_index].is_valid() ) {
-        int tmp = item( bionic_types[bionic_index], calendar::start_of_cataclysm ).price( true );
+        int tmp = item::spawn_temporary( bionic_types[bionic_index],
+                                         calendar::start_of_cataclysm )->price( true );
         price = 50000 + ( tmp / 4 );
     } else {
         price = 50000;
@@ -545,11 +544,10 @@ void talk_function::give_equipment( npc &p )
         debugmsg( "Chosen index is outside of available item range!" );
         chosen = 0;
     }
-    item it = *giving[chosen].loc.get_item();
-    giving[chosen].loc.remove_item();
+    item &it = *giving[chosen].locs.front();
     popup( _( "%1$s gives you a %2$s" ), p.name, it.tname() );
+    g->u.i_add( giving[chosen].locs.front()->detach() );
     it.set_owner( g->u );
-    g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
     p.add_effect( effect_asked_for_item, 3_hours );
 }
@@ -580,7 +578,7 @@ void talk_function::give_aid( npc &p )
     p.add_effect( effect_currently_busy, 30_minutes );
     const int moves = to_moves<int>( 30_minutes );
     u.assign_activity( ACT_WAIT_NPC, moves );
-    u.activity.str_values.push_back( p.name );
+    u.activity->str_values.push_back( p.name );
 }
 
 void talk_function::give_all_aid( npc &p )
@@ -597,7 +595,7 @@ void talk_function::give_all_aid( npc &p )
     p.add_effect( effect_currently_busy, 60_minutes );
     const int moves = to_moves<int>( 60_minutes );
     u.assign_activity( ACT_WAIT_NPC, moves );
-    u.activity.str_values.push_back( p.name );
+    u.activity->str_values.push_back( p.name );
 }
 
 static void generic_barber( const std::string &mut_type )
@@ -647,7 +645,7 @@ void talk_function::buy_haircut( npc &p )
     g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
     const int moves = to_moves<int>( 20_minutes );
     g->u.assign_activity( ACT_WAIT_NPC, moves );
-    g->u.activity.str_values.push_back( p.name );
+    g->u.activity->str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent haircut…" ), p.name );
 }
 
@@ -656,7 +654,7 @@ void talk_function::buy_shave( npc &p )
     g->u.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
     const int moves = to_moves<int>( 5_minutes );
     g->u.assign_activity( ACT_WAIT_NPC, moves );
-    g->u.activity.str_values.push_back( p.name );
+    g->u.activity->str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent shave…" ), p.name );
 }
 
@@ -670,7 +668,7 @@ void talk_function::morale_chat_activity( npc &p )
 {
     const int moves = to_moves<int>( 10_minutes );
     g->u.assign_activity( ACT_SOCIALIZE, moves );
-    g->u.activity.str_values.push_back( p.name );
+    g->u.activity->str_values.push_back( p.name );
     add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
     g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
 }
@@ -833,10 +831,10 @@ void talk_function::drop_stolen_item( npc &p )
     map &here = get_map();
     for( auto &elem : g->u.inv_dump() ) {
         if( elem->is_old_owner( p ) ) {
-            item to_drop = g->u.i_rem( elem );
-            to_drop.remove_old_owner();
-            to_drop.set_owner( p );
-            here.add_item_or_charges( g->u.pos(), to_drop );
+            detached_ptr<item> to_drop = g->u.i_rem( elem );
+            to_drop->remove_old_owner();
+            to_drop->set_owner( p );
+            here.add_item_or_charges( g->u.pos(), std::move( to_drop ) );
         }
     }
     if( g->u.is_hauling() ) {
@@ -867,17 +865,17 @@ void talk_function::drop_weapon( npc &p )
     if( p.is_hallucination() ) {
         return;
     }
-    get_map().add_item_or_charges( p.pos(), p.remove_weapon() );
+    get_map().add_item_or_charges( p.pos(), p.remove_primary_weapon() );
 }
 
 void talk_function::player_weapon_away( npc &/*p*/ )
 {
-    g->u.i_add( g->u.remove_weapon() );
+    g->u.i_add( g->u.remove_primary_weapon() );
 }
 
 void talk_function::player_weapon_drop( npc &/*p*/ )
 {
-    get_map().add_item_or_charges( g->u.pos(), g->u.remove_weapon() );
+    get_map().add_item_or_charges( g->u.pos(), g->u.remove_primary_weapon() );
 }
 
 void talk_function::lead_to_safety( npc &p )
@@ -947,10 +945,11 @@ void talk_function::start_training( npc &p )
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
-    player_activity act = player_activity( ACT_TRAIN, to_moves<int>( time ),
+    std::unique_ptr<player_activity> act = std::make_unique<player_activity>( ACT_TRAIN,
+                                           to_moves<int>( time ),
                                            p.getID().get_value(), 0, name );
-    act.values.push_back( expert_multiplier );
-    g->u.assign_activity( act );
+    act->values.push_back( expert_multiplier );
+    g->u.assign_activity( std::move( act ) );
 
     p.add_effect( effect_asked_to_train, 6_hours );
 }

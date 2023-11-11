@@ -201,7 +201,8 @@ int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &
     // then a second time with draw explosion
     // the player responsible of the explosion is the one that activated the object
     if( iuse_name == "transform" ) {
-        it.activated_by = p.get_safe_reference();
+        //TODO!: put this back to a safe reference once players are added
+        it.activated_by = &p;
     }
 
     return use->call( p, it, false, pos );
@@ -222,4 +223,9 @@ bool itype::can_have_charges() const
         return true;
     }
     return false;
+}
+
+bool itype::is_seed() const
+{
+    return !!seed;
 }

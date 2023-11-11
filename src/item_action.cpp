@@ -89,8 +89,8 @@ bool item::item_has_uses_recursive() const
 
 bool item_contents::item_has_uses_recursive() const
 {
-    for( const item &it : items ) {
-        if( it.item_has_uses_recursive() ) {
+    for( const item * const &it : items ) {
+        if( it->item_has_uses_recursive() ) {
             return true;
         }
     }
@@ -236,13 +236,14 @@ void game::item_action_menu()
 
     // HACK: A bit of a hack for now. If more pseudos get implemented, this should be un-hacked
     std::vector<item *> pseudos;
-    item toolset( "toolset", calendar::turn );
     if( u.has_active_bionic( bio_tools ) ) {
-        pseudos.push_back( &toolset );
+        item *toolset = item::spawn_temporary( "toolset", calendar::turn );
+        pseudos.push_back( toolset );
     }
-    item bio_claws_item( static_cast<std::string>( bio_claws_weapon ), calendar::turn );
     if( u.has_active_bionic( bio_claws ) ) {
-        pseudos.push_back( &bio_claws_item );
+        item *bio_claws_item = item::spawn_temporary( static_cast<std::string>( bio_claws_weapon ),
+                               calendar::turn );
+        pseudos.push_back( bio_claws_item );
     }
 
     item_action_map iactions = gen.map_actions_to_items( u, pseudos );
@@ -335,8 +336,8 @@ void game::item_action_menu()
 
     u.invoke_item( it, action );
 
-    u.inv.restack( u );
-    u.inv.unsort();
+    u.inv_restack( );
+    u.inv_unsort();
 }
 
 std::string use_function::get_type() const

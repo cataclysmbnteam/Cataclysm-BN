@@ -218,6 +218,7 @@ static std::wstring cata_ios_mode_to_c( bool out, cata_ios_mode m )
 }
 
 cata_ofstream &cata_ofstream::operator=( cata_ofstream &&x )
+noexcept
 {
     _stream = std::move( x._stream );
     _buffer = std::move( x._buffer );
@@ -266,6 +267,7 @@ void cata_ofstream::close()
 #else // defined (_WIN32) && !defined (_MSC_VER)
 
 cata_ofstream &cata_ofstream::operator=( cata_ofstream &&x )
+noexcept
 {
     _stream = std::move( x._stream );
     _mode = x._mode;
@@ -302,6 +304,7 @@ void cata_ofstream::close()
 cata_ofstream::cata_ofstream() = default;
 
 cata_ofstream::cata_ofstream( cata_ofstream &&x )
+noexcept
 {
     *this = std::move( x );
 }
@@ -339,6 +342,7 @@ std::ostream *cata_ofstream::operator->()
 #if defined (_WIN32) && !defined (_MSC_VER)
 
 cata_ifstream &cata_ifstream::operator=( cata_ifstream &&x )
+noexcept
 {
     _stream = std::move( x._stream );
     _buffer = std::move( x._buffer );
@@ -386,6 +390,7 @@ void cata_ifstream::close()
 #else // defined (_WIN32) && !defined (_MSC_VER)
 
 cata_ifstream &cata_ifstream::operator=( cata_ifstream &&x )
+noexcept
 {
     _stream = std::move( x._stream );
     _mode = x._mode;
@@ -422,6 +427,7 @@ void cata_ifstream::close()
 cata_ifstream::cata_ifstream() = default;
 
 cata_ifstream::cata_ifstream( cata_ifstream &&x )
+noexcept
 {
     *this = std::move( x );
 }
@@ -618,7 +624,7 @@ void ofstream_wrapper::close()
     }
 }
 
-std::string obscure_message( const std::string &str, std::function<char()> f )
+std::string obscure_message( const std::string &str, const std::function<char()> &f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );

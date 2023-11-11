@@ -13,7 +13,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "S___________SSTzzzzzzzTS",
+        "S___________SSTzzzzzzzT'",
         "S_____,_____SSzMbMbMbMzS",
         "S_____,_____SSSSSSSS/MzS",
         "S_____,_____SSSSSSSS/MzS",
@@ -59,6 +59,7 @@
         "M": "t_dirt",
         "O": "t_window",
         "S": "t_sidewalk",
+        "'": "t_sidewalk",
         "U": "t_linoleum_white",
         "V": "t_wall_glass",
         "W": "t_fencegate_c",
@@ -77,6 +78,7 @@
         "T": "t_tree_coffee"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "%": "f_trashcan",
         "/": "f_bluebell",
@@ -187,7 +189,7 @@
       "//": "Default fill is floor but some tables are outside",
       "fill_ter": "t_floor",
       "rows": [
-        "_______,,,,,,,ss########",
+        "_______,,,,,,,s'########",
         "______________ss#pppppp#",
         "______________ssspHTTHp#",
         "______________ssspppppp#",
@@ -241,11 +243,13 @@
         "p": "t_concrete",
         "r": "t_linoleum_white",
         "s": "t_sidewalk",
+        "'": "t_sidewalk",
         "x": "t_console_broken",
         "4": "t_gutter_downspout",
         "|": "t_wall_b"
       },
       "furniture": {
+        "'": "f_street_light",
         "&": "f_trashcan",
         "H": "f_chair",
         "O": "f_oven",
@@ -333,6 +337,7 @@
     "object": {
       "fill_ter": "t_floor",
       "furniture": {
+        "'": "f_street_light",
         "#": "f_chair",
         "&": "f_trashcan",
         "+": "f_null",
@@ -378,7 +383,7 @@
       ],
       "place_toilets": [ { "x": 20, "y": 17 } ],
       "rows": [
-        "______________sss_______",
+        "______________sss______'",
         "______u__u____sss_______",
         "____uSSuSSSu__sss_SSS___",
         "__||||||----||sss||w||__",
@@ -414,6 +419,7 @@
         "T": "t_floor",
         "^": "t_floor",
         "_": "t_grass",
+        "'": "t_dirt",
         "a": "t_floor",
         "b": "t_door_metal_pickable",
         "c": "t_floor",

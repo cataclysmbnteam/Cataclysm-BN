@@ -12,9 +12,8 @@
 #include "cursesdef.h"
 #include "input.h"
 #include "inventory.h"
-#include "item_location.h"
 #include "memory_fast.h"
-#include "player_activity.h"
+#include "player_activity_ptr.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -47,7 +46,7 @@ class veh_interact
         using part_selector = std::function<bool( const vehicle_part &pt )>;
 
     public:
-        static player_activity run( vehicle &veh, point p );
+        static std::unique_ptr<player_activity> run( vehicle &veh, point p );
 
         /** Prompt for a part matching the selector function */
         static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
@@ -59,7 +58,7 @@ class veh_interact
         veh_interact( vehicle &veh, point p = point_zero );
         ~veh_interact();
 
-        item_location target;
+        item *target;
 
         point dd = point_zero;
         /* starting offset for vehicle parts description display and max offset for scrolling */
@@ -113,7 +112,7 @@ class veh_interact
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
         void hide_ui( bool hide );
 
-        player_activity serialize_activity();
+        std::unique_ptr<player_activity> serialize_activity();
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::string &msg, const requirement_data &reqs,

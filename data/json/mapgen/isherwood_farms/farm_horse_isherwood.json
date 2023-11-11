@@ -14,12 +14,19 @@
         { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 0, 23 ] },
         { "id": "isherwood_family", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "isherwood_family", "x": [ 72, 95 ], "y": [ 0, 23 ] },
         { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 24, 47 ] },
         { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 24, 47 ] },
         { "id": "isherwood_family", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "id": "isherwood_family", "x": [ 72, 95 ], "y": [ 24, 47 ] },
         { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 48, 71 ] },
         { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 48, 71 ] },
-        { "id": "isherwood_family", "x": [ 48, 71 ], "y": [ 48, 71 ] }
+        { "id": "isherwood_family", "x": [ 48, 71 ], "y": [ 48, 71 ] },
+        { "id": "isherwood_family", "x": [ 72, 95 ], "y": [ 48, 71 ] },
+        { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 72, 95 ] },
+        { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 72, 95 ] },
+        { "id": "isherwood_family", "x": [ 48, 71 ], "y": [ 72, 95 ] },
+        { "id": "isherwood_family", "x": [ 72, 95 ], "y": [ 72, 95 ] }
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -374,6 +381,7 @@
     "method": "json",
     "om_terrain": "horse_farm_isherwood_13_2ndfloor",
     "object": {
+      "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         "                        ",

@@ -1,23 +1,25 @@
 #include "rot.h"
 
-#include "item_location.h"
+#include "item.h"
 #include "map.h"
 #include "vehicle.h"
 #include "vehicle_part.h"
-#include "units.h"
 #include "veh_type.h"
 #include "vpart_position.h"
 
 namespace rot
 {
-temperature_flag temperature_flag_for_location( const map &m, const item_location &loc )
+
+auto temperature_flag_for_location( const map &m, const item &loc ) -> temperature_flag
 {
+    if( !loc.has_position() ) {
+        return temperature_flag::TEMP_NORMAL;
+    }
+
     switch( loc.where() ) {
-        case item_location::type::invalid:
+        case item_location_type::character:
             return temperature_flag::TEMP_NORMAL;
-        case item_location::type::character:
-            return temperature_flag::TEMP_NORMAL;
-        case item_location::type::map: {
+        case item_location_type::map: {
             tripoint pos = loc.position();
             if( m.has_flag_furn( TFLAG_FREEZER, pos ) ) {
                 return temperature_flag::TEMP_FREEZER;
@@ -28,10 +30,9 @@ temperature_flag temperature_flag_for_location( const map &m, const item_locatio
             if( m.ter( pos ) == t_rootcellar ) {
                 return temperature_flag::TEMP_ROOT_CELLAR;
             }
-
             return temperature_flag::TEMP_NORMAL;
         }
-        case item_location::type::vehicle: {
+        case item_location_type::vehicle: {
             tripoint pos = loc.position();
             optional_vpart_position veh = m.veh_at( pos );
             if( !veh ) {
@@ -45,16 +46,15 @@ temperature_flag temperature_flag_for_location( const map &m, const item_locatio
             }
             return temperature_flag_for_part( veh->vehicle(), cargo_index );
         }
-        case item_location::type::container:
-            return temperature_flag_for_location( m, loc.parent_item() );
+        case item_location_type::container:
+            return temperature_flag_for_location( m, *loc.parent_item() );
         default:
             debugmsg( "Invalid item location %d", static_cast<int>( loc.where() ) );
             return temperature_flag::TEMP_NORMAL;
-
     }
 }
 
-temperature_flag temperature_flag_for_part( const vehicle &veh, size_t part_index )
+auto temperature_flag_for_part( const vehicle &veh, size_t part_index ) -> temperature_flag
 {
     const vehicle_part &part = veh.cpart( part_index );
     const vpart_info &info = part.info();

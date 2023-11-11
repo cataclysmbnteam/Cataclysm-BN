@@ -1149,6 +1149,7 @@
       [ "photo_album", 10 ],
       [ "lighter", 60 ],
       [ "ref_lighter", 2 ],
+      [ "electric_lighter", 2 ],
       [ "sewing_kit", 30 ],
       [ "thread", 40 ],
       [ "flashlight", 40 ],
