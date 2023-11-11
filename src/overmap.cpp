@@ -4876,12 +4876,12 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
     return straight_path( source, dir, actual_len );
 }
 
-void overmap::build_connection(
+bool overmap::build_connection(
     const overmap_connection &connection, const pf::directed_path<point_om_omt> &path, int z,
     const om_direction::type &initial_dir )
 {
     if( path.nodes.empty() ) {
-        return;
+        return false;
     }
 
     om_direction::type prev_dir = initial_dir;
@@ -4898,7 +4898,7 @@ void overmap::build_connection(
         if( !subtype ) {
             debugmsg( "No suitable subtype of connection \"%s\" found for \"%s\".", connection.id.c_str(),
                       ter_id.id().c_str() );
-            return;
+            return false;
         }
 
         if( subtype->terrain->is_linear() ) {
@@ -4950,7 +4950,7 @@ void overmap::build_connection(
 
             if( new_line == om_lines::invalid ) {
                 debugmsg( "Invalid path for connection \"%s\".", connection.id.c_str() );
-                return;
+                return false;
             }
 
             ter_set( pos, subtype->terrain->get_linear( new_line ) );
@@ -4962,15 +4962,16 @@ void overmap::build_connection(
 
         prev_dir = new_dir;
     }
+    return true;
 }
 
-void overmap::build_connection( const point_om_omt &source, const point_om_omt &dest, int z,
+bool overmap::build_connection( const point_om_omt &source, const point_om_omt &dest, int z,
                                 const overmap_connection &connection, const bool must_be_unexplored,
                                 const om_direction::type &initial_dir )
 {
-    build_connection(
-        connection, lay_out_connection( connection, source, dest, z, must_be_unexplored ),
-        z, initial_dir );
+    return build_connection(
+               connection, lay_out_connection( connection, source, dest, z, must_be_unexplored ),
+               z, initial_dir );
 }
 
 void overmap::connect_closest_points( const std::vector<point_om_omt> &points, int z,
@@ -5422,18 +5423,30 @@ std::vector<tripoint_om_omt> overmap::place_special(
             if( initial_dir != om_direction::type::invalid ) {
                 initial_dir = om_direction::add( initial_dir, node.rot );
             }
+            bool linked = false;
             if( cit && elem.connection->pick_subtype_for( ter( tripoint_om_omt{ cit.pos, rp.z() } ) ) ) {
-                build_connection( cit.pos, rp.xy(), rp.z(), *elem.connection,
-                                  must_be_unexplored, initial_dir );
-            }
-            // if no city present, search for nearby road within 50 tiles and make connection to it instead
-            else {
+                linked = build_connection( cit.pos, rp.xy(), rp.z(), *elem.connection,
+                                           must_be_unexplored, initial_dir );
+            } else {
+                // if no city present, search for nearby connection within 50 tiles and link there instead
                 for( const tripoint_om_omt &nearby_point : closest_points_first( rp, 50 ) ) {
-                    if( check_ot( elem.connection->id->default_terrain.str(), ot_match_type::type, nearby_point ) ) {
+                    if( std::find( result.begin(), result.end(), nearby_point ) != result.end() ) {
+                        continue;
+                    }
+                    if( check_ot( elem.connection->id->default_terrain.str(), ot_match_type::type, nearby_point ) &&
                         build_connection( nearby_point.xy(), rp.xy(), rp.z(), *elem.connection,
-                                          must_be_unexplored, initial_dir );
+                                          must_be_unexplored, initial_dir ) ) {
+                        linked = true;
+                        break;
                     }
                 }
+            }
+            if( !linked && initial_dir != om_direction::type::invalid &&
+                elem.connection->can_start_at( ter( rp ) ) ) {
+                // if nothing found, make a stub for a clean break, and also to connect other specials here later on
+                pf::directed_path<point_om_omt> stub;
+                stub.nodes.emplace_back( rp.xy(), om_direction::opposite( initial_dir ) );
+                linked = build_connection( *elem.connection, stub, rp.z() );
             }
         }
     }
