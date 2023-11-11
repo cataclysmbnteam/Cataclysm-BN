@@ -693,6 +693,6 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "sewing_standard", 10 ], [ "steel_tiny", 2 ] ],
-    "components": [ [ [ "skirt_armor", 1 ] ] ]
+    "components": [ [ [ "skirt_armor_leather", 1 ] ] ]
   }
 ]

@@ -591,6 +591,6 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 2 ] ],
     "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "leather", 4 ] ] ]
+    "components": [ [ [ "leather", 6 ] ] ]
   }
 ]
