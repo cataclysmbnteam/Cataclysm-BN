@@ -8627,12 +8627,12 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
                 qty -= n;
 
                 if( n == e->ammo_remaining() ) {
-                    used.push_back( std::move( e ) );
-                    return detached_ptr<item>();
-                } else {
+                    used.push_back( item::spawn( *e ) );
                     e->ammo_consume( n, pos );
+                } else {
                     detached_ptr<item> split = item::spawn( *e );
-                    split->charges = n;
+                    split->ammo_set( e->ammo_current(), n );
+                    e->ammo_consume( n, pos );
                     used.push_back( std::move( split ) );
                 }
             }
