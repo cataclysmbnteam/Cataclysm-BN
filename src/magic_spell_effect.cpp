@@ -29,6 +29,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "game.h"
+#include "handle_liquid.h"
 #include "item.h"
 #include "line.h"
 #include "magic.h"
@@ -751,7 +752,9 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
         granted->charges = sp.damage();
     }
     avatar &you = get_avatar();
-    if( you.can_wear( *granted ).success() ) {
+    if( granted->made_of( LIQUID ) ) {
+        liquid_handler::consume_liquid( std::move( granted ), 1 );
+    } else if( you.can_wear( *granted ).success() ) {
         granted->set_flag( flag_id( "FIT" ) );
         you.wear_item( std::move( granted ), false );
     } else if( !you.is_armed() && !you.martial_arts_data->keep_hands_free ) {
