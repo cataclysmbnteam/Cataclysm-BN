@@ -2119,9 +2119,7 @@
     "transforms_into": "t_tree_cacao_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [
-      { "seasons": [ "summer" ], "entries": [ { "drop": "cacao_pod", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] }
-    ],
+    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "cacao_pod", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -2164,7 +2162,7 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_coca_harvested",
     "examine_action": "harvest_ter",
-	"looks_like": "t_tree_young",
+    "looks_like": "t_tree_young",
     "harvest_by_season": [
       {
         "seasons": [ "spring", "summer", "autumn" ],
@@ -2191,7 +2189,7 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "HARVESTED" ],
     "transforms_into": "t_tree_coca",
     "examine_action": "harvested_plant",
-	"looks_like": "t_tree_young",
+    "looks_like": "t_tree_young",
     "bash": {
       "str_min": 4,
       "str_max": 50,
