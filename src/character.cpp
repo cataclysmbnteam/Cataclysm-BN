@@ -2846,6 +2846,11 @@ void Character::inv_unsort()
     inv.unsort();
 }
 
+detached_ptr<item> Character::inv_remove_item(item* it)
+{
+    return inv.remove_item(it);
+}
+
 detached_ptr<item> Character::i_rem( int pos )
 {
     if( pos == -1 ) {
@@ -2860,23 +2865,6 @@ detached_ptr<item> Character::i_rem( int pos )
         return ret ;
     }
     return inv.remove_item( pos );
-}
-
-detached_ptr<item> Character::i_rem( const item *it )
-{
-    detached_ptr<item> ret;
-    remove_items_with( [&it, &ret]( detached_ptr<item> &&i ) {
-        if( &*i == it ) {
-            ret = std::move( i );
-            return VisitResponse::ABORT;
-        }
-        return VisitResponse::SKIP;
-    } );
-    if( !ret ) {
-        debugmsg( "did not found item %s to remove it!", it->tname() );
-        return detached_ptr<item>();
-    }
-    return ret ;
 }
 
 detached_ptr<item> Character::i_rem_keep_contents( const int idx )
@@ -7778,7 +7766,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     if( used->is_tool() || used->is_medication() || used->get_contained().is_medication() ) {
         return consume_charges( *actually_used, charges_used );
     } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
-        i_rem( used );
+        used->detach();
         return true;
     }
 
@@ -7959,7 +7947,7 @@ bool Character::consume_charges( item &used, int qty )
     if( used.is_food() || used.is_medication() ) {
         used.charges -= qty;
         if( used.charges <= 0 ) {
-            i_rem( &used );
+            used.detach();
             return true;
         }
         return false;
@@ -7967,7 +7955,7 @@ bool Character::consume_charges( item &used, int qty )
 
     // Tools which don't require ammo are instead destroyed
     if( used.is_tool() && !used.ammo_required() ) {
-        i_rem( &used );
+        used.detach();
         return true;
     }
 

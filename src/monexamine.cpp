@@ -618,7 +618,7 @@ void monexamine::attach_bag_to( monster &z )
     }
 
     item &it = *loc;
-    z.set_storage_item( you.i_rem( &it ) );
+    z.set_storage_item( it.detach( ) );
     add_msg( _( "You mount the %1$s on your %2$s." ), it.display_name(), pet_name );
     z.add_effect( effect_has_bag, 1_turns, num_bp );
     // Update encumbrance in case we were wearing it
@@ -829,7 +829,7 @@ void monexamine::add_leash( monster &z )
         return;
     }
     item *rope_item = rope_inv[index - 1];
-    z.set_tied_item( player.i_rem( rope_item ) );
+    z.set_tied_item( rope_item->detach( ) );
     z.add_effect( effect_leashed, 1_turns );
     z.get_effect( effect_leashed ).set_permanent();
     add_msg( _( "You add a leash to your %s." ), z.get_name() );

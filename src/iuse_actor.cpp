@@ -414,7 +414,7 @@ int unpack_actor::use( player &p, item &it, bool, const tripoint & ) const
         here.add_item_or_charges( p.pos(), std::move( content ) );
     }
 
-    p.i_rem( &it );
+    it.detach( );
 
     return 0;
 }

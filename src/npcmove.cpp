@@ -4088,7 +4088,7 @@ void npc::mug_player( Character &mark )
         return;
     }
     if( !is_hallucination() ) {
-        i_add( mark.i_rem( to_steal ) );
+        i_add( to_steal->detach( ) );
         if( mark.is_npc() ) {
             if( u_see ) {
                 add_msg( _( "%1$s takes %2$s's %3$s." ), name, mark.name, to_steal->tname() );
