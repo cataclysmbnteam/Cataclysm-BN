@@ -3123,40 +3123,34 @@ std::vector<item *> npc_pickup_from_stack( npc &who, T &items )
     auto min_value = whitelisting ? 0 : who.minimum_item_value();
     std::vector<item *> picked_up;
 
-    for( auto iter = items.begin(); iter != items.end(); ) {
-        item &it = **iter;
+    for( auto &iter : items ) {
+        item &it = *iter;
         if( it.made_of( LIQUID ) ) {
-            iter++;
             continue;
         }
 
         if( whitelisting && !who.item_whitelisted( it ) ) {
-            iter++;
             continue;
         }
 
         auto volume = it.volume();
         if( volume > volume_allowed ) {
-            iter++;
             continue;
         }
 
         auto weight = it.weight();
         if( weight > weight_allowed ) {
-            iter++;
             continue;
         }
 
         int itval = whitelisting ? 1000 : who.value( it );
         if( itval < min_value ) {
-            iter++;
             continue;
         }
 
         volume_allowed -= volume;
         weight_allowed -= weight;
         picked_up.push_back( &it );
-        iter = items.erase( iter );
     }
 
     return picked_up;
