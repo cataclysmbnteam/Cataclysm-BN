@@ -27,7 +27,7 @@
       "x": "t_console_broken",
       "]": "t_sidewalk",
       "*": "t_region_shrub_decorative",
-      "?": [ "t_region_shrub_decorative", "t_region_tree_shade" ],
+      "?": [ "t_region_shrub_decorative", "t_region_tree_shade", "t_tree_cacao", "t_tree_coca" ],
       "A": "t_atm",
       "<": "t_stairs_up",
       ">": "t_stairs_down",

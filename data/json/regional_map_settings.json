@@ -65,7 +65,9 @@
           "t_tree_mulberry": 2,
           "t_tree_deadpine": 16,
           "t_tree_hickory_dead": 16,
-          "t_tree_dead": 16
+          "t_tree_dead": 16,
+          "t_tree_cacao": 2,
+          "t_tree_coca": 2
         },
         "t_region_tree_shade": {
           "t_tree": 64,
@@ -81,7 +83,9 @@
           "t_tree_coffee": 2,
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
-          "t_tree_dead": 2
+          "t_tree_dead": 2,
+          "t_tree_cacao": 2,
+          "t_tree_coca": 2
         },
         "t_region_tree_fruit": {
           "t_tree_young": 4,
@@ -93,7 +97,8 @@
           "t_tree_plum": 2,
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
-          "t_tree_dead": 4
+          "t_tree_dead": 4,
+          "t_tree_cacao": 2
         },
         "t_region_tree_nut": {
           "t_tree_young": 4,
