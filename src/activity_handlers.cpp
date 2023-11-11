@@ -2969,7 +2969,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     if( rng( 0, 100 ) <= roll ) {
         add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
                  gun.tname() );
-        gun.put_in(  mod.detach() );
+        gun.put_in( mod.detach() );
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {

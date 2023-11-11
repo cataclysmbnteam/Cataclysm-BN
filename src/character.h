@@ -1228,7 +1228,7 @@ class Character : public Creature, public location_visitable<Character>
 
         void inv_restack();
 
-        detached_ptr<item> inv_remove_item(item *);
+        detached_ptr<item> inv_remove_item( item * );
 
         units::volume inv_volume() const;
 

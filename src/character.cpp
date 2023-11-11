@@ -2846,9 +2846,9 @@ void Character::inv_unsort()
     inv.unsort();
 }
 
-detached_ptr<item> Character::inv_remove_item(item* it)
+detached_ptr<item> Character::inv_remove_item( item *it )
 {
-    return inv.remove_item(it);
+    return inv.remove_item( it );
 }
 
 detached_ptr<item> Character::i_rem( int pos )
