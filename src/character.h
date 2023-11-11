@@ -1228,6 +1228,8 @@ class Character : public Creature, public location_visitable<Character>
 
         void inv_restack();
 
+        detached_ptr<item> inv_remove_item( item * );
+
         units::volume inv_volume() const;
 
         void inv_unsort();
@@ -1322,7 +1324,6 @@ class Character : public Creature, public location_visitable<Character>
          * in the players possession (one can use @ref has_item to check for this).
          * @return A copy of the removed item.
          */
-        detached_ptr<item> i_rem( const item *it );
         detached_ptr<item> i_rem_keep_contents( int idx );
         /** Sets invlet and adds to inventory if possible, drops otherwise.*/
         detached_ptr<item> i_add_or_drop( detached_ptr<item> &&it );

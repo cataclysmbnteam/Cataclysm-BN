@@ -358,7 +358,7 @@ static void move_item( player &p, item &it, const inventory_location from,
                     break;
                 case INVENTORY:
                     if( p.is_wielding( it ) ) {
-                        p.i_add( p.i_rem( &it ) );
+                        p.i_add( it.detach( ) );
                     } else {
                         p.takeoff( it );
                     }

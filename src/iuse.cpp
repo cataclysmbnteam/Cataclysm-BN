@@ -1849,7 +1849,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
         }
         it->active = true;
         it->set_age( 0_turns );
-        g->m.add_item_or_charges( pnt, p->i_rem( it ) );
+        g->m.add_item_or_charges( pnt, it->detach() );
         p->add_msg_if_player( m_info,
                               _( "You place the fish trap, in three hours or so you may catch some fish." ) );
 
@@ -4675,7 +4675,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
             if( it->inc_damage( DT_ACID ) ) {
                 p->add_msg_if_player( m_info, _( "…but acidic blood melts the %s, destroying it!" ),
                                       it->tname() );
-                p->i_rem( it );
+                it->detach();
                 return 0;
             }
             p->add_msg_if_player( m_info, _( "…but acidic blood damages the %s!" ), it->tname() );
@@ -4785,7 +4785,7 @@ int iuse::lumber( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
-    p->i_rem( &*loc );
+    loc->detach();
     cut_log_into_planks( *p );
     return it->type->charges_to_use();
 }
@@ -8007,7 +8007,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
                 p->moves -= to_moves<int>( 3_seconds );
                 p->add_msg_if_player( _( "You armed your RC car with %s." ),
                                       put.tname() );
-                it->put_in( p->i_rem( &put ) );
+                it->put_in( put.detach( ) );
             } else if( !put.has_flag( flag_RADIOCARITEM ) ) {
                 p->add_msg_if_player( _( "RC car with %s?  How?" ),
                                       put.tname() );

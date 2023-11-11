@@ -647,7 +647,7 @@ std::vector<detached_ptr<item>> obtain_and_tokenize_items( player &p, std::list<
         } else if( ait.loc->count_by_charges() ) {
             res.push_back( p.reduce_charges( const_cast<item *>( &*ait.loc ), ait.count ) );
         } else {
-            res.push_back( p.i_rem( &*ait.loc ) );
+            res.push_back( ait.loc->detach() );
         }
 
         // TODO: Get the item consistently instead of using back()
@@ -2049,7 +2049,7 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
         for( item *inv_elem : p.inv_dump() ) {
             if( inv_elem->has_var( "activity_var" ) ) {
                 inv_elem->erase_var( "activity_var" );
-                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, p.i_rem( inv_elem ),
+                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, inv_elem->detach(),
                                           src_loc );
             }
         }

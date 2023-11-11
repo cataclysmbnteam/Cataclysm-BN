@@ -679,7 +679,7 @@ bool ranged::handle_gun_damage( Character &shooter, item &it )
                         shooter.add_msg_player_or_npc( m_bad, _( "Your attached %s is destroyed by your shot!" ),
                                                        _( "<npcname>'s attached %s is destroyed by their shot!" ),
                                                        mod->tname() );
-                        shooter.i_rem( mod );
+                        mod->detach();
                     } else if( it.damage() > initstate ) {
                         shooter.add_msg_player_or_npc( m_bad, _( "Your attached %s is damaged by your shot!" ),
                                                        _( "<npcname>'s %s is damaged by their shot!" ),

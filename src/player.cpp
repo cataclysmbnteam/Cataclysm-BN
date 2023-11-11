@@ -168,7 +168,7 @@ detached_ptr<item> player::reduce_charges( item *it, int quantity )
         return detached_ptr<item>();
     }
     if( it->charges <= quantity ) {
-        return i_rem( it );
+        return it->detach();
     }
     it->mod_charges( -quantity );
 

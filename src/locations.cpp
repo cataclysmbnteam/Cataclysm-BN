@@ -75,7 +75,7 @@ std::string fake_item_location::describe( const Character *, const item * ) cons
 
 detached_ptr<item> character_item_location::detach( item *it )
 {
-    return holder->i_rem( it );
+    return holder->inv_remove_item( it );
 }
 
 void character_item_location::attach( detached_ptr<item> &&obj )

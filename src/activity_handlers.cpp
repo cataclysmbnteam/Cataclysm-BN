@@ -2969,7 +2969,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     if( rng( 0, 100 ) <= roll ) {
         add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
                  gun.tname() );
-        gun.put_in( p->i_rem( &mod ) );
+        gun.put_in( mod.detach() );
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {
@@ -2981,7 +2981,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
             }
             add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname(),
                      gun.tname() );
-            p->i_rem( &gun );
+            gun.detach( );
         } else {
             add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname(),
                      gun.tname() );
