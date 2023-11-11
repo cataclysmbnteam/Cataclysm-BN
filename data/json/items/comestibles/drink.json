@@ -1009,7 +1009,7 @@
     "symbol": "~",
     "quench": 40,
     "calories": 2,
-    "description": "An aromatic drink made by pouring hot water over the leaves of the coca tree. Drinking it can give you a mild high from the cocaine content, but if you drink it too often, it can cause addiction.",
+    "description": "An aromatic drink made by pouring hot water over the leaves of the coca tree.  Drinking it can give you a mild high from the cocaine content, but if you drink it too often, it can cause addiction.",
     "price": 90,
     "price_postapoc": 40,
     "addiction_potential": 4,

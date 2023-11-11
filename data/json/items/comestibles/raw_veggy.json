@@ -751,7 +751,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 17,
-    "description": "Coca leaves. Have a long history of medicinal and culinary uses, and can produce a mild high when chewed. You can boil them into tea or you can just eat them raw. Can cause addiction if consumed in large quantities.",
+    "description": "Coca leaves.  Have a long history of medicinal and culinary uses, and can produce a mild high when chewed.  You can boil them into tea or you can just eat them raw.  Can cause addiction if consumed in large quantities.",
     "price": 18,
     "price_postapoc": 24,
     "addiction_potential": 6,

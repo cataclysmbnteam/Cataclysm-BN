@@ -256,7 +256,7 @@
     "name": { "str_sp": "cacao nib" },
     "symbol": "%",
     "color": "brown",
-    "description": "Fermented and roasted cacao beans, the most primitive form of chocolate. Can be ground and made into chocolate.",
+    "description": "Fermented and roasted cacao beans, the most primitive form of chocolate.  Can be ground and made into chocolate.",
     "comestible_type": "FOOD",
     "addiction_type": "caffeine",
     "addiction_potential": 1,

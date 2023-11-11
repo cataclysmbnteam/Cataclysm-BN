@@ -55,7 +55,7 @@
     "healthy": 1,
     "stim": 1,
     "calories": 403,
-    "description": "The cacao fruit, scientifically known as Theobroma cacao, is the source of cocoa beans used to make chocolate. It is a tropical fruit that contains cocoa beans surrounded by a sweet-tasting, white pulp. The beans are harvested, fermented, and processed to produce various chocolate products.",
+    "description": "The cacao fruit, scientifically known as Theobroma cacao, is the source of cocoa beans used to make chocolate.  It is a tropical fruit that contains cocoa beans surrounded by a sweet-tasting, white pulp.  The beans are harvested, fermented, and processed to produce various chocolate products.",
     "price": 500,
     "price_postapoc": 200,
     "material": "fruit",
