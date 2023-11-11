@@ -8631,7 +8631,7 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
                     e->ammo_consume( n, pos );
                 } else {
                     detached_ptr<item> split = item::spawn( *e );
-                    split->ammo_set(e->ammo_current(), n);
+                    split->ammo_set( e->ammo_current(), n );
                     e->ammo_consume( n, pos );
                     used.push_back( std::move( split ) );
                 }

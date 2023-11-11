@@ -10294,7 +10294,7 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
                     e->ammo_consume( n, p );
                 } else {
                     detached_ptr<item> split = item::spawn( *e );
-                    split->ammo_set(e->ammo_current(), n);
+                    split->ammo_set( e->ammo_current(), n );
                     e->ammo_consume( n, p );
                     res.push_back( std::move( split ) );
                 }
