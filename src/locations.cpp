@@ -477,12 +477,16 @@ std::string vehicle_base_item_location::describe( const Character *, const item 
 
 detached_ptr<item> contents_item_location::detach( item *it )
 {
-    return container->contents.remove_top( it );
+
+    detached_ptr<item> ret = container->contents.remove_top( it );
+    container->on_contents_changed();
+    return ret;
 }
 
 void contents_item_location::attach( detached_ptr<item> &&obj )
 {
     container->contents.insert_item( std::move( obj ) );
+    container->on_contents_changed();
 }
 
 bool contents_item_location::is_loaded( const item * ) const
