@@ -3192,9 +3192,7 @@ void veh_interact::complete_vehicle( player &p )
                     p.add_msg_if_player( m_good, _( "You completely refill the %1$s's %2$s." ), veh->name, pt.name() );
                 }
 
-                if( src->contents.front().charges == 0 ) {
-                    src->remove_item( src->contents.front() );
-                } else {
+                if( !src->contents.empty() ) {
                     p.add_msg_if_player( m_good, _( "There's some left over!" ) );
                 }
 
