@@ -61,10 +61,10 @@
           [ { "id": "WRENCH" } ]
         ],
         "components": [
-          [ [ "2x4", 113 ] ],
+          [ [ "2x4", 112 ] ],
           [ [ "glass_sheet", 1 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "nail", 274 ] ],
+          [ [ "nail", 272 ] ],
           [ [ "pipe", 36 ] ],
           [ [ "sheet_metal", 6 ] ],
           [ [ "steel_plate", 24 ] ],
