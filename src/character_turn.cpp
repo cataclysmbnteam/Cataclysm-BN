@@ -760,6 +760,20 @@ void Character::reset_stats()
     mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
     mod_dodge_bonus( std::floor( mutation_value( "dodge_modifier" ) ) );
 
+    mod_str_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::STRENGTH, get_str_base(), true ) );
+    mod_dex_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::DEXTERITY, get_dex_base(),
+                   true ) );
+    mod_per_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::PERCEPTION, get_per_base(),
+                   true ) );
+    mod_int_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::INTELLIGENCE, get_int_base(),
+                   true ) );
+
+    mod_num_dodges_bonus( enchantment_cache->calc_bonus(
+                              enchant_vals::mod::BONUS_DODGE,
+                              get_num_dodges_base(),
+                              true
+                          ) );
+
     apply_skill_boost();
 
     nv_cached = false;
@@ -787,20 +801,6 @@ void Character::reset_stats()
     if( int_cur < 0 ) {
         int_cur = 0;
     }
-
-    mod_str_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::STRENGTH, get_str_base(), true ) );
-    mod_dex_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::DEXTERITY, get_dex_base(),
-                   true ) );
-    mod_per_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::PERCEPTION, get_per_base(),
-                   true ) );
-    mod_int_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::INTELLIGENCE, get_int_base(),
-                   true ) );
-
-    mod_num_dodges_bonus( enchantment_cache->calc_bonus(
-                              enchant_vals::mod::BONUS_DODGE,
-                              get_num_dodges_base(),
-                              true
-                          ) );
 
     recalc_sight_limits();
     recalc_speed_bonus();
