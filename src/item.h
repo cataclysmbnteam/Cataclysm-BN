@@ -593,7 +593,7 @@ class item : public location_visitable<item>, public game_object<item>
          * Merging is only done for items counted by charges (@ref count_by_charges) and
          * items that stack together (@ref stacks_with).
          */
-        bool merge_charges( detached_ptr<item> &&rhs );
+        bool merge_charges( detached_ptr<item> &&rhs, bool force = false );
 
         units::mass weight( bool include_contents = true, bool integral = false ) const;
 

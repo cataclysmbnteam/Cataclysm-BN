@@ -494,6 +494,12 @@ bool contents_item_location::is_loaded( const item * ) const
     return container->is_loaded();
 }
 
+void contents_item_location::on_changed( const item * ) const
+{
+    return container->on_contents_changed();
+}
+
+
 item_location_type contents_item_location::where() const
 {
     return item_location_type::container;

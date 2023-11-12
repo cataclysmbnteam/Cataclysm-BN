@@ -1529,6 +1529,7 @@ detached_ptr<item> Character::consume_item( detached_ptr<item> &&target )
             if( comest.charges <= 0 ) {
                 comest.detach();
             }
+            target->on_contents_changed();
             return std::move( target );
         }
     }
