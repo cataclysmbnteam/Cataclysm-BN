@@ -10,15 +10,17 @@
     "coverage": 60,
     "required_str": 10,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 10 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 2 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": 8 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "splinter", "count": [ 5, 10 ] }
+      ]
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
@@ -34,9 +36,7 @@
     "coverage": 55,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 3 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": 8 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -46,7 +46,7 @@
         { "item": "2x4", "count": [ 1, 3 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] },
         { "item": "nail", "charges": [ 2, 6 ] },
-        { "item": "splinter", "count": 1 }
+        { "item": "splinter", "count": [ 5, 10 ] }
       ]
     },
     "examine_action": "workbench",
@@ -66,13 +66,18 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "ORGANIC" ],
     "//connects_to": "COUNTER",
     "open": "f_counter_gate_o",
-    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "hinge", "count": 2 }, { "item": "nail", "charges": 10 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 2, 6 ] },
+        { "item": "hinge", "charges": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "splinter", "count": [ 5, 10 ] }
+      ]
     }
   },
   {
@@ -87,13 +92,18 @@
     "//connects_to": "COUNTER",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "ORGANIC" ],
     "close": "f_counter_gate_c",
-    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "hinge", "count": 2 }, { "item": "nail", "charges": 10 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 2, 6 ] },
+        { "item": "hinge", "charges": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "splinter", "count": [ 5, 10 ] }
+      ]
     }
   },
   {
@@ -107,9 +117,7 @@
     "coverage": 45,
     "required_str": 5,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 8 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 16, 24 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 8 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": 24 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -258,9 +266,7 @@
     "coverage": 50,
     "required_str": 5,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 8 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -288,9 +294,7 @@
     "coverage": 50,
     "required_str": 5,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 2 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 2 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 8 } ] },
     "bash": {
       "str_min": 10,
       "str_max": 50,
