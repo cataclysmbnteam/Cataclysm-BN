@@ -182,6 +182,15 @@ struct hash<pos_dir<Tripoint>> {
 };
 } // namespace std
 
+struct overmap_connection_cache {
+    std::map<overmap_connection_id, std::map<int, std::vector<point_om_omt>>> cache;
+
+    const std::vector<point_om_omt> &get_all( const overmap_connection_id &id, const int z );
+    std::vector<point_om_omt> get_closests( const overmap_connection_id &id, const int z,
+                                            const point_om_omt &pos );
+    void add( const overmap_connection_id &id, const int z, const point_om_omt &pos );
+};
+
 class overmap
 {
     public:
@@ -320,6 +329,7 @@ class overmap
         std::vector<basecamp> camps;
         std::vector<city> cities;
         std::map<overmap_connection_id, std::vector<tripoint_om_omt>> connections_out;
+        std::optional<overmap_connection_cache> connection_cache;
         std::optional<basecamp *> find_camp( const point_abs_omt &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( const shared_ptr_fast<npc> &who );

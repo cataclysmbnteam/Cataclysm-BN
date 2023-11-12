@@ -846,6 +846,10 @@ the frequency assigned to the city building within the `region_settings`. Consul
 | `id`              | Unique id.                                                                                      |
 | `default_terrain` | Default `overmap_terrain` to use for undirected connections and existance checks.               |
 | `subtypes`        | List of entries used to determine valid locations, terrain cost, and resulting overmap terrain. |
+| `layout`          | (Optional) Connections layout, default is `city`.                                               |
+
+With `city` layout each connection point will be linked to the center of closest city. With `p2p`
+layout each connection point will be linked to the closest connection of same type.
 
 ### Example
 

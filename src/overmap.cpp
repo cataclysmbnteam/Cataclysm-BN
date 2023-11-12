@@ -3150,6 +3150,7 @@ void overmap::generate( const overmap *north, const overmap *east,
 
     dbg( DL::Info ) << "overmap::generate start";
 
+    connection_cache = overmap_connection_cache{};
     populate_connections_out_from_neighbors( north, east, south, west );
 
     place_rivers( north, east, south, west );
@@ -3185,6 +3186,9 @@ void overmap::generate( const overmap *north, const overmap *east,
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
     place_radios();
+
+    connection_cache.reset();
+
     dbg( DL::Info ) << "overmap::generate done";
 }
 
@@ -3192,7 +3196,6 @@ bool overmap::generate_sub( const int z )
 {
     // We need to generate at least 3 z-levels for labs
     bool requires_sub = z > -4;
-    std::vector<point_om_omt> subway_points;
     std::vector<point_om_omt> sewer_points;
 
     std::vector<city> goo_points;
@@ -3242,21 +3245,6 @@ bool overmap::generate_sub( const int z )
     for( auto &i : goo_points ) {
         requires_sub |= build_slimepit( tripoint_om_omt( i.pos, z ), i.size );
     }
-
-    // Connect subways of cities
-    const overmap_connection_id subway_tunnel( "subway_tunnel" );
-    for( const auto &elem : cities ) {
-        if( subway_tunnel->has( ter( tripoint_om_omt( elem.pos, z ) ) ) ) {
-            subway_points.emplace_back( elem.pos );
-        }
-    }
-    // Connect outer subways
-    for( const auto &p : connections_out[subway_tunnel] ) {
-        if( p.z() == z ) {
-            subway_points.emplace_back( p.xy() );
-        }
-    }
-    connect_closest_points( subway_points, z, *subway_tunnel );
 
     const overmap_connection_id sewer_tunnel( "sewer_tunnel" );
     connect_closest_points( sewer_points, z, *sewer_tunnel );
@@ -4876,6 +4864,46 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
     return straight_path( source, dir, actual_len );
 }
 
+const std::vector<point_om_omt> &overmap_connection_cache::get_all( const overmap_connection_id &id,
+        const int z )
+{
+    auto outer = cache.find( id );
+    if( outer != cache.end() ) {
+        auto inner = outer->second.find( z );
+        if( inner != outer->second.end() ) {
+            return inner->second;
+        }
+    }
+    // Return an empty vector if the keys do not exist
+    static const std::vector<point_om_omt> empty;
+    return empty;
+}
+
+std::vector<point_om_omt> overmap_connection_cache::get_closests(
+    const overmap_connection_id &id, const int z, const point_om_omt &pos )
+{
+    std::vector<point_om_omt> sorted = get_all( id, z );
+    std::sort( sorted.begin(), sorted.end(), [&pos]( point_om_omt & a, point_om_omt & b ) {
+        return rl_dist( pos, a ) < rl_dist( pos, b );
+    } );
+
+    return sorted;
+}
+
+void overmap_connection_cache::add( const overmap_connection_id &id, const int z,
+                                    const point_om_omt &pos )
+{
+    auto outer = cache.find( id );
+    if( outer == cache.end() ) {
+        outer = cache.emplace( id, std::map<int, std::vector<point_om_omt>> {} ).first;
+    }
+    auto inner = outer->second.find( z );
+    if( inner == outer->second.end() ) {
+        inner = outer->second.emplace( z, std::vector<point_om_omt> {} ).first;
+    }
+    inner->second.push_back( pos );
+}
+
 bool overmap::build_connection(
     const overmap_connection &connection, const pf::directed_path<point_om_omt> &path, int z,
     const om_direction::type &initial_dir )
@@ -4961,6 +4989,10 @@ bool overmap::build_connection(
         }
 
         prev_dir = new_dir;
+    }
+
+    if( connection_cache ) {
+        connection_cache->add( connection.id, z, start.pos );
     }
     return true;
 }
@@ -5419,31 +5451,47 @@ std::vector<tripoint_om_omt> overmap::place_special(
         const overmap_special_connection &elem = *node.connection;
         if( elem.connection ) {
             const tripoint_om_omt rp = node.origin + om_direction::rotate( elem.p, node.rot );
+            if( !elem.connection->can_start_at( ter( rp ) ) ) {
+                continue;
+            }
+
             om_direction::type initial_dir = elem.initial_dir;
             if( initial_dir != om_direction::type::invalid ) {
                 initial_dir = om_direction::add( initial_dir, node.rot );
             }
+
             bool linked = false;
-            if( cit && elem.connection->pick_subtype_for( ter( tripoint_om_omt{ cit.pos, rp.z() } ) ) ) {
+            // First, try to link to city, if layout allows that
+            if( elem.connection->get_layout() == overmap_connection_layout::city && cit ) {
                 linked = build_connection( cit.pos, rp.xy(), rp.z(), *elem.connection,
                                            must_be_unexplored, initial_dir );
-            } else {
-                // if no city present, search for nearby connection within 50 tiles and link there instead
-                for( const tripoint_om_omt &nearby_point : closest_points_first( rp, 50 ) ) {
-                    if( std::find( result.begin(), result.end(), nearby_point ) != result.end() ) {
-                        continue;
-                    }
-                    if( check_ot( elem.connection->id->default_terrain.str(), ot_match_type::type, nearby_point ) &&
-                        build_connection( nearby_point.xy(), rp.xy(), rp.z(), *elem.connection,
-                                          must_be_unexplored, initial_dir ) ) {
-                        linked = true;
+            }
+            if( !linked && connection_cache ) {
+                // If no city present, try to link to closest connection
+                auto points = connection_cache->get_closests( elem.connection->id, rp.z(), rp.xy() );
+                for( const point_om_omt &pos : points ) {
+                    if( ( linked = build_connection( pos, rp.xy(), rp.z(), *elem.connection,
+                                                     must_be_unexplored, initial_dir ) ) ) {
                         break;
                     }
                 }
             }
-            if( !linked && initial_dir != om_direction::type::invalid &&
-                elem.connection->can_start_at( ter( rp ) ) ) {
-                // if nothing found, make a stub for a clean break, and also to connect other specials here later on
+            if( !linked && !connection_cache ) {
+                // Cache is cleared once generation is done, if special is spawned via debug or for
+                // mission we'll need to perform search. It is slow, but that's a rare case
+                for( const tripoint_om_omt &p : closest_points_first( rp, OMAPX ) ) {
+                    if( !inbounds( p ) || std::find( result.begin(), result.end(), p ) != result.end() ||
+                        !check_ot( elem.connection->id->default_terrain.str(), ot_match_type::type, p ) ) {
+                        continue;
+                    }
+                    if( ( linked = build_connection( p.xy(), rp.xy(), rp.z(), *elem.connection,
+                                                     must_be_unexplored, initial_dir ) ) ) {
+                        break;
+                    }
+                }
+            }
+            if( !linked && initial_dir != om_direction::type::invalid ) {
+                // If nothing found, make a stub for a clean break, and also to connect other specials here later on
                 pf::directed_path<point_om_omt> stub;
                 stub.nodes.emplace_back( rp.xy(), om_direction::opposite( initial_dir ) );
                 linked = build_connection( *elem.connection, stub, rp.z() );

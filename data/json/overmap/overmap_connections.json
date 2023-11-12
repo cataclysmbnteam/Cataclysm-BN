@@ -21,6 +21,7 @@
   {
     "type": "overmap_connection",
     "id": "subway_tunnel",
+    "layout": "p2p",
     "default_terrain": "subway",
     "subtypes": [
       { "terrain": "underground_sub_station", "locations": [  ], "flags": [ "ORTHOGONAL" ] },
