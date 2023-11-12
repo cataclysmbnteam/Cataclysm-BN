@@ -100,6 +100,7 @@ std::vector<item *> active_item_cache::get_for_processing()
                           kv.second.second.size(); //Make sure the key isn't larger than the array
         std::advance( it, kv.second.first );
 
+        kv.second.first += num_to_process + 1;
         while( num_to_process >= 0 ) {
             if( *it ) {
                 items_to_process.push_back( & **it );
@@ -116,7 +117,6 @@ std::vector<item *> active_item_cache::get_for_processing()
                 it = kv.second.second.begin();
             }
         }
-        kv.second.first += num_to_process + 1;
     }
     return items_to_process;
 }
