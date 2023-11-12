@@ -57,6 +57,11 @@
   },
   {
     "type": "overmap_location",
+    "id": "subterranean_empty",
+    "terrains": [ "empty_rock", "rock" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "subterranean_subway",
     "terrains": [ "cavern", "empty_rock", "rock", "slimepit", "subway" ]
   },
@@ -99,10 +104,5 @@
     "type": "overmap_location",
     "id": "lake_shore",
     "terrains": [ "lake_shore" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "underground_sub_station",
-    "terrains": [ "underground_sub_station" ]
   }
 ]

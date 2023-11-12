@@ -86,6 +86,7 @@ enum oter_flags {
     known_down = 0,
     known_up,
     no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
+    ignore_rotation_for_adjacency,
     river_tile,
     has_sidewalk,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
@@ -218,6 +219,9 @@ struct oter_t {
             return from_land_use_code ? type->land_use_code->color : type->color;
         }
 
+        // dir is only meaningful for rotatable, non-linear terrain.  If you
+        // need an answer that also works for linear terrain, call
+        // get_rotation() instead.
         om_direction::type get_dir() const {
             return dir;
         }
@@ -226,6 +230,7 @@ struct oter_t {
             return line;
         }
         void get_rotation_and_subtile( int &rotation, int &subtile ) const;
+        int get_rotation() const;
 
         unsigned char get_see_cost() const {
             return type->see_cost;

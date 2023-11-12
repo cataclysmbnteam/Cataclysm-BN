@@ -639,7 +639,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             direction adjacentDir[8] = {direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST};
             for( auto &elem : adjacentDir ) {
 
-                tripoint apos = tripoint( direction_XY( elem ), 0 );
+                tripoint apos = tripoint( displace_XY( elem ), 0 );
                 apos += p;
 
                 pick_up( apos, min );

@@ -1282,6 +1282,9 @@ These branches are also the valid entries for the categories of `dreams` in `dre
   NOT be generated, just ID).
 - `RIVER` It's a river tile.
 - `SIDEWALK` Has sidewalks on the sides adjacent to roads.
+- `IGNORE_ROTATION_FOR_ADJACENCY` When mapgen for this OMT performs neighbour checks, the directions
+  will be treated as absolute, rather than rotated to account for the rotation of the mapgen itself.
+  Probably only useful for hardcoded mapgen.
 - `LAKE` Consider this location to be a valid lake terrain for mapgen purposes.
 - `LAKE_SHORE` Consider this location to be a valid lake shore terrain for mapgen purposes.
 - `SOURCE_FUEL` For NPC AI, this location may contain fuel for looting.

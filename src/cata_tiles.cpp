@@ -3677,7 +3677,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
                 const auto direction = iter->getDirecton();
                 // Compensate for string length offset added at SCT creation
                 // (it will be readded using font size and proper encoding later).
-                const int direction_offset = ( -direction_XY( direction ).x + 1 ) * full_text_length / 2;
+                const int direction_offset = ( -displace_XY( direction ).x + 1 ) * full_text_length / 2;
 
                 overlay_strings.emplace(
                     player_to_screen( iD + point( direction_offset, 0 ) ),

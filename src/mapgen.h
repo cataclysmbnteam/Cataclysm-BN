@@ -456,7 +456,6 @@ enum room_type {
 
 // helpful functions
 bool connects_to( const oter_id &there, int dir );
-void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down = false );
 // wrappers for map:: functions
 void line( map *m, const ter_id &type, point p1, point p2 );
 void line_furn( map *m, const furn_id &type, point p1, point p2 );

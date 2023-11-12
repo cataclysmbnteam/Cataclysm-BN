@@ -1,0 +1,244 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "Anthill",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty" ],
+    "city_distance": [ 10, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 40, 100 ],
+    "flags": [ "ANT", "UNIQUE", "CLASSIC", "WILDERNESS" ],
+    "spawns": { "group": "GROUP_ANT", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] },
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ -1, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, -1, -1 ], [ "subterranean_empty" ] ]
+    ],
+    "joins": [
+      { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
+      { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land" ] },
+      "tunnel_to_tunnel"
+    ],
+    "overmaps": {
+      "surface": { "overmap": "anthill_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
+      "below_entrance": {
+        "overmap": "ants_nesw",
+        "above": "tunnel_to_surface",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "crossroads": {
+        "overmap": "ants_nesw",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "tee": { "overmap": "ants_nes", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "straight_tunnel": { "overmap": "ants_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "corner": { "overmap": "ants_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
+      "dead_end": { "overmap": "ants_end_south", "north": "tunnel_to_tunnel" },
+      "queen": { "overmap": "ants_queen_north", "north": "tunnel_to_tunnel" },
+      "larvae": { "overmap": "ants_larvae_north", "north": "tunnel_to_tunnel" },
+      "food": { "overmap": "ants_food_north", "north": "tunnel_to_tunnel" }
+    },
+    "root": "surface",
+    "shared": { "size": [ 1, 5 ] },
+    "phases": [
+      [ { "overmap": "below_entrance", "max": 1 } ],
+      [
+        { "overmap": "straight_tunnel", "scale": "size", "max": { "poisson": 10 } },
+        { "overmap": "corner", "scale": "size", "max": { "poisson": 2.5 } },
+        { "overmap": "tee", "scale": "size", "max": { "poisson": 5 } },
+        { "overmap": "below_entrance", "scale": "size", "max": { "poisson": 0.35 } }
+      ],
+      [ { "overmap": "queen", "max": 1 } ],
+      [
+        { "overmap": "food", "scale": "size", "max": { "poisson": 2.5 } },
+        { "overmap": "larvae", "scale": "size", "max": { "poisson": 2.5 } }
+      ],
+      [
+        { "overmap": "dead_end", "weight": 2000 },
+        { "overmap": "straight_tunnel", "weight": 100 },
+        { "overmap": "corner", "weight": 100 },
+        { "overmap": "tee", "weight": 10 },
+        { "overmap": "crossroads", "weight": 1 },
+        { "overmap": "surface", "weight": 1 }
+      ]
+    ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Acid Anthill",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty" ],
+    "city_distance": [ 10, -1 ],
+    "occurrences": [ 40, 100 ],
+    "flags": [ "ANT", "UNIQUE", "WILDERNESS" ],
+    "spawns": { "group": "GROUP_ANT_ACID", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] },
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ -1, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, -1, -1 ], [ "subterranean_empty" ] ]
+    ],
+    "joins": [
+      { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
+      { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land" ] },
+      "tunnel_to_tunnel"
+    ],
+    "overmaps": {
+      "surface": { "overmap": "anthill_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
+      "below_entrance": {
+        "overmap": "acid_ants_nesw",
+        "above": "tunnel_to_surface",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "crossroads": {
+        "overmap": "acid_ants_nesw",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "tee": { "overmap": "acid_ants_nes", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "straight_tunnel": { "overmap": "acid_ants_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "corner": { "overmap": "acid_ants_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
+      "dead_end": { "overmap": "acid_ants_end_south", "north": "tunnel_to_tunnel" },
+      "queen": { "overmap": "acid_ants_queen_north", "north": "tunnel_to_tunnel" },
+      "larvae": { "overmap": "acid_ants_larvae_north", "north": "tunnel_to_tunnel" },
+      "food": { "overmap": "acid_ants_food_north", "north": "tunnel_to_tunnel" }
+    },
+    "root": "surface",
+    "shared": { "size": [ 1, 5 ] },
+    "phases": [
+      [ { "overmap": "below_entrance", "max": 1 } ],
+      [
+        { "overmap": "straight_tunnel", "scale": "size", "max": { "poisson": 10 } },
+        { "overmap": "corner", "scale": "size", "max": { "poisson": 2.5 } },
+        { "overmap": "tee", "scale": "size", "max": { "poisson": 5 } },
+        { "overmap": "below_entrance", "scale": "size", "max": { "poisson": 0.35 } }
+      ],
+      [ { "overmap": "queen", "max": 1 } ],
+      [
+        { "overmap": "food", "scale": "size", "max": { "poisson": 2.5 } },
+        { "overmap": "larvae", "scale": "size", "max": { "poisson": 2.5 } }
+      ],
+      [
+        { "overmap": "dead_end", "weight": 2000 },
+        { "overmap": "straight_tunnel", "weight": 100 },
+        { "overmap": "corner", "weight": 100 },
+        { "overmap": "tee", "weight": 10 },
+        { "overmap": "crossroads", "weight": 1 },
+        { "overmap": "surface", "weight": 1 }
+      ]
+    ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lab with Anthill",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty" ],
+    "city_distance": [ 4, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 30, 100 ],
+    "flags": [ "ANT", "UNIQUE" ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road" } ],
+    "place_nested": [ { "point": [ 0, 0, -1 ], "special": "lab_basement" } ],
+    "spawns": { "group": "GROUP_ANT", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] },
+    "check_for_locations": [
+      [ [ 3, 1, 0 ], [ "land" ] ],
+      [ [ 3, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ 4, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ 3, 2, -1 ], [ "subterranean_empty" ] ],
+      [ [ 2, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ 3, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 0, 0, -1 ], [ "subterranean_empty" ] ]
+    ],
+    "joins": [
+      { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
+      { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land" ] },
+      "tunnel_to_tunnel",
+      "lab"
+    ],
+    "overmaps": {
+      "lab_stairs": { "overmap": "lab_stairs", "below": "lab", "locations": [ "land" ] },
+      "below_stairs": {
+        "overmap": "empty_rock",
+        "above": "lab",
+        "north": { "id": "lab", "type": "available" },
+        "east": { "id": "lab", "type": "available" },
+        "south": { "id": "lab", "type": "available" },
+        "west": { "id": "lab", "type": "available" }
+      },
+      "surface": { "overmap": "anthill_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
+      "below_entrance": {
+        "overmap": "ants_nesw",
+        "above": "tunnel_to_surface",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "crossroads": {
+        "overmap": "ants_nesw",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "tee": { "overmap": "ants_nes", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "straight_tunnel": { "overmap": "ants_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "corner": { "overmap": "ants_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
+      "dead_end": { "overmap": "ants_end_south", "north": "tunnel_to_tunnel" },
+      "queen": { "overmap": "ants_queen_north", "north": "tunnel_to_tunnel" },
+      "larvae": { "overmap": "ants_larvae_north", "north": "tunnel_to_tunnel" },
+      "food": { "overmap": "ants_food_north", "north": "tunnel_to_tunnel" }
+    },
+    "root": "lab_stairs",
+    "shared": { "size": [ 1, 5 ] },
+    "phases": [
+      [
+        {
+          "name": "ants_lab",
+          "chunk": [
+            { "overmap": "below_stairs", "pos": [ 0, 0, 0 ] },
+            { "overmap": "surface", "pos": [ 3, 1, 1 ] },
+            { "overmap": "below_entrance", "pos": [ 3, 1, 0 ] }
+          ],
+          "max": 1
+        }
+      ],
+      [
+        { "overmap": "straight_tunnel", "scale": "size", "max": { "poisson": 10 } },
+        { "overmap": "corner", "scale": "size", "max": { "poisson": 2.5 } },
+        { "overmap": "tee", "scale": "size", "max": { "poisson": 5 } },
+        { "overmap": "below_entrance", "scale": "size", "max": { "poisson": 0.35 } }
+      ],
+      [ { "overmap": "queen", "max": 1 } ],
+      [
+        { "overmap": "food", "scale": "size", "max": { "poisson": 2.5 } },
+        { "overmap": "larvae", "scale": "size", "max": { "poisson": 2.5 } }
+      ],
+      [
+        { "overmap": "dead_end", "weight": 2000 },
+        { "overmap": "straight_tunnel", "weight": 100 },
+        { "overmap": "corner", "weight": 100 },
+        { "overmap": "tee", "weight": 10 },
+        { "overmap": "crossroads", "weight": 1 },
+        { "overmap": "surface", "weight": 1 }
+      ]
+    ]
+  }
+]
