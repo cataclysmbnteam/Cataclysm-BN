@@ -774,31 +774,31 @@ bool item::attempt_split( int qty,
         return false;
     }
     item &after_split = *det;
-    int starting_charges=after_split.charges;
+    int starting_charges = after_split.charges;
     det = cb( std::move( det ) );
     bool ret = true;
-    bool changed=false;
+    bool changed = false;
     if( det ) {
         if( det->type->get_id() != type->get_id() ) {
             debugmsg( "attempt_split returned the wrong item type" );
         } else {
-			changed|=det->charges!=starting_charges;
-			//Copy any changed properties from the new item, except the charges
-			int old_charges=charges;
-			*this=*det;
-			charges=old_charges;
+            changed |= det->charges != starting_charges;
+            //Copy any changed properties from the new item, except the charges
+            int old_charges = charges;
+            *this = *det;
+            charges = old_charges;
             merge_charges( std::move( det ), true );
         }
         ret = false;
-    }else{
-		changed=true;
-	}
-    if(changed){
-		contents_item_location * contents_loc=dynamic_cast<contents_item_location*>(&*loc);
-		if(contents_loc){
-			contents_loc->on_changed(this);
-		}
-	}
+    } else {
+        changed = true;
+    }
+    if( changed ) {
+        contents_item_location *contents_loc = dynamic_cast<contents_item_location *>( &*loc );
+        if( contents_loc ) {
+            contents_loc->on_changed( this );
+        }
+    }
     after_split.unsafe_rejoin( *this );
     return ret;
 }
@@ -1052,7 +1052,7 @@ bool item::merge_charges( detached_ptr<item> &&rhs, bool force )
         debugmsg( "Attempted to merge %s with itself.", debug_name() );
         return false;
     }
-    if( !count_by_charges() || (!stacks_with( *rhs ) && !force) ) {
+    if( !count_by_charges() || ( !stacks_with( *rhs ) && !force ) ) {
         return false;
     }
     item &obj = *rhs;
