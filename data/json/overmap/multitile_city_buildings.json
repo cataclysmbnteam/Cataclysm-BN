@@ -934,6 +934,17 @@
   },
   {
     "type": "city_building",
+    "id": "house_fence07",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_fence07_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_fence07_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "house_fence07_3_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "house_fence07_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_electronics",
     "locations": [ "land" ],
     "overmaps": [
