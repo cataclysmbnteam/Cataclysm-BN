@@ -927,17 +927,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "Slime Pit",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "slimepit_down" } ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 3, 30 ],
-    "occurrences": [ 0, 3 ],
-    "rotate": false,
-    "spawns": { "group": "GROUP_GOO", "population": [ 100, 200 ], "radius": [ 2, 10 ] },
-    "flags": [ "SLIME" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "Fungal Bloom",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "fungal_bloom" } ],
     "locations": [ "wilderness" ],
