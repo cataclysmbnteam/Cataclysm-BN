@@ -70,7 +70,7 @@
     "symbol": "=",
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
-    "description": "A simple fletched wooden arrow shaft with a blunted tip.  Useful for hunting small woodland creatures without splattering them all over the ground.  Stands a low chance of remaining intact once fired.",
+    "description": "A simple fletched wooden arrow shaft with a blunted tip.  Useful for hunting small woodland creatures without splattering them all over the ground.  Stands a small chance of remaining intact once fired.",
     "material": "wood",
     "volume": "250 ml",
     "price_postapoc": 50,
@@ -81,7 +81,7 @@
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
-    "dont_recover_one_in": 45,
+    "dont_recover_one_in": 10,
     "effects": [ "NOGIB" ]
   },
   {
@@ -145,7 +145,7 @@
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
-    "dont_recover_one_in": 10,
+    "dont_recover_one_in": 35,
     "effects": [ "NOGIB" ]
   },
   {
