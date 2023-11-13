@@ -140,7 +140,7 @@ if (CURSES)
 
     if (NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
         target_precompile_headers(cataclysm-common PRIVATE
-                                  ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
+            ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
     endif ()
 
     if (WIN32)
