@@ -113,14 +113,6 @@ you wish to assign to that action.
 [Bug report](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=bug_report.yml) can
 be submitted via debug menu.
 
-Run `Submit a bug report on github` inside the game to submit an issue.
-
-|   1. open Options (ESC) -> Debug Menu (a)   |              2. open Info (i)               |
-| :-----------------------------------------: | :-----------------------------------------: |
-| ![](doc/src/assets/img/bug_report/bug1.png) | ![](doc/src/assets/img/bug_report/bug2.png) |
-|    3. Submit a bug report on github (U)     |      4. An link to issue is generated       |
-| ![](doc/src/assets/img/bug_report/bug3.png) | ![](doc/src/assets/img/bug_report/bug4.png) |
-
 It will open a bug report on browser with `Version and configuration` filled in.
 
 #### I would like to make a suggestion. What should I do?

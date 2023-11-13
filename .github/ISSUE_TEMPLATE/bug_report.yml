@@ -10,22 +10,13 @@ body:
         ## Thanks for reaching out!
 
         This bug report can be directly generated within the game.
+        Run `Submit a bug report on github` inside the game to submit an issue.
 
-        ### Open Options (ESC) -> Debug Menu
-
-        ![](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/src/assets/img/bug_report/bug1.png?raw=true)
-
-        ### Open Info (i)
-
-        ![](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/src/assets/img/bug_report/bug2.png?raw=true)
-
-        ### Submit a bug report on github (U)
-
-        ![](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/src/assets/img/bug_report/bug3.png?raw=true)
-
-        ### Fill the form and submit
-
-        ![](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/src/assets/img/bug_report/bug4.png?raw=true)
+        |   1. open Options (ESC) -> Debug Menu (a)   |              2. open Info (i)               |
+        | :-----------------------------------------: | :-----------------------------------------: |
+        | ![](https://raw.githubusercontent.com/scarf005/Cataclysm-BN/88fb449d35000f7e33c82430179e830a1eaf5533/.github/ISSUE_TEMPLATE/img/bug1.png) | ![](https://raw.githubusercontent.com/scarf005/Cataclysm-BN/88fb449d35000f7e33c82430179e830a1eaf5533/.github/ISSUE_TEMPLATE/img/bug2.png) |
+        |    3. Submit a bug report on github (U)     |      4. An link to issue is generated       |
+        | ![](https://raw.githubusercontent.com/scarf005/Cataclysm-BN/88fb449d35000f7e33c82430179e830a1eaf5533/.github/ISSUE_TEMPLATE/img/bug3.png) | ![](https://raw.githubusercontent.com/scarf005/Cataclysm-BN/88fb449d35000f7e33c82430179e830a1eaf5533/.github/ISSUE_TEMPLATE/img/bug4.png) |
 
   - type: textarea
     id: describe-bug
