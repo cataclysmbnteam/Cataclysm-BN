@@ -123,7 +123,6 @@ player::player()
     lastconsumed = itype_id( "null" );
     death_drops = true;
 
-    nv_cached = false;
     volume = 0;
 
     set_value( "THIEF_MODE", "THIEF_ASK" );
