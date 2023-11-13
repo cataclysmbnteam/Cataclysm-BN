@@ -19,8 +19,8 @@
     "durability": 6,
     "clip_size": 8,
     "modes": [ [ "DEFAULT", "single shot", 1 ], [ "burst", "double", 2 ], [ "AUTO", "auto", 4 ] ],
-    "reload": 1600,
-    "flags": [ "NEVER_JAMS", "NO_DROP", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID" ]
+    "reload": 200,
+    "flags": [ "NEVER_JAMS", "NO_DROP", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID", "RELOAD_ONE" ]
   },
   {
     "id": "bio_emp_gun",
