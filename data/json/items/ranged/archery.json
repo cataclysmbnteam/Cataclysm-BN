@@ -81,7 +81,7 @@
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
-    "dont_recover_one_in": 10,
+    "dont_recover_one_in": 45,
     "effects": [ "NOGIB" ]
   },
   {
@@ -145,7 +145,7 @@
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
-    "dont_recover_one_in": 35,
+    "dont_recover_one_in": 10,
     "effects": [ "NOGIB" ]
   },
   {
