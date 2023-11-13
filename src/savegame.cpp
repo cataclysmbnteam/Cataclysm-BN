@@ -389,13 +389,22 @@ void overmap::convert_terrain(
             old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ||
             old == "mine_entrance" || old == "underground_sub_station" ||
             old == "sewer_sub_station" || old == "anthill" || old == "acid_anthill" ||
-            old == "ants_larvae" || old == "ants_larvae_acid" || old == "ants_queen" ||
-            old == "ants_queen_acid" || old == "ants_food" ) {
+            old == "ants_larvae" || old == "ants_queen" || old == "ants_food" ) {
             ter_set( pos, oter_id( old + "_north" ) );
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
         } else if( old == "mine_shaft" ) {
             ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
+        } else if( old == "ants_larvae_acid" ) {
+            ter_set( pos, oter_id( "acid_ants_larvae_north" ) );
+        } else if( old == "ants_queen_acid" ) {
+            ter_set( pos, oter_id( "acid_ants_queen_north" ) );
+        } else if( old == "ants_larvae_acid_north" ) {
+            // Fix for saves affected by messed migration, remove me in a while
+            ter_set( pos, oter_id( "acid_ants_larvae_north" ) );
+        } else if( old == "ants_queen_acid_north" ) {
+            // Fix for saves affected by messed migration, remove me in a while
+            ter_set( pos, oter_id( "acid_ants_queen_north" ) );
         }
 
         for( const auto &conv : nearby ) {
