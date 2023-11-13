@@ -23,7 +23,7 @@
       "clip_size": 1
     },
     "dispersion_modifier": 60,
-    "flags": [ "STR_RELOAD", "NON-FOULING" ]
+    "flags": [ "STR_RELOAD", "NON_FOULING" ]
   },
   {
     "id": "gun_crossbow_mod",

@@ -278,7 +278,7 @@
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ],
     "dont_recover_one_in": 80,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -298,7 +298,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 10,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -362,7 +362,7 @@
     "loudness": 0,
     "count": 50,
     "dont_recover_one_in": 1000,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -383,7 +383,7 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -1080,7 +1080,7 @@
     "loudness": 0,
     "to_hit": -1,
     "dont_recover_one_in": 1000,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -1100,6 +1100,6 @@
     "loudness": 0,
     "count": 30,
     "dont_recover_one_in": 1000,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   }
 ]
