@@ -163,7 +163,7 @@
     "name": { "str": "energy pistol" },
     "looks_like": "v29",
     "//": "No conventional faults because it uses non-conventional systems.",
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "emitter", 1 ],
@@ -185,7 +185,7 @@
     "bashing": 7,
     "to_hit": -2,
     "//": "No conventional faults because it uses non-conventional systems.",
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON-FOULING", "NEEDS_NO_LUBE" ],
+    "flags": [ "RELOAD_ONE", "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "dispersion": 120,
     "reload": 600,
     "valid_mod_locations": [
@@ -287,7 +287,7 @@
     "name": { "str": "energy rifle" },
     "looks_like": "laser_rifle",
     "//": "No conventional faults because it uses non-conventional systems.",
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "emitter", 1 ],
@@ -309,7 +309,7 @@
     "name": { "str": "magnetic rifle" },
     "looks_like": "laser_rifle",
     "//": "No conventional faults because it uses non-conventional systems.",
-    "flags": [ "NEVER_JAMS", "NON-FOULING", "NEEDS_NO_LUBE" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -331,7 +331,7 @@
     "bashing": 8,
     "to_hit": -2,
     "//": "No conventional faults because it uses non-conventional systems.",
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON-FOULING", "NEEDS_NO_LUBE" ],
+    "flags": [ "RELOAD_ONE", "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "dispersion": 90,
     "reload": 700,
     "valid_mod_locations": [
@@ -353,7 +353,7 @@
     "name": { "str": "pneumatic rifle" },
     "bashing": 8,
     "//": "No conventional faults because it uses non-conventional systems.",
-    "flags": [ "NEVER_JAMS", "NON-FOULING", "NEEDS_NO_LUBE" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "dispersion": 350,
     "reload": 600,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "stock", 1 ], [ "rail mount", 1 ] ],
@@ -488,7 +488,7 @@
     "bashing": 8,
     "reload": 200,
     "handling": 40,
-    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NON-FOULING" ],
+    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NON_FOULING" ],
     "faults": [  ]
   },
   {
@@ -501,7 +501,7 @@
     "bashing": 9,
     "skill": "launcher",
     "ammo": "chemical_spray",
-    "flags": [ "FIRE_50", "NEVER_JAMS", "NON-FOULING" ],
+    "flags": [ "FIRE_50", "NEVER_JAMS", "NON_FOULING" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
