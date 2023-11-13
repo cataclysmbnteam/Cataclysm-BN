@@ -1,19 +1,31 @@
 name: "Experimental Release"
 concurrency: release
 on:
-  push:
-    branches:
-      - upload
-    paths-ignore:
-      - 'doc/**'
-      - 'scripts/**'
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
 
 env:
   VCPKG_BINARY_SOURCES: "default"
+
 jobs:
+  commits:
+    runs-on: ubuntu-latest
+    outputs:
+      count: ${{ steps.yesterday.outputs.count }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: yesterday
+        run: |
+          COMMITS=$(git log --oneline --since=$(date -u --iso-8601 --date='1 day ago') | wc -l)
+          echo "commits yesterday: $COMMITS" >> "$GITHUB_STEP_SUMMARY"
+          echo "count=$COMMITS" >> "$GITHUB_OUTPUT"
+
   release:
+    needs: commits
     name: Create Release
     runs-on: ubuntu-22.04
+    if: fromJson(needs.commits.outputs.count) > 0
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       timestamp: ${{ steps.get-timestamp.outputs.time }}
@@ -32,7 +44,7 @@ jobs:
           echo "release_name=Cataclysm-BN experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
       - name: Check if there is existing git tag
         id: tag_check
-        uses: mukunku/tag-exists-action@v1.0.0
+        uses: mukunku/tag-exists-action@v1.4.0
         with:
           tag: ${{ steps.generate_env_vars.outputs.tag_name }}
         env:
