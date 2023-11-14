@@ -55,7 +55,8 @@
           { "id": "armguard_bronze", "fg": 44 },
           { "id": "overlay_worn_armguard_bronze", "fg": 45 },
           { "id": "cacao_pod", "fg": 46 },
-          { "id": "overlay_wielded_cacao_pod", "fg": 46 }
+          { "id": "overlay_wielded_cacao_pod", "fg": 46 },
+          { "id": "f_sign", "fg": 47 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
