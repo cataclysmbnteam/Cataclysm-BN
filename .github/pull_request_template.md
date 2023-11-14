@@ -24,8 +24,6 @@ https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/
 
 If the PR is a port or adaptation of DDA content, please indicate it by adding port in PR title, like:
 feat(port): <feature name> from DDA
-
-COMMENTS: Please remove all comments and unrelevent sections from this template before submitting your PR.
 -->
 
 ## Purpose of change
