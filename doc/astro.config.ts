@@ -27,9 +27,15 @@ const docModes = (dir: string) => [
 
 console.log({ ...env, site, github })
 
+const redirects = {
+  "/": `./en/`,
+  "/en/contribute/contributing": "/en/contribute/tutorial/contributing",
+  "/en/contribute/changelog_guidelines": "/en/contribute/explanation/changelog_guidelines",
+}
+
 export default defineConfig({
   site,
-  redirects: { "/": `./en/` },
+  redirects,
   markdown: {
     remarkPlugins: [fixRelativeLinks],
   },
@@ -83,11 +89,9 @@ export default defineConfig({
         },
         contribute: {
           label: "Contribute",
-          link: "/contribute/contributing",
+          link: "/contribute/tutorial/contributing",
           translations: { "ko-KR": "기여하기" },
-          items: [
-            { label: "Contributing", autogenerate: { directory: "contribute" } },
-          ],
+          items: docModes("contribute"),
         },
       },
     }),

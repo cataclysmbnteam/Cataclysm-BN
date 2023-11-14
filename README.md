@@ -1,7 +1,7 @@
 # Cataclysm: Bright Nights
 
 <header align="center">
-  <a><img src="doc/src/content/docs/en/contribute/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005"></a>
+  <a><img src="doc/src/assets/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005"></a>
 
 [![en][icon-en]][en] [![ko][icon-ko]][ko]
 
@@ -76,7 +76,7 @@ Gameplay and developing documentation is available in the [doc](./doc/src/conten
 in markdown format. You can also
 
 - visit the [official docs](https://docs.cataclysmbn.org/en/) site
-- [build and serve the documentation locally](./doc/src/content/docs/en/contribute/docs.md)
+- [build and serve the documentation locally](./doc/src/content/docs/en/contribute/tutorial/docs.md)
 
 ## Community
 
@@ -112,14 +112,6 @@ you wish to assign to that action.
 
 [Bug report](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=bug_report.yml) can
 be submitted via debug menu.
-
-Run `Submit a bug report on github` inside the game to submit an issue.
-
-|           1. open Options (ESC) -> Debug Menu (a)           |                      2. open Info (i)                       |
-| :---------------------------------------------------------: | :---------------------------------------------------------: |
-| ![](doc/src/content/docs/en/contribute/img/readme-bug1.png) | ![](doc/src/content/docs/en/contribute/img/readme-bug2.png) |
-|            3. Submit a bug report on github (U)             |              4. An link to issue is generated               |
-| ![](doc/src/content/docs/en/contribute/img/readme-bug3.png) | ![](doc/src/content/docs/en/contribute/img/readme-bug4.png) |
 
 It will open a bug report on browser with `Version and configuration` filled in.
 

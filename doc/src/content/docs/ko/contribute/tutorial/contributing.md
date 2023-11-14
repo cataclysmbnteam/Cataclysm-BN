@@ -4,7 +4,7 @@ title: 기여하기
 
 :::tip{title="새 이슈를 열고 싶으신가요?"}
 
-[이슈 여는 법](./issues)을 참고해주세요.
+[이슈 여는 법](../issues)을 참고해주세요.
 
 :::
 
@@ -42,12 +42,12 @@ http://creativecommons.org/licenses/by-sa/3.0/ 를 참고해주세요. 그 말�
 ### C++
 
 `astyle`로 일관된 코드 스타일을 강제하고 있습니다. 자세한 내용은
-[CODE_STYLE](../dev/explanation/code_style)을 참고해주세요.
+[CODE_STYLE](../../dev/explanation/code_style)을 참고해주세요.
 
 ### JSON 스타일
 
 `tools/format` 경로에 있는 포매터로 일관된 JSON 스타일을 강제하고 있습니다.
-[JSON Style Guide](../mod/json/explanation/json_style) 을 참고해주세요.
+[JSON Style Guide](../../mod/json/explanation/json_style) 을 참고해주세요.
 
 ### 마크다운
 
@@ -71,9 +71,9 @@ http://creativecommons.org/licenses/by-sa/3.0/ 를 참고해주세요. 그 말�
 [번역 프로젝트](https://app.transifex.com/bn-team/cataclysm-bright-nights/)에서 지원되는 언어를
 실시간으로 확인할 수 있습니다.
 
-- [번역자를 위한 내용](../i18n/tutorial/transifex)
-- [개발자를 위한 내용](../i18n/reference/translation)
-- [관리자를 위한 내용](../i18n/guides/maintain)
+- [번역자를 위한 내용](../../i18n/tutorial/transifex)
+- [개발자를 위한 내용](../../i18n/reference/translation)
+- [관리자를 위한 내용](../../i18n/guides/maintain)
 
 ## 공식 문서
 
@@ -229,7 +229,7 @@ $ git push origin new_feature
 
 ### 모든 풀 리퀘스트에는 `"Summary"`줄이 있어야 합니다.
 
-개요(summary)는 [변경 내역](../game/changelog.md)에 추가할 한 줄 요약입니다.
+개요(summary)는 [변경 내역](../../game/changelog.md)에 추가할 한 줄 요약입니다.
 
 개요 형식: `SUMMARY: 카테고리 "설명"`
 
@@ -239,7 +239,8 @@ Infrastructure, Build, I18N이 있습니다.
 예시: `SUMMARY: Content "Adds new mutation category 'Mouse'"` (해석:
 `SUMMARY: Content "새로운 변이 카테고리 'Mouse'를 추가합니다."`)
 
-[변경 내역 가이드라인](./changelog_guidelines.md)에서 카테고리에 대한 설명을 볼 수 있습니다.
+[변경 내역 가이드라인](../reference/changelog_guidelines.md)에서 카테고리에 대한 설명을 볼 수
+있습니다.
 
 ### 키워드로 이슈 닫기
 
@@ -278,7 +279,7 @@ Infrastructure, Build, I18N이 있습니다.
 ## 개발 도구 지원
 
 코딩 스타일을 지키도록 도와주는 여러 도구들이 있습니다. 자세한 내용은
-[DEVELOPER_TOOLING](../dev/reference/tooling)을 참고해주세요.
+[DEVELOPER_TOOLING](../../dev/reference/tooling)을 참고해주세요.
 
 ## 고급
 
@@ -416,4 +417,4 @@ $ git pull --ff-only upstream upload
 $ git checkout new_branch
 ```
 
-더 자주 묻는 질문은 [개발자 FAQ](../dev/reference/FAQ)를 참고해주세요.
+더 자주 묻는 질문은 [개발자 FAQ](../../dev/reference/FAQ)를 참고해주세요.
