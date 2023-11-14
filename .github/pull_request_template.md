@@ -12,32 +12,18 @@ WARNING: If autofix.ci app did the formatting for you, YOU MUST DO EITHER OF THE
 If you don't do this, your following work will be based on the old commit, and may cause MERGE CONFLICT.
 If you use GitHub's web editor to edit files, you shouldn't need to do this as the web editor works directly on the remote branch.
 
-Please use a descriptive name for the PR title, so it's clear at a glance what the PR is about.
--->
 
-## Summary
-SUMMARY: Category "Brief description of the change"
+PR TITLE: Please follow conventional commits: https://www.conventionalcommits.org
+This makes it clear at a glance what the PR is about.
 
-<!--
-This section should consist of exactly one line, formatted like the example above.
+for example:
+feat(content, mods): new item for <mod name>
 
-'Category' must be one of the following:
-
-- Features
-- Content
-- Interface
-- Mods
-- Balance
-- Bugfixes
-- Performance
-- Infrastructure
-- Build
-- I18N
-
-For more on the meaning of each category, see:
+for more on which category is available, see:
 https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/
 
-If the PR is a port or adaptation of DDA content, please indicate it to be so.
+If the PR is a port or adaptation of DDA content, please indicate it by adding port in PR title, like:
+feat(port): <feature name> from DDA
 -->
 
 ## Purpose of change
