@@ -8,8 +8,6 @@ CMake build is work-in-progress.
 
 :::
 
-For official way to build CataclysmBN see [Compiler Support](../../reference/compiler_support.md).
-
 ## Prerequisites
 
 - `cmake` >= 3.20.0
@@ -95,8 +93,8 @@ layout the drop-down menu for this may be hidden behind the overflow button.
 
 ## Translations
 
-Translations are optional and require `msgfmt` binary from `gettext` package, but `vcpkg` should
-install it automatically.
+Translations are optional and require `msgfmt` binary from `gettext` package; `vcpkg` should install
+it automatically.
 
 ### Terminal
 
@@ -107,14 +105,14 @@ Run the command
 ### Visual Studio
 
 Visual Studio should have built the translations in the previous step. If it did not, open Solution
-Explorer, switch it into CMake Targets mode (can be done with a right click), then right click on
+Explorer, switch it into CMake Targets mode (can be done with right click), then right click on
 `translations_compile` target -> `Build translations_compile`.
 
 ## Install
 
 :::caution
 
-Install is still considered WIP and has not been tested much.
+Install is still considered WIP and has received little testing.
 
 :::
 
@@ -139,10 +137,12 @@ You can run them manually from the terminal, as long as you do it from the proje
 as by default the game expects data files to be in current path.
 
 For running and debugging from Visual Studio, it's recommended to open the generated VS solution
-located at `out\build\<preset>\CataclysmBN.sln` (should be there regardless of whether you've
-completed the previous steps in VS or terminal) and work with it instead. Alternatively, it's
-possible to stay in the "Open Folder" mode, but then you'll have to customize launch configuration
-for the game executable (and tests).
+located at `out\build\<preset>\CataclysmBN.sln` (it will be there regardless of whether you've
+completed previous steps in IDE or terminal) and do any further work with it instead.
+
+Alternatively, it's possible to stay in the "Open Folder" mode, but then you'll have to customize
+launch configuration for the game executable (and tests), and there may be other yet undiscovered
+side effects.
 
 ### Terminal
 
@@ -157,9 +157,11 @@ To execute tests, run
 ### Visual Studio (Option 1, Recommended)
 
 Close Visual Studio, then navigate to `out\build\<preset>\` and open `CataclysmBN.sln`. Set
-`cataclysm-tiles` as Startup Project (can be done with a right click from Solution Explorer), and
-you'll be able to run and debug the game executable and tests without additional issues. It will
-already be preconfigured to look for the data files in the top project directory.
+`cataclysm-tiles` as Startup Project (can be done with right click from Solution Explorer), and
+you'll be able to run and debug the game executable without additional issues. It will already be
+preconfigured to look for the data files in the top project directory.
+
+To run tests, switch the Startup Project to `cata_test-tiles`.
 
 ### Visual Studio (Option 2)
 
