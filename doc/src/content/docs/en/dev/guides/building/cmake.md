@@ -370,6 +370,14 @@ Override default Git binary name or path.
 
 Use UNIX system directories for game data in release build.
 
+- USE_XDG_DIR=`<boolean>`
+
+Use XDG directories for save and config files.
+
+- TESTS=`<boolean>`
+
+Whether to build tests.
+
 So a CMake command for building Cataclysm-BN in release mode with tiles and sound support will look
 as follows, provided it is run in build directory located in the project.
 
