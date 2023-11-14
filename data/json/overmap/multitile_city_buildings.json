@@ -1,6 +1,16 @@
 [
   {
     "type": "city_building",
+    "id": "2Story01",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "2Story01_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "2Story01_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "2Story01_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "2storyModern01",
     "locations": [ "land" ],
     "overmaps": [

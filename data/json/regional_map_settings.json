@@ -583,6 +583,7 @@
       "park_radius": 20,
       "park_sigma": 80,
       "houses": {
+        "2Story01": 50,
         "2storyModern01": 5,
         "2storyModern02": 50,
         "2StoryModern03": 50,
