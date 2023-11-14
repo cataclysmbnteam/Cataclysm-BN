@@ -361,7 +361,7 @@ if (BACKTRACE)
     endif ()
 endif ()
 
-if ((LOCALIZE OR BUILD_TESTING) AND "${GETTEXT_MSGFMT_BINARY}" STREQUAL "")
+if (NOT (LANGUAGES STREQUAL "none") AND "${GETTEXT_MSGFMT_BINARY}" STREQUAL "")
     if(MSVC)
         list(APPEND Gettext_ROOT C:\\msys64\\usr)
         list(APPEND Gettext_ROOT C:\\Program\ Files\\Git\\usr)
