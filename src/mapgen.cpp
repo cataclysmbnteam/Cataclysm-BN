@@ -5293,14 +5293,6 @@ void map::draw_connections( mapgendata &dat )
             ter_set( point( SEEX - 3, SEEY ), t_door_metal_c );
             ter_set( point( SEEX - 3, SEEY - 1 ), t_door_metal_c );
         }
-    } else if( is_ot_match( "ants", terrain_type, ot_match_type::type ) ) {
-        if( dat.above() == "anthill" ) {
-            if( const auto p = random_point( *this, [this]( const tripoint & n ) {
-            return ter( n ) == t_rock_floor;
-            } ) ) {
-                ter_set( *p, t_slope_up );
-            }
-        }
     }
 
     // finally, any terrain with SIDEWALKS should contribute sidewalks to neighboring diagonal roads

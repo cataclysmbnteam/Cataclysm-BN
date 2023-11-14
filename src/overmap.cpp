@@ -1176,6 +1176,7 @@ struct mutable_overmap_terrain_join {
         } else {
             debugmsg( "invalid join id %s in %s", join_id, context );
         }
+        alternative_joins.clear();
         for( const std::string &alt_join_id : alternative_join_ids ) {
             auto alt_join_it = joins.find( alt_join_id );
             if( alt_join_it != joins.end() ) {
@@ -1383,6 +1384,7 @@ struct mutable_overmap_placement_rule {
                 piece.overmap = &it->second;
             }
         }
+        outward_joins.clear();
         for( const mutable_overmap_placement_rule_piece &piece : pieces ) {
             const mutable_overmap_terrain &ter = *piece.overmap;
             for( const join_map::value_type &p : ter.joins ) {
@@ -2492,11 +2494,19 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
 
     switch( subtype_ ) {
         case overmap_special_subtype::fixed:
+            if( was_loaded ) {
+                mutable_data_.reset();
+            }
+
             mandatory( jo, was_loaded, "overmaps", fixed_data_.terrains );
             break;
         case overmap_special_subtype::mutable_: {
-            shared_ptr_fast<mutable_overmap_special_data> mutable_data;
             if( was_loaded ) {
+                fixed_data_ = fixed_overmap_special_data{};
+            }
+
+            shared_ptr_fast<mutable_overmap_special_data> mutable_data;
+            if( was_loaded && mutable_data_ ) {
                 mutable_data = make_shared_fast<mutable_overmap_special_data>( *mutable_data_ );
             } else {
                 mutable_data = make_shared_fast<mutable_overmap_special_data>( id );
@@ -2506,9 +2516,9 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
                 cata::flat_set<overmap_location_id> type;
                 tripoint from;
                 tripoint to;
-                mandatory( joc, was_loaded, "type", type );
-                mandatory( joc, was_loaded, "from", from );
-                mandatory( joc, was_loaded, "to", to );
+                mandatory( joc, false, "type", type );
+                mandatory( joc, false, "from", from );
+                mandatory( joc, false, "to", to );
                 if( from.x > to.x ) {
                     std::swap( from.x, to.x );
                 }
@@ -2544,12 +2554,13 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_array( "place_nested" ) ) {
+        nested_.clear();
         JsonArray jar = jo.get_array( "place_nested" );
         while( jar.has_more() ) {
             JsonObject joc = jar.next_object();
             std::pair<tripoint_rel_omt, overmap_special_id> nested;
-            mandatory( joc, was_loaded, "point", nested.first );
-            mandatory( joc, was_loaded, "special", nested.second );
+            mandatory( joc, false, "point", nested.first );
+            mandatory( joc, false, "special", nested.second );
             nested_.insert( nested );
         }
     }
