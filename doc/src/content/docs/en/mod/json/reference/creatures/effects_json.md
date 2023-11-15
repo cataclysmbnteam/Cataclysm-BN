@@ -491,6 +491,15 @@ Valid arguments:
 "thirst_chance_bot"
 "thirst_tick"       - Defaults to every tick
 
+"sleepdebt_amount"     - Amount of sleep debt it can give/take.
+"sleepdebt_min"        - Minimal amount of sleep, certain effect will give/take
+"sleepdebt_max"        - if 0 or missing value will be exactly "sleepdebt_min"
+"sleepdebt_min_val"    - Defaults to 0, which means uncapped
+"sleepdebt_max_val"    - Defaults to 0, which means uncapped
+"sleepdebt_chance"     - Chance to give more sleep
+"sleepdebt_chance_bot" - Min chance, unsure, needs auditing
+"sleepdebt_tick"       - Defaults to every tick
+
 "fatigue_amount"    - Amount of fatigue it can give/take. After certain amount character will need to sleep.
 "fatigue_min"       - Minimal amount of fatigue, certain effect will give/take
 "fatigue_max"       - if 0 or missing value will be exactly "fatigue_min"
