@@ -270,7 +270,6 @@
     "copy-from": "lighter",
     "volume": "25 ml",
     "magazine_well": "25 ml",
-    "max_charges": 5,
     "price": 100,
     "price_postapoc": 10,
     "material": "steel",
