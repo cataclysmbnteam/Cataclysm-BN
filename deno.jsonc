@@ -11,5 +11,6 @@
     "include": ["scripts", "doc", "*.md"],
     "semiColons": false,
     "lineWidth": 100
-  }
+  },
+  "importMap": "import_map.json"
 }
