@@ -3205,7 +3205,6 @@ bool overmap::generate_sub( const int z )
 {
     // We need to generate at least 3 z-levels for labs
     bool requires_sub = z > -4;
-    std::vector<point_om_omt> sewer_points;
 
     std::vector<city> mine_points;
 
@@ -3226,12 +3225,7 @@ bool overmap::generate_sub( const int z )
                 continue;
             }
 
-            if( oter_above == "road_nesw_manhole" ) {
-                ter_set( p, oter_id( "sewer_isolated" ) );
-                sewer_points.emplace_back( i, j );
-            } else if( oter_above == "sewage_treatment" ) {
-                sewer_points.emplace_back( i, j );
-            } else if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::prefix ) && z == -2 ) {
+            if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::prefix ) && z == -2 ) {
                 mine_points.emplace_back( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) );
                 requires_sub = true;
             } else if( oter_above == "mine_down" ) {
@@ -3243,9 +3237,6 @@ bool overmap::generate_sub( const int z )
             }
         }
     }
-
-    const overmap_connection_id sewer_tunnel( "sewer_tunnel" );
-    connect_closest_points( sewer_points, z, *sewer_tunnel );
 
     for( auto &i : cities ) {
         tripoint_om_omt omt_pos( i.pos, z );
@@ -4476,6 +4467,7 @@ void overmap::place_cities()
     const int NUM_CITIES =
         roll_remainder( omts_per_overmap * city_map_coverage_ratio / omts_per_city );
 
+    const overmap_connection_id sewer_tunnel( "sewer_tunnel" );
     const overmap_connection_id local_road_id( "local_road" );
     const overmap_connection &local_road( *local_road_id );
 
@@ -4508,7 +4500,8 @@ void overmap::place_cities()
 
         if( ter( p ) == settings->default_oter ) {
             placement_attempts = 0;
-            ter_set( p, oter_id( "road_nesw" ) ); // every city starts with an intersection
+            ter_set( p, oter_id( "road_nesw_manhole" ) ); // every city starts with an intersection
+            ter_set( p + tripoint_below, oter_id( "sewer_isolated" ) );
             city tmp;
             tmp.pos = p.xy();
             tmp.size = size;
@@ -4516,10 +4509,15 @@ void overmap::place_cities()
 
             const auto start_dir = om_direction::random();
             auto cur_dir = start_dir;
+            std::vector<tripoint_om_omt> sewers;
 
             do {
-                build_city_street( local_road, tmp.pos, size, cur_dir, tmp );
+                build_city_street( local_road, tmp.pos, size, cur_dir, tmp, sewers );
             } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
+
+            for( const tripoint_om_omt &p : sewers ) {
+                build_connection( tmp.pos, p.xy(), p.z(), *sewer_tunnel, false );
+            }
         }
     }
 }
@@ -4569,7 +4567,8 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
 
 void overmap::build_city_street(
     const overmap_connection &connection, const point_om_omt &p, int cs,
-    om_direction::type dir, const city &town, int block_width )
+    om_direction::type dir, const city &town, std::vector<tripoint_om_omt> &sewers,
+    int block_width )
 {
     int c = cs;
     int croad = cs;
@@ -4611,15 +4610,17 @@ void overmap::build_city_street(
             }
 
             build_city_street( connection, iter->pos, left, om_direction::turn_left( dir ),
-                               town, new_width );
+                               town, sewers, new_width );
 
             build_city_street( connection, iter->pos, right, om_direction::turn_right( dir ),
-                               town, new_width );
+                               town, sewers, new_width );
 
             const oter_id &oter = ter( rp );
             // TODO: Get rid of the hardcoded terrain ids.
-            if( one_in( 2 ) && oter->get_line() == 15 && oter->type_is( oter_type_id( "road" ) ) ) {
+            if( one_in( 8 ) && oter->get_line() == 15 && oter->type_is( oter_type_id( "road" ) ) ) {
                 ter_set( rp, oter_id( "road_nesw_manhole" ) );
+                ter_set( rp + tripoint_below, oter_id( "sewer_isolated" ) );
+                sewers.push_back( rp + tripoint_below );
             }
         }
 
@@ -4638,10 +4639,10 @@ void overmap::build_city_street(
     if( cs >= 2 && c == 0 ) {
         const auto &last_node = street_path.nodes.back();
         const auto rnd_dir = om_direction::turn_random( dir );
-        build_city_street( connection, last_node.pos, cs, rnd_dir, town );
+        build_city_street( connection, last_node.pos, cs, rnd_dir, town, sewers );
         if( one_in( 5 ) ) {
             build_city_street( connection, last_node.pos, cs, om_direction::opposite( rnd_dir ),
-                               town, new_width );
+                               town, sewers, new_width );
         }
     }
 }

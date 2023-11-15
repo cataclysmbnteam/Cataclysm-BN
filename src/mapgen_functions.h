@@ -64,10 +64,7 @@ void mapgen_open_air( mapgendata &dat );
 void mapgen_rift( mapgendata &dat );
 void mapgen_hellmouth( mapgendata &dat );
 void mapgen_subway( mapgendata &dat );
-void mapgen_sewer_curved( mapgendata &dat );
-void mapgen_sewer_four_way( mapgendata &dat );
-void mapgen_sewer_straight( mapgendata &dat );
-void mapgen_sewer_tee( mapgendata &dat );
+void mapgen_sewer( mapgendata &dat );
 void mapgen_tutorial( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
 

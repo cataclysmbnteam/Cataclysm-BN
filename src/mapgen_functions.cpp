@@ -124,17 +124,15 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 
             { "subway_straight",    &mapgen_subway },
             { "subway_curved",      &mapgen_subway },
-            // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
             { "subway_end",         &mapgen_subway },
             { "subway_tee",         &mapgen_subway },
             { "subway_four_way",    &mapgen_subway },
 
-            { "sewer_straight",    &mapgen_sewer_straight },
-            { "sewer_curved",      &mapgen_sewer_curved },
-            // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
-            { "sewer_end",         &mapgen_sewer_straight },
-            { "sewer_tee",         &mapgen_sewer_tee },
-            { "sewer_four_way",    &mapgen_sewer_four_way },
+            { "sewer_straight",    &mapgen_sewer },
+            { "sewer_curved",      &mapgen_sewer },
+            { "sewer_end",         &mapgen_sewer },
+            { "sewer_tee",         &mapgen_sewer },
+            { "sewer_four_way",    &mapgen_sewer },
 
             { "tutorial", &mapgen_tutorial },
             { "lake_shore", &mapgen_lake_shore },
@@ -1188,99 +1186,46 @@ void mapgen_subway( mapgendata &dat )
     m->rotate( rot );
 }
 
-void mapgen_sewer_straight( mapgendata &dat )
+void mapgen_sewer( mapgendata &dat )
 {
     map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( i < SEEX - 2 || i > SEEX + 1 ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_sewage );
-            }
-        }
-    }
-    m->place_items( item_group_id( "sewer" ), 10, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                    dat.when() );
-    if( dat.terrain_type() == "sewer_ew" ) {
-        m->rotate( 1 );
-    }
-}
 
-void mapgen_sewer_curved( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( i > SEEX + 1 && j < SEEY - 2 ) || i < SEEX - 2 || j > SEEY + 1 ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_sewage );
-            }
-        }
-    }
-    m->place_items( item_group_id( "sewer" ), 18, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                    dat.when() );
-    if( dat.terrain_type() == "sewer_es" ) {
-        m->rotate( 1 );
-    }
-    if( dat.terrain_type() == "sewer_sw" ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == "sewer_wn" ) {
-        m->rotate( 3 );
-    }
-}
+    bool sewer_nesw[4] = {};
+    int num_dirs = terrain_type_to_nesw_array( dat.terrain_type(), sewer_nesw );
 
-void mapgen_sewer_tee( mapgendata &dat )
-{
-    map *const m = &dat.m;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            if( i < SEEX - 2 || ( i > SEEX + 1 && ( j < SEEY - 2 || j > SEEY + 1 ) ) ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_sewage );
+            bool fill = true;
+            if( j >= SEEY - 2 && j <= SEEY + 1 ) {
+                if( i <= SEEX - 2 ) {
+                    if( sewer_nesw[3] ) {
+                        fill = false;
+                    }
+                } else if( i >= SEEX + 1 ) {
+                    if( sewer_nesw[1] ) {
+                        fill = false;
+                    }
+                } else {
+                    // Central area, always empty
+                    fill = false;
+                }
+            } else if( i >= SEEX - 2 && i <= SEEX + 1 ) {
+                if( j <= SEEY - 2 ) {
+                    if( sewer_nesw[0] ) {
+                        fill = false;
+                    }
+                } else {
+                    if( sewer_nesw[2] ) {
+                        fill = false;
+                    }
+                }
             }
-        }
-    }
-    m->place_items( item_group_id( "sewer" ), 23, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                    dat.when() );
-    if( dat.terrain_type() == "sewer_esw" ) {
-        m->rotate( 1 );
-    }
-    if( dat.terrain_type() == "sewer_nsw" ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == "sewer_new" ) {
-        m->rotate( 3 );
-    }
-}
 
-void mapgen_sewer_four_way( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    int rn = rng( 0, 3 );
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( i < SEEX - 2 || i > SEEX + 1 ) && ( j < SEEY - 2 || j > SEEY + 1 ) ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_sewage );
-            }
-            if( rn == 0 && ( trig_dist( point( i, j ), point( SEEX - 1, SEEY - 1 ) ) <= 6 ||
-                             trig_dist( point( i, j ), point( SEEX - 1, SEEY ) ) <= 6 ||
-                             trig_dist( point( i, j ), point( SEEX, SEEY - 1 ) ) <= 6 ||
-                             trig_dist( point( i, j ), point( SEEX, SEEY ) ) <= 6 ) ) {
-                m->ter_set( point( i, j ), t_sewage );
-            }
-            if( rn == 0 && ( i == SEEX - 1 || i == SEEX ) && ( j == SEEY - 1 || j == SEEY ) ) {
-                m->ter_set( point( i, j ), t_grate );
-            }
+            m->ter_set( point( i, j ), fill ? t_rock : t_sewage );
         }
     }
-    m->place_items( item_group_id( "sewer" ), 28, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                    dat.when() );
+    m->place_items( item_group_id( "sewer" ), 4 + ( num_dirs * 6 ), point_zero,
+                    point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
 }
 
 void mapgen_highway( mapgendata &dat )

@@ -434,7 +434,8 @@ class overmap
         void place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town );
 
         void build_city_street( const overmap_connection &connection, const point_om_omt &p, int cs,
-                                om_direction::type dir, const city &town, int block_width = 2 );
+                                om_direction::type dir, const city &town, std::vector<tripoint_om_omt> &sewers,
+                                int block_width = 2 );
         void build_mine( const tripoint_om_omt &origin, int s );
 
         // Connection laying
