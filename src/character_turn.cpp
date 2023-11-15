@@ -776,8 +776,6 @@ void Character::reset_stats()
 
     apply_skill_boost();
 
-    nv_cached = false;
-
     // Reset our stats to normal levels
     // Any persistent buffs/debuffs will take place in effects,
     // player::suffer(), etc.

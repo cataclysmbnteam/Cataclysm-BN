@@ -1457,7 +1457,6 @@ bool game::do_turn()
 
                 if( handle_action() ) {
                     ++moves_since_last_save;
-                    u.action_taken();
                 }
 
                 if( is_game_over() ) {

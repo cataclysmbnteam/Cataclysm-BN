@@ -413,8 +413,6 @@ class Character : public Creature, public location_visitable<Character>
         bool has_alarm_clock() const;
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch() const;
-        /** Called after every action, invalidates player caches */
-        void action_taken();
         /** Returns true if the player is knocked over or has broken legs */
         bool is_on_ground() const override;
         /** Returns the player's speed for swimming across water tiles */
@@ -1584,9 +1582,6 @@ class Character : public Creature, public location_visitable<Character>
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
 
-        /** Returns true if the player has some form of night vision */
-        bool has_nv();
-
         /**
          * Returns >0 if character is sitting/lying and relatively inactive.
          * 1 represents sleep on comfortable bed, so anything above that should be rare.
@@ -1641,7 +1636,6 @@ class Character : public Creature, public location_visitable<Character>
 
         location_vector<item> worn;
         std::array<int, num_hp_parts> damage_bandaged, damage_disinfected;
-        bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
         bool hauling = false;

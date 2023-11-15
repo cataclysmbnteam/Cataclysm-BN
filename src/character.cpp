@@ -487,7 +487,6 @@ Character::Character( Character &&source )  noexcept : Creature( std::move( sour
 
     worn = std::move( source.worn );
     damage_disinfected = source.damage_disinfected ;
-    nv_cached = source.nv_cached ;
     in_vehicle = source.in_vehicle ;
     hauling = source.hauling ;
 
@@ -645,7 +644,6 @@ noexcept
 
     worn = std::move( source.worn );
     damage_disinfected = source.damage_disinfected ;
-    nv_cached = source.nv_cached ;
     in_vehicle = source.in_vehicle ;
     hauling = source.hauling ;
 
@@ -1144,11 +1142,6 @@ int Character::get_perceived_pain() const
     }
 
     return std::max( get_pain() - get_painkiller(), 0 );
-}
-
-void Character::action_taken()
-{
-    nv_cached = false;
 }
 
 int Character::swim_speed() const
@@ -2029,7 +2022,9 @@ void Character::recalc_sight_limits()
         ( is_mounted() && mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
         best_bonus_nv = std::max( best_bonus_nv, 10.0f );
     }
-    if( has_nv() ) {
+    if( worn_with_flag( flag_GNV_EFFECT ) ||
+        has_active_bionic( bio_night_vision ) ||
+        has_effect_with_flag( flag_EFFECT_NIGHT_VISION ) ) {
         vision_mode_cache.set( NV_GOGGLES );
         best_bonus_nv = std::max( best_bonus_nv, 10.0f );
     }
@@ -4151,20 +4146,6 @@ void Character::reset()
     recalculate_enchantment_cache();
     // TODO: Move reset_stats here, remove it from Creature
     Creature::reset();
-}
-
-bool Character::has_nv()
-{
-    static bool nv = false;
-
-    if( !nv_cached ) {
-        nv_cached = true;
-        nv = ( worn_with_flag( flag_GNV_EFFECT ) ||
-               has_active_bionic( bio_night_vision ) ||
-               has_effect_with_flag( flag_EFFECT_NIGHT_VISION ) );
-    }
-
-    return nv;
 }
 
 void Character::reset_encumbrance()
