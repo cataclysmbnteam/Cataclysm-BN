@@ -42,6 +42,8 @@
     "id": [
       "2Story01_1",
       "2Story01_2",
+      "2Story02_1",
+      "2Story02_2",
       "2storyModern01_first",
       "2storyModern01_second",
       "2storyModern02_1",
@@ -262,6 +264,7 @@
     "type": "overmap_terrain",
     "id": [
       "2Story01_roof",
+      "2Story02_roof",
       "2storyModern01_roof",
       "2storyModern02_roof",
       "2StoryModern03_roof",
@@ -389,6 +392,7 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "2Story02_basement",
       "2storyModern01_basement",
       "2storyModern02_basement",
       "2StoryModern03_basement",
