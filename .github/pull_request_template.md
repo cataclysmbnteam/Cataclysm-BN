@@ -60,7 +60,10 @@ Remember to attribute the original author(s): if you've just copied over the cha
 
 ## Checklist
 
-<!-- Please follow these steps and tick the checkboxes once you're done.  If your PR does not fall under these categories, you can ignore these lists.  If you have any questions or advice on how to improve these, feel free to contact us on our Discord server.  -->
+<!--
+Certain common types of PRs may need additional code or documentation changes that are easy to forget about or may not be obvious if you're a new contributor.  The checklists below should help you track down what else may need to be done.
+
+Please uncomment any relevant checklists, follow their steps and tick the checkboxes once you're done.  If your PR does not fall under these categories, you can ignore these lists.  If you have any questions or advice on how to improve these, feel free to contact us on our Discord server.  
 
 If this is a C++ PR that modifies JSON loading or behavior:
 - [ ] Document the changes in the appropriate location in the `doc/` folder.
@@ -75,4 +78,5 @@ If this is a PR that modifies build process or code organization:
 - [ ] If the change alters versions of software required to build or work with the game, please document it.
 
 If this is a PR that removes JSON entities:
-- [ ] The removed JSON entities have new entries in `data/json/obsoletion/` folder.
+- [ ] The removed JSON entities have new entries in `data/json/obsoletion/` folder or use some other migration process for existing saves.
+-->
