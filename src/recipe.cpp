@@ -7,6 +7,8 @@
 #include <optional>
 #include <sstream>
 
+#include "detached_ptr.h"
+#include "units_volume.h"
 #include "assign.h"
 #include "cached_options.h"
 #include "calendar.h"
@@ -41,6 +43,15 @@ static const itype_id itype_char_smoker( "char_smoker" );
 
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
+
+int recipe::max_batch_size() const
+{
+    // Arbitrary limit, should be "good enough" for most items
+    constexpr units::volume max_volume = 200_liter;
+    detached_ptr<item> result = create_result();
+    int ret = max_volume / std::max( result->volume(), max_possible_in_progress_volume() );
+    return clamp( ret, 1, 50 );
+}
 
 time_duration recipe::batch_duration( int batch, float multiplier, size_t assistants ) const
 {
@@ -869,4 +880,31 @@ int recipe::disassembly_batch_size() const
     } else {
         return result_->charges_default();
     }
+}
+
+units::volume recipe::max_possible_in_progress_volume() const
+{
+    // In-progress craft's volume equals to volume of all its components.
+    // Ergo, we need to find the component combination that gives the most volume.
+    units::volume max_of_all_lists = 0_ml;
+    for( const requirement_data &comp_list : deduped_requirements_.alternatives() ) {
+        units::volume list_volume_sum = 0_ml;
+        for( const auto &comp : comp_list.get_components() ) {
+            units::volume comp_max_volume = 0_ml;
+            for( const item_comp &comp_choice : comp ) {
+                units::volume comp_choice_volume;
+                if( comp_choice.type->count_by_charges() ) {
+                    item *tmp = item::spawn_temporary( comp_choice.type, calendar::turn, comp_choice.count );
+                    comp_choice_volume = tmp->volume();
+                } else {
+                    item *tmp = item::spawn_temporary( comp_choice.type );
+                    comp_choice_volume = tmp->volume() * comp_choice.count;
+                }
+                comp_max_volume = std::max( comp_max_volume, comp_choice_volume );
+            }
+            list_volume_sum += comp_max_volume;
+        }
+        max_of_all_lists = std::max( max_of_all_lists, list_volume_sum );
+    }
+    return max_of_all_lists;
 }

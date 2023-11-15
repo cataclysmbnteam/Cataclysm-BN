@@ -14,6 +14,7 @@
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
+#include <units_volume.h>
 
 class JsonObject;
 class item;
@@ -147,6 +148,7 @@ class recipe
 
         bool has_byproducts() const;
 
+        int max_batch_size() const;
         int batch_time( int batch, float multiplier, size_t assistants ) const;
         time_duration batch_duration( int batch = 1, float multiplier = 1.0,
                                       size_t assistants = 0 ) const;
@@ -188,6 +190,7 @@ class recipe
         int disassembly_batch_size() const;
 
     private:
+        units::volume max_possible_in_progress_volume() const;
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
 
     private:
