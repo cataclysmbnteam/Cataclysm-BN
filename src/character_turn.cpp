@@ -427,8 +427,9 @@ void Character::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = 1;
         if( is_new || it.activated( calendar::turn, "SLEEPDEBT", val, reduced, mod ) ) {
-            mod_sleep_deprivation( bound_mod_to_vals( get_sleep_deprivation(), val, it.get_max_val( "SLEEPDEBT", reduced ),
-                                           it.get_min_val( "SLEEPDEBT", reduced ) ) );
+            mod_sleep_deprivation( bound_mod_to_vals( get_sleep_deprivation(), val, it.get_max_val( "SLEEPDEBT",
+                                   reduced ),
+                                   it.get_min_val( "SLEEPDEBT", reduced ) ) );
         }
     }
 
