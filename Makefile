@@ -882,7 +882,7 @@ ifeq ($(LTO), 1)
   endif
 endif
 
-all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
+all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTS)
 	@
 
 $(TARGET): $(OBJS) $(LUA_OBJS)
@@ -913,13 +913,19 @@ else
 	@$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS)) $(LUA_OBJS)
 endif
 
-.PHONY: version
+.PHONY: version prefix
 version:
 	@( VERSION_STRING=$(VERSION) ; \
      VERSION_AUTOMATIC=$(VERSION_AUTOMATIC) ; \
             [ 1 -eq $$VERSION_AUTOMATIC ] && [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty --match "[0-9A-Z]*.[0-9A-Z]*" ) && VERSION_STRING=$$GITVERSION ; \
             [ -e "$(SRC_DIR)/version.h" ] && OLDVERSION=$$(grep VERSION $(SRC_DIR)/version.h|cut -d '"' -f2) ; \
             if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then printf '// NOLINT(cata-header-guard)\n#define VERSION "%s"\n' "$$VERSION_STRING" | tee $(SRC_DIR)/version.h ; fi \
+         )
+
+prefix:
+	@( PREFIX_STRING=$(PREFIX) ; \
+            [ -e "$(SRC_DIR)/prefix.h" ] && OLDPREFIX=$$(grep PREFIX $(SRC_DIR)/PREFIX.h|cut -d '"' -f2) ; \
+            if [ "x$$PREFIX_STRING" != "x$$OLDPREFIX" ]; then printf '// NOLINT(cata-header-guard)\n#define PREFIX "%s"\n' "$$PREFIX_STRING" | tee $(SRC_DIR)/prefix.h ; fi \
          )
 
 # Unconditionally create the object dir on every invocation.
@@ -1199,24 +1205,6 @@ check: version $(BUILD_PREFIX)cataclysm.a
 
 clean-tests:
 	$(MAKE) -C tests clean
-
-cmake-format:
-	cmake-format -i \
-		./CMakeLists.txt \
-		./.github/vcpkg_triplets/x64-windows-static.cmake \
-		./.github/vcpkg_triplets/x64-windows.cmake \
-		./.github/vcpkg_triplets/x86-windows-static.cmake \
-		./.github/vcpkg_triplets/x86-windows.cmake  \
-		./cmake_uninstall.cmake.in \
-		./CMakeLists.txt \
-		./data/CMakeLists.txt \
-		./lang/CMakeLists.txt \
-		./src/CMakeLists.txt \
-		./src/version.cmake \
-		./tests/CMakeLists.txt \
-		./tools/clang-tidy-plugin/CMakeLists.txt \
-		./tools/format/CMakeLists.txt \
-    -c .cmake-format.yml
 
 .PHONY: tests check ctags etags clean-tests install lint
 

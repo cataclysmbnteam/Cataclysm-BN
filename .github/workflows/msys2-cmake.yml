@@ -1,4 +1,4 @@
-name: Windows build (MSYS2)
+name: Windows build (CMake + MSYS2)
 
 on:
   push:
@@ -18,7 +18,7 @@ on:
 
 # We only care about the latest revision, so cancel previous instances.
 concurrency:
-  group: msys2-build-${{ github.ref_name }}
+  group: msys2-cmake-build-${{ github.ref_name }}
   cancel-in-progress: true
 
 jobs:
@@ -45,7 +45,7 @@ jobs:
         install: |
           git
           make
-          mingw-w64-x86_64-gcc
+          gettext
           mingw-w64-x86_64-libmad
           mingw-w64-x86_64-libwebp
           mingw-w64-x86_64-pkg-config
@@ -53,11 +53,34 @@ jobs:
           mingw-w64-x86_64-SDL2_image
           mingw-w64-x86_64-SDL2_mixer
           mingw-w64-x86_64-SDL2_ttf
+          mingw-w64-x86_64-toolchain
+          mingw-w64-x86_64-cmake
+
+    - name: Create build directory
+      run: mkdir build
+
+    - name: Configure
+      run: |
+        cd build
+        cmake.exe \
+          -DTILES=ON \
+          -DSOUND=ON \
+          -DLUA=ON \
+          -DTESTS=ON \
+          -DDYNAMIC_LINKING=ON \
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+          -DCMAKE_CXX_FLAGS="-w" \
+          -G "Ninja" \
+          ..
 
     - name: Build
       run: |
-        make -j$((`nproc`+0)) RELEASE=1 DYNAMIC_LINKING=1 TILES=1 SOUND=1 LANGUAGES=all LINTJSON=0 ASTYLE=0
+        cmake.exe --build build -j$((`nproc`+0))
+
+    - name: Compile translations
+      run: |
+        cmake.exe --build build --target translations_compile
 
     - name: Run tests
       run: |
-          ./tests/cata_test.exe --rng-seed time
+          ./build/tests/cata_test-tiles.exe --rng-seed time

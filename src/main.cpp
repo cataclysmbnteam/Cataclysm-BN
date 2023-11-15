@@ -15,6 +15,7 @@
 #include <memory>
 #include <string>
 #include <utility>
+#include <filesystem>
 #include <vector>
 #if defined(_WIN32)
 #   include "platform_win.h"
@@ -43,6 +44,11 @@
 #include "rng.h"
 #include "type_id.h"
 #include "ui_manager.h"
+
+#if defined(PREFIX)
+#   undef PREFIX
+#   include "prefix.h"
+#endif
 
 class ui_adaptor;
 
@@ -207,17 +213,12 @@ int main( int argc, char *argv[] )
     // On Android first launch, we copy all data files from the APK into the app's writeable folder so std::io stuff works.
     // Use the external storage so it's publicly modifiable data (so users can mess with installed data, save games etc.)
     std::string external_storage_path( SDL_AndroidGetExternalStoragePath() );
-    if( external_storage_path.back() != '/' ) {
-        external_storage_path += '/';
-    }
 
     PATH_INFO::init_base_path( external_storage_path );
 #else
     // Set default file paths
 #if defined(PREFIX)
-#define Q(STR) #STR
-#define QUOTE(STR) Q(STR)
-    PATH_INFO::init_base_path( std::string( QUOTE( PREFIX ) ) );
+    PATH_INFO::init_base_path( std::string( PREFIX ) );
 #else
     PATH_INFO::init_base_path( "" );
 #endif
@@ -229,7 +230,7 @@ int main( int argc, char *argv[] )
 #   if defined(USE_HOME_DIR) || defined(USE_XDG_DIR)
     PATH_INFO::init_user_dir( "" );
 #   else
-    PATH_INFO::init_user_dir( "./" );
+    PATH_INFO::init_user_dir( "." );
 #   endif
 #endif
     PATH_INFO::set_standard_filenames();
@@ -600,23 +601,29 @@ int main( int argc, char *argv[] )
         }
     }
 
+    std::string current_path = std::filesystem::current_path().string();
+
     if( !dir_exist( PATH_INFO::datadir() ) ) {
         std::string msg = string_format(
                               "Can't find directory \"%s\"\n"
+                              "Current path: \"%s\"\n"
                               "Please ensure the current working directory is correct.\n"
                               "Perhaps you meant to start \"cataclysm-launcher\"?\n",
-                              PATH_INFO::datadir().c_str()
+                              PATH_INFO::datadir(),
+                              current_path
                           );
         report_fatal_error( msg );
         exit( 1 );
     }
 
-    const auto check_dir_good = []( const std::string & dir ) {
+    const auto check_dir_good = [&current_path]( const std::string & dir ) {
         if( !assure_dir_exist( dir ) ) {
             std::string msg = string_format(
                                   "Can't open or create \"%s\"\n"
+                                  "Current path: \"%s\"\n"
                                   "Please ensure you have write permission.\n",
-                                  dir.c_str()
+                                  dir.c_str(),
+                                  current_path
                               );
             report_fatal_error( msg );
             exit( 1 );
@@ -624,8 +631,10 @@ int main( int argc, char *argv[] )
         if( !can_write_to_dir( dir ) ) {
             std::string msg = string_format(
                                   "Can't write to \"%s\"\n"
+                                  "Current path: \"%s\"\n"
                                   "Please ensure you have write permission and free storage space.\n",
-                                  dir.c_str()
+                                  dir.c_str(),
+                                  current_path
                               );
             report_fatal_error( msg );
             exit( 1 );

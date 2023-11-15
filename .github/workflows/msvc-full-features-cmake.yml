@@ -1,4 +1,4 @@
-name: Cataclysm Windows build (MSVC)
+name: Cataclysm Windows build (CMake + MSVC)
 
 on:
   push:
@@ -16,25 +16,10 @@ on:
     - '!tools/format/**'
     - 'utilities/**'
     - 'scripts/**'
-  pull_request:
-    branches:
-    - upload
-    paths-ignore:
-    - 'android/**'
-    - 'build-data/osx/**'
-    - 'doc/**'
-    - 'doxygen_doc/**'
-    - 'gfx/**'
-    - 'lang/**'
-    - 'lgtm/**'
-    - 'tools/**'
-    - '!tools/format/**'
-    - 'utilities/**'
-    - 'scripts/**'
 
-# We only care about the latest revision of a PR, so cancel previous instances.
+# We only care about the latest revision, so cancel previous instances.
 concurrency:
-  group: msvc-build-${{ github.event.pull_request.number || github.ref_name }}
+  group: msvc-cmake-build-${{ github.ref_name }}
   cancel-in-progress: true
 
 env:
@@ -43,6 +28,7 @@ env:
   # Have to use github.workspace because runner namespace isn't available yet.
   VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
   ZSTD_CLEVEL: 17
+  CMAKE_PRESET: windows-tiles-sounds-x64-msvc
 
 jobs:
   build_catatclysm:
@@ -59,6 +45,17 @@ jobs:
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.3.1
 
+    - name: Remove Strawberry Perl from PATH
+      run: |
+        echo $env:PATH
+        echo =========================
+        $env:PATH = $env:PATH -replace "C:\\Strawberry\\c\\bin;", ""
+        $env:PATH = $env:PATH -replace "C:\\Strawberry\\perl\\site\\bin;", ""
+        $env:PATH = $env:PATH -replace "C:\\Strawberry\\perl\\bin;", ""
+        "PATH=$env:PATH" | Out-File -FilePath $env:GITHUB_ENV -Append
+        echo =========================
+        echo $env:PATH
+
     - name: Install stable CMake
       uses: lukka/get-cmake@latest
 
@@ -74,36 +71,26 @@ jobs:
         vcpkg integrate install
 
     - uses: ammaraskar/msvc-problem-matcher@master
+    - name: Configure
+      run: |
+          cmake -DTESTS=ON --preset $env:CMAKE_PRESET
+
+    - uses: ammaraskar/msvc-problem-matcher@master
     - name: Build
       run: |
-          cd msvc-full-features
-          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static" Cataclysm-vcpkg-static.sln
+          cmake --build out/build/$env:CMAKE_PRESET --config RelWithDebInfo
 
     - name: Dump logs if build failed
       if: failure()
       run: |
         echo =================================================
-        Get-ChildItem "${{ runner.workspace }}/Cataclysm-BN/msvc-full-features/vcpkg_installed" -Recurse
+        Get-ChildItem "${{ runner.workspace }}/Cataclysm-BN/out/build/$env:CMAKE_PRESET" -Recurse
         echo =================================================
-        Get-ChildItem "${{ runner.workspace }}/b/vcpkg/buildtrees" |
-        Foreach-Object {
-            Get-ChildItem $_.FullName -Filter *.log |
-            Foreach-Object {
-              echo =================================================
-              echo $_.FullName
-              echo =================================================
-              type $_.FullName
-            }
-        }
 
     - name: Compile .mo files for localization
       run: |
-          & "C:\msys64\mingw64\bin\mingw32-make" localization
+          cmake --build out/build/$env:CMAKE_PRESET --target translations_compile --config RelWithDebInfo
 
     - name: Run tests
       run: |
-          .\Cataclysm-test-vcpkg-static-Release-x64.exe --rng-seed time
-
-    - name: Clean
-      run: |
-          Get-ChildItem -Path Cataclysm-lib-vcpkg-static-Release-x64.* | Foreach-Object { rm $_.FullName }
+          .\RelWithDebInfo\cata_test-tiles.exe --rng-seed time
