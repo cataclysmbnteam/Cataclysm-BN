@@ -12,18 +12,13 @@ WARNING: If autofix.ci app did the formatting for you, YOU MUST DO EITHER OF THE
 If you don't do this, your following work will be based on the old commit, and may cause MERGE CONFLICT.
 If you use GitHub's web editor to edit files, you shouldn't need to do this as the web editor works directly on the remote branch.
 
-
-PR TITLE: Please follow conventional commits: https://www.conventionalcommits.org
+PR TITLE: Please follow Conventional Commits: https://www.conventionalcommits.org
 This makes it clear at a glance what the PR is about.
-
-for example:
-feat(content, mods): new item for <mod name>
-
-for more on which category is available, see:
-https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/
-
-If the PR is a port or adaptation of DDA content, please indicate it by adding port in PR title, like:
-feat(port): <feature name> from DDA
+For example:
+    feat(content, mods): new item for <mod name>
+For more info on which categories are available, see: https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/
+If the PR is a port or adaptation of DDA content, please indicate it by adding "port" in PR title, like:
+    feat(port): <feature name> from DDA
 -->
 
 ## Purpose of change
