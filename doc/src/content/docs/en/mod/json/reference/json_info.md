@@ -2675,7 +2675,8 @@ it for the purpose of surgery.
 
 #### `provides_liquids`
 
-(Optional) Dispenses infinite amounts of specified liquid item when interacted. Must be used with `"examine_action": "liquid_source"` to work.
+(Optional) Dispenses infinite amounts of specified liquid item when interacted. Must be used with
+`"examine_action": "liquid_source"` to work.
 
 ### Terrain
 
