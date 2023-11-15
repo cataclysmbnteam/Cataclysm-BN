@@ -19,7 +19,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 381 ] ],
+          [ [ "2x4", 380 ] ],
           [
             [ "cattail_stalk", 172 ],
             [ "dogbane", 172 ],
@@ -35,7 +35,7 @@
             [ "material_quicklime", 172 ],
             [ "material_soil", 860 ]
           ],
-          [ [ "nail", 396 ] ],
+          [ [ "nail", 394 ] ],
           [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 215 ], [ "water_clean", 215 ] ],
           [ [ "wood_panel", 22 ] ]

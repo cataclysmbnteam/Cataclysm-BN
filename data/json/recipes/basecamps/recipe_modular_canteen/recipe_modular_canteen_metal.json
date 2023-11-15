@@ -107,9 +107,9 @@
           [ { "id": "WRENCH", "level": 2 } ]
         ],
         "components": [
-          [ [ "2x4", 180 ] ],
+          [ [ "2x4", 179 ] ],
           [ [ "frame", 18 ], [ "pipe", 108 ], [ "xlframe", 30 ] ],
-          [ [ "nail", 544 ] ],
+          [ [ "nail", 542 ] ],
           [ [ "scrap", 420 ], [ "sheet_metal_small", 210 ] ],
           [ [ "wood_panel", 22 ] ]
         ]

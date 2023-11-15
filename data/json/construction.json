@@ -1839,7 +1839,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "25 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 6 ] ] ],
     "pre_special": "check_empty",
     "post_furniture": "f_stool"
   },

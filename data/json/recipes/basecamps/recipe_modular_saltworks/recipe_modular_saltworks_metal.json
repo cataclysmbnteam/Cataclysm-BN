@@ -26,10 +26,10 @@
           [ { "id": "SAW_W", "level": 2 } ]
         ],
         "components": [
-          [ [ "2x4", 71 ] ],
+          [ [ "2x4", 70 ] ],
           [ [ "glass_sheet", 3 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "nail", 158 ] ],
+          [ [ "nail", 156 ] ],
           [ [ "steel_plate", 80 ] ],
           [ [ "wood_panel", 6 ] ]
         ]
