@@ -2610,6 +2610,7 @@ entries.
   "open": "f_foo_open",
   "lockpick_result": "f_safe_open",
   "lockpick_message": "With a click, you unlock the safe.",
+  "provides_liquids": "beer",
   "bash": "TODO",
   "deconstruct": "TODO",
   "max_volume": "1000 L",
@@ -2671,6 +2672,11 @@ also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag.
 
 (Optional) Surgery skill multiplier (float) applied by this furniture to survivor standing next to
 it for the purpose of surgery.
+
+#### `provides_liquids`
+
+(Optional) Dispenses infinite amounts of specified liquid item when interacted. Must be used with
+`"examine_action": "liquid_source"` to work.
 
 ### Terrain
 
