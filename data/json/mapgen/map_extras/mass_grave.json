@@ -30,7 +30,7 @@
         " cccccccccccccccccccccc ",
         "                        "
       ],
-      "terrain": { "a": ["t_pit_corpsed"], "b": ["t_fence_post"], "c": ["t_fence_barbed"] },
+      "terrain": { "a": [ "t_pit_corpsed" ], "b": [ "t_fence_post" ], "c": [ "t_fence_barbed" ] },
       "place_loot": [
         { "group": "everyday_corpse", "x": [ 4, 4 ], "y": [ 8, 8 ] },
         { "group": "everyday_corpse", "chance": 100, "repeat": [ 1 ], "x": [ 4, 4 ], "y": [ 10, 10 ] },
