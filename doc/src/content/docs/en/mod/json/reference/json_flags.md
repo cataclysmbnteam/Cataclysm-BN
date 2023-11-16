@@ -761,12 +761,14 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `DISABLE_SIGHTS` Prevents use of the base weapon sights
 - `FIRE_100` Uses 100 shots per firing.
 - `FIRE_50` Uses 50 shots per firing.
+- `FIRE_SUPPORT` Wearing this will let you hip-fire heavy weapons without needing terrain support, like Large or Huge mutants can.
 - `FIRE_TWOHAND` Gun can only be fired if player has two free hands.
 - `IRREMOVABLE` Makes so that the gunmod cannot be removed.
 - `MECH_BAT` This is an exotic battery designed to power military mechs.
 - `MOUNTED_GUN` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag, if you're a
   normal human. If you're an oversized mutant (Inconveniently Large, Large, Freakishly Huge, Huge),
-  you can fire it regularly in exchange for dispersion and recoil penalties.
+  you can fire it regularly in exchange for dispersion and recoil penalties. Wearing something with
+  the `FIRE_SUPPORT` flag also works.
 - `NEVER_JAMS` Never malfunctions.
 - `NO_UNLOAD` Cannot be unloaded.
 - `PRIMITIVE_RANGED_WEAPON` Allows using non-gunsmith tools to repair it (but not reinforce).

@@ -945,7 +945,10 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
 
         // If user is currently able to fire a mounted gun freely, penalize recoil based on size class.
         if( gun.has_flag( flag_MOUNTED_GUN ) && !can_use_bipod( here, who.pos() ) ) {
-            if( who.get_size() == MS_HUGE ) {
+            if( who.get_size() == MS_HUGE && who.worn_with_flag( flag_FIRE_SUPPORT ) ) {
+                gun_recoil = gun_recoil * 1.5;
+            } else if( who.get_size() == MS_HUGE || ( who.get_size() == MS_LARGE &&
+                       who.worn_with_flag( flag_FIRE_SUPPORT ) ) ) {
                 gun_recoil = gun_recoil * 2;
             } else {
                 gun_recoil = gun_recoil * 3;
@@ -1945,7 +1948,10 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
 
     // If user is currently able to fire a mounted gun freely, penalize dispersion based on size class.
     if( obj.has_flag( flag_MOUNTED_GUN ) && !can_use_bipod( get_map(), who.pos() ) ) {
-        if( who.get_size() == MS_HUGE ) {
+        if( who.get_size() == MS_HUGE && who.worn_with_flag( flag_FIRE_SUPPORT ) ) {
+            dispersion.add_multiplier( 1.5 );
+        } else if( who.get_size() == MS_HUGE || ( who.get_size() == MS_LARGE &&
+                   who.worn_with_flag( flag_FIRE_SUPPORT ) ) ) {
             dispersion.add_multiplier( 2 );
         } else {
             dispersion.add_multiplier( 3 );
@@ -3781,7 +3787,8 @@ bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
         const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
                                  true ) );
         bool t_mountable = m.has_flag_ter_or_furn( flag_MOUNTABLE, you.pos() );
-        if( !mech_mount && !t_mountable && !v_mountable && !( you.get_size() > MS_MEDIUM ) ) {
+        if( !mech_mount && !t_mountable && !v_mountable && !( you.get_size() > MS_MEDIUM ) &&
+            !you.worn_with_flag( flag_FIRE_SUPPORT ) ) {
             messages.push_back( string_format(
                                     _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),
                                     gmode->tname() ) );
