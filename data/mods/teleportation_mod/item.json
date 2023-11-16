@@ -4,7 +4,7 @@
     "category": "tools",
     "type": "TOOL",
     "name": { "str": "Teleporter remote" },
-    "description": "A device with a digital display, connected to the teleporter network. Can be used to check teleporter status and teleport the user.",
+    "description": "A device with a digital display, connected to the teleporter network.  Can be used to check teleporter status and teleport the user.",
     "symbol": "{",
     "color": "black",
     "weight": "500 g",
