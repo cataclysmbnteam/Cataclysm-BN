@@ -19,6 +19,7 @@
       "C": "t_rock_floor_no_roof",
       "D": "t_floor",
       "F": "t_floor",
+      "S": "t_floor",
       "T": "t_region_tree_shade",
       "X": "t_door_locked_interior",
       "W": "t_floor",
@@ -69,7 +70,7 @@
         { "item": "clothing_outdoor_torso", "chance": 50, "repeat": 3 },
         { "item": "clothing_outdoor_shoes", "chance": 50, "repeat": 3 }
       ],
-      "n": { "item": "snacks", "chance": 50, "repeat": 5 },
+      "n": { "item": "snacks", "chance": 50, "repeat": 6 },
       "r": { "item": "fort_powderbarrel", "chance": 100 },
       "t": { "item": "trash_cart", "chance": 50, "repeat": 5 }
     }
