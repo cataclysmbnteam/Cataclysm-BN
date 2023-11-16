@@ -891,7 +891,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of mittens", "str_pl": "pairs of mittens" },
     "description": "A pair of warm mittens.  They are extremely cumbersome.",
-    "weight": "364 g",
+    "weight": "135 g",
     "volume": "750 ml",
     "price": 2500,
     "price_postapoc": 50,

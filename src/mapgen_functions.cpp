@@ -39,10 +39,6 @@ static const itype_id itype_hat_hard( "hat_hard" );
 static const itype_id itype_jackhammer( "jackhammer" );
 static const itype_id itype_mask_dust( "mask_dust" );
 
-static const mtype_id mon_ant_larva( "mon_ant_larva" );
-static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
-static const mtype_id mon_ant_queen( "mon_ant_queen" );
-static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
 static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
@@ -128,29 +124,16 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 
             { "subway_straight",    &mapgen_subway },
             { "subway_curved",      &mapgen_subway },
-            // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
             { "subway_end",         &mapgen_subway },
             { "subway_tee",         &mapgen_subway },
             { "subway_four_way",    &mapgen_subway },
 
-            { "sewer_straight",    &mapgen_sewer_straight },
-            { "sewer_curved",      &mapgen_sewer_curved },
-            // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
-            { "sewer_end",         &mapgen_sewer_straight },
-            { "sewer_tee",         &mapgen_sewer_tee },
-            { "sewer_four_way",    &mapgen_sewer_four_way },
+            { "sewer_straight",    &mapgen_sewer },
+            { "sewer_curved",      &mapgen_sewer },
+            { "sewer_end",         &mapgen_sewer },
+            { "sewer_tee",         &mapgen_sewer },
+            { "sewer_four_way",    &mapgen_sewer },
 
-            { "ants_straight",    &mapgen_ants_straight },
-            { "ants_curved",      &mapgen_ants_curved },
-            // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
-            { "ants_end",         &mapgen_ants_straight },
-            { "ants_tee",         &mapgen_ants_tee },
-            { "ants_four_way",    &mapgen_ants_four_way },
-            { "ants_food", &mapgen_ants_food },
-            { "ants_larvae", &mapgen_ants_larvae },
-            { "ants_larvae_acid", &mapgen_ants_larvae_acid },
-            { "ants_queen", &mapgen_ants_queen },
-            { "ants_queen_acid", &mapgen_ants_queen_acid },
             { "tutorial", &mapgen_tutorial },
             { "lake_shore", &mapgen_lake_shore },
         }
@@ -173,12 +156,6 @@ ter_id clay_or_sand()
         return t_sand;
     }
     return t_clay;
-}
-
-void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down )
-{
-    const auto dir = terrain_type->get_dir();
-    m->rotate( static_cast<int>( north_is_down ? om_direction::opposite( dir ) : dir ) );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1209,99 +1186,46 @@ void mapgen_subway( mapgendata &dat )
     m->rotate( rot );
 }
 
-void mapgen_sewer_straight( mapgendata &dat )
+void mapgen_sewer( mapgendata &dat )
 {
     map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( i < SEEX - 2 || i > SEEX + 1 ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_sewage );
-            }
-        }
-    }
-    m->place_items( item_group_id( "sewer" ), 10, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                    dat.when() );
-    if( dat.terrain_type() == "sewer_ew" ) {
-        m->rotate( 1 );
-    }
-}
 
-void mapgen_sewer_curved( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( i > SEEX + 1 && j < SEEY - 2 ) || i < SEEX - 2 || j > SEEY + 1 ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_sewage );
-            }
-        }
-    }
-    m->place_items( item_group_id( "sewer" ), 18, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                    dat.when() );
-    if( dat.terrain_type() == "sewer_es" ) {
-        m->rotate( 1 );
-    }
-    if( dat.terrain_type() == "sewer_sw" ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == "sewer_wn" ) {
-        m->rotate( 3 );
-    }
-}
+    bool sewer_nesw[4] = {};
+    int num_dirs = terrain_type_to_nesw_array( dat.terrain_type(), sewer_nesw );
 
-void mapgen_sewer_tee( mapgendata &dat )
-{
-    map *const m = &dat.m;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            if( i < SEEX - 2 || ( i > SEEX + 1 && ( j < SEEY - 2 || j > SEEY + 1 ) ) ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_sewage );
+            bool fill = true;
+            if( j >= SEEY - 2 && j <= SEEY + 1 ) {
+                if( i <= SEEX - 2 ) {
+                    if( sewer_nesw[3] ) {
+                        fill = false;
+                    }
+                } else if( i >= SEEX + 1 ) {
+                    if( sewer_nesw[1] ) {
+                        fill = false;
+                    }
+                } else {
+                    // Central area, always empty
+                    fill = false;
+                }
+            } else if( i >= SEEX - 2 && i <= SEEX + 1 ) {
+                if( j <= SEEY - 2 ) {
+                    if( sewer_nesw[0] ) {
+                        fill = false;
+                    }
+                } else {
+                    if( sewer_nesw[2] ) {
+                        fill = false;
+                    }
+                }
             }
-        }
-    }
-    m->place_items( item_group_id( "sewer" ), 23, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                    dat.when() );
-    if( dat.terrain_type() == "sewer_esw" ) {
-        m->rotate( 1 );
-    }
-    if( dat.terrain_type() == "sewer_nsw" ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == "sewer_new" ) {
-        m->rotate( 3 );
-    }
-}
 
-void mapgen_sewer_four_way( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    int rn = rng( 0, 3 );
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( i < SEEX - 2 || i > SEEX + 1 ) && ( j < SEEY - 2 || j > SEEY + 1 ) ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_sewage );
-            }
-            if( rn == 0 && ( trig_dist( point( i, j ), point( SEEX - 1, SEEY - 1 ) ) <= 6 ||
-                             trig_dist( point( i, j ), point( SEEX - 1, SEEY ) ) <= 6 ||
-                             trig_dist( point( i, j ), point( SEEX, SEEY - 1 ) ) <= 6 ||
-                             trig_dist( point( i, j ), point( SEEX, SEEY ) ) <= 6 ) ) {
-                m->ter_set( point( i, j ), t_sewage );
-            }
-            if( rn == 0 && ( i == SEEX - 1 || i == SEEX ) && ( j == SEEY - 1 || j == SEEY ) ) {
-                m->ter_set( point( i, j ), t_grate );
-            }
+            m->ter_set( point( i, j ), fill ? t_rock : t_sewage );
         }
     }
-    m->place_items( item_group_id( "sewer" ), 28, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                    dat.when() );
+    m->place_items( item_group_id( "sewer" ), 4 + ( num_dirs * 6 ), point_zero,
+                    point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
 }
 
 void mapgen_highway( mapgendata &dat )
@@ -2143,288 +2067,6 @@ void mapgen_hellmouth( mapgendata &dat )
 
 }
 
-void mapgen_ants_curved( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    point p( SEEX, 1 );
-    int rn = 0;
-    // First, set it all to rock
-    fill_background( m, t_rock );
-
-    for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
-        m->ter_set( point( i, 0 ), t_rock_floor );
-        m->ter_set( point( i, 1 ), t_rock_floor );
-        m->ter_set( point( i, 2 ), t_rock_floor );
-        m->ter_set( point( SEEX * 2 - 1, i ), t_rock_floor );
-        m->ter_set( point( SEEX * 2 - 2, i ), t_rock_floor );
-        m->ter_set( point( SEEX * 2 - 3, i ), t_rock_floor );
-    }
-    do {
-        for( int i = p.x - 2; i <= p.x + 3; i++ ) {
-            for( int j = p.y - 2; j <= p.y + 3; j++ ) {
-                if( i > 0 && i < SEEX * 2 - 1 && j > 0 && j < SEEY * 2 - 1 ) {
-                    m->ter_set( point( i, j ), t_rock_floor );
-                }
-            }
-        }
-        if( rn < SEEX ) {
-            p.x += rng( -1, 1 );
-            p.y++;
-        } else {
-            p.x++;
-            if( !one_in( p.x - SEEX ) ) {
-                p.y += rng( -1, 1 );
-            } else if( p.y < SEEY ) {
-                p.y++;
-            } else if( p.y > SEEY ) {
-                p.y--;
-            }
-        }
-        rn++;
-    } while( p.x < SEEX * 2 - 1 || p.y != SEEY );
-    for( int i = p.x - 2; i <= p.x + 3; i++ ) {
-        for( int j = p.y - 2; j <= p.y + 3; j++ ) {
-            if( i > 0 && i < SEEX * 2 - 1 && j > 0 && j < SEEY * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( dat.terrain_type() == "ants_es" ) {
-        m->rotate( 1 );
-    }
-    if( dat.terrain_type() == "ants_sw" ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == "ants_wn" ) {
-        m->rotate( 3 );
-    }
-
-}
-
-void mapgen_ants_four_way( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    fill_background( m, t_rock );
-    int x = SEEX;
-    for( int j = 0; j < SEEY * 2; j++ ) {
-        for( int i = x - 2; i <= x + 3; i++ ) {
-            if( i >= 1 && i < SEEX * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-        x += rng( -1, 1 );
-        while( std::abs( SEEX - x ) > SEEY * 2 - j - 1 ) {
-            if( x < SEEX ) {
-                x++;
-            }
-            if( x > SEEX ) {
-                x--;
-            }
-        }
-    }
-
-    int y = SEEY;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = y - 2; j <= y + 3; j++ ) {
-            if( j >= 1 && j < SEEY * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-        y += rng( -1, 1 );
-        while( std::abs( SEEY - y ) > SEEX * 2 - i - 1 ) {
-            if( y < SEEY ) {
-                y++;
-            }
-            if( y > SEEY ) {
-                y--;
-            }
-        }
-    }
-
-}
-
-void mapgen_ants_straight( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    int x = SEEX;
-    fill_background( m, t_rock );
-    for( int j = 0; j < SEEY * 2; j++ ) {
-        for( int i = x - 2; i <= x + 3; i++ ) {
-            if( i >= 1 && i < SEEX * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-        x += rng( -1, 1 );
-        while( std::abs( SEEX - x ) > SEEX * 2 - j - 1 ) {
-            if( x < SEEX ) {
-                x++;
-            }
-            if( x > SEEX ) {
-                x--;
-            }
-        }
-    }
-    if( dat.terrain_type() == "ants_ew" ) {
-        m->rotate( 1 );
-    }
-
-}
-
-void mapgen_ants_tee( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    fill_background( m, t_rock );
-    int x = SEEX;
-    for( int j = 0; j < SEEY * 2; j++ ) {
-        for( int i = x - 2; i <= x + 3; i++ ) {
-            if( i >= 1 && i < SEEX * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-        x += rng( -1, 1 );
-        while( std::abs( SEEX - x ) > SEEY * 2 - j - 1 ) {
-            if( x < SEEX ) {
-                x++;
-            }
-            if( x > SEEX ) {
-                x--;
-            }
-        }
-    }
-    int y = SEEY;
-    for( int i = SEEX; i < SEEX * 2; i++ ) {
-        for( int j = y - 2; j <= y + 3; j++ ) {
-            if( j >= 1 && j < SEEY * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-        y += rng( -1, 1 );
-        while( std::abs( SEEY - y ) > SEEX * 2 - 1 - i ) {
-            if( y < SEEY ) {
-                y++;
-            }
-            if( y > SEEY ) {
-                y--;
-            }
-        }
-    }
-    if( dat.terrain_type() == "ants_new" ) {
-        m->rotate( 3 );
-    }
-    if( dat.terrain_type() == "ants_nsw" ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == "ants_esw" ) {
-        m->rotate( 1 );
-    }
-
-}
-
-static void mapgen_ants_generic( mapgendata &dat )
-{
-    map *const m = &dat.m;
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( i < SEEX - 4 || i > SEEX + 5 || j < SEEY - 4 || j > SEEY + 5 ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    int rn = rng( 10, 20 );
-    point p;
-    for( int n = 0; n < rn; n++ ) {
-        int cw = rng( 1, 8 );
-        do {
-            p.x = rng( 1 + cw, SEEX * 2 - 2 - cw );
-            p.y = rng( 1 + cw, SEEY * 2 - 2 - cw );
-        } while( m->ter( p ) == t_rock );
-        for( int i = p.x - cw; i <= p.x + cw; i++ ) {
-            for( int j = p.y - cw; j <= p.y + cw; j++ ) {
-                if( trig_dist( p, point( i, j ) ) <= cw ) {
-                    m->ter_set( point( i, j ), t_rock_floor );
-                }
-            }
-        }
-    }
-    if( connects_to( dat.north(), 2 ) ||
-        is_ot_match( "ants_lab", dat.north(), ot_match_type::contains ) ) {
-        for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
-            for( int j = 0; j <= SEEY; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( connects_to( dat.east(), 3 ) ||
-        is_ot_match( "ants_lab", dat.east(), ot_match_type::contains ) ) {
-        for( int i = SEEX; i <= SEEX * 2 - 1; i++ ) {
-            for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( connects_to( dat.south(), 0 ) ||
-        is_ot_match( "ants_lab", dat.south(), ot_match_type::contains ) ) {
-        for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
-            for( int j = SEEY; j <= SEEY * 2 - 1; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( connects_to( dat.west(), 1 ) ||
-        is_ot_match( "ants_lab", dat.west(), ot_match_type::contains ) ) {
-        for( int i = 0; i <= SEEX; i++ ) {
-            for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-}
-
-void mapgen_ants_food( mapgendata &dat )
-{
-    mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_food" ), 92, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                       true,
-                       dat.when() );
-}
-
-void mapgen_ants_larvae( mapgendata &dat )
-{
-    mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                       true,
-                       dat.when() );
-    dat.m.add_spawn( mon_ant_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
-}
-
-void mapgen_ants_larvae_acid( mapgendata &dat )
-{
-    mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
-                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-    dat.m.add_spawn( mon_ant_acid_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
-}
-
-void mapgen_ants_queen( mapgendata &dat )
-{
-    mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                       true,
-                       dat.when() );
-    dat.m.add_spawn( mon_ant_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
-}
-
-void mapgen_ants_queen_acid( mapgendata &dat )
-{
-    mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
-                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-    dat.m.add_spawn( mon_ant_acid_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
-}
-
 void mapgen_tutorial( mapgendata &dat )
 {
     map *const m = &dat.m;
@@ -3169,9 +2811,24 @@ void mapgen_lake_shore( mapgendata &dat )
         }
 
         if( pair == i ) {
-            // No pair. Let's mirror it make at least some shoreline
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            line_segments.push_back( { slots[i], { mx - slots[i].x, my - slots[i].y } } );
+            // No pair. Let's attach coast line to the middle of closest non-water tile
+            bool water[8] = { n_water, n_water, w_water, w_water, s_water, s_water, e_water, e_water };
+            int fallback = i;
+            for( int j = modulo( i + dir, 8 ); j != i; j = modulo( j + dir, 8 ) ) {
+                if( !water[j] ) {
+                    fallback = j;
+                    break;
+                }
+            }
+            if( fallback < 2 ) {
+                line_segments.push_back( { slots[i], { mx / 2, 0 } } );
+            } else if( fallback < 4 ) {
+                line_segments.push_back( { slots[i], { 0, my / 2 } } );
+            } else if( fallback < 6 ) {
+                line_segments.push_back( { slots[i], { mx / 2, my } } );
+            } else if( fallback < 8 ) {
+                line_segments.push_back( { slots[i], { mx, my / 2 } } );
+            }
         } else if( pair == i + next ) {
             // We returned to our neighbour on same side, let's connect them in the middle
             point mid = { mx / 2, my / 2 };

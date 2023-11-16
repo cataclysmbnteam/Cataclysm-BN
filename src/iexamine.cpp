@@ -3810,14 +3810,20 @@ void iexamine::trap( player &p, const tripoint &examp )
         here.disarm_trap( examp );
     }
 }
-//Note that these two functions are checked by pointer in map::water_from. Yes it's awful.
+//Note that these three functions are checked by pointer in map::water_from. Yes it's awful.
 void iexamine::water_source( player &, const tripoint &examp )
 {
     liquid_handler::handle_liquid( examp );
 }
 
-//Note that these two functions are checked by pointer in map::water_from. Yes it's awful.
+//Note that these three functions are checked by pointer in map::water_from. Yes it's awful.
 void iexamine::clean_water_source( player &, const tripoint &examp )
+{
+    liquid_handler::handle_liquid( examp );
+}
+
+//Note that these three functions are checked by pointer in map::water_from. Yes it's awful.
+void iexamine::liquid_source( player &, const tripoint &examp )
 {
     liquid_handler::handle_liquid( examp );
 }
@@ -6324,6 +6330,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "trap", &iexamine::trap },
             { "water_source", &iexamine::water_source },
             { "clean_water_source", &iexamine::clean_water_source },
+            { "liquid_source", &iexamine::liquid_source },
             { "reload_furniture", &iexamine::reload_furniture },
             { "use_furn_fake_item", &iexamine::use_furn_fake_item },
             { "curtains", &iexamine::curtains },

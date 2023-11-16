@@ -1244,11 +1244,7 @@ bool avatar::wield( item &target )
     add_msg( m_debug, "wielding took %d moves", mv );
     moves -= mv;
 
-    if( has_item( target ) ) {
-        set_primary_weapon( i_rem( &target ) );
-    } else {
-        set_primary_weapon( target.detach() );
-    }
+    set_primary_weapon( target.detach() );
 
     last_item = target.typeId();
     recoil = MAX_RECOIL;

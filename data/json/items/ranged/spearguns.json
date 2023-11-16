@@ -74,7 +74,7 @@
     "price": 25000,
     "price_postapoc": 1000,
     "material": [ "plastic", "steel" ],
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NON-FOULING" ],
+    "flags": [ "RELOAD_ONE", "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NON_FOULING" ],
     "skill": "rifle",
     "ammo": "fishspear",
     "weight": "3460 g",

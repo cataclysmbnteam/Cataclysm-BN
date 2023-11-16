@@ -297,6 +297,8 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     }
     it.item_counter = countdown > 0 ? countdown : it.type->countdown_interval;
     it.active = active || it.item_counter;
+    // Check for gaining or losing night vision, eye encumbrance effects, clairvoyance from transforming relics, etc.
+    p.recalc_sight_limits();
 
     return 0;
 }
@@ -414,7 +416,7 @@ int unpack_actor::use( player &p, item &it, bool, const tripoint & ) const
         here.add_item_or_charges( p.pos(), std::move( content ) );
     }
 
-    p.i_rem( &it );
+    it.detach( );
 
     return 0;
 }

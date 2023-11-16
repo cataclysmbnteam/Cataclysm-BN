@@ -7,8 +7,7 @@
 #include <array>
 #include <string>
 
-struct point;
-struct tripoint;
+#include "coordinates.h"
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -21,6 +20,7 @@ enum class type : int {
     east,
     south,
     west,
+    last
 };
 
 /** For the purposes of iteration. */
@@ -66,15 +66,18 @@ constexpr int get_num_ccw_rotations( type dir )
 /** Number of bits needed to store directions. */
 const size_t bits = static_cast<size_t>( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
 
-/** Identifier for serialization purposes. */
-const std::string &id( type dir );
-
 /** Get Human readable name of a direction */
 std::string name( type dir );
 
 /** Various rotations. */
 point rotate( point p, type dir );
 tripoint rotate( const tripoint &p, type dir );
+template<typename Point, coords::scale Scale>
+auto rotate( const coords::coord_point<Point, coords::origin::relative, Scale> &p, type dir )
+-> coords::coord_point<Point, coords::origin::relative, Scale>
+{
+    return coords::coord_point<Point, coords::origin::relative, Scale> { rotate( p.raw(), dir ) };
+}
 uint32_t rotate_symbol( uint32_t sym, type dir );
 
 /** Returns point(0, 0) displaced in specified direction by a specified distance
@@ -103,5 +106,10 @@ type random();
 bool are_parallel( type dir1, type dir2 );
 
 } // namespace om_direction
+
+template<>
+struct enum_traits<om_direction::type> {
+    static constexpr om_direction::type last = om_direction::type::last;
+};
 
 #endif // CATA_SRC_OM_DIRECTION_H

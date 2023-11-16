@@ -1,4 +1,4 @@
-name: Cataclysm Windows build (MSYS2)
+name: Windows build (MSYS2)
 
 on:
   push:
@@ -15,24 +15,10 @@ on:
     - '!tools/format/**'
     - 'utilities/**'
     - 'scripts/**'
-  pull_request:
-    branches:
-    - upload
-    paths-ignore:
-    - 'android/**'
-    - 'build-data/osx/**'
-    - 'doc/**'
-    - 'doxygen_doc/**'
-    - 'gfx/**'
-    - 'lang/**'
-    - 'tools/**'
-    - '!tools/format/**'
-    - 'utilities/**'
-    - 'scripts/**'
 
-# We only care about the latest revision of a PR, so cancel previous instances.
+# We only care about the latest revision, so cancel previous instances.
 concurrency:
-  group: msys2-build-${{ github.event.pull_request.number || github.ref_name }}
+  group: msys2-build-${{ github.ref_name }}
   cancel-in-progress: true
 
 jobs:

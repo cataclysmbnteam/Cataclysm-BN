@@ -1,0 +1,15 @@
+{
+  "imports": {
+    "$std/": "https://deno.land/std@0.206.0/",
+    "$asynciter/": "https://deno.land/x/asynciter@0.0.18/",
+    "$zod/": "https://deno.land/x/zod@v3.22.4/",
+    "$catjazz/": "https://deno.land/x/catjazz@v0.0.2/",
+    "$ts-reset/": "https://raw.githubusercontent.com/total-typescript/ts-reset/b2df073b6b0fcb9f9599408d88cf559344c10586/src/",
+    "$outdent/": "https://deno.land/x/outdent@v0.8.0/"
+  },
+  "scopes": {
+    "$ts-reset/": {
+      "utils.d.ts": "https://raw.githubusercontent.com/total-typescript/ts-reset/b2df073b6b0fcb9f9599408d88cf559344c10586/src/entrypoints/utils.d.ts"
+    }
+  }
+}

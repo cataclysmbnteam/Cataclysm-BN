@@ -42,11 +42,11 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 167 ] ],
+          [ [ "2x4", 166 ] ],
           [ [ "glass_sheet", 1 ] ],
           [ [ "hinge", 2 ] ],
           [ [ "log", 24 ] ],
-          [ [ "nail", 394 ] ],
+          [ [ "nail", 392 ] ],
           [ [ "wood_panel", 23 ] ]
         ]
       }

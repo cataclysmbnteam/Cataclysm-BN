@@ -163,6 +163,17 @@ Example:
 In this example, the "rows" property should be 48x48, with each quadrant of 24x24 being associated
 with each of the four apartments_mod_tower overmap terrain ids specified.
 
+### "om_terrain" for linear terrain
+
+Some overmap terrains are _linear_. This is used for things like roads, tunnels, etc. where they
+form lines which can connect in various ways. Such terrains are defined with the `LINEAR` flag in
+their `overmap_terrain` definition (see the [OVERMAP docs](OVERMAP.md)).
+
+When defining the JSON mapgen for such terrain, you must define several instances, for each type of
+connection that might exist. Each gets a suffix added to the `overmap_terrain` id. The suffixes are:
+`_end`, `_straight`, `_curved`, `_tee`, `_four_way`. For an example, see the definitions for `ants`
+in [`ants.json`](../data/json/mapgen/bugs/ants.json).
+
 ### Define mapgen "weight"
 
 (optional) When the game randomly picks mapgen functions, each function's weight value determines
@@ -961,6 +972,48 @@ transformations as part of an `update_mapgen`, as normal mapgen can just specify
 directly.
 
 - "transform": (required, string) the id of the `ter_furn_transform` to run.
+
+### Spawn nested chunks based on overmap neighbors with "place_nested"
+
+Place_nested allows for limited conditional spawning of chunks based on the `"id"`s of their overmap
+neighbors and the joins that were used in placing a mutable overmap special. This is useful for
+creating smoother transitions between biome types or to dynamically create walls at the edges of a
+mutable structure.
+
+| Field              | Description                                                                                                                                                               |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise. |
+| x and y            | (required, int) the cardinal position in which the chunk will be placed.                                                                                                  |
+| neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk. Each direction is associated with a list of overmap `"id"` substrings.        |
+| joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk. Each direction is associated with a list of join `"id"` strings.            |
+| connections        | (optional) Any connection that should be directed toward this overmap before placing the chunk. Each direction is associated with a list of connection `"id"` strings.    |
+|                    |                                                                                                                                                                           |
+
+The adjacent overmaps which can be checked in this manner are:
+
+- the direct cardinal neighbors ( `"north"`, `"east"`, `"south"`, `"west"` ),
+- the inter cardinal neighbors ( `"north_east"`, `"north_west"`, `"south_east"`, `"south_west"` ),
+- the direct vertical neighbors ( `"above"`, `"below"` ).
+
+Joins can be checked only for the cardinal directions, `"above"`, and `"below"`
+
+Example:
+
+```json
+"place_nested": [
+  { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
+  { "chunks": [ "gate_north" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
+  { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "north_west": [ "field", "microlab" ] } }
+],
+```
+
+The code excerpt above will place chunks as follows:
+
+- `"concrete_wall_ew"` if the north neighbor is either a field or solid rock
+- `"gate_north"` if the join `"interior_to_exterior"` was used to the north during mutable overmap
+  placement.
+- `"concrete_wall_ns"`if the north west neighbor is neither a field nor any of the microlab
+  overmaps.
 
 ## Rotate the map with "rotation"
 

@@ -367,6 +367,16 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
         extract_effect( j, mod_data, "fatigue_chance_bot", member, "FATIGUE",  "chance_bot" );
         extract_effect( j, mod_data, "fatigue_tick",      member, "FATIGUE",  "tick" );
 
+        // Then sleep debt
+        extract_effect( j, mod_data, "sleepdebt_amount",    member, "SLEEPDEBT",   "amount" );
+        extract_effect( j, mod_data, "sleepdebt_min",       member, "SLEEPDEBT",   "min" );
+        extract_effect( j, mod_data, "sleepdebt_max",       member, "SLEEPDEBT",   "max" );
+        extract_effect( j, mod_data, "sleepdebt_min_val",   member, "SLEEPDEBT",   "min_val" );
+        extract_effect( j, mod_data, "sleepdebt_max_val",   member, "SLEEPDEBT",   "max_val" );
+        extract_effect( j, mod_data, "sleepdebt_chance",    member, "SLEEPDEBT",   "chance_top" );
+        extract_effect( j, mod_data, "sleepdebt_chance_bot", member, "SLEEPDEBT",   "chance_bot" );
+        extract_effect( j, mod_data, "sleepdebt_tick",      member, "SLEEPDEBT",   "tick" );
+
         // Then stamina
         extract_effect( j, mod_data, "stamina_amount",    member, "STAMINA",  "amount" );
         extract_effect( j, mod_data, "stamina_min",       member, "STAMINA",  "min" );

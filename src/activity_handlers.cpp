@@ -1512,7 +1512,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     charges = std::max( 1, source->charges_per_volume( volume_per_second ) );
                     source->charges = charges;
                     source = cb( std::move( source ) );
-                    return !( source && source->charges != charges );
+                    return source && source->charges == charges;
                 case LST_VEHICLE:
                     auto vp = here.veh_at( pos );
                     if( !vp ) {
@@ -2688,16 +2688,17 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = static_cast<repeat_type>( act->get_value( 0, REPEAT_INIT ) );
-    item *ploc = nullptr;
-    if( !act->targets.empty() && act->targets[0] ) {
-        ploc = &*act->targets[0];
-    }
 
     // nullopt if used real tool
     std::optional<hack::hack_type_t> hack_type = hack::get_hack_type( *act );
     item *fake_tool = nullptr;
+    // real tool if used.
+    item *ploc = nullptr;
+
     if( hack_type ) {
         fake_tool = hack::get_fake_tool( hack_type.value(), *act );
+    } else {
+        ploc = &*act->targets[0];
     }
     const tripoint hack_position = hack_type ? hack::get_position( *act ) : tripoint{};
     const int hack_original_charges = fake_tool ? fake_tool->charges : 0;
@@ -2906,18 +2907,33 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     }
     p->invalidate_crafting_inventory();
 
-    target->faults.erase( *f );
-    if( method->turns_into ) {
-        target->faults.emplace( *method->turns_into );
+    const auto mend = [&]( item * target ) -> void {
+        target->faults.erase( *f );
+        if( method->turns_into )
+        {
+            target->faults.emplace( *method->turns_into );
+        }
+        // also_mends removes not just the fault picked to be mended, but this as well.
+        if( method->also_mends )
+        {
+            target->faults.erase( *method->also_mends );
+        }
+        if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" )
+        {
+            target->set_var( "dirt", 0 );
+        }
+        add_msg( m_good, method->success_msg.translated(), target->tname() );
+    };
+
+    mend( target );
+
+    // iterate over attachments and apply the same changes if they have the same fault
+    for( const auto &mod : target->gunmods() ) {
+        if( mod->faults.find( fault_id( act->name ) ) == mod->faults.end() ) {
+            continue;
+        }
+        mend( mod );
     }
-    // also_mends removes not just the fault picked to be mended, but this as well.
-    if( method->also_mends ) {
-        target->faults.erase( *method->also_mends );
-    }
-    if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
-        target->set_var( "dirt", 0 );
-    }
-    add_msg( m_good, method->success_msg.translated(), target->tname() );
 }
 
 void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
@@ -2953,7 +2969,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     if( rng( 0, 100 ) <= roll ) {
         add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
                  gun.tname() );
-        gun.put_in( p->i_rem( &mod ) );
+        gun.put_in( mod.detach() );
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {
@@ -2965,7 +2981,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
             }
             add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname(),
                      gun.tname() );
-            p->i_rem( &gun );
+            gun.detach( );
         } else {
             add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname(),
                      gun.tname() );

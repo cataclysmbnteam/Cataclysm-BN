@@ -3417,7 +3417,7 @@ std::string give_item_to( npc &p, bool allow_use )
         const auto consume_res = try_consume( p, given, reason );
         if( consume_res != REFUSED ) {
             if( consume_res == CONSUMED_ALL ) {
-                you.i_rem( &given );
+                given.detach( );
             }
             you.moves -= 100;
             if( given.is_container() ) {

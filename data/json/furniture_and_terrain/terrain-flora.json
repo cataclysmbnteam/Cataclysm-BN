@@ -2105,5 +2105,98 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_cacao",
+    "name": "cacao tree",
+    "description": "A thick tree belonging to the 'Theobroma' genus, native to Central and South America, that has been genetically engineered to withstand New England's four seasons.  If you examined the trunk of the tree, you could probably find some mature cacao pods.  Even in the face of apocalypse, you can't give up chocolate, of course.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "yellow_yellow", "green", "brown" ],
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_cacao_harvested",
+    "examine_action": "harvest_ter",
+    "looks_like": "t_tree_hickory",
+    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "cacao_pod", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_cacao_harvested",
+    "name": "cacao tree",
+    "description": "A thick tree belonging to the 'Theobroma' genus, native to Central and South America, that has been genetically engineered to withstand New England's four seasons.  Looks like all the ripe cacao pods have been picked.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "green", "green", "brown" ],
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "transforms_into": "t_tree_cacao",
+    "examine_action": "harvested_plant",
+    "looks_like": "t_tree_hickory_harvested",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_coca",
+    "name": "coca",
+    "description": "A tree native to South America, coca leaves have been used as medicine, tonic, and tea for thousands of years.  Oddly enough, the tree has also been modified to withstand New England's climate through the power of genetic engineering.  If you examined the trunk of the tree, you could probably find some mature coca leaves.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "light_green" ],
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_coca_harvested",
+    "examine_action": "harvest_ter",
+    "looks_like": "t_tree_young",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "coca_leaf", "base_num": [ 4, 20 ], "scale_num": [ 0, 0.5 ] } ]
+      }
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 0, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_coca_harvested",
+    "name": "coca",
+    "description": "A tree native to South America, coca leaves have been used as medicine, tonic, and tea for thousands of years.  Looks like all the coca leaves have been picked.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "green", "green", "green" ],
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "HARVESTED" ],
+    "transforms_into": "t_tree_coca",
+    "examine_action": "harvested_plant",
+    "looks_like": "t_tree_young",
+    "bash": {
+      "str_min": 4,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 0, 5 ] } ]
+    }
   }
 ]

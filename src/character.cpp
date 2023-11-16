@@ -487,7 +487,6 @@ Character::Character( Character &&source )  noexcept : Creature( std::move( sour
 
     worn = std::move( source.worn );
     damage_disinfected = source.damage_disinfected ;
-    nv_cached = source.nv_cached ;
     in_vehicle = source.in_vehicle ;
     hauling = source.hauling ;
 
@@ -645,7 +644,6 @@ noexcept
 
     worn = std::move( source.worn );
     damage_disinfected = source.damage_disinfected ;
-    nv_cached = source.nv_cached ;
     in_vehicle = source.in_vehicle ;
     hauling = source.hauling ;
 
@@ -1144,11 +1142,6 @@ int Character::get_perceived_pain() const
     }
 
     return std::max( get_pain() - get_painkiller(), 0 );
-}
-
-void Character::action_taken()
-{
-    nv_cached = false;
 }
 
 int Character::swim_speed() const
@@ -2029,7 +2022,9 @@ void Character::recalc_sight_limits()
         ( is_mounted() && mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
         best_bonus_nv = std::max( best_bonus_nv, 10.0f );
     }
-    if( has_nv() ) {
+    if( worn_with_flag( flag_GNV_EFFECT ) ||
+        has_active_bionic( bio_night_vision ) ||
+        has_effect_with_flag( flag_EFFECT_NIGHT_VISION ) ) {
         vision_mode_cache.set( NV_GOGGLES );
         best_bonus_nv = std::max( best_bonus_nv, 10.0f );
     }
@@ -2846,6 +2841,11 @@ void Character::inv_unsort()
     inv.unsort();
 }
 
+detached_ptr<item> Character::inv_remove_item( item *it )
+{
+    return inv.remove_item( it );
+}
+
 detached_ptr<item> Character::i_rem( int pos )
 {
     if( pos == -1 ) {
@@ -2860,23 +2860,6 @@ detached_ptr<item> Character::i_rem( int pos )
         return ret ;
     }
     return inv.remove_item( pos );
-}
-
-detached_ptr<item> Character::i_rem( const item *it )
-{
-    detached_ptr<item> ret;
-    remove_items_with( [&it, &ret]( detached_ptr<item> &&i ) {
-        if( &*i == it ) {
-            ret = std::move( i );
-            return VisitResponse::ABORT;
-        }
-        return VisitResponse::SKIP;
-    } );
-    if( !ret ) {
-        debugmsg( "did not found item %s to remove it!", it->tname() );
-        return detached_ptr<item>();
-    }
-    return ret ;
 }
 
 detached_ptr<item> Character::i_rem_keep_contents( const int idx )
@@ -4163,20 +4146,6 @@ void Character::reset()
     recalculate_enchantment_cache();
     // TODO: Move reset_stats here, remove it from Creature
     Creature::reset();
-}
-
-bool Character::has_nv()
-{
-    static bool nv = false;
-
-    if( !nv_cached ) {
-        nv_cached = true;
-        nv = ( worn_with_flag( flag_GNV_EFFECT ) ||
-               has_active_bionic( bio_night_vision ) ||
-               has_effect_with_flag( flag_EFFECT_NIGHT_VISION ) );
-    }
-
-    return nv;
 }
 
 void Character::reset_encumbrance()
@@ -7778,7 +7747,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     if( used->is_tool() || used->is_medication() || used->get_contained().is_medication() ) {
         return consume_charges( *actually_used, charges_used );
     } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
-        i_rem( used );
+        used->detach();
         return true;
     }
 
@@ -7959,7 +7928,7 @@ bool Character::consume_charges( item &used, int qty )
     if( used.is_food() || used.is_medication() ) {
         used.charges -= qty;
         if( used.charges <= 0 ) {
-            i_rem( &used );
+            used.detach();
             return true;
         }
         return false;
@@ -7967,7 +7936,7 @@ bool Character::consume_charges( item &used, int qty )
 
     // Tools which don't require ammo are instead destroyed
     if( used.is_tool() && !used.ammo_required() ) {
-        i_rem( &used );
+        used.detach();
         return true;
     }
 
@@ -10290,11 +10259,12 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
                 qty -= n;
 
                 if( n == e->ammo_remaining() ) {
-                    res.push_back( std::move( e ) );
-                } else {
+                    res.push_back( item::spawn( *e ) );
                     e->ammo_consume( n, p );
+                } else {
                     detached_ptr<item> split = item::spawn( *e );
-                    split->charges = n;
+                    split->ammo_set( e->ammo_current(), n );
+                    e->ammo_consume( n, p );
                     res.push_back( std::move( split ) );
                 }
             }
@@ -11710,8 +11680,9 @@ int Character::item_reload_cost( const item &it, item &ammo, int qty ) const
     mv += cost / ( 1.0f + std::min( get_skill_level( sk ) * 0.1f, 1.0f ) );
 
     if( it.has_flag( flag_STR_RELOAD ) ) {
-        /** @EFFECT_STR reduces reload time of some weapons */
-        mv -= get_str() * 20;
+        /** @EFFECT_STR over 10 reduces reload time of some weapons */
+        /** maximum reduction down to 25% of reload rate */
+        mv *= std::max<float>( 10.0f / std::max<float>( 10.0f, get_str() ), 0.25f );
     }
 
     return std::max( mv, 25 );

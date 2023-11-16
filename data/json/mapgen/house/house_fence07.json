@@ -1,0 +1,206 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "house_fence07_1",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [ "standard_domestic_palette", "standard_domestic_landscaping_palette" ],
+      "fill_ter": "t_floor_waxed",
+      "rows": [
+        "(______________p.[..[..(",
+        "(______________.[.[[[.[(",
+        "(______________...[..[.(",
+        "(______________.[[.[..[(",
+        "(______________0..000[.(",
+        "(______________.0[.[.00(",
+        "(______________--<)0000(",
+        "(_______/______))))0000(",
+        "(#{{{{{{#{{{{{{#####000(",
+        "(#------/------|z <#00?(",
+        "(#-------------*   #}}?(",
+        "(#-------------|z L#}}.(",
+        "(#-------------||+|#}}.(",
+        "(#-------------|$ q#}}.(",
+        "(#-------------|$ q#}}.(",
+        "(#-------------||+|#?..(",
+        "(#-------------|--Z#^..(",
+        "(#-----NNN--UUU|g-W#...(",
+        "(####*##############...(",
+        "(.----------.^.jjj.....(",
+        "(.-)------)-.........[.(",
+        "(.-<--------.......X...(",
+        "(..............K₸[.....(",
+        "(((((((((((((((((((((((("
+      ],
+      "terrain": {
+        "}": "t_dirtmound",
+        "#": "t_brick_wall",
+        ")": "t_concrete_wall",
+        "{": "t_door_metal_locked",
+        "/": "t_gates_mech_control",
+        "0": "t_region_groundcover_urban",
+        "?": "t_region_groundcover_urban",
+        "-": "t_concrete",
+        "(": "t_privacy_fence",
+        "N": "t_concrete",
+        "U": "t_concrete",
+        "W": "t_concrete",
+        "Z": "t_concrete",
+        "g": "t_concrete",
+        "K": "t_region_groundcover_urban",
+        "₸": "t_region_groundcover_urban"
+      },
+      "furniture": { "0": [ "f_boulder_medium", "f_boulder_large" ], "$": "f_rack" },
+      "items": {
+        "$": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] },
+        "}": { "item": "hydro", "chance": 35 },
+        "?": { "item": "tools_earthworking", "chance": 30 }
+      },
+      "place_vehicles": [
+        { "vehicle": "electric_car", "x": 5, "y": 13, "chance": 15, "rotation": 90 },
+        { "vehicle": "suv_electric", "x": 12, "y": 14, "chance": 15, "rotation": 90 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "house_fence07_2",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "fill_ter": "t_floor_waxed",
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".////////////////////...",
+        "./,,]]],,,))),,,,>,,/...",
+        "./,,,,,,,,,,,,,,,,,,/...",
+        ".#:::::::::::::*#::#/...",
+        ".# ?xxx?y  A{y$ |<>#....",
+        ".#a     H       |  #....",
+        ".#a lll H          #....",
+        ".#            L||+|#....",
+        ".#?sHHHs      V|S_t#....",
+        ".#R      h    V||||#....",
+        ".#R     fff   y64JJ#^...",
+        ".#R    hfffh      3o....",
+        ".#y      h  y6FO512#....",
+        ".#::¶::::::####oo###....",
+        "./,,,,,,,,,/^...........",
+        "./,,,,,,,,,/............",
+        "./,>,,₸,₸,₸/............",
+        ".///////////............",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_brick_wall",
+        ",": "t_concrete",
+        "/": "t_concrete_railing",
+        "_": "t_linoleum_gray",
+        "₸": "t_concrete",
+        ".": "t_open_air"
+      },
+      "furniture": { "{": "f_piano", "$": "f_table", "?": "f_speaker_cabinet" },
+      "items": { "$": { "item": "table_foyer", "chance": 50 } },
+      "place_loot": [
+        { "item": "stereo", "x": 4, "y": 9 },
+        { "item": "television", "x": 5, "y": 9 },
+        { "item": "g_shovel", "x": [ 4, 12 ], "y": 7 }
+      ],
+      "sealed_item": {
+        "]": { "item": { "item": "seed_tomato" }, "furniture": "f_planter_seedling", "chance": 100 },
+        ")": { "item": { "item": "seed_cucumber" }, "furniture": "f_planter_seedling", "chance": 100 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "house_fence07_3",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "fill_ter": "t_floor_waxed",
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".//////.................",
+        "./,,,,/.................",
+        "./₸,,₸/.................",
+        ".##¶o##oo###oo####o#....",
+        ".#b  y y I|yrrrP|> #....",
+        ".#D      I|  h P|  #....",
+        ".#|d  @@  |||+|||  o....",
+        ".#|d ¤@@¤ +        o....",
+        ".#|||||||||y  RRR &#....",
+        ".#d+ ¤@@¤ +  y|||+|#....",
+        ".#d+  @@  ||+||BB_w#....",
+        ".#||     b|q Q|8___#^...",
+        ".#$   xx D|qzQ|88St#....",
+        ".###o##oo#######oo##....",
+        ".............^..........",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        "_": "t_linoleum_gray",
+        "#": "t_brick_wall",
+        ",": "t_concrete",
+        "/": "t_concrete_railing",
+        "₸": "t_concrete",
+        "Q": "t_null",
+        ".": "t_open_air"
+      },
+      "furniture": { "$": "f_ergometer", "&": "f_table" },
+      "items": { "&": { "item": "table_foyer", "chance": 50 } },
+      "place_loot": [ { "item": "television", "x": 6, "y": 17 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "house_fence07_roof",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [ "roof_palette" ],
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " -------------------    ",
+        " -.................-    ",
+        " -.................-    ",
+        " -~................-    ",
+        " -~........ooo.....-    ",
+        " -.........ooo.....-    ",
+        " -.........ooo.....-    ",
+        " -.................-    ",
+        " -..X............=.5    ",
+        " -.................-    ",
+        " ------------5------    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

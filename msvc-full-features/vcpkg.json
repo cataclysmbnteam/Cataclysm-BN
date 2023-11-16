@@ -3,12 +3,20 @@
     "version-string": "experimental",
     "dependencies": [
         "sdl2",
-        "sdl2-image",
+        {
+          "name": "sdl2-image",
+          "features": [ "libjpeg-turbo" ]
+        },
         {
           "name": "sdl2-mixer",
-          "features": [ "libflac", "mpg123", "libmodplug", "libvorbis" ]
+          "features": [ "libflac", "mpg123", "libmodplug" ]
         },
         "sdl2-ttf"
     ],
-    "builtin-baseline": "a7b6122f6b6504d16d96117336a0562693579933"
+    "builtin-baseline": "c9aba300923c8ec0ab190e2bff23085209925c97",
+    "vcpkg-configuration": {
+        "overlay-ports": [
+            "../.github/vcpkg_ports"
+        ]
+    }
 }

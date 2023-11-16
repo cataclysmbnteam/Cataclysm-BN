@@ -245,5 +245,29 @@
     "charges": 2,
     "fun": 1,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 10 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "cacao_nibs",
+    "looks_like": "choco_coffee_beans",
+    "price": 50,
+    "container": "bag_plastic",
+    "material": "fruit",
+    "name": { "str_sp": "cacao nib" },
+    "symbol": "%",
+    "color": "brown",
+    "description": "Fermented and roasted cacao beans, the most primitive form of chocolate.  Can be ground and made into chocolate.",
+    "comestible_type": "FOOD",
+    "addiction_type": "caffeine",
+    "addiction_potential": 1,
+    "stim": 2,
+    "healthy": 1,
+    "calories": 53,
+    "volume": "200 ml",
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ] ],
+    "flags": [  ],
+    "charges": 50,
+    "stack_size": 100,
+    "weight": "1 g"
   }
 ]

@@ -1,19 +1,31 @@
 name: "Experimental Release"
 concurrency: release
 on:
-  push:
-    branches:
-      - upload
-    paths-ignore:
-      - 'doc/**'
-      - 'scripts/**'
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
 
 env:
   VCPKG_BINARY_SOURCES: "default"
+
 jobs:
+  commits:
+    runs-on: ubuntu-latest
+    outputs:
+      count: ${{ steps.yesterday.outputs.count }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: yesterday
+        run: |
+          COMMITS=$(git log --oneline --since=$(date -u --iso-8601 --date='1 day ago') | wc -l)
+          echo "commits yesterday: $COMMITS" >> "$GITHUB_STEP_SUMMARY"
+          echo "count=$COMMITS" >> "$GITHUB_OUTPUT"
+
   release:
+    needs: commits
     name: Create Release
     runs-on: ubuntu-22.04
+    if: fromJson(needs.commits.outputs.count) > 0
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       timestamp: ${{ steps.get-timestamp.outputs.time }}
@@ -32,7 +44,7 @@ jobs:
           echo "release_name=Cataclysm-BN experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
       - name: Check if there is existing git tag
         id: tag_check
-        uses: mukunku/tag-exists-action@v1.0.0
+        uses: mukunku/tag-exists-action@v1.4.0
         with:
           tag: ${{ steps.generate_env_vars.outputs.tag_name }}
         env:
@@ -170,24 +182,18 @@ jobs:
           commit sha: ${{ github.sha }}
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
-      - name: Install dependencies (windows msvc) (1/3)
+      - name: Install MSBuild (windows msvc)
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v1.3.1
-      - name: Install dependencies (windows msvc) (2/3)
-        if: runner.os == 'Windows'
-        uses: lukka/run-vcpkg@main
+      - name: Install stable CMake
+        uses: lukka/get-cmake@latest
+      - name: Install vcpkg
+        uses: lukka/run-vcpkg@v11
         id: runvcpkg
         with:
-          additionalCachedPaths: "${{ runner.workspace }}/Cataclysm-BN/msvc-full-features/vcpkg_installed"
-          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-${{ matrix.arch }}-1
-          setupOnly: true
-          vcpkgDirectory: "${{ runner.workspace }}/b/vcpkg"
-          # We have to use at least this version of vcpkg to include fixes for
-          # various issues we've encountered over time. Keep it in sync with the builtin-baseline
-          # field in vcpkg.json. Caching happens as a post-action which runs at the end of
-          # the whole workflow, after vcpkg install happens during msbuild run.
-          vcpkgGitCommitId: "a7b6122f6b6504d16d96117336a0562693579933"
-      - name: Install dependencies (windows msvc) (3/3)
+          vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
+          vcpkgGitCommitId: 'c9aba300923c8ec0ab190e2bff23085209925c97'
+      - name: Integrate vcpkg
         if: runner.os == 'Windows'
         run: |
           vcpkg integrate install
@@ -218,7 +224,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
-          pip3 install mac_alias==2.2.0 dmgbuild==1.4.2 biplist
+          pip3 install mac_alias==2.2.0 dmgbuild==1.6.1 biplist
       - name: Compile translations (windows)
         if: runner.os == 'Windows'
         shell: bash

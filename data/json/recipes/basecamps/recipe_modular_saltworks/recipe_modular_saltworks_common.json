@@ -32,11 +32,11 @@
       "skills": [ [ "mechanics", 0 ], [ "fabrication", 4 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "SAW_M" } ], [ { "id": "SAW_W" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "2x4", 8 ] ],
+          [ [ "2x4", 7 ] ],
           [ [ "metal_tank", 1 ] ],
-          [ [ "nail", 16 ] ],
+          [ [ "nail", 14 ] ],
           [ [ "pipe", 13 ] ],
           [ [ "sheet_metal", 2 ] ],
           [ [ "still", 1 ] ],

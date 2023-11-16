@@ -831,7 +831,7 @@ void talk_function::drop_stolen_item( npc &p )
     map &here = get_map();
     for( auto &elem : g->u.inv_dump() ) {
         if( elem->is_old_owner( p ) ) {
-            detached_ptr<item> to_drop = g->u.i_rem( elem );
+            detached_ptr<item> to_drop = elem->detach( );
             to_drop->remove_old_owner();
             to_drop->set_owner( p );
             here.add_item_or_charges( g->u.pos(), std::move( to_drop ) );

@@ -1000,6 +1000,12 @@
     "//": "The spell makes no sound at its point of impact."
   },
   {
+    "id": "NO_EXPLOSION_VFX",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "This makes the spell skip displaying visual effect sprites for faster rendering."
+  },
+  {
     "id": "LOUD",
     "type": "json_flag",
     "context": [ "SPELL" ],
@@ -2058,11 +2064,6 @@
   },
   {
     "id": "NOGIB",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "NON-FOULING",
     "type": "json_flag",
     "context": [  ]
   },

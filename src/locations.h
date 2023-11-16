@@ -208,6 +208,7 @@ class contents_item_location :  public item_location
         item_location_type where() const override;
         int obtain_cost( const Character &ch, int qty, const item *it ) const override;
         std::string describe( const Character *ch, const item *it ) const override;
+        void on_changed( const item *it ) const;
 
         item *parent() const;
 };

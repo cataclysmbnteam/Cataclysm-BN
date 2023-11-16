@@ -327,6 +327,7 @@ int main( int argc, const char *argv[] )
     DebugLog( DL::Info, DC::Main ) << "Randomness seeded to: " << seed;
 
     auto _on_out_of_scope = on_out_of_scope( []() {
+        g.reset();
         DynamicDataLoader::get_instance().unload_data();
     } );
     try {

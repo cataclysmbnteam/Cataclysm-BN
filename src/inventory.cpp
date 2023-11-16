@@ -228,7 +228,7 @@ void inventory::unsort()
 
 static bool stack_compare( const std::vector<item *> &lhs, const std::vector<item *> &rhs )
 {
-    return lhs.front() < rhs.front();
+    return *lhs.front() < *rhs.front();
 }
 
 void inventory::clear()
@@ -706,7 +706,6 @@ std::vector<detached_ptr<item>> location_inventory::reduce_stack( const int posi
                 }
             } else {
                 for( int i = 0 ; i < quantity ; i++ ) {
-                    //TODO!: check
                     item *it = &inv.remove_item( iter->front() );
                     it->remove_location();
                     ret.push_back( detached_ptr<item>( it ) );
@@ -827,6 +826,7 @@ std::vector<detached_ptr<item>> location_inventory::dump_remove( )
             dest.push_back( detached_ptr<item>( elem_stack_iter ) );
         }
     }
+    inv.clear();
     return dest;
 }
 

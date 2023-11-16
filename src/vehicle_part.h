@@ -42,9 +42,10 @@ struct vehicle_part {
         vehicle_part( vehicle * );
 
         vehicle_part( const vpart_id &vp, point dp, detached_ptr<item> &&obj, vehicle * );
+        vehicle_part( const vehicle_part &, vehicle * );
 
-        vehicle_part( const vehicle_part & );
-        vehicle_part &operator=( const vehicle_part & );
+        vehicle_part( vehicle_part && );
+        vehicle_part &operator=( vehicle_part && );
 
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
@@ -62,6 +63,7 @@ struct vehicle_part {
 
         /** this can be removed when vehicles are made into GOs */
         void set_vehicle_hack( vehicle * );
+        void refresh_locations_hack( vehicle * );
 
         /**
          * Translated name of a part inclusive of any current status effects

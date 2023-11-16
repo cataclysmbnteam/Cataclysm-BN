@@ -123,7 +123,6 @@ player::player()
     lastconsumed = itype_id( "null" );
     death_drops = true;
 
-    nv_cached = false;
     volume = 0;
 
     set_value( "THIEF_MODE", "THIEF_ASK" );
@@ -168,7 +167,7 @@ detached_ptr<item> player::reduce_charges( item *it, int quantity )
         return detached_ptr<item>();
     }
     if( it->charges <= quantity ) {
-        return i_rem( it );
+        return it->detach();
     }
     it->mod_charges( -quantity );
 

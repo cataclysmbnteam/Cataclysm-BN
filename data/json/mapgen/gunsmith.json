@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "__________________sss'__",
+        "__________________sss__'",
         "_,___,___,___,___,sss_%_",
         "_,___,___,___,___,sss_%_",
         "_,___,___,___,___,sss_%_",
@@ -104,7 +104,8 @@
         { "item": "large_repairkit", "x": [ 9, 10 ], "y": 8, "chance": 30 },
         { "item": "television", "x": 14, "y": 16, "chance": 60 },
         { "item": "laptop", "x": 17, "y": 15, "chance": 30 }
-      ]
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 2, 21 ], "y": 2, "chance": 2, "repeat": [ 2, 3 ] } ]
     }
   },
   {

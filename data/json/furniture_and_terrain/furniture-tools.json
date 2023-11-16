@@ -66,13 +66,13 @@
     "max_volume": "125 L",
     "crafting_pseudo_item": "char_kiln",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "deconstruct": { "items": [ { "item": "rock", "count": [ 35, 40 ] } ] },
+    "deconstruct": { "items": [ { "item": "rock", "count": 40 }, { "item": "material_soil", "count": 2 } ] },
     "bash": {
       "str_min": 25,
       "str_max": 180,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": [ 15, 30 ] } ]
+      "items": [ { "item": "rock", "count": [ 15, 30 ] }, { "item": "material_soil", "count": [ 0, 1 ] } ]
     }
   },
   {
@@ -88,13 +88,13 @@
     "required_str": -1,
     "examine_action": "kiln_full",
     "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "deconstruct": { "items": [ { "item": "rock", "count": [ 30, 30 ] } ] },
+    "deconstruct": { "items": [ { "item": "rock", "count": 40 }, { "item": "material_soil", "count": 2 } ] },
     "bash": {
       "str_min": 25,
       "str_max": 180,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": [ 15, 30 ] } ]
+      "items": [ { "item": "rock", "count": [ 15, 30 ] }, { "item": "material_soil", "count": [ 0, 1 ] } ]
     }
   },
   {
@@ -111,7 +111,7 @@
     "max_volume": "125 L",
     "crafting_pseudo_item": "char_kiln",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
-    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": 4 }, { "item": "pipe", "count": 4 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -137,7 +137,7 @@
     "required_str": -1,
     "examine_action": "kiln_full",
     "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
-    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": 4 }, { "item": "pipe", "count": 4 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -165,16 +165,36 @@
     "max_volume": "200 L",
     "crafting_pseudo_item": "arcfurnace",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
-    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "deconstruct": {
+      "items": [
+        { "item": "fire_brick", "count": 40 },
+        { "item": "cu_pipe", "count": 4 },
+        { "item": "cable", "count": 12 },
+        { "item": "pipe", "count": 4 },
+        { "item": "clamp", "count": 1 },
+        { "item": "motor_tiny", "count": 1 },
+        { "item": "medium_storage_battery", "count": 2 },
+        { "item": "frame", "count": 1 }
+      ]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "pipe", "count": [ 0, 4 ] }
+        { "item": "fire_brick", "count": [ 10, 20 ] },
+        { "item": "rock", "count": [ 1, 10 ] },
+        { "item": "cu_pipe", "count": [ 1, 2 ] },
+        { "item": "scrap_copper", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 6, 12 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "clamp", "prob": 25 },
+        { "item": "motor_tiny", "prob": 25 },
+        { "item": "small_storage_battery", "count": [ 10, 20 ] },
+        { "item": "steel_lump", "count": [ 5, 10 ] },
+        { "item": "steel_chunk", "count": [ 5, 20 ] },
+        { "item": "scrap", "count": [ 10, 50 ] }
       ]
     }
   },
@@ -191,16 +211,36 @@
     "required_str": -1,
     "examine_action": "arcfurnace_full",
     "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
-    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "deconstruct": {
+      "items": [
+        { "item": "fire_brick", "count": 40 },
+        { "item": "cu_pipe", "count": 4 },
+        { "item": "cable", "count": 12 },
+        { "item": "pipe", "count": 4 },
+        { "item": "clamp", "count": 1 },
+        { "item": "motor_tiny", "count": 1 },
+        { "item": "medium_storage_battery", "count": 2 },
+        { "item": "frame", "count": 1 }
+      ]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "pipe", "count": [ 0, 4 ] }
+        { "item": "fire_brick", "count": [ 10, 20 ] },
+        { "item": "rock", "count": [ 1, 10 ] },
+        { "item": "cu_pipe", "count": [ 1, 2 ] },
+        { "item": "scrap_copper", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 6, 12 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "clamp", "prob": 25 },
+        { "item": "motor_tiny", "prob": 25 },
+        { "item": "small_storage_battery", "count": [ 10, 20 ] },
+        { "item": "steel_lump", "count": [ 5, 10 ] },
+        { "item": "steel_chunk", "count": [ 5, 20 ] },
+        { "item": "scrap", "count": [ 10, 50 ] }
       ]
     }
   },
@@ -304,14 +344,14 @@
     "required_str": -1,
     "crafting_pseudo_item": "char_forge",
     "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
+    "deconstruct": { "items": [ { "item": "rock", "count": 40 }, { "item": "material_soil", "count": 3 } ] },
     "examine_action": "reload_furniture",
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "crash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "rock", "count": [ 20, 30 ] } ]
+      "items": [ { "item": "rock", "count": [ 20, 30 ] }, { "item": "material_soil", "count": [ 0, 2 ] } ]
     }
   },
   {
@@ -783,10 +823,9 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 14 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "water_faucet", "count": 1 },
-        { "item": "sheet_metal_small", "count": [ 4, 10 ] },
-        { "item": "scrap", "count": [ 5, 10 ] }
+        { "item": "sheet_metal_small", "count": 12 }
       ]
     },
     "bash": {

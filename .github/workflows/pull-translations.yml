@@ -27,13 +27,13 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3.10.0
         with:
-          commit-message: Routine i18n updates on ${{ steps.get-timestamp.outputs.time }}
+          commit-message: "feat(i18n): routine i18n updates on ${{ steps.get-timestamp.outputs.time }}"
           committer: Coolthulhu (BOT) <Coolthulhu@gmail.com>
           author: Coolthulhu (BOT) <Coolthulhu@gmail.com>
           token: ${{ secrets.TX_PR_CREATOR }}
           branch: i18n
           delete-branch: true
           base: upload
-          title: Routine i18n updates on ${{ steps.get-timestamp.outputs.time }}
-          body: "#### Summary\nNone"
+          title: "feat(i18n): routine i18n updates on ${{ steps.get-timestamp.outputs.time }}"
+          body: ""
           labels: Translation

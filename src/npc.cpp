@@ -1114,7 +1114,9 @@ detached_ptr<item> npc::wear_if_wanted( detached_ptr<item> &&it, std::string &re
                 return armor->covers( bp );
             } );
             if( iter != worn.end() && !( is_limb_broken( bp ) && ( *iter )->has_flag( flag_SPLINT ) ) ) {
-                took_off = takeoff( **iter );
+                item &it = **iter;
+                iter = location_vector<item>::iterator();
+                took_off = takeoff( it );
                 break;
             }
         }

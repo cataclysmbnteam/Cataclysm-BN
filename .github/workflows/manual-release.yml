@@ -32,7 +32,7 @@ jobs:
           echo "release_name=Cataclysm-BN ${{ inputs.version }}" >> $GITHUB_OUTPUT
       - name: Check if there is existing git tag
         id: tag_check
-        uses: mukunku/tag-exists-action@v1.0.0
+        uses: mukunku/tag-exists-action@v1.4.0
         with:
           tag: ${{ steps.generate_env_vars.outputs.tag_name }}
         env:
@@ -218,7 +218,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
-          pip3 install mac_alias==2.2.0 dmgbuild==1.4.2 biplist
+          pip3 install mac_alias==2.2.0 dmgbuild==1.6.1 biplist
       - name: Compile translations (windows)
         if: runner.os == 'Windows'
         shell: bash

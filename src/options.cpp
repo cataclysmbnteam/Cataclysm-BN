@@ -2248,6 +2248,11 @@ void options_manager::add_options_world_default()
          0.0, 10.0, 1, 0.1
        );
 
+    add( "SPECIALS_SPACING", world_default, translate_marker( "Overmap specials spacing" ),
+         translate_marker( "A number determing minimum distance between overmap specials.  -1 allows intersections of specials." ),
+         -1, 18, 6
+       );
+
     add( "SPAWN_DENSITY", world_default, translate_marker( "Spawn rate scaling factor" ),
          translate_marker( "A scaling factor that determines density of monster spawns." ),
          0.0, 50.0, 1.0, 0.1

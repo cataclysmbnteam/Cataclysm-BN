@@ -422,6 +422,17 @@ void Character::process_one_effect( effect &it, bool is_new )
         }
     }
 
+    // Handle sleep debt
+    val = get_effect( "SLEEPDEBT", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "SLEEPDEBT", val, reduced, mod ) ) {
+            mod_sleep_deprivation( bound_mod_to_vals( get_sleep_deprivation(), val, it.get_max_val( "SLEEPDEBT",
+                                   reduced ),
+                                   it.get_min_val( "SLEEPDEBT", reduced ) ) );
+        }
+    }
+
     // Handle Radiation
     val = get_effect( "RAD", reduced );
     if( val != 0 ) {
@@ -760,9 +771,21 @@ void Character::reset_stats()
     mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
     mod_dodge_bonus( std::floor( mutation_value( "dodge_modifier" ) ) );
 
-    apply_skill_boost();
+    mod_str_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::STRENGTH, get_str_base(), true ) );
+    mod_dex_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::DEXTERITY, get_dex_base(),
+                   true ) );
+    mod_per_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::PERCEPTION, get_per_base(),
+                   true ) );
+    mod_int_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::INTELLIGENCE, get_int_base(),
+                   true ) );
 
-    nv_cached = false;
+    mod_num_dodges_bonus( enchantment_cache->calc_bonus(
+                              enchant_vals::mod::BONUS_DODGE,
+                              get_num_dodges_base(),
+                              true
+                          ) );
+
+    apply_skill_boost();
 
     // Reset our stats to normal levels
     // Any persistent buffs/debuffs will take place in effects,

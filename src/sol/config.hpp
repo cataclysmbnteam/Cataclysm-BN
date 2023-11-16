@@ -52,6 +52,10 @@ the build system, or the command line options of your compiler.
 
 // We compile Lua parts with C++ compiler, so sol doesn't need to use extern "C"
 #define SOL_BUILD_CXX_MODE 1
+// Ugly hack so non-CMake builds work
+#if defined(CMAKE)
+#  define SOL_USE_CXX_LUA 1
+#endif
 
 // Be helpful and verbose, even at the cost of speed
 #define SOL_ALL_SAFETIES_ON 1

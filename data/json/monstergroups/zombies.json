@@ -621,6 +621,30 @@
     ]
   },
   {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_GUNSTORE",
+    "//": "Elevated chance of survivor zombies/ferals",
+    "default": "mon_zombie",
+    "monsters": [
+      { "monster": "mon_zombie_fat", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_tough", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_rot", "freq": 25, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_crawler", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_static", "freq": 25, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_cop", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_swat", "freq": 25, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_soldier", "freq": 25, "cost_multiplier": 2 },
+      { "monster": "mon_dog_zombie_cop", "freq": 25, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_dog", "freq": 10, "cost_multiplier": 2 },
+      { "monster": "mon_dog_zombie_rot", "freq": 15, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_survivor", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_survivor_elite", "freq": 50, "cost_multiplier": 5, "starts": 1440 },
+      { "monster": "mon_feral_survivalist", "starts": 250, "freq": 40, "cost_multiplier": 1 },
+      { "monster": "mon_feral_prepper", "starts": 500, "freq": 30, "cost_multiplier": 5 },
+      { "monster": "mon_feral_militia", "starts": 500, "freq": 30, "cost_multiplier": 10 }
+    ]
+  },
+  {
     "name": "FERAL_HUMANS",
     "type": "monstergroup",
     "default": "mon_feral_human_pipe",

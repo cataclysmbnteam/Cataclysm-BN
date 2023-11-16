@@ -91,7 +91,7 @@ static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
 static const ammo_effect_str_id ammo_effect_NO_CRIT( "NO_CRIT" );
 static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
 static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
-static const ammo_effect_str_id ammo_effect_NON_FOULING( "NON-FOULING" );
+static const ammo_effect_str_id ammo_effect_NON_FOULING( "NON_FOULING" );
 static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
 static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
 static const ammo_effect_str_id ammo_effect_SHATTER_SELF( "SHATTER_SELF" );
@@ -679,7 +679,7 @@ bool ranged::handle_gun_damage( Character &shooter, item &it )
                         shooter.add_msg_player_or_npc( m_bad, _( "Your attached %s is destroyed by your shot!" ),
                                                        _( "<npcname>'s attached %s is destroyed by their shot!" ),
                                                        mod->tname() );
-                        shooter.i_rem( mod );
+                        mod->detach();
                     } else if( it.damage() > initstate ) {
                         shooter.add_msg_player_or_npc( m_bad, _( "Your attached %s is damaged by your shot!" ),
                                                        _( "<npcname>'s %s is damaged by their shot!" ),
@@ -1955,13 +1955,15 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
     return dispersion;
 }
 
-std::pair<gun_mode_id, std::optional<gun_mode>> npc_ai::best_mode_for_range( const Character &who,
-        const item &firing,
-        int dist )
+auto npc_ai::best_mode_for_range(
+    const Character &who, const item &firing, int dist
+) -> std::pair<gun_mode_id, std::optional<gun_mode>>
 {
-    int shots = who.is_wielding( firing ) ? character_funcs::ammo_count_for( who,
-                firing ) : item_funcs::shots_remaining( who, firing );
-    if( !firing.is_gun() || shots == 0 ) {
+    const int shots = who.is_wielding( firing )
+                      ? character_funcs::ammo_count_for( who, firing )
+                      : item_funcs::shots_remaining( who, firing );
+
+    if( !firing.is_gun() || firing.is_gunmod() || shots == 0 ) {
         return std::make_pair( gun_mode_id(), std::nullopt );
     }
     int min_recoil = MAX_RECOIL;

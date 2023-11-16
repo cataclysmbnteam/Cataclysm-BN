@@ -58,7 +58,7 @@ class veh_interact
         veh_interact( vehicle &veh, point p = point_zero );
         ~veh_interact();
 
-        item *target;
+        item *target = nullptr;
 
         point dd = point_zero;
         /* starting offset for vehicle parts description display and max offset for scrolling */

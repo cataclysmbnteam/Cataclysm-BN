@@ -329,5 +329,51 @@
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
+  },
+  {
+    "id": "skirt_armor",
+    "type": "ARMOR",
+    "name": { "str_sp": "armored skirt" },
+    "description": "A knee-length skirt made of overlapping quilted pads, similar to those used by ancient Roman and Greek soldiers.  Not quite as protective as a gambeson, but it's far less hot and encumbering.",
+    "weight": "600 g",
+    "volume": "2 L",
+    "price": "100 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "skirt",
+    "color": "dark_gray",
+    "covers": [ "legs" ],
+    "coverage": 85,
+    "encumbrance": 5,
+    "warmth": 6,
+    "material_thickness": 4,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "skirt_armor_leather",
+    "type": "ARMOR",
+    "name": { "str_sp": "armored leather skirt" },
+    "copy-from": "skirt_armor",
+    "description": "A knee-length skirt made of overlapping leather armor plates, similar to those used by ancient Roman and Greek soldiers.  It's not very encumbering compared to proper legplates, but it's less protective as well.",
+    "weight": "800 g",
+    "price": "100 USD",
+    "price_postapoc": "150 cent",
+    "material": [ "leather" ],
+    "looks_like": "skirt",
+    "encumbrance": 7,
+    "warmth": 8
+  },
+  {
+    "copy-from": "skirt_armor",
+    "id": "skirt_armor_plate",
+    "type": "ARMOR",
+    "name": { "str_sp": "plated leather skirt" },
+    "description": "An armored skirt made of leather with metal plates expertly sewn into it.  It's not as protective as proper leg armor, but it's also far more tolerable to wear in the summer and far easier to move in.",
+    "weight": "640 g",
+    "material": [ "leather", "iron" ],
+    "price_postapoc": 175,
+    "encumbrance": 6
   }
 ]

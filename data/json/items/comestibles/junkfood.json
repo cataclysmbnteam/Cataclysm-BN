@@ -205,6 +205,7 @@
     "price_postapoc": 200,
     "material": "junk",
     "volume": "250 ml",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "charges": 3,
     "fun": 10
   },

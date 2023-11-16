@@ -449,6 +449,7 @@ class vehicle
 
         vehicle_part &get_part_hack( int );
         int get_part_id_hack( int );
+        void refresh_locations_hack();
 
         int get_next_hack_id() {
             return next_hack_id++;
@@ -470,9 +471,11 @@ class vehicle
         ~vehicle();
 
     private:
+        void copy_static_from( const vehicle & );
         vehicle( const vehicle & ) = delete;
-        vehicle &operator=( vehicle && ) = default;
-        vehicle &operator=( const vehicle & ) = default;
+        vehicle( vehicle && ) = delete;
+        vehicle &operator=( vehicle && ) = delete;
+        vehicle &operator=( const vehicle & ) = delete;
 
     public:
         /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */

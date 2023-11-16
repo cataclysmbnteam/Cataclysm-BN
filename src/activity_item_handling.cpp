@@ -190,8 +190,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason,
         if( !it ) {
             continue;
         }
-        veh.add_item( part, std::move( it ) );
-        // NOLINTNEXTLINE(bugprone-use-after-move)
+        it = veh.add_item( part, std::move( it ) );
         if( !it ) {
             into_vehicle = true;
         } else {
@@ -648,7 +647,7 @@ std::vector<detached_ptr<item>> obtain_and_tokenize_items( player &p, std::list<
         } else if( ait.loc->count_by_charges() ) {
             res.push_back( p.reduce_charges( const_cast<item *>( &*ait.loc ), ait.count ) );
         } else {
-            res.push_back( p.i_rem( &*ait.loc ) );
+            res.push_back( ait.loc->detach() );
         }
 
         // TODO: Get the item consistently instead of using back()
@@ -2050,7 +2049,7 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
         for( item *inv_elem : p.inv_dump() ) {
             if( inv_elem->has_var( "activity_var" ) ) {
                 inv_elem->erase_var( "activity_var" );
-                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, p.i_rem( inv_elem ),
+                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, inv_elem->detach(),
                                           src_loc );
             }
         }
@@ -3367,6 +3366,7 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 
     // We need to move fuel from stash to fire
     map_stack potential_fuel = here.i_at( *refuel_spot );
+    item *found = nullptr;
     for( item *&it : potential_fuel ) {
         if( it->made_of( LIQUID ) ) {
             continue;
@@ -3375,10 +3375,13 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         float last_fuel = fd.fuel_produced;
         it->simulate_burn( fd );
         if( fd.fuel_produced > last_fuel ) {
-            int quantity = std::max( 1, std::min( it->charges, it->charges_per_volume( 250_ml ) ) );
-            // Note: move_item() handles messages (they're the generic "you drop x")
-            move_item( p, *it, quantity, *refuel_spot, *best_fire );
-            return;
+            found = it;
+            break;
         }
+    }
+    if( found ) {
+        int quantity = std::max( 1, std::min( found->charges, found->charges_per_volume( 250_ml ) ) );
+        // Note: move_item() handles messages (they're the generic "you drop x")
+        move_item( p, *found, quantity, *refuel_spot, *best_fire );
     }
 }

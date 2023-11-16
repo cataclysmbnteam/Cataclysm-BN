@@ -438,6 +438,7 @@ item::item( const item &source ) : game_object<item>( source ), contents( this )
     invlet = source.invlet;
     active = source.active;
     activated_by = source.activated_by;
+    is_favorite = source.is_favorite;
 
     for( item * const &it : source.contents.all_items_top() ) {
         contents.insert_item( item::spawn( *it ) );
@@ -482,6 +483,7 @@ item &item::operator=( const item &source )
     invlet = source.invlet;
     active = source.active;
     activated_by = source.activated_by;
+    is_favorite = source.is_favorite;
 
     contents.clear_items();
 
@@ -750,7 +752,7 @@ void item::unsafe_rejoin( item &old )
         return;
     }
 
-    merge_charges( old.detach() );
+    merge_charges( old.detach(), true );
 }
 
 bool item::attempt_detach( std::function < detached_ptr<item>( detached_ptr<item> && ) > cb )
@@ -772,15 +774,30 @@ bool item::attempt_split( int qty,
         return false;
     }
     item &after_split = *det;
+    int starting_charges = after_split.charges;
     det = cb( std::move( det ) );
     bool ret = true;
+    bool changed = false;
     if( det ) {
         if( det->type->get_id() != type->get_id() ) {
             debugmsg( "attempt_split returned the wrong item type" );
         } else {
-            merge_charges( std::move( det ) );
+            changed |= det->charges != starting_charges;
+            //Copy any changed properties from the new item, except the charges
+            int old_charges = charges;
+            *this = *det;
+            charges = old_charges;
+            merge_charges( std::move( det ), true );
         }
         ret = false;
+    } else {
+        changed = true;
+    }
+    if( changed ) {
+        contents_item_location *contents_loc = dynamic_cast<contents_item_location *>( &*loc );
+        if( contents_loc ) {
+            contents_loc->on_changed( this );
+        }
     }
     after_split.unsafe_rejoin( *this );
     return ret;
@@ -1029,13 +1046,13 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     return contents.stacks_with( rhs.contents );
 }
 
-bool item::merge_charges( detached_ptr<item> &&rhs )
+bool item::merge_charges( detached_ptr<item> &&rhs, bool force )
 {
     if( this == &*rhs ) {
         debugmsg( "Attempted to merge %s with itself.", debug_name() );
         return false;
     }
-    if( !count_by_charges() || !stacks_with( *rhs ) ) {
+    if( !count_by_charges() || ( !stacks_with( *rhs ) && !force ) ) {
         return false;
     }
     item &obj = *rhs;
@@ -4516,14 +4533,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             truncate_override = utf8_width( damtext, false ) - utf8_width( damtext, true );
         }
     }
+
     if( !faults.empty() ) {
-        bool silent = true;
-        for( const auto &fault : faults ) {
-            if( !fault->has_flag( "SILENT" ) ) {
-                silent = false;
-                break;
-            }
-        }
+        const bool silent = std::any_of( faults.begin(), faults.end(), []( const fault_id & f ) -> bool { return f->has_flag( "SILENT" ); } );
         if( silent ) {
             damtext.insert( 0, dirt_symbol );
         } else {
@@ -8630,18 +8642,18 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
                 qty -= n;
 
                 if( n == e->ammo_remaining() ) {
-                    used.push_back( std::move( e ) );
-                } else {
+                    used.push_back( item::spawn( *e ) );
                     e->ammo_consume( n, pos );
+                } else {
                     detached_ptr<item> split = item::spawn( *e );
-                    split->charges = n;
+                    split->ammo_set( e->ammo_current(), n );
+                    e->ammo_consume( n, pos );
                     used.push_back( std::move( split ) );
                 }
-                return detached_ptr<item>();
             }
         } else if( e->count_by_charges() ) {
             if( e->typeId() == what ) {
-                if( e->charges >= qty ) {
+                if( e->charges > qty ) {
                     e->charges -= qty;
                     detached_ptr<item> split = item::spawn( *e );
                     split->charges = qty;
@@ -8650,8 +8662,8 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
                 } else {
                     qty -= e->charges;
                     used.push_back( std::move( e ) );
+                    return detached_ptr<item>();
                 }
-                return detached_ptr<item>();
             }
         }
         return std::move( e );
@@ -8672,7 +8684,7 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
             return VisitResponse::NEXT;
         }
         item &obj = *e;
-        handle_item( std::move( e ) );
+        e = handle_item( std::move( e ) );
         if( obj.is_tool() || obj.count_by_charges() ) {
             return VisitResponse::SKIP;
         }

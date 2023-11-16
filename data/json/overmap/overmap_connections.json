@@ -4,11 +4,11 @@
     "id": "local_road",
     "default_terrain": "road",
     "subtypes": [
+      { "terrain": "road_nesw_manhole", "locations": [  ] },
       { "terrain": "road", "locations": [ "field", "road" ] },
       { "terrain": "road", "locations": [ "forest_without_trail" ], "basic_cost": 20 },
       { "terrain": "road", "locations": [ "forest_trail" ], "basic_cost": 25 },
       { "terrain": "road", "locations": [ "swamp" ], "basic_cost": 40 },
-      { "terrain": "road_nesw_manhole", "locations": [  ] },
       { "terrain": "bridge", "locations": [ "water" ], "basic_cost": 120 }
     ]
   },
@@ -21,9 +21,10 @@
   {
     "type": "overmap_connection",
     "id": "subway_tunnel",
+    "layout": "p2p",
     "default_terrain": "subway",
     "subtypes": [
-      { "terrain": "underground_sub_station", "locations": [ "underground_sub_station" ], "flags": [ "ORTHOGONAL" ] },
+      { "terrain": "underground_sub_station", "locations": [  ], "flags": [ "ORTHOGONAL" ] },
       { "terrain": "subway", "locations": [ "subterranean_subway" ], "flags": [ "ORTHOGONAL" ] }
     ]
   },

@@ -4,6 +4,8 @@
 #include "coordinates.h"
 #include "detached_ptr.h"
 #include "item.h"
+#include "itype.h"
+#include "iuse_actor.h"
 #include "location_ptr.h"
 #include "map.h"
 #include "monster.h"
@@ -73,7 +75,7 @@ std::string fake_item_location::describe( const Character *, const item * ) cons
 
 detached_ptr<item> character_item_location::detach( item *it )
 {
-    return holder->i_rem( it );
+    return holder->inv_remove_item( it );
 }
 
 void character_item_location::attach( detached_ptr<item> &&obj )
@@ -413,12 +415,15 @@ item_location_type vehicle_item_location::where() const
 
 detached_ptr<item> vehicle_item_location::detach( item *it )
 {
-    return veh->get_part_hack( hack_id ).remove_item( *it );
+    detached_ptr<item> ret = veh->get_part_hack( hack_id ).remove_item( *it );
+    veh->invalidate_mass();
+    return ret;
 }
 
 void vehicle_item_location::attach( detached_ptr<item> &&obj )
 {
     veh->get_part_hack( hack_id ).add_item( std::move( obj ) );
+    veh->invalidate_mass();
 }
 
 int vehicle_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const
@@ -472,12 +477,16 @@ std::string vehicle_base_item_location::describe( const Character *, const item 
 
 detached_ptr<item> contents_item_location::detach( item *it )
 {
-    return container->contents.remove_top( it );
+
+    detached_ptr<item> ret = container->contents.remove_top( it );
+    container->on_contents_changed();
+    return ret;
 }
 
 void contents_item_location::attach( detached_ptr<item> &&obj )
 {
     container->contents.insert_item( std::move( obj ) );
+    container->on_contents_changed();
 }
 
 bool contents_item_location::is_loaded( const item * ) const
@@ -485,13 +494,29 @@ bool contents_item_location::is_loaded( const item * ) const
     return container->is_loaded();
 }
 
+void contents_item_location::on_changed( const item * ) const
+{
+    return container->on_contents_changed();
+}
+
+
 item_location_type contents_item_location::where() const
 {
     return item_location_type::container;
 }
 
-int contents_item_location::obtain_cost( const Character &ch, int qty, const item * ) const
+int contents_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const
 {
+    if( container->can_holster( *it ) ) {
+        auto ptr = dynamic_cast<const holster_actor *>
+                   ( container->type->get_use( "holster" )->get_actor_ptr() );
+        return dynamic_cast<const player *>( &ch )->item_handling_cost( *it, false, ptr->draw_cost );
+    } else if( container->is_bandolier() ) {
+        auto ptr = dynamic_cast<const bandolier_actor *>
+                   ( container->type->get_use( "bandolier" )->get_actor_ptr() );
+        return dynamic_cast<const player *>( &ch )->item_handling_cost( *it, false, ptr->draw_cost );
+    }
+
     return INVENTORY_HANDLING_PENALTY + container->obtain_cost( ch, qty );
 }
 

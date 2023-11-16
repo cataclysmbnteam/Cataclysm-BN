@@ -59,18 +59,15 @@ jobs:
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.3.1
 
-    - name: Restore artifacts, or run vcpkg, build and cache artifacts
-      uses: lukka/run-vcpkg@v10
+    - name: Install stable CMake
+      uses: lukka/get-cmake@latest
+
+    - name: Install vcpkg
+      uses: lukka/run-vcpkg@v11
       id: runvcpkg
       with:
-        # run-vcpkg tries to hash vcpkg.json but complans if it finds more than one.
-        # That said, we also have our custom vcpkg_triplets to hash, so we keep everything the same.
-        appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-x64
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-        # Keep vcpkg version here in sync with the builtin-baseline
-        # field in vcpkg.json. Caching happens as a post-action which runs at the end of
-        # the whole workflow, after vcpkg install happens during msbuild run.
-        vcpkgGitCommitId: 'a7b6122f6b6504d16d96117336a0562693579933'
+        vcpkgGitCommitId: 'c9aba300923c8ec0ab190e2bff23085209925c97'
 
     - name: Integrate vcpkg
       run: |

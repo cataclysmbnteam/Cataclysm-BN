@@ -256,14 +256,14 @@ tripoint npc::good_escape_direction( bool include_pos )
 
     std::map<direction, float> adj_map;
     for( direction pt_dir : npc_threat_dir ) {
-        const tripoint &pt = pos() + direction_XY( pt_dir );
+        const tripoint &pt = pos() + displace_XY( pt_dir );
         float cur_rating = rate_pt( pt, ai_cache.threat_map[ pt_dir ] );
         adj_map[pt_dir] = cur_rating;
         if( cur_rating == best_rating ) {
-            candidates.emplace_back( pos() + direction_XY( pt_dir ) );
+            candidates.emplace_back( pos() + displace_XY( pt_dir ) );
         } else if( cur_rating < best_rating ) {
             candidates.clear();
-            candidates.emplace_back( pos() + direction_XY( pt_dir ) );
+            candidates.emplace_back( pos() + displace_XY( pt_dir ) );
             best_rating = cur_rating;
         }
     }
@@ -2022,18 +2022,20 @@ double npc::confidence_mult() const
 
 int npc::confident_shoot_range( const item &it, int recoil ) const
 {
-    int res = 0;
     if( !it.is_gun() ) {
-        return res;
+        return 0;
     }
     const auto gun_mode_cmp = []( const std::pair<gun_mode_id, gun_mode> &lhs,
     const std::pair<gun_mode_id, gun_mode> &rhs ) {
         return lhs.second.qty < rhs.second.qty;
     };
     std::map<gun_mode_id, gun_mode> modes = it.gun_all_modes();
+    if( modes.empty() ) {
+        debugmsg( "%s has no gun modes", it.tname() );
+        return 0;
+    }
     auto best = std::min_element( modes.begin(), modes.end(), gun_mode_cmp );
-    res = confident_gun_mode_range( ( *best ).second, recoil );
-    return res;
+    return confident_gun_mode_range( ( *best ).second, recoil );
 }
 
 int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
@@ -2074,9 +2076,9 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
     return static_cast<int>( confident_range );
 }
 
-double item::ideal_ranged_dps( const Character &who, std::optional<gun_mode> &mode ) const
+auto item::ideal_ranged_dps( const Character &who, std::optional<gun_mode> &mode ) const -> double
 {
-    if( !is_gun() || !mode ) {
+    if( !is_gun() || is_gunmod() || !mode ) {
         return 0;
     }
     damage_instance gun_damage = this->gun_damage();
@@ -3123,40 +3125,34 @@ std::vector<item *> npc_pickup_from_stack( npc &who, T &items )
     auto min_value = whitelisting ? 0 : who.minimum_item_value();
     std::vector<item *> picked_up;
 
-    for( auto iter = items.begin(); iter != items.end(); ) {
-        item &it = **iter;
+    for( auto &iter : items ) {
+        item &it = *iter;
         if( it.made_of( LIQUID ) ) {
-            iter++;
             continue;
         }
 
         if( whitelisting && !who.item_whitelisted( it ) ) {
-            iter++;
             continue;
         }
 
         auto volume = it.volume();
         if( volume > volume_allowed ) {
-            iter++;
             continue;
         }
 
         auto weight = it.weight();
         if( weight > weight_allowed ) {
-            iter++;
             continue;
         }
 
         int itval = whitelisting ? 1000 : who.value( it );
         if( itval < min_value ) {
-            iter++;
             continue;
         }
 
         volume_allowed -= volume;
         weight_allowed -= weight;
         picked_up.push_back( &it );
-        iter = items.erase( iter );
     }
 
     return picked_up;
@@ -4088,7 +4084,7 @@ void npc::mug_player( Character &mark )
         return;
     }
     if( !is_hallucination() ) {
-        i_add( mark.i_rem( to_steal ) );
+        i_add( to_steal->detach( ) );
         if( mark.is_npc() ) {
             if( u_see ) {
                 add_msg( _( "%1$s takes %2$s's %3$s." ), name, mark.name, to_steal->tname() );
@@ -4728,14 +4724,15 @@ bool npc::adjust_worn()
     }
     const auto covers_broken = [this]( const item & it, side s ) {
         const body_part_set covered = it.get_covered_body_parts( s );
-        for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-            if( elem.second.get_hp_cur() <= 0 && covered.test( elem.first ) ) {
+        for( const bodypart_str_id &bp_id : covered ) {
+            if( is_limb_broken( bp_id ) && covered.test( bp_id ) ) {
                 return true;
             }
         }
         return false;
     };
 
+    item *splint = nullptr;
     for( auto &elem : worn ) {
         if( !elem->has_flag( flag_SPLINT ) ) {
             continue;
@@ -4744,10 +4741,20 @@ bool npc::adjust_worn()
         if( !covers_broken( *elem, elem->get_side() ) ) {
             const bool needs_change = covers_broken( *elem, opposite_side( elem->get_side() ) );
             // Try to change side (if it makes sense), or take off.
-            if( ( needs_change && change_side( *elem ) ) || takeoff( *elem ) ) {
+            if( needs_change && change_side( *elem ) ) {
                 return true;
             }
+
+            if( can_takeoff( *elem ).success() ) {
+                splint = elem;
+                break;
+            }
+
         }
+    }
+    if( splint ) {
+        takeoff( *splint );
+        return true;
     }
 
     return false;

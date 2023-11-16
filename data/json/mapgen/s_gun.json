@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "  ____________________  ",
+        "  ____________________ '",
         "  *___*___*______*___*  ",
         "  *___*___*______*___*  ",
         "  *___*___*______*___*  ",
@@ -38,6 +38,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_dirt",
         "*": "t_pavement_y",
         "+": "t_door_metal_pickable",
         "-": "t_wall_w",
@@ -57,6 +58,7 @@
       },
       "toilets": { "&": {  } },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "H": "f_counter",
         "S": "f_stool",
@@ -126,7 +128,7 @@
         { "item": "ear_plugs", "x": 3, "y": 15, "chance": 50, "repeat": 2 },
         { "item": "powered_earmuffs", "x": 3, "y": 15, "chance": 30 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 2, 21 ], "y": 2, "chance": 2, "repeat": [ 2, 3 ] } ]
     }
   },
   {
@@ -202,7 +204,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "_ssssssssssssssssssssss_",
+        "_ssssssssssssssssssssss'",
         "_s@@@@@@@_ssss_@@@@@@@s_",
         "_s||555||_ssss_||555||s_",
         "_s|#####5_ssss_5#####|s_",
@@ -239,6 +241,7 @@
         "D": "t_door_c",
         "L": "t_door_metal_locked",
         "_": "t_pavement",
+        "'": "t_pavement",
         "s": "t_sidewalk",
         "|": "t_wall_w",
         "?": "t_console_broken",
@@ -246,6 +249,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "a": "f_stool",
         "E": "f_desk",
@@ -272,7 +276,8 @@
         { "group": "guns_rifle_common_display", "x": 16, "y": [ 9, 10 ], "chance": 85, "repeat": [ 1, 3 ] },
         { "group": "mags_common", "x": [ 14, 16 ], "y": 12, "chance": 100, "repeat": [ 1, 8 ] },
         { "group": "mags_rare", "x": [ 14, 16 ], "y": 13, "chance": 75, "repeat": [ 1, 3 ] }
-      ]
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 2, 21 ], "y": 0, "chance": 2, "repeat": [ 2, 3 ] } ]
     }
   },
   {
@@ -346,7 +351,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "_ssssssssssssssssssssss_",
+        "_ssssssssssssssssssssss'",
         "_s@@xx@@@_ssss_@@@@@@@s_",
         "_s||5l5||_ssss_||555||s_",
         "_s|#lll#5_ssss_5#####|s_",
@@ -383,6 +388,7 @@
         "D": "t_door_o",
         "L": "t_door_metal_locked",
         "_": "t_pavement",
+        "'": "t_pavement",
         "p": "t_door_metal_o",
         "s": "t_sidewalk",
         "|": "t_wall_w",
@@ -391,6 +397,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "E": "f_desk",
         "S": "f_sink",
@@ -405,8 +412,8 @@
       "items": { "B": { "item": "bed", "chance": 65, "repeat": [ 1, 3 ] } },
       "monster": { "7": { "monster": "mon_zombie_cop" } },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 11, 13 ], "y": [ 17, 19 ], "density": 0.08 },
-        { "monster": "GROUP_ZOMBIE", "x": 18, "y": [ 14, 15 ], "density": 0.08 }
+        { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 11, 13 ], "y": [ 17, 19 ], "density": 0.08 },
+        { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": 18, "y": [ 14, 15 ], "density": 0.08 }
       ],
       "place_fields": [
         { "field": "fd_blood", "x": [ 10, 11 ], "y": [ 14, 15 ], "repeat": [ 2, 4 ] },
@@ -449,7 +456,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "....d...d....dss..dd.d..",
+        "....d...d....dss..dd.d.'",
         ".......d......ss........",
         "d.............ssd.d.....",
         "..d....d..d.dssss......d",
@@ -479,6 +486,7 @@
         "+": "t_door_metal_pickable",
         "-": "t_brick_wall",
         ".": "t_grass",
+        "'": "t_dirt",
         "S": "t_grass",
         "T": "t_dirt",
         "W": "t_wall_w",
@@ -498,6 +506,7 @@
       "toilets": { ";": {  } },
       "place_item": [ { "item": "corpse", "repeat": 1, "x": 19, "y": 12 } ],
       "furniture": {
+        "'": "f_street_light",
         "#": "f_sandbag_wall",
         "&": "f_trashcan",
         "C": "f_chair",
@@ -531,7 +540,8 @@
         { "chance": 95, "item": "guns_common_display", "x": 19, "y": [ 5, 7 ] },
         { "chance": 45, "item": "trash", "x": 13, "y": 12 },
         { "chance": 45, "item": "trash", "x": 10, "y": 12 }
-      ]
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 2, 21 ], "y": 2, "chance": 2, "repeat": [ 2, 3 ] } ]
     }
   },
   {

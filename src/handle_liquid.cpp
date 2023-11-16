@@ -307,7 +307,7 @@ static bool perform_liquid_transfer( detached_ptr<item> &&liquid, liquid_dest_op
     Character &you = get_player_character();
     switch( target.dest_opt ) {
         case LD_CONSUME:
-            you.consume_item( std::move( liquid ) );
+            liquid = you.consume_item( std::move( liquid ) );
             return true;
         case LD_ITEM:
             liquid = you.pour_into( *target.it, std::move( liquid ) );

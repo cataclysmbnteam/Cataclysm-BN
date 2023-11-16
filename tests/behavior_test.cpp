@@ -161,7 +161,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         item &sweater = *det;
         test_npc.i_add( std::move( det ) );
         CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );
-        det = test_npc.i_rem( &sweater );
+        det = sweater.detach( );
         test_npc.wear_item( std::move( det ) );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         test_npc.i_add( item::spawn( itype_id( "lighter" ) ) );

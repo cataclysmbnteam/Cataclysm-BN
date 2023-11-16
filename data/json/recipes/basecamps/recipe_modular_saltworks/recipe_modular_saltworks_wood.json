@@ -18,7 +18,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 271 ] ], [ [ "glass_sheet", 3 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 958 ] ], [ [ "wood_panel", 46 ] ] ]
+        "components": [ [ [ "2x4", 270 ] ], [ [ "glass_sheet", 3 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 956 ] ], [ [ "wood_panel", 46 ] ] ]
       }
     }
   },
