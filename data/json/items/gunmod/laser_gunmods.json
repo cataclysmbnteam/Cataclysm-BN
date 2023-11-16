@@ -12,7 +12,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "lens",
-    "mod_target_category": [ [ "ENERGY_WEAPONS", "PISTOLS" ], [ "ENERGY_WEAPONS", "RIFLES" ] ],
+    "mod_target_category": [ [ "ENERGY_WEAPONS" ] ],
     "range_modifier": -25,
     "damage_modifier": { "damage_type": "heat", "amount": 10 },
     "ammo_effects": [ "SHOT" ]
@@ -30,7 +30,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "lens",
-    "mod_target_category": [ [ "ENERGY_WEAPONS", "PISTOLS" ], [ "ENERGY_WEAPONS", "RIFLES" ] ],
+    "mod_target_category": [ [ "ENERGY_WEAPONS" ] ],
     "range_modifier": 15,
     "damage_modifier": { "damage_type": "heat", "amount": 5 },
     "dispersion_modifier": 15
@@ -68,7 +68,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "emitter",
-    "mod_target_category": [ [ "ENERGY_WEAPONS", "PISTOLS" ], [ "ENERGY_WEAPONS", "RIFLES" ] ],
+    "mod_target_category": [ [ "ENERGY_WEAPONS" ] ],
     "ups_charges_multiplier": 0.9
   },
   {
@@ -85,7 +85,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "emitter",
-    "mod_target_category": [ [ "ENERGY_WEAPONS", "PISTOLS" ], [ "ENERGY_WEAPONS", "RIFLES" ] ],
+    "mod_target_category": [ [ "ENERGY_WEAPONS" ] ],
     "range_modifier": 5,
     "damage_modifier": { "damage_type": "heat", "amount": 10 },
     "ups_charges_multiplier": 2.0
