@@ -1715,7 +1715,7 @@ class Character : public Creature, public location_visitable<Character>
         void use_fire( int quantity );
         void assign_stashed_activity();
         bool check_outbounds_activity( player_activity &act );
-        bool restore_outbounds_activity( std::unique_ptr<player_activity> &&act );
+        bool restore_outbounds_activity();
         /** Legacy activity assignment, does not work for any activites using
          * the new activity_actor class and may cause issues with resuming.
          * TODO: delete this once migration of activites to the activity_actor system is complete
