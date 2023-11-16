@@ -58,6 +58,7 @@ static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_tied( "tied" );
 
 static const itype_id itype_cash_card( "cash_card" );
+static const itype_id itype_id_industrial( "id_industrial" );
 static const itype_id itype_id_military( "id_military" );
 
 static const skill_id skill_survival( "survival" );
@@ -430,10 +431,13 @@ void monexamine::insert_battery( monster &z )
 
 bool monexamine::mech_hack( monster &z )
 {
-    itype_id card_type = itype_id_military;
+    itype_id card_type = itype_id_industrial;
+    if( z.has_flag( MF_MILITARY_MECH ) ) {
+        card_type == itype_id_military;
+    }
     avatar &you = get_avatar();
     if( you.has_amount( card_type, 1 ) ) {
-        if( query_yn( _( "Swipe your ID card into the mech's security port?" ) ) ) {
+        if( query_yn( _( "Swipe your %s into the mech's security port?" ), card_type.nname() ) ) {
             you.mod_moves( -100 );
             z.add_effect( effect_pet, 1_turns, num_bp );
             z.friendly = -1;
@@ -443,7 +447,7 @@ bool monexamine::mech_hack( monster &z )
             return true;
         }
     } else {
-        add_msg( m_info, _( "You do not have the required ID card to activate this mech." ) );
+        add_msg( m_info, _( "You do not have the required %s to activate this mech." ), card_type.nname() );
     }
     return false;
 }
