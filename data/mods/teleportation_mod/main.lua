@@ -334,7 +334,7 @@ mod.teleport_to_target = function(who, anchor, distance, teleporter_list_key, pi
 	gapi.add_msg("Teleporting Player to ".. tostring(anchor))
 	gapi.add_msg("Station at: ".. tostring(mod.station_list[teleporter_list_key[picked_teleporter]][3]).. "now has ".. mod.station_list[teleporter_list_key[picked_teleporter]][2].. " units of charge left")
 	--need exposed debug teleport for this to function
-
+    gapi.place_player_overmap_at(anchor)
 	return 1
 end
 
