@@ -21,6 +21,18 @@
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
   },
   {
+    "id": "ax_bronze",
+    "copy-from": "ax",
+    "type": "GENERIC",
+    "name": { "str": "bronze axe" },
+    "description": "This is a large, two-handed wood axe with a bronze axehead.  It makes a good melee weapon, but is a bit slow to recover between swings.",
+    "weight": "3 kg",
+    "bashing": 25,
+    "cutting": 25,
+    "material": [ "wood", "bronze" ],
+    "color": "yellow"
+  },
+  {
     "id": "chainsaw_off",
     "type": "TOOL",
     "category": "tools",
@@ -250,5 +262,23 @@
     "color": "brown",
     "qualities": [ [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
+  },
+  {
+    "id": "stone_chisel",
+    "type": "TOOL",
+    "name": { "str": "stone chisel" },
+    "looks_like": "chisel",
+    "description": "This is a short stone chisel.  It can be used to engrave on stone, wood, or soft metals.",
+    "weight": "660 g",
+    "volume": "250 ml",
+    "price": 1600,
+    "to_hit": 2,
+    "bashing": 2,
+    "cutting": 1,
+    "material": "stone",
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "CHISEL", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   }
 ]

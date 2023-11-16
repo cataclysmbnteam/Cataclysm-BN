@@ -9,7 +9,6 @@
 #include "cata_utility.h"
 #include "string_formatter.h"
 #include "type_id.h"
-#include "colony.h"
 
 template<typename T>
 void test_serialization( const T &val, const std::string &s )
@@ -32,9 +31,9 @@ void test_serialization( const T &val, const std::string &s )
     }
 }
 
-TEST_CASE( "serialize_colony", "[json]" )
+TEST_CASE( "serialize_vector", "[json]" )
 {
-    cata::colony<std::string> c = { "foo", "bar" };
+    std::vector<std::string> c = { "foo", "bar" };
     test_serialization( c, R"(["foo","bar"])" );
 }
 

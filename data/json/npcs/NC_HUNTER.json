@@ -12,7 +12,8 @@
     "entries": [
       { "item": "null", "prob": 60 },
       { "item": "gloves_leather", "prob": 20 },
-      { "item": "gloves_fingerless", "prob": 20 }
+      { "item": "gloves_fingerless", "prob": 15 },
+      { "item": "gloves_fur_fingerless", "prob": 5 }
     ]
   },
   {

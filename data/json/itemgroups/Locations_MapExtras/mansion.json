@@ -109,7 +109,11 @@
                       {
                         "distribution": [
                           {
-                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                            "distribution": [
+                              { "item": "stockings", "prob": 40, "damage": [ 1, 4 ] },
+                              { "item": "stockings_wool", "prob": 10, "damage": [ 1, 4 ] },
+                              { "item": "tights", "prob": 50, "damage": [ 1, 4 ] }
+                            ]
                           },
                           { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
                         ]
@@ -128,7 +132,11 @@
                       },
                       { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
                       {
-                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                        "distribution": [
+                          { "item": "stockings", "prob": 40, "damage": [ 1, 4 ] },
+                          { "item": "stockings_wool", "prob": 10, "damage": [ 1, 4 ] },
+                          { "item": "tights", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
                       },
                       { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
                     ],
@@ -140,7 +148,11 @@
                       { "item": "veil_wedding", "damage": [ 1, 4 ] },
                       { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
                       {
-                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                        "distribution": [
+                          { "item": "stockings", "prob": 40, "damage": [ 1, 4 ] },
+                          { "item": "stockings_wool", "prob": 10, "damage": [ 1, 4 ] },
+                          { "item": "tights", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
                       },
                       { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
                     ],
@@ -436,7 +448,13 @@
     "id": "soa_decor",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_decor" }, [ "armor_plate", 100 ], [ "helmet_plate", 100 ] ]
+    "items": [
+      { "group": "soa_weapons_decor" },
+      [ "gambeson", 50 ],
+      [ "armor_plate", 100 ],
+      [ "cap_arming", 50 ],
+      [ "helmet_plate", 100 ]
+    ]
   },
   {
     "id": "soa_weapons_decor",
@@ -455,7 +473,9 @@
     "items": [
       { "group": "soa_weapons_plate" },
       { "group": "soa_shields_plate", "prob": 25 },
+      [ "gambeson", 50 ],
       [ "armor_lightplate", 100 ],
+      [ "cap_arming", 50 ],
       [ "helmet_barbute", 100 ]
     ]
   },
@@ -478,7 +498,12 @@
     "id": "soa_mail",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_mail" }, { "group": "soa_shields_mail", "prob": 50 }, [ "chainmail_suit", 100 ] ]
+    "items": [
+      { "group": "soa_weapons_mail" },
+      { "group": "soa_shields_mail", "prob": 50 },
+      [ "cap_arming", 50 ],
+      [ "chainmail_suit", 100 ]
+    ]
   },
   {
     "id": "soa_weapons_mail",
@@ -505,7 +530,13 @@
     "id": "soa_samurai",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_samurai" }, [ "scabbard", 50 ], [ "armor_samurai", 100 ], [ "helmet_kabuto", 100 ] ]
+    "items": [
+      { "group": "soa_weapons_samurai" },
+      [ "scabbard", 50 ],
+      [ "armor_samurai", 100 ],
+      [ "cap_arming", 50 ],
+      [ "helmet_kabuto", 100 ]
+    ]
   },
   {
     "id": "soa_weapons_samurai",
@@ -681,13 +712,21 @@
     "magazine": 100,
     "subtype": "distribution",
     "items": [
-      [ "bat_nerf", 100 ],
-      [ "marble", 60 ],
+      [ "bat_nerf", 70 ],
+      [ "marble", 50 ],
       [ "talking_doll", 50 ],
-      [ "fc_hairpin", 50 ],
-      { "group": "kids_books", "prob": 170 },
-      [ "backpack", 40 ],
+      [ "basketball", 30 ],
+      [ "fc_hairpin", 30 ],
+      { "group": "kids_books", "prob": 170, "count": [ 1, 4 ] },
+      { "group": "games", "prob": 170, "count": [ 1, 2 ] },
+      [ "backpack", 20 ],
+      [ "baseball", 30 ],
+      [ "football", 20 ],
+      [ "frisbee", 40 ],
+      [ "disc_golf", 20 ],
+      [ "radio_car_box", 10 ],
       [ "orangesoda", 30 ],
+      [ "magic_8_ball", 10 ],
       [ "hairpin", 30 ],
       [ "purple_drink", 20 ],
       [ "candy", 20 ],
@@ -695,6 +734,7 @@
       [ "rock", 10 ],
       [ "bat", 10 ],
       [ "creepy_doll", 3 ],
+      [ "portable_game", 5 ],
       [ "whistle", 3 ]
     ]
   },
@@ -1369,7 +1409,8 @@
       [ "under_armor_shorts", 20 ],
       [ "tights", 20 ],
       [ "leggings", 20 ],
-      [ "stockings", 20 ],
+      [ "stockings", 15 ],
+      [ "stockings_wool", 5 ],
       [ "long_underpants", 40 ],
       [ "long_undertop", 40 ],
       [ "union_suit", 20 ],
@@ -1404,7 +1445,8 @@
       [ "hat_knit", 25 ],
       { "item": "tights", "prob": 30, "damage": [ 1, 3 ] },
       { "item": "leggings", "prob": 30, "damage": [ 1, 3 ] },
-      { "item": "stockings", "prob": 30, "damage": [ 1, 3 ] },
+      { "item": "stockings", "prob": 25, "damage": [ 1, 3 ] },
+      { "item": "stockings_wool", "prob": 5, "damage": [ 1, 3 ] },
       [ "balclava", 15 ],
       [ "union_suit", 20 ],
       { "item": "sleeveless_trenchcoat", "prob": 30, "damage": [ 1, 3 ] },
@@ -1579,7 +1621,8 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "stockings", 70 ],
+      [ "stockings", 60 ],
+      [ "stockings_wool", 10 ],
       [ "dress_shoes", 60 ],
       [ "sneakers", 50 ],
       [ "dance_shoes", 20 ],

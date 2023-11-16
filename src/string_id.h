@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_STRING_ID_H
 #define CATA_SRC_STRING_ID_H
 
+#include <cstdint>
 #include <string>
 #include <type_traits>
 #include <utility>

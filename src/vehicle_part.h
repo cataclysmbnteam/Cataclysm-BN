@@ -7,11 +7,11 @@
 #include <set>
 
 #include "character_id.h"
-#include "colony.h"
 #include "item.h"
 #include "item_group.h"
 #include "point.h"
 #include "visitable.h"
+#include "location_ptr.h"
 
 class vehicle;
 class item_location;
@@ -22,11 +22,13 @@ class npc;
  * Structure, describing vehicle part (i.e., wheel, seat)
  */
 struct vehicle_part {
+    public:
         friend vehicle;
         friend class veh_interact;
         friend visitable<vehicle_cursor>;
-        friend item_location;
+        friend location_visitable<vehicle_cursor>;
         friend class turret_data;
+        friend class vehicle_base_item_location;
 
         enum : int { passenger_flag = 1,
                      animal_flag = 2,
@@ -36,9 +38,14 @@ struct vehicle_part {
                      targets_grid = 32, // Jumper cable is to grid, not vehicle
                    };
 
-        vehicle_part(); /** DefaultConstructible */
+        vehicle_part();
+        vehicle_part( vehicle * );
 
-        vehicle_part( const vpart_id &vp, point dp, item &&obj );
+        vehicle_part( const vpart_id &vp, point dp, detached_ptr<item> &&obj, vehicle * );
+        vehicle_part( const vehicle_part &, vehicle * );
+
+        vehicle_part( vehicle_part && );
+        vehicle_part &operator=( vehicle_part && );
 
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
@@ -53,6 +60,10 @@ struct vehicle_part {
         int  remove_flag( const int flag )    noexcept {
             return flags &= ~flag;
         }
+
+        /** this can be removed when vehicles are made into GOs */
+        void set_vehicle_hack( vehicle * );
+        void refresh_locations_hack( vehicle * );
 
         /**
          * Translated name of a part inclusive of any current status effects
@@ -105,7 +116,7 @@ struct vehicle_part {
         double consume_energy( const itype_id &ftype, double energy_j );
 
         /* @retun true if part in current state be reloaded optionally with specific itype_id */
-        bool can_reload( const item &obj = item() ) const;
+        bool can_reload( const item *obj = nullptr ) const;
 
         /**
          * If this part is capable of wholly containing something, process the
@@ -117,9 +128,9 @@ struct vehicle_part {
 
         /**
          *  Try adding @param liquid to tank optionally limited by @param qty
-         *  @return whether any of the liquid was consumed (which may be less than qty)
+         *  @return the remaining liquid, if any
          */
-        bool fill_with( item &liquid, int qty = INT_MAX );
+        detached_ptr<item> fill_with( detached_ptr<item> &&liquid, int qty = INT_MAX );
 
         /** Current faults affecting this part (if any) */
         const std::set<fault_id> &faults() const;
@@ -270,14 +281,19 @@ struct vehicle_part {
         std::pair<tripoint, tripoint> target = { tripoint_min, tripoint_min };
 
     private:
+
+        /** Copies static (i.e. non-item) properties from another part */
+        void copy_static_from( const vehicle_part &source );
+
         /** What type of part is this? */
         vpart_id id;
 
         /** As a performance optimization we cache the part information here on first lookup */
         mutable const vpart_info *info_cache = nullptr;
 
-        item base;
-        cata::colony<item> items; // inventory
+        int hack_id = 0; //Hack until they're made into game objects
+        location_ptr<item, true> base;
+        location_vector<item> items; // inventory
 
         /** Preferred ammo type when multiple are available */
         itype_id ammo_pref = itype_id::NULL_ID();
@@ -287,7 +303,6 @@ struct vehicle_part {
          *  @see vehicle_part::crew() accessor which excludes dead and non-allied NPC's
          */
         character_id crew_id;
-
     public:
         /** Get part definition common to all parts of this type */
         const vpart_info &info() const;
@@ -295,18 +310,33 @@ struct vehicle_part {
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
-        const item &get_base() const;
-        void set_base( const item &new_base );
+        item &get_base() const;
+        detached_ptr<item> set_base( detached_ptr<item> &&new_base );
+
+        const std::vector<item *> &get_items() const {
+            return items.as_vector();
+        }
+
+        std::vector<detached_ptr<item>> clear_items() {
+            return items.clear();
+        }
+
+        void add_item( detached_ptr<item> &&item );
+
+        detached_ptr<item> remove_item( item &it ) {
+            return items.remove( &it );
+        }
+
         /**
          * Generate the corresponding item from this vehicle part. It includes
          * the hp (item damage), fuel charges (battery or liquids), aspect, ...
          */
-        item properties_to_item() const;
+        detached_ptr<item> properties_to_item() const;
         /**
-         * Returns an ItemList of the pieces that should arise from breaking
+         * Returns an std::vector<item *> of the pieces that should arise from breaking
          * this part.
          */
-        item_group::ItemList pieces_for_broken_part() const;
+        std::vector<detached_ptr<item>> pieces_for_broken_part() const;
 };
 
 #endif

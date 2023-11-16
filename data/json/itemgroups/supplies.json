@@ -347,7 +347,7 @@
       { "item": "steel_chunk", "prob": 15, "count": [ 1, 5 ] },
       { "item": "copper", "prob": 10, "count": [ 1, 5 ] },
       { "item": "tin", "prob": 10, "count": [ 1, 5 ] },
-      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] },
+      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 10 ] },
       { "item": "scrap_copper", "prob": 5, "count": [ 1, 10 ] },
       { "item": "wire", "prob": 5 },
       { "item": "scrap", "prob": 70, "count": [ 1, 10 ] }
@@ -558,5 +558,11 @@
     "type": "item_group",
     "//": "GParts for military helicopter",
     "items": [ [ "medium_turbine_engine", 30 ], [ "large_turbine_engine", 20 ], [ "heavy_duty_military_rotor", 50 ] ]
+  },
+  {
+    "id": "survivor_currency",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "FMCNote", "prob": 80, "count": [ 1, 8 ] }, { "item": "RobofacCoin", "prob": 20, "count": [ 1, 2 ] } ]
   }
 ]

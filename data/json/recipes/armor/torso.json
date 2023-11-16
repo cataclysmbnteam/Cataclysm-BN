@@ -5,8 +5,9 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "7 h 28 m",
+    "difficulty": 5,
+    "time": "4 h",
+    "autolearn": [ [ "tailor", 6 ], [ "fabrication", 6 ] ],
     "book_learn": [ [ "textbook_armwest", 8 ] ],
     "using": [ [ "blacksmithing_advanced", 5 ], [ "steel_standard", 5 ] ],
     "components": [ [ [ "fabric_hides_proper", 12, "LIST" ] ] ]
@@ -30,7 +31,8 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "4 h",
+    "time": "2 h",
+    "autolearn": [ [ "tailor", 6 ] ],
     "book_learn": [ [ "textbook_armschina", 2 ] ],
     "using": [ [ "sewing_standard", 68 ] ],
     "components": [ [ [ "cordage_superior", 4, "LIST" ] ], [ [ "rag", 4 ] ], [ [ "fabric_hides_proper", 42, "LIST" ] ] ]
@@ -595,7 +597,7 @@
     "time": "3 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "components": [ [ [ "felt_patch", 30 ] ] ]
+    "components": [ [ [ "felt_patch", 18 ] ] ]
   },
   {
     "result": "poncho",
@@ -605,10 +607,10 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": "3 h",
+    "time": "6 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 300 ] ] ]
+    "components": [ [ [ "yarn", 900 ] ] ]
   },
   {
     "result": "sleeveless_duster",
@@ -988,10 +990,10 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "6 h",
+    "time": "3 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 600 ] ] ]
+    "components": [ [ [ "yarn", 350 ] ] ]
   },
   {
     "result": "tank_top",
@@ -1261,5 +1263,57 @@
     "book_learn": [ [ "textbook_armwest", 8 ] ],
     "using": [ [ "forging_standard", 14 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 28 ] ] ]
+  },
+  {
+    "result": "dress",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "1 h 45 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "rag", 10 ] ] ]
+  },
+  {
+    "result": "gown",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "2 h 30 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 5 ] ],
+    "using": [ [ "sewing_standard", 32 ] ],
+    "components": [ [ [ "rag", 16 ] ] ]
+  },
+  {
+    "result": "dress_wedding",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "time": "4 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 6 ] ],
+    "using": [ [ "sewing_standard", 48 ] ],
+    "components": [ [ [ "rag", 24 ] ] ]
+  },
+  {
+    "result": "maid_dress",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "time": "4 h 30 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 6 ] ],
+    "using": [ [ "sewing_standard", 60 ] ],
+    "components": [ [ [ "rag", 30 ] ] ]
   }
 ]

@@ -402,7 +402,7 @@ distribution::distribution( const distribution &d )
 
 distribution::distribution( std::function<float()> gen )
 {
-    generator_function = gen;
+    generator_function = std::move( gen );
 }
 
 float distribution::roll() const

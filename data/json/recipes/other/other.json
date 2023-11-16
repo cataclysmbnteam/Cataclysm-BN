@@ -206,10 +206,11 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "5 m",
+    "charges": 125,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "material_aluminium_ingot", 1 ], [ "can_drink_unsealed", 6 ], [ "aluminum_foil", 40 ] ],
+      [ [ "material_aluminium_ingot", 1 ], [ "can_drink_unsealed", 20 ], [ "aluminum_foil", 75 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ],
       [ [ "material_sand", 25 ] ]
     ]
@@ -500,6 +501,6 @@
     "reversible": true,
     "using": [ [ "welding_standard", 6 ], [ "sewing_standard", 12 ] ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 2 } ],
-    "components": [ [ [ "material_aluminium_ingot", 8 ] ], [ [ "sheet", 1 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 20 ] ], [ [ "sheet", 1 ] ] ]
   }
 ]

@@ -1,0 +1,27 @@
+name: Validate translation template extraction
+
+on:
+  pull_request:
+    paths:
+      - "src/**/*.cpp"
+      - "lang/extract_json_strings.py"
+
+# We only care about the latest revision of a PR, so cancel previous instances.
+concurrency:
+  group: i18n-extraction-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  check-extraction:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install gettext python3-pip
+          sudo pip3 install polib luaparser
+
+      - uses: actions/checkout@v3
+
+      - name: Check that translation template extraction works
+        run: lang/update_pot.sh

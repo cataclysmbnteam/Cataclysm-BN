@@ -48,6 +48,8 @@
 #include "units.h"
 
 static const trait_id trait_NONE( "NONE" );
+static const trait_flag_str_id trait_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
+static const trait_flag_str_id trait_flag_SILENT_SPELL( "SILENT_SPELL" );
 
 namespace io
 {
@@ -99,6 +101,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::HOSTILE_SUMMON: return "HOSTILE_SUMMON";
         case spell_flag::HOSTILE_50: return "HOSTILE_50";
         case spell_flag::SILENT: return "SILENT";
+        case spell_flag::NO_EXPLOSION_VFX: return "NO_EXPLOSION_VFX";
         case spell_flag::LOUD: return "LOUD";
         case spell_flag::VERBAL: return "VERBAL";
         case spell_flag::SOMATIC: return "SOMATIC";
@@ -758,13 +761,14 @@ float spell::spell_fail( const Character &guy ) const
         return 1.0f;
     }
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
-    if( has_flag( spell_flag::SOMATIC ) && !guy.has_trait_flag( "SUBTLE_SPELL" ) ) {
+    if( has_flag( spell_flag::SOMATIC ) &&
+        !guy.has_trait_flag( trait_flag_SUBTLE_SPELL ) ) {
         // the first 20 points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0, guy.encumb( bp_arm_l ) + guy.encumb( bp_arm_r ) - 20 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
-    if( has_flag( spell_flag::VERBAL ) && !guy.has_trait_flag( "SILENT_SPELL" ) ) {
+    if( has_flag( spell_flag::VERBAL ) && !guy.has_trait_flag( trait_flag_SILENT_SPELL ) ) {
         // a little bit of mouth encumbrance is allowed, but not much
         const int mouth_encumb = std::max( 0, guy.encumb( bp_mouth ) - 5 );
         fail_chance += mouth_encumb / 100.0f;
@@ -1261,7 +1265,7 @@ void known_magic::serialize( JsonOut &json ) const
 
     json.member( "spellbook" );
     json.start_array();
-    for( auto pair : spellbook ) {
+    for( const auto &pair : spellbook ) {
         json.start_object();
         json.member( "id", pair.second.id() );
         json.member( "xp", pair.second.xp() );
@@ -1408,6 +1412,7 @@ spell &known_magic::get_spell( const spell_id &sp )
 std::vector<spell *> known_magic::get_spells()
 {
     std::vector<spell *> spells;
+    spells.reserve( spellbook.size() );
     for( auto &spell_pair : spellbook ) {
         spells.emplace_back( &spell_pair.second );
     }
@@ -1462,7 +1467,8 @@ void known_magic::update_mana( const Character &guy, double turns )
 std::vector<spell_id> known_magic::spells() const
 {
     std::vector<spell_id> spell_ids;
-    for( auto pair : spellbook ) {
+    spell_ids.reserve( spellbook.size() );
+    for( const auto &pair : spellbook ) {
         spell_ids.emplace_back( pair.first );
     }
     return spell_ids;

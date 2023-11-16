@@ -4,6 +4,7 @@
     "object": {
       "fill_ter": "t_floor",
       "furniture": {
+        "!": "f_street_light",
         "&": "f_trashcan",
         "B": "f_bench",
         "C": "f_counter",
@@ -33,10 +34,10 @@
         { "chance": 75, "item": "trash", "x": [ 17, 18 ], "y": 2 }
       ],
       "rows": [
-        "|bbbbbbbbbcc...........|",
-        "|bCCCClFFbcc..cccccccc.|",
-        "|bFFFFFFa'cc._cBB&&BBc_|",
-        "|b+bbbb'bbcc..cccccccc_|",
+        ".bbbbbbbbbcc...........!",
+        ".bCCCClFFbcc..cccccccc..",
+        ".bFFFFFFa'cc._cBB&&BBc_.",
+        "|b+bbbb'bbcc..cccccccc_.",
         "|ccccccccccc...........|",
         "|............_..._...._|",
         "|.----------...-------_|",
@@ -65,6 +66,7 @@
         "+": "t_door_c",
         "-": "t_wall_r",
         ".": "t_dirt",
+        "!": "t_dirt",
         "7": "t_tree",
         "F": "t_floor",
         "B": "t_concrete",
@@ -131,6 +133,7 @@
         { "item": "splinter", "repeat": 1, "x": 16, "y": 20 }
       ],
       "furniture": {
+        "!": "f_street_light",
         "&": "f_trashcan",
         "T": "f_table",
         "^": "f_rubble_rock",
@@ -159,7 +162,7 @@
         { "chance": 15, "item": "paintball_items", "x": 20, "y": 9 }
       ],
       "rows": [
-        "-ffffffsssssfffffffffff-",
+        "-ffffffsssssfffffffffff!",
         "-&sbbssssssssss||||||||-",
         "-bsssssssssssss'FTTFFc|-",
         "-bsssssssssssss|FFFFFc|-",
@@ -196,6 +199,7 @@
         "F": "t_floor",
         "^": "t_dirt",
         "_": "t_grass",
+        "!": "t_dirt",
         "b": "t_sidewalk",
         "d": "t_dirtfloor",
         "f": "t_fence_h",

@@ -394,20 +394,20 @@
   },
   {
     "type": "recipe",
-    "result": "sourdough_young",
+    "result": "sourdough_young_uncovered",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
-    "difficulty": 5,
+    "difficulty": 3,
     "time": "10 m",
     "//": "Making the very first starter is a lot more finnicky than splitting it once it's mature.",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 4 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "flour", 4 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "sourdough_split",
+    "result": "sourdough_split_uncovered",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -416,12 +416,12 @@
     "result_mult": 2,
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 4 ] ], [ [ "sourdough_starter", 1 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "flour", 4 ] ], [ [ "sourdough_starter_uncovered", 1 ] ] ]
   },
   {
     "type": "recipe",
     "result": "sourdough_bread",
-    "byproducts": [ [ "sourdough_split", 1 ] ],
+    "byproducts": [ [ "sourdough_split_uncovered", 1 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -431,7 +431,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "flour", 10 ] ], [ [ "sourdough_starter", 1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
+    "components": [ [ [ "flour", 10 ] ], [ [ "sourdough_starter_uncovered", 1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
   },
   {
     "type": "recipe",

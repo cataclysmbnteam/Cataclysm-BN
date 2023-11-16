@@ -269,7 +269,7 @@ struct jmapgen_objects {
 
         bool check_bounds( const jmapgen_place &place, const JsonObject &jso );
 
-        void add( const jmapgen_place &place, shared_ptr_fast<const jmapgen_piece> piece );
+        void add( const jmapgen_place &place, const shared_ptr_fast<const jmapgen_piece> &piece );
 
         /**
          * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
@@ -456,7 +456,6 @@ enum room_type {
 
 // helpful functions
 bool connects_to( const oter_id &there, int dir );
-void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down = false );
 // wrappers for map:: functions
 void line( map *m, const ter_id &type, point p1, point p2 );
 void line_furn( map *m, const furn_id &type, point p1, point p2 );

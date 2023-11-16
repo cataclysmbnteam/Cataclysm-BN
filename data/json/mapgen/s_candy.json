@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        ".............dssd.......",
+        ".............dssd......'",
         "....fD..f.D..dssd....fD.",
         "........D.f..dssd..d....",
         "...uudud.....dssd.d7d...",
@@ -36,6 +36,7 @@
         "+": "t_door_c",
         "-": "t_wall_glass",
         ".": [ [ "t_grass", 5 ], [ "t_grass_long", 5 ], "t_dirt" ],
+        "'": "t_dirt",
         "7": "t_tree_apple_harvested",
         "D": "t_dirt",
         "R": "t_railing_v",
@@ -55,6 +56,7 @@
         "|": "t_wall_y"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "&": "f_trashcan",
         "B": "f_bench",
@@ -168,7 +170,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "............ss..........",
+        "............ss.........'",
         "............ss..........",
         "...d....d...ss.u.u.u.u..",
         "..d7d..d4d..ss|||||||||.",
@@ -197,6 +199,7 @@
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
         ".": [ [ "t_grass", 5 ], [ "t_grass_long", 5 ], "t_dirt" ],
+        "'": "t_dirt",
         "4": "t_tree_pine",
         "7": "t_tree_birch_harvested",
         "D": "t_dirt",
@@ -218,6 +221,7 @@
         "|": "t_brick_wall"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "&": "f_trashcan",
         "C": "f_chair",

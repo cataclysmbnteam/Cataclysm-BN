@@ -1,0 +1,3 @@
+# https://github.com/Ezard/semantic-prs?tab=readme-ov-file#configuration-options
+# Validate the PR title, and ignore all commit messages
+titleOnly: true

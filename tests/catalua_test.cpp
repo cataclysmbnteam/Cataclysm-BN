@@ -14,8 +14,13 @@
 #include "mapdata.h"
 #include "options.h"
 #include "point.h"
+#include "stringmaker.h"
 #include "string_formatter.h"
 #include "type_id.h"
+
+#include <optional>
+#include <string>
+#include <stdexcept>
 
 static void run_lua_test_script( sol::state &lua, const std::string &script_name )
 {
@@ -211,6 +216,41 @@ TEST_CASE( "lua_called_cpp_func_throws", "[lua]" )
     );
 }
 
+struct custom_udata {
+    int unused = 0;
+};
+
+TEST_CASE( "lua_get_luna_type", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+
+    SECTION( "number" ) {
+        sol::table st = lua.create_table();
+        st["k"] = 3;
+        CHECK( get_luna_type( st["k"] ) == std::nullopt );
+    }
+    SECTION( "string" ) {
+        sol::table st = lua.create_table();
+        st["k"] = "abc";
+        CHECK( get_luna_type( st["k"] ) == std::nullopt );
+    }
+    SECTION( "table" ) {
+        sol::table st = lua.create_table();
+        st["k"] = lua.create_table();
+        CHECK( get_luna_type( st["k"] ) == std::nullopt );
+    }
+    SECTION( "registered userdata" ) {
+        sol::table st = lua.create_table();
+        st["k"] = tripoint( 1, 2, 3 );
+        CHECK( get_luna_type( st["k"] ) == std::optional( "Tripoint" ) );
+    }
+    SECTION( "unknown userdata" ) {
+        sol::table st = lua.create_table();
+        st["k"] = custom_udata{};
+        CHECK( get_luna_type( st["k"] ) == std::nullopt );
+    }
+}
+
 TEST_CASE( "lua_table_serde", "[lua]" )
 {
     sol::state lua = make_lua_state();
@@ -229,11 +269,6 @@ TEST_CASE( "lua_table_serde", "[lua]" )
     std::string data = serialize_wrapper( [&]( JsonOut & jsout ) {
         cata::serialize_lua_table( t, jsout );
     } );
-
-    static const std::string data_expected =
-        R"({"member_bool":false,"member_float":{"type":"float","data":16.000000},"member_int":{"type":"int","data":11},"member_string":"fuckoff","member_usertype":{"type":"userdata","kind":"Tripoint","data":[7,5,3]},"subtable":{"type":"lua_table","data":{"inner_val":{"type":"int","data":4}}}})";
-
-    REQUIRE( data == data_expected );
 
     sol::table nt = lua.create_table();
     deserialize_wrapper( [&]( JsonIn & jsin ) {
@@ -281,17 +316,7 @@ TEST_CASE( "lua_table_serde", "[lua]" )
     REQUIRE( inner_val.valid() );
     REQUIRE( inner_val.is<int>() );
     CHECK( inner_val.as<int>() == 4 );
-
-    // And for the good measure - serialize back to JSON
-    std::string data2 = serialize_wrapper( [&]( JsonOut & jsout ) {
-        cata::serialize_lua_table( nt, jsout );
-    } );
-    CHECK( data2 == data_expected );
 }
-
-struct custom_udata {
-    int unused = 0;
-};
 
 TEST_CASE( "lua_table_serde_error_no_reg", "[lua]" )
 {
@@ -308,8 +333,7 @@ TEST_CASE( "lua_table_serde_error_no_reg", "[lua]" )
         } );
     } );
 
-    CHECK( dmsg == "Tried to serialize userdata that was not registered as usertype." );
-    CHECK( data == R"({"my_member":null})" );
+    CHECK( dmsg == "Tried to serialize usertype that was not registered with luna." );
 }
 
 TEST_CASE( "lua_table_serde_error_no_luna", "[lua]" )
@@ -330,7 +354,6 @@ TEST_CASE( "lua_table_serde_error_no_luna", "[lua]" )
     } );
 
     CHECK( dmsg == "Tried to serialize usertype that was not registered with luna." );
-    CHECK( data == R"({"my_member":null})" );
 }
 
 TEST_CASE( "lua_table_serde_error_no_ser", "[lua]" )
@@ -349,7 +372,6 @@ TEST_CASE( "lua_table_serde_error_no_ser", "[lua]" )
         } );
     } );
 
-    CHECK( data == R"({"my_member":null})" );
     CHECK( dmsg == "Tried to serialize usertype that does not allow serialization." );
 }
 
@@ -384,8 +406,6 @@ TEST_CASE( "lua_table_serde_error_rec_table", "[lua]" )
         } );
     } );
 
-    CHECK( data ==
-           R"({"t2":{"type":"lua_table","data":{"t3":{"type":"lua_table","data":{"t5":{"type":"lua_table","data":{}}}},"t4":{"type":"lua_table","data":{"t1":{"type":"lua_table","data":null}}}}}})" );
     CHECK( dmsg == "Tried to serialize recursive table structure." );
 }
 
@@ -451,6 +471,255 @@ TEST_CASE( "catalua_regression_sol_1444", "[lua]" )
     // Regression test for https://github.com/ThePhD/sol2/issues/1444
     sol::state lua = make_lua_state();
     run_lua_test_script( lua, "regression_sol_1444.lua" );
+}
+
+TEST_CASE( "catalua_table_compare", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+    sol::table a = lua.create_table();
+    sol::table b = lua.create_table();
+    SECTION( "empty tables" ) {
+        CHECK( compare_tables( a, b ) );
+        CHECK( compare_tables( b, a ) );
+    }
+    SECTION( "one table has values, the other is empty" ) {
+        a["my_key"] = "my_val";
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
+    SECTION( "tables have identical keys and values" ) {
+        a["my_key"] = "my_val";
+        b["my_key"] = "my_val";
+        CHECK( compare_tables( a, b ) );
+        CHECK( compare_tables( b, a ) );
+    }
+    SECTION( "tables have different values" ) {
+        a["my_key"] = "my_val";
+        b["my_key"] = "ANOTHER_VAL";
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
+    SECTION( "tables have different keys and values" ) {
+        a["my_key"] = "my_val";
+        b["best_cata"] = "bn";
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
+    SECTION( "tables have different keys and values" ) {
+        a["my_key"] = "my_val";
+        b["best_cata"] = "bn";
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
+    SECTION( "can't compare tables with functions" ) {
+        a["my_key"] = &compare_tables;
+        b["my_key"] = &compare_tables;
+        CHECK_THROWS( compare_tables( a, b ) );
+        CHECK_THROWS( compare_tables( b, a ) );
+    }
+    SECTION( "can't compare tables with lambdas" ) {
+        a["my_key"] = [&]( int ) {
+            debugmsg( "Function A" );
+        };
+        b["my_key"] = [&]( int ) {
+            debugmsg( "Function B" );
+        };
+        CHECK_THROWS( compare_tables( a, b ) );
+        CHECK_THROWS( compare_tables( b, a ) );
+    }
+    SECTION( "tables have different values" ) {
+        a["my_key"] = 1;
+        b["my_key"] = 2;
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
+    SECTION( "tables have different value types" ) {
+        a["my_key"] = 1;
+        b["my_key"] = "2";
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
+    SECTION( "tables have different number types" ) {
+        a["my_key"] = 1;
+        b["my_key"] = 1.0;
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
+    SECTION( "tables have different key types" ) {
+        a["1"] = "abc";
+        b[1] = "abc";
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
+    SECTION( "tables have identical subtables" ) {
+        sol::table a_sub = lua.create_table();
+        sol::table b_sub = lua.create_table();
+        a_sub["my_key"] = "my_val";
+        b_sub["my_key"] = "my_val";
+        a["sub"] = a_sub;
+        b["sub"] = b_sub;
+        CHECK( compare_tables( a, b ) );
+        CHECK( compare_tables( b, a ) );
+    }
+    SECTION( "tables have different subtables" ) {
+        sol::table a_sub = lua.create_table();
+        sol::table b_sub = lua.create_table();
+        a_sub["my_key"] = "my_val";
+        b_sub["my_key"] = "ANOTHER_VAL";
+        a["sub"] = a_sub;
+        b["sub"] = b_sub;
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
+    SECTION( "tables have same userdata" ) {
+        a["my_key"] = tripoint( 1, 2, 3 );
+        b["my_key"] = tripoint( 1, 2, 3 );
+        CHECK( compare_tables( a, b ) );
+        CHECK( compare_tables( b, a ) );
+    }
+    SECTION( "tables have different userdata" ) {
+        a["my_key"] = tripoint( 1, 2, 3 );
+        b["my_key"] = tripoint( 12, 34, 56 );
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
+    SECTION( "tables have different userdata types" ) {
+        a["my_key"] = tripoint( 1, 2, 3 );
+        b["my_key"] = point( 12, 34 );
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
+    SECTION( "tables with same userdata as keys" ) {
+        a[tripoint( 1, 3, 37 )] = "my_val";
+        b[tripoint( 1, 3, 37 )] = "my_val";
+        CHECK( compare_tables( a, b ) );
+        CHECK( compare_tables( b, a ) );
+    }
+    SECTION( "tables have different userdata types in keys" ) {
+        a[tripoint( 1, 3, 37 )] = "my_val";
+        b[point( 12, 34 )] = "my_val";
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
+    SECTION( "tables have different userdata values in keys" ) {
+        a[tripoint( 1, 3, 37 )] = "my_val";
+        b[tripoint( 1, 2, 3 )] = "my_val";
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
+    SECTION( "tables have equivalent tables as keys" ) {
+        sol::table key_a = lua.create_table();
+        key_a["hello"] = "world";
+        sol::table key_b = lua.create_table();
+        key_b["hello"] = "world";
+        a[key_a] = "my_val";
+        b[key_b] = "my_val";
+        CHECK( compare_tables( a, b ) );
+        CHECK( compare_tables( b, a ) );
+    }
+    SECTION( "tables have different tables as keys" ) {
+        sol::table key_a = lua.create_table();
+        key_a["hello"] = "world";
+        sol::table key_b = lua.create_table();
+        key_b["hello"] = "BRIGHT NIGHTS";
+        a[key_a] = "my_val";
+        b[key_b] = "my_val";
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
+}
+
+static std::string serialize_table( sol::table t )
+{
+    return serialize_wrapper( [&]( JsonOut & jsout ) {
+        cata::serialize_lua_table( t, jsout );
+    } );
+}
+
+static sol::table deserialize_table( sol::state &lua, const std::string &data )
+{
+    sol::table res = lua.create_table();
+    deserialize_wrapper( [&]( JsonIn & jsin ) {
+        JsonObject jsobj = jsin.get_object();
+        cata::deserialize_lua_table( res, jsobj );
+    }, data );
+    return res;
+}
+
+static void run_serde_test( sol::state &lua, sol::table original )
+{
+    std::string data = serialize_table( original );
+    sol::table got = deserialize_table( lua, data );
+    bool eq = compare_tables( original, got );
+    if( !eq ) {
+        std::string data2 = serialize_table( got );
+        CHECK( data == data2 );
+    }
+    REQUIRE( eq );
+}
+
+TEST_CASE( "catalua_table_serde", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+    sol::table t = lua.create_table();
+    SECTION( "empty table" ) {
+        run_serde_test( lua, t );
+    }
+    SECTION( "empty table from JSON" ) {
+        // This is a short notation for an empty table
+        std::string data = "{}";
+        sol::table got = deserialize_table( lua, data );
+        bool eq = compare_tables( t, got );
+        if( !eq ) {
+            std::string data2 = serialize_table( got );
+            CHECK( data == data2 );
+        }
+        REQUIRE( eq );
+    }
+    SECTION( "table with string keys and values" ) {
+        t["my_key"] = "my_val";
+        t["another_key"] = "another_val";
+        run_serde_test( lua, t );
+    }
+    SECTION( "table with integer values" ) {
+        t["my_key"] = 1337;
+        t["another_key"] = 1234;
+        run_serde_test( lua, t );
+    }
+    SECTION( "table with floating values" ) {
+        t["my_key"] = 13.37;
+        t["another_key"] = 1.234;
+        run_serde_test( lua, t );
+    }
+    SECTION( "table with integer keys" ) {
+        t.add( "abc" );
+        t.add( "def" );
+        run_serde_test( lua, t );
+    }
+    SECTION( "table with userdata values" ) {
+        t["my_key"] = point( 13, 37 );
+        t["another_key"] = tripoint( 12, 34, 56 );
+        run_serde_test( lua, t );
+    }
+    SECTION( "table with userdata keys" ) {
+        t[point( 13, 37 )] = "leet";
+        t[tripoint( 12, 34, 56 )] = "numbers";
+        run_serde_test( lua, t );
+    }
+    SECTION( "table with userdata keys and values" ) {
+        t[point( 13, 37 )] = tripoint( 1, 3, 37 );
+        t[tripoint( 12, 34, 56 )] = point( 98765, 43210 );
+        run_serde_test( lua, t );
+    }
+    SECTION( "table with tables as keys" ) {
+        sol::table key1 = lua.create_table();
+        key1["my_key"] = "my_val";
+        sol::table key2 = lua.create_table();
+        key2[13] = 37;
+        t[key1] = "hello";
+        t[key2] = "world";
+        run_serde_test( lua, t );
+    }
 }
 
 #endif

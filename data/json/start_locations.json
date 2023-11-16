@@ -453,5 +453,12 @@
     "name": "Mansion",
     "terrain": [ "mansion_+2", "mansion_+1", "mansion_+4", "mansion_+3" ],
     "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_bastion_fort",
+    "name": "Bastion Fort",
+    "terrain": [ "Bastion_Fort_1_SW" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

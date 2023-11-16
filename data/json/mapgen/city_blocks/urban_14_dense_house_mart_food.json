@@ -72,7 +72,7 @@
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
-        "ssssssssssssssssssssssssssssssssssssssssssssssss",
+        "sssssssssssssssssssssss'sssssssssssssssssssssss'",
         "ssFFFsssssssss$sssssssssssss$sssssssssssssssssss",
         "||ooo+o||||+|sssssssssssFFFFss|+|ooo|bbbb|oo|___",
         "|         |=||||bbbbb||oooooo||=|JJJ|o++o|JJ|[__",
@@ -100,6 +100,7 @@
       "palettes": [ "city_block_foundation_palette" ],
       "terrain": {
         "`": "t_linoleum_white",
+        "'": "t_sidewalk",
         "F": "t_concrete",
         "a": "t_window_bars_domestic",
         "b": "t_door_metal_pickable",
@@ -110,6 +111,7 @@
         ")": "t_atm"
       },
       "furniture": {
+        "'": "f_street_light",
         "1": "f_rack",
         "2": "f_rack",
         "3": "f_rack",

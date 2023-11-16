@@ -7,6 +7,12 @@
 #include "debug.h"
 #include "string_formatter.h"
 
+#include <cmath>
+#include <limits>
+#include <optional>
+#include <stdexcept>
+#include <utility>
+
 sol::state make_lua_state()
 {
     sol::state lua;
@@ -115,6 +121,158 @@ void check_func_result( sol::protected_function_result &res )
             string_format( "Script runtime error: %s", err.what() )
         );
     }
+}
+
+bool is_number_integer( sol::state_view lua, const sol::object &val )
+{
+    if( val.get_type() != sol::type::number ) {
+        throw std::runtime_error( "is_number_integer: called on a non-number type" );
+    }
+    // HACK: get_type() does not report precise number type, so we have to improvise
+    sol::protected_function math_type = lua.script( "return math.type" );
+    if( !math_type ) {
+        throw std::runtime_error( "is_number_integer: failed to obtain math.type" );
+    }
+    sol::protected_function_result res = math_type( val );
+    if( res.status() != sol::call_status::ok ) {
+        sol::error err = res;
+        std::string msg = string_format( "is_number_integer runtime error: %s", err.what() );
+        throw std::runtime_error( msg );
+    }
+    std::string mtype = res;
+    if( mtype == "integer" ) {
+        return true;
+    } else if( mtype == "float" ) {
+        return false;
+    } else {
+        std::string msg = string_format( "is_number_integer runtime error: unexpected return value %s",
+                                         mtype );
+        throw std::runtime_error( msg );
+    }
+}
+
+std::optional<std::string> get_luna_type( const sol::object &val )
+{
+    sol::state_view lua( val.lua_state() );
+    if( val.get_type() == sol::type::userdata ) {
+        sol::protected_function glt = lua.script( "return function(a) return a:get_luna_type() end" );
+        if( glt ) {
+            sol::protected_function_result res = glt( val );
+            if( res.status() == sol::call_status::ok ) {
+                sol::object retval = res;
+                return retval.as<std::string>();
+            }
+        } else {
+            throw std::runtime_error( "get_luna_type: failed to obtain lua type getter function" );
+        }
+    }
+    return std::nullopt;
+}
+
+bool compare_values( const sol::object &a, const sol::object &b )
+{
+    sol::state_view lua( a.lua_state() );
+    sol::type type = a.get_type();
+    if( type != b.get_type() ) {
+        return false;
+    }
+    if( type == sol::type::table ) {
+        return compare_tables( a, b );
+    }
+    if( type == sol::type::function ) {
+        throw std::runtime_error( "Can't compare functions" );
+    }
+    if( type == sol::type::thread ) {
+        throw std::runtime_error( "Can't compare threads" );
+    }
+    if( type == sol::type::number ) {
+        if( is_number_integer( lua, a ) != is_number_integer( lua, b ) ) {
+            return false;
+        }
+        if( is_number_integer( lua, a ) ) {
+            int num_a = a.as<int>();
+            int num_b = b.as<int>();
+            return num_a == num_b;
+        } else {
+            double num_a = a.as<double>();
+            double num_b = b.as<double>();
+            // FIXME: not suitable for all cases
+            return std::fabs( num_a - num_b ) < 0.0001;
+        }
+        return false;
+    }
+    if( type == sol::type::userdata ) {
+        std::optional<std::string> luna_a = get_luna_type( a );
+        std::optional<std::string> luna_b = get_luna_type( b );
+        if( luna_a != luna_b ) {
+            return false;
+        }
+    }
+    // HACK: We depend on presumption that type implements eq operator.
+    //       If not, Lua WILL compare by reference, and not by value.
+    sol::protected_function cmp_func = lua.script( "return function(a, b) return a == b end" );
+    sol::protected_function_result res = cmp_func( a, b );
+    if( res.status() != sol::call_status::ok ) {
+        sol::error err = res;
+        throw std::runtime_error( string_format( "compare_values - lua error: %s", err.what() ) );
+    }
+    sol::object retval = res;
+    return retval.as<bool>();
+}
+
+sol::object find_equivalent_key( const sol::table &t, sol::object desired_key )
+{
+    sol::object ret = sol::nil;
+    t.for_each( [&]( const sol::object & key, const sol::object & ) {
+        if( ret != sol::nil ) {
+            return;
+        }
+        if( compare_values( desired_key, key ) ) {
+            ret = key;
+        }
+    } );
+    return ret;
+}
+
+bool compare_tables( sol::table a, sol::table b )
+{
+    if( a.size() != b.size() ) {
+        return false;
+    }
+
+    bool are_equal = true;
+    a.for_each( [&]( sol::object a_key, const sol::object & a_val ) {
+        if( !are_equal ) {
+            // Short-circuit
+            return;
+        }
+        sol::object b_key = find_equivalent_key( b, std::move( a_key ) );
+        if( b_key == sol::nil ) {
+            are_equal = false;
+            return;
+        } else {
+            sol::object b_val = b[b_key];
+            if( b_val == sol::nil ) {
+                are_equal = false;
+            } else if( !compare_values( a_val, b_val ) ) {
+                are_equal = false;
+            }
+        }
+    } );
+    if( are_equal ) {
+        b.for_each( [&]( sol::object b_key, const sol::object & /*b_val*/ ) {
+            sol::object a_key = find_equivalent_key( a, std::move( b_key ) );
+            if( a_key == sol::nil ) {
+                are_equal = false;
+            } else {
+                sol::object a_val = a[a_key];
+                if( a_val == sol::nil ) {
+                    are_equal = false;
+                }
+            }
+        } );
+    }
+    return are_equal;
 }
 
 #endif

@@ -333,7 +333,10 @@
       { "item": "shot_00", "prob": 100 },
       { "item": "shot_bird", "prob": 70 },
       { "item": "shot_slug", "prob": 70 },
-      { "item": "410shot_000", "prob": 50 }
+      { "item": "410shot_000", "prob": 50 },
+      { "item": "shot_paper_00", "prob": 30 },
+      { "item": "shot_paper_bird", "prob": 30 },
+      { "item": "shot_paper_slug", "prob": 10 }
     ]
   },
   {
@@ -347,7 +350,8 @@
       { "item": "20x66_shot", "prob": 40 },
       { "item": "20x66_slug", "prob": 20 },
       { "item": "shot_dragon", "prob": 10 },
-      { "item": "shot_beanbag", "prob": 20 }
+      { "item": "shot_beanbag", "prob": 20 },
+      { "item": "shot_paper_dragon", "prob": 5 }
     ]
   },
   {
@@ -405,7 +409,10 @@
       { "item": "bp_shot_bird", "prob": 30 },
       { "item": "bp_shot_dragon", "prob": 20 },
       { "item": "bp_shot_flechette", "prob": 5 },
-      { "item": "bp_shot_slug", "prob": 55 }
+      { "item": "bp_shot_slug", "prob": 55 },
+      { "item": "shot_paper_00", "prob": 15 },
+      { "item": "shot_paper_bird", "prob": 10 },
+      { "item": "shot_paper_slug", "prob": 5 }
     ]
   },
   {

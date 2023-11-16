@@ -16,7 +16,6 @@
 #include "monster.h"
 #include "npc.h"
 #include "item.h"
-#include "item_location.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -104,7 +103,7 @@ TEST_CASE( "Aiming at a target behind wall", "[ranged][aiming]" )
     clear_all_state();
     player &shooter = g->u;
     clear_character( shooter, true );
-    shooter.add_effect( efftype_id( "debug_clairvoyance" ), time_duration::from_seconds( 1 ) );
+    shooter.add_effect( efftype_id( "debug_clairvoyance" ), 1_seconds );
     arm_character( shooter, "glock_19" );
     int max_range = shooter.primary_weapon().gun_range( &shooter );
     REQUIRE( max_range >= 5 );
@@ -223,7 +222,7 @@ TEST_CASE( "Aiming a turret from a solid vehicle", "[ranged][aiming]" )
     }
 }
 
-TEST_CASE( "Aiming at a target partially covered by a wall", "[.][ranged][aiming][slow]" )
+TEST_CASE( "Aiming at a target partially covered by a wall", "[.][ranged][aiming][slow][!mayfail]" )
 {
     clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 8 );

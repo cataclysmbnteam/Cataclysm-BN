@@ -1,254 +1,234 @@
-# Cataclysm BN client
-cmake_minimum_required(VERSION 3.16)
+set(MAIN_CPP ${CMAKE_SOURCE_DIR}/src/main.cpp)
+set(MESSAGES_CPP ${CMAKE_SOURCE_DIR}/src/messages.cpp)
+set(RESOURCE_RC ${CMAKE_SOURCE_DIR}/src/resource.rc)
 
-SET(MAIN_CPP ${CMAKE_SOURCE_DIR}/src/main.cpp)
-SET(MESSAGES_CPP ${CMAKE_SOURCE_DIR}/src/messages.cpp)
-SET(RESOURCE_RC ${CMAKE_SOURCE_DIR}/src/resource.rc)
+file(GLOB CATACLYSM_BN_SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
-FILE(GLOB CATACLYSM_BN_SOURCES
-    ${CMAKE_SOURCE_DIR}/src/*.cpp
-)
+list(REMOVE_ITEM CATACLYSM_BN_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
 
-LIST(REMOVE_ITEM CATACLYSM_BN_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
+file(GLOB CATACLYSM_BN_HEADERS ${CMAKE_SOURCE_DIR}/src/*.h)
 
-FILE(GLOB CATACLYSM_BN_HEADERS
-    ${CMAKE_SOURCE_DIR}/src/*.h
-)
-
-IF(LUA)
-    FILE(GLOB LUA_C_SOURCES
-        ${CMAKE_SOURCE_DIR}/src/lua/*.c
-    )
-ELSE(LUA)
-    SET(LUA_C_SOURCES "")
-ENDIF(LUA)
+if (LUA)
+    add_subdirectory(lua)
+    add_subdirectory(sol)
+endif ()
 
 # Get GIT version strings
-ADD_CUSTOM_TARGET(
+add_custom_target(
     get_version
     DEPENDS ${CMAKE_SOURCE_DIR}/src/version.h
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-)
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
-ADD_CUSTOM_COMMAND(
+add_custom_command(
     OUTPUT ${CMAKE_SOURCE_DIR}/src/version.h
     COMMAND ${CMAKE_COMMAND}
-    -D SRC=${CMAKE_SOURCE_DIR}/src/version.h.in
-    -D DST=${CMAKE_SOURCE_DIR}/src/version.h
-    -D GIT_EXECUTABLE=${GIT_EXECUTABLE}
-    -P ${CMAKE_SOURCE_DIR}/src/version.cmake
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-)
+            -D SRC=${CMAKE_SOURCE_DIR}/src/version.h.in
+            -D DST=${CMAKE_SOURCE_DIR}/src/version.h
+            -D GIT_EXECUTABLE=${GIT_EXECUTABLE}
+            -P ${CMAKE_SOURCE_DIR}/src/version.cmake
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 # Build tiles version if requested
-IF(TILES)
-    add_library(cataclysm-tiles-common OBJECT
-        ${CATACLYSM_BN_SOURCES}
-        ${CATACLYSM_BN_HEADERS}
-        ${LUA_C_SOURCES}
-    )
+if (TILES)
+    add_library(
+            cataclysm-tiles-common OBJECT
+            ${CATACLYSM_BN_SOURCES}
+            ${CATACLYSM_BN_HEADERS})
     target_include_directories(cataclysm-tiles-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
-    IF(USE_PCH_HEADER)
-        target_precompile_headers(cataclysm-tiles-common PRIVATE ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
-    ENDIF()
+    if (WIN32)
+        add_definitions(-DUSE_WINMAIN)
+        add_executable(
+                cataclysm-tiles WIN32
+                ${MAIN_CPP}
+                ${MESSAGES_CPP}
+                ${RESOURCE_RC})
+    else ()
+        add_executable(cataclysm-tiles
+                ${MAIN_CPP}
+                ${MESSAGES_CPP})
+    endif ()
 
-    IF(WIN32)
-        ADD_DEFINITIONS(-DUSE_WINMAIN)
-        ADD_EXECUTABLE(cataclysm-tiles WIN32
-            ${MAIN_CPP}
-            ${MESSAGES_CPP}
-            ${RESOURCE_RC}
-        )
-    ELSE(WIN32)
-        ADD_EXECUTABLE(cataclysm-tiles
-            ${MAIN_CPP}
-            ${MESSAGES_CPP}
-        )
-    ENDIF(WIN32)
-
-    IF(LUA)
+    if (LUA)
         target_compile_definitions(cataclysm-tiles-common PUBLIC LUA)
-        target_include_directories(cataclysm-tiles-common PUBLIC ${CMAKE_SOURCE_DIR}/src)
-        target_include_directories(cataclysm-tiles-common PUBLIC ${CMAKE_SOURCE_DIR}/src/lua)
-    ENDIF(LUA)
+        target_link_libraries(cataclysm-tiles-common PUBLIC libsol)
+    endif ()
 
-    ADD_DEPENDENCIES(cataclysm-tiles-common get_version)
+    add_dependencies(cataclysm-tiles-common get_version)
 
-    target_link_libraries(cataclysm-tiles cataclysm-tiles-common)
-    target_compile_definitions(cataclysm-tiles-common PUBLIC TILES)
+    target_link_libraries(cataclysm-tiles PRIVATE cataclysm-tiles-common)
+    target_compile_definitions(cataclysm-tiles-common PUBLIC TILES )
 
-    IF(CMAKE_USE_PTHREADS_INIT)
+    if (NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
+        target_precompile_headers(cataclysm-tiles-common PRIVATE
+            ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
+    endif ()
+
+    if (CMAKE_USE_PTHREADS_INIT)
         target_compile_options(cataclysm-tiles-common PUBLIC "-pthread")
-    ENDIF(CMAKE_USE_PTHREADS_INIT)
+    endif ()
 
-    IF(CMAKE_THREAD_LIBS_INIT)
-        target_link_libraries(cataclysm-tiles-common ${CMAKE_THREAD_LIBS_INIT})
-    ENDIF(CMAKE_THREAD_LIBS_INIT)
+    if (CMAKE_THREAD_LIBS_INIT)
+        target_link_libraries(cataclysm-tiles-common PUBLIC ${CMAKE_THREAD_LIBS_INIT})
+    endif ()
 
-    IF(NOT DYNAMIC_LINKING)
-        # SDL, SDL_Image, SDL_ttf deps are required for static build
-        target_include_directories(cataclysm-tiles-common PUBLIC
-            ${FREETYPE_INCLUDE_DIRS}
-            ${PNG_INCLUDE_DIRS}
-            ${JPEG_INCLUDE_DIR}
-            ${ZLIB_INCLUDE_DIRS}
-            ${BZIP2_INCLUDE_DIR}
+    if (NOT DYNAMIC_LINKING)
+        target_link_libraries(cataclysm-tiles-common PUBLIC
+            SDL2::SDL2-static
+            SDL2_image::SDL2_image-static
+            SDL2_ttf::SDL2_ttf-static
         )
-        target_link_libraries(cataclysm-tiles-common
-            ${FREETYPE_LIBRARIES}
-            ${PNG_LIBRARIES}
-            ${JPEG_LIBRARIES}
-            ${ZLIB_LIBRARIES}
-            ${BZIP2_LIBRARIES}
+    else()
+        target_link_libraries(cataclysm-tiles-common PUBLIC
+            SDL2::SDL2
+            SDL2_image::SDL2_image
+            SDL2_ttf::SDL2_ttf
         )
-    ENDIF(NOT DYNAMIC_LINKING)
+    endif ()
+    if (SOUND)
+        if (NOT DYNAMIC_LINKING)
+            target_link_libraries(cataclysm-tiles-common PUBLIC
+                SDL2_mixer::SDL2_mixer-static
+            )
+        else()
+            target_link_libraries(cataclysm-tiles-common PUBLIC
+                SDL2_mixer::SDL2_mixer
+            )
+        endif()
+        add_definitions(-DSDL_SOUND)
+    endif ()
 
-    target_include_directories(cataclysm-tiles-common PUBLIC
-        ${SDL2_INCLUDE_DIR}
-        ${SDL2_IMAGE_INCLUDE_DIRS}
-        ${SDL2_TTF_INCLUDE_DIRS}
-    )
-    target_link_libraries(cataclysm-tiles-common
-        ${SDL2_LIBRARY}
-        ${SDL2_IMAGE_LIBRARIES}
-        ${SDL2_TTF_LIBRARIES}
-    )
-
-    IF(SOUND)
-        target_compile_definitions(cataclysm-tiles-common PUBLIC SDL_SOUND)
-        target_include_directories(cataclysm-tiles-common PUBLIC ${OGGVORBIS_INCLUDE_DIR})
-        target_link_libraries(cataclysm-tiles-common ${OGG_LIBRARY})
-        target_link_libraries(cataclysm-tiles-common ${VORBIS_LIBRARY})
-        target_link_libraries(cataclysm-tiles-common ${VORBISFILE_LIBRARY})
-        target_include_directories(cataclysm-tiles-common PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
-        target_link_libraries(cataclysm-tiles-common ${SDL2_MIXER_LIBRARIES})
-    ENDIF(SOUND)
-
-    IF(WIN32)
+    if (WIN32)
         # Global settings for Windows targets (at end)
-        target_link_libraries(cataclysm-tiles-common gdi32.lib)
-        target_link_libraries(cataclysm-tiles-common winmm.lib)
-        target_link_libraries(cataclysm-tiles-common imm32.lib)
-        target_link_libraries(cataclysm-tiles-common ole32.lib)
-        target_link_libraries(cataclysm-tiles-common oleaut32.lib)
-        target_link_libraries(cataclysm-tiles-common version.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC gdi32.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC winmm.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC imm32.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC ole32.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC oleaut32.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC version.lib)
+        target_link_libraries(cataclysm-tiles-common PUBLIC setupapi.lib)
+        if (SOUND)
+            target_link_libraries(cataclysm-tiles-common PUBLIC shlwapi.lib)
+        endif()
+        if (BACKTRACE)
+            target_link_libraries(cataclysm-tiles-common PUBLIC dbghelp.lib)
+            if (LIBBACKTRACE)
+                target_link_libraries(cataclysm-tiles-common PUBLIC backtrace)
+            endif ()
+        endif ()
+    elseif (APPLE)
+        target_link_libraries(cataclysm-tiles-common PUBLIC "-framework CoreFoundation")
+    endif ()
 
-        IF(BACKTRACE)
-            target_link_libraries(cataclysm-tiles-common dbghelp.lib)
-        ENDIF(BACKTRACE)
-    ENDIF(WIN32)
+    if (LIBBACKTRACE)
+        target_link_libraries(cataclysm-tiles-common PUBLIC backtrace)
+    endif ()
 
-    IF(LIBBACKTRACE)
-        target_link_libraries(cataclysm-tiles-common backtrace)
-    ENDIF(LIBBACKTRACE)
+    if (RELEASE)
+        install(TARGETS cataclysm-tiles RUNTIME)
+    endif ()
 
-    IF(RELEASE)
-        install(TARGETS cataclysm-tiles DESTINATION ${BIN_PREFIX})
-    ENDIF(RELEASE)
-ENDIF(TILES)
+    set_target_properties( cataclysm-tiles PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
+endif ()
 
 # Build curses version if requested
-IF(CURSES)
+if (CURSES)
     add_library(cataclysm-common OBJECT
-        ${CATACLYSM_BN_SOURCES}
-        ${CATACLYSM_BN_HEADERS}
-        ${LUA_C_SOURCES}
-    )
+            ${CATACLYSM_BN_SOURCES}
+            ${CATACLYSM_BN_HEADERS})
     target_include_directories(cataclysm-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
-    IF(USE_PCH_HEADER)
-        target_precompile_headers(cataclysm-common PRIVATE ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
-    ENDIF()
+    if (NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
+        target_precompile_headers(cataclysm-common PRIVATE
+            ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
+    endif ()
 
-    IF(WIN32)
-        ADD_EXECUTABLE(cataclysm
-            ${MAIN_CPP}
-            ${MESSAGES_CPP}
-            ${RESOURCE_RC}
-        )
-    ELSE(WIN32)
-        ADD_EXECUTABLE(cataclysm
-            ${MAIN_CPP}
-            ${MESSAGES_CPP}
-        )
-    ENDIF(WIN32)
+    if (WIN32)
+        add_executable(cataclysm
+                ${MAIN_CPP}
+                ${MESSAGES_CPP}
+                ${RESOURCE_RC})
+    else ()
+        add_executable(cataclysm
+                ${MAIN_CPP}
+                ${MESSAGES_CPP})
+    endif ()
 
-    IF(LUA)
+    if (LUA)
         target_compile_definitions(cataclysm-common PUBLIC LUA)
-        target_include_directories(cataclysm-common PUBLIC ${CMAKE_SOURCE_DIR}/src)
-        target_include_directories(cataclysm-common PUBLIC ${CMAKE_SOURCE_DIR}/src/lua)
-    ENDIF(LUA)
+        target_link_libraries(cataclysm-common PUBLIC libsol)
+    endif ()
 
-    ADD_DEPENDENCIES(cataclysm-common get_version)
-    target_link_libraries(cataclysm cataclysm-common)
+    add_dependencies(cataclysm-common get_version)
+    target_link_libraries(cataclysm PRIVATE cataclysm-common)
 
     target_include_directories(cataclysm-common PUBLIC ${CURSES_INCLUDE_DIR})
-    target_link_libraries(cataclysm-common ${CURSES_LIBRARIES})
+    target_link_libraries(cataclysm-common PUBLIC ${CURSES_LIBRARIES})
 
-    IF(CMAKE_USE_PTHREADS_INIT)
+    if (CMAKE_USE_PTHREADS_INIT)
         target_compile_options(cataclysm-common PUBLIC "-pthread")
-    ENDIF(CMAKE_USE_PTHREADS_INIT)
+    endif ()
 
-    IF(CMAKE_THREAD_LIBS_INIT)
-        target_link_libraries(cataclysm-common ${CMAKE_THREAD_LIBS_INIT})
-    ENDIF(CMAKE_THREAD_LIBS_INIT)
+    if (CMAKE_THREAD_LIBS_INIT)
+        target_link_libraries(cataclysm-common PUBLIC ${CMAKE_THREAD_LIBS_INIT})
+    endif ()
 
-    IF(WIN32)
+    if (WIN32)
         # Global settings for Windows targets (at end)
-        target_link_libraries(cataclysm-common gdi32.lib)
-        target_link_libraries(cataclysm-common winmm.lib)
-        target_link_libraries(cataclysm-common imm32.lib)
-        target_link_libraries(cataclysm-common ole32.lib)
-        target_link_libraries(cataclysm-common oleaut32.lib)
-        target_link_libraries(cataclysm-common version.lib)
+        target_link_libraries(cataclysm-common PUBLIC gdi32.lib)
+        target_link_libraries(cataclysm-common PUBLIC winmm.lib)
+        target_link_libraries(cataclysm-common PUBLIC imm32.lib)
+        target_link_libraries(cataclysm-common PUBLIC ole32.lib)
+        target_link_libraries(cataclysm-common PUBLIC oleaut32.lib)
+        target_link_libraries(cataclysm-common PUBLIC version.lib)
+        if (BACKTRACE)
+            target_link_libraries(cataclysm-common PUBLIC dbghelp.lib)
+        endif ()
+    elseif (APPLE)
+        target_link_libraries(cataclysm-common PUBLIC "-framework CoreFoundation")
+    endif ()
 
-        IF(BACKTRACE)
-            target_link_libraries(cataclysm-common dbghelp.lib)
-        ENDIF(BACKTRACE)
-    ENDIF(WIN32)
+    if (LIBBACKTRACE)
+        target_link_libraries(cataclysm-common PUBLIC backtrace)
+    endif ()
 
-    IF(LIBBACKTRACE)
-        target_link_libraries(cataclysm-common backtrace)
-    ENDIF(LIBBACKTRACE)
+    if (RELEASE)
+        install(TARGETS cataclysm RUNTIME)
+    endif ()
+endif ()
 
-    IF(RELEASE)
-        install(TARGETS cataclysm DESTINATION ${BIN_PREFIX})
-    ENDIF(RELEASE)
-ENDIF(CURSES)
-
-IF(MINGW AND NOT RELEASE)
+if (MINGW AND NOT RELEASE)
     # Try to Install shared libraries for dev builds
     # Note: It is specific to MSYS2 and uses hardcoded versions so
     # probably it will fail if you run it :)
 
     # GCC-specific libraries
-    find_library(RuntimeLib_GCC_S_DW2_1 "gcc_s_dw2-1")
-    find_library(RuntimeLib_STDC_PP_6 "stdc++-6")
+    find_library(RuntimeLib_GCC_S_DW2_1  "gcc_s_dw2-1")
+    find_library(RuntimeLib_STDC_PP_6    "stdc++-6")
     find_library(RuntimeLib_WINPTHREAD_1 "winpthread-1")
-    SET(RuntimeLib_GCC_ALL
-        ${RuntimeLib_GCC_S_DW2_1}
-        ${RuntimeLib_STDC_PP_6}
-        ${RuntimeLib_WINPTHREAD_1}
-    )
 
-    IF(TILES)
+    set(RuntimeLib_GCC_ALL
+            ${RuntimeLib_GCC_S_DW2_1}
+            ${RuntimeLib_STDC_PP_6}
+            ${RuntimeLib_WINPTHREAD_1})
+
+    if (TILES)
         # SDL2 can have a varius deps. Here you are the MSYS2 ones...
-        find_library(RuntimeLib_SDL2 "SDL2")
-        find_library(RuntimeLib_SDL2_IMG "SDL2_image")
-        find_library(RuntimeLib_png "libpng16-16")
-        find_library(RuntimeLib_jpeg "libjpeg-8")
-        find_library(RuntimeLib_jbig "libjbig-0")
-        find_library(RuntimeLib_tiff "libtiff-5")
-        find_library(RuntimeLib_webp "libwebp-5")
-        find_library(RuntimeLib_lzma "liblzma-5")
-        find_library(RuntimeLib_bz2 "libbz2-1")
-        find_library(RuntimeLib_zlib "zlib1")
-        find_library(RuntimeLib_hb "libharfbuzz-0")
-        find_library(RuntimeLib_SDL2_TTF "SDL2_ttf")
-        find_library(RuntimeLib_ft "libfreetype-6")
-        find_library(RuntimeLib_glib "libglib-2.0-0")
-        SET(RuntimeLib_SDL
+        find_library(RuntimeLib_SDL2  "SDL2")
+        find_library(RuntimeLib_SDL2_IMG  "SDL2_image")
+        find_library(RuntimeLib_png  "libpng16-16")
+        find_library(RuntimeLib_jpeg  "libjpeg-8")
+        find_library(RuntimeLib_jbig  "libjbig-0")
+        find_library(RuntimeLib_tiff  "libtiff-5")
+        find_library(RuntimeLib_webp  "libwebp-5")
+        find_library(RuntimeLib_lzma  "liblzma-5")
+        find_library(RuntimeLib_bz2  "libbz2-1")
+        find_library(RuntimeLib_zlib  "zlib1")
+        find_library(RuntimeLib_hb  "libharfbuzz-0")
+        find_library(RuntimeLib_SDL2_TTF  "SDL2_ttf")
+        find_library(RuntimeLib_ft  "libfreetype-6")
+        find_library(RuntimeLib_glib  "libglib-2.0-0")
+        set(RuntimeLib_SDL
             ${RuntimeLib_SDL2}
             ${RuntimeLib_SDL2_IMG}
             ${RuntimeLib_png}
@@ -262,24 +242,23 @@ IF(MINGW AND NOT RELEASE)
             ${RuntimeLib_hb}
             ${RuntimeLib_SDL2_TTF}
             ${RuntimeLib_ft}
-            ${RuntimeLib_glib}
-        )
+            ${RuntimeLib_glib})
 
-        IF(SOUND)
-            find_library(RuntimeLib_SDL_SND "SDL2_mixer")
-            find_library(RuntimeLib_flak "libFLAC-8")
-            find_library(RuntimeLib_ogg "libogg-0")
-            find_library(RuntimeLib_flu "libfluidsynth-1")
-            find_library(RuntimeLib_port "libportaudio-2")
-            find_library(RuntimeLib_snd "libsndfile-1")
-            find_library(RuntimeLib_vorb "libvorbis-0")
-            find_library(RuntimeLib_vorb_enc "libvorbisenc-2")
-            find_library(RuntimeLib_vorb_f "libvorbisfile-3")
-            find_library(RuntimeLib_mod "libmodplug-1")
-            find_library(RuntimeLib_mpeg "smpeg2")
-            SET(RuntimeLib_SDL_SOUND
+        if (SOUND)
+            find_library(RuntimeLib_SDL_SND  "SDL2_mixer")
+            find_library(RuntimeLib_flac  "libFLAC-8")
+            find_library(RuntimeLib_ogg  "libogg-0")
+            find_library(RuntimeLib_flu  "libfluidsynth-1")
+            find_library(RuntimeLib_port  "libportaudio-2")
+            find_library(RuntimeLib_snd  "libsndfile-1")
+            find_library(RuntimeLib_vorb  "libvorbis-0")
+            find_library(RuntimeLib_vorb_enc  "libvorbisenc-2")
+            find_library(RuntimeLib_vorb_f  "libvorbisfile-3")
+            find_library(RuntimeLib_mod  "libmodplug-1")
+            find_library(RuntimeLib_mpeg  "smpeg2")
+            set(RuntimeLib_SDL_SOUND
                 ${RuntimeLib_SDL_SND}
-                ${RuntimeLib_flak}
+                ${RuntimeLib_flac}
                 ${RuntimeLib_ogg}
                 ${RuntimeLib_flu}
                 ${RuntimeLib_port}
@@ -288,16 +267,11 @@ IF(MINGW AND NOT RELEASE)
                 ${RuntimeLib_vorb_enc}
                 ${RuntimeLib_vorb_f}
                 ${RuntimeLib_mod}
-                ${RuntimeLib_mpeg}
-            )
-        ENDIF(SOUND)
-    ENDIF(TILES)
-
+                ${RuntimeLib_mpeg})
+        endif ()
+    endif ()
     install(FILES ${RuntimeLib_GCC_ALL}
-        ${RuntimeLib_SDL}
-        ${RuntimeLib_SDL_SOUND}
-        DESTINATION ${BIN_PREFIX}
-    )
-ENDIF(MINGW AND NOT RELEASE)
-
-# vim:noet
+            ${RuntimeLib_SDL}
+            ${RuntimeLib_SDL_SOUND}
+            TYPE BIN)
+endif ()

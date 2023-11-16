@@ -4,7 +4,6 @@
 #include <array>
 #include <bitset>
 #include <cassert>
-#include <ccomplex>
 #include <cctype>
 #include <cerrno>
 #include <cfenv>
@@ -19,13 +18,11 @@
 #include <csetjmp>
 #include <csignal>
 #include <cstdarg>
-#include <cstdbool>
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <ctgmath>
 #include <ctime>
 #include <cuchar>
 #include <cwchar>
@@ -74,7 +71,6 @@
 #include <vector>
 
 #include "../src/platform_win.h"
-#include "../src/colony.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

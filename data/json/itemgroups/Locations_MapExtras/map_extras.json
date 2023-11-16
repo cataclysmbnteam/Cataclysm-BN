@@ -111,5 +111,10 @@
     "subtype": "distribution",
     "id": "map_extra_casings",
     "entries": [ { "item": "rag_bloody" }, { "item": "cigar_butt" }, { "item": "cig_butt" }, { "item": "can_drink_unsealed" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "mass_grave_casings",
+    "items": [ [ "223_casing", 60 ], [ "308_casing", 20 ], [ "shot_hull", 20 ] ]
   }
 ]

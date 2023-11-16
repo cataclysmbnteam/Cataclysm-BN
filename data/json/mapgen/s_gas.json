@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_pavement",
       "rows": [
-        "........................",
+        ".......................'",
         ".-----..................",
         ".|...|..........sss.....",
         ".|...|...........&s.....",
@@ -38,11 +38,12 @@
         "+": "t_chaingate_l",
         "-": "t_chainfence_h",
         ".": "t_pavement",
+        "'": "t_pavement",
         "5": "t_gas_pump",
         "s": "t_little_column",
         "|": "t_chainfence_v"
       },
-      "furniture": { "9": "f_aut_gas_console" },
+      "furniture": { "'": "f_street_light", "9": "f_aut_gas_console" },
       "signs": { "P": { "signage": "Danger!  Do not smoke!  Risk of explosion!" } },
       "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
       "place_liquids": [ { "liquid": "gasoline", "x": 3, "y": 3, "repeat": [ 200, 1075 ] } ]
@@ -56,7 +57,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "____:]:____:____:]:____]",
+        "____:]:____:____:]:____'",
         "____]]]____:____]]]____]",
         "____!#!____:____!#!____]",
         "____]]]____:____]]]____]",
@@ -82,7 +83,8 @@
         " 4      ]]]]]]]]]]]]]]]]"
       ],
       "palettes": [ "road" ],
-      "terrain": { "P": "t_sidewalk", "4": "t_gutter_downspout" },
+      "terrain": { "'": "t_sidewalk", "P": "t_sidewalk", "4": "t_gutter_downspout" },
+      "furniture": { "'": "f_street_light" },
       "signs": { "P": { "signage": "Wide selection of storage batteries!  Discounts!" } },
       "items": { "l": { "item": "cleaning", "chance": 70 }, "&": { "item": "trash_cart", "chance": 50 } },
       "place_loot": [
@@ -161,7 +163,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "________________________",
+        "_______________________'",
         "________________________",
         "________________________",
         "________________________",
@@ -202,10 +204,12 @@
         "O": "t_dirt",
         "[": "t_fence_v",
         "_": "t_pavement",
+        "'": "t_pavement",
         "~": "t_fence_h",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "6": "f_table",
         "9": "f_rack",
         ":": "f_dresser",

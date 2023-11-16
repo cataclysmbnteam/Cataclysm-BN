@@ -13,6 +13,7 @@
 #include "json.h"
 #include "pldata.h"
 #include "type_id.h"
+#include "locations.h"
 
 const bodypart_str_id body_part_head( "head" );
 const bodypart_str_id body_part_eyes( "eyes" );
@@ -90,6 +91,28 @@ namespace
 generic_factory<body_part_type> body_part_factory( "body part" );
 
 } // namespace
+
+bool is_legacy_bodypart_id( const std::string &id )
+{
+    static const std::vector<std::string> legacy_body_parts = {
+        "TORSO",
+        "HEAD",
+        "EYES",
+        "MOUTH",
+        "ARM_L",
+        "ARM_R",
+        "HAND_L",
+        "HAND_R",
+        "LEG_L",
+        "LEG_R",
+        "FOOT_L",
+        "FOOT_R",
+        "NUM_BP",
+    };
+
+    return std::find( legacy_body_parts.begin(), legacy_body_parts.end(),
+                      id ) != legacy_body_parts.end();
+}
 
 static body_part legacy_id_to_enum( const std::string &legacy_id )
 {
@@ -379,7 +402,14 @@ body_part opposite_body_part( body_part bp )
     return get_bp( bp ).opposite_part->token;
 }
 
+bodypart::bodypart() : bodypart( new fake_item_location() ) {};
+
 bodypart_id bodypart::get_id() const
+{
+    return id;
+}
+
+bodypart_str_id bodypart::get_str_id() const
 {
     return id;
 }
@@ -469,6 +499,53 @@ void bodypart::mod_damage_disinfected( int mod )
     damage_disinfected += mod;
 }
 
+body_part_set &body_part_set::unify_set( const body_part_set &rhs )
+{
+    for( auto i = rhs.parts.begin(); i != rhs.parts.end(); i++ ) {
+        if( parts.count( *i ) == 0 ) {
+            parts.insert( *i );
+        }
+    }
+    return *this;
+}
+
+body_part_set &body_part_set::intersect_set( const body_part_set &rhs )
+{
+    for( auto it = parts.begin(); it < parts.end(); ) {
+        if( rhs.parts.count( *it ) == 0 ) {
+            it = parts.erase( it );
+        } else {
+            it++;
+        }
+    }
+    return *this;
+}
+
+body_part_set &body_part_set::substract_set( const body_part_set &rhs )
+{
+    for( auto j = rhs.parts.begin(); j != rhs.parts.end(); j++ ) {
+        if( parts.count( *j ) > 0 ) {
+            parts.erase( *j );
+        }
+    }
+    return *this;
+}
+
+body_part_set body_part_set::make_intersection( const body_part_set &rhs ) const
+{
+    body_part_set new_intersection;
+    new_intersection.parts = parts;
+    new_intersection.intersect_set( rhs );
+    return new_intersection;
+}
+
+void body_part_set::fill( const std::vector<bodypart_id> &bps )
+{
+    for( const bodypart_id &bp : bps ) {
+        parts.insert( bp.id() );
+    }
+}
+
 void bodypart::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -488,4 +565,21 @@ void bodypart::deserialize( JsonIn &jsin )
     jo.read( "hp_max", hp_max, true );
     jo.read( "damage_bandaged", damage_bandaged, true );
     jo.read( "damage_disinfected", damage_disinfected, true );
+}
+
+void bodypart::set_location( location<item> *loc )
+{
+    wielding.wielded.set_loc_hack( loc );
+}
+
+wield_status::wield_status( wield_status &&source ) noexcept : wielded(
+        source.wielded.get_loc_hack() )
+{
+    wielded = source.wielded.release();
+}
+
+wield_status &wield_status::operator=( wield_status &&source ) noexcept
+{
+    wielded = source.wielded.release();
+    return *this;
 }

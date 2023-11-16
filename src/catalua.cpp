@@ -177,10 +177,13 @@ void reload_lua_code()
 
 void debug_write_lua_backtrace( std::ostream &out )
 {
-    cata::lua_state &state = *DynamicDataLoader::get_instance().lua;
+    cata::lua_state *state = DynamicDataLoader::get_instance().lua.get();
+    if( !state ) {
+        return;
+    }
     sol::state container;
 
-    luaL_traceback( container.lua_state(), state.lua.lua_state(), "=== Lua backtrace report ===", 0 );
+    luaL_traceback( container.lua_state(), state->lua.lua_state(), "=== Lua backtrace report ===", 0 );
 
     std::string data = sol::stack::pop<std::string>( container );
     out << data << std::endl;
@@ -202,6 +205,10 @@ bool save_world_lua_state( const std::string &path )
         JsonOut jsout( stream );
         jsout.start_object();
         for( const mod_id &mod : mods ) {
+            if( !mod.is_valid() ) {
+                // The mod is missing from installation
+                continue;
+            }
             jsout.member( mod.str() );
             serialize_lua_table( t[mod.str()], jsout );
         }
@@ -223,6 +230,10 @@ bool load_world_lua_state( const std::string &path )
         for( const mod_id &mod : mods ) {
             if( !jsobj.has_object( mod.str() ) ) {
                 // Mod could have been added to existing save
+                continue;
+            }
+            if( !mod.is_valid() ) {
+                // Trying to load without the mod
                 continue;
             }
             JsonObject mod_obj = jsobj.get_object( mod.str() );

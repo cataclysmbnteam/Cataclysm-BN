@@ -321,7 +321,8 @@
       { "item": "gloves_winter", "prob": 40 },
       { "item": "gloves_liner", "prob": 25 },
       { "item": "gloves_leather", "prob": 45 },
-      { "item": "gloves_fingerless", "prob": 20 },
+      { "item": "gloves_fingerless", "prob": 10 },
+      { "item": "gloves_light_fingerless", "prob": 10 },
       { "item": "gloves_work", "prob": 2 },
       { "item": "bandana", "prob": 35 },
       { "item": "scarf", "prob": 45 },
@@ -347,6 +348,7 @@
       { "item": "trailmap", "prob": 10 },
       { "item": "lighter", "prob": 60 },
       { "item": "ref_lighter", "prob": 2 },
+      { "item": "electric_lighter", "prob": 2 },
       { "item": "matches", "prob": 60 },
       { "item": "extinguisher", "prob": 20 },
       { "item": "sm_extinguisher", "prob": 10 },
@@ -855,6 +857,7 @@
       { "item": "mobile_memory_card", "prob": 8 },
       { "item": "lighter", "prob": 60 },
       { "item": "ref_lighter", "prob": 2 },
+      { "item": "electric_lighter", "prob": 2 },
       { "item": "matches", "prob": 60 },
       { "item": "sewing_kit", "prob": 47 },
       { "item": "tailors_kit", "prob": 3 },
@@ -1054,6 +1057,8 @@
       [ "pistol_flintlock", 1 ],
       [ "carbine_flintlock", 1 ],
       [ "rifle_flintlock", 1 ],
+      [ "longrifle_flintlock", 1 ],
+      [ "shotgun_paper", 5 ],
       [ "deagle_44", 25 ],
       [ "lemat_revolver", 25 ],
       [ "fencing_foil", 20 ],
@@ -1075,7 +1080,8 @@
       { "item": "duct_tape", "prob": 20 },
       { "item": "matches", "prob": 45 },
       { "item": "lighter", "prob": 45 },
-      { "item": "ref_lighter", "prob": 10 }
+      { "item": "ref_lighter", "prob": 10 },
+      { "item": "electric_lighter", "prob": 10 }
     ]
   }
 ]

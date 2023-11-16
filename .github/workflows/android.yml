@@ -11,11 +11,10 @@ on:
       - "gfx/**"
       - "lang/**"
       - "lgtm/**"
-      - "msvc-object_creator/**"
-      - "object_creator/**"
       - "tools/**"
       - "!tools/format/**"
       - "utilities/**"
+      - 'scripts/**'
 
 # We only care about the latest revision of a PR, so cancel previous instances.
 concurrency:
@@ -34,10 +33,10 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Set up JDK 8 (android)
+      - name: Set up JDK 11 (android)
         uses: actions/setup-java@v3
         with:
-          java-version: "8"
+          java-version: "11"
           distribution: "adopt"
 
       - name: Setup build and dependencies

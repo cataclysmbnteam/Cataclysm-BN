@@ -1,3 +1,6 @@
+#include "detached_ptr.h"
+#include <optional>
+#include "cata_algo.h"
 #include "game.h"
 #include "iexamine.h"
 #include "mapdata.h"
@@ -16,16 +19,14 @@
 namespace
 {
 
-// still not sure whether there's a utility function for this
 // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 auto move_item( map &here, const tripoint &src, const tripoint &dest ) -> void
 {
-    map_stack items = here.i_at( src );
-    for( auto it = items.begin(); it != items.end(); ) {
-        here.add_item_or_charges( dest, *it );
-        it = here.i_rem( src, it );
-    }
-};
+    map_stack items_src = here.i_at( src );
+    map_stack items_dest = here.i_at( dest );
+
+    items_src.move_all_to( &items_dest );
+}
 
 namespace elevator
 {
@@ -60,13 +61,27 @@ auto dest( const elevator::tiles &elevator_here,
     return tiles;
 }
 
+/// allow using misaligned elevators.
+/// doesn't prevent you being stuck in the wall tho cause i was lazy
+auto find_elevators_nearby( const tripoint &pos ) -> std::optional<tripoint>
+{
+    constexpr int max_misalign = 3;
+    map &here = get_map();
+
+    for( const auto &p : closest_points_first( pos, max_misalign ) ) {
+        if( here.has_flag( TFLAG_ELEVATOR, p ) ) {
+            return p;
+        }
+    }
+    return {};
+}
+
 auto choose_floor( const tripoint &examp, const tripoint_abs_omt &this_omt,
                    const tripoint &sm_orig ) -> int
 {
     constexpr int retval_offset = 10000; // workaround for uilist retval autoassign when retval == -1
     const auto this_floor = _( " (this floor)" );
 
-    map &here = get_map();
     uilist choice;
     choice.title = _( "Please select destination floor" );
     for( int z = OVERMAP_HEIGHT; z >= -OVERMAP_DEPTH; z-- ) {
@@ -75,7 +90,7 @@ auto choose_floor( const tripoint &examp, const tripoint_abs_omt &this_omt,
         const tripoint zp =
             rotate_point_sm( { examp.xy(), z }, sm_orig, turns );
 
-        if( here.ter( zp )->examine != &iexamine::elevator ) {
+        if( !find_elevators_nearby( zp ) ) {
             continue;
         }
         const std::string omt_name = overmap_buffer.ter_existing( that_omt )->get_name();
@@ -164,17 +179,19 @@ auto move_creatures_away( const elevator::tiles &dest ) -> void
     }
 }
 
-auto move_items( const elevator::tiles from, const elevator::tiles dest ) -> void
+auto move_items( const elevator::tiles &from, const elevator::tiles &dest ) -> void
 {
+    using size_type = elevator::tiles::size_type;
     map &here = get_map();
 
-    for( decltype( from )::size_type i = 0; i < from.size(); i++ ) {
+    // oh how i wish i could use zip here
+    for( size_type i = 0; i < from.size(); i++ ) {
         const tripoint &src = from[i];
         move_item( here, src, dest[i] );
     }
 }
 
-auto move_creatures( const elevator::tiles from, const elevator::tiles dest ) -> void
+auto move_creatures( const elevator::tiles &from, const elevator::tiles &dest ) -> void
 {
     for( Creature &critter : g->all_creatures() ) {
         const auto eit = std::find( from.cbegin(), from.cend(), critter.pos() );
@@ -197,6 +214,19 @@ auto move_vehicles( const elevator_vehicles &vehs, const tripoint &sm_orig, int 
         v->precalc_mounts( 0, v->turn_dir, v->pivot_anchor[0] );
     }
     here.reset_vehicle_cache();
+}
+
+auto move_player( player &p, const int movez, tripoint_abs_ms old_abs_pos ) -> void
+{
+    map &here = get_map();
+
+    g->vertical_shift( movez );
+    // yes, this is inefficient, but i'm lazy
+    cata::and_then( elevator::find_elevators_nearby( p.pos() ), []( const tripoint & pos ) {
+        return g->place_player( pos );
+    } );
+
+    cata_event_dispatch::avatar_moves( *p.as_avatar(), here, old_abs_pos.raw() );
 }
 
 } //namespace elevator
@@ -234,7 +264,5 @@ void iexamine::elevator( player &p, const tripoint &examp )
     elevator::move_items( elevator_here, elevator_dest );
     elevator::move_creatures( elevator_here, elevator_dest );
     elevator::move_vehicles( vehs, sm_orig, movez, turns );
-
-    g->vertical_shift( movez );
-    cata_event_dispatch::avatar_moves( *p.as_avatar(), here, old_abs_pos.raw() );
+    elevator::move_player( p, movez, old_abs_pos );
 }

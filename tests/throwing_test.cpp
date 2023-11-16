@@ -34,7 +34,7 @@ TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {
     clear_all_state();
     const standard_npc thrower( "Thrower", tripoint( 60, 60, 0 ), {}, 4, 10, 10, 10, 10 );
-    item grenade( "grenade" );
+    item &grenade = *item::spawn_temporary( "grenade" );
     CHECK( thrower.throw_range( grenade ) >= 30 );
     CHECK( thrower.throw_range( grenade ) <= 35 );
 }
@@ -97,14 +97,14 @@ static void test_throwing_player_versus(
     bool hit_thresh_met = false;
     bool dmg_thresh_met = false;
     throw_test_data data;
-    item it( throw_id );
+
 
     do {
         reset_player( p, pstats, player_start );
         p.set_moves( 1000 );
         p.set_stamina( p.get_stamina_max() );
-
-        p.wield( it );
+        detached_ptr<item> det = item::spawn( throw_id );
+        item &it = *det;
         monster &mon = spawn_test_monster( mon_id, monster_start );
         mon.set_moves( 0 );
 
@@ -123,7 +123,7 @@ static void test_throwing_player_versus(
             return;
         }
 
-        dealt_projectile_attack atk = ranged::throw_item( p, mon.pos(), it, std::nullopt );
+        dealt_projectile_attack atk = ranged::throw_item( p, mon.pos(), std::move( det ), std::nullopt );
         data.hits.add( atk.hit_critter != nullptr );
         data.dmg.add( atk.dealt_dam.total_damage() );
 
@@ -143,7 +143,6 @@ static void test_throwing_player_versus(
             }
         }
         g->remove_zombie( mon );
-        p.i_rem( -1 );
         // only need to check dmg_thresh_met because it can only be true if
         // hit_thresh_met first
     } while( !dmg_thresh_met && data.hits.n() < max_throw_test_iterations );
@@ -240,10 +239,11 @@ TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[ba
     clear_all_state();
     player &p = g->u;
 
-    item thrown( "throwing_stick", calendar::turn, 10 );
+    detached_ptr<item> det = item::spawn( "throwing_stick", calendar::turn, 10 );
+    item &thrown = *det;
     REQUIRE( thrown.charges > 1 );
     REQUIRE( thrown.count_by_charges() );
-    p.wield( thrown );
+    p.wield( std::move( det ) );
     int initial_moves = -1;
     while( thrown.charges > 0 ) {
         const int cost = ranged::throw_cost( p, thrown );

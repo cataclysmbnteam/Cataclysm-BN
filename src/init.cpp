@@ -45,6 +45,7 @@
 #include "filesystem.h"
 #include "fstream_utils.h"
 #include "flag.h"
+#include "flag_trait.h"
 #include "gates.h"
 #include "harvest.h"
 #include "item_action.h"
@@ -160,8 +161,9 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
 {
     while( !data.empty() ) {
         const size_t n = data.size();
-        auto it = data.begin();
         for( size_t idx = 0; idx != n; ++idx ) {
+            auto it = data.begin();
+            std::advance( it, idx );
             if( !it->first.path ) {
                 debugmsg( "JSON source location has null path, data may load incorrectly" );
             } else {
@@ -174,9 +176,10 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                     debugmsg( "(json-error)\n%s", err.what() );
                 }
             }
-            ++it;
             inp_mngr.pump_events();
         }
+        auto it = data.begin();
+        std::advance( it, n );
         data.erase( data.begin(), it );
         if( data.size() == n ) {
             for( const auto &elem : data ) {
@@ -218,7 +221,7 @@ void DynamicDataLoader::add( const std::string &type,
 }
 
 void DynamicDataLoader::add( const std::string &type,
-                             std::function<void( const JsonObject &, const std::string & )> f )
+                             const std::function<void( const JsonObject &, const std::string & )> &f )
 {
     const auto pair = type_function_map.emplace( type, [f]( const JsonObject & obj,
                       const std::string & src,
@@ -230,7 +233,8 @@ void DynamicDataLoader::add( const std::string &type,
     }
 }
 
-void DynamicDataLoader::add( const std::string &type, std::function<void( const JsonObject & )> f )
+void DynamicDataLoader::add( const std::string &type,
+                             const std::function<void( const JsonObject & )> &f )
 {
     const auto pair = type_function_map.emplace( type, [f]( const JsonObject & obj, const std::string &,
     const std::string &, const std::string & ) {
@@ -249,6 +253,7 @@ void DynamicDataLoader::initialize()
     add( "WORLD_OPTION", &load_world_option );
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "json_flag", &json_flag::load_all );
+    add( "mutation_flag", &json_trait_flag::load_all );
     add( "fault", &fault::load_fault );
     add( "field_type", &field_types::load );
     add( "weather_type", &weather_types::load );
@@ -539,6 +544,10 @@ void DynamicDataLoader::unload_data()
 {
     finalized = false;
 
+    //Moved to the top as a temp hack until vehicles are made into game objects
+    vehicle_prototype::reset();
+    cleanup_arenas();
+
     achievement::reset();
     activity_type::reset();
     ammo_effects::reset();
@@ -570,6 +579,7 @@ void DynamicDataLoader::unload_data()
     item_action_generator::generator().reset();
     item_controller->reset();
     json_flag::reset();
+    json_trait_flag::reset();
     MapExtras::reset();
     mapgen_palette::reset();
     materials::reset();
@@ -618,7 +628,6 @@ void DynamicDataLoader::unload_data()
     to_cbc_migration::reset();
     trap::reset();
     unload_talk_topics();
-    vehicle_prototype::reset();
     VehicleGroup::reset();
     VehiclePlacement::reset();
     VehicleSpawn::reset();
@@ -652,6 +661,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::finalize_all },
+            { _( "Mutation Flags" ), &json_trait_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Bionics" ), &bionic_data::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
@@ -729,6 +739,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::check_consistency },
+            { _( "Mutation Flags" ), &json_trait_flag::check_consistency },
             {
                 _( "Crafting requirements" ), []()
                 {
@@ -774,6 +785,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Overmap specials" ), &overmap_specials::check_consistency },
             { _( "Map extras" ), &MapExtras::check_consistency },
             { _( "Start locations" ), &start_locations::check_consistency },
+            { _( "Regional settings" ), &check_regional_settings },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
             { _( "Bionics" ), &bionic_data::check_consistency },

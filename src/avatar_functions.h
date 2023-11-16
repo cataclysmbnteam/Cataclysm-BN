@@ -35,7 +35,7 @@ void try_steal_from_npc( avatar &you, npc &target );
  * @param obj Object to mend
  * @param interactive If true prompts player when there are multiple faults, otherwise mends the first
  */
-void mend_item( avatar &you, item_location &&obj, bool interactive = true );
+void mend_item( avatar &you, item &obj, bool interactive = true );
 
 /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods */
 void gunmod_add( avatar &you, item &gun, item &mod );
@@ -47,13 +47,13 @@ bool gunmod_remove( avatar &you, item &gun, item &mod );
 std::pair<int, int> gunmod_installation_odds( const avatar &you, const item &gun, const item &mod );
 
 /** Starts activity to install toolmod */
-void toolmod_add( avatar &you, item_location tool, item_location mod );
+void toolmod_add( avatar &you, item &tool, item &mod );
 
 /** Use a tool at given location */
-void use_item( avatar &you, item_location loc );
+void use_item( avatar &you, item &used );
 
 /** Unload an item at given location */
-bool unload_item( avatar &you, item_location loc );
+bool unload_item( avatar &you, item &loc );
 
 /** List potential theft witnesses */
 std::vector<npc *> list_potential_theft_witnesses( avatar &you, const faction_id &owners );

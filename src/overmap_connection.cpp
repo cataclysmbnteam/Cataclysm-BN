@@ -18,6 +18,26 @@ generic_factory<overmap_connection> connections( "overmap connection" );
 
 } // namespace
 
+namespace io
+{
+
+template<>
+std::string enum_to_string<overmap_connection_layout>( overmap_connection_layout data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case overmap_connection_layout::city: return "city";
+        case overmap_connection_layout::p2p: return "p2p";
+        // *INDENT-ON*
+        case overmap_connection_layout::last:
+            break;
+    }
+    debugmsg( "Invalid overmap_connection_layout" );
+    abort();
+}
+
+} // namespace io
+
 static const std::map<std::string, overmap_connection::subtype::flag> connection_subtype_flag_map
 = {
     { "ORTHOGONAL", overmap_connection::subtype::flag::orthogonal },
@@ -91,6 +111,12 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
     return result;
 }
 
+bool overmap_connection::can_start_at( const oter_id &ground ) const
+{
+    const overmap_connection::subtype *subtype = overmap_connection::pick_subtype_for( ground );
+    return subtype != nullptr && subtype->allows_turns();
+}
+
 bool overmap_connection::has( const oter_id &oter ) const
 {
     return std::find_if( subtypes.cbegin(), subtypes.cend(), [&oter]( const subtype & elem ) {
@@ -102,6 +128,7 @@ void overmap_connection::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "default_terrain", default_terrain );
     mandatory( jo, was_loaded, "subtypes", subtypes );
+    optional( jo, was_loaded, "layout", layout, overmap_connection_layout::city );
 }
 
 void overmap_connection::check() const

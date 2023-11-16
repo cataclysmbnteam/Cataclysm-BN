@@ -1524,6 +1524,14 @@
     "entries": [ { "item": "rifle_flintlock" }, { "group": "on_hand_flintlock" } ]
   },
   {
+    "id": "everyday_longrifle_flintlock",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "longrifle_flintlock" }, { "group": "on_hand_flintlock" } ]
+  },
+  {
     "id": "everyday_trex_gun",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1610,6 +1618,14 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "shotgun_s", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_shot" } ]
+  },
+  {
+    "id": "everyday_shotgun_paper",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "shotgun_paper", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_shotpaper" } ]
   },
   {
     "id": "everyday_ksg",

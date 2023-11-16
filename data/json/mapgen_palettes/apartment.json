@@ -8,6 +8,7 @@
       "-": "t_wall",
       "%": "t_rock",
       "=": "t_door_metal_c",
+      "'": "t_region_groundcover_urban",
       "D": "t_door_locked_interior",
       "E": "t_elevator",
       "`": "t_elevator_control",
@@ -46,6 +47,7 @@
       "M": "t_machinery_heavy"
     },
     "furniture": {
+      "'": "f_street_light",
       "a": "f_small_satelitte_dish",
       "A": [ [ "f_armchair", 2 ], "f_null" ],
       "b": "f_bathtub",
@@ -129,6 +131,7 @@
       "<": "t_stairs_up",
       "=": "t_door_metal_c",
       ">": "t_stairs_down",
+      "'": "t_region_groundcover_urban",
       "D": "t_door_locked_interior",
       "E": "t_elevator",
       "`": "t_elevator_control",
@@ -141,6 +144,7 @@
       "x": "t_console_broken"
     },
     "furniture": {
+      "'": "f_street_light",
       "A": "f_armchair",
       "B": "f_bed",
       "b": "f_bathtub",

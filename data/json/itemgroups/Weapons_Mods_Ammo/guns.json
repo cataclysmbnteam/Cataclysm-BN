@@ -669,7 +669,8 @@
       { "group": "nested_bfg50", "prob": 5 },
       { "group": "nested_carbine_flintlock", "prob": 140 },
       { "group": "nested_famas", "prob": 1 },
-      { "group": "nested_rifle_flintlock", "prob": 180 },
+      { "group": "nested_rifle_flintlock", "prob": 90 },
+      { "group": "nested_longrifle_flintlock", "prob": 90 },
       { "group": "nested_oa93", "prob": 3 },
       { "group": "nested_steyr_aug", "prob": 40 },
       { "group": "nested_trex_gun", "prob": 60 },
@@ -690,7 +691,8 @@
       { "group": "everyday_bfg50", "prob": 5 },
       { "group": "everyday_carbine_flintlock", "prob": 140 },
       { "group": "everyday_famas", "prob": 1 },
-      { "group": "everyday_rifle_flintlock", "prob": 180 },
+      { "group": "everyday_rifle_flintlock", "prob": 90 },
+      { "group": "everyday_longrifle_flintlock", "prob": 90 },
       { "group": "everyday_oa93", "prob": 3 },
       { "group": "everyday_steyr_aug", "prob": 40 },
       { "group": "everyday_trex_gun", "prob": 60 },
@@ -724,7 +726,8 @@
       { "group": "nested_mossberg_930", "prob": 15 },
       { "group": "nested_shotgun_410", "prob": 30 },
       { "group": "nested_shotgun_d", "prob": 30 },
-      { "group": "nested_shotgun_s", "prob": 30 }
+      { "group": "nested_shotgun_s", "prob": 30 },
+      { "group": "nested_shotgun_paper", "prob": 30 }
     ]
   },
   {
@@ -741,7 +744,8 @@
       { "group": "everyday_mossberg_930", "prob": 15 },
       { "group": "everyday_shotgun_410", "prob": 30 },
       { "group": "everyday_shotgun_d", "prob": 30 },
-      { "group": "everyday_shotgun_s", "prob": 30 }
+      { "group": "everyday_shotgun_s", "prob": 30 },
+      { "group": "everyday_shotgun_paper", "prob": 30 }
     ]
   },
   {
@@ -758,7 +762,8 @@
       { "item": "mossberg_930", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "shotgun_410", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "shotgun_d", "prob": 30, "charges-min": 0, "charges-max": 0 },
-      { "item": "shotgun_s", "prob": 30 }
+      { "item": "shotgun_s", "prob": 30 },
+      { "item": "shotgun_paper", "prob": 30 }
     ]
   },
   {
@@ -1136,6 +1141,7 @@
       { "group": "everyday_shotgun_410", "prob": 10 },
       { "group": "everyday_shotgun_s", "prob": 10 },
       { "group": "everyday_shotgun_d", "prob": 10 },
+      { "group": "everyday_shotgun_paper", "prob": 10 },
       { "group": "everyday_sten", "prob": 20 },
       { "group": "everyday_sks", "prob": 10 },
       { "group": "everyday_aksemi", "prob": 5 }

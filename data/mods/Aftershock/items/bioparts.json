@@ -103,6 +103,6 @@
     "loudness": 4,
     "clip_size": 80,
     "ammo_effects": "ACIDBOMB",
-    "flags": [ "NO_UNLOAD", "NON-FOULING" ]
+    "flags": [ "NO_UNLOAD", "NON_FOULING" ]
   }
 ]

@@ -153,14 +153,13 @@
     "tools": [ [ [ "swage", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [
-        [ "tin", 12 ],
-        [ "zinc_metal", 12 ],
-        [ "material_aluminium_ingot", 1 ],
-        [ "aluminum_foil", 40 ],
+        [ "tin", 10 ],
+        [ "zinc_metal", 15 ],
+        [ "aluminum_foil", 10 ],
         [ "chem_aluminium_powder", 15 ],
         [ "can_drink_unsealed", 2 ]
       ],
-      [ [ "copper_scrap_equivalent", 2, "LIST" ] ]
+      [ [ "copper_scrap_equivalent", 4, "LIST" ] ]
     ]
   },
   {
@@ -933,7 +932,19 @@
     "using": [ [ "forging_standard", 12 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "hammer_bronze",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 9 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "scrap_bronze", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -972,7 +983,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "copper_scrap_equivalent", 20, "LIST" ] ], [ [ "tin", 30 ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 14, "LIST" ] ], [ [ "tin", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -987,7 +998,7 @@
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "electrolysis_kit", 10 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "copper_scrap_equivalent", 20, "LIST" ] ],
+      [ [ "copper_scrap_equivalent", 14, "LIST" ] ],
       [ [ "tin", 30 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "acid", 1 ] ]
@@ -1149,7 +1160,20 @@
     "using": [ [ "blacksmithing_intermediate", 12 ], [ "steel_standard", 3 ] ],
     "book_learn": [ [ "textbook_fabrication", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
+    "components": [ [ [ "wood_structural_small", 3, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "ax_bronze",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "90 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 15 ], [ "bronzesmithing_tools", 1 ] ],
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "textbook_weapwest", 4 ] ],
+    "components": [ [ [ "wood_structural_small", 3, "LIST" ] ], [ [ "scrap_bronze", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -2041,12 +2065,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "electrolysis_kit", 10 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [
-      [ [ "steel_grille", 1 ] ],
-      [ [ "platinum_small", 100 ] ],
-      [ [ "water", 3 ], [ "water_clean", 3 ] ],
-      [ [ "acid", 1 ] ]
-    ]
+    "components": [ [ [ "steel_grille", 1 ] ], [ [ "platinum_small", 12 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "acid", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2722,5 +2741,16 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "HAMMER_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "nail", 1 ], [ "screwdriver", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "splinter", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "stone_chisel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rock", 1 ], [ "sharp_rock", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   }
 ]

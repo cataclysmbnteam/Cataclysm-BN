@@ -1,6 +1,7 @@
 #include "filesystem.h"
 
 // FILE I/O
+#include <stdexcept>
 #include <sys/stat.h>
 #include <cstdlib>
 #include <algorithm>
@@ -8,6 +9,7 @@
 #include <cstdio>
 #include <cstring>
 #include <deque>
+#include <filesystem>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -80,7 +82,19 @@ bool file_exist( const std::string &path )
 }
 #endif
 
+std::string as_norm_dir( const std::string &path )
+{
+    std::filesystem::path dir = std::filesystem::u8path( path ) / std::filesystem::path{};
+    std::filesystem::path norm = dir.lexically_normal();
+    std::string ret = norm.generic_u8string();
+    if( "." == ret ) {
+        ret = "./"; // TODO Change the many places that use strings instead of paths
+    }
+    return ret;
+}
+
 #if defined(_WIN32)
+
 bool remove_file( const std::string &path )
 {
     return DeleteFileW( utf8_to_wstr( path ).c_str() ) != 0;
@@ -115,6 +129,19 @@ bool remove_directory( const std::string &path )
 #else
     return remove( path.c_str() ) == 0;
 #endif
+}
+
+bool remove_tree( const std::string &path )
+{
+    try {
+        // TODO: C++20 - path constructor should be able to take the string as is
+        auto fs_path = std::filesystem::u8path( path );
+        std::filesystem::remove_all( fs_path );
+    } catch( std::filesystem::filesystem_error &e ) {
+        dbg( DL::Error ) << "remove_tree [" << path << "] failed with \"" << e.what() << "\".";
+        return false;
+    }
+    return true;
 }
 
 const char *cata_files::eol()

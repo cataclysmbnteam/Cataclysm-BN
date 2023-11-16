@@ -278,7 +278,7 @@
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ],
     "dont_recover_one_in": 80,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -298,7 +298,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 10,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -362,7 +362,7 @@
     "loudness": 0,
     "count": 50,
     "dont_recover_one_in": 1000,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -383,7 +383,7 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -1049,8 +1049,9 @@
     "category": "spare_parts",
     "name": { "str_sp": "bronze" },
     "description": "Decent-sized chunks of bronze, for fashioning some old-school items.",
-    "weight": "218 g",
-    "volume": "250 ml",
+    "//": "Density 7.4-8.9g/cm³ depending on composition ~ 825g/100ml if we use DF's chosen density, scrap stacks at ~25% efficiency",
+    "weight": "220 g",
+    "volume": "100 ml",
     "price": 1200,
     "price_postapoc": 250,
     "to_hit": -2,
@@ -1079,7 +1080,7 @@
     "loudness": 0,
     "to_hit": -1,
     "dont_recover_one_in": 1000,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -1099,6 +1100,6 @@
     "loudness": 0,
     "count": 30,
     "dont_recover_one_in": 1000,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   }
 ]

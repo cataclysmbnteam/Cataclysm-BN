@@ -35,7 +35,7 @@
 int advanced_inv_area::get_item_count() const
 {
     if( id == AIM_INVENTORY ) {
-        return g->u.inv.size();
+        return g->u.inv_size();
     } else if( id == AIM_WORN ) {
         return g->u.worn.size();
     } else if( id == AIM_ALL ) {
@@ -54,7 +54,8 @@ advanced_inv_area::advanced_inv_area( aim_location id, point h, tripoint off,
     id( id ), hscreen( h ),
     off( off ), name( name ), shortname( shortname ),
     canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
-    weight( 0_gram ), max_size( 0 ), minimapname( minimapname ), actionname( actionname ),
+    weight( 0_gram ), max_size( 0 ), minimapname( std::move( minimapname ) ),
+    actionname( std::move( actionname ) ),
     relative_location( relative_location )
 {
 }
@@ -253,13 +254,13 @@ item *advanced_inv_area::get_container( bool in_vehicle )
     if( uistate.adv_inv_container_location != -1 ) {
         // try to find valid container in the area
         if( uistate.adv_inv_container_location == AIM_INVENTORY ) {
-            const invslice &stacks = g->u.inv.slice();
+            const_invslice stacks = g->u.inv_const_slice();
 
             // check index first
             if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
                 auto &it = stacks[uistate.adv_inv_container_index]->front();
-                if( is_container_valid( &it ) ) {
-                    container = &it;
+                if( is_container_valid( it ) ) {
+                    container = it;
                 }
             }
 
@@ -267,8 +268,8 @@ item *advanced_inv_area::get_container( bool in_vehicle )
             if( container == nullptr ) {
                 for( size_t x = 0; x < stacks.size(); ++x ) {
                     auto &it = stacks[x]->front();
-                    if( is_container_valid( &it ) ) {
-                        container = &it;
+                    if( is_container_valid( it ) ) {
+                        container = it;
                         uistate.adv_inv_container_index = x;
                         break;
                     }
@@ -280,8 +281,8 @@ item *advanced_inv_area::get_container( bool in_vehicle )
             if( worn.size() > idx ) {
                 auto iter = worn.begin();
                 std::advance( iter, idx );
-                if( is_container_valid( &*iter ) ) {
-                    container = &*iter;
+                if( is_container_valid( *iter ) ) {
+                    container = *iter;
                 }
             }
 
@@ -289,8 +290,8 @@ item *advanced_inv_area::get_container( bool in_vehicle )
             if( container == nullptr ) {
                 auto iter = worn.begin();
                 for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
-                    if( is_container_valid( &*iter ) ) {
-                        container = &*iter;
+                    if( is_container_valid( *iter ) ) {
+                        container = *iter;
                         uistate.adv_inv_container_index = i;
                         break;
                     }
@@ -434,7 +435,7 @@ advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
     std::unordered_map<itype_id, std::set<int>> cache;
     // iterate through and create stacks
     for( auto &elem : items ) {
-        const auto id = elem.typeId();
+        const auto id = elem->typeId();
         auto iter = cache.find( id );
         bool got_stacked = false;
         // cache entry exists
@@ -442,8 +443,8 @@ advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
             // check to see if it stacks with each item in a stack, not just front()
             for( auto &idx : iter->second ) {
                 for( auto &it : stacks[idx] ) {
-                    if( ( got_stacked = it->display_stacked_with( elem ) ) ) {
-                        stacks[idx].push_back( &elem );
+                    if( ( got_stacked = it->display_stacked_with( *elem ) ) ) {
+                        stacks[idx].push_back( elem );
                         break;
                     }
                 }
@@ -454,7 +455,7 @@ advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
         }
         if( !got_stacked ) {
             cache[id].insert( stacks.size() );
-            stacks.push_back( { &elem } );
+            stacks.push_back( { elem } );
         }
     }
     return stacks;

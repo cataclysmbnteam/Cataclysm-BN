@@ -9,7 +9,7 @@
         "t_region_groundcover": { "t_grass": 12, "t_grass_dead": 2, "t_dirt": 1 },
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
         "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
-        "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
+        "t_region_groundcover_swamp": { "t_grass_long": 30, "t_grass_tall": 10, "t_moss": 20, "t_dirt": 20, "t_bog_iron": 1 },
         "t_region_groundcover_barren": { "t_dirt": 30, "t_grass_dead": 2, "t_railroad_rubble": 1 },
         "t_region_grass": { "t_grass": 1 },
         "t_region_soil": { "t_dirt": 1 },
@@ -65,7 +65,9 @@
           "t_tree_mulberry": 2,
           "t_tree_deadpine": 16,
           "t_tree_hickory_dead": 16,
-          "t_tree_dead": 16
+          "t_tree_dead": 16,
+          "t_tree_cacao": 2,
+          "t_tree_coca": 2
         },
         "t_region_tree_shade": {
           "t_tree": 64,
@@ -81,7 +83,9 @@
           "t_tree_coffee": 2,
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
-          "t_tree_dead": 2
+          "t_tree_dead": 2,
+          "t_tree_cacao": 2,
+          "t_tree_coca": 2
         },
         "t_region_tree_fruit": {
           "t_tree_young": 4,
@@ -93,7 +97,8 @@
           "t_tree_plum": 2,
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
-          "t_tree_dead": 4
+          "t_tree_dead": 4,
+          "t_tree_cacao": 2
         },
         "t_region_tree_nut": {
           "t_tree_young": 4,
@@ -578,6 +583,8 @@
       "park_radius": 20,
       "park_sigma": 80,
       "houses": {
+        "2Story01": 50,
+        "2Story02": 50,
         "2storyModern01": 5,
         "2storyModern02": 50,
         "2StoryModern03": 50,
@@ -604,6 +611,10 @@
         "bungalow20": 50,
         "bungalow21": 50,
         "bungalow22": 50,
+        "bungalow23": 50,
+        "bungalow24": 50,
+        "bungalow25": 50,
+        "bungalow26": 50,
         "house_w_1": 50,
         "house_two_story_basement": 50,
         "house_crack1": 5,
@@ -612,6 +623,13 @@
         "house_wooded": 50,
         "house_prepper": 20,
         "house_prepper2": 10,
+        "house_fence01": 20,
+        "house_fence02": 20,
+        "house_fence03": 20,
+        "house_fence04": 20,
+        "house_fence05": 20,
+        "house_fence06": 20,
+        "house_fence07": 20,
         "house_fortified": 20,
         "duplex": 50,
         "house_duplex2": 50,
@@ -928,6 +946,7 @@
         "shopping_plaza": 125,
         "movie_theater": 75,
         "garage_gas_city": 250,
+        "s_games": 80,
         "2fmotel_city": 50,
         "cs_car_dealership": 100,
         "cs_car_showroom": 100,

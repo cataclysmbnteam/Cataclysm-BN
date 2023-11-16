@@ -56,7 +56,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 180 ] ], [ [ "nail", 448 ] ], [ [ "alien_pod_resin", 12 ] ], [ [ "wood_panel", 22 ] ] ]
+        "components": [ [ [ "2x4", 179 ] ], [ [ "alien_pod_resin", 12 ] ], [ [ "nail", 446 ] ], [ [ "wood_panel", 22 ] ] ]
       }
     }
   },

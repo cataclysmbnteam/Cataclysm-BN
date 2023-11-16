@@ -50,7 +50,7 @@
       "min_volume": "250ml",
       "max_volume": "2500ml",
       "multi": 2,
-      "draw_cost": 3,
+      "draw_cost": 150,
       "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
     },
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
@@ -405,7 +405,7 @@
       "holster_prompt": "Sheath golf club",
       "holster_msg": "You awkwardly sheath your %s",
       "max_volume": "1 L",
-      "draw_cost": 40,
+      "draw_cost": 150,
       "flags": [ "SHEATH_GOLF" ]
     }
   },
@@ -879,7 +879,7 @@
       "min_volume": "250ml",
       "max_volume": "2500ml",
       "multi": 2,
-      "draw_cost": 3,
+      "draw_cost": 120,
       "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
     },
     "flags": [ "ONLY_ONE", "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]

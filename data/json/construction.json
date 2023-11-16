@@ -17,7 +17,7 @@
     "group": "deconstruct_simple_furniture",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "10 m",
+    "time": "10 s",
     "pre_note": "Certain terrain and furniture can be deconstructed without any tools.",
     "pre_flags": "EASY_DECONSTRUCT",
     "pre_special": "check_deconstruct",
@@ -1839,7 +1839,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "25 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 6 ] ] ],
     "pre_special": "check_empty",
     "post_furniture": "f_stool"
   },
@@ -2414,6 +2414,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_wall",
+    "group": "constr_wall_standard",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nail", 40 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_wall"
+  },
+  {
+    "type": "construction",
     "id": "constr_wall_r",
     "group": "paint_wall_red",
     "category": "DECORATE",
@@ -2972,6 +2984,18 @@
     "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ] } ],
     "pre_terrain": "t_clay",
     "dark_craftable": true,
+    "post_special": "done_extract_maybe_revert_to_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_extract_bog_iron",
+    "group": "extract_bog_iron",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 0 ], [ "survival", 2 ] ],
+    "time": "45 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "iron_ore", "count": [ 1, 4 ] } ],
+    "pre_terrain": "t_bog_iron",
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
   {
@@ -4202,6 +4226,62 @@
   },
   {
     "type": "construction",
+    "id": "constr_battery_small",
+    "group": "install_small_battery",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "fabrication", 3 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "cable", 5 ] ], [ [ "small_storage_battery", 1 ] ] ],
+    "pre_note": "Will only work if constructed in a building with an electric grid.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_battery_small"
+  },
+  {
+    "type": "construction",
+    "id": "constr_battery_car",
+    "group": "install_car_battery",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "fabrication", 3 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "cable", 5 ] ], [ [ "battery_car", 1 ] ] ],
+    "pre_note": "Will only work if constructed in a building with an electric grid.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_battery_car"
+  },
+  {
+    "type": "construction",
+    "id": "constr_battery_motorbike",
+    "group": "install_motorbike_battery",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "fabrication", 3 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "cable", 5 ] ], [ [ "battery_motorbike", 1 ] ] ],
+    "pre_note": "Will only work if constructed in a building with an electric grid.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_battery_motorbike"
+  },
+  {
+    "type": "construction",
+    "id": "constr_battery_motorbike_small",
+    "group": "install_small_motorbike_battery",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "fabrication", 3 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "cable", 5 ] ], [ [ "battery_motorbike_small", 1 ] ] ],
+    "pre_note": "Will only work if constructed in a building with an electric grid.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_battery_motorbike_small"
+  },
+  {
+    "type": "construction",
     "id": "constr_oven",
     "group": "install_oven",
     "category": "WORKSHOP",
@@ -4640,5 +4720,18 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_floor_lamp_off"
+  },
+  {
+    "type": "construction",
+    "id": "constr_rewire_street_light",
+    "group": "rewire_street_light",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "electronics", 4 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "components": [ [ [ "cable", 2 ] ], [ [ "amplifier", 2 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_furniture": "f_street_light",
+    "post_furniture": "f_street_light_rewired_off"
   }
 ]

@@ -5,8 +5,64 @@
     "id": "mon_zombie_survivor_death_drops",
     "magazine": 100,
     "entries": [
-      { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
-      { "group": "bags", "damage": [ 1, 4 ], "prob": 10 },
+      {
+        "distribution": [
+          { "group": "survivorzed_suits", "prob": 5, "damage": [ 1, 4 ] },
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "clothing_outdoor_torso", "prob": 95, "damage": [ 1, 4 ] },
+                  { "group": "survivorzed_tops", "prob": 5, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "distribution": [
+                  { "group": "clothing_outdoor_pants", "prob": 95, "damage": [ 1, 4 ] },
+                  { "group": "survivorzed_bottoms", "prob": 5, "damage": [ 1, 4 ] }
+                ]
+              }
+            ],
+            "prob": 95
+          }
+        ]
+      },
+      {
+        "distribution": [
+          { "group": "clothing_outdoor_shoes", "prob": 9, "damage": [ 1, 4 ] },
+          { "group": "survivorzed_boots", "prob": 1, "damage": [ 1, 4 ] }
+        ]
+      },
+      {
+        "distribution": [ { "group": "underwear", "prob": 9, "damage": [ 1, 4 ] }, { "group": "loincloth", "prob": 1, "damage": [ 1, 4 ] } ]
+      },
+      {
+        "distribution": [
+          { "group": "gloves_unisex", "prob": 9, "damage": [ 1, 4 ] },
+          { "group": "survivorzed_gloves", "prob": 1, "damage": [ 1, 4 ] }
+        ],
+        "prob": 10
+      },
+      {
+        "distribution": [
+          { "group": "hats_unisex", "prob": 9, "damage": [ 1, 4 ] },
+          { "group": "survivorzed_head", "prob": 1, "damage": [ 1, 4 ] }
+        ],
+        "prob": 10
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "group": "clothing_glasses", "prob": 5 },
+              { "group": "clothing_watch", "prob": 5 },
+              { "group": "bags", "damage": [ 1, 4 ], "prob": 10 }
+            ],
+            "prob": 90
+          },
+          { "group": "survivorzed_extra", "count": [ 1, 3 ], "prob": 10, "damage": [ 1, 4 ] }
+        ]
+      },
       {
         "distribution": [
           { "group": "book_survival", "prob": 15 },
@@ -23,7 +79,9 @@
           { "group": "stash_food", "prob": 40 }
         ]
       },
-      { "item": "cash_card", "charges-min": 25000, "charges-max": 100000 },
+      {
+        "distribution": [ { "item": "cash_card", "prob": 75, "charges": [ 25000, 100000 ] }, { "group": "survivor_currency", "prob": 25 } ]
+      },
       { "item": "survival_kit", "prob": 5, "damage": [ 1, 4 ] }
     ]
   },
@@ -107,16 +165,13 @@
         "distribution": [
           { "group": "survivorzed_suits", "prob": 25, "damage": [ 1, 4 ] },
           {
-            "collection": [
-              { "group": "survivorzed_tops", "prob": 25, "damage": [ 1, 4 ] },
-              { "group": "survivorzed_bottoms", "prob": 25, "damage": [ 1, 4 ] }
-            ],
+            "collection": [ { "group": "survivorzed_tops", "damage": [ 1, 4 ] }, { "group": "survivorzed_bottoms", "damage": [ 1, 4 ] } ],
             "prob": 75
           }
         ]
       },
       {
-        "distribution": [ { "group": "underwear", "prob": 10, "damage": [ 1, 4 ] }, { "group": "loincloth", "prob": 1, "damage": [ 1, 4 ] } ]
+        "distribution": [ { "group": "underwear", "prob": 9, "damage": [ 1, 4 ] }, { "group": "loincloth", "prob": 1, "damage": [ 1, 4 ] } ]
       },
       {
         "distribution": [
@@ -134,7 +189,12 @@
           { "group": "mil_surplus", "prob": 6 }
         ]
       },
-      { "item": "cash_card", "prob": 25, "charges-min": 50000, "charges-max": 150000 }
+      {
+        "distribution": [
+          { "item": "cash_card", "prob": 25, "charges": [ 50000, 150000 ] },
+          { "group": "survivor_currency", "prob": 75, "count": 2 }
+        ]
+      }
     ]
   }
 ]

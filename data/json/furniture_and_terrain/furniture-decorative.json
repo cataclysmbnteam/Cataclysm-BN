@@ -175,6 +175,9 @@
     "move_cost_mod": -1,
     "required_str": 10,
     "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [ { "item": "stick", "count": 4 }, { "item": "nail", "charges": 20 }, { "item": "pine_bough", "count": 8 } ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 40,
@@ -182,7 +185,7 @@
       "sound_fail": "thump.",
       "items": [
         { "item": "pine_bough", "count": [ 4, 6 ] },
-        { "item": "nail", "count": [ 5, 14 ] },
+        { "item": "nail", "charges": [ 5, 14 ] },
         { "item": "stick", "count": [ 1, 3 ] }
       ]
     }

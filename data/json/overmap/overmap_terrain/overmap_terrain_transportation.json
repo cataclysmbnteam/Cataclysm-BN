@@ -37,7 +37,7 @@
     "mapgen_end": [ { "method": "builtin", "name": "road_end" } ],
     "mapgen_tee": [ { "method": "builtin", "name": "road_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
-    "flags": [ "LINEAR" ]
+    "flags": [ "LINEAR", "IGNORE_ROTATION_FOR_ADJACENCY" ]
   },
   {
     "type": "overmap_terrain",
@@ -96,7 +96,8 @@
     "copy-from": "generic_bridge",
     "name": "bridgehead (ground)",
     "sym": "v",
-    "extras": "bridgehead_ground"
+    "extras": "bridgehead_ground",
+    "flags": [ "RIVER" ]
   },
   {
     "type": "overmap_terrain",
@@ -278,7 +279,7 @@
     "color": "yellow",
     "see_cost": 5,
     "extras": "subway",
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -288,7 +289,7 @@
     "color": "yellow",
     "see_cost": 5,
     "extras": "subway",
-    "flags": [ "KNOWN_UP", "NO_ROTATE" ]
+    "flags": [ "KNOWN_UP" ]
   },
   {
     "type": "overmap_terrain",

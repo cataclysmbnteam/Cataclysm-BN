@@ -8,7 +8,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "  sssssssssssssssssssss ",
+        "  sssssssssssssssssssss'",
         " sssssssFffffffffffffFss",
         " sssssssF____________Fss",
         " ss|----|______&&&&__Fss",
@@ -46,6 +46,7 @@
         "_": "t_pavement",
         "&": "t_radio_tower",
         "s": "t_sidewalk",
+        "'": "t_sidewalk",
         "x": "t_console_broken",
         "F": "t_chainfence",
         "f": "t_chainfence",
@@ -54,6 +55,7 @@
         "<": "t_ladder_up"
       },
       "furniture": {
+        "'": "f_street_light",
         "o": "f_bookcase",
         "d": "f_desk",
         "h": "f_chair",
@@ -151,7 +153,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "ss                ##w###",
+        "ss               '##w###",
         "ss       #ffffffff#xxxP#",
         "sssssssssG________#.h.P#",
         "ss  ######________Dc.hP#",
@@ -178,6 +180,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_dirt",
         "+": "t_door_c",
         "=": "t_door_locked_alarm",
         "D": "t_door_locked",
@@ -199,6 +202,7 @@
         "<": "t_ladder_up"
       },
       "furniture": {
+        "'": "f_street_light",
         "o": "f_bookcase",
         "d": "f_desk",
         "h": "f_chair",

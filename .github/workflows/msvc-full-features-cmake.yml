@@ -1,0 +1,96 @@
+name: Cataclysm Windows build (CMake + MSVC)
+
+on:
+  push:
+    branches:
+    - upload
+    paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
+    - 'lgtm/**'
+    - 'tools/**'
+    - '!tools/format/**'
+    - 'utilities/**'
+    - 'scripts/**'
+
+# We only care about the latest revision, so cancel previous instances.
+concurrency:
+  group: msvc-cmake-build-${{ github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  # There's not enough disk space to build both release and debug versions of
+  # our dependencies, so we hack the triplet file to build only release versions
+  # Have to use github.workspace because runner namespace isn't available yet.
+  VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
+  ZSTD_CLEVEL: 17
+  CMAKE_PRESET: windows-tiles-sounds-x64-msvc
+
+jobs:
+  build_catatclysm:
+    name: Build
+    runs-on: windows-2019
+    if: github.event.pull_request.draft == false
+
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 1
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.3.1
+
+    - name: Remove Strawberry Perl from PATH
+      run: |
+        echo $env:PATH
+        echo =========================
+        $env:PATH = $env:PATH -replace "C:\\Strawberry\\c\\bin;", ""
+        $env:PATH = $env:PATH -replace "C:\\Strawberry\\perl\\site\\bin;", ""
+        $env:PATH = $env:PATH -replace "C:\\Strawberry\\perl\\bin;", ""
+        "PATH=$env:PATH" | Out-File -FilePath $env:GITHUB_ENV -Append
+        echo =========================
+        echo $env:PATH
+
+    - name: Install stable CMake
+      uses: lukka/get-cmake@latest
+
+    - name: Install vcpkg
+      uses: lukka/run-vcpkg@v11
+      id: runvcpkg
+      with:
+        vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
+        vcpkgGitCommitId: 'c9aba300923c8ec0ab190e2bff23085209925c97'
+
+    - name: Integrate vcpkg
+      run: |
+        vcpkg integrate install
+
+    - uses: ammaraskar/msvc-problem-matcher@master
+    - name: Configure
+      run: |
+          cmake -DTESTS=ON --preset $env:CMAKE_PRESET
+
+    - uses: ammaraskar/msvc-problem-matcher@master
+    - name: Build
+      run: |
+          cmake --build out/build/$env:CMAKE_PRESET --config RelWithDebInfo
+
+    - name: Dump logs if build failed
+      if: failure()
+      run: |
+        echo =================================================
+        Get-ChildItem "${{ runner.workspace }}/Cataclysm-BN/out/build/$env:CMAKE_PRESET" -Recurse
+        echo =================================================
+
+    - name: Compile .mo files for localization
+      run: |
+          cmake --build out/build/$env:CMAKE_PRESET --target translations_compile --config RelWithDebInfo
+
+    - name: Run tests
+      run: |
+          .\RelWithDebInfo\cata_test-tiles.exe --rng-seed time

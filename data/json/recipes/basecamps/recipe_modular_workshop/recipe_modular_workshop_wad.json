@@ -62,7 +62,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 185 ] ],
+          [ [ "2x4", 184 ] ],
           [
             [ "cattail_stalk", 52 ],
             [ "dogbane", 52 ],
@@ -78,7 +78,7 @@
             [ "material_quicklime", 52 ],
             [ "material_soil", 260 ]
           ],
-          [ [ "nail", 352 ] ],
+          [ [ "nail", 350 ] ],
           [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 65 ], [ "water_clean", 65 ] ],
           [ [ "wood_panel", 22 ] ]
@@ -95,7 +95,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmw_room4_wad_east",
-    "blueprint_name": "east forage wall",
+    "blueprint_name": "east forge wall",
     "blueprint_requires": [ { "id": "fbmw_north" } ],
     "blueprint_provides": [ { "id": "fbmw_east" }, { "id": "blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmw_east" } ],
@@ -135,7 +135,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmw_room5_wad_center",
-    "blueprint_name": "west forage wall",
+    "blueprint_name": "west forge wall",
     "blueprint_requires": [ { "id": "fbmw_east" } ],
     "blueprint_provides": [ { "id": "fbmw_center" } ],
     "blueprint_excludes": [ { "id": "fbmw_center" } ],

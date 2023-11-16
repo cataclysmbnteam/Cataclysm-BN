@@ -9,7 +9,7 @@ num_jobs=3
 function run_tests
 {
     # The grep suppresses lines that begin with "0.0## s:", which are timing lines for tests with a very short duration.
-    $WINE "$@" -d yes --use-colour yes --rng-seed time --error-format=github-action $EXTRA_TEST_OPTS | grep -Ev "^0\.0[0-9]{2} s:"
+    $WINE "$@" -d yes --use-colour yes --rng-seed time --error-format=github-action | grep -Ev "^0\.0[0-9]{2} s:"
 }
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
@@ -24,9 +24,6 @@ then
     make style-all-json-parallel RELEASE=1
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
-    # Also build chkjson (even though we're not using it), to catch any
-    # compile errors there
-    make -j "$num_jobs" chkjson
 elif [ -n "$JUST_JSON" ]
 then
     echo "Early exit on just-json change"

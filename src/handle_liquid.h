@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_HANDLE_LIQUID_H
 #define CATA_SRC_HANDLE_LIQUID_H
 
-#include "item_location.h"
 #include "item_stack.h"
 #include "map.h"
 #include "point.h"
@@ -23,7 +22,7 @@ enum liquid_dest : int {
 struct liquid_dest_opt {
     liquid_dest dest_opt = LD_NULL;
     tripoint pos;
-    item_location item_loc;
+    item *it;
     vehicle *veh = nullptr;
 };
 
@@ -42,7 +41,7 @@ namespace liquid_handler
  * charges of the liquid have been transferred.
  * `true` indicates some charges have been transferred (but not necessarily all of them).
  */
-void handle_all_liquid( item liquid, int radius );
+void handle_all_liquid( detached_ptr<item> &&liquid, int radius );
 
 /**
  * Consume / handle as much of the liquid as possible in varying ways. This function can
@@ -50,66 +49,31 @@ void handle_all_liquid( item liquid, int radius );
  * to wherever it came from and is *not* lost if the player cancels the action.
  * It returns when all liquid has been handled or if the player has explicitly canceled
  * the action (use the charges count to distinguish).
- * @return Whether any of the liquid has been consumed. `false` indicates the player has
- * declined all options to handle the liquid and no charges of the liquid have been transferred.
- * `true` indicates some charges have been transferred (but not necessarily all of them).
+ * @return unconsumed liquid, if any
  */
 bool consume_liquid( item &liquid, int radius = 0 );
+bool consume_liquid( detached_ptr<item> &&liquid, int radius = 0 );
+bool consume_liquid( tripoint pos, int radius = 0 );
+bool consume_liquid( vehicle *veh, itype_id liquid, int radius = 0 );
 
 /**
- * Handle finite liquid from ground. The function also handles consuming move points.
- * This may start a player activity.
- * @param on_ground Iterator to the item on the ground. Must be valid and point to an
- * item in the stack at `m.i_at(pos)`
- * @param pos The position of the item on the map.
- * @param radius around position to handle liquid for
- * @return Whether the item has been removed (which implies it was handled completely).
- * The iterator is invalidated in that case. Otherwise the item remains but may have
- * fewer charges.
- */
-bool handle_liquid_from_ground( map_stack::iterator on_ground, const tripoint &pos,
-                                int radius = 0 );
-
+* The function consumes moves of the player as needed.
+* @param liquid The actual liquid, any liquid remaining will be left in this parameter.
+* If no liquid is remaining it will be null.
+* @return Whether the user has handled the liquid (at least part of it). `false` indicates
+* the user has rejected all possible actions. But note that `true` does *not* indicate any
+* liquid was actually consumed, the user may have chosen an option that turned out to be
+* invalid (chose to fill into a full/unsuitable container).
+* Basically `false` indicates the user does not *want* to handle the liquid, `true`
+* indicates they want to handle it.
+*/
+bool handle_liquid( detached_ptr<item> &&liquid, int radius = 0 );
+bool handle_liquid( item &liquid, int radius = 0 );
 /**
- * Handle liquid from inside a container item. The function also handles consuming move points.
- * @param in_container Iterator to the liquid. Must be valid and point to an
- * item in the @ref item::contents of the container.
- * @param container Container of the liquid
- * @param radius around position to handle liquid for
- * @return Whether the item has been removed (which implies it was handled completely).
- * The iterator is invalidated in that case. Otherwise the item remains but may have
- * fewer charges.
+ * Each of these variants may start a player activity.
  */
-bool handle_liquid_from_container( item *in_container, item &container,
-                                   int radius = 0 );
-/**
- * Shortcut to the above: handles the first item in the container.
- */
-bool handle_liquid_from_container( item &container, int radius = 0 );
-
-/**
- * This may start a player activity if either \p source_pos or \p source_veh is not
- * null.
- * The function consumes moves of the player as needed.
- * Supply one of the source parameters to prevent the player from pouring the liquid back
- * into that "container". If no source parameter is given, the liquid must not be in a
- * container at all (e.g. freshly crafted, or already removed from the container).
- * @param liquid The actual liquid
- * @param source The container that currently contains the liquid.
- * @param radius Radius to look for liquid around pos
- * @param source_pos The source of the liquid when it's from the map.
- * @param source_veh The vehicle that currently contains the liquid in its tank.
- * @return Whether the user has handled the liquid (at least part of it). `false` indicates
- * the user has rejected all possible actions. But note that `true` does *not* indicate any
- * liquid was actually consumed, the user may have chosen an option that turned out to be
- * invalid (chose to fill into a full/unsuitable container).
- * Basically `false` indicates the user does not *want* to handle the liquid, `true`
- * indicates they want to handle it.
- */
-bool handle_liquid( item &liquid, item *source = nullptr, int radius = 0,
-                    const tripoint *source_pos = nullptr,
-                    const vehicle *source_veh = nullptr, int part_num = -1,
-                    const monster *source_mon = nullptr );
+bool handle_liquid( tripoint pos, int radius = 0 );
+bool handle_liquid( vehicle *veh, int part_id, int radius = 0 );
 } // namespace liquid_handler
 
 #endif // CATA_SRC_HANDLE_LIQUID_H

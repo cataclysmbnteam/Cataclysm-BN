@@ -11,6 +11,11 @@
     "material": [ "leather", "bone" ],
     "symbol": "[",
     "color": "dark_gray",
+    "looks_like": "helmet_skull",
+    "covers": [ "head" ],
+    "coverage": 85,
+    "encumbrance": 26,
+    "warmth": 10,
     "material_thickness": 3,
     "flags": [ "WATER_FRIENDLY" ]
   },
@@ -26,6 +31,11 @@
     "material": [ "leather", "bone" ],
     "symbol": "[",
     "color": "dark_gray",
+    "looks_like": "helmet_skull",
+    "covers": [ "head" ],
+    "coverage": 85,
+    "encumbrance": 26,
+    "warmth": 10,
     "material_thickness": 3,
     "flags": [ "WATER_FRIENDLY" ],
     "qualities": [ [ "COOK", 1 ] ]
@@ -42,6 +52,11 @@
     "material": [ "leather", "bone" ],
     "symbol": "[",
     "color": "dark_gray",
+    "looks_like": "helmet_skull",
+    "covers": [ "head" ],
+    "coverage": 85,
+    "encumbrance": 26,
+    "warmth": 10,
     "material_thickness": 3,
     "flags": [ "WATER_FRIENDLY" ]
   }

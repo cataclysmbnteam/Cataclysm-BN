@@ -9,7 +9,7 @@
 #include "point.h"
 #include "point_float.h"
 
-void draw_line( std::function<void( point )>set, point p1, point p2 )
+void draw_line( const std::function<void( point )> &set, point p1, point p2 )
 {
     std::vector<point> line = line_to( p1, p2, 0 );
     for( auto &i : line ) {
@@ -18,7 +18,7 @@ void draw_line( std::function<void( point )>set, point p1, point p2 )
     set( p1 );
 }
 
-void draw_square( std::function<void( point )>set, point p1, point p2 )
+void draw_square( const std::function<void( point )> &set, point p1, point p2 )
 {
     if( p1.x > p2.x ) {
         std::swap( p1.x, p2.x );
@@ -33,7 +33,7 @@ void draw_square( std::function<void( point )>set, point p1, point p2 )
     }
 }
 
-void draw_rough_circle( std::function<void( point )>set, point p, int rad )
+void draw_rough_circle( const std::function<void( point )> &set, point p, int rad )
 {
     for( int i = p.x - rad; i <= p.x + rad; i++ ) {
         for( int j = p.y - rad; j <= p.y + rad; j++ ) {
@@ -44,7 +44,7 @@ void draw_rough_circle( std::function<void( point )>set, point p, int rad )
     }
 }
 
-void draw_circle( std::function<void( point )>set, const rl_vec2d &p, double rad )
+void draw_circle( const std::function<void( point )> &set, const rl_vec2d &p, double rad )
 {
     for( int i = p.x - rad - 1; i <= p.x + rad + 1; i++ ) {
         for( int j = p.y - rad - 1; j <= p.y + rad + 1; j++ ) {
@@ -55,7 +55,7 @@ void draw_circle( std::function<void( point )>set, const rl_vec2d &p, double rad
     }
 }
 
-void draw_circle( std::function<void( point )>set, point p, int rad )
+void draw_circle( const std::function<void( point )> &set, point p, int rad )
 {
     for( int i = p.x - rad; i <= p.x + rad; i++ ) {
         for( int j = p.y - rad; j <= p.y + rad; j++ ) {

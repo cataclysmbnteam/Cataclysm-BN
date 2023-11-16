@@ -514,7 +514,6 @@
         }
       },
       "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
-      "road_nesw_manhole": { "chance": 20, "extras": { "mx_city_trap": 100 } },
       "build": {
         "chance": 90,
         "extras": {
@@ -572,8 +571,6 @@
           "mx_casings": 30
         }
       },
-      "river": { "chance": 3, "extras": { "mx_reed": 100 } },
-      "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } },
       "sewer": {
         "chance": 1,
         "extras": {
@@ -942,9 +939,13 @@
       }
     },
     "weather": {
-      "base_temperature": 1.5,
+      "spring_temp": 8,
+      "summer_temp": 16,
+      "autumn_temp": 7,
+      "winter_temp": -14,
       "base_humidity": 70.0,
       "base_pressure": 1015.0,
+      "base_acid": 0.0,
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
       "base_wind_season_variation": 50,
@@ -957,6 +958,8 @@
         "rain",
         "thunder",
         "lightning",
+        "acid_drizzle",
+        "acid_rain",
         "flurries",
         "snowing",
         "snowstorm"
