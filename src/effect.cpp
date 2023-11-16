@@ -1420,15 +1420,6 @@ void load_effect_type( const JsonObject &jo )
         }
     }
 
-    if( jo.has_array( "effects_on_turn" ) ) {
-        JsonArray jarr = jo.get_array( "effects_on_turn" );
-        for( JsonObject jo_inner : jarr ) {
-            caused_effect new_caused_effect;
-            new_caused_effect.load_interval( jo_inner );
-            new_etype.effects_on_turn.insert( new_caused_effect );
-        }
-    }
-
     if( jo.has_array( "effects_on_remove" ) ) {
         JsonArray jarr = jo.get_array( "effects_on_remove" );
         for( JsonObject jo_decay : jarr ) {
@@ -1531,12 +1522,6 @@ std::string texitify_healing_power( const int power )
         debugmsg( "Converted value out of bounds." );
     }
     return "";
-}
-
-void caused_effect::load_interval( const JsonObject &jo )
-{
-    assign( jo, "interval", interval );
-    load( jo );
 }
 
 void caused_effect::load_decay( const JsonObject &jo )

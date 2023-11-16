@@ -38,11 +38,6 @@ enum effect_rating {
 struct caused_effect {
     public:
         efftype_id type;
-        /**
-         * How many turns between applications? Unused for decay trigger.
-         * Counted from effect birthday. TODO: Count from turn requirements were met.
-         */
-        time_duration interval = 1_turns;
         /** Minimum parent effect intensity to apply the new effect. */
         int intensity_requirement = 0;
         /** If false, prevents application if the trigger was parent decaying to 0 duration. */
@@ -66,11 +61,10 @@ struct caused_effect {
         /** If true, intensity field is ignored and parent effect intensity is copied. */
         bool inherit_intensity = false;
 
-        void load_interval( const JsonObject &obj );
         void load_decay( const JsonObject &obj );
 
         auto tie() const {
-            return std::tie( type, interval, intensity_requirement, allow_on_decay, allow_on_remove,
+            return std::tie( type, intensity_requirement, allow_on_decay, allow_on_remove,
                              duration, inherit_duration, intensity, inherit_intensity );
         }
 
@@ -84,9 +78,6 @@ struct caused_effect {
 struct caused_effect_sort_less {
     public:
         bool operator()( const caused_effect &lhs, const caused_effect &rhs ) const {
-            if( lhs.interval != rhs.interval ) {
-                return lhs.interval < rhs.interval;
-            }
             if( lhs.type != rhs.type ) {
                 return lhs.type < rhs.type;
             }
@@ -223,7 +214,6 @@ class effect_type
 
         morale_type morale;
 
-        cata::flat_set<caused_effect, caused_effect_sort_less> effects_on_turn;
         std::vector<caused_effect> effects_on_remove;
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
