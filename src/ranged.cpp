@@ -950,14 +950,12 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         int gun_recoil = gun.gun_recoil( can_use_bipod( shooter, here, shooter.pos() ) );
 
         // If user is currently able to fire a mounted gun freely, penalize recoil based on size class.
-        // Large mutants or FIRE_SUPPORT flag allow it, while Huge takes precedence and lowers penalty.
+        // Large mutants or HEAVY_WEAPON_SUPPORT flag allow it, while Huge takes precedence and lowers penalty.
         if( gun.has_flag( flag_MOUNTED_GUN ) && !can_use_bipod( shooter, here, shooter.pos() ) ) {
             if( who.get_size() == MS_HUGE ) {
                 gun_recoil = gun_recoil * 2;
-                add_msg( m_info, "Recoil penalty of 2x for Huge triggered." );
             } else {
                 gun_recoil = gun_recoil * 3;
-                add_msg( m_info, "Recoil penalty of 3x for Large or FIRE_SUPPORT usage triggered." );
             }
         }
 
@@ -1953,14 +1951,14 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
     }
 
     // If user is currently able to fire a mounted gun freely, penalize dispersion based on size class.
-    // Large mutants or FIRE_SUPPORT flag allow it, while Huge takes precedence and lowers penalty.
+    // Large mutants or HEAVY_WEAPON_SUPPORT flag allow it, while Huge takes precedence and lowers penalty.
     if( obj.has_flag( flag_MOUNTED_GUN ) && !can_use_bipod( who, get_map(), who.pos() ) ) {
         if( who.get_size() == MS_HUGE ) {
             dispersion.add_multiplier( 2 );
             add_msg( m_info, "Aiming penalty of 3x for Huge triggered." );
         } else {
             dispersion.add_multiplier( 3 );
-            add_msg( m_info, "Aiming penalty of 3x for Large or FIRE_SUPPORT usage triggered." );
+            add_msg( m_info, "Aiming penalty of 3x for Large or HEAVY_WEAPON_SUPPORT usage triggered." );
         }
     }
 
@@ -3786,7 +3784,7 @@ bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
     if( gmode->has_flag( flag_MOUNTED_GUN ) ) {
         const Character &shooter = you;
         if( !can_use_bipod( shooter, m, shooter.pos() ) && !( you.get_size() > MS_MEDIUM ) &&
-            !you.worn_with_flag( flag_FIRE_SUPPORT ) ) {
+            !you.worn_with_flag( flag_HEAVY_WEAPON_SUPPORT ) ) {
             messages.push_back( string_format(
                                     _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),
                                     gmode->tname() ) );

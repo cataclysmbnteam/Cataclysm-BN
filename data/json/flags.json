@@ -2038,7 +2038,7 @@
     "context": [  ]
   },
   {
-    "id": "FIRE_SUPPORT",
+    "id": "HEAVY_WEAPON_SUPPORT",
     "type": "json_flag",
     "context": [  ],
     "info": "This equipment allows you to fire unwieldy weapons without requiring support from mountable terrain, as a <info>Large or Huge</info> mutant could, at the expense of <bad>reduced accuracy.</bad>"
