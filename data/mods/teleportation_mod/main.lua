@@ -7,44 +7,6 @@ charge_multiplier = 1
 -- how much power in kj is needed for 1 teleport energy unit when charging from grid
 power_charge_kj_multiplier = 1000
 
----------------------------------------------------------------
-
-
-
---[[
---Items
-- personal teleporter remote
-- teleporter base (deployed, undeployed)
-- teleporter target anchor (deployed, undeployed)
-
---Logic/design
-- on use: teleporter anchor registers its tripoint in the teleporter network
-- on use: teleporter station registers itself in the teleporter network (position, time of placement, and charge)
-- teleporter network: array of stations with charge, timestamp and tripoint position, and anchor with tripoint position
-- on use: teleporter remote:
-	- updates charge on stations (if a minute has passed since the last use)
-	
-	- opens window with two options - teleport, and charge station
-		- teleport gives a list of anchors with the distance to them, 1 distance = 1 charge
-		- pick an anchor, pick station to use, player is teleported to anchor OMT, distance gets removed from station charge
-		
-	- charge station works if you are on the same grid with the station, it allows players to manually dump grid energy into the teleporter station
-		-on use dumps energy into the station, removes it from grid
-
-- teleporter stations also charge hourly, depending on the charge multiplier variable (easy edit by user at the top of the file)
-- the amount of kj needed to get 1 unit of power is also a variable that's easily editable
-	
-- can build more stations for a larger "bank", though each teleporter has their own energy bank. These are currently unlimited, should not ever hit the ?double/float? limit either way.
-- stations and anchors are removable, but debug is needed to spawn the item back. Quick fix once the item spawn function is exposed to LUA.
-
---Feature frenzy																												<- not done
-- ACTUAL teleportation (bug the devs on discord actively, much love)
-- give back the item upon deconstruction
-- can draw vehicle power to charge stations(though you can probably connect vehicle to grid and do it that way?)
-- teleporter stations and anchors as parts of vehicles. Would need hooks for something like on_build_veh_part or whatever.
-
-]]--
-
 local mod = game.mod_runtime[ game.current_mod ]
 local storage = game.mod_storage[ game.current_mod ]
 
