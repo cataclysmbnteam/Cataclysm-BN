@@ -329,7 +329,7 @@ void player_activity::do_turn( player &p )
         }
     }
     int previous_stamina = p.get_stamina();
-    if( p.is_npc() && p.restore_outbounds_activity( p.remove_activity() ) ) {
+    if( p.is_npc() && p.restore_outbounds_activity() ) {
         // npc might be operating at the edge of the reality bubble.
         // or just now reloaded back into it, and their activity target might
         // be still unloaded, can cause infinite loops.
