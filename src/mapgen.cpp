@@ -4741,9 +4741,12 @@ void map::draw_mine( mapgendata &dat )
 
         for( int i = 0; i < SEEX * 2; i++ ) {
             for( int j = 0; j < SEEY * 2; j++ ) {
+                int i_reverse = SEEX * 2 - 1 - i;
+                int j_reverse = SEEY * 2 - 1 - j;
                 if( i >= dat.w_fac + rng( 0, 2 ) && i <= EAST_EDGE - dat.e_fac - rng( 0, 2 ) &&
                     j >= dat.n_fac + rng( 0, 2 ) && j <= SOUTH_EDGE - dat.s_fac - rng( 0, 2 ) &&
-                    i + j >= 4 && ( SEEX * 2 - i ) + ( SEEY * 2 - j ) >= 6 ) {
+                    i + j >= 3 && i_reverse + j_reverse >= 3 &&
+                    i + j_reverse >= 3 && j + i_reverse >= 3 ) {
                     ter_set( point( i, j ), t_rock_floor );
                 } else {
                     ter_set( point( i, j ), t_rock );
