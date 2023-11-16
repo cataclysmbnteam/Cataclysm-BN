@@ -944,11 +944,9 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         int gun_recoil = gun.gun_recoil( can_use_bipod( here, who.pos() ) );
 
         // If user is currently able to fire a mounted gun freely, penalize recoil based on size class.
+        // Large mutants or FIRE_SUPPORT flag allow it, while Huge takes precedence and lowers penalty.
         if( gun.has_flag( flag_MOUNTED_GUN ) && !can_use_bipod( here, who.pos() ) ) {
-            if( who.get_size() == MS_HUGE && who.worn_with_flag( flag_FIRE_SUPPORT ) ) {
-                gun_recoil = gun_recoil * 1.5;
-            } else if( who.get_size() == MS_HUGE || ( who.get_size() == MS_LARGE &&
-                       who.worn_with_flag( flag_FIRE_SUPPORT ) ) ) {
+            if( who.get_size() == MS_HUGE ) {
                 gun_recoil = gun_recoil * 2;
             } else {
                 gun_recoil = gun_recoil * 3;
@@ -1947,11 +1945,9 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
     }
 
     // If user is currently able to fire a mounted gun freely, penalize dispersion based on size class.
+    // Large mutants or FIRE_SUPPORT flag allow it, while Huge takes precedence and lowers penalty.
     if( obj.has_flag( flag_MOUNTED_GUN ) && !can_use_bipod( get_map(), who.pos() ) ) {
-        if( who.get_size() == MS_HUGE && who.worn_with_flag( flag_FIRE_SUPPORT ) ) {
-            dispersion.add_multiplier( 1.5 );
-        } else if( who.get_size() == MS_HUGE || ( who.get_size() == MS_LARGE &&
-                   who.worn_with_flag( flag_FIRE_SUPPORT ) ) ) {
+        if( who.get_size() == MS_HUGE ) {
             dispersion.add_multiplier( 2 );
         } else {
             dispersion.add_multiplier( 3 );
