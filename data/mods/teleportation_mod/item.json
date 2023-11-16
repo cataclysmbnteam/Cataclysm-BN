@@ -7,7 +7,7 @@
     "description": "A device with a digital display, connected to the teleporter network. Can be used to check teleporter status and teleport the user.",
     "symbol": "{",
     "color": "black",
-    "weight": "1680 g",
+    "weight": "500 g",
     "volume": "1 L",
     "price": 4000,
     "price_postapoc": 1000,
