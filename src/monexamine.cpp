@@ -431,13 +431,10 @@ void monexamine::insert_battery( monster &z )
 
 bool monexamine::mech_hack( monster &z )
 {
-    itype_id card_type = itype_id_industrial;
-    if( z.has_flag( MF_MILITARY_MECH ) ) {
-        card_type == itype_id_military;
-    }
+    itype_id card_type = ( z.has_flag( MF_MILITARY_MECH ) ? itype_id_military : itype_id_industrial );
     avatar &you = get_avatar();
     if( you.has_amount( card_type, 1 ) ) {
-        if( query_yn( _( "Swipe your %s into the mech's security port?" ), card_type.nname() ) ) {
+        if( query_yn( _( "Swipe your %s into the mech's security port?" ), item::nname( card_type ) ) ) {
             you.mod_moves( -100 );
             z.add_effect( effect_pet, 1_turns, num_bp );
             z.friendly = -1;
@@ -447,7 +444,8 @@ bool monexamine::mech_hack( monster &z )
             return true;
         }
     } else {
-        add_msg( m_info, _( "You do not have the required %s to activate this mech." ), card_type.nname() );
+        add_msg( m_info, _( "You do not have the required %s to activate this mech." ),
+                 item::nname( card_type ) );
     }
     return false;
 }
