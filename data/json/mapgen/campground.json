@@ -86,10 +86,26 @@
         { "chance": 25, "fuel": 15, "rotation": 270, "status": -1, "vehicle": "campground_vehicles", "x": 16, "y": 5 },
         { "chance": 25, "fuel": -1, "rotation": 180, "status": -1, "vehicle": "campground_vehicles", "x": 5, "y": 19 },
         { "chance": 50, "fuel": 20, "rotation": 0, "status": -1, "vehicle": "lux_rv", "x": 42, "y": 18 },
-        { "chance": 25, "fuel": 15, "rotation": 180, "status": -1, "vehicle": "campground_vehicles", "x": 26, "y": 14 },
+        {
+          "chance": 25,
+          "fuel": 15,
+          "rotation": 180,
+          "status": -1,
+          "vehicle": "campground_vehicles",
+          "x": 26,
+          "y": 14
+        },
         { "chance": 25, "fuel": 15, "rotation": 90, "status": -1, "vehicle": "campground_vehicles", "x": 22, "y": 31 },
         { "chance": 25, "fuel": -1, "rotation": 0, "status": -1, "vehicle": "campground_vehicles", "x": 7, "y": 34 },
-        { "chance": 25, "fuel": -1, "rotation": 270, "status": -1, "vehicle": "campground_vehicles", "x": 17, "y": 41 },
+        {
+          "chance": 25,
+          "fuel": -1,
+          "rotation": 270,
+          "status": -1,
+          "vehicle": "campground_vehicles",
+          "x": 17,
+          "y": 41
+        },
         { "chance": 10, "fuel": -1, "rotation": 0, "status": -1, "vehicle": "rv", "x": 42, "y": 27 },
         { "chance": 25, "fuel": 15, "rotation": 90, "status": -1, "vehicle": "campground_vehicles", "x": 34, "y": 41 }
       ]
