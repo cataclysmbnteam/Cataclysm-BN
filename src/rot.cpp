@@ -41,7 +41,6 @@ auto temperature_flag_for_location( const map &m, const item &loc ) -> temperatu
             }
             int cargo_index = veh->vehicle().part_with_feature( veh->part_index(), VPFLAG_CARGO, true );
             if( cargo_index < 0 ) {
-                debugmsg( "Expected cargo part at %d, %d, %d, but couldn't find any", pos.x, pos.y, pos.z );
                 return temperature_flag::TEMP_NORMAL;
             }
             return temperature_flag_for_part( veh->vehicle(), cargo_index );
