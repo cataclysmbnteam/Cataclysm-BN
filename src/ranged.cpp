@@ -140,9 +140,6 @@ static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_targeting( "bio_targeting" );
 static const bionic_id bio_ups( "bio_ups" );
 
-
-static const std::string flag_MOUNTABLE( "MOUNTABLE" );
-
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_NORANGEDCRIT( "NO_RANGED_CRIT" );
 
@@ -949,12 +946,12 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         // But only for one shot, because bursts kinda suck
         int gun_recoil = gun.gun_recoil( can_use_bipod( shooter, here, shooter.pos() ) );
 
-        // If user is currently able to fire a mounted gun freely, penalize recoil based on size class.
-        // Large mutants or HEAVY_WEAPON_SUPPORT flag allow it, while Huge takes precedence and lowers penalty.
+        // If user is currently able to fire a mounted gun freely, penalize dispersion
+        // HEAVY_WEAPON_SUPPORT flag has highest penalty, Large mutants lower penalty, no penalty for Huge mutants.
         if( gun.has_flag( flag_MOUNTED_GUN ) && !can_use_bipod( shooter, here, shooter.pos() ) ) {
-            if( who.get_size() == MS_HUGE ) {
+            if( who.get_size() == MS_LARGE ) {
                 gun_recoil = gun_recoil * 2;
-            } else {
+            } else if( who.worn_with_flag( flag_HEAVY_WEAPON_SUPPORT ) && ( who.get_size() <= MS_MEDIUM ) ) {
                 gun_recoil = gun_recoil * 3;
             }
         }
@@ -1950,15 +1947,13 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
         dispersion.add_multiplier( 4 );
     }
 
-    // If user is currently able to fire a mounted gun freely, penalize dispersion based on size class.
-    // Large mutants or HEAVY_WEAPON_SUPPORT flag allow it, while Huge takes precedence and lowers penalty.
+    // If user is currently able to fire a mounted gun freely, penalize dispersion
+    // HEAVY_WEAPON_SUPPORT flag has highest penalty, Large mutants lower penalty, no penalty for Huge mutants.
     if( obj.has_flag( flag_MOUNTED_GUN ) && !can_use_bipod( who, get_map(), who.pos() ) ) {
-        if( who.get_size() == MS_HUGE ) {
-            dispersion.add_multiplier( 2 );
-            add_msg( m_info, "Aiming penalty of 3x for Huge triggered." );
-        } else {
-            dispersion.add_multiplier( 3 );
-            add_msg( m_info, "Aiming penalty of 3x for Large or HEAVY_WEAPON_SUPPORT usage triggered." );
+        if( who.get_size() == MS_LARGE ) {
+            dispersion.add_range( 500 );
+        } else if( who.worn_with_flag( flag_HEAVY_WEAPON_SUPPORT ) && ( who.get_size() <= MS_MEDIUM ) ) {
+            dispersion.add_range( 1000 );
         }
     }
 
