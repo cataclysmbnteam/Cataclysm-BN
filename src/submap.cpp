@@ -49,6 +49,7 @@ void submap::swap( submap &first, submap &second )
     std::swap( first.computers, second.computers );
     std::swap( first.legacy_computer, second.legacy_computer );
     std::swap( first.temperature, second.temperature );
+    std::swap( first.cosmetics, second.cosmetics );
 
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
