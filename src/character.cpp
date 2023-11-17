@@ -1286,11 +1286,11 @@ bool Character::check_outbounds_activity( player_activity &act )
     return false;
 }
 
-bool Character::restore_outbounds_activity( std::unique_ptr<player_activity> &&act )
+bool Character::restore_outbounds_activity()
 {
-    if( check_outbounds_activity( *act ) ) {
+    if( check_outbounds_activity( *activity ) ) {
         // stash activity for when reloaded.
-        stashed_outbounds_activity = std::move( act );
+        stashed_outbounds_activity = std::move( activity );
         if( !backlog.empty() ) {
             stashed_outbounds_backlog = std::move( backlog.front() );
             backlog.pop_front();
