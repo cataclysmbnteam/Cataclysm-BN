@@ -6903,7 +6903,7 @@ detached_ptr<item> Character::pour_into( vehicle &veh, detached_ptr<item> &&liqu
 
     auto &tank = veh_interact::select_part( veh, sel, title );
     if( !tank ) {
-        return detached_ptr<item>();
+        return std::move(liquid);
     }
 
     //~ $1 - vehicle name, $2 - part name, $3 - liquid type
