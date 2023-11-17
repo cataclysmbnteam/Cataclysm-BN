@@ -1270,6 +1270,10 @@ These branches are also the valid entries for the categories of `dreams` in `dre
   contain any lake terrain.
 - `UNIQUE` Location is unique and will only occur once per overmap. `occurrences` is overridden to
   define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
+- `ENDGAME` Location will have highest priority during special placement, and won't be affected by
+  any occurrences normalizations.
+- `RESTRICTED` Location will never be spawned as starting locations. Intended(but not limited) to
+  use with incomplete nested specials.
 
 ### Overmap terrains
 

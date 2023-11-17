@@ -1,11 +1,11 @@
 [
   {
-    "//": "Nested special, does not spawn by itself",
     "type": "overmap_special",
     "id": "lab_basement",
     "subtype": "mutable",
     "locations": [ "subterranean_empty" ],
     "occurrences": [ 0, 0 ],
+    "flags": [ "RESTRICTED" ],
     "check_for_locations": [ [ [ 0, 0, 0 ], [ "subterranean_empty" ] ] ],
     "joins": [ "lab_to_lab" ],
     "overmaps": {

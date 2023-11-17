@@ -231,6 +231,10 @@ tripoint_abs_omt start_location::find_player_initial_location() const
 
         // Look for special having that terrain
         for( const auto &special : overmap_specials::get_all() ) {
+            if( special.has_flag( "RESTRICTED" ) ) {
+                continue;
+            }
+
             const auto &terrains = special.all_terrains();
             if( std::none_of( terrains.begin(), terrains.end(),
             [&loc]( const oter_str_id & t ) {
