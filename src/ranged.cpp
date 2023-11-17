@@ -148,7 +148,7 @@ static constexpr int AIF_DURATION_LIMIT = 10;
 
 static projectile make_gun_projectile( const item &gun );
 static void cycle_action( item &weap, const tripoint &pos );
-bool can_use_bipod( const Character &who, const map &m, const tripoint &pos );
+bool can_use_heavy_weapon( const Character &who, const map &m, const tripoint &pos );
 dispersion_sources calculate_dispersion( const map &m, const Character &who, const item &gun,
         int at_recoil, bool burst );
 
@@ -773,7 +773,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
     }
 }
 
-bool can_use_bipod( const Character &who, const map &m, const tripoint &pos )
+bool can_use_heavy_weapon( const Character &who, const map &m, const tripoint &pos )
 {
     if( who.is_mounted() && who.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
         return true;
@@ -794,7 +794,7 @@ bool can_use_bipod( const Character &who, const map &m, const tripoint &pos )
 dispersion_sources calculate_dispersion( const map &m, const Character &who, const item &gun,
         int at_recoil, bool burst )
 {
-    bool bipod = can_use_bipod( who, m, who.pos() );
+    bool bipod = can_use_heavy_weapon( who, m, who.pos() );
 
     int gun_recoil = gun.gun_recoil( bipod );
     int eff_recoil = at_recoil + ( burst ? ranged::burst_penalty( who, gun, gun_recoil ) : 0 );
@@ -940,15 +940,15 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         // Reset aim for bows and other reload-and-shoot weapons.
         who.recoil = MAX_RECOIL;
     } else {
-        // Hack alert: nearly every other use of can_use_bipod uses const character, except this one and gunmode_checks_weapon.
+        // Hack alert: nearly every other use of can_use_heavy_weapon uses const character, except this one and gunmode_checks_weapon.
         const Character &shooter = who;
         // Now actually apply recoil for the future shots
         // But only for one shot, because bursts kinda suck
-        int gun_recoil = gun.gun_recoil( can_use_bipod( shooter, here, shooter.pos() ) );
+        int gun_recoil = gun.gun_recoil( can_use_heavy_weapon( shooter, here, shooter.pos() ) );
 
         // If user is currently able to fire a mounted gun freely, penalize dispersion
         // HEAVY_WEAPON_SUPPORT flag has highest penalty, Large mutants lower penalty, no penalty for Huge mutants.
-        if( gun.has_flag( flag_MOUNTED_GUN ) && !can_use_bipod( shooter, here, shooter.pos() ) ) {
+        if( gun.has_flag( flag_MOUNTED_GUN ) && !can_use_heavy_weapon( shooter, here, shooter.pos() ) ) {
             if( who.get_size() == MS_LARGE ) {
                 gun_recoil = gun_recoil * 2;
             } else if( who.worn_with_flag( flag_HEAVY_WEAPON_SUPPORT ) && ( who.get_size() <= MS_MEDIUM ) ) {
@@ -1949,7 +1949,7 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
 
     // If user is currently able to fire a mounted gun freely, penalize dispersion
     // HEAVY_WEAPON_SUPPORT flag has highest penalty, Large mutants lower penalty, no penalty for Huge mutants.
-    if( obj.has_flag( flag_MOUNTED_GUN ) && !can_use_bipod( who, get_map(), who.pos() ) ) {
+    if( obj.has_flag( flag_MOUNTED_GUN ) && !can_use_heavy_weapon( who, get_map(), who.pos() ) ) {
         if( who.get_size() == MS_LARGE ) {
             dispersion.add_range( 500 );
         } else if( who.worn_with_flag( flag_HEAVY_WEAPON_SUPPORT ) && ( who.get_size() <= MS_MEDIUM ) ) {
@@ -3778,7 +3778,7 @@ bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
 
     if( gmode->has_flag( flag_MOUNTED_GUN ) ) {
         const Character &shooter = you;
-        if( !can_use_bipod( shooter, m, shooter.pos() ) && !( you.get_size() > MS_MEDIUM ) &&
+        if( !can_use_heavy_weapon( shooter, m, shooter.pos() ) && !( you.get_size() > MS_MEDIUM ) &&
             !you.worn_with_flag( flag_HEAVY_WEAPON_SUPPORT ) ) {
             messages.push_back( string_format(
                                     _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),
