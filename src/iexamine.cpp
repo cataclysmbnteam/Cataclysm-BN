@@ -3811,21 +3811,24 @@ void iexamine::trap( player &p, const tripoint &examp )
     }
 }
 //Note that these three functions are checked by pointer in map::water_from. Yes it's awful.
-void iexamine::water_source( player &, const tripoint &examp )
+void iexamine::water_source( player &, const tripoint & )
 {
-    liquid_handler::handle_liquid( examp );
+    liquid_handler::handle_liquid( item::spawn( "water", calendar::start_of_cataclysm,
+                                   item::INFINITE_CHARGES ) );
 }
 
 //Note that these three functions are checked by pointer in map::water_from. Yes it's awful.
-void iexamine::clean_water_source( player &, const tripoint &examp )
+void iexamine::clean_water_source( player &, const tripoint & )
 {
-    liquid_handler::handle_liquid( examp );
+    liquid_handler::handle_liquid( item::spawn( "water_clean", calendar::start_of_cataclysm,
+                                   item::INFINITE_CHARGES ) );
 }
 
 //Note that these three functions are checked by pointer in map::water_from. Yes it's awful.
 void iexamine::liquid_source( player &, const tripoint &examp )
 {
-    liquid_handler::handle_liquid( examp );
+    liquid_handler::handle_liquid( item::spawn( get_map().furn( examp ).obj().provides_liquids,
+                                   calendar::turn, item::INFINITE_CHARGES ) );
 }
 
 std::vector<itype> furn_t::crafting_pseudo_item_types() const
