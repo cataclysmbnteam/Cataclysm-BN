@@ -129,9 +129,7 @@
         "                        ",
         "FFFFFFFFFFFFFFFFFFFFFFFF"
       ],
-      "terrain": {
-        "Q": "t_dirtfloor"
-      },
+      "terrain": { "Q": "t_dirtfloor" },
       "items": {
         ".": { "item": "trash", "chance": 20 },
         "B": [
