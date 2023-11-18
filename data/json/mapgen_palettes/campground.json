@@ -32,7 +32,6 @@
       "h": "f_chair",
       "H": "f_camp_chair",
       "#": "f_large_canvas_wall",
-      "&": "f_toilet",
       ";": "f_large_groundsheet",
       ",": "f_center_groundsheet",
       "B": "f_brazier",
@@ -42,6 +41,7 @@
       "t": "f_table",
       "n": "f_tourist_table",
       "o": "f_firering"
-    }
+    },
+    "toilets": { "&": {  } }
   }
 ]

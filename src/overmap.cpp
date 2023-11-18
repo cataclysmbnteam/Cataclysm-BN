@@ -3203,40 +3203,8 @@ void overmap::generate( const overmap *north, const overmap *east,
 
 bool overmap::generate_sub( const int z )
 {
-    // We need to generate at least 3 z-levels for labs
-    bool requires_sub = z > -4;
-
-    std::vector<city> mine_points;
-
-    // These are so common that it's worth checking first as int.
-    const std::unordered_set<oter_id> skip_above = {
-        oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
-        oter_id( "forest_thick" ), oter_id( "forest_water" )
-    };
-
-    for( int i = 0; i < OMAPX; i++ ) {
-        for( int j = 0; j < OMAPY; j++ ) {
-            tripoint_om_omt p( i, j, z );
-            const oter_id oter_above = ter( p + tripoint_above );
-            const oter_id oter_ground = ter( tripoint_om_omt( p.xy(), 0 ) );
-
-            // implicitly skip skip_above oter_ids
-            if( skip_above.count( oter_above ) > 0 ) {
-                continue;
-            }
-
-            if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::prefix ) && z == -2 ) {
-                mine_points.emplace_back( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) );
-                requires_sub = true;
-            } else if( oter_above == "mine_down" ) {
-                ter_set( p, oter_id( "mine" ) );
-                mine_points.emplace_back( p.xy(), rng( 6 + z, 10 + z ) );
-                // technically not all finales need a sub level,
-                // but at this point we don't know
-                requires_sub = true;
-            }
-        }
-    }
+    // We need to generate at least 2 z-levels for subways CHUD
+    bool requires_sub = z > -2;
 
     for( auto &i : cities ) {
         tripoint_om_omt omt_pos( i.pos, z );
@@ -3251,10 +3219,6 @@ bool overmap::generate_sub( const int z )
             add_mon_group( mongroup( GROUP_SEWER,
                                      sm_pos, ( i.size * 7 ) / 2, i.size * 70 ) );
         }
-    }
-
-    for( auto &i : mine_points ) {
-        build_mine( tripoint_om_omt( i.pos, z ), i.size );
     }
 
     return requires_sub;
@@ -4645,49 +4609,6 @@ void overmap::build_city_street(
                                town, sewers, new_width );
         }
     }
-}
-
-void overmap::build_mine( const tripoint_om_omt &origin, int s )
-{
-    bool finale = s <= rng( 1, 3 );
-    const oter_id mine( "mine" );
-    const oter_id mine_finale_or_down( finale ? "mine_finale" : "mine_down" );
-    const oter_id empty_rock( "empty_rock" );
-
-    int built = 0;
-    if( s < 2 ) {
-        s = 2;
-    }
-    tripoint_om_omt p = origin;
-    // Don't overwrite existing mapgen
-    int attempts_left = 100;
-    while( ter( p ) != empty_rock && attempts_left > 0 ) {
-        if( one_in( 2 ) ) {
-            p.x() += rng( 0, 1 ) * 2 - 1;
-        } else {
-            p.y() += rng( 0, 1 ) * 2 - 1;
-        }
-        attempts_left -= 1;
-    }
-    if( !inbounds( p ) ) {
-        return;
-    }
-    while( built < s ) {
-        ter_set( p, mine );
-        std::vector<tripoint_om_omt> next;
-        for( point offset : four_adjacent_offsets ) {
-            if( ter( p + offset ) == empty_rock ) {
-                next.push_back( p + offset );
-            }
-        }
-        if( next.empty() ) { // Dead end!  Go down!
-            ter_set( p, mine_finale_or_down );
-            return;
-        }
-        p = random_entry( next );
-        built++;
-    }
-    ter_set( p, mine_finale_or_down );
 }
 
 pf::directed_path<point_om_omt> overmap::lay_out_connection(

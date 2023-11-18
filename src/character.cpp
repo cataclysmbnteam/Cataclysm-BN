@@ -1364,7 +1364,6 @@ void Character::mount_creature( monster &z )
             }
             add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
         }
-        add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
     }
     // some rideable mechs have night-vision
     recalc_sight_limits();
@@ -6903,7 +6902,7 @@ detached_ptr<item> Character::pour_into( vehicle &veh, detached_ptr<item> &&liqu
 
     auto &tank = veh_interact::select_part( veh, sel, title );
     if( !tank ) {
-        return detached_ptr<item>();
+        return std::move( liquid );
     }
 
     //~ $1 - vehicle name, $2 - part name, $3 - liquid type
