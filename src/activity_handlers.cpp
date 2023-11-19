@@ -445,12 +445,12 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
 static bool check_butcher_cbm( const int roll )
 {
     // Failure rates for dissection rolls
-    // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
-    // Roll is roughly a rng(0, -3 + 1st_aid + fine_cut_quality + 1/2 electronics + small_dex_bonus)
-    // Roll is reduced by corpse damage level, but to no less than 0
+    // 50% at roll 0, 40% at roll 1, 33% at roll 2, 29% @ 3, 25% @ 4, 22% @ 5, ... , 14% @ 10
+    // Roll is roughly a rng(0, -3 + 1st_aid + 1/2 electronics + small_dex_bonus) + fine_cut_quality
+    // Roll is reduced by corpse damage level (up to -4), but to no less than 0
     add_msg( m_debug, _( "Roll = %i" ), roll );
-    add_msg( m_debug, _( "Failure chance = %f%%" ), ( 9.0f / ( 10.0f + roll * 2.5f ) ) * 100.0f );
-    const bool failed = x_in_y( 9, ( 10 + roll * 2.5 ) );
+    add_msg( m_debug, _( "Failure chance = %f%%" ), ( 5.0f / ( 10.0f + roll * 2.5f ) ) * 100.0f );
+    const bool failed = x_in_y( 5, ( 10 + roll * 2.5 ) );
     return !failed;
 }
 
@@ -1186,7 +1186,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // DISSECT has special case factor calculation and results.
     if( action == DISSECT ) {
         skill_level = p->get_skill_level( skill_firstaid );
-        skill_level += inv.max_quality( qual_CUT_FINE );
         skill_level += p->get_skill_level( skill_electronics ) / 2;
         add_msg( m_debug, _( "Skill: %s" ), skill_level );
     }
@@ -1197,6 +1196,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         skill_shift += rng_float( 0, skill_level - 3 );
         ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
         skill_shift += rng_float( 0, p->get_dex() - 8 ) / 4.0;
+        ///\CUT_FINE quality provides fixed instead of random bonus
+        skill_shift += inv.max_quality( qual_CUT_FINE );
 
         if( factor < 0 ) {
             skill_shift -= rng_float( 0, -factor / 5.0 );
