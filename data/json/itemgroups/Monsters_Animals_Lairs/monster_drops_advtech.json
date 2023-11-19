@@ -112,11 +112,12 @@
     "id": "cyborg_harvest",
     "type": "item_group",
     "subtype": "distribution",
+    "//": "Lower-tier bionic harvests have a 1/3 chance of generating nothing, 1/3 components, 1/3 CBMs",
     "entries": [
-      { "item": "null", "prob": 25 },
-      { "item": "burnt_out_bionic", "prob": 5 },
-      { "group": "bionic_salvage_junk", "prob": 20 },
-      { "group": "bionics_broken_cyborg", "prob": 50 }
+      { "item": "null", "prob": 33 },
+      { "item": "burnt_out_bionic", "prob": 11 },
+      { "group": "bionic_salvage_junk", "prob": 22 },
+      { "group": "bionics_broken_cyborg", "prob": 33 }
     ]
   },
   {
@@ -156,15 +157,16 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "null", "prob": 25 },
-      { "group": "bionic_salvage_junk", "prob": 25 },
-      { "group": "bionic_power_storage_civ", "prob": 50 }
+      { "item": "null", "prob": 33 },
+      { "group": "bionic_salvage_junk", "prob": 33 },
+      { "group": "bionic_power_storage_civ", "prob": 33 }
     ]
   },
   {
     "id": "harvest_power_storage_mil",
     "type": "item_group",
     "subtype": "distribution",
+    "//": "Higher-tier bionic harvests have a 1/4 chance of generating nothing, 1/4 components, 1/2 CBMs",
     "entries": [
       { "item": "null", "prob": 25 },
       { "group": "bionic_salvage_junk_mil", "prob": 25 },
@@ -176,9 +178,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "null", "prob": 25 },
-      { "group": "bionic_salvage_junk", "prob": 25 },
-      { "group": "bionics_common", "prob": 50 }
+      { "item": "null", "prob": 33 },
+      { "group": "bionic_salvage_junk", "prob": 33 },
+      { "group": "bionics_common", "prob": 33 }
     ]
   },
   {
@@ -226,9 +228,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "null", "prob": 25 },
-      { "group": "bionic_salvage_junk", "prob": 25 },
-      { "group": "bionics_sci", "prob": 50 }
+      { "item": "null", "prob": 33 },
+      { "group": "bionic_salvage_junk", "prob": 33 },
+      { "group": "bionics_sci", "prob": 33 }
     ]
   },
   {
@@ -246,9 +248,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "null", "prob": 25 },
-      { "group": "bionic_salvage_junk", "prob": 25 },
-      { "group": "bionics_tech", "prob": 50 }
+      { "item": "null", "prob": 33 },
+      { "group": "bionic_salvage_junk", "prob": 33 },
+      { "group": "bionics_tech", "prob": 33 }
     ]
   },
   {
@@ -256,9 +258,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "null", "prob": 25 },
-      { "group": "bionic_salvage_junk", "prob": 25 },
-      { "group": "bionics_zapper", "prob": 50 }
+      { "item": "null", "prob": 33 },
+      { "group": "bionic_salvage_junk", "prob": 33 },
+      { "group": "bionics_zapper", "prob": 33 }
     ]
   }
 ]
