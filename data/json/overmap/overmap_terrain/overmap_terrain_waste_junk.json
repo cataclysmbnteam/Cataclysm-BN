@@ -72,7 +72,8 @@
     "id": "toxic_dump_roof",
     "name": "toxic waste dump roof",
     "sym": "D",
-    "color": "pink"
+    "color": "pink",
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
