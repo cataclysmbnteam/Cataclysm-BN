@@ -444,14 +444,14 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
 
 static bool check_butcher_cbm( const int roll )
 {
-    // Failure rates for dissection rolls
-    // 50% at roll 0, 40% at roll 1, 33% at roll 2, 29% @ 3, 25% @ 4, 22% @ 5, ... , 14% @ 10
-    // Roll is roughly a rng(0, -3 + 1st_aid + 1/2 electronics + small_dex_bonus) + fine_cut_quality
-    // Roll is reduced by corpse damage level (up to -4), but to no less than 0
+    // Success rate for dissection rolls, simple percentage roll
+    // +10% per fine cutting quality, +10% per 2 levels of first aid, +10% per 4 levels of electronics
+    // Additional, small randomized bonus/penalty if dexterity is above/below average
+    // Roll is reduced by corpse damage level (up to -4), minimum of 10% success chance
     add_msg( m_debug, _( "Roll = %i" ), roll );
-    add_msg( m_debug, _( "Failure chance = %f%%" ), ( 5.0f / ( 10.0f + roll * 2.5f ) ) * 100.0f );
-    const bool failed = x_in_y( 5, ( 10 + roll * 2.5 ) );
-    return !failed;
+    add_msg( m_debug, _( "Success chance = %i%%" ), std::min( 100, ( roll * 10 ) ) );
+    const bool success = x_in_y( roll, 10 );
+    return success;
 }
 
 static void extract_or_wreck_cbms( std::vector<detached_ptr<item>> &cbms, int roll,
@@ -1179,30 +1179,27 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return;
     }
 
-    int skill_level = p->get_skill_level( skill_survival );
+    int skill_level = p->get_skill_level( skill_survival ) / 2;
     int factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE :
                                   qual_BUTCHER );
 
     // DISSECT has special case factor calculation and results.
     if( action == DISSECT ) {
-        skill_level = p->get_skill_level( skill_firstaid );
-        skill_level += p->get_skill_level( skill_electronics ) / 2;
+        skill_level = p->get_skill_level( skill_firstaid ) / 2;
+        skill_level += p->get_skill_level( skill_electronics ) / 4;
+        skill_level += inv.max_quality( qual_CUT_FINE );
         add_msg( m_debug, _( "Skill: %s" ), skill_level );
     }
 
     const auto roll_butchery = [&]() {
         double skill_shift = 0.0;
-        ///\EFFECT_SURVIVAL randomly increases butcher rolls
-        skill_shift += rng_float( 0, skill_level - 3 );
+        ///\Relevant skill(s), plus tool quality if dissecting, consistently increases butcher rolls
+        skill_shift += skill_level;
         ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
         skill_shift += rng_float( 0, p->get_dex() - 8 ) / 4.0;
-        ///\CUT_FINE quality provides fixed instead of random bonus
-        skill_shift += inv.max_quality( qual_CUT_FINE );
-
         if( factor < 0 ) {
             skill_shift -= rng_float( 0, -factor / 5.0 );
         }
-
         return static_cast<int>( std::round( skill_shift ) );
     };
 
@@ -1258,7 +1255,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // reveal hidden items / hidden content
     if( action == DISSECT ) {
         int roll = roll_butchery() - corpse_item.damage_level( 4 );
-        roll = roll < 0 ? 0 : roll;
+        roll = roll < 1 ? 1 : roll;
         add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item.damage_level( 4 ) );
         std::vector<detached_ptr<item>> cbms = corpse_item.remove_components();
         std::vector<detached_ptr<item>> contents = corpse_item.contents.clear_items();
