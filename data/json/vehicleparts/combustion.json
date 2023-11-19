@@ -31,7 +31,7 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "gasoline",
-    "fuel_options": [ "gasoline", "avgas" ],
+    "fuel_options": [ "gasoline", "avgas", "biodiesel" ],
     "//2": "TODO: remove when injectors are implemented",
     "m2c": 60,
     "//": "30% energy efficiency",
