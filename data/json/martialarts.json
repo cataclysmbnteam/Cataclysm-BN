@@ -157,10 +157,14 @@
         "name": "Boxing Stance",
         "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+2 Bash damage, Blocked damge reduced by 50% of Strength.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ 
-          { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "damage", "type": "bash", "scale": 2.0 },
-          { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "damage", "type": "cut", "scale": 2.0 },
-          { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "damage", "type": "stab", "scale": 2.0 } ]
+        "flat_bonuses": [
+          { "stat": "block", "scaling-stat": "str", "scale": 0.5 },
+          { "stat": "damage", "type": "bash", "scale": 2.0 },
+          { "stat": "block", "scaling-stat": "str", "scale": 0.5 },
+          { "stat": "damage", "type": "cut", "scale": 2.0 },
+          { "stat": "block", "scaling-stat": "str", "scale": 0.5 },
+          { "stat": "damage", "type": "stab", "scale": 2.0 }
+        ]
       }
     ],
     "onmove_buffs": [
@@ -183,10 +187,11 @@
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
-        "mult_bonuses": [ 
+        "mult_bonuses": [
           { "stat": "damage", "type": "bash", "scale": 1.25 },
           { "stat": "damage", "type": "cut", "scale": 1.25 },
-          { "stat": "damage", "type": "stab", "scale": 1.25 } ]
+          { "stat": "damage", "type": "stab", "scale": 1.25 }
+        ]
       }
     ],
     "techniques": [ "tec_boxing_rapid", "tec_boxing_cross", "tec_boxing_upper", "tec_boxing_counter" ]
@@ -240,10 +245,11 @@
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 2,
         "max_stacks": 3,
-        "mult_bonuses": [ 
+        "mult_bonuses": [
           { "stat": "damage", "type": "bash", "scale": 1.15 },
           { "stat": "damage", "type": "cut", "scale": 1.15 },
-          { "stat": "damage", "type": "stab", "scale": 1.15 } ]
+          { "stat": "damage", "type": "stab", "scale": 1.15 }
+        ]
       }
     ],
     "onmove_buffs": [
@@ -339,11 +345,12 @@
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 1,
-        "flat_bonuses": [ 
-          { "stat": "hit", "scale": 1.0 }, 
+        "flat_bonuses": [
+          { "stat": "hit", "scale": 1.0 },
           { "stat": "damage", "type": "bash", "scale": 2.0 },
           { "stat": "damage", "type": "cut", "scale": 2.0 },
-          { "stat": "damage", "type": "stab", "scale": 2.0 } ]
+          { "stat": "damage", "type": "stab", "scale": 2.0 }
+        ]
       }
     ],
     "techniques": [ "tec_dragon_claw", "tec_dragon_blockcounter", "tec_dragon_dodgecounter", "tec_dragon_tail", "tec_dragon_strike" ]
@@ -915,10 +922,11 @@
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
-        "mult_bonuses": [ 
+        "mult_bonuses": [
           { "stat": "damage", "type": "bash", "scale": 1.1 },
           { "stat": "damage", "type": "cut", "scale": 1.1 },
-          { "stat": "damage", "type": "stab", "scale": 1.1 } ]
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
       }
     ],
     "onhit_buffs": [
@@ -930,11 +938,11 @@
         "unarmed_allowed": true,
         "req_buffs": [ "buff_pankration_ondodge" ],
         "buff_duration": 1,
-        "mult_bonuses": [ 
+        "mult_bonuses": [
           { "stat": "damage", "type": "bash", "scale": 1.2 },
           { "stat": "damage", "type": "cut", "scale": 1.2 },
           { "stat": "damage", "type": "stab", "scale": 1.2 }
-         ]
+        ]
       }
     ],
     "techniques": [
@@ -1086,10 +1094,10 @@
         "name": "Unhindered",
         "description": "Your attacks are stronger if you are not holding anything in your hands.\n\n+33% bash damage when not using a weapon.",
         "unarmed_allowed": true,
-        "mult_bonuses": [ 
+        "mult_bonuses": [
           { "stat": "damage", "type": "bash", "scale": 1.33 },
           { "stat": "damage", "type": "cut", "scale": 1.33 },
-          { "stat": "damage", "type": "stab", "scale": 1.33 } 
+          { "stat": "damage", "type": "stab", "scale": 1.33 }
         ]
       }
     ],
@@ -1347,7 +1355,7 @@
         "unarmed_allowed": true,
         "buff_duration": 2,
         "max_stacks": 5,
-        "flat_bonuses": [ 
+        "flat_bonuses": [
           { "stat": "damage", "type": "bash", "scale": 2.0 },
           { "stat": "damage", "type": "cut", "scale": 2.0 },
           { "stat": "damage", "type": "stab", "scale": 2.0 }
