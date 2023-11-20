@@ -650,6 +650,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "upgrades": { "half_life": 15, "into": "mon_zombie_hollow" },
     "flags": [
       "SEES",
       "HEARS",
@@ -698,6 +699,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
+    "upgrades": { "half_life": 60, "into": "mon_zombie_master" },
     "flags": [
       "SEES",
       "HEARS",
