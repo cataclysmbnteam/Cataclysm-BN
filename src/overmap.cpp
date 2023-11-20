@@ -2454,6 +2454,8 @@ std::vector<overmap_special_terrain> overmap_special::preview_terrains() const
 
 std::vector<overmap_special_locations> overmap_special::required_locations() const
 {
+    // TODO: It's called a lot during mapgen, and should probably be cached
+    // instead of making thousands of copies
     std::vector<overmap_special_locations> result;
     switch( subtype_ ) {
         case overmap_special_subtype::fixed: {
@@ -5354,9 +5356,11 @@ std::vector<tripoint_om_omt> overmap::place_special(
             if( !linked && connection_cache ) {
                 // If no city present, try to link to closest connection
                 auto points = connection_cache->get_closests( elem.connection->id, rp.z(), rp.xy() );
+                int attempts = 0;
                 for( const point_om_omt &pos : points ) {
                     if( ( linked = build_connection( pos, rp.xy(), rp.z(), *elem.connection,
-                                                     must_be_unexplored, initial_dir ) ) ) {
+                                                     must_be_unexplored, initial_dir ) ) ||
+                        ++attempts > 10 ) {
                         break;
                     }
                 }
@@ -5364,13 +5368,15 @@ std::vector<tripoint_om_omt> overmap::place_special(
             if( !linked && !connection_cache ) {
                 // Cache is cleared once generation is done, if special is spawned via debug or for
                 // mission we'll need to perform search. It is slow, but that's a rare case
+                int attempts = 0;
                 for( const tripoint_om_omt &p : closest_points_first( rp, OMAPX ) ) {
                     if( !inbounds( p ) || std::find( result.begin(), result.end(), p ) != result.end() ||
                         !check_ot( elem.connection->id->default_terrain.str(), ot_match_type::type, p ) ) {
                         continue;
                     }
                     if( ( linked = build_connection( p.xy(), rp.xy(), rp.z(), *elem.connection,
-                                                     must_be_unexplored, initial_dir ) ) ) {
+                                                     must_be_unexplored, initial_dir ) ) ||
+                        ++attempts > 10 ) {
                         break;
                     }
                 }
@@ -5572,40 +5578,68 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     const int RANGE = std::max( 0, get_option<int>( "SPECIALS_SPACING" ) );
     const float DENSITY = get_option<float>( "SPECIALS_DENSITY" );
 
+    static const overmap_location_id water( "water" );
+
+    // We have four zones with individual point pools:
+    // land surface, land underground, all lakes, all rivers
+    // not very consistent, but we don't have any underwater specials to bother
+    enum zone : int {
+        land,
+        land_under,
+        lake,
+        river,
+        last
+    };
+
     // Rough estimate how many space our specials about to take with
     // our range, density, and available specials, if we can't possibly
     // have that much - tune density down
-    float land_needed = 0;
-    float lake_needed = 0;
+    float area_needed[zone::last] = { 0 };
 
+    // We'll need to track locations of land surface specials
+    cata::flat_set<overmap_location_id> land_locs;
+
+    std::unordered_map<overmap_special_id, zone> special_zone;
     std::unordered_map<overmap_special_id, int> special_area;
     for( auto &iter : enabled_specials ) {
         const overmap_special &special = *iter.special_details;
+        const std::vector<overmap_special_locations> &locs = special.required_locations();
 
-        // preview_terrains() would give more accurate area, but
-        // since we don't taking in account cities, and assumes
-        // tight packig of terrains - some overestimation won't hurt
-        special_area[special.id] = special.required_locations().size();
+        // Check all locations to find out if that's river or underground special
+        cata::flat_set<overmap_location_id> this_locs;
+        int area[2] = { 0 };
+        for( const overmap_special_locations &loc : locs ) {
+            if( loc.p.z == 0 ) {
+                area[0]++;
+                // Only z0 locations are actually matched, other ones are ignored
+                this_locs.insert( loc.locations.begin(), loc.locations.end() );
+            } else {
+                area[1]++;
+            }
+        }
+
+        zone current = special.has_flag( "LAKE" ) ? zone::lake :
+                       this_locs.count( water ) ? zone::river :
+                       area[0] ? zone::land : zone::land_under;
+
+        if( current == zone::land ) {
+            land_locs.insert( this_locs.begin(), this_locs.end() );
+        }
+
         const numeric_interval<int> &o = special.get_constraints().occurrences;
 
         float average_amount = special.has_flag( "UNIQUE" ) ?
                                static_cast<float>( o.min ) / o.max :
                                static_cast<float>( o.min + o.max ) / 2;
 
-        float total_area = std::pow( std::sqrt( special_area[special.id] ) + RANGE, 2.0 ) *
+        special_area[special.id] = current == zone::land_under ? area[1] : area[0];
+        float this_range = current == zone::land_under ? 0 : RANGE;
+        float total_area = std::pow( std::sqrt( special_area[special.id] ) + this_range, 2.0 ) *
                            average_amount * DENSITY;
-        if( special.has_flag( "LAKE" ) ) {
-            lake_needed += total_area;
-        } else {
-            land_needed += total_area;
-        }
-    }
 
-    // Most of the setups should end with x1 multiplier, but some dire combinations
-    // of settings like maxed spacing and density may actually need adjusting to
-    // give a things on bottom of the list a chance to spawn
-    float lake_crowd_ratio = std::min( 1.0f, OMAPX * OMAPY / lake_needed );
-    float land_crowd_ratio = std::min( 1.0f, OMAPX * OMAPY / land_needed );
+        area_needed[current] += total_area;
+        special_zone[special.id] = current;
+    }
 
     // Sort specials be they sizes - placing big things is faster
     // and easier while we have most of map still empty, and also
@@ -5623,31 +5657,51 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         return special_weight( a.special_details ) > special_weight( b.special_details );
     } );
 
-    // Prepare overmap points
-    std::vector<tripoint_om_omt> lake_points;
-    std::vector<tripoint_om_omt> land_points;
+    // Prepare vectors of points for all zones
+    std::vector<tripoint_om_omt> zone_points[zone::last];
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             const tripoint_om_omt p = {x, y, 0};
-            if( ter( p )->is_lake() ) {
-                lake_points.push_back( p );
-            } else {
-                land_points.push_back( p );
+            const oter_id &t = ter( p );
+
+            zone current = t->is_lake() ? zone::lake :
+                           t->is_river() ? zone::river :
+                           zone::land_under;
+
+            // Grab all lakes, rivers, and undergrounds
+            zone_points[current].push_back( p );
+
+            if( current == zone::land_under && is_amongst_locations( t, land_locs ) ) {
+                // Points above undergrounds goes to land zone, but only if this location
+                // can be used by some special, this way we'll filter out city buildings
+                zone_points[zone::land].push_back( p );
             }
         }
     }
 
-    // Calculate water to land ratio to normalize specials occurencies
-    // we don't want to dump all specials on overmap covered by water
-    float lake_rate = lake_points.size() / static_cast<float>( OMAPX * OMAPY ) *
-                      lake_crowd_ratio * DENSITY;
-    float land_rate = land_points.size() / static_cast<float>( OMAPX * OMAPY ) *
-                      land_crowd_ratio * DENSITY;
+    static const float OMAP_AREA = static_cast<float>( OMAPX * OMAPY );
+    float zone_ratio[zone::last];
+    for( int i = 0; i < zone::river; i++ ) {
+        // Most of the setups should end with x1 multiplier, but some dire combinations
+        // of settings like maxed spacing and density may actually need adjusting to
+        // give a things on bottom of the list a chance to spawn
+        float crowd_ratio = std::min( 1.0f, OMAP_AREA / area_needed[i] );
 
-    specials_overlay lake( lake_points );
-    specials_overlay land( land_points );
+        // Calculate terrain ratio to normalize specials occurencies
+        // we don't want to dump all specials on overmap covered by water
+        zone_ratio[i] = ( zone_points[i].size() / OMAP_AREA ) * crowd_ratio * DENSITY;
+    }
+    // TODO: Yes, that's a hack. Calculatng real river ratio would require rebalancing occurences.
+    zone_ratio[zone::river] = zone_ratio[zone::land_under];
 
-    // And here we go
+    specials_overlay zone_overlay[zone::last] = {
+        specials_overlay( zone_points[0] ),
+        specials_overlay( zone_points[1] ),
+        specials_overlay( zone_points[2] ),
+        specials_overlay( zone_points[3] )
+    };
+
+    // Now all preparations is done, and we can start placing specials
     for( auto &iter : enabled_specials ) {
         const overmap_special &special = *iter.special_details;
         const overmap_special_placement_constraints &constraints = special.get_constraints();
@@ -5655,9 +5709,10 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         const int min = constraints.occurrences.min;
         const int max = constraints.occurrences.max;
 
-        const bool is_lake = special.has_flag( "LAKE" );
+        zone current = special_zone[special.id];
+
         const float rate = is_true_center && special.has_flag( "ENDGAME" ) ? 1 :
-                           ( is_lake ? lake_rate : land_rate );
+                           zone_ratio[current];
 
         int amount_to_place;
         if( special.has_flag( "UNIQUE" ) ) {
@@ -5668,9 +5723,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             float real_max = std::max( static_cast<float>( min ), max * rate );
             amount_to_place = roll_remainder( rng_float( min, real_max ) );
         }
-
         iter.instances_placed += place_special_attempt( special,
-                                 amount_to_place, ( is_lake ? lake : land ), false );
+                                 amount_to_place, zone_overlay[current], false );
     }
 }
 
