@@ -5591,6 +5591,11 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         last
     };
 
+    struct area {
+        int surface = 0;
+        int under = 0;
+    };
+
     // Rough estimate how many space our specials about to take with
     // our range, density, and available specials, if we can't possibly
     // have that much - tune density down
@@ -5607,20 +5612,20 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
 
         // Check all locations to find out if that's river or underground special
         cata::flat_set<overmap_location_id> this_locs;
-        int area[2] = { 0 };
+        area this_area;
         for( const overmap_special_locations &loc : locs ) {
             if( loc.p.z == 0 ) {
-                area[0]++;
+                this_area.surface++;
                 // Only z0 locations are actually matched, other ones are ignored
                 this_locs.insert( loc.locations.begin(), loc.locations.end() );
             } else {
-                area[1]++;
+                this_area.under++;
             }
         }
 
         zone current = special.has_flag( "LAKE" ) ? zone::lake :
                        this_locs.count( water ) ? zone::river :
-                       area[0] ? zone::land : zone::land_under;
+                       this_area.surface ? zone::land : zone::land_under;
 
         if( current == zone::land ) {
             land_locs.insert( this_locs.begin(), this_locs.end() );
@@ -5632,7 +5637,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
                                static_cast<float>( o.min ) / o.max :
                                static_cast<float>( o.min + o.max ) / 2;
 
-        special_area[special.id] = current == zone::land_under ? area[1] : area[0];
+        special_area[special.id] = current == zone::land_under ? this_area.under : this_area.surface;
         float this_range = current == zone::land_under ? 0 : RANGE;
         float total_area = std::pow( std::sqrt( special_area[special.id] ) + this_range, 2.0 ) *
                            average_amount * DENSITY;
