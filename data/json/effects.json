@@ -1273,9 +1273,10 @@
     "apply_message": "You feel a surge of adrenaline!",
     "rating": "good",
     "removes_effects": [ "winded" ],
+    "max_duration": "5 m",
     "base_mods": { "speed_mod": [ 20 ], "str_mod": [ 2 ], "dex_mod": [ 2 ], "int_mod": [ -8 ], "per_mod": [ 1 ], "stamina_min": [ 2 ] },
     "blood_analysis_description": "Adrenaline Spike",
-    "effects_on_remove": [ { "allow_on_remove": true, "effect_type": "adrenaline_comedown", "duration": "150s" } ]
+    "effects_on_remove": [ { "allow_on_remove": true, "effect_type": "adrenaline_comedown", "duration": "1 m" } ]
   },
   {
     "type": "effect_type",
@@ -1286,7 +1287,7 @@
     "rating": "bad",
     "decay_messages": [ [ "Your adrenaline rush wears off.  You feel AWFUL!", "bad" ] ],
     "miss_messages": [ [ "Your comedown throws you off.", 1 ] ],
-    "max_duration": "1 h",
+    "max_duration": "5 m",
     "base_mods": {
       "speed_mod": [ -10 ],
       "str_mod": [ -2 ],

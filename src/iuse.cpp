@@ -5237,7 +5237,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_ADRENALINE:
                 p->add_msg_if_player( m_good, _( "You're filled with a roaring energy!" ) );
-                p->add_effect( effect_adrenaline, rng( 20_minutes, 25_minutes ) );
+                p->add_effect( effect_adrenaline, rng( 2_minutes, 3_minutes ) );
                 break;
 
             case AEA_MAP: {
@@ -5681,7 +5681,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
 
 int iuse::adrenaline_injector( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_npc() && p->get_effect_dur( effect_adrenaline ) >= 30_minutes ) {
+    if( p->is_npc() && p->get_effect_dur( effect_adrenaline ) >= 3_minutes ) {
         return 0;
     }
 
@@ -5696,7 +5696,7 @@ int iuse::adrenaline_injector( player *p, item *it, bool, const tripoint & )
         p->mod_healthy( -20 );
     }
 
-    p->add_effect( effect_adrenaline, 20_minutes );
+    p->add_effect( effect_adrenaline, 2_minutes );
 
     return it->type->charges_to_use();
 }

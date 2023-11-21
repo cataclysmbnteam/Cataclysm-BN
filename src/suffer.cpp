@@ -767,7 +767,7 @@ void Character::suffer_feral_kill_withdrawl()
                     if( !one_in( 4 ) ) {
                         add_msg_if_player( m_bad, _( "You jolt awake in a panic attack!" ) );
                         wake_up();
-                        add_effect( effect_adrenaline, rng( 3_minutes, 5_minutes ) );
+                        add_effect( effect_adrenaline, rng( 1_minutes, 2_minutes ) );
                         mod_stim( rng( 5, 10 ) );
                         add_morale( MORALE_FEELING_BAD, -5, -25, 10_minutes, 3_minutes, true );
                     } else {
