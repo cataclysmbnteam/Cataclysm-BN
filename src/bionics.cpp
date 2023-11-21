@@ -788,7 +788,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             remove_effect( eff );
         }
         // Purging the substance won't remove the fatigue it caused
-        force_comedown( get_effect( effect_adrenaline ) );
         force_comedown( get_effect( effect_meth ) );
         set_painkiller( 0 );
         set_stim( 0 );
@@ -826,7 +825,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             return false;
         } else {
             add_msg_activate();
-            add_effect( effect_adrenaline, 20_minutes );
+            add_effect( effect_adrenaline, 3_minutes );
         }
     } else if( bio.id == bio_emp ) {
         if( const std::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
