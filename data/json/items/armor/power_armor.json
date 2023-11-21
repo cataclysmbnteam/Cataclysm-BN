@@ -426,7 +426,7 @@
     "material_thickness": 1,
     "use_action": {
       "type": "holster",
-      "max_volume": "10 L",
+      "max_volume": "9 L",
       "min_volume": "1500 ml",
       "draw_cost": 150,
       "skills": [ "smg", "shotgun", "rifle", "launcher" ]
@@ -448,14 +448,14 @@
     "covers": [ "leg_either" ],
     "coverage": 5,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "max_volume": "800 ml", "min_volume": "100 ml", "skills": [ "pistol", "smg", "shotgun" ] },
+    "use_action": { "type": "holster", "max_volume": "1 L", "min_volume": "250 ml", "skills": [ "pistol", "smg", "shotgun" ] },
     "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "STURDY", "WAIST" ]
   },
   {
     "id": "power_armor_chest_rig",
     "type": "ARMOR",
-    "name": { "str": "power armor chest rig" },
-    "description": "A set of compartments capable of carrying three magazines close at hand.  Designed to interface with a military exoskeleton.  Activate to store/retrieve your magazines.",
+    "name": { "str": "power armor magazine carrier" },
+    "description": "A set of compartments capable of carrying two magazines close at hand, including larger drum mags or UPS batteries.  Designed to interface with a military exoskeleton.  Activate to store/retrieve your magazines.",
     "weight": "500 g",
     "volume": "500 ml",
     "price": 50000,
@@ -471,10 +471,11 @@
       "type": "holster",
       "holster_prompt": "Stash ammo",
       "holster_msg": "You stash your %s.",
-      "multi": 3,
-      "max_volume": "750 ml",
-      "draw_cost": 40,
-      "flags": [ "MAG_COMPACT" ]
+      "multi": 4,
+      "min_volume": "250 ml",
+      "max_volume": "1500 ml",
+      "draw_cost": 80,
+      "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
     },
     "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "STURDY", "BELTED", "WAIST" ]
   },
