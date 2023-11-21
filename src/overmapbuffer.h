@@ -516,11 +516,12 @@ class overmapbuffer
          * @param special_id The id of overmap special to place.
          * @param center Used in conjunction with radius to search the specified and adjacent overmaps for
          * a valid placement location. Absolute overmap terrain coordinates.
-         * @param radius Used in conjunction with center. Absolute overmap terrain units.
+         * @param min_radius Used in conjunction with center. Absolute overmap terrain units.
+         * @param max_radius Used in conjunction with center. Absolute overmap terrain units.
          * @returns True if the special was placed, else false.
          */
         bool place_special( const overmap_special_id &special_id, const tripoint_abs_omt &center,
-                            int radius );
+                            int min_radius, int max_radius );
 
     private:
         /**
