@@ -160,9 +160,7 @@
         "flat_bonuses": [
           { "stat": "block", "scaling-stat": "str", "scale": 0.5 },
           { "stat": "damage", "type": "bash", "scale": 2.0 },
-          { "stat": "block", "scaling-stat": "str", "scale": 0.5 },
           { "stat": "damage", "type": "cut", "scale": 2.0 },
-          { "stat": "block", "scaling-stat": "str", "scale": 0.5 },
           { "stat": "damage", "type": "stab", "scale": 2.0 }
         ]
       }
