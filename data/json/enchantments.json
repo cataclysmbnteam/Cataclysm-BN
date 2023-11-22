@@ -22,5 +22,16 @@
       { "value": "ARMOR_STAB", "multiply": -0.08 },
       { "value": "ARMOR_BULLET", "multiply": -0.15 }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_power_armor_shielding",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "ARMOR_HEAT", "multiply": -0.334 },
+      { "value": "ARMOR_STAB", "multiply": -0.334 },
+      { "value": "ARMOR_BULLET", "multiply": -0.334 }
+    ]
   }
 ]

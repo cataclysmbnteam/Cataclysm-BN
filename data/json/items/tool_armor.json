@@ -816,6 +816,7 @@
     "max_charges": 5000,
     "charges_per_use": 5,
     "ammo": "plutonium",
+    "relic_data": { "passive_effects": [ { "id": "ench_power_armor_shielding" } ] },
     "use_action": "RM13ARMOR_OFF",
     "covers": [ "head", "mouth", "eyes", "torso", "arms", "hands", "legs", "feet" ],
     "storage": "8 L",
