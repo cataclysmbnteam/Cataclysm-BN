@@ -347,7 +347,7 @@ void iexamine::gaspump( player &p, const tripoint &examp )
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         item *content = *item_it;
         if( content->made_of( LIQUID ) ) {
-			item_it=location_vector<item>::iterator();
+            item_it = location_vector<item>::iterator();
             ///\EFFECT_DEX decreases chance of spilling gas from a pump
             if( one_in( 10 + p.get_dex() ) ) {
                 add_msg( m_bad, _( "You accidentally spill the %s." ), content->type_name() );
