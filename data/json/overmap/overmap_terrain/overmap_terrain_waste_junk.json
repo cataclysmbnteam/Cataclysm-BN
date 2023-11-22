@@ -69,6 +69,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "toxic_dump_roof",
+    "name": "toxic waste dump roof",
+    "sym": "D",
+    "color": "pink",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "haz_sar_1_1",
       "haz_sar_1_2",
