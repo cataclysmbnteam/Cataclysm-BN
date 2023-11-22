@@ -426,7 +426,7 @@
     "material_thickness": 1,
     "use_action": {
       "type": "holster",
-      "max_volume": "9 L",
+      "max_volume": "10 L",
       "min_volume": "1500 ml",
       "draw_cost": 150,
       "skills": [ "smg", "shotgun", "rifle", "launcher" ]
