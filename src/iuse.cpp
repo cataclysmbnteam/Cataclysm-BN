@@ -4763,13 +4763,18 @@ int iuse::lumber( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     // Check if player is standing on any lumber
+    item * standing=nullptr;
     for( auto &i : g->m.i_at( p->pos() ) ) {
         if( i->typeId() == itype_log ) {
-            g->m.i_rem( p->pos(), i );
-            cut_log_into_planks( *p );
-            return it->type->charges_to_use();
+			standing=&*i;
+			break;
         }
     }
+    if(standing){
+		g->m.i_rem( p->pos(), standing );
+        cut_log_into_planks( *p );
+        return it->type->charges_to_use();
+	}
 
     // If the player is not standing on a log, check inventory
     avatar *you = p->as_avatar();
