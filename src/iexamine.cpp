@@ -3811,10 +3811,10 @@ void iexamine::trap( player &p, const tripoint &examp )
     }
 }
 //Note that these three functions are checked by pointer in map::water_from. Yes it's awful.
-void iexamine::water_source( player &, const tripoint & )
+void iexamine::water_source( player &, const tripoint &examp )
 {
-    liquid_handler::handle_liquid( item::spawn( "water", calendar::start_of_cataclysm,
-                                   item::INFINITE_CHARGES ) );
+    // Routed to map::water_from to handle poison
+    liquid_handler::handle_liquid( examp );
 }
 
 //Note that these three functions are checked by pointer in map::water_from. Yes it's awful.
