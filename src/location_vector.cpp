@@ -482,7 +482,7 @@ template<typename T>
 void location_vector<T>::remove_with( std::function < detached_ptr<T>( detached_ptr<T> && ) > cb )
 {
     if( locked > 0 ) {
-        debugmsg( "Attempting to clear a vector with active iterators" );
+        debugmsg( "Attempting to remove_with a vector with active iterators" );
     }
     if( destroyed ) {
         debugmsg( "Attempted to remove_with from a destroyed location." );
