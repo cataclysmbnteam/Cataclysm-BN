@@ -117,7 +117,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "C.R.I.T. EM vest (off)", "str_pl": "C.R.I.T. EM vests (off)" },
-    "description": "The C.R.I.T. Spec Ops Enhanced Movement vest is embedded with high-tech filaments and reactive servos which protects its wearer and assists in movement at the cost high  power usage.  It is commonly worn by C.R.I.T. Spec Ops for its ease of use and manuverability.  Turn it on for suit mode, extra protection and movement.",
+    "description": "The C.R.I.T. Spec Ops Enhanced Movement vest is embedded with high-tech filaments and reactive servos which protects its wearer and assists in movement at the cost high of power usage.  It is commonly worn by C.R.I.T. Spec Ops for its ease of use and maneuverability.  Turn it on for suit mode, extra protection and movement.",
     "weight": "10 kg",
     "volume": "6250 ml",
     "price": 7000000,
@@ -214,7 +214,8 @@
       "TRADER_AVOID",
       "USE_UPS",
       "NO_UNLOAD",
-      "OUTER"
+      "OUTER",
+      "HEAVY_WEAPON_SUPPORT"
     ]
   },
   {
