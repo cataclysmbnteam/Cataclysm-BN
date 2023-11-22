@@ -2417,7 +2417,7 @@ more structured function.
 },
 "use_action": {
   {
-    "type": "repair_item",                // Repair items. Skill, tool quality, and minor impact from dexterit
+    "type": "repair_item",                // Repair items. Skill, tool quality, and dexterity is checked against how hard that item is to craft/dissemble (which may be modified with repairs_like).
     "item_action_type": "repair_fabric",  // Points to an item_action JSON entry that determines the action's name in the use menu. Vanilla examples include repair_fabric and repair_metal.
     "materials": [                        // What materials can be repaired by this item. Materials.json defines what item is consumed when repairing items of that material.
       "cotton",
