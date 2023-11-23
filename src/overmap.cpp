@@ -5477,8 +5477,8 @@ struct specials_overlay {
 int overmap::place_special_custom( const overmap_special &special,
                                    std::vector<tripoint_om_omt> &points )
 {
-    specials_overlay target( points );
-    return place_special_attempt( special, 1, target, true );
+    std::unique_ptr<specials_overlay> target = std::make_unique<specials_overlay>( points );
+    return place_special_attempt( special, 1, *target, true );
 }
 
 int overmap::place_special_attempt( const overmap_special &special, const int max,
@@ -5699,12 +5699,10 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     // TODO: Yes, that's a hack. Calculatng real river ratio would require rebalancing occurences.
     zone_ratio[zone::river] = zone_ratio[zone::land_under];
 
-    specials_overlay zone_overlay[zone::last] = {
-        specials_overlay( zone_points[0] ),
-        specials_overlay( zone_points[1] ),
-        specials_overlay( zone_points[2] ),
-        specials_overlay( zone_points[3] )
-    };
+    std::unique_ptr<specials_overlay> zone_overlay[zone::last];
+    for( int i = 0; i < zone::last; i++ ) {
+        zone_overlay[i] = std::make_unique<specials_overlay>( zone_points[i] );
+    }
 
     // Now all preparations is done, and we can start placing specials
     for( auto &iter : enabled_specials ) {
@@ -5729,7 +5727,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             amount_to_place = roll_remainder( rng_float( min, real_max ) );
         }
         iter.instances_placed += place_special_attempt( special,
-                                 amount_to_place, zone_overlay[current], false );
+                                 amount_to_place, *zone_overlay[current], false );
     }
 }
 
