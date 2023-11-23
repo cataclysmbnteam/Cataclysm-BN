@@ -3296,7 +3296,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
             break;
         case RT_REINFORCE:
             // Reinforcing is 50% harder than refitting
-            action_difficulty = fix.max_damage() / itype::damage_scale * 1.5;
+            action_difficulty = ( fix.max_damage() / itype::damage_scale ) + 2;
             break;
         case RT_PRACTICE:
             // Skill gain scales with recipe difficulty, so practice difficulty should too
