@@ -4544,10 +4544,12 @@ detached_ptr<item> map::water_from( const tripoint &p )
     if( furn( p ).obj().examine == &iexamine::water_source ) {
         return item::spawn( "water", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
     }
-    if( furn( p ).obj().examine == &iexamine::clean_water_source ) {
+    if( furn( p ).obj().examine == &iexamine::clean_water_source ||
+        terrain_id.obj().examine == &iexamine::clean_water_source ) {
         return item::spawn( "water_clean", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
     }
     if( furn( p ).obj().examine == &iexamine::liquid_source ) {
+        // Terrains have no "provides_liquids" to work with generic source
         return item::spawn( furn( p ).obj().provides_liquids, calendar::turn, item::INFINITE_CHARGES );
     }
     return detached_ptr<item>();
