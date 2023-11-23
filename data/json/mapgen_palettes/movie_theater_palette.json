@@ -1,7 +1,7 @@
 [
   {
     "type": "palette",
-    "id": "movie_theater_palette.json",
+    "id": "movie_theater_palette",
     "furniture": {
       "T": "f_counter",
       "f": "f_counter",
@@ -45,7 +45,6 @@
       "%": "t_wall_glass",
       "+": "t_door_metal_c",
       "^": "t_door_glass_c",
-      "&": "t_atm",
       "D": "t_door_c",
       "d": "t_door_c",
       "a": "t_atm",
