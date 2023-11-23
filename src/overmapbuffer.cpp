@@ -1594,27 +1594,19 @@ std::optional<std::vector<tripoint_abs_omt>> overmapbuffer::place_special(
 }
 
 bool overmapbuffer::place_special( const overmap_special_id &special_id,
-                                   const tripoint_abs_omt &center, int radius )
+                                   const tripoint_abs_omt &center,
+                                   int min_radius, int max_radius )
 {
     // First find the requested special. If it doesn't exist, we're done here.
-    bool found = false;
-    overmap_special special;
-    for( const auto &elem : overmap_specials::get_all() ) {
-        if( elem.id == special_id ) {
-            special = elem;
-            found = true;
-            break;
-        }
-    }
-    if( !found ) {
+    if( !special_id.is_valid() ) {
         return false;
     }
-
+    const overmap_special &special = *special_id;
     const int longest_side = special.longest_side();
 
     // Get all of the overmaps within the defined radius of the center.
     for( const auto &om : get_overmaps_near(
-             project_to<coords::sm>( center ), omt_to_sm_copy( radius ) ) ) {
+             project_to<coords::sm>( center ), omt_to_sm_copy( max_radius ) ) ) {
 
         // We'll include points that within our radius. We reduce the radius by
         // the length of the longest side of our special so that we don't end up in a
@@ -1622,9 +1614,11 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
         // rest of it is outside the radius (due to size, rotation, etc), which would
         // then result in us placing the special but then not finding it later if we
         // search using the same radius value we used in placing it.
+
         std::vector<tripoint_om_omt> points_in_range;
-        for( const tripoint_abs_omt &p : points_in_radius( center, std::max( 1,
-                radius - longest_side ) ) ) {
+        const int max = std::max( 1, max_radius - longest_side );
+        const int min = std::min( max, min_radius + longest_side );
+        for( const tripoint_abs_omt &p : closest_points_first( center, min, max ) ) {
             point_abs_om overmap;
             tripoint_om_omt omt_within_overmap;
             std::tie( overmap, omt_within_overmap ) = project_remain<coords::om>( p );
