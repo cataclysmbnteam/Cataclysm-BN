@@ -2856,14 +2856,14 @@ bool map::mop_spills( const tripoint &p )
 
     if( !has_flag( "LIQUIDCONT", p ) && !has_flag( "SEALED", p ) ) {
         auto items = i_at( p );
-        
-        items.remove_top_items_with([&retval](detached_ptr<item> &&e){
-			if(e->made_of(LIQUID)){
-				retval=true;
-				return detached_ptr<item>();
-			}
-			return std::move(e);
-		});
+
+        items.remove_top_items_with( [&retval]( detached_ptr<item> &&e ) {
+            if( e->made_of( LIQUID ) ) {
+                retval = true;
+                return detached_ptr<item>();
+            }
+            return std::move( e );
+        } );
     }
 
     field &fld = field_at( p );
@@ -2894,13 +2894,13 @@ bool map::mop_spills( const tripoint &p )
             }
             //remove any liquids that somehow didn't fall through to the ground
             vehicle_stack here = veh->get_items( elem );
-            here.remove_top_items_with([&retval](detached_ptr<item> &&e){
-				if(e->made_of(LIQUID)){
-					retval=true;
-					return detached_ptr<item>();
-				}
-				return std::move(e);
-			});
+            here.remove_top_items_with( [&retval]( detached_ptr<item> &&e ) {
+                if( e->made_of( LIQUID ) ) {
+                    retval = true;
+                    return detached_ptr<item>();
+                }
+                return std::move( e );
+            } );
         }
     } // if veh != 0
     return retval;
