@@ -816,7 +816,7 @@
     "max_charges": 5000,
     "charges_per_use": 5,
     "ammo": "plutonium",
-    "relic_data": { "passive_effects": [ { "id": "ench_power_armor_shielding" } ] },
+    "relic_data": { "passive_effects": [ { "id": "ench_power_armor_shielding_active" } ] },
     "use_action": "RM13ARMOR_OFF",
     "covers": [ "head", "mouth", "eyes", "torso", "arms", "hands", "legs", "feet" ],
     "storage": "8 L",
@@ -855,7 +855,7 @@
     "environmental_protection": 40,
     "encumbrance": 10,
     "qualities": [ [ "GLARE", 2 ] ],
-    "material_thickness": 5
+    "material_thickness": 4
   },
   {
     "id": "dimensional_anchor",

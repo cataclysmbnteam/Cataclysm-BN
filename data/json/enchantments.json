@@ -27,11 +27,14 @@
     "type": "enchantment",
     "id": "ench_power_armor_shielding",
     "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "ITEM_ARMOR_STAB", "multiply": -0.8 }, { "value": "ITEM_ARMOR_BULLET", "multiply": -0.8 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_power_armor_shielding_active",
+    "has": "WORN",
     "condition": "ACTIVE",
-    "values": [
-      { "value": "ITEM_ARMOR_HEAT", "multiply": -0.5 },
-      { "value": "ITEM_ARMOR_STAB", "multiply": -0.5 },
-      { "value": "ITEM_ARMOR_BULLET", "multiply": -0.5 }
-    ]
+    "values": [ { "value": "ITEM_ARMOR_STAB", "multiply": -0.8 }, { "value": "ITEM_ARMOR_BULLET", "multiply": -0.8 } ]
   }
 ]
