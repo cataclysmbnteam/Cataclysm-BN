@@ -128,7 +128,7 @@
     "encumbrance": 60,
     "storage": "4 L",
     "warmth": 60,
-    "material_thickness": 8,
+    "material_thickness": 9,
     "environmental_protection": 16,
     "relic_data": { "passive_effects": [ { "id": "ench_power_armor_shielding" } ] },
     "use_action": {
@@ -300,7 +300,7 @@
     "coverage": 100,
     "encumbrance": 60,
     "warmth": 60,
-    "material_thickness": 8,
+    "material_thickness": 9,
     "environmental_protection": 16,
     "relic_data": { "passive_effects": [ { "id": "ench_power_armor_shielding" } ] },
     "qualities": [ [ "GLARE", 2 ] ],

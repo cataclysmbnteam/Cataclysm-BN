@@ -29,9 +29,9 @@
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
-      { "value": "ARMOR_HEAT", "multiply": -0.334 },
-      { "value": "ARMOR_STAB", "multiply": -0.334 },
-      { "value": "ARMOR_BULLET", "multiply": -0.334 }
+      { "value": "ITEM_ARMOR_HEAT", "multiply": -0.5 },
+      { "value": "ITEM_ARMOR_STAB", "multiply": -0.5 },
+      { "value": "ITEM_ARMOR_BULLET", "multiply": -0.5 }
     ]
   }
 ]
