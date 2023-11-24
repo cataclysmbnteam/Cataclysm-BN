@@ -61,6 +61,9 @@ struct caused_effect {
         /** If true, intensity field is ignored and parent effect intensity is copied. */
         bool inherit_intensity = false;
 
+        bodypart_str_id bp = bodypart_str_id::NULL_ID();
+        bool inherit_body_part = true;
+
         void load_decay( const JsonObject &obj );
 
         auto tie() const {

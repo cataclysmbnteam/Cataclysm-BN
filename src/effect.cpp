@@ -1536,16 +1536,29 @@ void caused_effect::load( const JsonObject &jo )
     assign( jo, "effect_type", type );
     assign( jo, "intensity_requirement", intensity_requirement );
 
-    assign( jo, "duration", duration );
+    if( assign( jo, "duration", duration ) ) {
+        // In case of copy-from
+        inherit_duration = false;
+    }
     assign( jo, "inherit_duration", inherit_duration );
     if( jo.has_member( "duration" ) && jo.has_member( "inherit_duration" ) ) {
         jo.throw_error( "\"duration\" and \"inherit_duration\" can't both be set at the same time." );
     }
 
-    assign( jo, "intensity", intensity );
+    if( assign( jo, "intensity", intensity ) ) {
+        inherit_intensity = false;
+    }
     assign( jo, "inherit_intensity", inherit_intensity );
     if( jo.has_member( "intensity" ) && jo.has_member( "inherit_intensity" ) ) {
         jo.throw_error( "\"intensity\" and \"inherit_intensity\" can't both be set at the same time." );
+    }
+
+    if( assign( jo, "body_part", bp ) ) {
+        inherit_body_part = false;
+    }
+    assign( jo, "inherit_body_part", inherit_body_part );
+    if( jo.has_member( "intensity" ) && jo.has_member( "inherit_intensity" ) ) {
+        jo.throw_error( "\"body_part\" and \"inherit_body_part\" can't both be set at the same time." );
     }
 }
 
@@ -1571,7 +1584,8 @@ std::vector<effect> effect::create_child_effects( bool decay ) const
         const effect_type *new_effect_type = &*new_effect.type;
         time_duration dur = new_effect.inherit_duration ? this->duration : new_effect.duration;
         int intensity = new_effect.inherit_intensity ? this->intensity : new_effect.intensity;
-        effect e = effect( new_effect_type, dur, convert_bp( this->bp ), intensity, calendar::turn );
+        bodypart_str_id bp = new_effect.inherit_body_part ? convert_bp( this->bp ) : new_effect.bp;
+        effect e = effect( new_effect_type, dur, bp, intensity, calendar::turn );
         ret.emplace_back( e );
     }
     return ret;
