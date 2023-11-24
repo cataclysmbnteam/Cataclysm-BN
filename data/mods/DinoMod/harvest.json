@@ -353,8 +353,8 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "bionic_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] }
+      { "drop": "harvest_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] }
     ]
   },
   {
@@ -375,8 +375,8 @@
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 },
-      { "drop": "bionic_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] }
+      { "drop": "harvest_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] }
     ]
   },
   {
@@ -396,8 +396,8 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "bionic_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] }
+      { "drop": "harvest_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] }
     ]
   },
   {
@@ -417,8 +417,8 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "bionic_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
     ]
@@ -435,8 +435,8 @@
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "pheromone", "type": "bionic", "max": 1 },
-      { "drop": "bionic_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] }
+      { "drop": "harvest_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] }
     ]
   },
   {
@@ -451,8 +451,8 @@
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "pheromone", "type": "bionic", "max": 1 },
-      { "drop": "bionic_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
     ]
