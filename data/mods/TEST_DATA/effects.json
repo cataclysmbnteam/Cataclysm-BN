@@ -32,11 +32,11 @@
   {
     "type": "effect_type",
     "id": "test_juggling_r2",
-    "effects_on_remove": [ {  "effect_type": "test_juggling_l2", "duration": "0 s", "body_part": "hand_l" } ]
+    "effects_on_remove": [ { "effect_type": "test_juggling_l2", "duration": "0 s", "body_part": "hand_l" } ]
   },
   {
     "type": "effect_type",
     "id": "test_juggling_l2",
-    "effects_on_remove": [ {  "effect_type": "test_juggling_l1", "duration": "0 s" } ]
+    "effects_on_remove": [ { "effect_type": "test_juggling_l1", "duration": "0 s" } ]
   }
 ]
