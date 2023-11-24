@@ -393,8 +393,8 @@ otherwise.
 "intensity_requirement" will prevent adding the new effect if current effect has lower intensity.
 "allow_on_decay" enables adding the effect if parent decayed (was removed due to 0 duration).
 "allow_on_remove" enables adding the effect if parent was removed before 0 duration.
-"inherit_duration", "inherit_intensity" and "inherit_body_part" cause the relevant variable
-to be copied from parent effect.
+"inherit_duration", "inherit_intensity" and "inherit_body_part" cause the relevant variable to be
+copied from parent effect.
 
 ### Effect effects
 
