@@ -5131,10 +5131,6 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
 
 int iuse::mop( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
-    }
     const std::vector<field_type_id> to_check = {
         fd_blood,
         fd_blood_veggy,
