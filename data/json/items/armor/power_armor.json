@@ -20,7 +20,7 @@
     "encumbrance": 35,
     "storage": "4 L",
     "warmth": 50,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "environmental_protection": 5,
     "flags": [ "WATERPROOF", "STURDY" ]
   },
@@ -43,7 +43,7 @@
     "coverage": 95,
     "encumbrance": 35,
     "warmth": 50,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "environmental_protection": 5,
     "qualities": [ [ "GLARE", 2 ] ],
     "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES" ]
