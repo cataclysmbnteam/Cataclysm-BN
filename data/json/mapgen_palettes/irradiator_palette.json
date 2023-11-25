@@ -67,6 +67,7 @@
       "j": "f_locker",
       "T": "f_standing_tank",
       "k": "f_standing_tank",
+      "z": "f_standing_tank",
       "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "a": "f_table",
       "c": "f_utility_shelf",
