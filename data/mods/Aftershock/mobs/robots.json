@@ -104,6 +104,8 @@
     "armor_cut": 90,
     "armor_bullet": 72,
     "armor_fire": 36,
+    "armor_cold": 36,
+    "armor_electric": 72,
     "vision_day": 50,
     "revert_to_itype": "bot_tankbot",
     "starting_ammo": { "40x46mm_m433": 200, "556": 3000 },
