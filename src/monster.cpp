@@ -2114,8 +2114,9 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
         case DT_HEAT:
             return worn_armor + static_cast<int>( type->armor_fire );
         case DT_COLD:
+            return worn_armor + static_cast<int>( type->armor_cold );
         case DT_ELECTRIC:
-            return worn_armor;
+            return worn_armor + static_cast<int>( type->armor_electric );
         case DT_NULL:
         case NUM_DT:
             // Let it error below
