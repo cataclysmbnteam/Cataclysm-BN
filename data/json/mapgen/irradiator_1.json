@@ -86,7 +86,7 @@
         "'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'",
         "'f***************************mmmmmmmmmmm******************************f'",
         "'f**|--------------------------------------------------------------|**f'",
-        "'f**|qq  c|c c|c c|c |      f cc fTTf cc f      |XXXX5XXXXXXXXXXXXX|**f'",
+        "'f**|qq  c|c c|c c|c |      f cc fzzf cc f      |XXXX5XXXXXXXXXXXXX|**f'",
         "'f**|-   c|c c|c c|c | mmmm f    ffff    f mmmm |XM    )!!!!!!!!!QX|**f'",
         "'f**|qq  c|c c|c c|c | mm/m G            G m/mm |XM    )!UUUUUUPPPX|**f'",
         "'f**|qq  c|c c|c c|c | mmmm f     h      f mmmm |XM    )!UUUUUUPPPX|**f'",
@@ -354,10 +354,10 @@
         "                                                                        ",
         "                                                                        ",
         "                                                                        ",
-        "                           |----------------3                           ",
-        "                           |................3                           ",
-        "                           |................5                           ",
-        "                           |----------------3                           ",
+        "                           ------------------                           ",
+        "                           -................-                           ",
+        "                           -................5                           ",
+        "                           ------------------                           ",
         "                                                                        ",
         "                                                                        ",
         "                                                                        "
@@ -365,9 +365,7 @@
       "terrain": {
         ".": "t_flat_roof",
         " ": "t_open_air",
-        "|": "t_gutter_west",
         "-": "t_gutter_south",
-        "3": "t_gutter_east",
         "5": "t_gutter_drop",
         "}": "t_ladder_down",
         "R": "t_radio_tower"
