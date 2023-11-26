@@ -383,6 +383,12 @@ void MonsterGenerator::finalize_mtypes()
         if( mon.armor_fire < 0 ) {
             mon.armor_fire = 0;
         }
+        if( mon.armor_cold < 0 ) {
+            mon.armor_cold = 0;
+        }
+        if( mon.armor_electric < 0 ) {
+            mon.armor_electric = 0;
+        }
 
         // Lower bound for hp scaling
         mon.hp = std::max( mon.hp, 1 );
@@ -749,6 +755,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_stab", armor_stab, strict, 0 );
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
+    assign( jo, "armor_cold", armor_cold, strict, 0 );
+    assign( jo, "armor_electric", armor_electric, strict, 0 );
 
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
