@@ -919,15 +919,25 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    if( bp_hit == bodypart_str_id( "head" ) && proj.has_effect( ammo_effect_BLINDS_EYES ) ) {
+    // at least `dealt_dam` doesn't get mutated after this point
+    const int total_damage = dealt_dam.total_damage();
+    const int env_resist = get_env_resist( bp_hit );
+
+    const int blind_strength = bp_hit == bodypart_str_id( "head" )
+                               && proj.has_effect( ammo_effect_BLINDS_EYES ) ? total_damage - env_resist : 0;
+    if( blind_strength > 0 ) {
         // TODO: Change this to require bp_eyes
         add_env_effect( effect_blind, bp_eyes, 5, rng( 3_turns, 10_turns ) );
     }
 
-    if( proj.has_effect( ammo_effect_APPLY_SAP ) ) {
-        add_effect( effect_sap, 1_turns * dealt_dam.total_damage() );
+    const int sap_strength = proj.has_effect( ammo_effect_APPLY_SAP ) ? total_damage - env_resist : 0;
+    if( sap_strength > 0 ) {
+        add_effect( effect_sap, 1_turns * sap_strength );
     }
-    if( proj.has_effect( ammo_effect_PARALYZEPOISON ) && dealt_dam.total_damage() > 0 ) {
+
+    const int paralysis_strength = proj.has_effect( ammo_effect_PARALYZEPOISON )
+                                   ? total_damage - env_resist : 0;
+    if( paralysis_strength > 0 ) {
         add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
         add_effect( effect_paralyzepoison, 5_minutes );
     }
