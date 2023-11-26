@@ -230,7 +230,7 @@ std::string to_upper_case( const std::string &s )
     if( temp_locale.name() != "en_US.UTF-8" && temp_locale.name() != "C" ) {
         const auto &f = std::use_facet<std::ctype<wchar_t>>( temp_locale );
         std::wstring wstr = utf8_to_wstr( s );
-        f.toupper( &wstr[0], &wstr[0] + wstr.size() );
+        f.toupper( wstr.data(), wstr.data() + wstr.size() );
         return wstr_to_utf8( wstr );
     }
     std::string res;
@@ -246,7 +246,7 @@ std::string to_lower_case( const std::string &s )
     if( temp_locale.name() != "en_US.UTF-8" && temp_locale.name() != "C" ) {
         const auto &f = std::use_facet<std::ctype<wchar_t>>( temp_locale );
         std::wstring wstr = utf8_to_wstr( s );
-        f.tolower( &wstr[0], &wstr[0] + wstr.size() );
+        f.tolower( wstr.data(), wstr.data() + wstr.size() );
         return wstr_to_utf8( wstr );
     }
     std::string res;
