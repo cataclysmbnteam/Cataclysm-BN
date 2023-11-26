@@ -778,6 +778,10 @@ namespace
 
 auto is_mountable( const map &m, const tripoint &pos ) -> bool
 {
+    if( m.impassable( pos ) ) {
+        return false;
+    }
+
     // usage of any attached bipod is dependent upon terrain
     if( m.has_flag_ter_or_furn( "MOUNTABLE", pos ) ) {
         return true;
