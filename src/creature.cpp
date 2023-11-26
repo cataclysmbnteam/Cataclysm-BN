@@ -932,7 +932,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         add_effect( effect_paralyzepoison, 5_minutes );
     }
 
-    const int stun_strength = get_stun_srength( proj, get_size() );
+    const int stun_strength = get_stun_srength( proj, get_size() ) - get_env_resist( bp_hit );
     if( stun_strength > 0 ) {
         add_effect( effect_stunned, 1_turns * rng( stun_strength / 2, stun_strength ) );
     }
