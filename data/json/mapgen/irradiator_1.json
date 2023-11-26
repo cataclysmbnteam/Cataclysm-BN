@@ -260,7 +260,7 @@
           "fuel": -1,
           "rotation": 90,
           "status": -1,
-          "x": 10,
+          "x": 11,
           "y": 62
         },
         { "vehicle": "industrial_transport", "chance": 25, "fuel": -1, "rotation": 90, "status": 0, "x": 20, "y": 62 },
