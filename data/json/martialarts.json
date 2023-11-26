@@ -155,7 +155,7 @@
       {
         "id": "buff_boxing_static",
         "name": "Boxing Stance",
-        "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+2 Bash damage, Blocked damge reduced by 50% of Strength.",
+        "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+2 Damage, Blocked damge reduced by 50% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "block", "scaling-stat": "str", "scale": 0.5 },
@@ -181,7 +181,7 @@
       {
         "id": "buff_boxing_ondodge",
         "name": "Counter Chance",
-        "description": "You've seen your chance. Now strike back!\n\n+25% Bash damage.\nLasts for 1 turn.",
+        "description": "You've seen your chance. Now strike back!\n\n+25% Damage.\nLasts for 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
@@ -238,7 +238,7 @@
       {
         "id": "buff_capoeira_onmiss",
         "name": "Capoeira Tempo",
-        "description": "You didn't miss, it's just part of the dance and the best part is about to start!\n\n+15% Bash damage.\nLasts 2 turns.  Stacks 3 times.",
+        "description": "You didn't miss, it's just part of the dance and the best part is about to start!\n\n+15% Damage.\nLasts 2 turns.  Stacks 3 times.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 2,
@@ -281,7 +281,7 @@
       {
         "id": "buff_crane_static",
         "name": "Crane's Precision",
-        "description": "Your attacks strike at your opponents weakness with speed and precision instead of brute force.\nDexterity increases melee damage instead of Strength.\n\nBash damage increased by 75% of Dexterity but decreased by 75% of Strength.",
+        "description": "Your attacks strike at your opponents weakness with speed and precision instead of brute force.\nDexterity increases melee damage instead of Strength.\n\nDamage increased by 75% of Dexterity but decreased by 75% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "damage", "type": "bash", "scaling-stat": "dex", "scale": 0.75 },
@@ -339,7 +339,7 @@
       {
         "id": "buff_dragon_onhit",
         "name": "Dragon's Flight",
-        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+1 Accuracy, +2 bash Damage.\nEnables \"Dragon Vortex Block\" and \"Dragon Wing Dodge\"\nLasts 1 turn.",
+        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+1 Accuracy, +2 Damage.\nEnables \"Dragon Vortex Block\" and \"Dragon Wing Dodge\"\nLasts 1 turn.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 1,
@@ -624,7 +624,7 @@
       {
         "id": "buff_leopard_static1",
         "name": "Leopard's Strategy",
-        "description": "You fight by overwhelming your opponents with speedy strikes that are much harder to defend against.\nDexterity increases melee damage instead of Strength.\n\nBash damage increased by 75% of Dexterity but decreased by 75% of Strength.",
+        "description": "You fight by overwhelming your opponents with speedy strikes that are much harder to defend against.\nDexterity increases melee damage instead of Strength.\n\nDamage increased by 75% of Dexterity but decreased by 75% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "damage", "type": "bash", "scaling-stat": "dex", "scale": 0.75 },
@@ -742,7 +742,7 @@
       {
         "id": "buff_muay_thai_ongethit",
         "name": "Determination",
-        "description": "Taking a hit will not slow you down.  You will outlast your opponent and win this fight.\n\n+Bash damage increased by 25% of Strength, blocked damage decreased by 50% of Strength.\nLasts 5 turns.",
+        "description": "Taking a hit will not slow you down.  You will outlast your opponent and win this fight.\n\n+Damage increased by 25% of Strength, blocked damage decreased by 50% of Strength.\nLasts 5 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
         "buff_duration": 5,
@@ -844,7 +844,7 @@
       {
         "id": "buff_niten_static",
         "name": "Niten Ichi-Ryu Stance",
-        "description": "Cautious watchful eyes\nmeasure and display your skill.\nPractice makes perfect.\n\nBash and Cut armor penetration increased by 50% of Perception, blocked damage reduced by 100% of Perception.",
+        "description": "Cautious watchful eyes\nmeasure and display your skill.\nPractice makes perfect.\n\nArmor penetration increased by 50% of Perception, blocked damage reduced by 100% of Perception.",
         "melee_allowed": true,
         "flat_bonuses": [
           { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
@@ -868,7 +868,7 @@
       {
         "id": "buff_niten_onattack",
         "name": "Falling Leaf",
-        "description": "A sharp sword cuts true.\nAlthough, all things fade with time.\nRestraint hones your skills.\n\n-1.0 Dodge skill, -1 bash damage, -1 cut damage.\nLasts 1 turn. Stacks 5 times.",
+        "description": "A sharp sword cuts true.\nAlthough, all things fade with time.\nRestraint hones your skills.\n\n-1.0 Dodge skill, -1 damage, -1 damage.\nLasts 1 turn. Stacks 5 times.",
         "melee_allowed": true,
         "buff_duration": 1,
         "max_stacks": 5,
@@ -916,7 +916,7 @@
       {
         "id": "buff_pankration_ondodge",
         "name": "Counter Chance",
-        "description": "The enemy has presented an opening in their defense.\n+10% bash damage.  Enables \"Close Combat\" buff.\nLasts 1 turn.",
+        "description": "The enemy has presented an opening in their defense.\n+10% damage.  Enables \"Close Combat\" buff.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
@@ -931,7 +931,7 @@
       {
         "id": "buff_pankration_oncrit",
         "name": "Close Combat",
-        "description": "You got your opponent right where you want them!\n\n+20% bash damage.\nLasts 1 turn.",
+        "description": "You got your opponent right where you want them!\n\n+20% damage.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
         "unarmed_allowed": true,
         "req_buffs": [ "buff_pankration_ondodge" ],
@@ -1090,7 +1090,7 @@
       {
         "id": "buff_taekwondo_static2",
         "name": "Unhindered",
-        "description": "Your attacks are stronger if you are not holding anything in your hands.\n\n+33% bash damage when not using a weapon.",
+        "description": "Your attacks are stronger if you are not holding anything in your hands.\n\n+33% damage when not using a weapon.",
         "unarmed_allowed": true,
         "mult_bonuses": [
           { "stat": "damage", "type": "bash", "scale": 1.33 },
@@ -1130,7 +1130,7 @@
       {
         "id": "buff_tai_chi_ondodge",
         "name": "Repulse the Monkey",
-        "description": "By perfectly positioning yourself and your opponent, you have become more accurate and can bypass your opponent's defenses.\n\nAccuracy increased by 20% of Perception, gain bash Armor Penetration equal to 50% of Perception.\nLasts 2 turns.",
+        "description": "By perfectly positioning yourself and your opponent, you have become more accurate and can bypass your opponent's defenses.\n\nAccuracy increased by 20% of Perception, gain Armor Penetration equal to 50% of Perception.\nLasts 2 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "buff_duration": 2,
@@ -1324,7 +1324,7 @@
       {
         "id": "debug_elem_resist",
         "name": "Elemental resistance",
-        "description": "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",
+        "description": "+Strength physical armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 1.0 },
@@ -1349,7 +1349,7 @@
       {
         "id": "debug_miss_buff",
         "name": "Getting Angry",
-        "description": "When I get my hands on you…  +2 bash damage for 2 turns.  Stacks 5 times.",
+        "description": "When I get my hands on you…  +2 damage for 2 turns.  Stacks 5 times.",
         "unarmed_allowed": true,
         "buff_duration": 2,
         "max_stacks": 5,
