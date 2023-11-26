@@ -72,7 +72,7 @@
       "item_action_type": "repair_fabric",
       "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin" ],
       "skill": "tailor",
-      "tool_quality": -1,
+      "tool_quality": 1,
       "cost_scaling": 0.1,
       "move_cost": 1300
     },
@@ -101,7 +101,7 @@
       "item_action_type": "repair_fabric",
       "materials": [ "neoprene" ],
       "skill": "tailor",
-      "tool_quality": 0,
+      "tool_quality": 1,
       "cost_scaling": 0.1,
       "move_cost": 1200
     },
@@ -130,7 +130,7 @@
       "item_action_type": "repair_fabric",
       "materials": [ "cotton", "nylon", "leather", "wool", "fur", "faux_fur", "nomex", "gutskin" ],
       "skill": "tailor",
-      "tool_quality": -1,
+      "tool_quality": 0,
       "cost_scaling": 0.1,
       "move_cost": 1500
     },
@@ -160,7 +160,7 @@
       "item_action_type": "repair_fabric",
       "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin" ],
       "skill": "tailor",
-      "tool_quality": 0,
+      "tool_quality": 2,
       "cost_scaling": 0.1,
       "move_cost": 1000
     },
@@ -206,7 +206,7 @@
         "item_action_type": "repair_fabric",
         "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin" ],
         "skill": "tailor",
-        "tool_quality": 1,
+        "tool_quality": 3,
         "cost_scaling": 0.1,
         "move_cost": 800
       },

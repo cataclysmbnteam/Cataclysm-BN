@@ -3295,8 +3295,8 @@ std::pair<float, float> repair_item_actor::repair_chance(
             action_difficulty = fix.max_damage() / itype::damage_scale;
             break;
         case RT_REINFORCE:
-            // Reinforcing is at least as hard as refitting
-            action_difficulty = std::max( fix.max_damage() / itype::damage_scale, recipe_difficulty );
+            // Reinforcing is 50% harder than refitting
+            action_difficulty = ( fix.max_damage() / itype::damage_scale ) + 2;
             break;
         case RT_PRACTICE:
             // Skill gain scales with recipe difficulty, so practice difficulty should too
@@ -3306,18 +3306,11 @@ std::pair<float, float> repair_item_actor::repair_chance(
     }
 
     const int difficulty = recipe_difficulty + action_difficulty;
-    // Sample numbers:
-    // Item   | Damage | Skill | Dex | Success | Failure
-    // Hoodie |    2   |   3   |  10 |   6%    |   0%
-    // Hazmat |    1   |   10  |  10 |   8%    |   0%
-    // Hazmat |    1   |   5   |  20 |   0%    |   2%
-    // t-shirt|    4   |   1   |  5  |   2%    |   3%
-    // Duster |    2   |   5   |  5  |   10%   |   0%
-    // Duster |    2   |   2   |  10 |   4%    |   1%
-    // Duster | Refit  |   2   |  10 |   0%    |   N/A
-    float success_chance = ( 10 + 2 * skill - 2 * difficulty + tool_quality / 5.0f ) / 100.0f;
+    float success_chance = ( 10 + 2 * ( skill * ( 1 + tool_quality / 10.0f ) ) - 2 * difficulty ) /
+                           100.0f;
     /** @EFFECT_DEX reduces the chances of damaging an item when repairing */
-    float damage_chance = ( difficulty - skill - ( tool_quality + pl.dex_cur ) / 5.0f ) / 100.0f;
+    float damage_chance = ( difficulty - ( skill * ( 1 + tool_quality / 10.0f ) ) - pl.dex_cur /
+                            5.0f ) / 100.0f;
 
     damage_chance = std::max( 0.0f, std::min( 1.0f, damage_chance ) );
     success_chance = std::max( 0.0f, std::min( 1.0f - damage_chance, success_chance ) );
