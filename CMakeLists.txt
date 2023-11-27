@@ -391,6 +391,7 @@ if (CCACHE_FOUND AND CATA_CCACHE)
     set(CMAKE_CXX_LINKER_LAUNCHER ccache)
 endif ()
 
+add_subdirectory(cata_rust)
 add_subdirectory(src)
 add_subdirectory(data)
 

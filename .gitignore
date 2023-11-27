@@ -44,6 +44,10 @@ cataclysmdda-*
 debug.log
 logg.txt
 
+# rust
+cata_rust/target
+cata_rust/debug
+
 # Visual Studio files
 *.code-workspace
 *.ilk

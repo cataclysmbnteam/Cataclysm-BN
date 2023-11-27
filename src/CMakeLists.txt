@@ -53,6 +53,7 @@ if (TILES)
         target_compile_definitions(cataclysm-tiles-common PUBLIC LUA)
         target_link_libraries(cataclysm-tiles-common PUBLIC libsol)
     endif ()
+    target_link_libraries(cataclysm-tiles-common PRIVATE cata_rust)
 
     add_dependencies(cataclysm-tiles-common get_version)
 
@@ -158,6 +159,7 @@ if (CURSES)
         target_compile_definitions(cataclysm-common PUBLIC LUA)
         target_link_libraries(cataclysm-common PUBLIC libsol)
     endif ()
+    target_link_libraries(cataclysm-tiles-common PRIVATE cata_rust)
 
     add_dependencies(cataclysm-common get_version)
     target_link_libraries(cataclysm PRIVATE cataclysm-common)

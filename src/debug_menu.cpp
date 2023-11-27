@@ -98,7 +98,7 @@
 #include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
-#include "url_utility.h"
+#include "url_utility.rs.h"
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "veh_type.h"
@@ -2033,16 +2033,9 @@ void debug()
             break;
 
         case DEBUG_BUG_REPORT: {
-            constexpr const char *const bug_report_url =
-                "https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new"
-                "?labels=bug"
-                "&template=bug_report.yml"
-                "&versions-and-configuration=";
-
             const std::string report = game_info::game_report();
-            const std::string url = bug_report_url + encode_url( report );
 
-            open_url( url );
+            open_url( github_issue_url( report ) );
             DebugLog( DL::Info, DC::Main ) << " GAME REPORT:\n" << report;
             popup( _( "Opened a link to Bug Report on github." ) );
             break;
