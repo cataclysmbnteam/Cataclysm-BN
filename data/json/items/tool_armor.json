@@ -823,7 +823,7 @@
     "environmental_protection": 15,
     "encumbrance": 30,
     "coverage": 100,
-    "material_thickness": 2
+    "material_thickness": 4
   },
   {
     "id": "rm13_armor_on",
@@ -854,7 +854,7 @@
     "environmental_protection": 40,
     "encumbrance": 10,
     "qualities": [ [ "GLARE", 2 ] ],
-    "material_thickness": 5
+    "material_thickness": 7
   },
   {
     "id": "dimensional_anchor",
