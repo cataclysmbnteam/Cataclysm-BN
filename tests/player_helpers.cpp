@@ -106,6 +106,7 @@ void clear_character( player &dummy, bool debug_storage )
     // Make sure we don't carry around weird effects.
     dummy.clear_effects(); // mark effects for removal
     dummy.process_effects(); // actually remove them
+    dummy.set_underwater( false );
 
     // Make stats nominal.
     dummy.str_max = 8;
