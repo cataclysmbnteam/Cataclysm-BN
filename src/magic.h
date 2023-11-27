@@ -149,7 +149,7 @@ class spell_type
         // spell sound effect
         translation sound_description;
         skill_id skill;
-        
+
         requirement_id spell_components;
 
         sounds::sound_t sound_type = sounds::sound_t::_LAST;
