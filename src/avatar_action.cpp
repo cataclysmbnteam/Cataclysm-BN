@@ -540,6 +540,10 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         add_msg( _( "The water washes off the glowing goo!" ) );
         you.remove_effect( effect_glowing );
     }
+    if( m.has_flag( TFLAG_WATER_CUBE, p ) && !you.is_underwater() ) {
+        you.oxygen = 30 + 2 * you.str_cur;
+        you.set_underwater( true );
+    }
     int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
     if( movecost >= 500 ) {
