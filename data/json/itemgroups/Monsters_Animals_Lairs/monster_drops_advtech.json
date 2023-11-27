@@ -280,5 +280,22 @@
         "prob": 10
       }
     ]
+  },
+  {
+    "id": "harvest_maybe_military_heavy",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Non-cyborg heavy military spawns, 25% of them will roll for either components or a CBM from heavy-mil itemgroup.",
+    "entries": [
+      { "item": "null", "prob": 75 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk_mil", "prob": 50 },
+          { "group": "bionic_power_storage_mil", "prob": 25 },
+          { "group": "bionics_heavy_mil", "prob": 25 }
+        ],
+        "prob": 25
+      }
+    ]
   }
 ]

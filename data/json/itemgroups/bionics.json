@@ -215,7 +215,6 @@
       [ "bio_weight", 15 ]
     ]
   },
-
   {
     "type": "item_group",
     "id": "bionics_op",

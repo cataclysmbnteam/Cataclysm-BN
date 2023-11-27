@@ -80,7 +80,7 @@
     "armor_stab": 4,
     "vision_day": 30,
     "vision_night": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_maybe_mil_bionics",
     "special_attacks": [ [ "GRAB", 10 ], [ "scratch", 10 ] ],
     "death_drops": "mon_zombie_labsecurity_death_drops",
     "death_function": [ "NORMAL" ],
