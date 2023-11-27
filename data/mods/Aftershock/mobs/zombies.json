@@ -205,7 +205,7 @@
     "armor_bullet": 13,
     "vision_day": 50,
     "vision_night": 4,
-    "harvest": "zombie",
+    "harvest": "zombie_maybe_heavy_mil_bionics",
     "special_attacks": [ [ "SMASH", 28 ] ],
     "death_drops": "xl_uplift_death_drop",
     "death_function": [ "NORMAL" ],
