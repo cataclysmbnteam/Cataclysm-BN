@@ -75,9 +75,7 @@
         "t": "f_table",
         "{": "f_rack"
       },
-      "mapping": {
-        "g": { "terrain": "t_pavement", "furniture": "f_dumpster" }
-      },
+      "mapping": { "g": { "terrain": "t_pavement", "furniture": "f_dumpster" } },
       "toilets": { "T": {  } },
       "place_items": [
         { "item": "sugar_house_kitchen_items", "x": 14, "y": 17, "chance": 35 },
