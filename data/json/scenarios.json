@@ -580,6 +580,7 @@
     "professions": [
       "soldier",
       "specops",
+      "power_armor_soldier",
       "bio_soldier",
       "bio_sniper",
       "bionic_spy",
@@ -660,7 +661,17 @@
     "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse all alone.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
     "start_name": "Military Base Warehouse",
     "allowed_locs": [ "sloc_military_base_warehouse" ],
-    "professions": [ "unemployed", "soldier", "specops", "bio_soldier", "bio_sniper", "labtech", "medic", "mili_pilot" ],
+    "professions": [
+      "unemployed",
+      "soldier",
+      "specops",
+      "power_armor_soldier",
+      "bio_soldier",
+      "bio_sniper",
+      "labtech",
+      "medic",
+      "mili_pilot"
+    ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
