@@ -2,7 +2,7 @@
   {
     "id": "ammo_pouch",
     "type": "ARMOR",
-    "name": { "str": "ammo pouch", "str_pl": "ammo pouches" },
+    "name": { "str": "ammo satchel", "str_pl": "ammo stachels" },
     "description": "A small pouch that can be used to store most types of small ammunition, rockets will not fit.  Activate to store ammunition.",
     "weight": "490 g",
     "rigid": false,
@@ -559,9 +559,9 @@
     "flags": [ "OVERSIZE", "STURDY", "OUTER" ]
   },
   {
-    "id": "ammo_pouch_leg",
+    "id": "ammo_satchel_leg",
     "type": "ARMOR",
-    "name": { "str": "leg ammo pouch", "str_pl": "leg ammo pouches" },
+    "name": { "str": "leg ammo satchel", "str_pl": "leg ammo satchels" },
     "description": "A small pouch wrapped around the leg that can be used to store most types of small ammunition, rockets will not fit.  Activate to store ammunition.",
     "weight": "248 g",
     "rigid": false,
