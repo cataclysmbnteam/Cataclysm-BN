@@ -182,5 +182,32 @@
       { "monster": "mon_leech_stalk", "freq": 333, "cost_multiplier": 10 },
       { "monster": "mon_leech_pod_cluster", "freq": 333, "cost_multiplier": 5 }
     ]
+  },
+  {
+    "name": "GROUP_ANIMALPOUND_CATS",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_cat", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_cat_tabby", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_cat_longhair", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_cat_siamese", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_persian", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_chonker", "freq": 20, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "name": "GROUP_ANIMALPOUND_DOGS",
+    "type": "monstergroup",
+    "default": "mon_dog_zombie_rot",
+    "monsters": [
+      { "monster": "mon_zombie_dog", "freq": 250, "cost_multiplier": 0 },
+      { "monster": "mon_dog_zombie_rot", "freq": 175, "cost_multiplier": 0 },
+      { "monster": "mon_dog", "freq": 75, "cost_multiplier": 0 },
+      { "monster": "mon_dog_bull", "freq": 75, "cost_multiplier": 0 },
+      { "monster": "mon_dog_pitbullmix", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_dog_chihuahua", "freq": 75, "cost_multiplier": 0 },
+      { "monster": "mon_dog_gshepherd", "freq": 35, "cost_multiplier": 0 }
+    ]
   }
 ]
