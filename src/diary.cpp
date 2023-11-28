@@ -26,6 +26,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "type_id.h"
+#include "overmap_ui.h"
 #include "units.h"
 
 diary_page::diary_page() = default;
@@ -708,9 +709,8 @@ void diary::new_page()
     page->kills = g->get_kill_tracker().kills;
     page->npc_kills = g->get_kill_tracker().npc_kills;
     avatar *u = &get_avatar();
-    const tripoint_abs_omt ppos = u->global_omt_location();
 
-    page->overmap_position_str = string_format( "(%d, %d, %d)", ppos.z(), ppos.x(), ppos.y() );
+    page->overmap_position_str = overmap_ui::fmt_omt_coords( u->global_omt_location() );
     page->mission_completed = mission::to_uid_vector( u->get_completed_missions() );
     page->mission_active = mission::to_uid_vector( u->get_active_missions() );
     page->mission_failed = mission::to_uid_vector( u->get_failed_missions() );
