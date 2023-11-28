@@ -15,6 +15,8 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
+#include "crafting.h"
+#include "craft_command.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -39,6 +41,7 @@
 #include "output.h"
 #include "pldata.h"
 #include "point.h"
+#include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -711,11 +714,12 @@ void spell::use_components( player &you ) const
     const requirement_data &spell_components = type->spell_components.obj();
     // if we're here, we're assuming the Character has the correct components (using can_cast())
     inventory map_inv;
-    for( const std::vector<item_comp> &comp_vec : spell_components.get_components() ) {
-        you.consume_items( guy.select_item_component( comp_vec, 1, map_inv ), 1 );
+    for( const auto &it : spell_components.get_components() ) {
+        you.consume_items( you.select_item_component( it, 1, map_inv ), 1 );
     }
-    for( const std::vector<tool_comp> &tool_vec : spell_components.get_tools() ) {
-        you.consume_tools( guy.select_tool_component( tool_vec, 1, map_inv ), 1 );
+    for( const auto &it : spell_components.get_tools() ) {
+        you.consume_tools( crafting::select_tool_component(
+                               it, 1, map_inv, you.as_character() ), 1 );
     }
 }
 
