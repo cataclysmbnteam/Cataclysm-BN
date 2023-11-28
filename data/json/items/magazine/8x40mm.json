@@ -53,7 +53,8 @@
     "ammo_type": "8x40mm",
     "capacity": 250,
     "reliability": 10,
-    "reload_time": 60
+    "reload_time": 60,
+    "flags": [ "MAG_BULKY" ]
   },
   {
     "id": "8x40_25_mag",
@@ -89,7 +90,8 @@
     "color": "dark_gray",
     "ammo_type": "8x40mm",
     "capacity": 500,
-    "reliability": 10
+    "reliability": 10,
+    "flags": [ "MAG_BULKY" ]
   },
   {
     "id": "8x40_50_mag",

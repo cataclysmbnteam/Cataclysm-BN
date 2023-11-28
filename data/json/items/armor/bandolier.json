@@ -194,7 +194,7 @@
   {
     "id": "grenade_pouch",
     "type": "ARMOR",
-    "name": { "str": "grenade pouch", "str_pl": "grenade pouches" },
+    "name": { "str": "grenade ammo pouch", "str_pl": "grenade ammo pouches" },
     "description": "A small pouch for storing cartridge grenades with straps for attaching it to your belt or other webbing.",
     "weight": "90 g",
     "volume": "250 ml",
@@ -208,7 +208,7 @@
     "coverage": 10,
     "encumbrance": 4,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 4, "ammo": [ "40x46mm", "40x53mm" ], "draw_cost": 20 },
+    "use_action": { "type": "bandolier", "capacity": 6, "ammo": [ "40x46mm", "40x53mm" ], "draw_cost": 20 },
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   },
   {
@@ -235,7 +235,7 @@
   {
     "id": "grenadebandolier",
     "type": "ARMOR",
-    "name": { "str": "large grenade pouch", "str_pl": "large grenade pouches" },
+    "name": { "str": "hand grenade pouch", "str_pl": "hand grenade pouches" },
     "description": "A pouch for holding up to four full-sized grenades of various types.",
     "weight": "600 g",
     "volume": "1250 ml",
@@ -246,7 +246,7 @@
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
+    "covers": [ "leg_either" ],
     "coverage": 15,
     "material_thickness": 2,
     "use_action": {
@@ -254,7 +254,8 @@
       "holster_prompt": "Stash grenades",
       "holster_msg": "You stash your %s.",
       "multi": 4,
-      "max_volume": "750 ml",
+      "min_volume": "250 ml",
+      "max_volume": "1 L",
       "draw_cost": 30,
       "flags": [ "GRENADE" ]
     },

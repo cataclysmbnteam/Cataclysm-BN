@@ -78,7 +78,7 @@
     "id": "ammo_satchel",
     "type": "ARMOR",
     "name": { "str": "ammo satchel" },
-    "description": "A fabric ammo bag worn at the waist which is capable of holding a single large magazine close at hand.",
+    "description": "A fabric ammo bag worn at the waist which is capable of holding a single magazine or speedloader close at hand, of nearly any size.",
     "weight": "180 g",
     "volume": "500 ml",
     "price": 2000,
@@ -95,9 +95,10 @@
       "type": "holster",
       "holster_prompt": "Stash ammo",
       "holster_msg": "You stash your %s.",
-      "max_volume": "1500 ml",
+      "min_volume": "250 ml",
+      "max_volume": "2 L",
       "draw_cost": 40,
-      "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
+      "flags": [ "MAG_COMPACT", "MAG_BULKY", "SPEEDLOADER" ]
     },
     "flags": [ "WATER_FRIENDLY", "WAIST" ]
   },
@@ -122,6 +123,7 @@
       "type": "holster",
       "holster_prompt": "Stash ammo",
       "holster_msg": "You stash your %s.",
+      "multi": 2,
       "max_volume": "750 ml",
       "draw_cost": 40,
       "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]

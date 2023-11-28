@@ -31,7 +31,7 @@
     "symbol": "*",
     "color": "yellow",
     "use_action": "ACIDBOMB_ACT",
-    "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN", "GRENADE" ]
   },
   {
     "id": "can_bomb",
@@ -58,7 +58,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NO_REPAIR" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NO_REPAIR", "GRENADE" ]
   },
   {
     "id": "can_bomb_act",
@@ -95,7 +95,8 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": "C4"
+    "use_action": "C4",
+    "flags": [ "GRENADE" ]
   },
   {
     "id": "c4armed",
@@ -148,7 +149,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "dynamite_act",
@@ -208,7 +209,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "dynamite_bomb_act",
@@ -330,7 +331,8 @@
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
-    }
+    },
+    "flags": [ "GRENADE" ]
   },
   {
     "id": "improvised_demolition_charge_act",
@@ -376,7 +378,8 @@
     "material": "paper",
     "symbol": ";",
     "color": "red",
-    "use_action": "FIRECRACKER"
+    "use_action": "FIRECRACKER",
+    "flags": [ "GRENADE" ]
   },
   {
     "id": "firecracker_act",
@@ -413,7 +416,8 @@
     "initial_charges": 25,
     "max_charges": 25,
     "charges_per_use": 1,
-    "use_action": "FIRECRACKER_PACK"
+    "use_action": "FIRECRACKER_PACK",
+    "flags": [ "GRENADE" ]
   },
   {
     "id": "firecracker_pack_act",
@@ -553,7 +557,7 @@
       "menu_text": "Arm",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "gasbomb_makeshift_act",
@@ -858,7 +862,7 @@
     "type": "TOOL",
     "name": { "str": "improvised grenade" },
     "looks_like": "makeshift_grenade",
-    "description": "A improvised explosive device cobbled together from parts.  Use this item light the fuse.  You will then have some amount of time before it explodes; throwing it would be a good idea.",
+    "description": "A improvised explosive device cobbled together from parts.  Use this item to light the fuse.  You will then have some amount of time before it explodes; throwing it would be a good idea.",
     "weight": "400 g",
     "price": 750,
     "material": [ "aluminum", "iron" ],
@@ -879,7 +883,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE", "GRENADE" ]
   },
   {
     "id": "improvised_grenade_act",
@@ -921,7 +925,7 @@
     "symbol": "*",
     "color": "light_green",
     "use_action": "MININUKE",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "CLOSES_PORTAL" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "CLOSES_PORTAL" ]
   },
   {
     "id": "mininuke_act",
@@ -981,7 +985,7 @@
       "menu_text": "Light rag",
       "type": "transform"
     },
-    "flags": [ "NPC_ACTIVATE", "NO_REPAIR" ]
+    "flags": [ "NPC_ACTIVATE", "NO_REPAIR", "GRENADE" ]
   },
   {
     "id": "molotov_lit",
@@ -1035,7 +1039,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE", "GRENADE" ]
   },
   {
     "id": "improvised_pipebomb_act",
@@ -1181,7 +1185,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "tool_anfo_charge_act",
@@ -1248,7 +1252,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "tool_small_improvised_fragmentation_device_act",
@@ -1317,7 +1321,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "tool_improvised_barrel_bomb_act",
@@ -1380,7 +1384,7 @@
       "menu_text": "Light candy",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "tool_rocket_candy_act",
