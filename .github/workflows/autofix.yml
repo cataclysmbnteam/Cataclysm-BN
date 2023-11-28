@@ -46,3 +46,7 @@ jobs:
 
             If you don't do this, your following work will be based on the old commit, and cause MERGE CONFLICT.
 
+      - name: lint and test typescript files
+        run: |
+          deno lint
+          deno test
