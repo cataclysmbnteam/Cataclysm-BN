@@ -78,15 +78,6 @@ struct caused_effect {
         void load( const JsonObject &obj );
 };
 
-struct caused_effect_sort_less {
-    public:
-        bool operator()( const caused_effect &lhs, const caused_effect &rhs ) const {
-            if( lhs.type != rhs.type ) {
-                return lhs.type < rhs.type;
-            }
-            return lhs.intensity_requirement < rhs.intensity_requirement;
-        }
-};
 
 class effect_type
 {
