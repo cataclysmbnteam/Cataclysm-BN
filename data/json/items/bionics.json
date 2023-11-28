@@ -976,7 +976,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Joint Servo CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of servomotors that get installed on leg joints to provide power-assisted movement.  They are optimized for running, but walking also requires less effort while this bionic is active. In passive mode, it provides a smaller benefit by enforcing optimal movement technique.",
+    "description": "A set of servomotors that get installed on leg joints to provide power-assisted movement.  They are optimized for running, but walking also requires less effort while this bionic is active.  In passive mode, it provides a smaller benefit by enforcing optimal movement technique.",
     "price": 450000,
     "weight": "1000 g",
     "difficulty": 4
