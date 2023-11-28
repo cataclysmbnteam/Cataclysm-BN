@@ -659,9 +659,9 @@ std::vector<std::string> diary::get_head_text()
         std::string year_and_season_text = complete_time_text.substr( 0,
                                            complete_time_text.find_last_of( ',' ) + 1 );
 
-        //~ %1$s is the player's position on the overmap when writing the page
         std::string overmap_position_text = ( !get_page_ptr()->overmap_position_str.empty() ) ?
                                             string_format(
+                                                //~ %1$s is the player's position on the overmap when writing the page
                                                 _( "Location: %1$s" ),
                                                 get_page_ptr()->overmap_position_str ) : "";
 
