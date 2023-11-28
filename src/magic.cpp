@@ -703,7 +703,7 @@ bool spell::can_cast( Character &guy ) const
     }
 }
 
-void spell::use_components( Character &guy ) const
+void spell::use_components( player &you ) const
 {
     if( type->spell_components.is_empty() ) {
         return;
@@ -712,10 +712,10 @@ void spell::use_components( Character &guy ) const
     // if we're here, we're assuming the Character has the correct components (using can_cast())
     inventory map_inv;
     for( const std::vector<item_comp> &comp_vec : spell_components.get_components() ) {
-        guy.consume_items( guy.select_item_component( comp_vec, 1, map_inv ), 1 );
+        you.consume_items( guy.select_item_component( comp_vec, 1, map_inv ), 1 );
     }
     for( const std::vector<tool_comp> &tool_vec : spell_components.get_tools() ) {
-        guy.consume_tools( guy.select_tool_component( tool_vec, 1, map_inv ), 1 );
+        you.consume_tools( guy.select_tool_component( tool_vec, 1, map_inv ), 1 );
     }
 }
 
