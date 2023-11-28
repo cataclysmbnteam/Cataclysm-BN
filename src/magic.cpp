@@ -15,6 +15,8 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
+#include "crafting.h"
+#include "craft_command.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -39,6 +41,7 @@
 #include "output.h"
 #include "pldata.h"
 #include "point.h"
+#include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -247,6 +250,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "sprite", sprite, "" );
     optional( jo, was_loaded, "skill", skill, skill_id( "spellcraft" ) );
+    optional( jo, was_loaded, "components", spell_components );
     optional( jo, was_loaded, "message", message, to_translation( "You cast %s!" ) );
     optional( jo, was_loaded, "sound_description", sound_description,
               to_translation( "an explosion" ) );
@@ -671,8 +675,14 @@ bool spell::is_spell_class( const trait_id &mid ) const
     return mid == type->spell_class;
 }
 
-bool spell::can_cast( const Character &guy ) const
+bool spell::can_cast( Character &guy ) const
 {
+    if( !type->spell_components.is_empty() &&
+        !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos(), 0 ),
+                return_true<item> ) ) {
+        return false;
+    }
+
     switch( type->energy_source ) {
         case mana_energy:
             return guy.magic->available_mana() >= energy_cost( guy );
@@ -693,6 +703,23 @@ bool spell::can_cast( const Character &guy ) const
         case none_energy:
         default:
             return true;
+    }
+}
+
+void spell::use_components( player &you ) const
+{
+    if( type->spell_components.is_empty() ) {
+        return;
+    }
+    const requirement_data &spell_components = type->spell_components.obj();
+    // if we're here, we're assuming the Character has the correct components (using can_cast())
+    inventory map_inv;
+    for( const auto &it : spell_components.get_components() ) {
+        you.consume_items( you.select_item_component( it, 1, map_inv ), 1 );
+    }
+    for( const auto &it : spell_components.get_tools() ) {
+        you.consume_tools( crafting::select_tool_component(
+                               it, 1, map_inv, you.as_character() ), 1 );
     }
 }
 
@@ -727,6 +754,16 @@ int spell::casting_time( const Character &guy ) const
         casting_time += arms_encumb * 2;
     }
     return casting_time;
+}
+
+const requirement_data &spell::components() const
+{
+    return type->spell_components.obj();
+}
+
+bool spell::has_components() const
+{
+    return !type->spell_components.is_empty();
 }
 
 std::string spell::name() const
@@ -1775,6 +1812,24 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, sp.duration() <= 0 ? "" :
                         string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
+
+    // helper function for printing tool and item component requirement lists
+    const auto print_vec_string = [&]( const std::vector<std::string> &vec ) {
+        for( const std::string &line_str : vec ) {
+            print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, line_str );
+        }
+    };
+
+    if( sp.has_components() ) {
+        if( !sp.components().get_components().empty() ) {
+            print_vec_string( sp.components().get_folded_components_list( info_width - 2, gray,
+                              get_player_character().crafting_inventory(), return_true<item> ) );
+        }
+        if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
+            print_vec_string( sp.components().get_folded_tools_list( info_width - 2, gray,
+                              get_player_character().crafting_inventory() ) );
+        }
+    }
 }
 
 bool known_magic::set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets )
@@ -1821,7 +1876,7 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
     return 0;
 }
 
-int known_magic::select_spell( const Character &guy )
+int known_magic::select_spell( Character &guy )
 {
     // max width of spell names
     const int max_spell_name_length = get_spellname_max_width();
