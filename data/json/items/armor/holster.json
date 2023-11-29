@@ -47,7 +47,7 @@
       "type": "holster",
       "max_volume": "500 ml",
       "min_volume": "100 ml",
-      "max_weight": 1000,
+      "max_weight": "1 kg",
       "draw_cost": 150,
       "skills": [ "pistol" ]
     }
@@ -140,7 +140,7 @@
       "type": "holster",
       "max_volume": "500 ml",
       "min_volume": "100 ml",
-      "max_weight": 1000,
+      "max_weight": "1 kg",
       "draw_cost": 210,
       "skills": [ "pistol" ]
     },

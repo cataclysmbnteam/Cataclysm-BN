@@ -157,7 +157,7 @@
     "type": "GENERIC",
     "name": "sai",
     "description": "A pointed metal baton with two curved prongs projecting from the handle.  It's primarily used for disarming opponents, but can also make your punches puncture your foes.",
-    "weight": 775,
+    "weight": "775 g",
     "volume": "750 ml",
     "price": "220 USD",
     "price_postapoc": "4 USD",
