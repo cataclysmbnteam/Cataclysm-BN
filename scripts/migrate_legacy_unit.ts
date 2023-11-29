@@ -1,5 +1,10 @@
 import { baseCli, cliOptions } from "$catjazz/utils/cli.ts"
-import { fromLegacyCurrency, fromLegacyVolume, fromLegacyWeight } from "$catjazz/units/mod.ts"
+import {
+  fromLegacyCurrency,
+  fromLegacyEnergy,
+  fromLegacyVolume,
+  fromLegacyWeight,
+} from "$catjazz/units/mod.ts"
 import { z } from "$catjazz/deps/zod.ts"
 import { Command } from "$catjazz/deps/cliffy.ts"
 import { timeit } from "$catjazz/utils/timeit.ts"
@@ -8,6 +13,7 @@ import { fmtJsonRecursively } from "$catjazz/utils/json_fmt.ts"
 import { CataEntry, Entry, parseCataJson, readRecursively } from "$catjazz/utils/parse.ts"
 import { match, P } from "$catjazz/deps/ts_pattern.ts"
 import { id } from "$catjazz/utils/id.ts"
+import { deepMerge } from "$catjazz/deps/std/collection.ts"
 
 const desc = "Migrates Legacy units into new literal format."
 
@@ -26,8 +32,9 @@ const unpack = (xs: string[] | Entry[]) =>
 const migrateWeight = migrate(fromLegacyWeight)
 const migrateVolume = migrate(fromLegacyVolume)
 const migrateCurrency = migrate(fromLegacyCurrency)
+const migrateEnergy = migrate(fromLegacyEnergy)
 
-const base = z
+export const base = z
   .object({
     // GUN
     barrel_length: migrateVolume,
@@ -77,17 +84,30 @@ const base = z
   })
   .passthrough()
 
-const vehiclePart = z.object({
+export const vehiclePart = z.object({
   type: z.literal("vehicle_part"),
   folded_volume: migrateVolume,
   size: migrateVolume,
 })
   .passthrough()
 
-const schema = z.union([base, vehiclePart])
+const schemas = [base, vehiclePart]
 
-// const schema = z.object({}).passthrough()
+const attempt = (schema: z.ZodTypeAny) => (x: CataEntry): CataEntry =>
+  match(schema.safeParse(x))
+    .with(
+      { success: true, data: P.select() },
+      (parsed) => deepMerge(x, parsed, { arrays: "replace" }) as unknown as CataEntry,
+    )
+    .otherwise(() => x)
 
+export const schemasTransformer = (schemas: z.ZodTypeAny[]) => {
+  const matchers = schemas.map((schema) => attempt(schema))
+
+  return (entries: CataEntry[]) =>
+    entries
+      .map((x) => matchers.reduce((acc, fn) => fn(acc), x))
+}
 const main = () =>
   new Command()
     .option(...cliOptions.path)
@@ -97,7 +117,7 @@ const main = () =>
     .action(async ({ path, format, quiet = false }) => {
       const timeIt = timeit(quiet)
 
-      const transformer = schemaTransformer(schema)
+      const transformer = schemasTransformer(schemas)
       const ignore = (entries: CataEntry[]) =>
         entries.find(({ type }) =>
           ["speech", "sound_effect", "mapgen", "palette", "faction", "mod_tileset"].includes(type)
