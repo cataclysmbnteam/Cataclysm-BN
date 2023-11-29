@@ -15,6 +15,6 @@
     "dispersion": 450,
     "durability": 7,
     "blackpowder_tolerance": 96,
-    "proportional": { "reload": 2.0 }
+    "proportional": { "reload": 2 }
   }
 ]

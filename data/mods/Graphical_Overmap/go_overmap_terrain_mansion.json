@@ -3,14 +3,14 @@
     "type": "overmap_terrain",
     "abstract": "generic_mansion_no_sidewalk",
     "copy-from": "generic_mansion_no_sidewalk",
-    "sym": "\u00D0",
+    "sym": "Ð",
     "color": "white"
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_mansion",
     "copy-from": "generic_mansion",
-    "sym": "\u00D0",
+    "sym": "Ð",
     "color": "white"
   },
   {

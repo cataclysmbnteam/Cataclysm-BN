@@ -108,6 +108,6 @@
     "volume": "1700 ml",
     "ammo": "flintlock",
     "relative": { "range": 14 },
-    "proportional": { "dispersion": 0.5, "reload": 2.0 }
+    "proportional": { "dispersion": 0.5, "reload": 2 }
   }
 ]

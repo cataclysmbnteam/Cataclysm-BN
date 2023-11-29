@@ -419,7 +419,7 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "pink",
-    "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
+    "proportional": { "weight": 6, "volume": 6, "price": 6, "quench": 6, "calories": 6, "healthy": 6, "fun": 6 },
     "armor_data": {
       "covers": [ "arm_either", "hand_either" ],
       "coverage": 5,
@@ -440,7 +440,7 @@
     "looks_like": "hide_bag",
     "color": "pink",
     "price_postapoc": 10,
-    "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
+    "proportional": { "weight": 6, "volume": 6, "price": 6, "quench": 6, "calories": 6, "healthy": 6, "fun": 6 },
     "armor_data": {
       "covers": [ "arm_either", "hand_either" ],
       "coverage": 5,

@@ -41,6 +41,6 @@
     ],
     "damage_modifier": { "damage_type": "stab", "amount": 500 },
     "dispersion_modifier": 500,
-    "ups_charges_multiplier": 50.0
+    "ups_charges_multiplier": 50
   }
 ]

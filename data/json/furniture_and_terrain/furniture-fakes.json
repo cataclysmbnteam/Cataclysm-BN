@@ -8,7 +8,7 @@
     "color": "red",
     "move_cost_mod": 2,
     "required_str": -1,
-    "workbench": { "multiplier": 1.0, "mass": 5000, "volume": "10L" }
+    "workbench": { "multiplier": 1, "mass": 5000, "volume": "10L" }
   },
   {
     "type": "furniture",

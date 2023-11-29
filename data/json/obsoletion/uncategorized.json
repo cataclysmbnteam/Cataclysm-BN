@@ -227,7 +227,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "acceptable_ammo": [ "plutonium" ],
-    "capacity_multiplier": 2.0
+    "capacity_multiplier": 2
   },
   {
     "result": "double_plutonium_core",

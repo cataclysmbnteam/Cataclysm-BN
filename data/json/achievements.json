@@ -2,7 +2,7 @@
   {
     "id": "achievement_kill_zombie",
     "type": "achievement",
-    "name": { "str": "[Combat] One Down, Billions to Go\u2026" },
+    "name": { "str": "[Combat] One Down, Billions to Go…" },
     "kill_requirements": [ { "species": "ZOMBIE", "is": ">=", "count": 1 } ],
     "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": "anything" } ]
   },

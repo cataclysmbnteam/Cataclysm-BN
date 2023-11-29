@@ -42,7 +42,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
     "relative": { "damage": { "damage_type": "bullet", "armor_penetration": 18 }, "dispersion": -10 },
-    "proportional": { "recoil": 2.0 }
+    "proportional": { "recoil": 2 }
   },
   {
     "id": "bp_45_acp",

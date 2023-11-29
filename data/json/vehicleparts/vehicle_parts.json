@@ -1744,7 +1744,7 @@
     "looks_like": "solar_panel",
     "description": "A high performance solar panel.  Will slowly recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed even more.",
     "item": "solar_panel_v2",
-    "proportional": { "epower": 2.0 },
+    "proportional": { "epower": 2 },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ] },

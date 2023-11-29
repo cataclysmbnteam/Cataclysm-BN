@@ -63,7 +63,7 @@
     "ammo_type": "shot",
     "casing": "shot_hull",
     "range": 20,
-    "damage": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 2.0 },
+    "damage": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 2 },
     "recoil": 2500,
     "loudness": 160,
     "effects": [ "COOKOFF", "SHOT" ]
@@ -98,7 +98,7 @@
     "price": 100,
     "price_postapoc": 400,
     "range": 0,
-    "damage": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3.0 },
+    "damage": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 },
     "loudness": 80,
     "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
     "extend": { "effects": [ "NOGIB" ] }
@@ -129,7 +129,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
     "//": "Balanced as standard AP.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -20, "armor_penetration": 30, "armor_multiplier": -1.0 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -20, "armor_penetration": 30, "armor_multiplier": -1 } }
   },
   {
     "id": "shot_he",

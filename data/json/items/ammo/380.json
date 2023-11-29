@@ -44,7 +44,7 @@
     "count": 25,
     "damage": { "damage_type": "bullet", "amount": 30, "armor_penetration": 0 },
     "relative": { "dispersion": -15 },
-    "proportional": { "recoil": 2.0 }
+    "proportional": { "recoil": 2 }
   },
   {
     "id": "bp_380_FMJ",

@@ -33,7 +33,7 @@
         "name": "Aikido Stance",
         "description": "By disregarding offensive in favor of self-defense, you are better at protecting.\n\nBlocked damage reduced by 100% of Dexterity.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1 } ]
       },
       {
         "id": "buff_aikido_static2",
@@ -43,7 +43,7 @@
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "bonus_dodges": 1,
         "bonus_blocks": 1,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1 } ]
       },
       {
         "id": "buff_aikido_static3",
@@ -159,9 +159,9 @@
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "block", "scaling-stat": "str", "scale": 0.5 },
-          { "stat": "damage", "type": "bash", "scale": 2.0 },
-          { "stat": "damage", "type": "cut", "scale": 2.0 },
-          { "stat": "damage", "type": "stab", "scale": 2.0 }
+          { "stat": "damage", "type": "bash", "scale": 2 },
+          { "stat": "damage", "type": "cut", "scale": 2 },
+          { "stat": "damage", "type": "stab", "scale": 2 }
         ]
       }
     ],
@@ -174,7 +174,7 @@
         "unarmed_allowed": true,
         "buff_duration": 1,
         "max_stacks": 2,
-        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1 } ]
       }
     ],
     "ondodge_buffs": [
@@ -231,7 +231,7 @@
         "description": "You never stop moving while performing the ginga.  This makes you very mobile while fighting.\n\n+1.0 Dodge skill, +1 Dodge attempts.",
         "unarmed_allowed": true,
         "bonus_dodges": 1,
-        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1 } ]
       }
     ],
     "onmiss_buffs": [
@@ -258,7 +258,7 @@
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "buff_duration": 3,
-        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1 } ]
       }
     ],
     "techniques": [
@@ -301,7 +301,7 @@
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "buff_duration": 2,
-        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1 } ]
       }
     ],
     "ondodge_buffs": [
@@ -313,7 +313,7 @@
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "buff_duration": 2,
         "bonus_dodges": 1,
-        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1 } ]
       }
     ],
     "techniques": [ "tec_crane_feint", "tec_crane_break", "tec_crane_counter", "tec_crane_precise" ]
@@ -344,10 +344,10 @@
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 1,
         "flat_bonuses": [
-          { "stat": "hit", "scale": 1.0 },
-          { "stat": "damage", "type": "bash", "scale": 2.0 },
-          { "stat": "damage", "type": "cut", "scale": 2.0 },
-          { "stat": "damage", "type": "stab", "scale": 2.0 }
+          { "stat": "hit", "scale": 1 },
+          { "stat": "damage", "type": "bash", "scale": 2 },
+          { "stat": "damage", "type": "cut", "scale": 2 },
+          { "stat": "damage", "type": "stab", "scale": 2 }
         ]
       }
     ],
@@ -368,7 +368,7 @@
         "name": "Eskrima Stance",
         "description": "You are skilled at getting the most out of your weapons.  The term 'weapon' might be very subjective,\n\n+2 Accuracy.",
         "melee_allowed": true,
-        "flat_bonuses": [ { "stat": "hit", "scale": 2.0 } ]
+        "flat_bonuses": [ { "stat": "hit", "scale": 2 } ]
       }
     ],
     "oncrit_buffs": [
@@ -423,7 +423,7 @@
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
         "buff_duration": 1,
-        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "hit", "scale": 1 } ]
       }
     ],
     "onmiss_buffs": [
@@ -434,7 +434,7 @@
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "buff_duration": 1,
-        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "hit", "scale": 1 } ]
       }
     ],
     "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound" ],
@@ -457,7 +457,7 @@
         "description": "You are stalwart and will not budge against any threat.\n\n+2 Block attempts, -1.0 Dodge skill, blocked damage reduced by 50% of Strength.",
         "melee_allowed": true,
         "bonus_blocks": 2,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "dodge", "scale": -1.0 } ]
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "dodge", "scale": -1 } ]
       }
     ],
     "onmove_buffs": [
@@ -468,7 +468,7 @@
         "melee_allowed": true,
         "buff_duration": 1,
         "bonus_blocks": -2,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": -0.5 }, { "stat": "dodge", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": -0.5 }, { "stat": "dodge", "scale": 1 } ]
       }
     ],
     "onmiss_buffs": [
@@ -490,7 +490,7 @@
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "buff_duration": 1,
         "max_stacks": 3,
-        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "hit", "scale": 1 } ]
       }
     ],
     "techniques": [
@@ -538,7 +538,7 @@
         "name": "Karate Stance",
         "description": "Your no nonsense stance allows you hit more accurately.\n\n+2 Accuracy.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "hit", "scale": 2.0 } ]
+        "flat_bonuses": [ { "stat": "hit", "scale": 2 } ]
       }
     ],
     "onhit_buffs": [
@@ -571,7 +571,7 @@
         "name": "Kick stance",
         "description": "You have adopted a stance which allows for greater mobility and stability.  Your hands are in a guard position with elbows forward to protect yourself.\n\nBlocked damage reduced by 25% of Strength.\n+1.0 Dodging skill",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "dodge", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "dodge", "scale": 1 } ]
       }
     ],
     "techniques": [
@@ -600,7 +600,7 @@
         "melee_allowed": true,
         "unarmed_allowed": true,
         "bonus_blocks": 1,
-        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "hit", "scale": 1 } ]
       }
     ],
     "techniques": [
@@ -641,7 +641,7 @@
         "description": "Just like a cat, you are quick, agile, and hard to pin down.\n\n+1.0 Dodge skill.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1 } ]
       }
     ],
     "onmove_buffs": [
@@ -652,7 +652,7 @@
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
-        "flat_bonuses": [ { "stat": "hit", "scale": 2.0 } ]
+        "flat_bonuses": [ { "stat": "hit", "scale": 2 } ]
       },
       {
         "id": "buff_leopard_onmove2",
@@ -811,7 +811,7 @@
         "unarmed_allowed": true,
         "melee_allowed": true,
         "buff_duration": 1,
-        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 }, { "stat": "hit", "scaling-stat": "dex", "scale": 0.2 } ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1 }, { "stat": "hit", "scaling-stat": "dex", "scale": 0.2 } ]
       }
     ],
     "onkill_buffs": [
@@ -824,7 +824,7 @@
         "melee_allowed": true,
         "buff_duration": 3,
         "bonus_dodges": 2,
-        "flat_bonuses": [ { "stat": "speed", "scale": 10.0 } ]
+        "flat_bonuses": [ { "stat": "speed", "scale": 10 } ]
       }
     ],
     "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
@@ -850,7 +850,7 @@
           { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
           { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
           { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 },
-          { "stat": "block", "scaling-stat": "per", "scale": 1.0 }
+          { "stat": "block", "scaling-stat": "per", "scale": 1 }
         ]
       }
     ],
@@ -861,7 +861,7 @@
         "description": "Blackened like darkness,\nnightmares approach from all sides.\nFlee at any cost!\n\n-5.0 Dodge skill.\nLasts 1 turn.",
         "melee_allowed": true,
         "buff_duration": 1,
-        "flat_bonuses": [ { "stat": "dodge", "scale": -5.0 } ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": -5 } ]
       }
     ],
     "onattack_buffs": [
@@ -873,10 +873,10 @@
         "buff_duration": 1,
         "max_stacks": 5,
         "flat_bonuses": [
-          { "stat": "dodge", "scale": -1.0 },
-          { "stat": "damage", "type": "cut", "scale": -1.0 },
-          { "stat": "damage", "type": "bash", "scale": -1.0 },
-          { "stat": "damage", "type": "stab", "scale": -1.0 }
+          { "stat": "dodge", "scale": -1 },
+          { "stat": "damage", "type": "cut", "scale": -1 },
+          { "stat": "damage", "type": "bash", "scale": -1 },
+          { "stat": "damage", "type": "stab", "scale": -1 }
         ]
       }
     ],
@@ -897,7 +897,7 @@
         "description": "The eye of the storm,\na fleeting moment of peace,\ngone without a trace.\n\n+2 Accuracy, Dodge skill increased by 50% of Perception.\nLasts 2 turns.",
         "melee_allowed": true,
         "buff_duration": 2,
-        "flat_bonuses": [ { "stat": "hit", "scale": 2.0 }, { "stat": "dodge", "scaling-stat": "per", "scale": 0.5 } ]
+        "flat_bonuses": [ { "stat": "hit", "scale": 2 }, { "stat": "dodge", "scaling-stat": "per", "scale": 0.5 } ]
       }
     ],
     "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
@@ -1024,7 +1024,7 @@
         "buff_duration": 1,
         "max_stacks": 3,
         "flat_bonuses": [
-          { "stat": "hit", "scale": 1.0 },
+          { "stat": "hit", "scale": 1 },
           { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
           { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
           { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 }
@@ -1123,7 +1123,7 @@
         "description": "You are focused of defense and predicting your opponents attacks.\n\n+1 Block attempts, blocked damage reduced by 100% Perception.",
         "unarmed_allowed": true,
         "bonus_blocks": 1,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "per", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "per", "scale": 1 } ]
       }
     ],
     "ondodge_buffs": [
@@ -1150,7 +1150,7 @@
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 3,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "per", "scale": 0.5 }, { "stat": "dodge", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "per", "scale": 0.5 }, { "stat": "dodge", "scale": 1 } ]
       }
     ],
     "techniques": [ "tec_taichi_disarm", "tec_taichi_palm", "tec_taichi_counter", "tec_taichi_precise" ]
@@ -1327,10 +1327,10 @@
         "description": "+Strength physical armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",
         "unarmed_allowed": true,
         "flat_bonuses": [
-          { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 1.0 },
-          { "stat": "armor", "type": "cut", "scaling-stat": "dex", "scale": 1.0 },
-          { "stat": "armor", "type": "electric", "scaling-stat": "int", "scale": 1.0 },
-          { "stat": "armor", "type": "heat", "scaling-stat": "per", "scale": 1.0 }
+          { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 1 },
+          { "stat": "armor", "type": "cut", "scaling-stat": "dex", "scale": 1 },
+          { "stat": "armor", "type": "electric", "scaling-stat": "int", "scale": 1 },
+          { "stat": "armor", "type": "heat", "scaling-stat": "per", "scale": 1 }
         ]
       }
     ],
@@ -1342,7 +1342,7 @@
         "unarmed_allowed": true,
         "buff_duration": 3,
         "max_stacks": 2,
-        "flat_bonuses": [ { "stat": "damage", "type": "electric", "scaling-stat": "per", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "damage", "type": "electric", "scaling-stat": "per", "scale": 1 } ]
       }
     ],
     "onmiss_buffs": [
@@ -1354,9 +1354,9 @@
         "buff_duration": 2,
         "max_stacks": 5,
         "flat_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 2.0 },
-          { "stat": "damage", "type": "cut", "scale": 2.0 },
-          { "stat": "damage", "type": "stab", "scale": 2.0 }
+          { "stat": "damage", "type": "bash", "scale": 2 },
+          { "stat": "damage", "type": "cut", "scale": 2 },
+          { "stat": "damage", "type": "stab", "scale": 2 }
         ]
       }
     ],
@@ -1367,7 +1367,7 @@
         "description": "YOU ARE ON FIRE!  +5 fire damage for 5 turns.",
         "unarmed_allowed": true,
         "buff_duration": 5,
-        "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 5.0 } ]
+        "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 5 } ]
       }
     ],
     "techniques": [ "tec_debug_slow", "tec_debug_arpen" ]
