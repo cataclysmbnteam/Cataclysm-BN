@@ -561,7 +561,7 @@
   {
     "id": "ammo_satchel_leg",
     "type": "ARMOR",
-    "name": { "str": "leg ammo satchel", "str_pl": "leg ammo satchels" },
+    "name": { "str": "leg ammo satchel" },
     "description": "A small pouch wrapped around the leg that can be used to store most types of small ammunition, rockets will not fit.  Activate to store ammunition.",
     "weight": "248 g",
     "rigid": false,
