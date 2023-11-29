@@ -1,10 +1,13 @@
-import { baseCli } from "https://deno.land/x/catjazz@v0.0.1/utils/cli.ts"
-import {
-  fromLegacyVolume,
-  fromLegacyWeight,
-} from "https://deno.land/x/catjazz@v0.0.1/utils/units.ts"
-import { z } from "https://deno.land/x/catjazz@v0.0.1/deps/zod.ts"
-import { match } from "https://deno.land/x/catjazz@v0.0.1/deps/ts_pattern.ts"
+import { baseCli, cliOptions } from "$catjazz/utils/cli.ts"
+import { fromLegacyCurrency, fromLegacyVolume, fromLegacyWeight } from "$catjazz/units/mod.ts"
+import { z } from "$catjazz/deps/zod.ts"
+import { Command } from "$catjazz/deps/cliffy.ts"
+import { timeit } from "$catjazz/utils/timeit.ts"
+import { applyRecursively, schemaTransformer } from "$catjazz/utils/transform.ts"
+import { fmtJsonRecursively } from "$catjazz/utils/json_fmt.ts"
+import { CataEntry, Entry, parseCataJson, readRecursively } from "$catjazz/utils/parse.ts"
+import { match, P } from "$catjazz/deps/ts_pattern.ts"
+import { id } from "$catjazz/utils/id.ts"
 
 const desc = "Migrates Legacy units into new literal format."
 
@@ -12,45 +15,100 @@ const int = z.number().int()
 
 export type Currency = `${number} ${"cent" | "USD" | "kUSD"}`
 
-const usd = 100
-const kusd = 1_000 * usd
-
-/**
- * converts legacy cent to new currency format.
- * @param c legacy cent (`1 unit` = `1 cent`)
- * @return cent or USD or kUSD
- */
-export const fromLegacyCurrency = (c: number): Currency =>
-  match(c)
-    .when((c) => c % kusd === 0, () => `${c / kusd} kUSD` as const)
-    .when((c) => c % usd === 0, () => `${c / usd} USD` as const)
-    .otherwise(() => `${c} cent` as const)
-
 export const migrate = <const T>(fromLegacy: (x: number) => T) =>
-  int.transform(fromLegacy).optional()
+  z.union([int.transform(fromLegacy), z.string()]).optional()
 
-const migrateWeight = migrate(fromLegacyWeight)
+const unpack = (xs: string[] | Entry[]) =>
+  match(xs)
+    .with(P.array(P.string), id)
+    .otherwise((xs) => xs.map(({ path }) => path))
+
+// const migrateWeight = migrate(fromLegacyWeight)
 const migrateVolume = migrate(fromLegacyVolume)
-const migrateCurrency = migrate(fromLegacyCurrency)
+// const migrateCurrency = migrate(fromLegacyCurrency)
 
-const schema = z
+const base = z
   .object({
-    volume: migrateVolume,
-    integral_volume: migrateVolume,
-    min_pet_vol: migrateVolume,
-    max_pet_vol: migrateVolume,
+    // GUN
     barrel_length: migrateVolume,
 
-    weight: migrateWeight,
-    integral_weight: migrateWeight,
-    weight_capacity_bonus: migrateWeight,
+    armor_data: z.object({ storage: migrateVolume }).passthrough().optional(),
 
-    price: migrateCurrency,
-    price_postapoc: migrateCurrency,
+    storage: migrateVolume,
+
+    max_pet_vol: migrateVolume,
+    min_pet_vol: migrateVolume,
+
+    contains: migrateVolume,
+
+    volume: migrateVolume,
+    integral_volume: migrateVolume,
+    magazine_well: migrateVolume,
+
+    filthy_volume_threshold: migrateVolume,
+
+    max_volume: migrateVolume,
+    min_volume: migrateVolume,
+    use_action: z.object({
+      max_volume: migrateVolume,
+      min_volume: migrateVolume,
+      filthy_volume_threshold: migrateVolume,
+    }).passthrough().optional(),
+
+    size: migrateVolume,
+    // TODO: burn_data[].volume_per_turn
+
+    // weight: migrateWeight,
+    // integral_weight: migrateWeight,
+    // weight_capacity_bonus: migrateWeight,
+    // price: migrateCurrency,
+    // price_postapoc: migrateCurrency,
   })
   .passthrough()
 
-const main = baseCli({ desc, schema })
+const vehiclePart = z.object({
+  type: z.literal("vehicle_part"),
+  folded_volume: migrateVolume,
+  size: migrateVolume,
+})
+  .passthrough()
+
+const schema = z.union([base, vehiclePart])
+
+// const schema = z.object({}).passthrough()
+
+const main = () =>
+  new Command()
+    .option(...cliOptions.path)
+    .option(...cliOptions.quiet)
+    .option(...cliOptions.format)
+    .description(desc)
+    .action(async ({ path, format, quiet = false }) => {
+      const timeIt = timeit(quiet)
+
+      const transformer = schemaTransformer(schema)
+      const ignore = (entries: CataEntry[]) =>
+        entries.find(({ type }) =>
+          ["speech", "sound_effect", "mapgen", "palette", "faction", "mod_tileset"].includes(type)
+        )
+
+      const mapgenIgnoringTransformer = (text: string) => {
+        const entries = parseCataJson(text)
+        return ignore(entries) ? text : JSON.stringify(transformer(entries), null, 2)
+      }
+
+      const recursiveTransformer = applyRecursively(mapgenIgnoringTransformer)
+
+      const entries = await timeIt({ name: "reading JSON", val: readRecursively(path) })
+
+      await timeIt({ name: "transform", val: recursiveTransformer(entries) })
+
+      if (!format) return
+      await timeIt({
+        name: "formatting",
+        val: fmtJsonRecursively({ formatterPath: format, quiet: true })(unpack(entries)),
+      })
+    })
 
 if (import.meta.main) {
   await main().parse(Deno.args)
