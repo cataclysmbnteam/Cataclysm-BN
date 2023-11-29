@@ -1,4 +1,4 @@
-import { baseCli, cliOptions } from "$catjazz/utils/cli.ts"
+import { cliOptions } from "$catjazz/utils/cli.ts"
 import {
   fromLegacyCurrency,
   fromLegacyEnergy,
@@ -8,7 +8,7 @@ import {
 import { z } from "$catjazz/deps/zod.ts"
 import { Command } from "$catjazz/deps/cliffy.ts"
 import { timeit } from "$catjazz/utils/timeit.ts"
-import { applyRecursively, schemaTransformer } from "$catjazz/utils/transform.ts"
+import { applyRecursively } from "$catjazz/utils/transform.ts"
 import { fmtJsonRecursively } from "$catjazz/utils/json_fmt.ts"
 import { CataEntry, Entry, parseCataJson, readRecursively } from "$catjazz/utils/parse.ts"
 import { match, P } from "$catjazz/deps/ts_pattern.ts"
