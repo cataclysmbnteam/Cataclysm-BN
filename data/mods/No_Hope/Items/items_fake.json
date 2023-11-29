@@ -6,7 +6,7 @@
     "name": "fusion blaster",
     "description": "this a pseudo item",
     "volume": "3 L",
-    "price": 0,
+    "price": "0 cent",
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "magenta",

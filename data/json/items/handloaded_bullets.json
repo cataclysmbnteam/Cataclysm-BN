@@ -2,8 +2,8 @@
   {
     "type": "AMMO",
     "id": "blun_slug",
-    "price": 4500,
-    "price_postapoc": 50,
+    "price": "45 USD",
+    "price_postapoc": "50 cent",
     "name": { "str": "blunderbuss slug" },
     "symbol": "=",
     "color": "red",
@@ -23,8 +23,8 @@
   {
     "type": "AMMO",
     "id": "blun_shot",
-    "price": 4500,
-    "price_postapoc": 50,
+    "price": "45 USD",
+    "price_postapoc": "50 cent",
     "name": { "str": "blunderbuss shot" },
     "symbol": "=",
     "color": "red",
@@ -43,8 +43,8 @@
   {
     "type": "AMMO",
     "id": "blun_flechette",
-    "price": 4500,
-    "price_postapoc": 50,
+    "price": "45 USD",
+    "price_postapoc": "50 cent",
     "name": { "str": "blunderbuss flechette" },
     "symbol": "=",
     "color": "red",

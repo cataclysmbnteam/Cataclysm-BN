@@ -7,8 +7,8 @@
     "name": { "str": "log" },
     "description": "A large chunk of log, cut from a tree.  (a)ctivate a wood axe or wood saw to cut it into planks.",
     "category": "other",
-    "price": 10000,
-    "price_postapoc": 10,
+    "price": "100 USD",
+    "price_postapoc": "10 cent",
     "material": "wood",
     "weight": "30 kg",
     "volume": "50 L",
@@ -82,8 +82,8 @@
     "volume": "3750 ml",
     "bashing": 25,
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE" ],
-    "price": 4000,
-    "price_postapoc": 50,
+    "price": "40 USD",
+    "price_postapoc": "50 cent",
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -100,8 +100,8 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "4400 ml",
     "bashing": 10,
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "flags": [ "FIREWOOD" ]
   },
   {
@@ -118,8 +118,8 @@
     "symbol": "/",
     "material": [ "wood" ],
     "bashing": 16,
-    "price": 40000,
-    "price_postapoc": 50,
+    "price": "400 USD",
+    "price_postapoc": "50 cent",
     "flags": [ "FIREWOOD" ]
   },
   {
@@ -138,8 +138,8 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "3 L",
     "bashing": 8,
-    "price": 8000,
-    "price_postapoc": 10,
+    "price": "80 USD",
+    "price_postapoc": "10 cent",
     "flags": [ "FIREWOOD" ]
   },
   {
@@ -157,8 +157,8 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "6250 ml",
     "bashing": 8,
-    "price": 20000,
-    "price_postapoc": 10,
+    "price": "200 USD",
+    "price_postapoc": "10 cent",
     "flags": [ "FIREWOOD" ]
   }
 ]

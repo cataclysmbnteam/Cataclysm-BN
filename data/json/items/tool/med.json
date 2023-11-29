@@ -7,8 +7,8 @@
     "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
     "weight": "100 g",
     "volume": "3250 ml",
-    "price": 1000,
-    "price_postapoc": 10000,
+    "price": "10 USD",
+    "price_postapoc": "100 USD",
     "to_hit": -1,
     "material": [ "glass" ],
     "symbol": "!",
@@ -88,8 +88,8 @@
     "description": "This is a very sharp knife designed for surgical cutting.  Its small, sharp blade allows for precision strikes in the hands of the skilled.",
     "weight": "23 g",
     "volume": "15 ml",
-    "price": 1000,
-    "price_postapoc": 250,
+    "price": "10 USD",
+    "price_postapoc": "250 cent",
     "to_hit": -3,
     "cutting": 7,
     "material": "steel",
@@ -127,8 +127,8 @@
     "description": "A medical syringe.  Used for administering intravenous drugs.",
     "weight": "10 g",
     "volume": "10 ml",
-    "price": 2500,
-    "price_postapoc": 10,
+    "price": "25 USD",
+    "price_postapoc": "10 cent",
     "material": "plastic",
     "symbol": ",",
     "color": "white"
@@ -199,8 +199,8 @@
     "description": "This is a badge that detects radiation dosage sealed in a radiation-blocking bag.  Use it to remove it from the bag.",
     "weight": "20 g",
     "volume": "15 ml",
-    "price": 1000,
-    "price_postapoc": 100,
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
     "material": [ "plastic" ],
     "symbol": ",",
     "color": "light_blue",
@@ -221,8 +221,8 @@
     "color": "red",
     "weight": "100000 g",
     "volume": "40 L",
-    "price": 10000,
-    "price_postapoc": 500,
+    "price": "100 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -3,
     "bashing": 6,
     "material": [ "wood" ]
@@ -239,6 +239,6 @@
     "volume": "50 L",
     "material": [ "steel", "plastic" ],
     "bashing": 8,
-    "price": 40000
+    "price": "400 USD"
   }
 ]
