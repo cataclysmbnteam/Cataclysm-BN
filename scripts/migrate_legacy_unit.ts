@@ -91,7 +91,17 @@ export const vehiclePart = z.object({
 })
   .passthrough()
 
-const schemas = [base, vehiclePart]
+export const bionic = z.object({
+  type: z.literal("bionic"),
+
+  act_cost: migrateEnergy,
+  deact_cost: migrateEnergy,
+  react_cost: migrateEnergy,
+  trigger_cost: migrateEnergy,
+  capacity: migrateEnergy,
+})
+
+const schemas = [base, vehiclePart, bionic]
 
 const attempt = (schema: z.ZodTypeAny) => (x: CataEntry): CataEntry =>
   match(schema.safeParse(x))

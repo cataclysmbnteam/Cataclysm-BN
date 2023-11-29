@@ -96,3 +96,13 @@
 
 - [x] price
 - [x] price_postapoc
+
+## legacy energy
+
+### bionic
+
+- [x] act_cost
+- [x] deact_cost
+- [x] react_cost
+- [x] trigger_cost
+- [x] capacity
