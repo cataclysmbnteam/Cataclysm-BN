@@ -107,7 +107,7 @@
       "type": "holster",
       "holster_prompt": "Sheath blade",
       "holster_msg": "You sheath your %s",
-      "min_volume": 0,
+      "min_volume": "0 ml",
       "max_volume": "1 L",
       "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "SHEATH_SWORD" ]
     },

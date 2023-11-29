@@ -5,7 +5,7 @@
     "copy-from": "fake_item",
     "name": "fusion blaster",
     "description": "this a pseudo item",
-    "volume": 12,
+    "volume": "3 L",
     "price": 0,
     "material": [ "steel", "plastic" ],
     "symbol": "(",

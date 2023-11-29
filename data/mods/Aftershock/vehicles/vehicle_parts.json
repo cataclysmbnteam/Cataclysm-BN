@@ -11,7 +11,7 @@
     "location": "center",
     "durability": 200,
     "description": "This is little more than a sheetmetal basin welded to the bottom of the vehicle, extending below it.  Though it holds a lot of stuff, its shoddiness makes it fragile.",
-    "size": 600,
+    "size": "150 L",
     "breaks_into": [ { "item": "steel_lump", "count": [ 4, 6 ] }, { "item": "scrap", "count": [ 4, 6 ] } ]
   },
   {
@@ -50,7 +50,7 @@
     "durability": 400,
     "description": "A medium-sized household refrigerator, converted to utilize vehicle power.  When turned on, food inside will be cooled, extending the time it has before spoiling.",
     "epower": -100,
-    "size": 1200,
+    "size": "300 L",
     "item": "afs_fridge"
   },
   {
@@ -66,7 +66,7 @@
     "durability": 400,
     "description": "A household fridge, converted to run at a much lower temperature and on vehicle power.  When turned on, food inside will be frozen, completely stopping it from spoiling.",
     "epower": -120,
-    "size": 1200,
+    "size": "300 L",
     "item": "afs_freezer"
   },
   {
@@ -82,7 +82,7 @@
     "damage_modifier": 10,
     "durability": 200,
     "description": "A welding and metalworking station, powered by the vehicle's battery.  'e'xamine the forge rig to utilize its welder or soldering iron; you'll still need glare protection.",
-    "size": 200,
+    "size": "50 L",
     "item": "afs_metal_rig",
     "location": "center",
     "requirements": {
@@ -113,7 +113,7 @@
     "damage_modifier": 10,
     "durability": 125,
     "description": "An all-in-one kitchen unit and chemistry lab.  'e'xamine it to use its hotplate to heat up food or drinks.",
-    "size": 200,
+    "size": "50 L",
     "item": "afs_cooking_rig",
     "location": "center",
     "requirements": {
@@ -145,7 +145,7 @@
     "damage_modifier": 10,
     "durability": 200,
     "description": "An all-in-one kitchen unit, chemistry lab, and food preparation area.  'e'xamine it to use its hotplate to heat up food or drinks.",
-    "size": 200,
+    "size": "50 L",
     "item": "afs_kitchen_rig",
     "location": "center",
     "requirements": {
@@ -218,7 +218,7 @@
     "name": { "str": "mounted external tank (200L)" },
     "item": "55gal_drum",
     "location": "center",
-    "size": 200000
+    "size": "50000 L"
   },
   {
     "abstract": "afs_lightweight_frame",
@@ -424,7 +424,7 @@
     "broken_color": "dark_gray",
     "durability": 250,
     "description": "A cargo space for carrying robots.  'e'xamine it to capture a robot next to you, or to release the robot currently contained.  When selecting a robot to capture, choose its tile relative to you, not the part.",
-    "size": 800,
+    "size": "200 L",
     "item": "robot_carrier",
     "location": "center",
     "requirements": {

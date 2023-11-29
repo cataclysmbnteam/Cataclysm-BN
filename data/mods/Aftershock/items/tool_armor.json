@@ -22,7 +22,7 @@
       ]
     ],
     "rigid": true,
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
@@ -50,7 +50,7 @@
     "power_draw": 90000,
     "revert_to": "afs_cryopod_bodyglove",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_cryopod_bodyglove" },
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "flags": [ "STURDY", "WATERPROOF", "THERMOMETER", "RAINPROOF", "CLIMATE_CONTROL" ]
   }
 ]

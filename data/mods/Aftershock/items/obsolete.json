@@ -10,7 +10,7 @@
     "location": "center",
     "durability": 400,
     "description": "A huge, empty space used in truck trailers to transport vast quantities of stuff.",
-    "size": 6000,
+    "size": "1500 L",
     "breaks_into": [ { "item": "steel_lump", "count": [ 12, 18 ] }, { "item": "scrap", "count": [ 12, 18 ] } ],
     "flags": [ "AISLE", "BOARDABLE", "CARGO", "ROOF" ]
   },
@@ -142,7 +142,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "afs_hev_helmet_on",

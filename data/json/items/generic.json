@@ -876,7 +876,7 @@
     "price_postapoc": 100,
     "material": [ "steel", "plastic" ],
     "weight": "5 g",
-    "volume": 0
+    "volume": "0 ml"
   },
   {
     "type": "GENERIC",
@@ -890,7 +890,7 @@
     "price_postapoc": 100,
     "material": [ "steel", "plastic" ],
     "weight": "5 g",
-    "volume": 0
+    "volume": "0 ml"
   },
   {
     "type": "GENERIC",
