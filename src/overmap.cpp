@@ -2858,7 +2858,7 @@ std::optional<mapgen_arguments> *overmap::mapgen_args( const tripoint_om_omt &p 
     if( it == mapgen_args_index.end() ) {
         return nullptr;
     }
-    return it->second;
+    return &mapgen_arg_storage[it->second];
 }
 
 bool &overmap::seen( const tripoint_om_omt &p )
@@ -5430,10 +5430,11 @@ std::vector<tripoint_om_omt> overmap::place_special(
             }
         }
     }
-    std::optional<mapgen_arguments> *mapgen_args_p = &mapgen_arg_storage.emplace_back();
+    size_t args_index = mapgen_arg_storage.size();
+    mapgen_arg_storage.emplace_back();
     // Link grid
     for( const tripoint_om_omt &location : result ) {
-        mapgen_args_index.emplace( location, mapgen_args_p );
+        mapgen_args_index.emplace( location, args_index );
         overmap_special_placements[location] = special.id;
         if( grid ) {
             for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {

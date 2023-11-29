@@ -686,10 +686,10 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
         } else if( name == "mapgen_arg_storage" ) {
             jsin.read( mapgen_arg_storage, true );
         } else if( name == "mapgen_arg_index" ) {
-            std::vector<std::pair<tripoint_om_omt, int>> flat_index;
+            std::vector<std::pair<tripoint_om_omt, size_t>> flat_index;
             jsin.read( flat_index, true );
-            for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
-                mapgen_args_index.emplace( p.first, &mapgen_arg_storage[p.second] );
+            for( const std::pair<tripoint_om_omt, size_t> &p : flat_index ) {
+                mapgen_args_index.emplace( p.first, p.second );
             }
         } else {
             jsin.skip_value();
@@ -1115,16 +1115,10 @@ void overmap::serialize( std::ostream &fout ) const
     fout << std::endl;
     json.member( "mapgen_arg_index" );
     json.start_array();
-    for( const std::pair<const tripoint_om_omt, std::optional<mapgen_arguments> *> &p :
-         mapgen_args_index ) {
+    for( const std::pair<const tripoint_om_omt, size_t> &p : mapgen_args_index ) {
         json.start_array();
         json.write( p.first );
-        for( size_t i = 0; i < mapgen_arg_storage.size(); i++ ) {
-            if( p.second == &mapgen_arg_storage[i] ) {
-                json.write( i );
-                break;
-            }
-        }
+        json.write( p.second );
         json.end_array();
     }
     json.end_array();
