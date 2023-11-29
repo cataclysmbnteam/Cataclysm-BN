@@ -121,6 +121,24 @@
     ]
   },
   {
+    "id": "cyborg_harvest_uncommon",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Lab mutant spawns, 10% of them will roll for either components or a single CBM.",
+    "entries": [
+      { "item": "null", "prob": 90 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk", "prob": 25 },
+          { "item": "burnt_out_bionic", "prob": 25 },
+          { "group": "bionic_power_storage_civ", "prob": 25 },
+          { "group": "bionics_broken_cyborg", "prob": 25 }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
     "id": "bionic_salvage_junk",
     "type": "item_group",
     "subtype": "distribution",
@@ -251,6 +269,57 @@
       { "item": "null", "prob": 33 },
       { "group": "bionic_salvage_junk", "prob": 33 },
       { "group": "bionics_tech", "prob": 33 }
+    ]
+  },
+  {
+    "id": "harvest_maybe_sci",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Non-cyborg medical/science spawns, 5% of them will roll for either components or a single CBM.",
+    "entries": [
+      { "item": "null", "prob": 95 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk", "prob": 50 },
+          { "group": "bionic_power_storage_civ", "prob": 25 },
+          { "group": "bionics_sci", "prob": 25 }
+        ],
+        "prob": 5
+      }
+    ]
+  },
+  {
+    "id": "harvest_maybe_tech",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Non-cyborg industrial/technician spawns, 5% of them will roll for either components or a single CBM.",
+    "entries": [
+      { "item": "null", "prob": 95 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk", "prob": 50 },
+          { "group": "bionic_power_storage_civ", "prob": 25 },
+          { "group": "bionics_tech", "prob": 25 }
+        ],
+        "prob": 5
+      }
+    ]
+  },
+  {
+    "id": "harvest_maybe_survivalist",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Non-cyborg survivalist/police spawns, 5% of them will roll for either components or a single CBM.",
+    "entries": [
+      { "item": "null", "prob": 95 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk", "prob": 50 },
+          { "group": "bionic_power_storage_civ", "prob": 25 },
+          { "group": "bionics_survivalist", "prob": 25 }
+        ],
+        "prob": 5
+      }
     ]
   },
   {
