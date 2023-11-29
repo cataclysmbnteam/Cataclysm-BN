@@ -1765,8 +1765,7 @@ class jmapgen_vending_machine : public jmapgen_piece
         bool reinforced;
         mapgen_value<item_group_id> group_id;
         jmapgen_vending_machine( const JsonObject &jsi ) :
-            reinforced( jsi.get_bool( "reinforced", false ) )
-        {
+            reinforced( jsi.get_bool( "reinforced", false ) ) {
             if( jsi.has_member( "item_group" ) ) {
                 group_id = mapgen_value<item_group_id>( jsi.get_member( "item_group" ) );
             } else {
@@ -3651,7 +3650,8 @@ void jmapgen_objects::finalize()
     } );
 }
 
-void jmapgen_objects::check( const std::string &oter_name, const mapgen_parameters &parameters ) const
+void jmapgen_objects::check( const std::string &oter_name,
+                             const mapgen_parameters &parameters ) const
 {
     for( const jmapgen_obj &obj : objects ) {
         obj.second->check( oter_name, parameters );
