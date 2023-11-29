@@ -23,7 +23,7 @@ const unpack = (xs: string[] | Entry[]) =>
     .with(P.array(P.string), id)
     .otherwise((xs) => xs.map(({ path }) => path))
 
-// const migrateWeight = migrate(fromLegacyWeight)
+const migrateWeight = migrate(fromLegacyWeight)
 const migrateVolume = migrate(fromLegacyVolume)
 // const migrateCurrency = migrate(fromLegacyCurrency)
 
@@ -53,14 +53,23 @@ const base = z
       max_volume: migrateVolume,
       min_volume: migrateVolume,
       filthy_volume_threshold: migrateVolume,
+
+      max_weight: migrateWeight,
     }).passthrough().optional(),
 
     size: migrateVolume,
     // TODO: burn_data[].volume_per_turn
 
-    // weight: migrateWeight,
-    // integral_weight: migrateWeight,
-    // weight_capacity_bonus: migrateWeight,
+    weight: migrateWeight,
+    integral_weight: migrateWeight,
+    weight_capacity_bonus: migrateWeight,
+
+    trigger_weight: migrateWeight,
+
+    workbench: z.object({
+      volume: migrateVolume,
+      mass: migrateWeight,
+    }).passthrough().optional(),
     // price: migrateCurrency,
     // price_postapoc: migrateCurrency,
   })

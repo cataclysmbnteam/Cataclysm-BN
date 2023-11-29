@@ -59,3 +59,35 @@
 
 - [x] folded_volume
 - [x] size
+
+## legacy weight
+
+### Item
+
+- [x] weight_capacity_bonus
+- [x] weight
+- [x] integral_weight
+
+### holster
+
+- [x] max_weight
+
+### weigh_self_actor
+
+- [x] max_weight
+
+### furn_workbench_info (`.workbench`)
+
+- [x] mass
+
+### mtype
+
+- [x] weight
+
+### trap
+
+- [x] trigger_weight
+
+### vpslot_workbench
+
+- [x] mass
