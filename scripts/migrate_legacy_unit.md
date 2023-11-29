@@ -91,3 +91,8 @@
 ### vpslot_workbench
 
 - [x] mass
+
+## legacy currency
+
+- [x] price
+- [x] price_postapoc

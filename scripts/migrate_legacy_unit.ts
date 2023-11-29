@@ -25,7 +25,7 @@ const unpack = (xs: string[] | Entry[]) =>
 
 const migrateWeight = migrate(fromLegacyWeight)
 const migrateVolume = migrate(fromLegacyVolume)
-// const migrateCurrency = migrate(fromLegacyCurrency)
+const migrateCurrency = migrate(fromLegacyCurrency)
 
 const base = z
   .object({
@@ -49,6 +49,7 @@ const base = z
 
     max_volume: migrateVolume,
     min_volume: migrateVolume,
+
     use_action: z.object({
       max_volume: migrateVolume,
       min_volume: migrateVolume,
@@ -70,8 +71,9 @@ const base = z
       volume: migrateVolume,
       mass: migrateWeight,
     }).passthrough().optional(),
-    // price: migrateCurrency,
-    // price_postapoc: migrateCurrency,
+
+    price: migrateCurrency,
+    price_postapoc: migrateCurrency,
   })
   .passthrough()
 
