@@ -1,5 +1,4 @@
 #include "character.h"
-#include "bodypart.h"
 #include "character_encumbrance.h"
 
 #include <algorithm>
@@ -82,6 +81,7 @@
 #include "profession.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
+#include "regen.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "skill.h"
@@ -5067,14 +5067,11 @@ void Character::regen( int rate_multiplier )
     float heal_rate = healing_rate( rest ) * to_turns<int>( 5_minutes );
     const float broken_regen_mod = clamp( mutation_value( "mending_modifier" ), 0.25f, 1.0f );
     if( heal_rate > 0.0f ) {
-        const int base_heal = roll_remainder( rate_multiplier * heal_rate );
-        const int broken_heal = roll_remainder( base_heal * broken_regen_mod );
+        const int heal = roll_remainder( rate_multiplier * heal_rate );
 
         for( const bodypart_id &bp : get_all_body_parts() ) {
-            const bool is_broken = is_limb_broken( bp ) &&
-                                   !worn_with_flag( flag_SPLINT, bp );
-            heal( bp, is_broken ? broken_heal : base_heal );
-            mod_part_healed_total( bp, is_broken ? broken_heal : base_heal );
+            const int actually_healed = heal_adjusted( *this, bp, heal );
+            mod_part_healed_total( bp, actually_healed );
         }
     } else if( heal_rate < 0.0f ) {
         int rot_rate = roll_remainder( rate_multiplier * -heal_rate );
