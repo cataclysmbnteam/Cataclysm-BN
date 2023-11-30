@@ -40,6 +40,7 @@
     "material": [ "milk" ],
     "volume": "500 ml",
     "phase": "liquid",
+    "flags": [ "EATEN_COLD" ],
     "charges": 2,
     "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
     "fun": 1
