@@ -5430,7 +5430,7 @@ std::vector<tripoint_om_omt> overmap::place_special(
             }
         }
     }
-    size_t args_index = mapgen_arg_storage.size();
+    int args_index = mapgen_arg_storage.size();
     mapgen_arg_storage.emplace_back();
     // Link grid
     for( const tripoint_om_omt &location : result ) {

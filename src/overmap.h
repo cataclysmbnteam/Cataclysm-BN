@@ -376,7 +376,7 @@ class overmap
         // These are lazily evaluated; empty optional means that they have yet
         // to be evaluated.
         std::vector<std::optional<mapgen_arguments>> mapgen_arg_storage;
-        std::unordered_map<tripoint_om_omt, size_t> mapgen_args_index;
+        std::unordered_map<tripoint_om_omt, int> mapgen_args_index;
 
         oter_id get_default_terrain( int z ) const;
 
