@@ -31,7 +31,7 @@
     "container": "can_medium",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 25,
+    "quench": 10,
     "healthy": 1,
     "calories": 207,
     "description": "Milk that's had about 60% of its water removed prior to canning.",
@@ -40,7 +40,6 @@
     "material": [ "milk" ],
     "volume": "500 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
     "charges": 2,
     "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
     "fun": 1
