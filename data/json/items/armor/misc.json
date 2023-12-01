@@ -90,7 +90,7 @@
     "covers": [ "mouth" ],
     "coverage": 50,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "tie_skinny",
@@ -124,7 +124,7 @@
     "coverage": 10,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "OVERSIZE", "BELTED" ],
+    "flags": [ "OVERSIZE", "BELTED", "COMPACT" ],
     "use_action": { "menu_text": "Unroll", "type": "transform", "target": "sleeping_bag", "msg": "You unroll the sleeping bag." }
   },
   {
@@ -173,7 +173,7 @@
     "coverage": 10,
     "encumbrance": 20,
     "material_thickness": 5,
-    "flags": [ "OVERSIZE", "BELTED" ],
+    "flags": [ "OVERSIZE", "BELTED", "COMPACT" ],
     "use_action": {
       "menu_text": "Unroll",
       "type": "transform",

@@ -92,7 +92,7 @@
     "color": "yellow",
     "covers": [ "mouth" ],
     "encumbrance": 10,
-    "flags": [ "SUPER_FANCY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "SUPER_FANCY", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "garnet_dental_grill",
@@ -111,7 +111,7 @@
     "color": "red",
     "covers": [ "mouth" ],
     "encumbrance": 10,
-    "flags": [ "FANCY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "FANCY", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "amethyst_dental_grill",
@@ -244,6 +244,7 @@
       "WATER_FRIENDLY",
       "THERMOMETER",
       "BELTED",
+      "COMPACT",
       "ALLOWS_NATURAL_ATTACKS",
       "OVERSIZE",
       "POWERARMOR_COMPATIBLE"
@@ -876,7 +877,7 @@
     "color": "yellow",
     "covers": [ "hand_either" ],
     "coverage": 5,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "WATCH", "FANCY", "BELTED", "COMPACT", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "tieclip",
@@ -910,6 +911,7 @@
       "WATCH",
       "FANCY",
       "BELTED",
+      "COMPACT",
       "FRAGILE",
       "ALLOWS_NATURAL_ATTACKS",
       "WATER_FRIENDLY",
@@ -965,6 +967,7 @@
       "WATCH",
       "SUPER_FANCY",
       "BELTED",
+      "COMPACT",
       "FRAGILE",
       "ALLOWS_NATURAL_ATTACKS",
       "WATER_FRIENDLY",
@@ -1060,7 +1063,16 @@
     "color": "white",
     "covers": [ "hand_either" ],
     "coverage": 5,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE", "POWERARMOR_COMPATIBLE" ]
+    "flags": [
+      "WATCH",
+      "SUPER_FANCY",
+      "BELTED",
+      "COMPACT",
+      "FRAGILE",
+      "ALLOWS_NATURAL_ATTACKS",
+      "OVERSIZE",
+      "POWERARMOR_COMPATIBLE"
+    ]
   },
   {
     "id": "platinum_bracelet",
@@ -1324,6 +1336,7 @@
       "WATCH",
       "ALARMCLOCK",
       "BELTED",
+      "COMPACT",
       "FRAGILE",
       "ALLOWS_NATURAL_ATTACKS",
       "WATER_FRIENDLY",

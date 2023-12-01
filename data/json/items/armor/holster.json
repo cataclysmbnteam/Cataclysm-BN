@@ -23,7 +23,7 @@
       "draw_cost": 150,
       "skills": [ "smg", "shotgun", "rifle", "launcher" ]
     },
-    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW" ]
+    "flags": [ "BELTED", "COMPACT", "OVERSIZE", "NO_QUICKDRAW" ]
   },
   {
     "id": "bootstrap",
@@ -90,7 +90,7 @@
     "coverage": 5,
     "encumbrance": 4,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "WAIST" ],
+    "flags": [ "OVERSIZE", "WAIST", "COMPACT" ],
     "use_action": { "type": "holster", "max_volume": "5 L", "min_volume": "500 ml", "skills": [ "archery" ] }
   },
   {
@@ -111,7 +111,7 @@
     "encumbrance": 2,
     "material_thickness": 1,
     "use_action": { "type": "holster", "max_volume": "1 L", "min_volume": "250 ml", "skills": [ "pistol", "smg", "shotgun" ] },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE" ]
   },
   {
     "id": "sholster",
@@ -144,7 +144,7 @@
       "draw_cost": 210,
       "skills": [ "pistol" ]
     },
-    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "SKINTIGHT", "COMPACT", "WATER_FRIENDLY" ]
   },
   {
     "id": "survivor_vest",
@@ -185,6 +185,6 @@
     "encumbrance": 4,
     "material_thickness": 1,
     "use_action": { "type": "holster", "min_volume": "750 ml", "max_volume": "1500 ml", "skills": [ "pistol", "smg", "shotgun" ] },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE" ]
   }
 ]

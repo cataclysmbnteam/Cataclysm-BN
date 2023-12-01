@@ -23,7 +23,7 @@
       "max_volume": "3250 ml",
       "flags": [ "SHEATH_AXE" ]
     },
-    "flags": [ "NONCONDUCTIVE", "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "NONCONDUCTIVE", "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "baldric",
@@ -51,7 +51,7 @@
       "max_volume": "3 L",
       "flags": [ "SHEATH_SWORD" ]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "bootsheath",
@@ -138,7 +138,7 @@
       "draw_cost": 150,
       "flags": [ "SHEATH_SWORD" ]
     },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "scabbard",
@@ -167,7 +167,7 @@
       "max_volume": "2750 ml",
       "flags": [ "SHEATH_SWORD" ]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "sheath",
@@ -194,7 +194,7 @@
       "draw_cost": 80,
       "flags": [ "SHEATH_KNIFE" ]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "spearsling",
@@ -222,6 +222,6 @@
       "draw_cost": 150,
       "flags": [ "SHEATH_SPEAR" ]
     },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "COMPACT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   }
 ]
