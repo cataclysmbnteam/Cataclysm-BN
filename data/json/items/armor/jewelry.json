@@ -92,7 +92,7 @@
     "color": "yellow",
     "covers": [ "mouth" ],
     "encumbrance": 10,
-    "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
+    "flags": [ "SUPER_FANCY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "garnet_dental_grill",
@@ -111,7 +111,7 @@
     "color": "red",
     "covers": [ "mouth" ],
     "encumbrance": 10,
-    "flags": [ "FANCY", "SKINTIGHT" ]
+    "flags": [ "FANCY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "amethyst_dental_grill",
@@ -766,7 +766,7 @@
     "symbol": "[",
     "color": "yellow",
     "covers": [ "mouth" ],
-    "flags": [ "FANCY", "SKINTIGHT" ]
+    "flags": [ "FANCY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "gold_ear",
@@ -1064,7 +1064,7 @@
     "symbol": "[",
     "color": "white",
     "covers": [ "mouth" ],
-    "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
+    "flags": [ "SUPER_FANCY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "platinum_ear",

@@ -145,7 +145,7 @@
     "encumbrance": 50,
     "storage": "25 L",
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE" ]
+    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bigback",
@@ -190,7 +190,7 @@
     "encumbrance": 40,
     "storage": "5 L",
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "boxpack",
@@ -236,7 +236,7 @@
     "encumbrance": 30,
     "storage": "15 L",
     "material_thickness": 2,
-    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "case_violin",
@@ -259,7 +259,7 @@
     "encumbrance": 50,
     "storage": "3500 ml",
     "material_thickness": 5,
-    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "daypack",
@@ -427,7 +427,7 @@
       "storage": "15 L",
       "material_thickness": 1
     },
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "hide_tainted_bag",
@@ -448,7 +448,7 @@
       "storage": "15 L",
       "material_thickness": 1
     },
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "hk_briefcase",
@@ -665,7 +665,7 @@
     "encumbrance": 60,
     "storage": "5 L",
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "purse",
@@ -807,7 +807,7 @@
     "encumbrance": 30,
     "storage": "2250 ml",
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "suitcase_l",
@@ -829,7 +829,7 @@
     "encumbrance": 100,
     "storage": "20 L",
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "suitcase_m",
@@ -850,7 +850,7 @@
     "encumbrance": 100,
     "storage": "10 L",
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "survivor_hiking_backpack",

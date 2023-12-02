@@ -685,7 +685,7 @@
     "encumbrance": 18,
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "SLOWS_THIRST", "SLOWS_MOVEMENT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "SLOWS_THIRST", "SLOWS_MOVEMENT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "suit",

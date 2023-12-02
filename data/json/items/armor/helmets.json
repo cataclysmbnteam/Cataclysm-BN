@@ -403,7 +403,7 @@
     "coverage": 100,
     "warmth": 30,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "cap_arming",
