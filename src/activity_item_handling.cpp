@@ -2036,13 +2036,15 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
     if( loot_src_lot == tripoint_zero ) {
         return false;
     }
-    auto items_there = here.i_at( src_loc );
-    for( auto &it : items_there ) {
+    item *standing = nullptr;
+    for( auto &it : here.i_at( src_loc ) ) {
         if( it->has_var( "activity_var" ) && it->get_var( "activity_var", "" ) == p.name ) {
-            move_item( p, *it, it->count(), src_loc, loot_src_lot,
-                       activity_to_restore );
+            standing = &*it;
             break;
         }
+    }
+    if( standing ) {
+        move_item( p, *standing, standing->count(), src_loc, loot_src_lot, activity_to_restore );
     }
     // we are adjacent to an unsorted zone, we came here to just drop items we are carrying
     if( mgr.has( zone_type_LOOT_UNSORTED, here.getabs( src_loc ) ) ) {
@@ -2169,15 +2171,20 @@ static bool chop_plank_activity( player &p, const tripoint &src_loc )
         p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
     }
     map &here = get_map();
+    item *standing = nullptr;
     for( auto &i : here.i_at( src_loc ) ) {
         if( i->typeId() == itype_log ) {
-            here.i_rem( src_loc, i );
-            int moves = to_moves<int>( 20_minutes );
-            p.add_msg_if_player( _( "You cut the log into planks." ) );
-            p.assign_activity( ACT_CHOP_PLANKS, moves, -1 );
-            p.activity->placement = here.getabs( src_loc );
-            return true;
+            standing = &*i;
+            break;
         }
+    }
+    if( standing ) {
+        here.i_rem( src_loc, standing );
+        int moves = to_moves<int>( 20_minutes );
+        p.add_msg_if_player( _( "You cut the log into planks." ) );
+        p.assign_activity( ACT_CHOP_PLANKS, moves, -1 );
+        p.activity->placement = here.getabs( src_loc );
+        return true;
     }
     return false;
 }
