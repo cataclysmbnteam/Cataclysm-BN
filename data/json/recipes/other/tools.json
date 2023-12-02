@@ -2752,5 +2752,28 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rock", 1 ], [ "sharp_rock", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pocketwatch_crude",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "mechanics", 4 ],
+    "time": "2 h",
+    "autolearn": [ [ "mechanics", 3 ] ],
+    "book_learn": [ [ "textbook_mechanics", 4 ], [ "manual_mechanics", 4 ], [ "textbook_fabrication", 4 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ],
+      [ [ "clockworks", 1 ] ]
+    ]
   }
 ]

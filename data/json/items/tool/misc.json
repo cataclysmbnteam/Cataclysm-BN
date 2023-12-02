@@ -937,5 +937,22 @@
       { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true }
     ],
     "flags": [ "FIRESTARTER", "THERMOMETER" ]
+  },
+  {
+    "id": "pocketwatch_crude",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "steel pocket watch", "str_pl": "steel pocket watches" },
+    "description": "An old-fashioned pocket watch, useful for telling the time and not much else.",
+    "weight": "65 g",
+    "volume": "5 ml",
+    "looks_like": "pocketwatch",
+    "price": 25000,
+    "price_postapoc": 100,
+    "to_hit": -3,
+    "material": [ "iron", "glass" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "flags": [ "WATCH" ]
   }
 ]

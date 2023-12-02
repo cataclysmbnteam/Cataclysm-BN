@@ -4488,5 +4488,12 @@
     "time": "30 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "steel_lump", 280 ] ] ]
+  },
+  {
+    "result": "pocketwatch_crude",
+    "type": "uncraft",
+    "time": "36 s",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 20 ] ], [ [ "clockworks", 1 ] ] ]
   }
 ]
