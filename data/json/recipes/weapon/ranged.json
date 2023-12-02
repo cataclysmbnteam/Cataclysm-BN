@@ -1159,8 +1159,9 @@
     "autolearn": true,
     "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 200 ], [ "toolset", 200 ] ] ],
+    "using": [ [ "soldering_standard", 200 ] ],
     "components": [
+      [ [ "battery_ups", 1 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 100 ] ],
