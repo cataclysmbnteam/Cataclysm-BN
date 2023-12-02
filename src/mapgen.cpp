@@ -1083,10 +1083,7 @@ class mapgen_value
                     const mapgen_parameter &param = param_it->second;
                     constexpr cata_variant_type req_type = cata_variant_type_for<StringId>();
                     cata_variant_type param_type = param.type();
-                    // TODO: mutation_category_id also uses std::string as underlaying type,
-                    // migrate to type safe string_id to get rid of this hack
-                    if( param_type != req_type && req_type != cata_variant_type::string
-                        && req_type != cata_variant_type::mutation_category_id ) {
+                    if( param_type != req_type && req_type != cata_variant_type::string ) {
                         debugmsg( "mapgen '%s' uses parameter '%s' of type '%s' in a context "
                                   "expecting type '%s'", context, param_name,
                                   io::enum_to_string( param_type ),
