@@ -56,7 +56,9 @@
           { "id": "overlay_worn_armguard_bronze", "fg": 45 },
           { "id": "cacao_pod", "fg": 46 },
           { "id": "overlay_wielded_cacao_pod", "fg": 46 },
-          { "id": "f_sign", "fg": 47 }
+          { "id": "f_sign", "fg": 47 },
+          { "id": "laser_rifle_cheap", "fg": 48 },
+          { "id": "overlay_wielded_laser_rifle_cheap", "fg": 49 }
         ],
         "sprite_width": 32,
         "sprite_height": 32

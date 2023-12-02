@@ -163,36 +163,6 @@
     "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID" ]
   },
   {
-    "id": "laser_rifle_cheap",
-    "type": "GUN",
-    "copy-from": "rifle_energy",
-    "name": { "str": "shoddy laser rifle" },
-    "description": "This is a cheap laser rifle made from common components.  Weak, but can be powered with rechargeable batteries.",
-    "weight": "8 kg",
-    "volume": "2500 ml",
-    "price": "400 USD",
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "plastic", "copper" ],
-    "symbol": "(",
-    "looks_like": "american_180",
-    "color": "magenta",
-    "ammo": [ "battery" ],
-    "skill": "rifle",
-    "range": 10,
-    "ranged_damage": { "damage_type": "heat", "amount": 10 },
-    "dispersion": 150,
-    "durability": 10,
-    "loudness": 8,
-    "reload": 500,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "ammo_effects": [ "LASER", "DRAW_AS_LINE" ],
-    "flags": [ "NEVER_JAMS", "FIRE_20", "NON_FOULING" ],
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ]
-  },
-  {
     "id": "TANK",
     "looks_like": "m79",
     "type": "GUN",

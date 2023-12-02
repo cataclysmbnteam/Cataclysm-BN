@@ -75,6 +75,7 @@ Ultica are planned for the future.
 - Battle masks, iron and bronze, including worn sprites. Items specific to BN.
 - Bronze arm guards, including worn sprites. Item specific to BN.
 - Cacao pods. Item specific to BN.
+- Shoddy Laser rifle. Item from Aftershock ported into BN.
 
 ### External_Tileset_DP_Tall.png
 
