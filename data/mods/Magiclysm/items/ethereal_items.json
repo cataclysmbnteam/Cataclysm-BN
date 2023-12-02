@@ -251,7 +251,17 @@
     "encumbrance": 10,
     "storage": "25 L",
     "material_thickness": 3,
-    "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "NO_UNWIELD", "ONLY_ONE", "NO_REPAIR", "NO_SALVAGE", "POWERARMOR_COMPATIBLE" ]
+    "flags": [
+      "BELTED",
+      "TRADER_AVOID",
+      "WATERPROOF",
+      "STURDY",
+      "NO_UNWIELD",
+      "ONLY_ONE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "POWERARMOR_COMPATIBLE"
+    ]
   },
   {
     "id": "bonespear",
@@ -358,7 +368,16 @@
     "symbol": "o",
     "color": "white",
     "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "POWERARMOR_COMPATIBLE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "POWERARMOR_COMPATIBLE"
+    ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] }
   },
   {
@@ -372,7 +391,16 @@
     "symbol": "o",
     "color": "green",
     "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "POWERARMOR_COMPATIBLE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "POWERARMOR_COMPATIBLE"
+    ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
     }
@@ -388,7 +416,16 @@
     "symbol": "o",
     "color": "green",
     "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "POWERARMOR_COMPATIBLE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "POWERARMOR_COMPATIBLE"
+    ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
     }
@@ -469,7 +506,16 @@
     "color": "blue",
     "environmental_protection": 15,
     "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "POWERARMOR_COMPATIBLE" ]
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "POWERARMOR_COMPATIBLE"
+    ]
   },
   {
     "id": "flamesword",
