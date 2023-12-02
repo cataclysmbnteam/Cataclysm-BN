@@ -776,7 +776,7 @@
     "symbol": "[",
     "color": "yellow",
     "covers": [ "mouth" ],
-    "flags": [ "FANCY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "FANCY", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "gold_ear",
@@ -1103,7 +1103,7 @@
     "symbol": "[",
     "color": "white",
     "covers": [ "mouth" ],
-    "flags": [ "SUPER_FANCY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "SUPER_FANCY", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "platinum_ear",
