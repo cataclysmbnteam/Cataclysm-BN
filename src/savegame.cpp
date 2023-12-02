@@ -683,6 +683,14 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
             for( const std::pair<om_pos_dir, std::string> &p : flat_index ) {
                 joins_used.insert( p );
             }
+        } else if( name == "mapgen_arg_storage" ) {
+            jsin.read( mapgen_arg_storage, true );
+        } else if( name == "mapgen_arg_index" ) {
+            std::vector<std::pair<tripoint_om_omt, int>> flat_index;
+            jsin.read( flat_index, true );
+            for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
+                mapgen_args_index.emplace( p.first, p.second );
+            }
         } else {
             jsin.skip_value();
         }
@@ -1103,6 +1111,17 @@ void overmap::serialize( std::ostream &fout ) const
     std::vector<std::pair<om_pos_dir, std::string>> flattened_joins_used(
                 joins_used.begin(), joins_used.end() );
     json.member( "joins_used", flattened_joins_used );
+    json.member( "mapgen_arg_storage", mapgen_arg_storage );
+    fout << std::endl;
+    json.member( "mapgen_arg_index" );
+    json.start_array();
+    for( const std::pair<const tripoint_om_omt, int> &p : mapgen_args_index ) {
+        json.start_array();
+        json.write( p.first );
+        json.write( p.second );
+        json.end_array();
+    }
+    json.end_array();
     fout << std::endl;
 
     json.end_object();

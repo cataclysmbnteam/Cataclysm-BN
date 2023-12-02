@@ -20,6 +20,7 @@
 #include "coordinates.h"
 #include "int_id.h"
 #include "om_direction.h"
+#include "mapgen_parameter.h"
 #include "point.h"
 #include "string_id.h"
 #include "translations.h"
@@ -31,6 +32,7 @@ struct MonsterGroup;
 
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
 class JsonObject;
+struct mapgen_arguments;
 
 static const overmap_land_use_code_id land_use_code_forest( "forest" );
 static const overmap_land_use_code_id land_use_code_wetland( "wetland" );
