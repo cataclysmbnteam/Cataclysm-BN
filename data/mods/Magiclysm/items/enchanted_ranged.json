@@ -15,6 +15,7 @@
       "RELOAD_AND_SHOOT",
       "PRIMITIVE_RANGED_WEAPON",
       "BELTED",
+      "COMPACT",
       "TRADER_AVOID",
       "MAGIC_FOCUS",
       "DURABLE_MELEE",
