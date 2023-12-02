@@ -7,8 +7,8 @@
     "description": "Oddly-shaped smallish bits of cotton, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some thread if you really want.",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 1,
-    "price_postapoc": 5,
+    "price": "1 cent",
+    "price_postapoc": "5 cent",
     "material": "cotton",
     "symbol": "=",
     "color": "dark_gray",
@@ -21,8 +21,8 @@
     "type": "AMMO",
     "name": { "str_sp": "faux fur scraps" },
     "description": "Oddly-shaped smallish bits of faux fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
-    "price": 0,
-    "price_postapoc": 5,
+    "price": "0 cent",
+    "price_postapoc": "5 cent",
     "material": "faux_fur"
   },
   {
@@ -39,7 +39,7 @@
     "type": "AMMO",
     "name": { "str_sp": "fur scraps" },
     "description": "Oddly-shaped smallish bits of fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
-    "price": 0,
+    "price": "0 cent",
     "material": "fur"
   },
   {
@@ -48,7 +48,7 @@
     "type": "AMMO",
     "name": { "str_sp": "Kevlar scraps" },
     "description": "Oddly-shaped smallish bits of Kevlar fabric, waste material from tailoring projects.  Normally it's disposed of, but since Kevlar would be very difficult to make in a post-apocalyptic world, it might be worth recycling it for Kevlar thread.",
-    "price": 5,
+    "price": "5 cent",
     "material": "kevlar"
   },
   {
@@ -57,7 +57,7 @@
     "type": "AMMO",
     "name": { "str_sp": "leather scraps" },
     "description": "Oddly-shaped smallish bits of leather, waste material from tailoring projects.  Not useful for much and usually disposed of.",
-    "price": 0,
+    "price": "0 cent",
     "material": "leather"
   },
   {
@@ -66,7 +66,7 @@
     "type": "AMMO",
     "name": { "str_sp": "neoprene scraps" },
     "description": "Oddly-shaped smallish bits of neoprene, waste material from tailoring projects.  Not useful for much and usually disposed of.",
-    "price": 0,
+    "price": "0 cent",
     "material": "neoprene"
   },
   {
@@ -75,7 +75,7 @@
     "type": "AMMO",
     "name": { "str_sp": "synthetic fabric scraps" },
     "description": "Oddly-shaped smallish bits of synthetic fabric, waste material from tailoring projects.  Not useful for much and usually disposed of.",
-    "price": 0,
+    "price": "0 cent",
     "material": "nylon"
   },
   {
@@ -84,7 +84,7 @@
     "type": "AMMO",
     "name": { "str_sp": "Nomex scraps" },
     "description": "Oddly-shaped smallish bits of heat-resistant Nomex fabric, waste material from tailoring projects.  Normally it's disposed of, but since Nomex would be very difficult to make in a post-apocalyptic world, it might be worth recycling it.",
-    "price": 5,
+    "price": "5 cent",
     "material": "nomex"
   },
   {
@@ -95,8 +95,8 @@
     "description": "A sheet of cotton fabric, suitable for making clothing.",
     "weight": "5 g",
     "volume": "300 ml",
-    "price": 1000,
-    "price_postapoc": 100,
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
     "material": "cotton",
     "symbol": "=",
     "color": "dark_gray",
@@ -111,8 +111,8 @@
     "description": "A selection of various clothing parts, sewn together from cotton patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "100 g",
     "volume": "60 ml",
-    "price": 200,
-    "price_postapoc": 50,
+    "price": "2 USD",
+    "price_postapoc": "50 cent",
     "count": 1
   },
   {
@@ -123,8 +123,8 @@
     "description": "A sheet of fake synthetic colorful fur, suitable for making clothing.",
     "weight": "10 g",
     "volume": "4500 ml",
-    "price": 5000,
-    "price_postapoc": 100,
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
     "material": "faux_fur",
     "symbol": "=",
     "color": "dark_gray",
@@ -139,8 +139,8 @@
     "description": "A selection of various clothing parts, sewn together from faux fur patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "200 g",
     "volume": "900 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "count": 1
   },
   {
@@ -151,8 +151,8 @@
     "description": "A sheet of felt, suitable for making clothing.",
     "weight": "8 g",
     "volume": "1800 ml",
-    "price": 2500,
-    "price_postapoc": 250,
+    "price": "25 USD",
+    "price_postapoc": "250 cent",
     "material": "wool",
     "symbol": "=",
     "color": "dark_gray",
@@ -167,8 +167,8 @@
     "description": "A selection of various clothing parts, sewn together from felt patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "160 g",
     "volume": "360 ml",
-    "price": 500,
-    "price_postapoc": 100,
+    "price": "5 USD",
+    "price_postapoc": "1 USD",
     "count": 1
   },
   {
@@ -179,8 +179,8 @@
     "description": "A sheet of Kevlar synthetic fabric, suitable for making bulletproof armor.  In this form, unlike rigid plates, it can be stitched.",
     "weight": "5 g",
     "volume": "300 ml",
-    "price": 15000,
-    "price_postapoc": 500,
+    "price": "150 USD",
+    "price_postapoc": "5 USD",
     "material": "kevlar",
     "symbol": "=",
     "color": "dark_gray",
@@ -195,8 +195,8 @@
     "description": "A sheet of neoprene, a synthetic rubber, suitable for making underwater gear.",
     "weight": "6 g",
     "volume": "300 ml",
-    "price": 5000,
-    "price_postapoc": 100,
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
     "material": "neoprene",
     "symbol": "=",
     "color": "dark_gray",
@@ -211,8 +211,8 @@
     "description": "A selection of various clothing parts, sewn together from neoprene patches in a patchwork fashion, with waterproofed seams.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "120 g",
     "volume": "60 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "count": 1
   },
   {
@@ -223,8 +223,8 @@
     "description": "A sheet of Nomex synthetic fabric, suitable for making heat-resistant clothing.",
     "weight": "5 g",
     "volume": "300 ml",
-    "price": 15000,
-    "price_postapoc": 250,
+    "price": "150 USD",
+    "price_postapoc": "250 cent",
     "material": "nomex",
     "symbol": "=",
     "color": "dark_gray",
@@ -239,8 +239,8 @@
     "description": "A selection of various clothing parts, sewn together with Nomex thread from Nomex patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "100 g",
     "volume": "60 ml",
-    "price": 3000,
-    "price_postapoc": 50,
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
     "count": 1
   },
   {
@@ -251,8 +251,8 @@
     "description": "A sheet of synthetic fabric, suitable for making clothing.",
     "weight": "3 g",
     "volume": "300 ml",
-    "price": 5000,
-    "price_postapoc": 100,
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
     "material": "nylon",
     "symbol": "=",
     "color": "dark_gray",
@@ -267,16 +267,16 @@
     "description": "A selection of various clothing parts, sewn together from synthetic fabric patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "60 g",
     "volume": "60 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "count": 1
   },
   {
     "type": "AMMO",
     "id": "thread_kevlar",
     "category": "spare_parts",
-    "price": 5000,
-    "price_postapoc": 250,
+    "price": "50 USD",
+    "price_postapoc": "250 cent",
     "name": { "str": "Kevlar thread" },
     "symbol": "=",
     "color": "light_gray",
@@ -294,8 +294,8 @@
     "type": "AMMO",
     "id": "thread_nomex",
     "category": "spare_parts",
-    "price": 5000,
-    "price_postapoc": 100,
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
     "name": { "str": "Nomex thread" },
     "symbol": "=",
     "color": "light_gray",

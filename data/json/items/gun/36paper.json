@@ -8,13 +8,13 @@
     "weight": "1184 g",
     "volume": "540 ml",
     "barrel_length": "60 ml",
-    "price": 30000,
-    "price_postapoc": 3000,
+    "price": "300 USD",
+    "price_postapoc": "30 USD",
     "material": [ "steel", "wood" ],
     "ammo": "36paper",
     "dispersion": 450,
     "durability": 7,
     "blackpowder_tolerance": 96,
-    "proportional": { "reload": 2.0 }
+    "proportional": { "reload": 2 }
   }
 ]

@@ -11,7 +11,7 @@
     "dodge_counter": true,
     "crit_ok": true,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.0 },
+      { "stat": "movecost", "scale": 0 },
       { "stat": "damage", "type": "bash", "scale": 1.2 },
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
@@ -38,7 +38,7 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scale": 10.0 } ],
+    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scale": 10 } ],
     "mult_bonuses": [ { "stat": "movecost", "scale": 1.2 }, { "stat": "damage", "type": "bash", "scale": 1.5 } ]
   },
   {

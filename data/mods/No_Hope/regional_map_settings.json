@@ -151,7 +151,7 @@
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
     },
-    "river_scale": 1.0,
+    "river_scale": 1,
     "field_coverage": {
       "percent_coverage": 0.2,
       "default_ter": "t_shrub",
@@ -194,12 +194,12 @@
         "t_tree_deadpine": 0.05,
         "t_tree_hickory_dead": 0.05,
         "t_tree_dead": 0.05,
-        "t_shrub_blueberry": 8.0,
-        "t_shrub_strawberry": 5.0,
-        "t_shrub_blackberry": 5.0,
-        "t_shrub_raspberry": 8.0,
-        "t_shrub_huckleberry": 5.0,
-        "t_shrub_grape": 5.0,
+        "t_shrub_blueberry": 8,
+        "t_shrub_strawberry": 5,
+        "t_shrub_blackberry": 5,
+        "t_shrub_raspberry": 8,
+        "t_shrub_huckleberry": 5,
+        "t_shrub_grape": 5,
         "t_shrub_rose": 3,
         "t_shrub_hydrangea": 3,
         "t_shrub_lilac": 3,
@@ -212,11 +212,11 @@
         "f_bluebell": 3.5,
         "f_dahlia": 3.5,
         "f_datura": 0.2,
-        "f_dandelion": 5.0,
+        "f_dandelion": 5,
         "f_sunflower": 3.5,
         "f_mustard": 0.2
       },
-      "boosted_other_percent": 50.0
+      "boosted_other_percent": 50
     },
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
@@ -943,9 +943,9 @@
       "summer_temp": 16,
       "autumn_temp": 7,
       "winter_temp": -14,
-      "base_humidity": 70.0,
-      "base_pressure": 1015.0,
-      "base_acid": 0.0,
+      "base_humidity": 70,
+      "base_pressure": 1015,
+      "base_acid": 0,
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
       "base_wind_season_variation": 50,

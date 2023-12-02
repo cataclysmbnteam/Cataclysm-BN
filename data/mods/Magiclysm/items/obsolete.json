@@ -6,7 +6,7 @@
     "type": "TOOL",
     "weight": "230 g",
     "volume": "500 ml",
-    "price": 10000,
+    "price": "100 USD",
     "bashing": 3,
     "to_hit": 2,
     "material": [ "wood" ],
@@ -16,7 +16,7 @@
     "ammo": "crystallized_mana",
     "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 5, "need_wielding": true },
     "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "wand_magic_missile",
@@ -25,7 +25,7 @@
     "type": "TOOL",
     "weight": "230 g",
     "volume": "500 ml",
-    "price": 10000,
+    "price": "100 USD",
     "bashing": 3,
     "to_hit": 2,
     "material": [ "wood" ],
@@ -35,6 +35,6 @@
     "ammo": "crystallized_mana",
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 10, "need_wielding": true },
     "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   }
 ]

@@ -13,7 +13,7 @@
     ],
     "description": "A dead body.",
     "//": "most of the properties depend on the monster type and are created at runtime!",
-    "price": 0,
+    "price": "0 cent",
     "volume": "0 ml",
     "flags": [ "NO_UNLOAD", "TRADER_AVOID", "CORPSE", "NO_SALVAGE" ]
   },
@@ -26,7 +26,7 @@
     "description": "A dead body, badly mangled and desiccated.  It seems whatever killed him did so with a gigantic claw.",
     "category": "other",
     "material": "hflesh",
-    "price": 0,
+    "price": "0 cent",
     "volume": "7500 ml",
     "flags": [ "TRADER_AVOID" ]
   },
