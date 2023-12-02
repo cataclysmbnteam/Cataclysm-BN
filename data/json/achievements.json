@@ -100,11 +100,11 @@
     "requirements": [ { "event_statistic": "num_moves_ran", "is": ">=", "target": 42196 } ]
   },
   {
-    "id": "achievement_walk_1000_miles",
+    "id": "achievement_walk_1000_kilometres",
     "type": "achievement",
     "name": { "str": "[Travel] Please Don't Fall Down at My Door" },
-    "description": "Walk 500 miles, then walk 500 more.",
-    "requirements": [ { "event_statistic": "num_moves_walked", "is": ">=", "target": 1609340 } ]
+    "description": "Walk 500 kilometres, then walk 500 more.",
+    "requirements": [ { "event_statistic": "num_moves_walked", "is": ">=", "target": 1000000 } ]
   },
   {
     "id": "achievement_traverse_sharp_terrain",
