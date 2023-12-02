@@ -474,7 +474,7 @@ const faction &string_id<faction>::obj() const
 template<>
 bool string_id<faction>::is_valid() const
 {
-    return g->faction_manager_ptr->get( *this, false );
+    return g->faction_manager_ptr->get( *this, false ) != nullptr;
 }
 
 void basecamp::faction_display( const catacurses::window &fac_w, const int width ) const

@@ -36,7 +36,7 @@ void safe_reference<T>::deserialize_global( const JsonArray &jsin )
     safe_reference<T>::id_type id;
     for( const JsonValue val : jsin ) {
         if( !pair ) {
-            id = val.get_int64();
+            id = val.get_uint64();
             pair = true;
             continue;
         }

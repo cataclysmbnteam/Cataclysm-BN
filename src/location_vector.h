@@ -31,7 +31,6 @@ class location_vector
     private:
         std::unique_ptr<location<T>> loc;
         std::vector<T *> contents;
-        mutable int locked = 0;
         bool destroyed = false;
 
         template<typename U>
@@ -55,7 +54,6 @@ class location_vector
                 iterator( iterator &&source ) noexcept ;
                 iterator &operator=( const iterator &source );
                 iterator &operator=( iterator &&source ) noexcept ;
-                ~iterator();
 
                 reference operator*() const {
                     return *it;
@@ -127,7 +125,6 @@ class location_vector
                 };
 
             private:
-                void release_locked();
                 typename std::vector<T *>::iterator it;
                 const location_vector<T> *home = nullptr;
         };
@@ -150,7 +147,6 @@ class location_vector
                 const_iterator( const_iterator &&source ) noexcept ;
                 const_iterator &operator=( const const_iterator &source );
                 const_iterator &operator=( const_iterator &&source ) noexcept ;
-                ~const_iterator();
 
                 reference operator*() const {
                     return *it;
@@ -224,7 +220,6 @@ class location_vector
             private:
                 typename std::vector<T *>::const_iterator it;
                 const location_vector<T> *home;
-                void release_locked();
         };
         using reverse_iterator = std::reverse_iterator<iterator>;
         using const_reverse_iterator = std::reverse_iterator<const_iterator>;

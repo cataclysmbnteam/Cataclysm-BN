@@ -5,8 +5,10 @@
 #include <unordered_map>
 
 #include "calendar.h"
+#include "cata_variant.h"
 #include "coordinates.h"
 #include "cube_direction.h"
+#include "json.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
@@ -19,6 +21,31 @@ namespace om_direction
 {
 enum class type : int;
 } // namespace om_direction
+
+struct mapgen_arguments {
+    std::unordered_map<std::string, cata_variant> map;
+
+    void merge( const mapgen_arguments & );
+    void serialize( JsonOut & ) const;
+    void deserialize( JsonIn & );
+};
+
+namespace mapgendata_detail
+{
+
+// helper to get a variant value with any variant being extractable as a string
+template<typename Result>
+inline Result extract_variant_value( const cata_variant &v )
+{
+    return v.get<Result>();
+}
+template<>
+inline std::string extract_variant_value<std::string>( const cata_variant &v )
+{
+    return v.get_string();
+}
+
+} // namespace mapgendata_detail
 
 /**
  * Contains various information regarding the individual mapgen instance
@@ -43,6 +70,7 @@ class mapgendata
         time_point when_;
         ::mission *mission_;
         int zlevel_;
+        mapgen_arguments mapgen_args_;
 
     public:
         oter_id t_nesw[8];
@@ -88,6 +116,11 @@ class mapgendata
          * @endcode
          */
         mapgendata( const mapgendata &other, const oter_id &other_id );
+
+        /**
+         * Creates a copy of this mapgendata, but stores new parameter values.
+         */
+        mapgendata( const mapgendata &other, const mapgen_arguments & );
 
         const oter_id &terrain_type() const {
             return terrain_type_;
@@ -140,12 +173,32 @@ class mapgendata
             return t_below;
         }
         const oter_id &neighbor_at( om_direction::type dir ) const;
-        void fill_groundcover();
-        void square_groundcover( point p1, point p2 );
-        ter_id groundcover();
+        const oter_id &neighbor_at( direction ) const;
+        void fill_groundcover() const;
+        void square_groundcover( const point &p1, const point &p2 ) const;
+        ter_id groundcover() const;
         bool is_groundcover( const ter_id &iid ) const;
 
         bool has_join( const cube_direction, const std::string &join_id ) const;
+
+        template<typename Result>
+        Result get_arg( const std::string &name ) const {
+            auto it = mapgen_args_.map.find( name );
+            if( it == mapgen_args_.map.end() ) {
+                debugmsg( "No such parameter \"%s\"", name );
+                return Result();
+            }
+            return mapgendata_detail::extract_variant_value<Result>( it->second );
+        }
+
+        template<typename Result>
+        Result get_arg_or( const std::string &name, const Result &fallback ) const {
+            auto it = mapgen_args_.map.find( name );
+            if( it == mapgen_args_.map.end() ) {
+                return fallback;
+            }
+            return mapgendata_detail::extract_variant_value<Result>( it->second );
+        }
 };
 
 #endif // CATA_SRC_MAPGENDATA_H

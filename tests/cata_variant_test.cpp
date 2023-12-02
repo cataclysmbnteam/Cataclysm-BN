@@ -6,6 +6,7 @@
 
 #include "cata_variant.h"
 #include "character_id.h"
+#include "mutation.h"
 #include "enum_conversions.h"
 #include "item.h"
 #include "json.h"
@@ -93,4 +94,35 @@ TEST_CASE( "variant_deserialization", "[variant]" )
     cata_variant v;
     v.deserialize( jsin );
     CHECK( v == cata_variant( mtype_id( "zombie" ) ) );
+}
+
+TEST_CASE( "variant_from_string" )
+{
+    cata_variant v = cata_variant::from_string( cata_variant_type::mtype_id, "mon_zombie" );
+    CHECK( v == cata_variant( mtype_id( "mon_zombie" ) ) );
+}
+
+TEST_CASE( "variant_type_for", "[variant]" )
+{
+    CHECK( cata_variant_type_for<bool>() == cata_variant_type::bool_ );
+    CHECK( cata_variant_type_for<int>() == cata_variant_type::int_ );
+    CHECK( cata_variant_type_for<skill_id>() == cata_variant_type::skill_id );
+    CHECK( cata_variant_type_for<trait_id>() == cata_variant_type::trait_id );
+    CHECK( cata_variant_type_for<ter_id>() == cata_variant_type::ter_id );
+}
+
+TEST_CASE( "variant_is_valid", "[variant]" )
+{
+    // A string_id
+    CHECK( cata_variant( mtype_id( "mon_zombie" ) ).is_valid() );
+    CHECK_FALSE( cata_variant( mtype_id( "This is not a valid id" ) ).is_valid() );
+
+    // An int_id
+    CHECK( cata_variant( ter_id( "t_grass" ) ).is_valid() );
+    CHECK_FALSE( cata_variant::from_string( cata_variant_type::ter_id, "invalid id" ).is_valid() );
+
+    // An enum
+    CHECK( cata_variant( mutagen_technique::consumed_purifier ).is_valid() );
+    CHECK_FALSE( cata_variant::from_string(
+                     cata_variant_type::mutagen_technique, "invalid enum" ).is_valid() );
 }

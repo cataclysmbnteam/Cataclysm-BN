@@ -11,8 +11,8 @@
     "volume": "5 L",
     "bashing": 4,
     "category": "veh_parts",
-    "price": 12000,
-    "price_postapoc": 1500
+    "price": "120 USD",
+    "price_postapoc": "15 USD"
   },
   {
     "type": "GENERIC",
@@ -22,8 +22,8 @@
     "weight": "100 kg",
     "material": [ "superalloy" ],
     "volume": "20 L",
-    "price": 68000,
-    "price_postapoc": 2500,
+    "price": "680 USD",
+    "price_postapoc": "25 USD",
     "copy-from": "motor"
   },
   {
@@ -33,8 +33,8 @@
     "description": "The most powerfull electric motor on the market.  Useful for crafting, and its advanced design means it won't suffer power loss if multiple are installed on a vehicle.",
     "weight": "125 kg",
     "volume": "25 L",
-    "price": 80000,
-    "price_postapoc": 3500,
+    "price": "800 USD",
+    "price_postapoc": "35 USD",
     "copy-from": "motor"
   },
   {
@@ -47,8 +47,8 @@
     "symbol": ":",
     "volume": "15 L",
     "bashing": 9,
-    "price": 22000,
-    "price_postapoc": 1500,
+    "price": "220 USD",
+    "price_postapoc": "15 USD",
     "copy-from": "motor"
   },
   {
@@ -59,8 +59,8 @@
     "weight": "5 kg",
     "volume": "1 L",
     "bashing": 1,
-    "price": 2000,
-    "price_postapoc": 500,
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
     "copy-from": "motor"
   },
   {
@@ -74,7 +74,7 @@
     "material": [ "steel", "plastic" ],
     "volume": "125 ml",
     "category": "veh_parts",
-    "price": 2000,
-    "price_postapoc": 100
+    "price": "20 USD",
+    "price_postapoc": "1 USD"
   }
 ]

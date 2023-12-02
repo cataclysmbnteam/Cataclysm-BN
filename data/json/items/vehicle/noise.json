@@ -13,8 +13,8 @@
     "volume": "3500 ml",
     "bashing": 19,
     "category": "veh_parts",
-    "price": 3000,
-    "price_postapoc": 100,
+    "price": "30 USD",
+    "price_postapoc": "1 USD",
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -30,8 +30,8 @@
     "to_hit": -1,
     "bashing": 2,
     "category": "veh_parts",
-    "price": 6000,
-    "price_postapoc": 100
+    "price": "60 USD",
+    "price_postapoc": "1 USD"
   },
   {
     "type": "GENERIC",
@@ -45,8 +45,8 @@
     "material": [ "steel" ],
     "volume": "3500 ml",
     "category": "veh_parts",
-    "price": 800,
-    "price_postapoc": 100
+    "price": "8 USD",
+    "price_postapoc": "1 USD"
   },
   {
     "type": "GENERIC",
@@ -60,7 +60,7 @@
     "material": [ "steel" ],
     "volume": "4 L",
     "category": "veh_parts",
-    "price": 5000,
-    "price_postapoc": 250
+    "price": "50 USD",
+    "price_postapoc": "250 cent"
   }
 ]

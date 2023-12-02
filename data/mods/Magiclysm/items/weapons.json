@@ -9,7 +9,7 @@
     "description": "A stout knotty club with a large knob at the top.  While it's very heavy, it's a very effective weapon in the hands of a strong opponent.",
     "weight": "10 kg",
     "volume": "8 L",
-    "price": 5000,
+    "price": "50 USD",
     "flags": [ "UNBREAKABLE_MELEE", "ALWAYS_TWOHAND", "TRADER_AVOID", "SLOW_WIELD", "FIREWOOD", "NO_REPAIR" ],
     "bashing": 22,
     "to_hit": 1
@@ -26,7 +26,7 @@
     "volume": "3 L",
     "cutting": 29,
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "DURABLE_MELEE", "SHEATH_SPEAR" ],
-    "price": 15000
+    "price": "150 USD"
   },
   {
     "id": "lizardfolk_javelin",

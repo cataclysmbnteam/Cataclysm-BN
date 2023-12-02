@@ -1104,8 +1104,8 @@
     "copy-from": "whiskey",
     "name": { "str_sp": "single pot still Irish whiskey" },
     "description": "A whiskey made from a mixed mash of malted and unmalted barley.",
-    "price": 2600,
-    "price_postapoc": 250,
+    "price": "26 USD",
+    "price_postapoc": "250 cent",
     "fun": 20
   },
   {
@@ -1114,8 +1114,8 @@
     "copy-from": "whiskey",
     "name": { "str_sp": "cheap whiskey" },
     "description": "Really cheap blended whiskey.",
-    "price": 1800,
-    "price_postapoc": 200,
+    "price": "18 USD",
+    "price_postapoc": "2 USD",
     "fun": 12
   },
   {
@@ -1124,8 +1124,8 @@
     "copy-from": "whiskey",
     "name": { "str_sp": "Canadian whiskey" },
     "description": "A multi-grain liquor made from a mash of corn and rye.",
-    "price": 2400,
-    "price_postapoc": 250,
+    "price": "24 USD",
+    "price_postapoc": "250 cent",
     "fun": 17
   },
   {
@@ -1161,8 +1161,8 @@
     "copy-from": "sherry",
     "name": { "str_sp": "Bristol Cream" },
     "description": "A fine sherry that has been aged in American oak casks and bottled in Bristol, England.",
-    "price": 2800,
-    "price_postapoc": 150,
+    "price": "28 USD",
+    "price_postapoc": "150 cent",
     "fun": 18
   },
   {
@@ -1171,8 +1171,8 @@
     "copy-from": "sherry",
     "name": { "str_sp": "Madeira wine" },
     "description": "Fortified wine from Madeira.  A true Royal Navy drink.",
-    "price": 2400,
-    "price_postapoc": 150,
+    "price": "24 USD",
+    "price_postapoc": "150 cent",
     "fun": 15
   },
   {

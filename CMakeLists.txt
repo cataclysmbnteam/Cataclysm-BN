@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(CataclysmBN CXX)
+project(CataclysmBN C CXX)
 
 list(APPEND CMAKE_MODULE_PATH
         ${CMAKE_SOURCE_DIR}/CMakeModules)

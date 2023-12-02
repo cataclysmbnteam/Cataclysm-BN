@@ -18,7 +18,7 @@
         "unarmed_allowed": true,
         "melee_allowed": true,
         "bonus_blocks": 2,
-        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "hit", "scale": 1 } ]
       }
     ],
     "onkill_buffs": [
@@ -32,10 +32,10 @@
         "buff_duration": 3,
         "max_stacks": 3,
         "flat_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 2.0 },
-          { "stat": "damage", "type": "cut", "scale": 2.0 },
-          { "stat": "damage", "type": "stab", "scale": 2.0 },
-          { "stat": "hit", "scale": 1.0 }
+          { "stat": "damage", "type": "bash", "scale": 2 },
+          { "stat": "damage", "type": "cut", "scale": 2 },
+          { "stat": "damage", "type": "stab", "scale": 2 },
+          { "stat": "hit", "scale": 1 }
         ]
       }
     ],
@@ -68,7 +68,7 @@
         "unarmed_allowed": true,
         "buff_duration": 3,
         "max_stacks": 4,
-        "flat_bonuses": [ { "stat": "movecost", "scale": -4.0 } ]
+        "flat_bonuses": [ { "stat": "movecost", "scale": -4 } ]
       }
     ],
     "oncrit_buffs": [
@@ -79,7 +79,7 @@
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 2,
-        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2 } ]
       }
     ],
     "techniques": [ "tec_centipede_rapid", "tec_centipede_break", "tec_centipede_bite", "tec_centipede_disarm" ]
@@ -99,7 +99,7 @@
         "description": "By briefly scaling, leaping, or pushing off a nearby wall, you can avoid the worst of your opponents attacks.\n\n+3.0 Dodge skill when near a wall.\nEnables \"Lizard Tail\" and \"Lizard Wall Counter\" techniques when near a wall.",
         "unarmed_allowed": true,
         "wall_adjacent": true,
-        "flat_bonuses": [ { "stat": "dodge", "scale": 3.0 } ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": 3 } ]
       }
     ],
     "onhit_buffs": [
@@ -110,7 +110,7 @@
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "unarmed_allowed": true,
         "buff_duration": 4,
-        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2 } ]
       }
     ],
     "onmove_buffs": [
@@ -121,7 +121,7 @@
         "unarmed_allowed": true,
         "wall_adjacent": true,
         "buff_duration": 3,
-        "flat_bonuses": [ { "stat": "hit", "scale": 3.0 } ]
+        "flat_bonuses": [ { "stat": "hit", "scale": 3 } ]
       }
     ],
     "techniques": [ "tec_lizard_strike", "tec_lizard_break", "tec_lizard_wallcounter", "tec_lizard_counter", "tec_lizard_tail" ]
@@ -140,7 +140,7 @@
         "name": "Scorpion's Venom",
         "description": "Your venom is a constant threat that nothing can escape from.\n\n+2 bashing damage.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2 } ]
       }
     ],
     "onattack_buffs": [
@@ -188,9 +188,9 @@
         "//": "FWIW, this is twice the amount of armor provided by bionic plating.",
         "unarmed_allowed": true,
         "flat_bonuses": [
-          { "stat": "armor", "type": "bash", "scale": 6.0 },
-          { "stat": "armor", "type": "cut", "scale": 6.0 },
-          { "stat": "armor", "type": "stab", "scale": 6.0 }
+          { "stat": "armor", "type": "bash", "scale": 6 },
+          { "stat": "armor", "type": "cut", "scale": 6 },
+          { "stat": "armor", "type": "stab", "scale": 6 }
         ]
       }
     ],
@@ -203,9 +203,9 @@
         "buff_duration": 6,
         "max_stacks": 6,
         "flat_bonuses": [
-          { "stat": "armor", "type": "bash", "scale": -1.0 },
-          { "stat": "armor", "type": "cut", "scale": -1.0 },
-          { "stat": "armor", "type": "stab", "scale": -1.0 }
+          { "stat": "armor", "type": "bash", "scale": -1 },
+          { "stat": "armor", "type": "cut", "scale": -1 },
+          { "stat": "armor", "type": "stab", "scale": -1 }
         ]
       }
     ],
@@ -218,9 +218,9 @@
         "unarmed_allowed": true,
         "buff_duration": 2,
         "flat_bonuses": [
-          { "stat": "armor", "type": "bash", "scale": 3.0 },
-          { "stat": "armor", "type": "cut", "scale": 3.0 },
-          { "stat": "armor", "type": "stab", "scale": 3.0 }
+          { "stat": "armor", "type": "bash", "scale": 3 },
+          { "stat": "armor", "type": "cut", "scale": 3 },
+          { "stat": "armor", "type": "stab", "scale": 3 }
         ]
       }
     ],
@@ -232,7 +232,7 @@
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "unarmed_allowed": true,
         "buff_duration": 5,
-        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2 } ]
       }
     ],
     "techniques": [ "tec_toad_counter", "tec_toad_critcounter", "tec_toad_grab" ]
@@ -251,7 +251,7 @@
         "name": "Viper's Patience",
         "description": "Every snake waits for the perfect moment to strike.  Turn your opponents' mistakes into your opportunity to strike!\n\n+1.0 Dodge skill.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1 } ]
       }
     ],
     "ondodge_buffs": [
@@ -270,7 +270,7 @@
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 3,
-        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2 } ]
       }
     ],
     "techniques": [
@@ -301,7 +301,7 @@
     "unarmed_allowed": true,
     "block_counter": true,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0 } ]
   },
   {
     "type": "technique",
@@ -416,7 +416,7 @@
     "weighting": 2,
     "knockback_dist": 1,
     "knockback_spread": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 }, { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0 }, { "stat": "damage", "type": "bash", "scale": 2 } ]
   },
   {
     "type": "technique",
@@ -427,7 +427,7 @@
     "unarmed_allowed": true,
     "dodge_counter": true,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0 } ]
   },
   {
     "type": "technique",
@@ -475,7 +475,7 @@
     "stunned_target": true,
     "weighting": 2,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2 } ]
   },
   {
     "type": "technique",
@@ -506,7 +506,7 @@
     "stun_dur": 2,
     "knockback_dist": 3,
     "powerful_knockback": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2 } ],
     "messages": [ "Your Stinger Kick sends %s flying", "<npcname>'s Stinger Kick sends %s flying" ]
   },
   {
@@ -529,7 +529,7 @@
     "unarmed_allowed": true,
     "block_counter": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 }, { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0 }, { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },
   {
     "type": "technique",
@@ -541,7 +541,7 @@
     "block_counter": true,
     "crit_tec": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 }, { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0 }, { "stat": "damage", "type": "bash", "scale": 2 } ]
   },
   {
     "type": "technique",

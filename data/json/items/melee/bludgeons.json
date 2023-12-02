@@ -8,8 +8,8 @@
     "description": "This is a stout pole with a large steel flanged mace head on a short chain attached to it, based on the peasant flail agricultural tool except now with a metal head and made to thresh people in metal armor rather than grain.",
     "weight": "4550 g",
     "volume": "3750 ml",
-    "price": 25000,
-    "price_postapoc": 3000,
+    "price": "250 USD",
+    "price_postapoc": "30 USD",
     "bashing": 50,
     "material": [ "wood", "steel" ],
     "symbol": "\\",
@@ -26,8 +26,8 @@
     "description": "This is a stout pole with a wooden club on a leather cord attached to it, this is a tool used to thresh wheat and occasionally people when the peasants got angry at their feudal lords.",
     "weight": "1700 g",
     "volume": "3750 ml",
-    "price": 4000,
-    "price_postapoc": 1000,
+    "price": "40 USD",
+    "price_postapoc": "10 USD",
     "bashing": 26,
     "material": [ "wood" ],
     "symbol": "\\",
@@ -51,8 +51,8 @@
     "flags": [ "DURABLE_MELEE" ],
     "volume": "1750 ml",
     "bashing": 26,
-    "price": 16000,
-    "price_postapoc": 750
+    "price": "160 USD",
+    "price_postapoc": "750 cent"
   },
   {
     "id": "bat_metal",
@@ -62,7 +62,7 @@
     "description": "An aluminum baseball bat, lighter than a wooden bat and a little easier to swing as a result.",
     "weight": "765 g",
     "color": "light_gray",
-    "price_postapoc": 1250,
+    "price_postapoc": "1250 cent",
     "material": [ "aluminum" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
@@ -90,12 +90,12 @@
     "name": { "str": "barbed wire bat" },
     "description": "A baseball bat wrapped with barbed wire.  A brutal melee weapon.",
     "weight": "1420 g",
-    "price_postapoc": 1250,
+    "price_postapoc": "1250 cent",
     "material": [ "wood", "steel" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "volume": "2 L",
     "cutting": 8,
-    "price": 20000
+    "price": "200 USD"
   },
   {
     "id": "nailbat",
@@ -106,7 +106,7 @@
     "weight": "1159 g",
     "cutting": 4,
     "flags": [ "STAB" ],
-    "price_postapoc": 1750
+    "price_postapoc": "1750 cent"
   },
   {
     "id": "baton",
@@ -116,14 +116,14 @@
     "description": "A telescoping baton that collapses for easy storage.  Makes an excellent melee weapon.  Activate to expand.",
     "weight": "725 g",
     "color": "dark_gray",
-    "price_postapoc": 750,
+    "price_postapoc": "750 cent",
     "symbol": "/",
     "material": [ "aluminum" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "use_action": { "menu_text": "Expand", "type": "transform", "target": "baton-extended", "msg": "You snap open your baton." },
     "volume": "250 ml",
     "bashing": 4,
-    "price": 17500
+    "price": "175 USD"
   },
   {
     "id": "baton-extended",
@@ -147,8 +147,8 @@
     "color": "dark_gray",
     "name": { "str": "blackjack" },
     "description": "This is a short, easily concealed bludgeoning weapon consisting of a weight embedded at the end of a short leather shaft.  Formerly used by law enforcement, this weapon is meant to stun or knock out the subject, although head strikes have a high risk of causing a permanent, disabling brain injury or being fatal.",
-    "price": 17500,
-    "price_postapoc": 500,
+    "price": "175 USD",
+    "price_postapoc": "5 USD",
     "material": [ "leather", "lead" ],
     "techniques": [ "PRECISE", "RAPID" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
@@ -166,8 +166,8 @@
     "color": "brown",
     "name": { "str": "bokken" },
     "description": "This is a solid wood 'training' katana, exactingly crafted to mimic the weight and balance of the real thing.  Despite its lack of a sharp metal edge, it's still quite capable of inflicting deadly wounds.",
-    "price": 55000,
-    "price_postapoc": 2500,
+    "price": "550 USD",
+    "price_postapoc": "25 USD",
     "material": "wood",
     "techniques": [ "RAPID", "WBLOCK_2", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
@@ -185,8 +185,8 @@
     "looks_like": "bokken",
     "name": { "str": "bokken replica" },
     "description": "This is a solid wood 'training' katana, but it looks to be mass-produced, and not quite as effective as the real deal.",
-    "price": 12500,
-    "price_postapoc": 750,
+    "price": "125 USD",
+    "price_postapoc": "750 cent",
     "flags": [ "SHEATH_SWORD" ],
     "to_hit": 1
   },
@@ -197,8 +197,8 @@
     "looks_like": "bokken",
     "name": { "str": "bokken fake" },
     "description": "This is a solid wood 'training' katana, but feels far too light to make an effective weapon.",
-    "price": 12500,
-    "price_postapoc": 500,
+    "price": "125 USD",
+    "price_postapoc": "5 USD",
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weight": "680 g",
     "bashing": 13,
@@ -213,7 +213,7 @@
     "description": "A blunt bowling pin.  Makes a decent melee weapon, if somewhat short.",
     "weight": "1530 g",
     "to_hit": -1,
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
@@ -221,7 +221,7 @@
     "flags": [ "DURABLE_MELEE" ],
     "volume": "2250 ml",
     "bashing": 11,
-    "price": 1000
+    "price": "10 USD"
   },
   {
     "id": "cane",
@@ -239,8 +239,8 @@
     "flags": [ "NONCONDUCTIVE" ],
     "volume": "1 L",
     "bashing": 10,
-    "price": 16000,
-    "price_postapoc": 100
+    "price": "160 USD",
+    "price_postapoc": "1 USD"
   },
   {
     "id": "hollow_cane",
@@ -251,8 +251,8 @@
     "color": "brown",
     "name": { "str": "hollow cane" },
     "description": "A cane designed to conceal blade.  This was a popular fashion accessory for the wealthy during the 18th and 19th centuries.",
-    "price": 2000,
-    "price_postapoc": 750,
+    "price": "20 USD",
+    "price_postapoc": "750 cent",
     "material": [ "wood" ],
     "weight": "200 g",
     "volume": "1531 ml",
@@ -277,14 +277,14 @@
     "description": "A slender long rod of wood, while traditionally intended as a training tool for many dueling moves, it still makes a good melee weapon in a pinch.",
     "weight": "425 g",
     "to_hit": 2,
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "volume": "600 ml",
     "bashing": 8,
-    "price": 1000
+    "price": "10 USD"
   },
   {
     "id": "golf_club",
@@ -295,8 +295,8 @@
     "color": "light_gray",
     "name": { "str": "golf club" },
     "description": "A long handle with a big metal head, flat on one side, for driving golf balls.  Fore!",
-    "price": 13000,
-    "price_postapoc": 50,
+    "price": "130 USD",
+    "price_postapoc": "50 cent",
     "material": "aluminum",
     "weight": "300 g",
     "volume": "1 L",
@@ -320,8 +320,8 @@
     "volume": "1250 ml",
     "bashing": 50,
     "to_hit": 1,
-    "price": 12000,
-    "price_postapoc": 500,
+    "price": "120 USD",
+    "price_postapoc": "5 USD",
     "qualities": [ [ "HAMMER", 2 ] ]
   },
   {
@@ -336,7 +336,7 @@
     "volume": "900 ml",
     "bashing": 35,
     "to_hit": -1,
-    "price_postapoc": 250
+    "price_postapoc": "250 cent"
   },
   {
     "id": "hammer_sledge_heavy",
@@ -350,8 +350,8 @@
     "volume": "1700 ml",
     "bashing": 80,
     "to_hit": -4,
-    "price": 24000,
-    "price_postapoc": 750
+    "price": "240 USD",
+    "price_postapoc": "750 cent"
   },
   {
     "id": "hammer_sledge_engineer",
@@ -365,8 +365,8 @@
     "volume": "600 ml",
     "bashing": 25,
     "to_hit": -1,
-    "price": 6000,
-    "price_postapoc": 250,
+    "price": "60 USD",
+    "price_postapoc": "250 cent",
     "qualities": [ [ "HAMMER", 3 ] ]
   },
   {
@@ -378,8 +378,8 @@
     "color": "white",
     "name": { "str": "hockey stick" },
     "description": "A curved wooden stick with a wide and flat end.  Commonly used by hockey players.",
-    "price": 11000,
-    "price_postapoc": 50,
+    "price": "110 USD",
+    "price_postapoc": "50 cent",
     "material": [ "wood", "plastic" ],
     "techniques": [ "WBLOCK_1" ],
     "weight": "420 g",
@@ -406,8 +406,8 @@
     "cutting": 2,
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "STAB", "NONCONDUCTIVE" ],
-    "price": 8000,
-    "price_postapoc": 50
+    "price": "80 USD",
+    "price_postapoc": "50 cent"
   },
   {
     "id": "l-stick",
@@ -418,8 +418,8 @@
     "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the L-stick or light stick as it is commonly called, batteries last longer than other light sources.",
     "weight": "1000 g",
     "volume": "3 L",
-    "price": 5000,
-    "price_postapoc": 3000,
+    "price": "50 USD",
+    "price_postapoc": "30 USD",
     "to_hit": 3,
     "bashing": 24,
     "material": [ "superalloy", "steel" ],
@@ -467,7 +467,7 @@
     "color": "light_gray",
     "name": { "str": "lucerne hammer" },
     "description": "This is a versatile polearm with a spiked hammer head, a spike, and a hook attached to a long stick.",
-    "price": 50000,
+    "price": "500 USD",
     "material": [ "wood", "steel" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
@@ -476,7 +476,7 @@
     "bashing": 34,
     "cutting": 34,
     "to_hit": 1,
-    "price_postapoc": 10000,
+    "price_postapoc": "100 USD",
     "qualities": [ [ "HAMMER", 2 ], [ "COOK", 1 ] ]
   },
   {
@@ -485,8 +485,8 @@
     "copy-from": "lucern_hammer",
     "name": { "str": "lucerne hammer fake" },
     "description": "This is a cheap piece of crap imitation of a versatile polearm with a spiked hammer head, probably used for LARPing",
-    "price": 4000,
-    "price_postapoc": 500,
+    "price": "40 USD",
+    "price_postapoc": "5 USD",
     "material": [ "wood", "aluminum" ],
     "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
@@ -513,8 +513,8 @@
     "volume": "1250 ml",
     "//": "Same total damage and slightly higher weight than a morningstar - exchanged.",
     "bashing": 40,
-    "price": 100000,
-    "price_postapoc": 6000,
+    "price": "1 kUSD",
+    "price_postapoc": "60 USD",
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -529,8 +529,8 @@
     "flags": [ "NONCONDUCTIVE" ],
     "volume": "1250 ml",
     "bashing": 22,
-    "price": 10000,
-    "price_postapoc": 1000
+    "price": "100 USD",
+    "price_postapoc": "10 USD"
   },
   {
     "id": "mace_fake",
@@ -543,8 +543,8 @@
     "material": [ "aluminum", "wood" ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "bashing": 15,
-    "price": 10000,
-    "price_postapoc": 500,
+    "price": "100 USD",
+    "price_postapoc": "5 USD",
     "qualities": [  ]
   },
   {
@@ -556,7 +556,7 @@
     "color": "dark_gray",
     "name": { "str": "makeshift sap" },
     "description": "This is an improvised sap, also known as a cosh, slapjack and slapper.  A short and flat bludgeoning weapon consisting of a weight embedded between two patches of leather.",
-    "price": 5000,
+    "price": "50 USD",
     "material": [ "leather", "steel" ],
     "techniques": [ "PRECISE", "RAPID" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
@@ -564,7 +564,7 @@
     "volume": "350 ml",
     "bashing": 12,
     "to_hit": 1,
-    "price_postapoc": 50
+    "price_postapoc": "50 cent"
   },
   {
     "id": "mjolnir",
@@ -581,8 +581,8 @@
     "flags": [ "NONCONDUCTIVE" ],
     "volume": "2500 ml",
     "bashing": 9999,
-    "price": 12000,
-    "price_postapoc": 50000,
+    "price": "120 USD",
+    "price_postapoc": "500 USD",
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -602,8 +602,8 @@
     "bashing": 38,
     "cutting": 6,
     "flags": [ "DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE" ],
-    "price": 120000,
-    "price_postapoc": 8000,
+    "price": "1200 USD",
+    "price_postapoc": "80 USD",
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -618,8 +618,8 @@
     "bashing": 26,
     "cutting": 1,
     "flags": [ "SPEAR", "NONCONDUCTIVE" ],
-    "price": 12000,
-    "price_postapoc": 1000
+    "price": "120 USD",
+    "price_postapoc": "10 USD"
   },
   {
     "id": "morningstar_fake",
@@ -633,8 +633,8 @@
     "bashing": 26,
     "cutting": 1,
     "flags": [ "SPEAR", "NONCONDUCTIVE", "FRAGILE_MELEE" ],
-    "price": 12000,
-    "price_postapoc": 500,
+    "price": "120 USD",
+    "price_postapoc": "5 USD",
     "qualities": [  ]
   },
   {
@@ -654,8 +654,8 @@
     "bashing": 10,
     "cutting": 3,
     "flags": [ "STAB" ],
-    "price": 8000,
-    "price_postapoc": 50
+    "price": "80 USD",
+    "price_postapoc": "50 cent"
   },
   {
     "id": "pool_cue",
@@ -672,8 +672,8 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "2 L",
     "bashing": 10,
-    "price": 8000,
-    "price_postapoc": 50
+    "price": "80 USD",
+    "price_postapoc": "50 cent"
   },
   {
     "id": "PR24-retracted",
@@ -691,8 +691,8 @@
     "use_action": { "menu_text": "Extend", "type": "transform", "target": "PR24-extended", "msg": "You snap open your PR-24 baton." },
     "volume": "1 L",
     "bashing": 5,
-    "price": 30000,
-    "price_postapoc": 750
+    "price": "300 USD",
+    "price_postapoc": "750 cent"
   },
   {
     "id": "PR24-extended",
@@ -716,8 +716,8 @@
     "color": "brown",
     "name": { "str": "quarterstaff", "str_pl": "quarterstaves" },
     "description": "A smooth and sturdy staff with a leather-wrapped grip.  Light and well-balanced, it is surprisingly easy to handle.",
-    "price": 4000,
-    "price_postapoc": 1000,
+    "price": "40 USD",
+    "price_postapoc": "10 USD",
     "material": "wood",
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
@@ -732,8 +732,8 @@
     "copy-from": "q_staff",
     "name": { "str": "ironshod quarterstaff", "str_pl": "ironshod quarterstaves" },
     "description": "A smooth and sturdy staff with a leather-wrapped grip, which has been reinforced with metal bands and caps.  Durable and well-balanced, it is surprisingly easy to handle.",
-    "price": 6000,
-    "price_postapoc": 1500,
+    "price": "60 USD",
+    "price_postapoc": "15 USD",
     "material": [ "wood", "iron" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weight": "2500 g",
@@ -771,8 +771,8 @@
     "color": "white",
     "name": { "str": "rock in a sock", "str_pl": "rocks in socks" },
     "description": "A pair of nested socks filled with a stone.  A true weapon of despair.",
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ "cotton", "stone" ],
     "weight": "1007 g",
     "volume": "500 ml",
@@ -789,8 +789,8 @@
     "color": "brown",
     "name": { "str": "shillelagh" },
     "description": "A stout knotty stick with a large knob at the top that has been left to cure in a chimney.  A traditional Irish weapon, the shillelagh was originally used for settling disputes in a gentlemanly manner.",
-    "price": 25000,
-    "price_postapoc": 1250,
+    "price": "250 USD",
+    "price_postapoc": "1250 cent",
     "material": "wood",
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE" ],
@@ -805,8 +805,8 @@
     "copy-from": "shillelagh",
     "name": { "str": "loaded club" },
     "description": "A hollowed out wooden club that has been filled with lead or other easy to melt metals to make it more weighty; packs a surprising punch for how easy it is to make.",
-    "price": 30000,
-    "price_postapoc": 1750,
+    "price": "300 USD",
+    "price_postapoc": "1750 cent",
     "material": [ "lead", "wood" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "weight": "1135 g",
@@ -819,8 +819,8 @@
     "copy-from": "shillelagh",
     "name": { "str": "shillelagh fake" },
     "description": "A fake shillelagh massproduced as a souvenir for tourists.  This knotty stick has not been cured in a chimney like a traditional shillelagh but has had fake black soot painted on.",
-    "price": 2500,
-    "price_postapoc": 50,
+    "price": "25 USD",
+    "price_postapoc": "50 cent",
     "flags": [ "FRAGILE_MELEE" ],
     "weight": "850 g",
     "to_hit": 1
@@ -834,8 +834,8 @@
     "description": "A hard plastic truncheon commonly employed by police.  Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",
     "weight": "575 g",
     "to_hit": 2,
-    "price": 19500,
-    "price_postapoc": 750,
+    "price": "195 USD",
+    "price_postapoc": "750 cent",
     "color": "dark_gray",
     "symbol": "/",
     "material": "plastic",
@@ -896,7 +896,7 @@
     "name": { "str": "war hammer" },
     "description": "A medieval hammer made for battle.  Its odd shape and balance make it an excellent weapon, but an ineffective tool.",
     "weight": "1337 g",
-    "price_postapoc": 6000,
+    "price_postapoc": "60 USD",
     "color": "brown",
     "symbol": "/",
     "//": "Craftable from steel, shouldn't be silver.  A warhammer is essentially one end of a pickaxe with balancing weight on the other and crushes/pierces the armor.",
@@ -906,7 +906,7 @@
     "volume": "1250 ml",
     "bashing": 22,
     "cutting": 23,
-    "price": 16000,
+    "price": "160 USD",
     "qualities": [ [ "HAMMER", 2 ] ]
   }
 ]

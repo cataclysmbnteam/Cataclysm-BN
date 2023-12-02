@@ -13,8 +13,8 @@
     "volume": "10 L",
     "bashing": 15,
     "category": "veh_parts",
-    "price": 4000,
-    "price_postapoc": 100
+    "price": "40 USD",
+    "price_postapoc": "1 USD"
   },
   {
     "type": "GENERIC",
@@ -34,8 +34,8 @@
     "color": "cyan",
     "volume": "15 L",
     "bashing": 20,
-    "price": 5500,
-    "price_postapoc": 100,
+    "price": "55 USD",
+    "price_postapoc": "1 USD",
     "copy-from": "foldframe"
   },
   {
@@ -49,8 +49,8 @@
     "material": [ "hardsteel", "steel" ],
     "volume": "20 L",
     "bashing": 25,
-    "price": 12000,
-    "price_postapoc": 250,
+    "price": "120 USD",
+    "price_postapoc": "250 cent",
     "qualities": [ [ "ANVIL", 1 ] ],
     "copy-from": "foldframe"
   },
@@ -66,8 +66,8 @@
     "volume": "15 L",
     "bashing": 16,
     "cutting": 4,
-    "price": 3500,
-    "price_postapoc": 100,
+    "price": "35 USD",
+    "price_postapoc": "1 USD",
     "copy-from": "foldframe"
   },
   {
@@ -93,8 +93,8 @@
     "volume": "8750 ml",
     "bashing": 8,
     "cutting": 1,
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "copy-from": "foldframe"
   }
 ]

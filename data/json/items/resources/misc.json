@@ -13,8 +13,8 @@
     "volume": "250 ml",
     "cutting": 10,
     "flags": [ "STAB" ],
-    "price": 3000,
-    "price_postapoc": 0
+    "price": "30 USD",
+    "price_postapoc": "0 cent"
   },
   {
     "id": "broom",
@@ -30,8 +30,8 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "1250 ml",
     "bashing": 4,
-    "price": 2400,
-    "price_postapoc": 0
+    "price": "24 USD",
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -63,8 +63,8 @@
     "volume": "250 ml",
     "cutting": 8,
     "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "price": 500,
-    "price_postapoc": 0
+    "price": "5 USD",
+    "price_postapoc": "0 cent"
   },
   {
     "id": "incendiary",
@@ -74,8 +74,8 @@
     "description": "Material from an incendiary round, useful in constructing incendiary ammunition.",
     "weight": "2 g",
     "volume": "500 ml",
-    "price": 10000,
-    "price_postapoc": 100,
+    "price": "100 USD",
+    "price_postapoc": "1 USD",
     "container": "bag_plastic",
     "material": [ "powder" ],
     "symbol": "=",
@@ -92,8 +92,8 @@
     "description": "This is a single, or twin, sized mattress.",
     "weight": "20000 g",
     "volume": "300000 ml",
-    "price": 1000,
-    "price_postapoc": 500,
+    "price": "10 USD",
+    "price_postapoc": "5 USD",
     "material": [ "cotton", "steel" ],
     "symbol": "0",
     "color": "white",
@@ -108,8 +108,8 @@
     "description": "This is a single, or twin, sized down filled mattress.",
     "weight": "6 kg",
     "volume": "300000 ml",
-    "price": 1000,
-    "price_postapoc": 750,
+    "price": "10 USD",
+    "price_postapoc": "750 cent",
     "material": [ "cotton" ],
     "symbol": "0",
     "color": "white",
@@ -123,8 +123,8 @@
     "description": "A piece of fuse, long enough to give you enough time to get away from most explosions.",
     "weight": "6 g",
     "volume": "80 ml",
-    "price": 500,
-    "price_postapoc": 500,
+    "price": "5 USD",
+    "price_postapoc": "5 USD",
     "container": "bag_plastic",
     "material": [ "cotton" ],
     "symbol": ",",
@@ -156,8 +156,8 @@
     "name": { "str": "grenade launcher buttstock" },
     "category": "spare_parts",
     "description": "A collapsible buttstock designed for the M320 grenade launcher.  When combined with this stock, the M320 can be used as a standalone weapon",
-    "price": 10000,
-    "price_postapoc": 250,
+    "price": "100 USD",
+    "price_postapoc": "250 cent",
     "material": [ "plastic", "steel" ],
     "weight": "600 g",
     "volume": "250 ml",
@@ -177,8 +177,8 @@
     "volume": "250 ml",
     "cutting": 8,
     "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "price": 1000,
-    "price_postapoc": 0
+    "price": "10 USD",
+    "price_postapoc": "0 cent"
   },
   {
     "type": "TOOL",
