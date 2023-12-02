@@ -73,7 +73,6 @@
         "X": "f_crate_c",
         "Y": "f_rack_coat",
         "a": "f_dumpster",
-        "b": "f_toilet",
         "c": "f_cupboard",
         "d": "f_desk",
         "g": "f_gunsafe_ml",
@@ -84,6 +83,7 @@
         "{": "f_bookcase",
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
       },
+      "toilets": { "b": {  } },
       "items": {
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
         "d": { "item": "office", "chance": 30 },
