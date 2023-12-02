@@ -325,7 +325,8 @@
       "HYGROMETER",
       "USE_UPS",
       "NO_UNLOAD",
-      "NO_RELOAD"
+      "NO_RELOAD",
+      "POWERARMOR_COMPATIBLE"
     ],
     "coverage": 15,
     "symbol": "[",
