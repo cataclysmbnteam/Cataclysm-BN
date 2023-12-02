@@ -6362,6 +6362,15 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_STAMINA",
+    "name": { "str": "Debug Infinite Stamina" },
+    "points": 99,
+    "valid": false,
+    "description": "Lets you run forever (in other words, until you fix that bug).",
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "SQUEAMISH",
     "name": { "str": "Squeamish" },
     "points": -1,

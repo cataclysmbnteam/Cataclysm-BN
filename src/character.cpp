@@ -227,6 +227,7 @@ static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+static const trait_id trait_DEBUG_STAMINA( "DEBUG_STAMINA" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_QUILLS( "QUILLS" );
@@ -7578,6 +7579,10 @@ void Character::mod_rad( int mod )
 
 int Character::get_stamina() const
 {
+    if( has_trait( trait_DEBUG_STAMINA ) ) {
+        return get_stamina_max();
+    }
+
     return stamina;
 }
 
