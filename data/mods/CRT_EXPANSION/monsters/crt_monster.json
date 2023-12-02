@@ -121,7 +121,7 @@
     "vision_day": 25,
     "vision_night": 3,
     "luminance": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_maybe_survivalist_bionics",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "mon_zombie_cop_death_drops",
     "death_function": [ "NORMAL" ],
@@ -194,7 +194,7 @@
     "armor_bullet": 20,
     "vision_day": 30,
     "vision_night": 5,
-    "harvest": "zombie",
+    "harvest": "zombie_maybe_mil_bionics",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [
       {
