@@ -23,7 +23,7 @@
       "T": "f_toilet",
       "W": "f_washer",
       "X": [ "f_crate_c", "f_crate_o" ],
-      "]": "f_file_cabinet",
+      "]": "f_filing_cabinet",
       "b": "f_bed",
       "c": "f_counter",
       "d": "f_desk",
