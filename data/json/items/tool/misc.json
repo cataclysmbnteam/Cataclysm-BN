@@ -949,6 +949,6 @@
     "price": "250 USD",
     "price_postapoc": "1 USD",
     "to_hit": -3,
-    "material": [ "iron", "glass" ],
+    "material": [ "iron", "glass" ]
   }
 ]
