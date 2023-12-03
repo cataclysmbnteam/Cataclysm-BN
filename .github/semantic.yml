@@ -47,7 +47,6 @@ scopes:
   - mods/RL_Classes
   - mods/StatsThroughSkills
   - mods/UDP_BN_FAKE_SNOW
-  - mods/Urban_Development
   - mods/Zombie_Nightvision
   - mods/aftershock
   - mods/alt_map_key
