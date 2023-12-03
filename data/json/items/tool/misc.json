@@ -941,14 +941,12 @@
   {
     "id": "pocketwatch_crude",
     "type": "GENERIC",
-    "category": "tools",
     "copy-from": "pocketwatch",
     "name": { "str": "steel pocket watch", "str_pl": "steel pocket watches" },
     "description": "An old-fashioned pocket watch, useful for telling the time and not much else.",
     "looks_like": "pocketwatch",
     "price": "250 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
     "material": [ "iron", "glass" ]
   }
 ]
