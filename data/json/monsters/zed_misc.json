@@ -1168,7 +1168,7 @@
     "armor_bullet": 2,
     "vision_day": 15,
     "vision_night": 2,
-    "harvest": "zombie",
+    "harvest": "zombie_maybe_tech_bionics",
     "special_attacks": [ { "type": "bite", "cooldown": 20 } ],
     "death_drops": "mon_zombie_miner_death_drops",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]

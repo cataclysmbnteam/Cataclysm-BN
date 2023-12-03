@@ -880,6 +880,13 @@
   },
   {
     "type": "keybinding",
+    "id": "SET_SPECIAL_ARGS",
+    "category": "OVERMAP",
+    "name": "Set Overmap Special Arguments",
+    "bindings": [ { "input_method": "keyboard", "key": "a" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "View Missions",
     "category": "OVERMAP",
     "id": "MISSIONS",

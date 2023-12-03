@@ -31,6 +31,7 @@ class overmap_special;
 class overmap_special_batch;
 class throbber_popup;
 class vehicle;
+struct mapgen_arguments;
 struct mongroup;
 struct om_vehicle;
 struct radio_tower;
@@ -191,6 +192,7 @@ class overmapbuffer
         const oter_id &ter_existing( const tripoint_abs_omt &p );
         void ter_set( const tripoint_abs_omt &p, const oter_id &id );
         std::string *join_used_at( const std::pair<tripoint_abs_omt, cube_direction> & );
+        std::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
         /**
          * Uses global overmap terrain coordinates.
          */
@@ -516,11 +518,12 @@ class overmapbuffer
          * @param special_id The id of overmap special to place.
          * @param center Used in conjunction with radius to search the specified and adjacent overmaps for
          * a valid placement location. Absolute overmap terrain coordinates.
-         * @param radius Used in conjunction with center. Absolute overmap terrain units.
+         * @param min_radius Used in conjunction with center. Absolute overmap terrain units.
+         * @param max_radius Used in conjunction with center. Absolute overmap terrain units.
          * @returns True if the special was placed, else false.
          */
         bool place_special( const overmap_special_id &special_id, const tripoint_abs_omt &center,
-                            int radius );
+                            int min_radius, int max_radius );
 
     private:
         /**
@@ -563,6 +566,7 @@ class overmapbuffer
         bool check_ot( const std::string &otype, ot_match_type match_type,
                        const tripoint_abs_omt &p );
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint_abs_omt &loc );
+        std::optional<overmap_special_id> overmap_special_at( const tripoint_abs_omt & );
 
         /**
         * These versions of the check_* methods will only check existing overmaps, and

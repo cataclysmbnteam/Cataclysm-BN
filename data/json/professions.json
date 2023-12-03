@@ -2,6 +2,34 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "army_grenadier_mods",
+    "entries": [
+      { "item": "holo_sight" },
+      { "item": "shoulder_strap" },
+      { "item": "m203", "ammo-item": "40x46mm_m433", "charges": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_m14",
+    "entries": [
+      { "item": "m14mag", "ammo-item": "762_51", "charges": 20 },
+      { "item": "m14mag", "ammo-item": "762_51", "charges": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_m17",
+    "entries": [
+      { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
+      { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_m4",
     "entries": [ { "item": "stanag30", "ammo-item": "556", "charges": 30 }, { "item": "stanag30", "ammo-item": "556", "charges": 30 } ]
   },
@@ -10,6 +38,24 @@
     "subtype": "collection",
     "id": "army_mags_mp5",
     "entries": [ { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 }, { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_power_armor",
+    "entries": [
+      { "item": "heavy_plus_battery_cell", "ammo-item": "battery", "charges": 1250 },
+      { "item": "heavy_plus_battery_cell", "ammo-item": "battery", "charges": 1250 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_rm51",
+    "entries": [
+      { "item": "8x40_50_mag", "ammo-item": "8mm_caseless", "charges": 50 },
+      { "item": "8x40_50_mag", "ammo-item": "8mm_caseless", "charges": 50 }
+    ]
   },
   {
     "type": "item_group",
@@ -114,6 +160,12 @@
     "subtype": "collection",
     "id": "quiver_crossbow_hunter",
     "entries": [ { "item": "bolt_metal", "charges": 9 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_grenadier",
+    "entries": [ { "item": "40x46mm_m433", "charges": 6 } ]
   },
   {
     "type": "item_group",
@@ -623,26 +675,15 @@
     "type": "profession",
     "id": "mechanic",
     "name": "Home Mechanic",
-    "description": "Although you never got your driver's license, you've always loved cars.  At least now you'll never be wanting for materials.",
+    "description": "You've always loved working on cars, and have been eager to tune up something special one of these days.  At least now you'll never be wanting for materials.",
     "points": 2,
     "skills": [ { "level": 3, "name": "mechanics" } ],
     "items": {
       "both": {
-        "items": [
-          "slingpack",
-          "tank_top",
-          "jeans",
-          "socks",
-          "boots_steel",
-          "duct_tape",
-          "smart_phone",
-          "screwdriver",
-          "wristwatch",
-          "mag_cars"
-        ],
+        "items": [ "slingpack", "tank_top", "jeans", "socks", "boots_steel", "duct_tape", "smart_phone", "wristwatch", "mag_cars" ],
         "entries": [
           { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "wrench", "container-item": "tool_belt" },
+          { "item": "tool_belt", "contents-item": [ "wrench", "screwdriver" ] },
           { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "welder" }
         ]
       },
@@ -786,8 +827,8 @@
   {
     "type": "profession",
     "id": "soldier",
-    "name": "Military Recruit",
-    "description": "You were a high school drop-out with one goal in mind: to join the military.  You finally got in, just in time for your training to get interrupted by a national emergency.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+    "name": "Military Rifleman",
+    "description": "You were hoping to see some action, only to get more than you bargained for deployed stateside responding to a national emergency.  As far as you can tell, military command abandoned you to this hellhole.",
     "points": 4,
     "traits": [ "PROF_MILITARY" ],
     "skills": [
@@ -801,27 +842,224 @@
       "both": {
         "items": [
           "pants_army",
-          "undershirt",
+          "tshirt",
           "jacket_army",
+          "helmet_liner",
           "helmet_army",
-          "mask_ski",
           "gloves_liner",
           "gloves_tactical",
           "socks",
           "boots_combat",
           "wristwatch",
+          "canteen",
           "molle_pack"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "modularvest", "contents-group": "army_mags_m4" },
+          { "item": "modularvestceramic", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "e_tool", "container-item": "webbing_belt" },
           { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "grenadebandolier", "contents-item": [ "grenade", "grenade" ] },
           { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "mil_auto_rifleman",
+    "name": "Military Automatic Rifleman",
+    "description": "You were trained to lay down suppressing fire, and are armed accordingly.  But they just seem to keep coming without end, you're not sure you have the firepower for this.",
+    "points": 5,
+    "traits": [ "PROF_MILITARY" ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "dodge" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "pants_army",
+          "tshirt",
+          "jacket_army",
+          "helmet_liner",
+          "helmet_army",
+          "gloves_liner",
+          "gloves_tactical",
+          "socks",
+          "boots_combat",
+          "wristwatch",
+          "canteen",
+          "molle_pack"
+        ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          { "item": "modularvestceramic", "contents-group": "army_mags_m17" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "e_tool", "container-item": "webbing_belt" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "grenadebandolier", "contents-item": [ "grenade", "grenade" ] },
+          { "item": "m249", "ammo-item": "556", "charges": 200, "contents-item": [ "shoulder_strap", "acog_scope" ] },
+          { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "mil_grenadier",
+    "name": "Military Grenadier",
+    "description": "You were the one assigned the team's grenade launcher, something you thought was overkill for a stateside deployment at first.  Now you're starting to wish you joined the Field Artillery Branch.",
+    "points": 5,
+    "traits": [ "PROF_MILITARY" ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "rifle" },
+      { "level": 1, "name": "launcher" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "dodge" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "pants_army",
+          "tshirt",
+          "jacket_army",
+          "helmet_liner",
+          "helmet_army",
+          "gloves_liner",
+          "gloves_tactical",
+          "socks",
+          "boots_combat",
+          "wristwatch",
+          "canteen",
+          "molle_pack"
+        ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          { "item": "modularvestceramic", "contents-group": "army_mags_m4" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "e_tool", "container-item": "webbing_belt" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "grenade_pouch", "contents-group": "bandolier_grenadier" },
+          { "item": "grenadebandolier", "contents-item": [ "grenade", "grenade" ] },
+          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-group": "army_grenadier_mods" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "mil_marksman",
+    "name": "Military Designated Marksman",
+    "description": "You aren't a dedicated sniper, but every squad needs someone who can handle targets beyond their effective range.  Without the rest of your squad, things are getting too close quarters for your liking.",
+    "points": 5,
+    "traits": [ "PROF_MILITARY" ],
+    "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "dodge" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "pants_army",
+          "tshirt",
+          "jacket_army",
+          "helmet_liner",
+          "helmet_army",
+          "gloves_liner",
+          "gloves_tactical",
+          "socks",
+          "boots_combat",
+          "wristwatch",
+          "canteen",
+          "molle_pack"
+        ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          { "item": "modularvestceramic", "contents-group": "army_mags_m14" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "e_tool", "container-item": "webbing_belt" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "grenadebandolier", "contents-item": [ "grenade", "grenade" ] },
+          { "item": "legpouch_large", "contents-group": "army_mags_m17" },
+          {
+            "item": "m14ebr",
+            "ammo-item": "762_51",
+            "charges": 20,
+            "contents-item": [ "rifle_scope", "shoulder_strap", "bipod" ]
+          },
+          { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "prof_combat_engineer",
+    "name": "Combat Engineer",
+    "description": "Your military training focused on field fortifications and demolitions, along with the basics on modern autonomous defenses.  You never expected to need that training on the home front, not that it's helped so far given the bots are all on free-fire mode.",
+    "points": 6,
+    "traits": [ "PROF_MILITARY" ],
+    "skills": [
+      { "level": 2, "name": "fabrication" },
+      { "level": 2, "name": "mechanics" },
+      { "level": 2, "name": "electronics" },
+      { "level": 2, "name": "computer" },
+      { "level": 2, "name": "traps" },
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "rifle" },
+      { "level": 1, "name": "dodge" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "pants_army",
+          "tshirt",
+          "jacket_army",
+          "helmet_liner",
+          "helmet_army",
+          "gloves_liner",
+          "gloves_tactical",
+          "socks",
+          "boots_combat",
+          "wristwatch",
+          "canteen",
+          "molle_pack",
+          "hatchet",
+          "boltcutters",
+          "multitool"
+        ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          { "item": "webbing_belt", "contents-item": "e_tool" },
+          { "item": "tinyweldtank", "ammo-item": "oxyacetylene", "charges": 60, "container-item": "oxy_torch" },
+          { "item": "modularvestceramic", "contents-group": "army_mags_m4" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight" ] },
+          { "item": "c4", "count": 4 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
     }
   },
   {
@@ -871,6 +1109,33 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "power_armor_soldier",
+    "name": "Power Armor Soldier",
+    "description": "Those new plutonium power banks they were rolling out never arrived, nevermind the experimental new weapons, but at least your unit received the latest generation of powered armor.  The rest of your squad has fallen, but your gear might see you through.",
+    "points": 8,
+    "traits": [ "PROF_MILITARY" ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "rifle" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 2, "name": "mechanics" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "power_armor_light", "power_armor_helmet_light", "power_armor_frame" ],
+        "entries": [
+          { "item": "heavy_plus_battery_cell", "charges": 2500, "container-item": "UPS_off" },
+          { "item": "two_way_radio", "contents-item": [ "battery_ups" ] },
+          { "item": "power_armor_chest_rig", "contents-group": "army_mags_power_armor" },
+          { "item": "knife_combat", "container-item": "power_armor_sheath" },
+          { "item": "m240", "ammo-item": "762_51_incendiary", "charges": 500, "custom-flags": [ "auto_wield" ] }
+        ]
+      }
     }
   },
   {
@@ -1755,13 +2020,14 @@
     "type": "profession",
     "id": "electrician",
     "name": "Electrician",
-    "description": "You used to work for some small-time business owners doing minor electrical work, and you just so happened to be working on one of these jokes of an evac shelter when the Cataclysm struck.  Unfortunately, you didn't finish wiring anything up except the computer - fat lot of good it's doing you now.",
+    "description": "You used to work for some small-time business owners doing minor electrical work, and were on your way to another trivial job when the Cataclysm struck.  The power's out, but if you survive long enough you might be able to improvise.",
     "points": 1,
     "skills": [ { "level": 3, "name": "electronics" } ],
     "items": {
       "both": {
-        "items": [ "jumpsuit", "socks", "smart_phone", "boots", "tool_belt", "wristwatch" ],
-        "entries": [ { "group": "charged_flashlight" } ]
+        "ammo": 100,
+        "items": [ "jumpsuit", "socks", "smart_phone", "boots", "wristwatch" ],
+        "entries": [ { "item": "tool_belt", "contents-item": [ "voltmeter", "soldering_iron" ] }, { "group": "charged_flashlight" } ]
       },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
@@ -2163,25 +2429,30 @@
       "both": {
         "items": [
           "winter_pants_army",
+          "tshirt",
           "winter_jacket_army",
           "winter_gloves_army",
           "mask_ski",
-          "tac_helmet",
+          "helmet_army",
           "socks",
           "boots_combat",
-          "wristwatch"
+          "wristwatch",
+          "canteen",
+          "rucksack"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "sheath", "contents-item": "knife_combat" },
+          { "item": "e_tool", "container-item": "webbing_belt" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "grenadebandolier", "contents-item": [ "grenade", "grenade_emp" ] },
           {
-            "item": "h&k416a5",
-            "ammo-item": "556",
-            "charges": 30,
+            "item": "rm51_assault_rifle",
+            "ammo-item": "8mm_caseless",
+            "charges": 50,
             "contents-item": [ "shoulder_strap", "acog_scope" ]
           },
-          { "item": "modularvestceramic", "contents-group": "army_mags_m4" }
+          { "item": "modularvestceramic", "contents-group": "army_mags_rm51" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2218,12 +2489,12 @@
       "both": {
         "items": [
           "winter_pants_army",
-          "army_top",
+          "tshirt",
           "winter_jacket_army",
-          "gloves_tactical",
+          "winter_gloves_army",
           "rucksack",
-          "cloak",
           "mask_ski",
+          "tac_helmet",
           "socks",
           "boots_combat",
           "canteen",
@@ -2237,17 +2508,16 @@
           { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "knife_hunting", "container-item": "sheath" },
           {
-            "item": "m2010",
-            "ammo-item": "300_winmag",
-            "charges": 5,
-            "contents-item": [ "shoulder_strap", "rifle_scope", "bipod" ]
+            "item": "rm11b_sniper_rifle",
+            "ammo-item": "8mm_caseless",
+            "charges": 10,
+            "contents-item": [ "shoulder_strap", "bipod" ]
           },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
-          { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
-          { "item": "tacvest", "contents-group": [ "army_mags_m2010" ] }
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
+          { "item": "tacvest", "contents-group": [ "army_mags_rm11b" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3480,19 +3750,28 @@
         "items": [
           "socks",
           "pants_army",
+          "tshirt",
           "jacket_army",
-          "balclava",
           "boots_combat",
+          "gloves_liner",
           "gloves_tactical",
-          "tac_helmet",
+          "helmet_liner",
+          "helmet_army",
           "canteen",
           "wristwatch",
           "quikclot"
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "e_tool", "container-item": "webbing_belt" },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
+          { "item": "grenadebandolier", "contents-item": [ "grenade", "grenade" ] },
+          {
+            "item": "m4a1",
+            "ammo-item": "556",
+            "charges": [ 1, 30 ],
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          },
           {
             "item": "medium_plus_battery_cell",
             "ammo-item": "battery",
@@ -3500,7 +3779,7 @@
             "container-item": "mil_mess_kit"
           },
           { "group": "charged_two_way_radio" },
-          { "item": "chestrig", "contents-group": "army_mags_m4" }
+          { "item": "modularvestceramic", "contents-group": "army_mags_m4" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -4508,15 +4787,13 @@
           "gloves_tactical",
           "helmet_army",
           "jacket_army",
-          "webbing_belt",
-          "legpouch_large"
+          "webbing_belt"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
-          { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
-          { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 }
+          { "item": "legpouch_large", "contents-group": "army_mags_m17" }
         ]
       },
       "male": [ "boxer_shorts" ],

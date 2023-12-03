@@ -91,12 +91,6 @@ static std::ostream &operator<<( std::ostream &os, const ter_id &tid )
     return os;
 }
 
-static std::ostream &operator<<( std::ostream &os, const ter_str_id &tid )
-{
-    os << tid.c_str();
-    return os;
-}
-
 TEST_CASE( "bash_through_roof_can_destroy_multiple_times" )
 {
     clear_all_state();

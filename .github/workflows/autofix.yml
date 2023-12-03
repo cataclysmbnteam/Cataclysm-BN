@@ -31,11 +31,11 @@ jobs:
       - name: json formatting
         run: make style-all-json-parallel RELEASE=1
 
-      - uses: autofix-ci/action@d3e591514b99d0fca6779455ff8338516663f7cc
+      - uses: autofix-ci/action@bee19d72e71787c12ca0f29de72f2833e437e4c9
         if: ${{ always() }}
         with:
           commit-message: "style(autofix.ci): automated formatting"
-          commment: |
+          comment: |
             The Autofix app has automatically formatted this Pull Request.
 
             If you edit your PR on web UI, you can ignore this message.
@@ -46,3 +46,7 @@ jobs:
 
             If you don't do this, your following work will be based on the old commit, and cause MERGE CONFLICT.
 
+      - name: lint and test typescript files
+        run: |
+          deno lint
+          deno test

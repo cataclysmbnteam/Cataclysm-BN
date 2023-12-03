@@ -6,8 +6,8 @@
     "description": "A plastic clothes hanger with a metal hook to hang something on a rail.",
     "weight": "100 g",
     "volume": "150 ml",
-    "price": 100,
-    "price_postapoc": 0,
+    "price": "1 USD",
+    "price_postapoc": "0 cent",
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "brown"

@@ -3,61 +3,61 @@
     "type": "overmap_terrain",
     "id": "evac_center_7",
     "copy-from": "evac_center_7",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "evac_center_8",
     "copy-from": "evac_center_8",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "evac_center_9",
     "copy-from": "evac_center_9",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "evac_center_12",
     "copy-from": "evac_center_12",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "evac_center_13",
     "copy-from": "evac_center_13",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "evac_center_14",
     "copy-from": "evac_center_14",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "evac_center_17",
     "copy-from": "evac_center_17",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "evac_center_18",
     "copy-from": "evac_center_18",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "evac_center_19",
     "copy-from": "evac_center_19",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_refctr",
     "copy-from": "generic_refctr",
-    "sym": "\u00A8",
+    "sym": "¨",
     "color": "brown"
   },
   {
@@ -1039,7 +1039,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_rc_air",
     "copy-from": "generic_rc_air",
-    "sym": "\u00A6"
+    "sym": "¦"
   },
   {
     "type": "overmap_terrain",

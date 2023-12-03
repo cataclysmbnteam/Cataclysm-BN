@@ -3939,6 +3939,9 @@ void game::mon_info_update( )
                 case direction::BELOWSOUTHEAST:
                     index = 3;
                     break;
+                case direction::last:
+                    debugmsg( "invalid direction" );
+                    abort();
             }
         }
 
@@ -10032,38 +10035,12 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    // > and < are used for diving underwater.
-    if( m.has_flag( "SWIMMABLE", u.pos() ) && m.has_flag( TFLAG_DEEP_WATER, u.pos() ) ) {
-        if( movez == -1 ) {
-            if( u.is_underwater() ) {
-                add_msg( m_info, _( "You are already underwater!" ) );
-                return;
-            }
-            if( u.worn_with_flag( flag_FLOTATION ) ) {
-                add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
-                return;
-            }
-            u.set_underwater( true );
-            ///\EFFECT_STR increases breath-holding capacity while diving
-            u.oxygen = 30 + 2 * u.str_cur;
-            add_msg( _( "You dive underwater!" ) );
-        } else {
-            if( u.swim_speed() < 500 || u.shoe_type_count( itype_swim_fins ) ) {
-                u.set_underwater( false );
-                add_msg( _( "You surface." ) );
-            } else {
-                add_msg( m_info, _( "You try to surface but can't!" ) );
-            }
-        }
-        u.moves -= 100;
-        return;
-    }
-
     // Force means we're going down, even if there's no staircase, etc.
     bool climbing = false;
     int move_cost = 100;
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
-    if( m.has_zlevels() && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
+    if( m.has_zlevels() && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
+        !u.is_underwater() ) {
         // Climbing
         if( m.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
@@ -10126,10 +10103,12 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) ) {
+    if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) &&
+        !u.is_underwater() ) {
         add_msg( m_info, _( "You can't go down here!" ) );
         return;
-    } else if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
+    } else if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
+               !u.is_underwater() ) {
         add_msg( m_info, _( "You can't go up here!" ) );
         return;
     }
@@ -10205,10 +10184,101 @@ void game::vertical_move( int movez, bool force, bool peeking )
         maybetmp.load( tripoint( get_levx(), get_levy(), z_after ), false );
     }
 
+    bool swimming = false;
+    bool surfacing = false;
+    bool submerging = false;
+    // > and < are used for diving underwater.
+    if( m.has_flag( TFLAG_SWIMMABLE, u.pos() ) ) {
+        swimming = true;
+        const ter_id &target_ter = m.ter( u.pos() + tripoint( 0, 0, movez ) );
+
+        // If we're in a water tile that has both air above and deep enough water to submerge in...
+        if( m.has_flag( TFLAG_DEEP_WATER, u.pos() ) &&
+            !m.has_flag( TFLAG_WATER_CUBE, u.pos() ) ) {
+            // ...and we're trying to swim down
+            if( movez == -1 ) {
+                // ...and we're already submerged
+                if( u.is_underwater() ) {
+                    // ...and there's more water beneath us.
+                    if( target_ter->has_flag( TFLAG_WATER_CUBE ) ) {
+                        // Then go ahead and move down.
+                        add_msg( _( "You swim down." ) );
+                    } else {
+                        // There's no more water beneath us.
+                        add_msg( m_info,
+                                 _( "You are already underwater and there is no more water beneath you to swim down!" ) );
+                        return;
+                    }
+                }
+                // ...and we're not already submerged.
+                else {
+                    // Check for a flotation device first before allowing us to submerge.
+                    if( u.worn_with_flag( flag_FLOTATION ) ) {
+                        add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
+                        return;
+                    }
+
+                    // Then dive under the surface.
+                    u.oxygen = 30 + 2 * u.str_cur;
+                    u.set_underwater( true );
+                    add_msg( _( "You dive underwater!" ) );
+                    submerging = true;
+                }
+            }
+            // ...and we're trying to surface
+            else if( movez == 1 ) {
+                // ... and we're already submerged
+                if( u.is_underwater() ) {
+                    if( u.swim_speed() < 500 || u.shoe_type_count( itype_swim_fins ) ) {
+                        u.set_underwater( false );
+                        add_msg( _( "You surface." ) );
+                        surfacing = true;
+                    } else {
+                        add_msg( m_info, _( "You try to surface but can't!" ) );
+                        return;
+                    }
+                }
+            }
+        }
+        // If we're in a water tile that is entirely water
+        else if( m.has_flag( TFLAG_WATER_CUBE, u.pos() ) ) {
+            // If you're at this point, you should already be underwater, but force that to be the case.
+            if( !u.is_underwater() ) {
+                u.oxygen = 30 + 2 * u.str_cur;
+                u.set_underwater( true );
+            }
+
+            // ...and we're trying to swim down
+            if( movez == -1 ) {
+                // ...and there's more water beneath us.
+                if( target_ter->has_flag( TFLAG_WATER_CUBE ) ) {
+                    // Then go ahead and move down.
+                    add_msg( _( "You swim down." ) );
+                } else {
+                    add_msg( m_info,
+                             _( "You are already underwater and there is no more water beneath you to swim down!" ) );
+                    return;
+                }
+            }
+            // ...and we're trying to move up
+            else if( movez == 1 ) {
+                // ...and there's more water above us us.
+                if( target_ter->has_flag( TFLAG_WATER_CUBE ) ||
+                    target_ter->has_flag( TFLAG_DEEP_WATER ) ) {
+                    // Then go ahead and move up.
+                    add_msg( _( "You swim up." ) );
+                } else {
+                    add_msg( m_info, _( "You are already underwater and there is no water above you to swim up!" ) );
+                    return;
+                }
+            }
+        }
+    }
+
     // Find the corresponding staircase
     bool rope_ladder = false;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
-    if( !force && !climbing ) {
+    if( !force && !climbing && !swimming ) {
         const std::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder, peeking );
         if( !pnt ) {
             return;
@@ -10300,6 +10370,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
             m.unboard_vehicle( np->pos() );
         }
     }
+
+    if( surfacing || submerging ) {
+        // Surfacing and submerging don't actually move us anywhere, and just
+        // toggle our underwater state in the same location.
+        return;
+    }
+
     const tripoint old_pos = g->u.pos();
     point submap_shift;
     vertical_shift( z_after );

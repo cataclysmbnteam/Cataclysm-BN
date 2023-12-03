@@ -506,6 +506,6 @@
     "copy-from": "sourdough_bread",
     "looks_like": "sourdough_bread",
     "description": "This round loaf of bread has a thick, dark crust, and smells very enticing.",
-    "proportional": { "fun": 2.0, "price": 2.0 }
+    "proportional": { "fun": 2, "price": 2 }
   }
 ]

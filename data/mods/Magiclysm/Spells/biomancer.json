@@ -7,7 +7,7 @@
     "valid_targets": [ "self", "ally" ],
     "min_damage": -16,
     "max_damage": -41,
-    "damage_increment": -1.0,
+    "damage_increment": -1,
     "max_level": 22,
     "min_range": 9,
     "max_range": 17,
@@ -92,7 +92,7 @@
     "max_level": 30,
     "min_damage": 68,
     "max_damage": 157,
-    "damage_increment": 4.0,
+    "damage_increment": 4,
     "damage_type": "acid",
     "min_range": 7,
     "max_range": 12,
@@ -100,7 +100,7 @@
     "range_increment": 0.25,
     "min_aoe": 100,
     "max_aoe": 165,
-    "aoe_increment": 5.0
+    "aoe_increment": 5
   },
   {
     "id": "bio_fleshpouch",

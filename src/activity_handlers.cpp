@@ -444,14 +444,14 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
 
 static bool check_butcher_cbm( const int roll )
 {
-    // Failure rates for dissection rolls
-    // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
-    // Roll is roughly a rng(0, -3 + 1st_aid + fine_cut_quality + 1/2 electronics + small_dex_bonus)
-    // Roll is reduced by corpse damage level, but to no less than 0
+    // Success rate for dissection rolls, simple percentage roll
+    // +10% per fine cutting quality, +10% per 2 levels of first aid, +10% per 4 levels of electronics
+    // Additional, small randomized bonus/penalty if dexterity is above/below average
+    // Roll is reduced by corpse damage level (up to -4), minimum of 10% success chance
     add_msg( m_debug, _( "Roll = %i" ), roll );
-    add_msg( m_debug, _( "Failure chance = %f%%" ), ( 9.0f / ( 10.0f + roll * 2.5f ) ) * 100.0f );
-    const bool failed = x_in_y( 9, ( 10 + roll * 2.5 ) );
-    return !failed;
+    add_msg( m_debug, _( "Success chance = %i%%" ), std::min( 100, ( roll * 10 ) ) );
+    const bool success = x_in_y( roll, 10 );
+    return success;
 }
 
 static void extract_or_wreck_cbms( std::vector<detached_ptr<item>> &cbms, int roll,
@@ -482,7 +482,7 @@ static void extract_or_wreck_cbms( std::vector<detached_ptr<item>> &cbms, int ro
             }
         } else {
             if( !check_butcher_cbm( roll ) ) {
-                add_msg( m_bad, _( "Your imprecise surgery destroyed some organs." ) );
+                add_msg( m_bad, _( "Your imprecise surgery destroyed something." ) );
                 continue;
             } else {
                 // If we have non-bionic loot in a harvest's bionic_group it doesn't need to be marked non-sterile either.
@@ -914,7 +914,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( drop != nullptr && !drop->bionic ) {
                     if( one_in( 3 ) ) {
                         p.add_msg_if_player( m_bad,
-                                             _( "You notice some strange organs, perhaps harvestable via careful dissection." ) );
+                                             _( "You notice something embedded in the corpse, perhaps harvestable via careful dissection." ) );
                     }
                     continue;
                 }
@@ -926,7 +926,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( drop != nullptr && !drop->bionic ) {
                     if( one_in( 3 ) ) {
                         p.add_msg_if_player( m_bad,
-                                             _( "Your butchering tool destroys a strange organ.  Perhaps a more surgical approach would allow harvesting it." ) );
+                                             _( "Your butchering tool destroys something.  Perhaps a more surgical approach would allow harvesting it." ) );
                     }
                     continue;
                 }
@@ -1179,29 +1179,27 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return;
     }
 
-    int skill_level = p->get_skill_level( skill_survival );
+    int skill_level = p->get_skill_level( skill_survival ) / 2;
     int factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE :
                                   qual_BUTCHER );
 
     // DISSECT has special case factor calculation and results.
     if( action == DISSECT ) {
-        skill_level = p->get_skill_level( skill_firstaid );
+        skill_level = p->get_skill_level( skill_firstaid ) / 2;
+        skill_level += p->get_skill_level( skill_electronics ) / 4;
         skill_level += inv.max_quality( qual_CUT_FINE );
-        skill_level += p->get_skill_level( skill_electronics ) / 2;
         add_msg( m_debug, _( "Skill: %s" ), skill_level );
     }
 
     const auto roll_butchery = [&]() {
         double skill_shift = 0.0;
-        ///\EFFECT_SURVIVAL randomly increases butcher rolls
-        skill_shift += rng_float( 0, skill_level - 3 );
+        ///\Relevant skill(s), plus tool quality if dissecting, consistently increases butcher rolls
+        skill_shift += skill_level;
         ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
         skill_shift += rng_float( 0, p->get_dex() - 8 ) / 4.0;
-
         if( factor < 0 ) {
             skill_shift -= rng_float( 0, -factor / 5.0 );
         }
-
         return static_cast<int>( std::round( skill_shift ) );
     };
 
@@ -1257,7 +1255,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // reveal hidden items / hidden content
     if( action == DISSECT ) {
         int roll = roll_butchery() - corpse_item.damage_level( 4 );
-        roll = roll < 0 ? 0 : roll;
+        roll = roll < 1 ? 1 : roll;
         add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item.damage_level( 4 ) );
         std::vector<detached_ptr<item>> cbms = corpse_item.remove_components();
         std::vector<detached_ptr<item>> contents = corpse_item.contents.clear_items();
@@ -4730,6 +4728,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             default:
                 break;
         }
+        spell_being_cast.use_components( *p );
     }
     if( level_override == -1 ) {
         if( !spell_being_cast.is_max_level() ) {

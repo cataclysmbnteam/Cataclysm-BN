@@ -44,18 +44,13 @@ location_vector<T>::iterator::iterator() = default;
 template<typename T>
 location_vector<T>::iterator::iterator( typename std::vector<T *>::iterator it,
                                         const location_vector<T> &home ) : it( it ), home( &home )
-{
-    this->home->locked++;
-};
+{};
 
 template<typename T>
 location_vector<T>::iterator::iterator( const location_vector<T>::iterator &source )
 {
     this->it = source.it;
     this->home = source.home;
-    if( this->home ) {
-        this->home->locked++;
-    }
 };
 
 template<typename T>
@@ -72,12 +67,8 @@ template<typename T>
 typename location_vector<T>::iterator &location_vector<T>::iterator::operator=( const
         location_vector<T>::iterator &source )
 {
-    release_locked();
     this->it = source.it;
     this->home = source.home;
-    if( this->home ) {
-        this->home->locked++;
-    }
     return *this;
 };
 
@@ -86,7 +77,6 @@ typename location_vector<T>::iterator &location_vector<T>::iterator::operator=
 ( location_vector<T>::iterator &&source )
 noexcept
 {
-    release_locked();
     this->it = source.it;
     this->home = source.home;
     source.home = nullptr;
@@ -94,33 +84,12 @@ noexcept
     return *this;
 };
 
-template<typename T>
-location_vector<T>::iterator::~iterator()
-{
-    release_locked();
-};
-
-
-template<typename T>
-void location_vector<T>::iterator::release_locked()
-{
-
-    if( this->home ) {
-        this->home->locked--;
-        if( this->home->locked < 0 ) {
-            debugmsg( "Location vector's locked is negative" );
-        }
-    }
-}
 
 template<typename T>
 location_vector<T>::const_iterator::const_iterator( const iterator &source )
 {
     this->it = source.it;
     this->home = source.home;
-    if( this->home ) {
-        this->home->locked++;
-    }
 }
 
 template<typename T>
@@ -138,9 +107,7 @@ location_vector<T>::const_iterator::const_iterator() = default;
 template<typename T>
 location_vector<T>::const_iterator::const_iterator( typename std::vector<T *>::const_iterator it,
         const location_vector<T> &home ) : it( it ), home( &home )
-{
-    this->home->locked++;
-};
+{};
 
 template<typename T>
 location_vector<T>::const_iterator::const_iterator( const location_vector<T>::const_iterator
@@ -148,9 +115,6 @@ location_vector<T>::const_iterator::const_iterator( const location_vector<T>::co
 {
     this->it = source.it;
     this->home = source.home;
-    if( this->home ) {
-        this->home->locked++;
-    }
 };
 
 template<typename T>
@@ -167,12 +131,8 @@ template<typename T>
 typename location_vector<T>::const_iterator &location_vector<T>::const_iterator::operator=
 ( const location_vector<T>::const_iterator &source )
 {
-    release_locked();
     this->it = source.it;
     this->home = source.home;
-    if( this->home ) {
-        this->home->locked++;
-    }
     return *this;
 };
 
@@ -181,7 +141,6 @@ typename location_vector<T>::const_iterator &location_vector<T>::const_iterator:
 ( location_vector<T>::const_iterator &&source )
 noexcept
 {
-    release_locked();
     this->it = source.it;
     this->home = source.home;
     source.home = nullptr;
@@ -189,33 +148,12 @@ noexcept
     return *this;
 };
 
-template<typename T>
-location_vector<T>::const_iterator::~const_iterator()
-{
-    release_locked();
-};
-
-
-template<typename T>
-void location_vector<T>::const_iterator::release_locked()
-{
-
-    if( this->home ) {
-        this->home->locked--;
-        if( this->home->locked < 0 ) {
-            debugmsg( "Location vector's locked is negative" );
-        }
-    }
-}
 
 
 
 template<typename T>
 void location_vector<T>::push_back( detached_ptr<T> &&obj )
 {
-    if( locked > 0 ) {
-        debugmsg( "Attempting to push_back to a vector with active iterators" );
-    }
     if( !obj ) {
         return;
     }
@@ -260,9 +198,6 @@ T *location_vector<T>::back() const
 template<typename T>
 detached_ptr<T> location_vector<T>::remove( T *obj )
 {
-    if( locked > 0 ) {
-        debugmsg( "Attempting to remove something from a vector with active iterators" );
-    }
     if( destroyed ) {
         debugmsg( "Attempted to remove something from a destroyed location." );
         return detached_ptr<T>();
@@ -290,9 +225,6 @@ typename location_vector<T>::iterator location_vector<T>::erase( typename
         location_vector<T>::const_iterator it,
         detached_ptr<T> *out )
 {
-    if( locked > 2 ) {
-        debugmsg( "Attempting to erase something from a vector with more than 1 active iterator" );
-    }
     if( destroyed && out ) {
         debugmsg( "Attempted to erase something from a destroyed location." );
         return location_vector<T>::iterator( contents.end(), *this );
@@ -313,9 +245,6 @@ typename location_vector<T>::iterator location_vector<T>::insert( typename
         location_vector<T>::iterator it,
         detached_ptr<T> &&obj )
 {
-    if( locked > 2 ) {
-        debugmsg( "Attempting to insert something into a vector with more than 1 active iterator" );
-    }
     if( !obj ) {
         return it;
     }
@@ -341,9 +270,6 @@ typename location_vector<T>::iterator location_vector<T>::insert( typename
         typename std::vector<detached_ptr<T>>::iterator start,
         typename std::vector<detached_ptr<T>>::iterator end )
 {
-    if( locked > 2 ) {
-        debugmsg( "Attempting to insert something into a vector with more than 1 active iterator" );
-    }
     for( auto iter = start; iter != end; iter++ ) {
         if( !*iter ) {
             continue;
@@ -462,9 +388,6 @@ location<T> *location_vector<T>::get_location() const
 template<typename T>
 typename std::vector<detached_ptr<T>> location_vector<T>::clear()
 {
-    if( locked > 0 ) {
-        debugmsg( "Attempting to clear a vector with active iterators" );
-    }
     if( destroyed ) {
         debugmsg( "Attempted to clear a destroyed location." );
         return std::vector<detached_ptr<T>>();
@@ -481,14 +404,10 @@ typename std::vector<detached_ptr<T>> location_vector<T>::clear()
 template<typename T>
 void location_vector<T>::remove_with( std::function < detached_ptr<T>( detached_ptr<T> && ) > cb )
 {
-    if( locked > 0 ) {
-        debugmsg( "Attempting to clear a vector with active iterators" );
-    }
     if( destroyed ) {
         debugmsg( "Attempted to remove_with from a destroyed location." );
         return;
     }
-    locked++;
     for( auto it = contents.begin(); it != contents.end(); ) {
         location<T> *saved_loc = ( *it )->loc;
         ( *it )->remove_location();
@@ -506,7 +425,6 @@ void location_vector<T>::remove_with( std::function < detached_ptr<T>( detached_
             it = contents.erase( it );
         }
     }
-    locked--;
 }
 
 template<typename T>

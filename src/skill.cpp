@@ -9,6 +9,7 @@
 
 #include "cata_utility.h"
 #include "debug.h"
+#include "game_constants.h"
 #include "item.h"
 #include "json.h"
 #include "options.h"
@@ -310,7 +311,7 @@ void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 
 bool SkillLevel::can_train() const
 {
-    return get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0;
+    return ( get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0 && _level < MAX_SKILL );
 }
 
 const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident ) const

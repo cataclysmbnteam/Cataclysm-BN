@@ -6,11 +6,29 @@
 #include "map.h"
 #include "mapdata.h"
 #include "omdata.h"
+#include "overmap_special.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "regional_settings.h"
 
 static const regional_settings dummy_regional_settings;
+
+void mapgen_arguments::merge( const mapgen_arguments &other )
+{
+    for( const std::pair<const std::string, cata_variant> &p : other.map ) {
+        map[p.first] = p.second;
+    }
+}
+
+void mapgen_arguments::serialize( JsonOut &jo ) const
+{
+    jo.write( map );
+}
+
+void mapgen_arguments::deserialize( JsonIn &ji )
+{
+    ji.read( map, true );
+}
 
 mapgendata::mapgendata( map &mp, dummy_settings_t )
     : density_( 0 )
@@ -59,11 +77,34 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
             joins.emplace( rotated_dir, *join );
         }
     }
+    if( std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( over ) ) {
+        if( *maybe_args ) {
+            mapgen_args_ = **maybe_args;
+        } else {
+            // We are the first omt from this overmap_special to be generated,
+            // so now is the time to generate the arguments
+            if( std::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( over ) ) {
+                const overmap_special &special = **s;
+                *maybe_args = special.get_args( *this );
+                mapgen_args_ = **maybe_args;
+            } else {
+                debugmsg( "mapgen params expected but no overmap special found for terrain %s",
+                          terrain_type_.id().str() );
+            }
+        }
+    }
 }
 
 mapgendata::mapgendata( const mapgendata &other, const oter_id &other_id ) : mapgendata( other )
 {
     terrain_type_ = other_id;
+}
+
+mapgendata::mapgendata( const mapgendata &other,
+                        const mapgen_arguments &mapgen_args ) :
+    mapgendata( other )
+{
+    mapgen_args_.merge( mapgen_args );
 }
 
 void mapgendata::set_dir( int dir_in, int val )
@@ -137,12 +178,12 @@ int &mapgendata::dir( int dir_in )
     }
 }
 
-void mapgendata::square_groundcover( point p1, point p2 )
+void mapgendata::square_groundcover( const point &p1, const point &p2 ) const
 {
     m.draw_square_ter( default_groundcover, p1, p2 );
 }
 
-void mapgendata::fill_groundcover()
+void mapgendata::fill_groundcover() const
 {
     m.draw_fill_background( default_groundcover );
 }
@@ -158,7 +199,7 @@ bool mapgendata::is_groundcover( const ter_id &iid ) const
     return false;
 }
 
-ter_id mapgendata::groundcover()
+ter_id mapgendata::groundcover() const
 {
     const ter_id *tid = default_groundcover.pick();
     return tid != nullptr ? *tid : t_null;
@@ -190,3 +231,34 @@ bool mapgendata::has_join( const cube_direction dir, const std::string &join_id 
     return it != joins.end() && it->second == join_id;
 }
 
+const oter_id &mapgendata::neighbor_at( direction dir ) const
+{
+    // TODO: De-uglify, implement proper conversion somewhere
+    switch( dir ) {
+        case direction::NORTH:
+            return north();
+        case direction::EAST:
+            return east();
+        case direction::SOUTH:
+            return south();
+        case direction::WEST:
+            return west();
+        case direction::NORTHEAST:
+            return neast();
+        case direction::SOUTHEAST:
+            return seast();
+        case direction::SOUTHWEST:
+            return swest();
+        case direction::NORTHWEST:
+            return nwest();
+        case direction::ABOVECENTER:
+            return above();
+        case direction::BELOWCENTER:
+            return below();
+        default:
+            break;
+    }
+
+    debugmsg( "Neighbor not supported for direction %d", io::enum_to_string( dir ) );
+    return north();
+}

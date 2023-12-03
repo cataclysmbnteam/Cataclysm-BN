@@ -837,6 +837,7 @@
     "difficulty": 3,
     "skills_required": [ "throw", 1 ],
     "time": "30 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "sling", 1 ] ] ]

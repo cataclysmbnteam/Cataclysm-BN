@@ -70,7 +70,7 @@
     "type": "harvest",
     "message": "You search for any salvageable bionic hardware in what's left of this failed experiment",
     "entries": [
-      { "drop": "bionic_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "cyborg_harvest", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
       { "drop": "cable", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.6 ], "max": 8, "type": "flesh" },
@@ -152,10 +152,38 @@
     ]
   },
   {
+    "id": "human_fur_maybe_cyborg",
+    "//": "drops regular stomach",
+    "type": "harvest",
+    "entries": [
+      { "drop": "cyborg_harvest_uncommon", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "mutant_human_flesh", "type": "flesh", "mass_ratio": 0.34 },
+      { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_hfur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "mutant_human_fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
     "id": "human_large_fur",
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
+      { "drop": "mutant_human_flesh", "type": "flesh", "mass_ratio": 0.34 },
+      { "drop": "hstomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_hfur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "mutant_human_fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
+    "id": "human_large_fur_maybe_cyborg",
+    "//": "drops large stomach",
+    "type": "harvest",
+    "entries": [
+      { "drop": "cyborg_harvest_uncommon", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "mutant_human_flesh", "type": "flesh", "mass_ratio": 0.34 },
       { "drop": "hstomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
@@ -548,6 +576,7 @@
     "//": "zombies with Kevlar infused into their skin",
     "type": "harvest",
     "entries": [
+      { "drop": "harvest_maybe_military", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
@@ -624,11 +653,105 @@
     ]
   },
   {
+    "id": "zombie_maybe_mil_bionics",
+    "type": "harvest",
+    "entries": [
+      { "drop": "harvest_maybe_military", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
+    ]
+  },
+  {
+    "id": "zombie_maybe_heavy_mil_bionics",
+    "type": "harvest",
+    "entries": [
+      { "drop": "harvest_maybe_military_heavy", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
+    ]
+  },
+  {
+    "id": "human_maybe_mil_bionics",
+    "type": "harvest",
+    "entries": [
+      { "drop": "harvest_maybe_military", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "raw_hleather", "type": "skin", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "zombie_maybe_sci_bionics",
+    "type": "harvest",
+    "entries": [
+      { "drop": "harvest_maybe_sci", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
+    ]
+  },
+  {
+    "id": "zombie_maybe_tech_bionics",
+    "type": "harvest",
+    "entries": [
+      { "drop": "harvest_maybe_tech", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
+    ]
+  },
+  {
+    "id": "human_maybe_tech_bionics",
+    "type": "harvest",
+    "entries": [
+      { "drop": "harvest_maybe_tech", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "raw_hleather", "type": "skin", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "zombie_maybe_survivalist_bionics",
+    "type": "harvest",
+    "entries": [
+      { "drop": "harvest_maybe_survivalist", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
+    ]
+  },
+  {
+    "id": "human_maybe_survivalist_bionics",
+    "type": "harvest",
+    "entries": [
+      { "drop": "harvest_maybe_survivalist", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "raw_hleather", "type": "skin", "mass_ratio": 0.01 }
+    ]
+  },
+  {
     "id": "CBM_BASIC",
     "type": "harvest",
     "entries": [
-      { "drop": "bionic_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_zapper", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_zapper", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -638,8 +761,8 @@
     "id": "CBM_CIV",
     "type": "harvest",
     "entries": [
-      { "drop": "bionic_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_common", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_common", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -649,8 +772,8 @@
     "id": "CBM_SCI",
     "type": "harvest",
     "entries": [
-      { "drop": "bionic_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_sci", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_sci", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -660,12 +783,7 @@
     "id": "CBM_SCI_FERAL",
     "type": "harvest",
     "entries": [
-      {
-        "drop": "bionics_sci",
-        "type": "bionic_group",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
+      { "drop": "harvest_bionics_sci", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
@@ -678,8 +796,8 @@
     "id": "CBM_TECH",
     "type": "harvest",
     "entries": [
-      { "drop": "bionic_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_tech", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_tech", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -689,9 +807,9 @@
     "id": "CBM_SUBS",
     "type": "harvest",
     "entries": [
-      { "drop": "bionic_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_subs", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_subs", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_subs", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_subs", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -701,8 +819,8 @@
     "id": "CBM_OP",
     "type": "harvest",
     "entries": [
-      { "drop": "bionic_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -712,10 +830,10 @@
     "id": "CBM_OP2",
     "type": "harvest",
     "entries": [
-      { "drop": "bionic_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op2_off", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op2_def", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op2_utl", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_op2_off", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_op2_def", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_bionics_op2_utl", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -725,7 +843,7 @@
     "id": "CBM_POWER",
     "type": "harvest",
     "entries": [
-      { "drop": "bionic_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "harvest_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }

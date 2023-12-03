@@ -94,7 +94,7 @@
     "id": "sledge_heavy_plus_one",
     "copy-from": "hammer_sledge_heavy",
     "name": { "str": "heavy sledge hammer +1", "str_pl": "heavy sledge hammers +1" },
-    "proportional": { "price": 15.0, "price_postapoc": 30.0, "weight": 0.9, "bashing": 1.1, "cutting": 1.1 },
+    "proportional": { "price": 15, "price_postapoc": 30, "weight": 0.9, "bashing": 1.1, "cutting": 1.1 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -102,7 +102,7 @@
     "id": "sledge_heavy_plus_two",
     "copy-from": "hammer_sledge_heavy",
     "name": { "str": "heavy sledge hammer +2", "str_pl": "heavy sledge hammers +2" },
-    "proportional": { "price": 18.0, "price_postapoc": 36.0, "weight": 0.8, "bashing": 1.2, "cutting": 1.2 },
+    "proportional": { "price": 18, "price_postapoc": 36, "weight": 0.8, "bashing": 1.2, "cutting": 1.2 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -776,7 +776,7 @@
     "id": "lucerne_plus_one",
     "copy-from": "lucern_hammer",
     "name": { "str": "lucerne hammer +1", "str_pl": "lucerne hammers +1" },
-    "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "bashing": 1.1, "cutting": 1.1 },
+    "proportional": { "price": 3, "price_postapoc": 3, "weight": 0.9, "bashing": 1.1, "cutting": 1.1 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -784,7 +784,7 @@
     "id": "lucerne_plus_two",
     "copy-from": "lucern_hammer",
     "name": { "str": "lucerne hammer +2", "str_pl": "lucerne hammers +2" },
-    "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "bashing": 1.2, "cutting": 1.2 },
+    "proportional": { "price": 6, "price_postapoc": 6, "weight": 0.8, "bashing": 1.2, "cutting": 1.2 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -796,7 +796,7 @@
     "description": "A grotesque bone spearhead on a stout wooden pole.  There is a Biomancer rune embedded at the base of the head.",
     "weight": "988 g",
     "volume": "1250 ml",
-    "price": 3900,
+    "price": "39 USD",
     "to_hit": 2,
     "bashing": 6,
     "cutting": 15,
@@ -816,7 +816,7 @@
     "description": "This staff incorporates a sturdy cresent wrench on top of a prybar and a hammer on the other in a convienent package.  There is a Technomancer rune embedded in the hammerhead.",
     "weight": "1536 g",
     "volume": "1750 ml",
-    "price": 3900,
+    "price": "39 USD",
     "to_hit": 1,
     "bashing": 15,
     "cutting": 1,
@@ -836,7 +836,7 @@
     "description": "A quarterstaff with runes carved into it and two glass jars, heat-tempered and infused with mana for durability, to act as mana receptacles.  There are two Magi runes embedded at the tips.",
     "weight": "1530 g",
     "volume": "1500 ml",
-    "price": 3900,
+    "price": "39 USD",
     "to_hit": 2,
     "bashing": 20,
     "material": [ "wood", "diamond" ],
@@ -896,7 +896,7 @@
     "description": "A steel ritual knife used by Animists to draw blood for summoning.  Their school rune is embedded in the crossguard.",
     "weight": "504 g",
     "volume": "500 ml",
-    "price": 3000,
+    "price": "30 USD",
     "bashing": 2,
     "cutting": 13,
     "material": [ "wood", "steel" ],
@@ -930,7 +930,7 @@
     },
     "volume": "750 ml",
     "bashing": 12,
-    "price": 34000
+    "price": "340 USD"
   },
   {
     "type": "GENERIC",
@@ -956,6 +956,6 @@
     },
     "volume": "3 L",
     "bashing": 19,
-    "price": 34000
+    "price": "340 USD"
   }
 ]

@@ -173,6 +173,6 @@
     "harvest": "exempt",
     "special_attacks": [ [ "SLIMESPRING", 15 ] ],
     "death_function": [ "ACID" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "GOODHEARING", "NOHEAD", "POISON", "VENOM", "WARM", "GUILT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "GOODHEARING", "NOHEAD", "POISON", "VENOM", "WARM", "GUILT", "PATH_AVOID_DANGER_2" ]
   }
 ]

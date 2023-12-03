@@ -7,8 +7,8 @@
     "description": "This is a black box, seemingly pulled from some sort of military vehicle wreckage.  If you can find a system to analyze this, you may find something of interest.",
     "weight": "4535 g",
     "volume": "2 L",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -1,
     "bashing": 4,
     "material": [ "steel" ],
@@ -28,8 +28,8 @@
     "volume": "100 L",
     "bashing": 7,
     "category": "veh_parts",
-    "price": 90000,
-    "price_postapoc": 5000,
+    "price": "900 USD",
+    "price_postapoc": "50 USD",
     "ammo": "plutonium",
     "max_charges": 10000
   },
@@ -46,8 +46,8 @@
     "volume": "7500 ml",
     "bashing": 12,
     "category": "veh_parts",
-    "price": 20000,
-    "price_postapoc": 1500
+    "price": "200 USD",
+    "price_postapoc": "15 USD"
   },
   {
     "type": "GENERIC",
@@ -62,8 +62,8 @@
     "volume": "7500 ml",
     "bashing": 12,
     "category": "veh_parts",
-    "price": 20000,
-    "price_postapoc": 1500
+    "price": "200 USD",
+    "price_postapoc": "15 USD"
   },
   {
     "type": "GENERIC",
@@ -78,8 +78,8 @@
     "volume": "2500 ml",
     "bashing": 4,
     "category": "veh_parts",
-    "price": 3000,
-    "price_postapoc": 10
+    "price": "30 USD",
+    "price_postapoc": "10 cent"
   },
   {
     "type": "GENERIC",
@@ -94,8 +94,8 @@
     "volume": "5 L",
     "bashing": 5,
     "category": "veh_parts",
-    "price": 90000,
-    "price_postapoc": 1000
+    "price": "900 USD",
+    "price_postapoc": "10 USD"
   },
   {
     "type": "GENERIC",
@@ -106,8 +106,8 @@
     "volume": "250 ml",
     "to_hit": -1,
     "bashing": 4,
-    "price": 1500,
-    "price_postapoc": 100,
+    "price": "15 USD",
+    "price_postapoc": "1 USD",
     "looks_like": "cable",
     "copy-from": "recharge_station"
   },
@@ -124,8 +124,8 @@
     "volume": "125 L",
     "bashing": 8,
     "category": "veh_parts",
-    "price": 60000,
-    "price_postapoc": 500
+    "price": "600 USD",
+    "price_postapoc": "5 USD"
   },
   {
     "type": "GENERIC",
@@ -140,16 +140,16 @@
     "volume": "10 L",
     "bashing": 3,
     "category": "veh_parts",
-    "price": 90000,
-    "price_postapoc": 2500
+    "price": "900 USD",
+    "price_postapoc": "25 USD"
   },
   {
     "type": "GENERIC",
     "id": "vh_autoclave",
     "name": { "str": "mountable autoclave" },
     "description": "This autoclave has been rigged to run off a vehicle power grid.",
-    "price": 162654,
-    "price_postapoc": 1500,
+    "price": "162654 cent",
+    "price_postapoc": "15 USD",
     "symbol": "A",
     "color": "yellow",
     "weight": "34500 g",
@@ -163,8 +163,8 @@
     "description": "This autodoc has been rigged to run off a vehicle power grid.",
     "symbol": "&",
     "color": "light_cyan",
-    "price": 120000,
-    "price_postapoc": 7500,
+    "price": "1200 USD",
+    "price_postapoc": "75 USD",
     "weight": "120000 g",
     "volume": "50 L",
     "looks_like": "f_autodoc"
@@ -174,8 +174,8 @@
     "id": "vh_autodoc_couch",
     "name": { "str": "mountable autodoc couch" },
     "description": "This autodoc couch has been rigged to run off a vehicle power grid.",
-    "price": 90000,
-    "price_postapoc": 5000,
+    "price": "900 USD",
+    "price_postapoc": "50 USD",
     "symbol": "H",
     "color": "red",
     "weight": "100000 g",
@@ -194,8 +194,8 @@
     "id": "minifreezer",
     "name": { "str": "minifreezer" },
     "description": "Compact version of a chest freezer, designed as a mobile solution for freezing food.  Provides insulation from the elements.",
-    "price": 70000,
-    "price_postapoc": 4000,
+    "price": "700 USD",
+    "price_postapoc": "40 USD",
     "copy-from": "minifridge"
   },
   {
@@ -228,7 +228,7 @@
     "volume": "750 ml",
     "bashing": 2,
     "category": "veh_parts",
-    "price": 3000,
-    "price_postapoc": 50
+    "price": "30 USD",
+    "price_postapoc": "50 cent"
   }
 ]

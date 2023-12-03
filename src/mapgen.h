@@ -6,10 +6,16 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "pimpl.h"
+#include "cata_variant.h"
+#include "coordinates.h"
+#include "json.h"
+#include "memory_fast.h"
+#include "mapgen_parameter.h"
 #include "point.h"
 #include "regional_settings.h"
 #include "type_id.h"
@@ -18,6 +24,7 @@ class JsonArray;
 class JsonMember;
 class JsonObject;
 class map;
+template <typename Id> class mapgen_value;
 class mapgendata;
 class mission;
 struct json_source_location;
@@ -38,8 +45,13 @@ class mapgen_function
     public:
         virtual ~mapgen_function() = default;
         virtual void setup() { } // throws
+        virtual void finalize_parameters() { }
         virtual void check( const std::string & /*oter_name*/ ) const { }
+
         virtual void generate( mapgendata & ) = 0;
+        virtual mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const {
+            return {};
+        }
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -119,13 +131,34 @@ struct jmapgen_setmap {
         x( ix ), y( iy ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
         repeat( irepeat ), rotation( irotation ),
         fuel( ifuel ), status( istatus ) {}
-    bool apply( mapgendata &dat, point offset ) const;
+    bool apply( const mapgendata &dat, const point &offset ) const;
     /**
      * checks if applying these objects to data would cause cause a collision with vehicles
      * on the same map
      **/
-    bool has_vehicle_collision( mapgendata &dat, point offset ) const;
+    bool has_vehicle_collision( const mapgendata &dat, const point &offset ) const;
 };
+
+struct spawn_data {
+    std::map<itype_id, jmapgen_int> ammo;
+    std::vector<point> patrol_points_rel_ms;
+};
+
+/** Mapgen pieces will be applied in order of phases.  The phases are as
+ * follows: */
+enum class mapgen_phase {
+    terrain,
+    furniture,
+    default_,
+    nested_mapgen,
+    transform,
+    faction_ownership,
+};
+
+inline bool operator<( const mapgen_phase l, const mapgen_phase r )
+{
+    return static_cast<int>( l ) < static_cast<int>( r );
+}
 
 /**
  * Basic mapgen object. It is supposed to place or do something on a specific square on the map.
@@ -153,13 +186,24 @@ class jmapgen_piece
     protected:
         jmapgen_piece() : repeat( 1, 1 ) { }
     public:
+        virtual bool is_nop() const {
+            return false;
+        }
+        virtual mapgen_phase phase() const {
+            return mapgen_phase::default_;
+        }
         /** Sanity-check this piece */
-        virtual void check( const std::string &/*oter_name*/ ) const { }
+        virtual void check( const std::string &/*oter_name*/, const mapgen_parameters & ) const { }
+
+        virtual void merge_parameters_into( mapgen_parameters &,
+                                            const std::string &/*outer_context*/ ) const {}
+
         /** Place something on the map from mapgendata &dat, at (x,y). */
-        virtual void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const = 0;
+        virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
+                          ) const = 0;
         virtual ~jmapgen_piece() = default;
         jmapgen_int repeat;
-        virtual bool has_vehicle_collision( mapgendata &/*dat*/, point /*offset*/ ) const {
+        virtual bool has_vehicle_collision( const mapgendata &, const point &/*offset*/ ) const {
             return false;
         }
 };
@@ -178,8 +222,6 @@ class jmapgen_place
         jmapgen_int y;
         jmapgen_int repeat;
 };
-
-using palette_id = std::string;
 
 // Strong typedef for strings used as map/palette keys
 // Each key should be a UTF-8 string displayed in only one column (i.e.
@@ -207,10 +249,22 @@ struct hash<map_key> {
 };
 } // namespace std
 
+template<typename T>
+struct mapgen_constraint {
+    mapgen_constraint( const std::string &name, const T &val )
+        : parameter_name( name )
+        , value( val )
+    {}
+
+    std::string parameter_name;
+    T value;
+};
+
 class mapgen_palette
 {
     public:
         palette_id id;
+
         /**
          * The mapping from character (key) to a list of things that should be placed. This is
          * similar to objects, but it uses key to get the actual position where to place things
@@ -219,8 +273,7 @@ class mapgen_palette
         using placing_map =
             std::unordered_map<map_key, std::vector< shared_ptr_fast<const jmapgen_piece>>>;
 
-        std::unordered_map<map_key, ter_id> format_terrain;
-        std::unordered_map<map_key, furn_id> format_furniture;
+        std::unordered_set<map_key> keys_with_terrain;
         placing_map format_placings;
 
         template<typename PieceType>
@@ -233,10 +286,15 @@ class mapgen_palette
 
         void check();
 
+        const mapgen_parameters &get_parameters() const {
+            return parameters;
+        }
+
         /**
          * Loads a palette object and returns it. Doesn't save it anywhere.
          */
-        static mapgen_palette load_temp( const JsonObject &jo, const std::string &src );
+        static mapgen_palette load_temp( const JsonObject &jo, const std::string &src,
+                                         const std::string &context );
         /**
          * Load a palette object and adds it to the global set of palettes.
          * If "palette" field is specified, those palettes will be loaded recursively.
@@ -252,15 +310,37 @@ class mapgen_palette
 
         static void check_definitions();
     private:
-        static mapgen_palette load_internal( const JsonObject &jo, const std::string &src, bool require_id,
-                                             bool allow_recur );
+        mapgen_parameters parameters;
+
+        // These would ideally be mapgen_value<palette_id> but because they get
+        // transformed into parameters as an implementation detail it's easier
+        // to just use std::string
+        std::vector<mapgen_value<std::string>> palettes_used;
+
+        static mapgen_palette load_internal(
+            const JsonObject &jo, const std::string &src, const std::string &context,
+            bool require_id, bool allow_recur );
+
+        struct add_palette_context {
+            add_palette_context( const std::string &ctx, mapgen_parameters * );
+
+            std::string context;
+            std::vector<palette_id> ancestors;
+            mapgen_parameters *parameters;
+            std::vector<mapgen_constraint<palette_id>> constraints;
+        };
 
         /**
          * Adds a palette to this one. New values take preference over the old ones.
          *
+         * The ancestors parameter is a set of ids from all the palettes
+         * currently being added, when this addition is triggered by the
+         * addition of another palette which includes rh.  This allows for
+         * detection of loops in palette references.
          */
-        void add( const palette_id &rh );
-        void add( const mapgen_palette &rh );
+        void add( const mapgen_value<std::string> &rh, const add_palette_context & );
+        void add( const palette_id &rh, const add_palette_context & );
+        void add( const mapgen_palette &rh, const add_palette_context & );
 };
 
 struct jmapgen_objects {
@@ -286,16 +366,19 @@ struct jmapgen_objects {
         template<typename PieceType>
         void load_objects( const JsonObject &jsi, const std::string &member_name );
 
-        void check( const std::string &oter_name ) const;
+        void check( const std::string &oter_name, const mapgen_parameters & ) const;
+        void finalize();
 
-        void apply( mapgendata &dat ) const;
-        void apply( mapgendata &dat, point offset ) const;
+        void merge_parameters_into( mapgen_parameters &, const std::string &outer_context ) const;
+
+        void apply( const mapgendata &dat ) const;
+        void apply( const mapgendata &dat, const point &offset ) const;
 
         /**
          * checks if applying these objects to data would cause cause a collision with vehicles
          * on the same map
          **/
-        bool has_vehicle_collision( mapgendata &dat, point offset ) const;
+        bool has_vehicle_collision( const mapgendata &dat, const point &offset ) const;
 
     private:
         /**
@@ -311,9 +394,11 @@ struct jmapgen_objects {
 class mapgen_function_json_base
 {
     public:
+        void merge_non_nest_parameters_into( mapgen_parameters &,
+                                             const std::string &outer_context ) const;
         bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y, const JsonObject &jso ) const;
-        size_t calc_index( point p ) const;
-        bool has_vehicle_collision( mapgendata &dat, point offset ) const;
+        size_t calc_index( const point &p ) const;
+        bool has_vehicle_collision( const mapgendata &dat, const point &offset ) const;
 
     private:
         pimpl<json_source_location> jsrcloc;
@@ -328,29 +413,32 @@ class mapgen_function_json_base
         // Returns true if the mapgen qualifies at this point already
         virtual bool setup_internal( const JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { }
+        void finalize_parameters_common();
 
         void check_common( const std::string &oter_name ) const;
 
-        void formatted_set_incredibly_simple( map &m, point offset ) const;
+        mapgen_arguments get_args( const mapgendata &md, mapgen_parameter_scope ) const;
 
-        bool do_format;
         bool is_ready;
 
         point mapgensize;
         point m_offset;
-        std::vector<ter_furn_id> format;
         point total_size;
         std::vector<jmapgen_setmap> setmap_points;
 
         jmapgen_objects objects;
+
+        mapgen_parameters parameters;
 };
 
 class mapgen_function_json : public mapgen_function_json_base, public virtual mapgen_function
 {
     public:
         void setup() override;
+        void finalize_parameters() override;
         void check( const std::string &oter_name ) const override;
         void generate( mapgendata & ) override;
+        mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const override;
         mapgen_function_json( const json_source_location &jsrcloc, int w, point grid_offset,
                               point grid_total );
         ~mapgen_function_json() override = default;
@@ -373,10 +461,11 @@ class update_mapgen_function_json : public mapgen_function_json_base
 
         void setup();
         bool setup_update( const JsonObject &jo );
+        void finalize_parameters();
         void check( const std::string &oter_name ) const;
         bool update_map( const tripoint_abs_omt &omt_pos, point offset,
                          mission *miss, bool verify = false ) const;
-        bool update_map( mapgendata &md, point offset = point_zero,
+        bool update_map( const mapgendata &md, const point &offset = point_zero,
                          bool verify = false ) const;
 
     protected:
@@ -388,11 +477,12 @@ class mapgen_function_json_nested : public mapgen_function_json_base
 {
     public:
         void setup();
+        void finalize_parameters();
         void check( const std::string &oter_name ) const;
         explicit mapgen_function_json_nested( const json_source_location &jsrcloc );
         ~mapgen_function_json_nested() override = default;
 
-        void nest( mapgendata &dat, point offset ) const;
+        void nest( const mapgendata &md, const point &offset ) const;
     protected:
         bool setup_internal( const JsonObject &jo ) override;
 

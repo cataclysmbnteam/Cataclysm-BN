@@ -23,6 +23,7 @@
 #include "enums.h"
 #include "enum_conversions.h"
 #include "game_constants.h"
+#include "mapgendata.h"
 #include "memory_fast.h"
 #include "mongroup.h"
 #include "omdata.h"
@@ -231,6 +232,7 @@ class overmap
         void ter_set( const tripoint_om_omt &p, const oter_id &id );
         const oter_id &ter( const tripoint_om_omt &p ) const;
         std::string *join_used_at( const om_pos_dir & );
+        std::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
         bool &seen( const tripoint_om_omt &p );
         bool seen( const tripoint_om_omt &p ) const;
         bool &explored( const tripoint_om_omt &p );
@@ -370,6 +372,11 @@ class overmap
         // Records the joins that were chosen during placement of a mutable
         // special, so that it can be queried later by mapgen
         std::unordered_map<om_pos_dir, std::string> joins_used;
+        // Records mapgen parameters required at the overmap special level
+        // These are lazily evaluated; empty optional means that they have yet
+        // to be evaluated.
+        std::vector<std::optional<mapgen_arguments>> mapgen_arg_storage;
+        std::unordered_map<tripoint_om_omt, int> mapgen_args_index;
 
         oter_id get_default_terrain( int z ) const;
 
@@ -458,6 +465,7 @@ class overmap
                        const tripoint_om_omt &p ) const;
         bool check_overmap_special_type( const overmap_special_id &id,
                                          const tripoint_om_omt &location ) const;
+        std::optional<overmap_special_id> overmap_special_at( const tripoint_om_omt &p ) const;
 
         void polish_rivers( const overmap *north, const overmap *east, const overmap *south,
                             const overmap *west );

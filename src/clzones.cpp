@@ -61,22 +61,6 @@ static const zone_type_id zone_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 
 zone_manager::zone_manager()
 {
-    types.emplace( zone_NO_AUTO_PICKUP,
-                   zone_type( translate_marker( "No Auto Pickup" ),
-                              translate_marker( "You won't auto-pickup items inside the zone." ) ) );
-    types.emplace( zone_NO_NPC_PICKUP,
-                   zone_type( translate_marker( "No NPC Pickup" ),
-                              translate_marker( "Friendly NPCs don't pickup items inside the zone." ) ) );
-    types.emplace( zone_type_id( "NPC_RETREAT" ),
-                   zone_type( translate_marker( "NPC Retreat" ),
-                              translate_marker( "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles." ) ) );
-    types.emplace( zone_type_id( "NPC_NO_INVESTIGATE" ),
-                   zone_type( translate_marker( "NPC Ignore Sounds" ),
-                              translate_marker( "Friendly NPCs won't investigate unseen sounds coming from this zone." ) ) );
-    types.emplace( zone_type_id( "NPC_INVESTIGATE_ONLY" ),
-                   zone_type( translate_marker( "NPC Investigation Area" ),
-                              translate_marker( "Friendly NPCs will investigate unseen sounds only if they come from inside this area." ) ) );
-
     for( const zone_type &zone : zone_type::get_all() ) {
         types.emplace( zone.id, zone );
     }

@@ -186,7 +186,7 @@ jobs:
           # various issues we've encountered over time. Keep it in sync with the builtin-baseline
           # field in vcpkg.json. Caching happens as a post-action which runs at the end of
           # the whole workflow, after vcpkg install happens during msbuild run.
-          vcpkgGitCommitId: "a7b6122f6b6504d16d96117336a0562693579933"
+          vcpkgGitCommitId: "66444e13a86da7087ee24c342f91801cc6eb9877"
       - name: Install dependencies (windows msvc) (3/3)
         if: runner.os == 'Windows'
         run: |

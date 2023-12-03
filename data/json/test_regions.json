@@ -18,8 +18,8 @@
       "other": { "t_shrub": 0.4166, "f_mutpoppy": 5.3333, "f_mutcactus_test": 10.3333 },
       "boost_chance": 2.833,
       "boosted_percent_coverage": 12.5,
-      "boosted_other": { "t_shrub_blueberry": 0.0001, "t_shrub": 4.9, "f_mutcactus_test": 50.0 },
-      "boosted_other_percent": 20.0
+      "boosted_other": { "t_shrub_blueberry": 0.0001, "t_shrub": 4.9, "f_mutcactus_test": 50 },
+      "boosted_other_percent": 20
     },
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
@@ -132,9 +132,9 @@
       "summer_temp": 24,
       "autumn_temp": 15,
       "winter_temp": 12,
-      "base_humidity": 40.0,
-      "base_pressure": 1015.0,
-      "base_acid": 0.0,
+      "base_humidity": 40,
+      "base_pressure": 1015,
+      "base_acid": 0,
       "weather_types": [
         "clear",
         "sunny",
@@ -195,15 +195,15 @@
             "   dd                   "
           ],
           "terrain": {
+            "5": "t_wall_glass",
+            "6": "t_console",
             " ": "t_sand",
             "d": "t_floor",
-            "5": "t_wall_glass",
             "%": "t_wall_glass",
             "O": "t_floor",
             ",": "t_pavement_y",
             "_": "t_pavement",
             "r": "t_floor",
-            "6": "t_console",
             "x": "t_console_broken",
             "^": "t_floor",
             ".": "t_floor",
