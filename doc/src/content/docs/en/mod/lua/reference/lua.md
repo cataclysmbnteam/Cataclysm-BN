@@ -1647,6 +1647,10 @@ Function `( Character ) -> string`
 
 Function `( MsgType, ... )` Function `( ... )`
 
+#### place_player_overmap_at
+
+Function `( Tripoint )`
+
 #### current_turn
 
 Function `() -> TimePoint`
