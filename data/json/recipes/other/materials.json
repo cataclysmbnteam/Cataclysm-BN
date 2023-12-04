@@ -1365,6 +1365,6 @@
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 }
     ],
-    "components": [ [ [ "steel_chunk", 3 ], [ "scrap", 15 ] ] ]
+    "components": [ [ [ "steel_tiny", 3, "LIST" ] ] ]
   }
 ]
