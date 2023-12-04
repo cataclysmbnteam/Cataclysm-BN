@@ -3909,19 +3909,22 @@ double ranged::aim_speed_encumbrance_modifier( const Character &who )
 double ranged::aim_cap_from_volume( const item &gun )
 {
     skill_id gun_skill = gun.gun_skill();
-    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( gun.volume() / 75_ml ) );
+    // Most guns will reach their aim cap at a volume of 6 liters.
+    // Pistols reach their aim cap at 3 liters.
+    double aim_cap = std::min( 50.0, 50.0 - static_cast<float>( gun.volume() / 150_ml ) );
+    double aim_cap_small = std::min( 50.0, 50.0 - static_cast<float>( gun.volume() / 75_ml ) );
     // TODO: also scale with skill level.
     if( gun_skill == skill_smg ) {
-        aim_cap = std::max( 12.0, aim_cap );
+        aim_cap = std::max( 12.0, aim_cap + 2.0 );
     } else if( gun_skill == skill_shotgun ) {
-        aim_cap = std::max( 12.0, aim_cap );
+        aim_cap = std::max( 12.0, aim_cap + 2.0 );
     } else if( gun_skill == skill_pistol ) {
-        aim_cap = std::max( 15.0, aim_cap * 1.25 );
+        aim_cap = std::max( 15.0, aim_cap_small + 5.0 );
     } else if( gun_skill == skill_rifle ) {
-        aim_cap = std::max( 7.0, aim_cap - 5.0 );
+        aim_cap = std::max( 7.0, aim_cap - 3.0 );
     } else if( gun_skill == skill_archery ) {
-        aim_cap = std::max( 13.0, aim_cap );
-    } else { // Launchers, etc.
+        aim_cap = std::max( 13.0, aim_cap + 3.0 );
+    } else { // Launchers, throwing, etc.
         aim_cap = std::max( 10.0, aim_cap );
     }
     return aim_cap;
