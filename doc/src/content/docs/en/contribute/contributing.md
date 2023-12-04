@@ -83,6 +83,12 @@ VSCode, you can set following configuration to auto-format markdown files on sav
 }
 ```
 
+### Lua
+
+Lua files are formatted using [`dprint`](https://dprint.dev)'s built-in formatter. Run
+[`deno task dprint fmt`](https://dprint.dev/plugins/lua) anywhere to format Lua files. For details,
+see [Lua Style Guide](../mod/lua/explanation/lua_style.md).
+
 ## Translations
 
 The translation of Cataclysm: BN is done using Transifex. Look at the
