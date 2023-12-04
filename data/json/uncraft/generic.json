@@ -4494,6 +4494,6 @@
     "type": "uncraft",
     "time": "36 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 20 ] ], [ [ "clockworks", 1 ] ] ]
+    "components": [ [ [ "scrap", 5 ] ], [ [ "clockworks", 1 ] ] ]
   }
 ]
