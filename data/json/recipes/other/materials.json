@@ -1354,9 +1354,9 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "skills_required": [ "mechanics", 2 ],
+    "skills_required": [ "mechanics", 4 ],
     "time": "1 h 30 m",
-    "autolearn": [ [ "mechanics", 2 ] ],
+    "autolearn": [ [ "mechanics", 4 ] ],
     "book_learn": [ [ "textbook_mechanics", 4 ], [ "manual_mechanics", 4 ], [ "textbook_fabrication", 4 ] ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
