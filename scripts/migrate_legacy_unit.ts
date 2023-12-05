@@ -57,13 +57,15 @@ export const base = z
     max_volume: migrateVolume,
     min_volume: migrateVolume,
 
-    use_action: z.object({
-      max_volume: migrateVolume,
-      min_volume: migrateVolume,
-      filthy_volume_threshold: migrateVolume,
+    use_action: z.string().or(
+      z.object({
+        max_volume: migrateVolume,
+        min_volume: migrateVolume,
+        filthy_volume_threshold: migrateVolume,
 
-      max_weight: migrateWeight,
-    }).passthrough().optional(),
+        max_weight: migrateWeight,
+      }).passthrough(),
+    ).optional(),
 
     size: migrateVolume,
     // TODO: burn_data[].volume_per_turn

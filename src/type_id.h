@@ -166,6 +166,9 @@ using spell_id = string_id<spell_type>;
 class start_location;
 using start_location_id = string_id<start_location>;
 
+struct mutation_category_trait;
+using mutation_category_id = string_id<mutation_category_trait>;
+
 struct ter_t;
 using ter_id = int_id<ter_t>;
 using ter_str_id = string_id<ter_t>;

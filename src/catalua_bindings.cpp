@@ -510,7 +510,9 @@ void cata::detail::reg_game_api( sol::state &lua )
         add_msg_lua( game_message_type::m_neutral, va );
     }
                   ) );
-
+    luna::set_fx( lib, "place_player_overmap_at", []( const tripoint & p ) -> void {
+        g->place_player_overmap( tripoint_abs_omt( p ) );
+    } );
     luna::set_fx( lib, "current_turn", []() -> time_point { return calendar::turn; } );
     luna::set_fx( lib, "turn_zero", []() -> time_point { return calendar::turn_zero; } );
     luna::set_fx( lib, "before_time_starts", []() -> time_point { return calendar::before_time_starts; } );
