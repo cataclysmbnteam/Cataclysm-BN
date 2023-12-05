@@ -153,7 +153,7 @@ int get_most_accurate_sight( const Character &who, const item &gun );
 double aim_speed_skill_modifier( const Character &who, const skill_id &gun_skill );
 double aim_speed_dex_modifier( const Character &who );
 double aim_speed_encumbrance_modifier( const Character &who );
-double aim_cap_from_volume( const item &gun );
+double aim_multiplier_from_volume( const item &gun );
 
 /** Calculates aim improvement per move spent aiming at a given @param recoil */
 double aim_per_move( const Character &who, const item &gun, double recoil );
