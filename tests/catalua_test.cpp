@@ -127,9 +127,9 @@ TEST_CASE( "lua_runtime_error", "[lua]" )
 
     const std::string expected =
         "Script runtime error in tests/lua/runtime_error.lua: "
-        "tests/lua/runtime_error.lua:3: attempt to index a nil value (global 'table_with_typo')\n"
+        "tests/lua/runtime_error.lua:2: attempt to index a nil value (global 'table_with_typo')\n"
         "stack traceback:\n"
-        "\ttests/lua/runtime_error.lua:3: in main chunk";
+        "\ttests/lua/runtime_error.lua:2: in main chunk";
 
     REQUIRE_THROWS_MATCHES(
         run_lua_test_script( lua, "runtime_error.lua" ),
@@ -147,10 +147,10 @@ TEST_CASE( "lua_called_error_on_lua_side", "[lua]" )
 
     const std::string expected =
         "Script runtime error in tests/lua/called_error_on_lua_side.lua: "
-        "tests/lua/called_error_on_lua_side.lua:3: Error called on Lua side!\n"
+        "tests/lua/called_error_on_lua_side.lua:2: Error called on Lua side!\n"
         "stack traceback:\n"
         "\t[C]: in function 'base.error'\n"
-        "\ttests/lua/called_error_on_lua_side.lua:3: in main chunk";
+        "\ttests/lua/called_error_on_lua_side.lua:2: in main chunk";
 
     REQUIRE_THROWS_MATCHES(
         run_lua_test_script( lua, "called_error_on_lua_side.lua" ),
@@ -175,10 +175,10 @@ TEST_CASE( "lua_called_error_on_cpp_side", "[lua]" )
 
     const std::string expected =
         "Script runtime error in tests/lua/called_error_on_cpp_side.lua: "
-        "tests/lua/called_error_on_cpp_side.lua:3: Error called on Cpp side!\n"
+        "tests/lua/called_error_on_cpp_side.lua:2: Error called on Cpp side!\n"
         "stack traceback:\n"
         "\t[C]: in function 'base.cpp_call_error'\n"
-        "\ttests/lua/called_error_on_cpp_side.lua:3: in main chunk";
+        "\ttests/lua/called_error_on_cpp_side.lua:2: in main chunk";
 
     REQUIRE_THROWS_MATCHES(
         run_lua_test_script( lua, "called_error_on_cpp_side.lua" ),
@@ -207,7 +207,7 @@ TEST_CASE( "lua_called_cpp_func_throws", "[lua]" )
         "Exception thrown on Cpp side!\n"
         "stack traceback:\n"
         "\t[C]: in function 'base.cpp_throw_exception'\n"
-        "\ttests/lua/called_cpp_func_throws.lua:3: in main chunk";
+        "\ttests/lua/called_cpp_func_throws.lua:2: in main chunk";
 
     REQUIRE_THROWS_MATCHES(
         run_lua_test_script( lua, "called_cpp_func_throws.lua" ),
