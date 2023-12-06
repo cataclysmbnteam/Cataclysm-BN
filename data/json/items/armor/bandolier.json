@@ -148,7 +148,7 @@
       "ammo": [ "flintlock", "flintlockshot", "36paper", "44paper", "blunderbuss", "shotcanister", "shotpaper" ],
       "draw_cost": 20
     },
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "COMPACT", "OVERSIZE" ]
   },
   {
     "id": "bandolier_wrist",
@@ -209,7 +209,7 @@
     "encumbrance": 4,
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 6, "ammo": [ "40x46mm", "40x53mm" ], "draw_cost": 20 },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT", "OVERSIZE" ]
   },
   {
     "id": "stone_pouch",
@@ -230,7 +230,7 @@
     "encumbrance": 4,
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 10, "ammo": [ "rock" ], "draw_cost": 20 },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT", "OVERSIZE" ]
   },
   {
     "id": "grenadebandolier",
@@ -259,6 +259,6 @@
       "draw_cost": 30,
       "flags": [ "GRENADE" ]
     },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT" ]
   }
 ]

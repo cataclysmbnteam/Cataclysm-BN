@@ -276,7 +276,7 @@
     "encumbrance": 3,
     "storage": "1500 ml",
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "COMPACT", "RAINPROOF" ]
   },
   {
     "id": "crt_earmor",

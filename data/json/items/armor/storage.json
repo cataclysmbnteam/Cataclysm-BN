@@ -505,7 +505,7 @@
     "encumbrance": 2,
     "storage": "2 L",
     "material_thickness": 1,
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "legrig",
@@ -525,7 +525,7 @@
     "encumbrance": 4,
     "storage": "3 L",
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT" ]
   },
   {
     "id": "makeshift_knapsack",
@@ -598,7 +598,7 @@
     "max_encumbrance": 6,
     "storage": "6 L",
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "COMPACT", "WATER_FRIENDLY" ]
   },
   {
     "id": "molle_pack",
@@ -690,7 +690,7 @@
     "max_encumbrance": 5,
     "storage": "5 L",
     "material_thickness": 2,
-    "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "FANCY", "BELTED", "COMPACT", "WATER_FRIENDLY" ]
   },
   {
     "id": "ragpouch",
@@ -711,7 +711,7 @@
     "encumbrance": 8,
     "storage": "3 L",
     "material_thickness": 1,
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "rucksack",

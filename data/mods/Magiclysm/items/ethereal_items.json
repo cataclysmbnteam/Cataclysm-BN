@@ -253,6 +253,7 @@
     "material_thickness": 3,
     "flags": [
       "BELTED",
+      "COMPACT",
       "TRADER_AVOID",
       "WATERPROOF",
       "STURDY",
@@ -305,6 +306,7 @@
       "STR_DRAW",
       "PRIMITIVE_RANGED_WEAPON",
       "BELTED",
+      "COMPACT",
       "UNBREAKABLE_MELEE",
       "NONCONDUCTIVE",
       "ONLY_ONE",

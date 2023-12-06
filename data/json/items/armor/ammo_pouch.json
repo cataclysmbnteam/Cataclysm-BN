@@ -186,7 +186,7 @@
       "draw_cost": 30,
       "flags": [ "JAVELIN" ]
     },
-    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED", "COMPACT" ]
   },
   {
     "id": "legpouch",
@@ -429,7 +429,7 @@
     "encumbrance": 3,
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "quiver_birchbark",
@@ -450,7 +450,7 @@
     "encumbrance": 10,
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
-    "flags": [ "WAIST", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "quiver_large",
@@ -471,7 +471,7 @@
     "encumbrance": 3,
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 60, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "quiver_large_birchbark",
@@ -492,7 +492,7 @@
     "encumbrance": 14,
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 60, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
-    "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "COMPACT", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "tacvest",
@@ -631,6 +631,6 @@
       ],
       "draw_cost": 35
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   }
 ]
