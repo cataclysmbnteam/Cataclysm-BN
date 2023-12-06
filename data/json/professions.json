@@ -44,7 +44,7 @@
     "subtype": "collection",
     "id": "army_mags_power_armor",
     "entries": [
-      { "item": "heavy_plus_battery_cell", "ammo-item": "battery", "charges": 1250 },
+      { "item": "stanag100", "ammo-item": "556_incendiary", "charges": 100 },
       { "item": "heavy_plus_battery_cell", "ammo-item": "battery", "charges": 1250 }
     ]
   },
@@ -1133,7 +1133,7 @@
           { "item": "two_way_radio", "contents-item": [ "battery_ups" ] },
           { "item": "power_armor_chest_rig", "contents-group": "army_mags_power_armor" },
           { "item": "knife_combat", "container-item": "power_armor_sheath" },
-          { "item": "m240", "ammo-item": "762_51_incendiary", "charges": 500, "custom-flags": [ "auto_wield" ] }
+          { "item": "stanag100", "ammo-item": "556_incendiary", "charges": 100, "container-item": "m27iar", "custom-flags": [ "auto_wield" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
