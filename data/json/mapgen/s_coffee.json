@@ -1,11 +1,5 @@
 [
   {
-    "name": "GROUP_COFFEE_SHOP_ZOMBIE",
-    "type": "monstergroup",
-    "default": "mon_null",
-    "monsters": [ { "monster": "mon_zombie", "freq": 65, "cost_multiplier": 5 } ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_coffee" ],
