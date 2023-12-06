@@ -247,8 +247,8 @@
         "r": "f_rack"
       },
       "mapping": {
-         "t": { "terrain": "t_linoleum_white", "furniture": "f_table" },
-         "W": { "terrain": "t_linoleum_white", "furniture": "f_counter_gate_c" }
+        "t": { "terrain": "t_linoleum_white", "furniture": "f_table" },
+        "W": { "terrain": "t_linoleum_white", "furniture": "f_counter_gate_c" }
       },
       "toilets": { "P": {  } },
       "place_items": [
