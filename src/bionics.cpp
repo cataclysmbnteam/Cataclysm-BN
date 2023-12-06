@@ -68,6 +68,7 @@
 #include "point.h"
 #include "projectile.h"
 #include "requirements.h"
+#include "regen.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -1662,28 +1663,32 @@ void Character::process_bionic( bionic &bio )
                 }
             }
             if( calendar::once_every( 2_minutes ) ) {
-                std::vector<bodypart_id> damaged_hp_parts;
-                for( const bodypart_id &bp : get_all_body_parts( true ) ) {
-                    const int hp_cur = get_part_hp_cur( bp );
-                    if( !is_limb_broken( bp ) && hp_cur < get_part_hp_max( bp ) ) {
-                        damaged_hp_parts.push_back( bp );
+                // Essential parts are considered 10 HP lower than non-essential parts for the purpose of determining priority.
+                // I'd use the essential_value, but it's tied up in the heal_actor class of iuse_actor.
+                const auto effective_hp = [this]( const bodypart_id & bp ) -> int {
+                    return get_part_hp_cur( bp ) - bp->essential * 10;
+                };
+                const auto should_heal = [this]( const bodypart_id & bp ) -> bool {
+                    return get_part_hp_cur( bp ) < get_part_hp_max( bp );
+                };
+                const auto sort_by = [effective_hp]( const bodypart_id & a, const bodypart_id & b ) -> bool {
+                    return effective_hp( a ) < effective_hp( b );
+                };
+                const auto damaged_parts = [this, should_heal, sort_by]() {
+                    const auto xs = get_all_body_parts( true );
+                    auto ys = std::vector<bodypart_id> {};
+                    std::copy_if( xs.begin(), xs.end(), std::back_inserter( ys ), should_heal );
+                    std::sort( ys.begin(), ys.end(), sort_by );
+                    return ys;
+                };
+
+                for( bodypart_id &bp : damaged_parts() ) {
+                    if( !can_use_bionic() ) {
+                        return;
                     }
-                }
-                if( !damaged_hp_parts.empty() ) {
-                    // Essential parts are considered 10 HP lower than non-essential parts for the purpose of determining priority.
-                    // I'd use the essential_value, but it's tied up in the heal_actor class of iuse_actor.
-                    std::sort( damaged_hp_parts.begin(), damaged_hp_parts.end(),
-                    [this]( const bodypart_id & a, const bodypart_id & b ) {
-                        return ( get_part_hp_cur( a ) - a->essential * 10 ) < ( get_part_hp_cur( b ) - b->essential * 10 );
-                    } );
-                    for( bodypart_id &bpid : damaged_hp_parts ) {
-                        if( !can_use_bionic() ) {
-                            return;
-                        }
-                        heal( bpid, 1 );
-                        mod_power_level( -bio.info().power_trigger );
-                        mod_stored_kcal( -bio.info().kcal_trigger );
-                    }
+                    heal_adjusted( *this, bp, 1 );
+                    mod_power_level( -bio.info().power_trigger );
+                    mod_stored_kcal( -bio.info().kcal_trigger );
                 }
             }
         }

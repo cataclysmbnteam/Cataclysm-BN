@@ -610,7 +610,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Repair Nanobots CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A fleet of tiny dormant robots.  While activated they will reduce the intensity of one bleed effect every 30 seconds, and heal all injured body parts by 1 HP (or broken limbs by 1%) every 2 minutes if you have 3 kJ bionic power and 5 kcal per body part.  Broken limbs must still be splinted (unless you have specific mutations) to benefit.  If you don't have enough, they will prioritize based on the resources you have.",
+    "description": "A fleet of tiny dormant robots.  While activated they will reduce the intensity of one bleed effect every 30 seconds, and heal all injured body parts by 1 HP (or broken limbs by 1%) every 2 minutes if you have 3 kJ bionic power and 5 kcal per body part.  If you don't have enough, they will prioritize based on the resources you have.",
     "price": "9500 USD",
     "weight": "200 g",
     "difficulty": 6
