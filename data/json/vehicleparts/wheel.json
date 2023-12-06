@@ -617,7 +617,7 @@
     },
     "rolling_resistance": 2.15,
     "wheel_type": "rigid",
-    "contact_area": 60,
+    "contact_area": 100,
     "flags": [ "WHEEL", "NEEDS_JACKING" ],
     "damage_reduction": { "all": 14 }
   },
