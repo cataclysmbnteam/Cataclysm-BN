@@ -2428,7 +2428,7 @@
   {
     "result": "pocketwatch",
     "type": "uncraft",
-    "time": "36 s",
+    "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "gold_small", 3 ] ], [ [ "clockworks", 1 ] ] ]
   },
@@ -4492,7 +4492,7 @@
   {
     "result": "pocketwatch_crude",
     "type": "uncraft",
-    "time": "36 s",
+    "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ], [ [ "clockworks", 1 ] ] ]
   }

@@ -945,8 +945,8 @@
     "name": { "str": "handmade pocket watch", "str_pl": "handmade pocket watches" },
     "description": "An old-fashioned pocket watch, useful for telling the time and not much else.",
     "looks_like": "pocketwatch",
-    "weight": "300 g",
-    "volume": "250 ml",
+    "weight": "500 g",
+    "volume": "500 ml",
     "price": "250 USD",
     "price_postapoc": "1 USD",
     "material": [ "iron", "glass" ]
