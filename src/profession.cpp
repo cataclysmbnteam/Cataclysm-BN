@@ -464,9 +464,8 @@ std::vector<detached_ptr<item>> profession::items( bool male,
         }
     }
 
-    std::sort( result.begin(),
-               result.end(), []( detached_ptr<item> &first,
-    detached_ptr<item> &second ) {
+    std::stable_sort( result.begin(), result.end(),
+    []( const detached_ptr<item> &first, const detached_ptr<item> &second ) {
         return first->get_layer() < second->get_layer();
     } );
     return result;
