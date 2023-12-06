@@ -1075,7 +1075,7 @@ Another entry within a mapgen definition or palette can be a `"parameters"` key.
 Each entry in the `"parameters"` JSON object defines a parameter. The key is the parameter name.
 Each such key should have an associated JSON object. That object must provide its type (which should
 be a type string as for a `cata_variant`) and may optionally provide a default value. The default
-value should be a [mapgen value](#mapgen-value) as defined above.
+value should be a [mapgen value](#mapgen-values) as defined above.
 
 At time of writing, the only way for a parameter to get a value is via the `"default"`, so you
 probably want to always have one.
