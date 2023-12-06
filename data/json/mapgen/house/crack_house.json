@@ -114,7 +114,12 @@
           "default": { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
         }
       },
-      "terrain": { ".": { "param": "roof_type" }, "&": { "param": "roof_type" }, "=": { "param": "roof_type" }, "N": { "param": "roof_type" } }
+      "terrain": {
+        ".": { "param": "roof_type" },
+        "&": { "param": "roof_type" },
+        "=": { "param": "roof_type" },
+        "N": { "param": "roof_type" }
+      }
     }
   },
   {
