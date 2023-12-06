@@ -336,6 +336,8 @@
           { "id": "overlay_wielded_ceramic_knife", "fg": 190, "rotates": false },
           { "id": "golf_club", "fg": 191, "rotates": false },
           { "id": "overlay_wielded_golf_club", "fg": 192, "rotates": false },
+          { "id": "laser_rifle_cheap", "fg": 193, "rotates": false },
+          { "id": "overlay_wielded_laser_rifle_cheap", "fg": 194, "rotates": false },
           { "id": "overlay_wielded_TANK", "fg": 195, "rotates": false },
           { "id": "TANK", "fg": 195, "rotates": false },
           { "id": "f_geo_mox", "fg": 196, "rotates": false },
