@@ -56,7 +56,7 @@
         "'": "t_sidewalk",
         "U": "t_linoleum_white",
         "V": "t_wall_glass",
-        "W": "t_fencegate_c",
+        "W": "t_linoleum_white",
         "_": "t_pavement",
         "b": "t_dirt",
         "c": "t_linoleum_white",
@@ -94,7 +94,8 @@
         "b": "f_dandelion",
         "f": "f_glass_fridge",
         "l": "f_rack",
-        "r": "f_rack"
+        "r": "f_rack",
+        "W": "f_counter_gate_c"
       },
       "toilets": { ";": {  } },
       "items": {
@@ -197,7 +198,7 @@
         "|..HTH.HTH.HTH.......TT|",
         "|....................HH|",
         "|......................|",
-        "|-D---D---cWWcccxccxccc|",
+        "|-D---D---ccWcccxccxccc|",
         "|S==|==S|==============|",
         "|P==|==P|llSO==rrrrrSte|",
         "|-------------L--------|"
@@ -222,7 +223,6 @@
         "O": "t_linoleum_white",
         "P": "t_linoleum_white",
         "S": "t_linoleum_white",
-        "W": "t_fencegate_c",
         "_": "t_pavement",
         "c": "t_linoleum_white",
         "e": "t_linoleum_white",
@@ -248,7 +248,8 @@
         "r": "f_rack"
       },
       "mapping": {
-         "t": { "terrain": "t_linoleum_white", "furniture": "f_table" }
+         "t": { "terrain": "t_linoleum_white", "furniture": "f_table" },
+         "W": { "terrain": "t_linoleum_white", "furniture": "f_counter_gate_c" }
       },
       "toilets": { "P": {  } },
       "place_items": [
