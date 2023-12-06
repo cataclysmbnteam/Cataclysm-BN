@@ -1131,7 +1131,6 @@
         "entries": [
           { "item": "heavy_plus_battery_cell", "charges": 2500, "container-item": "UPS_off" },
           { "item": "two_way_radio", "contents-item": [ "battery_ups" ] },
-          { "item": "canteen", "custom-flags": [ "no_auto_equip" ] },
           { "item": "power_armor_chest_rig", "contents-group": "army_mags_power_armor" },
           { "item": "knife_combat", "container-item": "power_armor_sheath" },
           {
