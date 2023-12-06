@@ -83,7 +83,7 @@
     "warmth": 15,
     "material": [ "neoprene", "rubber" ],
     "material_thickness": 1,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT" ]
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "crt_backpack",

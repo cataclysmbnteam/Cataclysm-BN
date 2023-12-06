@@ -37,7 +37,7 @@
     "coverage": 100,
     "material_thickness": 1,
     "encumbrance": 5,
-    "flags": [ "VARSIZE", "SKINTIGHT", "RAINPROOF", "STURDY", "WATERPROOF", "HYGROMETER" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "RAINPROOF", "STURDY", "WATERPROOF", "HYGROMETER", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "afs_cryopod_bodyglove_on",
@@ -51,6 +51,6 @@
     "revert_to": "afs_cryopod_bodyglove",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_cryopod_bodyglove" },
     "magazine_well": "250 ml",
-    "flags": [ "STURDY", "WATERPROOF", "THERMOMETER", "RAINPROOF", "CLIMATE_CONTROL" ]
+    "flags": [ "STURDY", "WATERPROOF", "THERMOMETER", "RAINPROOF", "CLIMATE_CONTROL", "POWERARMOR_COMPATIBLE" ]
   }
 ]
