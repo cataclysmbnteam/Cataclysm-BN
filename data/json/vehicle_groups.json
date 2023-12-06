@@ -802,5 +802,15 @@
     "id": "park_playground_vehicles",
     "type": "vehicle_group",
     "vehicles": [ [ "ice_cream_cart", 100 ], [ "food_cart", 200 ], [ "bicycle", 150 ], [ "bicycle_dirt", 125 ], [ "tricycle", 5 ] ]
+  },
+  {
+    "id": "bastion_fort_vehicles",
+    "type": "vehicle_group",
+    "vehicles": [ [ "cannon_3in", 90 ], [ "gatling_carriage", 10 ] ]
+  },
+  {
+    "id": "museum_vehicles",
+    "type": "vehicle_group",
+    "vehicles": [ [ "cannon_3in", 50 ], [ "gatling_carriage", 50 ] ]
   }
 ]

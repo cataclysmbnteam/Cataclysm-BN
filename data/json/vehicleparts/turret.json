@@ -434,5 +434,17 @@
     "breaks_into": [ { "item": "scrap", "count": 72 }, { "item": "steel_chunk", "count": 30 }, { "item": "steel_lump", "count": 10 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "description": "A light (by artillery standards) rifled cannon widely used in the American Civil War, noted for its reliability."
+  },
+  {
+    "id": "mounted_m1874_gatling",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted M1874 Gatling gun" },
+    "item": "m1874_gatling",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "scrap", "count": 28 }, { "item": "steel_chunk", "count": 20 }, { "item": "steel_lump", "count": 12 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
+    "description": "A rotary firearm from the 19th Century driving multiple barrels with a hand crank for sustained fire."
   }
 ]
