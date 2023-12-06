@@ -4,7 +4,7 @@
     "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE", "MshockRealXotto", "MSX++DEAD_PEOPLE", "MSXotto+" ],
     "tiles-new": [
       {
-        "file": "Aftershock_normal.png",
+        "file": "external_tileset/Aftershock_normal.png",
         "tiles": [
           { "id": "bg_bloob_glob_car", "fg": 1 },
           { "id": "bg_book_adv", "fg": 2, "rotates": false },
@@ -563,7 +563,7 @@
         "sprite_offset_y": 0
       },
       {
-        "file": "Aftershock_large.png",
+        "file": "external_tileset/Aftershock_large.png",
         "tiles": [
           { "id": "bg_big_dirt", "fg": 369, "rotates": false },
           { "id": "bg_big_dirt_frozen", "fg": 370, "rotates": false },
