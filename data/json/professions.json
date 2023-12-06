@@ -1133,7 +1133,13 @@
           { "item": "two_way_radio", "contents-item": [ "battery_ups" ] },
           { "item": "power_armor_chest_rig", "contents-group": "army_mags_power_armor" },
           { "item": "knife_combat", "container-item": "power_armor_sheath" },
-          { "item": "stanag100", "ammo-item": "556_incendiary", "charges": 100, "container-item": "m27iar", "custom-flags": [ "auto_wield" ] }
+          {
+            "item": "stanag100",
+            "ammo-item": "556_incendiary",
+            "charges": 100,
+            "container-item": "m27iar",
+            "custom-flags": [ "auto_wield" ]
+          }
         ]
       },
       "male": [ "boxer_shorts" ],
