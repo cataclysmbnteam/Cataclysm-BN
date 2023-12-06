@@ -175,5 +175,26 @@
     "loudness": 7,
     "ups_charges": 10,
     "ammo_effects": [ "LASER", "INCENDIARY" ]
+  },
+  {
+    "id": "laser_rifle_cheap",
+    "type": "GUN",
+    "copy-from": "rifle_energy",
+    "name": { "str": "shoddy laser rifle" },
+    "description": "This is a cheap laser rifle made from common components.  Weak, but can be powered with UPS.",
+    "weight": "8 kg",
+    "volume": "2500 ml",
+    "price": "400 USD",
+    "bashing": 8,
+    "material": [ "plastic", "copper" ],
+    "symbol": "(",
+    "color": "magenta",
+    "range": 25,
+    "ranged_damage": { "damage_type": "heat", "amount": 15 },
+    "dispersion": 150,
+    "durability": 6,
+    "loudness": 14,
+    "ups_charges": 30,
+    "ammo_effects": [ "LASER", "INCENDIARY" ]
   }
 ]
