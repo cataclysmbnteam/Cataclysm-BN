@@ -157,7 +157,6 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tile_flat_roof", "|": "t_glass_railing", ">": "t_stairs_down" },
-      "furniture": { "b": "f_bench", "t": "f_table" },
       "place_items": [
         { "item": "coffee_table", "x": [ 4, 5 ], "y": [ 18, 19 ], "chance": 50, "repeat": [ 1, 3 ] },
         { "item": "coffee_table", "x": 13, "y": [ 18, 19 ], "chance": 50, "repeat": [ 1, 3 ] },
