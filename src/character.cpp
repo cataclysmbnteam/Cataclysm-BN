@@ -5248,6 +5248,11 @@ item *Character::best_quality_item( const quality_id &qual )
     return best_qual;
 }
 
+namespace
+{
+constexpr int metabolic_base_kcals = 2500;
+} // namespace
+
 void Character::update_stomach( const time_point &from, const time_point &to )
 {
     const needs_rates rates = calc_needs_rates();
@@ -5258,7 +5263,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     const bool foodless = debug_ls || npc_no_food;
     const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
-    const float kcal_per_time = bmr() / ( 12.0f * 24.0f );
+    const float kcal_per_time = rates.hunger * metabolic_base_kcals / ( 12.0f * 24.0f );
     const int five_mins = ticks_between( from, to, 5_minutes );
 
     if( five_mins > 0 ) {
@@ -5276,7 +5281,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     }
 
     if( !foodless && rates.thirst > 0.0f ) {
-        mod_thirst( roll_remainder( rates.thirst * five_mins ) );
+        mod_thirst( roll_remainder( five_mins * rates.thirst ) );
     }
 
     if( npc_no_food ) {
@@ -5449,8 +5454,9 @@ needs_rates Character::calc_needs_rates() const
         rates.recovery = 2.0f * ( 1.0f + mutation_value( fatigue_regen_modifier ) );
         if( is_hibernating() ) {
             // Hunger and thirst advance *much* more slowly whilst we hibernate.
-            rates.hunger *= ( 1.0f / 7.0f );
-            rates.thirst *= ( 1.0f / 7.0f );
+            // This will slow calories consumption enough to go through the 7 days of hibernation
+            rates.hunger /= 2.0f;
+            rates.thirst /= 14.0f;
         }
         rates.recovery -= static_cast<float>( get_perceived_pain() ) / 60;
 
@@ -7348,7 +7354,7 @@ int Character::height() const
 
 int Character::bmr() const
 {
-    return metabolic_rate_base() * 2500;
+    return metabolic_rate_base() * metabolic_base_kcals;
 }
 
 int Character::get_armor_bash( bodypart_id bp ) const
@@ -9810,7 +9816,7 @@ void Character::fall_asleep()
         }
     }
     if( has_active_mutation( trait_HIBERNATE ) ) {
-        if( get_stored_kcal() > max_stored_kcal() - bmr() / 4 &&
+        if( get_stored_kcal() > max_stored_kcal() * 0.9 &&
             get_thirst() < thirst_levels::thirsty ) {
             if( is_avatar() ) {
                 g->memorial().add( pgettext( "memorial_male", "Entered hibernation." ),
