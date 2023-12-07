@@ -3129,14 +3129,18 @@ give more produce from harvest, for numbers less than one it will give less prod
 
 ## Obsoletion and migration
 
-For maps, you remove the item from all the places it can spawn, remove the mapgen entries, and add the overmap terrain id into `data/json/obsoletion/migration_oter_ids.json`, to migrate oter_id `underground_sub_station` and `sewer_sub_station` into their rotatable versions, note that if mapgen has already generated this area this will only alter the tile shown on the overmap:
+For maps, you remove the item from all the places it can spawn, remove the mapgen entries, and add
+the overmap terrain id into `data/json/obsoletion/migration_oter_ids.json`, to migrate oter_id
+`underground_sub_station` and `sewer_sub_station` into their rotatable versions, note that if mapgen
+has already generated this area this will only alter the tile shown on the overmap:
+
 ```json
-  {
-    "type": "oter_id_migration",
-    "//": "obsoleted in 0.4",
-    "oter_ids": {
-      "underground_sub_station": "underground_sub_station_north",
-      "sewer_sub_station": "sewer_sub_station_north"
-    }
+{
+  "type": "oter_id_migration",
+  "//": "obsoleted in 0.4",
+  "oter_ids": {
+    "underground_sub_station": "underground_sub_station_north",
+    "sewer_sub_station": "sewer_sub_station_north"
   }
+}
 ```
