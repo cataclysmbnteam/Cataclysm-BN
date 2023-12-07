@@ -334,7 +334,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
     write_to_file( "weather.output", [&]( std::ostream & testfile ) {
         testfile <<
                  "|;year;season;day;hour;minute;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
-                 << std::endl;
+                 << '\n';
 
         const time_point begin = calendar::turn;
         const time_point end = begin + 2 * calendar::year_length();
@@ -354,7 +354,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
             }
             testfile << "|;" << year << ";" << season_of_year( i ) << ";" << day << ";" << hour << ";" << minute
                      << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << conditions->name << ";"
-                     << w.windpower << ";" << w.winddirection << std::endl;
+                     << w.windpower << ";" << w.winddirection << '\n';
         }
 
     }, "weather test file" );

@@ -43,10 +43,10 @@ static float brute_special_probability( monster &attacker, Creature &target, con
 static std::string full_attack_details( const player &dude )
 {
     std::stringstream ss;
-    ss << "Details for " << dude.disp_name() << std::endl;
-    ss << "get_hit() == " << dude.get_hit() << std::endl;
-    ss << "get_melee_hit_base() == " << dude.get_melee_hit_base() << std::endl;
-    ss << "get_hit_weapon() == " << dude.get_hit_weapon( dude.primary_weapon() ) << std::endl;
+    ss << "Details for " << dude.disp_name() << '\n';
+    ss << "get_hit() == " << dude.get_hit() << '\n';
+    ss << "get_melee_hit_base() == " << dude.get_melee_hit_base() << '\n';
+    ss << "get_hit_weapon() == " << dude.get_hit_weapon( dude.primary_weapon() ) << '\n';
     return ss.str();
 }
 

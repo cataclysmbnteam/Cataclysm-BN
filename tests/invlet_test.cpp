@@ -143,36 +143,36 @@ static std::string test_action_desc(
     const invlet_state final_first_invlet_state, const invlet_state final_second_invlet_state )
 {
     std::stringstream ss;
-    ss << "1. add 1st item to " << location_desc( to ) << std::endl;
-    ss << "2. add 2nd item to " << location_desc( to ) << std::endl;
-    ss << "3. set 1st item's invlet to " << invlet_state_desc( first_invlet_state ) << std::endl;
-    ss << "4. " << move_action_desc( 0, to, from ) << std::endl;
-    ss << "5. set 2nd item's invlet to " << invlet_state_desc( second_invlet_state ) << std::endl;
+    ss << "1. add 1st item to " << location_desc( to ) << '\n';
+    ss << "2. add 2nd item to " << location_desc( to ) << '\n';
+    ss << "3. set 1st item's invlet to " << invlet_state_desc( first_invlet_state ) << '\n';
+    ss << "4. " << move_action_desc( 0, to, from ) << '\n';
+    ss << "5. set 2nd item's invlet to " << invlet_state_desc( second_invlet_state ) << '\n';
     switch( action ) {
         case REMOVE_1ST_REMOVE_2ND_ADD_1ST_ADD_2ND:
-            ss << "6. " << move_action_desc( 1, to, from ) << std::endl;
-            ss << "7. " << move_action_desc( 0, from, to ) << std::endl;
-            ss << "8. " << move_action_desc( 1, from, to ) << std::endl;
+            ss << "6. " << move_action_desc( 1, to, from ) << '\n';
+            ss << "7. " << move_action_desc( 0, from, to ) << '\n';
+            ss << "8. " << move_action_desc( 1, from, to ) << '\n';
             break;
         case REMOVE_1ST_REMOVE_2ND_ADD_2ND_ADD_1ST:
-            ss << "6. " << move_action_desc( 1, to, from ) << std::endl;
-            ss << "7. " << move_action_desc( 1, from, to ) << std::endl;
-            ss << "8. " << move_action_desc( 0, from, to ) << std::endl;
+            ss << "6. " << move_action_desc( 1, to, from ) << '\n';
+            ss << "7. " << move_action_desc( 1, from, to ) << '\n';
+            ss << "8. " << move_action_desc( 0, from, to ) << '\n';
             break;
         case REMOVE_1ST_ADD_1ST:
-            ss << "6. " << move_action_desc( 0, from, to ) << std::endl;
+            ss << "6. " << move_action_desc( 0, from, to ) << '\n';
             break;
         default:
             return "unimplemented";
     }
     ss << "expect 1st item to have " << invlet_state_desc( expected_first_invlet_state ) << " invlet" <<
-       std::endl;
+       '\n';
     ss << "1st item actually has " << invlet_state_desc( final_first_invlet_state ) << " invlet" <<
-       std::endl;
+       '\n';
     ss << "expect 2nd item to have " << invlet_state_desc( expected_second_invlet_state ) << " invlet"
-       << std::endl;
+       << '\n';
     ss << "2nd item actually has " << invlet_state_desc( final_second_invlet_state ) << " invlet" <<
-       std::endl;
+       '\n';
 
     return ss.str();
 }
@@ -503,13 +503,13 @@ static void stack_invlet_test( player &dummy, inventory_location from, inventory
     move_item( dummy, tshirt1, from, to );
 
     std::stringstream ss;
-    ss << "1. add a stack of two same items to " << location_desc( from ) << std::endl;
-    ss << "2. assign the stack with an invlet" << std::endl;
-    ss << "3. " << move_action_desc( 0, from, to ) << std::endl;
-    ss << "expect the two items to have different invlets" << std::endl;
+    ss << "1. add a stack of two same items to " << location_desc( from ) << '\n';
+    ss << "2. assign the stack with an invlet" << '\n';
+    ss << "3. " << move_action_desc( 0, from, to ) << '\n';
+    ss << "expect the two items to have different invlets" << '\n';
     ss << "actually the two items have " <<
        ( tshirt1.invlet != tshirt2.invlet ? "different" : "the same" ) <<
-       " invlets" << std::endl;
+       " invlets" << '\n';
     INFO( ss.str() );
     // the wielded/worn item should have different invlet from the remaining item
     CHECK( tshirt1.invlet != tshirt2.invlet );
@@ -563,17 +563,17 @@ static void swap_invlet_test( player &dummy, inventory_location loc )
 
     std::stringstream ss;
     ss << "1. add two items of the same type to " << location_desc( loc ) <<
-       ", and ensure them do not stack" << std::endl;
-    ss << "2. assign different invlets to the two items" << std::endl;
+       ", and ensure them do not stack" << '\n';
+    ss << "2. assign different invlets to the two items" << '\n';
     ss << "3. swap the invlets by assign one of the items with the invlet of the other item" <<
-       std::endl;
-    ss << "4. move the items to " << location_desc( GROUND ) << std::endl;
-    ss << "5. move the items to " << location_desc( loc ) << " again" << std::endl;
-    ss << "expect the items to keep their swapped invlets" << std::endl;
+       '\n';
+    ss << "4. move the items to " << location_desc( GROUND ) << '\n';
+    ss << "5. move the items to " << location_desc( loc ) << " again" << '\n';
+    ss << "expect the items to keep their swapped invlets" << '\n';
     if( tshirt1.invlet == invlet_2 && tshirt2.invlet == invlet_1 ) {
-        ss << "the items actually keep their swapped invlets" << std::endl;
+        ss << "the items actually keep their swapped invlets" << '\n';
     } else {
-        ss << "the items actually does not keep their swapped invlets" << std::endl;
+        ss << "the items actually does not keep their swapped invlets" << '\n';
     }
     INFO( ss.str() );
     // invlets should not disappear and should still be swapped
@@ -637,16 +637,16 @@ static void merge_invlet_test( player &dummy, inventory_location from )
         char merged_invlet = merged_item.invlet;
 
         std::stringstream ss;
-        ss << "1. add two stackable items to the inventory and " << location_desc( from ) << std::endl;
+        ss << "1. add two stackable items to the inventory and " << location_desc( from ) << '\n';
         ss << "2. assign " << invlet_state_desc( first_invlet_state ) << " invlet " << invlet_1 <<
-           " to the item in the inventory " << std::endl;
+           " to the item in the inventory " << '\n';
         ss << "3. assign " << invlet_state_desc( second_invlet_state ) << " invlet " << invlet_2 <<
-           " to the " << location_desc( from ) << std::endl;
-        ss << "4. " << move_action_desc( 0, from, INVENTORY ) << std::endl;
+           " to the " << location_desc( from ) << '\n';
+        ss << "4. " << move_action_desc( 0, from, INVENTORY ) << '\n';
         ss << "expect the stack in the inventory to have " << invlet_state_desc(
-               expected_merged_invlet_state ) << " invlet " << expected_merged_invlet << std::endl;
+               expected_merged_invlet_state ) << " invlet " << expected_merged_invlet << '\n';
         ss << "the stack actually has " << invlet_state_desc( merged_invlet_state ) << " invlet " <<
-           merged_invlet << std::endl;
+           merged_invlet << '\n';
         INFO( ss.str() );
         REQUIRE( merged_item.typeId() == tshirt1.typeId() );
         CHECK( merged_invlet_state == expected_merged_invlet_state );

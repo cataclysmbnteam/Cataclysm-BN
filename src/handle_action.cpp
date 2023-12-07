@@ -1075,11 +1075,11 @@ static void sleep()
     std::stringstream data;
     if( !active.empty() ) {
         as_m.selected = 2;
-        data << as_m.text << std::endl;
-        data << _( "You may want to extinguish or turn off:" ) << std::endl;
-        data << " " << std::endl;
+        data << as_m.text << '\n';
+        data << _( "You may want to extinguish or turn off:" ) << '\n';
+        data << " " << '\n';
         for( auto &a : active ) {
-            data << "<color_red>" << a << "</color>" << std::endl;
+            data << "<color_red>" << a << "</color>" << '\n';
         }
         as_m.text = data.str();
     }

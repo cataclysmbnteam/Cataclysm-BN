@@ -150,7 +150,7 @@ static void report_fatal_error( const std::string &msg )
 #if defined(TILES)
     if( test_mode ) {
 #endif
-        std::cerr << "Cataclysm BN: Fatal error" << std::endl << msg << std::endl;
+        std::cerr << "Cataclysm BN: Fatal error" << '\n' << msg << '\n';
 #if defined(TILES)
     } else {
         SDL_ShowSimpleMessageBox(
@@ -683,7 +683,7 @@ int main( int argc, char *argv[] )
             catacurses::init_interface();
         } catch( const std::exception &err ) {
             // can't use any curses function as it has not been initialized
-            std::cerr << "Error while initializing the interface: " << err.what() << std::endl;
+            std::cerr << "Error while initializing the interface: " << err.what() << '\n';
             DebugLog( DL::Error, DC::Main ) << "Error while initializing the interface: " << err.what();
             return 1;
         }
