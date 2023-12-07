@@ -1165,7 +1165,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "roller_shoes_off",
@@ -1269,7 +1269,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "socks",
@@ -1288,7 +1288,7 @@
     "coverage": 100,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "socks_ankle",
@@ -1306,7 +1306,7 @@
     "covers": [ "feet" ],
     "coverage": 80,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "socks_bag",
@@ -1344,7 +1344,7 @@
     "covers": [ "feet" ],
     "coverage": 80,
     "warmth": 2,
-    "flags": [ "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "socks_wool",
@@ -1364,7 +1364,7 @@
     "encumbrance": 5,
     "warmth": 30,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "stockings",
@@ -1384,7 +1384,7 @@
     "encumbrance": 5,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "stockings_wool",
@@ -1437,7 +1437,7 @@
     "coverage": 100,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "tabi_gi",
@@ -1457,7 +1457,7 @@
     "coverage": 100,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "sandal_armor",

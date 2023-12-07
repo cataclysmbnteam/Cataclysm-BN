@@ -546,7 +546,7 @@
     "color": "yellow",
     "covers": [ "head" ],
     "coverage": 90,
-    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID" ]
+    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "tophat",

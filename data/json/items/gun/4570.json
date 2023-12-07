@@ -89,5 +89,28 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ]
+  },
+  {
+    "id": "m1874_gatling",
+    "copy-from": "gatling_base",
+    "looks_like": "m134",
+    "type": "GUN",
+    "name": { "str": "M1874 Gatling gun" },
+    "description": "A rotary firearm from the 19th Century driving multiple barrels with a hand crank for sustained fire.  This one is a reproduction of a five-barrel version using the .45-70 cartridge, and can fit Broadwell drums holding 240 rounds each.",
+    "weight": "61200 g",
+    "volume": "10 L",
+    "barrel_length": "1 L",
+    "price": "45000 USD",
+    "price_postapoc": "80 USD",
+    "material": [ "iron", "brass" ],
+    "color": "yellow",
+    "ammo": "4570",
+    "dispersion": 400,
+    "blackpowder_tolerance": 80,
+    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "rail mount", 1 ], [ "sights", 1 ] ],
+    "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "burst", 3 ] ],
+    "//": "If speedloaders get fixed to allow topping off a partially-loaded gun, adding the more common Bruce feed (40 round feed tray topped off with 20-round blocks) would be an option.",
+    "magazines": [ [ "4570", [ "gatlingdrum240" ] ] ],
+    "extend": { "flags": [ "NEVER_JAMS", "FIRE_TWOHAND" ] }
   }
 ]

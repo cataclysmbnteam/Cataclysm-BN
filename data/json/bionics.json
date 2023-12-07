@@ -661,7 +661,7 @@
     "id": "bio_nanobots",
     "type": "bionic",
     "name": { "str": "Repair Nanobots" },
-    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will reduce the intensity of one bleed effect every 30 seconds, and heal all injured body parts by 1 HP (or broken limbs by 1%) every 2 minutes if you have 3 kJ bionic power and 5 kcal per body part.  Broken limbs must still be splinted (unless you have specific mutations) to benefit.  If you don't have enough, they will prioritize based on the resources you have.",
+    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will reduce the intensity of one bleed effect every 30 seconds, and heal all injured body parts by 1 HP (or broken limbs by 1%) every 2 minutes if you have 3 kJ bionic power and 5 kcal per body part.  If you don't have enough, they will prioritize based on the resources you have.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "300 J",

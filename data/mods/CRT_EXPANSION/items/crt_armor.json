@@ -83,7 +83,7 @@
     "warmth": 15,
     "material": [ "neoprene", "rubber" ],
     "material_thickness": 1,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT" ]
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "crt_backpack",
@@ -276,7 +276,7 @@
     "encumbrance": 3,
     "storage": "1500 ml",
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "COMPACT", "RAINPROOF" ]
   },
   {
     "id": "crt_earmor",

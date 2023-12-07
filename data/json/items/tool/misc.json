@@ -937,5 +937,18 @@
       { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true }
     ],
     "flags": [ "FIRESTARTER", "THERMOMETER" ]
+  },
+  {
+    "id": "pocketwatch_crude",
+    "type": "GENERIC",
+    "copy-from": "pocketwatch",
+    "name": { "str": "handmade pocket watch", "str_pl": "handmade pocket watches" },
+    "description": "An old-fashioned pocket watch, useful for telling the time and not much else.",
+    "looks_like": "pocketwatch",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": "250 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "iron", "glass" ]
   }
 ]

@@ -129,11 +129,15 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
     unsigned int day = 0;
 
     do {
-        results.push_back( string_format( "\nday %d: %d", day, dummy.get_stored_kcal() ) );
+        const auto begin = dummy.get_stored_kcal();
+
         pass_time( dummy, 1_days );
         dummy.set_thirst( 0 );
         dummy.set_fatigue( 0 );
         set_all_vitamins( 0, dummy );
+
+        const auto end = dummy.get_stored_kcal();
+        results.push_back( string_format( "\nday %d: %d -> %d", day, begin, end ) );
         day++;
     } while( dummy.get_stored_kcal() > 0 );
 

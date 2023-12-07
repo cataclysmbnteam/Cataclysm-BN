@@ -18,7 +18,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "30gal_barrel",
@@ -583,7 +583,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "leg_either" ], "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "thermos",
@@ -806,7 +806,7 @@
     "watertight": true,
     "armor_data": { "covers": [ "leg_either" ], "coverage": 2, "material_thickness": 1 },
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "jar_3l_glass",
@@ -1064,7 +1064,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "torso" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
   },
   {
     "id": "stomach_sealed",
@@ -1106,7 +1106,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "leg_either" ], "coverage": 5, "material_thickness": 2 },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin2",
@@ -1128,7 +1128,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "torso" ], "coverage": 10, "material_thickness": 2 },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin3",
@@ -1150,7 +1150,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "torso" ], "coverage": 15, "material_thickness": 2 },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "COMPACT", "WATER_FRIENDLY" ]
   },
   {
     "id": "wooden_barrel",

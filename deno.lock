@@ -2,9 +2,50 @@
   "version": "3",
   "packages": {
     "specifiers": {
+      "npm:dprint": "npm:dprint@0.43.2",
       "npm:ts-pattern@5.0.5": "npm:ts-pattern@5.0.5"
     },
     "npm": {
+      "@dprint/darwin-arm64@0.43.2": {
+        "integrity": "sha512-EPBM3my8L2Wq+UPjfRepKLsZZe30mipvgT6HdpsT8FXqrvVaHcE5BxQdyu0TH/V7GogmeMXOaiAgH9f5IBkdTg==",
+        "dependencies": {}
+      },
+      "@dprint/darwin-x64@0.43.2": {
+        "integrity": "sha512-zXabg6PF8g3d0Zc7KS3gj6/w38jO6GqIwHG0fvJh+E1UiSs36xLjLAsyZh7/6wrDu7LfD/g5WOUz1QAfrnO3zQ==",
+        "dependencies": {}
+      },
+      "@dprint/linux-arm64-glibc@0.43.2": {
+        "integrity": "sha512-XV6pXgyT8iKHf/VOB9JVZlU73mTX6vjJ+fLY0c+r9j7Zgjp6kb4JX6mTfeEwTZYBsZUzOmxKj+kno1mfw6dUHg==",
+        "dependencies": {}
+      },
+      "@dprint/linux-arm64-musl@0.43.2": {
+        "integrity": "sha512-aaWBIOMncDb0YrRmmNKCs7tf6H26VB0izX2bPIbMiOc50hPuCI28lz1lY+zdwdFKG+1aRkKHkLJtpOjgvmEqCw==",
+        "dependencies": {}
+      },
+      "@dprint/linux-x64-glibc@0.43.2": {
+        "integrity": "sha512-OBJlQCvPCQOgSZvQhTVJbF6mD9Bpz3hhecTZNnU/n83bHX1L3cwu/laws0mQPXOxJvBKpYVgN5ceZelIO0ZKWA==",
+        "dependencies": {}
+      },
+      "@dprint/linux-x64-musl@0.43.2": {
+        "integrity": "sha512-WVnivencONHhRVfgbKPf95P3ES8DYowBCk80tROg41BBRdP/WJoPWc5Ocm6mhEGEeIpcHol+xvwKkqZkkMxJcg==",
+        "dependencies": {}
+      },
+      "@dprint/win32-x64@0.43.2": {
+        "integrity": "sha512-ZboeX4lGZ+MtFyWV/Z9wxV3Re2zb/t6u79V38aKgCWDuy1SzGdxZcCPjEEY17lxwGpzgD5T0VBVdiBQLIy08CQ==",
+        "dependencies": {}
+      },
+      "dprint@0.43.2": {
+        "integrity": "sha512-9p/dmiFSkTl3hEvCfNbc/jwVwZp4JE5Bgm0z148QEXU7v+FA2dv0xQooAagWEnCPAQgxYcQhecTxrLanOsyNoA==",
+        "dependencies": {
+          "@dprint/darwin-arm64": "@dprint/darwin-arm64@0.43.2",
+          "@dprint/darwin-x64": "@dprint/darwin-x64@0.43.2",
+          "@dprint/linux-arm64-glibc": "@dprint/linux-arm64-glibc@0.43.2",
+          "@dprint/linux-arm64-musl": "@dprint/linux-arm64-musl@0.43.2",
+          "@dprint/linux-x64-glibc": "@dprint/linux-x64-glibc@0.43.2",
+          "@dprint/linux-x64-musl": "@dprint/linux-x64-musl@0.43.2",
+          "@dprint/win32-x64": "@dprint/win32-x64@0.43.2"
+        }
+      },
       "ts-pattern@5.0.5": {
         "integrity": "sha512-tL0w8U/pgaacOmkb9fRlYzWEUDCfVjjv9dD4wHTgZ61MjhuMt46VNWTG747NqW6vRzoWIKABVhFSOJ82FvXrfA==",
         "dependencies": {}

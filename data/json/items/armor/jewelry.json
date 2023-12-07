@@ -92,7 +92,7 @@
     "color": "yellow",
     "covers": [ "mouth" ],
     "encumbrance": 10,
-    "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
+    "flags": [ "SUPER_FANCY", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "garnet_dental_grill",
@@ -111,7 +111,7 @@
     "color": "red",
     "covers": [ "mouth" ],
     "encumbrance": 10,
-    "flags": [ "FANCY", "SKINTIGHT" ]
+    "flags": [ "FANCY", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "amethyst_dental_grill",
@@ -238,7 +238,17 @@
     "covers": [ "hand_either" ],
     "coverage": 5,
     "use_action": "WEATHER_TOOL",
-    "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": [
+      "WATCH",
+      "ALARMCLOCK",
+      "WATER_FRIENDLY",
+      "THERMOMETER",
+      "BELTED",
+      "COMPACT",
+      "ALLOWS_NATURAL_ATTACKS",
+      "OVERSIZE",
+      "POWERARMOR_COMPATIBLE"
+    ]
   },
   {
     "id": "collarpin",
@@ -766,7 +776,7 @@
     "symbol": "[",
     "color": "yellow",
     "covers": [ "mouth" ],
-    "flags": [ "FANCY", "SKINTIGHT" ]
+    "flags": [ "FANCY", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "gold_ear",
@@ -867,7 +877,7 @@
     "color": "yellow",
     "covers": [ "hand_either" ],
     "coverage": 5,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": [ "WATCH", "FANCY", "BELTED", "COMPACT", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "tieclip",
@@ -897,7 +907,17 @@
     "color": "light_gray",
     "covers": [ "hand_either" ],
     "coverage": 10,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [
+      "WATCH",
+      "FANCY",
+      "BELTED",
+      "COMPACT",
+      "FRAGILE",
+      "ALLOWS_NATURAL_ATTACKS",
+      "WATER_FRIENDLY",
+      "OVERSIZE",
+      "POWERARMOR_COMPATIBLE"
+    ]
   },
   {
     "id": "silver_bracelet",
@@ -943,7 +963,17 @@
     "color": "yellow",
     "covers": [ "hand_either" ],
     "coverage": 10,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [
+      "WATCH",
+      "SUPER_FANCY",
+      "BELTED",
+      "COMPACT",
+      "FRAGILE",
+      "ALLOWS_NATURAL_ATTACKS",
+      "WATER_FRIENDLY",
+      "OVERSIZE",
+      "POWERARMOR_COMPATIBLE"
+    ]
   },
   {
     "id": "small_relic",
@@ -1033,7 +1063,16 @@
     "color": "white",
     "covers": [ "hand_either" ],
     "coverage": 5,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": [
+      "WATCH",
+      "SUPER_FANCY",
+      "BELTED",
+      "COMPACT",
+      "FRAGILE",
+      "ALLOWS_NATURAL_ATTACKS",
+      "OVERSIZE",
+      "POWERARMOR_COMPATIBLE"
+    ]
   },
   {
     "id": "platinum_bracelet",
@@ -1064,7 +1103,7 @@
     "symbol": "[",
     "color": "white",
     "covers": [ "mouth" ],
-    "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
+    "flags": [ "SUPER_FANCY", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "platinum_ear",
@@ -1293,7 +1332,17 @@
     "color": "dark_gray",
     "covers": [ "hand_either" ],
     "coverage": 5,
-    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [
+      "WATCH",
+      "ALARMCLOCK",
+      "BELTED",
+      "COMPACT",
+      "FRAGILE",
+      "ALLOWS_NATURAL_ATTACKS",
+      "WATER_FRIENDLY",
+      "OVERSIZE",
+      "POWERARMOR_COMPATIBLE"
+    ]
   },
   {
     "id": "rad_badge",

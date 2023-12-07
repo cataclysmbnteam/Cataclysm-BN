@@ -222,7 +222,8 @@
     "description": "This is a unified power supply, or UPS.  It is a civilian evolution of a military project.  Designed to power advanced weapons and armor, the civilian version serves as a portable power bank and inverter for many household electronics.  It can be worn around to either leg for ease of access.",
     "coverage": 5,
     "encumbrance": 2,
-    "covers": [ "leg_either" ]
+    "covers": [ "leg_either" ],
+    "extend": { "flags": [ "POWERARMOR_COMPATIBLE" ] }
   },
   {
     "id": "adv_UPS_off",
@@ -233,7 +234,7 @@
     "coverage": 5,
     "encumbrance": 1,
     "covers": [ "leg_either" ],
-    "flags": [ "WAIST", "FRAGILE", "OVERSIZE", "IS_UPS" ]
+    "flags": [ "WAIST", "COMPACT", "FRAGILE", "OVERSIZE", "IS_UPS", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bionic_maintenance_toolkit",

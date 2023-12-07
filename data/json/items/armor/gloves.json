@@ -463,7 +463,7 @@
     "encumbrance": 1,
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "gloves_liner_wool",
@@ -927,7 +927,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "sockmitts",
