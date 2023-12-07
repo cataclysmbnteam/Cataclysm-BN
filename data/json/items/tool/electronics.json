@@ -518,7 +518,7 @@
     "magazines": [
       [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
-    "magazine_well": "1500 ml",
+    "magazine_well": "1000 ml",
     "flags": [ "IS_UPS" ]
   },
   {
