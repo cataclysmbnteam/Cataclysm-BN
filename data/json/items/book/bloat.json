@@ -165,6 +165,7 @@
     "description": "An English translation of the most-revered sacred scripture in the Confucian tradition, compiled by the succeeding generations of Confucius's disciples.  It is sometimes viewed as a philosophy and sometimes as a religion.",
     "looks_like": "holybook_tripitaka",
     "copy-from": "holybook_bible1",
+    "fun": 3,
     "delete": { "flags": [ "INSPIRATIONAL" ] }
   },
   {
