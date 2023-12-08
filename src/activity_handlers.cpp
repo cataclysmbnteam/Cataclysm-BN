@@ -1728,9 +1728,10 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 void activity_handlers::hotwire_finish( player_activity *act, player *p )
 {
     //Grab this now, in case the vehicle gets shifted
-    if( const optional_vpart_position vp = g->m.veh_at( g->m.getlocal( tripoint( act->values[0],
-                                           act->values[1],
-                                           p->posz() ) ) ) ) {
+    if( const optional_vpart_position vp = get_map().veh_at( get_map().getlocal( tripoint(
+            act->values[0],
+            act->values[1],
+            p->posz() ) ) ) ) {
         vehicle *const veh = &vp->vehicle();
         const int mech_skill = act->values[2];
         if( mech_skill > static_cast<int>( rng( 1, 6 ) ) ) {
@@ -1795,7 +1796,7 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 {
     act->set_to_null();
-    map_stack items = g->m.i_at( p->pos() );
+    map_stack items = get_map().i_at( p->pos() );
     const std::string corpse_name = act->str_values[0];
     item *body = nullptr;
 

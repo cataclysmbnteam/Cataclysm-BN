@@ -161,11 +161,11 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     get_avatar() = avatar();
     get_avatar().create( character_type::NOW );
 
-    g->m = map( get_option<bool>( "ZLEVELS" ) );
+    get_map() = map( get_option<bool>( "ZLEVELS" ) );
     disable_mapgen = true;
 
-    g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
-    get_distribution_grid_tracker().load( g->m );
+    get_map().load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
+    get_distribution_grid_tracker().load( get_map() );
 
     get_weather().update_weather();
 }

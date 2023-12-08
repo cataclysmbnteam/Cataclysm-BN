@@ -466,7 +466,7 @@ void inventory::form_from_map( const tripoint &origin, int range, const Characte
                                bool assign_invlet,
                                bool clear_path )
 {
-    form_from_map( g->m, origin, range, pl, assign_invlet, clear_path );
+    form_from_map( get_map(), origin, range, pl, assign_invlet, clear_path );
 }
 
 void inventory::form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl,
@@ -1009,7 +1009,7 @@ void inventory::rust_iron_items()
                                     elem_stack_iter->base_volume().value() ) / 250 ) ) ) ) &&
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 //Freshwater without oxygen rusts slower than air
-                g->m.water_from( get_avatar().pos() )->typeId() == itype_salt_water ) {
+                get_map().water_from( get_avatar().pos() )->typeId() == itype_salt_water ) {
                 elem_stack_iter->inc_damage( DT_ACID ); // rusting never completely destroys an item
                 add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter->tname() );
             }

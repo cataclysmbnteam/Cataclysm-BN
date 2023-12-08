@@ -54,8 +54,9 @@ static void test_repair( std::vector<detached_ptr<item>> &tools, bool expect_cra
     // Bust cache on crafting_inventory()
     get_avatar().mod_moves( 1 );
     inventory crafting_inv = get_avatar().crafting_inventory();
-    bool can_repair = vp.repair_requirements().can_make_with_inventory( get_avatar().crafting_inventory(),
-                      is_crafting_component );
+    bool can_repair = vp.repair_requirements().can_make_with_inventory(
+                          get_avatar().crafting_inventory(),
+                          is_crafting_component );
     CHECK( can_repair == expect_craftable );
 }
 

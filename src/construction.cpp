@@ -1010,7 +1010,8 @@ void place_construction( const construction_group_str_id &group )
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( get_avatar().pos(), 1 ) ) {
         for( const construction *con : cons ) {
-            if( p != get_avatar().pos() && can_construct( *con, p ) && player_can_build( get_avatar(), total_inv, *con ) ) {
+            if( p != get_avatar().pos() && can_construct( *con, p ) &&
+                player_can_build( get_avatar(), total_inv, *con ) ) {
                 valid[ p ] = con;
             }
         }
@@ -1455,7 +1456,8 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z - 1 ), false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
-    bool dig_muts = get_avatar().has_trait( trait_PAINRESIST_TROGLO ) || get_avatar().has_trait( trait_STOCKY_TROGLO );
+    bool dig_muts = get_avatar().has_trait( trait_PAINRESIST_TROGLO ) ||
+                    get_avatar().has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 10 : 0;
     int mine_penalty = dig ? 0 : 10;
@@ -1529,7 +1531,8 @@ void construct::done_mine_upstair( const tripoint &p )
         return;
     }
 
-    bool dig_muts = get_avatar().has_trait( trait_PAINRESIST_TROGLO ) || get_avatar().has_trait( trait_STOCKY_TROGLO );
+    bool dig_muts = get_avatar().has_trait( trait_PAINRESIST_TROGLO ) ||
+                    get_avatar().has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 15 : 0;
     get_avatar().mod_stored_nutr( 20 + no_mut_penalty );

@@ -1556,7 +1556,8 @@ std::vector<detached_ptr<item>> player::consume_items( map &m, const comp_select
             ret.insert( ret.end(), std::make_move_iterator( tmp.begin() ),
                         std::make_move_iterator( tmp.end() ) );
         } else {
-            std::vector<detached_ptr<item>> tmp = g->m.use_amount( loc, radius, selected_comp.type, real_count,
+            std::vector<detached_ptr<item>> tmp = get_map().use_amount( loc, radius, selected_comp.type,
+                                                  real_count,
                                                   filter );
             std::vector<item *> as_p;
             as_p.reserve( tmp.size() );
@@ -2339,7 +2340,7 @@ static std::pair<bench_type, float> best_bench_here( const item &craft, const tr
         }
     }
 
-    if( g->m.furn( loc ).obj().workbench ) {
+    if( get_map().furn( loc ).obj().workbench ) {
         float furn_mult = workbench_crafting_speed_multiplier( craft, bench_location{bench_type::furniture, loc} );
         if( furn_mult > best_mult ) {
             best_type = bench_type::furniture;
@@ -2347,7 +2348,7 @@ static std::pair<bench_type, float> best_bench_here( const item &craft, const tr
         }
     }
 
-    if( const std::optional<vpart_reference> vp = g->m.veh_at(
+    if( const std::optional<vpart_reference> vp = get_map().veh_at(
                 loc ).part_with_feature( "WORKBENCH", true ) ) {
         float veh_mult = workbench_crafting_speed_multiplier( craft, bench_location{bench_type::vehicle, loc} );
         if( veh_mult > best_mult ) {
@@ -2366,9 +2367,9 @@ bench_location find_best_bench( const player &p, const item &craft )
     float best_bench_multi = bench_here.second;
     tripoint best_loc = p.pos();
     std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
-    g->m.reachable_flood_steps( reachable, p.pos(), PICKUP_RANGE, 1, 100 );
+    get_map().reachable_flood_steps( reachable, p.pos(), PICKUP_RANGE, 1, 100 );
     for( const tripoint &adj : reachable ) {
-        if( const cata::value_ptr<furn_workbench_info> &wb = g->m.furn( adj ).obj().workbench ) {
+        if( const cata::value_ptr<furn_workbench_info> &wb = get_map().furn( adj ).obj().workbench ) {
             if( wb->multiplier > best_bench_multi ) {
                 best_type = bench_type::furniture;
                 best_bench_multi = wb->multiplier;
@@ -2376,7 +2377,7 @@ bench_location find_best_bench( const player &p, const item &craft )
             }
         }
 
-        if( const std::optional<vpart_reference> vp = g->m.veh_at(
+        if( const std::optional<vpart_reference> vp = get_map().veh_at(
                     adj ).part_with_feature( "WORKBENCH", true ) ) {
             if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
                 if( wb_info->multiplier > best_bench_multi ) {

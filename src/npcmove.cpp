@@ -2458,7 +2458,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     if( moved ) {
         const tripoint old_pos = pos();
         setpos( p );
-        set_underwater( g->m.is_divable( p ) );
+        set_underwater( get_map().is_divable( p ) );
         if( old_pos.x - p.x < 0 ) {
             facing = FD_RIGHT;
         } else {

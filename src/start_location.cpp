@@ -339,7 +339,7 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 void start_location::place_player( player &u ) const
 {
     // Need the "real" map with it's inside/outside cache and the like.
-    map &m = g->m;
+    map &m = get_map();
     // Start us off somewhere in the center of the map
     u.setx( HALF_MAPSIZE_X );
     u.sety( HALF_MAPSIZE_Y );

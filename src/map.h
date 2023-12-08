@@ -463,7 +463,7 @@ class map
          *
          * This method uses `get_avatar().posx()/posy()` for visibility calculations, so it can
          * not be used for anything but the player's viewport. Likewise, only
-         * `g->m` and maps with equivalent coordinates can be used, as other maps
+         * `get_map()` and maps with equivalent coordinates can be used, as other maps
          * would have coordinate systems incompatible with `get_avatar().posx()`
          *
          * @param w Window we are drawing in
@@ -2063,7 +2063,7 @@ class map
         bool dont_draw_lower_floor( const tripoint &p );
 };
 
-map &get_map();
+auto get_map() -> map &;
 
 template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, point s );

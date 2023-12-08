@@ -14,7 +14,7 @@
  * have ever been created into memory and keeps them there in a list. It does not "sort" them into overmaps
  * or anything like that.
  *
- * Again parallel to this, there is \ref map and `g->m`. A map contains a 2D pointer-array of submaps, for instance
+ * Again parallel to this, there is \ref map and `get_map()`. A map contains a 2D pointer-array of submaps, for instance
  * 11x11 submaps. These are usually centered around the player, which is the reason the coordinate system shifts.
  * For all these submaps, it also caches additional data, such as lighting, scent, etc. This is basically
  * where all the "on-screen" processing happens. Most of the source code modifies terrain, monsters and so on only by

@@ -181,8 +181,9 @@ TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
 
     GIVEN( "Vehicle with a charged battery and an active recharging station on a box" ) {
         const tripoint vehicle_origin = tripoint( 10, 10, 0 );
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "recharge_test" ), vehicle_origin, 0_degrees, 100,
-                                             0 );
+        vehicle *veh_ptr = get_map().add_vehicle( vproto_id( "recharge_test" ), vehicle_origin, 0_degrees,
+                           100,
+                           0 );
         REQUIRE( veh_ptr != nullptr );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) > 1000 );
         veh_ptr->update_time( calendar::turn_zero );
@@ -205,7 +206,7 @@ TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
             WHEN( "An hour passes" ) {
                 // Should use vehicle::update_time, but that doesn't do charging...
                 for( int i = 0; i < to_turns<int>( 1_hours ); i++ ) {
-                    g->m.process_items();
+                    get_map().process_items();
                 }
 
                 THEN( "The battery is fully charged" ) {
@@ -228,7 +229,7 @@ TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
             veh_ptr->add_item( cargo_part, std::move( det ) );
             WHEN( "An hour passes" ) {
                 for( int i = 0; i < to_turns<int>( 1_hours ); i++ ) {
-                    g->m.process_items();
+                    get_map().process_items();
                 }
 
                 THEN( "The battery is fully charged" ) {

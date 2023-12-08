@@ -484,7 +484,7 @@ void Character::activate_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        g->m.add_field( pos(), fd_web, 1 );
+        get_map().add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;
@@ -544,8 +544,8 @@ void Character::activate_mutation( const trait_id &mut )
         }
         // Check for adjacent trees.
         bool adjacent_tree = false;
-        for( const tripoint &p2 : g->m.points_in_radius( pos(), 1 ) ) {
-            if( g->m.has_flag( "TREE", p2 ) ) {
+        for( const tripoint &p2 : get_map().points_in_radius( pos(), 1 ) ) {
+            if( get_map().has_flag( "TREE", p2 ) ) {
                 adjacent_tree = true;
             }
         }
@@ -1501,7 +1501,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
         if( guy.has_trait( trait_M_SPORES ) || guy.has_trait( trait_M_FERTILE ) ||
             guy.has_trait( trait_M_BLOSSOMS ) || guy.has_trait( trait_M_BLOOM ) ) {
             guy.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
-            g->m.ter_set( guy.pos(), t_fungus );
+            get_map().ter_set( guy.pos(), t_fungus );
             if( guy.is_avatar() ) {
                 g->memorial().add(
                     pgettext( "memorial_male", "Destroyed a harmful invader." ),

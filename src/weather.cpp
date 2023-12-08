@@ -76,7 +76,8 @@ static bool is_player_outside()
 void glare( const weather_type_id &w )
 {
     //General prepequisites for glare
-    if( !is_player_outside() || !g->is_in_sunlight( get_avatar().pos() ) || get_avatar().in_sleep_state() ||
+    if( !is_player_outside() || !g->is_in_sunlight( get_avatar().pos() ) ||
+        get_avatar().in_sleep_state() ||
         get_avatar().worn_with_flag( json_flag_SUN_GLASSES ) ||
         get_avatar().has_bionic( bio_sunglasses ) ||
         get_avatar().is_blind() ) {
@@ -322,7 +323,7 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
 {
     const double turns_per_charge = tr.funnel_turns_per_charge( rain_depth_mm_per_hour );
     // Give each funnel on the map a chance to collect the rain.
-    const std::vector<tripoint> &funnel_locs = g->m.trap_locations( tr.loadid );
+    const std::vector<tripoint> &funnel_locs = get_map().trap_locations( tr.loadid );
     for( const tripoint &loc : funnel_locs ) {
         units::volume maxcontains = 0_ml;
         if( one_in( turns_per_charge ) ) {
@@ -331,7 +332,7 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
             // impure water and acid.
-            map_stack items = g->m.i_at( loc );
+            map_stack items = get_map().i_at( loc );
             auto container = items.end();
             for( auto candidate_container = items.begin(); candidate_container != items.end();
                  ++candidate_container ) {
@@ -464,7 +465,8 @@ void weather_effect::light_acid( int intensity )
 {
     if( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) {
         if( get_avatar().primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && !one_in( 3 ) ) {
-            add_msg( _( "Your %s protects you from the acidic drizzle." ), get_avatar().primary_weapon().tname() );
+            add_msg( _( "Your %s protects you from the acidic drizzle." ),
+                     get_avatar().primary_weapon().tname() );
         } else {
             if( get_avatar().worn_with_flag( json_flag_RAINPROOF ) && !one_in( 4 ) ) {
                 add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
@@ -541,7 +543,7 @@ void handle_weather_effects( const weather_type_id &w )
             decay_time = 45_turns;
             wetness = 60;
         }
-        g->m.decay_fields_and_scent( decay_time );
+        get_map().decay_fields_and_scent( decay_time );
         weather_effect::wet_player( wetness );
     }
     glare( w );
@@ -969,7 +971,7 @@ double get_local_windpower( double windpower, const oter_id &omter, const tripoi
 
 bool is_wind_blocker( const tripoint &location )
 {
-    return g->m.has_flag( "BLOCK_WIND", location );
+    return get_map().has_flag( "BLOCK_WIND", location );
 }
 
 // Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale
@@ -1131,7 +1133,7 @@ int weather_manager::get_temperature( const tripoint &location ) const
                        : temperature ) +
                      ( g->new_game
                        ? 0
-                       : g->m.get_temperature( location ) + temp_mod );
+                       : get_map().get_temperature( location ) + temp_mod );
 
     temperature_cache.emplace( location, temp );
     return temp;

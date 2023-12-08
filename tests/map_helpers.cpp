@@ -25,8 +25,8 @@
 // Remove all vehicles from the map
 void clear_vehicles()
 {
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
-        g->m.destroy_vehicle( veh.v );
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
+        get_map().destroy_vehicle( veh.v );
     }
 }
 
@@ -38,13 +38,13 @@ void wipe_map_terrain()
         ter_id terrain = z == 0 ? t_grass : z < 0 ? t_rock : t_open_air;
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
-                g->m.set( { x, y, z}, terrain, f_null );
+                get_map().set( { x, y, z}, terrain, f_null );
             }
         }
     }
     clear_vehicles();
-    g->m.invalidate_map_cache( 0 );
-    g->m.build_map_cache( 0, true );
+    get_map().invalidate_map_cache( 0 );
+    get_map().build_map_cache( 0, true );
 }
 
 void clear_creatures()
@@ -65,16 +65,16 @@ void clear_npcs()
 
 void clear_fields( const int zlevel )
 {
-    const int mapsize = g->m.getmapsize() * SEEX;
+    const int mapsize = get_map().getmapsize() * SEEX;
     for( int x = 0; x < mapsize; ++x ) {
         for( int y = 0; y < mapsize; ++y ) {
             const tripoint p( x, y, zlevel );
             std::vector<field_type_id> fields;
-            for( auto &pr : g->m.field_at( p ) ) {
+            for( auto &pr : get_map().field_at( p ) ) {
                 fields.push_back( pr.second.get_field_type() );
             }
             for( field_type_id f : fields ) {
-                g->m.remove_field( p, f );
+                get_map().remove_field( p, f );
             }
         }
     }
@@ -82,10 +82,10 @@ void clear_fields( const int zlevel )
 
 void clear_items( const int zlevel )
 {
-    const int mapsize = g->m.getmapsize() * SEEX;
+    const int mapsize = get_map().getmapsize() * SEEX;
     for( int x = 0; x < mapsize; ++x ) {
         for( int y = 0; y < mapsize; ++y ) {
-            g->m.i_clear( { x, y, zlevel } );
+            get_map().i_clear( { x, y, zlevel } );
         }
     }
 }
@@ -106,7 +106,7 @@ void clear_map()
     wipe_map_terrain();
     clear_npcs();
     clear_creatures();
-    g->m.clear_traps();
+    get_map().clear_traps();
     for( int z = -2; z <= 0; ++z ) {
         clear_items( z );
     }
@@ -129,16 +129,16 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint &st
 // terrain, and no furniture, traps, or items.
 void build_test_map( const ter_id &terrain )
 {
-    for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
+    for( const tripoint &p : get_map().points_in_rectangle( tripoint_zero,
             tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
-        g->m.furn_set( p, furn_id( "f_null" ) );
-        g->m.ter_set( p, terrain );
-        g->m.trap_set( p, trap_id( "tr_null" ) );
-        g->m.i_clear( p );
+        get_map().furn_set( p, furn_id( "f_null" ) );
+        get_map().ter_set( p, terrain );
+        get_map().trap_set( p, trap_id( "tr_null" ) );
+        get_map().i_clear( p );
     }
 
-    g->m.invalidate_map_cache( 0 );
-    g->m.build_map_cache( 0, true );
+    get_map().invalidate_map_cache( 0 );
+    get_map().build_map_cache( 0, true );
 }
 
 void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_id &bottom )
@@ -168,7 +168,7 @@ void set_time( const time_point &time )
     calendar::turn = time;
     g->reset_light_level();
     int z = get_avatar().posz();
-    g->m.update_visibility_cache( z );
-    g->m.invalidate_map_cache( z );
-    g->m.build_map_cache( z );
+    get_map().update_visibility_cache( z );
+    get_map().invalidate_map_cache( z );
+    get_map().build_map_cache( z );
 }

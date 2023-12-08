@@ -685,7 +685,7 @@ void vehicle::use_controls( const tripoint &pos )
 
         has_electronic_controls = has_part( "CTRL_ELECTRONIC" ) || has_part( "REMOTE_CONTROLS" );
 
-    } else if( veh_pointer_or_null( g->m.veh_at( pos ) ) == this ) {
+    } else if( veh_pointer_or_null( get_map().veh_at( pos ) ) == this ) {
         if( you.controlling_vehicle ) {
             options.emplace_back( _( "Let go of controls" ), keybind( "RELEASE_CONTROLS" ) );
             actions.emplace_back( [&] {
@@ -911,7 +911,7 @@ bool vehicle::fold_up()
     for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
         const size_t p = vp.part_index();
         for( auto &elem : get_items( p ).clear() ) {
-            g->m.add_item_or_charges( get_avatar().pos(), std::move( elem ) );
+            get_map().add_item_or_charges( get_avatar().pos(), std::move( elem ) );
         }
     }
 
@@ -940,8 +940,8 @@ bool vehicle::fold_up()
         bicycle->set_var( "description", string_format( _( "A folded %s." ), name ) );
     }
 
-    g->m.add_item_or_charges( global_part_pos3( 0 ), std::move( bicycle ) );
-    g->m.destroy_vehicle( this );
+    get_map().add_item_or_charges( global_part_pos3( 0 ), std::move( bicycle ) );
+    get_map().destroy_vehicle( this );
 
     // TODO: take longer to fold bigger vehicles
     // TODO: make this interruptible
@@ -1310,24 +1310,24 @@ void vehicle::crash_terrain_around()
         const tripoint start_pos = vp.pos();
         const transform_terrain_data &ttd = vp.info().transform_terrain;
         for( size_t i = 0; i < eight_horizontal_neighbors.size() &&
-             !g->m.inbounds_z( crush_target.z ); i++ ) {
+             !get_map().inbounds_z( crush_target.z ); i++ ) {
             tripoint cur_pos = start_pos + eight_horizontal_neighbors.at( i );
             bool busy_pos = false;
             for( const vpart_reference &vp_tmp : get_all_parts() ) {
                 busy_pos |= vp_tmp.pos() == cur_pos;
             }
             for( const std::string &flag : ttd.pre_flags ) {
-                if( g->m.has_flag( flag, cur_pos ) && !busy_pos ) {
+                if( get_map().has_flag( flag, cur_pos ) && !busy_pos ) {
                     crush_target = cur_pos;
                     break;
                 }
             }
         }
         //target chosen
-        if( g->m.inbounds_z( crush_target.z ) ) {
+        if( get_map().inbounds_z( crush_target.z ) ) {
             velocity = 0;
             cruise_velocity = 0;
-            g->m.destroy( crush_target );
+            get_map().destroy( crush_target );
             sounds::sound( crush_target, 500, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                            "smash_success", "hit_vehicle" );
         }
@@ -1341,7 +1341,7 @@ void vehicle::transform_terrain()
         const transform_terrain_data &ttd = vp.info().transform_terrain;
         bool prereq_fulfilled = false;
         for( const std::string &flag : ttd.pre_flags ) {
-            if( g->m.has_flag( flag, start_pos ) ) {
+            if( get_map().has_flag( flag, start_pos ) ) {
                 prereq_fulfilled = true;
                 break;
             }
@@ -1349,15 +1349,15 @@ void vehicle::transform_terrain()
         if( prereq_fulfilled ) {
             const ter_id new_ter = ter_id( ttd.post_terrain );
             if( new_ter != t_null ) {
-                g->m.ter_set( start_pos, new_ter );
+                get_map().ter_set( start_pos, new_ter );
             }
             const furn_id new_furn = furn_id( ttd.post_furniture );
             if( new_furn != f_null ) {
-                g->m.furn_set( start_pos, new_furn );
+                get_map().furn_set( start_pos, new_furn );
             }
             const field_type_id new_field = field_type_id( ttd.post_field );
             if( new_field.id() ) {
-                g->m.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
+                get_map().add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
             }
         } else {
             const int speed = std::abs( velocity );
@@ -1377,11 +1377,11 @@ void vehicle::operate_reaper()
         const int plant_produced = rng( 1, vp.info().bonus );
         const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = vp.info().size / 20;
-        if( g->m.furn( reaper_pos ) != f_plant_harvest ) {
+        if( get_map().furn( reaper_pos ) != f_plant_harvest ) {
             continue;
         }
         // Can't use item_stack::only_item() since there might be fertilizer
-        map_stack items = g->m.i_at( reaper_pos );
+        map_stack items = get_map().i_at( reaper_pos );
         map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item * const & it ) {
             return it->is_seed();
         } );
@@ -1390,14 +1390,14 @@ void vehicle::operate_reaper()
             // Otherworldly plants, the earth-made reaper can not handle those.
             continue;
         }
-        g->m.furn_set( reaper_pos, f_null );
+        get_map().furn_set( reaper_pos, f_null );
         // Secure the seed type before i_clear destroys the item.
         const itype &seed_type = *( *seed )->type;
         seed = map_stack::iterator(); //clear the seed iterator to prevent warnings
-        g->m.i_clear( reaper_pos );
+        get_map().i_clear( reaper_pos );
         for( auto &i : iexamine::get_harvest_items(
                  seed_type, plant_produced, seed_produced, false ) ) {
-            g->m.add_item_or_charges( reaper_pos, std::move( i ) );
+            get_map().add_item_or_charges( reaper_pos, std::move( i ) );
         }
         sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
                        "reaper" );
@@ -1423,12 +1423,12 @@ void vehicle::operate_planter()
             item *i = *it;
             if( i->is_seed() ) {
                 // If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
-                if( g->m.ter( loc ) != t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
+                if( get_map().ter( loc ) != t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
                     //then don't put the item there.
                     break;
-                } else if( g->m.ter( loc ) == t_dirtmound ) {
-                    g->m.set( loc, t_dirt, f_plant_seed );
-                } else if( !g->m.has_flag( "PLOWABLE", loc ) ) {
+                } else if( get_map().ter( loc ) == t_dirtmound ) {
+                    get_map().set( loc, t_dirt, f_plant_seed );
+                } else if( !get_map().has_flag( "PLOWABLE", loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( planter_id, rng( 1, 10 ), DT_BASH, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
@@ -1438,12 +1438,12 @@ void vehicle::operate_planter()
                     i->set_age( 0_turns );
                     detached_ptr<item> det;
                     v.erase( it, &det );
-                    g->m.add_item( loc, std::move( det ) );
+                    get_map().add_item( loc, std::move( det ) );
                 } else {
                     detached_ptr<item> tmp = item::spawn( *i );
                     tmp->charges = 1;
                     tmp->set_age( 0_turns );
-                    g->m.add_item( loc, std::move( tmp ) );
+                    get_map().add_item( loc, std::move( tmp ) );
                     i->charges--;
                 }
                 break;
@@ -1466,17 +1466,17 @@ void vehicle::operate_scoop()
                        random_entry_ref( sound_msgs ), false, "vehicle", "scoop" );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
-             g->m.points_in_radius( global_part_pos3( scoop ), 1 ) ) {
+             get_map().points_in_radius( global_part_pos3( scoop ), 1 ) ) {
             parts_points.push_back( current );
         }
         for( const tripoint &position : parts_points ) {
-            g->m.mop_spills( position );
-            if( !g->m.has_items( position ) ) {
+            get_map().mop_spills( position );
+            if( !get_map().has_items( position ) ) {
                 continue;
             }
             item *that_item_there = nullptr;
-            map_stack items = g->m.i_at( position );
-            if( g->m.has_flag( "SEALED", position ) ) {
+            map_stack items = get_map().i_at( position );
+            if( get_map().has_flag( "SEALED", position ) ) {
                 // Ignore it. Street sweepers are not known for their ability to harvest crops.
                 continue;
             }

@@ -59,7 +59,7 @@ TEST_CASE( "distribute_food" )
     get_avatar().setpos( origin );
     const tripoint origin_abs = get_map().getabs( origin );
     const tripoint_abs_omt omt_pos = get_avatar().global_omt_location();
-    g->m.add_camp( omt_pos, "faction_camp_for_distribute" );
+    get_map().add_camp( omt_pos, "faction_camp_for_distribute" );
     basecamp *bcp = overmap_buffer.find_camp( omt_pos.xy() ).value();
     bcp->set_bb_pos( origin_abs + tripoint_east );
     zone_manager &zmgr = zone_manager::get_manager();
@@ -79,70 +79,74 @@ TEST_CASE( "distribute_food" )
 
     SECTION( "Cooked meat without can is consumed" ) {
         const int previous_kcal = yours->food_supply;
-        g->m.add_item_or_charges( origin, make_food( meat_cooked_id, 2, canned_status::without_can, false ),
-                                  false );
+        get_map().add_item_or_charges( origin, make_food( meat_cooked_id, 2, canned_status::without_can,
+                                       false ),
+                                       false );
         bcp->distribute_food();
         CHECK( yours->food_supply - previous_kcal == rounded_int( 1.6 * kcal_in_meat ) );
-        CHECK( g->m.i_at( origin ).empty() );
+        CHECK( get_map().i_at( origin ).empty() );
     }
 
     SECTION( "Jerky is consumed and no calories wasted" ) {
         const int previous_kcal = yours->food_supply;
-        g->m.add_item_or_charges( origin, make_food( itype_id( "jerky" ), 50, canned_status::without_can,
-                                  false ),
-                                  false );
+        get_map().add_item_or_charges( origin, make_food( itype_id( "jerky" ), 50,
+                                       canned_status::without_can,
+                                       false ),
+                                       false );
         bcp->distribute_food();
         constexpr int kcal_in_jerky = 348;
         CHECK( yours->food_supply - previous_kcal == 50 * kcal_in_jerky );
-        CHECK( g->m.i_at( origin ).empty() );
+        CHECK( get_map().i_at( origin ).empty() );
     }
 
     SECTION( "Rotten food is not consumed" ) {
         const int previous_kcal = yours->food_supply;
-        g->m.add_item_or_charges( origin, make_food( meat_cooked_id, 1, canned_status::without_can, true ),
-                                  false );
+        get_map().add_item_or_charges( origin, make_food( meat_cooked_id, 1, canned_status::without_can,
+                                       true ),
+                                       false );
         bcp->distribute_food();
         CHECK( yours->food_supply == previous_kcal );
-        const map_stack stack = g->m.i_at( origin );
+        const map_stack stack = get_map().i_at( origin );
         CHECK( stack.size() == 1 );
         CHECK( std::all_of( stack.begin(), stack.end(),
         []( const item * const & it ) {
             return it->typeId() == meat_cooked_id && it->count() == 1 && it->rotten();
         } ) );
-        g->m.i_clear( origin );
+        get_map().i_clear( origin );
     }
 
     SECTION( "Canned edible food consumed leaving opened can" ) {
         const int previous_kcal = yours->food_supply;
-        g->m.add_item_or_charges( origin, make_food( meat_cooked_id, 3, canned_status::canned_sealed,
-                                  false ),
-                                  false );
+        get_map().add_item_or_charges( origin, make_food( meat_cooked_id, 3, canned_status::canned_sealed,
+                                       false ),
+                                       false );
         bcp->distribute_food();
         CHECK( yours->food_supply - previous_kcal == 3 * kcal_in_meat );
-        const map_stack stack = g->m.i_at( origin );
+        const map_stack stack = get_map().i_at( origin );
         CHECK( stack.size() == 1 );
         // Should be unsealed
         CHECK( std::all_of( stack.begin(), stack.end(),
         []( const item * const & it ) {
             return it->typeId() == unsealed_can_id && it->count() == 1 && it->contents.empty();
         } ) );
-        g->m.i_clear( origin );
+        get_map().i_clear( origin );
     }
 
     SECTION( "Open edible food consumed leaving opened can" ) {
         const int previous_kcal = yours->food_supply;
-        g->m.add_item_or_charges( origin, make_food( meat_cooked_id, 10, canned_status::canned_unsealed,
-                                  false ),
-                                  false );
+        get_map().add_item_or_charges( origin, make_food( meat_cooked_id, 10,
+                                       canned_status::canned_unsealed,
+                                       false ),
+                                       false );
         bcp->distribute_food();
         CHECK( yours->food_supply - previous_kcal == rounded_int( 8 * kcal_in_meat ) );
-        const map_stack stack = g->m.i_at( origin );
+        const map_stack stack = get_map().i_at( origin );
         CHECK( stack.size() == 1 );
         CHECK( std::all_of( stack.begin(), stack.end(),
         []( const item * const & it ) {
             return it->typeId() == unsealed_can_id && it->count() == 1 && it->contents.empty();
         } ) );
-        g->m.i_clear( origin );
+        get_map().i_clear( origin );
     }
 
     SECTION( "Unwanted food still remains in same can" ) {
@@ -152,10 +156,10 @@ TEST_CASE( "distribute_food" )
             const int previous_kcal = yours->food_supply;
             detached_ptr<item> det = make_food( itype_id( "dogfood" ), 1, status, false );
             item &can_of_dogfood = *det;
-            g->m.add_item_or_charges( origin, std::move( det ), false );
+            get_map().add_item_or_charges( origin, std::move( det ), false );
             bcp->distribute_food();
             CHECK( yours->food_supply == previous_kcal );
-            const map_stack stack = g->m.i_at( origin );
+            const map_stack stack = get_map().i_at( origin );
             CHECK( stack.size() == 1 );
             CHECK( std::all_of( stack.begin(), stack.end(),
             [&can_of_dogfood]( const item * const & it ) {
@@ -163,7 +167,7 @@ TEST_CASE( "distribute_food" )
                        && it->contents.front().typeId() == can_of_dogfood.contents.front().typeId()
                        && it->contents.front().count() == can_of_dogfood.contents.front().count();
             } ) );
-            g->m.i_clear( origin );
+            get_map().i_clear( origin );
         }
     }
 
@@ -171,16 +175,16 @@ TEST_CASE( "distribute_food" )
         const int previous_kcal = yours->food_supply;
         detached_ptr<item> det = item::spawn( "2x4" );
         item &it = *det;
-        g->m.add_item_or_charges( origin, std::move( det ) );
+        get_map().add_item_or_charges( origin, std::move( det ) );
         bcp->distribute_food();
         CHECK( yours->food_supply == previous_kcal );
-        const map_stack stack = g->m.i_at( origin );
+        const map_stack stack = get_map().i_at( origin );
         CHECK( stack.size() == 1 );
         CHECK( std::all_of( stack.begin(), stack.end(),
         [&it]( const item * const & i ) {
             return i->typeId() == it.typeId() && i->count() == 1 && i->age() == it.age();
         } ) );
-        g->m.i_clear( origin );
+        get_map().i_clear( origin );
     }
 
     SECTION( "And even bleach remains as is" ) {
@@ -188,10 +192,10 @@ TEST_CASE( "distribute_food" )
         // It is not food but I reuse container putting
         detached_ptr<item> det = make_food( itype_id( "bleach" ), 5, canned_status::canned_sealed, false );
         item &bleach = *det;
-        g->m.add_item_or_charges( origin, std::move( det ) );
+        get_map().add_item_or_charges( origin, std::move( det ) );
         bcp->distribute_food();
         CHECK( yours->food_supply == previous_kcal );
-        const map_stack stack = g->m.i_at( origin );
+        const map_stack stack = get_map().i_at( origin );
         CHECK( stack.size() == 1 );
         CHECK( std::all_of( stack.begin(), stack.end(),
         [&bleach]( const item * const & i ) {
@@ -201,6 +205,6 @@ TEST_CASE( "distribute_food" )
                    && i->contents.front().count() == bleach.contents.front().count()
                    ;
         } ) );
-        g->m.i_clear( origin );
+        get_map().i_clear( origin );
     }
 }

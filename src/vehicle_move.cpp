@@ -1464,7 +1464,8 @@ bool vehicle::check_on_ramp( int idir, const tripoint &offset ) const
     for( auto &prt : get_all_parts() ) {
         tripoint partPoint = global_pos3() + offset + prt.part().precalc[idir];
 
-        if( g->m.has_flag( TFLAG_RAMP_UP, partPoint ) || g->m.has_flag( TFLAG_RAMP_DOWN, partPoint ) ) {
+        if( get_map().has_flag( TFLAG_RAMP_UP, partPoint ) ||
+            get_map().has_flag( TFLAG_RAMP_DOWN, partPoint ) ) {
             return true;
         }
     }

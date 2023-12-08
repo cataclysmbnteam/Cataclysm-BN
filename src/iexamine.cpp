@@ -1538,9 +1538,9 @@ void iexamine::fault( player &, const tripoint & )
  */
 void iexamine::notify( player &, const tripoint &pos )
 {
-    std::string message = g->m.has_furn( pos ) ?
-                          g->m.furn( pos ).obj().message :
-                          g->m.ter( pos ).obj().message;
+    std::string message = get_map().has_furn( pos ) ?
+                          get_map().furn( pos ).obj().message :
+                          get_map().ter( pos ).obj().message;
     if( !message.empty() ) {
         popup( _( message ) );
     }
@@ -1555,12 +1555,12 @@ void iexamine::transform( player &p, const tripoint &pos )
     std::string message;
     std::string prompt;
 
-    if( g->m.has_furn( pos ) ) {
-        message = g->m.furn( pos ).obj().message;
-        prompt = g->m.furn( pos ).obj().prompt;
+    if( get_map().has_furn( pos ) ) {
+        message = get_map().furn( pos ).obj().message;
+        prompt = get_map().furn( pos ).obj().prompt;
     } else {
-        message = g->m.ter( pos ).obj().message;
-        prompt = g->m.ter( pos ).obj().prompt;
+        message = get_map().ter( pos ).obj().message;
+        prompt = get_map().ter( pos ).obj().prompt;
     }
 
     uilist selection_menu;
@@ -1575,16 +1575,16 @@ void iexamine::transform( player &p, const tripoint &pos )
             pickup::pick_up( pos, 0 );
             return;
         case 1: {
-            if( g->m.has_furn( pos ) ) {
+            if( get_map().has_furn( pos ) ) {
                 if( !message.empty() ) {
                     add_msg( _( message ) );
                 }
-                g->m.furn_set( pos, g->m.get_furn_transforms_into( pos ) );
+                get_map().furn_set( pos, get_map().get_furn_transforms_into( pos ) );
             } else {
                 if( !message.empty() ) {
                     add_msg( _( message ) );
                 }
-                g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
+                get_map().ter_set( pos, get_map().get_ter_transforms_into( pos ) );
             }
             return;
         }
@@ -3577,8 +3577,10 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         }
 
         case REMOVE_CONTAINER: {
-            get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
-            std::vector<pickup::pick_drop_selection> { { container, std::nullopt, {} } }, get_avatar().pos() ) ) );
+            get_avatar().assign_activity( std::make_unique<player_activity>
+                                          ( std::make_unique<pickup_activity_actor>(
+            std::vector<pickup::pick_drop_selection> { { container, std::nullopt, {} } },
+            get_avatar().pos() ) ) );
             return;
         }
 
@@ -3917,7 +3919,8 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             auto items = here.i_at( examp );
             for( auto &itm : items ) {
                 if( itm->type == cur_ammo ) {
-                    get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
+                    get_avatar().assign_activity( std::make_unique<player_activity>
+                                                  ( std::make_unique<pickup_activity_actor>(
                     std::vector<pickup::pick_drop_selection> { { itm, std::nullopt, {} } }, get_avatar().pos() ) ) );
                     return;
                 }
@@ -4045,7 +4048,8 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     p.invoke_item( &fake_item );
 
     // HACK: Evil hack incoming
-    activity_handlers::repair_activity_hack::patch_activity_for_furniture( *get_avatar().activity, examp,
+    activity_handlers::repair_activity_hack::patch_activity_for_furniture( *get_avatar().activity,
+            examp,
             cur_tool.get_id() );
 
     const int discharged_ammo = original_charges - fake_item.charges;
@@ -4683,8 +4687,8 @@ void iexamine::ledge( player &p, const tripoint &examp )
             bool success = false;
             for( int i = 2; i <= range; i++ ) {
                 //break at the first non empty space encountered
-                if( g->m.ter( tripoint( p.posx() + i * sgn( examp.x - p.posx() ),
-                                        p.posy() + i * sgn( examp.y - p.posy() ), p.posz() ) ) != t_open_air ) {
+                if( get_map().ter( tripoint( p.posx() + i * sgn( examp.x - p.posx() ),
+                                             p.posy() + i * sgn( examp.y - p.posy() ), p.posz() ) ) != t_open_air ) {
                     success_range = i;
                     success = true;
                     break;
@@ -4697,7 +4701,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                     tripoint dest( p.posx() + i * sgn( examp.x - p.posx() ), p.posy() + i * sgn( examp.y - p.posy() ),
                                    p.posz() );
 
-                    g->m.ter_set( dest, t_web_bridge );
+                    get_map().ter_set( dest, t_web_bridge );
                 }
                 p.mutation_spend_resources( trait_WEB_BRIDGE );
             }
@@ -6228,14 +6232,14 @@ void iexamine::dimensional_portal( player &p, const tripoint &examp )
 
             add_msg( m_good, _( "You throw the armed %s into the portal!" ), the_nuke->tname() );
             the_nuke->detach();
-            g->m.translate_radius( t_dimensional_portal, t_thconc_floor, 5, examp, true );
+            get_map().translate_radius( t_dimensional_portal, t_thconc_floor, 5, examp, true );
             g->win();
             break;
         }
 
         case 1:
             p.set_all_parts_hp_cur( 0 );
-            g->m.translate_radius( t_dimensional_portal, t_thconc_floor, 5, examp, true );
+            get_map().translate_radius( t_dimensional_portal, t_thconc_floor, 5, examp, true );
             g->win();
             break;
         default:
@@ -6245,7 +6249,7 @@ void iexamine::dimensional_portal( player &p, const tripoint &examp )
 
 void iexamine::check_power( player &, const tripoint &examp )
 {
-    tripoint_abs_ms abspos( g->m.getabs( examp ) );
+    tripoint_abs_ms abspos( get_map().getabs( examp ) );
     battery_tile *battery = active_tiles::furn_at<battery_tile>( abspos );
     if( battery != nullptr ) {
         add_msg( m_info, _( "This battery stores %d kJ of electric power." ), battery->get_resource() );

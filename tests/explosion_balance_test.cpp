@@ -184,7 +184,7 @@ TEST_CASE( "shrapnel behind wall", "[grenade][explosion][balance]" )
 
     for( const tripoint &pt : closest_points_first( origin, 2 ) ) {
         if( square_dist( origin, pt ) > 1 ) {
-            g->m.ter_set( pt, t_wall_metal );
+            get_map().ter_set( pt, t_wall_metal );
         }
     }
 

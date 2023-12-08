@@ -68,7 +68,7 @@ class scent_map
         /**
          * Get the scent value at the given position.
          * An invalid position is allows and will yield a 0 value.
-         * The coordinate system is the same as the @ref map (`g->m`) uses.
+         * The coordinate system is the same as the @ref map (`get_map()`) uses.
          */
         /**@{*/
         void set( const tripoint &p, int value, const scenttype_id &type = scenttype_id() );

@@ -931,7 +931,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( target.has_value() ) {
             add_msg_activate();
             assign_activity( std::make_unique<player_activity>( lockpick_activity_actor::use_bionic(
-                                 item::spawn( bio.info().fake_item ), g->m.getabs( *target ) ) ) );
+                                 item::spawn( bio.info().fake_item ), get_map().getabs( *target ) ) ) );
             if( close_bionics_ui ) {
                 *close_bionics_ui = true;
             }
@@ -1068,7 +1068,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
 
     } else if( bio.id == bio_probability_travel ) {
         if( const std::optional<tripoint> pnt = choose_adjacent( _( "Tunnel in which direction?" ) ) ) {
-            if( g->m.impassable( *pnt ) ) {
+            if( get_map().impassable( *pnt ) ) {
                 add_msg_activate();
                 g->phasing_move( *pnt );
             } else {

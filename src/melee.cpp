@@ -302,7 +302,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
             if( comp->typeId() == big_comp && !is_armed() ) {
                 wield( std::move( comp ) );
             } else {
-                g->m.add_item_or_charges( pos(), std::move( comp ) );
+                get_map().add_item_or_charges( pos(), std::move( comp ) );
             }
         }
     } else {
@@ -707,7 +707,7 @@ void Character::reach_attack( const tripoint &p )
         } else if( here.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
                    !( primary_weapon().has_flag( flag_SPEAR ) &&
-                      g->m.has_flag( "THIN_OBSTACLE", path_point ) &&
+                      get_map().has_flag( "THIN_OBSTACLE", path_point ) &&
                       x_in_y( skill, 10 ) ) ) {
             /** @EFFECT_STR increases bash effects when reach attacking past something */
             here.bash( path_point, str_cur + primary_weapon().damage_melee( DT_BASH ) );
@@ -862,7 +862,7 @@ float Character::get_dodge() const
 
     if( has_effect( effect_grabbed ) ) {
         int zed_number = 0;
-        for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
+        for( auto &dest : get_map().points_in_radius( pos(), 1, 0 ) ) {
             const monster *const mon = g->critter_at<monster>( dest );
             if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number++;
@@ -1166,7 +1166,7 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
 
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
-    bool wall_adjacent = g->m.is_wall_adjacent( pos() );
+    bool wall_adjacent = get_map().is_wall_adjacent( pos() );
 
     // first add non-aoe tecs
     for( const matec_id &tec_id : all ) {
@@ -1349,7 +1349,7 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
     }
 
     if( targets.empty() && technique.aoe == "spin" ) {
-        for( const tripoint &tmp : g->m.points_in_radius( pos(), 1 ) ) {
+        for( const tripoint &tmp : get_map().points_in_radius( pos(), 1 ) ) {
             if( tmp == t.pos() ) {
                 continue;
             }
@@ -1480,10 +1480,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
         // This technique makes the player follow into the tile the target was knocked from
         if( technique.knockback_follow ) {
-            const optional_vpart_position vp0 = g->m.veh_at( pos() );
+            const optional_vpart_position vp0 = get_map().veh_at( pos() );
             vehicle *const veh0 = veh_pointer_or_null( vp0 );
-            bool to_swimmable = g->m.has_flag( "SWIMMABLE", prev_pos );
-            bool to_deepwater = g->m.has_flag( TFLAG_DEEP_WATER, prev_pos );
+            bool to_swimmable = get_map().has_flag( "SWIMMABLE", prev_pos );
+            bool to_deepwater = get_map().has_flag( TFLAG_DEEP_WATER, prev_pos );
 
             // Check if it's possible to move to the new tile
             bool move_issue =
@@ -1518,7 +1518,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     }
 
     if( technique.disarms && p != nullptr && p->is_armed() ) {
-        g->m.add_item_or_charges( p->pos(), p->remove_primary_weapon() );
+        get_map().add_item_or_charges( p->pos(), p->remove_primary_weapon() );
         if( p->is_player() ) {
             add_msg_if_npc( _( "<npcname> disarms you!" ) );
         } else {
@@ -2414,7 +2414,7 @@ void avatar_funcs::try_disarm_npc( avatar &you, npc &target )
             add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ),
                      it.tname() );
             const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
-            g->m.add_item_or_charges( tp, it.detach( ) );
+            get_map().add_item_or_charges( tp, it.detach( ) );
             you.mod_moves( -100 );
         } else {
             add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it.tname() );
@@ -2431,7 +2431,7 @@ void avatar_funcs::try_disarm_npc( avatar &you, npc &target )
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                  target.name, it.tname() );
         const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
-        g->m.add_item_or_charges( tp, it.detach( ) );
+        get_map().add_item_or_charges( tp, it.detach( ) );
     } else {
         add_msg( _( "You smash %s with all your might but %s remains in their hands!" ),
                  target.name, it.tname() );

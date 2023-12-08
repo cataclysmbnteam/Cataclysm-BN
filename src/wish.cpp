@@ -761,7 +761,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                     }
                     p->invalidate_crafting_inventory();
                 } else if( pos.x >= 0 && pos.y >= 0 ) {
-                    g->m.add_item_or_charges( pos, item::spawn( *granted ) );
+                    get_map().add_item_or_charges( pos, item::spawn( *granted ) );
                     wmenu.ret = -1;
                 }
                 if( amount > 0 ) {

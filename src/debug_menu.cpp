@@ -1386,7 +1386,7 @@ void debug()
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
     int action = debug_menu_uilist( debug_menu_has_hotkey );
     avatar &u = get_avatar();
-    map &m = g->m;
+    map &m = get_map();
     switch( action ) {
         case DEBUG_WISH:
             debug_menu::wishitem( &u );
@@ -2066,7 +2066,7 @@ void debug()
         break;
 
         case DEBUG_VEHICLE_BATTERY_CHARGE: {
-            optional_vpart_position v_part_pos = g->m.veh_at( u.pos() );
+            optional_vpart_position v_part_pos = get_map().veh_at( u.pos() );
             if( !v_part_pos ) {
                 add_msg( m_bad, _( "There's no vehicle there." ) );
                 break;
@@ -2089,7 +2089,7 @@ void debug()
             break;
         }
         case DEBUG_VEHICLE_EXPORT_JSON: {
-            const optional_vpart_position v_part_pos = g->m.veh_at( u.pos() );
+            const optional_vpart_position v_part_pos = get_map().veh_at( u.pos() );
             if( !v_part_pos ) {
                 add_msg( m_bad, _( "There's no vehicle there." ) );
                 break;

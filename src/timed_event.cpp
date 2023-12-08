@@ -76,14 +76,15 @@ void timed_event::actualize()
                 pgettext( "memorial_male", "Drew the attention of more dark wyrms!" ),
                 pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
             // 50% chance to spawn a dark wyrm near every orifice on the level.
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                if( g->m.ter( p ) == ter_id( "t_orifice" ) ) {
+            for( const tripoint &p : get_map().points_on_zlevel() ) {
+                if( get_map().ter( p ) == ter_id( "t_orifice" ) ) {
                     g->place_critter_around( mon_dark_wyrm, p, 1 );
                 }
             }
             // You could drop the flag, you know.
             if( get_avatar().has_amount( itype_petrified_eye, 1 ) ) {
-                sounds::sound( get_avatar().pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false, "shout",
+                sounds::sound( get_avatar().pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false,
+                               "shout",
                                "scream_tortured" );
                 if( !get_avatar().is_deaf() ) {
                     add_msg( _( "The eye you're carrying lets out a tortured scream!" ) );
@@ -98,10 +99,11 @@ void timed_event::actualize()
             int num_horrors = rng( 3, 5 );
             std::optional<tripoint> fault_point;
             bool horizontal = false;
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                if( g->m.ter( p ) == t_fault ) {
+            for( const tripoint &p : get_map().points_on_zlevel() ) {
+                if( get_map().ter( p ) == t_fault ) {
                     fault_point = p;
-                    horizontal = g->m.ter( p + tripoint_east ) == t_fault || g->m.ter( p + tripoint_west ) == t_fault;
+                    horizontal = get_map().ter( p + tripoint_east ) == t_fault ||
+                                 get_map().ter( p + tripoint_west ) == t_fault;
                     break;
                 }
             }
@@ -111,7 +113,7 @@ void timed_event::actualize()
                     if( horizontal ) {
                         monp.x = rng( fault_point->x, fault_point->x + 2 * SEEX - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( point( monp.x, fault_point->y + n ) ) == t_rock_floor ) {
+                            if( get_map().ter( point( monp.x, fault_point->y + n ) ) == t_rock_floor ) {
                                 monp.y = fault_point->y + n;
                             }
                         }
@@ -119,7 +121,7 @@ void timed_event::actualize()
                         // Vertical fault
                         monp.y = rng( fault_point->y, fault_point->y + 2 * SEEY - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( point( fault_point->x + n, monp.y ) ) == t_rock_floor ) {
+                            if( get_map().ter( point( fault_point->x + n, monp.y ) ) == t_rock_floor ) {
                                 monp.x = fault_point->x + n;
                             }
                         }
@@ -134,9 +136,9 @@ void timed_event::actualize()
 
         case TIMED_EVENT_ROOTS_DIE:
             g->events().send<event_type::destroys_triffid_grove>();
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                if( g->m.ter( p ) == t_root_wall && one_in( 3 ) ) {
-                    g->m.ter_set( p, t_underbrush );
+            for( const tripoint &p : get_map().points_on_zlevel() ) {
+                if( get_map().ter( p ) == t_root_wall && one_in( 3 ) ) {
+                    get_map().ter_set( p, t_underbrush );
                 }
             }
             break;
@@ -144,9 +146,9 @@ void timed_event::actualize()
         case TIMED_EVENT_TEMPLE_OPEN: {
             g->events().send<event_type::opens_temple>();
             bool saw_grate = false;
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                if( g->m.ter( p ) == t_grate ) {
-                    g->m.ter_set( p, t_stairs_down );
+            for( const tripoint &p : get_map().points_on_zlevel() ) {
+                if( get_map().ter( p ) == t_grate ) {
+                    get_map().ter_set( p, t_stairs_down );
                     if( !saw_grate && get_avatar().sees( p ) ) {
                         saw_grate = true;
                     }
@@ -162,14 +164,14 @@ void timed_event::actualize()
             bool flooded = false;
 
             ter_id flood_buf[MAPSIZE_X][MAPSIZE_Y];
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                flood_buf[p.x][p.y] = g->m.ter( p );
+            for( const tripoint &p : get_map().points_on_zlevel() ) {
+                flood_buf[p.x][p.y] = get_map().ter( p );
             }
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                if( g->m.ter( p ) == t_water_sh ) {
+            for( const tripoint &p : get_map().points_on_zlevel() ) {
+                if( get_map().ter( p ) == t_water_sh ) {
                     bool deepen = false;
                     for( const tripoint &w : points_in_radius( p, 1 ) ) {
-                        if( g->m.ter( w ) == t_water_dp ) {
+                        if( get_map().ter( w ) == t_water_dp ) {
                             deepen = true;
                             break;
                         }
@@ -178,10 +180,10 @@ void timed_event::actualize()
                         flood_buf[p.x][p.y] = t_water_dp;
                         flooded = true;
                     }
-                } else if( g->m.ter( p ) == t_rock_floor ) {
+                } else if( get_map().ter( p ) == t_rock_floor ) {
                     bool flood = false;
                     for( const tripoint &w : points_in_radius( p, 1 ) ) {
-                        if( g->m.ter( w ) == t_water_dp || g->m.ter( w ) == t_water_sh ) {
+                        if( get_map().ter( w ) == t_water_dp || get_map().ter( w ) == t_water_sh ) {
                             flood = true;
                             break;
                         }
@@ -197,7 +199,7 @@ void timed_event::actualize()
                 return;
             }
             // Check if we should print a message
-            if( flood_buf[get_avatar().posx()][get_avatar().posy()] != g->m.ter( get_avatar().pos() ) ) {
+            if( flood_buf[get_avatar().posx()][get_avatar().posy()] != get_map().ter( get_avatar().pos() ) ) {
                 if( flood_buf[get_avatar().posx()][get_avatar().posy()] == t_water_sh ) {
                     add_msg( m_warning, _( "Water quickly floods up to your knees." ) );
                     g->memorial().add(
@@ -209,12 +211,12 @@ void timed_event::actualize()
                     g->memorial().add(
                         pgettext( "memorial_male", "Water level reached the ceiling." ),
                         pgettext( "memorial_female", "Water level reached the ceiling." ) );
-                    avatar_action::swim( g->m, get_avatar(), get_avatar().pos() );
+                    avatar_action::swim( get_map(), get_avatar(), get_avatar().pos() );
                 }
             }
-            // flood_buf is filled with correct tiles; now copy them back to g->m
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                g->m.ter_set( p, flood_buf[p.x][p.y] );
+            // flood_buf is filled with correct tiles; now copy them back to get_map()
+            for( const tripoint &p : get_map().points_on_zlevel() ) {
+                get_map().ter_set( p, flood_buf[p.x][p.y] );
             }
             g->timed_events.add( TIMED_EVENT_TEMPLE_FLOOD,
                                  calendar::turn + rng( 2_turns, 3_turns ) );
@@ -243,7 +245,7 @@ void timed_event::per_turn()
         case TIMED_EVENT_WANTED: {
             // About once every 5 minutes. Suppress in classic zombie mode.
             if( g->get_levz() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
-                point place = g->m.random_outdoor_tile();
+                point place = get_map().random_outdoor_tile();
                 if( place.x == -1 && place.y == -1 ) {
                     // We're safely indoors!
                     return;
@@ -263,7 +265,8 @@ void timed_event::per_turn()
                 when -= 1_turns;
                 return;
             }
-            if( calendar::once_every( time_duration::from_seconds( rng( 2, 3 ) ) ) && !get_avatar().is_deaf() ) {
+            if( calendar::once_every( time_duration::from_seconds( rng( 2, 3 ) ) ) &&
+                !get_avatar().is_deaf() ) {
                 add_msg( m_warning, _( "You hear screeches from the rock above and around you!" ) );
             }
             break;
@@ -276,8 +279,8 @@ void timed_event::per_turn()
 
         case timed_event_type::AMIGARA_WHISPERS: {
             bool faults = false;
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
-                if( g->m.ter( p ) == t_fault ) {
+            for( const tripoint &p : get_map().points_on_zlevel() ) {
+                if( get_map().ter( p ) == t_fault ) {
                     faults = true;
                     break;
                 }

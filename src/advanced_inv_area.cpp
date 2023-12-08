@@ -119,7 +119,7 @@ void advanced_inv_area::init()
             break;
         case AIM_ABOVE:
         case AIM_BELOW:
-            if( !g->m.has_zlevels() || !g->m.valid_move( get_avatar().pos(), pos ) ) {
+            if( !get_map().has_zlevels() || !get_map().valid_move( get_avatar().pos(), pos ) ) {
                 canputitemsloc = false;
                 break;
             }

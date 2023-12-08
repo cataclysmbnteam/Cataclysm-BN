@@ -1678,8 +1678,9 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
     }
     if( get_avatar().controlling_vehicle ) {
         if( std::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true ) ) {
-            draw_from_id_string( "cursor", C_NONE, empty_string, indicator_offset->xy() + tripoint( get_avatar().posx(),
-                                 get_avatar().posy(), center.z ),
+            draw_from_id_string( "cursor", C_NONE, empty_string,
+                                 indicator_offset->xy() + tripoint( get_avatar().posx(),
+                                         get_avatar().posy(), center.z ),
                                  0, 0, lit_level::LIT, false, 0 );
         }
     }
@@ -2271,7 +2272,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     // or has an idle animation and idle animations are enabled
     if( has_variations && variations_enabled ) {
         if( seed_from_map_coords ) {
-            seed = simple_point_hash( g->m.getabs( pos ) );
+            seed = simple_point_hash( get_map().getabs( pos ) );
         }
         static const auto rot32 = []( const unsigned int x, const int k ) {
             return ( x << k ) | ( x >> ( 32 - k ) );
@@ -2836,7 +2837,8 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
                                         nv_goggles_activated, height_3d, z_drop );
         }
     }
-    if( overridden || ( !invisible[0] && neighborhood_overridden && tr.obj().can_see( p, get_avatar() ) ) ) {
+    if( overridden || ( !invisible[0] && neighborhood_overridden &&
+                        tr.obj().can_see( p, get_avatar() ) ) ) {
         // and then draw the override trap
         const trap_id &tr2 = overridden ? override->second : tr;
         if( tr2 ) {
@@ -3121,7 +3123,8 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     } else {
         // invisible
         const Creature *critter = g->critter_at( p, true );
-        if( critter && ( get_avatar().sees_with_infrared( *critter ) || get_avatar().sees_with_specials( *critter ) ) ) {
+        if( critter && ( get_avatar().sees_with_infrared( *critter ) ||
+                         get_avatar().sees_with_specials( *critter ) ) ) {
             // try drawing infrared creature if invisible and not overridden
             // return directly without drawing overlay
             return draw_from_id_string( "infrared_creature", C_NONE, empty_string, p, 0, 0,

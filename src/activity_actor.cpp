@@ -439,11 +439,12 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             here.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
             here.furn_set( location, f_coffin_c );
         }
-        std::vector<item *> dropped = g->m.place_items( item_group_id( "allclothes" ), 50, location,
+        std::vector<item *> dropped = get_map().place_items( item_group_id( "allclothes" ), 50, location,
                                       location, false,
                                       calendar::turn );
-        g->m.place_items( item_group_id( "grave" ), 25, location, location, false, calendar::turn );
-        g->m.place_items( item_group_id( "jewelry_front" ), 20, location, location, false, calendar::turn );
+        get_map().place_items( item_group_id( "grave" ), 25, location, location, false, calendar::turn );
+        get_map().place_items( item_group_id( "jewelry_front" ), 20, location, location, false,
+                               calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
                 it->set_flag( flag_FILTHY );
@@ -1107,14 +1108,14 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
-    const tripoint target = g->m.getlocal( this->target );
-    const ter_id ter_type = g->m.ter( target );
-    const furn_id furn_type = g->m.furn( target );
+    const tripoint target = get_map().getlocal( this->target );
+    const ter_id ter_type = get_map().ter( target );
+    const furn_id furn_type = get_map().furn( target );
     ter_id new_ter_type = t_null;
     furn_id new_furn_type = f_null;
     std::string open_message = _( "The lock opens…" );
 
-    if( g->m.has_furn( target ) ) {
+    if( get_map().has_furn( target ) ) {
         if( furn_type->lockpick_result.is_null() ) {
             debugmsg( "%s lockpick_result is null", furn_type.id().str() );
             return;
@@ -1149,13 +1150,13 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     int xp_gain = 0;
     if( perfect || ( pick_roll >= lock_roll ) ) {
         xp_gain += lock_roll;
-        g->m.has_furn( target ) ?
-        g->m.furn_set( target, new_furn_type ) :
-        static_cast<void>( g->m.ter_set( target, new_ter_type ) );
+        get_map().has_furn( target ) ?
+        get_map().furn_set( target, new_furn_type ) :
+        static_cast<void>( get_map().ter_set( target, new_ter_type ) );
         who.add_msg_if_player( m_good, open_message );
     } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
         who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
-        g->m.furn_set( target, furn_str_id( "f_gunsafe_mj" ) );
+        get_map().furn_set( target, furn_str_id( "f_gunsafe_mj" ) );
     } else if( lock_roll > ( 1.5 * pick_roll ) ) {
         if( it->inc_damage() ) {
             who.add_msg_if_player( m_bad,
@@ -1175,7 +1176,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     }
     who.practice( skill_mechanics, xp_gain );
 
-    if( !perfect && g->m.has_flag( "ALARMED", target ) && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
+    if( !perfect && get_map().has_flag( "ALARMED", target ) &&
+        ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ),
                        true, "environment", "alarm" );
         if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
@@ -1191,8 +1193,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
 bool lockpick_activity_actor::is_pickable( const tripoint &p )
 {
-    return g->m.has_furn( p ) ? !g->m.furn( p )->lockpick_result.is_null() :
-           !g->m.ter( p )->lockpick_result.is_null();
+    return get_map().has_furn( p ) ? !get_map().furn( p )->lockpick_result.is_null() :
+           !get_map().ter( p )->lockpick_result.is_null();
 }
 
 std::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
@@ -1212,7 +1214,7 @@ std::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
         return target;
     }
 
-    const ter_id terr_type = g->m.ter( *target );
+    const ter_id terr_type = get_map().ter( *target );
     if( *target == you.pos() ) {
         you.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
     } else if( g->critter_at<npc>( *target ) ) {

@@ -237,7 +237,8 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         nc_color color = weight_carried > weight_capacity ? c_red : c_light_green;
         mvwprintz( window, point( hrightcol, 4 ), color, "%.1f", weight_carried );
         wprintz( window, c_light_gray, "/%.1f %s  ", weight_capacity, weight_units() );
-        color = get_avatar().volume_carried().value() > get_avatar().volume_capacity().value() ? c_red : c_light_green;
+        color = get_avatar().volume_carried().value() > get_avatar().volume_capacity().value() ? c_red :
+                c_light_green;
         wprintz( window, color, volume_carried );
         wprintz( window, c_light_gray, "/%s %s", volume_capacity, volume_units_abbr() );
     } else {
@@ -948,18 +949,19 @@ bool advanced_inventory::move_all_items( bool nested_call )
             if( dpane.get_area() == AIM_INVENTORY ) {
                 std::vector<pickup::pick_drop_selection> targets = pickup::optimize_pickup( target_items,
                         quantities );
-                get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
-                                          targets,
-                                          panes[src].in_vehicle() ? std::nullopt : std::optional<tripoint>( get_avatar().pos() )
-                                      ) ) );
+                get_avatar().assign_activity( std::make_unique<player_activity>
+                                              ( std::make_unique<pickup_activity_actor>(
+                                                    targets,
+                                                    panes[src].in_vehicle() ? std::nullopt : std::optional<tripoint>( get_avatar().pos() )
+                                                ) ) );
             } else {
                 get_avatar().assign_activity( std::make_unique<player_activity>
-                                      ( std::make_unique<move_items_activity_actor>(
-                                            target_items,
-                                            quantities,
-                                            dpane.in_vehicle(),
-                                            relative_destination
-                                        ) ) );
+                                              ( std::make_unique<move_items_activity_actor>(
+                                                    target_items,
+                                                    quantities,
+                                                    dpane.in_vehicle(),
+                                                    relative_destination
+                                                ) ) );
             }
         }
 
@@ -1159,21 +1161,22 @@ void advanced_inventory::start_activity( const aim_location destarea,
         if( destarea == AIM_INVENTORY ) {
             std::vector<pickup::pick_drop_selection> targets = pickup::optimize_pickup( target_items,
                     quantities );
-            get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
-                                      targets,
-                                      from_vehicle ? std::nullopt : std::optional<tripoint>( get_avatar().pos() )
-                                  ) ) );
+            get_avatar().assign_activity( std::make_unique<player_activity>
+                                          ( std::make_unique<pickup_activity_actor>(
+                                                targets,
+                                                from_vehicle ? std::nullopt : std::optional<tripoint>( get_avatar().pos() )
+                                            ) ) );
         } else {
             // Stash the destination
             const tripoint relative_destination = squares[destarea].off;
 
             get_avatar().assign_activity( std::make_unique<player_activity>
-                                  ( std::make_unique<move_items_activity_actor>(
-                                        target_items,
-                                        quantities,
-                                        to_vehicle,
-                                        relative_destination
-                                    ) ) );
+                                          ( std::make_unique<move_items_activity_actor>(
+                                                target_items,
+                                                quantities,
+                                                to_vehicle,
+                                                relative_destination
+                                            ) ) );
         }
     }
 }
@@ -1235,9 +1238,10 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             item *itm = &get_avatar().i_at( sitem->idx );
 
             drop_locations to_move = { drop_location( *itm, amount_to_move ) };
-            get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<drop_activity_actor>
-                                  ( get_avatar(), to_move,
-                                    !to_vehicle, squares[destarea].off ) ) );
+            get_avatar().assign_activity( std::make_unique<player_activity>
+                                          ( std::make_unique<drop_activity_actor>
+                                            ( get_avatar(), to_move,
+                                              !to_vehicle, squares[destarea].off ) ) );
         }
         // exit so that the activity can be carried out
         exit = true;
@@ -1257,9 +1261,10 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             get_avatar().takeoff( *itm );
         } else {
             drop_locations to_move = { drop_location( *itm, amount_to_move ) };
-            get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<drop_activity_actor>
-                                  ( get_avatar(), to_move,
-                                    !to_vehicle, squares[destarea].off ) ) );
+            get_avatar().assign_activity( std::make_unique<player_activity>
+                                          ( std::make_unique<drop_activity_actor>
+                                            ( get_avatar(), to_move,
+                                              !to_vehicle, squares[destarea].off ) ) );
         }
         // exit so that the activity can be carried out
         exit = true;

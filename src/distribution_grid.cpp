@@ -323,7 +323,7 @@ void grid_furn_transform_queue::apply( mapbuffer &mb, distribution_grid_tracker 
         // TODO: this is copy-pasted from map.cpp
         if( old_t.active ) {
             sm->active_furniture.erase( p_within_sm );
-            // TODO: Only for g->m? Observer pattern?
+            // TODO: Only for get_map()? Observer pattern?
             grid_tracker.on_changed( qt.p );
         }
         if( new_t.active ) {

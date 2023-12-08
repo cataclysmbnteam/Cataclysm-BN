@@ -620,7 +620,7 @@ std::vector<coords::coord_point<Point, Origin, Scale>>
  * 'absolute' is defined as the -actual- submap x,y * SEEX + position in submap, and
  * can be obtained from map.getabs(x, y);
  *   usage:
- *    real_coords rc( g->m.getabs(get_avatar().posx(), get_avatar().posy() ) );
+ *    real_coords rc( get_map().getabs(get_avatar().posx(), get_avatar().posy() ) );
  */
 struct real_coords {
     static const int tiles_in_sub = SEEX;

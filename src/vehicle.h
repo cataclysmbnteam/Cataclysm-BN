@@ -638,7 +638,7 @@ class vehicle
          * @param handler A class that receives various callbacks, e.g. for placing items.
          * This handler is different when called during mapgen (when items need to be placed
          * on the temporary mapgen map), and when called during normal game play (when items
-         * go on the main map g->m).
+         * go on the main map get_map()).
          */
         bool remove_part( int p, RemovePartHandler &handler );
         bool remove_part( int p );

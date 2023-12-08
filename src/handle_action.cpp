@@ -776,7 +776,7 @@ static void smash()
         return; // don't smash terrain if we've smashed a corpse
     }
 
-    vehicle *veh = veh_pointer_or_null( g->m.veh_at( smashp ) );
+    vehicle *veh = veh_pointer_or_null( get_map().veh_at( smashp ) );
     if( veh != nullptr ) {
         if( !veh->handle_potential_theft( get_avatar() ) ) {
             return;

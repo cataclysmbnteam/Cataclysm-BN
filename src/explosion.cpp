@@ -1554,7 +1554,7 @@ void explosion_funcs::flashbang( const queued_explosion &qe )
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
             get_avatar().add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
-                                 time_duration::from_turns( 10 - dist ) );
+                                         time_duration::from_turns( 10 - dist ) );
         }
     }
     for( monster &critter : g->all_monsters() ) {
@@ -1776,7 +1776,8 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
     map &here = get_map();
     const tripoint &p = qe.pos;
 
-    const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, get_avatar().pos() ) );
+    const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p,
+                                  get_avatar().pos() ) );
     if( maxglow > 0_turns ) {
         const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
                                                 get_avatar().pos() ) ) );

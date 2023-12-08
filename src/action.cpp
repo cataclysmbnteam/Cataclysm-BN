@@ -709,7 +709,8 @@ action_id handle_action_menu()
             action_weightings[ACTION_CYCLE_MOVE] = 400;
         }
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
-        if( get_avatar().primary_weapon().is_gun() || get_avatar().primary_weapon().has_flag( flag_REACH_ATTACK ) ) {
+        if( get_avatar().primary_weapon().is_gun() ||
+            get_avatar().primary_weapon().has_flag( flag_REACH_ATTACK ) ) {
             action_weightings[ACTION_FIRE] = 350;
         }
     }

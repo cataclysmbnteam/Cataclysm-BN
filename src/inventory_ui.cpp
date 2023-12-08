@@ -652,7 +652,7 @@ void inventory_column::set_stack_favorite( const item *location, bool favorite )
             get_avatar().inv_set_stack_favorite( position, !selected_item->is_favorite ); // in inventory
         }
     } else if( location->where() == item_location_type::map ) {
-        auto items = g->m.i_at( location->position() );
+        auto items = get_map().i_at( location->position() );
 
         for( auto &item : items ) {
             if( item->stacks_with( *selected_item ) ) {
@@ -663,7 +663,7 @@ void inventory_column::set_stack_favorite( const item *location, bool favorite )
             item->set_favorite( favorite );
         }
     } else if( location->where() == item_location_type::vehicle ) {
-        const std::optional<vpart_reference> vp = g->m.veh_at(
+        const std::optional<vpart_reference> vp = get_map().veh_at(
                     location->position() ).part_with_feature( "CARGO", true );
         assert( vp );
 
@@ -1209,9 +1209,9 @@ void inventory_selector::add_character_items( Character &character )
 
 void inventory_selector::add_map_items( const tripoint &target )
 {
-    if( g->m.accessible_items( target ) ) {
-        const auto items = g->m.i_at( target );
-        const std::string name = to_upper_case( g->m.name( target ) );
+    if( get_map().accessible_items( target ) ) {
+        const auto items = get_map().i_at( target );
+        const std::string name = to_upper_case( get_map().name( target ) );
         const item_category map_cat( name, no_translation( name ), 100 );
 
         add_items( map_column, []( item * it ) {
@@ -1222,7 +1222,8 @@ void inventory_selector::add_map_items( const tripoint &target )
 
 void inventory_selector::add_vehicle_items( const tripoint &target )
 {
-    const std::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO", true );
+    const std::optional<vpart_reference> vp = get_map().veh_at( target ).part_with_feature( "CARGO",
+            true );
     if( !vp ) {
         return;
     }
@@ -1244,7 +1245,7 @@ void inventory_selector::add_nearby_items( int radius )
     if( radius >= 0 ) {
         for( const tripoint &pos : closest_points_first( u.pos(), radius ) ) {
             // can not reach this -> can not access its contents
-            if( u.pos() != pos && !g->m.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
+            if( u.pos() != pos && !get_map().clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
                 continue;
             }
             add_map_items( pos );

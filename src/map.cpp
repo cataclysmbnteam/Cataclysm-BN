@@ -141,7 +141,7 @@ static level_cache        nullcache;         // Dummy cache for z-levels outside
 
 bool disable_mapgen = false;
 
-map &get_map()
+auto get_map() -> map &
 {
     return g->m;
 }
@@ -759,7 +759,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     veh.check_falling_or_floating();
     // If the PC is in the currently moved vehicle, adjust the
     //  view offset.
-    if( get_avatar().controlling_vehicle && veh_pointer_or_null( veh_at( get_avatar().pos() ) ) == &veh ) {
+    if( get_avatar().controlling_vehicle &&
+        veh_pointer_or_null( veh_at( get_avatar().pos() ) ) == &veh ) {
         g->calc_driving_offset( &veh );
         if( veh.skidding && can_move ) {
             // TODO: Make skid recovery in air hard
@@ -1444,7 +1445,8 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture,
     const furn_t &new_t = new_furniture.obj();
 
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
-    if( get_avatar().get_grab_type() == OBJECT_FURNITURE && get_avatar().grab_point == p && !new_t.is_movable() ) {
+    if( get_avatar().get_grab_type() == OBJECT_FURNITURE && get_avatar().grab_point == p &&
+        !new_t.is_movable() ) {
         add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name() );
         get_avatar().grab( OBJECT_NONE );
     }
@@ -1491,7 +1493,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture,
 
     if( old_t.active ) {
         current_submap->active_furniture.erase( point_sm_ms( l ) );
-        // TODO: Only for g->m? Observer pattern?
+        // TODO: Only for get_map()? Observer pattern?
         get_distribution_grid_tracker().on_changed( tripoint_abs_ms( getabs( p ) ) );
     }
     if( new_t.active || new_active ) {
@@ -5373,7 +5375,8 @@ void map::disarm_trap( const tripoint &p )
     ///\EFFECT_DEX increases chance of disarming trap
 
     ///\EFFECT_TRAPS increases chance of disarming trap
-    while( ( rng( 5, 20 ) < get_avatar().per_cur || rng( 1, 20 ) < get_avatar().dex_cur ) && roll < 50 ) {
+    while( ( rng( 5, 20 ) < get_avatar().per_cur || rng( 1, 20 ) < get_avatar().dex_cur ) &&
+           roll < 50 ) {
         roll++;
     }
     if( roll >= diff ) {
@@ -5839,7 +5842,7 @@ visibility_type map::get_visibility( const lit_level ll,
 static bool has_memory_at( const tripoint &p )
 {
     if( get_avatar().should_show_map_memory() ) {
-        int t = get_avatar().get_memorized_symbol( g->m.getabs( p ) );
+        int t = get_avatar().get_memorized_symbol( get_map().getabs( p ) );
         return t != 0;
     }
     return false;
@@ -5848,7 +5851,7 @@ static bool has_memory_at( const tripoint &p )
 static int get_memory_at( const tripoint &p )
 {
     if( get_avatar().should_show_map_memory() ) {
-        return get_avatar().get_memorized_symbol( g->m.getabs( p ) );
+        return get_avatar().get_memorized_symbol( get_map().getabs( p ) );
     }
     return ' ';
 }
@@ -5883,8 +5886,8 @@ void map::draw( const catacurses::window &w, const tripoint &center )
                                  std::max( MAPSIZE_Y, offs.y + wnd_h )
                              );
     get_avatar().prepare_map_memory_region(
-        g->m.getabs( tripoint( min_mm_reg, center.z ) ),
-        g->m.getabs( tripoint( max_mm_reg, center.z ) )
+        get_map().getabs( tripoint( min_mm_reg, center.z ) ),
+        get_map().getabs( tripoint( max_mm_reg, center.z ) )
     );
 
     const auto draw_background = [&]( const tripoint & p ) {
@@ -6130,7 +6133,8 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
     std::string item_sym;
 
     // If there are items here, draw those instead
-    if( param.show_items() && curr_maptile.get_item_count() > 0 && sees_some_items( p, get_avatar() ) ) {
+    if( param.show_items() && curr_maptile.get_item_count() > 0 &&
+        sees_some_items( p, get_avatar() ) ) {
         // if there's furniture/terrain/trap/fields (sym!='.')
         // and we should not override it, then only highlight the square
         if( sym != '.' && sym != '%' && !draw_item_sym ) {

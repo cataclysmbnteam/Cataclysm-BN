@@ -294,7 +294,7 @@ bool is_valid_in_w_terrain( point p )
 static void achievement_attained( const achievement *a )
 {
     get_avatar().add_msg_if_player( m_good, _( "You completed the achievement \"%s\"." ),
-                            a->name() );
+                                    a->name() );
 }
 
 // This is the main game set-up process.
@@ -3072,7 +3072,8 @@ static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
             }
         }
         if( zone_blink && zone_start && zone_end ) {
-            const point offset2( get_avatar().view_offset.xy() + point( get_avatar().posx() - getmaxx( g->w_terrain ) / 2,
+            const point offset2( get_avatar().view_offset.xy() + point( get_avatar().posx() - getmaxx(
+                                     g->w_terrain ) / 2,
                                  get_avatar().posy() - getmaxy( g->w_terrain ) / 2 ) );
 
             tripoint offset;
@@ -4973,7 +4974,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         add_msg( m_good, _( "Successfully removed Personality override." ) );
         add_msg( m_bad, _( "Autodoc immediately destroys the CBM upon removal." ) );
 
-        delete_cyborg_item( g->m, couch_pos, cyborg );
+        delete_cyborg_item( get_map(), couch_pos, cyborg );
 
         const string_id<npc_template> npc_cyborg( "cyborg_rescued" );
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
@@ -5004,7 +5005,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
             case 5:
                 add_msg( m_info, _( "The removal is a catastrophe." ) );
                 add_msg( m_bad, _( "The body is destroyed!" ) );
-                delete_cyborg_item( g->m, couch_pos, cyborg );
+                delete_cyborg_item( get_map(), couch_pos, cyborg );
                 break;
             default:
                 break;

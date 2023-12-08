@@ -312,7 +312,7 @@ static void prep_craft( const recipe_id &rid, std::vector<detached_ptr<item>> &t
     }
     // and just in case "used" skill difficulty is higher, set that too
     get_avatar().set_skill_level( r.skill_used, std::max( r.difficulty,
-                          get_avatar().get_skill_level( r.skill_used ) ) );
+                                  get_avatar().get_skill_level( r.skill_used ) ) );
 
     const inventory &crafting_inv = get_avatar().crafting_inventory();
     bool can_craft = r.deduped_requirements().can_make_with_inventory(

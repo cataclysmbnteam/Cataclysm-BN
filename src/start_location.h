@@ -45,7 +45,7 @@ class start_location
          */
         void prepare_map( const tripoint_abs_omt &omtstart ) const;
         /**
-         * Place the player somewhere in the reality bubble (g->m).
+         * Place the player somewhere in the reality bubble (get_map()).
          */
         void place_player( player &u ) const;
         /**

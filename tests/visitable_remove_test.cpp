@@ -62,14 +62,14 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     const auto suitable = []( const tripoint & pos, const int radius ) {
         std::vector<tripoint> tiles = closest_points_first( pos, radius );
         return std::all_of( tiles.begin(), tiles.end(), []( const tripoint & e ) {
-            if( !g->m.inbounds( e ) ) {
+            if( !get_map().inbounds( e ) ) {
                 return false;
             }
-            if( const optional_vpart_position vp = g->m.veh_at( e ) ) {
-                g->m.destroy_vehicle( &vp->vehicle() );
+            if( const optional_vpart_position vp = get_map().veh_at( e ) ) {
+                get_map().destroy_vehicle( &vp->vehicle() );
             }
-            g->m.i_clear( e );
-            return g->m.passable( e );
+            get_map().i_clear( e );
+            return get_map().passable( e );
         } );
     };
 
@@ -344,11 +344,11 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             if( i == 0 || tiles.empty() ) {
                 // always place at least one bottle on player tile
                 our++;
-                g->m.add_item( p.pos(), item::spawn( obj ) );
+                get_map().add_item( p.pos(), item::spawn( obj ) );
             } else {
                 // randomly place bottles on adjacent tiles
                 adj++;
-                g->m.add_item( random_entry( tiles ), item::spawn( obj ) );
+                get_map().add_item( random_entry( tiles ), item::spawn( obj ) );
             }
         }
         REQUIRE( our + adj == count );
@@ -471,13 +471,14 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         std::vector<tripoint> tiles = closest_points_first( p.pos(), 1 );
         tiles.erase( tiles.begin() ); // player tile
         tripoint veh = random_entry( tiles );
-        REQUIRE( g->m.add_vehicle( vproto_id( "shopping_cart" ), veh, 0_degrees, 0, 0 ) );
+        REQUIRE( get_map().add_vehicle( vproto_id( "shopping_cart" ), veh, 0_degrees, 0, 0 ) );
 
         REQUIRE( std::count_if( tiles.begin(), tiles.end(), []( const tripoint & e ) {
-            return static_cast<bool>( g->m.veh_at( e ) );
+            return static_cast<bool>( get_map().veh_at( e ) );
         } ) == 1 );
 
-        const std::optional<vpart_reference> vp = g->m.veh_at( veh ).part_with_feature( "CARGO", true );
+        const std::optional<vpart_reference> vp = get_map().veh_at( veh ).part_with_feature( "CARGO",
+                true );
         REQUIRE( vp );
         vehicle *const v = &vp->vehicle();
         const int part = vp->part_index();

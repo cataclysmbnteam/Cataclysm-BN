@@ -929,7 +929,8 @@ void npc::finish_read( item *it )
     const skill_id &skill = reading->skill;
     // NPCs don't need to identify the book or learn recipes yet.
     // NPCs don't read to other NPCs yet.
-    const bool display_messages = my_fac->id == faction_id( "your_followers" ) && get_avatar().sees( pos() );
+    const bool display_messages = my_fac->id == faction_id( "your_followers" ) &&
+                                  get_avatar().sees( pos() );
     bool continuous = false; //whether to continue reading or not
 
     int book_fun_for = character_funcs::get_book_fun_for( *this, book );
@@ -1173,7 +1174,7 @@ void npc::stow_weapon( )
         if( get_avatar().sees( pos() ) ) {
             add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname() );
         }
-        g->m.add_item_or_charges( pos(), std::move( detached ) );
+        get_map().add_item_or_charges( pos(), std::move( detached ) );
     }
 }
 
@@ -1412,7 +1413,7 @@ float npc::vehicle_danger( int radius ) const
 {
     const tripoint from( posx() - radius, posy() - radius, posz() );
     const tripoint to( posx() + radius, posy() + radius, posz() );
-    VehicleList vehicles = g->m.get_vehicles( from, to );
+    VehicleList vehicles = get_map().get_vehicles( from, to );
 
     int danger = 0;
 
@@ -2068,7 +2069,8 @@ bool npc::is_minion() const
 
 bool npc::guaranteed_hostile() const
 {
-    return is_enemy() || ( my_fac && my_fac->likes_u < -10 ) || get_avatar().has_trait( trait_PROF_FERAL );
+    return is_enemy() || ( my_fac && my_fac->likes_u < -10 ) ||
+           get_avatar().has_trait( trait_PROF_FERAL );
 }
 
 bool npc::is_walking_with() const
@@ -2199,7 +2201,7 @@ void npc::npc_dismount()
         return;
     }
     std::optional<tripoint> pnt;
-    for( const auto &elem : g->m.points_in_radius( pos(), 1 ) ) {
+    for( const auto &elem : get_map().points_in_radius( pos(), 1 ) ) {
         if( g->is_empty( elem ) ) {
             pnt = elem;
             break;
@@ -2269,8 +2271,8 @@ int npc::follow_distance() const
     // HACK: If the player is standing on stairs, follow closely
     // This makes the stair hack less painful to use
     if( is_walking_with() &&
-        ( g->m.has_flag( TFLAG_GOES_DOWN, get_avatar().pos() ) ||
-          g->m.has_flag( TFLAG_GOES_UP, get_avatar().pos() ) ) ) {
+        ( get_map().has_flag( TFLAG_GOES_DOWN, get_avatar().pos() ) ||
+          get_map().has_flag( TFLAG_GOES_UP, get_avatar().pos() ) ) ) {
         return 1;
     }
     // Uses ally_rule follow_distance_2 to determine if should follow by 2 or 4 tiles
@@ -2530,7 +2532,7 @@ void npc::die( Creature *nkiller )
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {
-        g->m.unboard_vehicle( pos(), true );
+        get_map().unboard_vehicle( pos(), true );
     }
     if( is_mounted() ) {
         monster *critter = mounted_creature.get();
@@ -2792,13 +2794,13 @@ void npc::on_load()
     has_new_items = true;
 
     // for spawned npcs
-    if( g->m.has_flag( "UNSTABLE", pos() ) ) {
+    if( get_map().has_flag( "UNSTABLE", pos() ) ) {
         add_effect( effect_bouldering, 1_turns, num_bp );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
-    if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
-        g->m.board_vehicle( pos(), this );
+    if( get_map().veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
+        get_map().board_vehicle( pos(), this );
     }
     if( has_effect( effect_riding ) && !mounted_creature ) {
         if( const monster *const mon = g->critter_at<monster>( pos() ) ) {
@@ -2853,7 +2855,7 @@ bool npc::dispose_item( item &obj, const std::string & )
                 item_store_cost( obj, *e, false, ptr->draw_cost ),
                 [this, ptr, &e, &obj]{
                     detached_ptr<item> failed = ptr->store( *this, *e, obj.detach() );
-                    g->m.add_item_or_charges( pos(), std::move( failed ) );
+                    get_map().add_item_or_charges( pos(), std::move( failed ) );
                 }
             } );
         }
@@ -2872,7 +2874,7 @@ bool npc::dispose_item( item &obj, const std::string & )
 
     if( opts.empty() ) {
         // Drop it
-        g->m.add_item_or_charges( pos(), obj.detach() );
+        get_map().add_item_or_charges( pos(), obj.detach() );
         return true;
     }
 
@@ -3022,15 +3024,15 @@ std::set<tripoint> npc::get_path_avoid() const
         ret.insert( critter.pos() );
     }
     if( rules.has_flag( ally_rule::avoid_doors ) ) {
-        for( const tripoint &p : g->m.points_in_radius( pos(), 30 ) ) {
-            if( g->m.open_door( p, true, true ) ) {
+        for( const tripoint &p : get_map().points_in_radius( pos(), 30 ) ) {
+            if( get_map().open_door( p, true, true ) ) {
                 ret.insert( p );
             }
         }
     }
     if( rules.has_flag( ally_rule::hold_the_line ) ) {
-        for( const tripoint &p : g->m.points_in_radius( get_avatar().pos(), 1 ) ) {
-            if( g->m.close_door( p, true, true ) || g->m.move_cost( p ) > 2 ) {
+        for( const tripoint &p : get_map().points_in_radius( get_avatar().pos(), 1 ) ) {
+            if( get_map().close_door( p, true, true ) || get_map().move_cost( p ) > 2 ) {
                 ret.insert( p );
             }
         }

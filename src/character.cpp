@@ -1523,7 +1523,8 @@ void Character::forced_dismount()
             get_avatar().grab( OBJECT_NONE );
         }
         set_movement_mode( CMM_WALK );
-        if( get_avatar().is_auto_moving() || get_avatar().has_destination() || get_avatar().has_destination_activity() ) {
+        if( get_avatar().is_auto_moving() || get_avatar().has_destination() ||
+            get_avatar().has_destination_activity() ) {
             get_avatar().clear_destination();
         }
         g->update_map( get_avatar() );
@@ -11427,7 +11428,7 @@ int Character::impact( const int force, const tripoint &p )
         // TODO: Modify based on something?
         mod = 1.0f;
         effective_force = force;
-    } else if( const optional_vpart_position vp = g->m.veh_at( p ) ) {
+    } else if( const optional_vpart_position vp = get_map().veh_at( p ) ) {
         // Slamming into vehicles
         // TODO: Integrate it with vehicle collision function somehow
         target_name = vp->vehicle().disp_name();
@@ -11445,17 +11446,17 @@ int Character::impact( const int force, const tripoint &p )
         }
     } else {
         // Slamming into terrain/furniture
-        target_name = g->m.disp_name( p );
-        int hard_ground = g->m.has_flag( TFLAG_DIGGABLE, p ) ? 0 : 3;
+        target_name = get_map().disp_name( p );
+        int hard_ground = get_map().has_flag( TFLAG_DIGGABLE, p ) ? 0 : 3;
         armor_eff = 0.25f; // Not much
         // Get cut by stuff
         // This isn't impalement on metal wreckage, more like flying through a closed window
-        cut = g->m.has_flag( TFLAG_SHARP, p ) ? 5 : 0;
+        cut = get_map().has_flag( TFLAG_SHARP, p ) ? 5 : 0;
         effective_force = force + hard_ground;
         mod = slam ? 1.0f : fall_damage_mod();
-        if( g->m.has_furn( p ) ) {
+        if( get_map().has_furn( p ) ) {
             // TODO: Make furniture matter
-        } else if( g->m.has_flag( TFLAG_SWIMMABLE, p ) ) {
+        } else if( get_map().has_flag( TFLAG_SWIMMABLE, p ) ) {
             // TODO: Some formula of swimming
             effective_force /= 4;
         }
@@ -11555,7 +11556,7 @@ void Character::knock_back_to( const tripoint &to )
         apply_damage( nullptr, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 2_turns );
         add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
-                               g->m.obstacle_name( intervening ) );
+                               get_map().obstacle_name( intervening ) );
         return;
     }
 
@@ -11590,19 +11591,19 @@ void Character::knock_back_to( const tripoint &to )
     }
 
     // If we're still in the function at this point, we're actually moving a tile!
-    if( g->m.has_flag( "LIQUID", to ) && g->m.has_flag( TFLAG_DEEP_WATER, to ) ) {
+    if( get_map().has_flag( "LIQUID", to ) && get_map().has_flag( TFLAG_DEEP_WATER, to ) ) {
         if( !is_npc() ) {
-            avatar_action::swim( g->m, get_avatar(), to );
+            avatar_action::swim( get_map(), get_avatar(), to );
         }
         // TODO: NPCs can't swim!
-    } else if( g->m.impassable( to ) ) { // Wait, it's a wall
+    } else if( get_map().impassable( to ) ) { // Wait, it's a wall
 
         // It's some kind of wall.
         // TODO: who knocked us back? Maybe that creature should be the source of the damage?
         apply_damage( nullptr, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 2_turns );
         add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
-                               g->m.obstacle_name( to ) );
+                               get_map().obstacle_name( to ) );
 
     } else { // It's no wall
         setpos( to );

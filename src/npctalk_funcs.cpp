@@ -518,7 +518,8 @@ void talk_function::bionic_remove( npc &p )
 
     //Makes the doctor awesome at installing but not perfect
     if( get_avatar().can_uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false ) ) {
-        get_avatar().amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
+        get_avatar().amount_of(
+            bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
         get_avatar().uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false );
     }
 
@@ -910,7 +911,8 @@ void talk_function::start_training( npc &p )
         cost = calc_skill_training_cost( p, skill );
         time = calc_skill_training_time( p, skill );
         name = skill.str();
-    } else if( p.chatbin.style.is_valid() && !get_avatar().martial_arts_data->has_martialart( style ) ) {
+    } else if( p.chatbin.style.is_valid() &&
+               !get_avatar().martial_arts_data->has_martialart( style ) ) {
         cost = calc_ma_style_training_cost( p, style );
         time = calc_ma_style_training_time( p, style );
         name = p.chatbin.style.str();
@@ -920,7 +922,8 @@ void talk_function::start_training( npc &p )
         const bool knows = get_avatar().magic->knows_spell( sp_id );
         cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(), temp_spell.get_level() );
         name = temp_spell.id().str();
-        expert_multiplier = knows ? temp_spell.get_level() - get_avatar().magic->get_spell( sp_id ).get_level() : 1;
+        expert_multiplier = knows ? temp_spell.get_level() - get_avatar().magic->get_spell(
+                                sp_id ).get_level() : 1;
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
         // if player doesn't know this spell, then the NPC will teach all of it

@@ -595,7 +595,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             const item &med = !( *loc ).is_container_empty() && ( *loc ).get_contained().is_medication() &&
                               ( *loc ).get_contained().type->has_use() ? ( *loc ).get_contained() : *loc;
 
-            if( loc->made_of( LIQUID ) && !g->m.has_flag( flag_LIQUIDCONT, loc->position() ) ) {
+            if( loc->made_of( LIQUID ) && !get_map().has_flag( flag_LIQUIDCONT, loc->position() ) ) {
                 return _( "Can't drink spilt liquids" );
             }
 

@@ -1388,7 +1388,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             // If their position or intended position or player position/intended position
             // then discount, don't need to move each other out of the way.
             if( here.getlocal( get_avatar().activity->placement ) == src_loc ||
-                guy_work_spot == src_loc || guy.pos() == src_loc || ( p.is_npc() && get_avatar().pos() == src_loc ) ) {
+                guy_work_spot == src_loc || guy.pos() == src_loc || ( p.is_npc() &&
+                        get_avatar().pos() == src_loc ) ) {
                 return activity_reason_info::fail( do_activity_reason::ALREADY_WORKING );
             }
             if( guy_work_spot != tripoint_zero ) {
@@ -3263,7 +3264,7 @@ bool find_auto_consume( player &p, const consume_type type )
         if( loc.z != p.pos().z ) {
             continue;
         }
-        const optional_vpart_position vp = here.veh_at( g->m.getlocal( loc ) );
+        const optional_vpart_position vp = here.veh_at( get_map().getlocal( loc ) );
         if( vp ) {
             vehicle &veh = vp->vehicle();
             const int index = veh.part_with_feature( vp->part_index(), "CARGO", false );

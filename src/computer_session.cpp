@@ -242,7 +242,8 @@ static void remove_submap_turrets()
     map &here = get_map();
     for( monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
-        if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( get_avatar().pos() ) ) &&
+        if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs(
+                    get_avatar().pos() ) ) &&
             critter.has_flag( MF_CONSOLE_DESPAWN ) &&
             critter.attitude_to( get_avatar() ) == Creature::Attitude::A_HOSTILE ) {
             g->remove_zombie( critter );
@@ -394,7 +395,8 @@ void computer_session::action_sample()
 void computer_session::action_release()
 {
     g->events().send<event_type::releases_subspace_specimens>();
-    sounds::sound( get_avatar().pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+    sounds::sound( get_avatar().pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
+                   "environment",
                    "alarm" );
     get_map().translate_radius( t_reinforced_glass, t_thconc_floor, 25.0, get_avatar().pos(), true );
     query_any( _( "Containment shields opened.  Press any key…" ) );
@@ -408,7 +410,8 @@ void computer_session::action_release_disarm()
 
 void computer_session::action_release_bionics()
 {
-    sounds::sound( get_avatar().pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+    sounds::sound( get_avatar().pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
+                   "environment",
                    "alarm" );
     get_map().translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, get_avatar().pos(), true );
     query_any( _( "Containment shields opened.  Press any key…" ) );
@@ -813,7 +816,8 @@ void computer_session::action_data_anal()
             } else { // Success!
                 if( items.only_item().typeId() == itype_black_box ) {
                     print_line( _( "Memory Bank: Military Hexron Encryption\nPrinting Transcript\n" ) );
-                    here.add_item_or_charges( get_avatar().pos(), item::spawn( "black_box_transcript", calendar::turn ) );
+                    here.add_item_or_charges( get_avatar().pos(), item::spawn( "black_box_transcript",
+                                              calendar::turn ) );
                 } else {
                     print_line( _( "Memory Bank: Unencrypted\nNothing of interest.\n" ) );
                 }
@@ -952,7 +956,7 @@ void computer_session::action_srcf_seal()
 void computer_session::action_srcf_elevator()
 {
     Character &player_character = get_avatar();
-    map &here = g->m;
+    map &here = get_map();
     tripoint surface_elevator;
     tripoint underground_elevator;
     bool is_surface_elevator_on = false;
@@ -1047,7 +1051,8 @@ void computer_session::action_irradiator()
                         print_error( _( "  >> Radiation spike detected!\n" ) );
                         print_error( _( "WARNING [912]: Catastrophic malfunction!  Contamination detected!" ) );
                         print_error( _( "EMERGENCY PROCEDURE [1]:  Evacuate.  Evacuate.  Evacuate.\n" ) );
-                        sounds::sound( get_avatar().pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                        sounds::sound( get_avatar().pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
+                                       "environment",
                                        "alarm" );
                         here.i_rem( dest, it );
                         here.make_rubble( dest );
@@ -1129,7 +1134,8 @@ void computer_session::action_geiger()
         print_error( _( "GEIGER COUNTER @ ZONE:… MAX %s mSv/h." ), peak_rad );
         print_newline();
     }
-    print_error( _( "GEIGER COUNTER @ CONSOLE:… %s mSv/h." ), here.get_radiation( get_avatar().pos() ) );
+    print_error( _( "GEIGER COUNTER @ CONSOLE:… %s mSv/h." ),
+                 here.get_radiation( get_avatar().pos() ) );
     print_error( _( "PERSONAL DOSIMETRY:… %s mSv." ), get_avatar().get_rad() );
     print_newline();
     query_any( _( "Press any key…" ) );
@@ -1313,7 +1319,8 @@ void computer_session::failure_shutdown()
 void computer_session::failure_alarm()
 {
     g->events().send<event_type::triggers_alarm>( get_avatar().getID() );
-    sounds::sound( get_avatar().pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+    sounds::sound( get_avatar().pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
+                   "environment",
                    "alarm" );
     if( g->get_levz() > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
         g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,

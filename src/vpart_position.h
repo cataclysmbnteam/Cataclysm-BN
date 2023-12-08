@@ -82,8 +82,8 @@ class vpart_position
          * Returns the position of this part in the coordinates system that @ref game::m uses.
          * Postcondition (if the vehicle cache of the map is correct and if there are un-removed
          * parts at this positions):
-         * `g->m.veh_at( this->pos() )` (there is a vehicle there)
-         * `g->m.veh_at( this->pos() )->vehicle() == this->vehicle()` (it's this one)
+         * `get_map().veh_at( this->pos() )` (there is a vehicle there)
+         * `get_map().veh_at( this->pos() )->vehicle() == this->vehicle()` (it's this one)
          */
         // Name chosen to match Creature::pos
         tripoint pos() const;

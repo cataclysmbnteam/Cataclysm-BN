@@ -127,7 +127,7 @@ static bool get_liquid_target( item &liquid, const int radius, liquid_dest_opt &
     std::vector<std::function<void()>> actions;
 
     if( get_avatar().can_consume( liquid ) && ( !liquid.is_loaded() ||
-                                        liquid.where() != item_location_type::monster ) ) {
+            liquid.where() != item_location_type::monster ) ) {
         if( get_avatar().can_consume_for_bionic( liquid ) ) {
             menu.addentry( -1, true, 'e', _( "Fuel bionic with it" ) );
         } else {
