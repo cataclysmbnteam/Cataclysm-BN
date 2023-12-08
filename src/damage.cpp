@@ -6,6 +6,7 @@
 #include <numeric>
 #include <utility>
 
+#include "assign.h"
 #include "debug.h"
 #include "item.h"
 #include "json.h"
@@ -184,7 +185,7 @@ int dealt_damage_instance::total_damage() const
 
 resistances::resistances()
 {
-    resist_vals.fill( 0 );
+    flat.fill( 0 );
 }
 
 resistances::resistances( const item &armor, bool to_self )
@@ -208,11 +209,11 @@ resistances::resistances( monster &monster ) : resistances()
 }
 void resistances::set_resist( damage_type dt, float amount )
 {
-    resist_vals[dt] = amount;
+    flat[dt] = amount;
 }
 float resistances::type_resist( damage_type dt ) const
 {
-    return resist_vals[dt];
+    return flat[dt];
 }
 float resistances::get_effective_resist( const damage_unit &du ) const
 {
@@ -220,13 +221,14 @@ float resistances::get_effective_resist( const damage_unit &du ) const
                      0.0f ) * du.res_mult;
 }
 
-resistances &resistances::operator+=( const resistances &other )
+resistances resistances::combined_with( const resistances &other ) const
 {
+    resistances ret = *this;
     for( size_t i = 0; i < NUM_DT; i++ ) {
-        resist_vals[ i ] += other.resist_vals[ i ];
+        ret.flat[ i ] += other.flat[ i ];
     }
 
-    return *this;
+    return ret;
 }
 
 static const std::map<std::string, damage_type> dt_map = {
@@ -414,6 +416,46 @@ std::array<float, NUM_DT> load_damage_array( const JsonObject &jo )
 resistances load_resistances_instance( const JsonObject &jo )
 {
     resistances ret;
-    ret.resist_vals = load_damage_array( jo );
+    ret.flat = load_damage_array( jo );
     return ret;
+}
+
+bool assign( const JsonObject &jo,
+             const std::string &name,
+             resistances &val,
+             bool /*strict*/ )
+{
+    // Object via which to report errors which differs for proportional/relative
+    // values
+    JsonObject err = jo;
+    err.allow_omitted_members();
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
+
+    if( relative.has_member( name ) ) {
+        err = relative;
+        JsonObject jo_relative = err.get_member( name );
+        resistances tmp = load_resistances_instance( err );
+        for( size_t i = 0; i < val.flat.size(); i++ ) {
+            val.flat[i] += tmp.flat[i];
+        }
+
+    } else if( proportional.has_member( name ) ) {
+        err = relative;
+        JsonObject jo_proportional = err.get_member( name );
+        resistances tmp = load_resistances_instance( err );
+        for( size_t i = 0; i < val.flat.size(); i++ ) {
+            val.flat[i] *= tmp.flat[i];
+        }
+
+    } else if( jo.has_object( name ) ) {
+        JsonObject jo_inner = jo.get_object( name );
+        val = load_resistances_instance( jo_inner );
+    }
+
+    // TODO: Check for change - ie. `strict` check support
+
+    return true;
 }

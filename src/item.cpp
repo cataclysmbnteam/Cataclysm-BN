@@ -6055,8 +6055,14 @@ int item::bash_resist( bool to_self ) const
         return 0;
     }
 
-    float resist = 0;
     float mod = get_clothing_mod_val( clothing_mod_type_bash );
+
+    std::optional<resistances> overriden_resistance = damage_resistance_override();
+    if( overriden_resistance ) {
+        return std::lround( overriden_resistance->flat[DT_BASH] + mod );
+    }
+
+    float resist = 0;
     int eff_thickness = 1;
 
     // base resistance
@@ -6083,9 +6089,15 @@ int item::cut_resist( bool to_self ) const
         return 0;
     }
 
+    float mod = get_clothing_mod_val( clothing_mod_type_cut );
+
+    std::optional<resistances> overriden_resistance = damage_resistance_override();
+    if( overriden_resistance ) {
+        return std::lround( overriden_resistance->flat[DT_CUT] + mod );
+    }
+
     const int base_thickness = get_thickness();
     float resist = 0;
-    float mod = get_clothing_mod_val( clothing_mod_type_cut );
     int eff_thickness = 1;
 
     // base resistance
@@ -6122,9 +6134,16 @@ int item::bullet_resist( bool to_self ) const
         return 0;
     }
 
+    float mod = get_clothing_mod_val( clothing_mod_type_bullet );
+
+    std::optional<resistances> overriden_resistance = damage_resistance_override();
+    if( overriden_resistance ) {
+        return std::lround( overriden_resistance->flat[DT_BULLET] + mod );
+    }
+
     const int base_thickness = get_thickness();
     float resist = 0;
-    float mod = get_clothing_mod_val( clothing_mod_type_bullet );
+
     int eff_thickness = 1;
 
     // base resistance
@@ -6152,10 +6171,16 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
         return INT_MAX;
     }
 
-    float resist = 0.0;
-    float mod = get_clothing_mod_val( clothing_mod_type_acid );
     if( is_null() ) {
         return 0.0;
+    }
+
+    float resist = 0.0;
+    float mod = get_clothing_mod_val( clothing_mod_type_acid );
+
+    std::optional<resistances> overriden_resistance = damage_resistance_override();
+    if( overriden_resistance ) {
+        return std::lround( overriden_resistance->flat[DT_ACID] + mod );
     }
 
     const std::vector<const material_type *> mat_types = made_of_types();
@@ -6186,11 +6211,18 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
         return INT_MAX;
     }
 
-    float resist = 0.0;
-    float mod = get_clothing_mod_val( clothing_mod_type_fire );
     if( is_null() ) {
         return 0.0;
     }
+
+    float mod = get_clothing_mod_val( clothing_mod_type_fire );
+
+    std::optional<resistances> overriden_resistance = damage_resistance_override();
+    if( overriden_resistance ) {
+        return std::lround( overriden_resistance->flat[DT_HEAT] + mod );
+    }
+
+    float resist = 0.0;
 
     const std::vector<const material_type *> mat_types = made_of_types();
     if( !mat_types.empty() ) {
@@ -6227,6 +6259,15 @@ int item::chip_resistance( bool worst ) const
     }
 
     return res;
+}
+
+std::optional<resistances> item::damage_resistance_override() const
+{
+    if( is_null() || !type->armor ) {
+        return std::optional<resistances>();
+    }
+
+    return type->armor->resistance;
 }
 
 int item::min_damage() const

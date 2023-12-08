@@ -6922,7 +6922,7 @@ resistances Character::mutation_armor( bodypart_id bp ) const
 {
     resistances res;
     for( const trait_id &iter : get_mutations() ) {
-        res += iter->damage_resistance( bp->token );
+        res = res.combined_with( iter->damage_resistance( bp->token ) );
     }
 
     return res;

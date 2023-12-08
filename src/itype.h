@@ -264,6 +264,10 @@ struct islot_armor {
      */
     int thickness = 0;
     /**
+     * Damage negated by this armor. Note: If this is set, armor HP doesn't affect protection!
+     */
+    std::optional<resistances> resistance;
+    /**
      * Resistance to environmental effects.
      */
     int env_resist = 0;

@@ -651,5 +651,23 @@
     "name": { "str": "Glock 19" },
     "type": "GUN",
     "extend": { "magazines": [ [ "9mm", [ "glockmag_test" ] ] ] }
+  },
+  {
+    "id": "test_override_armor",
+    "repairs_like": "survivor_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "anti-bullet armor" },
+    "description": "Armor that is completely immune to .50 bullets, but without any protection from cuts.  Magic!",
+    "weight": "100 g",
+    "volume": "1 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "dark_gray",
+    "resistance": { "cut": 0, "bullet": 1000 },
+    "warmth": 0,
+    "material_thickness": 1
   }
 ]

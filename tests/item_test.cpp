@@ -167,3 +167,10 @@ TEST_CASE( "magazine_copyfrom_extends", "[item]" )
     CHECK( gun.magazine_compatible().count( itype_id( "glockmag_test" ) ) > 0 );
     CHECK( gun.magazine_compatible().count( itype_id( "glockmag" ) ) > 0 );
 }
+
+TEST_CASE( "armor_override", "[item]" )
+{
+    item armor( "test_override_armor" );
+    CHECK( armor.bullet_resist() > 100 );
+    CHECK( armor.cut_resist() == 0 );
+}

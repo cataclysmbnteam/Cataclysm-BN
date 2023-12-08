@@ -93,7 +93,7 @@ struct dealt_damage_instance {
 };
 
 struct resistances {
-    std::array<float, NUM_DT> resist_vals;
+    std::array<float, NUM_DT> flat;
 
     resistances();
 
@@ -105,7 +105,7 @@ struct resistances {
 
     float get_effective_resist( const damage_unit &du ) const;
 
-    resistances &operator+=( const resistances &other );
+    resistances combined_with( const resistances &other ) const;
 };
 
 const std::map<std::string, damage_type> &get_dt_map();

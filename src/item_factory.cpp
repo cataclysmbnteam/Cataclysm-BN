@@ -1913,6 +1913,7 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
 {
     const bool strict = is_strict_enabled( src );
 
+    assign( jo, "resistance", slot.resistance, strict );
     assign( jo, "material_thickness", slot.thickness, strict, 0 );
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
     assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
