@@ -152,6 +152,7 @@
       { "item": "holybook_bible1", "prob": 1 },
       { "item": "holybook_bible2", "prob": 1 },
       { "item": "holybook_bible3", "prob": 1 },
+      { "item": "holybook_bible4", "prob": 1 },
       { "item": "holybook_quran", "prob": 1 },
       { "item": "holybook_hadith", "prob": 1 },
       { "item": "holybook_havamal", "prob": 1 },
@@ -168,7 +169,11 @@
       { "item": "holybook_slack", "prob": 1 },
       { "item": "holybook_kallisti", "prob": 1 },
       { "item": "holybook_scientology", "prob": 1 },
-      { "item": "holybook_satanic", "prob": 1 }
+      { "item": "holybook_satanic", "prob": 1 },
+      { "item": "holybook_taoism", "prob": 1 },
+      { "item": "holybook_confucianism", "prob": 1 },
+      { "item": "holybook_paganism", "prob": 1 },
+      { "item": "holybook_shamanism", "prob": 1 }
     ]
   },
   {
