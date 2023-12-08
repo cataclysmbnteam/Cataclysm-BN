@@ -8,6 +8,7 @@
 #include <numeric>
 #include <unordered_set>
 
+#include "avatar.h"
 #include "avatar_action.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -27,9 +28,7 @@
 #include "make_static.h"
 #include "magic_enchantment.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "mapdata.h"
-#include "math_defines.h"
 #include "memorial_logger.h"
 #include "monster.h"
 #include "omdata.h"
@@ -38,9 +37,9 @@
 #include "overmapbuffer.h"
 #include "player_activity.h"
 #include "rng.h"
+#include "map_iterator.h" // IWYU pragma: associated
 #include "string_id.h"
 #include "translations.h"
-#include "units.h"
 #include "weighted_list.h"
 
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );

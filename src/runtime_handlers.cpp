@@ -2,6 +2,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "init.h"
+#include "game.h"
 
 [[ noreturn ]]
 void exit_handler( int status )

@@ -30,6 +30,7 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vitamin.h"
+#include "game.h"
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )

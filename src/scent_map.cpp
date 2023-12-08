@@ -14,6 +14,7 @@
 #include "map.h"
 #include "output.h"
 #include "string_id.h"
+#include "game.h"
 
 static constexpr int SCENT_RADIUS = 40;
 
@@ -157,13 +158,15 @@ void scent_map::update( const tripoint &center, map &m )
         return;
     }
 
+    constexpr int SCENT_RADIUS_X2 = SCENT_RADIUS * 2;
+
     //the block and reduce scent properties are folded into a single scent_transfer value here
     //block=0 reduce=1 normal=5
     scent_array<char> scent_transfer;
 
-    std::array < std::array < int, 3 + SCENT_RADIUS * 2 >, 1 + SCENT_RADIUS * 2 > new_scent;
-    std::array < std::array < int, 3 + SCENT_RADIUS * 2 >, 1 + SCENT_RADIUS * 2 > sum_3_scent_y;
-    std::array < std::array < char, 3 + SCENT_RADIUS * 2 >, 1 + SCENT_RADIUS * 2 > squares_used_y;
+    std::array < std::array < int, 3 + SCENT_RADIUS_X2 >, 1 + SCENT_RADIUS_X2 > new_scent;
+    std::array < std::array < int, 3 + SCENT_RADIUS_X2 >, 1 + SCENT_RADIUS_X2 > sum_3_scent_y;
+    std::array < std::array < char, 3 + SCENT_RADIUS_X2 >, 1 + SCENT_RADIUS_X2 > squares_used_y;
 
     diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = m.access_cache(
                 center.z ).vehicle_obstructed_cache;
@@ -178,15 +181,16 @@ void scent_map::update( const tripoint &center, map &m )
     m.scent_blockers( scent_transfer, point( scentmap_minx - 1, scentmap_miny - 1 ),
                       point( scentmap_maxx + 1, scentmap_maxy + 1 ) );
 
-    for( int x = 0; x < SCENT_RADIUS * 2 + 3; ++x ) {
+
+    for( int x = 0; x < SCENT_RADIUS_X2 + 3; ++x ) {
         sum_3_scent_y[0][x] = 0;
         squares_used_y[0][x] = 0;
-        sum_3_scent_y[SCENT_RADIUS * 2][x] = 0;
-        squares_used_y[SCENT_RADIUS * 2][x] = 0;
+        sum_3_scent_y[SCENT_RADIUS_X2][x] = 0;
+        squares_used_y[SCENT_RADIUS_X2][x] = 0;
     }
 
-    for( int x = 0; x < SCENT_RADIUS * 2 + 3; ++x ) {
-        for( int y = 0; y < SCENT_RADIUS * 2 + 1; ++y ) {
+    for( int x = 0; x < SCENT_RADIUS_X2 + 3; ++x ) {
+        for( int y = 0; y < SCENT_RADIUS_X2 + 1; ++y ) {
 
             point abs( x + scentmap_minx - 1, y + scentmap_miny );
 
@@ -200,8 +204,8 @@ void scent_map::update( const tripoint &center, map &m )
         }
     }
 
-    for( int x = 1; x < SCENT_RADIUS * 2 + 2; ++x ) {
-        for( int y = 0; y < SCENT_RADIUS * 2 + 1; ++y ) {
+    for( int x = 1; x < SCENT_RADIUS_X2 + 2; ++x ) {
+        for( int y = 0; y < SCENT_RADIUS_X2 + 1; ++y ) {
             const point abs( x + scentmap_minx - 1, y + scentmap_miny );
 
             int squares_used = squares_used_y[y][x - 1] + squares_used_y[y][x] + squares_used_y[y][x + 1];
@@ -235,8 +239,8 @@ void scent_map::update( const tripoint &center, map &m )
 
         }
     }
-    for( int x = 1; x < SCENT_RADIUS * 2 + 2; ++x ) {
-        for( int y = 0; y < SCENT_RADIUS * 2 + 1; ++y ) {
+    for( int x = 1; x < SCENT_RADIUS_X2 + 2; ++x ) {
+        for( int y = 0; y < SCENT_RADIUS_X2 + 1; ++y ) {
             grscent[x + scentmap_minx - 1 ][y + scentmap_miny] = new_scent[y][x];
         }
     }

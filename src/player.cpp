@@ -10,6 +10,7 @@
 #include <string>
 #include <unordered_map>
 
+#include "game.h"
 #include "action.h"
 #include "activity_handlers.h"
 #include "ammo.h"

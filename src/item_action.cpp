@@ -2,18 +2,17 @@
 
 #include <algorithm>
 #include <iterator>
-#include <list>
 #include <memory>
 #include <set>
 #include <tuple>
 #include <unordered_set>
 #include <utility>
 
+#include "game.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "clone_ptr.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "input.h"
 #include "inventory.h"

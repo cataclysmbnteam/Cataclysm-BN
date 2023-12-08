@@ -4,14 +4,12 @@
 #include <array>
 #include <cstdio>
 #include <cstdlib>
-#include <fstream>
 #include <iterator>
 #include <memory>
 #include <set>
 #include <unordered_map>
 #include <utility>
 
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "catalua.h"
 #include "char_validity_check.h"
@@ -21,6 +19,7 @@
 #include "enums.h"
 #include "filesystem.h"
 #include "fstream_utils.h"
+#include "game.h"
 #include "ime.h"
 #include "input.h"
 #include "json.h"
@@ -327,7 +326,7 @@ void worldfactory::init()
             for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
                 std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
-                rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() );
+                ( void )rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() );
             }
             newworld->world_saves = old_world.world_saves;
             newworld->WORLD_OPTIONS = old_world.WORLD_OPTIONS;
@@ -570,7 +569,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
             } while( world_pages[selpage].empty() );
         } else if( action == "CONFIRM" ) {
             WORLDPTR world = get_world( world_pages[selpage][sel] );
-            if( !( world->needs_lua() && !cata::has_lua() ) ) {
+            if( !world->needs_lua() || cata::has_lua() ) {
                 return world;
             }
         }

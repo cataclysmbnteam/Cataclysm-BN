@@ -20,7 +20,7 @@
 #include "rng.h"
 #include "tileray.h"
 #include "translations.h"
-#include "units.h"
+#include "game.h"
 
 static const efftype_id effect_harnessed( "harnessed" );
 
@@ -100,11 +100,14 @@ bool game::grabbed_veh_move( const tripoint &dp )
         u.grab( OBJECT_NONE );
         return false;
     }
+    // NOLINTNEXTLINE(bugprone-unchecked-optional-access)
     vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
     if( !grabbed_vehicle ||
         !grabbed_vehicle->handle_potential_theft( u ) ) {
         return false;
     }
+
+    // NOLINTNEXTLINE(bugprone-unchecked-optional-access)
     const int grabbed_part = grabbed_vehicle_vp->part_index();
     for( int part_index = 0; part_index < grabbed_vehicle->part_count(); ++part_index ) {
         monster *mon = grabbed_vehicle->get_pet( part_index );

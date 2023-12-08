@@ -16,7 +16,6 @@
 #include "player.h"
 #include "point.h"
 #include "popup.h"
-#include "posix_time.h"
 #include "ranged.h"
 #include "translations.h"
 #include "type_id.h"
@@ -646,7 +645,7 @@ void game::draw_hit_mon( const tripoint &p, const monster &m, const bool dead )
 
 namespace
 {
-void draw_hit_player_curses( const game &g, const Character &p, const int dam )
+void draw_hit_player_curses( const game &, const Character &p, const int dam )
 {
     nc_color const col = !dam ? yellow_background( p.symbol_color() ) : red_background(
                              p.symbol_color() );
@@ -841,7 +840,7 @@ void draw_sct_curses( const game &g )
             continue;
         }
 
-        const bool is_old = text.getStep() >= SCT.iMaxSteps / 2;
+        const bool is_old = text.getStep() >= scrollingcombattext::iMaxSteps / 2;
 
         nc_color const col1 = msgtype_to_color( text.getMsgType( "first" ),  is_old );
         nc_color const col2 = msgtype_to_color( text.getMsgType( "second" ), is_old );
