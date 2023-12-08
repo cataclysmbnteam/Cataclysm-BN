@@ -19,7 +19,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "fstream_utils.h"
-#include "game.h"
 #include "game_inventory.h"
 #include "iexamine.h"
 #include "item.h"

@@ -7,7 +7,6 @@
 
 #include "ammo_effect.h"
 #include "explosion.h"
-#include "game.h"
 #include "json.h"
 #include "item.h"
 #include "map.h"

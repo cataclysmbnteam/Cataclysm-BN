@@ -13,7 +13,6 @@
 #include "debug.h"
 #include "diary.h"
 #include "distribution_grid.h"
-#include "game.h"
 #include "iexamine.h"
 #include "locations.h"
 #include "magic_enchantment.h"

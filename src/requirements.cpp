@@ -18,7 +18,6 @@
 #include "color.h"
 #include "crafting.h"
 #include "debug.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "inventory.h"
 #include "item.h"

@@ -5,7 +5,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "debug.h"
-#include "game.h"
 #include "ime.h"
 #include "inventory.h"
 #include "item.h"

@@ -32,7 +32,6 @@
 #include "fault.h"
 #include "flag.h"
 #include "field_type.h"
-#include "game.h"
 #include "game_inventory.h"
 #include "gun_mode.h"
 #include "handle_liquid.h"

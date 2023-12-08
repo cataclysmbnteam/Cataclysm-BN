@@ -5,7 +5,6 @@
 #include "catalua_log.h"
 #include "catalua_impl.h"
 #include "cursesdef.h"
-#include "game.h"
 #include "init.h"
 #include "input.h"
 #include "output.h"

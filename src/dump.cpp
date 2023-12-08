@@ -1,4 +1,3 @@
-#include "game.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <cmath>

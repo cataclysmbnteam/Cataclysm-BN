@@ -19,7 +19,6 @@
 #include "effect.h"
 #include "enum_conversions.h"
 #include "enums.h"
-#include "game.h"
 #include "input.h"
 #include "int_id.h"
 #include "item.h"

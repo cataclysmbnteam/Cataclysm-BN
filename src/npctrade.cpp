@@ -17,7 +17,6 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "faction.h"
-#include "game.h"
 #include "game_constants.h"
 #include "input.h"
 #include "item.h"

@@ -12,7 +12,6 @@
 #include "enums.h"
 #include "event.h"
 #include "event_statistics.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "kill_tracker.h"

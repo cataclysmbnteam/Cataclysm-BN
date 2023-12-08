@@ -8,7 +8,6 @@
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "gun_mode.h"
 #include "item.h"
 #include "itype.h"

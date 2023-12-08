@@ -20,7 +20,6 @@
 #include "character_functions.h"
 #include "crafting.h"
 #include "cursesdef.h"
-#include "game.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"

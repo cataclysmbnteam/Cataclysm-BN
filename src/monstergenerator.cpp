@@ -15,7 +15,6 @@
 #include "damage.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"

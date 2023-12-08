@@ -6,7 +6,6 @@
 #include <optional>
 #include <vector>
 
-#include "game.h"
 #include "game_constants.h"
 #include "map.h"
 #include "map_iterator.h"

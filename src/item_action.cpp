@@ -15,7 +15,6 @@
 #include "clone_ptr.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "game.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"

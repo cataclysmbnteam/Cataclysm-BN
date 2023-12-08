@@ -1,5 +1,4 @@
 #include "enums.h"
-#include "game.h" // IWYU pragma: associated
 
 #include <cstdlib>
 #include <algorithm>

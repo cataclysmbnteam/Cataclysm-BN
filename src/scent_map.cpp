@@ -10,7 +10,6 @@
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "map.h"
 #include "output.h"
