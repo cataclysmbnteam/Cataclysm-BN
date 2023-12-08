@@ -1225,7 +1225,7 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
                                        dialogue_consequence consequence, const bool first )
 {
     talk_response &result = add_response( text, r, first );
-    result.success.set_effect_consequence( std::move( effect_success ), consequence );
+    result.success.set_effect_consequence( effect_success, consequence );
     return result;
 }
 
