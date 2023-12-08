@@ -3147,7 +3147,7 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "pants", "longshirt", "socks", "cassock", "smart_phone", "dress_shoes", "holy_symbol", "holybook_bible1" ]
+        "items": [ "pants", "longshirt", "socks", "cassock", "smart_phone", "dress_shoes", "holy_symbol", "holybook_bible4" ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
