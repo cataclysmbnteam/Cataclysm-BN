@@ -25,6 +25,8 @@ struct diary_page {
     std::string m_text;
     /*turn the page was created*/
     time_point turn;
+    /*player's position on overmap when writing the page*/
+    std::string overmap_position_str;
     /*mission ids for completed/active and failed missions*/
     std::vector<int> mission_completed;
     std::vector<int> mission_active;

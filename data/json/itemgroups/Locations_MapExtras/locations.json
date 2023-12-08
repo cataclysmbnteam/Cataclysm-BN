@@ -1060,6 +1060,8 @@
       [ "shot_paper_slug", 10 ],
       [ "36navy", 50 ],
       [ "44army", 50 ],
+      [ "gatlingdrum240", 10 ],
+      [ "4570_low", 10 ],
       [ "cannonball_explosive", 5 ],
       [ "cannonball_4lb", 20 ]
     ]
@@ -2597,7 +2599,11 @@
     "id": "fort_crate",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "cannonball_4lb", "prob": 100, "count": [ 1, 10 ] }, { "item": "rag", "prob": 50, "count": [ 1, 25 ] } ]
+    "entries": [
+      { "item": "cannonball_4lb", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "rag", "prob": 50, "count": [ 1, 25 ] },
+      { "item": "gatlingdrum240", "prob": 25 }
+    ]
   },
   {
     "id": "fort_powderbarrel",
@@ -2605,7 +2611,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small" },
-      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small", "prob": 50 }
+      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small", "prob": 50 },
+      { "item": "4570_low", "charges": [ 1, 240 ], "prob": 50 }
     ]
   }
 ]

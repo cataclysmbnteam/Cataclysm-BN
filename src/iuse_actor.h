@@ -1162,7 +1162,7 @@ class detach_gunmods_actor : public iuse_actor
 class mutagen_actor : public iuse_actor
 {
     public:
-        std::string mutation_category;
+        mutation_category_id mutation_category;
         bool is_weak = false;
         bool is_strong = false;
 
@@ -1177,7 +1177,7 @@ class mutagen_actor : public iuse_actor
 class mutagen_iv_actor : public iuse_actor
 {
     public:
-        std::string mutation_category;
+        mutation_category_id mutation_category;
 
         mutagen_iv_actor() : iuse_actor( "mutagen_iv" ) {}
 

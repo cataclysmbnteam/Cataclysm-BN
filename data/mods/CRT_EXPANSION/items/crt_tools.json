@@ -103,10 +103,10 @@
     "purifiable": false,
     "description": "An aura of bloodlust hovers around you.  Something about the power of this blade makes it seem WAY faster in your hands than it has any right to be.",
     "attackcost_modifier": 0.5,
-    "stamina_regen_modifier": 4.0,
-    "metabolism_modifier": 1.0,
-    "thirst_modifier": 1.0,
-    "fatigue_modifier": 1.0,
+    "stamina_regen_modifier": 4,
+    "metabolism_modifier": 1,
+    "thirst_modifier": 1,
+    "fatigue_modifier": 1,
     "anger_relations": [
       [ "NETHER", 25 ],
       [ "MUTANT", 25 ],
@@ -159,7 +159,7 @@
         {
           "has": "WIELD",
           "condition": "ALWAYS",
-          "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "ARMOR_ELEC", "multiply": -1.0 } ],
+          "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "ARMOR_ELEC", "multiply": -1 } ],
           "mutations": [ "CRT_BERSERK_EFFECT" ],
           "hit_you_effect": [
             {

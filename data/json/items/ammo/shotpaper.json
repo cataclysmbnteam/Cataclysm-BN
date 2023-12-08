@@ -6,8 +6,8 @@
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of 00 buckshot.",
     "weight": "26 g",
     "volume": "250 ml",
-    "price": 500,
-    "price_postapoc": 800,
+    "price": "5 USD",
+    "price_postapoc": "8 USD",
     "material": [ "paper", "powder", "lead" ],
     "symbol": "=",
     "color": "white",
@@ -16,7 +16,7 @@
     "stack_size": 20,
     "ammo_type": "shotpaper",
     "range": 20,
-    "damage": { "damage_type": "bullet", "amount": 65, "armor_multiplier": 2.0 },
+    "damage": { "damage_type": "bullet", "amount": 65, "armor_multiplier": 2 },
     "recoil": 2000,
     "loudness": 128,
     "effects": [ "COOKOFF", "SHOT", "MUZZLE_SMOKE", "BLACKPOWDER" ]
@@ -34,7 +34,7 @@
     "type": "AMMO",
     "name": { "str": "20ga paper birdshot" },
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of birdshot.  Used mostly for hunting small game or fowl.",
-    "damage": { "damage_type": "bullet", "amount": 40, "armor_multiplier": 3.0 },
+    "damage": { "damage_type": "bullet", "amount": 40, "armor_multiplier": 3 },
     "proportional": { "recoil": 0.6, "loudness": 0.8 },
     "extend": { "effects": [ "NOGIB" ] }
   },

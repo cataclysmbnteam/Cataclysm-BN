@@ -491,7 +491,8 @@
     },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "GUILT", "NO_BREATHE", "FILTHY" ]
+    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "FILTHY" ],
+    "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
   {
     "id": "mon_ant_fungus",

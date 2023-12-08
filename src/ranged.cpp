@@ -148,7 +148,6 @@ static constexpr int AIF_DURATION_LIMIT = 10;
 
 static projectile make_gun_projectile( const item &gun );
 static void cycle_action( item &weap, const tripoint &pos );
-bool can_use_heavy_weapon( const Character &who, const map &m, const tripoint &pos );
 dispersion_sources calculate_dispersion( const map &m, const Character &who, const item &gun,
         int at_recoil, bool burst );
 
@@ -773,31 +772,50 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
     }
 }
 
-bool can_use_heavy_weapon( const Character &who, const map &m, const tripoint &pos )
-{
-    if( who.is_mounted() && who.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-        return true;
-    }
 
+namespace
+{
+
+auto is_mountable( const map &m, const tripoint &pos ) -> bool
+{
     // usage of any attached bipod is dependent upon terrain
-    if( m.has_flag_ter_or_furn( "MOUNTABLE", pos ) ) {
+    // sandbag barricades are impassable but climbable
+    if( m.climb_difficulty( pos ) <= 5 && m.has_flag_ter_or_furn( "MOUNTABLE", pos ) ) {
         return true;
     }
 
     if( const optional_vpart_position vp = m.veh_at( pos ) ) {
-        return vp->vehicle().has_part( pos, "MOUNTABLE" );
+        // NOLINTNEXTLINE(bugprone-unchecked-optional-access)
+        return m.passable( pos ) && vp->vehicle().has_part( pos, "MOUNTABLE" );
     }
-
     return false;
 }
+
+auto is_mountable_nearby( const map &m, const tripoint &pos ) -> bool
+{
+    const auto &xs = closest_points_first( pos, 1 );
+    return std::any_of( xs.begin(), xs.end(),
+                        [&m]( const tripoint & x ) -> bool { return is_mountable( m, x ); } );
+}
+
+auto can_use_heavy_weapon( const Character &who, const map &m, const tripoint &pos ) -> bool
+{
+    if( who.is_mounted() && who.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+        return true;
+    }
+    return is_mountable_nearby( m, pos );
+}
+
+} // namespace
+
 
 dispersion_sources calculate_dispersion( const map &m, const Character &who, const item &gun,
         int at_recoil, bool burst )
 {
-    bool bipod = can_use_heavy_weapon( who, m, who.pos() );
+    const bool bipod = can_use_heavy_weapon( who, m, who.pos() );
 
-    int gun_recoil = gun.gun_recoil( bipod );
-    int eff_recoil = at_recoil + ( burst ? ranged::burst_penalty( who, gun, gun_recoil ) : 0 );
+    const int gun_recoil = gun.gun_recoil( bipod );
+    const int eff_recoil = at_recoil + ( burst ? ranged::burst_penalty( who, gun, gun_recoil ) : 0 );
     dispersion_sources dispersion( ranged::get_weapon_dispersion( who, gun ) );
     dispersion.add_range( eff_recoil );
     return dispersion;
@@ -2072,6 +2090,7 @@ double ranged::recoil_vehicle( const Character &who )
 
     if( who.in_vehicle ) {
         if( const optional_vpart_position vp = get_map().veh_at( who.pos() ) ) {
+            // NOLINTNEXTLINE(bugprone-unchecked-optional-access)
             return static_cast<double>( std::abs( vp->vehicle().velocity ) ) * 3 / 100;
         }
     }
@@ -3732,8 +3751,8 @@ bool ranged::gunmode_checks_common( avatar &you, const map &m, std::vector<std::
     return result;
 }
 
-bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> &messages,
-                                    const gun_mode &gmode )
+auto ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> &messages,
+                                    const gun_mode &gmode ) -> bool
 {
     bool result = true;
 

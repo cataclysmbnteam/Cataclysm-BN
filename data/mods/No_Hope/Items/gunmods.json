@@ -7,7 +7,7 @@
     "weight": "140 g",
     "volume": "250 ml",
     "integral_volume": "250 ml",
-    "price": 48000,
+    "price": "480 USD",
     "material": "steel",
     "symbol": ":",
     "color": "green",
@@ -27,7 +27,7 @@
     "description": "An advanced Leadworks built-in gyroscopic stabilizer.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
+    "price": "0 cent",
     "flags": [ "IRREMOVABLE" ]
   },
   {
@@ -38,7 +38,7 @@
     "description": "Built in red-dot sight for the Leadworks weapon.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
+    "price": "0 cent",
     "flags": [ "DISABLE_SIGHTS", "IRREMOVABLE" ]
   },
   {
@@ -49,7 +49,7 @@
     "description": "Built in rifle scope for the Leadworks weapon.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
+    "price": "0 cent",
     "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
   },
   {
@@ -60,7 +60,7 @@
     "description": "A Leadworks built-in Advanced Combat Optical Gunsight, a milspec medium magnification scope.  Improves accuracy significantly.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
+    "price": "0 cent",
     "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
   },
   {
@@ -70,7 +70,7 @@
     "name": { "str": "LW holographic sight" },
     "description": "Leadworks built-in holographic sight.",
     "weight": "0 g",
-    "price": 0,
+    "price": "0 cent",
     "flags": [ "DISABLE_SIGHTS", "IRREMOVABLE" ]
   },
   {
@@ -81,7 +81,7 @@
     "description": "A Leadworks built-in visible-light laser that mounts under a firearm's barrel to enhance ease and speed of target acquisition.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
+    "price": "0 cent",
     "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
   },
   {
@@ -92,7 +92,7 @@
     "description": "A Leadworks built-in grip placed forward on the barrel allows for greater control.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
+    "price": "0 cent",
     "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
   },
   {
@@ -103,7 +103,7 @@
     "description": "Leadworks built-in bipod designed to provide a forward rest and reduce motion.  Although it greatly improves handling of recoil it is usable only on certain surfaces and are slow to equip.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
+    "price": "0 cent",
     "flags": [ "BIPOD", "SLOW_WIELD", "IRREMOVABLE" ]
   },
   {
@@ -114,7 +114,7 @@
     "description": "Leadworks built-in minimalist pump action shotgun module.  It allows 4 shotgun shells to be loaded and fired.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
+    "price": "0 cent",
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
   },
   {
@@ -125,7 +125,7 @@
     "description": "The Leadworks built-in Grenade Launcher Module offers the functionality of larger launchers in a very small package.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
+    "price": "0 cent",
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "IRREMOVABLE" ]
   },
   {
@@ -161,7 +161,7 @@
     "type": "GUNMOD",
     "name": { "str": "LW shortened barrel" },
     "description": "A Leadworks built-in shortened barrel results in reduced weapon range, and a minor increase in noise, but also greatly improves the ease with which the weapon can be carried and wielded.",
-    "price": 0,
+    "price": "0 cent",
     "volume": "0 ml",
     "dispersion_modifier": 0,
     "install_time": "0 s",
@@ -184,7 +184,7 @@
     "description": "A kit to attach a pair of crossbow arms and a firing rail to the barrel of a long firearm.  It allows crossbow bolts to be fired.",
     "weight": "1450 g",
     "volume": "500 ml",
-    "price": 50000,
+    "price": "500 USD",
     "material": [ "steel", "wood" ],
     "symbol": ":",
     "color": "light_red",

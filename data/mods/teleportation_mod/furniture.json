@@ -1,0 +1,28 @@
+[
+  {
+    "id": "teleporter_anchor_deployed",
+    "type": "furniture",
+    "name": "Teleporter anchor (deployed)",
+    "move_cost_mod": 4,
+    "coverage": 0,
+    "required_str": 100,
+    "description": "A teleporter anchor, functioning as a target you can teleport to.",
+    "symbol": "O",
+    "color": "yellow",
+    "flags": [ "EASY_DECONSTRUCT", "NOCOLLIDE" ],
+    "looks_like": "telepad"
+  },
+  {
+    "id": "teleporter_station_deployed",
+    "type": "furniture",
+    "name": "Teleporter station (deployed)",
+    "move_cost_mod": 4,
+    "coverage": 0,
+    "required_str": 100,
+    "description": "A teleporter station, can be used to teleport.",
+    "symbol": "O",
+    "color": "yellow",
+    "flags": [ "EASY_DECONSTRUCT" ],
+    "looks_like": "f_MRI"
+  }
+]

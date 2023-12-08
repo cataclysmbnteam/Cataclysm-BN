@@ -25,10 +25,13 @@ jobs:
       - name: format C++ files
         run: make astyle
 
-      - name: format markdown and typescript files
+      - name: format Markdown and TypeScript files
         run: deno fmt
 
-      - name: json formatting
+      - name: format Lua files
+        run: deno task dprint fmt
+
+      - name: format JSON
         run: make style-all-json-parallel RELEASE=1
 
       - uses: autofix-ci/action@bee19d72e71787c12ca0f29de72f2833e437e4c9
@@ -46,3 +49,7 @@ jobs:
 
             If you don't do this, your following work will be based on the old commit, and cause MERGE CONFLICT.
 
+      - name: lint and test typescript files
+        run: |
+          deno lint
+          deno test

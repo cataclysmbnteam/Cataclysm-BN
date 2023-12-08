@@ -36,6 +36,7 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
+#include "mapgen_functions.h"
 #include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -563,6 +564,14 @@ void overmap_specials::finalize()
 {
     for( const auto &elem : specials.get_all() ) {
         const_cast<overmap_special &>( elem ).finalize(); // This cast is ugly, but safe.
+    }
+}
+
+void overmap_specials::finalize_mapgen_parameters()
+{
+    for( const auto &elem : specials.get_all() ) {
+        // This cast is ugly, but safe.
+        const_cast<overmap_special &>( elem ).finalize_mapgen_parameters();
     }
 }
 
@@ -1200,6 +1209,17 @@ struct mutable_overmap_terrain_join {
         }
     }
 };
+
+void overmap_special::finalize_mapgen_parameters()
+{
+    // Extract all the map_special-scoped params from the constituent terrains
+    // and put them here
+    std::string context = string_format( "overmap_special %s", id.str() );
+    for( oter_str_id &t : all_terrains() ) {
+        std::string mapgen_id = t->get_mapgen_id();
+        mapgen_params.check_and_merge( get_map_special_params( mapgen_id ), context );
+    }
+}
 
 using join_map = std::unordered_map<cube_direction, mutable_overmap_terrain_join>;
 
@@ -2483,6 +2503,11 @@ std::vector<overmap_special_locations> overmap_special::required_locations() con
     return result;
 }
 
+mapgen_arguments overmap_special::get_args( const mapgendata &md ) const
+{
+    return mapgen_params.get_args( md, mapgen_parameter_scope::overmap_special );
+}
+
 void overmap_special::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = is_strict_enabled( src );
@@ -2825,6 +2850,15 @@ std::string *overmap::join_used_at( const om_pos_dir &p )
         return nullptr;
     }
     return &it->second;
+}
+
+std::optional<mapgen_arguments> *overmap::mapgen_args( const tripoint_om_omt &p )
+{
+    auto it = mapgen_args_index.find( p );
+    if( it == mapgen_args_index.end() ) {
+        return nullptr;
+    }
+    return &mapgen_arg_storage[it->second];
 }
 
 bool &overmap::seen( const tripoint_om_omt &p )
@@ -4954,6 +4988,17 @@ bool overmap::check_overmap_special_type( const overmap_special_id &id,
     return found_id->second == id;
 }
 
+std::optional<overmap_special_id> overmap::overmap_special_at( const tripoint_om_omt &p ) const
+{
+    auto it = overmap_special_placements.find( p );
+
+    if( it == overmap_special_placements.end() ) {
+        return std::nullopt;
+    }
+
+    return it->second;
+}
+
 void overmap::polish_rivers( const overmap *north, const overmap *east, const overmap *south,
                              const overmap *west )
 {
@@ -5254,11 +5299,7 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
 
         const oter_id &tid = ter( rp );
 
-        if( rp.z() == 0 ) {
-            return elem.can_be_placed_on( tid );
-        } else {
-            return tid == get_default_terrain( rp.z() );
-        }
+        return elem.can_be_placed_on( tid ) || ( rp.z() != 0 && tid == get_default_terrain( rp.z() ) );
     } );
 }
 
@@ -5389,8 +5430,11 @@ std::vector<tripoint_om_omt> overmap::place_special(
             }
         }
     }
+    int args_index = mapgen_arg_storage.size();
+    mapgen_arg_storage.emplace_back();
     // Link grid
     for( const tripoint_om_omt &location : result ) {
+        mapgen_args_index[location] = args_index;
         overmap_special_placements[location] = special.id;
         if( grid ) {
             for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {

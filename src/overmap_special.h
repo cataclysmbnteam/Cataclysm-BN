@@ -135,6 +135,11 @@ class overmap_special
         /** @returns whether the special at specified tripoint can belong to the specified city. */
         bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
 
+        const mapgen_parameters &get_params() const {
+            return mapgen_params;
+        }
+        mapgen_arguments get_args( const mapgendata & ) const;
+
         const cata::flat_set<std::string> &get_flags() const {
             return flags_;
         }
@@ -170,6 +175,7 @@ class overmap_special
         bool was_loaded = false;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
+        void finalize_mapgen_parameters();
         void check() const;
         std::vector<overmap_special_connection> connections;
     private:
@@ -184,6 +190,7 @@ class overmap_special
 
         // These locations are the default values if ones are not specified for the individual OMTs.
         cata::flat_set<overmap_location_id> default_locations_;
+        mapgen_parameters mapgen_params;
         std::unordered_map<tripoint_rel_omt, overmap_special_id> nested_;
 };
 
@@ -192,6 +199,7 @@ namespace overmap_specials
 
 void load( const JsonObject &jo, const std::string &src );
 void finalize();
+void finalize_mapgen_parameters();
 void check_consistency();
 void reset();
 

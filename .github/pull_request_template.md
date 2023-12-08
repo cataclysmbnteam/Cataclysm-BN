@@ -15,7 +15,7 @@ If you use GitHub's web editor to edit files, you shouldn't need to do this as t
 PR TITLE: Please follow Conventional Commits: https://www.conventionalcommits.org
 This makes it clear at a glance what the PR is about.
 For example:
-    feat(content, mods): new item for <mod name>
+    feat(content, mods/DinoMod): new dinosaur species
 For more info on which categories are available, see: https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/
 If the PR is a port or adaptation of DDA content, please indicate it by adding "port" in PR title, like:
     feat(port): <feature name> from DDA

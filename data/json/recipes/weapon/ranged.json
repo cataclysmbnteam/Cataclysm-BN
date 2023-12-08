@@ -837,6 +837,7 @@
     "difficulty": 3,
     "skills_required": [ "throw", 1 ],
     "time": "30 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "sling", 1 ] ] ]
@@ -1144,6 +1145,29 @@
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "battery_ups", 1 ] ],
       [ [ "small_storage_battery", 2 ], [ "UPS_off", 2 ] ]
+    ]
+  },
+  {
+    "result": "laser_rifle_cheap",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": "50 m",
+    "reversible": true,
+    "autolearn": true,
+    "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "soldering_standard", 200 ] ],
+    "components": [
+      [ [ "battery_ups", 1 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 100 ] ],
+      [ [ "e_scrap", 10 ] ],
+      [ [ "lens", 2 ] ],
+      [ [ "plastic_chunk", 6 ] ]
     ]
   }
 ]

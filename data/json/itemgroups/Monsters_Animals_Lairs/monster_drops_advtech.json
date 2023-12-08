@@ -112,12 +112,30 @@
     "id": "cyborg_harvest",
     "type": "item_group",
     "subtype": "distribution",
-    "//": "Lower-tier bionic harvests have a 1/3 chance of generating nothing, 1/3 components, 1/3 CBMs",
+    "//": "Higher-tier bionic harvests have a 1/4 chance of generating nothing, 1/4 components, 1/2 CBMs",
     "entries": [
-      { "item": "null", "prob": 33 },
-      { "item": "burnt_out_bionic", "prob": 11 },
-      { "group": "bionic_salvage_junk", "prob": 22 },
-      { "group": "bionics_broken_cyborg", "prob": 33 }
+      { "item": "null", "prob": 25 },
+      { "item": "burnt_out_bionic", "prob": 10 },
+      { "group": "bionic_salvage_junk", "prob": 15 },
+      { "group": "bionics_broken_cyborg", "prob": 50 }
+    ]
+  },
+  {
+    "id": "cyborg_harvest_uncommon",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Lab mutant spawns, 10% of them will roll for either components or a single CBM.",
+    "entries": [
+      { "item": "null", "prob": 90 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk", "prob": 25 },
+          { "item": "burnt_out_bionic", "prob": 25 },
+          { "group": "bionic_power_storage_civ", "prob": 25 },
+          { "group": "bionics_broken_cyborg", "prob": 25 }
+        ],
+        "prob": 10
+      }
     ]
   },
   {
@@ -166,7 +184,6 @@
     "id": "harvest_power_storage_mil",
     "type": "item_group",
     "subtype": "distribution",
-    "//": "Higher-tier bionic harvests have a 1/4 chance of generating nothing, 1/4 components, 1/2 CBMs",
     "entries": [
       { "item": "null", "prob": 25 },
       { "group": "bionic_salvage_junk_mil", "prob": 25 },
@@ -177,6 +194,7 @@
     "id": "harvest_bionics_common",
     "type": "item_group",
     "subtype": "distribution",
+    "//": "Lower-tier bionic harvests have a 1/3 chance of generating nothing, 1/3 components, 1/3 CBMs",
     "entries": [
       { "item": "null", "prob": 33 },
       { "group": "bionic_salvage_junk", "prob": 33 },
@@ -254,6 +272,57 @@
     ]
   },
   {
+    "id": "harvest_maybe_sci",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Non-cyborg medical/science spawns, 5% of them will roll for either components or a single CBM.",
+    "entries": [
+      { "item": "null", "prob": 95 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk", "prob": 50 },
+          { "group": "bionic_power_storage_civ", "prob": 25 },
+          { "group": "bionics_sci", "prob": 25 }
+        ],
+        "prob": 5
+      }
+    ]
+  },
+  {
+    "id": "harvest_maybe_tech",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Non-cyborg industrial/technician spawns, 5% of them will roll for either components or a single CBM.",
+    "entries": [
+      { "item": "null", "prob": 95 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk", "prob": 50 },
+          { "group": "bionic_power_storage_civ", "prob": 25 },
+          { "group": "bionics_tech", "prob": 25 }
+        ],
+        "prob": 5
+      }
+    ]
+  },
+  {
+    "id": "harvest_maybe_survivalist",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Non-cyborg survivalist/police spawns, 5% of them will roll for either components or a single CBM.",
+    "entries": [
+      { "item": "null", "prob": 95 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk", "prob": 50 },
+          { "group": "bionic_power_storage_civ", "prob": 25 },
+          { "group": "bionics_survivalist", "prob": 25 }
+        ],
+        "prob": 5
+      }
+    ]
+  },
+  {
     "id": "harvest_bionics_zapper",
     "type": "item_group",
     "subtype": "distribution",
@@ -261,6 +330,41 @@
       { "item": "null", "prob": 33 },
       { "group": "bionic_salvage_junk", "prob": 33 },
       { "group": "bionics_zapper", "prob": 33 }
+    ]
+  },
+  {
+    "id": "harvest_maybe_military",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Non-cyborg military spawns, 10% of them will roll for either components or a single CBM.",
+    "entries": [
+      { "item": "null", "prob": 90 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk_mil", "prob": 50 },
+          { "group": "bionic_power_storage_mil", "prob": 25 },
+          { "group": "bionics_mil", "prob": 15 },
+          { "group": "bionics_heavy_mil", "prob": 10 }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "id": "harvest_maybe_military_heavy",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Non-cyborg heavy military spawns, 25% of them will roll for either components or a CBM from heavy-mil itemgroup.",
+    "entries": [
+      { "item": "null", "prob": 75 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk_mil", "prob": 50 },
+          { "group": "bionic_power_storage_mil", "prob": 25 },
+          { "group": "bionics_heavy_mil", "prob": 25 }
+        ],
+        "prob": 25
+      }
     ]
   }
 ]

@@ -10,7 +10,7 @@
     "color": "magenta",
     "weight": "5 kg",
     "volume": "2500 ml",
-    "price": 0,
+    "price": "0 cent",
     "durability": 10,
     "reload": 100,
     "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
@@ -94,7 +94,7 @@
     "dispersion": 200,
     "durability": 8,
     "reload": 400,
-    "barrel_length": 5,
+    "barrel_length": "1250 ml",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "", 3 ] ]
   },
   {
@@ -120,7 +120,7 @@
     "ranged_damage": 10,
     "dispersion": 260,
     "durability": 9,
-    "barrel_length": 1,
+    "barrel_length": "250 ml",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "auto", 10 ] ]
   },
   {

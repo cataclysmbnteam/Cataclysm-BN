@@ -25,7 +25,7 @@
     "broken_color": "dark_gray",
     "durability": 15,
     "description": "A cloth wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
-    "folded_volume": 15,
+    "folded_volume": "3750 ml",
     "breaks_into": "ig_vp_cloth",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
@@ -66,7 +66,7 @@
     "broken_color": "light_gray",
     "durability": 80,
     "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
-    "size": 250,
+    "size": "62500 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },

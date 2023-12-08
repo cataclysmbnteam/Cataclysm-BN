@@ -18,7 +18,7 @@
     "comestible_type": "DRINK",
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
-    "price": 2500,
+    "price": "25 USD",
     "freezing_point": 40
   },
   {
@@ -27,7 +27,7 @@
     "name": { "str": "mana potion" },
     "copy-from": "mana_potion_lesser",
     "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 5 },
-    "price": 10000
+    "price": "100 USD"
   },
   {
     "id": "mana_potion_greater",
@@ -35,7 +35,7 @@
     "name": { "str": "greater mana potion" },
     "copy-from": "mana_potion_lesser",
     "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 15 },
-    "price": 30000
+    "price": "300 USD"
   },
   {
     "id": "cats_grace_potion",
@@ -55,7 +55,7 @@
     "comestible_type": "DRINK",
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
-    "price": 3000,
+    "price": "30 USD",
     "freezing_point": 40
   },
   {
@@ -138,7 +138,7 @@
     "comestible_type": "DRINK",
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
-    "price": 2500,
+    "price": "25 USD",
     "freezing_point": 10
   },
   {

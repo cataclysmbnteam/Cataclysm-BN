@@ -1505,7 +1505,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
     } else if( p->has_trait( trait_THRESH_MYCUS ) &&
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
-            p->mutate_category( "MYCUS" );
+            p->mutate_category( mutation_category_id( "MYCUS" ) );
             p->mod_stored_nutr( 10 );
             p->mod_thirst( 10 );
             p->mod_fatigue( 5 );
@@ -5129,87 +5129,37 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::mop( player *p, item *it, bool, const tripoint & )
+namespace
 {
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
-    }
-    const std::vector<field_type_id> to_check = {
-        fd_blood,
-        fd_blood_veggy,
-        fd_blood_insect,
-        fd_blood_invertebrate,
-        fd_gibs_flesh,
-        fd_gibs_veggy,
-        fd_gibs_insect,
-        fd_gibs_invertebrate,
-        fd_bile,
-        fd_slime,
-        fd_sludge
-    };
-    const std::function<bool( const tripoint & )> f = [&to_check]( const tripoint & pnt ) {
-        if( !g->m.has_flag( "LIQUIDCONT", pnt ) && !g->m.has_flag( "SEALED", pnt ) ) {
-            map_stack items = g->m.i_at( pnt );
-            auto found = std::find_if( items.begin(), items.end(), []( const item * const & it ) {
-                return it->made_of( LIQUID );
-            } );
-            if( found != items.end() ) {
-                return true;
-            }
-        }
-        field &fld = g->m.field_at( pnt );
-        for( field_type_id fid : to_check ) {
-            if( fld.find_field_c( fid ) ) {
-                return true;
-            }
-        }
-        if( const optional_vpart_position vp = g->m.veh_at( pnt ) ) {
-            vehicle *const veh = &vp->vehicle();
-            std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
-            for( int elem : parts_here ) {
-                if( veh->part( elem ).blood > 0 ) {
-                    return true;
-                }
-                vehicle_stack items = veh->get_items( elem );
-                auto found = std::find_if( items.begin(), items.end(), []( const item * const & it ) {
-                    return it->made_of( LIQUID );
-                } );
-                if( found != items.end() ) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    };
 
-    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Mop where?" ), _( "There is nothing to mop nearby." ), f, false );
-    if( !pnt_ ) {
-        return 0;
-    }
-    const tripoint &pnt = *pnt_;
-    if( !f( pnt ) ) {
-        if( pnt == p->pos() ) {
-            p->add_msg_if_player( m_info, _( "You mop yourself up." ) );
-            p->add_msg_if_player( m_info, _( "The universe implodes and reforms around you." ) );
-        } else {
-            p->add_msg_if_player( m_bad, _( "There's nothing to mop there." ) );
-        }
-        return 0;
-    }
+auto mop_normal( const tripoint &pos ) -> bool
+{
+    return get_map().mop_spills( pos );
+}
+
+auto mop_blindly( const tripoint &pos ) -> bool
+{
+    return one_in( 3 ) && get_map().mop_spills( pos );
+}
+
+} // namespace
+
+auto iuse::mop( player *p, item *it, bool, const tripoint & ) -> int
+{
+    const auto mop = p->is_blind() ? mop_blindly : mop_normal;
+    const auto xs = closest_points_first( p->pos(), 1 );
+
+    const int mopped_tiles = std::count_if( xs.begin(), xs.end(), mop );
+
     if( p->is_blind() ) {
         p->add_msg_if_player( m_info, _( "You move the mop around, unsure whether it's doing any good." ) );
-        p->moves -= 15;
-        if( one_in( 3 ) ) {
-            g->m.mop_spills( pnt );
-        }
-    } else if( g->m.mop_spills( pnt ) ) {
-        p->add_msg_if_player( m_info, _( "You mop up the spill." ) );
-        p->moves -= 15;
+    } else if( mopped_tiles == 0 ) {
+        p->add_msg_if_player( m_bad, _( "There's nothing to mop there." ) );
     } else {
-        return 0;
+        p->add_msg_if_player( m_info, _( "You mop up the spill." ) );
     }
+
+    p->moves -= 15 * mopped_tiles;
     return it->type->charges_to_use();
 }
 
@@ -6050,10 +6000,11 @@ int iuse::bell( player *p, item *it, bool, const tripoint & )
         sounds::sound( p->pos(), 12, sounds::sound_t::music, _( "Clank!  Clank!" ), true, "misc",
                        "cow_bell" );
         if( !p->is_deaf() ) {
-            const int cow_factor = 1 + ( p->mutation_category_level.find( "CATTLE" ) ==
-                                         p->mutation_category_level.end() ?
+            auto cattle_level =
+                p->mutation_category_level.find( mutation_category_id( "CATTLE" ) );
+            const int cow_factor = 1 + ( cattle_level == p->mutation_category_level.end() ?
                                          0 :
-                                         ( p->mutation_category_level.find( "CATTLE" )->second ) / 8
+                                         ( cattle_level->second ) / 8
                                        );
             if( x_in_y( cow_factor, 1 + cow_factor ) ) {
                 p->add_morale( MORALE_MUSIC, 1, 15 * ( cow_factor > 10 ? 10 : cow_factor ) );

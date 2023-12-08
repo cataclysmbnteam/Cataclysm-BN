@@ -1015,6 +1015,98 @@ The code excerpt above will place chunks as follows:
 - `"concrete_wall_ns"`if the north west neighbor is neither a field nor any of the microlab
   overmaps.
 
+## Mapgen values
+
+A _mapgen value_ can be used in various places where a specific id is expected. For example, the
+default value of a parameter, or a terrain id in the `"terrain"` object. A mapgen value can take one
+of three forms:
+
+- A simple string, which should be a literal id. For example, `"t_flat_roof"`.
+- A JSON object containing the key `"distribution"`, whose corresponding value is a list of lists,
+  each a pair of a string id and an integer weight. For example:
+
+```
+{ "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
+```
+
+- A JSON object containing the key `"param"`, whose corresponding value is the string name of a
+  parameter as discussed in [Mapgen parameters](#mapgen-parameters). For example,
+  `{ "param": "roof_type" }`.
+
+  You may be required to also supply a fallback value, such as
+  `{ "param": "roof_type", "fallback": "t_flat_roof" }`. The fallback is necessary to allow mapgen
+  definitions to change without breaking an ongoing game. Different parts of the same overmap
+  special can be generated at different times, and if a new parameter is added to the definition
+  part way through the generation then the value of that parameter will be missing and the fallback
+  will be used.
+- A switch statement to select different values depending on the value of some other mapgen value.
+  This would most often be used to switch on the value of a mapgen parameter, so as to allow two
+  parts of the mapgen to be consistent. For example, the following switch would match a fence gate
+  type to a fence type chosen by a mapgen parameter `fence_type`:
+
+```json
+{
+  "switch": { "param": "fence_type", "fallback": "t_splitrail_fence" },
+  "cases": {
+    "t_splitrail_fence": "t_splitrail_fencegate_c",
+    "t_chainfence": "t_chaingate_c",
+    "t_fence_barbed": "t_gate_metal_c",
+    "t_privacy_fence": "t_privacy_fencegate_c"
+  }
+}
+```
+
+## Mapgen parameters
+
+(Note that this feature is under development and functionality may not line up exactly with the
+documentation.)
+
+Another entry within a mapgen definition or palette can be a `"parameters"` key. For example:
+
+```
+"parameters": {
+  "roof_type": {
+    "type": "ter_str_id",
+    "default": { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
+  }
+},
+```
+
+Each entry in the `"parameters"` JSON object defines a parameter. The key is the parameter name.
+Each such key should have an associated JSON object. That object must provide its type (which should
+be a type string as for a `cata_variant`) and may optionally provide a default value. The default
+value should be a [mapgen value](#mapgen-values) as defined above.
+
+At time of writing, the only way for a parameter to get a value is via the `"default"`, so you
+probably want to always have one.
+
+The primary application of parameters is that you can use a `"distribution"` mapgen value to select
+a value at random, and then apply that value to every use of that parameter. In the above example, a
+random roof terrain is picked. By using the parameter with some `"terrain"` key, via a `"param"`
+mapgen value, you can use a random but consistent choice of roof terrain across your map. In
+contrast, placing the `"distribution"` directly in the `"terrain"` object would cause mapgen to
+choose a terrain at random for each roof tile, leading to a mishmash of roof terrains.
+
+By default, the scope of a parameter is the `overmap_special` being generated. That is, the
+parameter will have the same value across the `overmap_special`. When a default value is needed, it
+will be chosen when the first chunk of that special is generated, and that value will be saved to be
+reused for later chunks.
+
+If you wish, you may specify `"scope": "omt"` to limit the scope to just a single overmap tile. Then
+a default value will be chosen independently for each OMT. This has the advantage that you are no
+longer forced to select a `"fallback"` value when using that parameter in mapgen.
+
+The third option for scope is `"scope": "nest"`. This only makes sense when used in nested mapgen
+(although it is not an error to use it elsewhere, so that the same palette may be used for nested
+and non-nested mapgen). When the scope is `nest`, the value of the parameter is chosen for a
+particular nested chunk. For example, suppose a nest defines a carpet across several tiles, you can
+use a parameter to ensure that the carpet is the same colour for all the tiles within that nest, but
+another instance of the same `nested_mapgen_id` elsewhere in the same OMT might choose a different
+colour.
+
+To help you debug mapgen parameters and their effect on mapgen, you can see the chosen values for
+`overmap_special`-scoped parameters in the overmap editor (accessible via the debug menu).
+
 ## Rotate the map with "rotation"
 
 Rotates the generated map after all the other mapgen stuff has been done. The value can be a single
@@ -1035,7 +1127,55 @@ type.
 
 Example: `"predecessor_mapgen": "forest"`
 
-# Using update_mapgen
+# Palettes
+
+A **palette** provides a way to use the same symbol definitions for different pieces of mapgen. For
+example, most of the houses defined in CDDA us the `standard_domestic_palette`. That palette, for
+example, defines `h` as meaning `f_chair`, so all the house mapgen can use `h` in its `"rows"` array
+without needing to repeat this definition everywhere. It simply requires a reference to the palette,
+achieved by adding
+
+```json
+"palettes": [ "standard_domestic_palette" ]
+```
+
+to the definition of each house.
+
+Each piece of mapgen can refer to multiple palettes. When two palettes both define meanings for the
+same symbol, both are applied. In some cases (such as spawning items) you can see the results of
+both in the final output. In other cases (such as setting terrain or furniture) one result must
+override the others. The rule is that the last palette listed overrides earlier ones, and
+definitions in the outer mapgen override anything in the palettes within.
+
+Palette definitions can contain any of the JSON described above for the
+[JSON object definition](#json-object-definition) where it is defining a meaning for a symbol. They
+cannot specify anything for a particular location (using `"x"` and `"y"` coordinates.
+
+Palettes can themselves include other palettes via a `"palettes"` key. So if two or more palettes
+would have many of the same symbols with the same meanings that common part can be pulled out into a
+new palette which each of them includes, so that the definitions need not be repeated.
+
+## Palette ids as mapgen values
+
+The values in the `"palettes"` list need not be simple strings. They can be any
+[mapgen value](#mapgen-values) as described above. Most importantly, this means that they can use a
+`"distribution"` to select from a set of palettes at random.
+
+This selection works as if it were an overmap special-scoped [mapgen parameter](#mapgen-parameters).
+So, all OMTs within a special will use the same palette. Moreover, you can see which palette was
+chosen by looking at the overmap special arguments displayed in the overmap editor (accessible via
+the debug menu).
+
+For example, the following JSON used in a cabin mapgen definition
+
+```json
+"palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
+```
+
+causes half the cabins generated to use the regular `cabin_palette` and the other half to use
+`cabin_palette_abandoned`.
+
+# Using `update_mapgen`
 
 **update_mapgen** is a variant of normal JSON mapgen. Instead of creating a new overmap tile, it
 updates an existing overmap tile with a specific set of changes. Currently, it only works within the

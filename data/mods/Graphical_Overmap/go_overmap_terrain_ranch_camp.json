@@ -3,7 +3,7 @@
     "type": "overmap_terrain",
     "id": "ranch_camp_11",
     "copy-from": "ranch_camp_11",
-    "sym": "\u00A9"
+    "sym": "©"
   },
   {
     "type": "overmap_terrain",
@@ -34,7 +34,7 @@
     "type": "overmap_terrain",
     "id": "ranch_camp_17",
     "copy-from": "ranch_camp_17",
-    "sym": "\u00DC"
+    "sym": "Ü"
   },
   {
     "type": "overmap_terrain",
@@ -195,28 +195,28 @@
     "type": "overmap_terrain",
     "id": "ranch_camp_57",
     "copy-from": "ranch_camp_57",
-    "sym": "\u00F6",
+    "sym": "ö",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_57_roof",
     "copy-from": "ranch_camp_57_roof",
-    "sym": "\u00F6",
+    "sym": "ö",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_57_silo",
     "copy-from": "ranch_camp_57_silo",
-    "sym": "\u00F6",
+    "sym": "ö",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_57_silocap",
     "copy-from": "ranch_camp_57_silocap",
-    "sym": "\u00F6",
+    "sym": "ö",
     "color": "brown"
   },
   {
@@ -248,56 +248,56 @@
     "type": "overmap_terrain",
     "id": "ranch_camp_65",
     "copy-from": "ranch_camp_65",
-    "sym": "\u00A9"
+    "sym": "©"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_65_roof",
     "copy-from": "ranch_camp_65_roof",
     "name": "open air",
-    "sym": "\u00A6",
+    "sym": "¦",
     "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_66",
     "copy-from": "ranch_camp_66",
-    "sym": "\u00E9",
+    "sym": "é",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_66_roof",
     "copy-from": "ranch_camp_66_roof",
-    "sym": "\u00E9",
+    "sym": "é",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_67",
     "copy-from": "ranch_camp_67",
-    "sym": "\u00E6",
+    "sym": "æ",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_67_roof",
     "copy-from": "ranch_camp_67_roof",
-    "sym": "\u00E6",
+    "sym": "æ",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_68",
     "copy-from": "ranch_camp_68",
-    "sym": "\u00E2",
+    "sym": "â",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_68_roof",
     "copy-from": "ranch_camp_68_roof",
-    "sym": "\u00E2",
+    "sym": "â",
     "color": "brown"
   },
   {
@@ -315,7 +315,7 @@
     "id": "ranch_camp_74_roof",
     "copy-from": "ranch_camp_74_roof",
     "name": "open air",
-    "sym": "\u00A6",
+    "sym": "¦",
     "color": "blue"
   },
   {
@@ -323,13 +323,13 @@
     "id": "ranch_camp_75_roof",
     "copy-from": "ranch_camp_75_roof",
     "name": "open air",
-    "sym": "\u00A6",
+    "sym": "¦",
     "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_76",
     "copy-from": "ranch_camp_76",
-    "sym": "\u00D7"
+    "sym": "×"
   }
 ]

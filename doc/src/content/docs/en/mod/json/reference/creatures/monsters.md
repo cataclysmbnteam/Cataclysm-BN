@@ -280,11 +280,11 @@ was n zombies. A player with max(Str,Dex)<=n has no chance of breaking that grab
 
 Amount of cutting damage added to die roll on monster melee attack.
 
-## "armor_bash", "armor_cut", "armor_stab", "armor_acid", "armor_fire"
+## "armor_bash", "armor_cut", "armor_stab", "armor_acid", "armor_fire", "armor_cold", "armor_electric"
 
 (integer, optional)
 
-Monster protection from bashing, cutting, stabbing, acid and fire damage.
+Monster protection from bashing, cutting, stabbing, acid, fire, cold and electric damage.
 
 ## "vision_day", "vision_night"
 

@@ -8,7 +8,7 @@
     "material": "steel",
     "symbol": "=",
     "color": "dark_gray",
-    "proportional": { "price": 3, "damage": { "damage_type": "stab", "amount": 3.0, "armor_penetration": 3.0 } }
+    "proportional": { "price": 3, "damage": { "damage_type": "stab", "amount": 3, "armor_penetration": 3 } }
   },
   {
     "id": "nail",
@@ -18,8 +18,8 @@
     "description": "A pin-shaped piece of iron, can be used to construct various things with a hammer.",
     "weight": "4 g",
     "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 250,
+    "price": "10 USD",
+    "price_postapoc": "250 cent",
     "material": "iron",
     "symbol": "=",
     "color": "cyan",

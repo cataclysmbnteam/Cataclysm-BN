@@ -4728,6 +4728,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             default:
                 break;
         }
+        spell_being_cast.use_components( *p );
     }
     if( level_override == -1 ) {
         if( !spell_being_cast.is_max_level() ) {

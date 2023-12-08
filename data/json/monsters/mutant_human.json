@@ -57,7 +57,7 @@
     "armor_bullet": 4,
     "vision_day": 25,
     "vision_night": 5,
-    "harvest": "human_fur",
+    "harvest": "human_fur_maybe_cyborg",
     "special_attacks": [
       [ "PARROT", 80 ],
       {
@@ -74,7 +74,7 @@
     "death_drops": "mon_mutant_experimental_death_drops",
     "upgrades": { "half_life": 50, "into": "mon_mutant_evolved" },
     "regenerates": 1,
-    "regeneration_modifiers": [ { "effect": "onfire", "base_mod": -1.0 }, { "effect": "corroding", "base_mod": -1.0 } ],
+    "regeneration_modifiers": [ { "effect": "onfire", "base_mod": -1 }, { "effect": "corroding", "base_mod": -1 } ],
     "regen_morale": true,
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BLEED", "BASHES", "HUMAN", "PATH_AVOID_DANGER_2" ]
   },
@@ -99,7 +99,7 @@
     "armor_cut": 7,
     "armor_bullet": 6,
     "vision_night": 15,
-    "harvest": "human_large_fur",
+    "harvest": "human_large_fur_maybe_cyborg",
     "special_attacks": [
       [ "PARROT", 80 ],
       [ "SMASH", 20 ],
@@ -113,7 +113,7 @@
     ],
     "death_drops": "mon_mutant_evolved_death_drops",
     "regenerates": 1,
-    "regeneration_modifiers": [ { "effect": "onfire", "base_mod": -1.0 }, { "effect": "corroding", "base_mod": -1.0 } ],
+    "regeneration_modifiers": [ { "effect": "onfire", "base_mod": -1 }, { "effect": "corroding", "base_mod": -1 } ],
     "regen_morale": true,
     "flags": [
       "SEES",

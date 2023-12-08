@@ -2,7 +2,7 @@
   {
     "type": "region_overlay",
     "regions": [ "all" ],
-    "river_scale": 1.0,
+    "river_scale": 1,
     "city": {
       "shop_radius": 1,
       "shop_sigma": 300,

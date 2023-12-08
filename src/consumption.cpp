@@ -75,6 +75,8 @@ static const efftype_id effect_visuals( "visuals" );
 
 static const itype_id itype_syringe( "syringe" );
 
+static const mutation_category_id mutation_category_URSINE( "URSINE" );
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
@@ -575,10 +577,10 @@ float Character::metabolic_rate_base() const
     static const std::string hunger_rate_string( "PLAYER_HUNGER_RATE" );
     static const std::string metabolism_modifier( "metabolism_modifier" );
 
-    float hunger_rate = get_option< float >( hunger_rate_string );
-    float mut_bonus = 1.0f + mutation_value( metabolism_modifier );
-    float with_mut = hunger_rate * mut_bonus;
-    float ench_bonus = bonus_from_enchantments( with_mut, enchant_vals::mod::METABOLISM );
+    const float hunger_rate = get_option< float >( hunger_rate_string );
+    const float mut_bonus = 1.0f + mutation_value( metabolism_modifier );
+    const float with_mut = hunger_rate * mut_bonus;
+    const float ench_bonus = bonus_from_enchantments( with_mut, enchant_vals::mod::METABOLISM );
 
     return std::max( 0.0f, with_mut + ench_bonus );
 }
@@ -1151,11 +1153,11 @@ void Character::modify_morale( item &food, int nutr )
     }
     if( food.has_flag( flag_URSINE_HONEY ) && ( !crossed_threshold() ||
             has_trait( trait_THRESH_URSINE ) ) &&
-        mutation_category_level["URSINE"] > 40 ) {
+        mutation_category_level[mutation_category_URSINE] > 40 ) {
         // Need at least 5 bear mutations for effect to show, to filter out mutations in common with other categories
         int honey_fun = has_trait( trait_THRESH_URSINE ) ?
-                        std::min( mutation_category_level["URSINE"] / 8, 20 ) :
-                        mutation_category_level["URSINE"] / 12;
+                        std::min( mutation_category_level[mutation_category_URSINE] / 8, 20 ) :
+                        mutation_category_level[mutation_category_URSINE] / 12;
         if( honey_fun < 10 ) {
             add_msg_if_player( m_good, _( "You find the sweet taste of honey surprisingly palatable." ) );
         } else {

@@ -667,5 +667,17 @@
       { "monster": "mon_feral_jackboot", "freq": 2, "cost_multiplier": 1 },
       { "monster": "mon_feral_soldier", "freq": 5, "cost_multiplier": 1 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY",
+    "default": "mon_zombie_technician",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "freq": 200, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_hazmat", "freq": 250, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_electric", "freq": 100, "cost_multiplier": 5 },
+      { "monster": "mon_skitterbot", "freq": 100, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_cop", "freq": 100, "cost_multiplier": 5 }
+    ]
   }
 ]

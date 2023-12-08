@@ -532,7 +532,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `CONSOLE` Used as a computer.
 - `CONTAINER` Items on this square are hidden until looted by the player.
 - `DECONSTRUCT` Can be deconstructed.
-- `DEEP_WATER`
+- `DEEP_WATER` Deep enough to submerge things
+- `WATER_CUBE` Water tile that is entirely water
 - `DESTROY_ITEM` Items that land here are destroyed. See also `NOITEM`
 - `DIFFICULT_Z` Most zombies will not be able to follow you up this terrain ( i.e a ladder )
 - `DIGGABLE_CAN_DEEPEN` Diggable location can be dug again to make deeper (e.g. shallow pit to deep

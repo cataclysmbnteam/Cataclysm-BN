@@ -4051,7 +4051,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
         spew_field( mufflesmoke, exhaust_part, fd_smoke,
                     bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
     }
-    if( is_rotorcraft() ) {
+    if( is_flying && is_rotorcraft() ) {
         noise *= 2;
     }
     // Cap engine noise to avoid deafening.
