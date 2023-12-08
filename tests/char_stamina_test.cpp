@@ -125,7 +125,7 @@ static float actual_regen_rate( player &dummy, int moves )
 TEST_CASE( "stamina movement cost modifier", "[stamina][cost]" )
 {
     clear_all_state();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     SECTION( "running cost is double walking cost for the same stamina level" ) {
         CHECK( move_cost_mod( dummy, CMM_RUN, 1.0 ) == 2 * move_cost_mod( dummy, CMM_WALK, 1.0 ) );
@@ -167,7 +167,7 @@ TEST_CASE( "stamina movement cost modifier", "[stamina][cost]" )
 TEST_CASE( "modify character stamina", "[stamina][modify]" )
 {
     clear_all_state();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     clear_character( dummy );
     REQUIRE_FALSE( dummy.is_npc() );
 
@@ -229,7 +229,7 @@ TEST_CASE( "modify character stamina", "[stamina][modify]" )
 TEST_CASE( "stamina burn for movement", "[stamina][burn][move]" )
 {
     clear_all_state();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     // Defined in game_balance.json
     const int normal_burn_rate = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
@@ -293,7 +293,7 @@ TEST_CASE( "stamina burn for movement", "[stamina][burn][move]" )
 TEST_CASE( "burning stamina when overburdened may cause pain", "[stamina][burn][pain]" )
 {
     clear_all_state();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     int pain_before;
     int pain_after;
 
@@ -337,7 +337,7 @@ TEST_CASE( "burning stamina when overburdened may cause pain", "[stamina][burn][
 TEST_CASE( "stamina regeneration rate", "[stamina][update][regen]" )
 {
     clear_all_state();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     clear_character( dummy, false );
     int turn_moves = to_moves<int>( 1_turns );
 
@@ -356,7 +356,7 @@ TEST_CASE( "stamina regeneration rate", "[stamina][update][regen]" )
 TEST_CASE( "stamina regen in different movement modes", "[stamina][update][regen][mode]" )
 {
     clear_all_state();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     clear_character( dummy );
 
     int turn_moves = to_moves<int>( 1_turns );
@@ -389,7 +389,7 @@ TEST_CASE( "stamina regen in different movement modes", "[stamina][update][regen
 TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][encumbrance]" )
 {
     clear_all_state();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     clear_character( dummy );
 
     int turn_moves = to_moves<int>( 1_turns );

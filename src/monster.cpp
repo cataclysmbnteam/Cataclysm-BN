@@ -622,7 +622,7 @@ void monster::get_HP_Bar( nc_color &color, std::string &text ) const
 
 std::pair<std::string, nc_color> monster::get_attitude() const
 {
-    const auto att = attitude_names.at( attitude( &g->u ) );
+    const auto att = attitude_names.at( attitude( &get_avatar() ) );
     return {
         _( att.first ),
         all_colors.get( att.second )
@@ -727,7 +727,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         mvwprintz( w, point( column, ++vStart ), c_light_blue, string_format( "[%s]", type->id.str() ) );
     }
 
-    if( sees( g->u ) ) {
+    if( sees( get_avatar() ) ) {
         mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
     }
 
@@ -895,7 +895,7 @@ std::string monster::extended_description() const
     ss += "--\n";
     ss += std::string( _( "In melee, you can expect to:" ) ) + "\n";
     ss += string_format( _( "Deal average damage per second: <stat>%.1f</stat>" ),
-                         g->u.primary_weapon().effective_dps( g->u, *this ) );
+                         get_avatar().primary_weapon().effective_dps( get_avatar(), *this ) );
     ss += "\n";
 
     if( debug_mode ) {
@@ -1230,7 +1230,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // Friendly (to player) monsters are friendly to each other
             // Unfriendly monsters go by faction attitude
             return A_FRIENDLY;
-        } else if( g->u.has_trait( trait_PROF_FERAL ) && ( faction == faction_zombie ||
+        } else if( get_avatar().has_trait( trait_PROF_FERAL ) && ( faction == faction_zombie ||
                    type->in_species( ZOMBIE ) ) && ( m->faction == faction_zombie ||
                            m->type->in_species( ZOMBIE ) ) ) {
             // Zombies ignoring a feral survivor aren't quite the same as friendly
@@ -1273,7 +1273,7 @@ monster_attitude monster::attitude( const Character *u ) const
         if( has_effect( effect_docile ) ) {
             return MATT_FPASSIVE;
         }
-        if( u == &g->u ) {
+        if( u == &get_avatar() ) {
             return MATT_FRIEND;
         }
         // Zombies don't understand not attacking NPCs, but dogs and bots should.
@@ -1613,7 +1613,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
 
     if( target.is_player() ||
-        ( target.is_npc() && g->u.attitude_to( target ) == A_FRIENDLY ) ) {
+        ( target.is_npc() && get_avatar().attitude_to( target ) == A_FRIENDLY ) ) {
         // Make us a valid target for a few turns
         add_effect( effect_hit_by_player, 3_turns );
     }
@@ -1622,7 +1622,7 @@ void monster::melee_attack( Creature &target, float accuracy )
         add_effect( effect_run, 4_turns );
     }
 
-    const bool u_see_me = g->u.sees( *this );
+    const bool u_see_me = get_avatar().sees( *this );
 
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
@@ -1663,7 +1663,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                 add_msg( m_bad, _( "The %1$s hits your %2$s." ), name(),
                          body_part_name_accusative( bp_hit ) );
             } else if( target.is_npc() ) {
-                if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
+                if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == get_avatar().pos() ) {
                     //~ %1$s: name of your mount, %2$s: target NPC name, %3$d: damage value
                     add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), name(), target.disp_name(),
                              total_dealt );
@@ -1674,7 +1674,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                              body_part_name_accusative( bp_hit ) );
                 }
             } else {
-                if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
+                if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == get_avatar().pos() ) {
                     //~ %1$s: name of your mount, %2$s: target creature name, %3$d: damage value
                     add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), get_name(), target.disp_name(),
                              total_dealt );
@@ -1893,7 +1893,7 @@ bool monster::move_effects( bool )
         return true;
     }
 
-    bool u_see_me = g->u.sees( *this );
+    bool u_see_me = get_avatar().sees( *this );
     if( has_effect( effect_tied ) ) {
         // friendly pet, will stay tied down and obey.
         if( friendly == -1 ) {
@@ -2418,7 +2418,7 @@ void monster::process_turn()
             }
         } else {
             for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
-                const bool player_sees = g->u.sees( zap );
+                const bool player_sees = get_avatar().sees( zap );
                 const auto items = g->m.i_at( zap );
                 for( const auto &item : items ) {
                     if( item->made_of( LIQUID ) && item->flammable() ) { // start a fire!
@@ -2453,10 +2453,10 @@ void monster::process_turn()
                                "thunder_near" );
                 sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ), false, "explosion",
                                "default" );
-                if( g->u.sees( pos() ) ) {
+                if( get_avatar().sees( pos() ) ) {
                     add_msg( m_bad, _( "Lightning strikes the %s!" ), name() );
                     add_msg( m_bad, _( "Your vision goes white!" ) );
-                    g->u.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
+                    get_avatar().add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
                 }
                 add_effect( effect_supercharged, 12_hours );
             } else if( has_effect( effect_supercharged ) && calendar::once_every( 5_turns ) ) {
@@ -2781,7 +2781,7 @@ void monster::process_effects_internal()
         regeneration_amount = 0;
     }
     const int healed_amount = heal( round( regeneration_amount ) );
-    if( healed_amount > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+    if( healed_amount > 0 && one_in( 2 ) && get_avatar().sees( *this ) ) {
         add_msg( m_debug, ( "Regen: %s" ), healed_amount );
         std::string healing_format_string;
         if( healed_amount >= 50 ) {
@@ -2798,7 +2798,7 @@ void monster::process_effects_internal()
         const float light = g->m.ambient_light_at( pos() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
         if( heal( static_cast<int>( 50.0 *  std::exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) &&
-                  g->u.sees( *this ) ) ) {
+                  get_avatar().sees( *this ) ) ) {
             add_msg( m_warning, _( "The %s uses the darkness to regenerate." ), name() );
         }
     }
@@ -2806,7 +2806,7 @@ void monster::process_effects_internal()
     // Monster will regen morale and aggression if it is on max HP
     // It regens more morale and aggression if is currently fleeing.
     if( type->regen_morale && hp >= type->hp ) {
-        if( is_fleeing( g->u ) ) {
+        if( is_fleeing( get_avatar() ) ) {
             morale = type->morale;
             anger = type->agro;
         }
@@ -2826,7 +2826,7 @@ void monster::process_effects_internal()
 
     // If this critter dies in sunlight, check & assess damage.
     if( has_flag( MF_SUNDEATH ) && g->is_in_sunlight( pos() ) ) {
-        if( g->u.sees( *this ) ) {
+        if( get_avatar().sees( *this ) ) {
             add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name() );
         }
         apply_damage( nullptr, bodypart_id( "torso" ), 100 );
@@ -2860,7 +2860,7 @@ bool monster::make_fungus()
     const std::string old_name = name();
     poly( type->fungalize_into );
 
-    if( g->u.sees( pos() ) ) {
+    if( get_avatar().sees( pos() ) ) {
         add_msg( m_info, _( "The spores transform %1$s into a %2$s!" ),
                  old_name, name() );
     }
@@ -2922,7 +2922,7 @@ units::volume monster::get_volume() const
 
 void monster::add_msg_if_npc( const std::string &msg ) const
 {
-    if( g->u.sees( *this ) ) {
+    if( get_avatar().sees( *this ) ) {
         add_msg( replace_with_npc_name( msg ) );
     }
 }
@@ -2930,14 +2930,14 @@ void monster::add_msg_if_npc( const std::string &msg ) const
 void monster::add_msg_player_or_npc( const std::string &/*player_msg*/,
                                      const std::string &npc_msg ) const
 {
-    if( g->u.sees( *this ) ) {
+    if( get_avatar().sees( *this ) ) {
         add_msg( replace_with_npc_name( npc_msg ) );
     }
 }
 
 void monster::add_msg_if_npc( const game_message_params &params, const std::string &msg ) const
 {
-    if( g->u.sees( *this ) ) {
+    if( get_avatar().sees( *this ) ) {
         add_msg( params, replace_with_npc_name( msg ) );
     }
 }
@@ -2945,7 +2945,7 @@ void monster::add_msg_if_npc( const game_message_params &params, const std::stri
 void monster::add_msg_player_or_npc( const game_message_params &params,
                                      const std::string &/*player_msg*/, const std::string &npc_msg ) const
 {
-    if( g->u.sees( *this ) ) {
+    if( get_avatar().sees( *this ) ) {
         add_msg( params, replace_with_npc_name( npc_msg ) );
     }
 }
@@ -3135,10 +3135,10 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
 
     static const string_id<monfaction> faction_zombie( "zombie" );
     const bool feral_friend = ( faction == faction_zombie || type->in_species( ZOMBIE ) ) &&
-                              g->u.has_trait( trait_PROF_FERAL ) && !g->u.has_effect( effect_feral_infighting_punishment );
+                              get_avatar().has_trait( trait_PROF_FERAL ) && !get_avatar().has_effect( effect_feral_infighting_punishment );
 
     // Hackery: If player is currently a feral and you're a zombie, ignore any sounds close to their position.
-    if( feral_friend && rl_dist( g->u.pos(), source ) <= 10 ) {
+    if( feral_friend && rl_dist( get_avatar().pos(), source ) <= 10 ) {
         return;
     }
 

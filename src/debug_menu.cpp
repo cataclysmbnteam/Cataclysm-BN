@@ -392,11 +392,11 @@ static int debug_menu_uilist( bool display_all_entries = true )
 void teleport_short()
 {
     const std::optional<tripoint> where = g->look_around( true );
-    if( !where || *where == g->u.pos() ) {
+    if( !where || *where == get_avatar().pos() ) {
         return;
     }
     g->place_player( *where );
-    const tripoint new_pos( g->u.pos() );
+    const tripoint new_pos( get_avatar().pos() );
     add_msg( _( "You teleport to point (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
 
@@ -433,12 +433,12 @@ void teleport_overmap( bool specific_coordinates )
             return;
         }
         const tripoint offset = tripoint( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
-        where = g->u.global_omt_location() + offset;
+        where = get_avatar().global_omt_location() + offset;
     }
 
     g->place_player_overmap( where );
 
-    const tripoint_abs_om new_pos = project_to<coords::om>( g->u.global_omt_location() );
+    const tripoint_abs_om new_pos = project_to<coords::om>( get_avatar().global_omt_location() );
     add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
@@ -485,7 +485,7 @@ static Character &pick_character( Character &preselected )
     uilist charmenu;
     int charnum = 0;
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
-    locations.emplace_back( g->u.pos() );
+    locations.emplace_back( get_avatar().pos() );
     for( const npc &guy : g->all_npcs() ) {
         charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, guy.name );
         locations.emplace_back( guy.pos() );
@@ -664,7 +664,7 @@ void character_edit_menu( Character &c )
             p.remove_primary_weapon( );
             break;
         case edit_character::item_worn: {
-            item *loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
+            item *loc = game_menus::inv::titled_menu( get_avatar(), _( "Make target equip" ) );
             if( !loc ) {
                 break;
             }
@@ -1010,7 +1010,7 @@ void character_edit_menu( Character &c )
                     if( p.is_mounted() ) {
                         p.mounted_creature->setpos( *newpos );
                     }
-                    g->update_map( g->u );
+                    g->update_map( get_avatar() );
                 }
             }
         }
@@ -1082,7 +1082,7 @@ void character_edit_menu( Character &c )
                 add_msg( m_bad, _( "There are no spells to learn.  You must install a mod that adds some." ) );
             } else {
                 for( const spell_type &learn : spell_type::get_all() ) {
-                    c.magic->learn_spell( &learn, g->u, true );
+                    c.magic->learn_spell( &learn, get_avatar(), true );
                 }
                 add_msg( m_good,
                          _( "You have become an Archwizardpriest!  What will you do with your newfound power?" ) );
@@ -1223,19 +1223,19 @@ void mission_debug::edit_player()
     mmenu.text = _( "Select mission to edit" );
 
     add_header( mmenu, _( "Active missions:" ) );
-    for( mission *m : g->u.active_missions ) {
+    for( mission *m : get_avatar().active_missions ) {
         mmenu.addentry( all_missions.size(), true, MENU_AUTOASSIGN, "%s", m->type->id.c_str() );
         all_missions.emplace_back( m );
     }
 
     add_header( mmenu, _( "Completed missions:" ) );
-    for( mission *m : g->u.completed_missions ) {
+    for( mission *m : get_avatar().completed_missions ) {
         mmenu.addentry( all_missions.size(), true, MENU_AUTOASSIGN, "%s", m->type->id.c_str() );
         all_missions.emplace_back( m );
     }
 
     add_header( mmenu, _( "Failed missions:" ) );
-    for( mission *m : g->u.failed_missions ) {
+    for( mission *m : get_avatar().failed_missions ) {
         mmenu.addentry( all_missions.size(), true, MENU_AUTOASSIGN, "%s", m->type->id.c_str() );
         all_missions.emplace_back( m );
     }
@@ -1258,18 +1258,18 @@ static bool remove_from_vec( std::vector<mission *> &vec, mission *m )
 
 void mission_debug::remove_mission( mission &m )
 {
-    if( remove_from_vec( g->u.active_missions, &m ) ) {
+    if( remove_from_vec( get_avatar().active_missions, &m ) ) {
         add_msg( _( "Removing from active_missions" ) );
     }
-    if( remove_from_vec( g->u.completed_missions, &m ) ) {
+    if( remove_from_vec( get_avatar().completed_missions, &m ) ) {
         add_msg( _( "Removing from completed_missions" ) );
     }
-    if( remove_from_vec( g->u.failed_missions, &m ) ) {
+    if( remove_from_vec( get_avatar().failed_missions, &m ) ) {
         add_msg( _( "Removing from failed_missions" ) );
     }
 
-    if( g->u.active_mission == &m ) {
-        g->u.active_mission = nullptr;
+    if( get_avatar().active_mission == &m ) {
+        get_avatar().active_mission = nullptr;
         add_msg( _( "Unsetting active mission" ) );
     }
 
@@ -1385,7 +1385,7 @@ void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
     int action = debug_menu_uilist( debug_menu_has_hotkey );
-    avatar &u = g->u;
+    avatar &u = get_avatar();
     map &m = g->m;
     switch( action ) {
         case DEBUG_WISH:
@@ -1461,8 +1461,8 @@ void debug()
             s += vgettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
             popup_top(
                 s.c_str(),
-                u.posx(), g->u.posy(), g->get_levx(), g->get_levy(),
-                overmap_buffer.ter( g->u.global_omt_location() )->get_name(),
+                u.posx(), get_avatar().posy(), g->get_levx(), g->get_levy(),
+                overmap_buffer.ter( get_avatar().global_omt_location() )->get_name(),
                 to_turns<int>( calendar::turn - calendar::turn_zero ),
                 get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                 _( "NPCs are NOT going to spawn." ),
@@ -1489,7 +1489,7 @@ void debug()
             popup.on_top( true );
             popup.message( "%s", _( "Select first point." ) );
 
-            tripoint initial_pos = g->u.pos();
+            tripoint initial_pos = get_avatar().pos();
             const look_around_result first = g->look_around( false, initial_pos, initial_pos,
                                              false, true, false, false, tripoint_zero, true );
 
@@ -1988,7 +1988,7 @@ void debug()
                           << '\n';
                 count++;
             }
-            std::cout << "Player faction is " << g->u.get_faction()->id.str() << '\n';
+            std::cout << "Player faction is " << get_avatar().get_faction()->id.str() << '\n';
             break;
         }
         case DEBUG_PRINT_NPC_MAGIC: {

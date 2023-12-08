@@ -172,7 +172,7 @@ constexpr throw_test_pstats hi_skill_athlete_stats = { MAX_SKILL, 12, 12, 12 };
 TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
 {
     clear_all_state();
-    player &p = g->u;
+    player &p = get_avatar();
 
     SECTION( "test_player_vs_zombie_rock_basestats" ) {
         test_throwing_player_versus( p, "mon_zombie", "rock", 1, lo_skill_base_stats, { 0.99, 0.10 }, { 10, 3 } );
@@ -217,7 +217,7 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
 TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
 {
     clear_all_state();
-    player &p = g->u;
+    player &p = get_avatar();
     // we already cover low stats in the sanity tests and we only cover a few
     // ranges here because what we're really trying to capture is the effect
     // the throwing skill has while the sanity tests are more explicit.
@@ -237,7 +237,7 @@ TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
 TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[balance]" )
 {
     clear_all_state();
-    player &p = g->u;
+    player &p = get_avatar();
 
     detached_ptr<item> det = item::spawn( "throwing_stick", calendar::turn, 10 );
     item &thrown = *det;

@@ -39,7 +39,7 @@ void set_off_explosion( item &explosive, const tripoint &origin )
 {
     explosion_handler::get_explosion_queue().clear();
     explosive.charges = 0;
-    explosive.type->invoke( g->u, explosive, origin );
+    explosive.type->invoke( get_avatar(), explosive, origin );
     explosion_handler::get_explosion_queue().execute();
 }
 

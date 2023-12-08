@@ -224,7 +224,7 @@ TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
             det = item::spawn( "soldering_iron" );
             item &tool = *det;
             REQUIRE( tool.magazine_current() == nullptr );
-            tool.reload( g->u, battery, 1 );
+            tool.reload( get_avatar(), battery, 1 );
             veh_ptr->add_item( cargo_part, std::move( det ) );
             WHEN( "An hour passes" ) {
                 for( int i = 0; i < to_turns<int>( 1_hours ); i++ ) {

@@ -484,7 +484,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
             } else {
                 add_msg( _( "You miss." ) );
             }
-        } else if( g->u.sees( *this ) ) {
+        } else if( get_avatar().sees( *this ) ) {
             if( stumble_pen >= 60 ) {
                 add_msg( _( "%s misses and stumbles with the momentum." ), name );
             } else if( stumble_pen >= 10 ) {
@@ -510,7 +510,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
     } else {
         melee::melee_stats.hit_count += 1;
         // Remember if we see the monster at start - it may change
-        const bool seen = g->u.sees( t );
+        const bool seen = get_avatar().sees( t );
         // Start of attacks.
         const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
         if( critical_hit ) {
@@ -602,7 +602,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
             }
 
             // Treat monster as seen if we see it before or after the attack
-            if( seen || g->u.sees( t ) ) {
+            if( seen || get_avatar().sees( t ) ) {
                 std::string message = melee_message( technique, *this, dealt_dam );
                 player_hit_message( this, message, t, dam, critical_hit );
             } else {
@@ -1491,7 +1491,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
                 ( to_swimmable && to_deepwater ) || // Dive into deep water
                 is_mounted() ||
                 ( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
-                ( veh0 != nullptr && veh0->player_in_control( g->u ) ) || // Player is driving
+                ( veh0 != nullptr && veh0->player_in_control( get_avatar() ) ) || // Player is driving
                 has_effect( effect_amigara );
 
             if( !move_issue ) {
@@ -2220,7 +2220,7 @@ void player_hit_message( Character *attacker, const std::string &message,
         msgtype = m_neutral;
     } else if(
         crit ) { //Player won't see exact numbers of damage dealt by NPC unless player has DEBUG_NIGHTVISION trait
-        if( attacker->is_npc() && !g->u.has_trait( trait_DEBUG_NIGHTVISION ) ) {
+        if( attacker->is_npc() && !get_avatar().has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something (critical)
             msg = string_format( _( "%s. Critical!" ), message );
         } else {
@@ -2230,7 +2230,7 @@ void player_hit_message( Character *attacker, const std::string &message,
         sSCTmod = _( "Critical!" );
         gmtSCTcolor = m_critical;
     } else {
-        if( attacker->is_npc() && !g->u.has_trait( trait_DEBUG_NIGHTVISION ) ) {
+        if( attacker->is_npc() && !get_avatar().has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something
             msg = string_format( _( "%s." ), message );
         } else {

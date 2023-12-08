@@ -196,7 +196,7 @@ bool monster::will_move_to( const tripoint &p ) const
         }
 
         // Some things are only avoided if we're not attacking
-        if( attitude( &g->u ) != MATT_ATTACK ) {
+        if( attitude( &get_avatar() ) != MATT_ATTACK ) {
             // Sharp terrain is ignored while attacking
             if( avoid_simple && g->m.has_flag( "SHARP", p ) &&
                 !( type->size == MS_TINY || flies() ) ) {
@@ -342,10 +342,10 @@ void monster::plan()
     auto mood = attitude();
 
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
-    if( friendly == 0 && sees( g->u ) && !waiting ) {
-        dist = rate_target( g->u, dist, smart_planning );
-        fleeing = fleeing || is_fleeing( g->u );
-        target = &g->u;
+    if( friendly == 0 && sees( get_avatar() ) && !waiting ) {
+        dist = rate_target( get_avatar(), dist, smart_planning );
+        fleeing = fleeing || is_fleeing( get_avatar() );
+        target = &get_avatar();
         if( dist <= 5 ) {
             anger += angers_hostile_near;
             morale -= fears_hostile_near;
@@ -370,7 +370,7 @@ void monster::plan()
             for( monster &tmp : g->all_monsters() ) {
                 if( type->baby_monster == tmp.type->id ) {
                     // baby nearby; is the player too close?
-                    dist = tmp.rate_target( g->u, dist, smart_planning );
+                    dist = tmp.rate_target( get_avatar(), dist, smart_planning );
                     if( dist <= 3 ) {
                         //proximity to baby; monster gets furious and less likely to flee
                         anger += angers_cub_threatened;
@@ -586,12 +586,12 @@ void monster::plan()
         // Grow restless with no targets
         friendly--;
         // if no target, and friendly pet sees the player
-    } else if( friendly < 0 && sees( g->u ) ) {
+    } else if( friendly < 0 && sees( get_avatar() ) ) {
         // eg dogs
         if( !has_flag( MF_PET_WONT_FOLLOW ) ) {
             // if too far from the player, go to him
-            if( rl_dist( pos(), g->u.pos() ) > 2 ) {
-                set_dest( g->u.pos() );
+            if( rl_dist( pos(), get_avatar().pos() ) > 2 ) {
+                set_dest( get_avatar().pos() );
             } else {
                 unset_dest();
             }
@@ -617,14 +617,14 @@ void monster::plan()
     // being led by a leash override other movements decisions
     if( has_effect( effect_led_by_leash ) && friendly != 0 ) {
         // if we have an hostile target adjacent to the payer, and we're not fleeing, we can potentially attack it
-        if( target != nullptr && rl_dist( g->u.pos(), target->pos() ) < 2 &&
-            target->attitude_to( g->u ) == Attitude::A_HOSTILE && !fleeing ) {
+        if( target != nullptr && rl_dist( get_avatar().pos(), target->pos() ) < 2 &&
+            target->attitude_to( get_avatar() ) == Attitude::A_HOSTILE && !fleeing ) {
             // if we're too far from the player, go back to it
-            if( rl_dist( pos(), g->u.pos() ) > 5 ) {
-                set_dest( g->u.pos() );
+            if( rl_dist( pos(), get_avatar().pos() ) > 5 ) {
+                set_dest( get_avatar().pos() );
             }
-        } else if( rl_dist( pos(), g->u.pos() ) > 1 ) {
-            set_dest( g->u.pos() );
+        } else if( rl_dist( pos(), get_avatar().pos() ) > 1 ) {
+            set_dest( get_avatar().pos() );
         } else {
             unset_dest();
         }
@@ -665,7 +665,7 @@ bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
 {
     if( is_aquatic_danger( at_pos ) && one_in( chance ) ) {
         die( nullptr );
-        if( g->u.sees( at_pos ) ) {
+        if( get_avatar().sees( at_pos ) ) {
             add_msg( _( "The %s drowns!" ), name() );
         }
         return true;
@@ -702,7 +702,7 @@ void monster::move()
     //If there are. Consume them.
     // TODO: Stick this in a map and dispatch to it via the action string.
     if( action == "consume_items" ) {
-        if( g->u.sees( *this ) ) {
+        if( get_avatar().sees( *this ) ) {
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name() );
         }
@@ -718,7 +718,7 @@ void monster::move()
                     hp -= type->hp;
                     //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
                     spawn->make_ally( *this );
-                    if( g->u.sees( *this ) ) {
+                    if( get_avatar().sees( *this ) ) {
                         add_msg( _( "The %s splits in two!" ), name() );
                     }
                 }
@@ -827,8 +827,8 @@ void monster::move()
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
     if( !wander() ) {
-        if( goal == g->u.pos() ) {
-            current_attitude = attitude( &g->u );
+        if( goal == get_avatar().pos() ) {
+            current_attitude = attitude( &get_avatar() );
         } else {
             for( const npc &guy : g->all_npcs() ) {
                 if( goal == guy.pos() ) {
@@ -1092,7 +1092,7 @@ void monster::move()
     }
 
     if( has_effect( effect_led_by_leash ) ) {
-        if( rl_dist( pos(), g->u.pos() ) > 8 ) {
+        if( rl_dist( pos(), get_avatar().pos() ) > 8 ) {
             // Either failed to keep up with the player or moved away
             remove_effect( effect_led_by_leash );
             add_msg( m_info, _( "You lose hold of a leash." ) );
@@ -1166,7 +1166,7 @@ void monster::nursebot_operate( player *dragged_foe )
             const float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
                                          static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
 
-            g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
+            get_avatar().uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
 
             dragged_foe->remove_effect( effect_grabbed );
             remove_effect( effect_dragging );
@@ -1215,7 +1215,7 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
-    int dist = rl_dist( p, g->u.pos() );
+    int dist = rl_dist( p, get_avatar().pos() );
     sounds::add_footstep( p, volume, dist, this, type->get_footsteps() );
     return;
 }
@@ -1239,7 +1239,7 @@ tripoint monster::scent_move()
         smell_threshold = 400;
     }
 
-    const bool fleeing = is_fleeing( g->u );
+    const bool fleeing = is_fleeing( get_avatar() );
     if( fleeing ) {
         bestsmell = g->scent.get( pos() );
     }
@@ -1280,7 +1280,7 @@ tripoint monster::scent_move()
         }
         if( g->m.valid_move( pos(), dest, can_bash, true ) &&
             ( ( can_move_to( dest ) && !get_map().obstructed_by_vehicle_rotation( pos(), dest ) ) ||
-              ( dest == g->u.pos() ) ||
+              ( dest == get_avatar().pos() ) ||
               ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
                 smoves.clear();
@@ -1504,8 +1504,8 @@ bool monster::attack_at( const tripoint &p )
         return false;
     }
 
-    if( p == g->u.pos() ) {
-        melee_attack( g->u );
+    if( p == get_avatar().pos() ) {
+        melee_attack( get_avatar() );
         return true;
     }
 
@@ -1590,7 +1590,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             if( flies() ) {
                 moves -= 100;
                 force = true;
-                if( g->u.sees( *this ) ) {
+                if( get_avatar().sees( *this ) ) {
                     add_msg( _( "The %1$s flies over the %2$s." ), name(),
                              g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
                              g->m.tername( p ) );
@@ -1598,7 +1598,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             } else if( climbs() ) {
                 moves -= 150;
                 force = true;
-                if( g->u.sees( *this ) ) {
+                if( get_avatar().sees( *this ) ) {
                     add_msg( _( "The %1$s climbs over the %2$s." ), name(),
                              g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
                              g->m.tername( p ) );
@@ -1642,16 +1642,16 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
 
     // Attitude check is kinda slow, better gate it
     if( was_water != will_be_water && !flies() ) {
-        if( attitude( &g->u ) != MATT_ATTACK ) {
+        if( attitude( &get_avatar() ) != MATT_ATTACK ) {
             // Nothing, no need to spam
-        } else if( was_water && !will_be_water && g->u.sees( p ) ) {
+        } else if( was_water && !will_be_water && get_avatar().sees( p ) ) {
             // Use more dramatic messages for swimming monsters
             //~ Message when a monster emerges from water
             //~ %1$s: monster name, %2$s: leaps/emerges, %3$s: terrain name
             add_msg( m_warning, pgettext( "monster movement", "A %1$s %2$s from the %3$s!" ), name(),
                      swims() || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
                      g->m.tername( pos() ) );
-        } else if( !was_water && will_be_water && g->u.sees( destination ) ) {
+        } else if( !was_water && will_be_water && get_avatar().sees( destination ) ) {
             //~ Message when a monster enters water
             //~ %1$s: monster name, %2$s: dives/sinks, %3$s: terrain name
             add_msg( m_warning, pgettext( "monster movement", "A %1$s %2$s into the %3$s!" ), name(),
@@ -1888,7 +1888,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     g->swap_critters( *critter, *this );
     critter->add_effect( effect_stunned, rng( 0_turns, 2_turns ) );
     // Only print the message when near player or it can get spammy
-    if( rl_dist( g->u.pos(), pos() ) < 4 && g->u.sees( *critter ) ) {
+    if( rl_dist( get_avatar().pos(), pos() ) < 4 && get_avatar().sees( *critter ) ) {
         add_msg( m_warning, _( "The %1$s tramples %2$s" ),
                  name(), critter->disp_name() );
     }
@@ -1964,7 +1964,7 @@ void monster::knock_back_to( const tripoint &to )
         return;
     }
 
-    bool u_see = g->u.sees( to );
+    bool u_see = get_avatar().sees( to );
 
     // First, see if we hit another monster
     if( monster *const z = g->critter_at<monster>( to ) ) {
@@ -2036,7 +2036,7 @@ void monster::knock_back_to( const tripoint &to )
  */
 bool monster::will_reach( point p )
 {
-    monster_attitude att = attitude( &g->u );
+    monster_attitude att = attitude( &get_avatar() );
     if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE ) {
         return false;
     }
@@ -2144,9 +2144,9 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     break;
             }
             if( shove_velocity > 0 ) {
-                if( g->u.sees( this->pos() ) ) {
+                if( get_avatar().sees( this->pos() ) ) {
                     //~ %1$s - monster name, %2$s - vehicle name
-                    g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
+                    get_avatar().add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
                                             veh.disp_name() );
                 }
                 int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;

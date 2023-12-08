@@ -865,8 +865,8 @@ static int move_cost_inv( const item &it, const tripoint &src, const tripoint &d
     const int mc_per_tile = 100;
 
     // only free inventory capacity
-    const int inventory_capacity = units::to_milliliter( g->u.volume_capacity() -
-                                   g->u.volume_carried() );
+    const int inventory_capacity = units::to_milliliter( get_avatar().volume_capacity() -
+                                   get_avatar().volume_carried() );
 
     const int item_volume = units::to_milliliter( it.volume() );
 
@@ -885,7 +885,7 @@ static int move_cost_cart( const item &it, const tripoint &src, const tripoint &
     const int MAX_COST = 500;
 
     // cost to move item into the cart
-    const int pickup_cost = pickup::cost_to_move_item( g->u, it );
+    const int pickup_cost = pickup::cost_to_move_item( get_avatar(), it );
 
     // cost to move item out of the cart
     const int drop_cost = pickup_cost;
@@ -908,8 +908,8 @@ static int move_cost_cart( const item &it, const tripoint &src, const tripoint &
 
 static int move_cost( const item &it, const tripoint &src, const tripoint &dest )
 {
-    if( g->u.get_grab_type() == OBJECT_VEHICLE ) {
-        tripoint cart_position = g->u.pos() + g->u.grab_point;
+    if( get_avatar().get_grab_type() == OBJECT_VEHICLE ) {
+        tripoint cart_position = get_avatar().pos() + get_avatar().grab_point;
 
         if( const std::optional<vpart_reference> vp = get_map().veh_at(
                     cart_position ).part_with_feature( "CARGO", false ) ) {
@@ -1373,7 +1373,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         // if the vehicle is moving or player is controlling it.
-        if( std::abs( veh->velocity ) > 100 || veh->player_in_control( g->u ) ) {
+        if( std::abs( veh->velocity ) > 100 || veh->player_in_control( get_avatar() ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         for( const npc &guy : g->all_npcs() ) {
@@ -1387,8 +1387,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             }
             // If their position or intended position or player position/intended position
             // then discount, don't need to move each other out of the way.
-            if( here.getlocal( g->u.activity->placement ) == src_loc ||
-                guy_work_spot == src_loc || guy.pos() == src_loc || ( p.is_npc() && g->u.pos() == src_loc ) ) {
+            if( here.getlocal( get_avatar().activity->placement ) == src_loc ||
+                guy_work_spot == src_loc || guy.pos() == src_loc || ( p.is_npc() && get_avatar().pos() == src_loc ) ) {
                 return activity_reason_info::fail( do_activity_reason::ALREADY_WORKING );
             }
             if( guy_work_spot != tripoint_zero ) {
@@ -1398,8 +1398,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     already_working_indexes.push_back( guy.activity_vehicle_part_index );
                 }
             }
-            if( g->u.activity_vehicle_part_index != -1 ) {
-                already_working_indexes.push_back( g->u.activity_vehicle_part_index );
+            if( get_avatar().activity_vehicle_part_index != -1 ) {
+                already_working_indexes.push_back( get_avatar().activity_vehicle_part_index );
             }
         }
         if( act == ACT_VEHICLE_DECONSTRUCTION ) {
@@ -3308,7 +3308,7 @@ bool find_auto_consume( player &p, const consume_type type )
     const auto dist = std::max( rl_dist( p.pos(), here.getlocal( current.loc ) ), 1 );
     p.mod_moves( -cost * dist );
 
-    avatar_action::eat( g->u, current.item_loc );
+    avatar_action::eat( get_avatar(), current.item_loc );
     // eat() may have removed the item, so check its still there.
     if( current.item_loc && current.item_loc->is_container() ) {
         current.item_loc->on_contents_changed();

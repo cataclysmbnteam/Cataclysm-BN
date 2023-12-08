@@ -376,11 +376,11 @@ void iexamine::translocator( player &, const tripoint &examp )
     avatar &player_character = get_avatar();
     const bool activated = player_character.translocators->knows_translocator( omt_loc );
     if( !activated ) {
-        g->u.translocators->activate_teleporter( omt_loc, examp );
+        get_avatar().translocators->activate_teleporter( omt_loc, examp );
         add_msg( m_info, _( "Translocator gate active." ) );
     } else {
         if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
-            g->u.translocators->deactivate_teleporter( omt_loc, examp );
+            get_avatar().translocators->deactivate_teleporter( omt_loc, examp );
         }
     }
 }
@@ -1093,7 +1093,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
             return;
         }
         p.moves += climb * 10;
-        sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume( g->u.pos() ) );
+        sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume( get_avatar().pos() ) );
     }
     if( p.in_vehicle ) {
         here.unboard_vehicle( p.pos() );
@@ -2214,7 +2214,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
 void iexamine::dirtmound( player &p, const tripoint &examp )
 {
 
-    if( !warm_enough_to_plant( g->u.pos() ) ) {
+    if( !warm_enough_to_plant( get_avatar().pos() ) ) {
         add_msg( m_info, _( "It is too cold to plant anything now." ) );
         return;
     }
@@ -3256,7 +3256,7 @@ void iexamine::keg( player &p, const tripoint &examp )
         drink->charges = 0;
         bool keg_full = false;
         for( int i = 0; i < charges_held && !keg_full; i++ ) {
-            g->u.use_charges( drink->typeId(), 1 );
+            get_avatar().use_charges( drink->typeId(), 1 );
             drink->charges++;
             keg_full = drink->volume() >= keg_cap;
         }
@@ -3577,8 +3577,8 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         }
 
         case REMOVE_CONTAINER: {
-            g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
-            std::vector<pickup::pick_drop_selection> { { container, std::nullopt, {} } }, g->u.pos() ) ) );
+            get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
+            std::vector<pickup::pick_drop_selection> { { container, std::nullopt, {} } }, get_avatar().pos() ) ) );
             return;
         }
 
@@ -3917,8 +3917,8 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             auto items = here.i_at( examp );
             for( auto &itm : items ) {
                 if( itm->type == cur_ammo ) {
-                    g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
-                    std::vector<pickup::pick_drop_selection> { { itm, std::nullopt, {} } }, g->u.pos() ) ) );
+                    get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
+                    std::vector<pickup::pick_drop_selection> { { itm, std::nullopt, {} } }, get_avatar().pos() ) ) );
                     return;
                 }
             }
@@ -4045,7 +4045,7 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     p.invoke_item( &fake_item );
 
     // HACK: Evil hack incoming
-    activity_handlers::repair_activity_hack::patch_activity_for_furniture( *g->u.activity, examp,
+    activity_handlers::repair_activity_hack::patch_activity_for_furniture( *get_avatar().activity, examp,
             cur_tool.get_id() );
 
     const int discharged_ammo = original_charges - fake_item.charges;
@@ -4258,7 +4258,7 @@ static int findBestGasDiscount( player &p )
 
 static std::string str_to_illiterate_str( std::string s )
 {
-    if( !g->u.has_trait( trait_ILLITERATE ) ) {
+    if( !get_avatar().has_trait( trait_ILLITERATE ) ) {
         return s;
     } else {
         for( auto &i : s ) {
@@ -4809,7 +4809,7 @@ static player &best_installer( player &p, player &null_player, int difficulty )
             player &ally = *g->critter_by_id<player>( e->getID() );
             int ally_cos = bionic_manip_cos( ally_skills[ i ].first, difficulty );
             if( e->has_effect( effect_sleep ) ) {
-                if( !g->u.query_yn(
+                if( !get_avatar().query_yn(
                         //~ %1$s is the name of the ally
                         _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ),
                         ally.disp_name(), ally_cos, player_cos ) ) {
@@ -5059,14 +5059,14 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                         bionic_to_uninstall->set_flag( flag_IN_CBM );
                         bionic_to_uninstall->set_flag( flag_NO_STERILE );
                         bionic_to_uninstall->set_flag( flag_NO_PACKED );
-                        g->u.i_add( std::move( bionic_to_uninstall ) );
+                        get_avatar().i_add( std::move( bionic_to_uninstall ) );
                     }
                 }
             }
 
             const item *bionic = game_menus::inv::uninstall_bionic( p, patient );
             if( !bionic ) {
-                g->u.remove_items_with( []( detached_ptr<item> &&it ) { // remove cbm items from inventory
+                get_avatar().remove_items_with( []( detached_ptr<item> &&it ) { // remove cbm items from inventory
                     if( it->has_flag( flag_IN_CBM ) ) {
                         detached_ptr<item> del = std::move( it ); //This acts as a delete
                     }
@@ -5078,7 +5078,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            g->u.remove_items_with( []( detached_ptr<item> &&it ) { // remove cbm items from inventory
+            get_avatar().remove_items_with( []( detached_ptr<item> &&it ) { // remove cbm items from inventory
                 if( it->has_flag( flag_IN_CBM ) ) {
                     detached_ptr<item> del = std::move( it ); //This acts as a delete
                 }
@@ -5654,7 +5654,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
     comps.emplace_back( what->typeId(), amount );
 
     // select from where to get the items from and place them
-    inv.form_from_map( g->u.pos(), PICKUP_RANGE, &g->u );
+    inv.form_from_map( get_avatar().pos(), PICKUP_RANGE, &get_avatar() );
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
@@ -5763,7 +5763,7 @@ static void mill_load_food( player &p, const tripoint &examp,
     comps.emplace_back( what->typeId(), amount );
 
     // select from where to get the items from and place them
-    inv.form_from_map( g->u.pos(), PICKUP_RANGE, &g->u );
+    inv.form_from_map( get_avatar().pos(), PICKUP_RANGE, &get_avatar() );
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
@@ -5787,7 +5787,7 @@ void iexamine::on_smoke_out( const tripoint &examp, const time_point &start_time
     map &here = get_map();
     if( here.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ||
         here.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" ) ) {
-        smoker_finalize( g->u, examp, start_time );
+        smoker_finalize( get_avatar(), examp, start_time );
     }
 }
 

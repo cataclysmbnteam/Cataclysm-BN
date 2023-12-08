@@ -51,7 +51,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     REQUIRE( item::spawn_temporary( container_id )->is_container() );
     REQUIRE( item::spawn_temporary( worn_id )->is_container() );
 
-    player &p = g->u;
+    player &p = get_avatar();
     p.worn.clear();
     p.inv_clear();
     p.remove_primary_weapon();

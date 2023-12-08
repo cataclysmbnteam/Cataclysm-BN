@@ -646,7 +646,7 @@ class item : public location_visitable<item>, public game_object<item>
          */
         double effective_dps( const player &guy, const monster &mon ) const;
         /**
-         * calculate effective dps against a stock set of monsters.  by default, assume g->u
+         * calculate effective dps against a stock set of monsters.  by default, assume get_avatar()
          * is wielding
         * for_display - include monsters intended for display purposes
          * for_calc - include monsters intended for evaluation purposes

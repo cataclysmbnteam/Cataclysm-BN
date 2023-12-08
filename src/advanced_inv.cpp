@@ -119,7 +119,7 @@ advanced_inventory::~advanced_inventory()
     }
     // Only refresh if we exited manually, otherwise we're going to be right back
     if( exit ) {
-        g->u.check_item_encumbrance_flag();
+        get_avatar().check_item_encumbrance_flag();
     }
 }
 
@@ -223,10 +223,10 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
 
     //print inventory's current and total weight + volume
     if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN ) {
-        const double weight_carried = convert_weight( g->u.weight_carried() );
-        const double weight_capacity = convert_weight( g->u.weight_capacity() );
-        std::string volume_carried = format_volume( g->u.volume_carried() );
-        std::string volume_capacity = format_volume( g->u.volume_capacity() );
+        const double weight_carried = convert_weight( get_avatar().weight_carried() );
+        const double weight_capacity = convert_weight( get_avatar().weight_capacity() );
+        std::string volume_carried = format_volume( get_avatar().volume_carried() );
+        std::string volume_capacity = format_volume( get_avatar().volume_capacity() );
         // align right, so calculate formatted head length
         const std::string formatted_head = string_format( "%.1f/%.1f %s  %s/%s %s",
                                            weight_carried, weight_capacity, weight_units(),
@@ -237,7 +237,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         nc_color color = weight_carried > weight_capacity ? c_red : c_light_green;
         mvwprintz( window, point( hrightcol, 4 ), color, "%.1f", weight_carried );
         wprintz( window, c_light_gray, "/%.1f %s  ", weight_capacity, weight_units() );
-        color = g->u.volume_carried().value() > g->u.volume_capacity().value() ? c_red : c_light_green;
+        color = get_avatar().volume_carried().value() > get_avatar().volume_capacity().value() ? c_red : c_light_green;
         wprintz( window, color, volume_carried );
         wprintz( window, c_light_gray, "/%s %s", volume_capacity, volume_units_abbr() );
     } else {
@@ -327,7 +327,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         std::string item_name;
         std::string stolen_string;
         bool stolen = false;
-        if( !it.is_owned_by( g->u, true ) ) {
+        if( !it.is_owned_by( get_avatar(), true ) ) {
             stolen_string = "<color_light_red>!</color>";
             stolen = true;
         }
@@ -780,7 +780,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
         // restore the pane to its former glory
         panes[src] = shadow;
         // make it auto loop back, if not already doing so
-        if( !done && !g->u.activity ) {
+        if( !done && !get_avatar().activity ) {
             do_return_entry();
         }
         return true;
@@ -844,8 +844,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
         drop_locations dropped_favorite;
 
         if( spane.get_area() == AIM_INVENTORY ) {
-            for( size_t index = 0; index < g->u.inv_size(); ++index ) {
-                const std::vector<item *> &stack = g->u.inv_const_stack( index );
+            for( size_t index = 0; index < get_avatar().inv_size(); ++index ) {
+                const std::vector<item *> &stack = get_avatar().inv_const_stack( index );
                 item *const &it = stack.front();
 
                 if( !spane.is_filtered( *it ) ) {
@@ -864,11 +864,11 @@ bool advanced_inventory::move_all_items( bool nested_call )
             }
         } else if( spane.get_area() == AIM_WORN ) {
             // do this in reverse, to account for vector item removal messing with future indices
-            auto iter = g->u.worn.rbegin();
-            for( size_t idx = 0; idx < g->u.worn.size(); ++idx, ++iter ) {
+            auto iter = get_avatar().worn.rbegin();
+            for( size_t idx = 0; idx < get_avatar().worn.size(); ++idx, ++iter ) {
                 item &it = **iter;
 
-                if( !g->u.can_takeoff( it ).success() ) {
+                if( !get_avatar().can_takeoff( it ).success() ) {
                     continue;
                 }
 
@@ -888,7 +888,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
             dropped = dropped_favorite;
         }
 
-        g->u.drop( dropped, g->u.pos() + darea.off );
+        get_avatar().drop( dropped, get_avatar().pos() + darea.off );
     } else {
         if( dpane.get_area() == AIM_WORN ) {
             // TODO: Start ACT_WEAR in this case
@@ -948,12 +948,12 @@ bool advanced_inventory::move_all_items( bool nested_call )
             if( dpane.get_area() == AIM_INVENTORY ) {
                 std::vector<pickup::pick_drop_selection> targets = pickup::optimize_pickup( target_items,
                         quantities );
-                g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
+                get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
                                           targets,
-                                          panes[src].in_vehicle() ? std::nullopt : std::optional<tripoint>( g->u.pos() )
+                                          panes[src].in_vehicle() ? std::nullopt : std::optional<tripoint>( get_avatar().pos() )
                                       ) ) );
             } else {
-                g->u.assign_activity( std::make_unique<player_activity>
+                get_avatar().assign_activity( std::make_unique<player_activity>
                                       ( std::make_unique<move_items_activity_actor>(
                                             target_items,
                                             quantities,
@@ -1059,7 +1059,7 @@ void advanced_inventory::redraw_sidebar()
         right_print( head, 0, +3, c_white, string_format(
                          _( "< [<color_yellow>%s</color>] keybindings >" ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
-        if( g->u.has_watch() ) {
+        if( get_avatar().has_watch() ) {
             const std::string time = to_string_time_of_day( calendar::turn );
             mvwprintz( head, point( 2, 0 ), c_white, time );
         }
@@ -1127,16 +1127,16 @@ void advanced_inventory::start_activity( const aim_location destarea,
     const bool by_charges = sitem->items.front()->count_by_charges();
 
     if( destarea == AIM_WORN ) {
-        g->u.assign_activity( ACT_WEAR );
+        get_avatar().assign_activity( ACT_WEAR );
 
         if( by_charges ) {
-            g->u.activity->targets.emplace_back( sitem->items.front() );
-            g->u.activity->values.push_back( amount_to_move );
+            get_avatar().activity->targets.emplace_back( sitem->items.front() );
+            get_avatar().activity->values.push_back( amount_to_move );
         } else {
             for( std::list<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
                  it != sitem->items.end(); ++it ) {
-                g->u.activity->targets.emplace_back( *it );
-                g->u.activity->values.push_back( 0 );
+                get_avatar().activity->targets.emplace_back( *it );
+                get_avatar().activity->values.push_back( 0 );
                 --amount_to_move;
             }
         }
@@ -1159,15 +1159,15 @@ void advanced_inventory::start_activity( const aim_location destarea,
         if( destarea == AIM_INVENTORY ) {
             std::vector<pickup::pick_drop_selection> targets = pickup::optimize_pickup( target_items,
                     quantities );
-            g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
+            get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
                                       targets,
-                                      from_vehicle ? std::nullopt : std::optional<tripoint>( g->u.pos() )
+                                      from_vehicle ? std::nullopt : std::optional<tripoint>( get_avatar().pos() )
                                   ) ) );
         } else {
             // Stash the destination
             const tripoint relative_destination = squares[destarea].off;
 
-            g->u.assign_activity( std::make_unique<player_activity>
+            get_avatar().assign_activity( std::make_unique<player_activity>
                                   ( std::make_unique<move_items_activity_actor>(
                                         target_items,
                                         quantities,
@@ -1227,16 +1227,16 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         do_return_entry();
 
         if( destarea == AIM_WORN ) {
-            g->u.assign_activity( ACT_WEAR );
+            get_avatar().assign_activity( ACT_WEAR );
 
-            g->u.activity->targets.emplace_back( sitem->items.front() );
-            g->u.activity->values.push_back( amount_to_move );
+            get_avatar().activity->targets.emplace_back( sitem->items.front() );
+            get_avatar().activity->values.push_back( amount_to_move );
         } else {
-            item *itm = &g->u.i_at( sitem->idx );
+            item *itm = &get_avatar().i_at( sitem->idx );
 
             drop_locations to_move = { drop_location( *itm, amount_to_move ) };
-            g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<drop_activity_actor>
-                                  ( g->u, to_move,
+            get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<drop_activity_actor>
+                                  ( get_avatar(), to_move,
                                     !to_vehicle, squares[destarea].off ) ) );
         }
         // exit so that the activity can be carried out
@@ -1250,15 +1250,15 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         // worn items are never stacked, so this should check out
         assert( sitem->items.size() == 1 );
         item *itm = sitem->items.front();
-        ret_val<bool> takeoff_rv = g->u.can_takeoff( *itm );
+        ret_val<bool> takeoff_rv = get_avatar().can_takeoff( *itm );
         if( !takeoff_rv.success() ) {
             add_msg( m_info, "%s", takeoff_rv.c_str() );
         } else if( destarea == AIM_INVENTORY ) {
-            g->u.takeoff( *itm );
+            get_avatar().takeoff( *itm );
         } else {
             drop_locations to_move = { drop_location( *itm, amount_to_move ) };
-            g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<drop_activity_actor>
-                                  ( g->u, to_move,
+            get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<drop_activity_actor>
+                                  ( get_avatar(), to_move,
                                     !to_vehicle, squares[destarea].off ) ) );
         }
         // exit so that the activity can be carried out
@@ -1294,7 +1294,7 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         int idx = spane.get_area() == AIM_INVENTORY ? sitem->idx :
                   player::worn_position_to_index( sitem->idx );
-        item *loc = &g->u.i_at( idx );
+        item *loc = &get_avatar().i_at( idx );
         // Setup a "return to AIM" activity. If examining the item creates a new activity
         // (e.g. reading, reloading, activating), the new activity will be put on top of
         // "return to AIM". Once the new activity is finished, "return to AIM" comes back
@@ -1302,20 +1302,20 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         // If examining the item did not create a new activity, we have to remove
         // "return to AIM".
         do_return_entry();
-        assert( g->u.has_activity( ACT_ADV_INVENTORY ) );
+        assert( get_avatar().has_activity( ACT_ADV_INVENTORY ) );
 
         examine_item_menu::run( *loc, info_startx, info_width,
                                 src == advanced_inventory::side::left ?
                                 examine_item_menu::menu_pos_t::left :
                                 examine_item_menu::menu_pos_t::right );
-        if( !g->u.has_activity( ACT_ADV_INVENTORY ) ) {
+        if( !get_avatar().has_activity( ACT_ADV_INVENTORY ) ) {
             exit = true;
         } else {
-            g->u.cancel_activity();
+            get_avatar().cancel_activity();
         }
         // Might have changed a stack (activated an item, repaired an item, etc.)
         if( spane.get_area() == AIM_INVENTORY ) {
-            g->u.inv_restack( );
+            get_avatar().inv_restack( );
         }
         recalc = true;
     } else {
@@ -1341,7 +1341,7 @@ void advanced_inventory::display()
 {
     init();
 
-    g->u.inv_restack( );
+    get_avatar().inv_restack( );
 
     input_context ctxt{ register_ctxt() };
 
@@ -1404,7 +1404,7 @@ void advanced_inventory::display()
     }
 
     while( !exit ) {
-        if( g->u.moves < 0 ) {
+        if( get_avatar().moves < 0 ) {
             do_return_entry();
             return;
         }
@@ -1745,8 +1745,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY  || destarea == AIM_WORN ) {
         const units::mass unitweight = it.weight() / ( by_charges ? it.charges : 1 );
-        const units::mass max_weight = g->u.has_trait( trait_DEBUG_STORAGE ) ?
-                                       units::mass_max : g->u.weight_capacity() * 4 - g->u.weight_carried();
+        const units::mass max_weight = get_avatar().has_trait( trait_DEBUG_STORAGE ) ?
+                                       units::mass_max : get_avatar().weight_capacity() * 4 - get_avatar().weight_carried();
         if( unitweight > 0_gram && unitweight * amount > max_weight ) {
             const int weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {
@@ -1760,7 +1760,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     if( destarea == AIM_WORN ) {
         const auto &id = sitem.items.front()->typeId();
         // how many slots are available for the item?
-        const int slots_available = MAX_WORN_PER_TYPE - g->u.amount_worn( id );
+        const int slots_available = MAX_WORN_PER_TYPE - get_avatar().amount_worn( id );
         // base the amount to equip on amount of slots available
         amount = std::min( slots_available, input_amount );
     }
@@ -1825,7 +1825,7 @@ void advanced_inventory::draw_minimap()
     // get the center of the window
     tripoint pc = {getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0};
     // draw the 3x3 tiles centered around player
-    get_map().draw( minimap, g->u.pos() );
+    get_map().draw( minimap, get_avatar().pos() );
     for( auto s : sides ) {
         char sym = get_minimap_sym( s );
         if( sym == '\0' ) {
@@ -1851,7 +1851,7 @@ void advanced_inventory::draw_minimap()
     }
 
     if( !invert_left || !invert_right ) {
-        g->u.draw( minimap, g->u.pos(), invert_left || invert_right );
+        get_avatar().draw( minimap, get_avatar().pos(), invert_left || invert_right );
     }
 }
 
@@ -1898,8 +1898,8 @@ void advanced_inventory::do_return_entry()
 {
     // only save pane settings
     save_settings( true );
-    g->u.assign_activity( ACT_ADV_INVENTORY );
-    g->u.activity->auto_resume = true;
+    get_avatar().assign_activity( ACT_ADV_INVENTORY );
+    get_avatar().activity->auto_resume = true;
     save_state->exit_code = exit_re_entry;
 }
 

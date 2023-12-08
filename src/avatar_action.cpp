@@ -880,8 +880,8 @@ void avatar_action::eat( avatar &you, item *loc )
             add_msg( _( "You leave the empty %s." ), loc->tname() );
         }
     }
-    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    if( get_avatar().get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        get_avatar().set_value( "THIEF_MODE", "THIEF_ASK" );
     }
 }
 

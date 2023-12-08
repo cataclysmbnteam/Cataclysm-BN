@@ -39,7 +39,7 @@ static const skill_id skill_survival( "survival" );
 TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 {
     clear_all_state();
-    g->u.clear_mutations();
+    get_avatar().clear_mutations();
 
     GIVEN( "food with hidden poison" ) {
         item &coffee = *item::spawn_temporary( "coffee_pod" );
@@ -47,8 +47,8 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
         REQUIRE( coffee.has_flag( flag_HIDDEN_POISON ) );
 
         WHEN( "avatar has level 2 survival skill" ) {
-            g->u.set_skill_level( skill_survival, 2 );
-            REQUIRE( g->u.get_skill_level( skill_survival ) == 2 );
+            get_avatar().set_skill_level( skill_survival, 2 );
+            REQUIRE( get_avatar().get_skill_level( skill_survival ) == 2 );
 
             THEN( "they cannot see it is poisonous" ) {
                 CHECK( coffee.tname() == "Kentucky coffee pod" );
@@ -56,8 +56,8 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
         }
 
         WHEN( "avatar has level 3 survival skill" ) {
-            g->u.set_skill_level( skill_survival, 3 );
-            REQUIRE( g->u.get_skill_level( skill_survival ) == 3 );
+            get_avatar().set_skill_level( skill_survival, 3 );
+            REQUIRE( get_avatar().get_skill_level( skill_survival ) == 3 );
 
             THEN( "they see it is poisonous" ) {
                 CHECK( coffee.tname() == "Kentucky coffee pod (poisonous)" );
@@ -72,8 +72,8 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
         REQUIRE( mushroom.has_flag( flag_HIDDEN_HALLU ) );
 
         WHEN( "avatar has level 4 survival skill" ) {
-            g->u.set_skill_level( skill_survival, 4 );
-            REQUIRE( g->u.get_skill_level( skill_survival ) == 4 );
+            get_avatar().set_skill_level( skill_survival, 4 );
+            REQUIRE( get_avatar().get_skill_level( skill_survival ) == 4 );
 
             THEN( "they cannot see it is hallucinogenic" ) {
                 CHECK( mushroom.tname() == "mushroom (fresh)" );
@@ -81,8 +81,8 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
         }
 
         WHEN( "avatar has level 5 survival skill" ) {
-            g->u.set_skill_level( skill_survival, 5 );
-            REQUIRE( g->u.get_skill_level( skill_survival ) == 5 );
+            get_avatar().set_skill_level( skill_survival, 5 );
+            REQUIRE( get_avatar().get_skill_level( skill_survival ) == 5 );
 
             THEN( "they see it is hallucinogenic" ) {
                 CHECK( mushroom.tname() == "mushroom (hallucinogenic) (fresh)" );
@@ -255,7 +255,7 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
         item &gun = *item::spawn_temporary( "hk_mp5" );
 
         // Ensure the player and gun are normal size to prevent "too big" or "too small" suffix in tname
-        g->u.clear_mutations();
+        get_avatar().clear_mutations();
         REQUIRE( gun.get_sizing( g-> u ) == item::sizing::ignore );
         REQUIRE_FALSE( gun.has_flag( flag_OVERSIZE ) );
         REQUIRE_FALSE( gun.has_flag( flag_UNDERSIZE ) );

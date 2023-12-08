@@ -298,23 +298,23 @@ static void prep_craft( const recipe_id &rid, std::vector<detached_ptr<item>> &t
 {
     clear_avatar();
     const tripoint test_origin( 60, 60, 0 );
-    g->u.setpos( test_origin );
-    g->u.wear_item( item::spawn( "backpack" ), false );
+    get_avatar().setpos( test_origin );
+    get_avatar().wear_item( item::spawn( "backpack" ), false );
     for( detached_ptr<item> &gear : tools ) {
-        g->u.i_add( std::move( gear ) );
+        get_avatar().i_add( std::move( gear ) );
     }
 
     const recipe &r = rid.obj();
 
     // Ensure adequate skill for all "required" skills
     for( const std::pair<const skill_id, int> &skl : r.required_skills ) {
-        g->u.set_skill_level( skl.first, skl.second );
+        get_avatar().set_skill_level( skl.first, skl.second );
     }
     // and just in case "used" skill difficulty is higher, set that too
-    g->u.set_skill_level( r.skill_used, std::max( r.difficulty,
-                          g->u.get_skill_level( r.skill_used ) ) );
+    get_avatar().set_skill_level( r.skill_used, std::max( r.difficulty,
+                          get_avatar().get_skill_level( r.skill_used ) ) );
 
-    const inventory &crafting_inv = g->u.crafting_inventory();
+    const inventory &crafting_inv = get_avatar().crafting_inventory();
     bool can_craft = r.deduped_requirements().can_make_with_inventory(
                          crafting_inv, r.get_component_filter() );
     REQUIRE( can_craft == expect_craftable );
@@ -535,21 +535,21 @@ static void verify_inventory( const std::vector<std::string> &has,
 {
     std::ostringstream os;
     os << "Inventory:\n";
-    for( const item *i : g->u.inv_dump() ) {
+    for( const item *i : get_avatar().inv_dump() ) {
         os << "  " << i->typeId().str() << " (" << i->charges << ")\n";
     }
-    os << "Wielded:\n" << g->u.primary_weapon().tname() << "\n";
+    os << "Wielded:\n" << get_avatar().primary_weapon().tname() << "\n";
     INFO( os.str() );
     for( const std::string &i : has ) {
         INFO( "expecting " << i );
         const bool has_item =
-            player_has_item_of_type( i ) || g->u.primary_weapon().type->get_id() == itype_id( i );
+            player_has_item_of_type( i ) || get_avatar().primary_weapon().type->get_id() == itype_id( i );
         REQUIRE( has_item );
     }
     for( const std::string &i : hasnt ) {
         INFO( "not expecting " << i );
         const bool hasnt_item =
-            !player_has_item_of_type( i ) && !( g->u.primary_weapon().type->get_id() == itype_id( i ) );
+            !player_has_item_of_type( i ) && !( get_avatar().primary_weapon().type->get_id() == itype_id( i ) );
         REQUIRE( hasnt_item );
     }
 }

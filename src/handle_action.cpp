@@ -398,7 +398,7 @@ input_context game::get_player_input( std::string &action )
 
 inline static void rcdrive( point d )
 {
-    player &u = g->u;
+    player &u = get_avatar();
     map &here = get_map();
     std::string car_location_string = u.get_value( "remote_controlling" );
 
@@ -451,7 +451,7 @@ static void pldrive( const tripoint &p )
     if( !g->check_safe_mode_allowed() ) {
         return;
     }
-    player &u = g->u;
+    player &u = get_avatar();
     vehicle *veh = g->remoteveh();
     bool remote = true;
     int part = -1;
@@ -516,7 +516,7 @@ inline static void pldrive( point d )
 
 static void open()
 {
-    player &u = g->u;
+    player &u = get_avatar();
     const std::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
                                            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
                                            ACTION_OPEN, false );
@@ -597,14 +597,14 @@ static void close()
     if( const std::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
                                             pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
                                             ACTION_CLOSE, false ) ) {
-        doors::close_door( get_map(), g->u, *pnt );
+        doors::close_door( get_map(), get_avatar(), *pnt );
     }
 }
 
 // Establish or release a grab on a vehicle
 static void grab()
 {
-    avatar &you = g->u;
+    avatar &you = get_avatar();
     map &here = get_map();
 
     if( you.get_grab_type() != OBJECT_NONE ) {
@@ -654,7 +654,7 @@ static void grab()
 
 static void haul()
 {
-    player &u = g->u;
+    player &u = get_avatar();
     map &here = get_map();
 
     if( u.is_hauling() ) {
@@ -676,7 +676,7 @@ static void haul()
 
 static void smash()
 {
-    player &u = g->u;
+    player &u = get_avatar();
     map &here = get_map();
     if( u.is_mounted() ) {
         auto mons = u.mounted_creature.get();
@@ -853,7 +853,7 @@ static void smash()
 static int try_set_alarm()
 {
     uilist as_m;
-    const bool already_set = g->u.has_effect( effect_alarm_clock );
+    const bool already_set = get_avatar().has_effect( effect_alarm_clock );
 
     as_m.text = already_set ?
                 _( "You already have an alarm set.  What do you want to do?" ) :
@@ -874,7 +874,7 @@ static void wait()
 {
     std::map<int, time_duration> durations;
     uilist as_m;
-    player &u = g->u;
+    player &u = get_avatar();
     bool setting_alarm = false;
     map &here = get_map();
 
@@ -917,7 +917,7 @@ static void wait()
         }
 
     } else {
-        if( g->u.get_stamina() < g->u.get_stamina_max() ) {
+        if( get_avatar().get_stamina() < get_avatar().get_stamina_max() ) {
             as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
             durations.emplace( 12, 15_minutes ); // to hide it from showing
         }
@@ -1096,7 +1096,7 @@ static void sleep()
 
     time_duration try_sleep_dur = 24_hours;
     std::string deaf_text;
-    if( g->u.is_deaf() ) {
+    if( get_avatar().is_deaf() ) {
         deaf_text = _( "<color_c_red> (DEAF!)</color>" );
     }
     if( u.has_alarm_clock() ) {
@@ -1148,7 +1148,7 @@ static void loot()
         MultiMining = 8192
     };
 
-    player &u = g->u;
+    player &u = get_avatar();
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
     const bool has_fertilizer = u.has_item_with_flag( flag_FERTILIZER );
@@ -1274,7 +1274,7 @@ static void loot()
 
 static void wear()
 {
-    avatar &u = g->u;
+    avatar &u = get_avatar();
     item *loc = game_menus::inv::wear( u );
 
     if( loc ) {
@@ -1287,7 +1287,7 @@ static void wear()
 
 static void takeoff()
 {
-    avatar &u = g->u;
+    avatar &u = get_avatar();
     item *loc = game_menus::inv::take_off( u );
 
     if( loc ) {
@@ -1300,7 +1300,7 @@ static void takeoff()
 
 static void read()
 {
-    avatar &u = g->u;
+    avatar &u = get_avatar();
     // Can read items from inventory or within one tile (including in vehicles)
     item *loc = game_menus::inv::read( u );
 
@@ -1331,7 +1331,7 @@ static void reach_attack( avatar &you )
 
 static void fire()
 {
-    avatar &u = g->u;
+    avatar &u = get_avatar();
     map &here = get_map();
 
     // Use vehicle turret or draw a pistol from a holster if unarmed
@@ -1400,7 +1400,7 @@ static void fire()
 
 static void open_movement_mode_menu()
 {
-    avatar &u = g->u;
+    avatar &u = get_avatar();
     uilist as_m;
 
     as_m.text = _( "Change to which movement mode?" );
@@ -1423,7 +1423,7 @@ static void open_movement_mode_menu()
 
 static void cast_spell()
 {
-    player &u = g->u;
+    player &u = get_avatar();
 
     std::vector<spell_id> spells = u.magic->spells();
 
@@ -2078,11 +2078,11 @@ bool game::handle_action()
                 break;
 
             case ACTION_MEND:
-                avatar_action::mend( g->u, nullptr );
+                avatar_action::mend( get_avatar(), nullptr );
                 break;
 
             case ACTION_THROW: {
-                avatar_action::plthrow( g->u, nullptr );
+                avatar_action::plthrow( get_avatar(), nullptr );
                 break;
             }
 
@@ -2442,24 +2442,24 @@ bool game::handle_action()
                 break;
 
             case ACTION_TOGGLE_THIEF_MODE:
-                if( g->u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+                if( get_avatar().get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
                     u.set_value( "THIEF_MODE", "THIEF_HONEST" );
                     u.set_value( "THIEF_MODE_KEEP", "YES" );
                     //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                     add_msg( _( "You will not pick up other peoples belongings." ) );
-                } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+                } else if( get_avatar().get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
                     u.set_value( "THIEF_MODE", "THIEF_STEAL" );
                     u.set_value( "THIEF_MODE_KEEP", "YES" );
                     //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                     add_msg( _( "You will pick up also those things that belong to others!" ) );
-                } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_STEAL" ) {
+                } else if( get_avatar().get_value( "THIEF_MODE" ) == "THIEF_STEAL" ) {
                     u.set_value( "THIEF_MODE", "THIEF_ASK" );
                     u.set_value( "THIEF_MODE_KEEP", "NO" );
                     //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                     add_msg( _( "You will be reminded not to steal." ) );
                 } else {
                     // ERROR
-                    add_msg( _( "THIEF_MODE CONTAINED BAD VALUE [ %s ]!" ), g->u.get_value( "THIEF_MODE" ) );
+                    add_msg( _( "THIEF_MODE CONTAINED BAD VALUE [ %s ]!" ), get_avatar().get_value( "THIEF_MODE" ) );
                 }
                 break;
 

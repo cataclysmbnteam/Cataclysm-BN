@@ -552,8 +552,8 @@ void Character::hardcoded_effects( effect &it )
             if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
                 add_msg( m_warning, _( "You start scratching your %s!" ), body_part_name_accusative( bp ) );
-                g->u.cancel_activity();
-            } else if( g->u.sees( pos() ) ) {
+                get_avatar().cancel_activity();
+            } else if( get_avatar().sees( pos() ) ) {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
                 add_msg( _( "%1$s starts scratching their %2$s!" ), name, body_part_name_accusative( bp ) );
             }
@@ -735,7 +735,7 @@ void Character::hardcoded_effects( effect &it )
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                            GROUP_NETHER );
                     g->place_critter_at( spawn_details.name, dest );
-                    if( g->u.sees( dest ) ) {
+                    if( get_avatar().sees( dest ) ) {
                         g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                             _( "A monster appears nearby!" ) );
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );

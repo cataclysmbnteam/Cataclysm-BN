@@ -57,8 +57,8 @@ TEST_CASE( "memorials" )
     m.clear();
     event_bus &b = g->events();
 
-    character_id ch = g->u.getID();
-    std::string u_name = g->u.name;
+    character_id ch = get_avatar().getID();
+    std::string u_name = get_avatar().name;
     character_id ch2 = character_id( ch.get_value() + 1 );
     mutagen_technique mutagen = mutagen_technique::injected_purifier;
     mtype_id mon( "mon_zombie_kevlar_2" );

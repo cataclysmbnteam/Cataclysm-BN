@@ -1552,7 +1552,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         clear_window_area( w );
         tilecontext->draw_minimap(
             point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-            tripoint( g->u.pos().xy(), g->ter_view_p.z ),
+            tripoint( get_avatar().pos().xy(), g->ter_view_p.z ),
             win->width * font->width, win->height * font->height );
         update = true;
 
@@ -1982,7 +1982,7 @@ input_context touch_input_context;
 
 std::string get_quick_shortcut_name( const std::string &category )
 {
-    if( category == "DEFAULTMODE" && g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), g->u.pos() ) &&
+    if( category == "DEFAULTMODE" && g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), get_avatar().pos() ) &&
         get_option<bool>( "ANDROID_SHORTCUT_ZONE" ) ) {
         return "DEFAULTMODE____SHORTCUTS";
     }
@@ -2240,10 +2240,10 @@ void remove_stale_inventory_quick_shortcuts()
             valid = inv_chars.valid( key );
             in_inventory = false;
             if( valid ) {
-                in_inventory = g->u.inv_invlet_to_position( key ) != INT_MIN;
+                in_inventory = get_avatar().inv_invlet_to_position( key ) != INT_MIN;
                 if( !in_inventory ) {
                     // We couldn't find this item in the inventory, let's check worn items
-                    for( const auto &item : g->u.worn ) {
+                    for( const auto &item : get_avatar().worn ) {
                         if( item->invlet == key ) {
                             in_inventory = true;
                             break;
@@ -2252,7 +2252,7 @@ void remove_stale_inventory_quick_shortcuts()
                 }
                 if( !in_inventory ) {
                     // We couldn't find it in worn items either, check weapon held
-                    if( g->u.primary_weapon().invlet == key ) {
+                    if( get_avatar().primary_weapon().invlet == key ) {
                         in_inventory = true;
                     }
                 }
@@ -2373,10 +2373,10 @@ void draw_quick_shortcuts()
         if( show_hint ) {
             if( touch_input_context.get_category() == "INVENTORY" && inv_chars.valid( key ) ) {
                 // Special case for inventory items - show the inventory item name as help text
-                hint_text = g->u.inv_find_item( g->u.inv_invlet_to_position( key ) ).display_name();
+                hint_text = get_avatar().inv_find_item( get_avatar().inv_invlet_to_position( key ) ).display_name();
                 if( hint_text == "none" ) {
                     // We couldn't find this item in the inventory, let's check worn items
-                    for( const auto &item : g->u.worn ) {
+                    for( const auto &item : get_avatar().worn ) {
                         if( item->invlet == key ) {
                             hint_text = item->display_name();
                             break;
@@ -2385,8 +2385,8 @@ void draw_quick_shortcuts()
                 }
                 if( hint_text == "none" ) {
                     // We couldn't find it in worn items either, must be weapon held
-                    if( g->u.primary_weapon().invlet == key ) {
-                        hint_text = g->u.primary_weapon().display_name();
+                    if( get_avatar().primary_weapon().invlet == key ) {
+                        hint_text = get_avatar().primary_weapon().display_name();
                     }
                 }
             } else {
@@ -2760,24 +2760,24 @@ static void CheckMessages()
                 std::set<action_id> actions_remove;
 
                 // Check if we're in a potential combat situation, if so, sort a few actions to the top.
-                if( !g->u.get_hostile_creatures( 60 ).empty() ) {
+                if( !get_avatar().get_hostile_creatures( 60 ).empty() ) {
                     // Only prioritize movement options if we're not driving.
-                    if( !g->u.controlling_vehicle ) {
+                    if( !get_avatar().controlling_vehicle ) {
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( g->u.primary_weapon().is_gun() ||
-                        g->u.primary_weapon().has_flag( STATIC( flag_id( "REACH_ATTACK" ) ) ) ) {
+                    if( get_avatar().primary_weapon().is_gun() ||
+                        get_avatar().primary_weapon().has_flag( STATIC( flag_id( "REACH_ATTACK" ) ) ) ) {
                         actions.insert( ACTION_FIRE );
                     }
                 }
 
                 // If we're already running, make it simple to toggle running to off.
-                if( g->u.movement_mode_is( CMM_RUN ) ) {
+                if( get_avatar().movement_mode_is( CMM_RUN ) ) {
                     actions.insert( ACTION_TOGGLE_RUN );
                 }
                 // If we're already crouching, make it simple to toggle crouching to off.
-                if( g->u.movement_mode_is( CMM_CROUCH ) ) {
+                if( get_avatar().movement_mode_is( CMM_CROUCH ) ) {
                     actions.insert( ACTION_TOGGLE_CROUCH );
                 }
 
@@ -2791,9 +2791,9 @@ static void CheckMessages()
                 // display that action at the top of the list.
                 for( int dx = -1; dx <= 1; dx++ ) {
                     for( int dy = -1; dy <= 1; dy++ ) {
-                        int x = g->u.posx() + dx;
-                        int y = g->u.posy() + dy;
-                        int z = g->u.posz();
+                        int x = get_avatar().posx() + dx;
+                        int y = get_avatar().posy() + dy;
+                        int z = get_avatar().posz();
                         const tripoint pos( x, y, z );
 
                         // Check if we're near a vehicle, if so, vehicle controls should be top.
@@ -2890,13 +2890,13 @@ static void CheckMessages()
                 }
 
                 // Check if we're significantly hungry or thirsty - if so, add eat
-                if( g->u.max_stored_kcal() - g->u.get_stored_kcal() > 1000 ||
-                    g->u.get_thirst() > thirst_levels::thirsty ) {
+                if( get_avatar().max_stored_kcal() - get_avatar().get_stored_kcal() > 1000 ||
+                    get_avatar().get_thirst() > thirst_levels::thirsty ) {
                     actions.insert( ACTION_EAT );
                 }
 
                 // Check if we're dead tired - if so, add sleep
-                if( g->u.get_fatigue() > fatigue_levels::dead_tired ) {
+                if( get_avatar().get_fatigue() > fatigue_levels::dead_tired ) {
                     actions.insert( ACTION_SLEEP );
                 }
 

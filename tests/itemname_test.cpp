@@ -15,7 +15,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 {
     clear_all_state();
     GIVEN( "player is a normal size" ) {
-        g->u.clear_mutations();
+        get_avatar().clear_mutations();
 
         WHEN( "the item is a normal size" ) {
             std::string name = item::spawn_temporary( "bookplate" )->display_name();
@@ -38,7 +38,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
-                const item::sizing sizing_level = i.get_sizing( g->u );
+                const item::sizing sizing_level = i.get_sizing( get_avatar() );
                 CHECK( sizing_level == item::sizing::small_sized_human_char );
             }
 
@@ -50,8 +50,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
     }
 
     GIVEN( "player is a huge size" ) {
-        g->u.clear_mutations();
-        g->u.toggle_trait( trait_id( "HUGE_OK" ) );
+        get_avatar().clear_mutations();
+        get_avatar().toggle_trait( trait_id( "HUGE_OK" ) );
 
         WHEN( "the item is a normal size" ) {
             std::string name = item::spawn_temporary( "bookplate" )->display_name();
@@ -74,7 +74,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
-                const item::sizing sizing_level = i.get_sizing( g->u );
+                const item::sizing sizing_level = i.get_sizing( get_avatar() );
                 CHECK( sizing_level == item::sizing::small_sized_big_char );
             }
 
@@ -86,8 +86,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
     }
 
     GIVEN( "player is a small size" ) {
-        g->u.clear_mutations();
-        g->u.toggle_trait( trait_id( "SMALL_OK" ) );
+        get_avatar().clear_mutations();
+        get_avatar().toggle_trait( trait_id( "SMALL_OK" ) );
 
         WHEN( "the item is a normal size" ) {
             std::string name = item::spawn_temporary( "bookplate" )->display_name();
@@ -110,7 +110,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
-                const item::sizing sizing_level = i.get_sizing( g->u );
+                const item::sizing sizing_level = i.get_sizing( get_avatar() );
                 CHECK( sizing_level == item::sizing::small_sized_small_char );
             }
 

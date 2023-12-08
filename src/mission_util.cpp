@@ -59,7 +59,7 @@ static void reveal_target( mission *miss, const std::string &omter_id )
                  oter->get_name() );
         miss->set_target( destination );
         if( one_in( 3 ) &&
-            mission_util::reveal_road( g->u.global_omt_location(), destination, overmap_buffer ) ) {
+            mission_util::reveal_road( get_avatar().global_omt_location(), destination, overmap_buffer ) ) {
             add_msg( _( "%s also marks the road that leads to it…" ), p->name );
         }
     }
@@ -124,7 +124,7 @@ tripoint_abs_omt mission_util::random_house_in_closest_city()
     const city_reference cref = overmap_buffer.closest_city( center );
     if( !cref ) {
         debugmsg( "could not find closest city" );
-        return g->u.global_omt_location();
+        return get_avatar().global_omt_location();
     }
     return random_house_in_city( cref );
 }
@@ -330,12 +330,12 @@ tripoint_abs_omt mission_util::target_om_ter_random( const std::string &omter, i
         mission *miss, bool must_see, int range, tripoint_abs_omt loc )
 {
     if( loc == overmap::invalid_tripoint ) {
-        loc = g->u.global_omt_location();
+        loc = get_avatar().global_omt_location();
     }
 
     auto places = overmap_buffer.find_all( loc, omter, range, must_see );
     if( places.empty() ) {
-        return g->u.global_omt_location();
+        return get_avatar().global_omt_location();
     }
     const overmap *loc_om = overmap_buffer.get_existing_om_global( loc ).om;
     assert( loc_om );
@@ -522,7 +522,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
         if( d.beta == nullptr ) {
             d.beta = &default_npc;
         }
-        d.alpha = &g->u;
+        d.alpha = &get_avatar();
         for( const talk_effect_fun_t &effect : talk_effects.effects ) {
             effect( d );
         }

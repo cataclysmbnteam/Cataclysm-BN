@@ -27,7 +27,7 @@
 TEST_CASE( "Monster losing grabbing effect", "[player][melee][grab]" )
 {
     clear_all_state();
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     // Four nearby spots

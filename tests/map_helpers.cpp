@@ -115,7 +115,7 @@ void clear_map()
 void put_player_underground()
 {
     // Make sure the player doesn't block the path of the monster being tested.
-    g->u.setpos( { 0, 0, -2 } );
+    get_avatar().setpos( { 0, 0, -2 } );
 }
 
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
@@ -167,7 +167,7 @@ void set_time( const time_point &time )
 {
     calendar::turn = time;
     g->reset_light_level();
-    int z = g->u.posz();
+    int z = get_avatar().posz();
     g->m.update_visibility_cache( z );
     g->m.invalidate_map_cache( z );
     g->m.build_map_cache( z );

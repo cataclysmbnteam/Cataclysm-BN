@@ -24,10 +24,10 @@ static void test_repair( std::vector<detached_ptr<item>> &tools, bool expect_cra
 {
 
     const tripoint test_origin( 60, 60, 0 );
-    g->u.setpos( test_origin );
-    g->u.wear_item( item::spawn( "backpack" ), false );
+    get_avatar().setpos( test_origin );
+    get_avatar().wear_item( item::spawn( "backpack" ), false );
     for( detached_ptr<item> &gear : tools ) {
-        g->u.i_add( std::move( gear ) );
+        get_avatar().i_add( std::move( gear ) );
     }
 
     const tripoint vehicle_origin = test_origin + tripoint_south_east;
@@ -52,9 +52,9 @@ static void test_repair( std::vector<detached_ptr<item>> &tools, bool expect_cra
 
     requirement_data reqs = vp.repair_requirements();
     // Bust cache on crafting_inventory()
-    g->u.mod_moves( 1 );
-    inventory crafting_inv = g->u.crafting_inventory();
-    bool can_repair = vp.repair_requirements().can_make_with_inventory( g->u.crafting_inventory(),
+    get_avatar().mod_moves( 1 );
+    inventory crafting_inv = get_avatar().crafting_inventory();
+    bool can_repair = vp.repair_requirements().can_make_with_inventory( get_avatar().crafting_inventory(),
                       is_crafting_component );
     CHECK( can_repair == expect_craftable );
 }

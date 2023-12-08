@@ -759,7 +759,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     veh.check_falling_or_floating();
     // If the PC is in the currently moved vehicle, adjust the
     //  view offset.
-    if( g->u.controlling_vehicle && veh_pointer_or_null( veh_at( g->u.pos() ) ) == &veh ) {
+    if( get_avatar().controlling_vehicle && veh_pointer_or_null( veh_at( get_avatar().pos() ) ) == &veh ) {
         g->calc_driving_offset( &veh );
         if( veh.skidding && can_move ) {
             // TODO: Make skid recovery in air hard
@@ -1139,7 +1139,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
     p->setpos( pos );
     p->in_vehicle = true;
     if( p->is_avatar() ) {
-        g->update_map( g->u );
+        g->update_map( get_avatar() );
     }
 }
 
@@ -1231,7 +1231,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
     }
 
     // Need old coordinates to check for remote control
-    const bool remote = veh.remote_controlled( g->u );
+    const bool remote = veh.remote_controlled( get_avatar() );
 
     // record every passenger and pet inside
     std::vector<rider_data> riders = veh.get_riders();
@@ -1255,7 +1255,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
             if( psg == nullptr ) {
                 debugmsg( "Empty passenger for part #%d at %d,%d,%d player at %d,%d,%d?",
                           prt, part_pos.x, part_pos.y, part_pos.z,
-                          g->u.posx(), g->u.posy(), g->u.posz() );
+                          get_avatar().posx(), get_avatar().posy(), get_avatar().posz() );
                 veh.part( prt ).remove_flag( vehicle_part::passenger_flag );
                 r.moved = true;
                 continue;
@@ -1300,7 +1300,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
         invalidate_max_populated_zlev( dst.z );
     }
     if( need_update ) {
-        g->update_map( g->u );
+        g->update_map( get_avatar() );
     }
     add_vehicle_to_cache( &veh );
 
@@ -1444,9 +1444,9 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture,
     const furn_t &new_t = new_furniture.obj();
 
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
-    if( g->u.get_grab_type() == OBJECT_FURNITURE && g->u.grab_point == p && !new_t.is_movable() ) {
+    if( get_avatar().get_grab_type() == OBJECT_FURNITURE && get_avatar().grab_point == p && !new_t.is_movable() ) {
         add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name() );
-        g->u.grab( OBJECT_NONE );
+        get_avatar().grab( OBJECT_NONE );
     }
     // If a creature was crushed under a rubble -> free it
     if( old_id == f_rubble && new_furniture == f_null ) {
@@ -1583,13 +1583,13 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
     if( use_tiles ) {
         is_memorized =
         [&]( const tripoint & q ) {
-            return !g->u.get_memorized_tile( getabs( q ) ).tile.empty();
+            return !get_avatar().get_memorized_tile( getabs( q ) ).tile.empty();
         };
     } else {
 #endif
         is_memorized =
         [&]( const tripoint & q ) {
-            return g->u.get_memorized_symbol( getabs( q ) );
+            return get_avatar().get_memorized_symbol( getabs( q ) );
         };
 #ifdef TILES
     }
@@ -3163,14 +3163,14 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     } );
 
     // Let the player know that the item was damaged if they can see it.
-    if( items_destroyed > 1 && g->u.sees( p ) ) {
+    if( items_destroyed > 1 && get_avatar().sees( p ) ) {
         add_msg( m_bad, _( "The %s destroys several items!" ), cause_message );
-    } else if( items_destroyed == 1 && items_damaged == 1 && g->u.sees( p ) )  {
+    } else if( items_destroyed == 1 && items_damaged == 1 && get_avatar().sees( p ) )  {
         //~ %1$s: the cause of destruction, %2$s: destroyed item name
         add_msg( m_bad, _( "The %1$s destroys the %2$s!" ), cause_message, damaged_item_name );
-    } else if( items_damaged > 1 && g->u.sees( p ) ) {
+    } else if( items_damaged > 1 && get_avatar().sees( p ) ) {
         add_msg( m_bad, _( "The %s damages several items." ), cause_message );
-    } else if( items_damaged == 1 && g->u.sees( p ) )  {
+    } else if( items_damaged == 1 && get_avatar().sees( p ) )  {
         //~ %1$s: the cause of damage, %2$s: damaged item name
         add_msg( m_bad, _( "The %1$s damages the %2$s." ), cause_message, damaged_item_name );
     }
@@ -3524,8 +3524,8 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
         sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
                        false, "environment", "alarm" );
         // Blame nearby player
-        if( rl_dist( g->u.pos(), p ) <= 3 ) {
-            g->events().send<event_type::triggers_alarm>( g->u.getID() );
+        if( rl_dist( get_avatar().pos(), p ) <= 3 ) {
+            g->events().send<event_type::triggers_alarm>( get_avatar().getID() );
             const point abs = ms_to_sm_copy( getabs( p.xy() ) );
             g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
                                  tripoint( abs, p.z ) );
@@ -5357,7 +5357,7 @@ void map::disarm_trap( const tripoint &p )
         return;
     }
 
-    const int tSkillLevel = g->u.get_skill_level( skill_traps );
+    const int tSkillLevel = get_avatar().get_skill_level( skill_traps );
     const int diff = tr.get_difficulty();
     int roll = rng( tSkillLevel, 4 * tSkillLevel );
 
@@ -5373,36 +5373,36 @@ void map::disarm_trap( const tripoint &p )
     ///\EFFECT_DEX increases chance of disarming trap
 
     ///\EFFECT_TRAPS increases chance of disarming trap
-    while( ( rng( 5, 20 ) < g->u.per_cur || rng( 1, 20 ) < g->u.dex_cur ) && roll < 50 ) {
+    while( ( rng( 5, 20 ) < get_avatar().per_cur || rng( 1, 20 ) < get_avatar().dex_cur ) && roll < 50 ) {
         roll++;
     }
     if( roll >= diff ) {
         add_msg( _( "You disarm the trap!" ) );
         const int morale_buff = tr.get_avoidance() * 0.4 + tr.get_difficulty() + rng( 0, 4 );
-        g->u.rem_morale( MORALE_FAILURE );
-        g->u.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
+        get_avatar().rem_morale( MORALE_FAILURE );
+        get_avatar().add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
         tr.on_disarmed( *this, p );
         if( diff > 1.25 * tSkillLevel ) { // failure might have set off trap
-            g->u.practice( skill_traps, 1.5 * ( diff - tSkillLevel ) );
+            get_avatar().practice( skill_traps, 1.5 * ( diff - tSkillLevel ) );
         }
     } else if( roll >= diff * .8 ) {
         add_msg( _( "You fail to disarm the trap." ) );
         const int morale_debuff = -rng( 6, 18 );
-        g->u.rem_morale( MORALE_ACCOMPLISHMENT );
-        g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
+        get_avatar().rem_morale( MORALE_ACCOMPLISHMENT );
+        get_avatar().add_morale( MORALE_FAILURE, morale_debuff, -40 );
         if( diff > 1.25 * tSkillLevel ) {
-            g->u.practice( skill_traps, 1.5 * ( diff - tSkillLevel ) );
+            get_avatar().practice( skill_traps, 1.5 * ( diff - tSkillLevel ) );
         }
     } else {
         add_msg( m_bad, _( "You fail to disarm the trap, and you set it off!" ) );
         const int morale_debuff = -rng( 12, 24 );
-        g->u.rem_morale( MORALE_ACCOMPLISHMENT );
-        g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
-        tr.trigger( p, &g->u );
+        get_avatar().rem_morale( MORALE_ACCOMPLISHMENT );
+        get_avatar().add_morale( MORALE_FAILURE, morale_debuff, -40 );
+        tr.trigger( p, &get_avatar() );
         if( diff - roll <= 6 ) {
             // Give xp for failing, but not if we failed terribly (in which
             // case the trap may not be disarmable).
-            g->u.practice( skill_traps, 2 * diff );
+            get_avatar().practice( skill_traps, 2 * diff );
         }
     }
 }
@@ -5419,7 +5419,7 @@ void map::remove_trap( const tripoint &p )
     trap_id tid = current_submap->get_trap( l );
     if( tid != tr_null ) {
         if( g != nullptr && this == &get_map() ) {
-            g->u.add_known_trap( p, tr_null.obj() );
+            get_avatar().add_known_trap( p, tr_null.obj() );
         }
 
         current_submap->set_trap( l, tr_null );
@@ -5736,7 +5736,7 @@ void map::add_camp( const tripoint_abs_omt &omt_pos, const std::string &name )
 {
     basecamp temp_camp = basecamp( name, omt_pos );
     overmap_buffer.add_camp( temp_camp );
-    g->u.camps.insert( omt_pos );
+    get_avatar().camps.insert( omt_pos );
     g->validate_camps();
 }
 
@@ -5753,12 +5753,12 @@ void map::update_visibility_cache( const int zlev )
 {
     visibility_variables_cache.variables_set = true; // Not used yet
     visibility_variables_cache.g_light_level = static_cast<int>( g->light_level( zlev ) );
-    visibility_variables_cache.vision_threshold = g->u.get_vision_threshold(
-                get_cache_ref( g->u.posz() ).lm[g->u.posx()][g->u.posy()].max() );
+    visibility_variables_cache.vision_threshold = get_avatar().get_vision_threshold(
+                get_cache_ref( get_avatar().posz() ).lm[get_avatar().posx()][get_avatar().posy()].max() );
 
-    visibility_variables_cache.u_clairvoyance = g->u.clairvoyance();
-    visibility_variables_cache.u_sight_impaired = g->u.sight_impaired();
-    visibility_variables_cache.u_is_boomered = g->u.has_effect( effect_boomered );
+    visibility_variables_cache.u_clairvoyance = get_avatar().clairvoyance();
+    visibility_variables_cache.u_sight_impaired = get_avatar().sight_impaired();
+    visibility_variables_cache.u_is_boomered = get_avatar().has_effect( effect_boomered );
 
     int sm_squares_seen[MAPSIZE][MAPSIZE];
     std::memset( sm_squares_seen, 0, sizeof( sm_squares_seen ) );
@@ -5838,8 +5838,8 @@ visibility_type map::get_visibility( const lit_level ll,
 
 static bool has_memory_at( const tripoint &p )
 {
-    if( g->u.should_show_map_memory() ) {
-        int t = g->u.get_memorized_symbol( g->m.getabs( p ) );
+    if( get_avatar().should_show_map_memory() ) {
+        int t = get_avatar().get_memorized_symbol( g->m.getabs( p ) );
         return t != 0;
     }
     return false;
@@ -5847,8 +5847,8 @@ static bool has_memory_at( const tripoint &p )
 
 static int get_memory_at( const tripoint &p )
 {
-    if( g->u.should_show_map_memory() ) {
-        return g->u.get_memorized_symbol( g->m.getabs( p ) );
+    if( get_avatar().should_show_map_memory() ) {
+        return get_avatar().get_memorized_symbol( g->m.getabs( p ) );
     }
     return ' ';
 }
@@ -5882,7 +5882,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
                                  std::max( MAPSIZE_X, offs.x + wnd_w ),
                                  std::max( MAPSIZE_Y, offs.y + wnd_h )
                              );
-    g->u.prepare_map_memory_region(
+    get_avatar().prepare_map_memory_region(
         g->m.getabs( tripoint( min_mm_reg, center.z ) ),
         g->m.getabs( tripoint( max_mm_reg, center.z ) )
     );
@@ -6047,11 +6047,11 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
         tercol = curr_ter.color();
     }
     if( curr_ter.has_flag( TFLAG_SWIMMABLE ) && curr_ter.has_flag( TFLAG_DEEP_WATER ) &&
-        !g->u.is_underwater() ) {
+        !get_avatar().is_underwater() ) {
         param.show_items( false ); // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    if( curr_trap.can_see( p, g->u ) ) {
+    if( curr_trap.can_see( p, get_avatar() ) ) {
         tercol = curr_trap.color;
         if( curr_trap.sym == '%' ) {
             switch( rng( 1, 5 ) ) {
@@ -6130,7 +6130,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
     std::string item_sym;
 
     // If there are items here, draw those instead
-    if( param.show_items() && curr_maptile.get_item_count() > 0 && sees_some_items( p, g->u ) ) {
+    if( param.show_items() && curr_maptile.get_item_count() > 0 && sees_some_items( p, get_avatar() ) ) {
         // if there's furniture/terrain/trap/fields (sym!='.')
         // and we should not override it, then only highlight the square
         if( sym != '.' && sym != '%' && !draw_item_sym ) {
@@ -6155,13 +6155,13 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
         tercol = veh->part_color( veh_part );
         item_sym.clear(); // clear the item symbol so `sym` is used instead.
 
-        if( !veh->forward_velocity() && !veh->player_in_control( g->u ) ) {
+        if( !veh->forward_velocity() && !veh->player_in_control( get_avatar() ) ) {
             memory_sym = sym;
         }
     }
 
     if( param.memorize() && check_and_set_seen_cache( p ) ) {
-        g->u.memorize_symbol( getabs( p ), memory_sym );
+        get_avatar().memorize_symbol( getabs( p ), memory_sym );
     }
 
     // If there's graffiti here, change background color
@@ -6169,7 +6169,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
         graf = true;
     }
 
-    const auto u_vision = g->u.get_vision_modes();
+    const auto u_vision = get_avatar().get_vision_modes();
     if( u_vision[BOOMERED] ) {
         tercol = c_magenta;
     } else if( u_vision[NV_GOGGLES] ) {
@@ -6263,7 +6263,7 @@ void map::draw_from_above( const catacurses::window &w, const tripoint &p,
         sym = determine_wall_corner( p );
     }
 
-    const auto u_vision = g->u.get_vision_modes();
+    const auto u_vision = get_avatar().get_vision_modes();
     if( u_vision[BOOMERED] ) {
         tercol = c_magenta;
     } else if( u_vision[NV_GOGGLES] ) {
@@ -6936,9 +6936,9 @@ void map::shift( point sp )
     set_abs_sub( abs + sp );
 
     // if player is in vehicle, (s)he must be shifted with vehicle too
-    if( g->u.in_vehicle ) {
-        g->u.setx( g->u.posx() - sp.x * SEEX );
-        g->u.sety( g->u.posy() - sp.y * SEEY );
+    if( get_avatar().in_vehicle ) {
+        get_avatar().setx( get_avatar().posx() - sp.x * SEEX );
+        get_avatar().sety( get_avatar().posy() - sp.y * SEEY );
     }
 
     g->shift_destination_preview( point( -sp.x * SEEX, -sp.y * SEEY ) );
@@ -7271,7 +7271,7 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     if( rng( 0, 100 ) < chance ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
         add_spawn( spawn_details.name, 1, pnt, false );
-        if( g->u.sees( pnt ) ) {
+        if( get_avatar().sees( pnt ) ) {
             if( item.is_seed() ) {
                 add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );
             } else {
@@ -7681,7 +7681,7 @@ void map::copy_grid( const tripoint &to, const tripoint &from )
 void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight )
 {
     const int s_range = std::min( HALF_MAPSIZE_X,
-                                  g->u.sight_range( g->light_level( g->u.posz() ) ) );
+                                  get_avatar().sight_range( g->light_level( get_avatar().posz() ) ) );
     int pop = group.population;
     std::vector<tripoint> locations;
     if( !ignore_sight ) {
@@ -7692,7 +7692,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         }
     }
 
-    if( gp.z != g->u.posz() ) {
+    if( gp.z != get_avatar().posz() ) {
         // Note: this is only OK because 3D vision isn't a thing yet
         ignore_sight = true;
     }
@@ -7735,7 +7735,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                 continue; // solid area, impassable
             }
 
-            if( !ignore_sight && sees( g->u.pos(), fp, s_range ) ) {
+            if( !ignore_sight && sees( get_avatar().pos(), fp, s_range ) ) {
                 continue; // monster must spawn outside the viewing range of the player
             }
 
@@ -8413,7 +8413,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         skew_vision_cache.clear();
     }
     // Initial value is illegal player position.
-    const tripoint &p = g->u.pos();
+    const tripoint &p = get_avatar().pos();
     static tripoint player_prev_pos;
     if( seen_cache_dirty || player_prev_pos != p ) {
         build_seen_cache( p, zlev );
@@ -9204,7 +9204,7 @@ void map::invalidate_max_populated_zlev( int zlev )
 tripoint drawsq_params::center() const
 {
     if( view_center == tripoint_min ) {
-        return g->u.pos() + g->u.view_offset;
+        return get_avatar().pos() + get_avatar().view_offset;
     } else {
         return view_center;
     }

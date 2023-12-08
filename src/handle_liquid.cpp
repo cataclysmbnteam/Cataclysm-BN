@@ -126,9 +126,9 @@ static bool get_liquid_target( item &liquid, const int radius, liquid_dest_opt &
 
     std::vector<std::function<void()>> actions;
 
-    if( g->u.can_consume( liquid ) && ( !liquid.is_loaded() ||
+    if( get_avatar().can_consume( liquid ) && ( !liquid.is_loaded() ||
                                         liquid.where() != item_location_type::monster ) ) {
-        if( g->u.can_consume_for_bionic( liquid ) ) {
+        if( get_avatar().can_consume_for_bionic( liquid ) ) {
             menu.addentry( -1, true, 'e', _( "Fuel bionic with it" ) );
         } else {
             menu.addentry( -1, true, 'e', _( "Consume it" ) );
@@ -141,7 +141,7 @@ static bool get_liquid_target( item &liquid, const int radius, liquid_dest_opt &
     // This handles containers found anywhere near the player, including on the map and in vehicle storage.
     menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
     actions.emplace_back( [&]() {
-        target.it = game_menus::inv::container_for( g->u, liquid, radius );
+        target.it = game_menus::inv::container_for( get_avatar(), liquid, radius );
         item *const cont = target.it;
 
         if( cont == nullptr || cont->is_null() ) {
@@ -159,7 +159,7 @@ static bool get_liquid_target( item &liquid, const int radius, liquid_dest_opt &
     } );
     // This handles liquids stored in vehicle parts directly (e.g. tanks).
     std::set<vehicle *> opts;
-    for( const auto &e : here.points_in_radius( g->u.pos(), 1 ) ) {
+    for( const auto &e : here.points_in_radius( get_avatar().pos(), 1 ) ) {
         auto veh = veh_pointer_or_null( here.veh_at( e ) );
         if( veh ) {
             vehicle_part_range vpr = veh->get_all_parts();
@@ -195,7 +195,7 @@ static bool get_liquid_target( item &liquid, const int radius, liquid_dest_opt &
         }
     }
 
-    for( auto &target_pos : here.points_in_radius( g->u.pos(), 1 ) ) {
+    for( auto &target_pos : here.points_in_radius( get_avatar().pos(), 1 ) ) {
         if( !iexamine::has_keg( target_pos ) ) {
             continue;
         }
@@ -203,7 +203,7 @@ static bool get_liquid_target( item &liquid, const int radius, liquid_dest_opt &
             liquid.position() == target_pos ) {
             continue;
         }
-        const std::string dir = direction_name( direction_from( g->u.pos(), target_pos ) );
+        const std::string dir = direction_name( direction_from( get_avatar().pos(), target_pos ) );
         menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Pour into an adjacent keg (%s)" ), dir );
         actions.emplace_back( [ &, target_pos]() {
             target.pos = target_pos;
@@ -274,14 +274,14 @@ static bool perform_liquid_transfer( item &liquid, liquid_dest_opt &target )
             liquid.attempt_split( 0, [&target]( detached_ptr<item> &&it ) {
                 return get_player_character().pour_into( *target.it, std::move( it ) );
             } );
-            g->u.mod_moves( -100 );
+            get_avatar().mod_moves( -100 );
             return false;
         case LD_VEH:
             liquid.attempt_split( 0, [&target]( detached_ptr<item> &&det ) {
-                return g->u.pour_into( *target.veh, std::move( det ) );
+                return get_avatar().pour_into( *target.veh, std::move( det ) );
             } );
 
-            g->u.mod_moves( -1000 ); // consistent with veh_interact::do_refill activity
+            get_avatar().mod_moves( -1000 ); // consistent with veh_interact::do_refill activity
 
             return false;
         case LD_KEG:
@@ -293,7 +293,7 @@ static bool perform_liquid_transfer( item &liquid, liquid_dest_opt &target )
             } else {
                 here.add_item_or_charges( target.pos, liquid.detach() );
             }
-            g->u.mod_moves( -100 );
+            get_avatar().mod_moves( -100 );
             return false;
         case LD_NULL:
         default:
@@ -337,23 +337,23 @@ static bool perform_liquid_transfer( tripoint pos, liquid_dest_opt &target )
     map &here = get_map();
     switch( target.dest_opt ) {
         case LD_CONSUME:
-            g->u.consume_item( here.water_from( pos ) );
+            get_avatar().consume_item( here.water_from( pos ) );
             return true;
         case LD_ITEM:
-            g->u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( *g->u.activity, pos );
-            serialize_liquid_target( *g->u.activity, *target.it );
+            get_avatar().assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            serialize_liquid_source( *get_avatar().activity, pos );
+            serialize_liquid_target( *get_avatar().activity, *target.it );
             return true;
         case LD_VEH:
-            g->u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( *g->u.activity, pos );
-            serialize_liquid_target( *g->u.activity, *target.veh );
+            get_avatar().assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            serialize_liquid_source( *get_avatar().activity, pos );
+            serialize_liquid_target( *get_avatar().activity, *target.veh );
             return true;
         case LD_KEG:
         case LD_GROUND:
-            g->u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( *g->u.activity, pos );
-            serialize_liquid_target( *g->u.activity, target.pos );
+            get_avatar().assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            serialize_liquid_source( *get_avatar().activity, pos );
+            serialize_liquid_target( *get_avatar().activity, target.pos );
             return true;
         case LD_NULL:
         default:
@@ -366,24 +366,24 @@ static bool perform_liquid_transfer( vehicle *veh, int part_id, liquid_dest_opt 
     switch( target.dest_opt ) {
         case LD_CONSUME:
             liquid.attempt_split( 0, []( detached_ptr<item> &&it ) {
-                return g->u.consume_item( std::move( it ) );
+                return get_avatar().consume_item( std::move( it ) );
             } );
             return true;
         case LD_ITEM:
-            g->u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( *g->u.activity, *veh, part_id );
-            serialize_liquid_target( *g->u.activity, *target.it );
+            get_avatar().assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            serialize_liquid_source( *get_avatar().activity, *veh, part_id );
+            serialize_liquid_target( *get_avatar().activity, *target.it );
             return true;
         case LD_VEH:
-            g->u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( *g->u.activity, *veh, part_id );
-            serialize_liquid_target( *g->u.activity, *target.veh );
+            get_avatar().assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            serialize_liquid_source( *get_avatar().activity, *veh, part_id );
+            serialize_liquid_target( *get_avatar().activity, *target.veh );
             return true;
         case LD_KEG:
         case LD_GROUND:
-            g->u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( *g->u.activity, *veh, part_id );
-            serialize_liquid_target( *g->u.activity, target.pos );
+            get_avatar().assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            serialize_liquid_source( *get_avatar().activity, *veh, part_id );
+            serialize_liquid_target( *get_avatar().activity, target.pos );
             return true;
         case LD_NULL:
         default:

@@ -104,7 +104,7 @@ static void check_accuracy_dps( avatar &attacker, monster &defender, item &wpn1,
 TEST_CASE( "effective damage per second", "[effective][dps]" )
 {
     clear_all_state();
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     item &clumsy_sword = *item::spawn_temporary( "test_clumsy_sword" );
@@ -168,7 +168,7 @@ TEST_CASE( "effective damage per second", "[effective][dps]" )
 TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
 {
     clear_all_state();
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     monster soldier( mtype_id( "mon_zombie_soldier" ) );
@@ -201,7 +201,7 @@ TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
 TEST_CASE( "accuracy increases success", "[accuracy][dps]" )
 {
     clear_all_state();
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     monster soldier( mtype_id( "mon_zombie_soldier" ) );

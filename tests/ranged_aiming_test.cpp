@@ -31,13 +31,13 @@ static constexpr tripoint shooter_pos( 60, 60, 0 );
 static void set_up_player_vision()
 {
     g->place_player( shooter_pos );
-    g->u.worn.clear();
+    get_avatar().worn.clear();
     g->reset_light_level();
 
-    REQUIRE( !g->u.is_blind() );
-    REQUIRE( !g->u.in_sleep_state() );
+    REQUIRE( !get_avatar().is_blind() );
+    REQUIRE( !get_avatar().in_sleep_state() );
 
-    g->u.recalc_sight_limits();
+    get_avatar().recalc_sight_limits();
 
     calendar::turn = calendar::turn_zero + 12_hours;
 
@@ -53,7 +53,7 @@ TEST_CASE( "Aiming at a clearly visible target", "[ranged][aiming]" )
 {
     clear_all_state();
     set_up_player_vision();
-    player &shooter = g->u;
+    player &shooter = get_avatar();
     arm_character( shooter, "glock_19" );
     int max_range = shooter.primary_weapon().gun_range( &shooter );
     REQUIRE( max_range >= 10 );
@@ -101,7 +101,7 @@ TEST_CASE( "Aiming at a clearly visible target", "[ranged][aiming]" )
 TEST_CASE( "Aiming at a target behind wall", "[ranged][aiming]" )
 {
     clear_all_state();
-    player &shooter = g->u;
+    player &shooter = get_avatar();
     clear_character( shooter, true );
     shooter.add_effect( efftype_id( "debug_clairvoyance" ), 1_seconds );
     arm_character( shooter, "glock_19" );
@@ -142,7 +142,7 @@ TEST_CASE( "Aiming at a target behind bars", "[ranged][aiming]" )
 {
     clear_all_state();
     set_up_player_vision();
-    player &shooter = g->u;
+    player &shooter = get_avatar();
     arm_character( shooter, "glock_19" );
     int max_range = shooter.primary_weapon().gun_range( &shooter );
     REQUIRE( max_range >= 5 );
@@ -176,7 +176,7 @@ TEST_CASE( "Aiming a turret from a solid vehicle", "[ranged][aiming]" )
 {
     clear_all_state();
     set_up_player_vision();
-    avatar &shooter = g->u;
+    avatar &shooter = get_avatar();
     shooter.setpos( shooter_pos );
     arm_character( shooter, "glock_19" );
     int max_range = shooter.primary_weapon().gun_range( &shooter );

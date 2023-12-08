@@ -35,9 +35,9 @@
 int advanced_inv_area::get_item_count() const
 {
     if( id == AIM_INVENTORY ) {
-        return g->u.inv_size();
+        return get_avatar().inv_size();
     } else if( id == AIM_WORN ) {
-        return g->u.worn.size();
+        return get_avatar().worn.size();
     } else if( id == AIM_ALL ) {
         return 0;
     } else if( id == AIM_DRAGGED ) {
@@ -62,7 +62,7 @@ advanced_inv_area::advanced_inv_area( aim_location id, point h, tripoint off,
 
 void advanced_inv_area::init()
 {
-    pos = g->u.pos() + off;
+    pos = get_avatar().pos() + off;
     veh = nullptr;
     vstor = -1;
     // must update in main function
@@ -76,15 +76,15 @@ void advanced_inv_area::init()
             canputitemsloc = true;
             break;
         case AIM_DRAGGED:
-            if( g->u.get_grab_type() != OBJECT_VEHICLE ) {
+            if( get_avatar().get_grab_type() != OBJECT_VEHICLE ) {
                 canputitemsloc = false;
                 desc[0] = _( "Not dragging any vehicle!" );
                 break;
             }
             // offset for dragged vehicles is not statically initialized, so get it
-            off = g->u.grab_point;
+            off = get_avatar().grab_point;
             // Reset position because offset changed
-            pos = g->u.pos() + off;
+            pos = get_avatar().pos() + off;
             if( const std::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( "CARGO",
                     false ) ) {
                 veh = &vp->vehicle();
@@ -119,7 +119,7 @@ void advanced_inv_area::init()
             break;
         case AIM_ABOVE:
         case AIM_BELOW:
-            if( !g->m.has_zlevels() || !g->m.valid_move( g->u.pos(), pos ) ) {
+            if( !g->m.has_zlevels() || !g->m.valid_move( get_avatar().pos(), pos ) ) {
                 canputitemsloc = false;
                 break;
             }
@@ -176,7 +176,7 @@ void advanced_inv_area::init()
 
     // trap?
     const trap &tr = here.tr_at( pos );
-    if( tr.can_see( pos, g->u ) && !tr.is_benign() ) {
+    if( tr.can_see( pos, get_avatar() ) && !tr.is_benign() ) {
         flags.append( _( " TRAP" ) );
     }
 
@@ -203,7 +203,7 @@ units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
     // should be a specific location instead
     assert( id != AIM_ALL );
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
-        return g->u.volume_capacity() - g->u.volume_carried();
+        return get_avatar().volume_capacity() - get_avatar().volume_carried();
     }
     return in_vehicle ? veh->free_volume( vstor ) : get_map().free_volume( pos );
 }
@@ -254,7 +254,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
     if( uistate.adv_inv_container_location != -1 ) {
         // try to find valid container in the area
         if( uistate.adv_inv_container_location == AIM_INVENTORY ) {
-            const_invslice stacks = g->u.inv_const_slice();
+            const_invslice stacks = get_avatar().inv_const_slice();
 
             // check index first
             if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
@@ -276,7 +276,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
                 }
             }
         } else if( uistate.adv_inv_container_location == AIM_WORN ) {
-            auto &worn = g->u.worn;
+            auto &worn = get_avatar().worn;
             size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
             if( worn.size() > idx ) {
                 auto iter = worn.begin();
@@ -407,12 +407,12 @@ void advanced_inv_area::set_container_position()
 {
     // update the offset of the container based on location
     if( uistate.adv_inv_container_location == AIM_DRAGGED ) {
-        off = g->u.grab_point;
+        off = get_avatar().grab_point;
     } else {
         off = aim_vector( static_cast<aim_location>( uistate.adv_inv_container_location ) );
     }
     // update the absolute position
-    pos = g->u.pos() + off;
+    pos = get_avatar().pos() + off;
     // update vehicle information
     if( const std::optional<vpart_reference> vp = get_map().veh_at( pos ).part_with_feature( "CARGO",
             false ) ) {

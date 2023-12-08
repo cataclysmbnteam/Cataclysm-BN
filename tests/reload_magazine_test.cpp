@@ -34,7 +34,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
     CHECK( mag_id != bad_mag );
     CHECK( mag_cap > 0 );
 
-    player &p = g->u;
+    player &p = get_avatar();
     p.worn.clear();
     p.inv_clear();
     p.remove_primary_weapon();
@@ -63,7 +63,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
             det = item::spawn( bad_ammo );
             item &ammo = *det;
             p.i_add( std::move( det ) );
-            bool ok = mag.reload( g->u, ammo, mag.ammo_capacity() );
+            bool ok = mag.reload( get_avatar(), ammo, mag.ammo_capacity() );
             THEN( "reloading should fail" ) {
                 REQUIRE_FALSE( ok );
                 REQUIRE( mag.ammo_remaining() == 0 );
@@ -76,7 +76,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
             p.i_add( std::move( det ) );
             REQUIRE( ammo.charges == mag_cap + 5 );
 
-            bool ok = mag.reload( g->u, ammo, mag.ammo_capacity() );
+            bool ok = mag.reload( get_avatar(), ammo, mag.ammo_capacity() );
             THEN( "reloading is successful" ) {
                 REQUIRE( ok );
 
@@ -108,7 +108,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
             p.i_add( std::move( det ) );
             REQUIRE( ammo.charges == mag_cap - 2 );
 
-            bool ok = mag.reload( g->u, ammo, mag.ammo_capacity() );
+            bool ok = mag.reload( get_avatar(), ammo, mag.ammo_capacity() );
             THEN( "reloading is successful" ) {
                 REQUIRE( ok == true );
 
@@ -139,7 +139,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                 REQUIRE( ammo.charges == 10 );
                 REQUIRE( mag.ammo_remaining() == mag_cap - 2 );
 
-                bool ok = mag.reload( g->u, ammo, mag.ammo_capacity() );
+                bool ok = mag.reload( get_avatar(), ammo, mag.ammo_capacity() );
                 THEN( "further reloading is successful" ) {
                     REQUIRE( ok );
 
@@ -165,7 +165,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                 det = item::spawn( alt_ammo );
                 item &ammo = *det;
                 p.i_add( std::move( det ) );
-                bool ok = mag.reload( g->u, ammo, mag.ammo_capacity() );
+                bool ok = mag.reload( get_avatar(), ammo, mag.ammo_capacity() );
                 THEN( "further reloading should fail" ) {
                     REQUIRE_FALSE( ok );
                     REQUIRE( mag.ammo_remaining() == mag_cap - 2 );
@@ -176,7 +176,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                 det = item::spawn( bad_ammo );
                 item &ammo = *det;
                 p.i_add( std::move( det ) );
-                bool ok = mag.reload( g->u, ammo, mag.ammo_capacity() );
+                bool ok = mag.reload( get_avatar(), ammo, mag.ammo_capacity() );
                 THEN( "further reloading should fail" ) {
                     REQUIRE_FALSE( ok );
                     REQUIRE( mag.ammo_remaining() == mag_cap - 2 );
@@ -208,7 +208,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
             det = item::spawn( bad_mag );
             item &mag = *det;
             p.i_add( std::move( det ) );
-            bool ok = gun.reload( g->u, mag, 1 );
+            bool ok = gun.reload( get_avatar(), mag, 1 );
             THEN( "reloading should fail" ) {
                 REQUIRE_FALSE( ok );
                 REQUIRE_FALSE( gun.magazine_current() );
@@ -218,7 +218,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
         WHEN( "the gun is reloaded with an empty compatible magazine" ) {
             CHECK( mag.ammo_remaining() == 0 );
 
-            bool ok = gun.reload( g->u, mag, 1 );
+            bool ok = gun.reload( get_avatar(), mag, 1 );
             THEN( "reloading is successful" ) {
                 REQUIRE( ok );
                 REQUIRE( gun.magazine_current() );
@@ -245,7 +245,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
             CHECK( mag.ammo_current() == ammo_id );
             CHECK( mag.ammo_remaining() == mag_cap - 2 );
 
-            bool ok = gun.reload( g->u, mag, 1 );
+            bool ok = gun.reload( get_avatar(), mag, 1 );
             THEN( "reloading is successful" ) {
                 REQUIRE( ok );
                 REQUIRE( gun.magazine_current() );
@@ -269,7 +269,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                     det = item::spawn( alt_ammo, calendar::turn, 10 );
                     item &ammo = *det;
                     p.i_add( std::move( det ) );
-                    bool ok = gun.magazine_current()->reload( g->u, ammo, 10 );
+                    bool ok = gun.magazine_current()->reload( get_avatar(), ammo, 10 );
                     THEN( "further reloading should fail" ) {
                         REQUIRE_FALSE( ok );
                         REQUIRE( gun.ammo_remaining() == mag_cap - 2 );
@@ -280,7 +280,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                     det = item::spawn( bad_ammo, calendar::turn, 10 );
                     item &ammo = *det;
                     p.i_add( std::move( det ) );
-                    bool ok = gun.magazine_current()->reload( g->u, ammo, 10 );
+                    bool ok = gun.magazine_current()->reload( get_avatar(), ammo, 10 );
                     THEN( "further reloading should fail" ) {
                         REQUIRE_FALSE( ok );
                         REQUIRE( gun.ammo_remaining() == mag_cap - 2 );
@@ -293,7 +293,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                     p.i_add( std::move( det ) );
                     REQUIRE( ammo.charges == 10 );
 
-                    bool ok = gun.magazine_current()->reload( g->u, ammo, 10 );
+                    bool ok = gun.magazine_current()->reload( get_avatar(), ammo, 10 );
                     THEN( "further reloading is successful" ) {
                         REQUIRE( ok );
 

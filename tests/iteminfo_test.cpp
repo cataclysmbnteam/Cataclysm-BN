@@ -43,7 +43,7 @@ void test_info_equals( const item &i, const iteminfo_query &q,
                        const std::string &reference,
                        temperature_flag temperature = temperature_flag::TEMP_NORMAL )
 {
-    g->u.clear_mutations();
+    get_avatar().clear_mutations();
     std::string info = i.info_string( q, 1, temperature );
     CAPTURE( escape_newlines( info ) );
     CAPTURE( escape_newlines( reference ) );
@@ -61,7 +61,7 @@ void test_info_equals( std::string item_name, const iteminfo_query &q,
 void test_info_contains( const item &i, const iteminfo_query &q,
                          const std::string &reference )
 {
-    g->u.clear_mutations();
+    get_avatar().clear_mutations();
     std::string info = i.info_string( q, 1 );
     using Catch::Matchers::Contains;
     REQUIRE_THAT( info, Contains( reference ) );
@@ -114,7 +114,7 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
 
     SECTION( "owner and price" ) {
         detached_ptr<item> my_rock = item::spawn( "test_rock" );
-        my_rock->set_owner( g->u );
+        my_rock->set_owner( get_avatar() );
         test_info_equals(
             *my_rock, q,
             "Owner: Your Followers\n"
@@ -124,7 +124,7 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
 
     SECTION( "owner, price and barter value" ) {
         detached_ptr<item> my_pipe = item::spawn( "test_pipe" );
-        my_pipe->set_owner( g->u );
+        my_pipe->set_owner( get_avatar() );
         test_info_equals(
             *my_pipe, q,
             "Owner: Your Followers\n"
@@ -184,8 +184,8 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 {
     clear_all_state();
     // new DPS calculations depend on the avatar's stats, so make sure they're consistent
-    REQUIRE( g->u.get_str() == 8 );
-    REQUIRE( g->u.get_dex() == 8 );
+    REQUIRE( get_avatar().get_str() == 8 );
+    REQUIRE( get_avatar().get_dex() == 8 );
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_DAMAGE, iteminfo_parts::BASE_TOHIT,
                                 iteminfo_parts::BASE_MOVES
                               } );
@@ -753,8 +753,8 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
     iteminfo_query q = q_vec( { iteminfo_parts::FOOD_ROT, iteminfo_parts::FOOD_ROT_STORAGE} );
 
     // Ensure test character has no skill estimating spoilage
-    g->u.clear_skills();
-    REQUIRE_FALSE( g->u.can_estimate_rot() );
+    get_avatar().clear_skills();
+    REQUIRE_FALSE( get_avatar().can_estimate_rot() );
 
     SECTION( "food is fresh" ) {
         test_info_equals(
@@ -947,13 +947,13 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
     clear_all_state();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES } );
     const recipe *purtab = &recipe_id( "pur_tablets" ).obj();
-    g->u.clear_mutations();
+    get_avatar().clear_mutations();
 
     GIVEN( "character has a potassium iodide tablet and no skill" ) {
         detached_ptr<item> det = item::spawn( "iodine" );
         item &iodine = *det;
-        g->u.i_add( std::move( det ) );
-        g->u.clear_skills();
+        get_avatar().i_add( std::move( det ) );
+        get_avatar().clear_skills();
 
         THEN( "nothing is craftable from it" ) {
             test_info_equals(
@@ -962,8 +962,8 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
         }
 
         WHEN( "they acquire the needed skills" ) {
-            g->u.set_skill_level( purtab->skill_used, purtab->difficulty );
-            REQUIRE( g->u.get_skill_level( purtab->skill_used ) == purtab->difficulty );
+            get_avatar().set_skill_level( purtab->skill_used, purtab->difficulty );
+            REQUIRE( get_avatar().get_skill_level( purtab->skill_used ) == purtab->difficulty );
 
             THEN( "still nothing is craftable from it" ) {
                 test_info_equals(
@@ -972,8 +972,8 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
             }
 
             WHEN( "they have no book, but have the recipe memorized" ) {
-                g->u.learn_recipe( purtab );
-                REQUIRE( g->u.knows_recipe( purtab ) );
+                get_avatar().learn_recipe( purtab );
+                REQUIRE( get_avatar().knows_recipe( purtab ) );
 
                 THEN( "they can use potassium iodide tablets to craft it" ) {
                     test_info_equals(
@@ -985,7 +985,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
             }
 
             WHEN( "they have the recipe in a book, but not memorized" ) {
-                g->u.i_add( item::spawn( "textbook_chemistry" ) );
+                get_avatar().i_add( item::spawn( "textbook_chemistry" ) );
 
                 THEN( "they can use potassium iodide tablets to craft it" ) {
                     test_info_equals(

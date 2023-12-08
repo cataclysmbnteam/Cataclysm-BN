@@ -528,7 +528,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "VOLUME" ) );
 
             append_cell( [this]( const item * loc ) {
-                if( g->u.can_estimate_rot() ) {
+                if( get_avatar().can_estimate_rot() ) {
                     const islot_comestible item = get_edible_comestible( loc );
                     if( item.spoils > 0_turns ) {
                         return get_freshness( loc );
@@ -539,7 +539,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "FRESHNESS" ) );
 
             append_cell( [ this ]( const item * loc ) {
-                if( g->u.can_estimate_rot() ) {
+                if( get_avatar().can_estimate_rot() ) {
                     const islot_comestible item = get_edible_comestible( loc );
                     if( item.spoils > 0_turns ) {
                         if( !get_consumable_item( loc ).rotten() ) {
@@ -735,8 +735,8 @@ static std::string get_consume_needs_hint( player &p )
 
 item *game_menus::inv::consume( player &p )
 {
-    if( !g->u.has_activity( ACT_EAT_MENU ) ) {
-        g->u.assign_activity( ACT_EAT_MENU );
+    if( !get_avatar().has_activity( ACT_EAT_MENU ) ) {
+        get_avatar().assign_activity( ACT_EAT_MENU );
     }
 
     return inv_internal( p, comestible_inventory_preset( p ),
@@ -762,8 +762,8 @@ class comestible_filtered_inventory_preset : public comestible_inventory_preset
 
 item *game_menus::inv::consume_food( player &p )
 {
-    if( !g->u.has_activity( ACT_CONSUME_FOOD_MENU ) ) {
-        g->u.assign_activity( ACT_CONSUME_FOOD_MENU );
+    if( !get_avatar().has_activity( ACT_CONSUME_FOOD_MENU ) ) {
+        get_avatar().assign_activity( ACT_CONSUME_FOOD_MENU );
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
@@ -777,8 +777,8 @@ item *game_menus::inv::consume_food( player &p )
 
 item *game_menus::inv::consume_drink( player &p )
 {
-    if( !g->u.has_activity( ACT_CONSUME_DRINK_MENU ) ) {
-        g->u.assign_activity( ACT_CONSUME_DRINK_MENU );
+    if( !get_avatar().has_activity( ACT_CONSUME_DRINK_MENU ) ) {
+        get_avatar().assign_activity( ACT_CONSUME_DRINK_MENU );
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
@@ -792,8 +792,8 @@ item *game_menus::inv::consume_drink( player &p )
 
 item *game_menus::inv::consume_meds( player &p )
 {
-    if( !g->u.has_activity( ACT_CONSUME_MEDS_MENU ) ) {
-        g->u.assign_activity( ACT_CONSUME_MEDS_MENU );
+    if( !get_avatar().has_activity( ACT_CONSUME_MEDS_MENU ) ) {
+        get_avatar().assign_activity( ACT_CONSUME_MEDS_MENU );
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
@@ -1913,7 +1913,7 @@ class bionic_install_preset: public inventory_selector_preset
                                        skill_electronics,
                                        -1 );
 
-            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( get_avatar().has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 chance_of_failure = has_install_program ? 1 : 100 - bionic_manip_cos( adjusted_skill, difficulty );
@@ -2004,7 +2004,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                                        skill_electronics,
                                        20 );
 
-            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( get_avatar().has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
@@ -2088,7 +2088,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
                                        skill_electronics,
                                        -1 );
 
-            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( get_avatar().has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );

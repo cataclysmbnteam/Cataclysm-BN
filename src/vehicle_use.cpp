@@ -444,7 +444,7 @@ void vehicle::control_engines()
 
     if( engines_were_on && !engine_on ) {
         add_msg( _( "You turn off the %s's engines to change their configurations." ), name );
-    } else if( !g->u.controlling_vehicle ) {
+    } else if( !get_avatar().controlling_vehicle ) {
         add_msg( _( "You change the %s's engine configuration." ), name );
     }
 
@@ -509,26 +509,26 @@ int vehicle::select_engine()
 bool vehicle::interact_vehicle_locked()
 {
     if( is_locked ) {
-        const inventory &crafting_inv = g->u.crafting_inventory();
+        const inventory &crafting_inv = get_avatar().crafting_inventory();
         add_msg( _( "You don't find any keys in the %s." ), name );
         if( crafting_inv.has_quality( quality_id( "SCREW" ) ) ) {
             if( query_yn( _( "You don't find any keys in the %s. Attempt to hotwire vehicle?" ),
                           name ) ) {
                 ///\EFFECT_MECHANICS speeds up vehicle hotwiring
-                int mechanics_skill = g->u.get_skill_level( skill_mechanics );
+                int mechanics_skill = get_avatar().get_skill_level( skill_mechanics );
                 const int hotwire_time = 6000 / ( ( mechanics_skill > 0 ) ? mechanics_skill : 1 );
                 const int moves = to_moves<int>( time_duration::from_turns( hotwire_time ) );
                 //assign long activity
-                g->u.assign_activity( ACT_HOTWIRE_CAR, moves, -1, INT_MIN, _( "Hotwire" ) );
+                get_avatar().assign_activity( ACT_HOTWIRE_CAR, moves, -1, INT_MIN, _( "Hotwire" ) );
                 // use part 0 as the reference point
                 point q = coord_translate( parts[0].mount );
                 const tripoint abs_veh_pos = global_square_location().raw();
                 //[0]
-                g->u.activity->values.push_back( abs_veh_pos.x + q.x );
+                get_avatar().activity->values.push_back( abs_veh_pos.x + q.x );
                 //[1]
-                g->u.activity->values.push_back( abs_veh_pos.y + q.y );
+                get_avatar().activity->values.push_back( abs_veh_pos.y + q.y );
                 //[2]
-                g->u.activity->values.push_back( g->u.get_skill_level( skill_mechanics ) );
+                get_avatar().activity->values.push_back( get_avatar().get_skill_level( skill_mechanics ) );
             } else {
                 if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name ) ) {
                     is_alarm_on = true;
@@ -560,7 +560,7 @@ void vehicle::smash_security_system()
     //controls and security must both be valid
     if( c >= 0 && s >= 0 ) {
         ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
-        int skill = g->u.get_skill_level( skill_mechanics );
+        int skill = get_avatar().get_skill_level( skill_mechanics );
         int percent_controls = 70 / ( 1 + skill );
         int percent_alarm = ( skill + 3 ) * 10;
         int rand = rng( 1, 100 );
@@ -569,7 +569,7 @@ void vehicle::smash_security_system()
             damage_direct( c, part_info( c ).durability / 4 );
 
             if( parts[ c ].removed || parts[ c ].is_broken() ) {
-                g->u.controlling_vehicle = false;
+                get_avatar().controlling_vehicle = false;
                 is_alarm_on = false;
                 add_msg( _( "You destroy the controls…" ) );
             } else {
@@ -875,7 +875,7 @@ bool vehicle::fold_up()
         return false;
     }
 
-    if( g->u.controlling_vehicle ) {
+    if( get_avatar().controlling_vehicle ) {
         add_msg( m_warning,
                  _( "As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it." ),
                  name );
@@ -889,8 +889,8 @@ bool vehicle::fold_up()
 
     add_msg( _( "You painstakingly pack the %s into a portable configuration." ), name );
 
-    if( g->u.get_grab_type() != OBJECT_NONE ) {
-        g->u.grab( OBJECT_NONE );
+    if( get_avatar().get_grab_type() != OBJECT_NONE ) {
+        get_avatar().grab( OBJECT_NONE );
         add_msg( _( "You let go of %s as you fold it." ), name );
     }
 
@@ -911,7 +911,7 @@ bool vehicle::fold_up()
     for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
         const size_t p = vp.part_index();
         for( auto &elem : get_items( p ).clear() ) {
-            g->m.add_item_or_charges( g->u.pos(), std::move( elem ) );
+            g->m.add_item_or_charges( get_avatar().pos(), std::move( elem ) );
         }
     }
 
@@ -945,7 +945,7 @@ bool vehicle::fold_up()
 
     // TODO: take longer to fold bigger vehicles
     // TODO: make this interruptible
-    g->u.moves -= 500;
+    get_avatar().moves -= 500;
     return true;
 }
 
@@ -955,7 +955,7 @@ double vehicle::engine_cold_factor( const int e ) const
         return 0.0;
     }
 
-    int eff_temp = get_weather().get_temperature( g->u.pos() );
+    int eff_temp = get_weather().get_temperature( get_avatar().pos() );
     if( !parts[ engines[ e ] ].faults().count( fault_glowplug ) ) {
         eff_temp = std::min( eff_temp, 20 );
     }
@@ -1163,14 +1163,14 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
         return;
     }
 
-    if( take_control && !g->u.controlling_vehicle ) {
-        g->u.controlling_vehicle = true;
+    if( take_control && !get_avatar().controlling_vehicle ) {
+        get_avatar().controlling_vehicle = true;
         add_msg( _( "You take control of the %s." ), name );
     }
     if( !autodrive ) {
-        g->u.assign_activity( ACT_START_ENGINES, start_time );
-        g->u.activity->placement = starting_engine_position - g->u.pos();
-        g->u.activity->values.push_back( take_control );
+        get_avatar().assign_activity( ACT_START_ENGINES, start_time );
+        get_avatar().activity->placement = starting_engine_position - get_avatar().pos();
+        get_avatar().activity->values.push_back( take_control );
     }
 }
 
@@ -1223,7 +1223,7 @@ void vehicle::honk_horn()
 
 void vehicle::reload_seeds( const tripoint &pos )
 {
-    player &p = g->u;
+    player &p = get_avatar();
 
     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
         return itm.is_seed();
@@ -1284,7 +1284,7 @@ void vehicle::beeper_sound()
 void vehicle::play_music()
 {
     for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
-        iuse::play_music( g->u, vp.pos(), 15, 30 );
+        iuse::play_music( get_avatar(), vp.pos(), 15, 30 );
     }
 }
 
@@ -1631,7 +1631,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
 void vehicle::use_washing_machine( int p )
 {
     // Get all the items that can be used as detergent
-    const inventory &inv = g->u.crafting_inventory();
+    const inventory &inv = get_avatar().crafting_inventory();
     std::vector<item *> detergents = inv.items_with( [inv]( const item & it ) {
         return it.has_flag( STATIC( flag_id( "DETERGENT" ) ) ) && inv.has_charges( it.typeId(), 5 );
     } );
@@ -1705,7 +1705,7 @@ void vehicle::use_washing_machine( int p )
 
         std::vector<item_comp> detergent;
         detergent.emplace_back( det_types[chosen_detergent], 5 );
-        g->u.consume_items( detergent, 1, is_crafting_component );
+        get_avatar().consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
                  _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from vehicle tanks." ) );
@@ -1714,7 +1714,7 @@ void vehicle::use_washing_machine( int p )
 
 void vehicle::use_dishwasher( int p )
 {
-    bool detergent_is_enough = g->u.crafting_inventory().has_charges( itype_detergent, 5 );
+    bool detergent_is_enough = get_avatar().crafting_inventory().has_charges( itype_detergent, 5 );
     auto items = get_items( p );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item * const & i ) {
         return i->has_flag( json_flag_FILTHY );
@@ -1761,7 +1761,7 @@ void vehicle::use_dishwasher( int p )
 
         std::vector<item_comp> detergent;
         detergent.emplace_back( itype_detergent, 5 );
-        g->u.consume_items( detergent, 1, is_crafting_component );
+        get_avatar().consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
                  _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled with water from vehicle tanks." ) );
@@ -1774,7 +1774,7 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
         return;
     }
     item &base = parts[part].get_base();
-    base.type->invoke( g->u, base, pos );
+    base.type->invoke( get_avatar(), base, pos );
     if( base.has_var( "contained_name" ) ) {
         parts[part].set_flag( vehicle_part::animal_flag );
     } else {
@@ -1835,7 +1835,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
     if( m.has_effect( effect_tied ) ) {
         add_msg( m_info, _( "You untie your %s." ), m.get_name() );
         m.remove_effect( effect_tied );
-        g->u.i_add( m.remove_tied_item() );
+        get_avatar().i_add( m.remove_tied_item() );
     }
 }
 
@@ -1943,7 +1943,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     map &here = get_map();
     std::vector<std::string> menu_items;
     std::vector<uilist_entry> options_message;
-    const bool has_items_on_ground = here.sees_some_items( pos, g->u );
+    const bool has_items_on_ground = here.sees_some_items( pos, get_avatar() );
     const bool items_are_sealed = here.has_flag( "SEALED", pos );
 
     auto turret = turret_query( pos );

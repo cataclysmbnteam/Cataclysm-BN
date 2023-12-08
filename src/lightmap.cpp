@@ -763,7 +763,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const
 {
-    const int dist = rl_dist( g->u.pos(), p );
+    const int dist = rl_dist( get_avatar().pos(), p );
 
     // Clairvoyance overrides everything.
     if( dist <= cache.u_clairvoyance ) {
@@ -774,7 +774,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
 
     // Unimpaired range is an override to strictly limit vision range based on various conditions,
     // but the player can still see light sources.
-    if( dist > g->u.unimpaired_range() ) {
+    if( dist > get_avatar().unimpaired_range() ) {
         if( !a.obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
             return lit_level::BRIGHT_ONLY;
         } else {
@@ -815,15 +815,15 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
         return false;
     }
 
-    if( max_range >= 0 && square_dist( t, g->u.pos() ) > max_range ) {
+    if( max_range >= 0 && square_dist( t, get_avatar().pos() ) > max_range ) {
         return false;    // Out of range!
     }
 
     const auto &map_cache = get_cache_ref( t.z );
     const apparent_light_info a = apparent_light_helper( map_cache, t );
-    const float light_at_player = map_cache.lm[g->u.posx()][g->u.posy()].max();
+    const float light_at_player = map_cache.lm[get_avatar().posx()][get_avatar().posy()].max();
     return !a.obstructed &&
-           ( a.apparent_light >= g->u.get_vision_threshold( light_at_player ) ||
+           ( a.apparent_light >= get_avatar().get_vision_threshold( light_at_player ) ||
              map_cache.sm[t.x][t.y] > 0.0 );
 }
 
@@ -833,7 +833,7 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
         return false;
     }
 
-    if( max_range >= 0 && square_dist( t, g->u.pos() ) > max_range ) {
+    if( max_range >= 0 && square_dist( t, get_avatar().pos() ) > max_range ) {
         // Out of range!
         return false;
     }

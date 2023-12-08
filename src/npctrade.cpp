@@ -232,8 +232,8 @@ void trading_window::setup_trade( int cost, npc &np )
     // Note that the NPC's barter skill is factored into these prices.
     // TODO: Recalc item values every time a new item is selected
     // Trading is not linear - starving NPC may pay $100 for 3 jerky, but not $100000 for 300 jerky
-    theirs = npc_trading::init_buying( g->u, np, true );
-    yours = npc_trading::init_buying( np, g->u, false );
+    theirs = npc_trading::init_buying( get_avatar(), np, true );
+    yours = npc_trading::init_buying( np, get_avatar(), false );
 
     if( np.will_exchange_items_freely() ) {
         your_balance = 0;
@@ -322,7 +322,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
         const std::vector<item_pricing> &list = they ? theirs : yours;
         const size_t &offset = they ? them_off : you_off;
         const player &person = they ? static_cast<player &>( np ) :
-                               static_cast<player &>( g->u );
+                               static_cast<player &>( get_avatar() );
         catacurses::window &w_whose = they ? w_them : w_you;
         int win_w = getmaxx( w_whose );
         // Borders
@@ -336,7 +336,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
             std::string itname = it->display_name();
 
             if( np.will_exchange_items_freely() && ip.locs.front()->where() != item_location_type::character ) {
-                itname = itname + " (" + ip.locs.front()->describe_location( &g->u ) + ")";
+                itname = itname + " (" + ip.locs.front()->describe_location( &get_avatar() ) + ")";
                 color = c_light_blue;
             }
 
@@ -689,13 +689,13 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
     if( traded ) {
         int practice = 0;
 
-        npc_trading::transfer_items( trade_win.yours, g->u, np, false );
-        npc_trading::transfer_items( trade_win.theirs, np, g->u, true );
+        npc_trading::transfer_items( trade_win.yours, get_avatar(), np, false );
+        npc_trading::transfer_items( trade_win.theirs, np, get_avatar(), true );
 
         // NPCs will remember debts, to the limit that they'll extend credit or previous debts
         if( !np.will_exchange_items_freely() ) {
             trade_win.update_npc_owed( np );
-            g->u.practice( skill_barter, practice / 10000 );
+            get_avatar().practice( skill_barter, practice / 10000 );
         }
     }
     return traded;

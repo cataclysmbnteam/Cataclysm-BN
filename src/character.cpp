@@ -378,7 +378,7 @@ std::string enum_to_string<character_movemode>( character_movemode data )
 
 Character &get_player_character()
 {
-    return g->u;
+    return get_avatar();
 }
 
 // *INDENT-OFF*
@@ -1343,12 +1343,12 @@ void Character::mount_creature( monster &z )
     mounted_creature = mons;
     mons->mounted_player = this;
     if( is_avatar() ) {
-        if( g->u.is_hauling() ) {
-            g->u.stop_hauling();
+        if( get_avatar().is_hauling() ) {
+            get_avatar().stop_hauling();
         }
-        if( g->u.get_grab_type() != OBJECT_NONE ) {
+        if( get_avatar().get_grab_type() != OBJECT_NONE ) {
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( OBJECT_NONE );
+            get_avatar().grab( OBJECT_NONE );
         }
         g->place_player( pnt );
     } else {
@@ -1518,15 +1518,15 @@ void Character::forced_dismount()
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
     if( is_avatar() ) {
-        if( g->u.get_grab_type() != OBJECT_NONE ) {
+        if( get_avatar().get_grab_type() != OBJECT_NONE ) {
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( OBJECT_NONE );
+            get_avatar().grab( OBJECT_NONE );
         }
         set_movement_mode( CMM_WALK );
-        if( g->u.is_auto_moving() || g->u.has_destination() || g->u.has_destination_activity() ) {
-            g->u.clear_destination();
+        if( get_avatar().is_auto_moving() || get_avatar().has_destination() || get_avatar().has_destination_activity() ) {
+            get_avatar().clear_destination();
         }
-        g->update_map( g->u );
+        g->update_map( get_avatar() );
     }
     if( activity ) {
         cancel_activity();
@@ -1553,9 +1553,9 @@ void Character::dismount()
             weapon.typeId() == critter->type->mech_weapon ) {
             remove_item( weapon );
         }
-        if( is_avatar() && g->u.get_grab_type() != OBJECT_NONE ) {
+        if( is_avatar() && get_avatar().get_grab_type() != OBJECT_NONE ) {
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( OBJECT_NONE );
+            get_avatar().grab( OBJECT_NONE );
         }
         critter->remove_effect( effect_ridden );
         critter->add_effect( effect_ai_waiting, 5_turns );
@@ -8617,7 +8617,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
             }
 
             if( destroy ) {
-                if( g->u.sees( *this ) ) {
+                if( get_avatar().sees( *this ) ) {
                     SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
                              m_neutral, _( "destroyed" ), m_info );
                 }
@@ -8810,7 +8810,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         return;
     }
 
-    bool u_see = g->u.sees( *this );
+    bool u_see = get_avatar().sees( *this );
     units::energy trigger_cost_base = bio_ods->power_trigger;
     if( has_active_bionic( bio_ods ) && get_power_level() >= trigger_cost_base * 4 ) {
         if( is_player() ) {
@@ -8945,7 +8945,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 
     if( is_dead_state() ) {
         // if the player killed himself, add it to the kill count list
-        if( !is_npc() && !get_killer() && source == g->u.as_character() ) {
+        if( !is_npc() && !get_killer() && source == get_avatar().as_character() ) {
             g->events().send<event_type::character_kills_character>( get_player_character().getID(), getID(),
                     get_name() );
         }
@@ -8983,7 +8983,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     int dam = dealt_dams.total_damage();
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if( dam > 0 && g->u.sees( pos() ) ) {
+    if( dam > 0 && get_avatar().sees( pos() ) ) {
         g->draw_hit_player( *this, dam );
 
         if( is_player() && source ) {
@@ -9020,10 +9020,10 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     }
 
     //Acid blood effects.
-    bool u_see = g->u.sees( *this );
+    bool u_see = get_avatar().sees( *this );
     int cut_dam = dealt_dams.type_damage( DT_CUT );
     if( source && has_trait( trait_ACIDBLOOD ) && !one_in( 3 ) &&
-        ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( g->u.pos(), source->pos() ) <= 1 ) ) {
+        ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( get_avatar().pos(), source->pos() ) <= 1 ) ) {
         if( is_player() ) {
             add_msg( m_good, _( "Your acidic blood splashes %s in mid-attack!" ),
                      source->disp_name() );
@@ -11592,7 +11592,7 @@ void Character::knock_back_to( const tripoint &to )
     // If we're still in the function at this point, we're actually moving a tile!
     if( g->m.has_flag( "LIQUID", to ) && g->m.has_flag( TFLAG_DEEP_WATER, to ) ) {
         if( !is_npc() ) {
-            avatar_action::swim( g->m, g->u, to );
+            avatar_action::swim( g->m, get_avatar(), to );
         }
         // TODO: NPCs can't swim!
     } else if( g->m.impassable( to ) ) { // Wait, it's a wall

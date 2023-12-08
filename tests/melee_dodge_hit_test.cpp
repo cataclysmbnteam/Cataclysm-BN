@@ -77,7 +77,7 @@ TEST_CASE( "monster::get_hit_base", "[monster][melee][hit]" )
 TEST_CASE( "Character::get_hit_base", "[character][melee][hit][dex]" )
 {
     clear_all_state();
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     SECTION( "character get_hit_base increases by 1/4 for each point of DEX" ) {
@@ -103,7 +103,7 @@ TEST_CASE( "monster::get_dodge_base", "[monster][melee][dodge]" )
 TEST_CASE( "Character::get_dodge_base", "[character][melee][dodge][dex][skill]" )
 {
     clear_all_state();
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     // Character::get_dodge_base is simply DEXTERITY / 2 + DODGE_SKILL
@@ -193,7 +193,7 @@ TEST_CASE( "monster::get_dodge with effects", "[monster][melee][dodge][effect]" 
 TEST_CASE( "Character::get_dodge", "[player][melee][dodge]" )
 {
     clear_all_state();
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     const float base_dodge = dummy.get_dodge_base();
@@ -215,7 +215,7 @@ TEST_CASE( "Character::get_dodge", "[player][melee][dodge]" )
 TEST_CASE( "Character::get_dodge with effects", "[player][melee][dodge][effect]" )
 {
     clear_all_state();
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     // Compare all effects against base dodge ability
@@ -272,7 +272,7 @@ TEST_CASE( "Character::get_dodge with effects", "[player][melee][dodge][effect]"
 TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
 {
     clear_all_state();
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     // Base dodge rate when not grabbed

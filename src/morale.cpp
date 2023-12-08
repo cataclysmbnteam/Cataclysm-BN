@@ -954,7 +954,7 @@ void player_morale::on_worn_item_washed( const item &it )
     const body_part_set covered( it.get_covered_body_parts() );
 
     if( covered.any() ) {
-        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
+        for( const bodypart_id &bp : get_avatar().get_all_body_parts() ) {
             if( covered.test( bp.id() ) ) {
                 update_body_part( body_parts[bp] );
             }
@@ -1012,7 +1012,7 @@ void player_morale::set_worn( const item &it, bool worn )
     const body_part_set covered( it.get_covered_body_parts() );
 
     if( covered.any() ) {
-        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
+        for( const bodypart_id &bp : get_avatar().get_all_body_parts() ) {
             if( covered.test( bp.id() ) ) {
                 update_body_part( body_parts[bp] );
             }

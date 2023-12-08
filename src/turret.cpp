@@ -392,7 +392,7 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
     }
 
     // Get target
-    target_handler::trajectory trajectory = target_handler::mode_turrets( g->u, *this, turrets );
+    target_handler::trajectory trajectory = target_handler::mode_turrets( get_avatar(), *this, turrets );
 
     bool got_target = !trajectory.empty();
     if( got_target ) {
@@ -405,7 +405,7 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
         }
 
         ///\EFFECT_INT speeds up aiming of vehicle turrets
-        g->u.moves = std::min( 0, g->u.moves - 100 + ( 5 * g->u.int_cur ) );
+        get_avatar().moves = std::min( 0, get_avatar().moves - 100 + ( 5 * get_avatar().int_cur ) );
     }
     return got_target;
 }
@@ -562,8 +562,8 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         area += area == 1 ? 1 : 2;
     }
 
-    const bool u_see = g->u.sees( pos );
-    const bool u_hear = !g->u.is_deaf();
+    const bool u_see = get_avatar().sees( pos );
+    const bool u_hear = !get_avatar().is_deaf();
     // The current target of the turret.
     auto &target = pt.target;
     if( target.first == target.second ) {
@@ -614,7 +614,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     shots = gun.fire( *cpu, targ );
 
-    if( shots && u_see && !g->u.sees( targ ) ) {
+    if( shots && u_see && !get_avatar().sees( targ ) ) {
         add_msg( _( "The %1$s fires its %2$s!" ), name, pt.name() );
     }
 

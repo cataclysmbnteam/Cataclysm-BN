@@ -618,7 +618,7 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
     tripoint_abs_omt selected = origin;
     sort_mode_t sort_mode = sort_mode_t::name;
 
-    const tripoint_abs_omt p_player = g->u.global_omt_location();
+    const tripoint_abs_omt p_player = get_avatar().global_omt_location();
 
     bool quit = false;
     while( !quit ) {
@@ -2228,7 +2228,7 @@ void ui::omap::display_distribution_grids()
 {
     overmap_ui::draw_data_t data;
     data.debug_grids = true;
-    overmap_ui::display( g->u.global_omt_location(), data );
+    overmap_ui::display( get_avatar().global_omt_location(), data );
 }
 
 void ui::omap::display_editor()

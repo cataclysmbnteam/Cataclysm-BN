@@ -166,10 +166,10 @@ class DefaultRemovePartHandler : public RemovePartHandler
             }
             // TODO: maybe do this for all the nearby NPCs as well?
 
-            if( g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == veh.global_part_pos3( part ) ) {
+            if( get_avatar().get_grab_type() == OBJECT_VEHICLE && get_avatar().grab_point == veh.global_part_pos3( part ) ) {
                 if( veh.parts_at_relative( veh.part( part ).mount, false ).empty() ) {
                     add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
-                    g->u.grab( OBJECT_NONE );
+                    get_avatar().grab( OBJECT_NONE );
                 }
             }
 
@@ -934,7 +934,7 @@ static int get_turn_from_angle( const units::angle angle, const tripoint &vehpos
 
 void vehicle::drive_to_local_target( const tripoint &target, bool follow_protocol )
 {
-    if( follow_protocol && g->u.in_vehicle ) {
+    if( follow_protocol && get_avatar().in_vehicle ) {
         stop_autodriving();
         return;
     }
@@ -956,8 +956,8 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
             stop = true;
             break;
         }
-        if( elem == g->u.pos().xy() ) {
-            if( follow_protocol || g->u.in_vehicle ) {
+        if( elem == get_avatar().pos().xy() ) {
+            if( follow_protocol || get_avatar().in_vehicle ) {
                 continue;
             } else {
                 stop = true;
@@ -1002,18 +1002,18 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     // If its a helicopter, we dont need to worry about airborne obstacles so much
     // And fuel efficiency is terrible at low speeds.
     int safe_player_follow_speed = 400;
-    if( g->u.movement_mode_is( CMM_RUN ) ) {
+    if( get_avatar().movement_mode_is( CMM_RUN ) ) {
         safe_player_follow_speed = 800;
-    } else if( g->u.movement_mode_is( CMM_CROUCH ) ) {
+    } else if( get_avatar().movement_mode_is( CMM_CROUCH ) ) {
         safe_player_follow_speed = 200;
     }
     if( follow_protocol ) {
         if( ( ( turn_x > 0 || turn_x < 0 ) && velocity > safe_player_follow_speed ) ||
-            rl_dist( vehpos, g->m.getabs( g->u.pos() ) ) < 7 + ( ( mount_max.y * 3 ) + 4 ) ) {
+            rl_dist( vehpos, g->m.getabs( get_avatar().pos() ) ) < 7 + ( ( mount_max.y * 3 ) + 4 ) ) {
             accel_y = 1;
         }
         if( ( velocity < std::min( safe_velocity(), safe_player_follow_speed ) && turn_x == 0 &&
-              rl_dist( vehpos, g->m.getabs( g->u.pos() ) ) > 8 + ( ( mount_max.y * 3 ) + 4 ) ) ||
+              rl_dist( vehpos, g->m.getabs( get_avatar().pos() ) ) > 8 + ( ( mount_max.y * 3 ) + 4 ) ) ||
             velocity < 100 ) {
             accel_y = -1;
         }
@@ -1285,7 +1285,7 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
             }
         }
         ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-        pwr += ( g->u.str_cur - 8 ) * part_info( index ).engine_muscle_power_factor();
+        pwr += ( get_avatar().str_cur - 8 ) * part_info( index ).engine_muscle_power_factor();
         /// wind-powered vehicles have differing power depending on wind direction
         if( vp.info().fuel_type == fuel_type_wind ) {
             const weather_manager &weather = get_weather();
@@ -3116,13 +3116,13 @@ int vehicle::part_displayed_at( point dp ) const
         return -1;
     }
 
-    bool in_vehicle = g->u.in_vehicle;
+    bool in_vehicle = get_avatar().in_vehicle;
     if( in_vehicle ) {
         // They're in a vehicle, but are they in /this/ vehicle?
         std::vector<int> psg_parts = boarded_parts();
         in_vehicle = false;
         for( auto &psg_part : psg_parts ) {
-            if( get_passenger( psg_part ) == &g->u ) {
+            if( get_passenger( psg_part ) == &get_avatar() ) {
                 in_vehicle = true;
                 break;
             }
@@ -3515,17 +3515,17 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
     //muscle engines have infinite fuel
     if( ftype == fuel_type_muscle ) {
         // TODO: Allow NPCs to power those
-        const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
-        bool player_controlling = player_in_control( g->u );
+        const optional_vpart_position vp = g->m.veh_at( get_avatar().pos() );
+        bool player_controlling = player_in_control( get_avatar() );
 
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
         if( vp && &vp->vehicle() == this && player_controlling ) {
             const int p = avail_part_with_feature( vp->part_index(), VPFLAG_ENGINE, true );
             if( p >= 0 && is_part_on( p ) && part_info( p ).fuel_type == fuel_type_muscle ) {
                 //Broken limbs prevent muscle engines from working
-                if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) && ( g->u.get_working_leg_count() >= 2 ) ) ||
+                if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) && ( get_avatar().get_working_leg_count() >= 2 ) ) ||
                     ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
-                      ( g->u.get_working_arm_count() >= 2 ) ) ) {
+                      ( get_avatar().get_working_arm_count() >= 2 ) ) ) {
                     fl += 10;
                 }
             }
@@ -4352,7 +4352,7 @@ bool vehicle::has_sufficient_rotorlift() const
 // requires vehicle to have sufficient rotor lift, not suitable for checking if it has rotor.
 bool vehicle::is_rotorcraft() const
 {
-    return has_part( "ROTOR" ) && has_sufficient_rotorlift() && player_in_control( g->u );
+    return has_part( "ROTOR" ) && has_sufficient_rotorlift() && player_in_control( get_avatar() );
 }
 
 int vehicle::get_z_change() const
@@ -4767,29 +4767,29 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine
         const item &muscle = *item::spawn_temporary( "muscle" );
-        for( const bionic_id &bid : g->u.get_bionic_fueled_with( muscle ) ) {
-            if( g->u.has_active_bionic( bid ) ) { // active power gen
+        for( const bionic_id &bid : get_avatar().get_bionic_fueled_with( muscle ) ) {
+            if( get_avatar().has_active_bionic( bid ) ) { // active power gen
                 // more pedaling = more power
-                g->u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency *
+                get_avatar().mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency *
                                       ( load / 1000.0f ) );
                 mod += eff_load / 5;
             } else { // passive power gen
-                g->u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->passive_fuel_efficiency *
+                get_avatar().mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->passive_fuel_efficiency *
                                       ( load / 1000.0f ) );
                 mod += eff_load / 10;
             }
         }
         // decreased stamina burn scalable with load
-        if( g->u.has_active_bionic( bio_jointservo ) ) {
-            g->u.mod_power_level( -bio_jointservo->power_trigger * std::max( eff_load / 20, 1 ) );
+        if( get_avatar().has_active_bionic( bio_jointservo ) ) {
+            get_avatar().mod_power_level( -bio_jointservo->power_trigger * std::max( eff_load / 20, 1 ) );
             mod -= std::max( eff_load / 5, 5 );
         }
         if( one_in( 1000 / load ) && one_in( 10 ) ) {
-            g->u.mod_stored_kcal( -10 );
-            g->u.mod_thirst( 1 );
-            g->u.mod_fatigue( 1 );
+            get_avatar().mod_stored_kcal( -10 );
+            get_avatar().mod_thirst( 1 );
+            get_avatar().mod_fatigue( 1 );
         }
-        g->u.mod_stamina( -( base_burn + mod ) );
+        get_avatar().mod_stamina( -( base_burn + mod ) );
         add_msg( m_debug, "Load: %d", load );
         add_msg( m_debug, "Mod: %d", mod );
         add_msg( m_debug, "Burn: %d", -( base_burn + mod ) );
@@ -5007,7 +5007,7 @@ void vehicle::power_parts()
             for( auto &elem : reactors ) {
                 parts[ elem ].enabled = false;
             }
-            if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
+            if( player_in_control( get_avatar() ) || get_avatar().sees( global_pos3() ) ) {
                 add_msg( _( "The %s's reactor dies!" ), name );
             }
         }
@@ -5041,13 +5041,13 @@ void vehicle::power_parts()
 
         is_alarm_on = false;
         camera_on = false;
-        if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
+        if( player_in_control( get_avatar() ) || get_avatar().sees( global_pos3() ) ) {
             add_msg( _( "The %s's battery dies!" ), name );
         }
         if( engine_epower < 0 ) {
             // Not enough epower to run gas engine ignition system
             engine_on = false;
-            if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
+            if( player_in_control( get_avatar() ) || get_avatar().sees( global_pos3() ) ) {
                 add_msg( _( "The %s's engine dies!" ), name );
             }
         }
@@ -5182,7 +5182,7 @@ void traverse( StartPoint &start,
         }
 
         const tvr result = veh_action( *veh );
-        g->u.add_msg_if_player( m_debug, "After remote veh %p",
+        get_avatar().add_msg_if_player( m_debug, "After remote veh %p",
                                 static_cast<void *>( veh ) );
 
         // We do not need to check neighbours if we stop.
@@ -5205,7 +5205,7 @@ void traverse( StartPoint &start,
         }
 
         const tvr result = grid_action( grid );
-        g->u.add_msg_if_player( m_debug, "After remote grid %p",
+        get_avatar().add_msg_if_player( m_debug, "After remote grid %p",
                                 static_cast<void *>( &grid ) );
 
         // We do not need to check neighbours if we stop.
@@ -5291,12 +5291,12 @@ int vehicle::charge_battery( int amount, bool include_other_vehicles )
         // still a bit of charge we could send out...
         using tvr = distribution_graph::traverse_visitor_result;
         auto charge_veh = [&amount]( vehicle & veh ) {
-            g->u.add_msg_if_player( m_debug, "CHv: %d", amount );
+            get_avatar().add_msg_if_player( m_debug, "CHv: %d", amount );
             amount = veh.charge_battery( amount, false );
             return amount > 0 ? tvr::continue_further : tvr::stop;
         };
         auto charge_grid = [&amount]( distribution_grid & grid ) {
-            g->u.add_msg_if_player( m_debug, "CHg: %d", amount );
+            get_avatar().add_msg_if_player( m_debug, "CHg: %d", amount );
             amount = grid.mod_resource( amount, false );
             return amount > 0 ? tvr::continue_further : tvr::stop;
         };
@@ -5337,12 +5337,12 @@ int vehicle::discharge_battery( int amount, bool recurse )
         // need more power!
         using tvr = distribution_graph::traverse_visitor_result;
         auto discharge_vehicle = [&amount]( vehicle & veh ) {
-            g->u.add_msg_if_player( m_debug, "CHv: %d", amount );
+            get_avatar().add_msg_if_player( m_debug, "CHv: %d", amount );
             amount = veh.discharge_battery( amount, false );
             return amount > 0 ? tvr::continue_further : tvr::stop;
         };
         auto discharge_grid = [&amount]( distribution_grid & grid ) {
-            g->u.add_msg_if_player( m_debug, "CHg: %d", amount );
+            get_avatar().add_msg_if_player( m_debug, "CHg: %d", amount );
             amount = -grid.mod_resource( -amount, false );
             return amount > 0 ? tvr::continue_further : tvr::stop;
         };
@@ -5388,7 +5388,7 @@ void vehicle::idle( bool on_map )
             noise_and_smoke( idle_rate, 1_turns );
         }
     } else {
-        if( engine_on && g->u.sees( global_pos3() ) &&
+        if( engine_on && get_avatar().sees( global_pos3() ) &&
             ( has_engine_type_not( fuel_type_muscle, true ) && has_engine_type_not( fuel_type_animal, true ) &&
               has_engine_type_not( fuel_type_wind, true ) && has_engine_type_not( fuel_type_mana, true ) ) ) {
             add_msg( _( "The %s's engine dies!" ), name );
@@ -5396,9 +5396,9 @@ void vehicle::idle( bool on_map )
         engine_on = false;
     }
 
-    if( !warm_enough_to_plant( g->u.pos() ) ) {
+    if( !warm_enough_to_plant( get_avatar().pos() ) ) {
         for( const vpart_reference &vp : get_enabled_parts( "PLANTER" ) ) {
-            if( g->u.sees( global_pos3() ) ) {
+            if( get_avatar().sees( global_pos3() ) ) {
                 add_msg( _( "The %s's planter turns off due to low temperature." ), name );
             }
             vp.part().enabled = false;
@@ -5704,7 +5704,7 @@ void vehicle::gain_moves()
 {
     fuel_used_last_turn.clear();
     check_falling_or_floating();
-    const bool pl_control = player_in_control( g->u );
+    const bool pl_control = player_in_control( get_avatar() );
     if( is_moving() || is_falling ) {
         if( !loose_parts.empty() ) {
             shed_loose_parts();
@@ -5772,7 +5772,7 @@ bool vehicle::decrement_summon_timer()
             const size_t p = vp.part_index();
             dump_items_from_part( p );
         }
-        if( g->u.sees( global_pos3() ) ) {
+        if( get_avatar().sees( global_pos3() ) ) {
             add_msg( m_info, _( "Your %s winks out of existence." ), name );
         }
         g->m.destroy_vehicle( this );
@@ -6716,14 +6716,14 @@ int vehicle::break_off( int p, int dmg )
 
             if( parts[ parts_in_square[ index ] ].is_broken() ) {
                 // Tearing off a broken part - break it up
-                if( g->u.sees( pos ) ) {
+                if( get_avatar().sees( pos ) ) {
                     add_msg( m_bad, _( "The %s's %s breaks into pieces!" ), name,
                              parts[ parts_in_square[ index ] ].name() );
                 }
                 scatter_parts( parts[parts_in_square[index]] );
             } else {
                 // Intact (but possibly damaged) part - remove it in one piece
-                if( g->u.sees( pos ) ) {
+                if( get_avatar().sees( pos ) ) {
                     add_msg( m_bad, _( "The %1$s's %2$s is torn off!" ), name,
                              parts[ parts_in_square[ index ] ].name() );
                 }
@@ -6734,7 +6734,7 @@ int vehicle::break_off( int p, int dmg )
             remove_part( parts_in_square[index] );
         }
         // After clearing the frame, remove it.
-        if( g->u.sees( pos ) ) {
+        if( get_avatar().sees( pos ) ) {
             add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
         }
         scatter_parts( parts[p] );
@@ -6742,7 +6742,7 @@ int vehicle::break_off( int p, int dmg )
         find_and_split_vehicles( p );
     } else {
         //Just break it off
-        if( g->u.sees( pos ) ) {
+        if( get_avatar().sees( pos ) ) {
             add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
         }
 

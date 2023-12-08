@@ -568,15 +568,15 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     nc_color see_color;
 
     static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
-    bool u_has_radio = g->u.has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
+    bool u_has_radio = get_avatar().has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
-        ( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) ) {
+        ( rl_dist( get_avatar().pos(), pos() ) > SEEX * 2 || !get_avatar().sees( pos() ) ) ) {
         if( u_has_radio && guy_has_radio ) {
             // TODO: better range calculation than just elevation.
             int max_range = 200;
-            max_range *= ( 1 + ( g->u.pos().z * 0.1 ) );
+            max_range *= ( 1 + ( get_avatar().pos().z * 0.1 ) );
             max_range *= ( 1 + ( pos().z * 0.1 ) );
             if( is_stationed ) {
                 // if camp that NPC is at, has a radio tower
@@ -586,14 +586,14 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             }
             // if camp that player is at, has a radio tower
             std::optional<basecamp *> player_camp =
-                overmap_buffer.find_camp( g->u.global_omt_location().xy() );
+                overmap_buffer.find_camp( get_avatar().global_omt_location().xy() );
             if( player_camp ) {
                 if( ( *player_camp )->has_provides( "radio_tower" ) ) {
                     max_range *= 5;
                 }
             }
-            if( ( ( g->u.pos().z >= 0 && pos().z >= 0 ) || ( g->u.pos().z == pos().z ) ) &&
-                square_dist( g->u.global_sm_location(), global_sm_location() ) <= max_range ) {
+            if( ( ( get_avatar().pos().z >= 0 && pos().z >= 0 ) || ( get_avatar().pos().z == pos().z ) ) &&
+                square_dist( get_avatar().global_sm_location(), global_sm_location() ) <= max_range ) {
                 retval = 2;
                 can_see = _( "Within radio range" );
                 see_color = c_light_green;
@@ -860,7 +860,7 @@ void faction_manager::display() const
         camp = nullptr;
         // create a list of faction camps
         camps.clear();
-        for( tripoint_abs_omt elem : g->u.camps ) {
+        for( tripoint_abs_omt elem : get_avatar().camps ) {
             std::optional<basecamp *> p = overmap_buffer.find_camp( elem.xy() );
             if( !p ) {
                 continue;

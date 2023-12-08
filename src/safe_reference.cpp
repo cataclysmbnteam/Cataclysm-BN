@@ -91,7 +91,7 @@ void deserialize<item>( safe_reference<item> &out, JsonIn &js )
                 obj.read( "character", who_id );
             } else {
                 // This is for migrating saves before npc item locations were supported and all
-                // character item locations were assumed to be on g->u
+                // character item locations were assumed to be on get_avatar()
                 who_id = get_avatar().getID();
             }
 

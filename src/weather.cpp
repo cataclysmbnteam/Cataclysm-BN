@@ -76,10 +76,10 @@ static bool is_player_outside()
 void glare( const weather_type_id &w )
 {
     //General prepequisites for glare
-    if( !is_player_outside() || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
-        g->u.worn_with_flag( json_flag_SUN_GLASSES ) ||
-        g->u.has_bionic( bio_sunglasses ) ||
-        g->u.is_blind() ) {
+    if( !is_player_outside() || !g->is_in_sunlight( get_avatar().pos() ) || get_avatar().in_sleep_state() ||
+        get_avatar().worn_with_flag( json_flag_SUN_GLASSES ) ||
+        get_avatar().has_bionic( bio_sunglasses ) ||
+        get_avatar().is_blind() ) {
         return;
     }
 
@@ -89,19 +89,19 @@ void glare( const weather_type_id &w )
     if( season == WINTER ) {
         //Winter snow glare: for both clear & sunny weather
         effect = &effect_snow_glare;
-        dur = g->u.has_effect( *effect ) ? 1_turns : 2_turns;
+        dur = get_avatar().has_effect( *effect ) ? 1_turns : 2_turns;
     } else if( w->sun_intensity == sun_intensity_type::high ) {
         //Sun glare: only for bright sunny weather
         effect = &effect_glare;
-        dur = g->u.has_effect( *effect ) ? 1_turns : 2_turns;
+        dur = get_avatar().has_effect( *effect ) ? 1_turns : 2_turns;
     }
     //apply final glare effect
     if( dur > 0_turns && effect != nullptr ) {
         //enhance/reduce by some traits
-        if( g->u.has_trait( trait_CEPH_VISION ) ) {
+        if( get_avatar().has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        g->u.add_env_effect( *effect, bp_eyes, 2, dur );
+        get_avatar().add_env_effect( *effect, bp_eyes, 2, dur );
     }
 }
 
@@ -406,15 +406,15 @@ void weather_effect::wet_player( int amount )
         return;
     }
 
-    const auto &wet = g->u.body_wetness;
-    const auto &capacity = g->u.drench_capacity;
+    const auto &wet = get_avatar().body_wetness;
+    const auto &capacity = get_avatar().drench_capacity;
     body_part_set drenched_parts{ { bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ) } };
     if( wet[bp_torso] * 100 >= capacity[bp_torso] * 50 ) {
         // Once upper body is 50%+ drenched, start soaking the legs too
         drenched_parts.unify_set( { { bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } } );
     }
 
-    g->u.drench( amount, drenched_parts, false );
+    get_avatar().drench( amount, drenched_parts, false );
 }
 
 /**
@@ -423,15 +423,15 @@ void weather_effect::wet_player( int amount )
  */
 void weather_effect::thunder( int intensity )
 {
-    if( !g->u.has_effect( effect_sleep ) && !g->u.is_deaf() && one_in( intensity ) ) {
+    if( !get_avatar().has_effect( effect_sleep ) && !get_avatar().is_deaf() && one_in( intensity ) ) {
         if( g->get_levz() >= 0 ) {
             add_msg( _( "You hear a distant rumble of thunder." ) );
             sfx::play_variant_sound( "environment", "thunder_far", 80, random_direction() );
         } else if( one_in( std::max( roll_remainder( 2.0f * g->get_levz() /
-                                     g->u.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                                     get_avatar().mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
             add_msg( _( "You hear a rumble of thunder from above." ) );
             sfx::play_variant_sound( "environment", "thunder_far",
-                                     ( 80 * g->u.mutation_value( "hearing_modifier" ) ), random_direction() );
+                                     ( 80 * get_avatar().mutation_value( "hearing_modifier" ) ), random_direction() );
         }
     }
 }
@@ -463,19 +463,19 @@ void weather_effect::lightning( int intensity )
 void weather_effect::light_acid( int intensity )
 {
     if( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) {
-        if( g->u.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && !one_in( 3 ) ) {
-            add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.primary_weapon().tname() );
+        if( get_avatar().primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && !one_in( 3 ) ) {
+            add_msg( _( "Your %s protects you from the acidic drizzle." ), get_avatar().primary_weapon().tname() );
         } else {
-            if( g->u.worn_with_flag( json_flag_RAINPROOF ) && !one_in( 4 ) ) {
+            if( get_avatar().worn_with_flag( json_flag_RAINPROOF ) && !one_in( 4 ) ) {
                 add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
             } else {
                 bool has_helmet = false;
-                if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 4 ) ) ) {
+                if( get_avatar().is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 4 ) ) ) {
                     add_msg( _( "Your power armor protects you from the acidic drizzle." ) );
                 } else {
                     add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now…" ) );
-                    if( one_in( 10 ) && ( g->u.get_pain() < 10 ) ) {
-                        g->u.mod_pain( 1 );
+                    if( one_in( 10 ) && ( get_avatar().get_pain() < 10 ) ) {
+                        get_avatar().mod_pain( 1 );
                     }
                 }
             }
@@ -1068,10 +1068,10 @@ void weather_manager::update_weather()
     }
 
     const weather_generator &weather_gen = get_cur_weather_gen();
-    w = weather_gen.get_weather( g->u.global_square_location(), calendar::turn, g->get_seed() );
+    w = weather_gen.get_weather( get_avatar().global_square_location(), calendar::turn, g->get_seed() );
     weather_type_id old_weather = weather_id;
     weather_id = weather_override ? weather_override : weather_gen.get_weather_conditions( w );
-    if( !g->u.has_artifact_with( AEP_BAD_WEATHER ) ) {
+    if( !get_avatar().has_artifact_with( AEP_BAD_WEATHER ) ) {
         weather_override = weather_type_id::NULL_ID();
     }
 
@@ -1082,14 +1082,14 @@ void weather_manager::update_weather()
     // TODO: predict when the weather changes and use that time.
     nextweather = calendar::turn + 5_minutes;
     if( weather_id != old_weather && weather_id->dangerous &&
-        g->get_levz() >= 0 && get_map().is_outside( g->u.pos() )
-        && !g->u.has_activity( ACT_WAIT_WEATHER ) ) {
+        g->get_levz() >= 0 && get_map().is_outside( get_avatar().pos() )
+        && !get_avatar().has_activity( ACT_WAIT_WEATHER ) ) {
         g->cancel_activity_or_ignore_query( distraction_type::weather_change,
                                             string_format( _( "The weather changed to %s!" ), weather_id->name ) );
     }
 
-    if( weather_id != old_weather && g->u.has_activity( ACT_WAIT_WEATHER ) ) {
-        g->u.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
+    if( weather_id != old_weather && get_avatar().has_activity( ACT_WAIT_WEATHER ) ) {
+        get_avatar().assign_activity( ACT_WAIT_WEATHER, 0, 0 );
     }
 
     if( weather_id->sight_penalty !=
@@ -1102,7 +1102,7 @@ void weather_manager::update_weather()
 
     water_temperature = units::to_fahrenheit(
                             weather_gen.get_water_temperature(
-                                tripoint_abs_ms( g->u.global_square_location() ),
+                                tripoint_abs_ms( get_avatar().global_square_location() ),
                                 calendar::turn, calendar::config, g->get_seed() ) );
 }
 

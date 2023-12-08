@@ -48,10 +48,10 @@ static void clear_game( const ter_id &terrain )
     clear_vehicles();
 
     // Move player somewhere safe
-    REQUIRE_FALSE( g->u.in_vehicle );
-    g->u.setpos( tripoint_zero );
+    REQUIRE_FALSE( get_avatar().in_vehicle );
+    get_avatar().setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    g->u.add_effect( effect_blind, 365_days, num_bp );
+    get_avatar().add_effect( effect_blind, 365_days, num_bp );
 
     build_test_map( terrain );
 }

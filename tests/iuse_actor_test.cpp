@@ -42,7 +42,7 @@ static monster *find_adjacent_monster( const tripoint &pos )
 TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 {
     clear_all_state();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     g->clear_zombies();
     detached_ptr<item> det = item::spawn( "bot_manhack", calendar::start_of_cataclysm,

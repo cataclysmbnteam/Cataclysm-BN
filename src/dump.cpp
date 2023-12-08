@@ -84,7 +84,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         auto dump = [&rows, &bp]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            r.push_back( std::to_string( obj.get_encumber( g->u, convert_bp( bp ).id() ) ) );
+            r.push_back( std::to_string( obj.get_encumber( get_avatar(), convert_bp( bp ).id() ) ) );
             r.push_back( std::to_string( obj.get_warmth() ) );
             r.push_back( std::to_string( to_gram( obj.weight() ) ) );
             r.push_back( std::to_string( obj.get_storage() / units::legacy_volume_factor ) );
@@ -135,7 +135,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         for( const itype *e : item_controller->all() ) {
             item &food = *item::spawn_temporary( e, calendar::turn, item::solitary_tag {} );
 
-            if( food.is_food() && g->u.can_eat( food ).success() ) {
+            if( food.is_food() && get_avatar().can_eat( food ).success() ) {
                 dump( food );
             }
         }

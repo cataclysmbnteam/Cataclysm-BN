@@ -100,7 +100,7 @@ void user_interface::show()
         tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<M>ove" ) ) + 2;
         tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
         tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
-        if( !g->u.name.empty() ) {
+        if( !get_avatar().name.empty() ) {
             shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<T>est" ) );
         }
         tmpx = 0;
@@ -364,7 +364,7 @@ void user_interface::show()
                 iLine--;
                 iColumn = 1;
             }
-        } else if( action == "TEST_RULE" && currentPageNonEmpty && !g->u.name.empty() ) {
+        } else if( action == "TEST_RULE" && currentPageNonEmpty && !get_avatar().name.empty() ) {
             cur_rules[iLine].test_pattern();
         } else if( action == "SWITCH_AUTO_PICKUP_OPTION" ) {
             // TODO: Now that NPCs use this function, it could be used for them too
@@ -392,7 +392,7 @@ void player_settings::show()
 
     ui.title = _( " AUTO PICKUP MANAGER " );
     ui.tabs.emplace_back( _( "[<Global>]" ), global_rules );
-    if( !g->u.name.empty() ) {
+    if( !get_avatar().name.empty() ) {
         ui.tabs.emplace_back( _( "[<Character>]" ), character_rules );
     }
     ui.is_autopickup = true;
@@ -404,7 +404,7 @@ void player_settings::show()
     }
 
     save_global();
-    if( !g->u.name.empty() ) {
+    if( !get_avatar().name.empty() ) {
         save_character();
     }
     invalidate();

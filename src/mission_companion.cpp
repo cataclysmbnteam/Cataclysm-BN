@@ -832,7 +832,7 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const std::
     }
 
     if( money != 0 ) {
-        g->u.cash += ( 100 * money );
+        get_avatar().cash += ( 100 * money );
         popup( _( "The caravan party has returned.  Your share of the profits are $%d!" ), money );
     } else {
         popup( _( "The caravan was a disaster and your companions never made it home…" ) );
@@ -984,11 +984,11 @@ void talk_function::field_build_2( npc &p )
 
 void talk_function::field_plant( npc &p, const std::string &place )
 {
-    if( !warm_enough_to_plant( g->u.pos() ) ) {
+    if( !warm_enough_to_plant( get_avatar().pos() ) ) {
         popup( _( "It is too cold to plant anything now." ) );
         return;
     }
-    std::vector<item *> seed_inv = g->u.items_with( []( const item & itm ) {
+    std::vector<item *> seed_inv = get_avatar().items_with( []( const item & itm ) {
         return itm.is_seed() && itm.typeId() != itype_marloss_seed &&
                itm.typeId() != itype_fungal_seeds;
     } );
@@ -1018,14 +1018,14 @@ void talk_function::field_plant( npc &p, const std::string &place )
 
     const auto &seed_id = seed_types[seed_index];
     if( item::count_by_charges( seed_id ) ) {
-        free_seeds = g->u.charges_of( seed_id );
+        free_seeds = get_avatar().charges_of( seed_id );
     } else {
-        free_seeds = g->u.amount_of( seed_id );
+        free_seeds = get_avatar().amount_of( seed_id );
     }
 
     //Now we need to find how many free plots we have to plant in...
     const tripoint_abs_omt site = overmap_buffer.find_closest(
-                                      g->u.global_omt_location(), place, 20, false );
+                                      get_avatar().global_omt_location(), place, 20, false );
     tinymap bay;
     bay.load( project_to<coords::sm>( site ), false );
     for( const tripoint &plot : bay.points_on_zlevel() ) {
@@ -1045,7 +1045,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     }
 
     signed int a = limiting_number * 300;
-    if( a > g->u.cash ) {
+    if( a > get_avatar().cash ) {
         popup( _( "I'm sorry, you don't have enough money to plant those seeds…" ) );
         return;
     }
@@ -1059,9 +1059,9 @@ void talk_function::field_plant( npc &p, const std::string &place )
         if( bay.ter( plot ) == t_dirtmound && limiting_number > 0 ) {
             std::vector<detached_ptr<item>> used_seed;
             if( item::count_by_charges( seed_id ) ) {
-                used_seed = g->u.use_charges( seed_id, 1 );
+                used_seed = get_avatar().use_charges( seed_id, 1 );
             } else {
-                used_seed = g->u.use_amount( seed_id, 1 );
+                used_seed = get_avatar().use_amount( seed_id, 1 );
             }
             used_seed.front()->set_age( 0_turns );
             bay.add_item_or_charges( plot, std::move( used_seed.front() ) );
@@ -1168,7 +1168,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     bool liquidate = false;
 
     signed int a = number_plots * 2;
-    if( a > g->u.cash ) {
+    if( a > get_avatar().cash ) {
         liquidate = true;
         popup( _( "You don't have enough to pay the workers to harvest the crop so you are forced "
                   "to sell…" ) );
@@ -1180,14 +1180,14 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     //Add fruit
     if( liquidate ) {
         add_msg( _( "The %s are sold for $%d…" ), plant_names[plant_index], money );
-        g->u.cash += ( number_plants * tmp->price( true ) - number_plots * 2 ) / 100;
+        get_avatar().cash += ( number_plants * tmp->price( true ) - number_plots * 2 ) / 100;
     } else {
         if( tmp->count_by_charges() ) {
             tmp->charges = 1;
         }
         for( int i = 0; i < number_plants; ++i ) {
             //Should be dropped at your feet once greedy companions can be controlled
-            g->u.i_add( item::spawn( *tmp ) );
+            get_avatar().i_add( item::spawn( *tmp ) );
         }
         add_msg( _( "You receive %d %s…" ), number_plants, plant_names[plant_index] );
     }
@@ -1198,7 +1198,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
             tmp->charges = 1;
         }
         for( int i = 0; i < number_seeds; ++i ) {
-            g->u.i_add( item::spawn( *tmp ) );
+            get_avatar().i_add( item::spawn( *tmp ) );
         }
         add_msg( _( "You receive %d %s…" ), number_seeds, tmp->type_name( 3 ) );
     }
@@ -1252,7 +1252,7 @@ bool talk_function::scavenging_patrol_return( npc &p )
     }
 
     int money = rng( 25, 450 );
-    g->u.cash += money * 100;
+    get_avatar().cash += money * 100;
 
     companion_skill_trainer( *comp, "combat", experience * 10_minutes, 10 );
     popup( _( "%s returns from patrol having earned $%d and a fair bit of experience…" ),
@@ -1260,7 +1260,7 @@ bool talk_function::scavenging_patrol_return( npc &p )
     if( one_in( 10 ) ) {
         popup( _( "%s was impressed with %s's performance and gave you a small bonus ( $100 )" ),
                p.name, comp->name );
-        g->u.cash += 10000;
+        get_avatar().cash += 10000;
     }
     if( one_in( 10 ) && !p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
         p.set_mutation( trait_NPC_MISSION_LEV_1 );
@@ -1300,7 +1300,7 @@ bool talk_function::scavenging_raid_return( npc &p )
         }
     }
     //The loot value needs to be added to the faction - what the player is payed
-    tripoint_abs_omt loot_location = g->u.global_omt_location();
+    tripoint_abs_omt loot_location = get_avatar().global_omt_location();
     // Only check at the ground floor.
     loot_location.z() = 0;
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
@@ -1311,7 +1311,7 @@ bool talk_function::scavenging_raid_return( npc &p )
     }
 
     int money = rng( 200, 900 );
-    g->u.cash += money * 100;
+    get_avatar().cash += money * 100;
 
     companion_skill_trainer( *comp, "combat", experience * 10_minutes, 10 );
     popup( _( "%s returns from the raid having earned $%d and a fair bit of experience…" ),
@@ -1319,7 +1319,7 @@ bool talk_function::scavenging_raid_return( npc &p )
     if( one_in( 20 ) ) {
         popup( _( "%s was impressed with %s's performance and gave you a small bonus ( $100 )" ),
                p.name, comp->name );
-        g->u.cash += 10000;
+        get_avatar().cash += 10000;
     }
     if( one_in( 2 ) ) {
         item_group_id itemlist = item_group_id( "npc_misc" );
@@ -1329,7 +1329,7 @@ bool talk_function::scavenging_raid_return( npc &p )
         detached_ptr<item> result = item_group::item_from( itemlist );
         if( result && !result->is_null() ) {
             popup( _( "%s returned with a %s for you!" ), comp->name, result->tname() );
-            g->u.i_add( std::move( result ) );
+            get_avatar().i_add( std::move( result ) );
         }
     }
     companion_return( *comp );
@@ -1345,7 +1345,7 @@ bool talk_function::labor_return( npc &p )
 
     float hours = to_hours<float>( calendar::turn - comp->companion_mission_time );
     int money = 8 * hours;
-    g->u.cash += money * 100;
+    get_avatar().cash += money * 100;
 
     companion_skill_trainer( *comp, "menial", calendar::turn - comp->companion_mission_time, 1 );
 
@@ -1402,7 +1402,7 @@ bool talk_function::carpenter_return( npc &p )
 
     float hours = to_hours<float>( calendar::turn - comp->companion_mission_time );
     int money = 12 * hours;
-    g->u.cash += money * 100;
+    get_avatar().cash += money * 100;
 
     companion_skill_trainer( *comp, "construction", calendar::turn -
                              comp->companion_mission_time, 2 );
@@ -1464,7 +1464,7 @@ bool talk_function::forage_return( npc &p )
 
     float hours = to_hours<float>( calendar::turn - comp->companion_mission_time );
     int money = 10 * hours;
-    g->u.cash += money * 100;
+    get_avatar().cash += money * 100;
 
     companion_skill_trainer( *comp, "gathering", calendar::turn -
                              comp->companion_mission_time, 2 );
@@ -1498,7 +1498,7 @@ bool talk_function::forage_return( npc &p )
         detached_ptr<item> result = item_group::item_from( item_group_id( itemlist ) );
         if( result && !result->is_null() ) {
             popup( _( "%s returned with a %s for you!" ), comp->name, result->tname() );
-            g->u.i_add( std::move( result ) );
+            get_avatar().i_add( std::move( result ) );
         }
         if( one_in( 6 ) && !p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
             p.set_mutation( trait_NPC_MISSION_LEV_1 );
@@ -1587,7 +1587,7 @@ bool talk_function::force_on_force( const std::vector<npc_ptr> &defender,
     } else if( advantage > 0 ) {
         adv = ", defender advantage";
     }
-    faction *yours = g->u.get_faction();
+    faction *yours = get_avatar().get_faction();
     //Find out why your followers don't have your faction...
     popup( _( "Engagement between %d members of %s %s and %d %s%s!" ), defender.size(),
            yours->name, def_desc, monsters_fighting.size(), att_desc, adv );
@@ -1882,7 +1882,7 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
 npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required_skills )
 {
     std::vector<npc_ptr> available;
-    std::optional<basecamp *> bcp = overmap_buffer.find_camp( g->u.global_omt_location().xy() );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( get_avatar().global_omt_location().xy() );
 
     for( auto &elem : g->get_follower_list() ) {
         npc_ptr guy = overmap_buffer.find_npc( elem );
@@ -1894,8 +1894,8 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
             continue;
         }
         // Try nearby visible followers
-        if( g->u.posz() == guy->posz() && !guy->is_travelling() &&
-            ( rl_dist( g->u.pos(), guy->pos() ) <= SEEX * 2 ) && g->u.sees( guy->pos() ) ) {
+        if( get_avatar().posz() == guy->posz() && !guy->is_travelling() &&
+            ( rl_dist( get_avatar().pos(), guy->pos() ) <= SEEX * 2 ) && get_avatar().sees( guy->pos() ) ) {
             available.push_back( guy );
         } else if( bcp ) {
             // Try NPCs assigned to this camp
@@ -2008,7 +2008,7 @@ npc_ptr talk_function::companion_choose_return( const tripoint_abs_omt &omt_pos,
             ( by_mission && c_mission.mission_id != mission_id ) || c_mission.role_id != role_id ) {
             continue;
         }
-        if( g->u.has_trait( trait_DEBUG_HS ) ) {
+        if( get_avatar().has_trait( trait_DEBUG_HS ) ) {
             available.push_back( guy );
         } else if( deadline == calendar::before_time_starts ) {
             if( guy->companion_mission_time_ret <= calendar::turn ) {

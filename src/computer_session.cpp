@@ -127,7 +127,7 @@ void computer_session::use()
                 return;
 
             case ynq::yes:
-                if( !hack_attempt( g->u ) ) {
+                if( !hack_attempt( get_avatar() ) ) {
                     if( comp.failures.empty() ) {
                         query_any( _( "Maximum login attempts exceeded.  Press any key…" ) );
                         reset_terminal();
@@ -174,7 +174,7 @@ void computer_session::use()
         if( current.security + comp.alerts > 0 ) {
             print_error( _( "Password required." ) );
             if( query_bool( _( "Hack into system?" ) ) ) {
-                if( !hack_attempt( g->u, current.security ) ) {
+                if( !hack_attempt( get_avatar(), current.security ) ) {
                     activate_random_failure();
                     reset_terminal();
                     return;
@@ -230,7 +230,7 @@ static item *pick_usb()
         return it.typeId() == itype_usb_drive;
     };
 
-    item *loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Choose drive:" ) );
+    item *loc = game_menus::inv::titled_filter_menu( filter, get_avatar(), _( "Choose drive:" ) );
     if( loc ) {
         return loc;
     }
@@ -242,9 +242,9 @@ static void remove_submap_turrets()
     map &here = get_map();
     for( monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
-        if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( g->u.pos() ) ) &&
+        if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( get_avatar().pos() ) ) &&
             critter.has_flag( MF_CONSOLE_DESPAWN ) &&
-            critter.attitude_to( g->u ) == Creature::Attitude::A_HOSTILE ) {
+            critter.attitude_to( get_avatar() ) == Creature::Attitude::A_HOSTILE ) {
             g->remove_zombie( critter );
         }
     }
@@ -307,7 +307,7 @@ void computer_session::activate_function( computer_action action )
     const auto it = computer_action_functions.find( action );
     if( it != computer_action_functions.end() ) {
         // Token move cost for any action, if an action takes longer decrement moves further.
-        g->u.moves -= 30;
+        get_avatar().moves -= 30;
         ( this->*( it->second ) )();
     }
 }
@@ -320,7 +320,7 @@ void computer_session::action_open_disarm()
 
 void computer_session::action_open()
 {
-    get_map().translate_radius( t_door_metal_locked, t_floor, 25.0, g->u.pos(), true );
+    get_map().translate_radius( t_door_metal_locked, t_floor, 25.0, get_avatar().pos(), true );
     query_any( _( "Doors opened.  Press any key…" ) );
 }
 
@@ -331,7 +331,7 @@ void computer_session::action_open()
 // player position to determine which terrain tiles to edit.
 void computer_session::action_lock()
 {
-    get_map().translate_radius( t_door_metal_c, t_door_metal_locked, 8.0, g->u.pos(), true );
+    get_map().translate_radius( t_door_metal_c, t_door_metal_locked, 8.0, get_avatar().pos(), true );
     query_any( _( "Lock enabled.  Press any key…" ) );
 }
 
@@ -343,21 +343,21 @@ void computer_session::action_unlock_disarm()
 
 void computer_session::action_unlock()
 {
-    get_map().translate_radius( t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos(), true );
+    get_map().translate_radius( t_door_metal_locked, t_door_metal_c, 8.0, get_avatar().pos(), true );
     query_any( _( "Lock disabled.  Press any key…" ) );
 }
 
 //Toll is required for the church computer/mechanism to function
 void computer_session::action_toll()
 {
-    sounds::sound( g->u.pos(), 120, sounds::sound_t::music,
+    sounds::sound( get_avatar().pos(), 120, sounds::sound_t::music,
                    //~ the sound of a church bell ringing
                    _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
 }
 
 void computer_session::action_sample()
 {
-    g->u.moves -= 30;
+    get_avatar().moves -= 30;
     map &here = get_map();
     item *sewage = item::spawn_temporary( itype_sewage, calendar::turn );
     for( const tripoint &p : here.points_on_zlevel() ) {
@@ -394,9 +394,9 @@ void computer_session::action_sample()
 void computer_session::action_release()
 {
     g->events().send<event_type::releases_subspace_specimens>();
-    sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+    sounds::sound( get_avatar().pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                    "alarm" );
-    get_map().translate_radius( t_reinforced_glass, t_thconc_floor, 25.0, g->u.pos(), true );
+    get_map().translate_radius( t_reinforced_glass, t_thconc_floor, 25.0, get_avatar().pos(), true );
     query_any( _( "Containment shields opened.  Press any key…" ) );
 }
 
@@ -408,9 +408,9 @@ void computer_session::action_release_disarm()
 
 void computer_session::action_release_bionics()
 {
-    sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+    sounds::sound( get_avatar().pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                    "alarm" );
-    get_map().translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, g->u.pos(), true );
+    get_map().translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, get_avatar().pos(), true );
     query_any( _( "Containment shields opened.  Press any key…" ) );
 }
 
@@ -427,7 +427,7 @@ void computer_session::action_terminate()
               here.ter( p + tripoint_south ) == t_concrete_wall ) ||
             ( here.ter( p + tripoint_south ) == t_reinforced_glass &&
               here.ter( p + tripoint_north ) == t_concrete_wall ) ) {
-            mon->die( &g->u );
+            mon->die( &get_avatar() );
         }
     }
     query_any( _( "Subjects terminated.  Press any key…" ) );
@@ -462,12 +462,12 @@ void computer_session::action_cascade()
     g->events().send<event_type::causes_resonance_cascade>();
     map &here = get_map();
     std::vector<tripoint> cascade_points;
-    for( const tripoint &dest : here.points_in_radius( g->u.pos(), 10 ) ) {
+    for( const tripoint &dest : here.points_in_radius( get_avatar().pos(), 10 ) ) {
         if( here.ter( dest ) == t_radio_tower ) {
             cascade_points.push_back( dest );
         }
     }
-    explosion_handler::resonance_cascade( random_entry( cascade_points, g->u.pos() ) );
+    explosion_handler::resonance_cascade( random_entry( cascade_points, get_avatar().pos() ) );
 }
 
 void computer_session::action_research()
@@ -479,7 +479,7 @@ void computer_session::action_research()
     if( !log.has_value() ) {
         log = to_translation( "No data found." );
     } else {
-        g->u.moves -= 70;
+        get_avatar().moves -= 70;
     }
 
     print_text( "%s", log.value() );
@@ -497,7 +497,7 @@ void computer_session::action_research()
 
 void computer_session::action_radio_archive()
 {
-    g->u.moves -= 300;
+    get_avatar().moves -= 300;
     sfx::fade_audio_channel( sfx::channel::radio, 100 );
     sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio,
                                      2000 );
@@ -579,7 +579,7 @@ void computer_session::action_miss_disarm()
 
 void computer_session::action_list_bionics()
 {
-    g->u.moves -= 30;
+    get_avatar().moves -= 30;
     std::vector<std::string> names;
     int more = 0;
     map &here = get_map();
@@ -627,7 +627,7 @@ void computer_session::action_amigara_log()
 {
     g->timed_events.add( timed_event_type::AMIGARA_WHISPERS, calendar::turn + 1_minutes );
 
-    g->u.moves -= 30;
+    get_avatar().moves -= 30;
     reset_terminal();
     print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
     print_text( "%s", SNIPPET.random_from_category( "amigara1" ).value_or( translation() ) );
@@ -635,7 +635,7 @@ void computer_session::action_amigara_log()
     if( !query_bool( _( "Continue reading?" ) ) ) {
         return;
     }
-    g->u.moves -= 30;
+    get_avatar().moves -= 30;
     reset_terminal();
     print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
     print_text( "%s", SNIPPET.random_from_category( "amigara2" ).value_or( translation() ) );
@@ -643,7 +643,7 @@ void computer_session::action_amigara_log()
     if( !query_bool( _( "Continue reading?" ) ) ) {
         return;
     }
-    g->u.moves -= 30;
+    get_avatar().moves -= 30;
     reset_terminal();
     print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
     print_text( "%s", SNIPPET.random_from_category( "amigara3" ).value_or( translation() ) );
@@ -664,7 +664,7 @@ void computer_session::action_amigara_log()
     if( !query_bool( _( "Continue reading?" ) ) ) {
         return;
     }
-    g->u.moves -= 30;
+    get_avatar().moves -= 30;
     reset_terminal();
     print_line( _( "SITE %d%d%d\n"
                    "PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
@@ -689,7 +689,7 @@ void computer_session::action_amigara_start()
 
 void computer_session::action_complete_disable_external_power()
 {
-    for( auto miss : g->u.get_active_missions() ) {
+    for( auto miss : get_avatar().get_active_missions() ) {
         static const mission_type_id commo_2 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_2" );
         if( miss->mission_id() == commo_2 ) {
             print_error( _( "--ACCESS GRANTED--" ) );
@@ -705,15 +705,15 @@ void computer_session::action_complete_disable_external_power()
 
 void computer_session::action_repeater_mod()
 {
-    if( g->u.has_amount( itype_radio_repeater_mod, 1 ) ) {
-        for( auto miss : g->u.get_active_missions() ) {
+    if( get_avatar().has_amount( itype_radio_repeater_mod, 1 ) ) {
+        for( auto miss : get_avatar().get_active_missions() ) {
             static const mission_type_id commo_3 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" ),
                                          commo_4 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" );
             if( miss->mission_id() == commo_3 || miss->mission_id() == commo_4 ) {
                 miss->step_complete( 1 );
                 print_error( _( "Repeater mod installed…" ) );
                 print_error( _( "Mission Complete!" ) );
-                g->u.use_amount( itype_radio_repeater_mod, 1 );
+                get_avatar().use_amount( itype_radio_repeater_mod, 1 );
                 query_any();
                 comp.options.clear();
                 activate_failure( COMPFAIL_SHUTDOWN );
@@ -734,7 +734,7 @@ void computer_session::action_download_software()
             debugmsg( _( "Computer couldn't find its mission!" ) );
             return;
         }
-        g->u.moves -= 30;
+        get_avatar().moves -= 30;
         detached_ptr<item> software = item::spawn( miss->get_item_id(), calendar::start_of_cataclysm );
         software->mission_id = comp.mission_id;
         usb->contents.clear_items();
@@ -748,9 +748,9 @@ void computer_session::action_download_software()
 
 void computer_session::action_blood_anal()
 {
-    g->u.moves -= 70;
+    get_avatar().moves -= 70;
     map &here = get_map();
-    for( const tripoint &dest : here.points_in_radius( g->u.pos(), 2 ) ) {
+    for( const tripoint &dest : here.points_in_radius( get_avatar().pos(), 2 ) ) {
         if( here.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
@@ -794,9 +794,9 @@ void computer_session::action_blood_anal()
 
 void computer_session::action_data_anal()
 {
-    g->u.moves -= 30;
+    get_avatar().moves -= 30;
     map &here = get_map();
-    for( const tripoint &dest : here.points_in_radius( g->u.pos(), 2 ) ) {
+    for( const tripoint &dest : here.points_in_radius( get_avatar().pos(), 2 ) ) {
         if( here.ter( dest ) == t_floor_blue ) {
             print_error( _( "PROCESSING DATA" ) );
             map_stack items = here.i_at( dest );
@@ -813,7 +813,7 @@ void computer_session::action_data_anal()
             } else { // Success!
                 if( items.only_item().typeId() == itype_black_box ) {
                     print_line( _( "Memory Bank: Military Hexron Encryption\nPrinting Transcript\n" ) );
-                    here.add_item_or_charges( g->u.pos(), item::spawn( "black_box_transcript", calendar::turn ) );
+                    here.add_item_or_charges( get_avatar().pos(), item::spawn( "black_box_transcript", calendar::turn ) );
                 } else {
                     print_line( _( "Memory Bank: Unencrypted\nNothing of interest.\n" ) );
                 }
@@ -932,7 +932,7 @@ void computer_session::action_srcf_seal()
     for( const tripoint &p : here.points_on_zlevel() ) {
         if( here.ter( p ) == t_elevator || here.ter( p ) == t_vat ) {
             here.make_rubble( p, f_rubble_rock );
-            explosion_handler::explosion( p, &g->u, 40, 0.7, true );
+            explosion_handler::explosion( p, &get_avatar(), 40, 0.7, true );
         }
         if( here.ter( p ) == t_wall_glass ) {
             here.make_rubble( p, f_rubble_rock );
@@ -942,7 +942,7 @@ void computer_session::action_srcf_seal()
         }
         if( here.ter( p ) == t_sewage_pump ) {
             here.make_rubble( p, f_rubble_rock );
-            explosion_handler::explosion( p, &g->u, 50, 0.7, true );
+            explosion_handler::explosion( p, &get_avatar(), 50, 0.7, true );
         }
     }
     comp.options.clear(); // Disable the terminal.
@@ -951,7 +951,7 @@ void computer_session::action_srcf_seal()
 
 void computer_session::action_srcf_elevator()
 {
-    Character &player_character = g->u;
+    Character &player_character = get_avatar();
     map &here = g->m;
     tripoint surface_elevator;
     tripoint underground_elevator;
@@ -1019,17 +1019,17 @@ void computer_session::action_srcf_elevator()
 //irradiates food at t_rad_platform, adds radiation
 void computer_session::action_irradiator()
 {
-    g->u.moves -= 30;
+    get_avatar().moves -= 30;
     bool error = false;
     bool platform_exists = false;
     map &here = get_map();
-    for( const tripoint &dest : here.points_in_radius( g->u.pos(), 10 ) ) {
+    for( const tripoint &dest : here.points_in_radius( get_avatar().pos(), 10 ) ) {
         if( here.ter( dest ) == t_rad_platform ) {
             platform_exists = true;
             if( here.i_at( dest ).empty() ) {
                 print_error( _( "ERROR: Processing platform empty." ) );
             } else {
-                g->u.moves -= 300;
+                get_avatar().moves -= 300;
                 for( auto iter = here.i_at( dest ).begin(); iter != here.i_at( dest ).end(); ++iter ) {
                     // actual food processing
                     item *it = *iter;
@@ -1040,14 +1040,14 @@ void computer_session::action_irradiator()
                     // critical failure - radiation spike sets off electronic detonators
                     if( it->typeId() == itype_mininuke || it->typeId() == itype_mininuke_act ||
                         it->typeId() == itype_c4 ) {
-                        explosion_handler::explosion( dest, &g->u, 40 );
+                        explosion_handler::explosion( dest, &get_avatar(), 40 );
                         reset_terminal();
                         print_error( _( "WARNING [409]: Primary sensors offline!" ) );
                         print_error( _( "  >> Initialize secondary sensors: Geiger profiling…" ) );
                         print_error( _( "  >> Radiation spike detected!\n" ) );
                         print_error( _( "WARNING [912]: Catastrophic malfunction!  Contamination detected!" ) );
                         print_error( _( "EMERGENCY PROCEDURE [1]:  Evacuate.  Evacuate.  Evacuate.\n" ) );
-                        sounds::sound( g->u.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                        sounds::sound( get_avatar().pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                                        "alarm" );
                         here.i_rem( dest, it );
                         here.make_rubble( dest );
@@ -1059,9 +1059,9 @@ void computer_session::action_irradiator()
                                                    dest ) > 0 ? rl_dist( radorigin, dest ) : 1 ) );
                         }
                         if( here.pl_sees( dest, 10 ) ) {
-                            g->u.irradiate( rng_float( 50, 250 ) / rl_dist( g->u.pos(), dest ) );
+                            get_avatar().irradiate( rng_float( 50, 250 ) / rl_dist( get_avatar().pos(), dest ) );
                         } else {
-                            g->u.irradiate( rng_float( 20, 100 ) / rl_dist( g->u.pos(), dest ) );
+                            get_avatar().irradiate( rng_float( 20, 100 ) / rl_dist( get_avatar().pos(), dest ) );
                         }
                         query_any( _( "EMERGENCY SHUTDOWN!  Press any key…" ) );
                         error = true;
@@ -1076,7 +1076,7 @@ void computer_session::action_irradiator()
                     }
                     // if unshielded, rad source irradiates player directly, reduced by distance to source
                     if( here.pl_sees( dest, 10 ) ) {
-                        g->u.irradiate( rng_float( 5, 25 ) / rl_dist( g->u.pos(), dest ) );
+                        get_avatar().irradiate( rng_float( 5, 25 ) / rl_dist( get_avatar().pos(), dest ) );
                     }
                 }
                 if( !error && platform_exists ) {
@@ -1098,7 +1098,7 @@ void computer_session::action_irradiator()
 // geiger counter for irradiator, primary measurement at t_rad_platform, secondary at player loacation
 void computer_session::action_geiger()
 {
-    g->u.moves -= 30;
+    get_avatar().moves -= 30;
     tripoint platform;
     bool source_exists = false;
     int sum_rads = 0;
@@ -1106,7 +1106,7 @@ void computer_session::action_geiger()
     int tiles_counted = 0;
     map &here = get_map();
     print_error( _( "RADIATION MEASUREMENTS:" ) );
-    for( const tripoint &dest : here.points_in_radius( g->u.pos(), 10 ) ) {
+    for( const tripoint &dest : here.points_in_radius( get_avatar().pos(), 10 ) ) {
         if( here.ter( dest ) == t_rad_platform ) {
             source_exists = true;
             platform = dest;
@@ -1129,8 +1129,8 @@ void computer_session::action_geiger()
         print_error( _( "GEIGER COUNTER @ ZONE:… MAX %s mSv/h." ), peak_rad );
         print_newline();
     }
-    print_error( _( "GEIGER COUNTER @ CONSOLE:… %s mSv/h." ), here.get_radiation( g->u.pos() ) );
-    print_error( _( "PERSONAL DOSIMETRY:… %s mSv." ), g->u.get_rad() );
+    print_error( _( "GEIGER COUNTER @ CONSOLE:… %s mSv/h." ), here.get_radiation( get_avatar().pos() ) );
+    print_error( _( "PERSONAL DOSIMETRY:… %s mSv." ), get_avatar().get_rad() );
     print_newline();
     query_any( _( "Press any key…" ) );
 }
@@ -1139,7 +1139,7 @@ void computer_session::action_geiger()
 // ensure only bay of each type in range
 void computer_session::action_conveyor()
 {
-    g->u.moves -= 300;
+    get_avatar().moves -= 300;
     tripoint loading; // red tile = loading bay
     tripoint unloading; // green tile = unloading bay
     tripoint platform; // radiation platform = middle point
@@ -1147,7 +1147,7 @@ void computer_session::action_conveyor()
     bool u_exists = false;
     bool p_exists = false;
     map &here = get_map();
-    for( const tripoint &dest : here.points_in_radius( g->u.pos(), 10 ) ) {
+    for( const tripoint &dest : here.points_in_radius( get_avatar().pos(), 10 ) ) {
         if( here.ter( dest ) == t_rad_platform ) {
             platform = dest;
             p_exists = true;
@@ -1190,9 +1190,9 @@ void computer_session::action_conveyor()
 // toggles reinforced glass shutters open->closed and closed->open depending on their current state
 void computer_session::action_shutters()
 {
-    g->u.moves -= 300;
+    get_avatar().moves -= 300;
     get_map().translate_radius( t_reinforced_glass_shutter_open, t_reinforced_glass_shutter, 8.0,
-                                g->u.pos(),
+                                get_avatar().pos(),
                                 true, true );
     query_any( _( "Toggling shutters.  Press any key…" ) );
 }
@@ -1201,11 +1201,11 @@ void computer_session::action_shutters()
 void computer_session::action_extract_rad_source()
 {
     if( query_yn( _( "Operation irreversible.  Extract radioactive material?" ) ) ) {
-        g->u.moves -= 300;
+        get_avatar().moves -= 300;
         tripoint platform;
         bool p_exists = false;
         map &here = get_map();
-        for( const tripoint &dest : here.points_in_radius( g->u.pos(), 10 ) ) {
+        for( const tripoint &dest : here.points_in_radius( get_avatar().pos(), 10 ) ) {
             if( here.ter( dest ) == t_rad_platform ) {
                 platform = dest;
                 p_exists = true;
@@ -1213,7 +1213,7 @@ void computer_session::action_extract_rad_source()
         }
         if( p_exists ) {
             here.spawn_item( platform, itype_cobalt_60, rng( 8, 15 ) );
-            here.translate_radius( t_rad_platform, t_concrete, 8.0, g->u.pos(), true );
+            here.translate_radius( t_rad_platform, t_concrete, 8.0, get_avatar().pos(), true );
             comp.remove_option( COMPACT_IRRADIATOR );
             comp.remove_option( COMPACT_EXTRACT_RAD_SOURCE );
             query_any( _( "Extraction sequence complete…  Press any key." ) );
@@ -1226,11 +1226,11 @@ void computer_session::action_extract_rad_source()
 // remove shock vent fields; check for existing plutonium generators in radius
 void computer_session::action_deactivate_shock_vent()
 {
-    g->u.moves -= 30;
+    get_avatar().moves -= 30;
     bool has_vent = false;
     bool has_generator = false;
     map &here = get_map();
-    for( const tripoint &dest : here.points_in_radius( g->u.pos(), 10 ) ) {
+    for( const tripoint &dest : here.points_in_radius( get_avatar().pos(), 10 ) ) {
         if( here.get_field( dest, fd_shock_vent ) != nullptr ) {
             has_vent = true;
         }
@@ -1292,7 +1292,7 @@ void computer_session::failure_shutdown()
 {
     bool found_tile = false;
     map &here = get_map();
-    for( const tripoint &p : here.points_in_radius( g->u.pos(), 1 ) ) {
+    for( const tripoint &p : here.points_in_radius( get_avatar().pos(), 1 ) ) {
         if( here.has_flag( flag_CONSOLE, p ) ) {
             here.ter_set( p, t_console_broken );
             add_msg( m_bad, _( "The console shuts down." ) );
@@ -1312,12 +1312,12 @@ void computer_session::failure_shutdown()
 
 void computer_session::failure_alarm()
 {
-    g->events().send<event_type::triggers_alarm>( g->u.getID() );
-    sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+    g->events().send<event_type::triggers_alarm>( get_avatar().getID() );
+    sounds::sound( get_avatar().pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                    "alarm" );
     if( g->get_levz() > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
         g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
-                             g->u.global_sm_location() );
+                             get_avatar().global_sm_location() );
     }
 }
 
@@ -1348,11 +1348,11 @@ void computer_session::failure_secubots()
 void computer_session::failure_damage()
 {
     add_msg( m_neutral, _( "The console shocks you." ) );
-    if( g->u.is_elec_immune() ) {
+    if( get_avatar().is_elec_immune() ) {
         add_msg( m_good, _( "You're protected from electric shocks." ) );
     } else {
         add_msg( m_bad, _( "Your body is damaged by the electric shock!" ) );
-        g->u.hurtall( rng( 1, 10 ), nullptr );
+        get_avatar().hurtall( rng( 1, 10 ), nullptr );
     }
 }
 
@@ -1402,7 +1402,7 @@ void computer_session::failure_pump_leak()
 void computer_session::failure_amigara()
 {
     g->timed_events.add( TIMED_EVENT_AMIGARA, calendar::turn + 30_seconds );
-    g->u.add_effect( effect_amigara, 2_minutes );
+    get_avatar().add_effect( effect_amigara, 2_minutes );
     explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
                                   nullptr,
                                   10,
@@ -1418,7 +1418,7 @@ void computer_session::failure_destroy_blood()
 {
     print_error( _( "ERROR: Disruptive Spin" ) );
     map &here = get_map();
-    for( const tripoint &dest : here.points_in_radius( g->u.pos(), 2 ) ) {
+    for( const tripoint &dest : here.points_in_radius( get_avatar().pos(), 2 ) ) {
         if( here.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
@@ -1444,7 +1444,7 @@ void computer_session::failure_destroy_data()
 {
     print_error( _( "ERROR: ACCESSING DATA MALFUNCTION" ) );
     map &here = get_map();
-    for( const tripoint &p : here.points_in_radius( g->u.pos(), 2 ) ) {
+    for( const tripoint &p : here.points_in_radius( get_avatar().pos(), 2 ) ) {
         if( here.ter( p ) == t_floor_blue ) {
             map_stack items = here.i_at( p );
             if( items.empty() ) {
@@ -1475,8 +1475,8 @@ void computer_session::action_emerg_ref_center()
     tripoint_abs_omt mission_target;
     avatar &player_character = get_avatar();
     // Check completed missions too, so people can't repeatedly get the mission.
-    const std::vector<mission *> completed_missions = g->u.get_completed_missions();
-    std::vector<mission *> missions = g->u.get_active_missions();
+    const std::vector<mission *> completed_missions = get_avatar().get_completed_missions();
+    std::vector<mission *> missions = get_avatar().get_active_missions();
     missions.insert( missions.end(), completed_missions.begin(), completed_missions.end() );
 
     const bool has_mission = std::any_of( missions.begin(), missions.end(), [ &mission_type,
@@ -1491,7 +1491,7 @@ void computer_session::action_emerg_ref_center()
 
     if( !has_mission ) {
         const auto mission = mission::reserve_new( mission_type, character_id() );
-        mission->assign( g->u );
+        mission->assign( get_avatar() );
         mission_target = mission->get_target();
     }
 

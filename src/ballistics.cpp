@@ -72,7 +72,7 @@ static void drop_or_embed_projectile( dealt_projectile_attack &attack )
 
     if( proj.has_effect( ammo_effect_SHATTER_SELF ) ) {
         // Drop the contents, not the thrown item
-        if( g->u.sees( pt ) ) {
+        if( get_avatar().sees( pt ) ) {
             add_msg( _( "The %s shatters!" ), drop_item.tname() );
         }
 
@@ -88,7 +88,7 @@ static void drop_or_embed_projectile( dealt_projectile_attack &attack )
 
     if( proj.has_effect( ammo_effect_BURST ) ) {
         // Drop the contents, not the thrown item
-        if( g->u.sees( pt ) ) {
+        if( get_avatar().sees( pt ) ) {
             add_msg( _( "The %s bursts!" ), drop_item.tname() );
         }
 
@@ -123,7 +123,7 @@ static void drop_or_embed_projectile( dealt_projectile_attack &attack )
 
     if( embed ) {
         mon->add_item( std::move( drop ) );
-        if( g->u.sees( *mon ) ) {
+        if( get_avatar().sees( *mon ) ) {
             add_msg( _( "The %1$s embeds in %2$s!" ), drop_item.tname(), mon->disp_name() );
         }
     } else {
@@ -349,7 +349,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
         }
 
-        // Drawing the bullet uses player g->u, and not player p, because it's drawn
+        // Drawing the bullet uses player get_avatar(), and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
         if( do_animation && !do_draw_line ) {
             // TODO: Make this draw thrown item/launched grenade/arrow

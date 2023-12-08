@@ -929,7 +929,7 @@ void npc::finish_read( item *it )
     const skill_id &skill = reading->skill;
     // NPCs don't need to identify the book or learn recipes yet.
     // NPCs don't read to other NPCs yet.
-    const bool display_messages = my_fac->id == faction_id( "your_followers" ) && g->u.sees( pos() );
+    const bool display_messages = my_fac->id == faction_id( "your_followers" ) && get_avatar().sees( pos() );
     bool continuous = false; //whether to continue reading or not
 
     int book_fun_for = character_funcs::get_book_fun_for( *this, book );
@@ -1050,7 +1050,7 @@ void npc::do_npc_read()
             return;
         }
         if( can_read( *loc, fail_reasons ) ) {
-            if( g->u.sees( pos() ) ) {
+            if( get_avatar().sees( pos() ) ) {
                 add_msg( m_info, _( "%s starts reading." ), disp_name() );
             }
             start_read( *loc, pl );
@@ -1141,7 +1141,7 @@ void npc::stow_weapon( )
     detached = wear_item( std::move( detached ), false );
     if( !detached ) {
         // Wearing the item was successful, remove weapon and post message.
-        if( g->u.sees( pos() ) ) {
+        if( get_avatar().sees( pos() ) ) {
             add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname() );
         }
         moves -= 15;
@@ -1152,7 +1152,7 @@ void npc::stow_weapon( )
 
     for( auto &e : worn ) {
         if( e->can_holster( weapon ) ) {
-            if( g->u.sees( pos() ) ) {
+            if( get_avatar().sees( pos() ) ) {
                 //~ %1$s: weapon name, %2$s: holster name
                 add_msg_if_npc( m_info, _( "<npcname> puts away the %1$s in the %2$s." ),
                                 weapon.tname(), e->tname() );
@@ -1164,13 +1164,13 @@ void npc::stow_weapon( )
         }
     }
     if( volume_carried() + weapon.volume() <= volume_capacity() ) {
-        if( g->u.sees( pos() ) ) {
+        if( get_avatar().sees( pos() ) ) {
             add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname() );
         }
         i_add( std::move( detached ) );
         moves -= 15;
     } else { // No room for weapon, so we drop it
-        if( g->u.sees( pos() ) ) {
+        if( get_avatar().sees( pos() ) ) {
             add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname() );
         }
         g->m.add_item_or_charges( pos(), std::move( detached ) );
@@ -1192,7 +1192,7 @@ bool npc::wield( item &it )
     moves -= 15;
     set_primary_weapon( it.detach() );
 
-    if( g->u.sees( pos() ) ) {
+    if( get_avatar().sees( pos() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  primary_weapon().tname() );
     }
     invalidate_range_cache();
@@ -1381,7 +1381,7 @@ void npc::mutiny()
     if( !my_fac || !is_player_ally() ) {
         return;
     }
-    const bool seen = g->u.sees( pos() );
+    const bool seen = get_avatar().sees( pos() );
     if( seen ) {
         add_msg( m_bad, _( "%s is tired of your incompetent leadership and abuse!" ), disp_name() );
     }
@@ -1585,13 +1585,13 @@ void npc::decide_needs()
 void npc::say( const std::string &line, const sounds::sound_t spriority ) const
 {
     std::string formatted_line = line;
-    parse_tags( formatted_line, g->u, *this );
+    parse_tags( formatted_line, get_avatar(), *this );
     if( has_trait( trait_MUTE ) ) {
         return;
     }
 
     std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
-    if( g->u.sees( *this ) && g->u.is_deaf() ) {
+    if( get_avatar().sees( *this ) && get_avatar().is_deaf() ) {
         add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }
     // Hallucinations don't make noise when they speak
@@ -2040,7 +2040,7 @@ bool npc::is_ally( const Character &p ) const
             return true;
         }
         if( faction_api_version < 2 ) {
-            if( is_ally( g->u ) && guy.is_ally( g->u ) ) {
+            if( is_ally( get_avatar() ) && guy.is_ally( get_avatar() ) ) {
                 return true;
             } else if( get_attitude_group( get_attitude() ) ==
                        guy.get_attitude_group( guy.get_attitude() ) ) {
@@ -2053,7 +2053,7 @@ bool npc::is_ally( const Character &p ) const
 
 bool npc::is_player_ally() const
 {
-    return is_ally( g->u );
+    return is_ally( get_avatar() );
 }
 
 bool npc::is_friendly( const Character &p ) const
@@ -2068,7 +2068,7 @@ bool npc::is_minion() const
 
 bool npc::guaranteed_hostile() const
 {
-    return is_enemy() || ( my_fac && my_fac->likes_u < -10 ) || g->u.has_trait( trait_PROF_FERAL );
+    return is_enemy() || ( my_fac && my_fac->likes_u < -10 ) || get_avatar().has_trait( trait_PROF_FERAL );
 }
 
 bool npc::is_walking_with() const
@@ -2155,12 +2155,12 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
     if( is_player_ally() ) {
         // Friendly NPCs share player's alliances
-        return g->u.attitude_to( other );
+        return get_avatar().attitude_to( other );
     }
 
     if( other.is_npc() ) {
         // Hostile NPCs are also hostile towards player's allies
-        if( is_enemy() && other.attitude_to( g->u ) == A_FRIENDLY ) {
+        if( is_enemy() && other.attitude_to( get_avatar() ) == A_FRIENDLY ) {
             return A_HOSTILE;
         }
 
@@ -2269,8 +2269,8 @@ int npc::follow_distance() const
     // HACK: If the player is standing on stairs, follow closely
     // This makes the stair hack less painful to use
     if( is_walking_with() &&
-        ( g->m.has_flag( TFLAG_GOES_DOWN, g->u.pos() ) ||
-          g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
+        ( g->m.has_flag( TFLAG_GOES_DOWN, get_avatar().pos() ) ||
+          g->m.has_flag( TFLAG_GOES_UP, get_avatar().pos() ) ) ) {
         return 1;
     }
     // Uses ally_rule follow_distance_2 to determine if should follow by 2 or 4 tiles
@@ -2278,7 +2278,7 @@ int npc::follow_distance() const
         return 2;
     }
     // If NPC doesn't see player, change follow distance to 2
-    if( !sees( g->u ) ) {
+    if( !sees( get_avatar() ) ) {
         return 2;
     }
     return 4;
@@ -2315,7 +2315,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         mvwprintz( w, point( column, line++ ), c_light_blue, string_format( "[%s]", myclass ) );
     }
 
-    if( sees( g->u ) ) {
+    if( sees( get_avatar() ) ) {
         mvwprintz( w, point( column, line++ ), c_yellow, _( "Aware of your presence!" ) );
     }
 
@@ -2347,8 +2347,8 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // 3 perception and 3 distance would see all mutations - cap 0
     // 3 perception and 15 distance - cap 5, some mutations visible
     // 3 perception and 20 distance would be barely able to discern huge antlers on a person - cap 10
-    const int per = g->u.get_per();
-    const int dist = rl_dist( g->u.pos(), pos() );
+    const int per = get_avatar().get_per();
+    const int dist = rl_dist( get_avatar().pos(), pos() );
     int visibility_cap;
     if( per <= 1 ) {
         visibility_cap = INT_MAX;
@@ -2554,13 +2554,13 @@ void npc::die( Creature *nkiller )
     Character::die( nkiller );
 
     if( is_hallucination() ) {
-        if( g->u.sees( *this ) ) {
+        if( get_avatar().sees( *this ) ) {
             add_msg( _( "%s disappears." ), name.c_str() );
         }
         return;
     }
 
-    if( g->u.sees( *this ) ) {
+    if( get_avatar().sees( *this ) ) {
         add_msg( _( "%s dies!" ), name );
     }
 
@@ -2568,30 +2568,30 @@ void npc::die( Creature *nkiller )
         g->events().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
     }
 
-    if( get_killer() == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
-        bool cannibal = g->u.has_trait( trait_CANNIBAL );
-        bool psycho = g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_KILLER );
-        if( g->u.has_trait( trait_SAPIOVORE ) || psycho ) {
+    if( get_killer() == &get_avatar() && ( !guaranteed_hostile() || hit_by_player ) ) {
+        bool cannibal = get_avatar().has_trait( trait_CANNIBAL );
+        bool psycho = get_avatar().has_trait( trait_PSYCHOPATH ) || get_avatar().has_trait( trait_KILLER );
+        if( get_avatar().has_trait( trait_SAPIOVORE ) || psycho ) {
             // No morale penalty
         } else if( cannibal ) {
-            g->u.add_morale( MORALE_KILLED_INNOCENT, -5, 0, 2_days, 3_hours );
+            get_avatar().add_morale( MORALE_KILLED_INNOCENT, -5, 0, 2_days, 3_hours );
         } else {
-            g->u.add_morale( MORALE_KILLED_INNOCENT, -100, 0, 2_days, 3_hours );
+            get_avatar().add_morale( MORALE_KILLED_INNOCENT, -100, 0, 2_days, 3_hours );
         }
     }
 
-    if( get_killer() == &g->u && g->u.has_trait( trait_KILLER ) ) {
+    if( get_killer() == &get_avatar() && get_avatar().has_trait( trait_KILLER ) ) {
         const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
-        g->u.add_msg_if_player( m_good, "%s", snip );
-        g->u.add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
-        g->u.rem_morale( MORALE_KILLER_NEED_TO_KILL );
+        get_avatar().add_msg_if_player( m_good, "%s", snip );
+        get_avatar().add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
+        get_avatar().rem_morale( MORALE_KILLER_NEED_TO_KILL );
     }
 
-    if( get_killer() == &g->u && g->u.has_trait( trait_PROF_FERAL ) ) {
-        if( !g->u.has_effect( effect_feral_killed_recently ) ) {
-            g->u.add_msg_if_player( m_good, _( "The voices in your head quiet down a bit." ) );
+    if( get_killer() == &get_avatar() && get_avatar().has_trait( trait_PROF_FERAL ) ) {
+        if( !get_avatar().has_effect( effect_feral_killed_recently ) ) {
+            get_avatar().add_msg_if_player( m_good, _( "The voices in your head quiet down a bit." ) );
         }
-        g->u.add_effect( effect_feral_killed_recently, 7_days );
+        get_avatar().add_effect( effect_feral_killed_recently, 7_days );
     }
     place_corpse();
 }
@@ -2692,7 +2692,7 @@ void npc::add_msg_if_npc( const std::string &msg ) const
 void npc::add_msg_player_or_npc( const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
-    if( g->u.sees( *this ) ) {
+    if( get_avatar().sees( *this ) ) {
         add_msg( replace_with_npc_name( npc_msg ) );
     }
 }
@@ -2706,7 +2706,7 @@ void npc::add_msg_player_or_npc( const game_message_params &params,
                                  const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
-    if( g->u.sees( *this ) ) {
+    if( get_avatar().sees( *this ) ) {
         add_msg( params, replace_with_npc_name( npc_msg ) );
     }
 }
@@ -2973,7 +2973,7 @@ bool npc::will_accept_from_player( const item &it ) const
         return false;
     }
 
-    if( is_minion() || g->u.has_trait( trait_DEBUG_MIND_CONTROL ) ||
+    if( is_minion() || get_avatar().has_trait( trait_DEBUG_MIND_CONTROL ) ||
         it.has_flag( flag_NPC_SAFE ) ) {
         return true;
     }
@@ -3029,7 +3029,7 @@ std::set<tripoint> npc::get_path_avoid() const
         }
     }
     if( rules.has_flag( ally_rule::hold_the_line ) ) {
-        for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        for( const tripoint &p : g->m.points_in_radius( get_avatar().pos(), 1 ) ) {
             if( g->m.close_door( p, true, true ) || g->m.move_cost( p ) > 2 ) {
                 ret.insert( p );
             }
@@ -3247,7 +3247,7 @@ void npc::set_attitude( npc_attitude new_attitude )
              name, npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
-    if( new_group != old_group && !is_fake() && g->u.sees( *this ) ) {
+    if( new_group != old_group && !is_fake() && get_avatar().sees( *this ) ) {
         switch( new_group ) {
             case attitude_group::hostile:
                 add_msg_if_npc( m_bad, _( "<npcname> gets angry!" ) );

@@ -270,7 +270,7 @@ char inventory::find_usable_cached_invlet( const itype_id &item_type )
             continue;
         }
         // Check if anything is using this invlet.
-        if( g->u.invlet_to_item( invlet ) != nullptr ) {
+        if( get_avatar().invlet_to_item( invlet ) != nullptr ) {
             continue;
         }
         return invlet;
@@ -303,7 +303,7 @@ item &inventory::add_item( item &newit, bool keep_invlet, bool assign_invlet, bo
             } else if( keep_invlet && assign_invlet && it->invlet == newit.invlet &&
                        it->invlet != '\0' ) {
                 // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-                assign_empty_invlet( *it, g->u );
+                assign_empty_invlet( *it, get_avatar() );
             }
         }
     }
@@ -356,7 +356,7 @@ item &inventory::add_item_by_items_type_cache( item &newit, bool keep_invlet, bo
             } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet &&
                        it_ref->invlet != '\0' ) {
                 // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-                assign_empty_invlet( *it_ref, g->u );
+                assign_empty_invlet( *it_ref, get_avatar() );
             }
         }
     }
@@ -1009,7 +1009,7 @@ void inventory::rust_iron_items()
                                     elem_stack_iter->base_volume().value() ) / 250 ) ) ) ) &&
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 //Freshwater without oxygen rusts slower than air
-                g->m.water_from( g->u.pos() )->typeId() == itype_salt_water ) {
+                g->m.water_from( get_avatar().pos() )->typeId() == itype_salt_water ) {
                 elem_stack_iter->inc_damage( DT_ACID ); // rusting never completely destroys an item
                 add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter->tname() );
             }
@@ -1190,7 +1190,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
     if( cur_inv.count() < inv_chars.size() ) {
         // XXX YUCK I don't know how else to get the keybindings
         // FIXME: Find a better way to get bound keys
-        avatar &u = g->u;
+        avatar &u = get_avatar();
         inventory_selector selector( u );
 
         std::vector<char> binds = selector.all_bound_keys();
@@ -1257,7 +1257,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
     if( newit.invlet ) {
         char tmp_invlet = newit.invlet;
         newit.invlet = '\0';
-        if( g->u.invlet_to_item( tmp_invlet ) == nullptr ) {
+        if( get_avatar().invlet_to_item( tmp_invlet ) == nullptr ) {
             newit.invlet = tmp_invlet;
         }
     }
@@ -1270,7 +1270,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
 
         // Give the item an invlet if it has none
         if( !newit.invlet ) {
-            assign_empty_invlet( newit, g->u );
+            assign_empty_invlet( newit, get_avatar() );
         }
     }
 }

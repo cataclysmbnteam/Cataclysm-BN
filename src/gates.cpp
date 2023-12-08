@@ -220,7 +220,7 @@ void gates::toggle_gate( const tripoint &pos )
         }
     }
 
-    if( g->u.sees( pos ) ) {
+    if( get_avatar().sees( pos ) ) {
         if( open ) {
             add_msg( gate.open_message );
         } else if( close ) {

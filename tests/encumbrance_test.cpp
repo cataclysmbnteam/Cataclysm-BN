@@ -50,7 +50,7 @@ static void test_encumbrance_items(
 )
 {
     // Test NPC first because NPC code can accidentally end up using properties
-    // of g->u, and such bugs are hidden if we test the other way around.
+    // of get_avatar(), and such bugs are hidden if we test the other way around.
     SECTION( "testing on npc" ) {
         npc example_npc;
         test_encumbrance_on( example_npc, clothing, body_part, expected_encumbrance, tweak_player );

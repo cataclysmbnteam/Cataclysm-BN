@@ -152,7 +152,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     npc *p = dynamic_cast<npc *>( &poor_dead_dude );
     if( p == nullptr ) {
         // Must be the player
-        for( auto &miss : g->u.get_active_missions() ) {
+        for( auto &miss : get_avatar().get_active_missions() ) {
             // mission is free and can be reused
             miss->player_id = character_id();
         }
@@ -240,8 +240,8 @@ void mission::assign( avatar &u )
 void mission::fail()
 {
     status = mission_status::failure;
-    if( g->u.getID() == player_id ) {
-        g->u.on_mission_finished( *this );
+    if( get_avatar().getID() == player_id ) {
+        get_avatar().on_mission_finished( *this );
     }
 
     type->fail( this );
@@ -279,7 +279,7 @@ void mission::step_complete( const int _step )
 
 void mission::wrap_up()
 {
-    auto &u = g->u;
+    auto &u = get_avatar();
     if( u.getID() != player_id ) {
         // This is called from npctalk.cpp, the npc should only offer the option to wrap up mission
         // that have been assigned to the current player.
@@ -348,7 +348,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
         return true;
     }
 
-    auto &u = g->u;
+    auto &u = get_avatar();
     switch( type->goal ) {
         case MGOAL_GO_TO: {
             const tripoint_abs_omt cur_pos = u.global_omt_location();
@@ -356,7 +356,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
         }
 
         case MGOAL_GO_TO_TYPE: {
-            const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
+            const auto cur_ter = overmap_buffer.ter( get_avatar().global_omt_location() );
             return is_ot_match( type->target_id.str(), cur_ter, ot_match_type::type );
         }
 
@@ -451,7 +451,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
             cc.beta = n;
 
             for( auto &mission : n->chatbin.missions_assigned ) {
-                if( mission->get_assigned_player_id() == g->u.getID() ) {
+                if( mission->get_assigned_player_id() == get_avatar().getID() ) {
                     cc.missions_assigned.push_back( mission );
                 }
             }

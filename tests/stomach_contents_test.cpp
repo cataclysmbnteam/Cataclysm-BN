@@ -23,7 +23,7 @@ static const efftype_id effect_bloated( "bloated" );
 static void reset_time()
 {
     calendar::turn = calendar::start_of_cataclysm;
-    player &p = g->u;
+    player &p = get_avatar();
     p.set_stored_kcal( p.max_stored_kcal() );
 }
 
@@ -74,7 +74,7 @@ static void eat_all_nutrients( player &p )
 TEST_CASE( "starve_test", "[starve][slow]" )
 {
     clear_all_state();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     reset_time();
     clear_stomach( dummy );
 
@@ -109,7 +109,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
 TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
 {
     clear_all_state();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     reset_time();
     clear_stomach( dummy );
     while( !( dummy.has_trait( trait_id( "HUNGER3" ) ) ) ) {
@@ -152,7 +152,7 @@ TEST_CASE( "all_nutrition_starve_test", "[!mayfail][starve][slow]" )
     clear_all_state();
     // change this bool when editing the test
     const bool print_tests = false;
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     reset_time();
     clear_stomach( dummy );
     eat_all_nutrients( dummy );
@@ -194,7 +194,7 @@ TEST_CASE( "tape_worm_halves_nutrients" )
     clear_all_state();
     const efftype_id effect_tapeworm( "tapeworm" );
     const bool print_tests = false;
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     reset_time();
     clear_stomach( dummy );
     eat_all_nutrients( dummy );
@@ -212,7 +212,7 @@ TEST_CASE( "tape_worm_halves_nutrients" )
 TEST_CASE( "One day of waiting at full calories eats up about bmr of stored calories", "[stomach]" )
 {
     clear_all_state();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     reset_time();
     clear_stomach( dummy );
     int kcal_before = dummy.get_stored_kcal();
@@ -225,7 +225,7 @@ TEST_CASE( "Stomach calories become stored calories after less than 1 day", "[st
 {
     clear_all_state();
     constexpr time_duration test_time = 1_days;
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     reset_time();
     clear_stomach( dummy );
     int kcal_before = dummy.max_stored_kcal() - dummy.bmr();
@@ -248,7 +248,7 @@ TEST_CASE( "Stomach calories become stored calories after less than 1 day", "[st
 TEST_CASE( "Eating food fills up stomach calories", "[stomach]" )
 {
     clear_all_state();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     reset_time();
     clear_stomach( dummy );
     dummy.set_stored_kcal( 100 );
@@ -265,7 +265,7 @@ TEST_CASE( "Eating food fills up stomach calories", "[stomach]" )
 TEST_CASE( "Eating above max kcal causes bloating", "[stomach]" )
 {
     clear_all_state();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     reset_time();
     clear_stomach( dummy );
     dummy.set_stored_kcal( dummy.max_stored_kcal() - 10 );

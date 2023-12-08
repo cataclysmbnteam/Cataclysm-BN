@@ -222,7 +222,7 @@ struct talk_response {
 
 struct dialogue {
         /**
-         * The player character that speaks (always g->u).
+         * The player character that speaks (always get_avatar()).
          * TODO: make it a reference, not a pointer.
          */
         player *alpha = nullptr;

@@ -100,7 +100,7 @@ void mdeath::normal( monster &z )
         sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos() ) );
     }
 
-    if( g->u.sees( z ) ) {
+    if( get_avatar().sees( z ) ) {
         //Currently it is possible to get multiple messages that a monster died.
         add_msg( m_good, _( "The %s dies!" ), z.name() );
     }
@@ -261,7 +261,7 @@ void mdeath::splatter( monster &z )
 
 void mdeath::acid( monster &z )
 {
-    if( g->u.sees( z ) ) {
+    if( get_avatar().sees( z ) ) {
         if( z.type->dies.size() ==
             1 ) { //If this death function is the only function. The corpse gets dissolved.
             add_msg( m_mixed, _( "The %s's body dissolves into acid." ), z.name() );
@@ -284,8 +284,8 @@ void mdeath::boomer( monster &z )
         }
     }
 
-    if( rl_dist( z.pos(), g->u.pos() ) == 1 ) {
-        g->u.add_env_effect( effect_boomered, bp_eyes, 2, 24_turns );
+    if( rl_dist( z.pos(), get_avatar().pos() ) == 1 ) {
+        get_avatar().add_env_effect( effect_boomered, bp_eyes, 2, 24_turns );
     }
 
     g->m.propagate_field( z.pos(), fd_bile, 15, 1 );
@@ -377,7 +377,7 @@ void mdeath::vine_cut( monster &z )
 
 void mdeath::triffid_heart( monster &z )
 {
-    if( g->u.sees( z ) ) {
+    if( get_avatar().sees( z ) ) {
         add_msg( m_warning, _( "The surrounding roots begin to crack and crumble." ) );
     }
     g->timed_events.add( TIMED_EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
@@ -401,14 +401,14 @@ void mdeath::fungus( monster &z )
 
 void mdeath::disintegrate( monster &z )
 {
-    if( g->u.sees( z ) ) {
+    if( get_avatar().sees( z ) ) {
         add_msg( m_good, _( "The %s disintegrates!" ), z.name() );
     }
 }
 
 void mdeath::worm( monster &z )
 {
-    if( g->u.sees( z ) ) {
+    if( get_avatar().sees( z ) ) {
         if( z.type->dies.size() == 1 ) {
             add_msg( m_good, _( "The %s splits in two!" ), z.name() );
         } else {
@@ -424,7 +424,7 @@ void mdeath::worm( monster &z )
 
 void mdeath::disappear( monster &z )
 {
-    if( g->u.sees( z ) ) {
+    if( get_avatar().sees( z ) ) {
         add_msg( m_good, _( "The %s disappears." ), z.name() );
     }
 }
@@ -443,11 +443,11 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[50] = _( "You regret killing %s." );
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
-    if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait_flag( trait_flag_PRED3 ) ||
-        g->u.has_trait_flag( trait_flag_PRED4 ) || g->u.has_trait( trait_KILLER ) ) {
+    if( get_avatar().has_trait( trait_PSYCHOPATH ) || get_avatar().has_trait_flag( trait_flag_PRED3 ) ||
+        get_avatar().has_trait_flag( trait_flag_PRED4 ) || get_avatar().has_trait( trait_KILLER ) ) {
         return;
     }
-    if( rl_dist( z.pos(), g->u.pos() ) > MAX_GUILT_DISTANCE ) {
+    if( rl_dist( z.pos(), get_avatar().pos() ) > MAX_GUILT_DISTANCE ) {
         // Too far away, we can deal with it.
         return;
     }
@@ -464,8 +464,8 @@ void mdeath::guilt( monster &z )
         }
         return;
 
-    } else if( ( g->u.has_trait_flag( trait_flag_PRED1 ) ) ||
-               ( g->u.has_trait_flag( trait_flag_PRED1 ) ) ) {
+    } else if( ( get_avatar().has_trait_flag( trait_flag_PRED1 ) ) ||
+               ( get_avatar().has_trait_flag( trait_flag_PRED1 ) ) ) {
         msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {
@@ -486,15 +486,15 @@ void mdeath::guilt( monster &z )
     time_duration decayDelay = 3_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     if( z.type->in_species( ZOMBIE ) ) {
         moraleMalus /= 10;
-        if( g->u.has_trait( trait_PACIFIST ) ) {
+        if( get_avatar().has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
-        } else if( g->u.has_trait_flag( trait_flag_PRED1 ) ) {
+        } else if( get_avatar().has_trait_flag( trait_flag_PRED1 ) ) {
             moraleMalus /= 4;
-        } else if( g->u.has_trait_flag( trait_flag_PRED2 ) ) {
+        } else if( get_avatar().has_trait_flag( trait_flag_PRED2 ) ) {
             moraleMalus /= 5;
         }
     }
-    g->u.add_morale( MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay );
+    get_avatar().add_morale( MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay );
 
 }
 
@@ -503,13 +503,13 @@ void mdeath::blobsplit( monster &z )
     int speed = z.get_speed() - rng( 30, 50 );
     g->m.spawn_item( z.pos(), "slime_scrap", 1, 0, calendar::turn );
     if( z.get_speed() <= 0 ) {
-        if( g->u.sees( z ) ) {
+        if( get_avatar().sees( z ) ) {
             // TODO: Add vermin-tagged tiny versions of the splattered blob  :)
             add_msg( m_good, _( "The %s splatters apart." ), z.name() );
         }
         return;
     }
-    if( g->u.sees( z ) ) {
+    if( get_avatar().sees( z ) ) {
         if( z.type->dies.size() == 1 ) {
             add_msg( m_good, _( "The %s splits in two!" ), z.name() );
         } else {
@@ -544,7 +544,7 @@ void mdeath::jackson( monster &z )
             critter.poly( mon_zombie_hulk );
             critter.remove_effect( effect_ai_controlled );
         }
-        if( g->u.sees( z ) ) {
+        if( get_avatar().sees( z ) ) {
             add_msg( m_warning, _( "The music stops!" ) );
         }
     }
@@ -552,7 +552,7 @@ void mdeath::jackson( monster &z )
 
 void mdeath::melt( monster &z )
 {
-    if( g->u.sees( z ) ) {
+    if( get_avatar().sees( z ) ) {
         add_msg( m_good, _( "The %s melts away." ), z.name() );
     }
 }
@@ -570,8 +570,8 @@ void mdeath::amigara( monster &z )
     }
 
     // We were the last!
-    if( g->u.has_effect( effect_amigara ) ) {
-        g->u.remove_effect( effect_amigara );
+    if( get_avatar().has_effect( effect_amigara ) ) {
+        get_avatar().remove_effect( effect_amigara );
         add_msg( _( "Your obsession with the fault fades away…" ) );
     }
 
@@ -623,7 +623,7 @@ void mdeath::focused_beam( monster &z )
 
     if( !z.get_items().empty() ) {
 
-        if( g->u.sees( z ) ) {
+        if( get_avatar().sees( z ) ) {
             add_msg( m_warning, _( "As the final light is destroyed, it erupts in a blinding flare!" ) );
         }
 
@@ -712,17 +712,17 @@ void mdeath::broken( monster &z )
     }
 
     // TODO: make mdeath::splatter work for robots
-    if( ( broken_mon_ref.damage() >= broken_mon_ref.max_damage() ) && g->u.sees( z.pos() ) ) {
+    if( ( broken_mon_ref.damage() >= broken_mon_ref.max_damage() ) && get_avatar().sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s is destroyed!" ), z.name() );
-    } else if( g->u.sees( z.pos() ) ) {
+    } else if( get_avatar().sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s collapses!" ), z.name() );
     }
 }
 
 void mdeath::ratking( monster &z )
 {
-    g->u.remove_effect( effect_rat );
-    if( g->u.sees( z ) ) {
+    get_avatar().remove_effect( effect_rat );
+    if( get_avatar().sees( z ) ) {
         add_msg( m_warning, _( "Rats suddenly swarm into view." ) );
     }
 
@@ -733,8 +733,8 @@ void mdeath::ratking( monster &z )
 
 void mdeath::darkman( monster &z )
 {
-    g->u.remove_effect( effect_darkness );
-    if( g->u.sees( z ) ) {
+    get_avatar().remove_effect( effect_darkness );
+    if( get_avatar().sees( z ) ) {
         add_msg( m_good, _( "The %s melts away." ), z.name() );
     }
 }
@@ -757,7 +757,7 @@ void mdeath::fungalburst( monster &z )
 {
     // If the fungus died from anti-fungal poison, don't pouf
     if( g->m.get_field_intensity( z.pos(), fd_fungicidal_gas ) ) {
-        if( g->u.sees( z ) ) {
+        if( get_avatar().sees( z ) ) {
             add_msg( m_good, _( "The %s inflates and melts away." ), z.name() );
         }
         return;
@@ -792,7 +792,7 @@ void mdeath::jabberwock( monster &z )
 void mdeath::gameover( monster &z )
 {
     add_msg( m_bad, _( "The %s was destroyed!  GAME OVER!" ), z.name() );
-    g->u.set_part_hp_cur( bodypart_id( "torso" ), 0 );
+    get_avatar().set_part_hp_cur( bodypart_id( "torso" ), 0 );
 }
 
 void mdeath::kill_breathers( monster &/*z*/ )
@@ -851,7 +851,7 @@ void mdeath::detonate( monster &z )
         }
     }
 
-    if( g->u.sees( z ) ) {
+    if( get_avatar().sees( z ) ) {
         if( dets.empty() ) {
             add_msg( m_info,
                      //~ %s is the possessive form of the monster's name
@@ -879,7 +879,7 @@ void mdeath::detonate( monster &z )
 
 void mdeath::broken_ammo( monster &z )
 {
-    if( g->u.sees( z.pos() ) ) {
+    if( get_avatar().sees( z.pos() ) ) {
         //~ %s is the possessive form of the monster's name
         add_msg( m_info, _( "The %s's interior compartment sizzles with destructive energy." ),
                  z.name() );
@@ -957,7 +957,7 @@ void mdeath::preg_roach( monster &z )
     int num_roach = rng( 1, 3 );
     while( num_roach > 0 && g->place_critter_around( mon_giant_cockroach_nymph, z.pos(), 1 ) ) {
         num_roach--;
-        if( g->u.sees( z ) ) {
+        if( get_avatar().sees( z ) ) {
             add_msg( m_warning, _( "A cockroach nymph crawls out of the pregnant giant cockroach corpse." ) );
         }
     }

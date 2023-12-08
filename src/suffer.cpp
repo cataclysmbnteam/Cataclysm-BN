@@ -632,7 +632,7 @@ void Character::suffer_from_asthma( const int current_stim )
 
     if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
         inventory map_inv;
-        map_inv.form_from_map( g->u.pos(), 2, &g->u );
+        map_inv.form_from_map( get_avatar().pos(), 2, &get_avatar() );
         // check if an inhaler is somewhere near
         bool nearby_use = auto_use || oxygenator || map_inv.has_charges( itype_inhaler, 1 ) ||
                           map_inv.has_charges( itype_oxygen_tank, 1 ) ||
@@ -655,11 +655,11 @@ void Character::suffer_from_asthma( const int current_stim )
             // create new variable to resolve a reference issue
             int amount = 1;
             map &here = get_map();
-            if( !here.use_charges( g->u.pos(), 2, itype_inhaler, amount ).empty() ) {
+            if( !here.use_charges( get_avatar().pos(), 2, itype_inhaler, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
                 add_effect( effect_took_antiasthmatic, rng( 1_hours, 2_hours ) );
-            } else if( !here.use_charges( g->u.pos(), 2, itype_oxygen_tank, amount ).empty() ||
-                       !here.use_charges( g->u.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
+            } else if( !here.use_charges( get_avatar().pos(), 2, itype_oxygen_tank, amount ).empty() ||
+                       !here.use_charges( get_avatar().pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
                                               "and go back to sleep." ) );
             }
@@ -1301,7 +1301,7 @@ void Character::suffer_from_bad_bionics()
         add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
         hurtall( 1, nullptr );
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
-        sfx::do_player_death_hurt( g->u, false );
+        sfx::do_player_death_hurt( get_avatar(), false );
     }
     if( has_bionic( bio_drain ) && get_power_level() > 24_kJ && one_turn_in( 1_hours ) ) {
         add_msg_if_player( m_bad, _( "Your batteries discharge slightly." ) );

@@ -145,7 +145,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
         return CANCEL;
     }
 
-    player &u = g->u;
+    player &u = get_avatar();
 
     uilist amenu;
 
@@ -187,7 +187,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
 
 bool pickup::query_thief()
 {
-    player &u = g->u;
+    player &u = get_avatar();
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case
                             : input_context::allow_all_keys;
@@ -241,7 +241,7 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
     item *loc = &*selection.target;
 
     const std::optional<int> &quantity = selection.quantity;
-    if( !loc->is_owned_by( g->u, true ) ) {
+    if( !loc->is_owned_by( get_avatar(), true ) ) {
         // Has the player given input on if stealing is ok?
         if( u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             pickup::query_thief();
@@ -634,7 +634,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     if( min == -1 ) {
         // Recursively pick up adjacent items if that option is on.
-        if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && g->u.pos() == p ) {
+        if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && get_avatar().pos() == p ) {
             //Autopickup adjacent
             direction adjacentDir[8] = {direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST};
             for( auto &elem : adjacentDir ) {
@@ -657,13 +657,13 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     // Not many items, just grab them
     if( static_cast<int>( here.size() ) <= min && min != -1 ) {
         if( from_vehicle ) {
-            g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
+            get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
             std::vector<pickup::pick_drop_selection> { { *here.front(), std::nullopt, {} } },
             std::nullopt ) ) );
         } else {
-            g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
+            get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
             std::vector<pickup::pick_drop_selection> { { *here.front(), std::nullopt, {} } },
-            g->u.pos() ) ) );
+            get_avatar().pos() ) ) );
         }
         return;
     }
@@ -887,7 +887,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     }
 
                     // if the item does not belong to your fraction then add the stolen symbol
-                    if( !this_item.is_owned_by( g->u, true ) ) {
+                    if( !this_item.is_owned_by( get_avatar(), true ) ) {
                         item_name = string_format( "<color_light_red>!</color> %s", item_name );
                     }
 
@@ -916,13 +916,13 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
             const std::string fmted_weight_predict = colorize(
                         string_format( "%.1f", round_up( convert_weight( weight_predict ), 1 ) ),
-                        weight_predict > g->u.weight_capacity() ? c_red : c_white );
+                        weight_predict > get_avatar().weight_capacity() ? c_red : c_white );
             const std::string fmted_weight_capacity = string_format(
-                        "%.1f", round_up( convert_weight( g->u.weight_capacity() ), 1 ) );
+                        "%.1f", round_up( convert_weight( get_avatar().weight_capacity() ), 1 ) );
             const std::string fmted_volume_predict = colorize(
                         format_volume( volume_predict ),
-                        volume_predict > g->u.volume_capacity() ? c_red : c_white );
-            const std::string fmted_volume_capacity = format_volume( g->u.volume_capacity() );
+                        volume_predict > get_avatar().volume_capacity() ? c_red : c_white );
+            const std::string fmted_volume_capacity = format_volume( get_avatar().volume_capacity() );
 
             trim_and_print( w_pickup, point_zero, pickupW, c_white,
                             string_format( _( "PICK Wgt %1$s/%2$s  Vol %3$s/%4$s" ),
@@ -1140,8 +1140,8 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     }
                 }
 
-                weight_predict = g->u.weight_carried() + weight_picked_up;
-                volume_predict = g->u.volume_carried() + volume_picked_up;
+                weight_predict = get_avatar().weight_carried() + weight_picked_up;
+                volume_predict = get_avatar().volume_carried() + volume_picked_up;
             }
 
             ui_manager::redraw();
@@ -1202,12 +1202,12 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     }
 
     std::vector<pickup::pick_drop_selection> targets = pickup::optimize_pickup( locations, quantities );
-    g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>
+    get_avatar().assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>
                           ( targets,
-                            g->u.pos() ) ) );
+                            get_avatar().pos() ) ) );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.
-        g->u.activity->auto_resume = true;
+        get_avatar().activity->auto_resume = true;
     }
 
     g->reenter_fullscreen();

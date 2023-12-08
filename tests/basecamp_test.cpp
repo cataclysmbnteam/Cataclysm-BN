@@ -56,20 +56,20 @@ TEST_CASE( "distribute_food" )
     clear_all_state();
     constexpr tripoint origin( 60, 60, 0 );
     constexpr tripoint thirty_steps_rd = tripoint( 30, 30, 0 );
-    g->u.setpos( origin );
+    get_avatar().setpos( origin );
     const tripoint origin_abs = get_map().getabs( origin );
-    const tripoint_abs_omt omt_pos = g->u.global_omt_location();
+    const tripoint_abs_omt omt_pos = get_avatar().global_omt_location();
     g->m.add_camp( omt_pos, "faction_camp_for_distribute" );
     basecamp *bcp = overmap_buffer.find_camp( omt_pos.xy() ).value();
     bcp->set_bb_pos( origin_abs + tripoint_east );
     zone_manager &zmgr = zone_manager::get_manager();
-    const faction *yours = g->u.get_faction();
+    const faction *yours = get_avatar().get_faction();
     zmgr.add( "Zone for dumping food", zone_type_id( "CAMP_FOOD" ),
-              g->u.get_faction()->id, false, true,
+              get_avatar().get_faction()->id, false, true,
               origin_abs - thirty_steps_rd,
               origin_abs + thirty_steps_rd );
     zmgr.add( "Storage zone", zone_type_id( "CAMP_STORAGE" ),
-              g->u.get_faction()->id, false, true,
+              get_avatar().get_faction()->id, false, true,
               origin_abs - thirty_steps_rd,
               origin_abs + thirty_steps_rd );
 

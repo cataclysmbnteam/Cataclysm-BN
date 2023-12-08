@@ -359,7 +359,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
         }
         if( is_avatar ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
-            const float player_visibility_factor = g->u.visibility() / 100.0f;
+            const float player_visibility_factor = get_avatar().visibility() / 100.0f;
             int adj_range = std::floor( range * player_visibility_factor );
             return adj_range >= wanted_range &&
                    here.get_cache_ref( pos().z ).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
@@ -389,7 +389,7 @@ static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint
 Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
 {
     Creature *target = nullptr;
-    player &u = g->u; // Could easily protect something that isn't the player
+    player &u = get_avatar(); // Could easily protect something that isn't the player
     constexpr int hostile_adj = 2; // Priority bonus for hostile targets
     const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
     // iff safety margin (degrees). less accuracy, more paranoia
@@ -400,10 +400,10 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     bool self_area_iff = false; // Need to check if the target is near the vehicle we're a part of
     bool area_iff = false;      // Need to check distance from target to player
     bool angle_iff = true;      // Need to check if player is in a cone between us and target
-    int pldist = rl_dist( pos(), g->u.pos() );
+    int pldist = rl_dist( pos(), get_avatar().pos() );
     map &here = get_map();
     vehicle *in_veh = is_fake() ? veh_pointer_or_null( here.veh_at( pos() ) ) : nullptr;
-    if( pldist < iff_dist && sees( g->u ) ) {
+    if( pldist < iff_dist && sees( get_avatar() ) ) {
         area_iff = area > 0;
         angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
@@ -431,7 +431,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // friendly to the player, not a target for us
             return static_cast<const npc *>( &critter )->get_attitude() == NPCATT_KILL;
         }
-        // TODO: what about g->u?
+        // TODO: what about get_avatar()?
         return false;
     } );
     for( auto &m : targets ) {
@@ -775,7 +775,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     projectile &proj = attack.proj;
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
 
-    const bool u_see_this = g->u.sees( *this );
+    const bool u_see_this = get_avatar().sees( *this );
 
     const int avoid_roll = dodge_roll();
     // Do dice(10, speed) instead of dice(speed, 10) because speed could potentially be > 10000
@@ -788,7 +788,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         attack.missed_by = 1.0; // Arbitrary value
         // "Avoid" rather than "dodge", because it includes removing self from the line of fire
         //  rather than just Matrix-style bullet dodging
-        if( source != nullptr && g->u.sees( *source ) ) {
+        if( source != nullptr && get_avatar().sees( *source ) ) {
             add_msg_player_or_npc(
                 m_warning,
                 _( "You avoid %s projectile!" ),

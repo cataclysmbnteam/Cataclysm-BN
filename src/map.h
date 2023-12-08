@@ -461,10 +461,10 @@ class map
 
         /** Draw a visible part of the map into `w`.
          *
-         * This method uses `g->u.posx()/posy()` for visibility calculations, so it can
+         * This method uses `get_avatar().posx()/posy()` for visibility calculations, so it can
          * not be used for anything but the player's viewport. Likewise, only
          * `g->m` and maps with equivalent coordinates can be used, as other maps
-         * would have coordinate systems incompatible with `g->u.posx()`
+         * would have coordinate systems incompatible with `get_avatar().posx()`
          *
          * @param w Window we are drawing in
          * @param center The coordinate of the center of the viewport, this can
@@ -1592,7 +1592,7 @@ class map
         // End of light/transparency
 
         /**
-         * Whether the player character (g->u) can see the given square (local map coordinates).
+         * Whether the player character (get_avatar()) can see the given square (local map coordinates).
          * This only checks the transparency of the path to the target, the light level is not
          * checked.
          * @param t Target point to look at

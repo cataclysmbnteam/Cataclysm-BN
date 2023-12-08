@@ -698,7 +698,7 @@ int iuse::fungicide( player *p, item *it, bool, const tripoint & )
                 x_in_y( spore_count, 8 ) ) {
                 if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                     monster &critter = *mon_ptr;
-                    if( g->u.sees( dest ) &&
+                    if( get_avatar().sees( dest ) &&
                         !critter.type->in_species( FUNGUS ) ) {
                         add_msg( m_warning, _( "The %s is covered in tiny spores!" ),
                                  critter.name() );
@@ -1773,7 +1773,7 @@ static bool good_fishing_spot( tripoint pos )
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !g->m.has_flag( "CURRENT", pos ) &&
         om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
-        g->u.add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here" ) );
+        get_avatar().add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here" ) );
         return false;
     }
     return true;
@@ -1967,14 +1967,14 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
             blind = true;
             critter.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
         }
-        if( g->u.sees( critter ) ) {
+        if( get_avatar().sees( critter ) ) {
             p->add_msg_if_player( _( "The %s is sprayed!" ), critter.name() );
             if( blind ) {
                 p->add_msg_if_player( _( "The %s looks blinded." ), critter.name() );
             }
         }
         if( critter.made_of( LIQUID ) ) {
-            if( g->u.sees( critter ) ) {
+            if( get_avatar().sees( critter ) ) {
                 p->add_msg_if_player( _( "The %s is frozen!" ), critter.name() );
             }
             critter.apply_damage( p, bodypart_id( "torso" ), rng( 20, 60 ) );
@@ -2407,7 +2407,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
     };
 
     const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+        if( pnt == get_avatar().pos() ) {
             return false;
         }
         const ter_id ter = g->m.ter( pnt );
@@ -2717,21 +2717,21 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
 
     if( grave ) {
-        if( g->u.has_trait( trait_SPIRITUAL ) && !g->u.has_trait( trait_PSYCHOPATH ) &&
-            g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
+        if( get_avatar().has_trait( trait_SPIRITUAL ) && !get_avatar().has_trait( trait_PSYCHOPATH ) &&
+            get_avatar().query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
             add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
-            g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+            get_avatar().add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
             if( one_in( 3 ) ) {
-                g->u.vomit();
+                get_avatar().vomit();
             }
-        } else if( g->u.has_trait( trait_PSYCHOPATH ) ) {
+        } else if( get_avatar().has_trait( trait_PSYCHOPATH ) ) {
             p->add_msg_if_player( m_good,
                                   _( "Exhuming a grave is fun now, where there is no one to object." ) );
-            g->u.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
-        } else if( !g->u.has_trait( trait_EATDEAD ) &&
-                   !g->u.has_trait( trait_SAPROVORE ) ) {
+            get_avatar().add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+        } else if( !get_avatar().has_trait( trait_EATDEAD ) &&
+                   !get_avatar().has_trait( trait_SAPROVORE ) ) {
             p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
-            g->u.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            get_avatar().add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
             if( one_in( 5 ) ) {
                 p->vomit();
             }
@@ -2844,7 +2844,7 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
     };
 
     const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+        if( pnt == get_avatar().pos() ) {
             return false;
         }
         const ter_id type = g->m.ter( pnt );
@@ -2949,7 +2949,7 @@ int iuse::siphon( player *p, item *it, bool, const tripoint & )
 
     vehicle *v = nullptr;
     bool found_more_than_one = false;
-    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+    for( const tripoint &pos : g->m.points_in_radius( get_avatar().pos(), 1 ) ) {
         const optional_vpart_position vp = g->m.veh_at( pos );
         if( !vp ) {
             continue;
@@ -3440,7 +3440,7 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
                 return 0;
             }
             const tripoint &pnt = *pnt_;
-            if( pnt == g->u.pos() ) {
+            if( pnt == get_avatar().pos() ) {
                 p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->get_rad(),
                                       p->leak_level( flag_RADIOACTIVE ) );
                 break;
@@ -3504,7 +3504,7 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
     }
     if( monster *const mon_ptr = g->critter_at<monster>( goop ) ) {
         monster &critter = *mon_ptr;
-        if( g->u.sees( goop ) ) {
+        if( get_avatar().sees( goop ) ) {
             add_msg( _( "Black goo emerges from the canister and envelopes a %s!" ),
                      critter.name() );
         }
@@ -3513,7 +3513,7 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
         critter.set_speed_base( critter.get_speed_base() - rng( 5, 25 ) );
         critter.set_hp( critter.get_speed() );
     } else {
-        if( g->u.sees( goop ) ) {
+        if( get_avatar().sees( goop ) ) {
             add_msg( _( "Living black goo emerges from the canister!" ) );
         }
         if( monster *const goo = g->place_critter_at( mon_blob, goop ) ) {
@@ -3530,7 +3530,7 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
             found = g->m.passable( goop ) && g->m.tr_at( goop ).is_null();
         } while( !found && tries < 10 );
         if( found ) {
-            if( g->u.sees( goop ) ) {
+            if( get_avatar().sees( goop ) ) {
                 add_msg( m_warning, _( "A nearby splatter of goo forms into a goo pit." ) );
             }
             g->m.trap_set( goop, tr_goo );
@@ -3627,21 +3627,21 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                         buff_stat( person->int_max, rng( 0, person->int_max / 2 ) );
                         /** @EFFECT_PER_MAX increases possible granade per buff for NPCs */
                         buff_stat( person->per_max, rng( 0, person->per_max / 2 ) );
-                    } else if( g->u.pos() == dest ) {
+                    } else if( get_avatar().pos() == dest ) {
                         /** @EFFECT_STR_MAX increases possible granade str buff */
-                        buff_stat( g->u.str_max, rng( 0, g->u.str_max / 2 ) );
+                        buff_stat( get_avatar().str_max, rng( 0, get_avatar().str_max / 2 ) );
                         /** @EFFECT_DEX_MAX increases possible granade dex buff */
-                        buff_stat( g->u.dex_max, rng( 0, g->u.dex_max / 2 ) );
+                        buff_stat( get_avatar().dex_max, rng( 0, get_avatar().dex_max / 2 ) );
                         /** @EFFECT_INT_MAX increases possible granade int buff */
-                        buff_stat( g->u.int_max, rng( 0, g->u.int_max / 2 ) );
+                        buff_stat( get_avatar().int_max, rng( 0, get_avatar().int_max / 2 ) );
                         /** @EFFECT_PER_MAX increases possible granade per buff */
-                        buff_stat( g->u.per_max, rng( 0, g->u.per_max / 2 ) );
-                        g->u.recalc_hp();
-                        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
-                            g->u.set_part_hp_cur( bp, g->u.get_part_hp_cur( bp ) * rng_float( 1, 1.2 ) );
-                            const int hp_max = g->u.get_part_hp_max( bp );
-                            if( g->u.get_part_hp_cur( bp ) > hp_max ) {
-                                g->u.set_part_hp_cur( bp, hp_max );
+                        buff_stat( get_avatar().per_max, rng( 0, get_avatar().per_max / 2 ) );
+                        get_avatar().recalc_hp();
+                        for( const bodypart_id &bp : get_avatar().get_all_body_parts() ) {
+                            get_avatar().set_part_hp_cur( bp, get_avatar().get_part_hp_cur( bp ) * rng_float( 1, 1.2 ) );
+                            const int hp_max = get_avatar().get_part_hp_max( bp );
+                            if( get_avatar().get_part_hp_cur( bp ) > hp_max ) {
+                                get_avatar().set_part_hp_cur( bp, hp_max );
                             }
                         }
                     }
@@ -3667,20 +3667,20 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                         person->int_max -= rng( 0, person->int_max / 2 );
                         /** @EFFECT_PER_MAX increases possible granade per debuff for NPCs (NEGATIVE) */
                         person->per_max -= rng( 0, person->per_max / 2 );
-                    } else if( g->u.pos() == dest ) {
+                    } else if( get_avatar().pos() == dest ) {
                         /** @EFFECT_STR_MAX increases possible granade str debuff (NEGATIVE) */
-                        g->u.str_max -= rng( 0, g->u.str_max / 2 );
+                        get_avatar().str_max -= rng( 0, get_avatar().str_max / 2 );
                         /** @EFFECT_DEX_MAX increases possible granade dex debuff (NEGATIVE) */
-                        g->u.dex_max -= rng( 0, g->u.dex_max / 2 );
+                        get_avatar().dex_max -= rng( 0, get_avatar().dex_max / 2 );
                         /** @EFFECT_INT_MAX increases possible granade int debuff (NEGATIVE) */
-                        g->u.int_max -= rng( 0, g->u.int_max / 2 );
+                        get_avatar().int_max -= rng( 0, get_avatar().int_max / 2 );
                         /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
-                        g->u.per_max -= rng( 0, g->u.per_max / 2 );
-                        g->u.recalc_hp();
-                        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
-                            const int hp_cur = g->u.get_part_hp_cur( bp );
+                        get_avatar().per_max -= rng( 0, get_avatar().per_max / 2 );
+                        get_avatar().recalc_hp();
+                        for( const bodypart_id &bp : get_avatar().get_all_body_parts() ) {
+                            const int hp_cur = get_avatar().get_part_hp_cur( bp );
                             if( hp_cur > 0 ) {
-                                g->u.set_part_hp_cur( bp, rng( 1, hp_cur ) );
+                                get_avatar().set_part_hp_cur( bp, rng( 1, hp_cur ) );
                             }
                         }
                     }
@@ -3699,9 +3699,9 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                         critter.clear_effects();
                     } else if( npc *const person = g->critter_at<npc>( dest ) ) {
                         person->environmental_revert_effect();
-                    } else if( g->u.pos() == dest ) {
-                        g->u.environmental_revert_effect();
-                        do_purify( g->u );
+                    } else if( get_avatar().pos() == dest ) {
+                        get_avatar().environmental_revert_effect();
+                        do_purify( get_avatar() );
                     }
                 }
                 break;
@@ -3961,7 +3961,7 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
         }
     }
 
-    if( g->u.sees( *p ) ) {
+    if( get_avatar().sees( *p ) ) {
         if( converts == 0 ) {
             add_msg( _( "…but nothing happens." ) );
         } else if( converts == 1 ) {
@@ -4601,7 +4601,7 @@ int iuse::dog_whistle( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( _( "You blow your dog whistle." ) );
     for( monster &critter : g->all_monsters() ) {
         if( critter.friendly != 0 && critter.has_flag( MF_DOGFOOD ) ) {
-            bool u_see = g->u.sees( critter );
+            bool u_see = get_avatar().sees( critter );
             if( critter.has_effect( effect_docile ) ) {
                 if( u_see ) {
                     p->add_msg_if_player( _( "Your %s looks ready to attack." ), critter.name() );
@@ -4816,7 +4816,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+        if( pnt == get_avatar().pos() ) {
             return false;
         }
         return g->m.has_flag( "TREE", pnt );
@@ -4936,7 +4936,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
 
     const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
     &allowed_furn_id]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+        if( pnt == get_avatar().pos() ) {
             return false;
         }
         const ter_id ter = g->m.ter( pnt );
@@ -5026,7 +5026,7 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
     };
     const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
     &allowed_furn_id]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+        if( pnt == get_avatar().pos() ) {
             return false;
         }
         const ter_id ter = g->m.ter( pnt );
@@ -5086,7 +5086,7 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
         t_chainfence
     };
     const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+        if( pnt == get_avatar().pos() ) {
             return false;
         }
         const ter_id ter = g->m.ter( pnt );
@@ -5254,7 +5254,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 bool blood = false;
                 for( const tripoint &tmp : g->m.points_in_radius( p->pos(), 4 ) ) {
                     if( !one_in( 4 ) && g->m.add_field( tmp, fd_blood, 3 ) &&
-                        ( blood || g->u.sees( tmp ) ) ) {
+                        ( blood || get_avatar().sees( tmp ) ) ) {
                         blood = true;
                     }
                 }
@@ -5826,7 +5826,7 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
 int iuse::gun_clean( player *p, item *, bool, const tripoint & )
 {
-    item *loc = game_menus::inv::titled_menu( g->u, ( "Select the firearm to clean or mend" ) );
+    item *loc = game_menus::inv::titled_menu( get_avatar(), ( "Select the firearm to clean or mend" ) );
     if( !loc ) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
@@ -5867,7 +5867,7 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You need a mechanics skill of 2 to use this repair kit." ) );
         return 0;
     }
-    item *loc = game_menus::inv::titled_menu( g->u, ( "Select the firearm to repair" ) );
+    item *loc = game_menus::inv::titled_menu( get_avatar(), ( "Select the firearm to repair" ) );
     if( !loc ) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
@@ -7163,7 +7163,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             Creature *creature;
             if( mon && mon->has_effect( effect_ridden ) ) {
                 // only player can ride, see monexamine::mount_pet
-                guy = &g->u;
+                guy = &get_avatar();
                 description_figures_appearance[ mon->name() ] = "\"" + mon->type->get_description() + "\"";
             }
 
@@ -8309,7 +8309,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
         return 0;
     }
 
-    point p2( g->u.view_offset.xy() );
+    point p2( get_avatar().view_offset.xy() );
 
     vehicle *veh = pickveh( pos, choice == 0 );
 
@@ -8322,7 +8322,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     }
 
     if( choice == 0 ) {
-        if( g->u.has_trait( trait_WAYFARER ) ) {
+        if( get_avatar().has_trait( trait_WAYFARER ) ) {
             add_msg( m_info,
                      _( "Despite using a controller, you still refuse to take control of this vehicle." ) );
         } else {
@@ -8343,8 +8343,8 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
         }
     }
 
-    g->u.view_offset.x = p2.x;
-    g->u.view_offset.y = p2.y;
+    get_avatar().view_offset.x = p2.x;
+    get_avatar().view_offset.y = p2.y;
     return it->type->charges_to_use();
 }
 
@@ -8559,7 +8559,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             std::vector<const recipe *> dishes;
 
-            inventory crafting_inv = g->u.crafting_inventory();
+            inventory crafting_inv = get_avatar().crafting_inventory();
             //add some tools and qualities. we can't add this qualities to json, because multicook must be used only by activating, not as component other crafts.
             const time_point bday = calendar::start_of_cataclysm;
 
@@ -8572,7 +8572,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             int counter = 0;
 
-            for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
+            for( const auto &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
@@ -8645,7 +8645,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             bool has_tools = true;
 
-            const inventory &cinv = g->u.crafting_inventory();
+            const inventory &cinv = get_avatar().crafting_inventory();
 
             if( !cinv.has_amount( itype_soldering_iron, 1 ) ) {
                 p->add_msg_if_player( m_warning, _( "You need a %s." ),

@@ -184,7 +184,7 @@ void conditional_t<T>::set_u_has_mission( const JsonObject &jo )
 {
     const std::string &mission = jo.get_string( "u_has_mission" );
     condition = [mission]( const T & ) {
-        for( auto miss_it : g->u.get_active_missions() ) {
+        for( auto miss_it : get_avatar().get_active_missions() ) {
             if( miss_it->mission_id() == mission_type_id( mission ) ) {
                 return true;
             }
@@ -724,7 +724,7 @@ template<class T>
 void conditional_t<T>::set_npc_friend()
 {
     condition = []( const T & d ) {
-        return d.beta->is_friendly( g->u );
+        return d.beta->is_friendly( get_avatar() );
     };
 }
 
@@ -837,7 +837,7 @@ template<class T>
 void conditional_t<T>::set_u_has_camp()
 {
     condition = []( const T & ) {
-        return !g->u.camps.empty();
+        return !get_avatar().camps.empty();
     };
 }
 

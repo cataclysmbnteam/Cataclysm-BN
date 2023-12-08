@@ -485,7 +485,7 @@ static bool update_time_left( std::string &entry, const comp_list &npc_list )
             entry = entry + " [" +
                     to_string( comp->companion_mission_time_ret - calendar::turn ) +
                     _( " left]\n" );
-            avail = g->u.has_trait( trait_DEBUG_HS );
+            avail = get_avatar().has_trait( trait_DEBUG_HS );
         }
     }
     entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
@@ -647,7 +647,7 @@ void talk_function::basecamp_mission( npc &p )
         return;
     }
     basecamp *bcp = *temp_camp;
-    bcp->set_by_radio( g->u.dialogue_by_radio );
+    bcp->set_by_radio( get_avatar().dialogue_by_radio );
     if( bcp->get_dumping_spot() == tripoint_zero ) {
         map &here = get_map();
         auto &mgr = zone_manager::get_manager();
@@ -1995,7 +1995,7 @@ void basecamp::start_setup_hide_site()
                               omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        std::vector<item *> pos_inv = g->u.items_with( []( const item & itm ) {
+        std::vector<item *> pos_inv = get_avatar().items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
         if( !pos_inv.empty() ) {
@@ -2037,7 +2037,7 @@ void basecamp::start_relay_hide_site()
                               omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        std::vector<item *> pos_inv = g->u.items_with( []( const item & itm ) {
+        std::vector<item *> pos_inv = get_avatar().items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
         std::vector<item *> losing_equipment;
@@ -2363,7 +2363,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                             int seed_cnt = std::max( 1, rng( plant_cnt / 4, plant_cnt / 2 ) );
                             for( auto &i : iexamine::get_harvest_items( *( *seed )->type, plant_cnt,
                                     seed_cnt, true ) ) {
-                                here.add_item_or_charges( g->u.pos(), std::move( i ) );
+                                here.add_item_or_charges( get_avatar().pos(), std::move( i ) );
                             }
                             seed = map_stack::iterator();
                             farm_map.i_clear( pos );
@@ -2866,9 +2866,9 @@ void basecamp::recruit_return( const std::string &task, int score )
     }
     // Time durations always subtract from camp food supply
     camp_food_supply( 1_days * food_desire );
-    recruit->spawn_at_precise( { g->get_levx(), g->get_levy() }, g->u.pos() + point( -4, -4 ) );
+    recruit->spawn_at_precise( { g->get_levx(), g->get_levy() }, get_avatar().pos() + point( -4, -4 ) );
     overmap_buffer.insert_npc( recruit );
-    recruit->form_opinion( g->u );
+    recruit->form_opinion( get_avatar() );
     recruit->mission = NPC_MISSION_NULL;
     recruit->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC,
                               recruit->global_omt_location(),
@@ -2983,7 +2983,7 @@ bool basecamp::farm_return( const std::string &task, const tripoint_abs_omt &omt
 
     for( detached_ptr<item> &it : comp->companion_mission_inv.dump_remove() ) {
         if( it->charges > 0 ) {
-            g->u.i_add( std::move( it ) );
+            get_avatar().i_add( std::move( it ) );
         }
     }
     finish_return( *comp, true, msg, "survival", 2 );
@@ -3450,7 +3450,7 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
         comp.companion_mission_inv.add_item( target_bay.i_rem( point( 11, 10 ), i ) );
     }
     for( auto i : itms ) {
-        std::vector<detached_ptr<item>> res = g->u.use_amount( i->typeId(), 1 );
+        std::vector<detached_ptr<item>> res = get_avatar().use_amount( i->typeId(), 1 );
         target_bay.add_item_or_charges( point( 11, 10 ), std::move( res.front() ) );
     }
     target_bay.save();
@@ -3587,7 +3587,7 @@ bool basecamp::validate_sort_points()
         mgr.cache_vzones();
     }
     tripoint src_loc = here.getlocal( bb_pos ) + point_north;
-    const tripoint abspos = here.getabs( g->u.pos() );
+    const tripoint abspos = here.getabs( get_avatar().pos() );
     if( !mgr.has_near( zone_type_camp_storage, abspos, 60 ) ||
         !mgr.has_near( zone_type_camp_food, abspos, 60 ) ) {
         if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {
@@ -3722,7 +3722,7 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
     }
     //More machine than man
     //Bionics count > 10, respect > 75
-    if( g->u.get_bionics().size() > 10 && camp_discipline() > 75 ) {
+    if( get_avatar().get_bionics().size() > 10 && camp_discipline() > 75 ) {
         sbonus += 10;
     }
     //Survival of the fittest
@@ -3856,7 +3856,7 @@ std::string camp_car_description( vehicle *car )
 // food supply
 int camp_food_supply( int change, bool return_days )
 {
-    faction *yours = g->u.get_faction();
+    faction *yours = get_avatar().get_faction();
     yours->food_supply += change;
     if( yours->food_supply < 0 ) {
         yours->likes_u += yours->food_supply / 1250;
@@ -3968,14 +3968,14 @@ bool basecamp::distribute_food()
 // morale
 int camp_discipline( int change )
 {
-    faction *yours = g->u.get_faction();
+    faction *yours = get_avatar().get_faction();
     yours->respects_u += change;
     return yours->respects_u;
 }
 
 int camp_morale( int change )
 {
-    faction *yours = g->u.get_faction();
+    faction *yours = get_avatar().get_faction();
     yours->likes_u += change;
     return yours->likes_u;
 }
@@ -3995,7 +3995,7 @@ void basecamp::place_results( detached_ptr<item> &&result )
         if( here.check_vehicle_zones( g->get_levz() ) ) {
             mgr.cache_vzones();
         }
-        const auto abspos = here.getabs( g->u.pos() );
+        const auto abspos = here.getabs( get_avatar().pos() );
         if( mgr.has_near( zone_type_camp_storage, abspos ) ) {
             const auto &src_set = mgr.get_near( zone_type_camp_storage, abspos );
             const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
@@ -4006,8 +4006,8 @@ void basecamp::place_results( detached_ptr<item> &&result )
             apply_camp_ownership( src_loc, 10 );
             //or dump them at players feet
         } else {
-            here.add_item_or_charges( g->u.pos(), std::move( result ), true );
-            apply_camp_ownership( g->u.pos(), 0 );
+            here.add_item_or_charges( get_avatar().pos(), std::move( result ), true );
+            apply_camp_ownership( get_avatar().pos(), 0 );
         }
     }
 }
@@ -4019,7 +4019,7 @@ void apply_camp_ownership( const tripoint &camp_pos, int radius )
             camp_pos + point( radius, radius ) ) ) {
         auto items = here.i_at( p.xy() );
         for( item * const &elem : items ) {
-            elem->set_owner( g->u );
+            elem->set_owner( get_avatar() );
         }
     }
 }

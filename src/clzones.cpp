@@ -267,7 +267,7 @@ loot_options::query_loot_result loot_options::query_loot()
 
 plot_options::query_seed_result plot_options::query_seed()
 {
-    player &p = g->u;
+    player &p = get_avatar();
     map &here = get_map();
 
     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {

@@ -171,9 +171,9 @@ static void board_up( map &m, const tripoint_range<tripoint> &range )
             continue;
         }
         // If the furniture is movable and the character can move it, use it to barricade
-        // g->u is workable here as NPCs by definition are not starting the game.  (Let's hope.)
+        // get_avatar() is workable here as NPCs by definition are not starting the game.  (Let's hope.)
         ///\EFFECT_STR determines what furniture might be used as a starting area barricade
-        if( m.furn( p ).obj().is_movable() && m.furn( p ).obj().move_str_req < g->u.get_str() ) {
+        if( m.furn( p ).obj().is_movable() && m.furn( p ).obj().move_str_req < get_avatar().get_str() ) {
             if( m.furn( p ).obj().movecost == 0 ) {
                 // Obstacles are better, prefer them
                 furnitures1.push_back( p );
@@ -407,7 +407,7 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
     tinymap m;
     m.load( player_location, false );
     m.build_outside_cache( m.get_abs_sub().z );
-    const point u( g->u.posx() % HALF_MAPSIZE_X, g->u.posy() % HALF_MAPSIZE_Y );
+    const point u( get_avatar().posx() % HALF_MAPSIZE_X, get_avatar().posy() % HALF_MAPSIZE_Y );
     std::vector<tripoint> valid;
     for( const tripoint &p : m.points_on_zlevel() ) {
         if( !( m.has_flag_ter( "DOOR", p ) ||

@@ -146,7 +146,7 @@ class avatar : public player
          * Helper function for player::read.
          *
          * @param book Book to read
-         * @param reasons Starting with g->u, for each player/NPC who cannot read, a message will be pushed back here.
+         * @param reasons Starting with get_avatar(), for each player/NPC who cannot read, a message will be pushed back here.
          * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
          * who can read and can read the fastest
          */
@@ -276,6 +276,6 @@ class avatar : public player
         std::map<faction_id, std::pair<int, time_point>> warning_record;
 };
 
-avatar &get_avatar();
+auto get_avatar() -> avatar &;
 
 #endif // CATA_SRC_AVATAR_H

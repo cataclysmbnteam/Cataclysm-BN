@@ -105,7 +105,7 @@ class JsonOut;
 
 static void skim_book_msg( const item &book, avatar &u );
 
-avatar &get_avatar()
+auto get_avatar() -> avatar &
 {
     return g->u;
 }

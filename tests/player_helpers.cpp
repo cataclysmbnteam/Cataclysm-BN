@@ -31,7 +31,7 @@
 
 int get_remaining_charges( const std::string &tool_id )
 {
-    const inventory crafting_inv = g->u.crafting_inventory();
+    const inventory crafting_inv = get_avatar().crafting_inventory();
     std::vector<item *> items =
     crafting_inv.items_with( [tool_id]( const item & i ) {
         return i.typeId() == itype_id( tool_id );
@@ -46,7 +46,7 @@ int get_remaining_charges( const std::string &tool_id )
 bool player_has_item_of_type( const std::string &type )
 {
 
-    std::vector<item *> inv_items = g->u.inv_dump();
+    std::vector<item *> inv_items = get_avatar().inv_dump();
 
     return std::any_of( inv_items.begin(), inv_items.end(), [&]( const item * const & i ) {
         return i->type->get_id() == itype_id( type );
@@ -133,7 +133,7 @@ void clear_character( player &dummy, bool debug_storage )
 
 void clear_avatar()
 {
-    clear_character( g->u );
+    clear_character( get_avatar() );
 }
 
 void process_activity( player &dummy )

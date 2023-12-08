@@ -583,9 +583,9 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     // TODO: unify this with game::move_vertical
     if( here.has_flag( flag_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
-            return !g->u.is_underwater() && !g->u.worn_with_flag( flag_FLOTATION );
+            return !get_avatar().is_underwater() && !get_avatar().worn_with_flag( flag_FLOTATION );
         } else {
-            return g->u.swim_speed() < 500 || g->u.is_wearing( itype_id( "swim_fins" ) );
+            return get_avatar().swim_speed() < 500 || get_avatar().is_wearing( itype_id( "swim_fins" ) );
         }
     }
 
@@ -643,13 +643,13 @@ bool can_interact_at( action_id action, const tripoint &p )
     map &here = get_map();
     switch( action ) {
         case ACTION_OPEN:
-            return here.open_door( p, !here.is_outside( g->u.pos() ), true );
+            return here.open_door( p, !here.is_outside( get_avatar().pos() ), true );
         case ACTION_CLOSE: {
             const optional_vpart_position vp = here.veh_at( p );
             return ( vp &&
                      vp->vehicle().next_part_to_close( vp->part_index(),
-                             veh_pointer_or_null( here.veh_at( g->u.pos() ) ) != &vp->vehicle() ) >= 0 ) ||
-                   here.close_door( p, !here.is_outside( g->u.pos() ), true );
+                             veh_pointer_or_null( here.veh_at( get_avatar().pos() ) ) != &vp->vehicle() ) >= 0 ) ||
+                   here.close_door( p, !here.is_outside( get_avatar().pos() ), true );
         }
         case ACTION_BUTCHER:
             return can_butcher_at( p );
@@ -703,39 +703,39 @@ action_id handle_action_menu()
     std::map<action_id, int> action_weightings;
 
     // Check if we're in a potential combat situation, if so, sort a few actions to the top.
-    if( !g->u.get_hostile_creatures( 60 ).empty() ) {
+    if( !get_avatar().get_hostile_creatures( 60 ).empty() ) {
         // Only prioritize movement options if we're not driving.
-        if( !g->u.controlling_vehicle ) {
+        if( !get_avatar().controlling_vehicle ) {
             action_weightings[ACTION_CYCLE_MOVE] = 400;
         }
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
-        if( g->u.primary_weapon().is_gun() || g->u.primary_weapon().has_flag( flag_REACH_ATTACK ) ) {
+        if( get_avatar().primary_weapon().is_gun() || get_avatar().primary_weapon().has_flag( flag_REACH_ATTACK ) ) {
             action_weightings[ACTION_FIRE] = 350;
         }
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.movement_mode_is( CMM_RUN ) ) {
+    if( get_avatar().movement_mode_is( CMM_RUN ) ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
     }
     // If we're already crouching, make it simple to toggle crouching to off.
-    if( g->u.movement_mode_is( CMM_CROUCH ) ) {
+    if( get_avatar().movement_mode_is( CMM_CROUCH ) ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 
     map &here = get_map();
     // Check if we're on a vehicle, if so, vehicle controls should be top.
-    if( here.veh_at( g->u.pos() ) ) {
+    if( here.veh_at( get_avatar().pos() ) ) {
         // Make it 300 to prioritize it before examining the vehicle.
         action_weightings[ACTION_CONTROL_VEHICLE] = 300;
     }
 
     // Check if we can perform one of our actions on nearby terrain. If so,
     // display that action at the top of the list.
-    for( const tripoint &pos : here.points_in_radius( g->u.pos(), 1 ) ) {
-        if( pos != g->u.pos() ) {
+    for( const tripoint &pos : here.points_in_radius( get_avatar().pos(), 1 ) ) {
+        if( pos != get_avatar().pos() ) {
             // Check for actions that work on nearby tiles, skipping tiles blocked by vehicles
-            if( here.obstructed_by_vehicle_rotation( g->u.pos(), pos ) ) {
+            if( here.obstructed_by_vehicle_rotation( get_avatar().pos(), pos ) ) {
                 continue;
             }
 
@@ -969,9 +969,9 @@ std::optional<tripoint> choose_direction( const std::string &message, const bool
         if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             // Make player's sprite face left/right if interacting with something to the left or right
             if( vec->x > 0 ) {
-                g->u.facing = FD_RIGHT;
+                get_avatar().facing = FD_RIGHT;
             } else if( vec->x < 0 ) {
-                g->u.facing = FD_LEFT;
+                get_avatar().facing = FD_LEFT;
             }
             return vec;
         } else if( action == "pause" ) {
@@ -995,12 +995,12 @@ std::optional<tripoint> choose_adjacent( const std::string &message, const bool 
         return std::nullopt;
     }
 
-    if( get_map().obstructed_by_vehicle_rotation( g->u.pos(), *dir + g->u.pos() ) ) {
+    if( get_map().obstructed_by_vehicle_rotation( get_avatar().pos(), *dir + get_avatar().pos() ) ) {
         add_msg( _( "You can't reach through that vehicle's wall." ) );
         return std::nullopt;
     }
 
-    return *dir + g->u.pos();
+    return *dir + get_avatar().pos();
 }
 
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
@@ -1021,8 +1021,8 @@ std::optional<tripoint> choose_adjacent_highlight(
     std::vector<tripoint> valid;
     map &here = get_map();
     if( allowed ) {
-        for( const tripoint &pos : here.points_in_radius( g->u.pos(), 1 ) ) {
-            if( !here.obstructed_by_vehicle_rotation( g->u.pos(), pos ) && allowed( pos ) ) {
+        for( const tripoint &pos : here.points_in_radius( get_avatar().pos(), 1 ) ) {
+            if( !here.obstructed_by_vehicle_rotation( get_avatar().pos(), pos ) && allowed( pos ) ) {
                 valid.emplace_back( pos );
             }
         }

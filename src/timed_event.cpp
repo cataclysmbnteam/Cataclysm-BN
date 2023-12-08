@@ -56,14 +56,14 @@ void timed_event::actualize()
             break;
 
         case TIMED_EVENT_ROBOT_ATTACK: {
-            const auto u_pos = g->u.global_sm_location();
+            const auto u_pos = get_avatar().global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
-                g->events().send<event_type::becomes_wanted>( g->u.getID() );
+                g->events().send<event_type::becomes_wanted>( get_avatar().getID() );
                 point rob( u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4,
                            u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4 );
-                g->place_critter_at( robot_type, tripoint( rob, g->u.posz() ) );
+                g->place_critter_at( robot_type, tripoint( rob, get_avatar().posz() ) );
             }
         }
         break;
@@ -82,12 +82,12 @@ void timed_event::actualize()
                 }
             }
             // You could drop the flag, you know.
-            if( g->u.has_amount( itype_petrified_eye, 1 ) ) {
-                sounds::sound( g->u.pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false, "shout",
+            if( get_avatar().has_amount( itype_petrified_eye, 1 ) ) {
+                sounds::sound( get_avatar().pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false, "shout",
                                "scream_tortured" );
-                if( !g->u.is_deaf() ) {
+                if( !get_avatar().is_deaf() ) {
                     add_msg( _( "The eye you're carrying lets out a tortured scream!" ) );
-                    g->u.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 30_seconds );
+                    get_avatar().add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 30_seconds );
                 }
             }
         }
@@ -107,7 +107,7 @@ void timed_event::actualize()
             }
             for( int i = 0; fault_point && i < num_horrors; i++ ) {
                 for( int tries = 0; tries < 10; ++tries ) {
-                    tripoint monp = g->u.pos();
+                    tripoint monp = get_avatar().pos();
                     if( horizontal ) {
                         monp.x = rng( fault_point->x, fault_point->x + 2 * SEEX - 8 );
                         for( int n = -1; n <= 1; n++ ) {
@@ -147,7 +147,7 @@ void timed_event::actualize()
             for( const tripoint &p : g->m.points_on_zlevel() ) {
                 if( g->m.ter( p ) == t_grate ) {
                     g->m.ter_set( p, t_stairs_down );
-                    if( !saw_grate && g->u.sees( p ) ) {
+                    if( !saw_grate && get_avatar().sees( p ) ) {
                         saw_grate = true;
                     }
                 }
@@ -197,8 +197,8 @@ void timed_event::actualize()
                 return;
             }
             // Check if we should print a message
-            if( flood_buf[g->u.posx()][g->u.posy()] != g->m.ter( g->u.pos() ) ) {
-                if( flood_buf[g->u.posx()][g->u.posy()] == t_water_sh ) {
+            if( flood_buf[get_avatar().posx()][get_avatar().posy()] != g->m.ter( get_avatar().pos() ) ) {
+                if( flood_buf[get_avatar().posx()][get_avatar().posy()] == t_water_sh ) {
                     add_msg( m_warning, _( "Water quickly floods up to your knees." ) );
                     g->memorial().add(
                         pgettext( "memorial_male", "Water level reached knees." ),
@@ -209,7 +209,7 @@ void timed_event::actualize()
                     g->memorial().add(
                         pgettext( "memorial_male", "Water level reached the ceiling." ),
                         pgettext( "memorial_female", "Water level reached the ceiling." ) );
-                    avatar_action::swim( g->m, g->u, g->u.pos() );
+                    avatar_action::swim( g->m, get_avatar(), get_avatar().pos() );
                 }
             }
             // flood_buf is filled with correct tiles; now copy them back to g->m
@@ -227,7 +227,7 @@ void timed_event::actualize()
                 }
             };
             const mtype_id &montype = random_entry( temple_monsters );
-            g->place_critter_around( montype, g->u.pos(), 2 );
+            g->place_critter_around( montype, get_avatar().pos(), 2 );
         }
         break;
 
@@ -248,8 +248,8 @@ void timed_event::per_turn()
                     // We're safely indoors!
                     return;
                 }
-                g->place_critter_at( mon_eyebot, tripoint( place, g->u.posz() ) );
-                if( g->u.sees( tripoint( place, g->u.posz() ) ) ) {
+                g->place_critter_at( mon_eyebot, tripoint( place, get_avatar().posz() ) );
+                if( get_avatar().sees( tripoint( place, get_avatar().posz() ) ) ) {
                     add_msg( m_warning, _( "An eyebot swoops down nearby!" ) );
                 }
                 // One eyebot per trigger is enough, really
@@ -263,7 +263,7 @@ void timed_event::per_turn()
                 when -= 1_turns;
                 return;
             }
-            if( calendar::once_every( time_duration::from_seconds( rng( 2, 3 ) ) ) && !g->u.is_deaf() ) {
+            if( calendar::once_every( time_duration::from_seconds( rng( 2, 3 ) ) ) && !get_avatar().is_deaf() ) {
                 add_msg( m_warning, _( "You hear screeches from the rock above and around you!" ) );
             }
             break;
@@ -318,7 +318,7 @@ void timed_event_manager::process()
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
                                const int faction_id )
 {
-    add( type, when, faction_id, g->u.global_sm_location() );
+    add( type, when, faction_id, get_avatar().global_sm_location() );
 }
 
 void timed_event_manager::add( const timed_event_type type, const time_point &when,

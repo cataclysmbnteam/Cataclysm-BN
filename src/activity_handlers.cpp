@@ -716,7 +716,7 @@ static void set_up_butchery_activity( player_activity &act, player &u, const but
                                              _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
                         break;
                 }
-                g->u.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+                get_avatar().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
             } else {
                 u.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
                 act.targets.pop_back();
@@ -2148,7 +2148,7 @@ static bool magic_train( player_activity *act, player *p )
     }
     const spell_id &sp_id = spell_id( act->name );
     if( sp_id.is_valid() ) {
-        const bool knows = g->u.magic->knows_spell( sp_id );
+        const bool knows = get_avatar().magic->knows_spell( sp_id );
         if( knows ) {
             spell &studying = p->magic->get_spell( sp_id );
             const int expert_multiplier = act->values.empty() ? 0 : act->values[0];
@@ -2309,7 +2309,7 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     vehicle *veh = g->remoteveh();
     map &here = get_map();
     if( !veh ) {
-        const tripoint pos = act->placement + g->u.pos();
+        const tripoint pos = act->placement + get_avatar().pos();
         veh = veh_pointer_or_null( here.veh_at( pos ) );
         if( !veh ) {
             return;
@@ -3034,22 +3034,22 @@ void activity_handlers::wear_do_turn( player_activity *act, player *p )
 // This activity opens the menu (it's not meant to queue consumption of items)
 void activity_handlers::eat_menu_do_turn( player_activity *, player * )
 {
-    avatar_action::eat( g->u );
+    avatar_action::eat( get_avatar() );
 }
 
 void activity_handlers::consume_food_menu_do_turn( player_activity *, player * )
 {
-    avatar_action::eat( g->u, game_menus::inv::consume_food( g->u ) );
+    avatar_action::eat( get_avatar(), game_menus::inv::consume_food( get_avatar() ) );
 }
 
 void activity_handlers::consume_drink_menu_do_turn( player_activity *, player * )
 {
-    avatar_action::eat( g->u, game_menus::inv::consume_drink( g->u ) );
+    avatar_action::eat( get_avatar(), game_menus::inv::consume_drink( get_avatar() ) );
 }
 
 void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
 {
-    avatar_action::eat( g->u, game_menus::inv::consume_meds( g->u ) );
+    avatar_action::eat( get_avatar(), game_menus::inv::consume_meds( get_avatar() ) );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, player *p )
@@ -3435,8 +3435,8 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     const bionic_id bid( act->str_values[cbm_id] );
     const bionic_id upbid = bid->upgraded_bionic;
     const bool autodoc = act->str_values[is_autodoc] == "true";
-    const bool u_see = g->u.sees( p->pos() ) && ( !g->u.has_effect( effect_narcosis ) ||
-                       g->u.has_bionic( bio_painkiller ) || g->u.has_trait( trait_NOPAIN ) );
+    const bool u_see = get_avatar().sees( p->pos() ) && ( !get_avatar().has_effect( effect_narcosis ) ||
+                       get_avatar().has_bionic( bio_painkiller ) || get_avatar().has_trait( trait_NOPAIN ) );
 
     const int difficulty = act->values.front();
 

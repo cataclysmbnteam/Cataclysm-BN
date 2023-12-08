@@ -1109,7 +1109,7 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
     const int heard_volume = get_heard_volume( source );
     const player *p = g->critter_at<npc>( source );
     if( !p ) {
-        p = &g->u;
+        p = &get_avatar();
         // sound comes from the same place as the player is, calculation of angle wouldn't work
         ang_src = 0_degrees;
         vol_src = heard_volume;
@@ -1128,7 +1128,7 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
 void sfx::sound_thread::operator()() const
 {
     // This is function is run in a separate thread. One must be careful and not access game data
-    // that might change (e.g. g->u.weapon, the character could switch weapons while this thread
+    // that might change (e.g. get_avatar().weapon, the character could switch weapons while this thread
     // runs).
     std::this_thread::sleep_for( std::chrono::milliseconds( rng( 1, 2 ) ) );
     std::string variant_used;
@@ -1492,13 +1492,13 @@ void sfx::do_footstep()
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
         };
 
-        auto veh_displayed_part = g->m.veh_at( g->u.pos() ).part_displayed();
+        auto veh_displayed_part = g->m.veh_at( get_avatar().pos() ).part_displayed();
 
         if( !veh_displayed_part && ( water.count( terrain ) > 0 ) ) {
             play_plmove_sound_variant( "walk_water" );
             return;
         }
-        if( !g->u.wearing_something_on( bodypart_id( bp_foot_l ) ) ) {
+        if( !get_avatar().wearing_something_on( bodypart_id( bp_foot_l ) ) ) {
             play_plmove_sound_variant( "walk_barefoot" );
             return;
         }

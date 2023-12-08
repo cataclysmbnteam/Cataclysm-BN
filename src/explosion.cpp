@@ -881,7 +881,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
             }
         }
     }
-    request_redraw |= position.z == g->u.posz();
+    request_redraw |= position.z == get_avatar().posz();
 }
 
 void ExplosionProcess::add_field( const tripoint position,
@@ -891,14 +891,14 @@ void ExplosionProcess::add_field( const tripoint position,
 {
     map &here = get_map();
     here.add_field( position, field, intensity, 0_turns, hit_player );
-    request_redraw |= position.z == g->u.posz();
+    request_redraw |= position.z == get_avatar().posz();
 }
 
 void ExplosionProcess::remove_field( const tripoint position, field_type_id target )
 {
     map &here = get_map();
     here.remove_field( position, target );
-    request_redraw |= position.z == g->u.posz();
+    request_redraw |= position.z == get_avatar().posz();
 }
 
 void ExplosionProcess::move_entity( const tripoint position,
@@ -973,8 +973,8 @@ void ExplosionProcess::move_entity( const tripoint position,
             recombination_targets.push_back( position );
             recombination_targets.push_back( new_position );
         }
-        request_redraw |= position.z == g->u.posz();
-        request_redraw |= new_position.z == g->u.posz();
+        request_redraw |= position.z == get_avatar().posz();
+        request_redraw |= new_position.z == get_avatar().posz();
     }
 
     if( do_next ) {
@@ -1351,7 +1351,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
         }
     }
 
-    draw_custom_explosion( g->u.pos(), explosion_colors, "explosion" );
+    draw_custom_explosion( get_avatar().pos(), explosion_colors, "explosion" );
 
     for( const tripoint &pt : closed ) {
         const float force = power * obstacle_blast_percentage( radius, dist_map.at( pt ) );
@@ -1475,7 +1475,7 @@ void explosion_funcs::regular( const queued_explosion &qe )
 
     const auto print_damage = [&]( const std::pair<const Creature *, int> &pr,
     const std::function<bool( const Creature & )> &predicate ) {
-        if( predicate( *pr.first ) && g->u.sees( *pr.first ) ) {
+        if( predicate( *pr.first ) && get_avatar().sees( *pr.first ) ) {
             const Creature *critter = pr.first;
             bool blasted = damaged_by_blast.find( critter ) != damaged_by_blast.end();
             bool shredded = damaged_by_shrapnel.find( critter ) != damaged_by_shrapnel.end();
@@ -1533,27 +1533,27 @@ void explosion_funcs::flashbang( const queued_explosion &qe )
     map &here = get_map();
 
     draw_explosion( p, 8, c_white, qe.graphics_name );
-    int dist = rl_dist( g->u.pos(), p );
+    int dist = rl_dist( get_avatar().pos(), p );
     if( dist <= 8 && qe.affects_player ) {
-        if( !g->u.has_bionic( bio_ears ) && !g->u.is_wearing( itype_rm13_armor_on ) ) {
-            g->u.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
+        if( !get_avatar().has_bionic( bio_ears ) && !get_avatar().is_wearing( itype_rm13_armor_on ) ) {
+            get_avatar().add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
-        if( here.sees( g->u.pos(), p, 8 ) ) {
+        if( here.sees( get_avatar().pos(), p, 8 ) ) {
             int flash_mod = 0;
-            if( g->u.has_trait( trait_PER_SLIME ) ) {
+            if( get_avatar().has_trait( trait_PER_SLIME ) ) {
                 if( one_in( 2 ) ) {
                     flash_mod = 3; // Yay, you weren't looking!
                 }
-            } else if( g->u.has_trait( trait_PER_SLIME_OK ) ) {
+            } else if( get_avatar().has_trait( trait_PER_SLIME_OK ) ) {
                 flash_mod = 8; // Just retract those and extrude fresh eyes
-            } else if( g->u.has_bionic( bio_sunglasses ) ||
-                       g->u.is_wearing( itype_rm13_armor_on ) ) {
+            } else if( get_avatar().has_bionic( bio_sunglasses ) ||
+                       get_avatar().is_wearing( itype_rm13_armor_on ) ) {
                 flash_mod = 6;
-            } else if( g->u.worn_with_flag( flag_BLIND ) ||
-                       g->u.worn_with_flag( flag_FLASH_PROTECTION ) ) {
+            } else if( get_avatar().worn_with_flag( flag_BLIND ) ||
+                       get_avatar().worn_with_flag( flag_FLASH_PROTECTION ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
-            g->u.add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
+            get_avatar().add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
                                  time_duration::from_turns( 10 - dist ) );
         }
     }
@@ -1608,7 +1608,7 @@ void explosion_funcs::shockwave( const queued_explosion &qe )
             g->knockback( p, critter.pos(), sw.force, sw.stun, sw.dam_mult, qe.source );
         }
     }
-    // TODO: combine the two loops and the case for g->u using all_creatures()
+    // TODO: combine the two loops and the case for get_avatar() using all_creatures()
     for( npc &guy : g->all_npcs() ) {
         if( guy.posz() != p.z ) {
             continue;
@@ -1618,11 +1618,11 @@ void explosion_funcs::shockwave( const queued_explosion &qe )
             g->knockback( p, guy.pos(), sw.force, sw.stun, sw.dam_mult, qe.source );
         }
     }
-    if( rl_dist( g->u.pos(), p ) <= sw.radius && sw.affects_player &&
-        ( !g->u.has_trait( trait_LEG_TENT_BRACE ) || g->u.footwear_factor() == 1 ||
-          ( g->u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
+    if( rl_dist( get_avatar().pos(), p ) <= sw.radius && sw.affects_player &&
+        ( !get_avatar().has_trait( trait_LEG_TENT_BRACE ) || get_avatar().footwear_factor() == 1 ||
+          ( get_avatar().footwear_factor() == .5 && one_in( 2 ) ) ) ) {
         add_msg( m_bad, _( "You're caught in the shockwave!" ) );
-        g->knockback( p, g->u.pos(), sw.force, sw.stun, sw.dam_mult, qe.source );
+        g->knockback( p, get_avatar().pos(), sw.force, sw.stun, sw.dam_mult, qe.source );
     }
 }
 
@@ -1776,11 +1776,11 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
     map &here = get_map();
     const tripoint &p = qe.pos;
 
-    const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, g->u.pos() ) );
+    const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, get_avatar().pos() ) );
     if( maxglow > 0_turns ) {
         const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
-                                                g->u.pos() ) ) );
-        g->u.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
+                                                get_avatar().pos() ) ) );
+        get_avatar().add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
     }
 
     constexpr half_open_rectangle<point> map_bounds( point_zero, point( MAPSIZE_X, MAPSIZE_Y ) );

@@ -1914,7 +1914,7 @@ class Character : public Creature, public location_visitable<Character>
         /**
          * Returns all creatures that this player can see and that are in the given
          * range. This player object itself is never included.
-         * The player character (g->u) is checked and might be included (if applicable).
+         * The player character (get_avatar()) is checked and might be included (if applicable).
          * @param range The maximal distance (@ref rl_dist), creatures at this distance or less
          * are included.
          */

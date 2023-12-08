@@ -122,7 +122,7 @@ class selection_column_preset : public inventory_selector_preset
             if( entry.is_item() ) {
                 if( get_player_character().is_wielding( *entry.any_item() ) ) {
                     return c_light_blue;
-                } else if( g->u.is_worn( *entry.any_item() ) ) {
+                } else if( get_avatar().is_worn( *entry.any_item() ) ) {
                     return c_cyan;
                 }
             }
@@ -176,7 +176,7 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dark_gray;
-    } else if( g->u.inv_assigned_invlet().count( get_invlet() ) ) {
+    } else if( get_avatar().inv_assigned_invlet().count( get_invlet() ) ) {
         return c_yellow;
     } else {
         return c_white;
@@ -238,8 +238,8 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
     // Place items with an assigned inventory letter first, since the player cared enough to assign them
-    const bool left_fav  = g->u.inv_assigned_invlet().count( lhs.any_item()->invlet );
-    const bool right_fav = g->u.inv_assigned_invlet().count( rhs.any_item()->invlet );
+    const bool left_fav  = get_avatar().inv_assigned_invlet().count( lhs.any_item()->invlet );
+    const bool right_fav = get_avatar().inv_assigned_invlet().count( rhs.any_item()->invlet );
     if( left_fav == right_fav ) {
         return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
     } else if( left_fav ) {
@@ -644,12 +644,12 @@ void inventory_column::set_stack_favorite( const item *location, bool favorite )
     std::list<item *> to_favorite;
 
     if( location->where() == item_location_type::character ) {
-        int position = g->u.get_item_position( selected_item );
+        int position = get_avatar().get_item_position( selected_item );
 
         if( position < 0 ) {
-            g->u.i_at( position ).set_favorite( !selected_item->is_favorite ); // worn/wielded
+            get_avatar().i_at( position ).set_favorite( !selected_item->is_favorite ); // worn/wielded
         } else {
-            g->u.inv_set_stack_favorite( position, !selected_item->is_favorite ); // in inventory
+            get_avatar().inv_set_stack_favorite( position, !selected_item->is_favorite ); // in inventory
         }
     } else if( location->where() == item_location_type::map ) {
         auto items = g->m.i_at( location->position() );
@@ -2222,7 +2222,7 @@ drop_locations inventory_drop_selector::execute()
             const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
                 return entry.is_item() &&
                        !entry.any_item()->is_favorite &&
-                       !g->u.is_worn( *entry.any_item() );
+                       !get_avatar().is_worn( *entry.any_item() );
             };
 
             const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );
