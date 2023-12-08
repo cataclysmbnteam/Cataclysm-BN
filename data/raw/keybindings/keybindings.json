@@ -2016,6 +2016,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Open Wiki",
+    "category": "DEFAULTMODE",
+    "id": "open_wiki",
+    "bindings": [ { "input_method": "keyboard", "key": "w" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "View Help",
     "category": "DEFAULTMODE",
     "id": "help",
