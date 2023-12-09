@@ -21,7 +21,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "POCKETS", "BELTED", "COMPACT", "WATER_FRIENDLY" ]
+    "flags": [ "POCKETS", "OUTER", "WATER_FRIENDLY" ]
   },
   {
     "id": "blazer",
