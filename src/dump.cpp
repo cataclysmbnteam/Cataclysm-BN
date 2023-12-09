@@ -38,7 +38,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     try {
         init::load_core_bn_modfiles();
     } catch( const std::exception &err ) {
-        std::cerr << "Error loading data from json: " << err.what() << std::endl;
+        std::cerr << "Error loading data from json: " << err.what() << '\n';
         return false;
     }
 
@@ -297,7 +297,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         }
 
     } else {
-        std::cerr << "unknown argument: " << what << std::endl;
+        std::cerr << "unknown argument: " << what << '\n';
         return false;
     }
 

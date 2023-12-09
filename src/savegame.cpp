@@ -75,7 +75,7 @@ void game::serialize( std::ostream &fout )
      * To prevent (or encourage) confusion, there is no version 8. (cata 0.8 uses v7)
      */
     // Header
-    fout << "# version " << savegame_version << std::endl;
+    fout << "# version " << savegame_version << '\n';
 
     JsonOut json( fout, true ); // pretty-print
 
@@ -730,7 +730,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
 
 void overmap::serialize_view( std::ostream &fout ) const
 {
-    fout << "# version " << savegame_version << std::endl;
+    fout << "# version " << savegame_version << '\n';
 
     JsonOut json( fout, false );
     json.start_object();
@@ -741,7 +741,7 @@ void overmap::serialize_view( std::ostream &fout ) const
         json.start_array();
         serialize_array_to_compacted_sequence( json, layer[z].visible );
         json.end_array();
-        fout << std::endl;
+        fout << '\n';
     }
     json.end_array();
 
@@ -751,7 +751,7 @@ void overmap::serialize_view( std::ostream &fout ) const
         json.start_array();
         serialize_array_to_compacted_sequence( json, layer[z].explored );
         json.end_array();
-        fout << std::endl;
+        fout << '\n';
     }
     json.end_array();
 
@@ -767,7 +767,7 @@ void overmap::serialize_view( std::ostream &fout ) const
             json.write( i.dangerous );
             json.write( i.danger_radius );
             json.end_array();
-            fout << std::endl;
+            fout << '\n';
         }
         json.end_array();
     }
@@ -783,7 +783,7 @@ void overmap::serialize_view( std::ostream &fout ) const
             json.write( i.p.y() );
             json.write( i.id );
             json.end_array();
-            fout << std::endl;
+            fout << '\n';
         }
         json.end_array();
     }
@@ -857,7 +857,7 @@ void overmap::save_monster_groups( JsonOut &jout ) const
 
 void overmap::serialize( std::ostream &fout ) const
 {
-    fout << "# version " << savegame_version << std::endl;
+    fout << "# version " << savegame_version << '\n';
 
     JsonOut json( fout, false );
     json.start_object();
@@ -893,16 +893,16 @@ void overmap::serialize( std::ostream &fout ) const
         // End the z-level
         json.end_array();
         // Insert a newline occasionally so the file isn't totally unreadable.
-        fout << std::endl;
+        fout << '\n';
     }
     json.end_array();
 
     // temporary, to allow user to manually switch regions during play until regionmap is done.
     json.member( "region_id", settings->id );
-    fout << std::endl;
+    fout << '\n';
 
     save_monster_groups( json );
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "cities" );
     json.start_array();
@@ -915,10 +915,10 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "connections_out", connections_out );
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "radios" );
     json.start_array();
@@ -933,7 +933,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "monster_map" );
     json.start_array();
@@ -942,7 +942,7 @@ void overmap::serialize( std::ostream &fout ) const
         i.second.serialize( json );
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "tracked_vehicles" );
     json.start_array();
@@ -955,7 +955,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "scent_traces" );
     json.start_array();
@@ -967,7 +967,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "npcs" );
     json.start_array();
@@ -975,7 +975,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.write( *i );
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "camps" );
     json.start_array();
@@ -983,7 +983,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.write( i );
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     // Condense the overmap special placements so that all placements of a given special
     // are grouped under a single key for that special.
@@ -1016,7 +1016,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "electric_grid_connections" );
     json.start_array();
@@ -1037,7 +1037,7 @@ void overmap::serialize( std::ostream &fout ) const
                 joins_used.begin(), joins_used.end() );
     json.member( "joins_used", flattened_joins_used );
     json.member( "mapgen_arg_storage", mapgen_arg_storage );
-    fout << std::endl;
+    fout << '\n';
     json.member( "mapgen_arg_index" );
     json.start_array();
     for( const std::pair<const tripoint_om_omt, int> &p : mapgen_args_index ) {
@@ -1047,10 +1047,10 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_array();
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.end_object();
-    fout << std::endl;
+    fout << '\n';
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -1189,7 +1189,7 @@ void mission::serialize_all( JsonOut &json )
 
 void game::serialize_master( std::ostream &fout )
 {
-    fout << "# version " << savegame_version << std::endl;
+    fout << "# version " << savegame_version << '\n';
     try {
         JsonOut json( fout, true ); // pretty-print
         json.start_object();

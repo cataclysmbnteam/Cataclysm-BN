@@ -64,13 +64,13 @@ std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
 std::ostream &operator<<( std::ostream &stream, const dispersion_sources &sources )
 {
     if( !sources.normal_sources.empty() ) {
-        stream << "Normal: " << sources.normal_sources << std::endl;
+        stream << "Normal: " << sources.normal_sources << '\n';
     }
     if( !sources.linear_sources.empty() ) {
-        stream << "Linear: " << sources.linear_sources << std::endl;
+        stream << "Linear: " << sources.linear_sources << '\n';
     }
     if( !sources.multipliers.empty() ) {
-        stream << "Mult: " << sources.multipliers << std::endl;
+        stream << "Mult: " << sources.multipliers << '\n';
     }
     return stream;
 }

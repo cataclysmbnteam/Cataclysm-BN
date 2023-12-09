@@ -698,7 +698,7 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
         break;
         default:
             std::cerr << "Unexpected debug output mode " << static_cast<int>( output_mode )
-                      << std::endl;
+                      << '\n';
             return;
     }
 
@@ -1162,7 +1162,7 @@ void debug_write_backtrace( std::ostream &out )
     static backtrace_state *bt_state = bt_create_state( nullptr, 0, bt_error );
     if( bt_state ) {
         bt_full( bt_state, 0, bt_full_print, bt_error );
-        out << std::endl;
+        out << '\n';
     } else {
         out << "\n\n    Failed to initialize libbacktrace\n";
     }
@@ -1356,21 +1356,21 @@ void output_repetitions( std::ostream &out )
         if( rep_folder.repeat_count > 1 ) {
             out << "[ Previous repeated " << ( rep_folder.repeat_count - 1 ) << " times ]";
         }
-        out << std::endl;
+        out << '\n';
         out << rep_folder.m_time << " ";
         // repetition folding is only done through realDebugmsg
         out << io::enum_to_string<DL>( DL::Error ) << " ";
         out << io::enum_to_string<DC>( DC::DebugMsg ) << " ";
         out << ": ";
         out << rep_folder.m_filename << ":" << rep_folder.m_line << " [" << rep_folder.m_funcname << "] " <<
-            rep_folder.m_text << std::endl;
+            rep_folder.m_text << '\n';
         rep_folder.reset();
     }
 }
 
 detail::DebugLogGuard::~DebugLogGuard()
 {
-    *s << std::endl;
+    *s << '\n';
 }
 
 detail::DebugLogGuard detail::realDebugLog( DL lev, DC cl, const char *filename,
@@ -1417,7 +1417,7 @@ detail::DebugLogGuard detail::realDebugLog( DL lev, DC cl, const char *filename,
             time_t after = time( nullptr );
             // Cool down for 60s between backtrace emissions.
             next_backtrace = after + 60;
-            out << "Backtrace emission took " << after - now << " seconds." << std::endl;
+            out << "Backtrace emission took " << after - now << " seconds." << '\n';
             cata::debug_write_lua_backtrace( out );
             out << "(continued from above) " << io::enum_to_string( lev ) << ": ";
         }
