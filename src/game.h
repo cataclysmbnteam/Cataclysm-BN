@@ -956,9 +956,9 @@ class game
         pimpl<distribution_grid_tracker> grid_tracker_ptr;
         pimpl<weather_manager> weather_manager_ptr;
 
-    public:
         map &m;
         avatar &u;
+    public:
         scent_map &scent;
         timed_event_manager &timed_events;
 
