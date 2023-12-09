@@ -65,9 +65,11 @@ fungal_effects::fungal_effects( game &g, map &mp )
 
 void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spore_chance )
 {
+    auto &you = get_avatar();
+
     if( monster *const mon_ptr = g->critter_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
-        if( gm.u.sees( p ) &&
+        if( you.sees( p ) &&
             !critter.type->in_species( FUNGUS ) ) {
             add_msg( _( "The %s is covered in tiny spores!" ), critter.name() );
         }
@@ -76,25 +78,24 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
             critter.add_effect( effect_stunned, rng( 1_turns, 3_turns ) );
             critter.apply_damage( origin, bodypart_id( "torso" ), rng( 25, 50 ) );
         }
-    } else if( gm.u.pos() == p && gm.u.get_effect_int( effect_fungus ) < 3 ) {
+    } else if( you.pos() == p && you.get_effect_int( effect_fungus ) < 3 ) {
         // TODO: Make this accept NPCs when they understand fungals
-        player &pl = gm.u;
         ///\EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE
         ///\EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE
-        if( pl.has_trait( trait_TAIL_CATTLE ) &&
-            one_in( 20 - pl.dex_cur - pl.get_skill_level( skill_melee ) ) ) {
-            pl.add_msg_if_player(
+        if( you.has_trait( trait_TAIL_CATTLE ) &&
+            one_in( 20 - you.dex_cur - you.get_skill_level( skill_melee ) ) ) {
+            you.add_msg_if_player(
                 _( "The spores land on you, but you quickly swat them off with your tail!" ) );
             return;
         }
         // Spores hit the player--is there any hope?
         bool hit = false;
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_head, 3, 9_minutes, bp_head );
-        hit |= one_in( 2 ) && pl.add_env_effect( effect_spores, bp_torso, 3, 9_minutes, bp_torso );
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_arm_l, 3, 9_minutes, bp_arm_l );
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_arm_r, 3, 9_minutes, bp_arm_r );
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_leg_l, 3, 9_minutes, bp_leg_l );
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_leg_r, 3, 9_minutes, bp_leg_r );
+        hit |= one_in( 4 ) && you.add_env_effect( effect_spores, bp_head, 3, 9_minutes, bp_head );
+        hit |= one_in( 2 ) && you.add_env_effect( effect_spores, bp_torso, 3, 9_minutes, bp_torso );
+        hit |= one_in( 4 ) && you.add_env_effect( effect_spores, bp_arm_l, 3, 9_minutes, bp_arm_l );
+        hit |= one_in( 4 ) && you.add_env_effect( effect_spores, bp_arm_r, 3, 9_minutes, bp_arm_r );
+        hit |= one_in( 4 ) && you.add_env_effect( effect_spores, bp_leg_l, 3, 9_minutes, bp_leg_l );
+        hit |= one_in( 4 ) && you.add_env_effect( effect_spores, bp_leg_r, 3, 9_minutes, bp_leg_r );
         if( hit ) {
             add_msg( m_warning, _( "You're covered in tiny spores!" ) );
         }
@@ -104,7 +105,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
             if( origin_mon != nullptr ) {
                 spore->make_ally( *origin_mon );
             } else if( origin != nullptr && origin->is_player() &&
-                       gm.u.has_trait( trait_THRESH_MYCUS ) ) {
+                       you.has_trait( trait_THRESH_MYCUS ) ) {
                 spore->friendly = 1000;
             }
         }
@@ -139,6 +140,8 @@ void fungal_effects::marlossify( const tripoint &p )
 
 void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth )
 {
+    auto &you = get_avatar();
+
     bool converted = false;
     // Terrain conversion
     if( m.has_flag_ter( flag_DIGGABLE, p ) ) {
@@ -169,7 +172,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 800 ) ) { // young trees are vulnerable
                     m.ter_set( p, t_fungus );
-                    if( gm.place_critter_at( mon_fungal_blossom, p ) && gm.u.sees( p ) ) {
+                    if( gm.place_critter_at( mon_fungal_blossom, p ) && you.sees( p ) ) {
                         add_msg( m_warning, _( "The young tree blooms forth into a fungal blossom!" ) );
                     }
                 } else if( x_in_y( growth * 10, 400 ) ) {
@@ -185,7 +188,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 100 ) ) {
                     m.ter_set( p, t_fungus );
-                    if( gm.place_critter_at( mon_fungal_blossom, p ) && gm.u.sees( p ) ) {
+                    if( gm.place_critter_at( mon_fungal_blossom, p ) && you.sees( p ) ) {
                         add_msg( m_warning, _( "The tree blooms forth into a fungal blossom!" ) );
                     }
                 } else if( x_in_y( growth * 10, 600 ) ) {

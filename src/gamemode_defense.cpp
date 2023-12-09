@@ -302,7 +302,7 @@ void defense_game::init_map()
     player_character.setx( SEEX );
     player_character.sety( SEEY );
 
-    g->update_map( g-> u );
+    g->update_map( get_avatar() );
     monster *const generator = g->place_critter_around( mtype_id( "mon_generator" ), get_avatar().pos(),
                                2 );
     assert( generator );
