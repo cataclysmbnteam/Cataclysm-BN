@@ -16,6 +16,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "input.h"
@@ -666,7 +667,11 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     std::vector<std::pair<std::string, const itype *>> opts;
     for( const itype *i : item_controller->all() ) {
         //TODO!: push up
-        opts.emplace_back( item::spawn_temporary( i, calendar::start_of_cataclysm )->tname( 1, false ), i );
+        auto it = item::spawn_temporary( i, calendar::start_of_cataclysm );
+        if( it->has_flag( flag_VARSIZE ) ) {
+            it->set_flag( flag_FIT );
+        }
+        opts.emplace_back( it->tname( 1, false ), i );
     }
     std::sort( opts.begin(), opts.end(), localized_compare );
     std::vector<const itype *> itypes;
@@ -706,6 +711,9 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         bool did_amount_prompt = false;
         while( wmenu.ret >= 0 ) {
             detached_ptr<item> granted = item::spawn( opts[wmenu.ret].second );
+            if( granted->has_flag( flag_VARSIZE ) ) {
+                granted->set_flag( flag_FIT );
+            }
             if( cb.incontainer ) {
                 granted = item::in_its_container( std::move( granted ) );
             }
