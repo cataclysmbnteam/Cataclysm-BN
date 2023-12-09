@@ -8,7 +8,6 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "game.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"

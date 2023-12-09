@@ -2,7 +2,8 @@
 #ifndef CATA_SRC_GAME_CONSTANTS_H
 #define CATA_SRC_GAME_CONSTANTS_H
 
-#include "units.h"
+#include "units_mass.h"
+#include "units_temperature.h"
 
 // Fixed window sizes.
 static constexpr int HP_HEIGHT = 14;
@@ -176,5 +177,6 @@ constexpr float very_obese = 35.0f;
 constexpr float morbidly_obese = 40.0f;
 } // namespace character_weight_category
 
+static constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 #endif // CATA_SRC_GAME_CONSTANTS_H

@@ -15,7 +15,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "enums.h"
-#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "line.h"

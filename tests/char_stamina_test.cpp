@@ -1,19 +1,15 @@
 #include "catch/catch.hpp"
 
-#include <memory>
-
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
-#include "game.h"
 #include "item.h"
 #include "options.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "state_helpers.h"
 #include "type_id.h"
-#include "units.h"
 
 // These test cases cover stamina-related functions in the `Character` class, including:
 //

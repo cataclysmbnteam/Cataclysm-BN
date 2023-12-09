@@ -11,7 +11,6 @@
 #include "bodypart.h"
 #include "character.h"
 #include "character_encumbrance.h"
-#include "game.h"
 #include "item.h"
 #include "material.h"
 #include "npc.h"

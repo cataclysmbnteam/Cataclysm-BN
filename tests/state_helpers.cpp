@@ -5,7 +5,6 @@
 #include "rng.h"
 #include "calendar.h"
 #include "weather.h"
-#include "game.h"
 #include "map.h"
 #include "name.h"
 

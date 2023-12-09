@@ -4,7 +4,7 @@
 #include <optional>
 #include <vector>
 
-#include "game.h"
+#include "game_utils.h"
 #include "game_constants.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -59,9 +59,9 @@ std::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
     return random_entry( suitable );
 }
 
-map_cursor::map_cursor( const tripoint &pos ) : pos_( g ? get_map().getabs( pos ) : pos ) { }
+map_cursor::map_cursor( const tripoint &pos ) : pos_( has_game() ? get_map().getabs( pos ) : pos ) { }
 
 map_cursor::operator tripoint() const
 {
-    return g ? get_map().getlocal( pos_ ) : pos_;
+    return has_game() ? get_map().getlocal( pos_ ) : pos_;
 }

@@ -5,7 +5,6 @@
 #include <string>
 
 #include "avatar.h"
-#include "game.h"
 #include "flag.h"
 #include "item.h"
 #include "itype.h"

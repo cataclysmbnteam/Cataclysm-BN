@@ -4,12 +4,11 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
-#include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "path_info.h"
 #include "achievement.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -18,8 +17,6 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "drop_token.h"
-#include "enum_conversions.h"
-#include "faction.h"
 #include "hash_utils.h"
 #include "int_id.h"
 #include "json.h"
@@ -39,7 +36,6 @@
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "weather.h"

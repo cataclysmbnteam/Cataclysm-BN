@@ -8,7 +8,6 @@
 
 #include "avatar.h"
 #include "flag.h"
-#include "game.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"

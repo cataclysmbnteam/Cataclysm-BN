@@ -1,9 +1,6 @@
 #include "catch/catch.hpp"
 
-#include <memory>
-
 #include "calendar.h"
-#include "game.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "mapdata.h"

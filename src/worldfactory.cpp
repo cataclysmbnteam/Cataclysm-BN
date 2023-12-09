@@ -19,7 +19,6 @@
 #include "enums.h"
 #include "filesystem.h"
 #include "fstream_utils.h"
-#include "game.h"
 #include "ime.h"
 #include "input.h"
 #include "json.h"

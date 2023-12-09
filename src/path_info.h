@@ -4,6 +4,13 @@
 
 #include <string>
 
+static const std::string SAVE_MASTER( "master.gsav" );
+static const std::string SAVE_ARTIFACTS( "artifacts.gsav" );
+static const std::string SAVE_EXTENSION( ".sav" );
+static const std::string SAVE_EXTENSION_LOG( ".log" );
+static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
+static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
+
 enum class holiday : int;
 
 namespace PATH_INFO

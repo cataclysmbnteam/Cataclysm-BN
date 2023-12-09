@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_UNITS_H
 #define CATA_SRC_UNITS_H
 
-#include <limits>
 #include <ostream>
 #include <string>
 #include <utility>

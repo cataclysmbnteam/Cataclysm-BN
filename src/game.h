@@ -8,7 +8,6 @@
 #include <functional>
 #include <iosfwd>
 #include <list>
-#include <map>
 #include <memory>
 #include <optional>
 #include <set>
@@ -36,15 +35,6 @@ class item;
 class monster;
 class spell_events;
 class drop_token_provider;
-
-static constexpr int DEFAULT_TILESET_ZOOM = 16;
-
-static const std::string SAVE_MASTER( "master.gsav" );
-static const std::string SAVE_ARTIFACTS( "artifacts.gsav" );
-static const std::string SAVE_EXTENSION( ".sav" );
-static const std::string SAVE_EXTENSION_LOG( ".log" );
-static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
-static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 
 // The reference to the one and only game instance.
 class game;

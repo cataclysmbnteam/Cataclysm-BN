@@ -8,7 +8,6 @@
 
 #include "ammo.h"
 #include "avatar.h"
-#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"

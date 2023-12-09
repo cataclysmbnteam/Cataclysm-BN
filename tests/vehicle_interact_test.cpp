@@ -6,7 +6,6 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "map.h"

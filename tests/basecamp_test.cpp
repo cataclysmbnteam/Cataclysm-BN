@@ -3,8 +3,6 @@
 #include "calendar.h"
 #include "clzones.h"
 #include "faction.h"
-#include "game.h"
-#include "game_constants.h"
 #include "map.h"
 #include "overmapbuffer.h"
 #include "point.h"

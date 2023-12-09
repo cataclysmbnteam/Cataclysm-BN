@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "game.h"
 #include "item.h"
 #include "iteminfo_query.h"
 #include "itype.h"

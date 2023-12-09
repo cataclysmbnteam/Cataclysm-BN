@@ -5,7 +5,6 @@
 #include <memory>
 
 #include "avatar.h"
-#include "game.h"
 #include "item.h"
 #include "melee.h"
 #include "monster.h"

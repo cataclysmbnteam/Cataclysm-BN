@@ -6,7 +6,6 @@
 #include "avatar.h"
 #include "flag.h"
 #include "flat_set.h"
-#include "game.h"
 #include "item.h"
 #include "type_id.h"
 #include "state_helpers.h"

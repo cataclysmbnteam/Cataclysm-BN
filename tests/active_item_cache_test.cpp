@@ -4,7 +4,6 @@
 #include <set>
 
 #include "calendar.h"
-#include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "map.h"

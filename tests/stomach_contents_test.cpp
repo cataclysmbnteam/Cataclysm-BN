@@ -8,7 +8,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "item.h"
 #include "player.h"
 #include "player_helpers.h"

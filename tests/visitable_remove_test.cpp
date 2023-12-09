@@ -10,7 +10,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
