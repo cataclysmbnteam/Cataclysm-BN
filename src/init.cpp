@@ -397,7 +397,7 @@ void DynamicDataLoader::initialize()
     add( "weapon_category", &weapon_category::load_weapon_categories );
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
-    add( "obsolete_terrain", &overmap::load_obsolete_terrains );
+    add( "oter_id_migration", &overmap::load_oter_id_migration );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
     add( "construction_group", &construction_groups::load );
@@ -598,7 +598,7 @@ void DynamicDataLoader::unload_data()
     overmap_locations::reset();
     overmap_specials::reset();
     overmap_terrains::reset();
-    overmap::reset_obsolete_terrains();
+    overmap::reset_oter_id_migrations();
     profession::reset();
     quality::reset();
     recipe_dictionary::reset();

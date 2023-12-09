@@ -107,7 +107,7 @@ ignorable = {
     "monstergroup",
     "MONSTER_WHITELIST",
     "mutation_type",
-    "obsolete_terrain",
+    "oter_id_migration",
     "overlay_order",
     "overmap_connection",
     "overmap_location",

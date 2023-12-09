@@ -1,0 +1,40 @@
+[
+  {
+    "type": "oter_id_migration",
+    "//": "obsoleted in 0.1",
+    "oter_ids": {
+      "mass_grave_north": "field",
+      "mass_grave_south": "field",
+      "mass_grave_east": "field",
+      "mass_grave_west": "field",
+      "fema": "fema_north",
+      "fema_entrance": "fema_entrance_north",
+      "fema_1_3": "fema_1_3_north",
+      "fema_2_1": "fema_2_1_north",
+      "fema_2_2": "fema_2_2_north",
+      "fema_2_3": "fema_2_3_north",
+      "fema_3_1": "fema_3_1_north",
+      "fema_3_2": "fema_3_2_north",
+      "fema_3_3": "fema_3_3_north",
+      "mine_entrance": "mine_entrance_north",
+      "mine_shaft": "mine_shaft_middle_north",
+      "spiral": "omt_obsolete",
+      "spiral_hub": "omt_obsolete"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "obsoleted in 0.4",
+    "oter_ids": {
+      "underground_sub_station": "underground_sub_station_north",
+      "sewer_sub_station": "sewer_sub_station_north",
+      "anthill": "anthill_north",
+      "acid_anthill": "anthill_north",
+      "ants_food": "ants_food_north",
+      "ants_larvae": "ants_larvae_north",
+      "ants_larvae_acid": "acid_ants_larvae_north",
+      "ants_queen": "ants_queen_north",
+      "ants_queen_acid": "acid_ants_queen_north"
+    }
+  }
+]
