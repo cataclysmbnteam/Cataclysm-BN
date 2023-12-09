@@ -679,5 +679,11 @@
       { "monster": "mon_skitterbot", "freq": 100, "cost_multiplier": 5 },
       { "monster": "mon_zombie_cop", "freq": 100, "cost_multiplier": 5 }
     ]
+  },
+  {
+    "name": "GROUP_COFFEE_SHOP_ZOMBIE",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "monsters": [ { "monster": "mon_zombie", "freq": 65, "cost_multiplier": 5 } ]
   }
 ]
