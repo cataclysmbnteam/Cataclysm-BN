@@ -59,6 +59,7 @@
     "type": "overmap_terrain",
     "id": "evac_center_13_z2",
     "name": "open air",
+    "looks_like": "open_air",
     "sym": ".",
     "color": "blue",
     "see_cost": 1
