@@ -527,7 +527,7 @@
     "warmth": 30,
     "material_thickness": 5,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "COMPACT", "VARSIZE", "STURDY" ]
   },
   {
     "id": "hazmat_suit",

@@ -308,6 +308,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::ARMOR_LAYER ) && covers_anything ) {
         info.emplace_back( iteminfo( "ARMOR", _( "Layer: " ) + which_layer( *this ) ) );
+        if( has_flag( flag_COMPACT ) ) {
+            info.emplace_back( iteminfo( "ARMOR", _( "This item <good>won't conflict with</good> other items on the same <info>layer</info>." ) ) );
+        }
     }
 
     if( parts->test( iteminfo_parts::ARMOR_WARMTH ) && covers_anything ) {

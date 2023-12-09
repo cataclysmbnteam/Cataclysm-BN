@@ -865,7 +865,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": [ "COMPACT", "VARSIZE", "WATERPROOF" ]
   },
   {
     "id": "leathersandals",
@@ -1144,7 +1144,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "FANCY" ]
+    "flags": [ "COMPACT", "VARSIZE", "WATERPROOF", "FANCY" ]
   },
   {
     "id": "wetsuit_booties",
@@ -1384,7 +1384,7 @@
     "encumbrance": 5,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "stockings_wool",

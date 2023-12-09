@@ -230,6 +230,6 @@
     "coverage": 100,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE", "WATER_FRIENDLY" ]
   }
 ]
