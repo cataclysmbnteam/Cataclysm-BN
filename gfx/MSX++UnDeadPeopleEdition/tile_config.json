@@ -17223,9 +17223,11 @@
         { "id": "refctr_fence_SW", "fg": [ 9633 ], "bg": [  ], "rotates": true },
         { "id": "refctr_fence_SE", "fg": [ 9634 ], "bg": [  ], "rotates": true },
         { "id": "refctr_fence_NE", "fg": [ 9635 ], "bg": [  ], "rotates": true },
-        { "id": "refctr_fence_h", "fg": [ 9636 ], "bg": [  ], "rotates": true },
+        { "id": "refctr_fence_N", "fg": [ 9636 ], "bg": [  ], "rotates": true },
+        { "id": "refctr_fence_W", "fg": [ 9637 ], "bg": [  ], "rotates": true },
         {
           "id": [
+            "refctr_fence_S",
             "refctr_fence_entrance_L",
             "refctr_fence_entrance_R"
           ],
@@ -17233,7 +17235,7 @@
           "bg": [  ],
           "rotates": true
         },
-        { "id": "refctr_fence_v", "fg": [ 9639 ], "bg": [  ], "rotates": true },
+        { "id": "refctr_fence_E", "fg": [ 9639 ], "bg": [  ], "rotates": true },
         {
           "id": [
             "refctr_S3e",

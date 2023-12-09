@@ -73,7 +73,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "refctr_fence_h",
+    "id": "refctr_fence_N",
+    "copy-from": "generic_refctr"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "refctr_fence_S",
     "copy-from": "generic_refctr"
   },
   {
@@ -93,7 +98,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "refctr_fence_v",
+    "id": "refctr_fence_W",
+    "copy-from": "generic_refctr"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "refctr_fence_E",
     "copy-from": "generic_refctr"
   },
   {
