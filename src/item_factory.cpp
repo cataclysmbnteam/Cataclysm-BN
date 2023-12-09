@@ -1927,26 +1927,16 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
         if( !slot.data.empty() ) { // Uses copy-from
             dont_add_first = true;
             const JsonObject &obj = *jo.get_array( "armor_portion_data" ).begin();
-            armor_portion_data tempData;
 
             if( obj.has_array( "encumbrance" ) ) {
-                tempData.encumber = obj.get_array( "encumbrance" ).get_int( 0 );
-                tempData.max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
+                slot.data[0].encumber = obj.get_array( "encumbrance" ).get_int( 0 );
+                slot.data[0].max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
             } else if( obj.has_int( "encumbrance" ) ) {
-                tempData.encumber = obj.get_int( "encumbrance" );
-                tempData.max_encumber = tempData.encumber;
+                slot.data[0].encumber = obj.get_int( "encumbrance" );
+                slot.data[0].max_encumber = slot.data[0].encumber;
             }
             if( obj.has_int( "coverage" ) ) {
-                tempData.coverage = obj.get_int( "coverage" );
-            }
-            if( tempData.encumber != slot.data[0].encumber ) {
-                slot.data[0].encumber = tempData.encumber;
-            }
-            if( tempData.max_encumber != slot.data[0].max_encumber ) {
-                slot.data[0].max_encumber = tempData.max_encumber;
-            }
-            if( tempData.coverage != slot.data[0].coverage ) {
-                slot.data[0].coverage = tempData.coverage;
+                slot.data[0].coverage = obj.get_int( "coverage" );
             }
             body_part_set temp_cover_data;
             assign_coverage_from_json( obj, "covers", temp_cover_data, slot.sided );
@@ -2002,28 +1992,17 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
             assign_coverage_from_json( jo, "covers", temp_cover_data, slot.sided );
             slot.data[0].covers = temp_cover_data;
         } else { // This item has copy-from and already has taken data from parent
-            armor_portion_data child_data;
             if( jo.has_int( "encumbrance" ) ) {
-                child_data.encumber = jo.get_int( "encumbrance" );
-                child_data.max_encumber = child_data.encumber;
+                slot.data[0].encumber = jo.get_int( "encumbrance" );
+                slot.data[0].max_encumber = slot.data[0].encumber;
             }
             if( jo.has_int( "max_encumbrance" ) ) {
-                child_data.max_encumber = jo.get_int( "max_encumbrance" );
+                slot.data[0].max_encumber = jo.get_int( "max_encumbrance" );
             } else {
-                child_data.max_encumber = child_data.encumber;
+                slot.data[0].max_encumber = slot.data[0].encumber;
             }
             if( jo.has_int( "coverage" ) ) {
-                child_data.coverage = jo.get_int( "coverage" );
-            }
-            // If child item contains data, use that data, otherwise use parents data
-            if( child_data.encumber != slot.data[0].encumber && child_data.encumber != 0 ) {
-                slot.data[0].encumber = child_data.encumber;
-            }
-            if( child_data.max_encumber != slot.data[0].max_encumber && child_data.max_encumber != 0 ) {
-                slot.data[0].max_encumber = child_data.max_encumber;
-            }
-            if( child_data.coverage != slot.data[0].coverage && child_data.coverage != 0 ) {
-                slot.data[0].coverage = child_data.coverage;
+                slot.data[0].coverage = jo.get_int( "coverage" );
             }
             body_part_set temp_cover_data;
             assign_coverage_from_json( jo, "covers", temp_cover_data, slot.sided );
