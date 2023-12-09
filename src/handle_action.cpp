@@ -85,6 +85,7 @@
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "url_utility.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -2341,6 +2342,11 @@ bool game::handle_action()
 
             case ACTION_MESSAGES:
                 Messages::display_messages();
+                break;
+
+            case ACTION_OPEN_WIKI:
+                // TODO: un-hardcode URL
+                open_url( "https://docs.cataclysmbn.org" );
                 break;
 
             case ACTION_HELP:
