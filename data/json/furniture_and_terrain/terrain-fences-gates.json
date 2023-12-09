@@ -218,7 +218,7 @@
         { "item": "2x4", "count": 4 },
         { "item": "screen_mesh", "count": 1 },
         { "item": "nail", "charges": 20 },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "hinge", "count": 2 }
       ]
     },
     "bash": {
@@ -253,7 +253,7 @@
         { "item": "2x4", "count": 4 },
         { "item": "screen_mesh", "count": 1 },
         { "item": "nail", "charges": 20 },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "hinge", "count": 2 }
       ]
     },
     "bash": {
@@ -289,7 +289,7 @@
         { "item": "2x4", "count": 5 },
         { "item": "wire", "count": 10 },
         { "item": "nail", "charges": 20 },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "hinge", "count": 2 }
       ]
     },
     "bash": {
@@ -468,14 +468,14 @@
     "looks_like": "t_fence_post",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
-    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "2x4", "count": 2 } ] },
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": 10 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 20,
       "sound": "crack.",
       "sound_fail": "whump.",
       "ter_set": "t_null",
-      "items": [ { "item": "2x4", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "2x4", "count": [ 0, 2 ] }, { "item": "nail", "charges": [ 0, 8 ] } ]
     }
   },
   {
@@ -609,7 +609,7 @@
         { "item": "2x4", "count": 5 },
         { "item": "pointy_stick", "count": 2 },
         { "item": "nail", "charges": 12 },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "hinge", "count": 2 }
       ]
     },
     "bash": {
@@ -646,7 +646,7 @@
         { "item": "2x4", "count": 5 },
         { "item": "pointy_stick", "count": 2 },
         { "item": "nail", "charges": 12 },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "hinge", "count": 2 }
       ]
     }
   },
