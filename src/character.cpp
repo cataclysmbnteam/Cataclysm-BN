@@ -4271,7 +4271,7 @@ static void layer_item( char_encumbrance_data &vals,
             encumber_val = 0;
             layering_encumbrance = 0;
         }
-        if( it.has_flag( flag_COMPACT ) || (it.has_flag( flag_FIT ) && it.get_avg_encumber( c ) <= 10 ) ) {
+        if( it.has_flag( flag_COMPACT ) || ( it.has_flag( flag_FIT ) && it.get_avg_encumber( c ) <= 10 ) ) {
             layering_encumbrance = 0;
         }
 
