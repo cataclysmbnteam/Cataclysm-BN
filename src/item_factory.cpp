@@ -1998,8 +1998,6 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
             }
             if( jo.has_int( "max_encumbrance" ) ) {
                 slot.data[0].max_encumber = jo.get_int( "max_encumbrance" );
-            } else {
-                slot.data[0].max_encumber = slot.data[0].encumber;
             }
             if( jo.has_int( "coverage" ) ) {
                 slot.data[0].coverage = jo.get_int( "coverage" );
