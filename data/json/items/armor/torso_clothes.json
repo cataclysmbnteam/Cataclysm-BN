@@ -707,6 +707,6 @@
     "warmth": 45,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
+    "flags": [ "VARSIZE", "OUTER", "COMPACT", "POCKETS", "HOOD" ]
   }
 ]
