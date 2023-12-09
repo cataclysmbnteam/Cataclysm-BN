@@ -17,7 +17,7 @@
     "encumbrance": 5,
     "warmth": 30,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bandana",

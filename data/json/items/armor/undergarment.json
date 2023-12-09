@@ -36,7 +36,7 @@
     "covers": [ "torso" ],
     "coverage": 60,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bikini_bottom",
@@ -55,7 +55,7 @@
     "coverage": 15,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bikini_top",
@@ -73,7 +73,7 @@
     "covers": [ "torso" ],
     "coverage": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bikini_top_fur",
@@ -92,7 +92,7 @@
     "coverage": 10,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bikini_top_leather",
@@ -111,7 +111,7 @@
     "coverage": 10,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "boxer_briefs",
@@ -130,7 +130,7 @@
     "coverage": 20,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "boxer_shorts",
@@ -149,7 +149,7 @@
     "coverage": 25,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "boy_shorts",
@@ -168,7 +168,7 @@
     "coverage": 25,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bra",
@@ -187,7 +187,7 @@
     "coverage": 15,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "briefs",
@@ -206,7 +206,7 @@
     "coverage": 15,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "camisole",
@@ -226,7 +226,7 @@
     "covers": [ "torso" ],
     "coverage": 45,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "chestwrap",
@@ -468,7 +468,7 @@
     "coverage": 15,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "thermal_shirt",
@@ -505,7 +505,7 @@
     "coverage": 30,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "tank_top",
@@ -523,7 +523,7 @@
     "covers": [ "torso" ],
     "coverage": 40,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "tights",
@@ -543,7 +543,7 @@
     "coverage": 100,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "under_armor",
@@ -562,7 +562,7 @@
     "coverage": 95,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "under_armor_shorts",
@@ -581,7 +581,7 @@
     "coverage": 45,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "undershirt",
@@ -600,7 +600,7 @@
     "coverage": 60,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "unitard",
@@ -618,6 +618,6 @@
     "coverage": 90,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   }
 ]

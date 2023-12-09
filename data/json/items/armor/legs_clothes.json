@@ -225,7 +225,7 @@
     "coverage": 100,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "COMPACT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "loincloth",
