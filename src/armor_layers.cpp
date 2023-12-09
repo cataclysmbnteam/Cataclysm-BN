@@ -83,7 +83,7 @@ item_penalties get_item_penalties( const location_vector<item>::const_iterator &
             continue;
         }
         const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
-        [layer, bp]( item * const & i ) {
+        [&layer, &bp, &c]( item * const & i ) {
             return i->get_layer() == layer && i->covers( bp ) && !( i->has_flag( flag_SEMITANGIBLE ) ||
                     i->has_flag( flag_COMPACT ) || ( i->has_flag( flag_FIT ) && i->get_avg_encumber( c ) <= 10 ) );
         } );
