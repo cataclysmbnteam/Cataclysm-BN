@@ -188,7 +188,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                 } else {
                     try {
                         throw_error_at_json_loc( elem.first,
-                            "JSON contains circular dependency, this object is discarded" );
+                                                 "JSON contains circular dependency, this object is discarded" );
                     } catch( const JsonError &err ) {
                         debugmsg( "(json-error)\n%s", err.what() );
                     }

@@ -151,7 +151,6 @@
     "id": "evac_center_14_z1",
     "copy-from": "generic_rc_air"
   },
-
   {
     "type": "overmap_terrain",
     "id": "evac_center_17_z1",

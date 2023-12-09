@@ -3150,6 +3150,6 @@ has already generated this area this will only alter the tile shown on the overm
 If `old_directions` option is enabled each entry will create four migrations: for `old_north`,
 `old_west`, `old_south`, and `old_east`. What they will be migrated to depends of value of
 `new_directions` option. If it is set to `true` then terrains will be migrated to same directions:
-`old_north` to `new_north`, `old_east` to `new_east` and such. If `new_directions` is set to `false`,
-then all four terrains will be migrated to one plain `new`. For both of those cases you only need to
-specify plain `old` and `new` names in `oter_ids` map, without any suffixes.
+`old_north` to `new_north`, `old_east` to `new_east` and such. If `new_directions` is set to
+`false`, then all four terrains will be migrated to one plain `new`. For both of those cases you
+only need to specify plain `old` and `new` names in `oter_ids` map, without any suffixes.
