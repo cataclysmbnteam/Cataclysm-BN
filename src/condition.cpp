@@ -50,14 +50,16 @@ static const trait_flag_str_id flag_MUTATION_THRESHOLD( "MUTATION_THRESHOLD" );
 // throws an error on failure, so no need to return
 std::string get_talk_varname( const JsonObject &jo, const std::string &member, bool check_value )
 {
-    if( !jo.has_string( "type" ) || !jo.has_string( "context" ) ||
-        ( check_value && !jo.has_string( "value" ) ) ) {
+    if( check_value && !jo.has_string( "value" ) ) {
         jo.throw_error( "invalid " + member + " condition in " + jo.str() );
     }
     const std::string &var_basename = jo.get_string( member );
-    const std::string &type_var = jo.get_string( "type" );
-    const std::string &var_context = jo.get_string( "context" );
-    return "npctalk_var_" + type_var + "_" + var_context + "_" + var_basename;
+    const std::string &type_var = jo.get_string( "type", "" );
+    const std::string &var_context = jo.get_string( "context", "" );
+    return "npctalk_var" +
+           ( type_var.empty() ? "" : "_" + type_var ) +
+           ( var_context.empty() ? "" : "_" + var_context ) +
+           ( "_" + var_basename );
 }
 
 template<class T>
