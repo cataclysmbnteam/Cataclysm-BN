@@ -778,18 +778,15 @@ namespace
 
 auto is_mountable( const map &m, const tripoint &pos ) -> bool
 {
-    if( m.impassable( pos ) ) {
-        return false;
-    }
-
     // usage of any attached bipod is dependent upon terrain
-    if( m.has_flag_ter_or_furn( "MOUNTABLE", pos ) ) {
+    // sandbag barricades are impassable but climbable
+    if( m.climb_difficulty( pos ) <= 5 && m.has_flag_ter_or_furn( "MOUNTABLE", pos ) ) {
         return true;
     }
 
     if( const optional_vpart_position vp = m.veh_at( pos ) ) {
         // NOLINTNEXTLINE(bugprone-unchecked-optional-access)
-        return vp->vehicle().has_part( pos, "MOUNTABLE" );
+        return m.passable( pos ) && vp->vehicle().has_part( pos, "MOUNTABLE" );
     }
     return false;
 }

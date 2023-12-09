@@ -1437,6 +1437,7 @@ item &location_inventory::add_item_by_items_type_cache( detached_ptr<item> &&new
     if( should_stack ) {
         for( auto &elem : inv.items ) {
             item *&it = *elem.begin();
+            // NOLINTNEXTLINE(bugprone-use-after-move)
             if( it->stacks_with( *newit ) ) {
                 if( it->merge_charges( std::move( newit ) ) ) {
                     return null_item_reference();
@@ -1465,6 +1466,7 @@ void location_inventory::add_item_keep_invlet( detached_ptr<item> &&newit )
     as_p->resolve_saved_loc();
     for( auto &elem : inv.items ) {
         item *&it = *elem.begin();
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         if( it->stacks_with( *newit ) ) {
             if( it->merge_charges( std::move( newit ) ) ) {
                 return;
