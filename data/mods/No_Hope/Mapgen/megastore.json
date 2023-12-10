@@ -62,6 +62,7 @@
       "U": "f_cupboard",
       "x": "f_crate_o",
       "X": "f_crate_c",
+      "[": "f_glass_freezer",
       ":": "f_shredder"
     },
     "toilets": { "&": { "amount": [ 0, 50 ] } },
