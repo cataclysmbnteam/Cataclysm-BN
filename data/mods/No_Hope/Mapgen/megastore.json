@@ -14,7 +14,7 @@
       "-": "t_concrete_wall",
       "|": "t_concrete_wall",
       "+": "t_door_glass_c",
-      "(" : "t_door_metal_locked",
+      "(": "t_door_metal_locked",
       "!": "t_door_metal_c",
       "g": "t_wall_glass_alarm",
       "I": "t_support_l",
