@@ -2670,7 +2670,9 @@ tile and the tiles around it brightly, as well as slightly lighting the tiles tw
 the source. For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `boltcut`
+
 (Optional) Data for using with an bolt cutter.
+
 ```cpp
 "boltcut": {
     "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null

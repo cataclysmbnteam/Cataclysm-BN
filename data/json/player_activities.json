@@ -565,7 +565,6 @@
   {
     "id": "ACT_BOLTCUTTING",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "verb": "cutting the wire",
     "based_on": "speed"
   },

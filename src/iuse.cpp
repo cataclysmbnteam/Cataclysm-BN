@@ -5111,7 +5111,9 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->assign_activity( player_activity( boltcutting_activity_actor( pnt, item_location{*p, it} ) ) );
+    p->assign_activity( std::make_unique<player_activity>( std::make_unique<boltcutting_activity_actor>(
+                            pnt, safe_reference<item>( *it )
+                        ) ) );
 
     return 0;
 }
