@@ -5101,8 +5101,8 @@ namespace distribution_graph
 {
 
 template <bool IsConst,
-          typename Vehicle = typename std::conditional<IsConst, const vehicle, vehicle>::type,
-          typename Grid = typename std::conditional<IsConst, const distribution_grid, distribution_grid>::type>
+          typename Vehicle = std::conditional_t<IsConst, const vehicle, vehicle>,
+          typename Grid = std::conditional_t<IsConst, const distribution_grid, distribution_grid>>
 struct vehicle_or_grid {
     enum class type_t : char {
         vehicle,
@@ -5140,7 +5140,7 @@ void traverse( StartPoint &start,
                VehFunc veh_action, GridFunc grid_action )
 {
     using tvr = traverse_visitor_result;
-    constexpr bool IsConst = std::is_const<StartPoint>::value;
+    constexpr bool IsConst = std::is_const_v<StartPoint>;
     struct hash {
         const std::hash<char> char_hash = std::hash<char>();
         const std::hash<size_t> ptr_hash = std::hash<size_t>();
