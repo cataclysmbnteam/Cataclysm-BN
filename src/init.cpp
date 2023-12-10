@@ -187,9 +187,8 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                     debugmsg( "JSON source location has null path when reporting circular dependency" );
                 } else {
                     try {
-                        shared_ptr_fast<std::istream> stream = get_cached_stream( *it->first.path );
-                        JsonIn jsin( *stream, elem.first );
-                        jsin.error( "JSON contains circular dependency, this object is discarded" );
+                        throw_error_at_json_loc( elem.first,
+                                                 "JSON contains circular dependency, this object is discarded" );
                     } catch( const JsonError &err ) {
                         debugmsg( "(json-error)\n%s", err.what() );
                     }
