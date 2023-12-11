@@ -652,6 +652,7 @@
     "skills_required": [ "cooking", 2 ],
     "difficulty": 8,
     "time": 45000,
+    "charges": 20,
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
@@ -662,7 +663,8 @@
       [ [ "oxy_powder", 60 ] ],
       [ [ "gunpowder", 120 ] ],
       [ [ "lead", 160 ] ],
-      [ [ "gold_small", 5 ], [ "silver_small", 5 ], [ "tin", 5 ], [ "bismuth", 5 ], [ "solder_wire", 5 ] ]
+      [ [ "gold_small", 5 ], [ "silver_small", 5 ], [ "tin", 5 ], [ "bismuth", 5 ], [ "solder_wire", 5 ] ],
+      [ [ "shotgun_primer", 20 ] ]
     ]
   },
   {
@@ -674,6 +676,7 @@
     "skills_required": [ "cooking", 2 ],
     "difficulty": 8,
     "time": 45000,
+    "charges": 20,
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
@@ -691,7 +694,8 @@
         [ "bismuth", 10 ],
         [ "solder_wire", 10 ]
       ],
-      [ [ "nail", 240 ], [ "combatnail", 240 ] ]
+      [ [ "nail", 240 ], [ "combatnail", 240 ] ],
+      [ [ "shotgun_primer", 20 ] ]
     ]
   },
   {
@@ -703,6 +707,7 @@
     "skills_required": [ "cooking", 2 ],
     "difficulty": 8,
     "time": 45000,
+    "charges": 20,
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
@@ -713,7 +718,8 @@
       [ [ "oxy_powder", 80 ] ],
       [ [ "gunpowder", 160 ] ],
       [ [ "lead", 240 ] ],
-      [ [ "gold_small", 8 ], [ "silver_small", 8 ], [ "tin", 8 ], [ "bismuth", 8 ], [ "solder_wire", 8 ] ]
+      [ [ "gold_small", 8 ], [ "silver_small", 8 ], [ "tin", 8 ], [ "bismuth", 8 ], [ "solder_wire", 8 ] ],
+      [ [ "shotgun_primer", 20 ] ]
     ]
   }
 ]

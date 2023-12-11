@@ -424,7 +424,7 @@
         [ "platinum_small", 4 ]
       ],
       [ [ "copper", 40 ] ],
-      [ [ "smrifle_primer", 1 ], [ "lgpistol_primer", 1 ] ]
+      [ [ "smrifle_primer", 40 ], [ "lgpistol_primer", 40 ] ]
     ]
   },
   {
@@ -456,7 +456,7 @@
         [ "platinum_small", 4 ]
       ],
       [ [ "copper", 80 ] ],
-      [ [ "smrifle_primer", 1 ], [ "lgpistol_primer", 1 ] ]
+      [ [ "smrifle_primer", 40 ], [ "lgpistol_primer", 40 ] ]
     ]
   },
   {
@@ -488,7 +488,7 @@
         [ "platinum_small", 40 ]
       ],
       [ [ "copper", 80 ] ],
-      [ [ "smrifle_primer", 1 ], [ "lgpistol_primer", 1 ] ]
+      [ [ "smrifle_primer", 40 ], [ "lgpistol_primer", 40 ] ]
     ]
   },
   {
@@ -521,7 +521,7 @@
         [ "platinum_small", 4 ]
       ],
       [ [ "copper", 40 ] ],
-      [ [ "smrifle_primer", 1 ], [ "lgpistol_primer", 1 ] ]
+      [ [ "smrifle_primer", 40 ], [ "lgpistol_primer", 40 ] ]
     ]
   },
   {
