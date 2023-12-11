@@ -1315,7 +1315,6 @@
     "watertight": true,
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
-  
   {
     "id": "hazardous_waste_drum",
     "copy-from": "55gal_drum",

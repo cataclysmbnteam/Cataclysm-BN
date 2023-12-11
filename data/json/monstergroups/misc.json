@@ -210,7 +210,6 @@
       { "monster": "mon_dog_gshepherd", "freq": 35, "cost_multiplier": 0 }
     ]
   },
-  
   {
     "type": "monstergroup",
     "name": "AFS_GROUP_AUG_CLINIC",
