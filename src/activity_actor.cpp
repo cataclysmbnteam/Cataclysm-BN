@@ -1183,7 +1183,6 @@ void boltcutting_activity_actor::finish( player_activity &act, Character &who )
         if( byproduct.item->count_by_charges() ) {
             here.add_item_or_charges( target, item::spawn( byproduct.item, calendar::turn, amount ) );
         } else {
-            item byproduct_item( byproduct.item, calendar::turn );
             for( int i = 0; i < amount; ++i ) {
                 here.add_item_or_charges( target, item::spawn( byproduct.item, calendar::turn ) );
             }
@@ -1449,8 +1448,8 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
 
 void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
-    if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+    if( tool->ammo_sufficient() ) {
+        tool->ammo_consume( tool->ammo_required(), tool->position() );
         sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( target ) );
         if( calendar::once_every( 2_turns ) ) {
             sounds::sound( target, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
@@ -1459,8 +1458,10 @@ void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who 
         if( who.is_avatar() ) {
             who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
         } else { // who.is_npc()
-            add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
-                                    true ), tool->tname() );
+            if( get_avatar().sees( who.pos() ) ) {
+                add_msg( _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                         true ), tool->tname() );
+            }
         }
         who.cancel_activity();
     }
@@ -1525,12 +1526,10 @@ void oxytorch_activity_actor::finish( player_activity &act, Character &who )
     for( const activity_byproduct &byproduct : data->byproducts() ) {
         const int amount = byproduct.roll();
         if( byproduct.item->count_by_charges() ) {
-            item byproduct_item( byproduct.item, calendar::turn, amount );
-            here.add_item_or_charges( target, byproduct_item );
+            here.add_item_or_charges( target, item::spawn( byproduct.item, calendar::turn, amount ) );
         } else {
-            item byproduct_item( byproduct.item, calendar::turn );
             for( int i = 0; i < amount; ++i ) {
-                here.add_item_or_charges( target, byproduct_item );
+                here.add_item_or_charges( target, item::spawn( byproduct.item, calendar::turn ) );
             }
         }
     }
@@ -1557,11 +1556,12 @@ void oxytorch_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> oxytorch_activity_actor::deserialize( JsonIn &jsin )
 {
-    oxytorch_activity_actor actor( {}, {} );
+    std::unique_ptr<oxytorch_activity_actor> actor( new oxytorch_activity_actor(
+                tripoint_zero, safe_reference<item>() ) );
     JsonObject data = jsin.get_object();
-    data.read( "target", actor.target );
-    data.read( "tool", actor.tool );
-    return actor.clone();
+    data.read( "target", actor->target );
+    data.read( "tool", actor->tool );
+    return actor;
 }
 
 void migration_cancel_activity_actor::do_turn( player_activity &act, Character &who )
