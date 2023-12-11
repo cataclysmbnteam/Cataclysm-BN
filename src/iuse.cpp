@@ -5081,17 +5081,18 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const std::set<ter_id> allowed_ter_id {
-        t_chaingate_l,
-        t_chainfence
-    };
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+
+    map &here = get_map();
+    const std::function<bool( const tripoint & )> f =
+    [&here, p]( const tripoint & pnt ) {
+        if( pnt == p->pos() ) {
             return false;
+        } else if( here.has_furn( pnt ) ) {
+            return here.furn( pnt )->boltcut->valid();
+        } else if( !here.ter( pnt )->is_null() ) {
+            return here.ter( pnt )->boltcut->valid();
         }
-        const ter_id ter = g->m.ter( pnt );
-        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end();
-        return is_allowed;
+        return false;
     };
 
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -5100,7 +5101,6 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     const tripoint &pnt = *pnt_;
-    const ter_id type = g->m.ter( pnt );
     if( !f( pnt ) ) {
         if( pnt == p->pos() ) {
             p->add_msg_if_player( m_info,
@@ -5111,22 +5111,11 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    if( type == t_chaingate_l ) {
-        p->moves -= to_moves<int>( 1_seconds );
-        g->m.ter_set( pnt, t_chaingate_c );
-        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Gachunk!" ), true, "tool", "boltcutters" );
-        g->m.spawn_item( point( p->posx(), p->posy() ), "scrap", 3 );
-    } else if( type == t_chainfence ) {
-        p->moves -= to_moves<int>( 5_seconds );
-        g->m.ter_set( pnt, t_chainfence_posts );
-        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
-                       "boltcutters" );
-        g->m.spawn_item( pnt, "wire", 20 );
-    } else {
-        return 0;
-    }
+    p->assign_activity( std::make_unique<player_activity>( std::make_unique<boltcutting_activity_actor>(
+                            pnt, safe_reference<item>( *it )
+                        ) ) );
 
-    return it->type->charges_to_use();
+    return 0;
 }
 
 namespace

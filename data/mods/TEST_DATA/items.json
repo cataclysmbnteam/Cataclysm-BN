@@ -566,6 +566,38 @@
     "price_postapoc": "3 USD"
   },
   {
+    "type": "TOOL",
+    "id": "test_boltcutter",
+    "name": { "str": "test pair of bolt cutters" },
+    "description": "Test bolt cutters.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "symbol": ";"
+  },
+  {
+    "type": "TOOL",
+    "id": "test_boltcutter_elec",
+    "copy-from": "test_boltcutter",
+    "name": { "str": "test electric pair of bolt cutters" },
+    "description": "Test bolt cutters which uses batteries.",
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ]
+  },
+  {
     "id": "test_swat_armor",
     "repairs_like": "survivor_suit",
     "type": "ARMOR",
