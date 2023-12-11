@@ -2002,6 +2002,11 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_door_metal_o",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 80,
       "str_max": 250,
@@ -2192,6 +2197,11 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 80,
@@ -2247,6 +2257,11 @@
     "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_door_metal_o",
     "examine_action": "locked_object_pickable",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 80,
       "str_max": 250,
@@ -2283,6 +2298,11 @@
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "open": "t_door_bar_o",
     "close": "t_door_bar_locked",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -2340,6 +2360,11 @@
     "lockpick_message": "The door swings open…",
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "LOCKED", "THIN_OBSTACLE" ],
     "examine_action": "locked_object_pickable",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 30,
       "str_max": 210,

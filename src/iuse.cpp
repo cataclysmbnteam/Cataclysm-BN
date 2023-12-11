@@ -139,7 +139,6 @@ static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
-static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
@@ -4913,38 +4912,17 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    const std::set<ter_id> allowed_ter_id {
-        t_chainfence_posts,
-        t_window_enhanced,
-        t_window_enhanced_noglass,
-        t_chainfence,
-        t_chaingate_c,
-        t_chaingate_l,
-        t_bars,
-        t_window_bars_alarm,
-        t_window_bars,
-        t_reb_cage,
-        t_door_metal_locked,
-        t_door_metal_c,
-        t_door_bar_c,
-        t_door_bar_locked,
-        t_door_metal_pickable
-    };
-    const std::set<furn_id> allowed_furn_id {
-        f_rack
-    };
-
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
-    &allowed_furn_id]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+    map &here = get_map();
+    const std::function<bool( const tripoint & )> f =
+    [&here, p]( const tripoint & pnt ) {
+        if( pnt == p->pos() ) {
             return false;
+        } else if( here.has_furn( pnt ) ) {
+            return here.furn( pnt )->oxytorch->valid();
+        } else if( !here.ter( pnt )->is_null() ) {
+            return here.ter( pnt )->oxytorch->valid();
         }
-        const ter_id ter = g->m.ter( pnt );
-        const auto furn = g->m.furn( pnt );
-
-        const bool is_allowed = ( allowed_ter_id.find( ter ) != allowed_ter_id.end() ) ||
-                                ( allowed_furn_id.find( furn ) != allowed_furn_id.end() );
-        return is_allowed;
+        return false;
     };
 
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -4953,8 +4931,6 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     const tripoint &pnt = *pnt_;
-    const ter_id ter = g->m.ter( pnt );
-    const furn_id furn = g->m.furn( pnt );
     if( !f( pnt ) ) {
         if( pnt == p->pos() ) {
             p->add_msg_if_player( m_info, _( "Yuck.  Acetylene gas smells weird." ) );
@@ -4964,37 +4940,10 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    int turns = 0;
-    if( furn == f_rack || ter == t_chainfence_posts ) {
-        turns = to_turns<int>( 2_seconds );
-    } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
-        turns = to_turns<int>( 5_seconds );
-    } else if( ter == t_chainfence || ter == t_chaingate_c ||
-               ter == t_chaingate_l  || ter == t_bars || ter == t_window_bars_alarm ||
-               ter == t_window_bars || ter == t_reb_cage ) {
-        turns = to_turns<int>( 10_seconds );
-    } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
-               ter == t_door_bar_locked || ter == t_door_metal_pickable ) {
-        turns = to_turns<int>( 15_seconds );
-    } else {
-        return 0;
-    }
+    p->assign_activity( std::make_unique<player_activity>( std::make_unique<oxytorch_activity_actor>(
+                            pnt, safe_reference<item>( *it )
+                        ) ) );
 
-    const int charges = turns * it->ammo_required();
-    int moves = to_moves<int>( time_duration::from_turns( turns ) );
-
-    if( charges > it->ammo_remaining() ) {
-        p->add_msg_if_player( m_info, _( "Your torch doesn't have enough acetylene to cut that." ) );
-        return 0;
-    }
-
-    // placing ter here makes resuming tasks work better
-    p->assign_activity( ACT_OXYTORCH, moves, static_cast<int>( ter ) );
-    p->activity->targets.emplace_back( it );
-    p->activity->placement = pnt;
-    p->activity->values.push_back( charges );
-
-    // charges will be consumed in oxytorch_do_turn, not here
     return 0;
 }
 

@@ -1337,6 +1337,11 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
 
+    oxytorch = cata::make_value<activity_data_ter>();
+    if( jo.has_object( "oxytorch" ) ) {
+        oxytorch->load( jo.get_object( "oxytorch" ) );
+    }
+
     boltcut = cata::make_value<activity_data_ter>();
     if( jo.has_object( "boltcut" ) ) {
         boltcut->load( jo.get_object( "boltcut" ) );
@@ -1531,6 +1536,12 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+
+
+    oxytorch = cata::make_value<activity_data_furn>();
+    if( jo.has_object( "oxytorch" ) ) {
+        oxytorch->load( jo.get_object( "oxytorch" ) );
+    }
 
     boltcut = cata::make_value<activity_data_furn>();
     if( jo.has_object( "boltcut" ) ) {
