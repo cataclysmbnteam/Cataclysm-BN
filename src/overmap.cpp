@@ -3584,8 +3584,18 @@ static std::map<std::string, std::string> oter_id_migrations;
 
 void overmap::load_oter_id_migration( const JsonObject &jo )
 {
+    const bool old_directions = jo.get_bool( "old_directions", false );
+    const bool new_directions = jo.get_bool( "new_directions", false );
+
     for( const JsonMember &kv : jo.get_object( "oter_ids" ) ) {
-        oter_id_migrations.emplace( kv.name(), kv.get_string() );
+        if( old_directions ) {
+            for( const std::string &suffix : om_direction::all_suffixes ) {
+                oter_id_migrations.emplace( kv.name() + suffix,
+                                            new_directions ? kv.get_string() + suffix : kv.get_string() );
+            }
+        } else {
+            oter_id_migrations.emplace( kv.name(), kv.get_string() );
+        }
     }
 }
 
