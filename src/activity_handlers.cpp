@@ -216,7 +216,6 @@ static const itype_id itype_pipe( "pipe" );
 static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_rope_makeshift_30( "rope_makeshift_30" );
 static const itype_id itype_scrap( "scrap" );
-static const itype_id itype_sheet_metal( "sheet_metal" );
 static const itype_id itype_spike( "spike" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
