@@ -50,6 +50,8 @@
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 #endif
 
+static const oter_str_id oter_omt_obsolete( "omt_obsolete" );
+
 /*
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
@@ -73,7 +75,7 @@ void game::serialize( std::ostream &fout )
      * To prevent (or encourage) confusion, there is no version 8. (cata 0.8 uses v7)
      */
     // Header
-    fout << "# version " << savegame_version << std::endl;
+    fout << "# version " << savegame_version << '\n';
 
     JsonOut json( fout, true ); // pretty-print
 
@@ -344,81 +346,6 @@ void game::save_shortcuts( std::ostream &fout )
 }
 #endif
 
-std::unordered_set<std::string> obsolete_terrains;
-
-void overmap::load_obsolete_terrains( const JsonObject &jo )
-{
-    for( const std::string line : jo.get_array( "terrains" ) ) {
-        obsolete_terrains.emplace( line );
-    }
-}
-
-void overmap::reset_obsolete_terrains()
-{
-    obsolete_terrains.clear();
-}
-
-bool overmap::is_obsolete_terrain( const std::string &ter )
-{
-    return obsolete_terrains.find( ter ) != obsolete_terrains.end();
-}
-
-/*
- * Complex conversion of outdated overmap terrain ids.
- * This is used when loading saved games with old oter_ids.
- */
-void overmap::convert_terrain(
-    const std::unordered_map<tripoint_om_omt, std::string> &needs_conversion )
-{
-    for( const auto &convert : needs_conversion ) {
-        const tripoint_om_omt pos = convert.first;
-        const std::string old = convert.second;
-
-        struct convert_nearby {
-            point offset;
-            std::string x_id;
-            std::string y_id;
-            std::string new_id;
-        };
-
-        std::vector<convert_nearby> nearby;
-        std::vector<std::pair<tripoint, std::string>> convert_unrelated_adjacent_tiles;
-
-        if( old == "fema" || old == "fema_entrance" || old == "fema_1_3" ||
-            old == "fema_2_1" || old == "fema_2_2" || old == "fema_2_3" ||
-            old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ||
-            old == "mine_entrance" || old == "underground_sub_station" ||
-            old == "sewer_sub_station" || old == "anthill" ||
-            old == "ants_larvae" || old == "ants_queen" || old == "ants_food" ) {
-            ter_set( pos, oter_id( old + "_north" ) );
-        } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
-            ter_set( pos, oter_id( "field" ) );
-        } else if( old == "mine_shaft" ) {
-            ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
-        } else if( old == "ants_larvae_acid" ) {
-            ter_set( pos, oter_id( "acid_ants_larvae_north" ) );
-        } else if( old == "ants_queen_acid" ) {
-            ter_set( pos, oter_id( "acid_ants_queen_north" ) );
-        } else if( old == "acid_anthill" ) {
-            ter_set( pos, oter_id( "anthill_north" ) );
-        }
-
-        for( const auto &conv : nearby ) {
-            const auto x_it = needs_conversion.find( pos + point( conv.offset.x, 0 ) );
-            const auto y_it = needs_conversion.find( pos + point( 0, conv.offset.y ) );
-            if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
-                y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
-                ter_set( pos, oter_id( conv.new_id ) );
-                break;
-            }
-        }
-
-        for( const std::pair<tripoint, std::string> &conv : convert_unrelated_adjacent_tiles ) {
-            ter_set( pos + conv.first, oter_id( conv.second ) );
-        }
-    }
-}
-
 void overmap::load_monster_groups( JsonIn &jsin )
 {
     jsin.start_array();
@@ -459,7 +386,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
     while( !jsin.end_object() ) {
         const std::string name = jsin.get_member_name();
         if( name == "layers" ) {
-            std::unordered_map<tripoint_om_omt, std::string> needs_conversion;
+            std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
             jsin.start_array();
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
                 jsin.start_array();
@@ -473,17 +400,15 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                             jsin.read( tmp_ter );
                             jsin.read( count );
                             jsin.end_array();
-                            if( is_obsolete_terrain( tmp_ter ) ) {
+                            if( is_oter_id_obsolete( tmp_ter ) ) {
                                 for( int p = i; p < i + count; p++ ) {
-                                    needs_conversion.emplace(
-                                        tripoint_om_omt( p, j, z - OVERMAP_DEPTH ), tmp_ter );
+                                    oter_id_migrations.emplace( tripoint_om_omt( p, j, z - OVERMAP_DEPTH ), tmp_ter );
                                 }
-                                tmp_otid = oter_id( 0 );
                             } else if( oter_str_id( tmp_ter ).is_valid() ) {
                                 tmp_otid = oter_id( tmp_ter );
                             } else {
-                                debugmsg( "Loaded bad ter!  ter %s", tmp_ter.c_str() );
-                                tmp_otid = oter_id( 0 );
+                                debugmsg( "Loaded invalid oter_id '%s'", tmp_ter.c_str() );
+                                tmp_otid = oter_omt_obsolete;
                             }
                         }
                         count--;
@@ -493,7 +418,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                 jsin.end_array();
             }
             jsin.end_array();
-            convert_terrain( needs_conversion );
+            migrate_oter_ids( oter_id_migrations );
         } else if( name == "region_id" ) {
             std::string new_region_id;
             jsin.read( new_region_id );
@@ -805,7 +730,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
 
 void overmap::serialize_view( std::ostream &fout ) const
 {
-    fout << "# version " << savegame_version << std::endl;
+    fout << "# version " << savegame_version << '\n';
 
     JsonOut json( fout, false );
     json.start_object();
@@ -816,7 +741,7 @@ void overmap::serialize_view( std::ostream &fout ) const
         json.start_array();
         serialize_array_to_compacted_sequence( json, layer[z].visible );
         json.end_array();
-        fout << std::endl;
+        fout << '\n';
     }
     json.end_array();
 
@@ -826,7 +751,7 @@ void overmap::serialize_view( std::ostream &fout ) const
         json.start_array();
         serialize_array_to_compacted_sequence( json, layer[z].explored );
         json.end_array();
-        fout << std::endl;
+        fout << '\n';
     }
     json.end_array();
 
@@ -842,7 +767,7 @@ void overmap::serialize_view( std::ostream &fout ) const
             json.write( i.dangerous );
             json.write( i.danger_radius );
             json.end_array();
-            fout << std::endl;
+            fout << '\n';
         }
         json.end_array();
     }
@@ -858,7 +783,7 @@ void overmap::serialize_view( std::ostream &fout ) const
             json.write( i.p.y() );
             json.write( i.id );
             json.end_array();
-            fout << std::endl;
+            fout << '\n';
         }
         json.end_array();
     }
@@ -932,7 +857,7 @@ void overmap::save_monster_groups( JsonOut &jout ) const
 
 void overmap::serialize( std::ostream &fout ) const
 {
-    fout << "# version " << savegame_version << std::endl;
+    fout << "# version " << savegame_version << '\n';
 
     JsonOut json( fout, false );
     json.start_object();
@@ -968,16 +893,16 @@ void overmap::serialize( std::ostream &fout ) const
         // End the z-level
         json.end_array();
         // Insert a newline occasionally so the file isn't totally unreadable.
-        fout << std::endl;
+        fout << '\n';
     }
     json.end_array();
 
     // temporary, to allow user to manually switch regions during play until regionmap is done.
     json.member( "region_id", settings->id );
-    fout << std::endl;
+    fout << '\n';
 
     save_monster_groups( json );
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "cities" );
     json.start_array();
@@ -990,10 +915,10 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "connections_out", connections_out );
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "radios" );
     json.start_array();
@@ -1008,7 +933,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "monster_map" );
     json.start_array();
@@ -1017,7 +942,7 @@ void overmap::serialize( std::ostream &fout ) const
         i.second.serialize( json );
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "tracked_vehicles" );
     json.start_array();
@@ -1030,7 +955,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "scent_traces" );
     json.start_array();
@@ -1042,7 +967,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "npcs" );
     json.start_array();
@@ -1050,7 +975,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.write( *i );
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "camps" );
     json.start_array();
@@ -1058,7 +983,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.write( i );
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     // Condense the overmap special placements so that all placements of a given special
     // are grouped under a single key for that special.
@@ -1091,7 +1016,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.member( "electric_grid_connections" );
     json.start_array();
@@ -1112,7 +1037,7 @@ void overmap::serialize( std::ostream &fout ) const
                 joins_used.begin(), joins_used.end() );
     json.member( "joins_used", flattened_joins_used );
     json.member( "mapgen_arg_storage", mapgen_arg_storage );
-    fout << std::endl;
+    fout << '\n';
     json.member( "mapgen_arg_index" );
     json.start_array();
     for( const std::pair<const tripoint_om_omt, int> &p : mapgen_args_index ) {
@@ -1122,10 +1047,10 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_array();
     }
     json.end_array();
-    fout << std::endl;
+    fout << '\n';
 
     json.end_object();
-    fout << std::endl;
+    fout << '\n';
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -1264,7 +1189,7 @@ void mission::serialize_all( JsonOut &json )
 
 void game::serialize_master( std::ostream &fout )
 {
-    fout << "# version " << savegame_version << std::endl;
+    fout << "# version " << savegame_version << '\n';
     try {
         JsonOut json( fout, true ); // pretty-print
         json.start_object();

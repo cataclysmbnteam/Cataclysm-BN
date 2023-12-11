@@ -199,9 +199,9 @@
     "deconstruct": {
       "ter_set": "t_door_frame",
       "items": [
-        { "item": "2x4", "count": 4 },
+        { "item": "2x4", "count": 2 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -240,7 +240,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -278,7 +278,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -316,7 +316,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -354,7 +354,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -392,7 +392,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -428,7 +428,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -465,7 +465,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -502,7 +502,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -539,7 +539,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -1014,8 +1014,8 @@
       "ter_set": "t_door_frame",
       "items": [
         { "item": "peephole", "count": 1 },
-        { "item": "2x4", "count": 4 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "2x4", "count": 2 },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -1161,7 +1161,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -1198,7 +1198,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -1235,8 +1235,8 @@
         { "item": "peephole", "count": 1 },
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "nail", "charges": 12 },
+        { "item": "hinge", "count": 2 }
       ]
     },
     "close": "t_door_c_peep",
@@ -1272,12 +1272,7 @@
     "open": "t_rdoor_o",
     "deconstruct": {
       "ter_set": "t_door_c",
-      "items": [
-        { "item": "2x4", "count": 24 },
-        { "item": "wood_panel", "count": 2 },
-        { "item": "nail", "charges": [ 36, 48 ] },
-        { "item": "hinge", "count": 1 }
-      ]
+      "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 48 }, { "item": "hinge", "count": 1 } ]
     },
     "bash": {
       "str_min": 18,
@@ -1343,12 +1338,7 @@
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR_REINFORCED", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_c",
-      "items": [
-        { "item": "2x4", "count": 24 },
-        { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 36, 48 ] },
-        { "item": "hinge", "count": 1 }
-      ]
+      "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 48 }, { "item": "hinge", "count": 1 } ]
     },
     "close": "t_rdoor_c",
     "bash": {

@@ -488,6 +488,21 @@ above `dead_end` overmap can represent a dead end tunnel in any direction, but i
 the chosen OMT `ants_end_south` is consistent with the `north` join for the generated map to make
 sense.
 
+Overmaps can also specify connections. For example, an overmap might be defined as:
+
+```json
+"where_road_connects": {
+  "overmap": "road_end_north",
+  "west": "parking_lot_to_road",
+  "connections": { "north": { "connection": "local_road" } }
+}
+```
+
+Once the mutable special placement is complete, a `local_road` connection will be built from the
+north edge of this overmap (again, 'north' is a relative term, that will rotate as the overmap is
+rotated) in the same way as connections are built for fixed specials. 'Existing' connections are not
+supported for mutable specials.
+
 #### Layout phases
 
 After all the joins and overmaps are defined, the manner in which the special is laid out is given
@@ -771,7 +786,6 @@ Alternatively it can be a JSON object with the following keys:
 | Identifier           | Description                                                                                                     |
 | -------------------- | --------------------------------------------------------------------------------------------------------------- |
 | `overmap` or `chunk` | Id of the `overmap` to place, chunk configuration.                                                              |
-| `connections`        | List of overmap connections and their relative `[ x, y, z ]` location to overmap or chunk.                      |
 | `join`               | Id of `join` which must be resolved during current phase.                                                       |
 | `z`                  | Z level restrictions for this phase.                                                                            |
 | `om_pos`             | Absolute coordinates `[ x, y ]` of the overmap (180x180 chunk of the world) this phase is allowed to run in.    |

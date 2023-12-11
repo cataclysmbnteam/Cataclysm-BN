@@ -85,6 +85,7 @@
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "url_utility.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -1074,11 +1075,11 @@ static void sleep()
     std::stringstream data;
     if( !active.empty() ) {
         as_m.selected = 2;
-        data << as_m.text << std::endl;
-        data << _( "You may want to extinguish or turn off:" ) << std::endl;
-        data << " " << std::endl;
+        data << as_m.text << '\n';
+        data << _( "You may want to extinguish or turn off:" ) << '\n';
+        data << " " << '\n';
         for( auto &a : active ) {
-            data << "<color_red>" << a << "</color>" << std::endl;
+            data << "<color_red>" << a << "</color>" << '\n';
         }
         as_m.text = data.str();
     }
@@ -2341,6 +2342,11 @@ bool game::handle_action()
 
             case ACTION_MESSAGES:
                 Messages::display_messages();
+                break;
+
+            case ACTION_OPEN_WIKI:
+                // TODO: un-hardcode URL
+                open_url( "https://docs.cataclysmbn.org" );
                 break;
 
             case ACTION_HELP:

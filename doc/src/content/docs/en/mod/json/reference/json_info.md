@@ -3126,3 +3126,30 @@ give more produce from harvest, for numbers less than one it will give less prod
     }
 ]
 ```
+
+## Obsoletion and migration
+
+For maps, you remove the item from all the places it can spawn, remove the mapgen entries, and add
+the overmap terrain id into `data/json/obsoletion/migration_oter_ids.json`, to migrate oter_id
+`underground_sub_station` and `sewer_sub_station` into their rotatable versions, note that if mapgen
+has already generated this area this will only alter the tile shown on the overmap:
+
+```json
+{
+  "type": "oter_id_migration",
+  "//": "obsoleted in 0.4",
+  "old_directions": false,
+  "new_directions": false,
+  "oter_ids": {
+    "underground_sub_station": "underground_sub_station_north",
+    "sewer_sub_station": "sewer_sub_station_north"
+  }
+}
+```
+
+If `old_directions` option is enabled each entry will create four migrations: for `old_north`,
+`old_west`, `old_south`, and `old_east`. What they will be migrated to depends of value of
+`new_directions` option. If it is set to `true` then terrains will be migrated to same directions:
+`old_north` to `new_north`, `old_east` to `new_east` and such. If `new_directions` is set to
+`false`, then all four terrains will be migrated to one plain `new`. For both of those cases you
+only need to specify plain `old` and `new` names in `oter_ids` map, without any suffixes.

@@ -511,7 +511,7 @@ bool can_write_to_dir( const std::string &dir_path )
 
     const auto writer = []( std::ostream & s ) {
         // Write at least something to check if there is free space on disk
-        s << CBN << std::endl;
+        s << CBN << '\n';
     };
 
     if( !write_to_file( dummy_file, writer, nullptr ) ) {
