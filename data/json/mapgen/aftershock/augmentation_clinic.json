@@ -10,31 +10,31 @@
         "                   ,,   ",
         "                   ,,   ",
         " -ó-----------    |,,|  ",
-        " -.--0.H%%H.0-     ,,   ",
-        " -.--0......0-     ,,   ",
-        " -.--0......0-     ,,   ",
-        " -.--0......0-     ,,   ",
+        " -.--B.H%%H.B-     ,,   ",
+        " -.--A......A-     ,,   ",
+        " -.--B......B-     ,,   ",
+        " -.--A......A-     ,,   ",
         " -.----...------  |,,|  ",
-        " -.--0......0-.-V,,,,,, ",
-        " -.--0......0ó.-V,,,Y,, ",
-        " ó.--0......0-.- |<,,|  ",
+        " -.--B......B-.-V,,,,,, ",
+        " -.--A......Aó.-V,,,Y,, ",
+        " ó.--B......B-.- |<,,|  ",
         " ------(:(----.- |||||  ",
         " -lb..:.Y.:..-.-.       ",
-        " -lb.l|...(.0-.-        ",
+        " -lb.l|...(.B-.-        ",
         " -llll|^.^(.A-.-        ",
         " ----|||:||||-.-------- ",
         "  -.!........-.óö....ó. ",
         "  -<-((('((((----.S-.-- ",
         "  ---c.........-EEE-.ó. ",
         "    -c. tt..dh.-------- ",
-        "    -c..B...d.n-        ",
+        "    -l......d.n-        ",
         "    ------------        ",
         "                        ",
         "                        "
       ],
       "palettes": [ "aug_clinic" ],
       "terrain": { "'": "t_door_glass_o", ".": "t_strconc_floor", ",": "t_sidewalk", "E": "t_machinery_electronic" },
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "T": "f_table", "n": "f_trashcan", "B": "f_monomolecularsaw" },
+      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "T": "f_table", "n": "f_trashcan" },
       "items": {
         "c": { "item": "dissection", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "office", "chance": 60 },
@@ -44,6 +44,7 @@
           { "item": "drugs_analgesic", "chance": 20, "repeat": [ 1, 3 ] },
           { "item": "gear_medical", "chance": 20 }
         ],
+        "A": { "item": "dresser", "chance": 60, "repeat": [ 4, 9 ] },
         "H": [
           { "item": "harddrugs", "chance": 60 },
           { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },
@@ -85,7 +86,7 @@
         "  |>||:|||:||||5-....H- ",
         "  |||c..|Y.Y.c||-$ll$H- ",
         "    |S..|.?/..c|------- ",
-        "    |S..|..A..c|        ",
+        "    |S..|.....c|        ",
         "    ||||||||||||        ",
         "                        ",
         "                        "
@@ -96,7 +97,7 @@
       "computers": {
         "5": {
           "name": "Secure Bionic Storage Access",
-          "security": 2,
+          "security": 4,
           "options": [ { "name": "Unlock Door", "action": "unlock" } ],
           "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
@@ -109,8 +110,7 @@
         "C": { "item": "dresser", "chance": 75 },
         "$": [
           { "item": "bionics", "chance": 70, "repeat": [ 1, 2 ] },
-          { "item": "afs_bionics_power", "repeat": [ 1, 2 ] },
-          { "item": "afs_bionic_toolkit", "chance": 80 }
+          { "item": "afs_bionics_power", "repeat": [ 1, 2 ] }
         ],
         "f": { "item": "office_paper", "chance": 90 },
         "d": { "item": "office", "chance": 60 },

@@ -7,7 +7,6 @@
       "shop_radius": 1,
       "shop_sigma": 300,
       "shops": {
-        "afs_augmentation_clinic_1": 400,
         "city_block_2": 700,
         "hospital": 875,
         "office_tower_large": 800,

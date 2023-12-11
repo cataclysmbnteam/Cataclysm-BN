@@ -45,7 +45,7 @@
         "{": "f_bigmirror",
         "_": "f_bench",
         "L": "f_locker",
-        "?": "f_autodoc_cheap",
+        "?": "f_autodoc",
         "/": "f_autodoc_couch",
         "F": "f_home_furnace",
         "W": "f_water_heater"
