@@ -2,6 +2,15 @@
   {
     "replace": "t_console_broken",
     "type": "MIGRATION",
-    "id": [ "f_autodoc_super", "f_autodoc_cheap", "f_sleep_pod", "f_cryo_pod", "f_crispr", "f_3dprinter", "f_neuralnet_inserter", "f_monomolecularsaw" ]
+    "id": [
+      "f_autodoc_super",
+      "f_autodoc_cheap",
+      "f_sleep_pod",
+      "f_cryo_pod",
+      "f_crispr",
+      "f_3dprinter",
+      "f_neuralnet_inserter",
+      "f_monomolecularsaw"
+    ]
   }
 ]

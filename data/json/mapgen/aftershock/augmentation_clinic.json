@@ -108,10 +108,7 @@
         "o": { "item": "waitingroom", "chance": 60 },
         "e": { "item": "fridge", "chance": 80, "repeat": [ 1, 3 ] },
         "C": { "item": "dresser", "chance": 75 },
-        "$": [
-          { "item": "bionics", "chance": 70, "repeat": [ 1, 2 ] },
-          { "item": "afs_bionics_power", "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "bionics", "chance": 70, "repeat": [ 1, 2 ] }, { "item": "afs_bionics_power", "repeat": [ 1, 2 ] } ],
         "f": { "item": "office_paper", "chance": 90 },
         "d": { "item": "office", "chance": 60 },
         "l": [
