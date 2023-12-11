@@ -98,38 +98,6 @@
     "description": "Skillet, pot, hotplate, and chemistry set; everything you need to cook food and chemicals.  Includes proper fume vents and a separator, so you don't contaminate your food with toxic chemicals."
   },
   {
-    "id": "nuclear_waste",
-    "type": "GENERIC",
-    "name": { "str_sp": "nuclear waste" },
-    "description": "A small pellet of silvery metal, still warm to the touch.",
-    "looks_like": "medium_atomic_battery_cell",
-    "weight": "30 g",
-    "volume": "250 ml",
-    "price": "0 cent",
-    "material": [ "iron" ],
-    "symbol": "*",
-    "color": "light_green",
-    "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]
-  },
-  {
-    "id": "nuclear_fuel",
-    "copy-from": "nuclear_waste",
-    "type": "GENERIC",
-    "name": { "str": "nuclear fuel pellet" },
-    "description": "A small pellet of fissile material.  Handle carefully."
-  },
-  {
-    "id": "hazardous_waste_drum",
-    "copy-from": "55gal_drum",
-    "type": "CONTAINER",
-    "name": { "str": "hazardous waste drum" },
-    "description": "A yellow drum meant for the storage of hazardous substances.",
-    "material": [ "steel", "lead" ],
-    "symbol": "0",
-    "contains": "200 L",
-    "color": "yellow"
-  },
-  {
     "id": "atomic_butterchurn",
     "type": "GENERIC",
     "category": "tools",
