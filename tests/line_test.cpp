@@ -88,9 +88,9 @@ static bool check_bresenham_far( const tripoint &source, const tripoint &destina
         return true;
     } );
     std::stringstream ss;
-    ss << std::endl;
+    ss << '\n';
     for( const tripoint &t : generated_path ) {
-        ss << t << std::endl;
+        ss << t << '\n';
     }
     std::string generated_points = ss.str();
 

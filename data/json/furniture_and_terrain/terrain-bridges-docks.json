@@ -20,7 +20,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
-    "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": [ 6, 12 ] }, { "item": "2x4", "count": 8 } ] },
+    "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": 12 }, { "item": "2x4", "count": 6 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 80,
@@ -80,10 +80,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
-    "deconstruct": {
-      "ter_set": "t_dock_deep_frame",
-      "items": [ { "item": "nail", "charges": [ 12, 24 ] }, { "item": "2x4", "count": 16 } ]
-    },
+    "deconstruct": { "ter_set": "t_dock_deep_frame", "items": [ { "item": "nail", "charges": 28 }, { "item": "2x4", "count": 14 } ] },
     "looks_like": "t_riverbridge_dp",
     "bash": {
       "str_min": 12,
@@ -104,7 +101,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
-    "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": [ 6, 12 ] }, { "item": "2x4", "count": 8 } ] },
+    "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": 12 }, { "item": "2x4", "count": 6 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 80,
@@ -124,10 +121,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
-    "deconstruct": {
-      "ter_set": "t_water_dp",
-      "items": [ { "item": "rope_makeshift_6", "count": [ 3, 4 ] }, { "item": "2x4", "count": 8 } ]
-    },
+    "deconstruct": { "ter_set": "t_water_dp", "items": [ { "item": "rope_makeshift_30" }, { "item": "2x4", "count": 8 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 80,
@@ -147,10 +141,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
-    "deconstruct": {
-      "ter_set": "t_water_moving_dp",
-      "items": [ { "item": "rope_makeshift_6", "count": [ 3, 4 ] }, { "item": "2x4", "count": 8 } ]
-    },
+    "deconstruct": { "ter_set": "t_water_moving_dp", "items": [ { "item": "rope_makeshift_30" }, { "item": "2x4", "count": 8 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 80,
