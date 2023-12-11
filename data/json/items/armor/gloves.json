@@ -544,7 +544,7 @@
     "encumbrance": 1,
     "material_thickness": 1,
     "environmental_protection": 6,
-    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "gloves_plate",

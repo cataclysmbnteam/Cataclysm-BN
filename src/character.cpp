@@ -21,6 +21,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
+#include "clothing_utils.h"
 #include "catacharset.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
@@ -4271,7 +4272,7 @@ static void layer_item( char_encumbrance_data &vals,
             encumber_val = 0;
             layering_encumbrance = 0;
         }
-        if( it.has_flag( flag_COMPACT ) ) {
+        if( is_compact( it, c ) ) {
             layering_encumbrance = 0;
         }
 
