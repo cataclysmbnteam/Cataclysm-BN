@@ -694,7 +694,7 @@
         [ "bismuth", 10 ],
         [ "solder_wire", 10 ]
       ],
-      [ [ "nail", 240 ], [ "combatnail", 240 ] ],
+      [ [ "combatnail", 240 ] ],
       [ [ "shotgun_primer", 20 ] ]
     ]
   },
