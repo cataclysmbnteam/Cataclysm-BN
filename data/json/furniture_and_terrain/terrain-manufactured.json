@@ -641,7 +641,7 @@
     "move_cost": 6,
     "coverage": 40,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
-    "deconstruct": { "ter_set": "t_covered_well", "items": [ { "item": "well_pump", "count": 1 }, { "item": "pipe", "count": [ 1, 6 ] } ] },
+    "deconstruct": { "ter_set": "t_covered_well", "items": [ { "item": "well_pump", "count": 1 }, { "item": "pipe", "count": 6 } ] },
     "bash": {
       "str_min": 15,
       "str_max": 80,
@@ -1360,7 +1360,10 @@
     "looks_like": "t_pit",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS", "DECONSTRUCT" ],
-    "deconstruct": { "ter_set": "t_pit", "items": [ { "item": "rock", "count": 40 }, { "item": "stick", "count": [ 16, 16 ] } ] },
+    "deconstruct": {
+      "ter_set": "t_pit",
+      "items": [ { "item": "rock", "count": 40 }, { "item": "stick", "count": 6 }, { "item": "straw_pile", "count": 12 } ]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 50,
