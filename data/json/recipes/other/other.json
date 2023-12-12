@@ -473,6 +473,32 @@
     ]
   },
   {
+    "type": "recipe",
+    "result": "plut_generator_item",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "decomp_learn": 3,
+    "time": "60 m",
+    "reversible": true,
+    "using": [ [ "welding_standard", 8 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+	  [ [ "minireactor", 1 ] ],
+      [ [ "RAM", 8 ] ],
+	  [ [ "cable", 16 ] ],
+	  [ [ "small_lcd_screen", 4 ] ],
+	  [ [ "large_lcd_screen", 1 ] ],
+	  [ [ "e_scrap", 24 ] ],
+	  [ [ "circuit", 10 ] ],
+      [ [ "power_supply", 8 ] ],
+	  [ [ "amplifier", 6 ] ],
+      [ [ "plut_cell", 8 ] ],
+      [ [ "scrap", 16 ] ]
+    ]
+  },
+  {
     "result": "sarcophagus_access_code",
     "type": "recipe",
     "category": "CC_OTHER",
