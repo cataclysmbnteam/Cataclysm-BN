@@ -2558,7 +2558,7 @@
     "move_cost": 2,
     "coverage": 95,
     "roof": "t_metal_flat_roof",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
     "close": "t_door_metal_bulkhead_c",
     "bash": {
       "str_min": 80,
