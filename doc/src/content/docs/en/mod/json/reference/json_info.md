@@ -2643,14 +2643,14 @@ entries.
     "duration": "1 seconds",
     "message": "The safe opens.",
     "sound": "Gachunk!",
-    "byproducts": [ { "item": "scrap", "count": 3 } ]
+    "byproducts": [{ "item": "scrap", "count": 3 }]
   },
   "hacksaw": {
     "result": "f_safe_open",
     "duration": "12 seconds",
     "message": "The safe is hacksawed open!",
     "sound": "Gachunk!",
-    "byproducts": [ { "item": "scrap", "count": 13 } ]
+    "byproducts": [{ "item": "scrap", "count": 13 }]
   }
 }
 ```
@@ -2813,14 +2813,14 @@ it for the purpose of surgery.
     "duration": "1 seconds",
     "message": "The door opens.",
     "sound": "Gachunk!",
-    "byproducts": [ { "item": "scrap", "2x4": 3 } ]
+    "byproducts": [{ "item": "scrap", "2x4": 3 }]
   },
   "hacksaw": {
     "result": "t_door_unlocked",
     "duration": "12 seconds",
     "message": "The door is hacksawed open!",
     "sound": "Gachunk!",
-    "byproducts": [ { "item": "scrap", "2x4": 13 } ]
+    "byproducts": [{ "item": "scrap", "2x4": 13 }]
   }
 }
 ```
