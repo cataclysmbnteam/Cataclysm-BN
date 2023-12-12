@@ -4985,8 +4985,9 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    p->assign_activity(
-        player_activity( hacksaw_activity_actor( pnt, item_location{*p, it} ) ) );
+    p->assign_activity( std::make_unique<player_activity>( std::make_unique<hacksaw_activity_actor>(
+                            pnt, safe_reference<item>( *it )
+                        ) ) );
 
     return 0;
 }

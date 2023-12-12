@@ -52,16 +52,16 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
     avatar &dummy = get_avatar();
 
     auto setup_dummy = [&dummy]() -> item & {
-        item &loc = dummy.i_add( item::spawn( itype_test_boltcutter ) );
-        dummy.wield( loc );
+        item &cutter = dummy.i_add( item::spawn( itype_test_boltcutter ) );
+        dummy.wield( cutter );
 
         REQUIRE( dummy.primary_weapon().typeId() == itype_test_boltcutter );
 
-        return loc;
+        return cutter;
     };
 
     auto setup_activity = [&dummy]( item & cutter ) -> void {
-        std::unique_ptr<boltcutting_activity_actor> act = std::make_unique<boltcutting_activity_actor>(
+        auto act = std::make_unique<boltcutting_activity_actor>(
             tripoint_zero, safe_reference<item>( cutter )
         );
         act->testing = true;
@@ -311,20 +311,22 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
     map &mp = get_map();
     avatar &dummy = get_avatar();
 
-    auto setup_dummy = [&dummy]() -> item_location {
-        item it_hacksaw( itype_test_hacksaw );
+    auto setup_dummy = [&dummy]() -> item & {
+        item &saw = dummy.i_add( item::spawn( itype_test_hacksaw ) );
+        dummy.wield( saw );
 
-        dummy.wield( it_hacksaw );
-        REQUIRE( dummy.get_wielded_item().typeId() == itype_test_hacksaw );
+        REQUIRE( dummy.primary_weapon().typeId() == itype_test_hacksaw );
         REQUIRE( dummy.max_quality( qual_SAW_M ) == 10 );
 
-        return item_location{dummy, &dummy.get_wielded_item()};
+        return saw;
     };
 
-    auto setup_activity = [&dummy]( const item_location & torch ) -> void {
-        hacksaw_activity_actor act{tripoint_zero, torch};
-        act.testing = true;
-        dummy.assign_activity( player_activity( act ) );
+    auto setup_activity = [&dummy]( item & saw ) -> void {
+        auto act = std::make_unique<hacksaw_activity_actor>(
+            tripoint_zero, safe_reference<item>( saw )
+        );
+        act->testing = true;
+        dummy.assign_activity( std::make_unique<player_activity>( std::move( act ) ) );
     };
 
     SECTION( "hacksaw start checks" ) {
@@ -335,11 +337,11 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             mp.ter_set( tripoint_zero, t_null );
             REQUIRE( mp.ter( tripoint_zero ) == t_null );
 
-            item_location hacksaw = setup_dummy();
+            item &hacksaw = setup_dummy();
             setup_activity( hacksaw );
 
             THEN( "hacksaw activity can't start" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( dummy.activity->id() == ACT_NULL );
             }
         }
 
@@ -350,11 +352,11 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             mp.ter_set( tripoint_zero, t_dirt );
             REQUIRE( mp.ter( tripoint_zero ) == t_dirt );
 
-            item_location hacksaw = setup_dummy();
+            item &hacksaw = setup_dummy();
             setup_activity( hacksaw );
 
             THEN( "hacksaw activity can't start" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( dummy.activity->id() == ACT_NULL );
             }
         }
 
@@ -365,11 +367,11 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             mp.ter_set( tripoint_zero, ter_test_t_hacksaw1 );
             REQUIRE( mp.ter( tripoint_zero ) == ter_test_t_hacksaw1 );
 
-            item_location hacksaw = setup_dummy();
+            item &hacksaw = setup_dummy();
             setup_activity( hacksaw );
 
             THEN( "hacksaw activity can start" ) {
-                CHECK( dummy.activity.id() == ACT_HACKSAW );
+                CHECK( dummy.activity->id() == ACT_HACKSAW );
             }
         }
 
@@ -380,11 +382,11 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             mp.furn_set( tripoint_zero, furn_t_test_f_hacksaw1 );
             REQUIRE( mp.furn( tripoint_zero ) == furn_t_test_f_hacksaw1 );
 
-            item_location hacksaw = setup_dummy();
+            item &hacksaw = setup_dummy();
             setup_activity( hacksaw );
 
             THEN( "hacksaw activity can start" ) {
-                CHECK( dummy.activity.id() == ACT_HACKSAW );
+                CHECK( dummy.activity->id() == ACT_HACKSAW );
             }
         }
 
@@ -395,14 +397,14 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             mp.ter_set( tripoint_zero, ter_test_t_hacksaw1 );
             REQUIRE( mp.ter( tripoint_zero ) == ter_test_t_hacksaw1 );
 
-            item_location hacksaw = setup_dummy();
+            item &hacksaw = setup_dummy();
             setup_activity( hacksaw );
-            REQUIRE( dummy.activity.id() == ACT_HACKSAW );
+            REQUIRE( dummy.activity->id() == ACT_HACKSAW );
 
             WHEN( "terrain has a duration of 10 minutes" ) {
                 REQUIRE( ter_test_t_hacksaw1->hacksaw->duration() == 10_minutes );
                 THEN( "moves_left is equal to 10 minutes" ) {
-                    CHECK( dummy.activity.moves_left == to_moves<int>( 10_minutes ) );
+                    CHECK( dummy.activity->moves_left == to_moves<int>( 10_minutes ) );
                 }
             }
         }
@@ -414,14 +416,14 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             mp.furn_set( tripoint_zero, furn_t_test_f_hacksaw1 );
             REQUIRE( mp.furn( tripoint_zero ) == furn_t_test_f_hacksaw1 );
 
-            item_location hacksaw = setup_dummy();
+            item &hacksaw = setup_dummy();
             setup_activity( hacksaw );
-            REQUIRE( dummy.activity.id() == ACT_HACKSAW );
+            REQUIRE( dummy.activity->id() == ACT_HACKSAW );
 
             WHEN( "furniture has a duration of 5 minutes" ) {
                 REQUIRE( furn_t_test_f_hacksaw1->hacksaw->duration() == 5_minutes );
                 THEN( "moves_left is equal to 5 minutes" ) {
-                    CHECK( dummy.activity.moves_left == to_moves<int>( 5_minutes ) );
+                    CHECK( dummy.activity->moves_left == to_moves<int>( 5_minutes ) );
                 }
             }
         }
@@ -435,34 +437,28 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             mp.furn_set( tripoint_zero, furn_t_test_f_hacksaw3 );
             REQUIRE( mp.furn( tripoint_zero ) == furn_t_test_f_hacksaw3 );
 
-            item battery( itype_test_battery_disposable );
-            battery.ammo_set( battery.ammo_default() );
+            item &hacksaw_elec = dummy.i_add( item::spawn( itype_test_hacksaw_elec, calendar::start_of_cataclysm, 1 ) );
+            dummy.wield( hacksaw_elec );
 
-            item it_hacksaw_elec( itype_test_hacksaw_elec );
-            it_hacksaw_elec.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
-
-            dummy.wield( it_hacksaw_elec );
-            REQUIRE( dummy.get_wielded_item().typeId() == itype_test_hacksaw_elec );
+            REQUIRE( dummy.primary_weapon().typeId() == itype_test_hacksaw_elec );
             REQUIRE( dummy.max_quality( qual_SAW_M ) == 10 );
 
-            item_location hacksaw_elec{ dummy, &dummy.get_wielded_item() };
-
             setup_activity( hacksaw_elec );
-            REQUIRE( dummy.activity.id() == ACT_HACKSAW );
+            REQUIRE( dummy.activity->id() == ACT_HACKSAW );
             process_activity( dummy );
 
             WHEN( "player runs out of charges" ) {
-                REQUIRE( dummy.activity.id() == ACT_NULL );
+                REQUIRE( dummy.activity->id() == ACT_NULL );
 
                 THEN( "player recharges with fuel" ) {
-                    hacksaw_elec->ammo_set( battery.ammo_default() );
+                    hacksaw_elec.ammo_set( hacksaw_elec.ammo_default(), -1 );
 
                     AND_THEN( "player can resume the activity" ) {
                         setup_activity( hacksaw_elec );
                         dummy.moves = dummy.get_speed();
-                        dummy.activity.do_turn( dummy );
-                        CHECK( dummy.activity.id() == ACT_HACKSAW );
-                        CHECK( dummy.activity.moves_left < to_moves<int>( furn_t_test_f_hacksaw3->hacksaw->duration() ) );
+                        dummy.activity->do_turn( dummy );
+                        CHECK( dummy.activity->id() == ACT_HACKSAW );
+                        CHECK( dummy.activity->moves_left < to_moves<int>( furn_t_test_f_hacksaw3->hacksaw->duration() ) );
                     }
                 }
             }
@@ -477,12 +473,12 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             mp.ter_set( tripoint_zero, ter_test_t_hacksaw1 );
             REQUIRE( mp.ter( tripoint_zero ) == ter_test_t_hacksaw1 );
 
-            item_location hacksaw = setup_dummy();
+            item &hacksaw = setup_dummy();
             setup_activity( hacksaw );
 
-            REQUIRE( dummy.activity.id() == ACT_HACKSAW );
+            REQUIRE( dummy.activity->id() == ACT_HACKSAW );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( dummy.activity->id() == ACT_NULL );
 
             THEN( "terrain gets converted to new terrain type" ) {
                 CHECK( mp.ter( tripoint_zero ) == t_dirt );
@@ -496,12 +492,12 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             mp.furn_set( tripoint_zero, furn_t_test_f_hacksaw1 );
             REQUIRE( mp.furn( tripoint_zero ) == furn_t_test_f_hacksaw1 );
 
-            item_location hacksaw = setup_dummy();
+            item &hacksaw = setup_dummy();
             setup_activity( hacksaw );
 
-            REQUIRE( dummy.activity.id() == ACT_HACKSAW );
+            REQUIRE( dummy.activity->id() == ACT_HACKSAW );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( dummy.activity->id() == ACT_NULL );
 
             THEN( "furniture gets converted to new furniture type" ) {
                 CHECK( mp.furn( tripoint_zero ) == f_null );
@@ -515,12 +511,12 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             mp.furn_set( tripoint_zero, furn_t_test_f_hacksaw2 );
             REQUIRE( mp.furn( tripoint_zero ) == furn_t_test_f_hacksaw2 );
 
-            item_location hacksaw = setup_dummy();
+            item &hacksaw = setup_dummy();
             setup_activity( hacksaw );
 
-            REQUIRE( dummy.activity.id() == ACT_HACKSAW );
+            REQUIRE( dummy.activity->id() == ACT_HACKSAW );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( dummy.activity->id() == ACT_NULL );
 
             THEN( "furniture gets converted to new furniture type" ) {
                 CHECK( mp.furn( tripoint_zero ) == furn_t_test_f_hacksaw1 );
@@ -535,30 +531,29 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             mp.ter_set( tripoint_zero, ter_test_t_hacksaw2 );
             REQUIRE( mp.ter( tripoint_zero ) == ter_test_t_hacksaw2 );
 
-            item_location hacksaw = setup_dummy();
+            item &hacksaw = setup_dummy();
             setup_activity( hacksaw );
 
             REQUIRE( ter_test_t_hacksaw2->hacksaw->byproducts().size() == 2 );
 
-            REQUIRE( dummy.activity.id() == ACT_HACKSAW );
+            REQUIRE( dummy.activity->id() == ACT_HACKSAW );
             process_activity( dummy );
-            REQUIRE( dummy.activity.id() == ACT_NULL );
+            REQUIRE( dummy.activity->id() == ACT_NULL );
 
             const itype_id test_amount( "test_rock" );
             const itype_id test_random( "test_2x4" );
 
             WHEN( "hacksaw acitivy finishes" ) {
-                CHECK( dummy.activity.id() == ACT_NULL );
+                CHECK( dummy.activity->id() == ACT_NULL );
 
                 THEN( "player receives the items" ) {
-                    const map_stack items = get_map().i_at( tripoint_zero );
                     int count_amount = 0;
                     int count_random = 0;
-                    for( const item &it : items ) {
+                    for( const auto &it : get_map().i_at( tripoint_zero ) ) {
                         // can't use switch here
-                        const itype_id it_id = it.typeId();
+                        const itype_id it_id = it->typeId();
                         if( it_id == test_amount ) {
-                            count_amount += it.charges;
+                            count_amount += it->charges;
                         } else if( it_id == test_random ) {
                             count_random += 1;
                         }
@@ -578,18 +573,18 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
     avatar &dummy = get_avatar();
 
     auto setup_dummy = [&dummy]() -> item & {
-        item &loc = dummy.i_add( item::spawn( itype_test_oxytorch ) );
-        loc.ammo_set( itype_oxyacetylene, -1 );
-        dummy.wield( loc );
+        item &torch = dummy.i_add( item::spawn( itype_test_oxytorch ) );
+        torch.ammo_set( itype_oxyacetylene, -1 );
+        dummy.wield( torch );
 
         REQUIRE( dummy.primary_weapon().typeId() == itype_test_oxytorch );
         REQUIRE( dummy.max_quality( qual_WELD ) == 10 );
 
-        return loc;
+        return torch;
     };
 
     auto setup_activity = [&dummy]( item & torch ) -> void {
-        std::unique_ptr<oxytorch_activity_actor> act = std::make_unique<oxytorch_activity_actor>(
+        auto act = std::make_unique<oxytorch_activity_actor>(
             tripoint_zero, safe_reference<item>( torch )
         );
         act->testing = true;
