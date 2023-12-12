@@ -956,6 +956,11 @@
   },
   {
     "type": "construction_group",
+    "id": "install_plut_generator",
+    "name": "Install Plutonium Generator"
+  },
+  {
+    "type": "construction_group",
     "id": "place_small_space_heater",
     "name": "Place Small Space Heater"
   },
