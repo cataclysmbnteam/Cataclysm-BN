@@ -516,9 +516,18 @@
     "color": "light_gray",
     "ammo": "battery",
     "magazines": [
-      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+      [
+        "battery",
+        [
+          "heavy_plus_battery_cell",
+          "heavy_battery_cell",
+          "heavy_atomic_battery_cell",
+          "heavy_disposable_cell",
+          "small_storage_battery"
+        ]
+      ]
     ],
-    "magazine_well": "1000 ml",
+    "magazine_well": "2000 ml",
     "flags": [ "IS_UPS" ]
   },
   {
