@@ -680,9 +680,7 @@
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     },
-    "deconstruct": { 
-		"ter_set": "t_concrete",
-		"items": [ { "item": "plut_generator_item", "count": 1 } ] }
+    "deconstruct": { "ter_set": "t_concrete", "items": [ { "item": "plut_generator_item", "count": 1 } ] }
   },
   {
     "type": "terrain",

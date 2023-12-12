@@ -485,15 +485,15 @@
     "using": [ [ "welding_standard", 8 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-	  [ [ "minireactor", 1 ] ],
+      [ [ "minireactor", 1 ] ],
       [ [ "RAM", 8 ] ],
-	  [ [ "cable", 16 ] ],
-	  [ [ "small_lcd_screen", 4 ] ],
-	  [ [ "large_lcd_screen", 1 ] ],
-	  [ [ "e_scrap", 24 ] ],
-	  [ [ "circuit", 10 ] ],
+      [ [ "cable", 16 ] ],
+      [ [ "small_lcd_screen", 4 ] ],
+      [ [ "large_lcd_screen", 1 ] ],
+      [ [ "e_scrap", 24 ] ],
+      [ [ "circuit", 10 ] ],
       [ [ "power_supply", 8 ] ],
-	  [ [ "amplifier", 6 ] ],
+      [ [ "amplifier", 6 ] ],
       [ [ "plut_cell", 8 ] ],
       [ [ "scrap", 16 ] ]
     ]
