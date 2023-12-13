@@ -219,8 +219,8 @@
     "components": [
       [ [ "frame", 1 ] ],
       [ [ "hotplate", 1 ] ],
-      [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
-      [ [ "pan", 1 ] ],
+      [ [ "pot", 1 ], [ "iron_pot", 1 ], [ "pot_copper", 1 ] ],
+      [ [ "steel_pan", 1 ], [ "pan", 1 ], [ "copper_pan", 1 ] ],
       [ [ "water_faucet", 1 ] ],
       [ [ "cable", 5 ] ]
     ]
