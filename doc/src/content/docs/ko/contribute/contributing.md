@@ -30,8 +30,8 @@ http://creativecommons.org/licenses/by-sa/3.0/ 를 참고해주세요. 그 말�
 몇 가지 지켰으면 하는 가이드라인이 있습니다:
 
 - 이 저장소를 `upstream` [리모트][remote]로 추가해주세요.
-- `main` 브랜치를 수정사항 없이 깨끗하게 유지해주세요. 원격 저장소의 최신 변경사항을 바로 끌어올
-  수 있게 하기 위함입니다.
+- `main` 브랜치를 수정사항 없이 깨끗하게 유지해주세요. 원격 저장소의 최신 변경사항을 바로 끌어올 수
+  있게 하기 위함입니다.
 - 새 기능이나 버그 수정을 할 때마다 새 브랜치를 만들어주세요.
 - 절대로 `main` 브랜치에 로컬 브랜치를 병합하지 마세요. `upstream/main`에서 끌어오기만 해주세요.
 
@@ -286,8 +286,8 @@ Infrastructure, Build, I18N이 있습니다.
 
 ### 원격 추적 브랜치 사용하기
 
-원본 저장소의 `main` 브랜치에
-대한 원격 추적 브랜치를 설정하면 쉽게 최신 변경사항을 가져올 수 있습니다.
+원본 저장소의 `main` 브랜치에 대한 원격 추적 브랜치를 설정하면 쉽게 최신 변경사항을 가져올 수
+있습니다.
 
 ```sh
 $ git branch -vv
@@ -295,9 +295,8 @@ $ git branch -vv
   new_feature xxxx ....
 ```
 
-`main` 브랜치는 `origin/main` 브랜치를 추적하고 있고, `new_feature` 브랜치는 아무 브랜치도
-추적하고 있지 않습니다. 그 말은 git이 어디에서 `new_feature` 에 대한 변경사항을 가져올지 모른다는
-뜻입니다.
+`main` 브랜치는 `origin/main` 브랜치를 추적하고 있고, `new_feature` 브랜치는 아무 브랜치도 추적하고
+있지 않습니다. 그 말은 git이 어디에서 `new_feature` 에 대한 변경사항을 가져올지 모른다는 뜻입니다.
 
 ```sh
 $ git checkout new_feature
@@ -406,8 +405,8 @@ $ git reset --hard cc31d0....
 HEAD is now at cc31d0... ...
 ```
 
-이제 `main`가 정리되었으니 `upstream/main`에서 변경 내역을 끌어오고, `new_branch`에서 계속
-작업할 수 있습니다.
+이제 `main`가 정리되었으니 `upstream/main`에서 변경 내역을 끌어오고, `new_branch`에서 계속 작업할 수
+있습니다.
 
 ```sh
 $ git pull --ff-only upstream main

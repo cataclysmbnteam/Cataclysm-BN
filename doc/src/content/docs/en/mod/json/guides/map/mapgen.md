@@ -34,9 +34,9 @@ ground floor mapgen, so it is good practice to include dedicated downstairs if y
 ## The Files & their purpose:
 
 1. You will add a new mapgen file in:
-   [data/json/mapgen](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/main/data/json/mapgen)
-   or one of its sub-folders. If you are using an existing foundation shape for the building, you
-   may append it to that building's file.
+   [data/json/mapgen](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/main/data/json/mapgen) or
+   one of its sub-folders. If you are using an existing foundation shape for the building, you may
+   append it to that building's file.
    - This is the blueprint for the building. It can also hold all the building’s data for adding
      furniture and loot (see palette for an alternative).
 

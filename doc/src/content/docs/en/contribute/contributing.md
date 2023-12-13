@@ -49,8 +49,8 @@ irrevocable.
 There are a couple of guidelines we suggest sticking to:
 
 - Add this repository as an `upstream` remote.
-- Keep your `main` branch clean. This means you can easily pull changes made to this repository
-  into yours.
+- Keep your `main` branch clean. This means you can easily pull changes made to this repository into
+  yours.
 - Create a new branch for each new feature or set of related bug fixes.
 - Never merge from your local branches into your `main` branch. Only update that by pulling from
   `upstream/main`.
@@ -312,8 +312,8 @@ These guidelines aren't essential, but they can make keeping things in order muc
 
 ### Using remote tracking branches
 
-Remote tracking branches allow you to easily stay in touch with this repository's `main` branch,
-as they automatically know which remote branch to get changes from.
+Remote tracking branches allow you to easily stay in touch with this repository's `main` branch, as
+they automatically know which remote branch to get changes from.
 
 ```sh
 $ git branch -vv
@@ -333,8 +333,8 @@ There is no tracking information for the current branch.
 Please specify which branch you want to merge with.
 ```
 
-In order to easily pull changes from `upstream/main` into the `new_feature` branch, we can tell
-git which branch it should track. (You can even do this for your local main branch.)
+In order to easily pull changes from `upstream/main` into the `new_feature` branch, we can tell git
+which branch it should track. (You can even do this for your local main branch.)
 
 ```sh
 $ git branch -u upstream/main new_feature
@@ -420,9 +420,9 @@ debug menu.
 
 ### Why does `git pull --ff-only` result in an error?
 
-If `git pull --ff-only` shows an error, it means that you've committed directly to your local
-`main` branch. To fix this, we create a new branch with these commits, find the point at which we
-diverged from `upstream/main`, and then reset `main` to that point.
+If `git pull --ff-only` shows an error, it means that you've committed directly to your local `main`
+branch. To fix this, we create a new branch with these commits, find the point at which we diverged
+from `upstream/main`, and then reset `main` to that point.
 
 ```sh
 $ git pull --ff-only upstream main
