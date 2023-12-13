@@ -989,6 +989,7 @@
     "type": "recipe",
     "//": "Alternative to the press explained above: this electroplates the tin using an electrolysis kit.",
     "result": "pot_copper",
+    "id_suffix": "electroplating",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "cooking",
@@ -1001,6 +1002,38 @@
       [ [ "copper_scrap_equivalent", 14, "LIST" ] ],
       [ [ "tin", 30 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
+      [ [ "acid", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "copper_pan",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "press", -1 ] ], [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "copper_scrap_equivalent", 10, "LIST" ] ], [ [ "tin", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "copper_pan",
+    "id_suffix": "electroplating",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "electrolysis_kit", 7 ] ], [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+      [ [ "copper_scrap_equivalent", 10, "LIST" ] ],
+      [ [ "tin", 20 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "acid", 1 ] ]
     ]
   },
