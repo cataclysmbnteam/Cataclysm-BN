@@ -473,15 +473,13 @@
     ]
   },
   {
-    "type": "recipe",
+    "type": "uncraft",
     "result": "plut_generator_item",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "electronics",
-    "difficulty": 3,
-    "decomp_learn": 3,
+    "difficulty": 4,
     "time": "60 m",
-    "reversible": true,
     "using": [ [ "welding_standard", 8 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
