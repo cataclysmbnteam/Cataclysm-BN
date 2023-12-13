@@ -2018,7 +2018,7 @@
     "type": "furniture",
     "id": "f_grid_plut_generator",
     "name": "grid plutonium generator",
-    "description": "This imposing apparatus harnesses the power of the atom.  Refined nuclear fuel is 'burned' to provide nearly limitless electrical power. Now installed and connected, it will generate little but steady amount of electricy, forever!",
+    "description": "This imposing apparatus harnesses the power of the atom.  Refined nuclear fuel is 'burned' to provide nearly limitless electrical power.  Now installed and connected, it will generate little but steady amount of electricy, forever!",
     "symbol": "0",
     "color": "light_green",
     "looks_like": "t_plut_generator",
