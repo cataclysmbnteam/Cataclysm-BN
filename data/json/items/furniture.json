@@ -64,7 +64,7 @@
     "description": "A household electric oven.",
     "weight": "60 kg",
     "volume": "45000 ml",
-    "price": "10 USD",
+    "price": "15 USD",
     "price_postapoc": "5 USD",
     "material": "steel",
     "symbol": "#",
