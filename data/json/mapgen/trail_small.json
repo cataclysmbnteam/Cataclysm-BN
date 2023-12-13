@@ -91,7 +91,7 @@
       ],
       "terrain": {
         "#": "t_underbrush_harvested_spring",
-        "&": "t_thconc_floor_nofloor",
+        "&": "t_thconc_floor_no_roof",
         "-": "t_railing_v",
         ".": "t_grass",
         "1": "t_tree_young",
@@ -104,7 +104,7 @@
         "W": "t_water_dp",
         "_": "t_dirt",
         "a": "t_tree_hickory",
-        "b": "t_thconc_floor_nofloor",
+        "b": "t_thconc_floor_no_roof",
         "c": "t_chainfence_posts",
         "d": "t_shrub_strawberry_harvested",
         "e": "t_tree_apple",
