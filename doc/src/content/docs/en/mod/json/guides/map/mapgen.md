@@ -34,14 +34,14 @@ ground floor mapgen, so it is good practice to include dedicated downstairs if y
 ## The Files & their purpose:
 
 1. You will add a new mapgen file in:
-   [data/json/mapgen](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/upload/data/json/mapgen)
+   [data/json/mapgen](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/main/data/json/mapgen)
    or one of its sub-folders. If you are using an existing foundation shape for the building, you
    may append it to that building's file.
    - This is the blueprint for the building. It can also hold all the building’s data for adding
      furniture and loot (see palette for an alternative).
 
 2. You will add entries for each z level you create in the appropriate overmap_terrain file
-   ([data/json/overmap/overmap_terrain](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/upload/data/json/overmap/overmap_terrain)).
+   ([data/json/overmap/overmap_terrain](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/main/data/json/overmap/overmap_terrain)).
    - These entries will define what your building looks like in the overmap, its symbol, color, and
      spawn requirements like adding sidewalks, it will also control flags for some mapgen functions.
 
@@ -494,12 +494,12 @@ sample roof:
    "t_shingle_flat_roof" in this mapgen which will override the palettes entry for
    `".": "t_flat_roof"`. (more on this in advanced mapgen).
 
-I have a separate roof document at: [JSON_ROOF_MAPGEN](../JSON_ROOF_MAPGEN).
+I have a separate roof document at: [JSON_ROOF_MAPGEN](../json_roof_mapgen.md).
 
 ## Linking various mapgen maps using multitile_city_buildings.json
 
 This file is found at:
-[data/json/overmap/multitile_city_buildings.json](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/json/overmap/multitile_city_buildings.json).
+[data/json/overmap/multitile_city_buildings.json](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/json/overmap/multitile_city_buildings.json).
 
 _Remember this file is for city buildings only, not specials_
 
@@ -537,7 +537,7 @@ A standard entry:
 
 ## Setting overmap spawns using regional_map_settings.json
 
-[data/json/regional_map_settings.json](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/json/regional_map_settings.json)
+[data/json/regional_map_settings.json](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/json/regional_map_settings.json)
 
 1. For city buildings and houses you'll scroll down to the `"city":` flag.
 2. Find your appropriate subtag, `"houses"` or `"shops"` usually.
@@ -548,7 +548,7 @@ A standard entry:
 ## Linking and spawning specials:
 
 Put the entry in:
-[data/json/overmap/overmap_special/specials.json](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/json/overmap/overmap_special/specials.json).
+[data/json/overmap/overmap_special/specials.json](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/json/overmap/overmap_special/specials.json).
 
 This entry does the job of both the regional_map_settings and multitile_city_buildings plus other
 fun overmap stuff.
@@ -596,14 +596,14 @@ Example:
    percentage so `[ 1, 10 ]` wouldn't be 1 to 10 times per overmap but a 1 in 10% chance to spawn on
    the overmap. So 10% chance to spawn once per overmap.
 8. `"flags"`: These are flags you can use to further define the special. For a list of flags see:
-   [JSON_FLAGS](../../reference/JSON_FLAGS).
+   [JSON_FLAGS](../../reference/json_flags.md).
 
-Read: [OVERMAP](../../reference/map/OVERMAP) for more details.
+Read: [OVERMAP](../../reference/map/overmap.md) for more details.
 
 ## Overmap_terrain entries:
 
 Choose a file for your building type at:
-[data/json/overmap/overmap_terrain](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/upload/data/json/overmap/overmap_terrain).
+[data/json/overmap/overmap_terrain](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/main/data/json/overmap/overmap_terrain).
 
 This set of entries defines how your building will look on the overmap. It supports copy-from.
 Example:
@@ -727,13 +727,13 @@ Everything else will look like a series of object entries, for example the roof_
 ```
 
 If you want to look at more complex palettes, the standard_domestic_palette in
-[data/json/mapgen_palettes/house_general_palette.json](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/json/mapgen_palettes/house_general_palette.json)
+[data/json/mapgen_palettes/house_general_palette.json](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/json/mapgen_palettes/house_general_palette.json)
 is a good look at a palette designed to work across all CDDA houses. It includes the loot spawns and
 accounts for most furniture that will be used in a house. I also left a list of symbols open to be
 used in the mapgen file for specific location needs.
 
 Finally, the series of house_w palettes at
-[data/json/mapgen_palettes/house_w_palette.json](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/json/mapgen_palettes/house_w_palette.json)
+[data/json/mapgen_palettes/house_w_palette.json](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/json/mapgen_palettes/house_w_palette.json)
 are designed to work together for houses using nested mapgen. There is a palette devoted to the
 foundation, another for the nests, and finally another one I've designed for domestic outdoor nested
 chunks.

@@ -33,7 +33,7 @@ jobs:
           token: ${{ secrets.TX_PR_CREATOR }}
           branch: i18n
           delete-branch: true
-          base: upload
+          base: main
           title: "feat(i18n): routine i18n updates on ${{ steps.get-timestamp.outputs.time }}"
           body: ""
           labels: Translation

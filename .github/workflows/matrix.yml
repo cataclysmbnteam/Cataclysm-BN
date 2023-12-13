@@ -3,20 +3,20 @@ name: General build matrix
 on:
   push:
     branches:
-      - upload
+      - main
     paths-ignore:
       - doc/**
       - 'scripts/**'
   merge_group:
   pull_request:
     branches:
-      - upload
+      - main
     paths-ignore:
       - doc/**
       - 'scripts/**'
 
 # Cancel all previous instances in favor of latest revision of a PR.
-# Allow running upload builds to complete to help with ccache refreshes.
+# Allow running main builds to complete to help with ccache refreshes.
 concurrency:
   group: general-build-${{ github.event.pull_request.number || github.ref_name }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -58,9 +58,9 @@ jobs:
     steps:
       - id: matrix_vars
         run: |
-          echo "fail_fast=$([ "$GITHUB_REF_NAME" = "upload" ] && echo false || echo true)" >> $GITHUB_OUTPUT
-          echo "skip_tests=$([ "$GITHUB_REF_NAME" = "upload" ] && echo true || echo false)" >> $GITHUB_OUTPUT
-          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "upload" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
+          echo "fail_fast=$([ "$GITHUB_REF_NAME" = "main" ] && echo false || echo true)" >> $GITHUB_OUTPUT
+          echo "skip_tests=$([ "$GITHUB_REF_NAME" = "main" ] && echo true || echo false)" >> $GITHUB_OUTPUT
+          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "main" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
 
   varied_builds:
     needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
@@ -235,7 +235,7 @@ jobs:
           path: ${{ steps.get-ccache-vars.outputs.ccache-path }}
           # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
           key: ccache-${{ github.ref_name }}-${{ matrix.ccache_key }}--${{ steps.get-ccache-vars.outputs.datetime }}
-          restore-keys: ccache-upload-${{ matrix.ccache_key }}--
+          restore-keys: ccache-main-${{ matrix.ccache_key }}--
 
       - name: ccache info
         if: ${{ env.SKIP == 'false' && steps.cache.outputs.cache-hit != 'true' }}
@@ -258,7 +258,7 @@ jobs:
           ccache --show-stats --verbose
 
       - name: clear ccache on PRs
-        if: ${{ github.ref_name != 'upload' && env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
+        if: ${{ github.ref_name != 'main' && env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
         run: ccache --clear
 
       - name: run tests
