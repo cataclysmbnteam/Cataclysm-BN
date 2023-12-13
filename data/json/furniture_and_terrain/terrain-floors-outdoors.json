@@ -414,5 +414,28 @@
     "move_cost": 0,
     "roof": "t_rock_floor_no_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_thconc_floor_no_roof",
+    "name": "concrete floor",
+    "description": "A bare and cold concrete floor.",
+    "symbol": ".",
+    "color": "cyan",
+    "looks_like": "t_thconc_floor",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 100,
+      "str_max": 400,
+      "str_min_supported": 150,
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
+      ]
+    }
   }
 ]
