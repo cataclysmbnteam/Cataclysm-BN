@@ -5,10 +5,8 @@ set -o pipefail
 
 plugin=build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so
 
-set -x
-if [ -f "$plugin" ]
-then
-    LD_PRELOAD=$plugin "$CATA_CLANG_TIDY" "$@"
-else
-    "$CATA_CLANG_TIDY" "$@"
-fi
+clang-tidy \
+  --load $plugin \
+  --config-file=build-scripts/.clang-tidy \
+  --enable-check-profile \
+  --store-check-profile=clang-tidy-trace "$@"

@@ -112,12 +112,22 @@ static inline local_translation_cache<std::string> get_local_translation_cache(
 
 } // namespace detail
 
+// For code analysis purposes in our clang-tidy plugin we need to be able to
+// detect when something is the argument to a translation function.  The _
+// macro makes this really tricky, so we add an otherwise unnecessary call to
+// this no-op function just so that there's something to detect.
+template<typename T>
+inline const T &translation_argument_identity( const T &t )
+{
+    return t;
+}
+
 // Note: in case of std::string argument, the result is copied, this is intended (for safety)
 #define _( msg ) \
     ( ( []( const auto & arg ) { \
         static auto cache = detail::get_local_translation_cache( arg ); \
         return cache( arg ); \
-    } )( msg ) )
+    } )( translation_argument_identity( msg) ) )
 
 const char *vgettext( const char *msgid, const char *msgid_plural,
                       size_t n ) ATTRIBUTE_FORMAT_ARG( 1 );

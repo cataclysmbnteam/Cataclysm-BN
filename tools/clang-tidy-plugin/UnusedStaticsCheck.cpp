@@ -4,11 +4,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void UnusedStaticsCheck::registerMatchers( MatchFinder *Finder )
@@ -63,44 +59,18 @@ void UnusedStaticsCheck::check( const MatchFinder::MatchResult &Result )
         return;
     }
 
-    clang::SourceRange Range{ThisDecl->getSourceRange()};
-    int SemiIndex = 1;
-    bool foundSemi = false;
-    while( !foundSemi ) {
-        clang::SourceLocation PastEndLoc{
-            ThisDecl->getSourceRange().getEnd().getLocWithOffset( SemiIndex )};
-        clang::SourceRange RangeForString{PastEndLoc};
-        CharSourceRange CSR = Lexer::makeFileCharRange(
-                                  CharSourceRange::getTokenRange( RangeForString ), *Result.SourceManager,
-                                  Result.Context->getLangOpts() );
-        std::string possibleSemi =
-            Lexer::getSourceText( CSR, *Result.SourceManager,
-                                  Result.Context->getLangOpts() )
-            .str();
-        if( possibleSemi == ";" ) {
-            // Found a ";" so expand the range for our fixit below.
-            Range.setEnd( PastEndLoc );
-            foundSemi = true;
-        } else {
-            SemiIndex++;
-        }
-    }
-
-    decls_.push_back( DeclarationWithRange( ThisDecl, Range ) );
+    decls_.push_back( ThisDecl );
 }
 
 void UnusedStaticsCheck::onEndOfTranslationUnit()
 {
-    for( const DeclarationWithRange &V : decls_ ) {
-        if( used_decls_.count( V.decl ) ) {
+    for( const VarDecl *V : decls_ ) {
+        if( used_decls_.count( V ) ) {
             continue;
         }
 
-        diag( V.range.getBegin(), "Variable %0 declared but not used." ) << V.decl
-                << FixItHint::CreateRemoval( V.range );
+        diag( V->getBeginLoc(), "Variable %0 declared but not used." ) << V;
     }
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

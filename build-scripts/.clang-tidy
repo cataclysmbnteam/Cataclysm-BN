@@ -1,0 +1,37 @@
+InheritParentConfig: true
+
+# some checks are extremely slow, and needs to be manually applied until all existing errors are fixed
+# misc-const-correctness: https://discourse.llvm.org/t/clang-tidy-integration-in-clangd-misc-const-correctness-not-working/71777/2
+
+Checks: |
+  -misc-const-correctness
+
+  -bugprone-easily-swappable-parameters
+
+  -cata-large-inline-object
+
+  -cata-avoid-alternative-tokens
+
+  -cata-large-inline-function
+  -cata-large-stack-object
+
+  -cata-no-static-translation
+  -cata-ot-match
+
+  -cata-redundant-parentheses
+  -cata-serialize
+
+  -cata-static-initialization-order
+  -cata-static-declarations
+  -cata-static-int_id-constants
+  -cata-static-string_id-constants
+
+  -cata-tests-must-restore-global-state
+
+  -cata-translate-string-literal
+  -cata-translations-in-debug-messages
+
+  -cata-unsequenced-calls
+
+  -cata-use-string_view
+  -cata-utf8-no-to-lower-to-upper

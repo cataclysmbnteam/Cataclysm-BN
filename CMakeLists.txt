@@ -38,11 +38,20 @@ option(JSON_FORMAT "Build JSON formatter" "OFF")
 option(CATA_CCACHE "Try to find and build with ccache" "ON")
 option(TESTS "Compile Cata's tests" "ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
-set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING
-        "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
-set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
-set(GIT_BINARY "" CACHE STRING "Git binary name or path.")
-set(LINKER "" CACHE STRING "Custom Linker to use")
+option(CATA_CLANG_TIDY_EXECUTABLE "Build Cata's custom clang-tidy checks as an executable" "OFF")
+
+set(CATA_CLANG_TIDY_INCLUDE_DIR
+    ""
+    CACHE STRING "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
+set(CATA_CHECK_CLANG_TIDY
+    ""
+    CACHE STRING "Path to check_clang_tidy.py for plugin tests")
+set(GIT_BINARY
+    ""
+    CACHE STRING "Git binary name or path.")
+set(LINKER
+    ""
+    CACHE STRING "Custom Linker to use")
 set(GETTEXT_MSGFMT_BINARY "" CACHE FILEPATH "msgfmt binary name or path.")
 
 if (TESTS)

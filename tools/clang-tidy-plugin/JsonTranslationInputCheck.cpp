@@ -9,11 +9,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void JsonTranslationInputCheck::registerMatchers( MatchFinder *Finder )
@@ -28,15 +24,24 @@ void JsonTranslationInputCheck::registerMatchers( MatchFinder *Finder )
                     ) ),
             // <translation function>( ... )
             hasAncestor(
-                callExpr( callee( decl( anyOf(
-                                            functionDecl(
-                                                    hasAnyName( "_", "gettext", "pgettext", "vgettext", "vpgettext" )
-                                            ).bind( "translationFunc" ),
-                                            functionDecl(
-                                                    hasAnyName( "to_translation", "pl_translation" )
-                                            ) ) ) )
-                          // no_translation is ok, it's used to load generated names such as artifact names
-                        ).bind( "translationCall" ) )
+                callExpr(
+                    callee(
+                        decl(
+                            anyOf(
+                                functionDecl(
+                                    hasAnyName(
+                                        "_", "gettext", "pgettext", "vgettext", "vpgettext", "translation_argument_identity" )
+                                ).bind( "translationFunc" ),
+                                functionDecl(
+                                    hasAnyName( "to_translation", "pl_translation" )
+                                )
+                                // no_translation is ok, it's used to load generated names such as
+                                // artifact names
+                            )
+                        )
+                    )
+                ).bind( "translationCall" )
+            )
         ).bind( "jsonInputCall" ),
         this
     );
@@ -74,6 +79,4 @@ void JsonTranslationInputCheck::check( const MatchFinder::MatchResult &Result )
     }
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata
