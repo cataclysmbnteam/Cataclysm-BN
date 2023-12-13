@@ -116,7 +116,7 @@
     "//": "todo: when #57228 would be closed, change this one to copy-from `clothing_military`",
     "items": [
       { "group": "clothing_soldier_shirt" },
-      { "distribution": [ { "item": "jacket_army_modern", "prob": 50 }, { "item": "combat_shirt", "prob": 50 } ] },
+      { "distribution": [ { "item": "jacket_army", "prob": 50 }, { "item": "tshirt", "prob": 50 } ] },
       { "item": "pants_army" },
       { "item": "webbing_belt" },
       { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
@@ -239,8 +239,8 @@
     "//": "todo: when #57228 would be closed, change this one to copy-from `clothing_military`",
     "items": [
       { "item": "chestrig", "prob": 40 },
-      { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
-      { "item": "mil_flight_suit", "prob": 80 },
+      { "item": "helmet_army" },
+      { "item": "jacket_army", "prob": 80 },
       { "item": "nomex_gloves" },
       { "item": "webbing_belt" },
       { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },

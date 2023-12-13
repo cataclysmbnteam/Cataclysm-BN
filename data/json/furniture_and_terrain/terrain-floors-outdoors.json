@@ -434,7 +434,7 @@
     "symbol": ".",
     "looks_like": "t_pavement",
     "color": "dark_gray",
-    "connects_to": "METALFLOOR",
+    "//connects_to": "METALFLOOR",
     "move_cost": 2,
     "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
     "bash": {

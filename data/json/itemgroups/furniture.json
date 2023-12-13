@@ -84,10 +84,8 @@
       { "item": "stereo", "prob": 30 },
       { "item": "portable_game", "prob": 30 },
       { "item": "battery_charger", "prob": 40 },
-      { "item": "extension_cable", "prob": 30 },
       { "item": "microphone_xlr_generic", "prob": 20 },
       { "item": "cable_xlr", "prob": 40 },
-      { "item": "cable_speaker", "prob": 20 },
       { "item": "headphones_circumaural", "prob": 10 },
       { "item": "cable_instrument", "prob": 5 }
     ]

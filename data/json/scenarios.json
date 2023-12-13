@@ -718,16 +718,9 @@
       "unemployed",
       "electrician",
       "chef",
-      "recruit",
-      "rifleman",
       "specops",
       "medic",
-      "mili_pilot",
-      "mili_medic",
-      "major-general",
-      "nco",
-      "combat-mechanic",
-      "combat-engineer"
+      "mili_pilot"
     ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   }
