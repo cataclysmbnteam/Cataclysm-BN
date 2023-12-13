@@ -1099,6 +1099,16 @@ def extract_json(state, item):
         c = f"message when oxytorch cutting {name}"
         writestr(state, item["oxytorch"]["message"], comment=c)
         wrote = True
+    if "hacksaw" in item:
+        hacksaw = item["hacksaw"]
+        if "sound" in hacksaw:
+            c = f"sound of sawing {name}"
+            writestr(state, hacksaw["sound"], comment=c)
+            wrote = True
+        if "message" in hacksaw:
+            c = f"message when finished sawing {name}"
+            writestr(state, hacksaw["message"], comment=c)
+            wrote = True
     if "boltcut" in item:
         boltcut = item["boltcut"]
         if "sound" in boltcut:
