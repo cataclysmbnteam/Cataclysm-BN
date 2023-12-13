@@ -3,7 +3,7 @@ name: Cataclysm Android build
 on:
   pull_request:
     branches:
-      - upload
+      - main
     paths-ignore:
       - "build-data/osx/**"
       - "doc/**"
