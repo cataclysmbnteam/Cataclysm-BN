@@ -62,7 +62,7 @@
       { "item": "steel_lump", "count": [ 10, 20 ] },
       { "item": "steel_chunk", "count": [ 5, 10 ] },
       { "item": "scrap", "count": [ 5, 10 ] },
-      { "item": "small_storage_battery", "count": [ 10, 40 ] }
+      { "item": "small_storage_battery", "count": [ 40, 160 ] }
     ],
     "requirements": {
       "repair": {
@@ -100,7 +100,7 @@
     "difficulty": 1,
     "durability": 250,
     "folded_volume": "2500 ml",
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "small_storage_battery", "count": [ 1, 4 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "small_storage_battery", "count": [ 4, 16 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" },
@@ -146,7 +146,7 @@
       { "item": "steel_lump", "count": [ 5, 10 ] },
       { "item": "steel_chunk", "count": [ 5, 10 ] },
       { "item": "scrap", "count": [ 5, 10 ] },
-      { "item": "small_storage_battery", "count": [ 5, 20 ] }
+      { "item": "small_storage_battery", "count": [ 20, 80 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "600 s", "using": [ [ "welding_standard", 5 ] ] },

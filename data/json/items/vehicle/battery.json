@@ -93,12 +93,12 @@
     "type": "MAGAZINE",
     "name": { "str": "small storage battery", "str_pl": "small storage batteries" },
     "description": "A small storage battery created with pre-Cataclysm lithium-ion technology.  Useful for crafting.",
-    "weight": "3 kg",
-    "volume": "2 L",
+    "weight": "750 g",
+    "volume": "500 ml",
     "price": "50 USD",
     "price_postapoc": "5 USD",
     "bashing": 7,
-    "capacity": 2000
+    "capacity": 500
   },
   {
     "id": "storage_battery",

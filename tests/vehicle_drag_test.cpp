@@ -232,7 +232,7 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
 {
     clear_all_state();
     test_vehicle_drag( "bicycle", 0.609525, 0.017205, 43.304167, 2355, 3078 );
-    test_vehicle_drag( "bicycle_electric", 0.609525, 0.027581, 69.420833, 2753, 3268 );
+    test_vehicle_drag( "bicycle_electric", 0.609525, 0.025659, 64.583333, 2754, 3268 );
     test_vehicle_drag( "motorcycle", 0.609525, 0.569952, 254.820312, 7296, 8687 );
     test_vehicle_drag( "motorcycle_sidecart", 0.880425, 0.859065, 455.206250, 6423, 7657 );
     test_vehicle_drag( "quad_bike", 0.537285, 1.112797, 710.745536, 7457, 8918 );
