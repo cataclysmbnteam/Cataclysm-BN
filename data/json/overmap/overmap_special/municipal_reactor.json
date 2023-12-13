@@ -17,10 +17,10 @@
       { "point": [ -1, 2, 0 ], "overmap": "pwr_sub_s_north" },
       { "point": [ -1, 0, 0 ], "overmap": "s_lot" }
     ],
-    "locations": [ "wilderness", "swamp" ],
-    "city_distance": [ -1, 6 ],
-    "city_sizes": [ 2, 14 ],
-    "occurrences": [ 0, 4 ],
-    "flags": [ "ELECTRIC_GRID" ]
+    "locations": [ "land" ],
+    "city_distance": [ 2, 25 ],
+    "city_sizes": [ 3, -1 ],
+    "occurrences": [ 50, 100 ],
+    "flags": [ "CLASSIC", "URBAN", "ELECTRIC_GRID", "UNIQUE" ]
   }
 ]
