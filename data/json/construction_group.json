@@ -917,12 +917,12 @@
   {
     "type": "construction_group",
     "id": "install_battery",
-    "name": "Install Battery"
+    "name": "Install Medium Storage Battery"
   },
   {
     "type": "construction_group",
     "id": "install_large_storage_battery",
-    "name": "Install Large Storage Battery"
+    "name": "Install Very Large Storage Battery"
   },
   {
     "type": "construction_group",
@@ -972,7 +972,7 @@
   {
     "type": "construction_group",
     "id": "install_storage_battery",
-    "name": "Install Storage Battery"
+    "name": "Install Large Storage Battery"
   },
   {
     "type": "construction_group",

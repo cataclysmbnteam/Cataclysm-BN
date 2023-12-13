@@ -887,14 +887,14 @@
     "type": "furniture",
     "id": "f_battery",
     "looks_like": "f_locker",
-    "name": "mounted battery",
-    "description": "A battery mount connected to building's electric grid.",
+    "name": "mounted medium storage battery",
+    "description": "A storage battery mount salvaged from a vehicle, and connected to building's electric grid.",
     "symbol": ":",
     "color": "blue_white",
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": -1,
-    "active": [ "battery", { "max_stored": 7000 } ],
+    "active": [ "battery", { "max_stored": 10000 } ],
     "examine_action": "check_power",
     "deconstruct": {
       "items": [
@@ -918,7 +918,7 @@
         { "item": "sheet_metal_small", "count": [ 1, 4 ] },
         { "item": "pipe", "count": 1 },
         { "item": "cable", "charges": [ 2, 8 ] },
-        { "item": "small_storage_battery", "count": [ 5, 10 ] }
+        { "item": "small_storage_battery", "count": [ 1, 4 ] }
       ]
     }
   },
@@ -926,14 +926,14 @@
     "type": "furniture",
     "id": "f_battery_large",
     "looks_like": "f_battery",
-    "name": "mounted storage battery",
-    "description": "A storage battery mount salvaged from a vehicle, and connected to building's electric grid.",
+    "name": "mounted large storage battery",
+    "description": "A large storage battery mount salvaged from a vehicle, and connected to building's electric grid.",
     "symbol": ":",
     "color": "blue_white",
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": -1,
-    "active": [ "battery", { "max_stored": 40000 } ],
+    "active": [ "battery", { "max_stored": 50000 } ],
     "examine_action": "check_power",
     "deconstruct": {
       "items": [
@@ -957,7 +957,7 @@
         { "item": "sheet_metal_small", "count": [ 1, 4 ] },
         { "item": "pipe", "count": 1 },
         { "item": "cable", "charges": [ 2, 8 ] },
-        { "item": "small_storage_battery", "count": [ 30, 60 ] }
+        { "item": "small_storage_battery", "count": [ 5, 20 ] }
       ]
     }
   },
@@ -965,14 +965,14 @@
     "type": "furniture",
     "id": "f_battery_huge",
     "looks_like": "f_battery",
-    "name": "mounted large storage battery",
+    "name": "mounted very large storage battery",
     "description": "A huge storage battery mount salvaged from a vehicle, and connected to building's electric grid.",
     "symbol": ":",
     "color": "blue_white",
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": -1,
-    "active": [ "battery", { "max_stored": 80000 } ],
+    "active": [ "battery", { "max_stored": 100000 } ],
     "examine_action": "check_power",
     "deconstruct": {
       "items": [
@@ -996,7 +996,7 @@
         { "item": "sheet_metal_small", "count": [ 1, 4 ] },
         { "item": "pipe", "count": 1 },
         { "item": "cable", "charges": [ 2, 8 ] },
-        { "item": "small_storage_battery", "count": [ 50, 100 ] }
+        { "item": "small_storage_battery", "count": [ 10, 40 ] }
       ]
     }
   },
@@ -1011,7 +1011,7 @@
     "color": "blue_white",
     "move_cost_mod": 2,
     "coverage": 10,
-    "active": [ "battery", { "max_stored": 500 } ],
+    "active": [ "battery", { "max_stored": 2000 } ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 10 },
