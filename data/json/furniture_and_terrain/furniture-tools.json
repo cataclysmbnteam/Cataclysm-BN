@@ -191,7 +191,7 @@
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "clamp", "prob": 25 },
         { "item": "motor_tiny", "prob": 25 },
-        { "item": "small_storage_battery", "count": [ 4, 8 ] },
+        { "item": "small_storage_battery", "count": [ 13, 32 ] },
         { "item": "steel_lump", "count": [ 5, 10 ] },
         { "item": "steel_chunk", "count": [ 5, 20 ] },
         { "item": "scrap", "count": [ 10, 50 ] }
@@ -237,7 +237,7 @@
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "clamp", "prob": 25 },
         { "item": "motor_tiny", "prob": 25 },
-        { "item": "small_storage_battery", "count": [ 4, 8 ] },
+        { "item": "small_storage_battery", "count": [ 16, 32 ] },
         { "item": "steel_lump", "count": [ 5, 10 ] },
         { "item": "steel_chunk", "count": [ 5, 20 ] },
         { "item": "scrap", "count": [ 10, 50 ] }

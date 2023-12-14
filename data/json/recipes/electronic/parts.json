@@ -347,7 +347,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 5 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "small_storage_battery", 20 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -376,7 +376,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "soldering_standard", 80 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 25 ] ], [ [ "e_scrap", 16 ] ], [ [ "scrap", 32 ] ], [ [ "cable", 20 ] ] ]
+    "components": [ [ [ "small_storage_battery", 100 ] ], [ [ "e_scrap", 16 ] ], [ [ "scrap", 32 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "type": "recipe",
