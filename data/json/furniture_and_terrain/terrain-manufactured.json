@@ -665,7 +665,7 @@
     "color": "light_green",
     "looks_like": "t_machinery_electronic",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 50,
       "str_max": 400,
@@ -680,22 +680,7 @@
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     },
-    "deconstruct": {
-      "ter_set": "t_concrete",
-      "items": [
-        { "item": "minireactor", "prob": 25 },
-        { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 8, 16 ] },
-        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
-        { "item": "large_lcd_screen", "count": 1 },
-        { "item": "e_scrap", "count": [ 12, 24 ] },
-        { "item": "circuit", "count": [ 6, 10 ] },
-        { "item": "power_supply", "count": [ 4, 8 ] },
-        { "item": "amplifier", "count": [ 3, 6 ] },
-        { "item": "plut_cell", "charges": [ 2, 8 ] },
-        { "item": "scrap", "count": [ 8, 16 ] }
-      ]
-    }
+    "deconstruct": { "ter_set": "t_concrete", "items": [ { "item": "plut_generator_item", "count": 1 } ] }
   },
   {
     "type": "terrain",

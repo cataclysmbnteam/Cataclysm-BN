@@ -2012,5 +2012,39 @@
         { "item": "power_supply", "count": 1 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_grid_plut_generator",
+    "name": "grid plutonium generator",
+    "description": "This imposing apparatus harnesses the power of the atom.  Refined nuclear fuel is 'burned' to provide nearly limitless electrical power.  Now installed and connected, it will generate little but steady amount of electricy, forever!",
+    "symbol": "0",
+    "color": "light_green",
+    "looks_like": "t_plut_generator",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 400,
+      "explosive": 25,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "plut_cell", "charges": [ 0, 3 ] },
+        { "item": "lead", "charges": [ 12, 18 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "plut_generator_item", "count": 1 },
+        { "item": "cable", "charges": 15 },
+        { "item": "power_supply", "count": 3 }
+      ]
+    },
+    "active": [ "steady_consumer", { "power": -1, "consume_every": "3 s" } ]
   }
 ]
