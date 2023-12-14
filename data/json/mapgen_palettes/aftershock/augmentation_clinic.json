@@ -26,8 +26,7 @@
     },
     "furniture": {
       "$": "f_safe_l",
-      "A": "f_neuralnet_inserter",
-      "0": "f_cryo_pod",
+      "A": "f_dresser",
       "&": "f_toilet",
       "B": "f_bed",
       "S": "f_sink",
