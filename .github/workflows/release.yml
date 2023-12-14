@@ -9,49 +9,42 @@ env:
   VCPKG_BINARY_SOURCES: "default"
 
 jobs:
-  commits:
+  metadata:
     runs-on: ubuntu-latest
     outputs:
-      count: ${{ steps.yesterday.outputs.count }}
+      count: ${{ steps.env_vars.outputs.count }}
+      tag_name: ${{ steps.env_vars.outputs.tag_name }}
+      release_name: ${{ steps.env_vars.outputs.release_name }}
     steps:
       - uses: actions/checkout@v3
-      - id: yesterday
+      - id: env_vars
         run: |
-          COMMITS=$(git log --oneline --since=$(date -u --iso-8601 --date='1 day ago') | wc -l)
-          
+          COMMITS=$(git log --oneline --since="$(date -u --iso-8601 --date='1 day ago')" | wc -l)
+          TAG_NAME=$(date -u --iso-8601=date)
+          RELEASE_NAME="Experimental $TAG_NAME"
+
           echo "commits yesterday: $COMMITS" >> "$GITHUB_STEP_SUMMARY"
 
           echo "count=$COMMITS" >> "$GITHUB_OUTPUT"
+          echo "tag_name=$TAG_NAME" >> "$GITHUB_OUTPUT"
+          echo "release_name=$RELEASE_NAME" >> "$GITHUB_OUTPUT"
 
   release:
-    needs: commits
+    needs: metadata
     name: Create Release
     runs-on: ubuntu-22.04
-    if: fromJson(needs.commits.outputs.count) > 0
+
+    if: fromJson(needs.metadata.outputs.count) > 0
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
-      timestamp: ${{ steps.get-timestamp.outputs.time }}
       release_already_exists: ${{ steps.tag_check.outputs.exists }}
 
     steps:
-      - name: Get build timestamp
-        id: get-timestamp
-        uses: nanzm/get-time-action@v1.1
-        with:
-          timeZone: 0
-          format: "YYYY-MM-DD-HHmm"
-
-      - name: Generate environmental variables
-        id: generate_env_vars
-        run: |
-          echo "tag_name=cbn-experimental-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
-          echo "release_name=Cataclysm-BN experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
-
       - name: Check if there is existing git tag
         id: tag_check
         uses: mukunku/tag-exists-action@v1.4.0
         with:
-          tag: ${{ steps.generate_env_vars.outputs.tag_name }}
+          tag: ${{ needs.metadata.outputs.tag_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -63,12 +56,12 @@ jobs:
         uses: mathieudutour/github-tag-action@v5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.generate_env_vars.outputs.tag_name }}
+          custom_tag: ${{ needs.metadata.outputs.tag_name }}
           tag_prefix: ""
 
       - uses: actions/checkout@v3
 
-      - run: git fetch origin tag ${{ steps.generate_env_vars.outputs.tag_name }} --no-tags
+      - run: git fetch origin tag ${{ needs.metadata.outputs.tag_name }} --no-tags
 
       - name: Build Changelog
         id: build_changelog
@@ -85,8 +78,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.generate_env_vars.outputs.tag_name }}
-          release_name: ${{ steps.generate_env_vars.outputs.release_name }}
+          tag_name: ${{ needs.metadata.outputs.tag_name }}
+          release_name: ${{ needs.metadata.outputs.release_name }}
           body: |
             ${{ steps.build_changelog.outputs.changelog }}
             These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
@@ -94,7 +87,7 @@ jobs:
           prerelease: true
 
   builds:
-    needs: release
+    needs: [metadata, release]
     if: ${{ needs.release.outputs.release_already_exists == 'false' }}
     strategy:
       fail-fast: false
@@ -192,7 +185,7 @@ jobs:
         run: |
           cat >VERSION.txt <<EOL
           build type: ${{ matrix.artifact }}
-          build number: ${{ needs.release.outputs.timestamp }}
+          build number: ${{ needs.metadata.outputs.tag_name }}
           commit sha: ${{ github.sha }}
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
@@ -258,7 +251,7 @@ jobs:
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none'
         run: |
           make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} LUA=1 RELEASE=1 LANGUAGES=all PCH=0 bindist
-          mv cataclysmbn-unstable.tar.gz cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
+          mv cataclysmbn-unstable.tar.gz cbn-${{ matrix.artifact }}-${{ needs.metadata.outputs.tag_name }}.tar.gz
 
       - name: Build CBN (windows)
         if: matrix.mxe != 'none'
@@ -266,7 +259,7 @@ jobs:
           PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc11-
         run: |
           make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 LUA=1 RELEASE=1 LANGUAGES=all PCH=0 bindist
-          mv cataclysmbn-unstable.zip cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
+          mv cataclysmbn-unstable.zip cbn-${{ matrix.artifact }}-${{ needs.metadata.outputs.tag_name }}.zip
 
       - name: Build CBN (windows msvc)
         if: runner.os == 'Windows'
@@ -275,13 +268,13 @@ jobs:
         run: |
           msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features\Cataclysm-vcpkg-static.sln
           .\build-scripts\windist.ps1
-          mv cataclysmbn.zip cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
+          mv cataclysmbn.zip cbn-${{ matrix.artifact }}-${{ needs.metadata.outputs.tag_name }}.zip
 
       - name: Build CBN (osx)
         if: runner.os == 'macOS'
         run: |
           make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} LUA=1 RELEASE=1 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=11 PCH=0 dmgdist COMPILER=clang++
-          mv CataclysmBN-unstable.dmg cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
+          mv CataclysmBN-unstable.dmg cbn-${{ matrix.artifact }}-${{ needs.metadata.outputs.tag_name }}.dmg
 
       - name: Set up JDK 11 (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
@@ -309,15 +302,15 @@ jobs:
           if [ ${{ matrix.android }} = arm64 ]
           then
                ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleExperimentalRelease
-               mv ./app/build/outputs/apk/experimental/release/*.apk ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
+               mv ./app/build/outputs/apk/experimental/release/*.apk ../cbn-${{ matrix.artifact }}-${{ needs.metadata.outputs.tag_name }}.apk
           elif [ ${{ matrix.android }} = arm32 ]
           then
                ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease
-               mv ./app/build/outputs/apk/experimental/release/*.apk ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
+               mv ./app/build/outputs/apk/experimental/release/*.apk ../cbn-${{ matrix.artifact }}-${{ needs.metadata.outputs.tag_name }}.apk
           elif [ ${{ matrix.android }} = bundle ]
           then
                ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
-               mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab
+               mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cbn-${{ matrix.artifact }}-${{ needs.metadata.outputs.tag_name }}.aab
           fi
 
       - name: Upload release asset
@@ -327,6 +320,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.upload_url }}
-          asset_path: cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
-          asset_name: cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
+          asset_path: cbn-${{ matrix.artifact }}-${{ needs.metadata.outputs.tag_name }}.${{ matrix.ext }}
+          asset_name: cbn-${{ matrix.artifact }}-${{ needs.metadata.outputs.tag_name }}.${{ matrix.ext }}
           asset_content_type: ${{ matrix.content }}
