@@ -6751,7 +6751,10 @@ look_around_result game::look_around( bool show_window, tripoint &center,
                          pixel_minimap_text );
 #endif // TILES
 
-            int first_line = 1;
+            // print current position
+            center_print( w_info, 1, c_white, string_format( _( "Cursor At: (%d,%d,%d)" ), lx, ly, lz ) );
+
+            int first_line = 2;
             const int last_line = getmaxy( w_info ) - 3;
             pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
 
