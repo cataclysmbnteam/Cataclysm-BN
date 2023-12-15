@@ -787,7 +787,9 @@ bool veh_interact::update_part_requirements()
         if( !axles.empty() && axles.count( -dd.x ) == 0 ) {
             // Installing more than one steerable axle is hard
             // (but adding a wheel to an existing axle isn't)
+            // As with engines, cap at the actual maximum skill.
             dif_steering = axles.size() + 5;
+            dif_steering = std::min( 10, dif_steering );
         }
     }
 
