@@ -164,7 +164,9 @@ float fine_detail_vision_mod( const Character &who )
 
 float fine_detail_vision_mod( const Character &who, const tripoint &p )
 {
-    if( who.has_effect_with_flag( flag_EFFECT_SUPER_CLAIRVOYANCE ) ) {
+    if( who.has_effect_with_flag( flag_EFFECT_SUPER_CLAIRVOYANCE )
+        || who.has_effect_with_flag( flag_EFFECT_CLAIRVOYANCE )
+        || who.has_effect_with_flag( flag_EFFECT_CLAIRVOYANCE_PLUS ) ) {
         return 1.0f;
     }
 
