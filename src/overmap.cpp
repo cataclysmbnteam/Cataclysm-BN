@@ -3453,10 +3453,6 @@ bool overmap::generate_over( const int z )
     bool requires_over = false;
     std::vector<point_om_omt> bridge_points;
 
-    if( !get_option<bool>( "ELEVATED_BRIDGES" ) ) {
-        return requires_over;
-    }
-
     // These are so common that it's worth checking first as int.
     const std::set<oter_id> skip_below = {
         oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
