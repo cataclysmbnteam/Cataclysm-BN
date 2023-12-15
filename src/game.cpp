@@ -481,11 +481,7 @@ void game::setup()
 
     init::load_world_modfiles( ui, get_world_base_save_path() + "/" + SAVE_ARTIFACTS );
 
-    if( get_option<bool>( "ELEVATED_BRIDGES" ) && !get_option<bool>( "ZLEVELS" ) ) {
-        debugmsg( "\"Elevated bridges\" mod requires z-levels to be ENABLED to work properly!" );
-    }
-
-    m = map( get_option<bool>( "ZLEVELS" ) );
+    m = map();
 
     next_npc_id = character_id( 1 );
     next_mission_id = 1;
