@@ -1900,6 +1900,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                     carried_part.set_flag( vehicle_part::tracked_flag );
                 }
                 parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
+                carry_veh->parts[ carry_part ].removed = true;
             }
             refresh_locations_hack();
 
@@ -1923,7 +1924,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         //~ %1$s is the vehicle being loaded onto the bicycle rack
         add_msg( _( "You load the %1$s on the rack" ), carry_veh->name );
         map &here = get_map();
-        here.destroy_vehicle( carry_veh );
+        carry_veh->part_removal_cleanup();
         here.dirty_vehicle_list.insert( this );
         here.set_transparency_cache_dirty( sm_pos.z );
         here.set_seen_cache_dirty( tripoint_zero );
