@@ -628,7 +628,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             add_msg_if_player( m_info, _( "You activate your %s." ), bio.info().name );
         } else if( get_player_character().sees( pos() ) ) {
             add_msg_if_npc( m_info, _( "%s activates their %s." ), disp_name(),
-                     bio.info().name );
+                            bio.info().name );
         }
     };
     auto refund_power = [&]() {
