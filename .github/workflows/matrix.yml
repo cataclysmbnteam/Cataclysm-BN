@@ -52,6 +52,7 @@ jobs:
             ccache_limit: 2G
             ccache_key: linux-gcc-12
             run-on-draft: true
+            always-test: true
 
           - title: GCC 12, Ubuntu, Tiles, Sound, Lua, CMake, Languages
             compiler: g++-12
@@ -142,7 +143,9 @@ jobs:
       CCACHE_HARDLINK: true
       CCACHE_NOCOMPRESS: true
 
-      SKIP: ${{ ( github.event.pull_request.draft == true && matrix.run-on-draft == 'true' ) || ( needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( needs.skip-duplicates.outputs.should_skip_data == 'true' ) }}
+      SKIP: ${{ ( github.event.pull_request.draft == true && matrix.run-on-draft != 'true' ) ||
+                ( matrix.always-test != 'true' && needs.skip-duplicates.outputs.should_skip_code == 'true' ) ||
+                ( matrix.always-test != 'true' && needs.skip-duplicates.outputs.should_skip_data == 'true' ) }}
 
     steps:
       - name: checkout repository
