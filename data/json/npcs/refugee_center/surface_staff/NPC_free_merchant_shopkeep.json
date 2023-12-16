@@ -807,5 +807,50 @@
     "dynamic_line": "*rubs his chin.  \"It's probably technically a fire hazard, but there's not much to light up there besides what Dave brings.  And a few of the guards are pretty attached to him, so we could maybe send folks up to keep an eye on him and make sure he's doing okay.  That wouldn't interfere with comings and goings, either.\"  He pauses a moment, looking at his ledger as if it contains answers.  \"You know what?  Sure.  If Dave is okay with it, I can talk the others into letting him have rooftop access to build himself a little shelter, as long as he continues to keep it clean up there like he has in here.\"",
     "speaker_effect": { "effect": { "u_add_var": "Dave_Permission", "type": "mission", "value": "yes" } },
     "responses": [ { "text": "Thanks.  I'll go let him know.", "topic": "TALK_DONE" } ]
-  }
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "Are you interested in buying any processed lumber?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
+        "condition": { "u_has_mission": "MISSION_LUMBERMILL_SET_TRADE_ROUTE" }
+      },
+      {
+        "text": "Does this center need any metal?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
+        "condition": { "u_has_mission": "MISSION_SCRAPPER_SET_TRADE_ROUTE" }
+      },
+      {
+        "text": "Are you interested in any chemical supplies?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",
+        "condition": { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
+    "type": "talk_topic",
+    "dynamic_line": [ "Sure, we could use some around here for repairs and whatnot.  What are the terms?" ],
+    "responses": [
+      {
+        "text": "Well, how about 250 merch for 100 pounds of…",
+        "effect": { "u_buy_item": "trade_writ" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",
+    "type": "talk_topic",
+    "dynamic_line": [ "Chemicals?  I'm sure we could find some use for them, and we are in need of medical supplies.  What's the offer?" ],
+    "responses": [
+      {
+        "text": "Well, how about 300 merch for 10 liters of…",
+        "effect": { "u_buy_item": "trade_writ" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  }  
 ]
