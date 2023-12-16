@@ -110,6 +110,8 @@ bool check_down_OK( const tripoint & ); // tile is above OVERMAP_DEPTH
 bool check_no_trap( const tripoint & );
 bool check_ramp_low( const tripoint & );
 bool check_ramp_high( const tripoint & );
+bool check_empty_ramp_low( const tripoint & );
+bool check_empty_ramp_high( const tripoint & );
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint & ) {}
@@ -128,6 +130,10 @@ void done_mark_firewood( const tripoint & );
 void done_mark_practice_target( const tripoint & );
 void done_ramp_low( const tripoint & );
 void done_ramp_high( const tripoint & );
+void done_earthen_ramp_low( const tripoint & );
+void done_earthen_ramp_high( const tripoint & );
+void done_wooden_ramp_low( const tripoint & );
+void done_wooden_ramp_high( const tripoint & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
@@ -1276,6 +1282,16 @@ bool construct::check_ramp_low( const tripoint &p )
     return check_up_OK( p ) && check_up_OK( p + tripoint_above );
 }
 
+bool construct::check_empty_ramp_high( const tripoint &p )
+{
+    return check_empty( p ) && check_ramp_high( p );
+}
+
+bool construct::check_empty_ramp_low( const tripoint &p )
+{
+    return check_empty( p ) && check_ramp_low( p );
+}
+
 void construct::done_trunk_plank( const tripoint &/*p*/ )
 {
     int num_logs = rng( 2, 3 );
@@ -1602,6 +1618,30 @@ void construct::done_ramp_high( const tripoint &p )
     get_map().ter_set( top, ter_id( "t_ramp_down_high" ) );
 }
 
+void construct::done_earthen_ramp_low( const tripoint &p )
+{
+    const tripoint top = p + tripoint_above;
+    get_map().ter_set( top, ter_id( "t_earthen_ramp_down_low" ) );
+}
+
+void construct::done_earthen_ramp_high( const tripoint &p )
+{
+    const tripoint top = p + tripoint_above;
+    get_map().ter_set( top, ter_id( "t_earthen_ramp_down_high" ) );
+}
+
+void construct::done_wooden_ramp_low( const tripoint &p )
+{
+    const tripoint top = p + tripoint_above;
+    get_map().ter_set( top, ter_id( "t_wooden_ramp_down_low" ) );
+}
+
+void construct::done_wooden_ramp_high( const tripoint &p )
+{
+    const tripoint top = p + tripoint_above;
+    get_map().ter_set( top, ter_id( "t_wooden_ramp_down_high" ) );
+}
+
 void construct::failure_standard( const tripoint & )
 {
     add_msg( m_info, _( "You cannot build there!" ) );
@@ -1658,7 +1698,9 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
             { "check_down_OK", construct::check_down_OK },
             { "check_no_trap", construct::check_no_trap },
             { "check_ramp_low", construct::check_ramp_low },
-            { "check_ramp_high", construct::check_ramp_high }
+            { "check_ramp_high", construct::check_ramp_high },
+            { "check_empty_ramp_low", construct::check_empty_ramp_low },
+            { "check_empty_ramp_high", construct::check_empty_ramp_high }
         }
     };
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = { {
@@ -1676,7 +1718,11 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
             { "done_mark_firewood", construct::done_mark_firewood },
             { "done_mark_practice_target", construct::done_mark_practice_target },
             { "done_ramp_low", construct::done_ramp_low },
-            { "done_ramp_high", construct::done_ramp_high }
+            { "done_ramp_high", construct::done_ramp_high },
+            { "done_earthen_ramp_low", construct::done_earthen_ramp_low },
+            { "done_earthen_ramp_high", construct::done_earthen_ramp_high },
+            { "done_wooden_ramp_low", construct::done_wooden_ramp_low },
+            { "done_wooden_ramp_high", construct::done_wooden_ramp_high }
         }
     };
 
