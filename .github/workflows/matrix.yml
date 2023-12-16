@@ -52,18 +52,16 @@ jobs:
     continue-on-error: true
     runs-on: ubuntu-latest
     outputs:
-      fail_fast: ${{ steps.matrix_vars.outputs.fail_fast }}
       max_parallel: ${{ steps.matrix_vars.outputs.max_parallel }}
     steps:
       - id: matrix_vars
         run: |
-          echo "fail_fast=$([ "$GITHUB_REF_NAME" = "main" ] && echo false || echo true)" >> $GITHUB_OUTPUT
           echo "max_parallel=$([ "$GITHUB_REF_NAME" = "main" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
 
   varied_builds:
     needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
     strategy:
-      fail-fast: ${{ fromJSON(needs.matrix-variables.outputs.fail_fast) }}
+      fail-fast: ${{ github.ref_name == 'main' }}
       max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
