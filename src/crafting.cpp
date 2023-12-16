@@ -790,7 +790,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
         practice( making.skill_used, base_practice, skill_cap, true );
         // Subskills gain half the experience as primary skill
         for( const auto &pr : making.required_skills ) {
-            if( pr.first != making.skill_used ) {
+            if( pr.first != making.skill_used && !pr.first.obj().is_combat_skill() ) {
                 const int secondary_practice = roll_remainder( ( get_skill_level( pr.first ) * 15 + 10 ) *
                                                batch_mult /
                                                20.0 ) * multiplier / 2.0;
