@@ -166,13 +166,6 @@ jobs:
         run: |
             sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev libflac-dev
 
-      - name: check compiler (mac)
-        if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
-        run: |
-          ${{ matrix.compiler }} --version
-          # Ensure that it is actually needed version
-          ${{ matrix.compiler }} --version | grep -q -E "${{ matrix.grep_clang_version_rxp }}"
-
       - name: set up a mock GCC toolchain root for Clang (Ubuntu)
         if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-14') }}
         run: |
@@ -185,6 +178,10 @@ jobs:
       - name: install dependencies (mac)
         if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
         run: |
+          ${{ matrix.compiler }} --version
+          # Ensure that it is actually needed version
+          ${{ matrix.compiler }} --version | grep -q -E "${{ matrix.grep_clang_version_rxp }}"
+          
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
 
       - name: prepare
