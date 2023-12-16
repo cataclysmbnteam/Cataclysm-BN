@@ -184,8 +184,8 @@ class weather_manager
 
         // Updates the temperature and weather pattern
         void update_weather();
-        // The air temperature in Fahrenheit
-        int temperature = 0;
+        // The air temperature
+        units::temperature temperature = 0_c;
         units::temperature water_temperature = 0_c;
         bool lightning_active = false;
         // Weather pattern

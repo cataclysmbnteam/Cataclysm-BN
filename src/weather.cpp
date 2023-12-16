@@ -1045,7 +1045,7 @@ weather_manager::weather_manager()
     lightning_active = false;
     weather_override = weather_type_id::NULL_ID();
     nextweather = calendar::before_time_starts;
-    temperature = 0;
+    temperature = 0_c;
     weather_id = weather_type_id::NULL_ID();
 }
 
@@ -1076,7 +1076,7 @@ void weather_manager::update_weather()
     }
 
     sfx::do_ambient();
-    temperature = units::to_fahrenheit( w.temperature );
+    temperature = w.temperature;
     lightning_active = false;
     // Check weather every few turns, instead of every turn.
     // TODO: predict when the weather changes and use that time.
@@ -1125,12 +1125,8 @@ int weather_manager::get_temperature( const tripoint &location ) const
         temp_mod += get_heat_radiation( location, false );
         temp_mod += get_convection_temperature( location );
     }
-    const int temp = ( location.z < 0
-                       ? units::to_fahrenheit( temperatures::annual_average )
-                       : temperature ) +
-                     ( g->new_game
-                       ? 0
-                       : g->m.get_temperature( location ) + temp_mod );
+    const int temp = units::to_fahrenheit( location.z < 0 ? temperatures::annual_average : temperature )
+                     + ( g->new_game ? 0 : g->m.get_temperature( location ) + temp_mod );
 
     temperature_cache.emplace( location, temp );
     return temp;

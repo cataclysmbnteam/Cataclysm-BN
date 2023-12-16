@@ -153,7 +153,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
     CHECK( npc_needs.tick( &oracle ) == "idle" );
     SECTION( "Freezing" ) {
         weather_manager &weather = get_weather();
-        weather.temperature = -100;
+        weather.temperature = -70_c;
         weather.clear_temp_cache();
         test_npc.update_bodytemp( get_map(), weather );
         CHECK( npc_needs.tick( &oracle ) == "idle" );

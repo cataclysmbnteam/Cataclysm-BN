@@ -55,6 +55,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_temperature.h"
 #include "weather.h"
 
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
@@ -1756,7 +1757,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     }
 }
 
-void Character::apply_wetness_morale( int temperature )
+void Character::apply_wetness_morale( const units::temperature &celsius_temperature )
 {
     // First, a quick check if we have any wetness to calculate morale from
     // Faster than checking all worn items for friendliness
@@ -1767,8 +1768,10 @@ void Character::apply_wetness_morale( int temperature )
         return;
     }
 
+    int temperature = units::celsius_to_fahrenheit( celsius_temperature.value() );
     // Normalize temperature to [-1.0,1.0]
-    temperature = std::max( 0, std::min( 100, temperature ) );
+    temperature = std::clamp( temperature, 0, 100 );
+
     const double global_temperature_mod = -1.0 + ( 2.0 * temperature / 100.0 );
 
     int total_morale = 0;

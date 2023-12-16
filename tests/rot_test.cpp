@@ -9,13 +9,14 @@
 #include "map_helpers.h"
 #include "game.h" // Just for get_convection_temperature(), TODO: Remove
 #include "point.h"
+#include "units_temperature.h"
 #include "weather.h"
 
 static const furn_str_id f_atomic_freezer( "f_atomic_freezer" );
 
 static void set_map_temperature( weather_manager &weather, int new_temperature )
 {
-    weather.temperature = new_temperature;
+    weather.temperature = units::from_fahrenheit( new_temperature );
     weather.clear_temp_cache();
 }
 
