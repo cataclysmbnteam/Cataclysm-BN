@@ -16,7 +16,6 @@
     "charges": 5,
     "looks_like": "vitamins",
     "fun": -8,
-    "freezing_point": -490,
     "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitA", 24, 48 ], [ "vitB", 24, 48 ], [ "vitC", 24, 48 ] ]
   },
   {
@@ -47,8 +46,7 @@
     "looks_like": "diesel",
     "container": "flask_glass",
     "stim": 4,
-    "flags": [ "LIGHT_2", "EATEN_HOT" ],
-    "freezing_point": -490
+    "flags": [ "LIGHT_2", "EATEN_HOT" ]
   },
   {
     "id": "afs_sungel",

@@ -190,8 +190,7 @@
     "flags": [ "TRADER_AVOID", "INEDIBLE" ],
     "container": "flask_glass",
     "charges": 1,
-    "phase": "liquid",
-    "freezing_point": -100
+    "phase": "liquid"
   },
   {
     "id": "stirge_proboscis",
