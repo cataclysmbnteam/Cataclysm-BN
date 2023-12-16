@@ -22,32 +22,24 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  skip-duplicates-code:
+  skip-duplicates:
     continue-on-error: true
     runs-on: ubuntu-22.04
-    # Map a step output to a job output
     outputs:
-      should_skip_code: ${{ steps.skip_check.outputs.should_skip }}
+      should_skip_code: ${{ steps.skip_code_check.outputs.should_skip }}
+      should_skip_data: ${{ steps.skip_data_check.outputs.should_skip }}
     steps:
-      - id: skip_check
+      - id: skip_code_check
         uses: fkirc/skip-duplicate-actions@master
         with:
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "msvc-**", "tools/**", "utilities/**", "scripts/**", "data/**", "lang/**"]'
-
-  skip-duplicates-data:
-    continue-on-error: true
-    runs-on: ubuntu-22.04
-    # Map a step output to a job output
-    outputs:
-      should_skip_data: ${{ steps.skip_check.outputs.should_skip }}
-    steps:
-      - id: skip_check
+      - id: skip_data_check
         uses: fkirc/skip-duplicate-actions@master
         with:
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "msvc-**", "tools/**", "utilities/**", "scripts/**"]'
 
   varied_builds:
-    needs: [ skip-duplicates-code, skip-duplicates-data ]
+    needs: skip-duplicates
     strategy:
       fail-fast: ${{ github.ref_name == 'main' }}
       max-parallel: ${{ github.ref_name == 'main' && 20 || 1 }}
@@ -156,7 +148,7 @@ jobs:
       CCACHE_HARDLINK: true
       CCACHE_NOCOMPRESS: true
 
-      SKIP: ${{ ( github.event.pull_request.draft == true && matrix.run-on-draft == 'true' ) || ( needs.skip-duplicates-code.outputs.should_skip_code == 'true' ) || ( needs.skip-duplicates-data.outputs.should_skip_data == 'true' ) }}
+      SKIP: ${{ ( github.event.pull_request.draft == true && matrix.run-on-draft == 'true' ) || ( needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( needs.skip-duplicates.outputs.should_skip_data == 'true' ) }}
 
     steps:
       - name: checkout repository
