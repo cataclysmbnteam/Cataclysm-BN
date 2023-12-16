@@ -2,18 +2,11 @@ name: General build matrix
 
 on:
   push:
-    branches:
-      - main
-    paths-ignore:
-      - doc/**
-      - 'scripts/**'
-  merge_group:
+    branches: [main]
+    paths-ignore: [doc/**, scripts/**]
   pull_request:
-    branches:
-      - main
-    paths-ignore:
-      - doc/**
-      - 'scripts/**'
+    branches: [main]
+    paths-ignore: [doc/**, scripts/**]
 
 # Cancel all previous instances in favor of latest revision of a PR.
 # Allow running main builds to complete to help with ccache refreshes.
