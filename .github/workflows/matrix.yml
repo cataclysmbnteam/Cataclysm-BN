@@ -7,6 +7,7 @@ on:
   pull_request:
     branches: [main]
     paths-ignore: [doc/**, scripts/**]
+    types: [opened, reopened, synchronize, ready_for_review]
 
 # Cancel all previous instances in favor of latest revision of a PR.
 # Allow running main builds to complete to help with ccache refreshes.
