@@ -169,21 +169,6 @@
         "text": "[50$]  I'll buy some sheet metal.",
         "effect": [ { "u_buy_item": "sheet_metal", "cost": 5000, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
-      },
-      {
-        "text": "[60$]  I'll buy some low carbon steel.",
-        "effect": [ { "u_buy_item": "lc_steel_lump", "cost": 6000, "count": 10 } ],
-        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
-      },
-      {
-        "text": "[80$]  I'll buy some medium carbon steel.",
-        "effect": [ { "u_buy_item": "mc_steel_lump", "cost": 8000, "count": 10 } ],
-        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
-      },
-      {
-        "text": "[100$]  I'll buy some high carbon steel.",
-        "effect": [ { "u_buy_item": "hc_steel_lump", "cost": 10000, "count": 10 } ],
-        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       }
     ]
   },
