@@ -788,6 +788,13 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
                                   20.0 ) * multiplier;
         const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
         practice( making.skill_used, base_practice, skill_cap, true );
+        // Subskills gain half the experience as primary skill
+        for( const auto &pr : making.required_skills ) {
+            if( pr.first != making.skill_used ) {
+                const int skill_cap_secondary = static_cast<int>( get_skill_level( pr.first ) * 1.25 );
+                practice( pr.first, base_practice * 0.5, skill_cap_secondary, true );
+            }
+        }
 
         // NPCs assisting or watching should gain experience...
         for( auto &helper : helpers ) {
