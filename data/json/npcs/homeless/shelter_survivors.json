@@ -29,9 +29,6 @@
     "chat": "TALK_NPC_PREPPER_SURVIVOR",
     "faction": "no_faction"
   },
-  
- 
-  
   {
     "type": "npc",
     "id": "survivor_moonshiner",

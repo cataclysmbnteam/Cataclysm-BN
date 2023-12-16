@@ -859,5 +859,5 @@
       "terrain": { ".": "t_dirtmound", "q": "t_grass", "/": "t_splitrail_fence", "+": "t_splitrail_fencegate_c" },
       "sealed_item": { ".": { "item": { "item": "seed_zucchini" }, "furniture": "f_plant_seedling", "chance": 100 } }
     }
-  }  
+  }
 ]

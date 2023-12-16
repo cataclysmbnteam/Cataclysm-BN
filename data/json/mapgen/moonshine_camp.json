@@ -169,7 +169,7 @@
         { "item": "blanket", "x": 16, "y": 13 }
       ]
     }
-  },  
+  },
   {
     "type": "mapgen",
     "method": "json",

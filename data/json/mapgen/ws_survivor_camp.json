@@ -170,5 +170,5 @@
       },
       "place_vehicles": [ { "vehicle": "surv_car", "x": 11, "y": 4, "chance": 70, "rotation": 270 } ]
     }
-  }  
+  }
 ]

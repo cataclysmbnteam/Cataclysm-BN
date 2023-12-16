@@ -233,5 +233,5 @@
       { "monster": "mon_zombie_child", "freq": 200, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_survivor", "freq": 200, "cost_multiplier": 2, "starts": 800 }
     ]
-  }  
+  }
 ]
