@@ -46,23 +46,11 @@ jobs:
         with:
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "msvc-**", "tools/**", "utilities/**", "scripts/**"]'
 
-  matrix-variables:
-    permissions:
-      contents: none
-    continue-on-error: true
-    runs-on: ubuntu-latest
-    outputs:
-      max_parallel: ${{ steps.matrix_vars.outputs.max_parallel }}
-    steps:
-      - id: matrix_vars
-        run: |
-          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "main" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
-
   varied_builds:
-    needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
+    needs: [ skip-duplicates-code, skip-duplicates-data ]
     strategy:
       fail-fast: ${{ github.ref_name == 'main' }}
-      max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
+      max-parallel: ${{ github.ref_name == 'main' && 20 || 1 }}
       matrix:
         include:
           - title: GCC 12, Ubuntu, Curses
