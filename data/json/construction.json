@@ -2754,8 +2754,8 @@
     ],
     "pre_terrain": "t_fence_post",
     "pre_special": "check_ramp_low",
-    "post_terrain": "t_earthen_ramp_up_low",
-    "post_special": "done_earthen_ramp_low"
+    "post_terrain": "t_ramp_up_low",
+    "post_special": "done_ramp_low"
   },
   {
     "type": "construction",
@@ -2775,8 +2775,8 @@
     ],
     "pre_terrain": "t_fence_post",
     "pre_special": "check_ramp_high",
-    "post_terrain": "t_earthen_ramp_up_high",
-    "post_special": "done_earthen_ramp_high"
+    "post_terrain": "t_ramp_up_high",
+    "post_special": "done_ramp_high"
   },
   {
     "type": "construction",
@@ -2790,8 +2790,8 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 10 ] ], [ [ "nail", 40 ] ] ],
     "pre_special": "check_empty_ramp_low",
-    "post_terrain": "t_wooden_ramp_up_low",
-    "post_special": "done_wooden_ramp_low"
+    "post_terrain": "t_ramp_up_low",
+    "post_special": "done_ramp_low"
   },
   {
     "type": "construction",
@@ -2805,8 +2805,8 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 10 ] ], [ [ "nail", 40 ] ] ],
     "pre_special": "check_empty_ramp_high",
-    "post_terrain": "t_wooden_ramp_up_high",
-    "post_special": "done_wooden_ramp_high"
+    "post_terrain": "t_ramp_up_high",
+    "post_special": "done_ramp_high"
   },
   {
     "type": "construction",

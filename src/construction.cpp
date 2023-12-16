@@ -130,10 +130,6 @@ void done_mark_firewood( const tripoint & );
 void done_mark_practice_target( const tripoint & );
 void done_ramp_low( const tripoint & );
 void done_ramp_high( const tripoint & );
-void done_earthen_ramp_low( const tripoint & );
-void done_earthen_ramp_high( const tripoint & );
-void done_wooden_ramp_low( const tripoint & );
-void done_wooden_ramp_high( const tripoint & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
@@ -1618,30 +1614,6 @@ void construct::done_ramp_high( const tripoint &p )
     get_map().ter_set( top, ter_id( "t_ramp_down_high" ) );
 }
 
-void construct::done_earthen_ramp_low( const tripoint &p )
-{
-    const tripoint top = p + tripoint_above;
-    get_map().ter_set( top, ter_id( "t_earthen_ramp_down_low" ) );
-}
-
-void construct::done_earthen_ramp_high( const tripoint &p )
-{
-    const tripoint top = p + tripoint_above;
-    get_map().ter_set( top, ter_id( "t_earthen_ramp_down_high" ) );
-}
-
-void construct::done_wooden_ramp_low( const tripoint &p )
-{
-    const tripoint top = p + tripoint_above;
-    get_map().ter_set( top, ter_id( "t_wooden_ramp_down_low" ) );
-}
-
-void construct::done_wooden_ramp_high( const tripoint &p )
-{
-    const tripoint top = p + tripoint_above;
-    get_map().ter_set( top, ter_id( "t_wooden_ramp_down_high" ) );
-}
-
 void construct::failure_standard( const tripoint & )
 {
     add_msg( m_info, _( "You cannot build there!" ) );
@@ -1718,11 +1690,7 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
             { "done_mark_firewood", construct::done_mark_firewood },
             { "done_mark_practice_target", construct::done_mark_practice_target },
             { "done_ramp_low", construct::done_ramp_low },
-            { "done_ramp_high", construct::done_ramp_high },
-            { "done_earthen_ramp_low", construct::done_earthen_ramp_low },
-            { "done_earthen_ramp_high", construct::done_earthen_ramp_high },
-            { "done_wooden_ramp_low", construct::done_wooden_ramp_low },
-            { "done_wooden_ramp_high", construct::done_wooden_ramp_high }
+            { "done_ramp_high", construct::done_ramp_high }
         }
     };
 
