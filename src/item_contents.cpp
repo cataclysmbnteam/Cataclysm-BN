@@ -42,6 +42,7 @@ ret_val<bool> item_contents::insert_item( detached_ptr<item> &&it )
     }
 
     if( !stacked ) {
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         items.push_back( std::move( it ) );
     }
 
