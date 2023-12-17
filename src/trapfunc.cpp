@@ -1418,7 +1418,7 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
         return false;
     }
     critter->add_msg_player_or_npc( m_bad, _( "You trigger a %s!" ), _( "<npcname> triggers a %s!" ),
-                              g->m.tr_at( p ).name() );
+                                    g->m.tr_at( p ).name() );
     const spell trap_spell = g->m.tr_at( p ).spell_data.get_spell( 0 );
     npc dummy;
     trap_spell.cast_all_effects( dummy, critter->pos() );
