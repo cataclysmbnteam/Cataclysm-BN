@@ -21,7 +21,11 @@
     "time": "7 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ], [ "chunk_rubber", 1 ], [ "wood_structural_small", 1, "LIST" ] ] ]
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "plastic_chunk", 1 ], [ "chunk_rubber", 1 ], [ "wood_structural_small", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
