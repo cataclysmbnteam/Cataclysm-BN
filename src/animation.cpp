@@ -22,6 +22,7 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "weather.h"
+#include "cached_options.h"
 
 #if defined(TILES)
 #include <memory>
@@ -764,6 +765,11 @@ void draw_line_curses( game &g, const std::vector<tripoint> &points )
 void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
 {
     draw_line_curses( *this, points );
+
+    if( test_mode ) {
+        // avoid segfault from null tilecontext in tests
+        return;
+    }
     tilecontext->init_draw_line( p, points, "line_trail", false );
 }
 #else
@@ -791,6 +797,11 @@ void game::draw_cursor( const tripoint &p )
 #if defined(TILES)
 void game::draw_highlight( const tripoint &p )
 {
+    if( test_mode ) {
+        // avoid segfault from null tilecontext in tests
+        return;
+    }
+
     tilecontext->init_draw_highlight( p );
 }
 #else
