@@ -794,7 +794,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
                 const int secondary_practice = roll_remainder( ( get_skill_level( pr.first ) * 15 + 10 ) *
                                                batch_mult /
                                                20.0 ) * multiplier / 2.0;
-                const int skill_cap_secondary = static_cast<int>( get_skill_level( pr.first ) * 1.25 );
+                const int skill_cap_secondary = static_cast<int>( pr.second * 1.25 );
                 practice( pr.first, secondary_practice, skill_cap_secondary, true );
             }
         }
