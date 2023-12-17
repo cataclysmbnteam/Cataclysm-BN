@@ -2875,6 +2875,7 @@ void mapgen_lake_shore( mapgendata &dat )
     // We need to have same shoreline on different z levels, to match surface shore
     // with submerged shore, to do so we'll jitter shore lines using deterministic
     // random seeded with x\y coordinates
+    // NOLINTNEXTLINE(cata-determinism)
     std::mt19937 prng( std::hash<point_abs_omt>()( dat.pos.xy() ) ^ g->get_seed() );
 
     // Given two points, return a point that is midway between the two points and then
