@@ -37,7 +37,7 @@ Links to relevant pull requests, for content covered below:
 - Alternative ear/tail mutation: [#3340](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3340)
 - New trees: [#3626](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3626)
 - Alternative sign sprite: [#3670](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3670)
-- New traps: [#]()
+- New traps: [#3939](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3939)
 
 ## Undead People
 
