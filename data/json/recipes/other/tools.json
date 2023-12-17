@@ -2505,6 +2505,7 @@
     "difficulty": 2,
     "skills_required": [ "mechanics", 1 ],
     "time": "100 m",
+    "autolearn": [ [ "fabrication", 4 ] ],
     "book_learn": [ [ "manual_mechanics", 1 ], [ "manual_fabrication", 2 ], [ "textbook_fabrication", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 2 ] ] ]
