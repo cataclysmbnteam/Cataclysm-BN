@@ -637,8 +637,8 @@
     "result": "crude_picklock",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "time": "1 m",
+    "skill_used": "mechanics",
+    "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
@@ -779,10 +779,11 @@
     "result": "pipe_cleaner",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
+    "skill_used": "mechanics",
     "difficulty": 1,
-    "time": "2 m",
+    "time": "10 m",
     "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ], [ [ "fabric_standard", 1, "LIST" ] ] ]
   },
   {
