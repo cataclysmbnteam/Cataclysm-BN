@@ -229,7 +229,22 @@
     "avoidance": 4,
     "difficulty": 3,
     "action": "tripwire",
-    "drops": [ "string_36" ]
+    "drops": [ "tripwire" ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_can_alarm",
+    "name": "makeshift perimeter alarm",
+    "color": "light_gray",
+    "symbol": "^",
+    "//": "Set to be easier to spot than a plain tripwire, but harder to avoid and disarm without jostling the cans.",
+    "visibility": 4,
+    "avoidance": 6,
+    "difficulty": 5,
+    "action": "spell",
+    "spell_data": { "id": "spell_trap_can_alarm_trigger" },
+    "drops": [ "can_alarm_trap" ],
+    "vehicle_data": { "sound_volume": 25, "sound": "empty cans clattering!" }
   },
   {
     "type": "trap",
@@ -242,7 +257,7 @@
     "avoidance": 4,
     "difficulty": 5,
     "action": "crossbow",
-    "drops": [ "string_36", "crossbow", "bolt_steel" ],
+    "drops": [ "tripwire", "crossbow", "bolt_steel" ],
     "vehicle_data": {
       "chance": 30,
       "damage": 300,
@@ -265,7 +280,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
+    "drops": [ "tripwire", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
@@ -287,7 +302,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "drops": [ "tripwire", "shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
@@ -310,7 +325,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_s", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "drops": [ "tripwire", "shotgun_s", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
@@ -334,7 +349,7 @@
     "difficulty": 2,
     "trap_radius": 1,
     "action": "none",
-    "drops": [ "motor", "blade", "blade", "string_36" ]
+    "drops": [ "motor", "blade", "blade", "tripwire" ]
   },
   {
     "type": "trap",

@@ -37,6 +37,7 @@ Links to relevant pull requests, for content covered below:
 - Alternative ear/tail mutation: [#3340](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3340)
 - New trees: [#3626](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3626)
 - Alternative sign sprite: [#3670](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3670)
+- New traps: [#]()
 
 ## Undead People
 
@@ -75,6 +76,8 @@ Ultica are planned for the future.
 - Battle masks, iron and bronze, including worn sprites. Items specific to BN.
 - Bronze arm guards, including worn sprites. Item specific to BN.
 - Cacao pods. Item specific to BN.
+- Override for sign sprite. Removes lettering on the front specific to DDA.
+- Makeshift perimeter alarm. Trap specific to BN.
 
 ### External_Tileset_DP_Tall.png
 
@@ -87,7 +90,6 @@ Ultica are planned for the future.
 - Rewired street light, including active state. Furniture specific to BN.
 - Cocoa tree. Terrain specific to BN.
 - Cocoa plant. Terrain specific to BN.
-- Override for sign sprite. Removes lettering on the front specific to DDA.
 
 ### alternative_mutation_tileset.png
 

@@ -65,7 +65,23 @@
     "time": "30 s",
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "adhesive", 1, "LIST" ], [ "nail", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "can_alarm_trap",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TRAPS",
+    "skill_used": "traps",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "components": [
+      [ [ "tripwire", 1 ] ],
+      [ [ "can_drink_unsealed", 4 ], [ "can_food_unsealed", 4 ] ],
+      [ [ "bb", 12 ], [ "pebble", 4 ], [ "pebble_clay", 4 ], [ "marble", 4 ], [ "bearing", 4 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -121,8 +137,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "crossbow", 1 ] ], [ [ "bolt_steel", 1 ], [ "bolt_wood", 4 ] ] ]
+    "components": [ [ [ "tripwire", 1 ] ], [ [ "crossbow", 1 ] ], [ [ "bolt_steel", 1 ], [ "bolt_wood", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -136,8 +151,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "shotgun_d", 1 ] ], [ [ "shot_00", 2 ], [ "shot_slug", 2 ], [ "shot_flechette", 2 ] ] ]
+    "components": [ [ [ "tripwire", 1 ] ], [ [ "shotgun_d", 1 ] ], [ [ "shot_00", 2 ], [ "shot_slug", 2 ], [ "shot_flechette", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -152,7 +166,7 @@
     "decomp_learn": 3,
     "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_traps", 3 ], [ "howto_traps", 3 ], [ "book_icef", 4 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "motor", 1 ] ], [ [ "blade", 2 ] ], [ [ "cordage", 1, "LIST" ] ] ]
+    "components": [ [ [ "motor", 1 ] ], [ [ "blade", 2 ] ], [ [ "tripwire", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -164,9 +178,9 @@
     "difficulty": 3,
     "time": "5 m",
     "book_learn": [ [ "manual_traps_mil", 3 ] ],
-    "using": [ [ "cordage_short", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
+      [ [ "tripwire", 1 ] ],
       [ [ "grenade", 1 ] ],
       [ [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ]
     ]
