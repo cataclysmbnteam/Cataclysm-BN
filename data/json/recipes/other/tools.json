@@ -645,6 +645,19 @@
   },
   {
     "type": "recipe",
+    "result": "picklocks",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_tiny", 2 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "brazier",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
