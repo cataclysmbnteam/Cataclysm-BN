@@ -269,7 +269,7 @@
       [ "movietheater_roof2_2_1" ]
     ],
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_flat_roof",
       "rows": [
         "                        ",
         "                        ",
