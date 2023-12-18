@@ -279,6 +279,17 @@ bool trap::is_funnel() const
     return !is_null() && funnel_radius_mm > 0;
 }
 
+
+void trap::trigger_aftermath( map &m, const tripoint &p ) const
+{
+    for( auto &i : m.tr_at( p ).trigger_components ) {
+        const itype_id &item_type = std::get<0>( i );
+        const int quantity = std::get<1>( i );
+        const int charges = std::get<2>( i );
+        m.spawn_item( p.xy(), item_type, quantity, charges );
+    }
+}
+
 void trap::on_disarmed( map &m, const tripoint &p ) const
 {
     for( auto &i : components ) {

@@ -146,6 +146,7 @@
     "visibility": 2,
     "avoidance": 7,
     "difficulty": 3,
+    "//": "trigger_items and remove_on_trigger don't apply to this action, since trap behavior is tied to the target freeing themselves.",
     "action": "beartrap",
     "drops": [ "beartrap" ],
     "vehicle_data": {
@@ -168,6 +169,7 @@
     "visibility": 9,
     "avoidance": 8,
     "difficulty": 4,
+    "//": "trigger_items and remove_on_trigger don't apply to this action, since trap behavior is tied to the target freeing themselves.",
     "action": "beartrap",
     "drops": [ "beartrap" ],
     "vehicle_data": {
@@ -244,6 +246,7 @@
     "difficulty": 5,
     "action": "spell",
     "spell_data": { "id": "spell_trap_can_alarm_trigger" },
+    "trigger_items": [ "can_alarm_trap" ],
     "drops": [ "can_alarm_trap" ],
     "vehicle_data": { "sound_volume": 25, "sound": "empty cans clattering!" }
   },
@@ -258,6 +261,8 @@
     "avoidance": 4,
     "difficulty": 5,
     "action": "crossbow",
+    "//": "Ammo spawn on activation is still hardcoded, as it has a randomized chance to drop intact.",
+    "trigger_items": [ "tripwire", "crossbow" ],
     "drops": [ "tripwire", "crossbow", "bolt_steel" ],
     "vehicle_data": {
       "chance": 30,
@@ -274,13 +279,15 @@
     "type": "trap",
     "id": "tr_shotgun_2",
     "trigger_weight": "200 g",
-    "name": "shotgun trap",
+    "name": "double-barrel shotgun trap",
     "color": "red",
     "symbol": "^",
     "visibility": 4,
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
+    "//": "trigger_items here only matters if the trap rolls to fire both barrels, otherwise it becomes tr_shotgun_2_1 instead",
+    "trigger_items": [ "tripwire", "shotgun_d" ],
     "drops": [ "tripwire", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
@@ -296,13 +303,14 @@
     "type": "trap",
     "id": "tr_shotgun_2_1",
     "trigger_weight": "200 g",
-    "name": "shotgun trap",
+    "name": "half-empty shotgun trap",
     "color": "red",
     "symbol": "^",
     "visibility": 4,
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
+    "trigger_items": [ "tripwire", "shotgun_d" ],
     "drops": [ "tripwire", "shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
@@ -326,6 +334,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
+    "trigger_items": [ "tripwire", "shotgun_s" ],
     "drops": [ "tripwire", "shotgun_s", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
@@ -477,6 +486,7 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
+    "//": "trigger_items isn't used here since the spikes breaking occurs at random, and comes with converting the terrain type when triggered.",
     "action": "pit_spikes",
     "vehicle_data": { "damage": 500 }
   },
@@ -630,6 +640,7 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
+    "//": "trigger_items isn't used here since the spikes breaking occurs at random, and comes with converting the terrain type when triggered.",
     "action": "pit_glass",
     "vehicle_data": { "damage": 500 }
   },

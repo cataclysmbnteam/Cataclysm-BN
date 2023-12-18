@@ -112,7 +112,7 @@ struct trap {
         units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
         int funnel_radius_mm = 0;
         // Items optionally yielded after the trap goes off
-        std::vector<std::pair<itype_id, double>> trigger_components;
+        std::vector<std::tuple<itype_id, int, int>> trigger_components;
         // Items optionally yielded after the trap is disarmed
         std::vector<std::tuple<itype_id, int, int>> components;
     public:
@@ -184,6 +184,12 @@ struct trap {
          * If the given item is throw onto the trap, does it trigger the trap?
          */
         bool triggered_by_item( const item &itm ) const;
+        /**
+         * Cleanup after a trap has been triggered, spawns items (if any) and.
+         * if trigger_remove is set to true removes the trap via
+         * @ref map::remove_trap.
+         */
+        void trigger_aftermath( map &m, const tripoint &p ) const;
         /**
          * Called when a trap at the given point in the map has been disarmed.
          * It should spawn trap items (if any) and remove the trap from the map via
