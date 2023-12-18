@@ -1542,7 +1542,7 @@ void caused_effect::load( const JsonObject &jo )
     }
     assign( jo, "inherit_duration", inherit_duration );
     if( jo.has_member( "duration" ) && jo.has_member( "inherit_duration" ) ) {
-        jo.throw_error( "\"duration\" and \"inherit_duration\" can't both be set at the same time." );
+        jo.throw_error( R"("duration" and "inherit_duration" can't both be set at the same time.)" );
     }
 
     if( assign( jo, "intensity", intensity ) ) {
@@ -1550,7 +1550,7 @@ void caused_effect::load( const JsonObject &jo )
     }
     assign( jo, "inherit_intensity", inherit_intensity );
     if( jo.has_member( "intensity" ) && jo.has_member( "inherit_intensity" ) ) {
-        jo.throw_error( "\"intensity\" and \"inherit_intensity\" can't both be set at the same time." );
+        jo.throw_error( R"("intensity" and "inherit_intensity" can't both be set at the same time.)" );
     }
 
     if( assign( jo, "body_part", bp ) ) {
@@ -1558,7 +1558,7 @@ void caused_effect::load( const JsonObject &jo )
     }
     assign( jo, "inherit_body_part", inherit_body_part );
     if( jo.has_member( "intensity" ) && jo.has_member( "inherit_intensity" ) ) {
-        jo.throw_error( "\"body_part\" and \"inherit_body_part\" can't both be set at the same time." );
+        jo.throw_error( R"("body_part" and "inherit_body_part" can't both be set at the same time.)" );
     }
 }
 

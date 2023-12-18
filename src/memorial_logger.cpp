@@ -44,7 +44,6 @@
 #include "type_id.h"
 #include "units.h"
 
-static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_jetinjector( "jetinjector" );
