@@ -111,7 +111,9 @@ struct trap {
          */
         units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
         int funnel_radius_mm = 0;
-        // For disassembly?
+        // Items optionally yielded after the trap goes off
+        std::vector<std::pair<itype_id, double>> trigger_components;
+        // Items optionally yielded after the trap is disarmed
         std::vector<std::tuple<itype_id, int, int>> components;
     public:
         // data required for trapfunc::spell()

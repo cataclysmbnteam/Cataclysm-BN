@@ -129,6 +129,24 @@ void trap::load( const JsonObject &jo, const std::string & )
         looks_like = jo.get_string( "copy-from" );
     }
     jo.read( "looks_like", looks_like );
+    for( const JsonValue entry : jo.get_array( "trigger_items" ) ) {
+        itype_id item_type;
+        int quantity = 0;
+        int charges = 0;
+        if( entry.test_object() ) {
+            JsonObject jc = entry.get_object();
+            jc.read( "item", item_type, true );
+            quantity = jc.get_int( "quantity", 1 );
+            charges = jc.get_int( "charges", 1 );
+        } else {
+            entry.read( item_type, true );
+            quantity = 1;
+            charges = 1;
+        }
+        if( !item_type.is_empty() && quantity > 0 && charges > 0 ) {
+            trigger_components.emplace_back( item_type, quantity, charges );
+        }
+    }
     for( const JsonValue entry : jo.get_array( "drops" ) ) {
         itype_id item_type;
         int quantity = 0;

@@ -77,6 +77,16 @@ static float pit_effectiveness( const tripoint &p )
     return std::max( 0.0f, 1.0f - corpse_volume / filled_volume );
 }
 
+void trapfunc::trigger_aftermath( map &m, const tripoint &p ) const
+{
+    for( auto &i : m.tr_at( p ).trigger_components ) {
+        const itype_id &item_type = std::get<0>( i );
+        const int quantity = std::get<1>( i );
+        const int charges = std::get<2>( i );
+        m.spawn_item( p.xy(), item_type, quantity, charges );
+    }
+}
+
 bool trapfunc::none( const tripoint &, Creature *, item * )
 {
     return false;
@@ -1423,6 +1433,7 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
     npc dummy;
     trap_spell.cast_all_effects( dummy, critter->pos() );
     trap_spell.make_sound( p );
+    trigger_aftermath( get_map(), p );
     g->m.remove_trap( p );
     return true;
 }
