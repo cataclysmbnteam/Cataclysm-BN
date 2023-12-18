@@ -1032,12 +1032,12 @@ rl_vec2d convert_wind_to_coord( const int angle )
 bool warm_enough_to_plant( const tripoint &pos )
 {
     // semi-appropriate temperature for most plants
-    return get_weather().get_temperature( pos ) >= 50;
+    return get_weather().get_temperature( pos ) >= 10_c;
 }
 
 bool warm_enough_to_plant( const tripoint_abs_omt &pos )
 {
-    return get_weather().get_temperature( pos ) >= 50;
+    return get_weather().get_temperature( pos ) >= 10_c;
 }
 
 weather_manager::weather_manager()
@@ -1045,7 +1045,7 @@ weather_manager::weather_manager()
     lightning_active = false;
     weather_override = weather_type_id::NULL_ID();
     nextweather = calendar::before_time_starts;
-    temperature = 0;
+    temperature = 0_c;
     weather_id = weather_type_id::NULL_ID();
 }
 
@@ -1076,7 +1076,7 @@ void weather_manager::update_weather()
     }
 
     sfx::do_ambient();
-    temperature = units::to_fahrenheit( w.temperature );
+    temperature = w.temperature;
     lightning_active = false;
     // Check weather every few turns, instead of every turn.
     // TODO: predict when the weather changes and use that time.
@@ -1100,10 +1100,9 @@ void weather_manager::update_weather()
         get_map().set_seen_cache_dirty( tripoint_zero );
     }
 
-    water_temperature = units::to_fahrenheit(
-                            weather_gen.get_water_temperature(
-                                tripoint_abs_ms( g->u.global_square_location() ),
-                                calendar::turn, calendar::config, g->get_seed() ) );
+    water_temperature = weather_gen.get_water_temperature(
+                            tripoint_abs_ms( g->u.global_square_location() ),
+                            calendar::turn, calendar::config, g->get_seed() ) ;
 }
 
 void weather_manager::set_nextweather( time_point t )
@@ -1112,7 +1111,7 @@ void weather_manager::set_nextweather( time_point t )
     update_weather();
 }
 
-int weather_manager::get_temperature( const tripoint &location ) const
+auto weather_manager::get_temperature( const tripoint &location ) const -> units::temperature
 {
     const auto &cached = temperature_cache.find( location );
     if( cached != temperature_cache.end() ) {
@@ -1126,29 +1125,28 @@ int weather_manager::get_temperature( const tripoint &location ) const
         temp_mod += get_heat_radiation( location, false );
         temp_mod += get_convection_temperature( location );
     }
-    const int temp = ( location.z < 0
-                       ? units::to_fahrenheit( temperatures::annual_average )
-                       : temperature ) +
-                     ( g->new_game
-                       ? 0
-                       : g->m.get_temperature( location ) + temp_mod );
 
-    temperature_cache.emplace( location, temp );
-    return temp;
+    const int added_f = g->new_game ? 0 : g->m.get_temperature( location ) + temp_mod;
+    const int base_f = units::to_fahrenheit(
+                           location.z < 0 ? temperatures::annual_average : temperature );
+
+    // Hack: adding temperatures between temperatures makes no sense
+    return units::from_celsius( std::round( units::fahrenheit_to_celsius( base_f + added_f ) ) );
 }
 
-int weather_manager::get_temperature( const tripoint_abs_omt &location )
+auto weather_manager::get_temperature( const tripoint_abs_omt &location ) const ->
+units::temperature
 {
     if( location.z() < 0 ) {
-        return units::to_fahrenheit( temperatures::annual_average );
+        return temperatures::annual_average;
     }
 
     tripoint abs_ms = project_to<coords::ms>( location ).raw();
     w_point w = get_cur_weather_gen().get_weather( abs_ms, calendar::turn, g->get_seed() );
-    return units::to_fahrenheit( w.temperature );
+    return w.temperature;
 }
 
-int weather_manager::get_water_temperature( const tripoint & ) const
+auto weather_manager::get_water_temperature( const tripoint & ) const -> units::temperature
 {
     return water_temperature;
 }

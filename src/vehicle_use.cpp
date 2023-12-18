@@ -1,6 +1,7 @@
 #include "character.h"
 #include "vehicle.h"
 #include "vehicle_part.h" // IWYU pragma: associated
+#include "units_temperature.h"
 
 #include <algorithm>
 #include <array>
@@ -955,7 +956,7 @@ double vehicle::engine_cold_factor( const int e ) const
         return 0.0;
     }
 
-    int eff_temp = get_weather().get_temperature( g->u.pos() );
+    int eff_temp = units::to_fahrenheit( get_weather().get_temperature( g->u.pos() ) );
     if( !parts[ engines[ e ] ].faults().count( fault_glowplug ) ) {
         eff_temp = std::min( eff_temp, 20 );
     }

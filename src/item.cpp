@@ -5582,8 +5582,10 @@ auto get_hourly_rotpoints_at_temp( const units::temperature temp ) -> int
     if( temp > 40_c ) {
         return 21240;
     }
-    const int temp_c = units::to_celsius( temp );
-    return rot_chart[temp_c];
+    // HACK: due to frequent fahrenheit <-> celsius conversion, 18C is actually 17.777C
+    // remove rounding after most of temperatures passed around are in `units::temperature`
+    const float temp_c = static_cast<float>( units::to_millidegree_celsius( temp ) ) / 1000;
+    return rot_chart[std::round( temp_c )];
 }
 
 auto item::calc_rot( time_point time, const units::temperature temp ) const -> time_duration
@@ -9014,7 +9016,7 @@ detached_ptr<item>  item::process_rot( detached_ptr<item> &&self, const bool sea
     // note we're also gated by item::processing_speed
     constexpr time_duration smallest_interval = 10_minutes;
 
-    units::temperature temp = units::from_fahrenheit( weather.get_temperature( pos ) );
+    units::temperature temp = weather.get_temperature( pos );
     temp = clip_by_temperature_flag( temp, flag );
 
     time_point time = self->last_rot_check;

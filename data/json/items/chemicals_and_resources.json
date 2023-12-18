@@ -244,8 +244,7 @@
     "charges": 2,
     "category": "chems",
     "flags": [ "UNSAFE_CONSUME" ],
-    "fun": -30,
-    "freezing_point": -108
+    "fun": -30
   },
   {
     "type": "COMESTIBLE",
@@ -434,7 +433,6 @@
     "phase": "liquid",
     "category": "chems",
     "fun": -45,
-    "freezing_point": 25,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ], "scale_qty": true },
     "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 3 }, "effects": [ "ACID_TRAIL" ] }
   },
@@ -573,7 +571,6 @@
     "effects": [ "ACID_TRAIL_WEAK" ],
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": 25,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
@@ -595,7 +592,6 @@
     "effects": [ "ACID_TRAIL_WEAK" ],
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": 25,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
@@ -617,7 +613,6 @@
     "effects": [ "ACID_TRAIL_WEAK" ],
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": -44,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {

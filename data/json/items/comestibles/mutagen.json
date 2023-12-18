@@ -20,8 +20,7 @@
     "addiction_type": "mutagen",
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "vitamins": [  ],
-    "material": "water",
-    "freezing_point": 17
+    "material": "water"
   },
   {
     "abstract": "iv_mutagen_flavor",
