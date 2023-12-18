@@ -1843,6 +1843,8 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             return find_tile_looks_like_by_string_id<furn_t>( id, category, looks_like_jumps_limit );
         case C_TERRAIN:
             return find_tile_looks_like_by_string_id<ter_t>( id, category, looks_like_jumps_limit );
+        case C_TRAP:
+            return find_tile_looks_like_by_string_id<trap>( id, category, looks_like_jumps_limit );
         case C_FIELD:
             return find_tile_looks_like_by_string_id<field_type>( id, category, looks_like_jumps_limit );
         case C_MONSTER:

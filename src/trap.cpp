@@ -125,6 +125,10 @@ void trap::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     optional( jo, was_loaded, "spell_data", spell_data );
     assign( jo, "trigger_weight", trigger_weight );
+    if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    jo.read( "looks_like", looks_like );
     for( const JsonValue entry : jo.get_array( "drops" ) ) {
         itype_id item_type;
         int quantity = 0;
