@@ -264,10 +264,7 @@
   {
     "method": "json",
     "type": "mapgen",
-    "om_terrain": [
-      [ "movietheater_roof2_2_0" ],
-      [ "movietheater_roof2_2_1" ]
-    ],
+    "om_terrain": [ [ "movietheater_roof2_2_0" ], [ "movietheater_roof2_2_1" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
