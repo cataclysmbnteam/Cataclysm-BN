@@ -97,7 +97,6 @@ bool trapfunc::bubble( const tripoint &p, Creature *c, item * )
     }
     sounds::sound( p, 18, sounds::sound_t::alarm, _( "Pop!" ), false, "trap", "bubble_wrap" );
     g->m.tr_at( p ).trigger_aftermath( g->m, p );
-    g->m.remove_trap( p );
     return true;
 }
 
@@ -124,23 +123,23 @@ bool trapfunc::glass( const tripoint &p, Creature *c, item * )
     }
     sounds::sound( p, 10, sounds::sound_t::combat, _( "glass cracking!" ), false, "trap", "glass" );
     g->m.tr_at( p ).trigger_aftermath( g->m, p );
-    g->m.remove_trap( p );
     return true;
 }
 
-bool trapfunc::cot( const tripoint &, Creature *c, item * )
+bool trapfunc::cot( const tripoint &p, Creature *c, item * )
 {
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
         // Haha, only monsters stumble over a cot, humans are smart.
         add_msg( m_good, _( "The %s stumbles over the cot!" ), z->name() );
         c->moves -= 100;
+        // If you want to allow the cot to tip over or something when some buffoon trips over it, sure.
+        g->m.tr_at( p ).trigger_aftermath( g->m, p );
         return true;
     }
     return false;
 }
 
-// This one is a special case that can't use trigger_aftermath due to the item spawn timing depending on the victim.
 bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
 {
     // tiny animals don't trigger bear traps
@@ -148,7 +147,6 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         return false;
     }
     sounds::sound( p, 8, sounds::sound_t::combat, _( "SNAP!" ), false, "trap", "bear_trap" );
-    g->m.remove_trap( p );
     if( c != nullptr ) {
         // What got hit?
         const bodypart_id hit = one_in( 2 ) ? bodypart_id( "leg_l" ) : bodypart_id( "leg_r" );
@@ -169,6 +167,8 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
     } else {
         g->m.spawn_item( p, "beartrap" );
     }
+    // Limited utility given the item spawns when the victim breaks free, but allow it anyway.
+    g->m.tr_at( p ).trigger_aftermath( g->m, p );
     return true;
 }
 
@@ -258,7 +258,6 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
         sounds::sound( p, 8, sounds::sound_t::combat, _( "glass cracking!" ), false, "trap",
                        "glass_caltrops" );
     }
-    g->m.remove_trap( p );
     g->m.tr_at( p ).trigger_aftermath( g->m, p );
     return true;
 }
@@ -414,7 +413,6 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
         g->m.spawn_item( p, "bolt_steel", 1, 1 );
     }
     g->m.tr_at( p ).trigger_aftermath( g->m, p );
-    g->m.remove_trap( p );
     return true;
 }
 
@@ -516,7 +514,6 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
     }
 
     g->m.tr_at( p ).trigger_aftermath( g->m, p );
-    g->m.remove_trap( p );
     return true;
 }
 
@@ -539,11 +536,9 @@ bool trapfunc::blade( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-// This one is a special case that can't use trigger_aftermath due to the item spawn timing depending on the victim.
 bool trapfunc::snare_light( const tripoint &p, Creature *c, item * )
 {
     sounds::sound( p, 2, sounds::sound_t::combat, _( "Snap!" ), false, "trap", "snare" );
-    g->m.remove_trap( p );
     if( c == nullptr ) {
         return false;
     }
@@ -563,14 +558,14 @@ bool trapfunc::snare_light( const tripoint &p, Creature *c, item * )
         z->deal_damage( nullptr, hit, damage_instance( DT_BASH, 10 ) );
     }
     c->check_dead_state();
+    // Limited utility given the item spawns when the victim breaks free, but allow it anyway.
+    g->m.tr_at( p ).trigger_aftermath( g->m, p );
     return true;
 }
 
-// This one is a special case that can't use trigger_aftermath due to the item spawn timing depending on the victim.
 bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
 {
     sounds::sound( p, 4, sounds::sound_t::combat, _( "Snap!" ), false, "trap", "snare" );
-    g->m.remove_trap( p );
     if( c == nullptr ) {
         return false;
     }
@@ -607,6 +602,8 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
         z->deal_damage( nullptr, hit, damage_instance( DT_BASH, damage ) );
     }
     c->check_dead_state();
+    // Limited utility given the item spawns when the victim breaks free, but allow it anyway.
+    g->m.tr_at( p ).trigger_aftermath( g->m, p );
     return true;
 }
 
@@ -636,7 +633,6 @@ bool trapfunc::landmine( const tripoint &p, Creature *c, item * )
     }
     explosion_handler::explosion( p, get_basic_explosion_data(), nullptr );
     g->m.tr_at( p ).trigger_aftermath( g->m, p );
-    g->m.remove_trap( p );
     return true;
 }
 
@@ -648,7 +644,6 @@ bool trapfunc::boobytrap( const tripoint &p, Creature *c, item * )
     }
     explosion_handler::explosion( p, get_basic_explosion_data(), nullptr );
     g->m.tr_at( p ).trigger_aftermath( g->m, p );
-    g->m.remove_trap( p );
     return true;
 }
 
@@ -666,14 +661,14 @@ bool trapfunc::telepad( const tripoint &p, Creature *c, item * )
             add_msg( _( "The air shimmers around %s…" ), c->disp_name() );
         }
     }
-    teleport::teleport( *c );
+    // Do trap cleanup early because p is about to get changed by the victim teleporting.
     g->m.tr_at( p ).trigger_aftermath( g->m, p );
+    teleport::teleport( *c );
     return true;
 }
 
 bool trapfunc::goo( const tripoint &p, Creature *c, item * )
 {
-    g->m.remove_trap( p );
     if( c == nullptr ) {
         return false;
     }
@@ -1128,9 +1123,7 @@ bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
         pl->add_msg_player_or_npc( m_warning, _( "The sinkhole collapses!" ),
                                    _( "A sinkhole under <npcname> collapses!" ) );
         if( success ) {
-            g->m.remove_trap( p );
-            g->m.ter_set( p, t_pit );
-            g->m.tr_at( p ).trigger_aftermath( g->m, p );
+            // Return early without converting the sinkhole into a pit, because player's position moved when they saved themselves.
             return true;
         }
         pl->add_msg_player_or_npc( m_bad, _( "You fall into the sinkhole!" ),
@@ -1138,12 +1131,11 @@ bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
     } else {
         return false;
     }
-    g->m.remove_trap( p );
+    // Questionable utility, potentially spawning cover from a concealed pit trap?
+    g->m.tr_at( p ).trigger_aftermath( g->m, p );
     g->m.ter_set( p, t_pit );
     c->moves -= 100;
     pit( p, c, i );
-    // Questionable utility, potentially spawning cover from a concealed pit trap?
-    g->m.tr_at( p ).trigger_aftermath( g->m, p );
     return true;
 }
 
@@ -1465,7 +1457,6 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
     trap_spell.cast_all_effects( dummy, critter->pos() );
     trap_spell.make_sound( p );
     g->m.tr_at( p ).trigger_aftermath( g->m, p );
-    g->m.remove_trap( p );
     return true;
 }
 

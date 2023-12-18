@@ -21,6 +21,7 @@
     "avoidance": 8,
     "difficulty": 0,
     "action": "bubble",
+    "remove_on_trigger": true,
     "drops": [ "bubblewrap" ],
     "vehicle_data": { "sound_volume": 18, "sound": "Pop!" }
   },
@@ -34,6 +35,7 @@
     "avoidance": 8,
     "difficulty": 0,
     "action": "glass",
+    "remove_on_trigger": true,
     "drops": [ "glass_shard" ],
     "vehicle_data": { "sound_volume": 10, "sound": "Crunch!" }
   },
@@ -146,8 +148,9 @@
     "visibility": 2,
     "avoidance": 7,
     "difficulty": 3,
-    "//": "trigger_items and remove_on_trigger don't apply to this action, since trap behavior is tied to the target freeing themselves.",
     "action": "beartrap",
+    "//": "trigger_items isn't needed for this action, since trap behavior is tied to the target freeing themselves.",
+    "remove_on_trigger": true,
     "drops": [ "beartrap" ],
     "vehicle_data": {
       "damage": 300,
@@ -169,8 +172,9 @@
     "visibility": 9,
     "avoidance": 8,
     "difficulty": 4,
-    "//": "trigger_items and remove_on_trigger don't apply to this action, since trap behavior is tied to the target freeing themselves.",
     "action": "beartrap",
+    "//": "trigger_items isn't needed for this action, since trap behavior is tied to the target freeing themselves.",
+    "remove_on_trigger": true,
     "drops": [ "beartrap" ],
     "vehicle_data": {
       "damage": 300,
@@ -218,6 +222,8 @@
     "avoidance": 6,
     "difficulty": 0,
     "action": "caltrops_glass",
+    "remove_on_trigger": true,
+    "trigger_items": [ { "item": "glass_shard", "quantity": 3 } ],
     "drops": [ "caltrops_glass" ],
     "vehicle_data": { "damage": 300 }
   },
@@ -246,6 +252,7 @@
     "difficulty": 5,
     "action": "spell",
     "spell_data": { "id": "spell_trap_can_alarm_trigger" },
+    "remove_on_trigger": true,
     "trigger_items": [ "can_alarm_trap" ],
     "drops": [ "can_alarm_trap" ],
     "vehicle_data": { "sound_volume": 25, "sound": "empty cans clattering!" }
@@ -261,6 +268,7 @@
     "avoidance": 4,
     "difficulty": 5,
     "action": "crossbow",
+    "remove_on_trigger": true,
     "//": "Ammo spawn on activation is still hardcoded, as it has a randomized chance to drop intact.",
     "trigger_items": [ "tripwire", "crossbow" ],
     "drops": [ "tripwire", "crossbow", "bolt_steel" ],
@@ -286,8 +294,9 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "//": "trigger_items here only matters if the trap rolls to fire both barrels, otherwise it becomes tr_shotgun_2_1 instead",
-    "trigger_items": [ "tripwire", "shotgun_d" ],
+    "//": "trigger_items and remove_on_trigger only matters here if it fires both barrels, otherwise it converts to tr_shotgun_2_1",
+    "remove_on_trigger": true,
+    "trigger_items": [ "tripwire", "shotgun_d", { "item": "shot_hull", "quantity": 2, "charges": 1 } ],
     "drops": [ "tripwire", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
@@ -310,7 +319,8 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "trigger_items": [ "tripwire", "shotgun_d" ],
+    "remove_on_trigger": true,
+    "trigger_items": [ "tripwire", "shotgun_d", { "item": "shot_hull", "quantity": 2, "charges": 1 } ],
     "drops": [ "tripwire", "shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
@@ -334,7 +344,8 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "trigger_items": [ "tripwire", "shotgun_s" ],
+    "remove_on_trigger": true,
+    "trigger_items": [ "tripwire", "shotgun_s", { "item": "shot_hull", "quantity": 1, "charges": 1 } ],
     "drops": [ "tripwire", "shotgun_s", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
@@ -384,6 +395,7 @@
     "avoidance": 14,
     "difficulty": 10,
     "action": "landmine",
+    "remove_on_trigger": true,
     "drops": [ "landmine" ],
     "vehicle_data": {
       "do_explosion": true,
@@ -406,6 +418,7 @@
     "avoidance": 14,
     "difficulty": 10,
     "action": "landmine",
+    "remove_on_trigger": true,
     "drops": [ "landmine" ],
     "vehicle_data": {
       "do_explosion": true,
@@ -439,7 +452,8 @@
     "visibility": 0,
     "avoidance": 15,
     "difficulty": 15,
-    "action": "goo"
+    "action": "goo",
+    "remove_on_trigger": true
   },
   {
     "type": "trap",
@@ -463,6 +477,7 @@
     "avoidance": 14,
     "difficulty": 99,
     "action": "sinkhole",
+    "remove_on_trigger": true,
     "vehicle_data": { "damage": 500 }
   },
   {
@@ -537,6 +552,7 @@
     "avoidance": 4,
     "difficulty": 7,
     "action": "boobytrap",
+    "remove_on_trigger": true,
     "drops": [ "boobytrap" ],
     "vehicle_data": {
       "do_explosion": true,

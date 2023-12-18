@@ -101,6 +101,7 @@ struct trap {
         // 0 to ??, trap radius
         int trap_radius = 0;
         bool benign = false;
+        bool remove_on_trigger = false;
         bool always_invisible = false;
         // a valid overmap id, for map_regen action traps
         std::string map_regen;
@@ -161,6 +162,13 @@ struct trap {
          */
         bool is_benign() const {
             return benign;
+        }
+        /**
+         * If true, remove this trap during trap::trigger_aftermath when the trap is set off.
+         * Warning: won't affect underlying terrain, so not worth using for things like t_pit.
+         */
+        bool remove_trap_when_triggered() const {
+            return remove_on_trigger;
         }
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */

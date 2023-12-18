@@ -119,6 +119,7 @@ void trap::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "map_regen", map_regen, "none" );
     optional( jo, was_loaded, "benign", benign, false );
+    optional( jo, was_loaded, "remove_on_trigger", remove_on_trigger, false );
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
     optional( jo, was_loaded, "comfort", comfort, 0 );
@@ -287,6 +288,9 @@ void trap::trigger_aftermath( map &m, const tripoint &p ) const
         const int quantity = std::get<1>( i );
         const int charges = std::get<2>( i );
         m.spawn_item( p.xy(), item_type, quantity, charges );
+    }
+    if( m.tr_at( p ).remove_trap_when_triggered() ) {
+        m.remove_trap( p );
     }
 }
 
