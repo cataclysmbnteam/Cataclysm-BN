@@ -186,7 +186,7 @@ struct trap {
         bool triggered_by_item( const item &itm ) const;
         /**
          * Cleanup after a trap has been triggered, spawns items (if any) and.
-         * if trigger_remove is set to true removes the trap via
+         * if remove_on_trigger is set to true removes the trap via
          * @ref map::remove_trap.
          */
         void trigger_aftermath( map &m, const tripoint &p ) const;
