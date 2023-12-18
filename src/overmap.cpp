@@ -4100,6 +4100,7 @@ void overmap::place_lakes()
 
     const oter_id lake_surface( "lake_surface" );
     const oter_id lake_shore( "lake_shore" );
+    const oter_id lake_underwater_shore( "lake_underwater_shore" );
     const oter_id lake_water_cube( "lake_water_cube" );
     const oter_id lake_bed( "lake_bed" );
 
@@ -4178,6 +4179,10 @@ void overmap::place_lakes()
                         ter_set( tripoint_om_omt( p, z ), lake_water_cube );
                     }
                     ter_set( tripoint_om_omt( p, settings->overmap_lake.lake_depth ), lake_bed );
+                } else {
+                    for( int z = -1; z >= settings->overmap_lake.lake_depth; z-- ) {
+                        ter_set( tripoint_om_omt( p, z ), lake_underwater_shore );
+                    }
                 }
             }
 
