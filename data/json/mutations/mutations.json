@@ -6366,7 +6366,7 @@
     "name": { "str": "Debug Infinite Stamina" },
     "points": 99,
     "valid": false,
-    "description": "Lets you run forever (in other words, until you fix that bug).",
+    "description": "Lets you run or swim forever (in other words, until you fix that bug).",
     "debug": true
   },
   {
