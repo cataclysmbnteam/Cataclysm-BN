@@ -158,6 +158,7 @@ static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
+static const trait_id trait_DEBUG_STAMINA( "DEBUG_STAMINA" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
@@ -236,6 +237,10 @@ void Character::suffer_mutation_power( const mutation_branch &mdata, char_trait_
 
 void Character::suffer_while_underwater()
 {
+    // Infinite breath
+    if( has_trait( trait_DEBUG_STAMINA ) ) {
+        return;
+    }
     if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
         oxygen--;
     }
