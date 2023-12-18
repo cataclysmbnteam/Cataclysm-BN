@@ -69,7 +69,6 @@ class mapgendata
         float density_;
         time_point when_;
         ::mission *mission_;
-        int zlevel_;
         mapgen_arguments mapgen_args_;
 
     public:
@@ -89,6 +88,7 @@ class mapgendata
 
         std::unordered_map<cube_direction, std::string> joins;
 
+        const tripoint_abs_omt pos;
         const regional_settings &region;
 
         map &m;
@@ -135,8 +135,7 @@ class mapgendata
             return mission_;
         }
         int zlevel() const {
-            // TODO: should be able to determine this from the map itself
-            return zlevel_;
+            return pos.z();
         }
 
         void set_dir( int dir_in, int val );

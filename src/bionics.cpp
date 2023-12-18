@@ -627,8 +627,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( !eff_only && !bio.is_auto_start_keep_full() ) {
             add_msg_if_player( m_info, _( "You activate your %s." ), bio.info().name );
         } else if( get_player_character().sees( pos() ) ) {
-            add_msg( m_info, _( "%s activates their %s." ), disp_name(),
-                     bio.info().name );
+            add_msg_if_npc( m_info, _( "%s activates their %s." ), disp_name(),
+                            bio.info().name );
         }
     };
     auto refund_power = [&]() {
@@ -984,7 +984,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                            print_temperature(
                                get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
                                        weatherPoint.humidity,
-                                       windpower / 100 ) + player_local_temp ) );
+                                       windpower / 100 ) + units::to_fahrenheit( player_local_temp ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == bio_remote ) {

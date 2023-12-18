@@ -16,6 +16,7 @@
 #include "enums.h"
 #include "field_type.h"
 #include "flood_fill.h"
+#include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "line.h"
@@ -2587,43 +2588,42 @@ void mapgen_lake_shore( mapgendata &dat )
     // If we didn't extend an adjacent terrain, then just fill this entire location with the default
     // groundcover for the region.
     if( !did_extend_adjacent_terrain ) {
-        dat.fill_groundcover();
+        if( dat.zlevel() >= 0 ) {
+            dat.fill_groundcover();
+        } else {
+            fill_background( m, t_rock );
+        }
     }
 
     const oter_id river_center( "river_center" );
 
-    auto is_lake = [&]( const oter_id & id ) {
-        // We want to consider river_center as a lake as well, so that the confluence of a
-        // river and a lake is a continuous water body.
-        return id.obj().is_lake() || id == river_center;
+    enum class n_type {
+        lake,
+        shore,
+        river,
+        solid
     };
+    n_type neighbours[8];
 
-    const auto is_shore = [&]( const oter_id & id ) {
-        return id.obj().is_lake_shore();
-    };
+    int lakes = 0;
+    for( int i = 0; i < 8; i++ ) {
+        const oter_id n = dat.t_nesw[i];
 
-    const auto is_river_bank = [&]( const oter_id & id ) {
-        return id != river_center && id.obj().is_river();
-    };
-
-    const auto is_water = [&]( const oter_id & id ) {
-        return id.obj().is_river() || id.obj().is_lake() || id.obj().is_lake_shore();
-    };
-
-    const bool n_lake  = is_lake( dat.north() );
-    const bool e_lake  = is_lake( dat.east() );
-    const bool s_lake  = is_lake( dat.south() );
-    const bool w_lake  = is_lake( dat.west() );
-    const bool nw_lake = is_lake( dat.nwest() );
-    const bool ne_lake = is_lake( dat.neast() );
-    const bool se_lake = is_lake( dat.seast() );
-    const bool sw_lake = is_lake( dat.swest() );
+        if( n == river_center || n.obj().is_lake() ) {
+            neighbours[i] = n_type::lake;
+            lakes++;
+        } else if( n.obj().is_lake_shore() ) {
+            neighbours[i] = n_type::shore;
+        } else if( n.obj().is_river() ) {
+            neighbours[i] = n_type::river;
+        } else {
+            neighbours[i] = n_type::solid;
+        }
+    }
 
     // If we don't have any adjacent lakes, then we don't need to worry about a shoreline,
     // and are done at this point.
-    const bool no_adjacent_water = !n_lake && !e_lake && !s_lake && !w_lake && !nw_lake && !ne_lake &&
-                                   !se_lake && !sw_lake;
-    if( no_adjacent_water ) {
+    if( lakes == 0 ) {
         return;
     }
 
@@ -2650,38 +2650,50 @@ void mapgen_lake_shore( mapgendata &dat )
     // lines 1->7 and 2->6 which will for our shore lines after some jittering.
 
 
-    const bool n_shore = is_shore( dat.north() );
-    const bool e_shore = is_shore( dat.east() );
-    const bool s_shore = is_shore( dat.south() );
-    const bool w_shore = is_shore( dat.west() );
+    const bool n_lake  = neighbours[0] == n_type::lake;
+    const bool e_lake  = neighbours[1] == n_type::lake;
+    const bool s_lake  = neighbours[2] == n_type::lake;
+    const bool w_lake  = neighbours[3] == n_type::lake;
+    const bool ne_lake = neighbours[4] == n_type::lake;
+    const bool se_lake = neighbours[5] == n_type::lake;
+    const bool sw_lake = neighbours[6] == n_type::lake;
+    const bool nw_lake = neighbours[7] == n_type::lake;
 
-    const bool n_river_bank = is_river_bank( dat.north() );
-    const bool e_river_bank = is_river_bank( dat.east() );
-    const bool s_river_bank = is_river_bank( dat.south() );
-    const bool w_river_bank = is_river_bank( dat.west() );
+    const bool n_shore = neighbours[0] == n_type::shore;
+    const bool e_shore = neighbours[1] == n_type::shore;
+    const bool s_shore = neighbours[2] == n_type::shore;
+    const bool w_shore = neighbours[3] == n_type::shore;
 
-    const bool n_water  = n_lake || n_shore || n_river_bank;
-    const bool e_water  = e_lake || e_shore || e_river_bank;
-    const bool s_water  = s_lake || s_shore || s_river_bank;
-    const bool w_water  = w_lake || w_shore || w_river_bank;
-    const bool nw_water = is_water( dat.nwest() );
-    const bool ne_water = is_water( dat.neast() );
-    const bool se_water = is_water( dat.seast() );
-    const bool sw_water = is_water( dat.swest() );
+    const bool n_river_bank = neighbours[0] == n_type::river;
+    const bool e_river_bank = neighbours[1] == n_type::river;
+    const bool s_river_bank = neighbours[2] == n_type::river;
+    const bool w_river_bank = neighbours[3] == n_type::river;
+
+    const bool n_water  = neighbours[0] != n_type::solid;
+    const bool e_water  = neighbours[1] != n_type::solid;
+    const bool s_water  = neighbours[2] != n_type::solid;
+    const bool w_water  = neighbours[3] != n_type::solid;
+    const bool ne_water = neighbours[4] != n_type::solid;
+    const bool se_water = neighbours[5] != n_type::solid;
+    const bool sw_water = neighbours[6] != n_type::solid;
+    const bool nw_water = neighbours[7] != n_type::solid;
 
     // This is length we end up pushing things about by as a baseline.
     const int mx = SEEX * 2 - 1;
     const int my = SEEY * 2 - 1;
     const int sector_length = SEEX * 2 / 3;
-    const int lake_beach = sector_length * 2;
-    const int river_beach = sector_length / 2;
 
     // Define the corners of the map. These won't change.
     // NOLINTNEXTLINE(cata-point-initialization, cata-use-named-point-constants)
-    static constexpr point nw_corner{ 0, 0 };
+    static constexpr point nw_corner( 0, 0 );
     static constexpr point ne_corner( mx, 0 );
     static constexpr point se_corner( mx, my );
     static constexpr point sw_corner( 0, my );
+
+    static constexpr point river_beach_x( sector_length / 2, 0 );
+    static constexpr point river_beach_y( 0, sector_length / 2 );
+    static constexpr point lake_beach_x( sector_length * 2, 0 );
+    static constexpr point lake_beach_y( 0, sector_length * 2 );
 
     std::vector<point> shore_points;
     std::map<int, point> slots;
@@ -2690,45 +2702,37 @@ void mapgen_lake_shore( mapgendata &dat )
     // Checking our surrounding can give just enough information for that
     if( n_river_bank ) {
         if( nw_water && ( !ne_water || !e_water ) ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[0] = { ne_corner.x - river_beach, ne_corner.y };
+            slots[0] = ne_corner - river_beach_x;
         }
         if( ne_water && ( !nw_water || !w_water ) ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[1] = { nw_corner.x + river_beach, nw_corner.y };
+            slots[1] = nw_corner + river_beach_x;
         }
     }
 
     if( w_river_bank ) {
         if( sw_water && ( !nw_water || !n_water ) ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[2] = { nw_corner.x, nw_corner.y + river_beach };
+            slots[2] = nw_corner + river_beach_y;
         }
         if( nw_water && ( !sw_water || !s_water ) ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[3] = { sw_corner.x, sw_corner.y - river_beach };
+            slots[3] = sw_corner - river_beach_y;
         }
     }
 
     if( s_river_bank ) {
         if( se_water && ( !sw_water || !w_water ) ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[4] = { sw_corner.x + river_beach, sw_corner.y };
+            slots[4] = sw_corner + river_beach_x;
         }
         if( sw_water && ( !se_water || !e_water ) ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[5] = { se_corner.x - river_beach, se_corner.y };
+            slots[5] = se_corner - river_beach_x;
         }
     }
 
     if( e_river_bank ) {
         if( ne_water && ( !se_water || !s_water ) ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[6] = { se_corner.x, se_corner.y - river_beach };
+            slots[6] = se_corner - river_beach_y;
         }
         if( se_water && ( !ne_water || !n_water ) ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[7] = { ne_corner.x, ne_corner.y + river_beach };
+            slots[7] = ne_corner + river_beach_y;
         }
     }
 
@@ -2736,45 +2740,37 @@ void mapgen_lake_shore( mapgendata &dat )
     // and in middle of lake. We need to connect to those ones which neighbouring same lake surface
     if( n_shore ) {
         if( nw_lake || w_lake ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[0] = { ne_corner.x - lake_beach, ne_corner.y };
+            slots[0] = ne_corner - lake_beach_x;
         }
         if( ne_lake || e_lake ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[1] = { nw_corner.x + lake_beach, nw_corner.y };
+            slots[1] = nw_corner + lake_beach_x;
         }
     }
 
     if( w_shore ) {
         if( sw_lake || s_lake ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[2] = { nw_corner.x, nw_corner.y + lake_beach };
+            slots[2] = nw_corner + lake_beach_y;
         }
         if( nw_lake || n_lake ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[3] = { sw_corner.x, sw_corner.y - lake_beach };
+            slots[3] = sw_corner - lake_beach_y;
         }
     }
 
     if( s_shore ) {
         if( se_lake || e_lake ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[4] = { sw_corner.x + lake_beach, sw_corner.y };
+            slots[4] = sw_corner + lake_beach_x;
         }
         if( sw_lake || w_lake ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[5] = { se_corner.x - lake_beach, se_corner.y };
+            slots[5] = se_corner - lake_beach_x;
         }
     }
 
     if( e_shore ) {
         if( ne_lake || n_lake ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[6] = { se_corner.x, se_corner.y - lake_beach };
+            slots[6] = se_corner - lake_beach_y;
         }
         if( se_lake || s_lake ) {
-            // NOLINTNEXTLINE(cata-use-point-arithmetic)
-            slots[7] = { ne_corner.x, ne_corner.y + lake_beach };
+            slots[7] = ne_corner + lake_beach_y;
         }
     }
 
@@ -2846,14 +2842,10 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // We have no shores at all, make a small reef surrounded by water
     if( line_segments.empty() ) {
-        // NOLINTNEXTLINE(cata-use-point-arithmetic)
-        point nw_inner = { nw_corner.x + sector_length, nw_corner.y + sector_length };
-        // NOLINTNEXTLINE(cata-use-point-arithmetic)
-        point ne_inner = { ne_corner.x - sector_length, ne_corner.y + sector_length };
-        // NOLINTNEXTLINE(cata-use-point-arithmetic)
-        point se_inner = { se_corner.x - sector_length, se_corner.y - sector_length };
-        // NOLINTNEXTLINE(cata-use-point-arithmetic)
-        point sw_inner = { sw_corner.x + sector_length, sw_corner.y - sector_length };
+        point nw_inner = nw_corner + point( sector_length, sector_length );
+        point ne_inner = ne_corner + point( -sector_length, sector_length );
+        point se_inner = se_corner + point( -sector_length, -sector_length );
+        point sw_inner = sw_corner + point( sector_length, -sector_length );
         line_segments.insert( line_segments.end(), {
             {ne_inner, nw_inner}, {nw_inner, sw_inner},
             {sw_inner, se_inner}, {se_inner, ne_inner}
@@ -2880,14 +2872,26 @@ void mapgen_lake_shore( mapgendata &dat )
         }
     };
 
+    // We need to have same shoreline on different z levels, to match surface shore
+    // with submerged shore, to do so we'll jitter shore lines using deterministic
+    // random seeded with x\y coordinates
+    // NOLINTNEXTLINE(cata-determinism)
+    std::mt19937 prng( std::hash<point_abs_omt>()( dat.pos.xy() ) ^ g->get_seed() );
+
     // Given two points, return a point that is midway between the two points and then
     // jittered by a random amount in proportion to the length of the line segment.
     const auto jittered_midpoint = [&]( point  from, point  to ) {
         const int jitter = rl_dist( from, to ) / 4;
-        const point midpoint( ( from.x + to.x ) / 2 + rng( -jitter, jitter ),
-                              ( from.y + to.y ) / 2 + rng( -jitter, jitter ) );
+        std::uniform_int_distribution<int> roll( -jitter, jitter );
+        const point midpoint( ( from.x + to.x ) / 2 + roll( prng ),
+                              ( from.y + to.y ) / 2 + roll( prng ) );
         return midpoint;
     };
+
+    ter_id edge_tile = dat.zlevel() >= 0 ? t_water_sh : t_rock;
+    ter_id water_tile = dat.zlevel() >= 0 ? t_water_dp :
+                        dat.zlevel() == dat.region.overmap_lake.lake_depth ? t_lake_bed :
+                        t_water_cube;
 
     // For each of our valid shoreline line segments, generate a slightly more interesting
     // set of line segments by splitting the line into four segments with jittered
@@ -2919,7 +2923,7 @@ void mapgen_lake_shore( mapgendata &dat )
         std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
                                           should_fill );
         for( auto &wp : water_points ) {
-            m->ter_set( wp, t_water_dp );
+            m->ter_set( wp, water_tile );
             m->furn_set( wp, f_null );
         }
     };
@@ -2944,7 +2948,7 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // We previously placed our shallow water but actually did a t_null instead to make sure that we didn't
     // pick up shallow water from our extended terrain. Now turn those nulls into t_water_sh.
-    m->translate( t_null, t_water_sh );
+    m->translate( t_null, edge_tile );
 }
 
 void mremove_trap( map *m, point p )

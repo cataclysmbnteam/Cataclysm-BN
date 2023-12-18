@@ -24,12 +24,12 @@
       "s": "t_sidewalk",
       "t": "t_floor",
       "w": "t_window",
-      "|": "t_wall_w"
+      "|": "t_wall_w",
+      " ": "t_region_groundcover_urban"
     },
     "furniture": {
       "#": "f_bench",
       "S": "f_sink",
-      "T": "f_toilet",
       "c": "f_counter",
       "d": "f_desk",
       "e": "f_fridge",
@@ -39,6 +39,7 @@
       "t": "f_table",
       "C": "f_crate_c",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
-    }
+    },
+    "toilets": { "T": {  } }
   }
 ]

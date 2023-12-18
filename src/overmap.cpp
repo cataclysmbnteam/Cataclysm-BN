@@ -74,6 +74,8 @@ static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
+static const oter_type_str_id oter_type_bridge( "bridge" );
+
 class map_extra;
 
 #define dbg(x) DebugLogFL((x),DC::MapGen)
@@ -3453,10 +3455,6 @@ bool overmap::generate_over( const int z )
     bool requires_over = false;
     std::vector<point_om_omt> bridge_points;
 
-    if( !get_option<bool>( "ELEVATED_BRIDGES" ) ) {
-        return requires_over;
-    }
-
     // These are so common that it's worth checking first as int.
     const std::set<oter_id> skip_below = {
         oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
@@ -3476,7 +3474,7 @@ bool overmap::generate_over( const int z )
                     continue;
                 }
 
-                if( is_ot_match( "bridge", oter_ground, ot_match_type::type ) ) {
+                if( oter_ground->get_type_id() == oter_type_bridge ) {
                     bridge_points.emplace_back( i, j );
                 }
             }
@@ -3485,12 +3483,8 @@ bool overmap::generate_over( const int z )
 
     elevate_bridges(
         *this, bridge_points,
-        "bridge_road",
-        "bridge_under",
-        "bridgehead_ground",
-        "bridgehead_ramp",
-        "road_ew",
-        "road_ns"
+        "bridge_road", "bridge_under", "bridgehead_ground",
+        "bridgehead_ramp", "road_ew", "road_ns"
     );
 
     return requires_over;
@@ -3584,8 +3578,18 @@ static std::map<std::string, std::string> oter_id_migrations;
 
 void overmap::load_oter_id_migration( const JsonObject &jo )
 {
+    const bool old_directions = jo.get_bool( "old_directions", false );
+    const bool new_directions = jo.get_bool( "new_directions", false );
+
     for( const JsonMember &kv : jo.get_object( "oter_ids" ) ) {
-        oter_id_migrations.emplace( kv.name(), kv.get_string() );
+        if( old_directions ) {
+            for( const std::string &suffix : om_direction::all_suffixes ) {
+                oter_id_migrations.emplace( kv.name() + suffix,
+                                            new_directions ? kv.get_string() + suffix : kv.get_string() );
+            }
+        } else {
+            oter_id_migrations.emplace( kv.name(), kv.get_string() );
+        }
     }
 }
 
@@ -4096,6 +4100,7 @@ void overmap::place_lakes()
 
     const oter_id lake_surface( "lake_surface" );
     const oter_id lake_shore( "lake_shore" );
+    const oter_id lake_underwater_shore( "lake_underwater_shore" );
     const oter_id lake_water_cube( "lake_water_cube" );
     const oter_id lake_bed( "lake_bed" );
 
@@ -4174,6 +4179,10 @@ void overmap::place_lakes()
                         ter_set( tripoint_om_omt( p, z ), lake_water_cube );
                     }
                     ter_set( tripoint_om_omt( p, settings->overmap_lake.lake_depth ), lake_bed );
+                } else {
+                    for( int z = -1; z >= settings->overmap_lake.lake_depth; z-- ) {
+                        ter_set( tripoint_om_omt( p, z ), lake_underwater_shore );
+                    }
                 }
             }
 
@@ -5087,6 +5096,22 @@ bool overmap::build_connection(
 
     if( connection_cache ) {
         connection_cache->add( connection.id, z, start.pos );
+    } else if( z == 0 && connection.id.str() == "local_road" ) {
+        // If there's no cache, it means we're placing road after
+        // normal mapgen, and need to elevate bridges manually
+        std::vector<point_om_omt> bridge_points;
+        for( const auto &node : path.nodes ) {
+            const tripoint_om_omt pos( node.pos, z );
+            if( ter( pos )->get_type_id() == oter_type_bridge ) {
+                bridge_points.emplace_back( pos.xy() );
+            }
+        }
+
+        elevate_bridges(
+            *this, bridge_points,
+            "bridge_road", "bridge_under", "bridgehead_ground",
+            "bridgehead_ramp", "road_ew", "road_ns"
+        );
     }
     return true;
 }

@@ -30,10 +30,10 @@ http://creativecommons.org/licenses/by-sa/3.0/ 를 참고해주세요. 그 말�
 몇 가지 지켰으면 하는 가이드라인이 있습니다:
 
 - 이 저장소를 `upstream` [리모트][remote]로 추가해주세요.
-- `upload` 브랜치를 수정사항 없이 깨끗하게 유지해주세요. 원격 저장소의 최신 변경사항을 바로 끌어올
-  수 있게 하기 위함입니다.
+- `main` 브랜치를 수정사항 없이 깨끗하게 유지해주세요. 원격 저장소의 최신 변경사항을 바로 끌어올 수
+  있게 하기 위함입니다.
 - 새 기능이나 버그 수정을 할 때마다 새 브랜치를 만들어주세요.
-- 절대로 `upload` 브랜치에 로컬 브랜치를 병합하지 마세요. `upstream/upload`에서 끌어오기만 해주세요.
+- 절대로 `main` 브랜치에 로컬 브랜치를 병합하지 마세요. `upstream/main`에서 끌어오기만 해주세요.
 
 [remote]: https://docs.github.com/ko/pull-requests/collaborating-with-pull-requests/working-with-forks/configuring-a-remote-repository-for-a-fork
 
@@ -173,27 +173,27 @@ $ git remote add -f upstream https://github.com/cataclysmbnteam/Cataclysm-BN.git
 - [chris.beams.io](https://chris.beams.io/posts/git-commit/)
 - [help.github.com](https://docs.github.com/ko/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue)
 
-### `upload` 브랜치 업데이트하기
+### `main` 브랜치 업데이트하기
 
-1. `upload` 브랜치가 체크아웃 되어 있는지 확인해주세요.
-
-```sh
-$ git checkout upload
-```
-
-2. `upstream/upload` 브랜치에서 변경사항을 가져옵니다.
+1. `main` 브랜치가 체크아웃 되어 있는지 확인해주세요.
 
 ```sh
-$ git pull --ff-only upstream upload
-# "upstream" 원격 저장소의 "upload" 브랜치에서 변경사항을 가져옵니다.
+$ git checkout main
 ```
 
-> **Note** 오류가 발생했다면, 로컬 `upload` 브랜치에 직접 커밋을 했다는 뜻입니다.
+2. `upstream/main` 브랜치에서 변경사항을 가져옵니다.
+
+```sh
+$ git pull --ff-only upstream main
+# "upstream" 원격 저장소의 "main" 브랜치에서 변경사항을 가져옵니다.
+```
+
+> **Note** 오류가 발생했다면, 로컬 `main` 브랜치에 직접 커밋을 했다는 뜻입니다.
 > [이 문제를 해결하는 방법을 보려면 여기를 클릭하세요](#git-pull---ff-only을-했더니-에러가-나요).
 
 ### 변경사항 만들기
 
-0. 아직 `upload` 브랜치를 업데이트하지 않았다면, 업데이트하세요.
+0. 아직 `main` 브랜치를 업데이트하지 않았다면, 업데이트하세요.
 
 1. 기능 추가나 버그 수정을 하려 할 때마다, 새 브랜치를 만들어주세요.
 
@@ -212,7 +212,7 @@ $ git push origin new_feature
 ```
 
 3. 브랜치에서 작업을 마치고, 모든 변경사항을 커밋하고 푸시했다면, `new_feature` 브랜치에서 이
-   저장소의 `upload` 브랜치로 풀 리퀘스트를 보내주세요.
+   저장소의 `main` 브랜치로 풀 리퀘스트를 보내주세요.
 
 > **Note** 깃허브의 `new_feature` 브랜치에 새 커밋이 생기면, 풀 리퀘스트에 자동으로 포함됩니다.
 > 따라서 같은 브랜치에 관련된 변경사항만 커밋해주세요.
@@ -278,7 +278,7 @@ Infrastructure, Build, I18N이 있습니다.
 ## 개발 도구 지원
 
 코딩 스타일을 지키도록 도와주는 여러 도구들이 있습니다. 자세한 내용은
-[DEVELOPER_TOOLING](../dev/reference/tooling)을 참고해주세요.
+[DEVELOPER_TOOLING](../dev/reference/tooling.md)을 참고해주세요.
 
 ## 고급
 
@@ -286,19 +286,17 @@ Infrastructure, Build, I18N이 있습니다.
 
 ### 원격 추적 브랜치 사용하기
 
-Remote tracking branches allow you to easily stay in touch with this repository's `upload` branch,
-as they automatically know which remote branch to get changes from. 원본 저장소의 `upload` 브랜치에
-대한 원격 추적 브랜치를 설정하면 쉽게 최신 변경사항을 가져올 수 있습니다.
+원본 저장소의 `main` 브랜치에 대한 원격 추적 브랜치를 설정하면 쉽게 최신 변경사항을 가져올 수
+있습니다.
 
 ```sh
 $ git branch -vv
-* upload      xxxx [origin/upload] ....
+* main        xxxx [origin/main] ....
   new_feature xxxx ....
 ```
 
-`upload` 브랜치는 `origin/upload` 브랜치를 추적하고 있고, `new_feature` 브랜치는 아무 브랜치도
-추적하고 있지 않습니다. 그 말은 git이 어디에서 `new_feature` 에 대한 변경사항을 가져올지 모른다는
-뜻입니다.
+`main` 브랜치는 `origin/main` 브랜치를 추적하고 있고, `new_feature` 브랜치는 아무 브랜치도 추적하고
+있지 않습니다. 그 말은 git이 어디에서 `new_feature` 에 대한 변경사항을 가져올지 모른다는 뜻입니다.
 
 ```sh
 $ git checkout new_feature
@@ -308,12 +306,12 @@ $ git pull
 어떤 브랜치를 대상으로 병합할지 지정하십시오.
 ```
 
-`new_feature` 브랜치에서 `upstream/upload` 브랜치의 변경사항을 쉽게 가져오려면, git에 어떤 브랜치를
-추적할지 알려줘야 합니다. (로컬 `upload` 브랜치에도 적용할 수 있습니다.)
+`new_feature` 브랜치에서 `upstream/main` 브랜치의 변경사항을 쉽게 가져오려면, git에 어떤 브랜치를
+추적할지 알려줘야 합니다. (로컬 `main` 브랜치에도 적용할 수 있습니다.)
 
 ```sh
-$ git branch -u upstream/upload new_feature
-Branch new_feature set up to track remote branch upload from upstream.
+$ git branch -u upstream/main new_feature
+Branch new_feature set up to track remote branch main from upstream.
 $ git pull
 Updating xxxx..xxxx
 ....
@@ -322,12 +320,12 @@ Updating xxxx..xxxx
 브랜치를 생성할 때 추적 정보를 설정할 수도 있습니다.
 
 ```sh
-$ git branch new_feature_2 --track upstream/upload
-Branch new_feature_2 set up to track remote branch upload from upstream.
+$ git branch new_feature_2 --track upstream/main
+Branch new_feature_2 set up to track remote branch main from upstream.
 ```
 
-> **Note** : 이렇게 하면 `upstream/upload` 브랜치에서 변경사항을 가져오는 것은 쉬워지지만,
-> `git push`는 여전히 실패합니다. `git push`는 `upstream/upload` 브랜치에 변경사항을 푸시할 권한이
+> **Note** : 이렇게 하면 `upstream/main` 브랜치에서 변경사항을 가져오는 것은 쉬워지지만,
+> `git push`는 여전히 실패합니다. `git push`는 `upstream/main` 브랜치에 변경사항을 푸시할 권한이
 > 없기 때문입니다.
 
 ```sh
@@ -390,30 +388,30 @@ The test took 41.772 seconds
 
 ### `git pull --ff-only`을 했더니 에러가 나요
 
-`git pull --ff-only`를 실행했더니 에러가 났다면, `upload` 브랜치에 직접 커밋을 했기 때문입니다. 그
-이유는 `upload` 브랜치의 내용이 원격과 로컬에서 각각 달라졌기 때문에, git이 원격과 로컬 중 무엇을
-유지하고 무엇을 버릴 지 모르기 때문입니다. 이를 고치려면, 새 브랜치를 만들고, `upstream/upload`
-브랜치와 분기된 지점을 찾은 다음, `upload` 브랜치를 그 지점으로 되돌려야 합니다.
+`git pull --ff-only`를 실행했더니 에러가 났다면, `main` 브랜치에 직접 커밋을 했기 때문입니다. 그
+이유는 `main` 브랜치의 내용이 원격과 로컬에서 각각 달라졌기 때문에, git이 원격과 로컬 중 무엇을
+유지하고 무엇을 버릴 지 모르기 때문입니다. 이를 고치려면, 새 브랜치를 만들고, `upstream/main`
+브랜치와 분기된 지점을 찾은 다음, `main` 브랜치를 그 지점으로 되돌려야 합니다.
 
 ```sh
-$ git pull --ff-only upstream upload
+$ git pull --ff-only upstream main
 From https://github.com/cataclysmbnteam/Cataclysm-BN
- * branch            upload     -> FETCH_HEAD
+ * branch            main     -> FETCH_HEAD
 fatal: Not possible to fast-forward, aborting.
-$ git branch new_branch upload          # 현재 커밋 내역을 임시 브랜치에 백업합니다
-$ git merge-base upload upstream/upload
-cc31d0... # upload에 커밋하기 직전 가장 마지막 커밋
+$ git branch new_branch main          # 현재 커밋 내역을 임시 브랜치에 백업합니다
+$ git merge-base main upstream/main
+cc31d0... # main에 커밋하기 직전 가장 마지막 커밋
 $ git reset --hard cc31d0....
 HEAD is now at cc31d0... ...
 ```
 
-이제 `upload`가 정리되었으니 `upstream/upload`에서 변경 내역을 끌어오고, `new_branch`에서 계속
-작업할 수 있습니다.
+이제 `main`가 정리되었으니 `upstream/main`에서 변경 내역을 끌어오고, `new_branch`에서 계속 작업할 수
+있습니다.
 
 ```sh
-$ git pull --ff-only upstream upload
-# "upstream" 원격 저장소에서 "upload" 브랜치의 변경사항을 가져옵니다
+$ git pull --ff-only upstream main
+# "upstream" 원격 저장소에서 "main" 브랜치의 변경사항을 가져옵니다
 $ git checkout new_branch
 ```
 
-더 자주 묻는 질문은 [개발자 FAQ](../dev/reference/FAQ)를 참고해주세요.
+더 자주 묻는 질문은 [개발자 FAQ](../dev/reference/faq.md)를 참고해주세요.

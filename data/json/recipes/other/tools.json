@@ -637,11 +637,24 @@
     "result": "crude_picklock",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "time": "1 m",
+    "skill_used": "mechanics",
+    "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "picklocks",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_tiny", 2 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -779,10 +792,11 @@
     "result": "pipe_cleaner",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
+    "skill_used": "mechanics",
     "difficulty": 1,
-    "time": "2 m",
+    "time": "10 m",
     "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ], [ [ "fabric_standard", 1, "LIST" ] ] ]
   },
   {
@@ -989,6 +1003,7 @@
     "type": "recipe",
     "//": "Alternative to the press explained above: this electroplates the tin using an electrolysis kit.",
     "result": "pot_copper",
+    "id_suffix": "electroplating",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "cooking",
@@ -1001,6 +1016,38 @@
       [ [ "copper_scrap_equivalent", 14, "LIST" ] ],
       [ [ "tin", 30 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
+      [ [ "acid", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "copper_pan",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "press", -1 ] ], [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "copper_scrap_equivalent", 10, "LIST" ] ], [ [ "tin", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "copper_pan",
+    "id_suffix": "electroplating",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "electrolysis_kit", 7 ] ], [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+      [ [ "copper_scrap_equivalent", 10, "LIST" ] ],
+      [ [ "tin", 20 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "acid", 1 ] ]
     ]
   },
@@ -2458,6 +2505,7 @@
     "difficulty": 2,
     "skills_required": [ "mechanics", 1 ],
     "time": "100 m",
+    "autolearn": [ [ "fabrication", 4 ] ],
     "book_learn": [ [ "manual_mechanics", 1 ], [ "manual_fabrication", 2 ], [ "textbook_fabrication", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 2 ] ] ]

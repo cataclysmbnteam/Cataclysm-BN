@@ -970,7 +970,7 @@ Any or all of the following alterations can be made to the event stream:
 
 - Add new fields to each event based on event field transformations. The event field transformations
   can be found in
-  [`event_field_transformation.cpp`](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/src/event_field_transformations.cpp).
+  [`event_field_transformation.cpp`](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/src/event_field_transformations.cpp).
 - Filter events based on the values they contain to produce a stream containing some subset of the
   input stream.
 - Drop some fields which are not of interest in the output stream.
@@ -1476,7 +1476,7 @@ See also VEHICLE_JSON.md
       "damage_type": "acid",                 // Type of damage dealt.
       "amount": 10                           // Amount of damage dealt.
       "armor_penetration": 4                 // Amount of armor ignored. Applied per armor piece, not in total.
-      "armor_multiplier": 2.5                // Multiplier on effective armor value. Applied after armor penetration.
+      "armor_multiplier": 2.5                // Multiplies remaining damage reduction from armor, applied after armor penetration (if present). Higher numbers make armor stop fragments from this explosion more effectively, lower numbers act as a percentage reduction in remaining armor.
     }
   }
 },
@@ -1749,7 +1749,6 @@ CBMs can be defined like this:
 "charges" : 4,              // Number of uses when spawned
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "fun" : 50                  // Morale effects when used
-"freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked" // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
@@ -2637,7 +2636,21 @@ entries.
   "deconstruct": "TODO",
   "max_volume": "1000 L",
   "examine_action": "workbench",
-  "workbench": { "multiplier": 1.1, "mass": 10000, "volume": "50L" }
+  "workbench": { "multiplier": 1.1, "mass": 10000, "volume": "50L" },
+  "boltcut": {
+    "result": "f_safe_open",
+    "duration": "1 seconds",
+    "message": "The safe opens.",
+    "sound": "Gachunk!",
+    "byproducts": [{ "item": "scrap", "count": 3 }]
+  },
+  "hacksaw": {
+    "result": "f_safe_open",
+    "duration": "12 seconds",
+    "message": "The safe is hacksawed open!",
+    "sound": "Gachunk!",
+    "byproducts": [{ "item": "scrap", "count": 13 }]
+  }
 }
 ```
 
@@ -2663,11 +2676,78 @@ underlying terrain.
 (Optional) When the furniture is successfully lockpicked, this is the message that will be printed
 to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
 
+#### `oxytorch`
+
+(Optional) Data for using with an oxytorch.
+
+```cpp
+oxytorch: {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
+    "message": "You quickly cut the metal", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
 #### `light_emitted`
 
 How much light the furniture produces. 10 will light the tile it's on brightly, 15 will light that
 tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from
 the source. For examples: An overhead light is 120, a utility light, 240, and a console, 10.
+
+#### `boltcut`
+
+(Optional) Data for using with an bolt cutter.
+
+```cpp
+"boltcut": {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for bolt cutting, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "sound": "Gachunk!", // ( optional ) description of the sound when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
+#### `hacksaw`
+
+(Optional) Data for using with an hacksaw.
+
+```cpp
+"hacksaw": {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for hacksawing, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
 
 #### `required_str`
 
@@ -2726,7 +2806,21 @@ it for the purpose of surgery.
   "transforms_into": "t_tree_harvested",
   "harvest_season": "WINTER",
   "roof": "t_roof",
-  "examine_action": "pit"
+  "examine_action": "pit",
+  "boltcut": {
+    "result": "t_door_unlocked",
+    "duration": "1 seconds",
+    "message": "The door opens.",
+    "sound": "Gachunk!",
+    "byproducts": [{ "item": "scrap", "2x4": 3 }]
+  },
+  "hacksaw": {
+    "result": "t_door_unlocked",
+    "duration": "12 seconds",
+    "message": "The door is hacksawed open!",
+    "sound": "Gachunk!",
+    "byproducts": [{ "item": "scrap", "2x4": 13 }]
+  }
 }
 ```
 
@@ -2759,6 +2853,28 @@ source. For examples: An overhead light is 120, a utility light, 240, and a cons
 (Optional) When the terrain is successfully lockpicked, this is the message that will be printed to
 the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
 
+#### `oxytorch`
+
+(Optional) Data for using with an oxytorch.
+
+```cpp
+oxytorch: {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
+    "message": "You quickly cut the bars", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
 #### `trap`
 
 (Optional) Id of the build-in trap of that terrain.
@@ -2775,6 +2891,51 @@ A built-in trap prevents adding any other trap explicitly (by the player and thr
 (Optional) If defined, the terrain is harvestable. This entry defines the item type of the harvested
 fruits (or similar). To make this work, you also have to set one of the `harvest_*` `examine_action`
 functions.
+
+#### `boltcut`
+
+(Optional) Data for using with an bolt cutter.
+
+```cpp
+"boltcut": {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for bolt cutting, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "sound": "Gachunk!", // ( optional ) description of the sound when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
+#### `hacksaw`
+
+(Optional) Data for using with an hacksaw.
+
+```cpp
+"hacksaw": {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for hacksawing, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
 
 #### `transforms_into`
 
@@ -3138,9 +3299,18 @@ has already generated this area this will only alter the tile shown on the overm
 {
   "type": "oter_id_migration",
   "//": "obsoleted in 0.4",
+  "old_directions": false,
+  "new_directions": false,
   "oter_ids": {
     "underground_sub_station": "underground_sub_station_north",
     "sewer_sub_station": "sewer_sub_station_north"
   }
 }
 ```
+
+If `old_directions` option is enabled each entry will create four migrations: for `old_north`,
+`old_west`, `old_south`, and `old_east`. What they will be migrated to depends of value of
+`new_directions` option. If it is set to `true` then terrains will be migrated to same directions:
+`old_north` to `new_north`, `old_east` to `new_east` and such. If `new_directions` is set to
+`false`, then all four terrains will be migrated to one plain `new`. For both of those cases you
+only need to specify plain `old` and `new` names in `oter_ids` map, without any suffixes.

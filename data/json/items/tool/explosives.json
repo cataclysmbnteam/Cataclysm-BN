@@ -954,7 +954,11 @@
       "sound_volume": 2,
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
-      "explosion": { "damage": 300, "radius": 20 }
+      "explosion": {
+        "damage": 300,
+        "radius": 20,
+        "fragment": { "impact": { "damage_type": "heat", "amount": 300, "armor_multiplier": 2 }, "range": 24 }
+      }
     },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "CLOSES_PORTAL" ]
   },

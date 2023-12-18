@@ -488,6 +488,17 @@
   },
   {
     "type": "item_group",
+    "id": "steel_mill_storage",
+    "subtype": "distribution",
+    "//": "storage locked behind industrial card reader",
+    "entries": [
+      { "item": "hard_plate", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "alloy_plate", "prob": 25, "count": [ 1, 3 ] },
+      { "item": "alloy_sheet", "prob": 25, "count": [ 1, 10 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "oa_ig_rd_glass_trash",
     "//": "for ws_regional_dump",
     "items": [

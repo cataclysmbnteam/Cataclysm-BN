@@ -119,6 +119,7 @@ struct trap {
         int comfort = 0;
         int floor_bedding_warmth = 0;
     public:
+        std::string looks_like;
         vehicle_handle_trap_data vehicle_data;
         std::string name() const;
         /**

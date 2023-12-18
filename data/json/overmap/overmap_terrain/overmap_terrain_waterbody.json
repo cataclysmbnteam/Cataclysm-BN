@@ -12,6 +12,17 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "lake_underwater_shore",
+    "copy-from": "generic_water",
+    "name": "lake shore (submerged)",
+    "sym": "#",
+    "color": "light_blue",
+    "see_cost": 1,
+    "flags": [ "NO_ROTATE", "LAKE_SHORE", "SOURCE_DRINK" ],
+    "mapgen": [ { "method": "builtin", "name": "lake_shore" } ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "lake_surface",
     "copy-from": "generic_water",
     "name": "lake",

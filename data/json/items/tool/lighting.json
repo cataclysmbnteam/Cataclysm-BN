@@ -228,7 +228,7 @@
         ]
       ]
     ],
-    "magazine_well": "250 ml"
+    "magazine_well": "100 ml"
   },
   {
     "id": "flashlight_on",
@@ -592,7 +592,7 @@
       "type": "transform"
     },
     "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
-    "magazine_well": "250 ml"
+    "magazine_well": "100 ml"
   },
   {
     "id": "reading_light_on",

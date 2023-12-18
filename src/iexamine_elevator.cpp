@@ -1,9 +1,10 @@
-#include "detached_ptr.h"
 #include <optional>
+
 #include "cata_algo.h"
 #include "game.h"
 #include "iexamine.h"
 #include "mapdata.h"
+#include "flood_fill.h"
 #include "output.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
@@ -36,15 +37,10 @@ using tiles = std::vector<tripoint>;
 auto here( const Character &you ) -> elevator::tiles
 {
     const auto &here = get_map();
-    const auto &points = closest_points_first( you.pos(), SEEX - 1 );
+    const auto is_elevator = [&here]( const tripoint & pos ) -> bool { return here.has_flag( TFLAG_ELEVATOR, pos ); };
 
-    elevator::tiles tiles;
-    std::copy_if( points.begin(), points.end(), std::back_inserter( tiles ),
-    [&here]( const tripoint & pos ) {
-        return here.has_flag( TFLAG_ELEVATOR, pos );
-    } );
-
-    return tiles;
+    std::unordered_set<tripoint> visited;
+    return ff::point_flood_fill_4_connected( you.pos(), visited, is_elevator );
 }
 
 auto dest( const elevator::tiles &elevator_here,

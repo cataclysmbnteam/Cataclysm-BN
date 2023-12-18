@@ -2,10 +2,10 @@ name: Clang-tidy (clang-12, tiles)
 
 on:
   push:
-    branches: [upload]
+    branches: [main]
     paths: [ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/**","tools/clang-tidy-plugin/**", ".github/workflows/clang-tidy.yml", "**/.clang-tidy" ]
   pull_request:
-    branches: [upload]
+    branches: [main]
     paths: [ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/**", "tools/clang-tidy-plugin/**", ".github/workflows/clang-tidy.yml", "**/.clang-tidy" ]
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
@@ -51,7 +51,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install libncursesw5-dev clang-12 libclang-12-dev llvm-12-dev llvm-12-tools \
             libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev ccache \
-            libflac-dev gettext 
+            libflac-dev gettext
 
       - name: prepare
         run: bash ./build-scripts/requirements.sh
