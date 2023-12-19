@@ -2391,12 +2391,6 @@ void options_manager::add_options_world_default()
          translate_marker( "If true, strength checks and/or lifting qualities no longer need to be met in order to change parts." ),
          false, COPT_ALWAYS_HIDE
        );
-
-    add( "ELEVATED_BRIDGES", world_default,
-         translate_marker( "Generate elevated bridges." ),
-         translate_marker( "If true, bridges are generated at z+1 level, allowing boats to pass underneath." ),
-         false, COPT_ALWAYS_HIDE
-       );
 }
 
 void options_manager::add_options_android()

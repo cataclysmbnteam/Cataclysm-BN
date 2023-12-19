@@ -47,6 +47,7 @@
 #include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_temperature.h"
 #include "visitable.h"
 #include "weighted_list.h"
 
@@ -2139,7 +2140,7 @@ class Character : public Creature, public location_visitable<Character>
         /** Drenches the player with water, saturation is the percent gotten wet */
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
-        void apply_wetness_morale( int temperature );
+        void apply_wetness_morale( const units::temperature &temperature );
         std::vector<std::string> short_description_parts() const;
         std::string short_description() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;

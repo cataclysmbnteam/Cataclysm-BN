@@ -110,7 +110,7 @@ void computer_session::use()
     print_line( _( "Logging into %s…" ), comp.name );
     if( comp.security > 0 ) {
         if( calendar::turn < comp.next_attempt ) {
-            print_error( _( "Access is temporary blocked for security purposes." ) );
+            print_error( _( "Access is temporarily blocked for security purposes." ) );
             query_any( _( "Please contact the system administrator." ) );
             reset_terminal();
             return;

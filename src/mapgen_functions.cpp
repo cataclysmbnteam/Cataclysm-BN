@@ -16,6 +16,7 @@
 #include "enums.h"
 #include "field_type.h"
 #include "flood_fill.h"
+#include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "line.h"
@@ -2587,7 +2588,11 @@ void mapgen_lake_shore( mapgendata &dat )
     // If we didn't extend an adjacent terrain, then just fill this entire location with the default
     // groundcover for the region.
     if( !did_extend_adjacent_terrain ) {
-        dat.fill_groundcover();
+        if( dat.zlevel() >= 0 ) {
+            dat.fill_groundcover();
+        } else {
+            fill_background( m, t_rock );
+        }
     }
 
     const oter_id river_center( "river_center" );
@@ -2867,14 +2872,26 @@ void mapgen_lake_shore( mapgendata &dat )
         }
     };
 
+    // We need to have same shoreline on different z levels, to match surface shore
+    // with submerged shore, to do so we'll jitter shore lines using deterministic
+    // random seeded with x\y coordinates
+    // NOLINTNEXTLINE(cata-determinism)
+    std::mt19937 prng( std::hash<point_abs_omt>()( dat.pos.xy() ) ^ g->get_seed() );
+
     // Given two points, return a point that is midway between the two points and then
     // jittered by a random amount in proportion to the length of the line segment.
     const auto jittered_midpoint = [&]( point  from, point  to ) {
         const int jitter = rl_dist( from, to ) / 4;
-        const point midpoint( ( from.x + to.x ) / 2 + rng( -jitter, jitter ),
-                              ( from.y + to.y ) / 2 + rng( -jitter, jitter ) );
+        std::uniform_int_distribution<int> roll( -jitter, jitter );
+        const point midpoint( ( from.x + to.x ) / 2 + roll( prng ),
+                              ( from.y + to.y ) / 2 + roll( prng ) );
         return midpoint;
     };
+
+    ter_id edge_tile = dat.zlevel() >= 0 ? t_water_sh : t_rock;
+    ter_id water_tile = dat.zlevel() >= 0 ? t_water_dp :
+                        dat.zlevel() == dat.region.overmap_lake.lake_depth ? t_lake_bed :
+                        t_water_cube;
 
     // For each of our valid shoreline line segments, generate a slightly more interesting
     // set of line segments by splitting the line into four segments with jittered
@@ -2906,7 +2923,7 @@ void mapgen_lake_shore( mapgendata &dat )
         std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
                                           should_fill );
         for( auto &wp : water_points ) {
-            m->ter_set( wp, t_water_dp );
+            m->ter_set( wp, water_tile );
             m->furn_set( wp, f_null );
         }
     };
@@ -2931,7 +2948,7 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // We previously placed our shallow water but actually did a t_null instead to make sure that we didn't
     // pick up shallow water from our extended terrain. Now turn those nulls into t_water_sh.
-    m->translate( t_null, t_water_sh );
+    m->translate( t_null, edge_tile );
 }
 
 void mremove_trap( map *m, point p )

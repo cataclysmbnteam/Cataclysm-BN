@@ -2,18 +2,12 @@ name: General build matrix
 
 on:
   push:
-    branches:
-      - main
-    paths-ignore:
-      - doc/**
-      - 'scripts/**'
-  merge_group:
+    branches: [main]
+    paths-ignore: [doc/**, scripts/**]
   pull_request:
-    branches:
-      - main
-    paths-ignore:
-      - doc/**
-      - 'scripts/**'
+    branches: [main]
+    paths-ignore: [doc/**, scripts/**]
+    types: [opened, reopened, synchronize, ready_for_review]
 
 # Cancel all previous instances in favor of latest revision of a PR.
 # Allow running main builds to complete to help with ccache refreshes.
@@ -22,51 +16,27 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  skip-duplicates-code:
+  skip-duplicates:
     continue-on-error: true
     runs-on: ubuntu-22.04
-    # Map a step output to a job output
     outputs:
-      should_skip_code: ${{ steps.skip_check.outputs.should_skip }}
+      should_skip_code: ${{ steps.skip_code_check.outputs.should_skip }}
+      should_skip_data: ${{ steps.skip_data_check.outputs.should_skip }}
     steps:
-      - id: skip_check
+      - id: skip_code_check
         uses: fkirc/skip-duplicate-actions@master
         with:
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "msvc-**", "tools/**", "utilities/**", "scripts/**", "data/**", "lang/**"]'
-
-  skip-duplicates-data:
-    continue-on-error: true
-    runs-on: ubuntu-22.04
-    # Map a step output to a job output
-    outputs:
-      should_skip_data: ${{ steps.skip_check.outputs.should_skip }}
-    steps:
-      - id: skip_check
+      - id: skip_data_check
         uses: fkirc/skip-duplicate-actions@master
         with:
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "msvc-**", "tools/**", "utilities/**", "scripts/**"]'
 
-  matrix-variables:
-    permissions:
-      contents: none
-    continue-on-error: true
-    runs-on: ubuntu-latest
-    outputs:
-      fail_fast: ${{ steps.matrix_vars.outputs.fail_fast }}
-      skip_tests: ${{ steps.matrix_vars.outputs.skip_tests }}
-      max_parallel: ${{ steps.matrix_vars.outputs.max_parallel }}
-    steps:
-      - id: matrix_vars
-        run: |
-          echo "fail_fast=$([ "$GITHUB_REF_NAME" = "main" ] && echo false || echo true)" >> $GITHUB_OUTPUT
-          echo "skip_tests=$([ "$GITHUB_REF_NAME" = "main" ] && echo true || echo false)" >> $GITHUB_OUTPUT
-          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "main" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
-
   varied_builds:
-    needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
+    needs: skip-duplicates
     strategy:
-      fail-fast: ${{ fromJSON(needs.matrix-variables.outputs.fail_fast) }}
-      max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
+      fail-fast: ${{ github.ref_name == 'main' }}
+      max-parallel: ${{ github.ref_name == 'main' && 20 || 1 }}
       matrix:
         include:
           - title: GCC 12, Ubuntu, Curses
@@ -81,7 +51,7 @@ jobs:
             native: linux64
             ccache_limit: 2G
             ccache_key: linux-gcc-12
-            run-on-draft: true
+            always-run: true
 
           - title: GCC 12, Ubuntu, Tiles, Sound, Lua, CMake, Languages
             compiler: g++-12
@@ -155,12 +125,12 @@ jobs:
       ZSTD_CLEVEL: 17
       CMAKE: ${{ matrix.cmake }}
       COMPILER: ${{ matrix.compiler }}
-      CXXFLAGS: ${{ matrix.cxxflags }}
+      # CXXFLAGS: ${{ matrix.cxxflags }}
       OS: ${{ matrix.os }}
       TILES: ${{ matrix.tiles }}
       SOUND: ${{ matrix.sound }}
       LUA: ${{ matrix.lua }}
-      SANITIZE: ${{ matrix.sanitize }}
+      # SANITIZE: ${{ matrix.sanitize }}
       TEST_STAGE: ${{ matrix.test-stage }}
       LANGUAGES: ${{ matrix.languages }}
       LIBBACKTRACE: ${{ matrix.libbacktrace }}
@@ -172,8 +142,7 @@ jobs:
       CCACHE_HARDLINK: true
       CCACHE_NOCOMPRESS: true
 
-      SKIP: ${{ ( github.event.pull_request.draft == true && matrix.run-on-draft == 'true' ) || ( needs.skip-duplicates-code.outputs.should_skip_code == 'true' ) || ( needs.skip-duplicates-data.outputs.should_skip_data == 'true' ) }}
-      SKIP_TESTS: ${{ needs.matrix-variables.outputs.skip_tests }}
+      SKIP: ${{ matrix.always-run != true && ( github.event.pull_request.draft == true || needs.skip-duplicates.outputs.should_skip_code == true || needs.skip-duplicates.outputs.should_skip_data == true ) }}
 
     steps:
       - name: checkout repository
@@ -194,25 +163,23 @@ jobs:
         run: |
             sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev libflac-dev
 
-      - name: check compiler (mac)
+      # === Temporarily disabled because of #3664 ===
+      # - name: set up a mock GCC toolchain root for Clang (Ubuntu)
+      #   if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-14') }}
+      #   run: |
+      #     sudo mkdir /opt/mock-gcc-11
+      #     sudo ln -s /usr/include /opt/mock-gcc-11/include
+      #     sudo ln -s /usr/bin /opt/mock-gcc-11/bin
+      #     sudo mkdir -p /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu
+      #     sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/11 /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu/11
+
+      - name: install dependencies (mac)
         if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
         run: |
           ${{ matrix.compiler }} --version
           # Ensure that it is actually needed version
           ${{ matrix.compiler }} --version | grep -q -E "${{ matrix.grep_clang_version_rxp }}"
 
-      - name: set up a mock GCC toolchain root for Clang (Ubuntu)
-        if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-14') }}
-        run: |
-          sudo mkdir /opt/mock-gcc-11
-          sudo ln -s /usr/include /opt/mock-gcc-11/include
-          sudo ln -s /usr/bin /opt/mock-gcc-11/bin
-          sudo mkdir -p /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu
-          sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/11 /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu/11
-
-      - name: install dependencies (mac)
-        if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
-        run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
 
       - name: prepare
@@ -262,7 +229,7 @@ jobs:
         run: ccache --clear
 
       - name: run tests
-        if: ${{ env.SKIP == 'false' && env.SKIP_TESTS == 'false' }}
+        if: ${{ github.ref_name != 'main' && env.SKIP == 'false' }}
         run: bash ./build-scripts/gha_test_only.sh
 
       - name: emit success artifact
