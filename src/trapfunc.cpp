@@ -479,7 +479,7 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
             }
             if( shots > 1 ) {
                 z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BULLET, rng( 60,
-                            80 ), 0, 1.5f ) );
+                                80 ), 0, 1.5f ) );
             }
             z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BULLET, rng( 60,
                             80 ), 0, 1.5f ) );
