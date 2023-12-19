@@ -4694,7 +4694,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     }
 
     detached_ptr<item> blood = item::spawn( "blood", calendar::turn );
-    if ( mt != nullptr ) {
+    if( mt != nullptr ) {
         blood->set_mtype( mt );
     }
     if( !liquid_handler::handle_liquid( std::move( blood ), 1 ) ) {
