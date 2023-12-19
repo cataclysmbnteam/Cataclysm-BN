@@ -367,7 +367,7 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
                 }
                 //~ %s is bodypart
                 n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit->token ) );
-                c->deal_damage( nullptr, hit, damage_instance( DT_CUT, rng( 20, 30 ) ) );
+                c->deal_damage( nullptr, hit, damage_instance( DT_STAB, rng( 30, 45 ) ) );
                 add_bolt = !one_in( 10 );
             } else {
                 n->add_msg_player_or_npc( m_neutral, _( "You dodge the shot!" ),
@@ -376,7 +376,7 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
         } else if( z != nullptr ) {
             bool seen = g->u.sees( *z );
             int chance = 0;
-            // adapted from shotgun code - chance of getting hit depends on size
+            // chance of getting hit depends on size
             switch( z->type->size ) {
                 case MS_TINY:
                     chance = 50;
@@ -400,7 +400,7 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
                 if( seen ) {
                     add_msg( m_bad, _( "A bolt shoots out and hits the %s!" ), z->name() );
                 }
-                z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_CUT, rng( 20, 30 ) ) );
+                z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_STAB, rng( 30, 45 ) ) );
                 add_bolt = !one_in( 10 );
             } else if( seen ) {
                 add_msg( m_neutral, _( "A bolt shoots out, but misses the %s." ), z->name() );
@@ -420,7 +420,7 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
 {
     sounds::sound( p, 60, sounds::sound_t::combat, _( "Kerblam!" ), false, "fire_gun",
                    g->m.tr_at( p ).loadid == tr_shotgun_1 ? "shotgun_s" : "shotgun_d" );
-    int shots = 1;
+    int shots = ( g->m.tr_at( p ).loadid == tr_shotgun_2 ? 2 : 1 );
     if( c != nullptr ) {
         if( c->has_effect( effect_ridden ) ) {
             add_msg( m_neutral, _( "Your %s triggers a shotgun trap!" ), c->get_name() );
@@ -430,11 +430,6 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
-            ///\EFFECT_STR_MAX increases chance of two shots from shotgun trap
-            shots = ( one_in( 8 ) || one_in( 20 - n->str_max ) ? 2 : 1 );
-            if( g->m.tr_at( p ).loadid != tr_shotgun_2 ) {
-                shots = 1;
-            }
             ///\EFFECT_DODGE reduces chance of being hit by shotgun trap
             if( rng( 5, 50 ) > n->get_dodge() ) {
                 bodypart_id hit = bodypart_id( "num_bp" );
@@ -468,49 +463,28 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
                 }
                 //~ %s is bodypart
                 n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit->token ) );
-                c->deal_damage( nullptr, hit, damage_instance( DT_BULLET, rng( 40 * shots, 60 * shots ) ) );
+                // Unload both barrels (if present) as two separate attacks, generic damage stats as could be using slugs or shot
+                if( shots > 1 ) {
+                    c->deal_damage( nullptr, hit, damage_instance( DT_BULLET, rng( 60, 80 ), 0, 1.5f ) );
+                }
+                c->deal_damage( nullptr, hit, damage_instance( DT_BULLET, rng( 60, 80 ), 0, 1.5f ) );
             } else {
                 n->add_msg_player_or_npc( m_neutral, _( "You dodge the shot!" ),
                                           _( "<npcname> dodges the shot!" ) );
             }
         } else if( z != nullptr ) {
             bool seen = g->u.sees( *z );
-            int chance = 0;
-            switch( z->type->size ) {
-                case MS_TINY:
-                    chance = 100;
-                    break;
-                case MS_SMALL:
-                    chance = 16;
-                    break;
-                case MS_MEDIUM:
-                    chance = 12;
-                    break;
-                case MS_LARGE:
-                    chance = 8;
-                    break;
-                case MS_HUGE:
-                    chance = 2;
-                    break;
-                default:
-                    break;
-            }
-            shots = ( one_in( 8 ) || one_in( chance ) ? 2 : 1 );
-            if( g->m.tr_at( p ).loadid != tr_shotgun_2 ) {
-                shots = 1;
-            }
             if( seen ) {
                 add_msg( m_bad, _( "A shotgun fires and hits the %s!" ), z->name() );
             }
-            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BULLET, rng( 40 * shots,
-                            60 * shots ) ) );
+            if( shots > 1 ) {
+                z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BULLET, rng( 60,
+                            80 ), 0, 1.5f ) );
+            }
+            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BULLET, rng( 60,
+                            80 ), 0, 1.5f ) );
         }
         c->check_dead_state();
-    }
-    // If we only fired one shot out of a double-barrel shotgun trap, convert to half-loaded version and return early
-    if( g->m.tr_at( p ).loadid == tr_shotgun_2 && shots == 1 ) {
-        g->m.trap_set( p, tr_shotgun_2_1 );
-        return true;
     }
 
     g->m.tr_at( p ).trigger_aftermath( g->m, p );
