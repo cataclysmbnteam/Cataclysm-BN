@@ -1000,6 +1000,12 @@
     "//": "The spell makes no sound at its point of impact."
   },
   {
+    "id": "NO_EXPLOSION_VFX",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "This makes the spell skip displaying visual effect sprites for faster rendering."
+  },
+  {
     "id": "LOUD",
     "type": "json_flag",
     "context": [ "SPELL" ],
@@ -1567,7 +1573,7 @@
     "id": "MOUNTED_GUN",
     "type": "json_flag",
     "context": [  ],
-    "info": "This weapon is <bad>too unwieldy</bad> to fire on its own and <info>must be mounted</info> on a vehicle or furniture (window, table, mound of dirt, etc.) before use, <info>Large or Huge</info> mutants can fire from the hip with <bad>reduced accuracy.</bad>"
+    "info": "This weapon <bad>can only be fired if mounted</bad> on a vehicle or furniture (window, table, mound of dirt, etc.) to fire, <info>Large or Huge</info> mutants or those with active <info>Power Armor</info> can fire from the hip with <bad>reduced accuracy.</bad>"
   },
   {
     "id": "MYCUS_OK",
@@ -2032,6 +2038,12 @@
     "context": [  ]
   },
   {
+    "id": "HEAVY_WEAPON_SUPPORT",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This equipment <good>allows you to fire</good> unwieldy weapons without requiring support from mountable terrain, as a <info>Large or Huge</info> mutant could, at the expense of <bad>reduced accuracy.</bad>"
+  },
+  {
     "id": "FIRE_TWOHAND",
     "type": "json_flag",
     "context": [  ]
@@ -2058,11 +2070,6 @@
   },
   {
     "id": "NOGIB",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "NON-FOULING",
     "type": "json_flag",
     "context": [  ]
   },

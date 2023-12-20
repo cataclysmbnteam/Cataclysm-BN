@@ -3,62 +3,62 @@
     "type": "overmap_terrain",
     "id": "public_works_NE",
     "copy-from": "public_works_NE",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "public_works_NE_roof",
     "copy-from": "public_works_NE_roof",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "public_works_NW",
     "copy-from": "public_works_NW",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "public_works_NW_roof",
     "copy-from": "public_works_NW_roof",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "public_works_SW",
     "copy-from": "public_works_SW",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "public_works_SW_roof",
     "copy-from": "public_works_SW_roof",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "public_works_SE",
     "copy-from": "public_works_SE",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "public_works_SE_roof",
     "copy-from": "public_works_SE_roof",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "sai",
     "copy-from": "sai",
-    "sym": "\u00E6",
+    "sym": "æ",
     "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
     "id": "pwr_sub_s",
     "copy-from": "pwr_sub_s",
-    "sym": "\u00E6"
+    "sym": "æ"
   },
   {
     "type": "overmap_terrain",
@@ -69,7 +69,7 @@
     "type": "overmap_terrain",
     "id": "pwr_large_entrance",
     "copy-from": "pwr_large_entrance",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
@@ -80,7 +80,7 @@
     "type": "overmap_terrain",
     "id": "pwr_large_2",
     "copy-from": "pwr_large_2",
-    "sym": "\u00F6"
+    "sym": "ö"
   },
   {
     "type": "overmap_terrain",
@@ -91,19 +91,19 @@
     "type": "overmap_terrain",
     "id": "pwr_large_3",
     "copy-from": "pwr_large_2",
-    "sym": "\u00F6"
+    "sym": "ö"
   },
   {
     "type": "overmap_terrain",
     "id": "pwr_large_4",
     "copy-from": "pwr_large_4",
-    "sym": "\u00F6"
+    "sym": "ö"
   },
   {
     "type": "overmap_terrain",
     "id": "warehouse",
     "copy-from": "warehouse",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
@@ -114,7 +114,7 @@
     "type": "overmap_terrain",
     "id": "small_storage_units",
     "copy-from": "small_storage_units",
-    "sym": "\u00E6",
+    "sym": "æ",
     "color": "yellow"
   },
   {
@@ -126,7 +126,7 @@
     "type": "overmap_terrain",
     "id": "small_storage_units_1",
     "copy-from": "small_storage_units_1",
-    "sym": "\u00E6",
+    "sym": "æ",
     "color": "yellow"
   },
   {
@@ -138,7 +138,7 @@
     "type": "overmap_terrain",
     "id": "lumberyard_0_0",
     "copy-from": "lumberyard_0_0",
-    "sym": "\u00D7",
+    "sym": "×",
     "color": "brown"
   },
   {
@@ -160,35 +160,35 @@
     "type": "overmap_terrain",
     "id": "lumberyard_0_0_roof",
     "copy-from": "lumberyard_0_0_roof",
-    "sym": "\u00D7",
+    "sym": "×",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumberyard_0_1_roof",
     "copy-from": "lumberyard_0_1_roof",
-    "sym": "\u00D7",
+    "sym": "×",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumberyard_1_0_roof",
     "copy-from": "lumberyard_1_0_roof",
-    "sym": "\u00D7",
+    "sym": "×",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumberyard_1_1_roof",
     "copy-from": "lumberyard_1_1_roof",
-    "sym": "\u00D7",
+    "sym": "×",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumbermill_0_0",
     "copy-from": "lumbermill_0_0",
-    "sym": "\u00D6",
+    "sym": "Ö",
     "color": "brown"
   },
   {
@@ -210,49 +210,49 @@
     "type": "overmap_terrain",
     "id": "lumbermill_0_0_roof",
     "copy-from": "lumbermill_0_0_roof",
-    "sym": "\u00D6",
+    "sym": "Ö",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumbermill_0_1_roof",
     "copy-from": "lumbermill_0_1_roof",
-    "sym": "\u00D6",
+    "sym": "Ö",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumbermill_1_0_roof",
     "copy-from": "lumbermill_1_0_roof",
-    "sym": "\u00D6",
+    "sym": "Ö",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumbermill_1_1_roof",
     "copy-from": "lumbermill_1_1_roof",
-    "sym": "\u00D6",
+    "sym": "Ö",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumbermill_dforest",
     "copy-from": "lumbermill_dforest",
-    "sym": "\u00E8",
+    "sym": "è",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "construction_site",
     "copy-from": "construction_site",
-    "sym": "\u00D7",
+    "sym": "×",
     "color": "dark_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "abandonedwarehouse",
     "copy-from": "abandonedwarehouse",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
@@ -263,7 +263,7 @@
     "type": "overmap_terrain",
     "id": "abandonedwarehouse_1",
     "copy-from": "abandonedwarehouse_1",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
@@ -274,7 +274,7 @@
     "type": "overmap_terrain",
     "id": "abandonedwarehouse_2",
     "copy-from": "abandonedwarehouse_2",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
@@ -285,7 +285,7 @@
     "type": "overmap_terrain",
     "id": "abandonedwarehouse_3",
     "copy-from": "abandonedwarehouse_3",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
@@ -296,7 +296,7 @@
     "type": "overmap_terrain",
     "id": "abandonedwarehouse_4",
     "copy-from": "abandonedwarehouse_4",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
@@ -307,7 +307,7 @@
     "type": "overmap_terrain",
     "id": "large_storage_units_3",
     "copy-from": "large_storage_units_3",
-    "sym": "\u00D6",
+    "sym": "Ö",
     "color": "yellow"
   },
   {
@@ -319,7 +319,7 @@
     "type": "overmap_terrain",
     "id": "large_storage_units_2",
     "copy-from": "large_storage_units_2",
-    "sym": "\u00D6",
+    "sym": "Ö",
     "color": "yellow"
   },
   {
@@ -331,7 +331,7 @@
     "type": "overmap_terrain",
     "id": "large_storage_units_1",
     "copy-from": "large_storage_units_1",
-    "sym": "\u00D6",
+    "sym": "Ö",
     "color": "yellow"
   },
   {
@@ -343,7 +343,7 @@
     "type": "overmap_terrain",
     "id": "medium_storage_units_1",
     "copy-from": "medium_storage_units_1",
-    "sym": "\u00E6",
+    "sym": "æ",
     "color": "yellow"
   },
   {
@@ -355,7 +355,7 @@
     "type": "overmap_terrain",
     "id": "medium_storage_units_2",
     "copy-from": "medium_storage_units_2",
-    "sym": "\u00E6",
+    "sym": "æ",
     "color": "yellow"
   },
   {
@@ -367,7 +367,7 @@
     "type": "overmap_terrain",
     "id": "steel_mill_0_1",
     "copy-from": "steel_mill_0_1",
-    "sym": "\u00D6"
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
@@ -443,7 +443,7 @@
     "type": "overmap_terrain",
     "id": "steel_mill_rail_1",
     "copy-from": "steel_mill_rail_1",
-    "sym": "\u00D7"
+    "sym": "×"
   },
   {
     "type": "overmap_terrain",
@@ -464,7 +464,7 @@
     "type": "overmap_terrain",
     "id": "steel_mill_rail_2",
     "copy-from": "steel_mill_rail_2",
-    "sym": "\u00D7"
+    "sym": "×"
   },
   {
     "type": "overmap_terrain",
@@ -545,7 +545,7 @@
     "type": "overmap_terrain",
     "id": "steel_mill_rail_1_2",
     "copy-from": "steel_mill_rail_1_2",
-    "sym": "\u00D7"
+    "sym": "×"
   },
   {
     "type": "overmap_terrain",
@@ -566,7 +566,7 @@
     "type": "overmap_terrain",
     "id": "steel_mill_rail_2_2",
     "copy-from": "steel_mill_rail_2_2",
-    "sym": "\u00D7"
+    "sym": "×"
   },
   {
     "type": "overmap_terrain",
@@ -647,7 +647,7 @@
     "type": "overmap_terrain",
     "id": "steel_mill_rail_1_3",
     "copy-from": "steel_mill_rail_1_3",
-    "sym": "\u00D7"
+    "sym": "×"
   },
   {
     "type": "overmap_terrain",

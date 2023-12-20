@@ -96,6 +96,27 @@
   },
   {
     "type": "furniture",
+    "id": "f_debug_pump",
+    "name": "debug beer pump",
+    "symbol": "&",
+    "color": "white",
+    "description": "Time to get infinitely drunk",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": -1,
+    "provides_liquids": "beer",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD" ],
+    "examine_action": "liquid_source",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "reality shattering!",
+      "sound_fail": "whunk!",
+      "items": [ { "item": "cu_pipe", "prob": 50 }, { "item": "sheet_metal", "count": [ 2, 8 ] }, { "item": "pipe", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_water_heater",
     "name": "water heater",
     "looks_like": "f_standing_tank",

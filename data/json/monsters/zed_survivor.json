@@ -27,7 +27,7 @@
     "armor_acid": 4,
     "vision_day": 50,
     "vision_night": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_maybe_survivalist_bionics",
     "path_settings": { "max_dist": 3 },
     "special_attacks": [
       [ "SHRIEK", 20 ],

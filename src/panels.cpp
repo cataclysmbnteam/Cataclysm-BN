@@ -76,14 +76,14 @@ window_panel::window_panel( std::function<void( avatar &, const catacurses::wind
                             draw_func, const std::string &nm, int ht, int wd, bool default_toggle_,
                             std::function<bool()> render_func,  bool force_draw )
 {
-    draw = draw_func;
+    draw = std::move( draw_func );
     name = nm;
     height = ht;
     width = wd;
     toggle = default_toggle_;
     default_toggle = default_toggle_;
     always_draw = force_draw;
-    render = render_func;
+    render = std::move( render_func );
 }
 
 // ====================================
@@ -579,11 +579,12 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
 
 static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int truncate = 0 )
 {
-    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
-        --it;
-        if( it->covers( bp ) ) {
-            return it->tname( 1, true, truncate );
+    for( auto it = u.worn.rbegin(); it != u.worn.rend(); ) {
+        if( ( *it )->covers( bp ) ) {
+            return ( *it )->tname( 1, true, truncate );
         }
+
+        it++;
     }
     return "-";
 }
@@ -932,20 +933,20 @@ static void draw_stealth( avatar &u, const catacurses::window &w )
 static void draw_time_graphic( const catacurses::window &w )
 {
     std::vector<std::pair<char, nc_color> > vGlyphs;
-    vGlyphs.push_back( std::make_pair( '_', c_red ) );
-    vGlyphs.push_back( std::make_pair( '_', c_cyan ) );
-    vGlyphs.push_back( std::make_pair( '.', c_brown ) );
-    vGlyphs.push_back( std::make_pair( ',', c_blue ) );
-    vGlyphs.push_back( std::make_pair( '+', c_yellow ) );
-    vGlyphs.push_back( std::make_pair( 'c', c_light_blue ) );
-    vGlyphs.push_back( std::make_pair( '*', c_yellow ) );
-    vGlyphs.push_back( std::make_pair( 'C', c_white ) );
-    vGlyphs.push_back( std::make_pair( '+', c_yellow ) );
-    vGlyphs.push_back( std::make_pair( 'c', c_light_blue ) );
-    vGlyphs.push_back( std::make_pair( '.', c_brown ) );
-    vGlyphs.push_back( std::make_pair( ',', c_blue ) );
-    vGlyphs.push_back( std::make_pair( '_', c_red ) );
-    vGlyphs.push_back( std::make_pair( '_', c_cyan ) );
+    vGlyphs.emplace_back( '_', c_red );
+    vGlyphs.emplace_back( '_', c_cyan );
+    vGlyphs.emplace_back( '.', c_brown );
+    vGlyphs.emplace_back( ',', c_blue );
+    vGlyphs.emplace_back( '+', c_yellow );
+    vGlyphs.emplace_back( 'c', c_light_blue );
+    vGlyphs.emplace_back( '*', c_yellow );
+    vGlyphs.emplace_back( 'C', c_white );
+    vGlyphs.emplace_back( '+', c_yellow );
+    vGlyphs.emplace_back( 'c', c_light_blue );
+    vGlyphs.emplace_back( '.', c_brown );
+    vGlyphs.emplace_back( ',', c_blue );
+    vGlyphs.emplace_back( '_', c_red );
+    vGlyphs.emplace_back( '_', c_cyan );
 
     const int iHour = hour_of_day<int>( calendar::turn );
     wprintz( w, c_white, "[" );
@@ -2041,31 +2042,31 @@ static std::vector<window_panel> initialize_default_classic_panels()
 {
     std::vector<window_panel> ret;
 
-    ret.emplace_back( window_panel( draw_health_classic, translate_marker( "Health" ), 7, 44, true ) );
-    ret.emplace_back( window_panel( draw_location_classic, translate_marker( "Location" ), 1, 44,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_mana_classic, translate_marker( "Mana" ), 1, 44, true,
-                                    spell_panel ) );
-    ret.emplace_back( window_panel( draw_weather_classic, translate_marker( "Weather" ), 1, 44,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_lighting_classic, translate_marker( "Lighting" ), 1, 44,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_weapon_classic, translate_marker( "Weapon" ), 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_weapon_classic_alt, translate_marker( "Weapon_alt" ), 2, 44,
-                                    false ) );
-    ret.emplace_back( window_panel( draw_weightvolume_classic, translate_marker( "Wgt/Vol" ), 1, 44,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_time_classic, translate_marker( "Time" ), 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_wind, translate_marker( "Wind" ), 1, 44, false ) );
-    ret.emplace_back( window_panel( draw_armor, translate_marker( "Armor" ), 5, 44, false ) );
-    ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 44, true ) );
+    ret.emplace_back( draw_health_classic, translate_marker( "Health" ), 7, 44, true );
+    ret.emplace_back( draw_location_classic, translate_marker( "Location" ), 1, 44,
+                      true );
+    ret.emplace_back( draw_mana_classic, translate_marker( "Mana" ), 1, 44, true,
+                      spell_panel );
+    ret.emplace_back( draw_weather_classic, translate_marker( "Weather" ), 1, 44,
+                      true );
+    ret.emplace_back( draw_lighting_classic, translate_marker( "Lighting" ), 1, 44,
+                      true );
+    ret.emplace_back( draw_weapon_classic, translate_marker( "Weapon" ), 1, 44, true );
+    ret.emplace_back( draw_weapon_classic_alt, translate_marker( "Weapon_alt" ), 2, 44,
+                      false );
+    ret.emplace_back( draw_weightvolume_classic, translate_marker( "Wgt/Vol" ), 1, 44,
+                      true );
+    ret.emplace_back( draw_time_classic, translate_marker( "Time" ), 1, 44, true );
+    ret.emplace_back( draw_wind, translate_marker( "Wind" ), 1, 44, false );
+    ret.emplace_back( draw_armor, translate_marker( "Armor" ), 5, 44, false );
+    ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
+                      true );
+    ret.emplace_back( draw_messages_classic, translate_marker( "Log" ), -2, 44, true );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
-                                    default_render, true ) );
+    ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
+                      default_render, true );
 #endif // TILES
-    ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 44, false ) );
+    ret.emplace_back( draw_ai_goal, "AI Needs", 1, 44, false );
     return ret;
 }
 
@@ -2073,25 +2074,25 @@ static std::vector<window_panel> initialize_default_compact_panels()
 {
     std::vector<window_panel> ret;
 
-    ret.emplace_back( window_panel( draw_limb2, translate_marker( "Limbs" ), 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_stealth, translate_marker( "Sound" ), 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_stats, translate_marker( "Stats" ), 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_mana_compact, translate_marker( "Mana" ), 1, 32, true,
-                                    spell_panel ) );
-    ret.emplace_back( window_panel( draw_time, translate_marker( "Time" ), 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_needs_compact, translate_marker( "Needs" ), 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_env_compact, translate_marker( "Env" ), 6, 32, true ) );
-    ret.emplace_back( window_panel( draw_veh_compact, translate_marker( "Vehicle" ), 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_weightvolume_compact, translate_marker( "Wgt/Vol" ), 2, 32,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_armor, translate_marker( "Armor" ), 5, 32, false ) );
-    ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 32, true ) );
-    ret.emplace_back( window_panel( draw_compass, translate_marker( "Compass" ), 8, 32, true ) );
+    ret.emplace_back( draw_limb2, translate_marker( "Limbs" ), 3, 32, true );
+    ret.emplace_back( draw_stealth, translate_marker( "Sound" ), 1, 32, true );
+    ret.emplace_back( draw_stats, translate_marker( "Stats" ), 1, 32, true );
+    ret.emplace_back( draw_mana_compact, translate_marker( "Mana" ), 1, 32, true,
+                      spell_panel );
+    ret.emplace_back( draw_time, translate_marker( "Time" ), 1, 32, true );
+    ret.emplace_back( draw_needs_compact, translate_marker( "Needs" ), 3, 32, true );
+    ret.emplace_back( draw_env_compact, translate_marker( "Env" ), 6, 32, true );
+    ret.emplace_back( draw_veh_compact, translate_marker( "Vehicle" ), 1, 32, true );
+    ret.emplace_back( draw_weightvolume_compact, translate_marker( "Wgt/Vol" ), 2, 32,
+                      true );
+    ret.emplace_back( draw_armor, translate_marker( "Armor" ), 5, 32, false );
+    ret.emplace_back( draw_messages_classic, translate_marker( "Log" ), -2, 32, true );
+    ret.emplace_back( draw_compass, translate_marker( "Compass" ), 8, 32, true );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
-                                    default_render, true ) );
+    ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
+                      default_render, true );
 #endif // TILES
-    ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
+    ret.emplace_back( draw_ai_goal, "AI Needs", 1, 32, false );
 
     return ret;
 }
@@ -2100,30 +2101,30 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
 {
     std::vector<window_panel> ret;
 
-    ret.emplace_back( window_panel( draw_hint, translate_marker( "Hint" ), 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_limb_narrow, translate_marker( "Limbs" ), 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_char_narrow, translate_marker( "Movement" ), 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_mana_narrow, translate_marker( "Mana" ), 1, 32, true,
-                                    spell_panel ) );
-    ret.emplace_back( window_panel( draw_stat_narrow, translate_marker( "Stats" ), 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_veh_padding, translate_marker( "Vehicle" ), 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_loc_narrow, translate_marker( "Location" ), 5, 32, true ) );
-    ret.emplace_back( window_panel( draw_wind_padding, translate_marker( "Wind" ), 1, 32, false ) );
-    ret.emplace_back( window_panel( draw_weapon_labels, translate_marker( "Weapon" ), 2, 32, true ) );
-    ret.emplace_back( window_panel( draw_weightvolume_narrow, translate_marker( "Wgt/Vol" ), 2, 32,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_needs_narrow, translate_marker( "Needs" ), 5, 32, true ) );
-    ret.emplace_back( window_panel( draw_sound_narrow, translate_marker( "Sound" ), 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_messages, translate_marker( "Log" ), -2, 32, true ) );
-    ret.emplace_back( window_panel( draw_moon_narrow, translate_marker( "Moon" ), 2, 32, false ) );
-    ret.emplace_back( window_panel( draw_armor_padding, translate_marker( "Armor" ), 5, 32, false ) );
-    ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 32,
-                                    true ) );
+    ret.emplace_back( draw_hint, translate_marker( "Hint" ), 1, 32, true );
+    ret.emplace_back( draw_limb_narrow, translate_marker( "Limbs" ), 3, 32, true );
+    ret.emplace_back( draw_char_narrow, translate_marker( "Movement" ), 3, 32, true );
+    ret.emplace_back( draw_mana_narrow, translate_marker( "Mana" ), 1, 32, true,
+                      spell_panel );
+    ret.emplace_back( draw_stat_narrow, translate_marker( "Stats" ), 3, 32, true );
+    ret.emplace_back( draw_veh_padding, translate_marker( "Vehicle" ), 1, 32, true );
+    ret.emplace_back( draw_loc_narrow, translate_marker( "Location" ), 5, 32, true );
+    ret.emplace_back( draw_wind_padding, translate_marker( "Wind" ), 1, 32, false );
+    ret.emplace_back( draw_weapon_labels, translate_marker( "Weapon" ), 2, 32, true );
+    ret.emplace_back( draw_weightvolume_narrow, translate_marker( "Wgt/Vol" ), 2, 32,
+                      true );
+    ret.emplace_back( draw_needs_narrow, translate_marker( "Needs" ), 5, 32, true );
+    ret.emplace_back( draw_sound_narrow, translate_marker( "Sound" ), 1, 32, true );
+    ret.emplace_back( draw_messages, translate_marker( "Log" ), -2, 32, true );
+    ret.emplace_back( draw_moon_narrow, translate_marker( "Moon" ), 2, 32, false );
+    ret.emplace_back( draw_armor_padding, translate_marker( "Armor" ), 5, 32, false );
+    ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 32,
+                      true );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
-                                    default_render, true ) );
+    ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
+                      default_render, true );
 #endif // TILES
-    ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
+    ret.emplace_back( draw_ai_goal, "AI Needs", 1, 32, false );
 
     return ret;
 }
@@ -2132,31 +2133,31 @@ static std::vector<window_panel> initialize_default_label_panels()
 {
     std::vector<window_panel> ret;
 
-    ret.emplace_back( window_panel( draw_hint, translate_marker( "Hint" ), 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_limb_wide, translate_marker( "Limbs" ), 2, 44, true ) );
-    ret.emplace_back( window_panel( draw_char_wide, translate_marker( "Movement" ), 2, 44, true ) );
-    ret.emplace_back( window_panel( draw_mana_wide, translate_marker( "Mana" ), 1, 44, true,
-                                    spell_panel ) );
-    ret.emplace_back( window_panel( draw_stat_wide, translate_marker( "Stats" ), 2, 44, true ) );
-    ret.emplace_back( window_panel( draw_veh_padding, translate_marker( "Vehicle" ), 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_loc_wide_map, translate_marker( "Location" ), 5, 44, true ) );
-    ret.emplace_back( window_panel( draw_wind_padding, translate_marker( "Wind" ), 1, 44, false ) );
-    ret.emplace_back( window_panel( draw_loc_wide, translate_marker( "Location Alt" ), 5, 44, false ) );
-    ret.emplace_back( window_panel( draw_weapon_labels, translate_marker( "Weapon" ), 2, 44, true ) );
-    ret.emplace_back( window_panel( draw_weightvolume_labels, translate_marker( "Wgt/Vol" ), 1, 44,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_needs_labels, translate_marker( "Needs" ), 3, 44, true ) );
-    ret.emplace_back( window_panel( draw_sound_labels, translate_marker( "Sound" ), 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_messages, translate_marker( "Log" ), -2, 44, true ) );
-    ret.emplace_back( window_panel( draw_moon_wide, translate_marker( "Moon" ), 1, 44, false ) );
-    ret.emplace_back( window_panel( draw_armor_padding, translate_marker( "Armor" ), 5, 44, false ) );
-    ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
-                                    true ) );
+    ret.emplace_back( draw_hint, translate_marker( "Hint" ), 1, 44, true );
+    ret.emplace_back( draw_limb_wide, translate_marker( "Limbs" ), 2, 44, true );
+    ret.emplace_back( draw_char_wide, translate_marker( "Movement" ), 2, 44, true );
+    ret.emplace_back( draw_mana_wide, translate_marker( "Mana" ), 1, 44, true,
+                      spell_panel );
+    ret.emplace_back( draw_stat_wide, translate_marker( "Stats" ), 2, 44, true );
+    ret.emplace_back( draw_veh_padding, translate_marker( "Vehicle" ), 1, 44, true );
+    ret.emplace_back( draw_loc_wide_map, translate_marker( "Location" ), 5, 44, true );
+    ret.emplace_back( draw_wind_padding, translate_marker( "Wind" ), 1, 44, false );
+    ret.emplace_back( draw_loc_wide, translate_marker( "Location Alt" ), 5, 44, false );
+    ret.emplace_back( draw_weapon_labels, translate_marker( "Weapon" ), 2, 44, true );
+    ret.emplace_back( draw_weightvolume_labels, translate_marker( "Wgt/Vol" ), 1, 44,
+                      true );
+    ret.emplace_back( draw_needs_labels, translate_marker( "Needs" ), 3, 44, true );
+    ret.emplace_back( draw_sound_labels, translate_marker( "Sound" ), 1, 44, true );
+    ret.emplace_back( draw_messages, translate_marker( "Log" ), -2, 44, true );
+    ret.emplace_back( draw_moon_wide, translate_marker( "Moon" ), 1, 44, false );
+    ret.emplace_back( draw_armor_padding, translate_marker( "Armor" ), 5, 44, false );
+    ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
+                      true );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
-                                    default_render, true ) );
+    ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
+                      default_render, true );
 #endif // TILES
-    ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 44, false ) );
+    ret.emplace_back( draw_ai_goal, "AI Needs", 1, 44, false );
 
     return ret;
 }
@@ -2165,11 +2166,11 @@ static std::map<std::string, std::vector<window_panel>> initialize_default_panel
 {
     std::map<std::string, std::vector<window_panel>> ret;
 
-    ret.emplace( std::make_pair( translate_marker( "classic" ), initialize_default_classic_panels() ) );
-    ret.emplace( std::make_pair( translate_marker( "compact" ), initialize_default_compact_panels() ) );
-    ret.emplace( std::make_pair( translate_marker( "labels-narrow" ),
-                                 initialize_default_label_narrow_panels() ) );
-    ret.emplace( std::make_pair( translate_marker( "labels" ), initialize_default_label_panels() ) );
+    ret.emplace( translate_marker( "classic" ), initialize_default_classic_panels() );
+    ret.emplace( translate_marker( "compact" ), initialize_default_compact_panels() );
+    ret.emplace( translate_marker( "labels-narrow" ),
+                 initialize_default_label_narrow_panels() );
+    ret.emplace( translate_marker( "labels" ), initialize_default_label_panels() );
 
     return ret;
 }

@@ -21,7 +21,7 @@
 
 static void test_encumbrance_on(
     player &p,
-    const std::vector<item> &clothing,
+    std::vector<detached_ptr<item>> &clothing,
     const std::string &body_part,
     int expected_encumbrance,
     const std::function<void( player & )> &tweak_player = {}
@@ -34,8 +34,8 @@ static void test_encumbrance_on(
     if( tweak_player ) {
         tweak_player( p );
     }
-    for( const item &i : clothing ) {
-        p.worn.push_back( i );
+    for( detached_ptr<item> &i : clothing ) {
+        p.worn.push_back( std::move( i ) );
     }
     p.reset_encumbrance();
     encumbrance_data enc = p.get_encumbrance().elems[ get_body_part_token( body_part ) ];
@@ -43,7 +43,7 @@ static void test_encumbrance_on(
 }
 
 static void test_encumbrance_items(
-    const std::vector<item> &clothing,
+    std::vector<detached_ptr<item>> &clothing,
     const std::string &body_part,
     const int expected_encumbrance,
     const std::function<void( player & )> &tweak_player = {}
@@ -67,9 +67,9 @@ static void test_encumbrance(
 )
 {
     CAPTURE( clothing_types );
-    std::vector<item> clothing;
+    std::vector<detached_ptr<item>> clothing;
     for( const std::string &type : clothing_types ) {
-        clothing.push_back( item( type ) );
+        clothing.push_back( item::spawn( type ) );
     }
     test_encumbrance_items( clothing, body_part, expected_encumbrance );
 }
@@ -124,20 +124,29 @@ TEST_CASE( "same_layer_encumbrance", "[encumbrance]" )
 TEST_CASE( "tiny_clothing", "[encumbrance]" )
 {
     clear_all_state();
-    item i( "longshirt" );
-    i.set_flag( flag_id( "UNDERSIZE" ) );
-    test_encumbrance_items( { i }, "TORSO", longshirt_e * 3 );
+    detached_ptr<item> i = item::spawn( "longshirt" );
+    i->set_flag( flag_id( "UNDERSIZE" ) );
+    std::vector<detached_ptr<item>> items;
+    items.push_back( std::move( i ) );
+    test_encumbrance_items( items, "TORSO",
+                            longshirt_e * 3 );
 }
 
 TEST_CASE( "tiny_character", "[encumbrance]" )
 {
     clear_all_state();
-    item i( "longshirt" );
+    detached_ptr<item> i = item::spawn( "longshirt" );
+    item &obj = *i;
+    std::vector<detached_ptr<item>> items;
+    items.push_back( std::move( i ) );
     SECTION( "regular shirt" ) {
-        test_encumbrance_items( { i }, "TORSO", longshirt_e * 2, add_trait( "SMALL2" ) );
+        test_encumbrance_items( items, "TORSO",
+                                longshirt_e * 2,
+                                add_trait( "SMALL2" ) );
     }
     SECTION( "undersize shrt" ) {
-        i.set_flag( flag_id( "UNDERSIZE" ) );
-        test_encumbrance_items( { i }, "TORSO", longshirt_e, add_trait( "SMALL2" ) );
+        obj.set_flag( flag_id( "UNDERSIZE" ) );
+        test_encumbrance_items( items, "TORSO", longshirt_e,
+                                add_trait( "SMALL2" ) );
     }
 }

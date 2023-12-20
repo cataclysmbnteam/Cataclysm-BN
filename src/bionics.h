@@ -147,7 +147,7 @@ struct bionic_data {
     static void reset();
 
     bool was_loaded = false;
-    void load( const JsonObject &obj, std::string );
+    void load( const JsonObject &obj, const std::string & );
     void check() const;
     void finalize() const;
 };

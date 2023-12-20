@@ -28,7 +28,7 @@ template <typename T> class value_ptr;
 
 bool item_is_blacklisted( const itype_id &id );
 
-using Item_list = std::vector<item>;
+using Item_list = std::vector<item *>;
 
 class Item_factory;
 class JsonArray;

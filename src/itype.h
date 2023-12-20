@@ -1055,6 +1055,9 @@ struct itype {
         int invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
         int invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
         void tick( player &p, item &it, const tripoint &pos ) const;
+
+        bool is_fuel() const;
+        bool is_seed() const;
 };
 
 #endif // CATA_SRC_ITYPE_H

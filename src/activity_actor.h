@@ -117,19 +117,6 @@ class activity_actor
         }
 
         /**
-         * Returns a deep copy of this object. Example implementation:
-         * \code
-         * class my_activity_actor {
-         *     std::unique_ptr<activity_actor> clone() const override {
-         *         return std::make_unique<my_activity_actor>( *this );
-         *     }
-         * };
-         * \endcode
-         * The returned value should behave like the original item and must have the same type.
-         */
-        virtual std::unique_ptr<activity_actor> clone() const = 0;
-
-        /**
          * Must write any custom members of the derived class to json
          * Note that a static member function for deserialization must also be created and
          * added to the `activity_actor_deserializers` hashmap in activity_actor.cpp
@@ -154,7 +141,7 @@ deserialize_functions;
 
 } // namespace activity_actors
 
-void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout );
-void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin );
+void serialize( const std::unique_ptr<activity_actor> &actor, JsonOut &jsout );
+void deserialize( std::unique_ptr<activity_actor> &actor, JsonIn &jsin );
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_H

@@ -94,7 +94,7 @@
         { "item": "museum_guns", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 70 },
         { "item": "museum_misc", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 80 }
       ],
-      "place_vehicles": [ { "vehicle": "cannon_3in", "x": 11, "y": 7, "chance": 75, "rotation": 180 } ]
+      "place_vehicles": [ { "vehicle": "museum_vehicles", "x": 11, "y": 7, "chance": 75, "rotation": 180 } ]
     }
   },
   {

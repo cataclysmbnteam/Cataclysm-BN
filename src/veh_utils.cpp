@@ -23,6 +23,7 @@
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
+#include "locations.h"
 #include "requirements.h"
 #include "translations.h"
 #include "color.h"
@@ -132,12 +133,12 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     }
 
     // consume items extracting any base item (which we will need if replacing broken part)
-    item base( vp.item );
+    detached_ptr<item> base = item::spawn( vp.item );
     for( const auto &e : reqs.get_components() ) {
         for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1,
                                             is_crafting_component ) ) {
-            if( obj.typeId() == vp.item ) {
-                base = obj;
+            if( obj->typeId() == vp.item ) {
+                base = std::move( obj );
             }
         }
     }

@@ -19,6 +19,7 @@
 #include "map_iterator.h"
 #include "morale.h"
 #include "player.h"
+#include "player_activity.h"
 #include "rng.h"
 #include "submap.h"
 #include "trap.h"
@@ -181,7 +182,7 @@ void Character::process_turn()
 
     // If we're actively handling something we can't just drop it on the ground
     // in the middle of handling it
-    if( activity.targets.empty() ) {
+    if( activity->targets.empty() ) {
         drop_invalid_inventory();
     }
     process_items();
@@ -418,6 +419,17 @@ void Character::process_one_effect( effect &it, bool is_new )
         if( is_new || it.activated( calendar::turn, "FATIGUE", val, reduced, mod ) ) {
             mod_fatigue( bound_mod_to_vals( get_fatigue(), val, it.get_max_val( "FATIGUE", reduced ),
                                             it.get_min_val( "FATIGUE", reduced ) ) );
+        }
+    }
+
+    // Handle sleep debt
+    val = get_effect( "SLEEPDEBT", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "SLEEPDEBT", val, reduced, mod ) ) {
+            mod_sleep_deprivation( bound_mod_to_vals( get_sleep_deprivation(), val, it.get_max_val( "SLEEPDEBT",
+                                   reduced ),
+                                   it.get_min_val( "SLEEPDEBT", reduced ) ) );
         }
     }
 
@@ -759,9 +771,21 @@ void Character::reset_stats()
     mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
     mod_dodge_bonus( std::floor( mutation_value( "dodge_modifier" ) ) );
 
-    apply_skill_boost();
+    mod_str_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::STRENGTH, get_str_base(), true ) );
+    mod_dex_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::DEXTERITY, get_dex_base(),
+                   true ) );
+    mod_per_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::PERCEPTION, get_per_base(),
+                   true ) );
+    mod_int_bonus( enchantment_cache->calc_bonus( enchant_vals::mod::INTELLIGENCE, get_int_base(),
+                   true ) );
 
-    nv_cached = false;
+    mod_num_dodges_bonus( enchantment_cache->calc_bonus(
+                              enchant_vals::mod::BONUS_DODGE,
+                              get_num_dodges_base(),
+                              true
+                          ) );
+
+    apply_skill_boost();
 
     // Reset our stats to normal levels
     // Any persistent buffs/debuffs will take place in effects,
@@ -814,27 +838,30 @@ void Character::environmental_revert_effect()
 
 void Character::process_items()
 {
-    item &weapon = primary_weapon();
-    if( weapon.needs_processing() && weapon.process( as_player(), pos(), false ) ) {
-        weapon = item();
+    auto process_item = [this]( detached_ptr<item> &&ptr ) {
+        return item::process( std::move( ptr ), as_player(), pos(), false );
+    };
+    if( primary_weapon().needs_processing() ) {
+        primary_weapon().attempt_detach( process_item );
     }
 
     std::vector<item *> inv_active = inv.active_items();
     for( item *tmp_it : inv_active ) {
-        if( tmp_it->process( as_player(), pos(), false ) ) {
-            inv.remove_item( tmp_it );
-        }
+        tmp_it->attempt_detach( process_item );
     }
 
     // worn items
-    remove_worn_items_with( [this]( item & itm ) {
-        return itm.needs_processing() && itm.process( as_player(), pos(), false );
+    remove_worn_items_with( [process_item]( detached_ptr<item> &&itm ) {
+        if( itm->needs_processing() ) {
+            return process_item( std::move( itm ) );
+        }
+        return std::move( itm );
     } );
 
     // Active item processing done, now we're recharging.
     std::vector<item *> active_worn_items;
-    bool weapon_active = weapon.has_flag( flag_USE_UPS ) &&
-                         weapon.charges < weapon.type->maximum_charges();
+    bool weapon_active = primary_weapon().has_flag( flag_USE_UPS ) &&
+                         primary_weapon().charges < primary_weapon().type->maximum_charges();
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
     for( size_t index = 0; index < inv.size(); index++ ) {
@@ -850,22 +877,22 @@ void Character::process_items()
         }
     }
     bool update_required = get_check_encumbrance();
-    for( item &w : worn ) {
-        if( w.has_flag( flag_USE_UPS ) &&
-            w.charges < w.type->maximum_charges() ) {
-            active_worn_items.push_back( &w );
+    for( item *&w : worn ) {
+        if( w->has_flag( flag_USE_UPS ) &&
+            w->charges < w->type->maximum_charges() ) {
+            active_worn_items.push_back( w );
         }
         // Necessary for UPS in Aftershock - check worn items for charge
-        const itype_id &identifier = w.typeId();
+        const itype_id &identifier = w->typeId();
         if( identifier == itype_UPS_off ) {
-            ch_UPS += w.ammo_remaining();
+            ch_UPS += w->ammo_remaining();
         } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += w.ammo_remaining() / 0.6;
+            ch_UPS += w->ammo_remaining() / 0.6;
         }
-        if( !update_required && w.encumbrance_update_ ) {
+        if( !update_required && w->encumbrance_update_ ) {
             update_required = true;
         }
-        w.encumbrance_update_ = false;
+        w->encumbrance_update_ = false;
     }
     if( update_required ) {
         reset_encumbrance();
@@ -887,7 +914,7 @@ void Character::process_items()
     }
     if( weapon_active && ch_UPS_used < ch_UPS ) {
         ch_UPS_used++;
-        weapon.charges++;
+        primary_weapon().charges++;
     }
     for( item *worn_item : active_worn_items ) {
         if( ch_UPS_used >= ch_UPS ) {

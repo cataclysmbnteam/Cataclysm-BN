@@ -11,6 +11,7 @@
 #include <limits>
 #include <optional>
 #include <stdexcept>
+#include <utility>
 
 sol::state make_lua_state()
 {
@@ -122,7 +123,7 @@ void check_func_result( sol::protected_function_result &res )
     }
 }
 
-bool is_number_integer( sol::state_view lua, sol::object val )
+bool is_number_integer( sol::state_view lua, const sol::object &val )
 {
     if( val.get_type() != sol::type::number ) {
         throw std::runtime_error( "is_number_integer: called on a non-number type" );
@@ -150,7 +151,7 @@ bool is_number_integer( sol::state_view lua, sol::object val )
     }
 }
 
-std::optional<std::string> get_luna_type( sol::object val )
+std::optional<std::string> get_luna_type( const sol::object &val )
 {
     sol::state_view lua( val.lua_state() );
     if( val.get_type() == sol::type::userdata ) {
@@ -168,7 +169,7 @@ std::optional<std::string> get_luna_type( sol::object val )
     return std::nullopt;
 }
 
-bool compare_values( sol::object a, sol::object b )
+bool compare_values( const sol::object &a, const sol::object &b )
 {
     sol::state_view lua( a.lua_state() );
     sol::type type = a.get_type();
@@ -219,10 +220,10 @@ bool compare_values( sol::object a, sol::object b )
     return retval.as<bool>();
 }
 
-sol::object find_equivalent_key( sol::table t, sol::object desired_key )
+sol::object find_equivalent_key( const sol::table &t, sol::object desired_key )
 {
     sol::object ret = sol::nil;
-    t.for_each( [&]( sol::object key, sol::object ) {
+    t.for_each( [&]( const sol::object & key, const sol::object & ) {
         if( ret != sol::nil ) {
             return;
         }
@@ -240,12 +241,12 @@ bool compare_tables( sol::table a, sol::table b )
     }
 
     bool are_equal = true;
-    a.for_each( [&]( sol::object a_key, sol::object a_val ) {
+    a.for_each( [&]( sol::object a_key, const sol::object & a_val ) {
         if( !are_equal ) {
             // Short-circuit
             return;
         }
-        sol::object b_key = find_equivalent_key( b, a_key );
+        sol::object b_key = find_equivalent_key( b, std::move( a_key ) );
         if( b_key == sol::nil ) {
             are_equal = false;
             return;
@@ -259,8 +260,8 @@ bool compare_tables( sol::table a, sol::table b )
         }
     } );
     if( are_equal ) {
-        b.for_each( [&]( sol::object b_key, sol::object /*b_val*/ ) {
-            sol::object a_key = find_equivalent_key( a, b_key );
+        b.for_each( [&]( sol::object b_key, const sol::object & /*b_val*/ ) {
+            sol::object a_key = find_equivalent_key( a, std::move( b_key ) );
             if( a_key == sol::nil ) {
                 are_equal = false;
             } else {

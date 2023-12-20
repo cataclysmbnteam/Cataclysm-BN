@@ -10,6 +10,16 @@
     "text": "Enjoyed a hot meal"
   },
   {
+    "id": "morale_food_cold",
+    "type": "morale_type",
+    "text": "Enjoyed a cold treat"
+  },
+  {
+    "id": "morale_food_very_cold",
+    "type": "morale_type",
+    "text": "Enjoyed an icy treat"
+  },
+  {
     "id": "morale_chat",
     "type": "morale_type",
     "text": "Enjoyed a conversation"

@@ -140,10 +140,10 @@
     "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
-        { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "charges": [ 30, 36 ] },
-        { "item": "pebble", "charges": [ 180, 200 ] },
-        { "item": "material_soil", "count": [ 70, 75 ] }
+        { "item": "2x4", "count": 12 },
+        { "item": "nail", "charges": 36 },
+        { "item": "pebble", "charges": 200 },
+        { "item": "material_soil", "count": 75 }
       ]
     },
     "bash": {

@@ -166,6 +166,23 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
     }
 }
 
+namespace
+{
+
+// TODO: add explicit action field to gun definitions
+auto defmode_name( itype &obj )
+{
+    if( obj.gun->clip == 1 ) {
+        return translate_marker( "manual" ); // break-type actions
+    } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.has_flag( flag_RELOAD_ONE ) ) {
+        return translate_marker( "revolver" );
+    } else {
+        return translate_marker( "semi" );
+    }
+};
+
+} //namespace
+
 void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
@@ -397,46 +414,41 @@ void Item_factory::finalize_pre( itype &obj )
         // replace those ammo types with that of the migrated ammo
         for( auto ammo_type_it = obj.gun->ammo.begin(); ammo_type_it != obj.gun->ammo.end(); ) {
             auto maybe_migrated = migrated_ammo.find( ammo_type_it->obj().default_ammotype() );
-            if( maybe_migrated != migrated_ammo.end() ) {
-                const ammotype old_ammo = *ammo_type_it;
-                // Remove the old ammotype add the migrated version
-                ammo_type_it = obj.gun->ammo.erase( ammo_type_it );
-                const ammotype &new_ammo = maybe_migrated->second;
-                obj.gun->ammo.insert( obj.gun->ammo.begin(), new_ammo );
-                // Migrate the compatible magazines
-                auto old_mag_it = obj.magazines.find( old_ammo );
-                if( old_mag_it != obj.magazines.end() ) {
-                    for( const itype_id &old_mag : old_mag_it->second ) {
-                        obj.magazines[new_ammo].insert( old_mag );
-                    }
-                    obj.magazines.erase( old_ammo );
-                }
-                // And the default magazines for each magazine type
-                auto old_default_mag_it = obj.magazine_default.find( old_ammo );
-                if( old_default_mag_it != obj.magazine_default.end() ) {
-                    const itype_id &old_default_mag = old_default_mag_it->second;
-                    obj.magazine_default[new_ammo] = old_default_mag;
-                    obj.magazine_default.erase( old_ammo );
-                }
-            } else {
+            if( maybe_migrated == migrated_ammo.end() ) {
                 ++ammo_type_it;
+                continue;
+            }
+
+            const ammotype old_ammo = *ammo_type_it;
+
+            // Remove the old ammotype add the migrated version
+            ammo_type_it = obj.gun->ammo.erase( ammo_type_it );
+            const ammotype &new_ammo = maybe_migrated->second;
+            obj.gun->ammo.insert( obj.gun->ammo.begin(), new_ammo );
+
+            // Migrate the compatible magazines
+            auto old_mag_it = obj.magazines.find( old_ammo );
+            if( old_mag_it != obj.magazines.end() ) {
+                for( const itype_id &old_mag : old_mag_it->second ) {
+                    obj.magazines[new_ammo].insert( old_mag );
+                }
+                obj.magazines.erase( old_ammo );
+            }
+
+            // And the default magazines for each magazine type
+            auto old_default_mag_it = obj.magazine_default.find( old_ammo );
+            if( old_default_mag_it != obj.magazine_default.end() ) {
+                const itype_id &old_default_mag = old_default_mag_it->second;
+                obj.magazine_default[new_ammo] = old_default_mag;
+                obj.magazine_default.erase( old_ammo );
             }
         }
 
-        // TODO: add explicit action field to gun definitions
-        const auto defmode_name = [&]() {
-            if( obj.gun->clip == 1 ) {
-                return translate_marker( "manual" ); // break-type actions
-            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.has_flag( flag_RELOAD_ONE ) ) {
-                return translate_marker( "revolver" );
-            } else {
-                return translate_marker( "semi" );
-            }
-        };
+
 
         // if the gun doesn't have a DEFAULT mode then add one now
         obj.gun->modes.emplace( gun_mode_id( "DEFAULT" ),
-                                gun_modifier_data( defmode_name(), 1, std::set<std::string>() ) );
+                                gun_modifier_data( defmode_name( obj ), 1, std::set<std::string>() ) );
 
         // If a "gun" has a reach attack, give it an additional melee mode.
         if( obj.has_flag( flag_REACH_ATTACK ) ) {
@@ -732,7 +744,7 @@ void Item_factory::finalize_item_blacklist()
         if( maybe_ammo != m_templates.end() && maybe_ammo->second.ammo ) {
             auto replacement = m_templates.find( migrate.second.replace );
             if( replacement->second.ammo ) {
-                migrated_ammo.emplace( std::make_pair( migrate.first, replacement->second.ammo->type ) );
+                migrated_ammo.emplace( migrate.first, replacement->second.ammo->type );
             } else {
                 debugmsg( "Replacement item %s for migrated ammo %s is not ammo.",
                           migrate.second.replace.str(), migrate.first.str() );
@@ -744,7 +756,7 @@ void Item_factory::finalize_item_blacklist()
         if( maybe_mag != m_templates.end() && maybe_mag->second.magazine ) {
             auto replacement = m_templates.find( migrate.second.replace );
             if( replacement->second.magazine ) {
-                migrated_magazines.emplace( std::make_pair( migrate.first, migrate.second.replace ) );
+                migrated_magazines.emplace( migrate.first, migrate.second.replace );
             } else {
                 debugmsg( "Replacement item %s for migrated magazine %s is not a magazine.",
                           migrate.second.replace.str(), migrate.first.str() );
@@ -2514,7 +2526,7 @@ void hflesh_to_flesh( itype &item_template )
     // Only add "flesh" material if not already present
     if( old_size != mats.size() &&
         std::find( mats.begin(), mats.end(), material_id( "flesh" ) ) == mats.end() ) {
-        mats.push_back( material_id( "flesh" ) );
+        mats.emplace_back( "flesh" );
     }
 }
 
@@ -3027,10 +3039,10 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
         return false;
     }
     if( obj.has_string( iname ) ) {
-        entries.push_back( std::make_pair( obj.get_string( iname ), false ) );
+        entries.emplace_back( obj.get_string( iname ), false );
     }
     if( obj.has_string( gname ) ) {
-        entries.push_back( std::make_pair( obj.get_string( gname ), true ) );
+        entries.emplace_back( obj.get_string( gname ), true );
     }
 
     if( entries.size() > 1 && name != "contents" ) {
@@ -3365,7 +3377,7 @@ std::vector<item_group_id> Item_factory::get_all_group_names()
 {
     std::vector<item_group_id> rval;
     for( GroupMap::value_type &group_pair : m_template_groups ) {
-        rval.push_back( item_group_id( group_pair.first ) );
+        rval.emplace_back( group_pair.first );
     }
     return rval;
 }
@@ -3409,7 +3421,7 @@ void item_group::debug_spawn()
         for( size_t a = 0; a < 100; a++ ) {
             const auto items = items_from( groups[index], calendar::turn );
             for( auto &it : items ) {
-                itemnames[it.display_name()]++;
+                itemnames[it->display_name()]++;
             }
         }
         // Invert the map to get sorting!

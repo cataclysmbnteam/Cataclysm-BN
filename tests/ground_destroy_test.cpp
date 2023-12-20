@@ -76,7 +76,7 @@ TEST_CASE( "explosion_on_ground", "[.]" )
     REQUIRE( rdx_keg_typeid.is_valid() );
 
     const tripoint area_center( area_dim / 2, area_dim / 2, 0 );
-    item rdx_keg( rdx_keg_typeid );
+    item &rdx_keg = *item::spawn_temporary( rdx_keg_typeid );
     rdx_keg.charges = 0;
     rdx_keg.type->invoke( get_avatar(), rdx_keg, area_center );
 
@@ -127,7 +127,7 @@ TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
     REQUIRE( rdx_keg_typeid.is_valid() );
 
     const tripoint area_center( area_dim / 2, area_dim / 2, 0 );
-    item rdx_keg( rdx_keg_typeid );
+    item &rdx_keg = *item::spawn_temporary( rdx_keg_typeid );
     rdx_keg.charges = 0;
     rdx_keg.type->invoke( get_avatar(), rdx_keg, area_center );
 

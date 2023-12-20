@@ -13,8 +13,8 @@ TEST_CASE( "item name pluralization", "[item][type_name][plural]" )
     SECTION( "singular and plural item names" ) {
 
         SECTION( "plural is the same as singular" ) {
-            item lead( "lead" );
-            item gold( "gold_small" );
+            item &lead = *item::spawn_temporary( "lead" );
+            item &gold = *item::spawn_temporary( "gold_small" );
 
             CHECK( lead.type_name( 1 ) == "lead" );
             CHECK( lead.type_name( 2 ) == "lead" );
@@ -24,10 +24,10 @@ TEST_CASE( "item name pluralization", "[item][type_name][plural]" )
         }
 
         SECTION( "pluralize the last part" ) {
-            item rag( "rag" );
-            item mattress( "mattress" );
-            item incendiary( "incendiary" );
-            item plastic( "plastic_chunk" );
+            item &rag = *item::spawn_temporary( "rag" );
+            item &mattress = *item::spawn_temporary( "mattress" );
+            item &incendiary = *item::spawn_temporary( "incendiary" );
+            item &plastic = *item::spawn_temporary( "plastic_chunk" );
 
             // just add +s
             CHECK( rag.type_name( 1 ) == "rag" );
@@ -46,9 +46,9 @@ TEST_CASE( "item name pluralization", "[item][type_name][plural]" )
         }
 
         SECTION( "pluralize the first part" ) {
-            item glass( "glass_sheet" );
-            item cards( "deck_of_cards" );
-            item jar( "jar_eggs_pickled" );
+            item &glass = *item::spawn_temporary( "glass_sheet" );
+            item &cards = *item::spawn_temporary( "deck_of_cards" );
+            item &jar = *item::spawn_temporary( "jar_eggs_pickled" );
 
             CHECK( glass.type_name( 1 ) == "sheet of glass" );
             CHECK( glass.type_name( 2 ) == "sheets of glass" );
@@ -61,8 +61,8 @@ TEST_CASE( "item name pluralization", "[item][type_name][plural]" )
         }
 
         SECTION( "pluralize by inserting a word" ) {
-            item mag( "mag_archery" );
-            item book( "SICP" );
+            item &mag = *item::spawn_temporary( "mag_archery" );
+            item &book = *item::spawn_temporary( "SICP" );
 
             CHECK( mag.type_name( 1 ) == "Archery for Kids" );
             CHECK( mag.type_name( 2 ) == "issues of Archery for Kids" );
@@ -76,7 +76,7 @@ TEST_CASE( "item name pluralization", "[item][type_name][plural]" )
 TEST_CASE( "custom named item", "[item][type_name][named]" )
 {
     // Shop smart. Shop S-Mart.
-    item shotgun( "shotgun_410" );
+    item &shotgun = *item::spawn_temporary( "shotgun_410" );
     shotgun.set_var( "name", "Boomstick" );
     REQUIRE( shotgun.get_var( "name" ) == "Boomstick" );
 
@@ -89,8 +89,8 @@ TEST_CASE( "blood item", "[item][type_name][blood]" )
     static const mtype_id mon_chicken( "mon_chicken" );
 
     SECTION( "blood from a zombie corpse" ) {
-        item corpse = item::make_corpse( mon_zombie );
-        item blood( "blood" );
+        item &corpse = *item::make_corpse( mon_zombie );
+        item &blood = *item::spawn_temporary( "blood" );
         blood.set_mtype( corpse.get_mtype() );
         REQUIRE( blood.typeId() == itype_id( "blood" ) );
         REQUIRE_FALSE( blood.is_corpse() );
@@ -99,8 +99,8 @@ TEST_CASE( "blood item", "[item][type_name][blood]" )
     }
 
     SECTION( "blood from a chicken corpse" ) {
-        item corpse = item::make_corpse( mon_chicken );
-        item blood( "blood" );
+        item &corpse = *item::make_corpse( mon_chicken );
+        item &blood = *item::spawn_temporary( "blood" );
         blood.set_mtype( corpse.get_mtype() );
         REQUIRE( blood.typeId() == itype_id( "blood" ) );
         REQUIRE_FALSE( blood.is_corpse() );
@@ -109,7 +109,7 @@ TEST_CASE( "blood item", "[item][type_name][blood]" )
     }
 
     SECTION( "blood from an unknown corpse" ) {
-        item blood( "blood" );
+        item &blood = *item::spawn_temporary( "blood" );
         REQUIRE( blood.typeId() == itype_id( "blood" ) );
         REQUIRE_FALSE( blood.is_corpse() );
 
@@ -125,7 +125,7 @@ TEST_CASE( "corpse item", "[item][type_name][corpse]" )
     // Anonymous corpses
 
     SECTION( "human corpse" ) {
-        item corpse = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, "" );
+        item &corpse = *item::make_corpse( mtype_id::NULL_ID(), calendar::turn, "" );
         REQUIRE( corpse.is_corpse() );
         REQUIRE( corpse.get_corpse_name().empty() );
 
@@ -133,7 +133,7 @@ TEST_CASE( "corpse item", "[item][type_name][corpse]" )
     }
 
     SECTION( "zombie corpse" ) {
-        item corpse = item::make_corpse( mon_zombie, calendar::turn, "" );
+        item &corpse = *item::make_corpse( mon_zombie, calendar::turn, "" );
         REQUIRE( corpse.is_corpse() );
         REQUIRE( corpse.get_corpse_name().empty() );
 
@@ -141,7 +141,7 @@ TEST_CASE( "corpse item", "[item][type_name][corpse]" )
     }
 
     SECTION( "chicken corpse" ) {
-        item corpse = item::make_corpse( mon_chicken, calendar::turn, "" );
+        item &corpse = *item::make_corpse( mon_chicken, calendar::turn, "" );
         REQUIRE( corpse.is_corpse() );
         REQUIRE( corpse.get_corpse_name().empty() );
 
@@ -151,7 +151,7 @@ TEST_CASE( "corpse item", "[item][type_name][corpse]" )
     // Corpses with names
 
     SECTION( "human corpse with a name" ) {
-        item corpse = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, "Dead Dude" );
+        item &corpse = *item::make_corpse( mtype_id::NULL_ID(), calendar::turn, "Dead Dude" );
         REQUIRE( corpse.is_corpse() );
         REQUIRE_FALSE( corpse.get_corpse_name().empty() );
 
@@ -159,7 +159,7 @@ TEST_CASE( "corpse item", "[item][type_name][corpse]" )
     }
 
     SECTION( "zombie corpse with a name" ) {
-        item corpse = item::make_corpse( mon_zombie, calendar::turn, "Deadite Jones" );
+        item &corpse = *item::make_corpse( mon_zombie, calendar::turn, "Deadite Jones" );
         REQUIRE( corpse.is_corpse() );
         REQUIRE_FALSE( corpse.get_corpse_name().empty() );
 
@@ -167,7 +167,7 @@ TEST_CASE( "corpse item", "[item][type_name][corpse]" )
     }
 
     SECTION( "chicken corpse with a name" ) {
-        item corpse = item::make_corpse( mon_chicken, calendar::turn, "Herb" );
+        item &corpse = *item::make_corpse( mon_chicken, calendar::turn, "Herb" );
         REQUIRE( corpse.is_corpse() );
         REQUIRE_FALSE( corpse.get_corpse_name().empty() );
 

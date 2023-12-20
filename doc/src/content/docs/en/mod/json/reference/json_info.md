@@ -2414,7 +2414,29 @@ more structured function.
     "done_message": "Place the beartrap on the %s.", // The message that appears after the trap has been placed. %s is replaced with the terrain name of the place where the trap has been put.
     "practice": 4, // How much practice to the "traps" skill placing the trap gives.
     "moves": 10 // (optional, default is 100): the move points that are used by placing the trap.
-}
+},
+"use_action": {
+  {
+    "type": "repair_item",                // Repair items. Skill, tool quality, and dexterity is checked against how hard that item is to craft/dissemble (which may be modified with repairs_like).
+    "item_action_type": "repair_fabric",  // Points to an item_action JSON entry that determines the action's name in the use menu. Vanilla examples include repair_fabric and repair_metal.
+    "materials": [                        // What materials can be repaired by this item. Materials.json defines what item is consumed when repairing items of that material.
+      "cotton",
+      "leather",
+      "nylon",
+      "wool",
+      "fur",
+      "faux_fur",
+      "nomex",
+      "kevlar",
+      "neoprene",
+      "gutskin"
+    ],
+    "skill": "tailor",    // What skill determines chance of success vs. risk of damaging the item further.
+    "tool_quality": 3,    // Bonus from tool, 1.<X> times multiplier on skill.  With 8 Dex, 10 skill plus 2 or more tool_quality allows any item in the game to be fully reinforced.
+    "cost_scaling": 0.1,  // Reduces or increases how much raw material is needed per successful repair action, also affected by the item's volume.
+    "move_cost": 800      // How long between each roll for success or failure, 100 moves is 1 turn.
+  }
+},
 "use_action": {
     "type": "sew_advanced",  // Modify clothing
     "materials": [           // materials to deal with.
@@ -2610,6 +2632,7 @@ entries.
   "open": "f_foo_open",
   "lockpick_result": "f_safe_open",
   "lockpick_message": "With a click, you unlock the safe.",
+  "provides_liquids": "beer",
   "bash": "TODO",
   "deconstruct": "TODO",
   "max_volume": "1000 L",
@@ -2671,6 +2694,11 @@ also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag.
 
 (Optional) Surgery skill multiplier (float) applied by this furniture to survivor standing next to
 it for the purpose of surgery.
+
+#### `provides_liquids`
+
+(Optional) Dispenses infinite amounts of specified liquid item when interacted. Must be used with
+`"examine_action": "liquid_source"` to work.
 
 ### Terrain
 

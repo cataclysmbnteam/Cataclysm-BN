@@ -17,4 +17,7 @@ void clear_all_state( )
     clear_avatar();
     set_time( calendar::turn_zero );
     Name::clear();
+
+
+    cleanup_arenas();
 }

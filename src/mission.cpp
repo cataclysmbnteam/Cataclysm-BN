@@ -308,7 +308,7 @@ void mission::wrap_up()
 
             for( std::pair<const itype_id, int> &cnt : matches ) {
                 if( cnt.second >= type->item_count ) {
-                    comps.push_back( item_comp( cnt.first, type->item_count ) );
+                    comps.emplace_back( cnt.first, type->item_count );
                 }
             }
 
@@ -317,10 +317,10 @@ void mission::wrap_up()
             if( remove_container ) {
                 std::vector<item_comp> container_comp = std::vector<item_comp>();
                 if( !empty_container.is_null() ) {
-                    container_comp.push_back( item_comp( empty_container, type->item_count ) );
+                    container_comp.emplace_back( empty_container, type->item_count );
                     u.consume_items( container_comp );
                 } else {
-                    container_comp.push_back( item_comp( container, type->item_count ) );
+                    container_comp.emplace_back( container, type->item_count );
                     u.consume_items( container_comp );
                 }
             }
@@ -328,7 +328,7 @@ void mission::wrap_up()
         break;
 
         case MGOAL_FIND_ITEM:
-            comps.push_back( item_comp( type->item_id, item_count ) );
+            comps.emplace_back( type->item_id, item_count );
             u.consume_items( comps );
             break;
         case MGOAL_FIND_ANY_ITEM:
@@ -482,7 +482,8 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
 
         //recursivly check item contents for target
         if( itm->is_container() && !itm->is_container_empty() ) {
-            std::list<item *> content_list = itm->contents.all_items_top();
+            //TODO!: check, this is some weird shit
+            std::vector<item *> content_list = itm->contents.all_items_top();
             std::vector<item *> content = std::vector<item *>();
 
             //list of item into list item*

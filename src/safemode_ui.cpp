@@ -284,15 +284,15 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
         } else if( action == "ADD_DEFAULT_RULESET" ) {
             changes_made = true;
-            current_tab.push_back( rules_class( "*", true, false, Creature::A_HOSTILE,
-                                                get_option<int>( "SAFEMODEPROXIMITY" )
-                                                , HOSTILE_SPOTTED ) );
-            current_tab.push_back( rules_class( "*", true, true, Creature::A_HOSTILE, 5, SOUND ) );
+            current_tab.emplace_back( "*", true, false, Creature::A_HOSTILE,
+                                      get_option<int>( "SAFEMODEPROXIMITY" )
+                                      , HOSTILE_SPOTTED );
+            current_tab.emplace_back( "*", true, true, Creature::A_HOSTILE, 5, SOUND );
             line = current_tab.size() - 1;
         } else if( action == "ADD_RULE" ) {
             changes_made = true;
-            current_tab.push_back( rules_class( "", true, false, Creature::A_HOSTILE,
-                                                get_option<int>( "SAFEMODEPROXIMITY" ), HOSTILE_SPOTTED ) );
+            current_tab.emplace_back( "", true, false, Creature::A_HOSTILE,
+                                      get_option<int>( "SAFEMODEPROXIMITY" ), HOSTILE_SPOTTED );
             line = current_tab.size() - 1;
         } else if( action == "REMOVE_RULE" && !current_tab.empty() ) {
             changes_made = true;
@@ -599,8 +599,8 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
                          const int proximity_in,
                          const rule_state state_in )
 {
-    character_rules.push_back( rules_class( rule_in, true, ( state_in == RULE_WHITELISTED ),
-                                            attitude_in, proximity_in, HOSTILE_SPOTTED ) );
+    character_rules.emplace_back( rule_in, true, ( state_in == RULE_WHITELISTED ),
+                                  attitude_in, proximity_in, HOSTILE_SPOTTED );
     create_rules();
 
     if( !get_option<bool>( "SAFEMODE" ) &&
@@ -850,8 +850,7 @@ void safemode::deserialize( JsonIn &jsin )
         const Categories cat = jo.has_member( "category" ) ? static_cast<Categories>
                                ( jo.get_int( "category" ) ) : HOSTILE_SPOTTED;
 
-        temp_rules.push_back(
-            rules_class( rule, active, whitelist, attitude, proximity, cat )
-        );
+        temp_rules.emplace_back( rule, active, whitelist, attitude, proximity, cat
+                               );
     }
 }

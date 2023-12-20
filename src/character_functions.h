@@ -19,6 +19,9 @@ class vehicle;
 struct damage_unit;
 struct tripoint;
 
+template<typename T>
+class detached_ptr;
+
 namespace character_funcs
 {
 
@@ -130,7 +133,7 @@ void normalize( Character &who );
  * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered
  * @param base_cost Cost due to storage type
  */
-void store_in_container( Character &who, item &container, item &put, bool penalties,
+void store_in_container( Character &who, item &container, detached_ptr<item> &&put, bool penalties,
                          int base_cost );
 
 /**
@@ -190,7 +193,7 @@ bool can_lift_with_helpers( const Character &who, int lift_required );
  * @param include_empty_mags Whether to include empty magazines
  * @param include_potential Include ammo that can potentially be used, but not right now
  */
-bool list_ammo( const Character &who, const item &base, std::vector<item_reload_option> &ammo_list,
+bool list_ammo( const Character &who, item &base, std::vector<item_reload_option> &ammo_list,
                 bool include_empty_mags, bool include_potential );
 
 /**
@@ -201,15 +204,15 @@ bool list_ammo( const Character &who, const item &base, std::vector<item_reload_
  * @param include_empty_mags Allow selection of empty magazines
  * @param include_potential Include ammo that can potentially be used, but not right now
  */
-item_reload_option select_ammo( const Character &who, const item &base, bool prompt = false,
+item_reload_option select_ammo( const Character &who, item &base, bool prompt = false,
                                 bool include_empty_mags = true, bool include_potential = false );
 
 /** Select ammo from the provided options */
-item_reload_option select_ammo( const Character &who, const item &base,
+item_reload_option select_ammo( const Character &who, item &base,
                                 std::vector<item_reload_option> opts );
 
 /** Returns character's items that are ammo and have the matching ammo type. */
-std::vector<const item *> get_ammo_items( const Character &who, const ammotype &at );
+std::vector<item *> get_ammo_items( const Character &who, const ammotype &at );
 
 /**
  * Searches for ammo or magazines that can be used to reload given item
@@ -218,11 +221,11 @@ std::vector<const item *> get_ammo_items( const Character &who, const ammotype &
  * @param empty whether empty magazines should be considered as possible ammo
  * @param radius adjacent map/vehicle tiles to search. 0 for only character tile, -1 for only inventory
  */
-std::vector<item_location> find_ammo_items_or_mags( const Character &who, const item &obj,
+std::vector<item *> find_ammo_items_or_mags( const Character &who, const item &obj,
         bool empty = true, int radius = 1 );
 
 /** Searches for weapons and magazines that can be reloaded. */
-std::vector<item_location> find_reloadables( const Character &who );
+std::vector<item *> find_reloadables( Character &who );
 
 /** Counts ammo and UPS charges (lower of) for a given gun on the character. */
 int ammo_count_for( const Character &who, const item &gun );

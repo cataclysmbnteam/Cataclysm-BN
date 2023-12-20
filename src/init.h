@@ -66,7 +66,7 @@ class DynamicDataLoader
          * JSON data dependent upon as-yet unparsed definitions
          * first: JSON source location, second: source identifier
          */
-        using deferred_json = std::list<std::pair<json_source_location, std::string>>;
+        using deferred_json = std::vector<std::pair<json_source_location, std::string>>;
 
         std::unique_ptr<cata::lua_state, cata::lua_state_deleter> lua;
 
@@ -81,9 +81,9 @@ class DynamicDataLoader
          * functor that loads that kind of object from json.
          */
         t_type_function_map type_function_map;
-        void add( const std::string &type, std::function<void( const JsonObject & )> f );
+        void add( const std::string &type, const std::function<void( const JsonObject & )> &f );
         void add( const std::string &type,
-                  std::function<void( const JsonObject &, const std::string & )> f );
+                  const std::function<void( const JsonObject &, const std::string & )> &f );
         void add( const std::string &type,
                   std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
                   f );

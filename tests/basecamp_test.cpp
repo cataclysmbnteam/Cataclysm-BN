@@ -23,24 +23,26 @@ static const itype_id meat_cooked_id( "meat_cooked" );
 static const itype_id sealed_can_id( "can_medium" );
 static const itype_id unsealed_can_id( "can_medium_unsealed" );
 
-static item make_food( const itype_id &inner_food_id, int amount, canned_status canned,
-                       bool is_rotten )
+static detached_ptr<item> make_food( const itype_id &inner_food_id, int amount,
+                                     canned_status canned,
+                                     bool is_rotten )
 {
     const time_point time_of_making = is_rotten ? calendar::turn_zero : calendar::turn;
-    item food( inner_food_id, time_of_making, amount );
+    detached_ptr<item> food = item::spawn( inner_food_id, time_of_making, amount );
 
-    item can;
+    detached_ptr<item> can;
     switch( canned ) {
         case canned_status::without_can:
             return food;
         case canned_status::canned_sealed:
-            can = item( sealed_can_id, calendar::turn_zero );
+            can = item::spawn( sealed_can_id, calendar::turn_zero );
             break;
         case canned_status::canned_unsealed:
-            can = item( unsealed_can_id, calendar::turn_zero );
+            can = item::spawn( unsealed_can_id, calendar::turn_zero );
             break;
     }
-    REQUIRE( can.contents.insert_item( food ).success() );
+    ret_val<bool> retval = can->contents.insert_item( std::move( food ) );
+    REQUIRE( retval.success() );
     return can;
 }
 
@@ -71,7 +73,7 @@ TEST_CASE( "distribute_food" )
               origin_abs - thirty_steps_rd,
               origin_abs + thirty_steps_rd );
 
-    calendar::turn = calendar::turn_zero + 365_days * 5;
+    calendar::turn = calendar::turn_zero + 10_days;
 
     constexpr int kcal_in_meat = 402;
 
@@ -104,8 +106,8 @@ TEST_CASE( "distribute_food" )
         const map_stack stack = g->m.i_at( origin );
         CHECK( stack.size() == 1 );
         CHECK( std::all_of( stack.begin(), stack.end(),
-        []( const item & it ) {
-            return it.typeId() == meat_cooked_id && it.count() == 1 && it.rotten();
+        []( const item * const & it ) {
+            return it->typeId() == meat_cooked_id && it->count() == 1 && it->rotten();
         } ) );
         g->m.i_clear( origin );
     }
@@ -121,8 +123,8 @@ TEST_CASE( "distribute_food" )
         CHECK( stack.size() == 1 );
         // Should be unsealed
         CHECK( std::all_of( stack.begin(), stack.end(),
-        []( const item & it ) {
-            return it.typeId() == unsealed_can_id && it.count() == 1 && it.contents.empty();
+        []( const item * const & it ) {
+            return it->typeId() == unsealed_can_id && it->count() == 1 && it->contents.empty();
         } ) );
         g->m.i_clear( origin );
     }
@@ -137,8 +139,8 @@ TEST_CASE( "distribute_food" )
         const map_stack stack = g->m.i_at( origin );
         CHECK( stack.size() == 1 );
         CHECK( std::all_of( stack.begin(), stack.end(),
-        []( const item & it ) {
-            return it.typeId() == unsealed_can_id && it.count() == 1 && it.contents.empty();
+        []( const item * const & it ) {
+            return it->typeId() == unsealed_can_id && it->count() == 1 && it->contents.empty();
         } ) );
         g->m.i_clear( origin );
     }
@@ -148,17 +150,18 @@ TEST_CASE( "distribute_food" )
                  canned_status::canned_sealed, canned_status::canned_unsealed
              } ) {
             const int previous_kcal = yours->food_supply;
-            const item can_of_dogfood = make_food( itype_id( "dogfood" ), 1, status, false );
-            g->m.add_item_or_charges( origin, can_of_dogfood, false );
+            detached_ptr<item> det = make_food( itype_id( "dogfood" ), 1, status, false );
+            item &can_of_dogfood = *det;
+            g->m.add_item_or_charges( origin, std::move( det ), false );
             bcp->distribute_food();
             CHECK( yours->food_supply == previous_kcal );
             const map_stack stack = g->m.i_at( origin );
             CHECK( stack.size() == 1 );
             CHECK( std::all_of( stack.begin(), stack.end(),
-            [&can_of_dogfood]( const item & it ) {
-                return it.typeId() == can_of_dogfood.typeId() && it.count() == 1
-                       && it.contents.front().typeId() == can_of_dogfood.contents.front().typeId()
-                       && it.contents.front().count() == can_of_dogfood.contents.front().count();
+            [&can_of_dogfood]( const item * const & it ) {
+                return it->typeId() == can_of_dogfood.typeId() && it->count() == 1
+                       && it->contents.front().typeId() == can_of_dogfood.contents.front().typeId()
+                       && it->contents.front().count() == can_of_dogfood.contents.front().count();
             } ) );
             g->m.i_clear( origin );
         }
@@ -166,15 +169,16 @@ TEST_CASE( "distribute_food" )
 
     SECTION( "Not food remains as is" ) {
         const int previous_kcal = yours->food_supply;
-        item it( "2x4" );
-        g->m.add_item_or_charges( origin, it );
+        detached_ptr<item> det = item::spawn( "2x4" );
+        item &it = *det;
+        g->m.add_item_or_charges( origin, std::move( det ) );
         bcp->distribute_food();
         CHECK( yours->food_supply == previous_kcal );
         const map_stack stack = g->m.i_at( origin );
         CHECK( stack.size() == 1 );
         CHECK( std::all_of( stack.begin(), stack.end(),
-        [&it]( const item & i ) {
-            return i.typeId() == it.typeId() && i.count() == 1 && i.age() == it.age();
+        [&it]( const item * const & i ) {
+            return i->typeId() == it.typeId() && i->count() == 1 && i->age() == it.age();
         } ) );
         g->m.i_clear( origin );
     }
@@ -182,18 +186,19 @@ TEST_CASE( "distribute_food" )
     SECTION( "And even bleach remains as is" ) {
         const int previous_kcal = yours->food_supply;
         // It is not food but I reuse container putting
-        item bleach = make_food( itype_id( "bleach" ), 5, canned_status::canned_sealed, false );
-        g->m.add_item_or_charges( origin, bleach );
+        detached_ptr<item> det = make_food( itype_id( "bleach" ), 5, canned_status::canned_sealed, false );
+        item &bleach = *det;
+        g->m.add_item_or_charges( origin, std::move( det ) );
         bcp->distribute_food();
         CHECK( yours->food_supply == previous_kcal );
         const map_stack stack = g->m.i_at( origin );
         CHECK( stack.size() == 1 );
         CHECK( std::all_of( stack.begin(), stack.end(),
-        [&bleach]( const item & i ) {
-            return i.typeId() == bleach.typeId()
-                   && bleach.count() == 1 && i.age() == bleach.age()
-                   && i.contents.front().typeId() == bleach.contents.front().typeId()
-                   && i.contents.front().count() == bleach.contents.front().count()
+        [&bleach]( const item * const & i ) {
+            return i->typeId() == bleach.typeId()
+                   && bleach.count() == 1 && i->age() == bleach.age()
+                   && i->contents.front().typeId() == bleach.contents.front().typeId()
+                   && i->contents.front().count() == bleach.contents.front().count()
                    ;
         } ) );
         g->m.i_clear( origin );

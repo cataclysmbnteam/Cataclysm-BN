@@ -152,7 +152,7 @@ void conditional_t<T>::set_has_activity( bool is_npc )
         if( is_npc ) {
             return d.beta->has_activity();
         } else {
-            if( !actor->activity.is_null() ) {
+            if( !actor->activity->is_null() ) {
                 return true;
             }
         }

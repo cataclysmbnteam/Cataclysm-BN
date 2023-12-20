@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "                        ",
+        "                       '",
         "                        ",
         "   --:---------+--:--   ",
         "   |#..#####....cs..|   ",
@@ -34,6 +34,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_dirt",
         "-": "t_wall_g",
         ".": "t_floor",
         ":": "t_window",
@@ -49,6 +50,7 @@
         "+": "t_door_c"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_rack",
         "&": "f_glass_fridge",
         "c": "f_counter",

@@ -30,6 +30,8 @@ struct vehicle_part;
 struct dealt_damage_instance;
 struct dealt_projectile_attack;
 struct damage_instance;
+template<typename T>
+class detached_ptr;
 
 namespace target_handler
 {
@@ -125,7 +127,7 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
 /**
  * Prompts to select default ammo compatible with provided gun.
  */
-void prompt_select_default_ammo_for( avatar &u, const item &w );
+void prompt_select_default_ammo_for( avatar &u, item &w );
 
 /** Returns true if a gun misfires, jams, or has other problems, else returns false. */
 bool handle_gun_damage( Character &shooter, item &it );
@@ -167,7 +169,7 @@ int gun_engagement_moves( const Character &who, const item &gun, int target = 0,
                           int start = MAX_RECOIL );
 
 /** Calculates time taken to fire gun */
-int time_to_attack( const Character &p, const item &firing, const item_location loc );
+int time_to_attack( const Character &p, const item &firing, const item *loc );
 
 void make_gun_sound_effect( const Character &who, bool burst, const item &gun );
 
@@ -189,7 +191,7 @@ int fire_gun( Character &who, const tripoint &target, int shots = 1 );
  * @return Number of shots actually fired
  */
 int fire_gun( Character &who, const tripoint &target, int shots, item &gun,
-              item_location ammo );
+              item *ammo );
 
 /**
  * Execute a throw.
@@ -197,7 +199,8 @@ int fire_gun( Character &who, const tripoint &target, int shots, item &gun,
  * @param to_throw Item being thrown
  * @param blind_throw_from_pos Position of blind throw (if blind throwing)
  */
-dealt_projectile_attack throw_item( Character &who, const tripoint &target, const item &to_throw,
+dealt_projectile_attack throw_item( Character &who, const tripoint &target,
+                                    detached_ptr<item> &&to_throw,
                                     std::optional<tripoint> blind_throw_from_pos );
 
 } // namespace ranged

@@ -46,6 +46,7 @@
     "difficulty": 3,
     "skills_required": [ "tailor", 3 ],
     "time": "1 h",
+    "autolearn": [ [ "tailor", 5 ] ],
     "book_learn": [
       [ "textbook_tailor", 4 ],
       [ "tailor_portfolio", 5 ],

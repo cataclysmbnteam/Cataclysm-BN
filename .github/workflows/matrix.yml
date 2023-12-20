@@ -109,29 +109,32 @@ jobs:
             ccache_limit: 1G
             ccache_key: linux-gcc-12-tiles
 
-          - title: GCC 12, Ubuntu, Tiles, NoSound, ASan
-            compiler: g++-12
-            os: ubuntu-22.04
-            cmake: 0
-            tiles: 1
-            sound: 0
-            lua: 0
-            sanitize: address
-            native: linux64
-            ccache_limit: 2G
-            ccache_key: linux-gcc-12-asan
+        # === Temporarily disabled because of #3664 ===
+        #  - title: GCC 12, Ubuntu, Tiles, NoSound, ASan
+        #    compiler: g++-12
+        #    os: ubuntu-22.04
+        #    cmake: 0
+        #    tiles: 1
+        #    sound: 0
+        #    lua: 0
+        #    sanitize: address
+        #    native: linux64
+        #    ccache_limit: 2G
+        #    ccache_key: linux-gcc-12-asan
 
-          - title: Clang 14, Ubuntu, Tiles, NoSound, ASan, UBSan
-            compiler: clang++-14
-            os: ubuntu-22.04
-            cmake: 0
-            tiles: 1
-            sound: 0
-            lua: 0
-            sanitize: address,undefined
-            native: linux64
-            ccache_limit: 2G
-            ccache_key: linux-llvm-14-asan
+        # === Temporarily disabled because of #3664 ===
+        #  - title: Clang 14, Ubuntu, Tiles, NoSound, ASan, UBSan
+        #    compiler: clang++-14
+        #    os: ubuntu-22.04
+        #    cmake: 0
+        #    tiles: 1
+        #    sound: 0
+        #    lua: 0
+        #    sanitize: address,undefined
+        #    cxxflags: --gcc-toolchain=/opt/mock-gcc-11
+        #    native: linux64
+        #    ccache_limit: 2G
+        #    ccache_key: linux-llvm-14-asan
 
           - title: Clang 14, macOS 12, Tiles, Sound, Localize, Lua
             compiler: clang++
@@ -152,6 +155,7 @@ jobs:
       ZSTD_CLEVEL: 17
       CMAKE: ${{ matrix.cmake }}
       COMPILER: ${{ matrix.compiler }}
+      CXXFLAGS: ${{ matrix.cxxflags }}
       OS: ${{ matrix.os }}
       TILES: ${{ matrix.tiles }}
       SOUND: ${{ matrix.sound }}
@@ -188,7 +192,7 @@ jobs:
       - name: install SDL2 dependencies (ubuntu)
         if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
         run: |
-            sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev
+            sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev libflac-dev
 
       - name: check compiler (mac)
         if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
@@ -196,6 +200,15 @@ jobs:
           ${{ matrix.compiler }} --version
           # Ensure that it is actually needed version
           ${{ matrix.compiler }} --version | grep -q -E "${{ matrix.grep_clang_version_rxp }}"
+
+      - name: set up a mock GCC toolchain root for Clang (Ubuntu)
+        if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-14') }}
+        run: |
+          sudo mkdir /opt/mock-gcc-11
+          sudo ln -s /usr/include /opt/mock-gcc-11/include
+          sudo ln -s /usr/bin /opt/mock-gcc-11/bin
+          sudo mkdir -p /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu
+          sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/11 /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu/11
 
       - name: install dependencies (mac)
         if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}

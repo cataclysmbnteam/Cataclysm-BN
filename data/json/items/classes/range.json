@@ -31,7 +31,7 @@
     "skill": "rifle",
     "symbol": "(",
     "color": "green",
-    "flags": [ "PRIMITIVE_RANGED_WEAPON", "CROSSBOW", "RELOAD_ONE" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "CROSSBOW", "RELOAD_ONE", "STR_RELOAD" ],
     "clip_size": 1,
     "ammo": "bolt",
     "valid_mod_locations": [
@@ -56,7 +56,7 @@
     "range": 12,
     "dispersion": 400,
     "durability": 6,
-    "reload": 1200,
+    "reload": 600,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "grip", 1 ],

@@ -18,13 +18,12 @@
 #include "active_item_cache.h"
 #include "calendar.h"
 #include "clzones.h"
-#include "colony.h"
 #include "coordinates.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_location.h"
 #include "item_stack.h"
+#include "location_ptr.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -117,7 +116,7 @@ struct veh_collision {
 
     veh_collision() = default;
 };
-
+//TODO!: location stuffs here
 class vehicle_stack : public item_stack
 {
     private:
@@ -125,10 +124,11 @@ class vehicle_stack : public item_stack
         vehicle *myorigin;
         int part_num;
     public:
-        vehicle_stack( cata::colony<item> *newstack, point newloc, vehicle *neworigin, int part ) :
+        vehicle_stack( location_vector<item> *newstack, point newloc, vehicle *neworigin, int part ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {}
-        iterator erase( const_iterator it ) override;
-        void insert( const item &newitem ) override;
+        iterator erase( const_iterator it, detached_ptr<item> *out = nullptr ) override;
+        detached_ptr<item> remove( item *to_remove ) override;
+        void insert( detached_ptr<item> &&newitem ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_VEHICLE_STORAGE;
         }
@@ -197,8 +197,8 @@ class turret_data
         std::string name() const;
 
         /** Get base item location */
-        item_location base();
-        item_location base() const;
+        item &base();
+        item &base() const;
 
         const vehicle *get_veh() const {
             return veh;
@@ -443,7 +443,18 @@ class vehicle
         /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
         void leak_fuel( vehicle_part &pt );
 
+        int next_hack_id = 0;
+
     public:
+
+        vehicle_part &get_part_hack( int );
+        int get_part_id_hack( int );
+        void refresh_locations_hack();
+
+        int get_next_hack_id() {
+            return next_hack_id++;
+        }
+
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
          * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -457,12 +468,14 @@ class vehicle
 
         vehicle( const vproto_id &type_id, int init_veh_fuel = -1, int init_veh_status = -1 );
         vehicle();
-        vehicle( const vehicle & ) = delete;
         ~vehicle();
-        vehicle &operator=( vehicle && ) = default;
 
     private:
-        vehicle &operator=( const vehicle & ) = default;
+        void copy_static_from( const vehicle & );
+        vehicle( const vehicle & ) = delete;
+        vehicle( vehicle && ) = delete;
+        vehicle &operator=( vehicle && ) = delete;
+        vehicle &operator=( const vehicle & ) = delete;
 
     public:
         /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */
@@ -476,6 +489,8 @@ class vehicle
         inline void detach() {
             attached = false;
         }
+
+        bool is_loaded() const;
 
         /**
          * Set stat for part constrained by range [0,durability]
@@ -609,10 +624,10 @@ class vehicle
         int install_part( point dp, const vpart_id &id, bool force = false );
 
         // Install a copy of the given part, skips possibility check
-        int install_part( point dp, const vehicle_part &part );
+        int install_part( point dp, vehicle_part &&part );
 
         /** install item specified item to vehicle as a vehicle part */
-        int install_part( point dp, const vpart_id &id, item &&obj, bool force = false );
+        int install_part( point dp, const vpart_id &id, detached_ptr<item> &&obj, bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
         bool try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks );
@@ -649,7 +664,7 @@ class vehicle
         bool split_vehicles( const std::vector<std::vector <int>> &new_veh );
 
         /** Get handle for base item of part */
-        item_location part_base( int p );
+        item &part_base( int p );
 
         /** Get index of part with matching base item or INT_MIN if not found */
         int find_part( const item &it ) const;
@@ -1233,27 +1248,25 @@ class vehicle
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
          */
-        void make_active( item_location &loc );
+        void make_active( item &target );
         /**
          * Try to add an item to part's cargo.
-         *
-         * @returns std::nullopt if it can't be put here (not a cargo part, adding this would violate
-         * the volume limit or item count limit, not all charges can fit, etc.)
-         * Otherwise, returns an iterator to the added item in the vehicle stack
          */
-        std::optional<vehicle_stack::iterator> add_item( int part, const item &itm );
+        detached_ptr<item> add_item( int part, detached_ptr<item> &&itm );
         /** Like the above */
-        std::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
+        detached_ptr<item> add_item( vehicle_part &pt, detached_ptr<item> &&obj );
+
         /**
          * Add an item counted by charges to the part's cargo.
          *
-         * @returns The number of charges added.
+         * @returns Any remaining charges that couldn't be added.
          */
-        int add_charges( int part, const item &itm );
+        detached_ptr<item> add_charges( int part, detached_ptr<item> &&itm );
 
         // remove item from part's cargo
-        bool remove_item( int part, item *it );
-        vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator it );
+        detached_ptr<item> remove_item( int part, item *it );
+        vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator it,
+                                             detached_ptr<item>  *ret = nullptr );
 
         vehicle_stack get_items( int part ) const;
         vehicle_stack get_items( int part );
@@ -1358,7 +1371,7 @@ class vehicle
          * @param pt the vehicle part containing the turret we're trying to target.
          * @return npc object with suitable attributes for targeting a vehicle turret.
          */
-        npc get_targeting_npc( const vehicle_part &pt );
+        std::unique_ptr<npc> get_targeting_npc( const vehicle_part &pt );
         /*@}*/
 
     public:

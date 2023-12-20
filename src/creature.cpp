@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdlib>
 #include <map>
 #include <memory>
@@ -27,6 +28,7 @@
 #include "json.h"
 #include "lightmap.h"
 #include "line.h"
+#include "locations.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -102,13 +104,62 @@ Creature::Creature()
 {
     moves = 0;
     pain = 0;
-    killer = nullptr;
+    killer.reset();
     speed_base = 100;
     underwater = false;
 
     Creature::reset_bonuses();
 
     fake = false;
+}
+
+Creature::Creature( const Creature &source )
+{
+
+    facing = source.facing;
+    creature_anatomy = source.creature_anatomy;
+
+
+    moves = source.moves;
+    killer = source.killer;
+    effects = source.effects;
+    values = source.values;
+
+    num_blocks = source.num_blocks;
+    num_dodges = source.num_dodges;
+    num_blocks_bonus = source.num_blocks_bonus;
+    num_dodges_bonus = source.num_dodges_bonus;
+
+    armor_bash_bonus = source.armor_bash_bonus;
+    armor_cut_bonus = source.armor_cut_bonus;
+    armor_bullet_bonus = source.armor_bullet_bonus;
+    speed_base = source.speed_base;
+
+    speed_bonus = source.speed_bonus;
+    speed_mult = source.speed_mult;
+    dodge_bonus = source.dodge_bonus;
+    block_bonus = source.block_bonus;
+    hit_bonus = source.hit_bonus;
+
+    fake = source.fake;
+    pain = source.pain;
+    underwater = source.underwater;
+
+    //This is a bit ugly, will get cleaned up with other constructors
+    for( auto &bp : source.body ) {
+        auto placed = body.emplace( std::piecewise_construct, std::forward_as_tuple( bp.first ),
+                                    std::forward_as_tuple( bp.second.get_str_id(),
+                                            new wield_item_location( this ) ) );
+        placed.first->second.set_hp_max( bp.second.get_hp_max() );
+        placed.first->second.set_hp_cur( bp.second.get_hp_cur() );
+
+        placed.first->second.set_healed_total( bp.second.get_healed_total() );
+        placed.first->second.set_damage_bandaged( bp.second.get_damage_bandaged() );
+        placed.first->second.set_damage_disinfected( bp.second.get_damage_disinfected() );
+        if( bp.second.wielding.wielded ) {
+            placed.first->second.wielding.wielded = item::spawn( *bp.second.wielding.wielded );
+        }
+    }
 }
 
 Creature::~Creature() = default;
@@ -622,16 +673,16 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
 
 dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di )
 {
-    const auto all_body_parts = target.get_body();
+    auto &all_body_parts = target.get_body();
     float hit_size_sum = std::accumulate( all_body_parts.begin(), all_body_parts.end(), 0.0f,
-    []( float acc, const std::pair<bodypart_str_id, bodypart> &pr ) {
+    []( float acc, const std::pair<const bodypart_str_id, bodypart> &pr ) {
         return acc + pr.first->hit_size;
     } );
     dealt_damage_instance dealt_damage;
     // This should be set to only body part that was damaged, or null, if not exactly one was damaged
     bodypart_str_id bp_hit = bodypart_str_id::NULL_ID();
     bool hit_multiple_bps = false;
-    for( const std::pair<const bodypart_str_id, bodypart> &pr : all_body_parts ) {
+    for( std::pair<const bodypart_str_id, bodypart> &pr : all_body_parts ) {
         bool hit_this_bp = false;
         damage_instance impact = di;
         impact.mult_damage( pr.first->hit_size / hit_size_sum );
@@ -669,6 +720,31 @@ dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const da
 
 } // namespace ranged
 
+namespace
+{
+
+auto get_stun_srength( const projectile &proj, m_size size ) -> int
+{
+    const int stun_strength = proj.has_effect( ammo_effect_BEANBAG ) ? 4
+                              : proj.has_effect( ammo_effect_LARGE_BEANBAG ) ? 16
+                              : 0;
+
+    switch( size ) {
+        case MS_TINY:
+            return stun_strength * 4;
+        case MS_SMALL:
+            return stun_strength * 2;
+        case MS_MEDIUM:
+        default:
+            return stun_strength;
+        case MS_LARGE:
+            return stun_strength / 2;
+        case MS_HUGE:
+            return stun_strength / 4;
+    }
+}
+} // namespace
+
 /**
  * Attempts to harm a creature with a projectile.
  *
@@ -696,7 +772,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             }
         }
     }
-    const projectile &proj = attack.proj;
+    projectile &proj = attack.proj;
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
 
     const bool u_see_this = g->u.sees( *this );
@@ -814,10 +890,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         // if its a tameable animal, its a good way to catch them if they are running away, like them ranchers do!
         // we assume immediate success, then certain monster types immediately break free in monster.cpp move_effects()
         if( z ) {
-            const item &drop_item = proj.get_drop();
-            if( !drop_item.is_null() ) {
+            detached_ptr<item> drop_item = proj.unset_drop();
+            if( drop_item ) {
                 z->add_effect( effect_tied, 1_turns, num_bp );
-                z->tied_item = cata::make_value<item>( drop_item );
+                z->set_tied_item( std::move( drop_item ) );
             } else {
                 add_msg( m_debug, "projectile with TANGLE effect, but no drop item specified" );
             }
@@ -843,44 +919,31 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    if( bp_hit == bodypart_str_id( "head" ) && proj.has_effect( ammo_effect_BLINDS_EYES ) ) {
+    // at least `dealt_dam` doesn't get mutated after this point
+    const int total_damage = dealt_dam.total_damage();
+    const int env_resist = get_env_resist( bp_hit );
+
+    const int blind_strength = bp_hit == bodypart_str_id( "head" )
+                               && proj.has_effect( ammo_effect_BLINDS_EYES ) ? total_damage - env_resist : 0;
+    if( blind_strength > 0 ) {
         // TODO: Change this to require bp_eyes
         add_env_effect( effect_blind, bp_eyes, 5, rng( 3_turns, 10_turns ) );
     }
 
-    if( proj.has_effect( ammo_effect_APPLY_SAP ) ) {
-        add_effect( effect_sap, 1_turns * dealt_dam.total_damage() );
+    const int sap_strength = proj.has_effect( ammo_effect_APPLY_SAP ) ? total_damage - env_resist : 0;
+    if( sap_strength > 0 ) {
+        add_effect( effect_sap, 1_turns * sap_strength );
     }
-    if( proj.has_effect( ammo_effect_PARALYZEPOISON ) && dealt_dam.total_damage() > 0 ) {
+
+    const int paralysis_strength = proj.has_effect( ammo_effect_PARALYZEPOISON )
+                                   ? total_damage - env_resist : 0;
+    if( paralysis_strength > 0 ) {
         add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
         add_effect( effect_paralyzepoison, 5_minutes );
     }
 
-    int stun_strength = 0;
-    if( proj.has_effect( ammo_effect_BEANBAG ) ) {
-        stun_strength = 4;
-    }
-    if( proj.has_effect( ammo_effect_LARGE_BEANBAG ) ) {
-        stun_strength = 16;
-    }
+    const int stun_strength = get_stun_srength( proj, get_size() ) - get_env_resist( bp_hit );
     if( stun_strength > 0 ) {
-        switch( get_size() ) {
-            case MS_TINY:
-                stun_strength *= 4;
-                break;
-            case MS_SMALL:
-                stun_strength *= 2;
-                break;
-            case MS_MEDIUM:
-            default:
-                break;
-            case MS_LARGE:
-                stun_strength /= 2;
-                break;
-            case MS_HUGE:
-                stun_strength /= 4;
-                break;
-        }
         add_effect( effect_stunned, 1_turns * rng( stun_strength / 2, stun_strength ) );
     }
 
@@ -1263,6 +1326,7 @@ std::vector<effect *> Creature::get_all_effects_of_type( const efftype_id &eff_i
         return {};
     }
     std::unordered_map<bodypart_str_id, effect> &effect_map = got_outer->second;
+    ret.reserve( effect_map.size() );
     for( auto&[ _, effect ] : effect_map ) {
         ret.push_back( &effect );
     }
@@ -1505,15 +1569,15 @@ bool Creature::in_sleep_state() const
  */
 Creature *Creature::get_killer() const
 {
-    return killer;
+    return killer.lock().get();
 }
 
-void Creature::set_killer( Creature *const killer )
+void Creature::set_killer( Creature *nkiller )
 {
     // Only the first killer will be stored, calling set_killer again with a different
     // killer would mean it's called on a dead creature and therefore ignored.
-    if( killer != nullptr && !killer->is_fake() && this->killer == nullptr ) {
-        this->killer = killer;
+    if( !get_killer() && nkiller && !nkiller->is_fake() ) {
+        killer = g->shared_from( *nkiller );
     }
 }
 
@@ -1583,7 +1647,7 @@ int Creature::get_armor_bullet_bonus() const
 
 int Creature::get_speed() const
 {
-    int speed = round( ( get_speed_base() + get_speed_bonus() ) * ( 1 + get_speed_mult() ) );
+    int speed = std::round( ( get_speed_base() + get_speed_bonus() ) * ( 1 + get_speed_mult() ) );
     return std::max( static_cast<int>( round( 0.25 * get_speed_base() ) ), speed );
 }
 float Creature::get_dodge() const
@@ -1605,6 +1669,11 @@ void Creature::set_anatomy( anatomy_id anat )
     creature_anatomy = anat;
 }
 
+std::map<bodypart_str_id, bodypart> &Creature::get_body()
+{
+    return body;
+}
+
 const std::map<bodypart_str_id, bodypart> &Creature::get_body() const
 {
     return body;
@@ -1616,7 +1685,9 @@ void Creature::set_body()
     // TODO: Probably shouldn't be needed, but it's called from game::game()
     if( get_anatomy().is_valid() ) {
         for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
-            body.emplace( bp.id(), bodypart( bp.id() ) );
+            body.emplace( std::piecewise_construct, std::forward_as_tuple( bp.id() ),
+                          std::forward_as_tuple( bp.id(),
+                                                 new wield_item_location( this ) ) );
         }
     }
 }
@@ -1626,7 +1697,7 @@ bodypart &Creature::get_part( const bodypart_id &id )
     auto found = body.find( id.id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
-        static bodypart nullpart;
+        static bodypart nullpart( new fake_item_location() );
         return nullpart;
     }
     return found->second;
@@ -1637,7 +1708,7 @@ const bodypart &Creature::get_part( const bodypart_id &id ) const
     auto found = body.find( id.id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
-        static const bodypart nullpart;
+        static const bodypart nullpart( new fake_item_location() );
         return nullpart;
     }
     return found->second;
@@ -1718,7 +1789,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
         if( only_main && elem.first->main_part != elem.first ) {
             continue;
         }
-        all_bps.push_back( elem.first );
+        all_bps.emplace_back( elem.first );
     }
 
     return  all_bps;
@@ -2096,13 +2167,13 @@ void Creature::describe_infrared( std::vector<std::string> &buf ) const
             size_str = "invalid";
             break;
     }
-    buf.push_back( _( "You see a figure radiating heat." ) );
+    buf.emplace_back( _( "You see a figure radiating heat." ) );
     buf.push_back( string_format( _( "It is %s in size." ), size_str ) );
 }
 
 void Creature::describe_specials( std::vector<std::string> &buf ) const
 {
-    buf.push_back( _( "You sense a creature here." ) );
+    buf.emplace_back( _( "You sense a creature here." ) );
 }
 
 effects_map Creature::get_all_effects() const
@@ -2116,4 +2187,9 @@ effects_map Creature::get_all_effects() const
         }
     }
     return effects_without_removed;
+}
+
+bool Creature::is_loaded() const
+{
+    return get_map().inbounds( pos() );
 }

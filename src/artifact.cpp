@@ -934,7 +934,7 @@ itype_id new_natural_artifact( artifact_natural_property prop )
 
     def.sym = ":";
     def.color = c_yellow;
-    def.materials.push_back( material_id( "stone" ) );
+    def.materials.emplace_back( "stone" );
     def.volume = rng( shape_data.volume_min, shape_data.volume_max );
     def.weight = rng( shape_data.weight_min, shape_data.weight_max );
     def.melee[DT_BASH] = 0;
@@ -1121,16 +1121,16 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
     // quite some time. Loading and saving once will write things out as a JSON
     // array.
     if( jo.has_string( "m1" ) ) {
-        materials.push_back( material_id( jo.get_string( "m1" ) ) );
+        materials.emplace_back( jo.get_string( "m1" ) );
     }
     if( jo.has_string( "m2" ) ) {
-        materials.push_back( material_id( jo.get_string( "m2" ) ) );
+        materials.emplace_back( jo.get_string( "m2" ) );
     }
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
     if( jo.has_array( "materials" ) ) {
         for( const std::string id : jo.get_array( "materials" ) ) {
-            materials.push_back( material_id( id ) );
+            materials.emplace_back( id );
         }
     }
     volume = jo.get_int( "volume" ) * units::legacy_volume_factor;
@@ -1231,16 +1231,16 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     // quite some time. Loading and saving once will write things out as a JSON
     // array.
     if( jo.has_string( "m1" ) ) {
-        materials.push_back( material_id( jo.get_string( "m1" ) ) );
+        materials.emplace_back( jo.get_string( "m1" ) );
     }
     if( jo.has_string( "m2" ) ) {
-        materials.push_back( material_id( jo.get_string( "m2" ) ) );
+        materials.emplace_back( jo.get_string( "m2" ) );
     }
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
     if( jo.has_array( "materials" ) ) {
         for( const std::string id : jo.get_array( "materials" ) ) {
-            materials.push_back( material_id( id ) );
+            materials.emplace_back( id );
         }
     }
     volume = jo.get_int( "volume" ) * units::legacy_volume_factor;

@@ -31,7 +31,7 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "gasoline",
-    "fuel_options": [ "gasoline", "avgas" ],
+    "fuel_options": [ "gasoline", "avgas", "biodiesel" ],
     "//2": "TODO: remove when injectors are implemented",
     "m2c": 60,
     "//": "30% energy efficiency",
@@ -124,7 +124,7 @@
     "epower": 0,
     "power": 5370,
     "energy_consumption": 14425,
-    "folded_volume": 4,
+    "folded_volume": "1 L",
     "breaks_into": [
       { "item": "engine_block_tiny" },
       { "item": "steel_lump", "count": [ 0, 1 ] },
@@ -149,7 +149,7 @@
     "epower": 0,
     "power": 41000,
     "energy_consumption": 124500,
-    "folded_volume": 8,
+    "folded_volume": "2 L",
     "breaks_into": [
       { "item": "engine_block_small" },
       { "item": "steel_lump", "count": [ 0, 2 ] },
@@ -283,7 +283,7 @@
     "epower": -50,
     "power": 37300,
     "energy_consumption": 124500,
-    "folded_volume": 8,
+    "folded_volume": "2 L",
     "breaks_into": [
       { "item": "engine_block_tiny" },
       { "item": "steel_lump", "count": [ 0, 3 ] },

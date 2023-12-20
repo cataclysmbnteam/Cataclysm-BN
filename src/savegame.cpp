@@ -110,6 +110,12 @@ void game::serialize( std::ostream &fout )
 
     json.member( "token_provider", *token_provider_ptr );
 
+    json.member( "safe_references" );
+    json.start_object();
+    json.member( "items" );
+    safe_reference<item>::serialize_global( json );
+    json.end_object();
+
     json.member( "player", u );
     Messages::serialize( json );
 
@@ -225,8 +231,8 @@ void game::unserialize( std::istream &fin )
 
         coming_to_stairs.clear();
         for( auto elem : data.get_array( "stair_monsters" ) ) {
-            monster stairtmp;
-            elem.read( stairtmp );
+            shared_ptr_fast<monster> stairtmp = make_shared_fast<monster>();
+            elem.read( *stairtmp );
             coming_to_stairs.push_back( stairtmp );
         }
 
@@ -245,6 +251,14 @@ void game::unserialize( std::istream &fin )
             }
 
             kill_tracker_ptr->reset( kills, npc_kills );
+        }
+
+        if( data.has_object( "safe_references" ) ) {
+            for( const JsonMember member : data.get_object( "safe_references" ) ) {
+                if( member.name() == "items" ) {
+                    safe_reference<item>::deserialize_global( member.get_array() );
+                }
+            }
         }
 
         data.read( "player", u );
@@ -374,12 +388,19 @@ void overmap::convert_terrain(
             old == "fema_2_1" || old == "fema_2_2" || old == "fema_2_3" ||
             old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ||
             old == "mine_entrance" || old == "underground_sub_station" ||
-            old == "sewer_sub_station" ) {
+            old == "sewer_sub_station" || old == "anthill" ||
+            old == "ants_larvae" || old == "ants_queen" || old == "ants_food" ) {
             ter_set( pos, oter_id( old + "_north" ) );
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
         } else if( old == "mine_shaft" ) {
             ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
+        } else if( old == "ants_larvae_acid" ) {
+            ter_set( pos, oter_id( "acid_ants_larvae_north" ) );
+        } else if( old == "ants_queen_acid" ) {
+            ter_set( pos, oter_id( "acid_ants_queen_north" ) );
+        } else if( old == "acid_anthill" ) {
+            ter_set( pos, oter_id( "anthill_north" ) );
         }
 
         for( const auto &conv : nearby ) {
@@ -505,26 +526,6 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                     }
                 }
                 cities.push_back( new_city );
-            }
-        } else if( name == "labs" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                jsin.start_object();
-                lab new_lab;
-                while( !jsin.end_object() ) {
-                    std::string lab_member_name = jsin.get_member_name();
-                    if( lab_member_name == "type" ) {
-                        std::string string_type;
-                        jsin.read( string_type );
-                        new_lab.type = io::string_to_enum<lab_type>( string_type );
-                    } else if( lab_member_name == "tiles" ) {
-                        jsin.read( new_lab.tiles );
-                    } else if( lab_member_name == "finales" ) {
-                        jsin.read( new_lab.finales );
-                    }
-                }
-
-                labs.push_back( new_lab );
             }
         } else if( name == "connections_out" ) {
             jsin.read( connections_out );
@@ -676,6 +677,22 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                     }
                 }
             }
+        } else if( name == "joins_used" ) {
+            std::vector<std::pair<om_pos_dir, std::string>> flat_index;
+            jsin.read( flat_index, true );
+            for( const std::pair<om_pos_dir, std::string> &p : flat_index ) {
+                joins_used.insert( p );
+            }
+        } else if( name == "mapgen_arg_storage" ) {
+            jsin.read( mapgen_arg_storage, true );
+        } else if( name == "mapgen_arg_index" ) {
+            std::vector<std::pair<tripoint_om_omt, int>> flat_index;
+            jsin.read( flat_index, true );
+            for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
+                mapgen_args_index.emplace( p.first, p.second );
+            }
+        } else {
+            jsin.skip_value();
         }
     }
 }
@@ -975,18 +992,6 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
-    json.member( "labs" );
-    json.start_array();
-    for( auto &l : labs ) {
-        json.start_object();
-        json.member_as_string( "type", l.type );
-        json.member( "tiles", l.tiles );
-        json.member( "finales", l.finales );
-        json.end_object();
-    }
-    json.end_array();
-    fout << std::endl;
-
     json.member( "connections_out", connections_out );
     fout << std::endl;
 
@@ -1102,6 +1107,22 @@ void overmap::serialize( std::ostream &fout ) const
 
     }
     json.end_array();
+
+    std::vector<std::pair<om_pos_dir, std::string>> flattened_joins_used(
+                joins_used.begin(), joins_used.end() );
+    json.member( "joins_used", flattened_joins_used );
+    json.member( "mapgen_arg_storage", mapgen_arg_storage );
+    fout << std::endl;
+    json.member( "mapgen_arg_index" );
+    json.start_array();
+    for( const std::pair<const tripoint_om_omt, int> &p : mapgen_args_index ) {
+        json.start_array();
+        json.write( p.first );
+        json.write( p.second );
+        json.end_array();
+    }
+    json.end_array();
+    fout << std::endl;
 
     json.end_object();
     fout << std::endl;
@@ -1271,6 +1292,7 @@ void game::serialize_master( std::ostream &fout )
 void faction_manager::serialize( JsonOut &jsout ) const
 {
     std::vector<faction> local_facs;
+    local_facs.reserve( factions.size() );
     for( auto &elem : factions ) {
         local_facs.push_back( elem.second );
     }

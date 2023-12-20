@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <memory>
@@ -830,7 +831,8 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         }
     }
 
-    int quick_bonus = static_cast<int>( round( ( you.mutation_value( "speed_modifier" ) - 1 ) * 100 ) );
+    int quick_bonus = static_cast<int>( std::round( ( you.mutation_value( "speed_modifier" ) - 1 ) *
+                                        100 ) );
     int bio_speed_bonus = 10;
     if( quick_bonus != 0 ) {
         std::string pen_sign = quick_bonus >= 0 ? "+" : "-";
@@ -1077,7 +1079,7 @@ void character_display::disp_info( Character &ch )
             if( _effect_it.second.is_removed() || tmp.empty() ) {
                 continue;
             }
-            effect_name_and_text.push_back( { tmp, _effect_it.second.disp_desc() } );
+            effect_name_and_text.emplace_back( tmp, _effect_it.second.disp_desc() );
         }
     }
     if( ch.get_perceived_pain() > 0 ) {
@@ -1093,7 +1095,7 @@ void character_display::disp_info( Character &ch )
         add_if( ppen.intelligence, _( "Intelligence -%d" ) );
         add_if( ppen.perception, _( "Perception -%d" ) );
         add_if( ppen.speed, _( "Speed -%d %%" ) );
-        effect_name_and_text.push_back( { _( "Pain" ), pain_text } );
+        effect_name_and_text.emplace_back( _( "Pain" ), pain_text );
     }
 
     const float bmi = ch.bmi();
@@ -1122,7 +1124,7 @@ void character_display::disp_info( Character &ch )
                                str_penalty * 50.0f );
         }
 
-        effect_name_and_text.push_back( { starvation_name, starvation_text } );
+        effect_name_and_text.emplace_back( starvation_name, starvation_text );
     }
 
     if( ( ch.has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( ch.pos() ) &&
@@ -1130,25 +1132,25 @@ void character_display::disp_info( Character &ch )
         ( ch.has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( ch.pos() ) &&
           get_weather().weather_id->sun_intensity < sun_intensity_type::high )
       ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you.\n"
-                                             "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you.\n"
+                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
+                                         );
     } else if( ch.has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( ch.pos() ) ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you badly.\n"
-                                             "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you badly.\n"
+                                              "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
+                                         );
     } else if( ch.has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( ch.pos() ) ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you terribly.\n"
-                                             "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you terribly.\n"
+                                              "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
+                                         );
     }
 
     for( auto &elem : ch.addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
-            effect_name_and_text.push_back( { addiction_name( elem ), addiction_text( elem ) } );
+            effect_name_and_text.emplace_back( addiction_name( elem ), addiction_text( elem ) );
         }
     }
 

@@ -187,10 +187,10 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, const std::str
     if( description.empty() ) {
         debugmsg( "Sound at %d:%d has no description!", p.x, p.y );
     }
-    recent_sounds.emplace_back( std::make_pair( p, vol ) );
-    sounds_since_last_turn.emplace_back( std::make_pair( p,
+    recent_sounds.emplace_back( p, vol );
+    sounds_since_last_turn.emplace_back( p,
                                          sound_event {vol, category, description, ambient,
-                                                 false, id, variant} ) );
+                                                 false, id, variant} );
 }
 
 void sounds::sound( const tripoint &p, int vol, sound_t category, const translation &description,
@@ -202,8 +202,8 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, const translat
 void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
                            const std::string &footstep )
 {
-    sounds_since_last_turn.emplace_back( std::make_pair( p, sound_event { volume,
-                                         sound_t::movement, footstep, false, true, "", ""} ) );
+    sounds_since_last_turn.emplace_back( p, sound_event { volume,
+                                         sound_t::movement, footstep, false, true, "", ""} );
 }
 
 template <typename C>
@@ -477,7 +477,7 @@ void sounds::process_sound_markers( player *p )
 
         // don't print our own noise or things without descriptions
         if( !sound.ambient && ( pos != p->pos() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
-            if( !p->activity.is_distraction_ignored( distraction_type::noise ) &&
+            if( !p->activity->is_distraction_ignored( distraction_type::noise ) &&
                 !get_safemode().is_sound_safe( sound.description, distance_to_sound ) ) {
                 const std::string query = string_format( _( "Heard %s!" ), description );
                 g->cancel_activity_or_ignore_query( distraction_type::noise, query );
@@ -514,7 +514,7 @@ void sounds::process_sound_markers( player *p )
                     add_msg( _( "Your alarm clock wakes you up." ) );
                 } else {
                     add_msg( _( "Your alarm clock goes off and you haven't slept a wink." ) );
-                    p->activity.set_to_null();
+                    p->activity->set_to_null();
                 }
                 add_msg( _( "You turn off your alarm-clock." ) );
                 p->get_effect( effect_alarm_clock ).set_duration( 0_turns );
@@ -1574,8 +1574,8 @@ void sfx::play_activity_sound( const std::string &id, const std::string &variant
     }
 
     avatar &player_character = get_avatar();
-    if( act != player_character.activity.id() ) {
-        act = player_character.activity.id();
+    if( act != player_character.activity->id() ) {
+        act = player_character.activity->id();
         play_ambient_variant_sound( id, variant, volume, channel::player_activities, 0 );
     }
 }

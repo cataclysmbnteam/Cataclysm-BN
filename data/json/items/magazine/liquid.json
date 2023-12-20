@@ -7,15 +7,16 @@
     "description": "A pressurized 3L canister designed to feed a flamethrower.",
     "weight": "600 g",
     "volume": "3 L",
-    "price": 5000,
-    "price_postapoc": 250,
+    "price": "50 USD",
+    "price_postapoc": "250 cent",
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": "flammable",
     "capacity": 3000,
     "reliability": 9,
-    "reload_time": 3
+    "reload_time": 3,
+    "flags": [ "MAG_BULKY" ]
   },
   {
     "id": "aux_pressurized_tank",
@@ -25,8 +26,8 @@
     "description": "A pressurized 0.5L canister built for use with a small auxiliary flamethrower.",
     "weight": "100 g",
     "volume": "500 ml",
-    "price": 3000,
-    "price_postapoc": 250,
+    "price": "30 USD",
+    "price_postapoc": "250 cent",
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
@@ -44,15 +45,16 @@
     "description": "A 2L pressurized steel canister with a valve designed for the RM451's feed system.",
     "weight": "400 g",
     "volume": "2 L",
-    "price": 15000,
-    "price_postapoc": 500,
+    "price": "150 USD",
+    "price_postapoc": "5 USD",
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": "flammable",
     "capacity": 2000,
     "reliability": 10,
-    "reload_time": 3
+    "reload_time": 3,
+    "flags": [ "MAG_BULKY" ]
   },
   {
     "id": "rm4504",
@@ -62,14 +64,15 @@
     "description": "A 4L pressurized steel canister with a valve designed for the RM451's feed system.",
     "weight": "800 g",
     "volume": "4 L",
-    "price": 20000,
-    "price_postapoc": 750,
+    "price": "200 USD",
+    "price_postapoc": "750 cent",
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": "flammable",
     "capacity": 4000,
     "reliability": 10,
-    "reload_time": 3
+    "reload_time": 3,
+    "flags": [ "MAG_BULKY" ]
   }
 ]

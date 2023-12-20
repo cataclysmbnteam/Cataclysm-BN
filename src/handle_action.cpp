@@ -236,7 +236,7 @@ static void generate_weather_anim_frame( const weather_type_id &wtype, weather_p
         if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == VIS_CLEAR &&
             !g->critter_at( mapp, true ) ) {
             // Suppress if a critter is there
-            wPrint.vdrops.emplace_back( std::make_pair( iRand.x, iRand.y ) );
+            wPrint.vdrops.emplace_back( iRand.x, iRand.y );
         }
     }
 }
@@ -430,12 +430,13 @@ inline static void rcdrive( point d )
         sounds::sound( dest, 7, sounds::sound_t::combat,
                        _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
         return;
-    } else if( !here.add_item_or_charges( dest, *rc_car ).is_null() ) {
+    } else {
         tripoint src( c );
+        detached_ptr<item> det_car = here.i_rem( src, rc_car );
+        here.add_item_or_charges( dest, std::move( det_car ) );
         //~ Sound of moving a remote controlled car
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         u.moves -= 50;
-        here.i_rem( src, rc_car );
 
         u.set_value( "remote_controlling", serialize_wrapper( [&]( JsonOut & jo ) {
             dest.serialize( jo );
@@ -692,6 +693,7 @@ static void smash()
         return;
     }
     const int move_cost = !u.is_armed() ? 80 : weapon.attack_cost() * 0.8;
+
     bool didit = false;
     bool mech_smash = false;
     int smashskill;
@@ -752,9 +754,9 @@ static void smash()
     }
 
     bool should_pulp = false;
-    for( const item &it : here.i_at( smashp ) ) {
-        if( it.is_corpse() && it.damage() < it.max_damage() && it.can_revive() ) {
-            if( it.get_mtype()->bloodType()->has_acid ) {
+    for( const item * const &it : here.i_at( smashp ) ) {
+        if( it->is_corpse() && it->damage() < it->max_damage() && it->can_revive() ) {
+            if( it->get_mtype()->bloodType()->has_acid ) {
                 if( query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
                     should_pulp = true;
                     break; // Don't prompt for the same thing multiple times
@@ -768,8 +770,8 @@ static void smash()
 
     if( should_pulp ) {
         // do activity forever. ACT_PULP stops itself
-        u.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-        u.activity.placement = here.getabs( smashp );
+        u.assign_activity( std::make_unique<player_activity>( ACT_PULP, calendar::INDEFINITELY_LONG, 0 ) );
+        u.activity->placement = here.getabs( smashp );
         return; // don't smash terrain if we've smashed a corpse
     }
 
@@ -801,7 +803,7 @@ static void smash()
                     u.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( DT_CUT, rng( 0,
                                    static_cast<int>( vol * .5 ) ) ) );
                 }
-                u.remove_weapon();
+                u.remove_primary_weapon();
                 u.check_dead_state();
             }
         }
@@ -1001,9 +1003,8 @@ static void wait()
             actType = ACT_WAIT;
         }
 
-        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) ), 0 );
-
-        u.assign_activity( new_act, false );
+        u.assign_activity( std::make_unique<player_activity>( actType,
+                           100 * ( to_turns<int>( time_to_wait ) ), 0 ), false );
     }
 }
 
@@ -1273,10 +1274,11 @@ static void loot()
 static void wear()
 {
     avatar &u = g->u;
-    item_location loc = game_menus::inv::wear( u );
+    item *loc = game_menus::inv::wear( u );
 
     if( loc ) {
-        u.wear_possessed( *loc.obtain( u ) );
+        loc->obtain( u );
+        u.wear_possessed( *loc );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1285,10 +1287,11 @@ static void wear()
 static void takeoff()
 {
     avatar &u = g->u;
-    item_location loc = game_menus::inv::take_off( u );
+    item *loc = game_menus::inv::take_off( u );
 
     if( loc ) {
-        u.takeoff( *loc.obtain( u ) );
+        loc->obtain( u );
+        u.takeoff( *loc );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1298,11 +1301,11 @@ static void read()
 {
     avatar &u = g->u;
     // Can read items from inventory or within one tile (including in vehicles)
-    item_location loc = game_menus::inv::read( u );
+    item *loc = game_menus::inv::read( u );
 
     if( loc ) {
         if( loc->type->can_use( "learn_spell" ) ) {
-            item spell_book = *loc.get_item();
+            item &spell_book = *loc;
             spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.active, u.pos() );
         } else {
             u.read( loc );
@@ -1351,21 +1354,21 @@ static void fire()
         std::vector<std::function<void()>> actions;
 
         for( auto &w : u.worn ) {
-            if( w.type->can_use( "holster" ) && !w.has_flag( flag_NO_QUICKDRAW ) &&
-                !w.contents.empty() && w.contents.front().is_gun() ) {
+            if( w->type->can_use( "holster" ) && !w->has_flag( flag_NO_QUICKDRAW ) &&
+                !w->contents.empty() && w->contents.front().is_gun() ) {
                 //~ draw (first) gun contained in holster
                 //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
                 options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
-                                                  w.contents.front().tname(),
-                                                  w.type_name(),
-                                                  w.contents.front().ammo_remaining() ) );
+                                                  w->contents.front().tname(),
+                                                  w->type_name(),
+                                                  w->contents.front().ammo_remaining() ) );
 
-                actions.emplace_back( [&] { u.invoke_item( &w, "holster" ); } );
+                actions.emplace_back( [&] { u.invoke_item( w, "holster" ); } );
 
-            } else if( w.is_gun() && w.gunmod_find( itype_shoulder_strap ) ) {
+            } else if( w->is_gun() && w->gunmod_find( itype_shoulder_strap ) ) {
                 // wield item currently worn using shoulder strap
-                options.push_back( w.display_name() );
-                actions.emplace_back( [&] { u.wield( w ); } );
+                options.push_back( w->display_name() );
+                actions.emplace_back( [&] { u.wield( *w ); } );
             }
         }
         if( !options.empty() ) {
@@ -1470,14 +1473,15 @@ static void cast_spell()
         return;
     }
 
-    player_activity cast_spell( ACT_SPELLCASTING, sp.casting_time( u ) );
+    std::unique_ptr<player_activity> cast_spell = std::make_unique<player_activity>( ACT_SPELLCASTING,
+            sp.casting_time( u ) );
     // [0] this is used as a spell level override for items casting spells
-    cast_spell.values.emplace_back( -1 );
+    cast_spell->values.emplace_back( -1 );
     // [1] if this value is 1, the spell never fails
-    cast_spell.values.emplace_back( 0 );
+    cast_spell->values.emplace_back( 0 );
     // [2] this value overrides the mana cost if set to 0
-    cast_spell.values.emplace_back( 1 );
-    cast_spell.name = sp.id().c_str();
+    cast_spell->values.emplace_back( 1 );
+    cast_spell->name = sp.id().c_str();
     if( u.magic->casting_ignore ) {
         const std::vector<distraction_type> ignored_distractions = {
             distraction_type::alert,
@@ -1491,10 +1495,11 @@ static void cast_spell()
             distraction_type::weather_change
         };
         for( const distraction_type ignored : ignored_distractions ) {
-            cast_spell.ignore_distraction( ignored );
+            cast_spell->ignore_distraction( ignored );
         }
     }
-    u.assign_activity( cast_spell, false );
+    u.assign_activity( std::move( cast_spell ),
+                       false );
 }
 
 void game::open_consume_item_menu()
@@ -2019,7 +2024,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_USE_WIELDED:
-                avatar_funcs::use_item( u, item_location( u, &u.primary_weapon() ) );
+                avatar_funcs::use_item( u, u.primary_weapon() );
                 break;
 
             case ACTION_WEAR:
@@ -2072,12 +2077,11 @@ bool game::handle_action()
                 break;
 
             case ACTION_MEND:
-                avatar_action::mend( g->u, item_location() );
+                avatar_action::mend( g->u, nullptr );
                 break;
 
             case ACTION_THROW: {
-                item_location loc;
-                avatar_action::plthrow( g->u, loc );
+                avatar_action::plthrow( g->u, nullptr );
                 break;
             }
 
@@ -2284,7 +2288,7 @@ bool game::handle_action()
 
             case ACTION_SAVE:
                 if( query_yn( _( "Save and quit?" ) ) ) {
-                    if( save() ) {
+                    if( save( true ) ) {
                         u.moves = 0;
                         uquit = QUIT_SAVED;
                     }
@@ -2399,7 +2403,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_RELOAD_TILESET:
-                reload_tileset( []( std::string str ) {
+                reload_tileset( []( const std::string & str ) {
                     DebugLog( DL::Info, DC::Main ) << str;
                 } );
                 break;

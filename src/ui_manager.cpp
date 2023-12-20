@@ -139,7 +139,7 @@ void ui_adaptor::mark_resize() const
     deferred_resize = true;
 }
 
-static bool contains( const rectangle<point> &lhs, const rectangle<point> &rhs )
+static bool rect_contains( const rectangle<point> &lhs, const rectangle<point> &rhs )
 {
     return rhs.p_min.x >= lhs.p_min.x && rhs.p_max.x <= lhs.p_max.x &&
            rhs.p_min.y >= lhs.p_min.y && rhs.p_max.y <= lhs.p_max.y;
@@ -182,7 +182,7 @@ void ui_adaptor::invalidation_consistency_and_optimization()
                 ui_upper.invalidated = true;
             }
             if( ui_upper.invalidated && ui_lower.invalidated &&
-                contains( ui_upper.dimensions, ui_lower.dimensions ) ) {
+                rect_contains( ui_upper.dimensions, ui_lower.dimensions ) ) {
                 // fully obscured lower UIs do not need to be redrawn.
                 ui_lower.invalidated = false;
                 // Note: we don't need to re-test ui_lower from earlier iterations
@@ -212,7 +212,7 @@ void ui_adaptor::invalidate_ui() const
     }
     // If an upper UI occludes this UI then nothing gets redrawn
     for( auto it_upper = std::next( it ); it_upper < ui_stack.cend(); ++it_upper ) {
-        if( contains( it_upper->get().dimensions, dimensions ) ) {
+        if( rect_contains( it_upper->get().dimensions, dimensions ) ) {
             return;
         }
     }

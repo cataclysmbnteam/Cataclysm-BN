@@ -53,6 +53,7 @@
 #include "pldata.h"
 #include "point.h"
 #include "rng.h"
+#include "state_helpers.h"
 #include "string_utils.h"
 #include "string_formatter.h"
 #include "type_id.h"
@@ -326,6 +327,7 @@ int main( int argc, const char *argv[] )
     DebugLog( DL::Info, DC::Main ) << "Randomness seeded to: " << seed;
 
     auto _on_out_of_scope = on_out_of_scope( []() {
+        g.reset();
         DynamicDataLoader::get_instance().unload_data();
     } );
     try {
@@ -347,6 +349,8 @@ int main( int argc, const char *argv[] )
     result = session.run();
     const auto end = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t( end );
+
+    clear_all_state();
 
     auto world_name = world_generator->active_world->world_name;
     if( result == 0 || dont_save ) {

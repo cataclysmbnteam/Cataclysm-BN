@@ -6,9 +6,10 @@
 
 #include "coordinates.h"
 #include "item_handling_util.h"
-#include "item_location.h"
 #include "memory_fast.h"
 #include "pickup_token.h"
+#include "location_ptr.h"
+#include "locations.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_energy.h"
@@ -19,7 +20,7 @@ class vehicle;
 class aim_activity_actor : public activity_actor
 {
     private:
-        std::optional<item> fake_weapon;
+        location_ptr<item> fake_weapon;
         units::energy bp_cost_per_shot = 0_J;
         int stamina_cost_per_shot = 0;
         std::vector<tripoint> fin_trajectory;
@@ -35,8 +36,8 @@ class aim_activity_actor : public activity_actor
         bool aborted = false;
         /** RELOAD_AND_SHOOT weapon is kept loaded by the activity */
         bool loaded_RAS_weapon = false;
-        /* Item location for RAS weapon reload */
-        item_location reload_loc = item_location();
+        /** Item location for RAS weapon reload */
+        safe_reference<item> reload_loc;
         /** if true abort if no targets are available when re-entering aiming ui after shooting */
         bool abort_if_no_targets = false;
         /**
@@ -55,13 +56,14 @@ class aim_activity_actor : public activity_actor
         aim_activity_actor();
 
         /** Aiming wielded gun */
-        static aim_activity_actor use_wielded();
+        static std::unique_ptr<aim_activity_actor> use_wielded();
 
         /** Aiming fake gun provided by a bionic */
-        static aim_activity_actor use_bionic( const item &fake_gun, const units::energy &cost_per_shot );
+        static std::unique_ptr<aim_activity_actor> use_bionic( detached_ptr<item> &&fake_gun,
+                const units::energy &cost_per_shot );
 
         /** Aiming fake gun provided by a mutation */
-        static aim_activity_actor use_mutation( const item &fake_gun );
+        static std::unique_ptr<aim_activity_actor> use_mutation( detached_ptr<item> &&fake_gun );
 
         activity_id get_type() const override {
             return activity_id( "ACT_AIM" );
@@ -71,10 +73,6 @@ class aim_activity_actor : public activity_actor
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
         void canceled( player_activity &act, Character &who ) override;
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<aim_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -102,10 +100,6 @@ class autodrive_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override;
         void canceled( player_activity &, Character & ) override;
         void finish( player_activity &act, Character & ) override;
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<autodrive_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -161,10 +155,6 @@ class dig_activity_actor : public activity_actor
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<dig_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -222,10 +212,6 @@ class dig_channel_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<dig_channel_activity_actor>( *this );
-        }
-
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -254,10 +240,6 @@ class disassemble_activity_actor : public activity_actor
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character &who ) override;
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<disassemble_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -289,10 +271,6 @@ class drop_activity_actor : public activity_actor
         void do_turn( player_activity &, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<drop_activity_actor>( *this );
-        }
-
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -316,10 +294,6 @@ class hacking_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character &who ) override;
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<hacking_activity_actor>( *this );
-        }
-
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -328,29 +302,31 @@ class lockpick_activity_actor : public activity_actor
 {
     private:
         int moves_total;
-        std::optional<item_location> lockpick;
-        std::optional<item> fake_lockpick;
+        safe_reference<item> lockpick;
+        location_ptr<item> fake_lockpick;
         tripoint target;
 
         lockpick_activity_actor(
             int moves_total,
-            const std::optional<item_location> &lockpick,
-            const std::optional<item> &fake_lockpick,
+            safe_reference<item> lockpick,
+            detached_ptr<item> &&fake_lockpick,
             const tripoint &target
-        ) : moves_total( moves_total ), lockpick( lockpick ), fake_lockpick( fake_lockpick ),
-            target( target ) {};
+        ) : moves_total( moves_total ), lockpick( lockpick ), fake_lockpick( new fake_item_location() ),
+            target( target ) {
+            this->fake_lockpick = std::move( fake_lockpick );
+        };
 
     public:
         /** Use regular lockpick. 'target' is in global coords */
-        static lockpick_activity_actor use_item(
+        static std::unique_ptr<lockpick_activity_actor> use_item(
             int moves_total,
-            const item_location &lockpick,
+            item &lockpick,
             const tripoint &target
         );
 
         /** Use bionic lockpick. 'target' is in global coords */
-        static lockpick_activity_actor use_bionic(
-            const item &fake_lockpick,
+        static std::unique_ptr<lockpick_activity_actor> use_bionic(
+            detached_ptr<item> &&fake_lockpick,
             const tripoint &target
         );
 
@@ -364,10 +340,6 @@ class lockpick_activity_actor : public activity_actor
 
         static bool is_pickable( const tripoint &p );
         static std::optional<tripoint> select_location( avatar &you );
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<lockpick_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -386,10 +358,6 @@ class migration_cancel_activity_actor : public activity_actor
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<migration_cancel_activity_actor>( *this );
-        }
-
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -397,16 +365,21 @@ class migration_cancel_activity_actor : public activity_actor
 class move_items_activity_actor : public activity_actor
 {
     private:
-        std::vector<item_location> target_items;
+        std::vector<safe_reference<item>> target_items;
         std::vector<int> quantities;
         bool to_vehicle;
         tripoint relative_destination;
 
     public:
-        move_items_activity_actor( std::vector<item_location> target_items, std::vector<int> quantities,
+        move_items_activity_actor( std::vector<item *> items, std::vector<int> quantities,
                                    bool to_vehicle, tripoint relative_destination ) :
-            target_items( target_items ), quantities( quantities ), to_vehicle( to_vehicle ),
-            relative_destination( relative_destination ) {}
+            quantities( quantities ), to_vehicle( to_vehicle ),
+            relative_destination( relative_destination ) {
+
+            for( item *&it : items ) {
+                target_items.emplace_back( it );
+            }
+        }
 
         activity_id get_type() const override {
             return activity_id( "ACT_MOVE_ITEMS" );
@@ -416,9 +389,6 @@ class move_items_activity_actor : public activity_actor
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<move_items_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -451,9 +421,6 @@ class toggle_gate_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character & ) override;
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<toggle_gate_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -487,9 +454,6 @@ class pickup_activity_actor : public activity_actor
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<pickup_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -513,10 +477,6 @@ class stash_activity_actor : public activity_actor
         void do_turn( player_activity &, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<stash_activity_actor>( *this );
-        }
-
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -524,15 +484,16 @@ class stash_activity_actor : public activity_actor
 class throw_activity_actor : public activity_actor
 {
     private:
-        item_location target_loc;
+
+        safe_reference<item> target;
         std::optional<tripoint> blind_throw_from_pos;
 
     public:
         throw_activity_actor() = default;
         throw_activity_actor(
-            item_location target_loc,
+            item &target,
             std::optional<tripoint> blind_throw_from_pos
-        ) : target_loc( target_loc ),
+        ) : target( &target ),
             blind_throw_from_pos( blind_throw_from_pos ) {}
         ~throw_activity_actor() = default;
 
@@ -543,10 +504,6 @@ class throw_activity_actor : public activity_actor
         void start( player_activity &, Character & ) override {};
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<throw_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -570,10 +527,6 @@ class wash_activity_actor : public activity_actor
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character &who ) override;
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<wash_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );

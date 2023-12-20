@@ -156,6 +156,6 @@
     "type": "item_group",
     "id": "gunmod_archery",
     "//": "Gunmods for bows and crossbows.",
-    "items": [ [ "arrowrest", 100 ], [ "bow_sight", 100 ], [ "bow_stabilizer", 100 ] ]
+    "items": [ [ "arrowrest", 100 ], [ "bow_sight", 100 ], [ "bow_stabilizer", 100 ], [ "crossbow_lever", 100 ] ]
   }
 ]

@@ -14,7 +14,7 @@
 namespace
 {
 
-using Weights = std::map<body_part, float>;
+using Weights = std::map<body_part, double>;
 struct Expected {
     Weights base, max;
 };
@@ -23,12 +23,12 @@ struct Expected {
 const auto expected_smaller = Expected
 {
     Weights{
-        { bp_torso, 20 }, { bp_head, 0 }, { bp_eyes, 0 }, { bp_mouth, 0 }, { bp_arm_l, 15 }, { bp_arm_r, 15 },
-        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 25 }, { bp_leg_r, 25 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+        { bp_torso, 20.0 }, { bp_head, 0.0 }, { bp_eyes, 0.0 }, { bp_mouth, 0.0 }, { bp_arm_l, 15.0 }, { bp_arm_r, 15.0 },
+        { bp_hand_l, 0.0 }, { bp_hand_r, 0.0 }, { bp_leg_l, 25.0 }, { bp_leg_r, 25.0 }, { bp_foot_l, 0.0 }, { bp_foot_r, 0.0 }
     },
     Weights{
-        { bp_torso, 4960 }, { bp_head, 0 }, { bp_eyes, 0 }, { bp_mouth, 0 }, { bp_arm_l, 1143 }, { bp_arm_r, 1186 },
-        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 3844 }, { bp_leg_r, 3867 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+        { bp_torso, 4960.0 }, { bp_head, 0.0 }, { bp_eyes, 0.0 }, { bp_mouth, 0.0 }, { bp_arm_l, 1143.0 }, { bp_arm_r, 1186.0 },
+        { bp_hand_l, 0.0 }, { bp_hand_r, 0.0 }, { bp_leg_l, 3844.0 }, { bp_leg_r, 3867.0 }, { bp_foot_l, 0.0 }, { bp_foot_r, 0.0 }
     }
 };
 
@@ -36,24 +36,24 @@ const auto expected_smaller = Expected
 const auto expected_same = Expected
 {
     Weights{
-        { bp_torso, 33.33 }, { bp_head, 2.33 }, { bp_eyes, 0.33 }, { bp_mouth, 0 }, { bp_arm_l, 20 }, { bp_arm_r, 20 },
-        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 12 }, { bp_leg_r, 12 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+        { bp_torso, 33.33 }, { bp_head, 2.33 }, { bp_eyes, 0.33 }, { bp_mouth, 0.0 }, { bp_arm_l, 20.0 }, { bp_arm_r, 20.0 },
+        { bp_hand_l, 0.0 }, { bp_hand_r, 0.0 }, { bp_leg_l, 12.0 }, { bp_leg_r, 12.0 }, { bp_foot_l, 0.0 }, { bp_foot_r, 0.0 }
     },
     Weights{
         { bp_torso, 6513 }, { bp_head, 2928 }, { bp_eyes, 150 }, { bp_mouth, 0 }, { bp_arm_l, 1224 }, { bp_arm_r, 1235 },
-        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 1458 }, { bp_leg_r, 1492 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+        { bp_hand_l, 0.0 }, { bp_hand_r, 0.0 }, { bp_leg_l, 1458.0 }, { bp_leg_r, 1492.0 }, { bp_foot_l, 0.0 }, { bp_foot_r, 0.0 }
     }
 };
 
 const auto expected_larger = Expected
 {
     Weights{
-        { bp_torso, 36.57 }, { bp_head, 5.71 }, { bp_eyes, 0.57 }, { bp_mouth, 0 }, { bp_arm_l, 22.86 }, { bp_arm_r, 22.86 },
-        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 5.71 }, { bp_leg_r, 5.71 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+        { bp_torso, 36.57 }, { bp_head, 5.71 }, { bp_eyes, 0.57 }, { bp_mouth, 0.0 }, { bp_arm_l, 22.86 }, { bp_arm_r, 22.86 },
+        { bp_hand_l, 0.0 }, { bp_hand_r, 0.0 }, { bp_leg_l, 5.71 }, { bp_leg_r, 5.71 }, { bp_foot_l, 0.0 }, { bp_foot_r, 0.0 }
     },
     Weights{
-        { bp_torso, 5689 }, { bp_head, 5682 }, { bp_eyes, 221 }, { bp_mouth, 0 }, { bp_arm_l, 1185 }, { bp_arm_r, 1089 },
-        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 578 }, { bp_leg_r, 556 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+        { bp_torso, 5689.0 }, { bp_head, 5682.0 }, { bp_eyes, 221.0 }, { bp_mouth, 0.0 }, { bp_arm_l, 1185.0 }, { bp_arm_r, 1089.0 },
+        { bp_hand_l, 0.0 }, { bp_hand_r, 0.0 }, { bp_leg_l, 578.0 }, { bp_leg_r, 556.0 }, { bp_foot_l, 0.0 }, { bp_foot_r, 0.0 }
     }
 };
 
@@ -64,8 +64,8 @@ void calculate_bodypart_distribution( const enum m_size attacker_size,
 {
     INFO( "hit roll = " << hit_roll );
     auto selected_part_histogram = Weights{
-        { bp_torso, 0 }, { bp_head, 0 }, { bp_eyes, 0 }, { bp_mouth, 0 }, { bp_arm_l, 0 }, { bp_arm_r, 0 },
-        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 0 }, { bp_leg_r, 0 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+        { bp_torso, 0.0 }, { bp_head, 0.0 }, { bp_eyes, 0.0 }, { bp_mouth, 0.0 }, { bp_arm_l, 0.0 }, { bp_arm_r, 0.0 },
+        { bp_hand_l, 0.0 }, { bp_hand_r, 0.0 }, { bp_leg_l, 0.0 }, { bp_leg_r, 0.0 }, { bp_foot_l, 0.0 }, { bp_foot_r, 0.0 }
     };
 
     mtype atype;
@@ -84,8 +84,8 @@ void calculate_bodypart_distribution( const enum m_size attacker_size,
         selected_part_histogram.at( bp )++;
     }
 
-    const float total_weight = std::accumulate( expected.begin(), expected.end(), 0.0f,
-    []( float acc, const auto & p ) {
+    const double total_weight = std::accumulate( expected.begin(), expected.end(), 0.0,
+    []( double acc, const auto & p ) {
         return acc + p.second;
     } );
 

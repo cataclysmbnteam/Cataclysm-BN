@@ -28,8 +28,8 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "abstract faulty bionic module" },
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "weight": "500 g",
     "description": "This CBM is broken beyond repair, you can't do anything with it.",
     "//": "Needed for dissection of faulty CBMs from dead PCs and NPCs to convert the harvest result into a burnt-out bionic automatically.",
@@ -42,7 +42,7 @@
     "name": { "str": "Adrenaline Pump CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A stimulator system that is implanted alongside the adrenal glands, allowing the user to trigger their body's adrenaline response at the cost of some bionic power.",
-    "price": 4000,
+    "price": "40 USD",
     "weight": "250 g",
     "difficulty": 6
   },
@@ -53,7 +53,7 @@
     "name": { "str": "Active Defense System CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "This bionic charges a forcefield around your body that deflects incoming attacks.  Bullets are heavily deflected, piercing well deflected, slashing moderately deflected and bashing barely deflected.  This bionic charges at half speed for 3 turns after being hit, and doesn't consume power when fully charged.",
-    "price": 950000,
+    "price": "9500 USD",
     "weight": "1000 g",
     "difficulty": 7
   },
@@ -64,7 +64,7 @@
     "name": { "str": "Alarm System CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A motion-detecting alarm system will notice almost all movement within a fifteen-foot radius, and will silently alert the user.  This is very useful during sleep, or if the user suspects a cloaked pursuer.",
-    "price": 25000,
+    "price": "250 USD",
     "weight": "500 g",
     "difficulty": 1,
     "installation_data": "AID_bio_alarm"
@@ -75,7 +75,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Arms Alloy Plating CBM" },
     "description": "Alloy plating that replaces the flesh on the user's arms.  Provides 6 bash and cut protection, 5 ballistic protection, and can be used in conjunction with bionic martial arts.",
-    "price": 350000,
+    "price": "3500 USD",
     "difficulty": 3,
     "installation_data": "AID_bio_armor_arms"
   },
@@ -86,7 +86,7 @@
     "name": { "str": "Protective Lenses CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A bionic package that seals the user's eye sockets with highly protective mirrored lenses and re-routes their tear ducts to their mouth.  Provides 3 bash and cut protection, and 7 environmental protection.",
-    "price": 550000,
+    "price": "5500 USD",
     "weight": "500 g",
     "difficulty": 5
   },
@@ -97,7 +97,7 @@
     "name": { "str": "Head Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Alloy plating that replaces the flesh on the user's head, protecting both their head and jaw regions.  Provides 6 bash and cut protection, and 5 ballistic protection.",
-    "price": 350000,
+    "price": "3500 USD",
     "weight": "1000 g",
     "difficulty": 5
   },
@@ -108,7 +108,7 @@
     "name": { "str": "Legs Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Alloy plating that replaces the flesh on the user's legs.  Provides 6 bash and cut protection, 5 ballistic protection, and can be used in conjunction with bionic martial arts.",
-    "price": 350000,
+    "price": "3500 USD",
     "difficulty": 3,
     "installation_data": "AID_bio_armor_legs"
   },
@@ -119,7 +119,7 @@
     "name": { "str": "Torso Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Alloy plating that replaces the flesh on the user's torso, protecting it from physical trauma.  Provides 6 bash and cut protection, and 5 ballistic protection.",
-    "price": 350000,
+    "price": "3500 USD",
     "weight": "3000 g",
     "difficulty": 4
   },
@@ -130,7 +130,7 @@
     "name": { "str": "Battery System CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A battery draining attachment to make use of the energy contained in normal, everyday batteries.",
-    "price": 80000,
+    "price": "800 USD",
     "weight": "250 g",
     "difficulty": 4
   },
@@ -141,7 +141,7 @@
     "name": { "str": "Monomolecular Blade CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A deadly foot-long blade made of advanced material that is installed inside the forearm, capable of being extended through the back of the user's wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent the user from holding anything else while extended.",
-    "price": 8000,
+    "price": "80 USD",
     "weight": "250 g",
     "difficulty": 8
   },
@@ -152,7 +152,7 @@
     "name": { "str": "Shotgun Arm CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A concealed, single shot 12 gauge shotgun that is implanted inside the left forearm.  Perfect in a pinch.",
-    "price": 220000,
+    "price": "2200 USD",
     "difficulty": 3,
     "installation_data": "AID_bio_shotgun"
   },
@@ -163,7 +163,7 @@
     "name": { "str": "Blood Analysis CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Small sensors that are implanted in the user's heart, allowing them to analyze their blood.  This will detect many illnesses, drugs, and other conditions.",
-    "price": 320000,
+    "price": "3200 USD",
     "weight": "150 g",
     "difficulty": 2,
     "installation_data": "AID_bio_blood_anal"
@@ -175,7 +175,7 @@
     "name": { "str": "Blood Filter CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A filtration system that is installed in the heart and can actively filter out chemical impurities, primarily drugs, with limited impact on viruses.  Note that it is not a targeted filter; ALL drugs in the system will be affected.",
-    "price": 350000,
+    "price": "3500 USD",
     "weight": "200 g",
     "difficulty": 3,
     "installation_data": "AID_bio_blood_filter"
@@ -187,7 +187,7 @@
     "name": { "str": "Cable Charger System CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A complex port that is mounted above the hip.  While active, it will recharge bionic power when connected to a battery via jumper cable.",
-    "price": 80000,
+    "price": "800 USD",
     "weight": "250 g",
     "difficulty": 4
   },
@@ -198,7 +198,7 @@
     "name": { "str": "Subdermal Carbon Filament CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A thin armor made of carbon nanotubes, implanted just beneath the skin.  This reduces all bashing damage by 5%, cutting damage by 10%, and ballistic damage by 15%.",
-    "price": 750000,
+    "price": "7500 USD",
     "difficulty": 9
   },
   {
@@ -208,7 +208,7 @@
     "name": { "str": "Chain Lightning CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A chain lightning generator that emits a blast of lightning at a target, leaving a trail of lightning in its wake and jumping to additional targets within 4 tiles of the previous target.",
-    "price": 220000,
+    "price": "2200 USD",
     "difficulty": 4
   },
   {
@@ -218,7 +218,7 @@
     "name": { "str": "Bionic Claws CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Vicious, retractable claws that are implanted inside the user's fingers.  These do considerable cutting damage, but prevent the user from holding anything else while extended.",
-    "price": 550000,
+    "price": "5500 USD",
     "weight": "500 g",
     "difficulty": 5
   },
@@ -229,7 +229,7 @@
     "name": { "str": "Internal Climate Control CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A network of thermal piping which eases the effects of high and low ambient temperatures once activated.",
-    "price": 350000,
+    "price": "3500 USD",
     "difficulty": 3,
     "installation_data": "AID_bio_climate"
   },
@@ -240,7 +240,7 @@
     "name": { "str": "Cloaking System CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "This high-power system uses a set of cameras and LEDs to make the user blend into their surroundings, rendering them fully invisible to eyes and optical sensors.  However, this doesn't prevent detection from other means such as infrared, sonar, etc.",
-    "price": 850000,
+    "price": "8500 USD",
     "difficulty": 5
   },
   {
@@ -250,7 +250,7 @@
     "name": { "str": "Close Quarters Battle CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A set of bionic processors and databanks, loaded with martial arts combat programs.  Whilst active, the CQB module will improve the user's hand-to-hand combat skills, but prevents them from improving them through combat experience.",
-    "price": 220000,
+    "price": "2200 USD",
     "weight": "250 g",
     "difficulty": 8
   },
@@ -261,7 +261,7 @@
     "name": { "str": "Wired Reflexes CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Bionic nerve stimulators that greatly enhance reaction times, granting a +2 bonus to dexterity.",
-    "price": 800000,
+    "price": "8 kUSD",
     "weight": "500 g",
     "difficulty": 11
   },
@@ -272,7 +272,7 @@
     "name": { "str": "Expanded Digestive System CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "This module contains three synthetic stomachs and industrial-grade intestines.  Not only will these extract much more nutrition from food, but also make the user immune to foodborne illness, parasites, and even allow the digestion of rotten food.",
-    "price": 550000,
+    "price": "5500 USD",
     "difficulty": 6
   },
   {
@@ -282,7 +282,7 @@
     "name": { "str": "Enhanced Hearing CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "While this bionic is active, the user's hearing will be drastically improved, allowing them to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage their hearing.",
-    "price": 500000,
+    "price": "5 kUSD",
     "weight": "500 g",
     "difficulty": 6
   },
@@ -293,7 +293,7 @@
     "name": { "str": "Directional EMP CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Small parabolic EMP field generators that are mounted in the palm of the user's right hand.  These can be used to instantly fire a wide, but short-ranged blast which will disable electronics and robots.",
-    "price": 720000,
+    "price": "7200 USD",
     "difficulty": 5
   },
   {
@@ -303,7 +303,7 @@
     "name": { "str": "EMP Projector CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A ranged EMP generator system that is implanted in the user's right arm and hand.  The system fires precise, single-target pulses that require time to aim.  Extremely effective against electronic targets but mostly useless otherwise.",
-    "price": 220000,
+    "price": "2200 USD",
     "difficulty": 5
   },
   {
@@ -313,7 +313,7 @@
     "name": { "str": "Ethanol Burner CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  It can store up to 500ml and accepts ethanol, methanol and denatured alcohol as fuel.",
-    "price": 120000,
+    "price": "1200 USD",
     "difficulty": 4
   },
   {
@@ -323,7 +323,7 @@
     "name": { "str": "Aero-Evaporator CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "This unit draws moisture from the surrounding air, which slowly trickles directly into your blood stream.  It may fail in very dry environments.",
-    "price": 550000,
+    "price": "5500 USD",
     "difficulty": 4
   },
   {
@@ -333,7 +333,7 @@
     "name": { "str": "Diamond Cornea CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A set of diamond corneas which greatly enhance the user's vision, granting a +2 bonus to perception.",
-    "price": 800000,
+    "price": "8 kUSD",
     "weight": "100 g",
     "difficulty": 11
   },
@@ -344,7 +344,7 @@
     "name": { "str": "Telescopic Lenses CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "An array of high-powered, auto-focusing lenses that replaces your natural lenses.  This fixes any mundane vision problems and allows for an increased vision range akin to binoculars.  Once installed they will be impossible to remove, having replaced part of your eyes.",
-    "price": 500000,
+    "price": "5 kUSD",
     "weight": "100 g",
     "difficulty": 5
   },
@@ -355,7 +355,7 @@
     "name": { "str": "Facial Distortion CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Through controlled application of electrochemical impulses, this bionic module lets the user alter their facial structure so as to subtly affect the reactions of others.  This grants a bonus to all social interactions.",
-    "price": 850000,
+    "price": "8500 USD",
     "weight": "200 g",
     "difficulty": 5
   },
@@ -366,7 +366,7 @@
     "name": { "str": "Dielectric Capacitance System CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A network of miniature piezoelectric capacitors, implanted throughout the body to protect from external electrical discharge.",
-    "price": 5000,
+    "price": "50 USD",
     "weight": "500 g",
     "difficulty": 5
   },
@@ -377,7 +377,7 @@
     "name": { "str": "Fingerhack CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A miniature electrohack, surgically embedded in a finger of the right hand.  This is an all-purpose hacking unit used to override control panels and the like, but not computers.  Computer proficiency is important, and a failed use may cause damage.",
-    "price": 350000,
+    "price": "3500 USD",
     "weight": "100 g",
     "difficulty": 2
   },
@@ -388,7 +388,7 @@
     "name": { "str": "Flashbang Generator CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A combination of LEDs and speakers that create a flash and sound comparable to a flashbang grenade, deafening and blinding nearby enemies.",
-    "price": 720000,
+    "price": "7200 USD",
     "weight": "500 g",
     "difficulty": 5
   },
@@ -399,7 +399,7 @@
     "name": { "str": "Cranial Flashlight CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A small, but powerful LED flashlight that is mounted between the eyes.",
-    "price": 20000,
+    "price": "200 USD",
     "weight": "250 g",
     "difficulty": 2,
     "installation_data": "AID_bio_flashlight"
@@ -411,7 +411,7 @@
     "name": { "str": "LED Tattoo" },
     "looks_like": "bio_int_enhancer",
     "description": "An LED display implanted beneath the epidermis that can display patterns or pictures through the skin.  When active it glows dimly, providing a very small amount of light.",
-    "price": 20000,
+    "price": "200 USD",
     "weight": "20 g",
     "difficulty": 1,
     "installation_data": "AID_bio_tattoo_led"
@@ -423,7 +423,7 @@
     "name": { "str": "Integrated Dosimeter CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Small radiation sensors that are implanted throughout the body, allowing the user to analyze their level of absorbed radiation.  They will also alert the user whenever exposed to environmental radiation.",
-    "price": 350000,
+    "price": "3500 USD",
     "weight": "150 g",
     "difficulty": 3,
     "installation_data": "AID_bio_geiger"
@@ -435,7 +435,7 @@
     "name": { "str": "Respirator CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A complex respiration augmentation system that increases the user's maximal oxygen uptake and allows for underwater breathing akin to gills.  Will automatically activate if the user is drowning.",
-    "price": 450000,
+    "price": "4500 USD",
     "weight": "700 g",
     "difficulty": 6
   },
@@ -446,7 +446,7 @@
     "name": { "str": "Terranian Sonar CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Precision sonar equipment, implanted in the feet to allow the detection of below-ground movement, buried traps, and unstable terrain.",
-    "price": 450000,
+    "price": "4500 USD",
     "weight": "500 g",
     "difficulty": 5
   },
@@ -457,7 +457,7 @@
     "name": { "str": "Heat Drain CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "While fighting unarmed against a warm-blooded opponent, there is a chance that a successful hit will drain body heat, inflicting a small amount of extra damage, and recharging the user's bionic power reserves slightly.",
-    "price": 550000,
+    "price": "5500 USD",
     "weight": "500 g",
     "difficulty": 5
   },
@@ -468,7 +468,7 @@
     "name": { "str": "Thermal Dissipation CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Powerful heatsinks and supermaterials are woven into the user's flesh.  While powered, this system will prevent external heat damage up to 2000 degrees Fahrenheit.  Note that this does not affect the internal body temperature.",
-    "price": 350000,
+    "price": "3500 USD",
     "difficulty": 3,
     "installation_data": "AID_bio_heatsink"
   },
@@ -479,7 +479,7 @@
     "name": { "str": "Hydraulic Muscles CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A hydraulic muscle support system that when active, increases strength by 20.",
-    "price": 400000,
+    "price": "4 kUSD",
     "difficulty": 6
   },
   {
@@ -489,7 +489,7 @@
     "name": { "str": "Infrared Vision CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A bionic module that extends the range of vision into the infrared, allowing the user to see warm-blooded creatures in the dark and through smoke.",
-    "price": 450000,
+    "price": "4500 USD",
     "weight": "500 g",
     "difficulty": 6
   },
@@ -499,7 +499,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Cerebral Booster CBM" },
     "description": "Bionic coprocessors that are implanted in the brain, granting a +2 bonus to intelligence.",
-    "price": 800000,
+    "price": "8 kUSD",
     "weight": "100 g",
     "difficulty": 11
   },
@@ -510,7 +510,7 @@
     "name": { "str": "Finger-Mounted Laser CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A small, high-powered laser that is embedded in the fingertip.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires.",
-    "price": 720000,
+    "price": "7200 USD",
     "weight": "500 g",
     "difficulty": 5
   },
@@ -521,7 +521,7 @@
     "name": { "str": "Leukocyte Breeder System CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Bionic stimulators which augment the user's haematopoiesis system, allowing them to accelerate white blood cell production using bionic power.  It is designed for continuous use and may cause unpleasant side effects when turned off.",
-    "price": 6000,
+    "price": "60 USD",
     "weight": "600 g",
     "difficulty": 7
   },
@@ -532,7 +532,7 @@
     "name": { "str": "Finger Lighter CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Powerful fire starters which extend from the tip of both hands' index fingers.",
-    "price": 130000,
+    "price": "1300 USD",
     "weight": "500 g",
     "difficulty": 4
   },
@@ -543,7 +543,7 @@
     "name": { "str": "Fingerpick CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "An electronic lockpick that is embedded in a fingertip.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user.",
-    "price": 350000,
+    "price": "3500 USD",
     "weight": "200 g",
     "difficulty": 2
   },
@@ -554,7 +554,7 @@
     "name": { "str": "Electromagnetic Unit CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A powerful electromagnet that is implanted into the user's right hand, allowing them to indiscriminately pull all nearby magnetic objects towards them.  Unlucky bystanders might be injured or killed by flying objects.",
-    "price": 200000,
+    "price": "2 kUSD",
     "weight": "700 g",
     "difficulty": 2,
     "installation_data": "AID_bio_magnet"
@@ -566,7 +566,7 @@
     "name": { "str": "Nictating Membrane CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A thin membrane that closes over the eyes while underwater, negating any vision penalties.",
-    "price": 450000,
+    "price": "4500 USD",
     "weight": "1 g",
     "difficulty": 6
   },
@@ -577,7 +577,7 @@
     "name": { "str": "Enhanced Memory Banks CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A set of highly-advanced quantum storage drives used to enhance memory.  While active, they increase the rate that the user learns skills, and give them near-perfect memory of skills and terrain.",
-    "price": 1000000,
+    "price": "10 kUSD",
     "weight": "100 g",
     "difficulty": 9
   },
@@ -588,7 +588,7 @@
     "name": { "str": "Metabolic Interchange CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "This module interconnects the user's digestive system and power supply, letting them replenish bionic energy by burning calories.",
-    "price": 70000,
+    "price": "700 USD",
     "weight": "700 g",
     "difficulty": 4
   },
@@ -599,7 +599,7 @@
     "name": { "str": "Weather Reader CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A multitude of scientific instruments and sensors collect environmental data.  The data is compiled and presented as a simple readout of the current weather.  It also passively tells the user their external temperature.",
-    "price": 350000,
+    "price": "3500 USD",
     "weight": "700 g",
     "difficulty": 3,
     "installation_data": "AID_bio_meteorologist"
@@ -610,8 +610,8 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Repair Nanobots CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A fleet of tiny dormant robots.  While activated they will reduce the intensity of one bleed effect every 30 seconds, and heal all injured body parts by 1 HP (or broken limbs by 1%) every 2 minutes if you have 3 kJ bionic power and 5 kcal per body part.  Broken limbs must still be splinted (unless you have specific mutations) to benefit.  If you don't have enough, they will prioritize based on the resources you have.",
-    "price": 950000,
+    "description": "A fleet of tiny dormant robots.  While activated they will reduce the intensity of one bleed effect every 30 seconds, and heal all injured body parts by 1 HP (or broken limbs by 1%) every 2 minutes if you have 3 kJ bionic power and 5 kcal per body part.  If you don't have enough, they will prioritize based on the resources you have.",
+    "price": "9500 USD",
     "weight": "200 g",
     "difficulty": 6
   },
@@ -622,7 +622,7 @@
     "name": { "str": "Artificial Night Generator CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "When active, this bionic eliminates all light within a 15 tile radius through destructive interference.",
-    "price": 850000,
+    "price": "8500 USD",
     "difficulty": 5
   },
   {
@@ -632,7 +632,7 @@
     "name": { "str": "Implanted Night Vision CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "This bionic module modifies the user's eyes to amplify existing light, allowing them to see in the dark.",
-    "price": 900000,
+    "price": "9 kUSD",
     "weight": "100 g",
     "difficulty": 11
   },
@@ -643,7 +643,7 @@
     "name": { "str": "Offensive Defense System CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A thin forcefield gets projected around the user's body, continually draining power.  This field does not deflect attacks, but rather delivers a strong shock, damaging unarmed attackers and those with a conductive weapon.",
-    "price": 950000,
+    "price": "9500 USD",
     "weight": "1000 g",
     "difficulty": 7
   },
@@ -654,7 +654,7 @@
     "name": { "str": "Sensory Dulling CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "This module lets the user's nervous system inhibit pain signals, allowing them to dull their senses at will.  However, the use of this system may cause delayed reaction times and drowsiness.",
-    "price": 200000,
+    "price": "2 kUSD",
     "weight": "300 g",
     "difficulty": 4
   },
@@ -665,7 +665,7 @@
     "name": { "str": "Power Armor Interface CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Twice as efficient as using a UPS.",
-    "price": 120000,
+    "price": "1200 USD",
     "weight": "500 g",
     "difficulty": 1,
     "installation_data": "AID_bio_power_armor_interface"
@@ -677,7 +677,7 @@
     "name": { "str": "Power Armor Mk. II Interface CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Four times as efficient as using a UPS, the Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II power armor series.",
-    "price": 1000000,
+    "price": "10 kUSD",
     "weight": "400 g",
     "difficulty": 8
   },
@@ -688,7 +688,7 @@
     "name": { "str": "Power Storage CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A Compact Bionics Module that upgrades the user's power capacity by 100 units.  Having at least one of these is a prerequisite to using powered bionics.  The user will also need a power supply, found in various CBMs.",
-    "price": 380000,
+    "price": "3800 USD",
     "weight": "70 g",
     "difficulty": 1,
     "installation_data": "AID_bio_power_storage"
@@ -700,7 +700,7 @@
     "name": { "str_sp": "Power Storage CBM Mk. II" },
     "looks_like": "bio_int_enhancer",
     "description": "A Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly successful Power Storage CBM.  Increases the user's power capacity by 250 units.",
-    "price": 1000000,
+    "price": "10 kUSD",
     "weight": "50 g",
     "difficulty": 1,
     "installation_data": "AID_bio_power_storage_mkII"
@@ -712,7 +712,7 @@
     "name": { "str": "Probability Travel CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Increases the body's wavelength, allowing the user to quantum tunnel through walls, reappearing on the other side.  Once installed, activate and select a direction to use.  Tunneling costs 100 bionic power per tile traveled through.",
-    "price": 1400000,
+    "price": "14 kUSD",
     "difficulty": 11
   },
   {
@@ -722,7 +722,7 @@
     "name": { "str": "Air Filtration System CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "An advanced filtration system that is implanted in the trachea.  If toxins, or airborne diseases find their way into the windpipe, the filter will attempt to remove them.",
-    "price": 450000,
+    "price": "4500 USD",
     "weight": "100 g",
     "difficulty": 4
   },
@@ -733,7 +733,7 @@
     "name": { "str": "Radiation Scrubber System CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A system of advanced piezomechanical blood filters have been surgically implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power.  While activated if irradiated stacks are present will remove 1 stack of irradiated every 10 minutes costing 10kJ.",
-    "price": 450000,
+    "price": "4500 USD",
     "weight": "100 g",
     "difficulty": 4
   },
@@ -744,7 +744,7 @@
     "name": { "str": "Railgun CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "EM field generators in the user's arms increase the range and damage of thrown magnetic objects at a cost of 1 bionic power per throw.  They will create a trail of electricity that can cause additional damage.",
-    "price": 220000,
+    "price": "2200 USD",
     "weight": "1000 g",
     "difficulty": 3,
     "installation_data": "AID_bio_railgun"
@@ -756,7 +756,7 @@
     "name": { "str": "Fingertip Razors CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A set of ten double-edged, four centimeter long razor-sharp claws that are implanted underneath the fingernails.  These will deal a small amount of unarmed slashing damage whenever the user's fingertips are uncovered.",
-    "price": 450000,
+    "price": "4500 USD",
     "weight": "5 g",
     "difficulty": 4
   },
@@ -767,7 +767,7 @@
     "name": { "str": "Gasoline Fuel Cell CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A small gasoline fuel cell able to convert gasoline to bionic power.  It's connected to a diffuse network of bio-plastic bladders able to hold up to 500 ml of gasoline.",
-    "price": 450000,
+    "price": "4500 USD",
     "weight": "600 g",
     "difficulty": 7
   },
@@ -777,7 +777,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Internal Microreactor CBM" },
     "description": "This stripped down mini-reactor will generate impressive amounts of bionic power, but may not be the safest thing to install.  1 plutonium fuel cell provides 1000 charges producing 10kJ of power a turn, while not active & fueled provides a constant 50J of power.",
-    "price": 900000,
+    "price": "9 kUSD",
     "difficulty": 11
   },
   {
@@ -786,7 +786,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Advanced Microreactor CBM" },
     "description": "This module upgrades a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.  1 plutonium fuel cell provides 1500 charges producing 10kJ of power a turn, while not active & fueled provides a constant 75J of power.",
-    "price": 900000,
+    "price": "9 kUSD",
     "difficulty": 13
   },
   {
@@ -795,7 +795,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Micro Reactor Safety Override CBM" },
     "description": "Disables the radiation safety protocols allowing for much higher energy production.  While active produces 40kJ of power a turn and 1 irradiated stack every 20 turns.",
-    "price": 900000,
+    "price": "9 kUSD",
     "difficulty": 13
   },
   {
@@ -805,7 +805,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Microreactor Upgrade CBM" },
     "description": "A kit for upgrading a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.",
-    "price": 250000,
+    "price": "2500 USD",
     "difficulty": 11,
     "is_upgrade": true
   },
@@ -816,7 +816,7 @@
     "name": { "str": "Recycler Unit CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A series of filters and processors that is implanted in the user's digestive system, allowing them to reclaim waste liquid and, to a lesser degree, nutrients.  The net effect is a greatly reduced need to eat and drink.",
-    "price": 850000,
+    "price": "8500 USD",
     "weight": "1500 g",
     "difficulty": 6
   },
@@ -827,7 +827,7 @@
     "name": { "str": "Remote Controller CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A small module that connects to the user's brain and allows them to interface with nearby devices with wireless capabilities.",
-    "price": 600000,
+    "price": "6 kUSD",
     "weight": "250 g",
     "difficulty": 6
   },
@@ -838,7 +838,7 @@
     "name": { "str": "Sonic Resonator CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "This bionic module allows the user's entire body to resonate at very high power, creating a short-range shockwave.  While it will not do much damage to creatures, solid objects such as walls and doors will be damaged.",
-    "price": 1200000,
+    "price": "12 kUSD",
     "difficulty": 11
   },
   {
@@ -848,7 +848,7 @@
     "name": { "str": "Olfactory Mask CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "While this system is powered, the user's body will produce very little odor, making it nearly impossible for creatures to track them by scent.",
-    "price": 850000,
+    "price": "8500 USD",
     "weight": "1000 g",
     "difficulty": 5
   },
@@ -859,7 +859,7 @@
     "name": { "str": "Electroshock Unit CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "While fighting unarmed, or with a weapon that conducts electricity, there is a chance that a successful hit will shock the user's opponent, inflicting extra damage and disabling them temporarily at the cost of some energy.",
-    "price": 550000,
+    "price": "5500 USD",
     "weight": "1000 g",
     "difficulty": 5
   },
@@ -870,7 +870,7 @@
     "name": { "str": "Shockwave Generator CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "This bionic module generates a powerful shockwave, knocking back all nearby creatures.  Targets are stunned briefly, take damage and additional stun upon impact with impassable terrain, and knock back any creatures they collide with.",
-    "price": 550000,
+    "price": "5500 USD",
     "weight": "1000 g",
     "difficulty": 5
   },
@@ -881,7 +881,7 @@
     "name": { "str": "Synaptic Accelerator CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Bionic stimulators that enhance the nervous system, granting a 10% boost to your speed.",
-    "price": 10000,
+    "price": "100 USD",
     "weight": "400 g",
     "difficulty": 12
   },
@@ -892,7 +892,7 @@
     "name": { "str": "Muscle Augmentation CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Myomer fibers that enhance the muscular system, granting a +2 bonus to strength.",
-    "price": 800000,
+    "price": "8 kUSD",
     "weight": "1500 g",
     "difficulty": 11
   },
@@ -903,7 +903,7 @@
     "name": { "str": "Autonomous Surgical Scalpels CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A system of surgical grade scalpels that is implanted in the user's fingers.  They allow for automated precise cuts and can be used as a high-quality butchering tool.",
-    "price": 220000,
+    "price": "2200 USD",
     "weight": "20 g",
     "difficulty": 4
   },
@@ -914,7 +914,7 @@
     "name": { "str": "Anti-Glare Compensators CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A set of quick-reacting transition lenses that are installed over the user's eyes.  They negate glare penalties, partially protect from bright flashes, and protect the eyes when welding.",
-    "price": 450000,
+    "price": "4500 USD",
     "weight": "1 g",
     "difficulty": 4
   },
@@ -925,7 +925,7 @@
     "name": { "str": "Targeting System CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "This bionic module contains range finders and synchronizes the movement of the user's eyes with their arms, to a degree.  Shots they fire will be much more accurate, particularly at long ranges.",
-    "price": 650000,
+    "price": "6500 USD",
     "weight": "250 g",
     "difficulty": 5
   },
@@ -936,7 +936,7 @@
     "name": { "str": "Teleportation Unit CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "This highly experimental unit folds space over short distances, instantly transporting the user's body up to 25 feet in a random duration at the cost of much power.  Note that prolonged or frequent use may have dangerous side effects.",
-    "price": 700000,
+    "price": "7 kUSD",
     "difficulty": 7
   },
   {
@@ -946,7 +946,7 @@
     "name": { "str": "Time Dilation CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "At the cost of all stored bionic power, the user may increase their body speed and reactions dramatically, essentially freezing time.  Violent or rapid movements may cause damage due to friction.",
-    "price": 1400000,
+    "price": "14 kUSD",
     "difficulty": 11
   },
   {
@@ -956,7 +956,7 @@
     "name": { "str": "Integrated Toolset CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A surgically implanted set of tools - screwdriver, hammer, wrench, hacksaw, drill, welder and heating elements.  These can be used in place of many tools when crafting.",
-    "price": 800000,
+    "price": "8 kUSD",
     "difficulty": 6
   },
   {
@@ -966,7 +966,7 @@
     "name": { "str": "Joint Torsion Ratchet CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Torsion ratchets that replace the user's joints to slowly generate power when they move.  These can be toggled to generate more power, but movement will require more effort.",
-    "price": 380000,
+    "price": "3800 USD",
     "weight": "1000 g",
     "difficulty": 4
   },
@@ -976,8 +976,8 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Joint Servo CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of servomotors that get installed on leg joints to provide power-assisted movement.  They are optimized for running, but walking also requires less effort while this bionic is active.  However, when it's offline it will hamper the user's movement.",
-    "price": 450000,
+    "description": "A set of servomotors that get installed on leg joints to provide power-assisted movement.  They are optimized for running, but walking also requires less effort while this bionic is active.  In passive mode, it provides a smaller benefit by enforcing optimal movement technique.",
+    "price": "4500 USD",
     "weight": "1000 g",
     "difficulty": 4
   },
@@ -988,7 +988,7 @@
     "name": { "str": "Uncanny Dodge CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "Bionic processors that augment the user's nervous system, allowing them to dodge attacks beyond normal human capability, including bullets.",
-    "price": 950000,
+    "price": "9500 USD",
     "weight": "1000 g",
     "difficulty": 11
   },
@@ -999,7 +999,7 @@
     "name": { "str": "Unified Power System CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A Unified Power System that is wired into the user's bionic power banks.  Objects that run on a UPS can now directly draw power from the bionic power supply.",
-    "price": 25000,
+    "price": "250 USD",
     "weight": "700 g",
     "difficulty": 3,
     "installation_data": "AID_bio_ups"
@@ -1011,7 +1011,7 @@
     "name": { "str": "Internal Chronometer CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "This bionic module contains an atomic clock, complete with silent alarm clock function.",
-    "price": 1000,
+    "price": "10 USD",
     "weight": "10 g",
     "difficulty": 1,
     "installation_data": "AID_bio_watch"
@@ -1023,7 +1023,7 @@
     "name": { "str": "Water Extraction Unit CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "This module contains nanotubes that are embedded in the palm of the hand to pump any available fluid out of a dead body, cleanse it of impurities and convert it into potable water.  Water container not included.",
-    "price": 550000,
+    "price": "5500 USD",
     "weight": "100 g",
     "difficulty": 5
   },
@@ -1034,7 +1034,7 @@
     "name": { "str": "Intravenous Needletip CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A small tube with a retractable needle that terminates in a net of tiny hoses instead of a plunger.  Installed, it allows the user to draw substances directly into their bloodstream akin to a regular syringe.",
-    "price": 1000,
+    "price": "10 USD",
     "weight": "10 g",
     "difficulty": 1,
     "installation_data": "AID_bio_syringe"
@@ -1046,7 +1046,7 @@
     "name": { "str": "Titanium Skeletal Bracing CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A set of hinges, springs, and other synthetic augments for the skeletal structure.  These artificial enhancers strengthen the knees and elbows, allowing the user to carry more weight.",
-    "price": 50000,
+    "price": "500 USD",
     "weight": "3000 g",
     "difficulty": 3,
     "installation_data": "AID_bio_weight"
@@ -1058,7 +1058,7 @@
     "name": { "str": "Kinetic Shock Absorbers CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A set of hydraulic springs and foldable padding that replaces most of the flesh in the limbs and upper torso.  While active, these absorbers will negate damage from severe impacts such as falling, at the cost of reducing the user's ability to move effectively.",
-    "price": 10000,
+    "price": "100 USD",
     "weight": "3000 g",
     "difficulty": 4
   },
@@ -1069,7 +1069,7 @@
     "name": { "str": "Taste Modifier CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A set of highly sensitive sensors implanted in the user's mouth, combined with a sophisticated analyzer.  While active, it will block all unpleasant taste and texture at the cost of bionic energy.",
-    "price": 40000,
+    "price": "400 USD",
     "weight": "100 g",
     "difficulty": 5
   },
@@ -1080,7 +1080,7 @@
     "name": { "str": "Soporific Induction CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A microscopic electrode designed to gently stimulate a particular cluster of neurons in the hypothalamus, helping the user to fall asleep.",
-    "price": 350000,
+    "price": "3500 USD",
     "weight": "50 g",
     "difficulty": 2,
     "installation_data": "AID_bio_soporific"
@@ -1214,7 +1214,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Synaptic Regeneration System CBM" },
     "description": "An electromagnetic stimulator has been surgically implanted on the back of your head and along your spine, continually draining power.  As long as it's active, you won't become sleep deprived; and if you're sleep deprived already, it will boost the rate of recovery.",
-    "price": 10000,
+    "price": "100 USD",
     "difficulty": 8
   },
   {
@@ -1266,7 +1266,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Solar Panels CBM" },
     "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
-    "price": 350000,
+    "price": "3500 USD",
     "difficulty": 4
   },
   {
@@ -1275,7 +1275,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Deployable Grenade Launcher CBM" },
     "description": "Your right hand can fold inward to reveal a mechanism capable of igniting and firing 40mm grenades across medium distances with great accuracy due built in ballistic calculator.",
-    "price": 100000,
+    "price": "1 kUSD",
     "difficulty": 5
   },
   {
@@ -1284,7 +1284,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Linguistic Coprocessor CBM" },
     "description": "A microcomputer installed into the left hemisphere of your brain to increase the speed that it processes language.  When installed, it provides a passive boost to reading speed.",
-    "price": 100000,
+    "price": "1 kUSD",
     "difficulty": 5
   },
   {
@@ -1293,7 +1293,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Dopamine Stimulators CBM" },
     "description": "A set of tiny bionic nerve stimulators that install into the reward center of your brain.  When run with bionic power, it periodically releases a hit of dopamine and other reward chemicals, inducing a state of euphoria and suppressing fear.",
-    "price": 100000,
+    "price": "1 kUSD",
     "difficulty": 8
   },
   {
@@ -1302,7 +1302,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Fusion Blaster Arm CBM" },
     "description": "Heavy-duty fusion blaster was integrated into your left arm!  You may use your energy banks to fire a damaging heat ray.",
-    "price": 220000,
+    "price": "2200 USD",
     "difficulty": 3
   },
   {
@@ -1311,7 +1311,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Perpetual Generator CBM" },
     "description": "Installed within you is a perpetual generator powered by nonsensoleum.  When activated its power gen doubles.  If you are seeing this, you'd better be debugging.",
-    "price": 0
+    "price": "0 cent"
   },
   {
     "id": "debug_bio_fuel_cell",
@@ -1319,6 +1319,6 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Debug Fuel Cell CBM" },
     "description": "The power of the sun, in the palm of my hand!  Installed within you is a perpetual generator powered by nonsensoleum.  When activated its power gen doubles.  If you are seeing this, you'd better be debugging.",
-    "price": 0
+    "price": "0 cent"
   }
 ]

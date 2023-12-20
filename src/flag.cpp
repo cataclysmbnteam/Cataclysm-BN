@@ -117,6 +117,7 @@ const flag_id flag_FIREWOOD( "FIREWOOD" );
 const flag_id flag_FIRE_100( "FIRE_100" );
 const flag_id flag_FIRE_20( "FIRE_20" );
 const flag_id flag_FIRE_50( "FIRE_50" );
+const flag_id flag_HEAVY_WEAPON_SUPPORT( "HEAVY_WEAPON_SUPPORT" );
 const flag_id flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
 const flag_id flag_FISH_GOOD( "FISH_GOOD" );
 const flag_id flag_FISH_POOR( "FISH_POOR" );

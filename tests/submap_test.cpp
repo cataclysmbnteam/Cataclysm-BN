@@ -21,7 +21,7 @@ TEST_CASE( "submap rotation", "[submap]" )
     constexpr auto center_4 = point{ SEEX / 2 - 1, SEEY / 2 };
 
     GIVEN( "a submap with marks" ) {
-        submap sm;
+        submap sm( tripoint_zero );
 
         sm.set_ter( corner_1, ter_id( 1 ) );
         sm.set_ter( corner_2, ter_id( 2 ) );

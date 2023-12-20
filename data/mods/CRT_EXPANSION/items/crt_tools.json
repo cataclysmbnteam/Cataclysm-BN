@@ -103,10 +103,10 @@
     "purifiable": false,
     "description": "An aura of bloodlust hovers around you.  Something about the power of this blade makes it seem WAY faster in your hands than it has any right to be.",
     "attackcost_modifier": 0.5,
-    "stamina_regen_modifier": 4.0,
-    "metabolism_modifier": 1.0,
-    "thirst_modifier": 1.0,
-    "fatigue_modifier": 1.0,
+    "stamina_regen_modifier": 4,
+    "metabolism_modifier": 1,
+    "thirst_modifier": 1,
+    "fatigue_modifier": 1,
     "anger_relations": [
       [ "NETHER", 25 ],
       [ "MUTANT", 25 ],
@@ -129,7 +129,7 @@
     "effect": "target_attack",
     "min_range": 2,
     "max_range": 2,
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_VFX" ],
     "extra_effects": [ { "id": "crt_lifedrain_berserk_2", "hit_self": true } ]
   },
   {
@@ -143,7 +143,7 @@
     "effect": "target_attack",
     "min_damage": -2,
     "max_damage": -5,
-    "flags": [ "RANDOM_DAMAGE", "SILENT" ]
+    "flags": [ "RANDOM_DAMAGE", "SILENT", "NO_EXPLOSION_VFX" ]
   },
   {
     "id": "blade_crt",
@@ -159,7 +159,7 @@
         {
           "has": "WIELD",
           "condition": "ALWAYS",
-          "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "ARMOR_ELEC", "multiply": -1.0 } ],
+          "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "ARMOR_ELEC", "multiply": -1 } ],
           "mutations": [ "CRT_BERSERK_EFFECT" ],
           "hit_you_effect": [
             {

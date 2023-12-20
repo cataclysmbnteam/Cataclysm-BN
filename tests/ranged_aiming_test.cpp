@@ -16,7 +16,6 @@
 #include "monster.h"
 #include "npc.h"
 #include "item.h"
-#include "item_location.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"

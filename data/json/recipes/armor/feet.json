@@ -465,7 +465,6 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "1 h",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "tailoring_wool_knitting", 80 ] ]
   },
@@ -500,9 +499,8 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "90 m",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_wool_knitting", 320 ] ]
+    "using": [ [ "tailoring_wool_knitting", 120 ] ]
   },
   {
     "result": "straw_sandals",
@@ -581,5 +579,18 @@
     "book_learn": [ [ "manual_tailor", 2 ] ],
     "using": [ [ "sewing_standard", 4 ] ],
     "components": [ [ [ "leather", 4 ] ] ]
+  },
+  {
+    "result": "sandal_armor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 2 ] ],
+    "using": [ [ "sewing_standard", 8 ] ],
+    "components": [ [ [ "leather", 6 ] ] ]
   }
 ]

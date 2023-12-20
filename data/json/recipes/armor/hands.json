@@ -133,9 +133,8 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "1 h 15 m",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_wool_knitting", 240 ] ]
+    "using": [ [ "tailoring_wool_knitting", 140 ] ]
   },
   {
     "result": "gloves_fur_fingerless",
@@ -330,6 +329,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "1 h",
+    "reversible": true,
     "autolearn": [ [ "tailor", 5 ] ],
     "book_learn": [ [ "manual_tailor", 1 ], [ "mag_tailor", 0 ], [ "textbook_survival", 2 ], [ "pocket_survival", 2 ] ],
     "using": [ [ "tailoring_wool_knitting", 160 ] ]
@@ -535,9 +535,10 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "50 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 250 ] ] ]
+    "components": [ [ [ "yarn", 125 ] ] ]
   },
   {
     "result": "nomex_gloves",

@@ -19,11 +19,11 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 71 ] ],
+          [ [ "2x4", 70 ] ],
           [ [ "glass_sheet", 3 ] ],
           [ [ "hinge", 2 ] ],
           [ [ "mortar_adobe", 40 ], [ "mortar_build", 40 ] ],
-          [ [ "nail", 158 ] ],
+          [ [ "nail", 156 ] ],
           [ [ "pebble", 1000 ] ],
           [ [ "rock", 480 ] ],
           [ [ "wood_panel", 6 ] ]

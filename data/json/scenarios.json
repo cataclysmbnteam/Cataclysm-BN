@@ -81,7 +81,8 @@
       "sloc_lmoe",
       "sloc_horse_ranch",
       "sloc_lighthouse_ground",
-      "sloc_cabin_lake"
+      "sloc_cabin_lake",
+      "sloc_freshwater_research_station"
     ],
     "start_name": "Safe Building",
     "flags": [ "LONE_START" ]
@@ -578,7 +579,12 @@
     "allowed_locs": [ "sloc_field", "sloc_forest" ],
     "professions": [
       "soldier",
+      "mil_auto_rifleman",
+      "mil_grenadier",
+      "mil_marksman",
+      "prof_combat_engineer",
       "specops",
+      "power_armor_soldier",
       "bio_soldier",
       "bio_sniper",
       "bionic_spy",
@@ -659,7 +665,21 @@
     "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse all alone.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
     "start_name": "Military Base Warehouse",
     "allowed_locs": [ "sloc_military_base_warehouse" ],
-    "professions": [ "unemployed", "soldier", "specops", "bio_soldier", "bio_sniper", "labtech", "medic", "mili_pilot" ],
+    "professions": [
+      "unemployed",
+      "soldier",
+      "mil_auto_rifleman",
+      "mil_grenadier",
+      "mil_marksman",
+      "prof_combat_engineer",
+      "specops",
+      "power_armor_soldier",
+      "bio_soldier",
+      "bio_sniper",
+      "labtech",
+      "medic",
+      "mili_pilot"
+    ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {

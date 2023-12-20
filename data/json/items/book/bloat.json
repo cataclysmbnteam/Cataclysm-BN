@@ -21,6 +21,14 @@
     "copy-from": "holybook_bible1"
   },
   {
+    "id": "holybook_bible4",
+    "type": "BOOK",
+    "name": { "str": "Catholic Bible", "str_pl": "copies of Catholic Bible" },
+    "description": "An English copy of the Catholic Bible, including the whole 73 book canon recognized by the Catholic church.",
+    "looks_like": "holybook_bible1",
+    "copy-from": "holybook_bible1"
+  },
+  {
     "id": "holybook_granth",
     "type": "BOOK",
     "name": { "str": "The Guru Granth Sahib", "str_pl": "copies of The Guru Granth Sahib" },
@@ -143,12 +151,48 @@
     "copy-from": "holybook_bible1"
   },
   {
+    "id": "holybook_taoism",
+    "type": "BOOK",
+    "name": { "str": "Tao Te Ching", "str_pl": "copies of Tao Te Ching" },
+    "description": "An English translation of the collection of poetry and sayings that guides Taoist thought and actions.",
+    "looks_like": "holybook_tripitaka",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_confucianism",
+    "type": "BOOK",
+    "name": { "str": "Lunyu", "str_pl": "copies of the Lunyu" },
+    "description": "An English translation of the most-revered sacred scripture in the Confucian tradition, compiled by the succeeding generations of Confucius's disciples.  It is sometimes viewed as a philosophy and sometimes as a religion.",
+    "looks_like": "holybook_tripitaka",
+    "copy-from": "holybook_bible1",
+    "fun": 3,
+    "delete": { "flags": [ "INSPIRATIONAL" ] }
+  },
+  {
+    "id": "holybook_paganism",
+    "type": "BOOK",
+    "name": { "str": "Book of Pagan prayer", "str_pl": "copies of Book of Pagan prayer" },
+    "description": "A comprehensive selection of prayers to guide the reader on Pagan and Wiccan worship.",
+    "looks_like": "holybook_havamal",
+    "//": "ISBN 1-57863-255-2",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_shamanism",
+    "type": "BOOK",
+    "name": { "str": "Book of shamanistic and folk practices", "str_pl": "copies of Book of shamanistic and folk practices" },
+    "description": "A comprehensive book detailing the practices of a single region of shamanistic or folk beliefs.",
+    "looks_like": "holybook_havamal",
+    "//": "There's hundreds of shamanistic religions and folk beliefs, we can't model them all.",
+    "copy-from": "holybook_bible1"
+  },
+  {
     "id": "priest_diary",
     "type": "BOOK",
     "name": { "str": "priest's diary", "str_pl": "priests' diaries" },
     "description": "A small book filled with journal entries in Latin.",
     "copy-from": "holybook_bible1",
-    "price": 1500,
+    "price": "15 USD",
     "fun": -1,
     "extend": { "flags": [ "MORBID" ] }
   },
@@ -158,7 +202,7 @@
     "name": { "str": "The Hitchhiker's Guide to the Cataclysm", "str_pl": "copies of The Hitchhiker's Guide to the Cataclysm" },
     "description": "Inscribed on the cover in large, friendly letters, is the message \"Don't Panic\".",
     "copy-from": "paperback_novel",
-    "price": 4200
+    "price": "42 USD"
   },
   {
     "id": "novel_crime_murdergrape",
@@ -187,7 +231,7 @@
     "name": { "str": "Visions in Solitude", "str_pl": "copies of Visions in Solitude" },
     "description": "A small book detailing 'visions' a prisoner had on death row.",
     "copy-from": "paperback_novel",
-    "price": 2900,
+    "price": "29 USD",
     "fun": -1,
     "flags": [ "MORBID" ]
   },
@@ -197,6 +241,6 @@
     "name": { "str": "Zombie Survival Guide", "str_pl": "copies of Zombie Survival Guide" },
     "description": "While this seems like it would be very useful in this situation, the sheer amount of misinformation present makes it practically useless.",
     "copy-from": "paperback_novel",
-    "price": 1290
+    "price": "1290 cent"
   }
 ]

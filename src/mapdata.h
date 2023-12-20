@@ -294,6 +294,7 @@ enum ter_bitflags : int {
     TFLAG_UNSTABLE,
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
+    TFLAG_WATER_CUBE,
     TFLAG_CURRENT,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
@@ -463,7 +464,6 @@ struct ter_t : map_data_common_t {
     ter_str_id close; // Close action: transform into terrain with matching id
     ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
-
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
     ter_str_id roof;            // What will be the floor above this terrain
@@ -501,6 +501,7 @@ struct furn_t : map_data_common_t {
     furn_str_id transforms_into; // Transform into what furniture?
     furn_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
+    itype_id  provides_liquids; // The liquid that is given as liquid source
 
     std::set<itype_id> crafting_pseudo_items;
     units::volume keg_capacity = 0_ml;

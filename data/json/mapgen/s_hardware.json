@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "________________________",
+        "_______________________'",
         "________________________",
         "~~~~~~~~~~~_____________",
         "~~~~~~~~~~~_____________",
@@ -41,12 +41,14 @@
         ";": "t_door_locked",
         "O": "t_window",
         "_": "t_pavement",
+        "'": "t_pavement",
         "U": "t_pavement",
         "|": "t_wall_w",
         "~": "t_sidewalk",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "@": "f_locker",
         "[": "f_bookcase",
@@ -132,7 +134,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "ppppp~~~~~~~~~~~~~~~~~~~",
+        "ppppp~~~~~~~~~~~~~~~~~~`",
         "ppppp###---##++##---###~",
         "ppppp#b.........v....P#'",
         "ppppp#b.b.b.r..r.o.o.P#'",
@@ -179,6 +181,7 @@
         "w": "t_chainfence_v",
         "|": "t_chaingate_c",
         "~": "t_sidewalk",
+        "`": "t_sidewalk",
         "4": "t_gutter_downspout"
       },
       "sealed_item": {
@@ -188,6 +191,7 @@
         "M": { "item": { "item": "seed_flower" }, "furniture": "f_planter_harvest" }
       },
       "furniture": {
+        "`": "f_street_light",
         "D": "f_dumpster",
         "H": "f_warehouse_shelf",
         "P": "f_rack",
@@ -282,7 +286,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~'",
         "*W^^^WW|-=--:---:---:-|*",
         "*w~~~%~|..............|*",
         "*w~~~v~|..............|*",
@@ -322,9 +326,11 @@
         "w": "t_chainfence_v",
         "|": "t_wall_w",
         "~": "t_sidewalk",
+        "'": "t_sidewalk",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "]": "f_rack",
         "l": "f_stool",
@@ -416,7 +422,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~'",
         "~~~WWWWWWWWW^^WWWWWWW~~~",
         "***w~~~~~~~~~~~~~~~~w***",
         "***w~~~~~~~~~~~~~~~~w***",
@@ -453,10 +459,12 @@
         "w": "t_chainfence_v",
         "|": "t_wall_w",
         "~": "t_sidewalk",
+        "'": "t_sidewalk",
         "4": "t_gutter_downspout"
       },
       "toilets": { "&": {  } },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "[": "f_table",
         "]": "f_rack",

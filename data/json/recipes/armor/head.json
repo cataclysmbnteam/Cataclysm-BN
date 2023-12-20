@@ -374,10 +374,9 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "40 m",
-    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 75 ] ] ]
+    "components": [ [ [ "yarn", 110 ] ] ]
   },
   {
     "result": "hat_noise_cancelling",
@@ -836,9 +835,8 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "40 m",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_knitting", 600 ] ]
+    "using": [ [ "tailoring_cotton_knitting", 100 ] ]
   },
   {
     "result": "leather_cat_ears",
@@ -861,9 +859,8 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "1 h",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_knitting", 900 ] ]
+    "using": [ [ "tailoring_cotton_knitting", 200 ] ]
   },
   {
     "result": "long_patchwork_scarf",
@@ -1326,7 +1323,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 150 ] ] ]
+    "components": [ [ [ "yarn", 75 ] ] ]
   },
   {
     "result": "scarf_fur",
@@ -1382,7 +1379,7 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 300 ] ] ]
+    "components": [ [ [ "yarn", 150 ] ] ]
   },
   {
     "result": "straw_fedora",

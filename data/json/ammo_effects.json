@@ -376,10 +376,5 @@
     "id": "RECYCLED",
     "type": "ammo_effect",
     "//": "Nearly-immeasurable chance to fail to fire."
-  },
-  {
-    "id": "NON-FOULING",
-    "type": "ammo_effect",
-    "//": "Doesn't cause gunk to build up."
   }
 ]

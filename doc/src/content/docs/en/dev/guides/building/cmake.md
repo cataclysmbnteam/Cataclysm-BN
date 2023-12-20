@@ -4,7 +4,7 @@ title: CMake
 
 :::caution
 
-CMake build is unofficial.
+CMake build is work-in-progress.
 
 :::
 
@@ -128,7 +128,7 @@ $ ccmake ..
 $ cmake-gui ..
 ```
 
-## build for MSYS2 (MinGW)
+## Build for MSYS2 (MinGW)
 
 **NOTE**: For development purposes it is preferred to use `MinGW Win64 Shell` or `MinGW Win32 Shell`
 instead of `MSYS2 Shell`. In other case, you will need to set `PATH` variable manually.
@@ -199,7 +199,15 @@ Currently known depends (Maybe outdated use ldd.exe to correct it for Your syste
   - `smpeg2.dll`
   - `libvorbisfile-3.dll`
 
-## build for Visual Studio / MSBuild
+## Build for Visual Studio / MSBuild
+
+:::caution
+
+This guide is quite old and requires manual dependency management.
+
+For modern alternative, see [CMake Visual Studio build with vcpkg](./vs_cmake.md)
+
+:::
 
 CMake can generate `.sln` and `.vcxproj` files used either by Visual Studio itself or by MSBuild
 command line compiler (if you don't want a full fledged IDE) and have more "native" binaries than
@@ -273,7 +281,7 @@ destination directory with `-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE=` option (a
 
 Run the game. Should work.
 
-# Build Options
+## Build Options
 
 A full list of options supported by CMake, you may either run the `ccmake` or `cmake-gui`
 front-ends, or run `cmake` and open the generated CMakeCache.txt from the build directory in a text
@@ -283,7 +291,7 @@ editor.
 $ cmake -DOPTION_NAME1=option_value1 [-DOPTION_NAME2=option_value2 [...]]
 ```
 
-## CMake specific options
+### CMake specific options
 
 - CMAKE_BUILD_TYPE=`<build type>`
 
@@ -298,7 +306,7 @@ passed in the command line.
 
 Installation prefix for binaries, resources, and documentation files.
 
-## CataclysmBN specific options
+### CataclysmBN specific options
 
 - CURSES=`<boolean>`
 
@@ -361,6 +369,14 @@ Override default Git binary name or path.
 - USE_PREFIX_DATA_DIR=`<boolean>`
 
 Use UNIX system directories for game data in release build.
+
+- USE_XDG_DIR=`<boolean>`
+
+Use XDG directories for save and config files.
+
+- TESTS=`<boolean>`
+
+Whether to build tests.
 
 So a CMake command for building Cataclysm-BN in release mode with tiles and sound support will look
 as follows, provided it is run in build directory located in the project.

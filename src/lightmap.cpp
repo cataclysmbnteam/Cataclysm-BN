@@ -14,7 +14,6 @@
 #include "cata_unreachable.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "cuboid_rectangle.h"
 #include "field.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
@@ -84,14 +83,14 @@ struct transparency_exp_lookup {
 const transparency_exp_lookup<90> openair_transparency_lookup( LIGHT_TRANSPARENCY_OPEN_AIR );
 transparency_exp_lookup<90> weather_transparency_lookup( LIGHT_TRANSPARENCY_OPEN_AIR * 1.1 );
 
-void map::add_light_from_items( const tripoint &p, item_stack::iterator begin,
-                                item_stack::iterator end )
+void map::add_light_from_items( const tripoint &p, const item_stack::iterator &begin,
+                                const item_stack::iterator &end )
 {
     for( auto itm_it = begin; itm_it != end; ++itm_it ) {
         float ilum = 0.0f; // brightness
         units::angle iwidth = 0_degrees; // 0-360 degrees. 0 is a circular light_source
         units::angle idir = 0_degrees;   // otherwise, it's a light_arc pointed in this direction
-        if( itm_it->getlight( ilum, iwidth, idir ) ) {
+        if( ( *itm_it )->getlight( ilum, iwidth, idir ) ) {
             if( iwidth > 0_degrees ) {
                 apply_light_arc( p, idir, ilum, iwidth );
             } else {
@@ -531,7 +530,7 @@ void map::generate_lightmap( const int zlev )
                         }
                         const float light_override = cur->local_light_override();
                         if( light_override >= 0.0 ) {
-                            lm_override.push_back( std::pair<tripoint, float>( p, light_override ) );
+                            lm_override.emplace_back( p, light_override );
                         }
                     }
                 }

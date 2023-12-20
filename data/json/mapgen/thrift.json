@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "rrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrr'",
         "yrrryrrryrrryrrryrrryrrr",
         "yrrryrrryrrryrrryrrryrrr",
         "yrrryrrryrrryrrryrrryrrr",
@@ -50,12 +50,14 @@
         "g": "t_door_glass_c",
         "o": "t_carpet_purple",
         "r": "t_pavement",
+        "'": "t_pavement",
         "y": "t_pavement_y",
         "|": "t_wall_w",
         "Z": "t_gutter_downspout",
         "<": "t_ladder_up"
       },
       "furniture": {
+        "'": "f_street_light",
         "A": "f_rack",
         "C": "f_counter",
         "D": "f_sink",

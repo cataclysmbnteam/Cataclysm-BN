@@ -193,7 +193,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
             if( params.overmap_special ) {
                 // ...then attempt to place the whole special.
                 const bool placed = overmap_buffer.place_special( *params.overmap_special, origin_pos,
-                                    params.search_range );
+                                    params.min_distance, params.search_range );
                 // If we succeeded in placing the special, then try and find the particular location
                 // we're interested in.
                 if( placed ) {

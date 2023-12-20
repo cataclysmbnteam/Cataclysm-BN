@@ -134,7 +134,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "MILITARY_MECH",
       "BASHES",
       "PUSH_VEH",
       "PUSH_MON",

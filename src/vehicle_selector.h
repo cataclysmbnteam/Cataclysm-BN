@@ -10,7 +10,7 @@
 class vehicle;
 struct tripoint;
 
-class vehicle_cursor : public visitable<vehicle_cursor>
+class vehicle_cursor : public location_visitable<vehicle_cursor>
 {
     public:
         vehicle_cursor( vehicle &veh, std::ptrdiff_t part, bool ignore_vpart = false ) : veh( veh ),
@@ -20,9 +20,9 @@ class vehicle_cursor : public visitable<vehicle_cursor>
         bool ignore_vpart;
 };
 
-class vehicle_selector : public visitable<vehicle_selector>
+class vehicle_selector : public location_visitable<vehicle_selector>
 {
-        friend visitable<vehicle_selector>;
+        friend location_visitable<vehicle_selector>;
 
     public:
         using value_type = vehicle_cursor;

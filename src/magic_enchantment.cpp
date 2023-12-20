@@ -450,17 +450,6 @@ int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) cons
 
 void enchantment::activate_passive( Character &guy ) const
 {
-    guy.mod_str_bonus( calc_bonus( enchant_vals::mod::STRENGTH, guy.get_str_base(), true ) );
-    guy.mod_dex_bonus( calc_bonus( enchant_vals::mod::DEXTERITY, guy.get_dex_base(), true ) );
-    guy.mod_per_bonus( calc_bonus( enchant_vals::mod::PERCEPTION, guy.get_per_base(), true ) );
-    guy.mod_int_bonus( calc_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base(), true ) );
-
-    guy.mod_num_dodges_bonus( calc_bonus(
-                                  enchant_vals::mod::BONUS_DODGE,
-                                  guy.get_num_dodges_base(),
-                                  true
-                              ) );
-
     if( emitter ) {
         get_map().emit_field( guy.pos(), *emitter );
     }

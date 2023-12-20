@@ -808,7 +808,7 @@
     "autolearn": true,
     "book_learn": [ [ "mag_electronics", 3 ], [ "manual_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
-    "components": [ [ [ "wire", 3 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "e_scrap", 1 ] ] ]
+    "components": [ [ [ "cable", 3 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "e_scrap", 1 ] ] ]
   },
   {
     "type": "recipe",

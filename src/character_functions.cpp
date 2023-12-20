@@ -1,5 +1,7 @@
 #include "character_functions.h"
 
+#include <utility>
+
 #include "ammo.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -92,9 +94,13 @@ void siphon( Character &ch, vehicle &veh, const itype_id &desired_liquid )
         return;
     }
 
-    item liquid( desired_liquid, calendar::turn, qty );
-    if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
-        veh.drain( desired_liquid, qty - liquid.charges );
+    detached_ptr<item> liquid = item::spawn( desired_liquid, calendar::turn, qty );
+    liquid_handler::handle_liquid( std::move( liquid ) );
+    // NOLINTNEXTLINE(bugprone-use-after-move)
+    if( liquid ) {
+        veh.drain( desired_liquid, qty - liquid->charges );
+    } else {
+        veh.drain( desired_liquid, qty );
     }
 }
 
@@ -224,11 +230,11 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
-                for( const item &items_it : items ) {
-                    if( items_it.has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
+                for( const item *items_it : items ) {
+                    if( items_it->has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                        comfort_response.aid = &items_it;
+                        comfort_response.aid = items_it;
                         break; // prevents using more than 1 sleep aid
                     }
                 }
@@ -261,11 +267,11 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
 
         if( comfort_response.aid == nullptr ) {
             const map_stack items = here.i_at( p );
-            for( const item &items_it : items ) {
-                if( items_it.has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
+            for( const item *items_it : items ) {
+                if( items_it->has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                    comfort_response.aid = &items_it;
+                    comfort_response.aid = items_it;
                     break; // prevents using more than 1 sleep aid
                 }
             }
@@ -494,7 +500,7 @@ void add_pain_msg( const Character &who, int val, body_part bp )
 void normalize( Character &who )
 {
     who.martial_arts_data->reset_style();
-    who.set_primary_weapon( item() );
+    who.remove_primary_weapon();
 
     who.set_body();
     who.recalc_hp();
@@ -504,10 +510,11 @@ void normalize( Character &who )
     who.set_stamina( who.get_stamina_max() );
 }
 
-void store_in_container( Character &who, item &container, item &put, bool penalties, int base_cost )
+void store_in_container( Character &who, item &container, detached_ptr<item> &&put, bool penalties,
+                         int base_cost )
 {
-    who.moves -= who.item_store_cost( put, container, penalties, base_cost );
-    container.put_in( who.i_rem( &put ) );
+    who.moves -= who.item_store_cost( *put, container, penalties, base_cost );
+    container.put_in( std::move( put ) );
     who.reset_encumbrance();
 }
 
@@ -517,7 +524,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
     // if index not specified and container has multiple items then ask the player to choose one
     if( internal_item == nullptr ) {
         std::vector<std::string> opts;
-        std::list<item *> container_contents = container.contents.all_items_top();
+        std::vector<item *> container_contents = container.contents.all_items_top();
         std::transform( container_contents.begin(), container_contents.end(),
         std::back_inserter( opts ), []( const item * elem ) {
             return elem->display_name();
@@ -550,18 +557,13 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
         if( !who.as_player()->unwield() ) {
             return false;
         }
-        who.inv.unsort();
+        who.inv_unsort();
     }
 
-    who.set_primary_weapon( *internal_item );
-    container.remove_item( *internal_item );
-    container.on_contents_changed();
-
-    item &weapon = who.primary_weapon();
-
-    who.inv.update_invlet( weapon );
-    who.inv.update_cache_with_item( weapon );
-    who.last_item = weapon.typeId();
+    who.set_primary_weapon( internal_item->detach() );
+    who.inv_update_invlet( *internal_item );
+    who.inv_update_cache_with_item( *internal_item );
+    who.last_item = internal_item->typeId();
 
     /**
      * @EFFECT_PISTOL decreases time taken to draw pistols from holsters
@@ -573,12 +575,13 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
      * @EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
      * @EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
      */
-    int lvl = who.get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
-    mv += who.item_handling_cost( weapon, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
+    int lvl = who.get_skill_level( internal_item->is_gun() ? internal_item->gun_skill() :
+                                   internal_item->melee_skill() );
+    mv += who.item_handling_cost( *internal_item, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 
     who.moves -= mv;
 
-    weapon.on_wield( *who.as_player(), mv );
+    internal_item->on_wield( *who.as_player(), mv );
 
     return true;
 }
@@ -650,9 +653,9 @@ bool is_bp_immune_to( const Character &who, body_part bp, damage_unit dam )
 
     who.passive_absorb_hit( convert_bp( bp ).id(), dam );
 
-    for( const item &cloth : who.worn ) {
-        if( cloth.get_coverage( convert_bp( bp ).id() ) == 100 && cloth.covers( convert_bp( bp ) ) ) {
-            cloth.mitigate_damage( dam );
+    for( const item *cloth : who.worn ) {
+        if( cloth->get_coverage( convert_bp( bp ).id() ) == 100 && cloth->covers( convert_bp( bp ) ) ) {
+            cloth->mitigate_damage( dam );
         }
     }
 
@@ -711,7 +714,7 @@ bool can_lift_with_helpers( const Character &who, int lift_required )
     return get_lift_strength_with_helpers( who ) >= lift_required;
 }
 
-bool list_ammo( const Character &who, const item &base, std::vector<item_reload_option> &ammo_list,
+bool list_ammo( const Character &who, item &base, std::vector<item_reload_option> &ammo_list,
                 bool include_empty_mags, bool include_potential )
 {
     auto opts = base.gunmods();
@@ -729,8 +732,8 @@ bool list_ammo( const Character &who, const item &base, std::vector<item_reload_
 
     bool ammo_match_found = false;
     int ammo_search_range = who.is_mounted() ? -1 : 1;
-    for( const auto e : opts ) {
-        for( const item_location &ammo : find_ammo_items_or_mags( who, *e, include_empty_mags,
+    for( item *e : opts ) {
+        for( item *ammo : find_ammo_items_or_mags( who, *e, include_empty_mags,
                 ammo_search_range ) ) {
             // don't try to unload frozen liquids
             if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
@@ -748,14 +751,14 @@ bool list_ammo( const Character &who, const item &base, std::vector<item_reload_
             }
             if( ( include_potential && can_reload_with )
                 || who.as_player()->can_reload( *e, id ) || e->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-                ammo_list.emplace_back( who.as_player(), e, &base, ammo );
+                ammo_list.emplace_back( who.as_player(), e, &base, *ammo );
             }
         }
     }
     return ammo_match_found;
 }
 
-item_reload_option select_ammo( const Character &who, const item &base,
+item_reload_option select_ammo( const Character &who, item &base,
                                 std::vector<item_reload_option> opts )
 {
     if( opts.empty() ) {
@@ -776,7 +779,7 @@ item_reload_option select_ammo( const Character &who, const item &base,
     std::vector<std::string> names;
     std::transform( opts.begin(), opts.end(),
     std::back_inserter( names ), [&]( const item_reload_option & e ) {
-        const auto ammo_color = [&]( std::string name ) {
+        const auto ammo_color = [&]( const std::string & name ) {
             return base.is_gun() && e.ammo->ammo_data() &&
                    !base.ammo_types().count( e.ammo->ammo_data()->ammo->type ) ?
                    colorize( name, c_dark_gray ) : name;
@@ -798,7 +801,6 @@ item_reload_option select_ammo( const Character &who, const item &base,
             // worn ammo containers should be named by their contents with their location also updated below
             return e.ammo->contents.front().display_name();
         } else {
-            const_cast<item_location &>( who.ammo_location ).make_dirty();
             return ammo_color( ( who.ammo_location &&
                                  who.ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name() );
         }
@@ -813,9 +815,10 @@ item_reload_option select_ammo( const Character &who, const item &base,
             if( is_ammo_container && who.is_worn( *e.ammo ) ) {
                 return e.ammo->type_name();
             }
-            return string_format( _( "%s, %s" ), e.ammo->type_name(), e.ammo.describe( who.as_player() ) );
+            return string_format( _( "%s, %s" ), e.ammo->type_name(),
+                                  e.ammo->describe_location( who.as_player() ) );
         }
-        return e.ammo.describe( who.as_player() );
+        return e.ammo->describe_location( who.as_player() );
     } );
 
     // Pads elements to match longest member and return length
@@ -949,7 +952,7 @@ item_reload_option select_ammo( const Character &who, const item &base,
             reload_callback( std::vector<item_reload_option> &_opts,
                              std::function<std::string( int )> _draw_row,
                              int _last_key, int _default_to, bool _can_partial_reload ) :
-                opts( _opts ), draw_row( _draw_row ),
+                opts( _opts ), draw_row( std::move( _draw_row ) ),
                 last_key( _last_key ), default_to( _default_to ),
                 can_partial_reload( _can_partial_reload )
             {}
@@ -991,14 +994,14 @@ item_reload_option select_ammo( const Character &who, const item &base,
         return item_reload_option();
     }
 
-    const item_location &sel = opts[ menu.ret ].ammo;
+    const item *sel = opts[ menu.ret ].ammo;
     uistate.lastreload[ ammotype( base.ammo_default().str() ) ] = sel->is_ammo_container() ?
             sel->contents.front().typeId() :
             sel->typeId();
     return opts[ menu.ret ];
 }
 
-item_reload_option select_ammo( const Character &who, const item &base, bool prompt,
+item_reload_option select_ammo( const Character &who, item &base, bool prompt,
                                 bool include_empty_mags, bool include_potential )
 {
     std::vector<item_reload_option> ammo_list;
@@ -1054,7 +1057,7 @@ item_reload_option select_ammo( const Character &who, const item &base, bool pro
     return select_ammo( who, base, std::move( ammo_list ) );
 }
 
-std::vector<const item *> get_ammo_items( const Character &who, const ammotype &at )
+std::vector<item *> get_ammo_items( const Character &who, const ammotype &at )
 {
     return who.items_with( [at]( const item & it ) {
         return it.ammo_type() == at;
@@ -1069,7 +1072,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             auto contents_id = obj.contents.front().typeId();
 
             // Look for containers with the same type of liquid as that already in our container
-            src.visit_items( [&src, &nested, &out, &contents_id, &obj]( item * node ) {
+            src.visit_items( [&nested, &out, &contents_id, &obj]( item * node ) {
                 if( node == &obj ) {
                     // This stops containers and magazines counting *themselves* as ammo sources.
                     return VisitResponse::SKIP;
@@ -1077,15 +1080,15 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
 
                 if( node->is_container() && !node->is_container_empty() &&
                     node->contents.front().typeId() == contents_id ) {
-                    out = item_location( src, node );
+                    out = node;
                 }
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
             } );
         } else {
             // Look for containers with any liquid
-            src.visit_items( [&src, &nested, &out]( item * node ) {
+            src.visit_items( [&nested, &out]( item * node ) {
                 if( node->is_container() && node->contents_made_of( LIQUID ) ) {
-                    out = item_location( src, node );
+                    out = node;
                 }
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
             } );
@@ -1096,7 +1099,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         const std::set<ammotype> &ammo = obj.ammo_types();
         const auto mags = obj.magazine_compatible();
 
-        src.visit_items( [&src, &nested, &out, &mags, ammo]( item * node ) {
+        src.visit_items( [&nested, &out, &mags, ammo]( item * node ) {
             if( node->is_gun() || node->is_tool() ) {
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
@@ -1109,7 +1112,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 !node->contents_made_of( SOLID ) ) {
                 for( const ammotype &at : ammo ) {
                     if( node->contents.front().ammo_type() == at ) {
-                        out = item_location( src, node );
+                        out = node;
                     }
                 }
                 return VisitResponse::SKIP;
@@ -1117,12 +1120,12 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
 
             for( const ammotype &at : ammo ) {
                 if( node->ammo_type() == at ) {
-                    out = item_location( src, node );
+                    out = node;
                 }
             }
             if( node->is_magazine() && node->has_flag( flag_SPEEDLOADER ) ) {
                 if( mags.count( node->typeId() ) && node->ammo_remaining() ) {
-                    out = item_location( src, node );
+                    out = node;
                 }
             }
             return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
@@ -1131,13 +1134,13 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         // find compatible magazines excluding those already loaded in tools/guns
         const auto mags = obj.magazine_compatible();
 
-        src.visit_items( [&src, &nested, &out, mags, empty]( item * node ) {
+        src.visit_items( [&nested, &out, mags, empty]( item * node ) {
             if( node->is_gun() || node->is_tool() ) {
                 return VisitResponse::SKIP;
             }
             if( node->is_magazine() ) {
                 if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
-                    out = item_location( src, node );
+                    out = node;
                 }
                 return VisitResponse::SKIP;
             }
@@ -1146,10 +1149,10 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     }
 }
 
-std::vector<item_location> find_ammo_items_or_mags( const Character &who, const item &obj,
+std::vector<item *> find_ammo_items_or_mags( const Character &who, const item &obj,
         bool empty, int radius )
 {
-    std::vector<item_location> res;
+    std::vector<item *> res;
 
     find_ammo_helper( const_cast<Character &>( who ), obj, empty, std::back_inserter( res ), true );
 
@@ -1165,11 +1168,11 @@ std::vector<item_location> find_ammo_items_or_mags( const Character &who, const 
     return res;
 }
 
-std::vector<item_location> find_reloadables( const Character &who )
+std::vector<item *> find_reloadables( Character &who )
 {
-    std::vector<item_location> reloadables;
+    std::vector<item *> reloadables;
 
-    who.visit_items( [&]( const item * node ) {
+    who.visit_items( [&]( item * node ) {
         if( node->is_holster() ) {
             return VisitResponse::NEXT;
         }
@@ -1183,8 +1186,7 @@ std::vector<item_location> find_reloadables( const Character &who )
                          node->ammo_remaining() < node->ammo_capacity();
         }
         if( reloadable ) {
-            reloadables.push_back( item_location( const_cast<Character &>( who ),
-                                                  const_cast<item *>( node ) ) );
+            reloadables.push_back( node );
         }
         return VisitResponse::SKIP;
     } );
@@ -1201,11 +1203,11 @@ int ammo_count_for( const Character &who, const item &gun )
 
     units::energy power = units::from_kilojoule( who.charges_of( itype_UPS ) );
     int total_ammo = gun.ammo_remaining();
-    const std::vector<item_location> inv_ammo = find_ammo_items_or_mags( who, gun, true, -1 );
+    const std::vector<item *> inv_ammo = find_ammo_items_or_mags( who, gun, true, -1 );
 
     bool has_mag = gun.magazine_integral();
 
-    for( const item_location &it : inv_ammo ) {
+    for( const item * const &it : inv_ammo ) {
         if( it->is_magazine() ) {
             total_ammo += it->ammo_remaining();
         } else if( has_mag && it->is_ammo() ) {

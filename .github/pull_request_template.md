@@ -12,32 +12,13 @@ WARNING: If autofix.ci app did the formatting for you, YOU MUST DO EITHER OF THE
 If you don't do this, your following work will be based on the old commit, and may cause MERGE CONFLICT.
 If you use GitHub's web editor to edit files, you shouldn't need to do this as the web editor works directly on the remote branch.
 
-Please use a descriptive name for the PR title, so it's clear at a glance what the PR is about.
--->
-
-## Summary
-SUMMARY: Category "Brief description of the change"
-
-<!--
-This section should consist of exactly one line, formatted like the example above.
-
-'Category' must be one of the following:
-
-- Features
-- Content
-- Interface
-- Mods
-- Balance
-- Bugfixes
-- Performance
-- Infrastructure
-- Build
-- I18N
-
-For more on the meaning of each category, see:
-https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/
-
-If the PR is a port or adaptation of DDA content, please indicate it to be so.
+PR TITLE: Please follow Conventional Commits: https://www.conventionalcommits.org
+This makes it clear at a glance what the PR is about.
+For example:
+    feat(content, mods/DinoMod): new dinosaur species
+For more info on which categories are available, see: https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/
+If the PR is a port or adaptation of DDA content, please indicate it by adding "port" in PR title, like:
+    feat(port): <feature name> from DDA
 -->
 
 ## Purpose of change
@@ -71,3 +52,26 @@ Remember to attribute the original author(s): if you've just copied over the cha
 ## Additional context
 
 <!-- Add any other context (such as mock-ups, proof of concepts or screenshots) about the feature or bugfix here. -->
+
+## Checklist
+
+<!--
+Certain common types of PRs may need additional code or documentation changes that are easy to forget about or may not be obvious if you're a new contributor.  The checklists below should help you track down what else may need to be done.
+
+Please uncomment any relevant checklists, follow their steps and tick the checkboxes once you're done.  If your PR does not fall under these categories, you can ignore these lists.  If you have any questions or advice on how to improve these, feel free to contact us on our Discord server.  
+
+If this is a C++ PR that modifies JSON loading or behavior:
+- [ ] Document the changes in the appropriate location in the `doc/` folder.
+- [ ] If documentation for this feature does not exist, please write it or at least note its lack in PR description.
+- [ ] New localizable fields need to be added to the `lang/bn_extract_json_strings.sh` script if it does not support them yet.
+- [ ] If applicable, add checks on game load that would validate the loaded data.
+- [ ] If it modifies format of save files, please add migration from the old format.
+
+If this is a PR that modifies build process or code organization:
+- [ ] Please document the changes in the appropriate location in the `doc/` folder.
+- [ ] If documentation for this feature or process does not exist, please write it.
+- [ ] If the change alters versions of software required to build or work with the game, please document it.
+
+If this is a PR that removes JSON entities:
+- [ ] The removed JSON entities have new entries in `data/json/obsoletion/` folder or use some other migration process for existing saves.
+-->

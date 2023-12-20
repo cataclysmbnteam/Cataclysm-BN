@@ -19,13 +19,13 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 267 ] ],
+          [ [ "2x4", 266 ] ],
           [ [ "birchbark", 228 ], [ "pine_bough", 228 ] ],
           [ [ "glass_sheet", 3 ] ],
           [ [ "hinge", 2 ] ],
           [ [ "log", 118 ] ],
           [ [ "material_soil", 760 ] ],
-          [ [ "nail", 158 ] ],
+          [ [ "nail", 156 ] ],
           [ [ "wood_panel", 6 ] ]
         ]
       }

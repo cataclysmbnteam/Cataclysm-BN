@@ -1,0 +1,17 @@
+[
+  {
+    "type": "item_action",
+    "id": "teleporter_controller_use",
+    "name": { "str": "Activate the teleporter network." }
+  },
+  {
+    "type": "item_action",
+    "id": "teleporter_anchor_use",
+    "name": { "str": "Place and activate the teleporter anchor." }
+  },
+  {
+    "type": "item_action",
+    "id": "teleporter_station_use",
+    "name": { "str": "Place and activate the teleporter station." }
+  }
+]

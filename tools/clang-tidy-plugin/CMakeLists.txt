@@ -30,11 +30,6 @@ target_include_directories(CataAnalyzerPlugin SYSTEM PRIVATE ${LLVM_INCLUDE_DIRS
                                                              ${CLANG_INCLUDE_DIRS})
 
 if ("${CATA_CLANG_TIDY_INCLUDE_DIR}" STREQUAL "")
-    # suppress DOWNLOAD_EXTRACT_TIMESTAMP warning
-    if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
-        cmake_policy(SET CMP0135 NEW)
-    endif ()
-
     set(CTPS_RELEASES https://github.com/jbytheway/clang-tidy-plugin-support/releases/download)
     set(CTPS_VERSION llvm-12.0.0-r3)
     set(CTPS_SRC ${CMAKE_CURRENT_BINARY_DIR}/clang-tidy-plugin-support)

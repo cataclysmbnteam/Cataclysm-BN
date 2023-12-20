@@ -41,46 +41,53 @@ TEST_CASE( "Rate of rotting" )
             calendar::turn = calendar::start_of_cataclysm + 1_minutes;
         }
 
-        item normal_item( "meat_cooked" );
-        item freeze_item( "offal_canned" );
-        item sealed_item( "offal_canned" );
-        sealed_item = sealed_item.in_its_container();
+        detached_ptr<item> normal_item = item::spawn( "meat_cooked" );
+        detached_ptr<item> freeze_item = item::spawn( "offal_canned" );
+        detached_ptr<item> sealed_item = item::in_its_container( item::spawn( "offal_canned" ) );
 
         set_map_temperature( weather, 65 ); // 18,3 C
         ensure_no_temperature_mods( tripoint_zero );
         REQUIRE( weather.get_temperature( tripoint_zero ) == Approx( 65 ) );
 
-        normal_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_NORMAL, weather );
-        sealed_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_NORMAL, weather );
-        freeze_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_NORMAL, weather );
+        normal_item = item::process( std::move( normal_item ), nullptr, tripoint_zero, false,
+                                     temperature_flag::TEMP_NORMAL, weather );
+        sealed_item = item::process( std::move( sealed_item ), nullptr, tripoint_zero, false,
+                                     temperature_flag::TEMP_NORMAL, weather );
+        freeze_item = item::process( std::move( freeze_item ), nullptr, tripoint_zero, false,
+                                     temperature_flag::TEMP_NORMAL, weather );
 
         // Item should exist with no rot when it is brand new
-        CHECK( normal_item.get_rot() == 0_turns );
-        CHECK( sealed_item.get_rot() == 0_turns );
-        CHECK( freeze_item.get_rot() == 0_turns );
+        CHECK( normal_item->get_rot() == 0_turns );
+        CHECK( sealed_item->get_rot() == 0_turns );
+        CHECK( freeze_item->get_rot() == 0_turns );
 
         INFO( "Initial turn: " << to_turn<int>( calendar::turn ) );
 
         calendar::turn += 20_minutes;
-        normal_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_NORMAL, weather );
-        sealed_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_NORMAL, weather );
-        freeze_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_FREEZER, weather );
+        normal_item = item::process( std::move( normal_item ), nullptr, tripoint_zero, false,
+                                     temperature_flag::TEMP_NORMAL, weather );
+        sealed_item = item::process( std::move( sealed_item ), nullptr, tripoint_zero, false,
+                                     temperature_flag::TEMP_NORMAL, weather );
+        freeze_item = item::process( std::move( freeze_item ), nullptr, tripoint_zero, false,
+                                     temperature_flag::TEMP_FREEZER, weather );
 
         // After 20 minutes the normal item should have 20 minutes of rot
-        CHECK( to_turns<int>( normal_item.get_rot() )
+        CHECK( to_turns<int>( normal_item->get_rot() )
                == Approx( to_turns<int>( 20_minutes ) ).epsilon( 0.01 ) );
         // Item in freezer and in preserving container should have no rot
-        CHECK( sealed_item.get_rot() == 0_turns );
-        CHECK( freeze_item.get_rot() == 0_turns );
+        CHECK( sealed_item->get_rot() == 0_turns );
+        CHECK( freeze_item->get_rot() == 0_turns );
 
         // Move time 110 minutes
         calendar::turn += 110_minutes;
         // TODO: Check >1 hour normal processing as well - can't be "simply done" because of weather globals
-        sealed_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_NORMAL, weather );
-        freeze_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_FREEZER, weather );
+        sealed_item = item::process( std::move( sealed_item ), nullptr, tripoint_zero, false,
+                                     temperature_flag::TEMP_NORMAL, weather );
+        freeze_item = item::process( std::move( freeze_item ), nullptr, tripoint_zero, false,
+                                     temperature_flag::TEMP_FREEZER, weather );
         // In freezer and in preserving container still should be no rot
-        CHECK( sealed_item.get_rot() == 0_turns );
-        CHECK( freeze_item.get_rot() == 0_turns );
+        CHECK( sealed_item->get_rot() == 0_turns );
+        CHECK( freeze_item->get_rot() == 0_turns );
     }
 }
 
@@ -94,18 +101,18 @@ TEST_CASE( "Items rot away" )
             calendar::turn = calendar::start_of_cataclysm + 1_minutes;
         }
 
-        item test_item( "meat_cooked" );
+        detached_ptr<item> test_item = item::spawn( "meat_cooked" );
 
         // Process item once to set all of its values.
-        test_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_HEATER, weather );
+        test_item = item::process( std::move( test_item ), nullptr, tripoint_zero, false,
+                                   temperature_flag::TEMP_HEATER, weather );
 
-        // Set rot to >2 days and process again. process_rot should return true.
+        // Set rot to >2 days and process again. process_rot should destroy the item.
         calendar::turn += 20_minutes;
-        test_item.mod_rot( 4_days );
-
-        CHECK( test_item.process_rot( false, tripoint_zero, nullptr,
-                                      temperature_flag::TEMP_HEATER, weather ) );
-        INFO( "Rot: " << to_turns<int>( test_item.get_rot() ) );
+        test_item->mod_rot( 4_days );
+        test_item = item::process_rot( std::move( test_item ), false, tripoint_zero, nullptr,
+                                       temperature_flag::TEMP_HEATER, weather );
+        CHECK( !test_item );
     }
 
     SECTION( "Item on map rots away" ) {
@@ -116,10 +123,10 @@ TEST_CASE( "Items rot away" )
             calendar::turn = calendar::start_of_cataclysm + 1_minutes;
         }
 
-        item test_item( "meat_cooked" );
-        test_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_HEATER, weather );
+        detached_ptr<item> test_item = item::process( item::spawn( "meat_cooked" ), nullptr, tripoint_zero,
+                                       false, temperature_flag::TEMP_HEATER, weather );
         map &m = get_map();
-        m.add_item_or_charges( loc, test_item, false );
+        m.add_item_or_charges( loc, std::move( test_item ), false );
 
         REQUIRE( m.i_at( loc ).size() == 1 );
 
@@ -154,10 +161,12 @@ TEST_CASE( "Items don't rot away on map load if in a freezer" )
     m.ter_set( normal_pnt, t_grass );
 
 
-    item normal_item( "meat_cooked" );
-    item freeze_item( "offal_canned" );
-    item sealed_item( "offal_canned" );
-    sealed_item = sealed_item.in_its_container();
+    detached_ptr<item> normal_item_d = item::spawn( "meat_cooked" );
+    item &normal_item = *normal_item_d;
+    detached_ptr<item> freeze_item_d = item::spawn( "offal_canned" );
+    item &freeze_item = *freeze_item_d;
+    detached_ptr<item> sealed_item_d = item::in_its_container( item::spawn( "offal_canned" ) );
+    item &sealed_item = *sealed_item_d;
 
     set_map_temperature( weather, 65 ); // 18,3 C
 
@@ -165,9 +174,9 @@ TEST_CASE( "Items don't rot away on map load if in a freezer" )
     m.i_clear( sealed_pnt );
     m.i_clear( normal_pnt );
 
-    m.add_item( freezer_pnt, freeze_item );
-    m.add_item( sealed_pnt, sealed_item );
-    m.add_item( normal_pnt, normal_item );
+    m.add_item( freezer_pnt, std::move( freeze_item_d ) );
+    m.add_item( sealed_pnt, std::move( sealed_item_d ) );
+    m.add_item( normal_pnt, std::move( normal_item_d ) );
 
     REQUIRE( normal_item.get_rot() == 0_turns );
     REQUIRE( sealed_item.get_rot() == 0_turns );

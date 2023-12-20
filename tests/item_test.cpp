@@ -17,7 +17,8 @@ TEST_CASE( "item_volume", "[item]" )
 {
     // Need to pick some item here which is count_by_charges and for which each
     // charge is at least 1_ml.  Battery works for now.
-    item i( "battery", calendar::start_of_cataclysm, item::default_charges_tag() );
+    item &i = *item::spawn_temporary( "battery", calendar::start_of_cataclysm,
+                                      item::default_charges_tag() );
     REQUIRE( i.count_by_charges() );
     // Would be better with Catch2 generators
     const units::volume big_volume = units::from_milliliter( std::numeric_limits<int>::max() / 2 );
@@ -35,28 +36,28 @@ TEST_CASE( "item_volume", "[item]" )
 
 TEST_CASE( "simple_item_layers", "[item]" )
 {
-    CHECK( item( "arm_warmers" ).get_layer() == UNDERWEAR_LAYER );
-    CHECK( item( "10gal_hat" ).get_layer() == REGULAR_LAYER );
-    CHECK( item( "baldric" ).get_layer() == WAIST_LAYER );
-    CHECK( item( "aep_suit" ).get_layer() == OUTER_LAYER );
-    CHECK( item( "2byarm_guard" ).get_layer() == BELTED_LAYER );
+    CHECK( item::spawn_temporary( "arm_warmers" )->get_layer() == UNDERWEAR_LAYER );
+    CHECK( item::spawn_temporary( "10gal_hat" )->get_layer() == REGULAR_LAYER );
+    CHECK( item::spawn_temporary( "baldric" )->get_layer() == WAIST_LAYER );
+    CHECK( item::spawn_temporary( "aep_suit" )->get_layer() == OUTER_LAYER );
+    CHECK( item::spawn_temporary( "2byarm_guard" )->get_layer() == BELTED_LAYER );
 }
 
 TEST_CASE( "gun_layer", "[item]" )
 {
-    item gun( "win70" );
-    item mod( "shoulder_strap" );
-    CHECK( gun.is_gunmod_compatible( mod ).success() );
-    gun.put_in( mod );
+    item &gun = *item::spawn_temporary( "win70" );
+    detached_ptr<item> mod = item::spawn( "shoulder_strap" );
+    CHECK( gun.is_gunmod_compatible( *mod ).success() );
+    gun.put_in( std::move( mod ) );
     CHECK( gun.get_layer() == BELTED_LAYER );
 }
 
 TEST_CASE( "stacking_cash_cards", "[item]" )
 {
     // Differently-charged cash cards should stack if neither is zero.
-    item cash0( "cash_card", calendar::turn_zero, 0 );
-    item cash1( "cash_card", calendar::turn_zero, 1 );
-    item cash2( "cash_card", calendar::turn_zero, 2 );
+    item &cash0 = *item::spawn_temporary( "cash_card", calendar::turn_zero, 0 );
+    item &cash1 = *item::spawn_temporary( "cash_card", calendar::turn_zero, 1 );
+    item &cash2 = *item::spawn_temporary( "cash_card", calendar::turn_zero, 2 );
     CHECK( !cash0.stacks_with( cash1 ) );
     CHECK( cash1.stacks_with( cash2 ) );
 }
@@ -65,8 +66,8 @@ TEST_CASE( "stacking_cash_cards", "[item]" )
 
 TEST_CASE( "stacking_over_time", "[item]" )
 {
-    item A( "neccowafers" );
-    item B( "neccowafers" );
+    item &A = *item::spawn_temporary( "neccowafers" );
+    item &B = *item::spawn_temporary( "neccowafers" );
 
     GIVEN( "Two items with the same birthday" ) {
         REQUIRE( A.stacks_with( B ) );

@@ -13,6 +13,7 @@
 #include "json.h"
 #include "pldata.h"
 #include "type_id.h"
+#include "locations.h"
 
 const bodypart_str_id body_part_head( "head" );
 const bodypart_str_id body_part_eyes( "eyes" );
@@ -401,7 +402,14 @@ body_part opposite_body_part( body_part bp )
     return get_bp( bp ).opposite_part->token;
 }
 
+bodypart::bodypart() : bodypart( new fake_item_location() ) {};
+
 bodypart_id bodypart::get_id() const
+{
+    return id;
+}
+
+bodypart_str_id bodypart::get_str_id() const
 {
     return id;
 }
@@ -557,4 +565,21 @@ void bodypart::deserialize( JsonIn &jsin )
     jo.read( "hp_max", hp_max, true );
     jo.read( "damage_bandaged", damage_bandaged, true );
     jo.read( "damage_disinfected", damage_disinfected, true );
+}
+
+void bodypart::set_location( location<item> *loc )
+{
+    wielding.wielded.set_loc_hack( loc );
+}
+
+wield_status::wield_status( wield_status &&source ) noexcept : wielded(
+        source.wielded.get_loc_hack() )
+{
+    wielded = source.wielded.release();
+}
+
+wield_status &wield_status::operator=( wield_status &&source ) noexcept
+{
+    wielded = source.wielded.release();
+    return *this;
 }

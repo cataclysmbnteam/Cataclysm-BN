@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        ",_____ssssssssssss_____,",
+        ",_____ssssssssssss_____'",
         ",__,__#### ss ####__,__,",
         ",_,,,_#ssssssssss#__,__,",
         ",__,__#HTHssssHTH#__,__,",
@@ -45,6 +45,7 @@
         "%": "t_wall_glass",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
+        "'": "t_pavement_y",
         "-": "t_wall_w",
         ".": "t_floor",
         "5": "t_wall_glass",
@@ -66,6 +67,7 @@
         "|": "t_wall_w"
       },
       "furniture": {
+        "'": "f_street_light",
         "H": "f_chair",
         "O": "f_woodstove",
         "S": "f_sink",
@@ -168,7 +170,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "____,,,,,#ssssssssssssss",
+        "____,,,,,#sssssssssssss'",
         "_________#ss|555++++555|",
         "_________#ss5.HH.HH..hh|",
         "_________#ss5.TT.TT..Th|",
@@ -216,6 +218,7 @@
         "r": "t_linoleum_gray",
         "d": "t_sidewalk",
         "s": "t_sidewalk",
+        "'": "t_sidewalk",
         "D": "t_door_locked",
         "t": "t_door_c",
         "w": "t_linoleum_white",
@@ -224,6 +227,7 @@
         "|": "t_wall_w"
       },
       "furniture": {
+        "'": "f_street_light",
         "H": "f_chair",
         "F": "f_arcade_machine",
         "S": "f_sink",
