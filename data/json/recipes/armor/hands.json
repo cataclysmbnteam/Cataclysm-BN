@@ -244,7 +244,7 @@
     "components": [
       [ [ "fabric_standard", 2, "LIST" ] ],
       [ [ "fabric_hides_proper", 2, "LIST" ] ],
-      [ [ "scrap", 4 ] ],
+      [ [ "steel_standard", 1, "LIST" ] ],
       [ [ "duct_tape", 50 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [
@@ -271,7 +271,7 @@
     "components": [
       [ [ "rag", 2 ] ],
       [ [ "leather", 2 ] ],
-      [ [ "alloy_sheet", 2 ] ],
+      [ [ "alloy_sheet", 1 ] ],
       [ [ "duct_tape", 50 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [
