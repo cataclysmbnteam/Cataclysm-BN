@@ -9,11 +9,12 @@
 #include "map_helpers.h"
 #include "game.h" // Just for get_convection_temperature(), TODO: Remove
 #include "point.h"
+#include "units_temperature.h"
 #include "weather.h"
 
 static const furn_str_id f_atomic_freezer( "f_atomic_freezer" );
 
-static void set_map_temperature( weather_manager &weather, int new_temperature )
+static void set_map_temperature( weather_manager &weather, units::temperature new_temperature )
 {
     weather.temperature = new_temperature;
     weather.clear_temp_cache();
@@ -45,9 +46,9 @@ TEST_CASE( "Rate of rotting" )
         detached_ptr<item> freeze_item = item::spawn( "offal_canned" );
         detached_ptr<item> sealed_item = item::in_its_container( item::spawn( "offal_canned" ) );
 
-        set_map_temperature( weather, 65 ); // 18,3 C
+        set_map_temperature( weather, 18_c );
         ensure_no_temperature_mods( tripoint_zero );
-        REQUIRE( weather.get_temperature( tripoint_zero ) == Approx( 65 ) );
+        REQUIRE( weather.get_temperature( tripoint_zero ) == 18_c );
 
         normal_item = item::process( std::move( normal_item ), nullptr, tripoint_zero, false,
                                      temperature_flag::TEMP_NORMAL, weather );
@@ -168,7 +169,7 @@ TEST_CASE( "Items don't rot away on map load if in a freezer" )
     detached_ptr<item> sealed_item_d = item::in_its_container( item::spawn( "offal_canned" ) );
     item &sealed_item = *sealed_item_d;
 
-    set_map_temperature( weather, 65 ); // 18,3 C
+    set_map_temperature( weather, 18_c );
 
     m.i_clear( freezer_pnt );
     m.i_clear( sealed_pnt );

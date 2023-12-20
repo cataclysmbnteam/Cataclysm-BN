@@ -155,6 +155,10 @@ static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
+static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
+static const oter_type_str_id oter_type_bridge_under( "bridge_under" );
+static const oter_type_str_id oter_type_road( "road" );
+
 class npc_template;
 
 namespace io
@@ -1058,55 +1062,38 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_minefield( map &m_orig, const tripoint &abs_sub )
+static bool mx_minefield( map &/*m_orig*/, const tripoint &abs_sub )
 {
     const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
+
     const oter_id &center = overmap_buffer.ter( abs_omt );
+    const bool bridgehead_at_center = center->get_type_id() == oter_type_bridgehead_ground;
+    if( !bridgehead_at_center ) {
+        return false;
+    }
+
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
     const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
 
-    std::string oter_name_base;
-    std::string oter_name_bridge;
-    bool use_tinymap;
-    if( get_option<bool>( "ELEVATED_BRIDGES" ) ) {
-        oter_name_base = "bridgehead_ground";
-        oter_name_bridge = "bridge_under";
-        use_tinymap = true;
-    } else {
-        oter_name_base = "bridge";
-        oter_name_bridge = "bridge";
-        use_tinymap = false;
-    }
-    tinymap m_tiny;
-    map &m = use_tinymap ? m_tiny : m_orig;
+    const bool bridge_at_north = north->get_type_id() == oter_type_bridge_under;
+    const bool bridge_at_south = south->get_type_id() == oter_type_bridge_under;
+    const bool bridge_at_west = west->get_type_id() == oter_type_bridge_under;
+    const bool bridge_at_east = east->get_type_id() == oter_type_bridge_under;
 
-    const bool bridgehead_at_center = is_ot_match( oter_name_base, center, ot_match_type::type );
-    const bool bridge_at_north = is_ot_match( oter_name_bridge, north, ot_match_type::type );
-    const bool bridge_at_south = is_ot_match( oter_name_bridge, south, ot_match_type::type );
-    const bool bridge_at_west = is_ot_match( oter_name_bridge, west, ot_match_type::type );
-    const bool bridge_at_east = is_ot_match( oter_name_bridge, east, ot_match_type::type );
-
-    const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
-    const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
-    const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
-    const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
+    const bool road_at_north = north->get_type_id() == oter_type_road;
+    const bool road_at_south = south->get_type_id() == oter_type_road;
+    const bool road_at_west = west->get_type_id() == oter_type_road;
+    const bool road_at_east = east->get_type_id() == oter_type_road;
 
     const int num_mines = rng( 6, 20 );
     const std::string text = _( "DANGER!  MINEFIELD!" );
     int x, y, x1, y1 = 0;
+    tinymap m;
 
-    bool did_something = false;
-
-    if( !bridgehead_at_center ) {
-        return false;
-    }
-
-    if( bridge_at_north && bridgehead_at_center && road_at_south ) {
-        if( use_tinymap ) {
-            m.load( project_to<coords::sm>( abs_omt + point_south ), false );
-        }
+    if( bridge_at_north && road_at_south ) {
+        m.load( project_to<coords::sm>( abs_omt + point_south ), false );
 
         //Sandbag block at the left edge
         line_furn( &m, f_sandbag_half, point( 3, 4 ), point( 3, 7 ) );
@@ -1202,13 +1189,12 @@ static bool mx_minefield( map &m_orig, const tripoint &abs_sub )
         m.furn_set( point( x1, SEEY * 2 - 1 ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( x1, SEEY * 2 - 1, abs_sub.z ), text );
 
-        did_something = true;
+        return true;
     }
 
-    if( bridge_at_south && bridgehead_at_center && road_at_north ) {
-        if( use_tinymap ) {
-            m.load( project_to<coords::sm>( abs_omt + point_north ), false );
-        }
+    if( bridge_at_south && road_at_north ) {
+        m.load( project_to<coords::sm>( abs_omt + point_north ), false );
+
         //Two horizontal lines of sandbags
         line_furn( &m, f_sandbag_half, point( 5, 15 ), point( 10, 15 ) );
         line_furn( &m, f_sandbag_half, point( 13, 15 ), point( 18, 15 ) );
@@ -1305,13 +1291,12 @@ static bool mx_minefield( map &m_orig, const tripoint &abs_sub )
         m.furn_set( point( x1, 0 ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( x1, 0, abs_sub.z ), text );
 
-        did_something = true;
+        return true;
     }
 
-    if( bridge_at_west && bridgehead_at_center && road_at_east ) {
-        if( use_tinymap ) {
-            m.load( project_to<coords::sm>( abs_omt + point_east ), false );
-        }
+    if( bridge_at_west && road_at_east ) {
+        m.load( project_to<coords::sm>( abs_omt + point_east ), false );
+
         //Draw walls of first tent
         square_furn( &m, f_canvas_wall, point( 0, 3 ), point( 4, 13 ) );
 
@@ -1454,13 +1439,12 @@ static bool mx_minefield( map &m_orig, const tripoint &abs_sub )
         m.furn_set( point( SEEX * 2 - 1, y1 ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( SEEX * 2 - 1, y1, abs_sub.z ), text );
 
-        did_something = true;
+        return true;
     }
 
-    if( bridge_at_east && bridgehead_at_center && road_at_west ) {
-        if( use_tinymap ) {
-            m.load( project_to<coords::sm>( abs_omt + point_west ), false );
-        }
+    if( bridge_at_east && road_at_west ) {
+        m.load( project_to<coords::sm>( abs_omt + point_west ), false );
+
         //Spawn military cargo truck blocking the entry
         m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 15, 11 ), 270_degrees, 70, 1 );
 
@@ -1591,10 +1575,10 @@ static bool mx_minefield( map &m_orig, const tripoint &abs_sub )
         m.furn_set( point( 0, y1 ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( 0, y1, abs_sub.z ), text );
 
-        did_something = true;
+        return true;
     }
 
-    return did_something;
+    return false;
 }
 
 static bool mx_crater( map &m, const tripoint &abs_sub )

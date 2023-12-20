@@ -11,7 +11,7 @@
     "required_str": 5,
     "flags": [ "CLIMB_SIMPLE", "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE" ],
     "examine_action": "chainfence",
-    "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": 12 } ] },
     "bash": {
       "str_min": 3,
       "str_max": 40,

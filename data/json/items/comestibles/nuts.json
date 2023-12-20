@@ -432,8 +432,7 @@
     "phase": "liquid",
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
-    "fun": 5,
-    "freezing_point": -80
+    "fun": 5
   },
   {
     "type": "COMESTIBLE",

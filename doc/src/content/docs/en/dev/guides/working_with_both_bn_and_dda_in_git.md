@@ -53,14 +53,14 @@ git checkout ddamaster
 git pull
 ```
 
-This shouldn't result in any conflicts. If it did, you probably committed changes to the upload
+This shouldn't result in any conflicts. If it did, you probably committed changes to the main
 branch. In this case you may want to back them up:
 
 ```
 git checkout -b temp-branch-name
 ```
 
-And reset the upload branch to the remote:
+And reset the main branch to the remote:
 
 ```
 git branch -f ddamaster dda/master
@@ -70,7 +70,7 @@ git branch -f ddamaster dda/master
 
 ```
 # Switch to BN branch
-git checkout upload
+git checkout main
 # Update local content
 git pull
 # Create new branch for your changes

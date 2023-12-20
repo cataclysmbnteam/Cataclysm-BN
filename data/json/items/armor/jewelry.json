@@ -361,7 +361,8 @@
     "price_postapoc": "10 cent",
     "material": [ "silver" ],
     "symbol": "[",
-    "color": "light_gray"
+    "color": "light_gray",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "cufflinks_intricate",
@@ -374,7 +375,8 @@
     "price_postapoc": "50 cent",
     "material": [ "silver", "gold" ],
     "symbol": "[",
-    "color": "light_gray"
+    "color": "light_gray",
+    "flags": [ "SUPER_FANCY" ]
   },
   {
     "id": "garnet_gold_cufflinks",

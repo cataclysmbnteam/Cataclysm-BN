@@ -12,7 +12,6 @@
     "container": "bag_plastic",
     "material": "powder",
     "symbol": "%",
-    "charges": 100,
-    "freezing_point": -490
+    "charges": 100
   }
 ]

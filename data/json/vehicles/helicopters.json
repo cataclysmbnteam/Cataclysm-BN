@@ -1163,7 +1163,10 @@
       { "x": -1, "y": -1, "part": "plating_military" },
       { "x": 3, "y": -2, "part": "plating_military" },
       { "x": 4, "y": -1, "part": "plating_military" },
-      { "x": 3, "y": 0, "part": "plating_military" }
+      { "x": 3, "y": 0, "part": "plating_military" },
+      { "x": -10, "y": -1, "part": "wheel_10" },
+      { "x": -2, "y": 0, "part": "wheel_10" },
+      { "x": -2, "y": -2, "part": "wheel_10" }
     ],
     "items": [
       { "x": -1, "y": -1, "chance": 7, "item_groups": [ "drugs_soldier" ] },
@@ -1312,7 +1315,9 @@
       { "x": -1, "y": -1, "part": "plating_military" },
       { "x": 3, "y": -2, "part": "plating_military" },
       { "x": 4, "y": -1, "part": "plating_military" },
-      { "x": 3, "y": 0, "part": "plating_military" }
+      { "x": 3, "y": 0, "part": "plating_military" },
+      { "x": -2, "y": 0, "part": "wheel_10" },
+      { "x": -2, "y": -2, "part": "wheel_10" }
     ],
     "items": [
       { "x": -1, "y": -1, "chance": 7, "item_groups": [ "drugs_soldier" ] },

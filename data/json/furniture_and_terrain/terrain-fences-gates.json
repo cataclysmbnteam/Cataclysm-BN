@@ -66,9 +66,26 @@
     "move_cost": 0,
     "lockpick_result": "t_chaingate_c",
     "lockpick_message": "With a satisfying click, the lock on the gate opens.",
+    "boltcut": {
+      "result": "t_chaingate_c",
+      "duration": "1 seconds",
+      "sound": "Gachunk!",
+      "byproducts": [ { "item": "scrap", "count": 3 } ]
+    },
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "THIN_OBSTACLE", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "locked_object_pickable",
+    "oxytorch": {
+      "result": "t_dirt",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+    },
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 20 } ]
+    },
     "bash": {
       "str_min": 10,
       "str_max": 150,
@@ -90,7 +107,18 @@
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "THIN_OBSTACLE", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
+    "oxytorch": {
+      "result": "t_dirt",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+    },
     "open": "t_chaingate_o",
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 20 } ]
+    },
     "bash": {
       "str_min": 10,
       "str_max": 150,
@@ -218,7 +246,7 @@
         { "item": "2x4", "count": 4 },
         { "item": "screen_mesh", "count": 1 },
         { "item": "nail", "charges": 20 },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "hinge", "count": 2 }
       ]
     },
     "bash": {
@@ -253,7 +281,7 @@
         { "item": "2x4", "count": 4 },
         { "item": "screen_mesh", "count": 1 },
         { "item": "nail", "charges": 20 },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "hinge", "count": 2 }
       ]
     },
     "bash": {
@@ -289,7 +317,7 @@
         { "item": "2x4", "count": 5 },
         { "item": "wire", "count": 10 },
         { "item": "nail", "charges": 20 },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "hinge", "count": 2 }
       ]
     },
     "bash": {
@@ -374,9 +402,26 @@
     "symbol": "LINE_OXOX",
     "color": "cyan",
     "move_cost": 0,
+    "boltcut": {
+      "result": "t_chainfence_posts",
+      "duration": "5 seconds",
+      "sound": "Snick, snick, gachunk!",
+      "byproducts": [ { "item": "wire", "count": 20 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "chainfence",
+    "oxytorch": {
+      "result": "t_dirt",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+    },
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 20 } ]
+    },
     "bash": {
       "str_min": 10,
       "str_max": 150,
@@ -394,7 +439,14 @@
     "symbol": "#",
     "color": "cyan",
     "move_cost": 2,
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "2 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 } ]
+    },
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
+    "oxytorch": { "result": "t_dirt", "duration": "1 seconds", "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -468,14 +520,14 @@
     "looks_like": "t_fence_post",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
-    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "2x4", "count": 2 } ] },
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": 10 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 20,
       "sound": "crack.",
       "sound_fail": "whump.",
       "ter_set": "t_null",
-      "items": [ { "item": "2x4", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "2x4", "count": [ 0, 2 ] }, { "item": "nail", "charges": [ 0, 8 ] } ]
     }
   },
   {
@@ -507,6 +559,12 @@
     "move_cost": 4,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT", "BURROWABLE" ],
     "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "wire", "count": 2 } ] },
+    "boltcut": {
+      "result": "t_fence_post",
+      "duration": "10 seconds",
+      "sound": "Snick, snick, gachunk!",
+      "byproducts": [ { "item": "wire", "count": 2 } ]
+    },
     "bash": {
       "str_min": 8,
       "str_max": 20,
@@ -524,6 +582,12 @@
     "symbol": "$",
     "color": "blue",
     "move_cost": 4,
+    "boltcut": {
+      "result": "t_fence_post",
+      "duration": "10 seconds",
+      "sound": "Snick, snick, gachunk!",
+      "byproducts": [ { "item": "wire_barbed", "count": 2 } ]
+    },
     "flags": [ "TRANSPARENT", "SHARP", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT", "BURROWABLE" ],
     "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "wire_barbed", "count": 2 } ] },
     "bash": {
@@ -609,7 +673,7 @@
         { "item": "2x4", "count": 5 },
         { "item": "pointy_stick", "count": 2 },
         { "item": "nail", "charges": 12 },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "hinge", "count": 2 }
       ]
     },
     "bash": {
@@ -646,7 +710,7 @@
         { "item": "2x4", "count": 5 },
         { "item": "pointy_stick", "count": 2 },
         { "item": "nail", "charges": 12 },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "hinge", "count": 2 }
       ]
     }
   },

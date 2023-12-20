@@ -8,6 +8,7 @@
 #include <string>
 
 #include "coordinates.h"
+#include "cube_direction.h"
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -104,6 +105,8 @@ type random();
 
 /** Whether these directions are parallel. */
 bool are_parallel( type dir1, type dir2 );
+
+type from_cube( cube_direction, const std::string &error_msg );
 
 } // namespace om_direction
 

@@ -69,5 +69,19 @@
     "material": "steel",
     "symbol": "#",
     "color": "dark_gray"
+  },
+  {
+    "id": "plut_generator_item",
+    "type": "TOOL",
+    "looks_like": "t_plut_generator",
+    "name": "plutonium generator",
+    "description": "A generator used on large ships or submarines, usually as a backup power.",
+    "weight": "150 kg",
+    "volume": "75 L",
+    "price": "50000 USD",
+    "price_postapoc": "5 USD",
+    "material": "steel",
+    "symbol": "0",
+    "color": "light_green"
   }
 ]

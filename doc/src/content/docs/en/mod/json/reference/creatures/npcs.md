@@ -536,13 +536,15 @@ effects should be arranged in a list and are processed in the order listed.
 
 ### Missions
 
-| Effect            | Description                                                     |
-| ----------------- | --------------------------------------------------------------- |
-| `assign_mission`  | Assigns a previously selected mission to your character.        |
-| `mission_success` | Resolves the current mission successfully.                      |
-| `mission_failure` | Resolves the current mission as a failure.                      |
-| `clear_mission`   | Clears the mission from the your character's assigned missions. |
-| `mission_reward`  | Gives the player the mission's reward.                          |
+| Effect                                                           | Description                                                                                                      |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `assign_mission`                                                 | Assigns a previously selected mission to your character.                                                         |
+| `mission_success`                                                | Resolves the current mission successfully.                                                                       |
+| `mission_failure`                                                | Resolves the current mission as a failure.                                                                       |
+| `clear_mission`                                                  | Clears the mission from the your character's assigned missions.                                                  |
+| `mission_reward`                                                 | Gives the player the mission's reward.                                                                           |
+| `assign_mission: mission_type_id string`                         | Will assign mission `mission_type_id` to the player.                                                             |
+| `finish_mission: mission_type_id string`,`success: success_bool` | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. |
 
 ### Stats / Morale
 

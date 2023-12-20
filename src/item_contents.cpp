@@ -30,7 +30,22 @@ bool item_contents::empty() const
 
 ret_val<bool> item_contents::insert_item( detached_ptr<item> &&it )
 {
-    items.push_back( std::move( it ) );
+    bool stacked = false;
+    if( it->count_by_charges() ) {
+        for( item *check : items ) {
+            // NOLINTNEXTLINE(bugprone-use-after-move)
+            if( check->merge_charges( std::move( it ) ) ) {
+                stacked = true;
+                break;
+            }
+        }
+    }
+
+    if( !stacked ) {
+        // NOLINTNEXTLINE(bugprone-use-after-move)
+        items.push_back( std::move( it ) );
+    }
+
     return ret_val<bool>::make_success();
 }
 

@@ -298,6 +298,69 @@ class hacking_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class hacksaw_activity_actor : public activity_actor
+{
+    public:
+        explicit hacksaw_activity_actor( const tripoint &target,
+                                         const safe_reference<item> &tool ) : target( target ), tool( tool ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_HACKSAW" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &/*act*/, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+        // debugmsg causes a backtrace when fired during cata_test
+        bool testing = false;  // NOLINT(cata-serialize)
+    private:
+        tripoint target;
+        safe_reference<item> tool;
+
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const hacksaw_activity_actor &actor = static_cast<const hacksaw_activity_actor &>
+                                                  ( other );
+            return actor.target == target;
+        }
+};
+
+class boltcutting_activity_actor : public activity_actor
+{
+    public:
+        explicit boltcutting_activity_actor( const tripoint &target,
+                                             const safe_reference<item> tool ) : target( target ), tool( tool ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_BOLTCUTTING" );
+        }
+
+        void start( player_activity &act, Character &/*who*/ ) override;
+        void do_turn( player_activity &/*act*/, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+        // debugmsg causes a backtrace when fired during cata_test
+        bool testing = false;
+
+    private:
+        tripoint target;
+        safe_reference<item> tool;
+
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const boltcutting_activity_actor &actor = static_cast<const boltcutting_activity_actor &>
+                    ( other );
+            return actor.target == target && actor.tool == tool;
+        }
+};
+
 class lockpick_activity_actor : public activity_actor
 {
     private:
@@ -530,6 +593,37 @@ class wash_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class oxytorch_activity_actor : public activity_actor
+{
+    public:
+        explicit oxytorch_activity_actor( const tripoint &target,
+                                          const safe_reference<item> &tool ) : target( target ), tool( tool ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_OXYTORCH" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &/*act*/, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+        // debugmsg causes a backtrace when fired during cata_test
+        bool testing = false;  // NOLINT(cata-serialize)
+    private:
+        tripoint target;
+        safe_reference<item> tool;
+
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const oxytorch_activity_actor &actor = static_cast<const oxytorch_activity_actor &>
+                                                   ( other );
+            return actor.target == target;
+        }
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

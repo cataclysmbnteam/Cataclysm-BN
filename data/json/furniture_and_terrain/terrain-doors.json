@@ -199,9 +199,9 @@
     "deconstruct": {
       "ter_set": "t_door_frame",
       "items": [
-        { "item": "2x4", "count": 4 },
+        { "item": "2x4", "count": 2 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -240,7 +240,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -278,7 +278,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -316,7 +316,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -354,7 +354,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -392,7 +392,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -428,7 +428,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -465,7 +465,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -502,7 +502,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -539,7 +539,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -1014,8 +1014,8 @@
       "ter_set": "t_door_frame",
       "items": [
         { "item": "peephole", "count": 1 },
-        { "item": "2x4", "count": 4 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "2x4", "count": 2 },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -1161,7 +1161,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -1198,7 +1198,7 @@
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": 12 },
         { "item": "hinge", "count": 2 }
       ]
     },
@@ -1235,8 +1235,8 @@
         { "item": "peephole", "count": 1 },
         { "item": "2x4", "count": 4 },
         { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 6, 12 ] },
-        { "item": "hinge", "count": [ 1, 2 ] }
+        { "item": "nail", "charges": 12 },
+        { "item": "hinge", "count": 2 }
       ]
     },
     "close": "t_door_c_peep",
@@ -1272,12 +1272,7 @@
     "open": "t_rdoor_o",
     "deconstruct": {
       "ter_set": "t_door_c",
-      "items": [
-        { "item": "2x4", "count": 24 },
-        { "item": "wood_panel", "count": 2 },
-        { "item": "nail", "charges": [ 36, 48 ] },
-        { "item": "hinge", "count": 1 }
-      ]
+      "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 48 }, { "item": "hinge", "count": 1 } ]
     },
     "bash": {
       "str_min": 18,
@@ -1343,12 +1338,7 @@
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR_REINFORCED", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_c",
-      "items": [
-        { "item": "2x4", "count": 24 },
-        { "item": "wood_panel", "count": 1 },
-        { "item": "nail", "charges": [ 36, 48 ] },
-        { "item": "hinge", "count": 1 }
-      ]
+      "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 48 }, { "item": "hinge", "count": 1 } ]
     },
     "close": "t_rdoor_c",
     "bash": {
@@ -2012,6 +2002,11 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_door_metal_o",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 80,
       "str_max": 250,
@@ -2202,6 +2197,11 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 80,
@@ -2242,6 +2242,22 @@
   },
   {
     "type": "terrain",
+    "id": "t_door_metal_interior_locked",
+    "copy-from": "t_door_metal_locked",
+    "looks_like": "t_door_metal_pickable",
+    "//": "Same as t_door_metal_pickable, but without OPENCLOSE_INSIDE. Due the inheritance issues cannot copy from the t_door_metal_pickable, delete doesn't work with flags",
+    "lockpick_result": "t_door_metal_c",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
+    "symbol": "+",
+    "color": "cyan",
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND", "PICKABLE" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_door_metal_pickable",
     "name": "closed metal door",
     "description": "An extremely resilient door made of assorted steel, carved and pounded into shape.  This one has an extra keyhole, so it's likely locked.  You could probably pick the lock, or a very strong tool could pry it open.",
@@ -2257,6 +2273,11 @@
     "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_door_metal_o",
     "examine_action": "locked_object_pickable",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 80,
       "str_max": 250,
@@ -2291,8 +2312,19 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
+    "hacksaw": {
+      "result": "t_mdoor_frame",
+      "duration": "15 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 12 } ]
+    },
     "open": "t_door_bar_o",
     "close": "t_door_bar_locked",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -2348,8 +2380,19 @@
     "roof": "t_flat_roof",
     "lockpick_result": "t_door_bar_o",
     "lockpick_message": "The door swings open…",
+    "hacksaw": {
+      "result": "t_mdoor_frame",
+      "duration": "15 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 12 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "LOCKED", "THIN_OBSTACLE" ],
     "examine_action": "locked_object_pickable",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -2543,7 +2586,7 @@
     "move_cost": 2,
     "coverage": 95,
     "roof": "t_metal_flat_roof",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
     "close": "t_door_metal_bulkhead_c",
     "bash": {
       "str_min": 80,

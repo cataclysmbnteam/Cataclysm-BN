@@ -55,21 +55,17 @@ TEST_CASE( "Effect body part switching and inheritance on decay works as expecte
 
     dummy.process_effects();
     CHECK( !dummy.has_effect( effect_test_juggling_l1 ) );
-    CHECK( dummy.has_effect( effect_test_juggling_r1 ) );
-    dummy.get_effect( effect_test_juggling_r1 ).get_bp() == body_part_hand_r;
+    CHECK( dummy.has_effect( effect_test_juggling_r1, body_part_hand_r->token ) );
 
     dummy.process_effects();
     CHECK( !dummy.has_effect( effect_test_juggling_r1 ) );
-    CHECK( dummy.has_effect( effect_test_juggling_r2 ) );
-    dummy.get_effect( effect_test_juggling_r2 ).get_bp() == body_part_hand_r;
+    CHECK( dummy.has_effect( effect_test_juggling_r2, body_part_hand_r->token ) );
 
     dummy.process_effects();
     CHECK( !dummy.has_effect( effect_test_juggling_r2 ) );
-    CHECK( dummy.has_effect( effect_test_juggling_l2 ) );
-    dummy.get_effect( effect_test_juggling_l2 ).get_bp() == body_part_hand_l;
+    CHECK( dummy.has_effect( effect_test_juggling_l2, body_part_hand_l->token ) );
 
     dummy.process_effects();
     CHECK( !dummy.has_effect( effect_test_juggling_l2 ) );
-    CHECK( dummy.has_effect( effect_test_juggling_l1 ) );
-    dummy.get_effect( effect_test_juggling_l1 ).get_bp() == body_part_hand_l;
+    CHECK( dummy.has_effect( effect_test_juggling_l1, body_part_hand_l->token ) );
 }

@@ -244,8 +244,7 @@
     "charges": 2,
     "category": "chems",
     "flags": [ "UNSAFE_CONSUME" ],
-    "fun": -30,
-    "freezing_point": -108
+    "fun": -30
   },
   {
     "type": "COMESTIBLE",
@@ -434,7 +433,6 @@
     "phase": "liquid",
     "category": "chems",
     "fun": -45,
-    "freezing_point": 25,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ], "scale_qty": true },
     "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 3 }, "effects": [ "ACID_TRAIL" ] }
   },
@@ -573,7 +571,6 @@
     "effects": [ "ACID_TRAIL_WEAK" ],
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": 25,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
@@ -595,7 +592,6 @@
     "effects": [ "ACID_TRAIL_WEAK" ],
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": 25,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
@@ -617,7 +613,6 @@
     "effects": [ "ACID_TRAIL_WEAK" ],
     "phase": "liquid",
     "container": "bottle_glass",
-    "//freezing_point": -44,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
@@ -1260,6 +1255,27 @@
     "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
     "volume": "250 ml",
     "weight": "80 g"
+  },
+  {
+    "id": "nuclear_waste",
+    "type": "GENERIC",
+    "name": { "str_sp": "nuclear waste" },
+    "description": "A small pellet of silvery metal, still warm to the touch.",
+    "looks_like": "medium_atomic_battery_cell",
+    "weight": "30 g",
+    "volume": "250 ml",
+    "price": "0 cent",
+    "material": [ "iron" ],
+    "symbol": "*",
+    "color": "light_green",
+    "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]
+  },
+  {
+    "id": "nuclear_fuel",
+    "copy-from": "nuclear_waste",
+    "type": "GENERIC",
+    "name": { "str": "nuclear fuel pellet" },
+    "description": "A small pellet of fissile material.  Handle carefully."
   },
   {
     "id": "wooden_bead",

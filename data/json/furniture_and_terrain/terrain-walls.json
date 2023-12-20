@@ -421,6 +421,11 @@
     "coverage": 100,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_scrap_wall_halfway",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 12, 20 ] } ]
+    },
     "bash": {
       "str_min": 200,
       "str_max": 600,
@@ -549,8 +554,19 @@
     "symbol": "#",
     "color": "dark_gray",
     "move_cost": 0,
+    "hacksaw": {
+      "result": "t_pit",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "spike", "count": 19 }, { "item": "scrap", "count": 8 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "THIN_OBSTACLE" ],
     "connects_to": "WALL",
+    "oxytorch": {
+      "result": "t_pit",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "spike", "count": [ 1, 19 ] }, { "item": "scrap", "count": [ 1, 8 ] } ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 100,
@@ -1074,7 +1090,14 @@
     "symbol": "\"",
     "color": "light_gray",
     "move_cost": 0,
+    "hacksaw": {
+      "result": "t_floor",
+      "duration": "15 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 3 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
+    "oxytorch": { "result": "t_floor", "duration": "9 seconds", "byproducts": [ { "item": "pipe", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 60,
       "str_max": 250,
@@ -1419,5 +1442,15 @@
       "ter_set": "t_reb_cage",
       "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
     }
+  },
+  {
+    "id": "t_nuclear_reactor",
+    "type": "terrain",
+    "name": "nuclear reactor core",
+    "description": "",
+    "symbol": "R",
+    "color": "light_green",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "PLACE_ITEM" ]
   }
 ]

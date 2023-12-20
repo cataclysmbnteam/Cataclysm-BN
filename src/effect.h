@@ -64,7 +64,7 @@ struct caused_effect {
         bodypart_str_id bp = bodypart_str_id::NULL_ID();
         bool inherit_body_part = true;
 
-        void load_decay( const JsonObject &obj );
+        void load_decay( const JsonObject &jo );
 
         auto tie() const {
             return std::tie( type, intensity_requirement, allow_on_decay, allow_on_remove,
@@ -75,18 +75,9 @@ struct caused_effect {
             return tie() == rhs.tie();
         }
     private:
-        void load( const JsonObject &obj );
+        void load( const JsonObject &jo );
 };
 
-struct caused_effect_sort_less {
-    public:
-        bool operator()( const caused_effect &lhs, const caused_effect &rhs ) const {
-            if( lhs.type != rhs.type ) {
-                return lhs.type < rhs.type;
-            }
-            return lhs.intensity_requirement < rhs.intensity_requirement;
-        }
-};
 
 class effect_type
 {

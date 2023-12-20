@@ -481,11 +481,7 @@ void game::setup()
 
     init::load_world_modfiles( ui, get_world_base_save_path() + "/" + SAVE_ARTIFACTS );
 
-    if( get_option<bool>( "ELEVATED_BRIDGES" ) && !get_option<bool>( "ZLEVELS" ) ) {
-        debugmsg( "\"Elevated bridges\" mod requires z-levels to be ENABLED to work properly!" );
-    }
-
-    m = map( get_option<bool>( "ZLEVELS" ) );
+    m = map();
 
     next_npc_id = character_id( 1 );
     next_mission_id = 1;
@@ -2219,6 +2215,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug" );
     ctxt.register_action( "lua_console" );
     ctxt.register_action( "lua_reload" );
+    ctxt.register_action( "open_wiki" );
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_scent_type" );
     ctxt.register_action( "debug_temp" );
@@ -6750,7 +6747,10 @@ look_around_result game::look_around( bool show_window, tripoint &center,
                          pixel_minimap_text );
 #endif // TILES
 
-            int first_line = 1;
+            // print current position
+            center_print( w_info, 1, c_white, string_format( _( "Cursor At: (%d,%d,%d)" ), lx, ly, lz ) );
+
+            int first_line = 2;
             const int last_line = getmaxy( w_info ) - 3;
             pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
 

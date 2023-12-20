@@ -49,11 +49,11 @@ irrevocable.
 There are a couple of guidelines we suggest sticking to:
 
 - Add this repository as an `upstream` remote.
-- Keep your `upload` branch clean. This means you can easily pull changes made to this repository
-  into yours.
+- Keep your `main` branch clean. This means you can easily pull changes made to this repository into
+  yours.
 - Create a new branch for each new feature or set of related bug fixes.
-- Never merge from your local branches into your `upload` branch. Only update that by pulling from
-  `upstream/upload`.
+- Never merge from your local branches into your `main` branch. Only update that by pulling from
+  `upstream/main`.
 
 ## Code Style
 
@@ -198,28 +198,28 @@ For further details about commit message guidelines please visit:
 - [chris.beams.io](https://chris.beams.io/posts/git-commit/)
 - [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/)
 
-### Update your `upload` branch
+### Update your `main` branch
 
-1. Make sure you have your `upload` branch checked out.
-
-```sh
-$ git checkout upload
-```
-
-2. Pull the changes from the `upstream/upload` branch.
+1. Make sure you have your `main` branch checked out.
 
 ```sh
-$ git pull --ff-only upstream upload
-# gets changes from "upload" branch on the "upstream" remote
+$ git checkout main
 ```
 
-> **Note** If this gives you an error, it means you have committed directly to your local `upload`
+2. Pull the changes from the `upstream/main` branch.
+
+```sh
+$ git pull --ff-only upstream main
+# gets changes from "main" branch on the "upstream" remote
+```
+
+> **Note** If this gives you an error, it means you have committed directly to your local `main`
 > branch.
 > [Click here for instructions on how to fix this issue](#why-does-git-pull---ff-only-result-in-an-error).
 
 ### Make your changes
 
-0. Update your `upload` branch, if you haven't already.
+0. Update your `main` branch, if you haven't already.
 
 1. For each new feature or bug fix, create a new branch.
 
@@ -238,7 +238,7 @@ $ git push origin new_feature
 ```
 
 3. Once you're finished working on your branch, and have committed and pushed all your changes,
-   submit a pull request from your `new_feature` branch to this repository's `upload` branch.
+   submit a pull request from your `new_feature` branch to this repository's `main` branch.
 
 > **Note** any new commits to the `new_feature` branch on GitHub will automatically be included in
 > the pull request, so make sure to only commit related changes to the same branch.
@@ -312,16 +312,16 @@ These guidelines aren't essential, but they can make keeping things in order muc
 
 ### Using remote tracking branches
 
-Remote tracking branches allow you to easily stay in touch with this repository's `upload` branch,
-as they automatically know which remote branch to get changes from.
+Remote tracking branches allow you to easily stay in touch with this repository's `main` branch, as
+they automatically know which remote branch to get changes from.
 
 ```sh
 $ git branch -vv
-* upload      xxxx [origin/upload] ....
+* main        xxxx [origin/main] ....
   new_feature xxxx ....
 ```
 
-Here you can see we have two branches; `upload` which is tracking `origin/upload`, and `new_feature`
+Here you can see we have two branches; `main` which is tracking `origin/main`, and `new_feature`
 which isn't tracking any branch. In practice, what this means is that git won't know where to get
 changes from.
 
@@ -333,12 +333,12 @@ There is no tracking information for the current branch.
 Please specify which branch you want to merge with.
 ```
 
-In order to easily pull changes from `upstream/upload` into the `new_feature` branch, we can tell
-git which branch it should track. (You can even do this for your local upload branch.)
+In order to easily pull changes from `upstream/main` into the `new_feature` branch, we can tell git
+which branch it should track. (You can even do this for your local main branch.)
 
 ```sh
-$ git branch -u upstream/upload new_feature
-Branch new_feature set up to track remote branch upload from upstream.
+$ git branch -u upstream/main new_feature
+Branch new_feature set up to track remote branch main from upstream.
 $ git pull
 Updating xxxx..xxxx
 ....
@@ -347,13 +347,13 @@ Updating xxxx..xxxx
 You can also set the tracking information at the same time as creating the branch.
 
 ```sh
-$ git branch new_feature_2 --track upstream/upload
-Branch new_feature_2 set up to track remote branch upload from upstream.
+$ git branch new_feature_2 --track upstream/main
+Branch new_feature_2 set up to track remote branch main from upstream.
 ```
 
-> **Note**: Although this makes it easier to pull from `upstream/upload`, it doesn't change anything
+> **Note**: Although this makes it easier to pull from `upstream/main`, it doesn't change anything
 > with regards to pushing. `git push` fails because you don't have permission to push to
-> `upstream/upload`.
+> `upstream/main`.
 
 ```sh
 $ git push
@@ -420,29 +420,29 @@ debug menu.
 
 ### Why does `git pull --ff-only` result in an error?
 
-If `git pull --ff-only` shows an error, it means that you've committed directly to your local
-`upload` branch. To fix this, we create a new branch with these commits, find the point at which we
-diverged from `upstream/upload`, and then reset `upload` to that point.
+If `git pull --ff-only` shows an error, it means that you've committed directly to your local `main`
+branch. To fix this, we create a new branch with these commits, find the point at which we diverged
+from `upstream/main`, and then reset `main` to that point.
 
 ```sh
-$ git pull --ff-only upstream upload
+$ git pull --ff-only upstream main
 From https://github.com/cataclysmbnteam/Cataclysm-BN
- * branch            upload     -> FETCH_HEAD
+ * branch            main     -> FETCH_HEAD
 fatal: Not possible to fast-forward, aborting.
-$ git branch new_branch upload          # mark the current commit with a tmp branch
-$ git merge-base upload upstream/upload
-cc31d0... # the last commit before we committed directly to upload
+$ git branch new_branch main          # mark the current commit with a tmp branch
+$ git merge-base main upstream/main
+cc31d0... # the last commit before we committed directly to main
 $ git reset --hard cc31d0....
 HEAD is now at cc31d0... ...
 ```
 
-Now that `upload` has been cleaned up, we can easily pull from `upstream/upload`, and then continue
+Now that `main` has been cleaned up, we can easily pull from `upstream/main`, and then continue
 working on `new_branch`.
 
 ```sh
-$ git pull --ff-only upstream upload
-# gets changes from the "upstream" remote for the matching branch, in this case "upload"
+$ git pull --ff-only upstream main
+# gets changes from the "upstream" remote for the matching branch, in this case "main"
 $ git checkout new_branch
 ```
 
-For more frequently asked questions, see the [developer FAQ](../dev/reference/FAQ).
+For more frequently asked questions, see the [developer FAQ](../dev/reference/faq.md).

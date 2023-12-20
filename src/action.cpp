@@ -263,6 +263,8 @@ std::string action_ident( action_id act )
             return "morale";
         case ACTION_MESSAGES:
             return "messages";
+        case ACTION_OPEN_WIKI:
+            return "open_wiki";
         case ACTION_HELP:
             return "help";
         case ACTION_DEBUG:
@@ -386,6 +388,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_FACTIONS:
         case ACTION_MORALE:
         case ACTION_MESSAGES:
+        case ACTION_OPEN_WIKI:
         case ACTION_HELP:
         case ACTION_MAIN_MENU:
         case ACTION_KEYBINDINGS:
@@ -799,7 +802,7 @@ action_id handle_action_menu()
             register_actions( { ACTION_SAVE } );
             register_action_if_hotkey_assigned( ACTION_QUICKLOAD );
             register_action_if_hotkey_assigned( ACTION_SUICIDE );
-            register_actions( { ACTION_HELP } );
+            register_actions( { ACTION_OPEN_WIKI, ACTION_HELP } );
             if( ( entry = &entries.back() ) ) {
                 // help _is_a menu.
                 entry->txt += "…";
@@ -923,7 +926,7 @@ action_id handle_main_menu()
     const auto register_actions = make_register_actions( entries, ctxt );
 
     register_actions( {
-        ACTION_HELP, ACTION_KEYBINDINGS, ACTION_OPTIONS, ACTION_AUTOPICKUP, ACTION_AUTONOTES,
+        ACTION_OPEN_WIKI, ACTION_HELP, ACTION_KEYBINDINGS, ACTION_OPTIONS, ACTION_AUTOPICKUP, ACTION_AUTONOTES,
         ACTION_SAFEMODE, ACTION_DISTRACTION_MANAGER, ACTION_COLOR, ACTION_WORLD_MODS,
         ACTION_ACTIONMENU, ACTION_QUICKSAVE, ACTION_SAVE, ACTION_DEBUG, ACTION_LUA_CONSOLE,
         ACTION_LUA_RELOAD

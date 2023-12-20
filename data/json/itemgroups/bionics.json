@@ -548,5 +548,10 @@
     "id": "bionic_power_storage_mil",
     "//": "Military and super-science power storage bionics, includes all current variants.",
     "items": [ [ "bio_power_storage", 50 ], [ "bio_power_storage_mkII", 50 ] ]
+  },
+  {
+    "id": "afs_bionics_power",
+    "type": "item_group",
+    "items": [ [ "bio_power_storage_mkII", 1 ], [ "bio_power_storage", 14 ] ]
   }
 ]

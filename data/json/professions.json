@@ -44,8 +44,8 @@
     "subtype": "collection",
     "id": "army_mags_power_armor",
     "entries": [
-      { "item": "heavy_plus_battery_cell", "ammo-item": "battery", "charges": 1250 },
-      { "item": "heavy_plus_battery_cell", "ammo-item": "battery", "charges": 1250 }
+      { "item": "stanag100", "ammo-item": "556_incendiary", "charges": 100 },
+      { "item": "heavy_plus_battery_cell", "ammo-item": "battery", "charges": 1500 }
     ]
   },
   {
@@ -73,7 +73,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_tazer",
-    "entries": [ { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "tazer" } ]
+    "entries": [ { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1500, "container-item": "tazer" } ]
   },
   {
     "type": "item_group",
@@ -789,7 +789,7 @@
           "boots_rubber"
         ],
         "entries": [
-          { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "foodperson_mask" },
+          { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1500, "container-item": "foodperson_mask" },
           { "group": "snacks_fancy" },
           { "group": "snacks" },
           { "item": "bat", "custom-flags": [ "auto_wield" ] }
@@ -1129,11 +1129,17 @@
       "both": {
         "items": [ "power_armor_light", "power_armor_helmet_light", "power_armor_frame" ],
         "entries": [
-          { "item": "heavy_plus_battery_cell", "charges": 2500, "container-item": "UPS_off" },
+          { "item": "heavy_plus_battery_cell", "charges": 1500, "container-item": "UPS_off" },
           { "item": "two_way_radio", "contents-item": [ "battery_ups" ] },
           { "item": "power_armor_chest_rig", "contents-group": "army_mags_power_armor" },
           { "item": "knife_combat", "container-item": "power_armor_sheath" },
-          { "item": "m240", "ammo-item": "762_51_incendiary", "charges": 500, "custom-flags": [ "auto_wield" ] }
+          {
+            "item": "stanag100",
+            "ammo-item": "556_incendiary",
+            "charges": 100,
+            "container-item": "m27iar",
+            "custom-flags": [ "auto_wield" ]
+          }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2507,7 +2513,7 @@
           "knife_hunting"
         ],
         "entries": [
-          { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
+          { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 750, "container-item": "mil_mess_kit" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_hunting", "container-item": "sheath" },
@@ -3777,7 +3783,7 @@
           {
             "item": "medium_plus_battery_cell",
             "ammo-item": "battery",
-            "charges": 600,
+            "charges": 750,
             "container-item": "mil_mess_kit"
           },
           { "group": "charged_two_way_radio" },
@@ -4306,8 +4312,8 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "jackhammer", "charges": 400 },
-          { "item": "light_minus_disposable_cell", "charges": 100 },
-          { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "miner_hat" }
+          { "item": "light_minus_disposable_cell", "charges": 150 },
+          { "item": "light_minus_disposable_cell", "charges": 150, "container-item": "miner_hat" }
         ]
       },
       "male": [ "boxer_shorts" ],

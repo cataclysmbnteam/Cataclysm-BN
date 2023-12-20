@@ -127,8 +127,8 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
         const tripoint origin = tripoint( 10, 0, 0 );
         vehicle *veh_ptr = here.add_vehicle( vproto_id( "scooter_test" ), origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        veh_ptr->charge_battery( 500 );
-        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 500 );
+        veh_ptr->charge_battery( 600 );
+        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 600 );
 
         WHEN( "the engine is started" ) {
             veh_ptr->start_engines();

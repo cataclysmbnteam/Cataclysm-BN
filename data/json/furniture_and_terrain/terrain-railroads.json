@@ -590,20 +590,20 @@
       "sound_fail": "clang!",
       "ter_set": "t_railroad_rubble",
       "items": [
-        { "item": "railroad_track_small", "count": 1 },
-        { "item": "2x4", "count": 4 },
-        { "item": "nail", "charges": 20 },
-        { "item": "sheet_metal_small", "count": 2 }
-      ]
-    },
-    "deconstruct": {
-      "ter_set": "t_railroad_rubble",
-      "items": [
         { "item": "steel_lump", "count": [ 0, 1 ] },
         { "item": "steel_chunk", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "splinter", "count": [ 6, 12 ] },
         { "item": "nail", "charges": [ 0, 10 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_railroad_rubble",
+      "items": [
+        { "item": "railroad_track_small", "count": 1 },
+        { "item": "2x4", "count": 4 },
+        { "item": "nail", "charges": 20 },
+        { "item": "sheet_metal_small", "count": 2 }
       ]
     },
     "connects_to": "RAIL",

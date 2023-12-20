@@ -676,8 +676,7 @@
     "id": "COMPACT",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "Prevents the item from participating in the layering encumbrance system when worn.",
-    "info": "It is designed not to interfere with other equipment in the same layer."
+    "//": "Prevents the item from participating in the layering encumbrance system when worn."
   },
   {
     "id": "SHEATH_AXE",

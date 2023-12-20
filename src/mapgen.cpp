@@ -985,7 +985,7 @@ class mapgen_value
         using StringId = to_string_id_t<Id>;
         struct void_;
         using Id_unless_string =
-            std::conditional_t<std::is_same<Id, std::string>::value, void_, Id>;
+            std::conditional_t<std::is_same_v<Id, std::string>, void_, Id>;
 
         struct value_source {
             virtual ~value_source() = default;
@@ -3474,7 +3474,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
         auto &keys_with_terrain = palette.keys_with_terrain;
         auto &format_placings = palette.format_placings;
 
-        if( palette.keys_with_terrain.empty() ) {
+        if( palette.keys_with_terrain.empty() && !fallback_terrain_exists ) {
             return false;
         }
 

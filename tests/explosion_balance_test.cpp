@@ -88,7 +88,7 @@ void check_lethality( const std::string &explosive_id, const int range, float le
             }
         }
         if( !survivors.empty() ) {
-            survivor_stats << std::endl;
+            survivor_stats << '\n';
         }
         for( int i = survivors.size(); i < num_subjects_this_time; ++i ) {
             victims.add( true );

@@ -77,10 +77,10 @@
     ],
     "deconstruct": {
       "items": [
-        { "item": "2x4", "count": 12 },
-        { "item": "nail", "charges": [ 12, 24 ] },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "rag", "count": [ 15, 20 ] }
+        { "item": "2x4", "count": 6 },
+        { "item": "nail", "charges": 30 },
+        { "item": "wood_panel", "count": 4 },
+        { "item": "rag", "count": 35 }
       ]
     },
     "max_volume": "875 L",
@@ -118,10 +118,10 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "deconstruct": {
       "items": [
-        { "item": "2x4", "count": 12 },
-        { "item": "nail", "charges": [ 12, 24 ] },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "rag", "count": [ 15, 20 ] }
+        { "item": "2x4", "count": 6 },
+        { "item": "nail", "charges": 24 },
+        { "item": "wood_panel", "count": 4 },
+        { "item": "rag", "count": 35 }
       ]
     },
     "max_volume": "875 L",
@@ -160,9 +160,7 @@
       "SHORT"
     ],
     "examine_action": "locked_object",
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 4 }, { "item": "nail", "charges": 30 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -190,9 +188,7 @@
     "coverage": 60,
     "required_str": 10,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 4 }, { "item": "nail", "charges": 24 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -364,6 +360,7 @@
     "lockpick_result": "f_gunsafe_o",
     "lockpick_message": "With a satisfying click, the lock on the gun safe door opens.",
     "examine_action": "locked_object_pickable",
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -389,6 +386,7 @@
     "required_str": 14,
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -414,6 +412,7 @@
     "required_str": 14,
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "examine_action": "gunsafe_el",
     "bash": {
       "str_min": 40,
@@ -523,7 +522,13 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 8,
+    "hacksaw": {
+      "duration": "2 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "steel_chunk", "count": 1 } ]
+    },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
+    "oxytorch": { "duration": "1 seconds", "byproducts": [ { "item": "steel_chunk", "count": [ 2, 6 ] } ] },
     "deconstruct": { "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal", "count": 2 } ] },
     "max_volume": "1750 L",
     "bash": {
@@ -642,6 +647,7 @@
     "coverage": 30,
     "required_str": 14,
     "max_volume": "250 L",
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "examine_action": "safe",
     "bash": {
@@ -982,111 +988,12 @@
   },
   {
     "type": "furniture",
-    "id": "f_metal_crate_r",
-    "name": "riveted metal crate",
-    "looks_like": "f_metal_crate_c",
-    "description": "This huge box is made of a dull metal, riveted together.  There is no obvious opening mechanism, and the rivets don't match any of your tools.  The only way in would be to smash it.",
-    "//": "To-do: There should be an exodii riveting tool that can convert this to f_metal_crate_c",
-    "symbol": "X",
-    "color": "light_gray",
-    "move_cost_mod": 5,
-    "coverage": 80,
-    "required_str": 12,
-    "max_volume": "1000 L",
-    "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE" ],
-    "bash": {
-      "str_min": 30,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "pipe", "count": [ 0, 3 ] },
-        { "item": "sheet_metal", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 2, 10 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_metal_crate_c",
-    "name": "sealed metal crate",
-    "looks_like": "t_crate_c",
-    "description": "This is a huge, tightly sealed storage crate made from welded and riveted sheet metal.  The sealing mechanism is too tight to open bare-handed and would need some kind of prying instrument to release.",
-    "symbol": "X",
-    "color": "light_gray",
-    "move_cost_mod": 5,
-    "coverage": 80,
-    "required_str": 12,
-    "max_volume": "1000 L",
-    "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE", "FLAT_SURF" ],
-    "bash": {
-      "str_min": 30,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "pipe", "count": [ 0, 3 ] },
-        { "item": "sheet_metal", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 2, 10 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_metal_crate_o",
-    "name": "open metal crate",
-    "looks_like": "f_metal_crate_c",
-    "description": "This large metal crate’s lid is unsealed, and hinges open easily to reveal a number of storage shelves inside.  Once open, the side panels also swing wider for easy access.",
-    "symbol": "X",
-    "color": "light_gray",
-    "move_cost_mod": 5,
-    "coverage": 80,
-    "required_str": 12,
-    "max_volume": "1000 L",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "NO_SIGHT", "HIDE_PLACE", "BLOCKSDOOR", "MOUNTABLE" ],
-    "bash": {
-      "str_min": 30,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "pipe", "count": [ 0, 3 ] },
-        { "item": "sheet_metal", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 2, 10 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_chest",
-    "description": "A sealed wooden storage container.  Lacking any labels, it could hold just about anything inside.  It has a simple metal latch.",
-    "name": "wooden chest",
-    "symbol": "X",
-    "color": "white",
-    "move_cost_mod": -1,
-    "coverage": 60,
-    "required_str": 12,
-    "looks_like": "f_crate_c",
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
-    "deconstruct": {
-      "items": [ { "item": "wood_panel", "count": 5 }, { "item": "hinge", "count": 2 }, { "item": "nail", "charges": [ 6, 10 ] } ]
-    },
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "wham!",
-      "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "hinge", "count": 2 }, { "item": "nail", "charges": [ 2, 10 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_foot_locker",
     "name": "metal foot locker",
-    "description": "An metal stoarge box, capable of holding any number of things.  The lid has has a small lock.",
+    "description": "An metal storage box, capable of holding any number of things.  The lid has has a small lock.",
     "symbol": "O",
     "color": "white",
-    "move_cost_mod": -1,
+    "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
     "looks_like": "f_crate_c",

@@ -19,7 +19,9 @@
       { "monster": "mon_zombie_soldier", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_irradiated_wanderer_1", "freq": 90, "cost_multiplier": 1 },
       { "monster": "mon_irradiated_wanderer_2", "freq": 10, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_3", "freq": 1, "cost_multiplier": 1 }
+      { "monster": "mon_irradiated_wanderer_3", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_necro", "freq": 8, "cost_multiplier": 20, "starts": 500 },
+      { "monster": "mon_zombie_master", "freq": 2, "cost_multiplier": 25, "starts": 1000 }
     ]
   },
   {

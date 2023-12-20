@@ -51,7 +51,7 @@ export default defineConfig({
         "./src/styles/theme.css",
         "./src/styles/capitalize.css",
       ],
-      editLink: { baseUrl: `${github}/edit/upload/doc` },
+      editLink: { baseUrl: `${github}/edit/main/doc` },
       lastUpdated: true,
       navbar: {
         game: {
