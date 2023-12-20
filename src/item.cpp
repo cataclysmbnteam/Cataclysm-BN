@@ -6049,17 +6049,22 @@ bool item::craft_has_charges()
 #pragma optimize( "", off )
 #endif
 
-int item::bash_resist( bool to_self ) const
+template<typename ResistGetter>
+static int phys_resist( const item &it, damage_type dt, clothing_mod_type cmt,
+                        ResistGetter resist_getter, bool to_self )
 {
-    if( is_null() ) {
+    if( it.is_null() ) {
         return 0;
     }
 
-    float mod = get_clothing_mod_val( clothing_mod_type_bash );
+    float mod = it.get_clothing_mod_val( cmt );
 
-    std::optional<resistances> overriden_resistance = damage_resistance_override();
+    std::optional<resistances> overriden_resistance = it.damage_resistance_override();
     if( overriden_resistance ) {
-        return std::lround( overriden_resistance->flat[DT_BASH] + mod );
+        auto iter = overriden_resistance->flat.find( dt );
+        if( iter != overriden_resistance->flat.end() ) {
+            return std::lround( iter->second + mod );
+        }
     }
 
     float resist = 0;
@@ -6067,20 +6072,25 @@ int item::bash_resist( bool to_self ) const
 
     // base resistance
     // Don't give reinforced items +armor, just more resistance to ripping
-    const int dmg = damage_level( 4 );
+    const int dmg = it.damage_level( 4 );
     const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-    eff_thickness = std::max( 1, get_thickness() - eff_damage );
+    eff_thickness = std::max( 1, it.get_thickness() - eff_damage );
 
-    const std::vector<const material_type *> mat_types = made_of_types();
+    const std::vector<const material_type *> mat_types = it.made_of_types();
     if( !mat_types.empty() ) {
         for( const material_type *mat : mat_types ) {
-            resist += mat->bash_resist();
+            resist += ( mat->*resist_getter )();
         }
         // Average based on number of materials.
         resist /= mat_types.size();
     }
 
     return std::lround( ( resist * eff_thickness ) + mod );
+}
+
+int item::bash_resist( bool to_self ) const
+{
+    return phys_resist( *this, DT_BASH, clothing_mod_type_bash, &material_type::bash_resist, to_self );
 }
 
 int item::cut_resist( bool to_self ) const
@@ -6093,7 +6103,10 @@ int item::cut_resist( bool to_self ) const
 
     std::optional<resistances> overriden_resistance = damage_resistance_override();
     if( overriden_resistance ) {
-        return std::lround( overriden_resistance->flat[DT_CUT] + mod );
+        auto iter = overriden_resistance->flat.find( DT_CUT );
+        if( iter != overriden_resistance->flat.end() ) {
+            return std::lround( overriden_resistance->flat[DT_CUT] + mod );
+        }
     }
 
     const int base_thickness = get_thickness();

@@ -93,7 +93,7 @@ struct dealt_damage_instance {
 };
 
 struct resistances {
-    std::array<float, NUM_DT> flat;
+    std::map<damage_type, float> flat;
 
     resistances();
 
@@ -125,6 +125,6 @@ resistances load_resistances_instance( const JsonObject &jo );
 
 // Returns damage or resistance data
 // Handles some shorthands
-std::array<float, NUM_DT> load_damage_array( const JsonObject &jo );
+std::map<damage_type, float> load_damage_map( const JsonObject &jo );
 
 #endif // CATA_SRC_DAMAGE_H

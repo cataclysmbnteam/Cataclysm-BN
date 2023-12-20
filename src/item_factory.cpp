@@ -578,6 +578,31 @@ void Item_factory::finalize_pre( itype &obj )
         // martial art is derived from the item id
         obj.book->martial_art = matype_id( "style_" + obj.get_id().str().substr( 7 ) );
     }
+
+    if( obj.armor ) {
+
+        auto set_resist = [&obj]( damage_type dt,
+        std::function<int( const material_type & )> resist_getter ) {
+            if( obj.armor->resistance.flat.find( dt ) != obj.armor->resistance.flat.end() ) {
+                return;
+            }
+            float resist = 0.0f;
+            if( !obj.materials.empty() ) {
+                for( const material_id &mat : obj.materials ) {
+                    resist += resist_getter( *mat );
+                }
+                resist /= obj.materials.size();
+            }
+
+            obj.armor->resistance.flat[dt] = std::lround( resist * obj.armor->thickness );
+        };
+        set_resist( DT_BASH, &material_type::bash_resist );
+        set_resist( DT_CUT, &material_type::cut_resist );
+        set_resist( DT_STAB, []( const material_type & t ) {
+            return t.cut_resist() * 0.8f;
+        } );
+        set_resist( DT_BULLET, &material_type::bullet_resist );
+    }
 }
 
 void Item_factory::register_cached_uses( const itype &obj )
