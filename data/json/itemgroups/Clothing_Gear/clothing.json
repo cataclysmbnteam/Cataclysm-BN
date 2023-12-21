@@ -3460,6 +3460,56 @@
     ]
   },
   {
+    "id": "accesories_personal_unisex_kids",
+    "type": "item_group",
+    "//": "unisex personal accessories but minus things that'd be odd for a child to have on them",
+    "subtype": "distribution",
+    "items": [
+      { "group": "clothing_glasses", "prob": 10 },
+      { "group": "clothing_watch", "prob": 10 },
+      {
+        "distribution": [
+          { "group": "accessory_bracelet", "prob": 20 },
+          { "group": "accessory_earring", "prob": 20 },
+          { "group": "accessory_necklace", "prob": 20 },
+          { "group": "tiaras_silver", "prob": 2 },
+          { "group": "tiaras_gold", "prob": 2 },
+          { "group": "tiaras_platinum", "prob": 1 },
+          { "item": "copper_ring", "prob": 10 },
+          { "group": "rings_silver", "prob": 5 },
+          { "group": "rings_gold", "prob": 5 },
+          { "item": "barrette", "prob": 5 },
+          { "item": "badge_foodkid", "prob": 5 }
+        ],
+        "prob": 25
+      },
+      { "group": "accessory_sportsgear", "prob": 25 },
+      {
+        "distribution": [
+          { "group": "accessory_cat", "prob": 20 },
+          { "item": "folding_poncho", "prob": 10 },
+          { "item": "american_flag", "prob": 10 },
+          { "item": "leather_belt", "prob": 10 },
+          { "item": "wearable_light", "prob": 15 },
+          { "item": "binoculars", "prob": 5 },
+          { "item": "whistle", "prob": 5 },
+          { "item": "flute", "prob": 3 },
+          { "item": "clarinet", "prob": 2 },
+          { "item": "harmonica_holder", "prob": 5 },
+          { "item": "saxophone", "prob": 2 },
+          { "item": "trumpet", "prob": 2 },
+          { "item": "tuba", "prob": 1 },
+          { "item": "violin", "prob": 5 },
+          { "item": "ukulele", "prob": 3 },
+          { "item": "acoustic_guitar", "prob": 1 },
+          { "item": "guitar_electric", "prob": 1 }
+        ],
+        "prob": 10
+      },
+      { "group": "child_items", "prob": 20 }
+    ]
+  },
+  {
     "id": "accesories_personal_womens",
     "type": "item_group",
     "//": "womens personal accessories",
