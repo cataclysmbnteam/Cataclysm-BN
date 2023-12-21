@@ -44,7 +44,6 @@
 #include "type_id.h"
 #include "units.h"
 
-static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_jetinjector( "jetinjector" );
@@ -712,9 +711,6 @@ void memorial_logger::notify( const cata::event &e )
                 } else if( effect == effect_jetinjector ) {
                     add( pgettext( "memorial_male", "Died of a healing stimulant overdose." ),
                          pgettext( "memorial_female", "Died of a healing stimulant overdose." ) );
-                } else if( effect == effect_adrenaline ) {
-                    add( pgettext( "memorial_male", "Died of adrenaline overdose." ),
-                         pgettext( "memorial_female", "Died of adrenaline overdose." ) );
                 } else if( effect == effect_drunk ) {
                     add( pgettext( "memorial_male", "Died of an alcohol overdose." ),
                          pgettext( "memorial_female", "Died of an alcohol overdose." ) );

@@ -1361,6 +1361,17 @@ int Creature::get_effect_int( const efftype_id &eff_id, body_part bp ) const
 
     return 0;
 }
+
+struct removed_effect {
+    public:
+        removed_effect( efftype_id type, bodypart_str_id bp, bool is_decayed ) :
+            type( type ), bp( bp ), is_decayed( is_decayed )
+        {}
+        efftype_id type;
+        bodypart_str_id bp;
+        bool is_decayed;
+};
+
 void Creature::process_effects()
 {
     process_effects_internal();
@@ -1368,24 +1379,26 @@ void Creature::process_effects()
     // id's and body_part's of all effects to be removed. If we ever get player or
     // monster specific removals these will need to be moved down to that level and then
     // passed in to this function.
-    std::vector<std::pair<efftype_id, bodypart_str_id>> to_remove;
+    std::vector<removed_effect> to_remove;
+
+    std::vector<effect> to_add;
 
     // Decay/removal of effects
     for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
             if( _it.second.is_removed() ) {
-                to_remove.emplace_back( elem.first, _it.first );
+                to_remove.emplace_back( elem.first, _it.first, false );
                 continue;
             }
             // Add any effects that others remove to the removal list
             for( const efftype_id &removed_effect : _it.second.get_removes_effects() ) {
-                to_remove.emplace_back( removed_effect, bodypart_str_id::NULL_ID() );
+                to_remove.emplace_back( removed_effect, bodypart_str_id::NULL_ID(), false );
             }
             effect &e = _it.second;
             const int prev_int = e.get_intensity();
             // Run decay effects, marking effects for removal as necessary.
             if( e.decay( calendar::turn, is_player() ) ) {
-                to_remove.emplace_back( elem.first, _it.first );
+                to_remove.emplace_back( elem.first, _it.first, true );
             }
 
             if( e.get_intensity() != prev_int && e.get_duration() > 0_turns ) {
@@ -1395,20 +1408,46 @@ void Creature::process_effects()
     }
 
     // Run the on-remove effects
-    for( const std::pair<efftype_id, bodypart_str_id> &r : to_remove ) {
-        remove_effect( r.first, r.second );
-    }
-    // Actually remove effects. This should be the last thing done in process_effects().
-    for( const std::pair<efftype_id, bodypart_str_id> &r : to_remove ) {
-        if( !r.second ) {
-            effects->erase( r.first );
-        } else {
-            ( *effects )[r.first].erase( r.second );
-            // If there are no more effects of a given type remove the type map
-            if( ( *effects )[r.first].empty() ) {
-                effects->erase( r.first );
+    for( const removed_effect &r : to_remove ) {
+        const auto &add_after = r.type->get_effects_on_remove();
+        if( !add_after.empty() ) {
+            bool found = false;
+            // Copypasted from get_effect, but without check for `removed` flag
+            auto got_outer = effects->find( r.type );
+            if( got_outer != effects->end() ) {
+                auto got_inner = got_outer->second.find( convert_bp( r.bp->token ) );
+                if( got_inner != got_outer->second.end() ) {
+                    const auto &parent = got_inner->second;
+                    const auto &decay_effects = r.is_decayed ?
+                                                parent.create_decay_effects() :
+                                                parent.create_removal_effects();
+                    to_add.insert( to_add.end(), decay_effects.begin(), decay_effects.end() );
+                    found = true;
+                }
+            }
+
+            if( !found ) {
+                debugmsg( "Couldn't find effect to remove %s", r.type.str() );
             }
         }
+
+        remove_effect( r.type, r.bp );
+    }
+    // Actually remove effects. This should be the last thing done in process_effects().
+    for( const removed_effect &r : to_remove ) {
+        if( !r.bp ) {
+            effects->erase( r.type );
+        } else {
+            ( *effects )[r.type].erase( r.bp );
+            // If there are no more effects of a given type remove the type map
+            if( ( *effects )[r.type].empty() ) {
+                effects->erase( r.type );
+            }
+        }
+    }
+
+    for( const effect &eff : to_add ) {
+        add_effect( eff );
     }
 }
 

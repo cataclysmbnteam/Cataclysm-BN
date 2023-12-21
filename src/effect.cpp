@@ -1420,6 +1420,14 @@ void load_effect_type( const JsonObject &jo )
         }
     }
 
+    if( jo.has_array( "effects_on_remove" ) ) {
+        JsonArray jarr = jo.get_array( "effects_on_remove" );
+        for( JsonObject jo_decay : jarr ) {
+            new_etype.effects_on_remove.emplace_back();
+            new_etype.effects_on_remove.back().load_decay( jo_decay );
+        }
+    }
+
     effect_types[new_etype.id] = new_etype;
 }
 
@@ -1514,4 +1522,71 @@ std::string texitify_healing_power( const int power )
         debugmsg( "Converted value out of bounds." );
     }
     return "";
+}
+
+void caused_effect::load_decay( const JsonObject &jo )
+{
+    assign( jo, "allow_on_decay", allow_on_decay );
+    assign( jo, "allow_on_remove", allow_on_remove );
+    load( jo );
+}
+
+void caused_effect::load( const JsonObject &jo )
+{
+    assign( jo, "effect_type", type );
+    assign( jo, "intensity_requirement", intensity_requirement );
+
+    if( assign( jo, "duration", duration ) ) {
+        // In case of copy-from
+        inherit_duration = false;
+    }
+    assign( jo, "inherit_duration", inherit_duration );
+    if( jo.has_member( "duration" ) && jo.has_member( "inherit_duration" ) ) {
+        jo.throw_error( R"("duration" and "inherit_duration" can't both be set at the same time.)" );
+    }
+
+    if( assign( jo, "intensity", intensity ) ) {
+        inherit_intensity = false;
+    }
+    assign( jo, "inherit_intensity", inherit_intensity );
+    if( jo.has_member( "intensity" ) && jo.has_member( "inherit_intensity" ) ) {
+        jo.throw_error( R"("intensity" and "inherit_intensity" can't both be set at the same time.)" );
+    }
+
+    if( assign( jo, "body_part", bp ) ) {
+        inherit_body_part = false;
+    }
+    assign( jo, "inherit_body_part", inherit_body_part );
+    if( jo.has_member( "intensity" ) && jo.has_member( "inherit_intensity" ) ) {
+        jo.throw_error( R"("body_part" and "inherit_body_part" can't both be set at the same time.)" );
+    }
+}
+
+std::vector<effect> effect::create_decay_effects() const
+{
+    return create_child_effects( true );
+}
+
+std::vector<effect> effect::create_removal_effects() const
+{
+    return create_child_effects( false );
+}
+
+std::vector<effect> effect::create_child_effects( bool decay ) const
+{
+    std::vector<effect> ret;
+    for( const auto &new_effect : eff_type->effects_on_remove ) {
+        if( this->intensity < new_effect.intensity_requirement ||
+            ( decay && !new_effect.allow_on_decay ) ||
+            ( !decay && !new_effect.allow_on_remove ) ) {
+            continue;
+        }
+        const effect_type *new_effect_type = &*new_effect.type;
+        time_duration dur = new_effect.inherit_duration ? this->duration : new_effect.duration;
+        int intensity = new_effect.inherit_intensity ? this->intensity : new_effect.intensity;
+        bodypart_str_id bp = new_effect.inherit_body_part ? convert_bp( this->bp ) : new_effect.bp;
+        effect e = effect( new_effect_type, dur, bp, intensity, calendar::turn );
+        ret.emplace_back( e );
+    }
+    return ret;
 }
