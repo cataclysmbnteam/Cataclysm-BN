@@ -188,6 +188,17 @@
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
+    "id": "helmet_barbute_superalloy",
+    "copy-from": "helmet_barbute",
+    "type": "ARMOR",
+    "name": { "str": "superalloy barbute helm" },
+    "description": "A medieval helmet remade in modern superalloy.  Provides excellent protection for the head, with a Y shaped opening for the face.",
+    "material": [ "superalloy", "leather" ],
+    "color": "light_cyan",
+    "encumbrance": 25,
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
     "id": "helmet_bike",
     "repairs_like": "balclava",
     "type": "ARMOR",
@@ -542,6 +553,17 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+  },
+  {
+    "id": "helmet_plate_superalloy",
+    "copy-from": "helmet_plate",
+    "type": "ARMOR",
+    "name": { "str": "superalloy great helm", "str_pl": "superalloy great helmets" },
+    "description": "A medieval helmet remade in modern superalloy.  Provides excellent protection to the entire head, at the cost of encumbrance.",
+    "material": [ "superalloy", "leather" ],
+    "color": "light_cyan",
+    "encumbrance": 35,
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },
   {
     "id": "helmet_scavenger",

@@ -362,6 +362,17 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "boots_plate_superalloy",
+    "copy-from": "boots_plate",
+    "type": "ARMOR",
+    "name": { "str": "pair of superalloy armored boots", "str_pl": "pairs of superalloy armored boots" },
+    "description": "A set of armor plated boots, made with lightweight superalloy.",
+    "material": [ "superalloy", "leather" ],
+    "color": "light_cyan",
+    "encumbrance": 23,
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
     "id": "boots_rubber",
     "repairs_like": "boots",
     "type": "ARMOR",

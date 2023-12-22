@@ -490,6 +490,18 @@
     "components": [ [ [ "steel_plate", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
+    "result": "shield_welded_superalloy",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "10 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "components": [ [ [ "alloy_plate", 1 ] ], [ [ "scrap", 4 ] ] ]
+  },
+  {
     "result": "shield_buckler",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -499,6 +511,18 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_standard", 1 ] ]
+  },
+  {
+    "result": "shield_buckler_superalloy",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "components": [ [ [ "alloy_sheet", 1 ] ] ]
   },
   {
     "result": "shield_spiked",

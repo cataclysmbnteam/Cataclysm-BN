@@ -384,6 +384,18 @@
     "components": [ [ [ "fabric_hides_proper", 10, "LIST" ] ] ]
   },
   {
+    "result": "gloves_plate_superalloy",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "7 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "blacksmithing_advanced", 24 ] ],
+    "components": [ [ [ "alloy_sheet", 6 ] ], [ [ "fabric_hides_proper", 10, "LIST" ] ] ]
+  },
+  {
     "result": "gloves_survivor",
     "type": "recipe",
     "category": "CC_ARMOR",

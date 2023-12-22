@@ -184,6 +184,18 @@
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "POWERARMOR_COMPATIBLE" ]
   },
   {
+    "id": "shield_welded_superalloy",
+    "copy-from": "shield_welded",
+    "type": "ARMOR",
+    "name": { "str": "welded superalloy shield" },
+    "description": "A shield made out of superalloy armor plating with handles welded on.  It's heavier and less well-made compared to a proper medieval shield, but it certainly works.",
+    "material": [ "superalloy" ],
+    "color": "light_cyan",
+    "encumbrance": 35,
+    "//": "No pre-apoc price to modify since post-cata makeshift item",
+    "proportional": { "weight": 0.6, "price_postapoc": 2 }
+  },
+  {
     "id": "shield_buckler",
     "type": "ARMOR",
     "name": { "str": "buckler" },
@@ -203,6 +215,17 @@
     "material_thickness": 3,
     "techniques": [ "WBLOCK_2" ],
     "flags": [ "OVERSIZE", "BELTED", "ONLY_ONE", "BLOCK_WHILE_WORN", "STURDY", "POWERARMOR_COMPATIBLE" ]
+  },
+  {
+    "id": "shield_buckler_superalloy",
+    "copy-from": "shield_buckler",
+    "type": "ARMOR",
+    "name": { "str": "superalloy buckler" },
+    "description": "A small metal shield historically used for dueling rather than protection from arrows.  This one is made of modern superalloy instead of steel.  It's small and light enough to not hinder the use of your hands.",
+    "material": [ "superalloy" ],
+    "color": "light_cyan",
+    "encumbrance": 5,
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },
   {
     "id": "shield_spiked",

@@ -197,6 +197,17 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
   {
+    "id": "legguard_lightplate_superalloy",
+    "copy-from": "legguard_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "pair of superalloy leg guards", "str_pl": "pairs of superalloy leg guards" },
+    "description": "A full assembly of medieval leg protection, made from cutting-edge superalloy.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
+    "material": [ "superalloy", "leather" ],
+    "color": "light_cyan",
+    "encumbrance": 15,
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
     "id": "legguard_metal",
     "type": "ARMOR",
     "name": { "str": "pair of iron greaves", "str_pl": "pairs of iron greaves" },

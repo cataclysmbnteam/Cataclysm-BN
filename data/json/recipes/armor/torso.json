@@ -223,6 +223,18 @@
     "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
+    "result": "cuirass_lightplate_superalloy",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 10,
+    "time": "3 h 10 m",
+    "book_learn": [ [ "textbook_armwest", 9 ] ],
+    "using": [ [ "blacksmithing_advanced", 32 ] ],
+    "components": [ [ [ "alloy_sheet", 8 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
+  },
+  {
     "result": "cuirass_scrap",
     "type": "recipe",
     "category": "CC_ARMOR",
