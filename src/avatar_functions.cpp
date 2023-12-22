@@ -231,6 +231,9 @@ void mend_item( avatar &you, item &obj, bool interactive )
     if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj.tname() );
+            if( obj.has_flag( flag_NON_FOULING ) && obj.has_var( "dirt" ) ) {
+                obj.erase_var( "dirt" );
+            }
             if( obj.damage() > 0 ) {
                 const std::set<itype_id> &rep = obj.repaired_with();
                 if( !rep.empty() ) {
