@@ -7,7 +7,7 @@
     "description": "This cauldron made of demon spider chitin seems to absorb the light.  It will hold 16 liters of material and will absorb poisons from it.  It may have other properties that require discovery.",
     "weight": "1424 g",
     "volume": "20 L",
-    "price": "20 USD",
+    "price": 2000,
     "to_hit": -1,
     "looks_like": "clay_hydria",
     "bashing": 1,
@@ -27,7 +27,7 @@
     "description": "This is a portable version of the charcoal forge that is magically enhanced and fortified with demon spider chitin in order to be able to resmelt magical metals into their workable ingot form.",
     "weight": "10 kg",
     "volume": "8 L",
-    "price": "2 kUSD",
+    "price": 200000,
     "to_hit": -2,
     "bashing": 9,
     "material": "demon_chitin",
@@ -47,7 +47,7 @@
     "description": "Some alchemical mortar, ready to be used in building projects expecting temperatures on par with dragonbreath.",
     "category": "spare_parts",
     "container": "bag_canvas",
-    "price": "5 kUSD",
+    "price": 500000,
     "material": "powder_nonflam",
     "weight": "2340 g",
     "volume": "1 L",
@@ -100,7 +100,6 @@
           "kevlar",
           "neoprene",
           "gutskin",
-          "scute",
           "black_dragon_hide",
           "demon_chitin"
         ],
@@ -123,25 +122,10 @@
           "neoprene",
           "gutskin",
           "plastic",
-          "kevlar_rigid",
-          "scute",
-          "black_dragon_hide",
-          "demon_chitin"
+          "kevlar_rigid"
         ],
         "skill": "tailor",
-        "clothing_mods": [
-          "leather_padded",
-          "steel_padded",
-          "alloy_padded",
-          "kevlar_padded",
-          "nomex_padded",
-          "furred",
-          "wooled",
-          "resized_large",
-          "pocketed",
-          "owlbear_furred",
-          "demonchitin_padded"
-        ]
+        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled", "owlbear_furred", "demonchitin_padded" ]
       }
     ]
   }

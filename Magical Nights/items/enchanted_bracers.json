@@ -7,7 +7,7 @@
     "description": "A full assembly of medieval arm protection.",
     "weight": "1520 g",
     "volume": "2500 ml",
-    "price": "200 USD",
+    "price": 20000,
     "to_hit": -1,
     "material": [ "steel", "leather" ],
     "symbol": "[",

@@ -18,7 +18,8 @@
     "comestible_type": "DRINK",
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
-    "price": "25 USD"
+    "price": 2500,
+    "freezing_point": 40
   },
   {
     "id": "mana_potion",
@@ -26,7 +27,7 @@
     "name": { "str": "mana potion" },
     "copy-from": "mana_potion_lesser",
     "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 5 },
-    "price": "100 USD"
+    "price": 10000
   },
   {
     "id": "mana_potion_greater",
@@ -34,7 +35,7 @@
     "name": { "str": "greater mana potion" },
     "copy-from": "mana_potion_lesser",
     "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 15 },
-    "price": "300 USD"
+    "price": 30000
   },
   {
     "id": "cats_grace_potion",
@@ -54,7 +55,8 @@
     "comestible_type": "DRINK",
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
-    "price": "30 USD"
+    "price": 3000,
+    "freezing_point": 40
   },
   {
     "id": "ogres_strength_potion",
@@ -95,8 +97,7 @@
     "color": "pink",
     "stack_size": 1,
     "spoils_in": "4 days",
-    "flags": [ "TRADER_AVOID", "INEDIBLE", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "flags": [ "TRADER_AVOID", "INEDIBLE", "NUTRIENT_OVERRIDE" ]
   },
   {
     "id": "animist_doll_skeleton",
@@ -115,8 +116,7 @@
     "type": "COMESTIBLE",
     "category": "weapons",
     "material": [ "fur", "flesh", "bone" ],
-    "copy-from": "animist_doll_skeleton",
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "copy-from": "animist_doll_skeleton"
   },
   {
     "id": "twisted_restore_potion",
@@ -138,7 +138,8 @@
     "comestible_type": "DRINK",
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
-    "price": "25 USD"
+    "price": 2500,
+    "freezing_point": 10
   },
   {
     "id": "twisted_restore_potion_improved",

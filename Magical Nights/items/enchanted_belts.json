@@ -6,7 +6,7 @@
     "description": "A leather belt.  Useful for making your pair of pants fit.",
     "weight": "102 g",
     "volume": "250 ml",
-    "price": "900 USD",
+    "price": 90000,
     "bashing": 5,
     "material": [ "leather" ],
     "symbol": "[",
@@ -19,10 +19,9 @@
       "holster_prompt": "Stick what into your belt",
       "holster_msg": "You tuck your %s into your %s",
       "max_volume": "500 ml",
-      "max_weight": "400 g",
+      "max_weight": 400,
       "flags": [ "BELT_CLIP" ]
     },
-    "valid_mods": [ "resized_large" ],
     "flags": [ "WAIST", "WATER_FRIENDLY", "STURDY" ]
   },
   {
@@ -176,7 +175,7 @@
     "description": "A long braided flexible steel bullwhip that narrows into a sharp blade at the end.  Easily capable of slicing and dicing anything that comes at you.  It transforms back into a belt.",
     "weight": "2154 g",
     "volume": "2 L",
-    "price": "3500 USD",
+    "price": 350000,
     "material": [ "steel" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "UNBREAKABLE_MELEE" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "WHIP_DISARM", "WRAP" ],
@@ -189,5 +188,12 @@
       "moves": 20,
       "msg": "You loop the whip in your hand and it coils back into a belt form in an instant."
     }
+  },
+    {
+    "id": "belt_str",
+    "copy-from": "mbelt_leather",
+    "type": "ARMOR",
+    "name": { "str": "belt of strength +2", "str_pl": "belts of strength +2" },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] }
   }
 ]
