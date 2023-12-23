@@ -18,7 +18,7 @@
         ],
         "prob": 25
       },
-      { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 15, "count": 2 },
+      { "group": "accesories_personal_unisex_kids", "damage": [ 1, 4 ], "prob": 15, "count": 2 },
       {
         "distribution": [
           {
