@@ -2,11 +2,40 @@
   {
     "type": "item_group",
     "id": "military_standard_assault_rifles",
+    "//": "Mainly the standard rifles that an Army/Marine rifleman, Army TL, or Marine assistant automatic rifleman would use, but allow a handful of Ranger and Delta Force rifles",
     "subtype": "distribution",
     "entries": [
-      { "group": "everyday_m4a1", "prob": 88, "charges": [ 0, 30 ] },
+      { "group": "everyday_m4a1", "prob": 75, "charges": [ 0, 30 ] },
       { "group": "everyday_m27iar", "prob": 10, "charges": [ 0, 30 ] },
-      { "item": "m16a4", "prob": 2, "charges": [ 0, 30 ] }
+      { "group": "everyday_h&k416a5", "prob": 5, "charges": [ 0, 30 ] },
+      { "group": "everyday_scar_h", "prob": 5, "charges": [ 0, 30 ] },
+      { "item": "m16a4", "prob": 5, "charges": [ 0, 30 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_standard_grenadier",
+    "//": "Standard-issue assault rifles with appropriate grenade launcher majority of the time",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "group": "military_standard_assault_rifles", "contents-group": "military_accessories_grenadier" },
+          { "group": "on_hand_40x46mm" }
+        ],
+        "prob": 90
+      },
+      { "group": "everyday_mgl", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_standard_antitank",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "LAW_Packed", "prob": 50 },
+      { "item": "m3_carlgustav", "prob": 25, "charges-min": 1, "charges-max": 1 },
+      { "item": "AT4", "prob": 25, "charges-min": 1, "charges-max": 1 }
     ]
   },
   {
@@ -21,17 +50,24 @@
   {
     "type": "item_group",
     "id": "military_standard_sniper_rifles",
+    "//": "Also permits the inclusion of designated marksman rifles and anti-materiel, not just pure snipers",
     "subtype": "distribution",
     "entries": [
+      { "group": "everyday_m110a1", "prob": 75, "charges": [ 0, 20 ] },
       { "group": "everyday_m2010", "prob": 20, "charges": [ 0, 5 ] },
-      { "group": "everyday_m110a1", "prob": 80, "charges": [ 0, 20 ] }
+      { "group": "everyday_m107a1", "prob": 5, "charges": [ 0, 10 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "military_standard_lmgs",
+    "//": "Mostly LMGs but allows the occasional GPMG too",
     "subtype": "distribution",
-    "entries": [ { "group": "everyday_m249", "prob": 100, "charges": [ 0, 100 ] } ]
+    "entries": [
+      { "group": "everyday_m249", "prob": 75, "charges": [ 0, 100 ] },
+      { "group": "everyday_m27iar_fire_support", "prob": 15, "charges": [ 0, 100 ] },
+      { "group": "everyday_m240", "prob": 10, "charges": [ 0, 100 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -48,7 +84,7 @@
     "type": "item_group",
     "id": "military_standard_grenades",
     "subtype": "distribution",
-    "entries": [ { "item": "grenade", "prob": 100 } ]
+    "entries": [ { "item": "grenade", "prob": 75 }, { "item": "smokebomb", "prob": 20 }, { "item": "grenade_inc", "prob": 5 } ]
   },
   {
     "type": "item_group",
