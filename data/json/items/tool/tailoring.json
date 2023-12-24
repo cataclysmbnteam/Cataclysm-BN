@@ -185,7 +185,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "tailor's kit" },
-    "description": "This is a high quality kit consisting of a variety of needles, some plastic spools for thread, some small scissors, and an awl.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
+    "description": "This is a high quality kit consisting of a variety of needles, some plastic spools for thread, some small scissors, and an awl.  Using your tailoring skill, this kit can customize your clothing and armor, whether up-armoring them or altering some items to fit large mutant wearers.",
     "weight": "100 g",
     "volume": "500 ml",
     "price": 1000,
