@@ -6,7 +6,7 @@
     "color": "brown",
     "name": { "str": "lesser staff of the magi", "str_pl": "lesser staves of the magi" },
     "description": "A beautifully carved staff, made of enchanted wood and mithril.  It faintly glows with magic when you cast spells, but it is not a sturdy melee weapon.",
-    "price": 40000,
+    "price": "400 USD",
     "material": "wood",
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "MAGIC_FOCUS" ],
     "relic_data": {
@@ -25,7 +25,7 @@
     "description": "A blue pointed hat with stars stiched into it.  Wearing it increases your mana regeneration.",
     "weight": "390 g",
     "volume": "2 L",
-    "price": 9500,
+    "price": "95 USD",
     "material": [ "cotton" ],
     "symbol": "^",
     "color": "light_blue",

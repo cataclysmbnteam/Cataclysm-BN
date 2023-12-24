@@ -8,7 +8,7 @@
     "weight": "10 kg",
     "color": "yellow",
     "material": [ "orichalcum_metal" ],
-    "price": "10000 USD"
+    "price": "100 USD"
   },
   {
     "type": "GENERIC",
@@ -20,6 +20,6 @@
     "weight": "100 kg",
     "color": "yellow",
     "material": [ "orichalcum_metal" ],
-    "price": "800000 USD"
+    "price": "8 kUSD"
   }
 ]

@@ -11,7 +11,7 @@
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "volume": "3750 ml",
     "bashing": 45,
-    "price": 200000
+    "price": "2 kUSD"
   },
   {
     "id": "gungnir",
@@ -25,7 +25,7 @@
     "volume": "3250 ml",
     "bashing": 10,
     "cutting": 35,
-    "price": 200000
+    "price": "2 kUSD"
   },
   {
     "id": "gram",
@@ -38,7 +38,7 @@
     "techniques": [ "WBLOCK_2", "PRECISE", "VORPAL" ],
     "volume": "2500 ml",
     "cutting": 45,
-    "price": 200000
+    "price": "2 kUSD"
   },
   {
     "id": "laevateinn",
@@ -46,7 +46,7 @@
     "type": "GENERIC",
     "name": { "str": "Laevateinn" },
     "description": "Laevateinn, the staff of Loki.  Said to have been plucked from the gates of Hel by Loki.  Imbued with a mysterious magic, the magic of the trickster god himself.",
-    "price": 160000,
+    "price": "1600 USD",
     "material": [ "steel", "gold", "orichalcum_metal" ],
     "flags": [ "MAGIC_FOCUS" ],
     "techniques": [ "WBLOCK_2", "SPIN", "RAPID", "SWEEP" ],

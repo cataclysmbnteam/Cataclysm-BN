@@ -31,7 +31,7 @@
     "spell_class": "MANA_SEEKER_BOLTS",
     "min_damage": 15,
     "max_damage": 36,
-    "damage_increment": 1.0,
+    "damage_increment": 1,
     "max_level": 18,
     "min_range": 11,
     "max_range": 23,

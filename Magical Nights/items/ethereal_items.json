@@ -7,7 +7,7 @@
     "description": "A magical flexible stonelike substance for protection and attack.",
     "weight": "1 g",
     "volume": "250 ml",
-    "price": 1,
+    "price": "1 cent",
     "to_hit": 2,
     "bashing": 20,
     "material": [ "superalloy" ],
@@ -22,7 +22,7 @@
       "environmental_protection": 10
     },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
+    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS", "POWERARMOR_COMPATIBLE" ],
     "techniques": [ "WBLOCK_3" ]
   },
   {
@@ -46,7 +46,7 @@
     "description": "A magical flexible stonelike substance for protection and attack.",
     "weight": "1 g",
     "volume": "250 ml",
-    "price": 1,
+    "price": "1 cent",
     "to_hit": 2,
     "bashing": 20,
     "material": [ "superalloy" ],
@@ -59,7 +59,7 @@
     "material_thickness": 4,
     "environmental_protection": 10,
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
+    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS", "POWERARMOR_COMPATIBLE" ],
     "techniques": [ "WBLOCK_3" ]
   },
   {
@@ -70,13 +70,13 @@
     "description": "a magical light source that will light up a small area.",
     "weight": "1 g",
     "volume": "250 ml",
-    "price": 1,
+    "price": "1 cent",
     "to_hit": -2,
     "bashing": 8,
     "symbol": ",",
     "color": "light_green",
     "covers": [ "head" ],
-    "flags": [ "LIGHT_15", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
+    "flags": [ "LIGHT_15", "LEAK_DAM", "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "magic_light",
@@ -84,13 +84,13 @@
     "category": "tools",
     "name": "magic light",
     "description": "A small magical light that you can read by.",
-    "weight": 0,
-    "volume": 0,
-    "price": 0,
+    "weight": "0 kg",
+    "volume": "0 ml",
+    "price": "0 cent",
     "symbol": ",",
     "color": "light_green",
     "covers": [ "head" ],
-    "flags": [ "LIGHT_5", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
+    "flags": [ "LIGHT_5", "LEAK_DAM", "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "shield_ice",
@@ -100,7 +100,7 @@
     "description": "A lightweight but tough shield crafted entirely of magical ice.",
     "weight": "1 kg",
     "volume": "5 L",
-    "price": 1,
+    "price": "1 cent",
     "to_hit": 1,
     "bashing": 14,
     "material": [ "steel" ],
@@ -111,7 +111,7 @@
     "encumbrance": 15,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_3" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "ice_gliders",
@@ -120,7 +120,7 @@
     "description": "A magical slick icy coating on your feet.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
     "weight": "1 g",
     "volume": "250 ml",
-    "price": 1,
+    "price": "1 cent",
     "to_hit": -2,
     "bashing": 6,
     "material": [ "steel" ],
@@ -133,7 +133,7 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
-    "flags": [ "WATERPROOF", "ROLLER_QUAD", "BELTED" ]
+    "flags": [ "WATERPROOF", "ROLLER_QUAD", "BELTED", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "type": "GENERIC",
@@ -160,7 +160,7 @@
     "volume": "1250 ml",
     "bashing": 30,
     "//electric": 15,
-    "price": 0,
+    "price": "0 cent",
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -204,7 +204,8 @@
       "TRADER_AVOID",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "MAGIC_FOCUS"
+      "MAGIC_FOCUS",
+      "POWERARMOR_COMPATIBLE"
     ]
   },
   {
@@ -239,9 +240,9 @@
     "type": "ARMOR",
     "name": { "str": "flesh pouch", "str_pl": "flesh pouches" },
     "description": "A large pouch of tough flesh on your back, filled with tiny tentacles that grasp and hold anything you place inside.  It shifts and adjusts itself to minimize encumbrance.",
-    "weight": 0,
-    "volume": 0,
-    "price": 0,
+    "weight": "0 kg",
+    "volume": "0 ml",
+    "price": "0 cent",
     "material": [ "flesh" ],
     "symbol": "[",
     "color": "green",
@@ -250,7 +251,18 @@
     "encumbrance": 10,
     "storage": "25 L",
     "material_thickness": 3,
-    "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "NO_UNWIELD", "ONLY_ONE", "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": [
+      "BELTED",
+      "COMPACT",
+      "TRADER_AVOID",
+      "WATERPROOF",
+      "STURDY",
+      "NO_UNWIELD",
+      "ONLY_ONE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "POWERARMOR_COMPATIBLE"
+    ]
   },
   {
     "id": "bonespear",
@@ -294,6 +306,7 @@
       "STR_DRAW",
       "PRIMITIVE_RANGED_WEAPON",
       "BELTED",
+      "COMPACT",
       "UNBREAKABLE_MELEE",
       "NONCONDUCTIVE",
       "ONLY_ONE",
@@ -353,11 +366,20 @@
     "description": "An all-encompassing, invisible layer of magic distorts light around your body.  Allows you to dodge two extra attacks in a given turn.",
     "weight": "1g",
     "volume": "1ml",
-    "price": 3646,
+    "price": "3646 cent",
     "symbol": "o",
     "color": "white",
     "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "POWERARMOR_COMPATIBLE"
+    ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] }
   },
   {
@@ -367,11 +389,20 @@
     "description": "An all-encompassing, invisible layer of protection against acid.",
     "weight": "1g",
     "volume": "1ml",
-    "price": 3646,
+    "price": "3646 cent",
     "symbol": "o",
     "color": "green",
     "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "POWERARMOR_COMPATIBLE"
+    ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
     }
@@ -383,11 +414,20 @@
     "description": "An all-encompassing, invisible layer of protection against acid.",
     "weight": "1g",
     "volume": "1ml",
-    "price": 3646,
+    "price": "3646 cent",
     "symbol": "o",
     "color": "green",
     "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "POWERARMOR_COMPATIBLE"
+    ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
     }
@@ -409,7 +449,7 @@
     "warmth": 0,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "aura_stoneskin",
@@ -428,7 +468,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "burn_scar",
@@ -455,7 +495,7 @@
     "covers": [ "eyes", "mouth" ],
     "encumbrance": 18,
     "relic_data": { "passive_effects": [ { "id": "ench_overcharge_burn_scar" } ] },
-    "flags": [ "NO_TAKEOFF", "TRADER_AVOID", "BLIND" ]
+    "flags": [ "NO_TAKEOFF", "TRADER_AVOID", "BLIND", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "protect_env",
@@ -468,7 +508,16 @@
     "color": "blue",
     "environmental_protection": 15,
     "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ]
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "POWERARMOR_COMPATIBLE"
+    ]
   },
   {
     "id": "flamesword",

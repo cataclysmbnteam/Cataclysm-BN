@@ -6,7 +6,7 @@
     "description": "A leather belt.  Useful for making your pair of pants fit.",
     "weight": "102 g",
     "volume": "250 ml",
-    "price": 90000,
+    "price": "900 USD",
     "bashing": 5,
     "material": [ "leather" ],
     "symbol": "[",
@@ -19,7 +19,7 @@
       "holster_prompt": "Stick what into your belt",
       "holster_msg": "You tuck your %s into your %s",
       "max_volume": "500 ml",
-      "max_weight": 400,
+      "max_weight": "400 g",
       "flags": [ "BELT_CLIP" ]
     },
     "flags": [ "WAIST", "WATER_FRIENDLY", "STURDY" ]
@@ -175,7 +175,7 @@
     "description": "A long braided flexible steel bullwhip that narrows into a sharp blade at the end.  Easily capable of slicing and dicing anything that comes at you.  It transforms back into a belt.",
     "weight": "2154 g",
     "volume": "2 L",
-    "price": 350000,
+    "price": "3500 USD",
     "material": [ "steel" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "UNBREAKABLE_MELEE" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "WHIP_DISARM", "WRAP" ],
