@@ -8,7 +8,7 @@
     "mission": 7,
     "chat": "TALK_NPC_SCRAP_TRADER",
     "faction": "wasteland_scavengers",
-    "mission_offered": "MISSION_SCRAP_TRADER_GET_25_MAGNETRON"
+    "mission_offered": "MISSION_SCRAP_TRADER_GET_5_MICROWAVE"
   },
   {
     "type": "talk_topic",

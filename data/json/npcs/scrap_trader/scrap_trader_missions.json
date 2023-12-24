@@ -1,12 +1,12 @@
 [
   {
-    "id": "MISSION_SCRAP_TRADER_GET_5_MAGNETRON",
+    "id": "MISSION_SCRAP_TRADER_GET_5_MICROWAVE",
     "type": "mission_definition",
     "name": "Find 5 Microwaves",
     "description": "Obtain 5 microwaves in exchange for credit with the scrap merchant.",
     "goal": "MGOAL_FIND_ITEM",
-    "item": "magnetron",
-    "count": 25,
+    "item": "microwave",
+    "count": 5,
     "difficulty": 2,
     "value": 10000,
     "origins": [ "ORIGIN_OPENER_NPC" ],
