@@ -2247,6 +2247,11 @@ void iexamine::dirtmound( player &p, const tripoint &examp )
     }
     const auto &seed_id = std::get<0>( seed_entries[seed_index] );
 
+    if( !here.has_flag_ter_or_furn( seed_id->seed->required_terrain_flag, examp ) ) {
+        add_msg( _( "This type of seed can not be planted in this location." ) );
+        return;
+    }
+
     plant_seed( p, examp, seed_id );
 }
 
