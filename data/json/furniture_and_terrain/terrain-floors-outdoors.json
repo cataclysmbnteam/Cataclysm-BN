@@ -494,16 +494,16 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
     "bash": {
-    "sound": "SMASH!",
-    "ter_set": "t_null",
-    "str_min": 100,
-    "str_max": 400,
-    "str_min_supported": 150,
-    "items": [
-      { "item": "rock", "count": [ 5, 10 ] },
-      { "item": "scrap", "count": [ 5, 8 ] },
-      { "item": "rebar", "count": [ 0, 2 ] }
-    ]
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 100,
+      "str_max": 400,
+      "str_min_supported": 150,
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
+      ]
     }
   }
 ]
