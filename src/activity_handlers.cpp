@@ -3580,10 +3580,12 @@ void activity_handlers::plant_seed_finish( player_activity *act, player *p )
         }
         used_seed.front()->set_flag( flag_HIDDEN_ITEM );
         here.add_item_or_charges( examp, std::move( used_seed.front() ) );
-        if( here.has_flag_furn( flag_PLANTABLE, examp ) ) {
+        if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) ) {
             here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
-        } else {
+        } else if( seed_id->seed->required_terrain_flag == flag_PLANTABLE ) {
             here.set( examp, t_dirt, f_plant_seed );
+        } else {
+            here.furn_set( examp, f_plant_seed );
         }
         p->add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
                                   item::nname( seed_id ) );
