@@ -311,6 +311,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_high_end_of_an_earthen_ramp",
+    "name": "Build High End of a Rammed Earth Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_high_end_of_a_wooden_ramp",
+    "name": "Build High End of a Wooden Ramp"
+  },
+  {
+    "type": "construction_group",
     "id": "build_improvised_shelter",
     "name": "Build Improvised Shelter"
   },
@@ -358,6 +368,16 @@
     "type": "construction_group",
     "id": "build_low_end_of_a_concrete_ramp",
     "name": "Build Low End of a Concrete Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_an_earthen_ramp",
+    "name": "Build Low End of a Rammed Earth Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_a_wooden_ramp",
+    "name": "Build Low End of a Wooden Ramp"
   },
   {
     "type": "construction_group",

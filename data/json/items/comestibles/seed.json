@@ -240,8 +240,14 @@
     "copy-from": "seed",
     "name": { "str_sp": "cattail seeds" },
     "color": "green",
-    "description": "Some cattail seeds.",
-    "seed_data": { "plant_name": "cattail", "fruit": "cattail_stalk", "byproducts": [ "cattail_rhizome" ], "grow": "14 days" }
+    "description": "Some cattail seeds.  Must be planted in shallow water.",
+    "seed_data": {
+      "plant_name": "cattail",
+      "fruit": "cattail_stalk",
+      "byproducts": [ "cattail_rhizome" ],
+      "grow": "14 days",
+      "required_terrain_flag": "SHALLOW_WATER"
+    }
   },
   {
     "type": "COMESTIBLE",
