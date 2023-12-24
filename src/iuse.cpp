@@ -4641,6 +4641,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
+    const mtype *mt = nullptr;
     bool drew_blood = false;
     bool acid_blood = false;
     for( auto &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
@@ -4652,7 +4653,10 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
             auto bloodtype( map_it->get_mtype()->bloodType() );
             if( bloodtype.obj().has_acid ) {
                 acid_blood = true;
+            } else {
+                mt = map_it->get_mtype();
             }
+            break;
         }
     }
 
@@ -4690,6 +4694,9 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     }
 
     detached_ptr<item> blood = item::spawn( "blood", calendar::turn );
+    if( mt != nullptr ) {
+        blood->set_mtype( mt );
+    }
     if( !liquid_handler::handle_liquid( std::move( blood ), 1 ) ) {
         // NOLINTNEXTLINE(bugprone-use-after-move)
         it->put_in( std::move( blood ) );
@@ -5143,7 +5150,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_ADRENALINE:
                 p->add_msg_if_player( m_good, _( "You're filled with a roaring energy!" ) );
-                p->add_effect( effect_adrenaline, rng( 20_minutes, 25_minutes ) );
+                p->add_effect( effect_adrenaline, rng( 2_minutes, 3_minutes ) );
                 break;
 
             case AEA_MAP: {
@@ -5587,7 +5594,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
 
 int iuse::adrenaline_injector( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_npc() && p->get_effect_dur( effect_adrenaline ) >= 30_minutes ) {
+    if( p->is_npc() && p->get_effect_dur( effect_adrenaline ) >= 3_minutes ) {
         return 0;
     }
 
@@ -5602,7 +5609,7 @@ int iuse::adrenaline_injector( player *p, item *it, bool, const tripoint & )
         p->mod_healthy( -20 );
     }
 
-    p->add_effect( effect_adrenaline, 20_minutes );
+    p->add_effect( effect_adrenaline, 2_minutes );
 
     return it->type->charges_to_use();
 }

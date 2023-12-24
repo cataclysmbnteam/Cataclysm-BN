@@ -5,7 +5,7 @@
     "name": "Craftable Gun Pack",
     "authors": [ "Zaweri" ],
     "maintainers": [ "Noctifer-de-Mortem" ],
-    "description": "Adds more craftable firearms, and gunpowder.",
+    "description": "Adds more craftable firearms and gunmods.  Formerly focused on smokeless gunpowder, before the recipe for it was added to vanilla.",
     "category": "items",
     "dependencies": [ "bn" ]
   }

@@ -1140,7 +1140,7 @@ void Character::set_pain( int npain )
 
 int Character::get_perceived_pain() const
 {
-    if( get_effect_int( effect_adrenaline ) > 1 ) {
+    if( has_effect( effect_adrenaline ) ) {
         return 0;
     }
 
@@ -5514,10 +5514,6 @@ void Character::check_needs_extremes()
         }
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_jetinjector );
         set_part_hp_cur( bodypart_id( "torso" ), 0 );
-    } else if( get_effect_dur( effect_adrenaline ) > 50_minutes ) {
-        add_msg_if_player( m_bad, _( "Your heart spasms and stops." ) );
-        g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_adrenaline );
-        set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( get_effect_int( effect_drunk ) > 4 ) {
         add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_drunk );
@@ -9205,7 +9201,7 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
     if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
         ( get_part_hp_cur( bodypart_id( "head" ) ) < 25 ||
           get_part_hp_cur( bodypart_id( "torso" ) ) < 15 ) ) {
-        add_effect( effect_adrenaline, 20_minutes );
+        add_effect( effect_adrenaline, 3_minutes );
     }
 
     if( disturb ) {
@@ -10451,7 +10447,7 @@ void Character::on_item_takeoff( const item &it )
 void Character::on_effect_int_change( const efftype_id &effect_type, int intensity,
                                       const bodypart_str_id &bp )
 {
-    // Adrenaline can reduce perceived pain (or increase it when you enter comedown).
+    // Adrenaline can reduce perceived pain (or increase it when it times out).
     // See @ref get_perceived_pain()
     if( effect_type == effect_adrenaline ) {
         // Note that calling this does no harm if it wasn't changed.
