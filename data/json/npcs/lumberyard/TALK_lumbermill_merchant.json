@@ -38,7 +38,6 @@
     "dynamic_line": "So, what's up?",
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_LUMBERMILL_MERCHANT_STORY" },
-      { "text": "Can I purchase some of your wares?", "topic": "TALK_LUMBERMILL_FABRICATE" },
       {
         "text": "Any jobs you need done?",
         "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
