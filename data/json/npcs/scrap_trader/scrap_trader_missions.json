@@ -53,8 +53,8 @@
   {
     "id": "MISSION_SCRAP_TRADER_GET_100_SOLDER",
     "type": "mission_definition",
-    "name": "Obtain 100 Solder Wire",
-    "description": "Obtain 100 soldering wire in exchange for credit with the scrap merchant.",
+    "name": "Obtain 100 Solder",
+    "description": "Obtain 100 solder in exchange for credit with the scrap merchant.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "solder_wire",
     "count": 100,
