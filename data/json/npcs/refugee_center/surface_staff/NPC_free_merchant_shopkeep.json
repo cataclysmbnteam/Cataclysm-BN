@@ -835,7 +835,7 @@
     "dynamic_line": [ "Sure, we could use some around here for repairs and whatnot.  What are the terms?" ],
     "responses": [
       {
-        "text": "Well, how about 250 merch for 100 pounds of…",
+        "text": "Well, how about 250 merch for 50 kilos of…",
         "effect": { "u_buy_item": "trade_writ" },
         "topic": "TALK_DONE"
       }
