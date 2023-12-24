@@ -291,7 +291,8 @@ void Character::mutation_effect( const trait_id &mut )
     }
 
     remove_worn_items_with( [&]( detached_ptr<item> &&armor ) {
-        if( armor->has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
+        if( armor->has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ||
+            armor->has_flag( STATIC( flag_id( "resized_large" ) ) ) ) {
             return std::move( armor );
         }
         if( !branch.conflicts_with_item( *armor ) ) {

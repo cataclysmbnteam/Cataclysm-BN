@@ -282,26 +282,6 @@
     ]
   },
   {
-    "result": "boots_xlsurvivor",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
-    "skill_used": "tailor",
-    "difficulty": 6,
-    "skills_required": [ "fabrication", 4 ],
-    "time": "3 h",
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 160 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
-    "components": [
-      [ [ "fabric_hides_proper", 24, "LIST" ] ],
-      [ [ "fabric_standard", 6, "LIST" ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "boots_combat", 2 ], [ "kevlar_plate", 10 ] ],
-      [ [ "duct_tape", 200 ] ]
-    ]
-  },
-  {
     "result": "clogs",
     "type": "recipe",
     "category": "CC_ARMOR",

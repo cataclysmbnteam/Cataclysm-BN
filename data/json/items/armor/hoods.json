@@ -62,6 +62,7 @@
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 10,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
@@ -85,6 +86,7 @@
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 3,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
@@ -129,6 +131,7 @@
     "material_thickness": 4,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
+    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
@@ -152,31 +155,8 @@
     "warmth": 75,
     "material_thickness": 5,
     "environmental_protection": 5,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
-  },
-  {
-    "id": "hood_xlsurvivor",
-    "type": "ARMOR",
-    "name": { "str": "XL survivor hood" },
-    "description": "A massive customized, heavily armored leather and Kevlar hood, designed to provide comfort and protection from harm.",
-    "weight": "1640 g",
-    "volume": "4500 ml",
-    "price": "580 USD",
-    "price_postapoc": "25 USD",
-    "to_hit": -1,
-    "bashing": 10,
-    "material": [ "kevlar", "leather" ],
-    "symbol": "[",
-    "looks_like": "hood_survivor",
-    "color": "brown",
-    "covers": [ "head" ],
-    "coverage": 100,
-    "encumbrance": 40,
-    "warmth": 15,
-    "material_thickness": 3,
-    "environmental_protection": 3,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "nomex_hood",

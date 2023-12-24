@@ -1285,7 +1285,7 @@ item::sizing item::get_sizing( const Character &p ) const
         // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
         // is a bit of cognitive dissonance when something 'fits' and is 'oversized' and the same time
         const bool undersize = has_flag( flag_UNDERSIZE );
-        const bool oversize = has_flag( flag_OVERSIZE );
+        const bool oversize = has_flag( flag_OVERSIZE ) || has_flag( flag_resized_large );
 
         if( undersize ) {
             if( small ) {
@@ -2755,7 +2755,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                         break;
                     case sizing::small_sized_big_char:
                     case sizing::human_sized_big_char:
-                        resize_str = _( "<bad>can not be upsized</bad>" );
+                        resize_str = _( "<bad>can not be upsized</bad> without drastically altering it" );
                         break;
                     default:
                         break;
@@ -4653,6 +4653,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
 
+    if( has_flag( flag_resized_large ) ) {
+        tagtext += _( " (XL)" );
+    }
     const sizing sizing_level = get_sizing( you );
 
     if( sizing_level == sizing::human_sized_small_char ) {

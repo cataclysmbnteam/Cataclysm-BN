@@ -508,26 +508,6 @@
     ]
   },
   {
-    "result": "gloves_xlsurvivor",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HANDS",
-    "skill_used": "tailor",
-    "difficulty": 6,
-    "skills_required": [ "fabrication", 4 ],
-    "time": "1 h 20 m",
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 100 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
-    "components": [
-      [ [ "fabric_hides_proper", 16, "LIST" ] ],
-      [ [ "fabric_standard", 6, "LIST" ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "duct_tape", 160 ] ],
-      [ [ "gloves_tactical", 2 ], [ "kevlar_plate", 6 ] ]
-    ]
-  },
-  {
     "result": "mittens",
     "type": "recipe",
     "category": "CC_ARMOR",
