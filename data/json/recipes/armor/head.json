@@ -1054,7 +1054,7 @@
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "scrap", 3 ] ],
+      [ [ "steel_standard", 2, "LIST" ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
     ]
   },

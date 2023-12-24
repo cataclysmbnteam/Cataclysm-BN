@@ -260,26 +260,14 @@
   },
   {
     "id": "boots_sasurvivor",
+    "copy-from": "boots_hsurvivor",
     "type": "ARMOR",
     "name": { "str": "pair of superalloy survivor boots", "str_pl": "pairs of superalloy survivor boots" },
     "description": "A pair of customized Kevlar boots, heavily armored with superalloy and modified to provide maximum protection from harm, even when knee-deep in the dead.",
-    "weight": "1400 g",
-    "volume": "3 L",
-    "price": "240 USD",
-    "price_postapoc": "80 USD",
-    "to_hit": -1,
-    "bashing": 1,
     "material": [ "kevlar", "superalloy" ],
-    "symbol": "[",
-    "looks_like": "boots_combat",
     "color": "light_cyan",
-    "covers": [ "feet" ],
-    "coverage": 100,
     "encumbrance": 30,
-    "warmth": 15,
-    "material_thickness": 6,
-    "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },
   {
     "id": "boots_larmor",

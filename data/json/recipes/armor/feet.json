@@ -119,7 +119,7 @@
     "components": [
       [ [ "fabric_standard", 4, "LIST" ] ],
       [ [ "fabric_hides_proper", 4, "LIST" ] ],
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
+      [ [ "steel_standard", 1, "LIST" ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
@@ -140,7 +140,7 @@
     "components": [
       [ [ "rag", 4 ] ],
       [ [ "leather", 4 ] ],
-      [ [ "alloy_sheet", 3 ] ],
+      [ [ "alloy_sheet", 1 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]

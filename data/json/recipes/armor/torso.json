@@ -559,7 +559,7 @@
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "components": [ [ [ "modularvest", 1 ] ], [ [ "alloy_sheet", 8 ] ] ],
+    "components": [ [ [ "modularvest", 1 ] ], [ [ "alloy_sheet", 4 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
