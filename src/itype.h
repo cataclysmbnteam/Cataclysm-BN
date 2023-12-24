@@ -21,6 +21,7 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h" // use_function
+#include "mapdata.h"
 #include "pldata.h" // add_type
 #include "shape.h"
 #include "stomach.h"
@@ -765,7 +766,10 @@ struct islot_seed {
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */
     std::vector<itype_id> byproducts;
-
+    /**
+     * Terrain tag required to plant the seed.
+     */
+    std::string required_terrain_flag = "PLANTABLE";
     islot_seed() = default;
 };
 

@@ -110,6 +110,8 @@ bool check_down_OK( const tripoint & ); // tile is above OVERMAP_DEPTH
 bool check_no_trap( const tripoint & );
 bool check_ramp_low( const tripoint & );
 bool check_ramp_high( const tripoint & );
+bool check_empty_ramp_low( const tripoint & );
+bool check_empty_ramp_high( const tripoint & );
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint & ) {}
@@ -1276,6 +1278,16 @@ bool construct::check_ramp_low( const tripoint &p )
     return check_up_OK( p ) && check_up_OK( p + tripoint_above );
 }
 
+bool construct::check_empty_ramp_high( const tripoint &p )
+{
+    return check_empty( p ) && check_ramp_high( p );
+}
+
+bool construct::check_empty_ramp_low( const tripoint &p )
+{
+    return check_empty( p ) && check_ramp_low( p );
+}
+
 void construct::done_trunk_plank( const tripoint &/*p*/ )
 {
     int num_logs = rng( 2, 3 );
@@ -1658,7 +1670,9 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
             { "check_down_OK", construct::check_down_OK },
             { "check_no_trap", construct::check_no_trap },
             { "check_ramp_low", construct::check_ramp_low },
-            { "check_ramp_high", construct::check_ramp_high }
+            { "check_ramp_high", construct::check_ramp_high },
+            { "check_empty_ramp_low", construct::check_empty_ramp_low },
+            { "check_empty_ramp_high", construct::check_empty_ramp_high }
         }
     };
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = { {
