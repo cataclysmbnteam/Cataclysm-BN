@@ -160,49 +160,5 @@
     "id": "evac_center_25",
     "copy-from": "generic_evac_road",
     "sym": "┘"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_lapin",
-    "name": "cabin",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_roof_lapin",
-    "name": "cabin roof",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "chemical_lab_ocu", "chemical_lab_roof_ocu" ],
-    "name": "small cabin",
-    "sym": "C",
-    "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION", "SOURCE_PEOPLE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "smallscrapyard_ocu" ],
-    "name": "scrap yard",
-    "sym": "s",
-    "color": "red",
-    "flags": [ "SOURCE_PEOPLE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "lumbermill_0_0_ocu", "lumbermill_0_1_ocu", "lumbermill_1_0_ocu", "lumbermill_1_1_ocu" ],
-    "name": "lumbermill",
-    "sym": "L",
-    "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION", "SOURCE_PEOPLE" ]
   }
 ]
