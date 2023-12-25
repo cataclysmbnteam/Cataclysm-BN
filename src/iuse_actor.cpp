@@ -4787,7 +4787,10 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     const inventory &crafting_inv = p.crafting_inventory();
     // Go through all discovered repair items and see if we have any of them available
     for( auto &cm : clothing_mods::get_all() ) {
-        has_enough[cm.item_string] = crafting_inv.has_amount( cm.item_string, items_needed );
+        has_enough[cm.item_string] =
+            item::count_by_charges( cm.item_string )
+            ? crafting_inv.has_charges( cm.item_string, items_needed )
+            : crafting_inv.has_amount( cm.item_string, items_needed );
     }
 
     int mod_count = 0;
