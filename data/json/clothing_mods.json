@@ -82,5 +82,15 @@
       { "type": "encumbrance", "value": 3, "proportion": [ "coverage" ] },
       { "type": "warmth", "value": 20, "proportion": [ "coverage" ] }
     ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "resized_large",
+    "flag": "resized_large",
+    "item": "rag",
+    "implement_prompt": "Resize to fit abnormally large mutated anatomy",
+    "destroy_prompt": "Undo resizing for mutated anatomy",
+    "restricted": true,
+    "mod_value": [ { "type": "encumbrance", "value": 10, "proportion": [ "coverage" ] } ]
   }
 ]

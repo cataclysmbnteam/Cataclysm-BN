@@ -833,28 +833,6 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
-    "id": "gloves_xlsurvivor",
-    "type": "ARMOR",
-    "name": { "str": "pair of XL survivor gloves", "str_pl": "pairs of XL survivor gloves" },
-    "description": "A massive pair of customized, Kevlar armored leather gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
-    "weight": "480 g",
-    "volume": "1500 ml",
-    "price": "180 USD",
-    "price_postapoc": "15 USD",
-    "to_hit": 2,
-    "material": [ "kevlar", "leather" ],
-    "symbol": "[",
-    "looks_like": "gloves_survivor",
-    "color": "brown",
-    "covers": [ "hands" ],
-    "coverage": 100,
-    "encumbrance": 30,
-    "warmth": 15,
-    "material_thickness": 2,
-    "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
-  },
-  {
     "id": "long_glove_white",
     "repairs_like": "arm_warmers",
     "type": "ARMOR",

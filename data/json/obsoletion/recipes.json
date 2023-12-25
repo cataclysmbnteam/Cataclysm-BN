@@ -3193,5 +3193,71 @@
     "type": "recipe",
     "result": "i4_combustionuncraft",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mask_fsurvivorxl",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mask_survivorxl",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mask_wsurvivorxl",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mask_h20survivorxl",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "boots_xlsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gloves_xlsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_xlsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hood_xlsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jumpsuit_xl",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jumpsuit_xl",
+    "id_suffix": "from_jumpsuit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xlsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xlhsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xlsasurvivor_suit",
+    "obsolete": true
   }
 ]
