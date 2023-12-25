@@ -3767,20 +3767,26 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
         }
     }
 
+    const auto copy_flags = [&]( item & it ) {
+        for( const auto &flag : used_up_item_flags ) {
+            it.set_flag( flag );
+        }
+    };
+
+    // TODO: make this less cursed
     if( !used_up_item_id.is_empty() ) {
         // If the item is a tool, `make` it the new form
         // Otherwise it probably was consumed, so create a new one
-        if( it.is_tool() ) {
+        if( it.is_tool() || ( it.count_by_charges() && it.charges <= used_up_item_charges ) ) {
             it.convert( used_up_item_id );
-            for( const auto &flag : used_up_item_flags ) {
-                it.set_flag( flag );
-            }
+            copy_flags( it );
         } else {
+            if( it.count_by_charges() && it.charges > used_up_item_charges ) {
+                it.charges -= used_up_item_charges;
+            }
             item *used_up = item::spawn_temporary( used_up_item_id, it.birthday() );
             used_up->charges = used_up_item_charges;
-            for( const auto &flag : used_up_item_flags ) {
-                used_up->set_flag( flag );
-            }
+            copy_flags( *used_up );
             for( int count = 0; count < used_up_item_quantity; count++ ) {
                 healer.i_add_or_drop( item::spawn( *used_up ) );
             }
