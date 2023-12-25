@@ -212,6 +212,16 @@ void JsonObject::throw_error( const std::string &err, const std::string &name ) 
     jsin->error( err );
 }
 
+void JsonArray::string_error( const std::string &err, int idx, int offset )
+{
+    if( jsin && idx >= 0 && static_cast<size_t>( idx ) < positions.size() ) {
+        jsin->seek( positions[idx] );
+        jsin->string_error( err, offset );
+    } else {
+        throw_error( err );
+    }
+}
+
 void JsonArray::throw_error( const std::string &err )
 {
     if( !jsin ) {
