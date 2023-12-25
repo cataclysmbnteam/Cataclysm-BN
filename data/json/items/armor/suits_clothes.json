@@ -91,7 +91,6 @@
     "storage": "2 L",
     "warmth": 15,
     "material_thickness": 1,
-    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {

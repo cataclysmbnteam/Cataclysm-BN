@@ -62,7 +62,6 @@
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 10,
-    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
@@ -86,7 +85,6 @@
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
@@ -131,7 +129,6 @@
     "material_thickness": 4,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
@@ -155,7 +152,6 @@
     "warmth": 75,
     "material_thickness": 5,
     "environmental_protection": 5,
-    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {

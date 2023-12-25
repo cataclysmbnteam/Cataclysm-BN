@@ -1193,7 +1193,6 @@
     "initial_charges": 100,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
-    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1251,7 +1250,6 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1292,7 +1290,6 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1321,7 +1318,6 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1350,7 +1346,6 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1528,7 +1523,6 @@
     "color": "dark_gray",
     "name": { "str": "survivor divemask" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  It provides excellent protection from harm as well providing breathing gas while underwater.  Use it to turn it on.",
-    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SWIM_GOGGLES" ],
     "price": "400 USD",
     "price_postapoc": "20 USD",

@@ -633,7 +633,6 @@
     "material_thickness": 5,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -658,7 +657,6 @@
     "material_thickness": 5,
     "environmental_protection": 5,
     "techniques": [ "WBLOCK_1" ],
-    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
