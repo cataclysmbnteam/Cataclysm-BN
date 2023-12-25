@@ -4803,6 +4803,10 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         valid_mods = mod.find_armor_data()->valid_mods;
     }
 
+    if( mod.has_flag( flag_VARSIZE ) && !mod.has_flag( flag_OVERSIZE ) ) {
+        valid_mods.push_back( "resized_large" );
+    }
+
     const auto get_compare_color = [&]( const int before, const int after,
     const bool higher_is_better ) {
         return before == after ? c_unset : ( ( after > before ) == higher_is_better ? c_light_green :
