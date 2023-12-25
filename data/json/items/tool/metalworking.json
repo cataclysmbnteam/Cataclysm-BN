@@ -290,7 +290,7 @@
     "category": "spare_parts",
     "name": { "str": "chainmail sheet" },
     "description": "This is a sheet of riveted chainmail.  With some skill, several of these sheets could be connected to make effective armor.",
-    "weight": "1000 g",
+    "weight": "900 g",
     "volume": "500 ml",
     "price": "10 USD",
     "price_postapoc": "5 USD",

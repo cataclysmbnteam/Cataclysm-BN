@@ -426,7 +426,7 @@
     "type": "ARMOR",
     "name": { "str": "faraday chainmail suit" },
     "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
-    "weight": "23335 g",
+    "weight": "16836 g",
     "volume": "3500 ml",
     "price": "350 USD",
     "price_postapoc": "90 USD",
