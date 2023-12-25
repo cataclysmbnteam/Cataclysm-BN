@@ -3381,7 +3381,7 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         }
     }
     if( found ) {
-        int quantity = std::max( 1, std::min( found->charges, found->charges_per_volume( 250_ml ) ) );
+        const int quantity = std::clamp( found->charges, 1, found->charges_per_volume( 250_ml ) );
         // Note: move_item() handles messages (they're the generic "you drop x")
         move_item( p, *found, quantity, *refuel_spot, *best_fire );
     }

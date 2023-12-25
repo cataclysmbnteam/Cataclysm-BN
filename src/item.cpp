@@ -8297,7 +8297,7 @@ float item::simulate_burn( fire_data &frd ) const
     }
 
     if( count_by_charges() ) {
-        int stack_burnt = rng( type->stack_size / 2, type->stack_size );
+        const int stack_burnt = type->stack_size;
         time_added *= stack_burnt;
         smoke_added *= stack_burnt;
         burn_added *= stack_burnt;
