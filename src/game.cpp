@@ -8146,7 +8146,10 @@ static void add_corpses( uilist &menu, const std::vector<item *> &its,
     int hotkey = get_initial_hotkey( menu_index );
 
     for( const item * const &it : its ) {
-        menu.addentry( menu_index++, true, hotkey, it->get_mtype()->nname() );
+        const std::string msg_name = it->has_flag( flag_CBM_SCANNED )
+                                     ? string_format( _( "%s (bionic detected)" ), it->get_mtype()->nname() )
+                                     :  _( it->get_mtype()->nname() );
+        menu.addentry( menu_index++, true, hotkey, msg_name );
         hotkey = -1;
     }
 }
