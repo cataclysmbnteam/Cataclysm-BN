@@ -376,5 +376,16 @@
       { "item": "5x50dart", "prob": 100, "charges": [ 25, 50 ] },
       { "item": "5x50heavy", "prob": 30, "charges": [ 25, 50 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "on_hand_40x46mm",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "40x46mm_m433", "prob": 75, "charges": [ 5, 10 ] },
+      { "item": "40x46mm_m576", "prob": 10, "charges": [ 5, 10 ] },
+      { "item": "40x46mm_m651", "prob": 15, "charges": [ 5, 10 ] }
+    ]
   }
 ]

@@ -957,7 +957,7 @@
     "name": { "str": "chain link" },
     "symbol": "=",
     "color": "light_gray",
-    "description": "Small metal rings, suitable for constructing chainmail.",
+    "description": "Small metal rings and wires for hand-made rivets, suitable for constructing chainmail.",
     "material": "iron",
     "volume": "250 ml",
     "weight": "1 g",

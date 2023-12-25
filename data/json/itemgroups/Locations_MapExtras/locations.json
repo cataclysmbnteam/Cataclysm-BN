@@ -2351,7 +2351,16 @@
       { "item": "boots_combat", "prob": 50 },
       { "item": "helmet_army", "prob": 10 },
       { "item": "gloves_tactical", "prob": 10 },
-      { "item": "modularvestceramic", "prob": 10 },
+      {
+        "distribution": [
+          { "item": "modularvestceramic", "prob": 50 },
+          { "item": "modularvest", "prob": 25 },
+          { "item": "modularveststeel", "prob": 10 },
+          { "item": "modularvesthard", "prob": 10 },
+          { "item": "modularvestsuper", "prob": 5 }
+        ],
+        "prob": 10
+      },
       { "group": "clothing_tactical_leg", "prob": 5 },
       {
         "distribution": [

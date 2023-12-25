@@ -3237,7 +3237,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<bool>::make_failure( _( "Can't wear that, it's filthy!" ) );
     }
 
-    if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_SEMITANGIBLE ) ) {
+    if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_resized_large ) &&
+        !it.has_flag( flag_SEMITANGIBLE ) ) {
         for( const trait_id &mut : get_mutations() ) {
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
