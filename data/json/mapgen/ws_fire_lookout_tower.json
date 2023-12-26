@@ -173,6 +173,76 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f1" ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       XX      XX       ",
+        "       XX      XX       ",
+        "                        ",
+        "          XXXX          ",
+        "          X>>X          ",
+        "          X<<X          ",
+        "          XXXX          ",
+        "                        ",
+        "       XX      XX       ",
+        "       XX      XX       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "X": "t_concrete_wall", "<": "t_ladder_up", ">": "t_ladder_down" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ws_fire_lookout_tower_f2" ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       XX      XX       ",
+        "       XX      XX       ",
+        "                        ",
+        "          XXXX          ",
+        "          X<<X          ",
+        "          X>>X          ",
+        "          XXXX          ",
+        "                        ",
+        "       XX      XX       ",
+        "       XX      XX       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "X": "t_concrete_wall", "<": "t_ladder_up", ">": "t_ladder_down" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ws_fire_lookout_tower_f3" ],
     "weight": 1000,
     "object": {
       "rows": [
@@ -269,7 +339,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "ws_fire_lookout_tower_f2" ],
+    "om_terrain": [ "ws_fire_lookout_tower_f4" ],
     "weight": 1000,
     "object": {
       "rows": [
@@ -324,7 +394,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "ws_fire_lookout_tower_f3" ],
+    "om_terrain": [ "ws_fire_lookout_tower_f5" ],
     "weight": 1000,
     "object": {
       "rows": [
