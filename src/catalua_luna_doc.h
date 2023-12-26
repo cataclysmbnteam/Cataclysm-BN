@@ -21,7 +21,6 @@ enum mf_attitude : int;
 enum npc_attitude : int;
 enum npc_need : int;
 
-class activity_type;
 class avatar;
 class Character;
 class character_id;
@@ -110,8 +109,11 @@ LUNA_ID( itype, "Itype" )
 LUNA_ID( monfaction, "MonsterFaction" )
 LUNA_ID( morale_type_data, "MoraleTypeData" )
 LUNA_ID( mutation_branch, "MutationBranch" )
+LUNA_ID( mutation_category_trait, "MutationCategoryTrait" )
 LUNA_ID( Skill, "Skill" )
 LUNA_ID( ter_t, "Ter" )
+LUNA_ID( json_flag, "JsonFlag" )
+LUNA_ID( json_trait_flag, "JsonTraitFlag" )
 
 
 // Enums

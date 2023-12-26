@@ -59,15 +59,23 @@ TEST_CASE( "lua_global_functions", "[lua]" )
 
     // Randomize avatar name
     get_avatar().pick_name();
-    std::string expected = get_avatar().name;
+    std::string expected_name = get_avatar().name;
 
     // Run Lua script
     run_lua_test_script( lua, "global_functions_test.lua" );
 
     // Get test output
-    std::string res = test_data["out"];
+    std::string lua_avatar_name = test_data["avatar_name"];
+    std::string lua_creature_avatar_name = test_data["creature_avatar_name"];
+    std::string lua_monster_avatar_name = test_data["monster_avatar_name"];
+    std::string lua_character_avatar_name = test_data["character_avatar_name"];
+    std::string lua_npc_avatar_name = test_data["npc_avatar_name"];
 
-    REQUIRE( res == expected );
+    REQUIRE( lua_avatar_name == expected_name );
+    REQUIRE( lua_creature_avatar_name == expected_name );
+    REQUIRE( lua_monster_avatar_name == "nil" );
+    REQUIRE( lua_character_avatar_name == expected_name );
+    REQUIRE( lua_npc_avatar_name == "nil" );
 }
 
 TEST_CASE( "lua_called_from_cpp", "[lua]" )

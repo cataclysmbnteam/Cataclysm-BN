@@ -1,6 +1,7 @@
 #ifdef LUA
 #include "catalua_bindings.h"
 
+#include "activity_type.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -24,6 +25,10 @@
 #include "player.h"
 #include "pldata.h"
 #include "skill.h"
+
+#include "type_id.h"
+#include "flag.h"
+#include "flag_trait.h"
 
 // Note(AluminumAlman): using these macros makes binding to Lua much less of a chore.
 // I'd rather shoot myself in the foot than to torture myself with busywork.
@@ -154,7 +159,7 @@ void cata::detail::reg_creature_family( sol::state &lua )
         } );
 
         luna::set_fx( ut, "has_effect_with_flag", []( const Creature & cr,
-        const std::string & flag, sol::optional<const bodypart_str_id &> bpid ) -> bool {
+        const flag_id & flag, sol::optional<const bodypart_str_id &> bpid ) -> bool {
             body_part bp = bpid ? ( *bpid ) -> token : num_bp;
             return cr.has_effect_with_flag( flag, bp );
         } );
@@ -893,7 +898,7 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( has_base_trait, bool( const trait_id & b ) const );
 
-        SET_FX_T( has_trait_flag, bool( const std::string & b ) const );
+        SET_FX_T( has_trait_flag, bool( const trait_flag_str_id & b ) const );
 
         SET_FX_T( has_opposite_trait, bool( const trait_id & flag ) const );
 
@@ -1005,7 +1010,7 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( mutation_ok, bool( const trait_id &, bool, bool ) const );
 
-        SET_FX_T( mutate_category, void( const std::string & ) );
+        SET_FX_T( mutate_category, void( const mutation_category_id & ) );
 
         SET_FX_T( mutate_towards, bool( std::vector<trait_id>, int ) );
 
@@ -1021,7 +1026,7 @@ void cata::detail::reg_character( sol::state &lua )
 
         //SET_FX_T( set_highest_cat_level, void() );
 
-        SET_FX_T( get_highest_category, std::string() const );
+        SET_FX_T( get_highest_category, mutation_category_id() const );
 
         //SET_FX_T( drench_mut_calc, void() );
 
@@ -1327,10 +1332,10 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( is_wearing_on_bp, bool( const itype_id &, const bodypart_id & ) const );
 
-        SET_FX_T( worn_with_flag, bool( const std::string &, const bodypart_id & ) const );
+        SET_FX_T( worn_with_flag, bool( const flag_id &, const bodypart_id & ) const );
 
         SET_FX_T( item_worn_with_flag,
-                  const item * ( const std::string &, const bodypart_id & ) const );
+                  const item * ( const flag_id &, const bodypart_id & ) const );
 
         //SET_FX_T( get_overlay_ids, std::vector<std::string>() const );
 
@@ -1375,8 +1380,6 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( is_throw_immune, bool() const );
 
-        SET_FX_T( has_nv, bool() );
-
         SET_FX_T( rest_quality, float() const );
 
         SET_FX_T( healing_rate, float( float ) const );
@@ -1410,9 +1413,9 @@ void cata::detail::reg_character( sol::state &lua )
         //SET_FX_T( stop_hauling, void() );
         SET_FX_T( is_hauling, bool() const );
 
-        SET_FX_T( has_item_with_flag, bool( const std::string & flag, bool need_charges ) const );
+        SET_FX_T( has_item_with_flag, bool( const flag_id & flag, bool need_charges ) const );
         SET_FX_T( all_items_with_flag,
-                  std::vector<const item *>( const std::string & flag ) const );
+                  std::vector<item *>( const flag_id & flag ) const );
 
         //SET_FX_T( has_charges,
         //bool( const itype_id &it, int quantity,
@@ -1708,8 +1711,6 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( suffer, void() );
 
         SET_FX_T( irradiate, bool( float rads, bool bypass ) );
-
-        SET_FX_T( mend, void( int rate_multiplier ) );
 
         //SET_FX_T( sound_hallu, void() );
 

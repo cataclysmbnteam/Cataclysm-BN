@@ -468,6 +468,8 @@ struct mutation_category_trait {
         static void check_consistency();
 
         static void load( const JsonObject &jsobj );
+
+        LUA_TYPE_OPS( mutation_category_trait, id );
 };
 
 void load_mutation_type( const JsonObject &jsobj );

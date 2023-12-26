@@ -118,10 +118,9 @@ static auto item_stack_lua_pairs( item_stack &stk )
 
 void cata::detail::reg_units( sol::state &lua )
 {
-#define UT_CLASS units::angle
     {
-        sol::usertype<UT_CLASS> ut =
-        luna::new_usertype<UT_CLASS>(
+        sol::usertype<units::angle> ut =
+        luna::new_usertype<units::angle>(
             lua,
             luna::no_bases,
             luna::no_constructor
@@ -133,11 +132,9 @@ void cata::detail::reg_units( sol::state &lua )
         luna::set_fx( ut, "from_arcmin", &units::from_arcmin<double> );
         luna::set_fx( ut, "to_arcmin", &units::to_arcmin );
     }
-#undef UT_CLASS // #define UT_CLASS units::angle
-#define UT_CLASS units::energy
     {
-        sol::usertype<UT_CLASS> ut =
-        luna::new_usertype<UT_CLASS>(
+        sol::usertype<units::energy> ut =
+        luna::new_usertype<units::energy>(
             lua,
             luna::no_bases,
             luna::no_constructor
@@ -146,16 +143,14 @@ void cata::detail::reg_units( sol::state &lua )
         luna::set_fx( ut, "to_joule", &units::to_joule<double> );
         luna::set_fx( ut, "from_kilojoule", &units::from_kilojoule<double> );
         luna::set_fx( ut, "to_kilojoule", &units::to_kilojoule<double> );
-
+        
         luna::set_fx( ut, sol::meta_function::equal_to, &UT_CLASS::operator== );
         luna::set_fx( ut, sol::meta_function::less_than, &UT_CLASS::operator< );
         luna::set_fx( ut, sol::meta_function::less_than_or_equal_to, &UT_CLASS::operator<= );
     }
-#undef UT_CLASS // #define UT_CLASS units::energy
-#define UT_CLASS units::mass
     {
-        sol::usertype<UT_CLASS> ut =
-        luna::new_usertype<UT_CLASS>(
+        sol::usertype<units::mass> ut =
+        luna::new_usertype<units::mass>(
             lua,
             luna::no_bases,
             luna::no_constructor
@@ -168,16 +163,14 @@ void cata::detail::reg_units( sol::state &lua )
         luna::set_fx( ut, "to_kilogram", &units::to_kilogram<double> );
         luna::set_fx( ut, "from_newton", &units::from_newton<double> );
         luna::set_fx( ut, "to_newton", &units::to_newton<double> );
-
+        
         luna::set_fx( ut, sol::meta_function::equal_to, &UT_CLASS::operator== );
         luna::set_fx( ut, sol::meta_function::less_than, &UT_CLASS::operator< );
         luna::set_fx( ut, sol::meta_function::less_than_or_equal_to, &UT_CLASS::operator<= );
     }
-#undef UT_CLASS // #define UT_CLASS units::mass
-#define UT_CLASS units::volume
     {
-        sol::usertype<UT_CLASS> ut =
-        luna::new_usertype<UT_CLASS>(
+        sol::usertype<units::volume> ut =
+        luna::new_usertype<units::volume>(
             lua,
             luna::no_bases,
             luna::no_constructor
@@ -186,12 +179,11 @@ void cata::detail::reg_units( sol::state &lua )
         luna::set_fx( ut, "from_liter", &units::from_liter<double> );
         luna::set_fx( ut, "to_milliliter", &units::to_milliliter<double> );
         luna::set_fx( ut, "to_liter", &units::to_liter );
-
+        
         luna::set_fx( ut, sol::meta_function::equal_to, &UT_CLASS::operator== );
         luna::set_fx( ut, sol::meta_function::less_than, &UT_CLASS::operator< );
         luna::set_fx( ut, sol::meta_function::less_than_or_equal_to, &UT_CLASS::operator<= );
     }
-#undef UT_CLASS // #define UT_CLASS units::volume
 }
 
 void cata::detail::reg_item( sol::state &lua )
@@ -522,7 +514,7 @@ void cata::detail::reg_game_api( sol::state &lua )
         vec.push_back( f );
         hooks.push_back( on_every_x_hooks{ interval, vec } );
     } );
-
+    
     luna::set_fx( lib, "get_creature_at", []( const tripoint & p,
     std::optional<bool> allow_hallucination ) -> Creature * {
         if( allow_hallucination )
@@ -562,7 +554,7 @@ void cata::detail::reg_game_api( sol::state &lua )
         }
         return g->critter_at<npc>( p );
     } );
-
+    
     luna::set_fx( lib, "choose_adjacent", []( const std::string & message,
     std::optional<bool> allow_vertical ) -> std::optional<tripoint> {
         if( allow_vertical )
@@ -582,7 +574,7 @@ void cata::detail::reg_game_api( sol::state &lua )
     luna::set_fx( lib, "look_around", []() {
         return g->look_around();
     } );
-
+    
     luna::set_fx( lib, "play_variant_sound",
                   sol::overload(
                       sol::resolve<void( const std::string &, const std::string &, int )>( &sfx::play_variant_sound ),
@@ -590,7 +582,7 @@ void cata::detail::reg_game_api( sol::state &lua )
                                          units::angle, double, double )>( &sfx::play_variant_sound )
                   ) );
     luna::set_fx( lib, "play_ambient_variant_sound", &sfx::play_ambient_variant_sound );
-
+    
     luna::set_fx( lib, "add_npc_follower", []( npc & p ) {
         g->add_npc_follower( p.getID() );
     } );

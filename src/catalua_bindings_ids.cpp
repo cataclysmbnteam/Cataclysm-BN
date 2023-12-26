@@ -18,8 +18,11 @@
 #include "mutation.h"
 #include "skill.h"
 #include "type_id.h"
-
 #include "recipe.h"
+
+#include "flag.h"
+#include "flag_trait.h"
+
 
 
 template<typename T, bool do_int_id>
@@ -113,11 +116,14 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<bionic_data, false>( lua );
     reg_id<disease_type, false>( lua );
     // FIXME: int_id<monfaction> lacks is_valid(), and throws a linker error during reg_id,
-    // when fixed, change the false below this line to true.
+    // when fixed, change the `false` below this line to `true`.
     reg_id<monfaction, false>( lua );
     reg_id<Skill, false>( lua );
     reg_id<activity_type, false>( lua );
     reg_id<morale_type_data, false>( lua );
+    reg_id<mutation_category_trait, false>( lua );
+    reg_id<json_flag, false>( lua );
+    reg_id<json_trait_flag, false>( lua );
 }
 
 void cata::detail::reg_types( sol::state &lua )
