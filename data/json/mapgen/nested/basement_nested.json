@@ -2730,7 +2730,7 @@
         "||||||||"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_vehicles": [ { "vehicle": "bikeshop", "x": 1, "y": 2, "rotation": 180, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 2, "y": 3, "rotation": 180, "chance": 100 } ],
       "place_items": [ { "item": "bikeshop_tools", "x": 1, "y": 2, "chance": 80, "repeat": [ 1, 3 ] } ]
     }
   },
