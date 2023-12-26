@@ -107,7 +107,7 @@ ignorable = {
     "monstergroup",
     "MONSTER_WHITELIST",
     "mutation_type",
-    "obsolete_terrain",
+    "oter_id_migration",
     "overlay_order",
     "overmap_connection",
     "overmap_location",
@@ -162,6 +162,7 @@ automatically_convertible = {
     "item_action",
     "ITEM_CATEGORY",
     "json_flag",
+    "mutation_flag",
     "keybinding",
     "LOOT_ZONE",
     "MAGAZINE",
@@ -1094,6 +1095,30 @@ def extract_json(state, item):
         if "sound_fail" in bash:
             writestr(state, bash["sound_fail"])
             wrote = True
+    if "oxytorch" in item and "message" in item["oxytorch"]:
+        c = f"message when oxytorch cutting {name}"
+        writestr(state, item["oxytorch"]["message"], comment=c)
+        wrote = True
+    if "hacksaw" in item:
+        hacksaw = item["hacksaw"]
+        if "sound" in hacksaw:
+            c = f"sound of sawing {name}"
+            writestr(state, hacksaw["sound"], comment=c)
+            wrote = True
+        if "message" in hacksaw:
+            c = f"message when finished sawing {name}"
+            writestr(state, hacksaw["message"], comment=c)
+            wrote = True
+    if "boltcut" in item:
+        boltcut = item["boltcut"]
+        if "sound" in boltcut:
+            c = f"sound of bolt cutting {name}"
+            writestr(state, boltcut["sound"], comment=c)
+            wrote = True
+        if "message" in boltcut:
+            c = f"message when finished bolt cutting {name}"
+            writestr(state, boltcut["message"], comment=c)
+            wrote = True
     if "pry" in item:
         pry = item["pry"]
         if "sound" in pry:
@@ -1111,6 +1136,9 @@ def extract_json(state, item):
         if "break_message" in pry:
             writestr(state, pry["break_message"])
             wrote = True
+    if "lockpick_message" in item:
+        writestr(state, item["lockpick_message"])
+        wrote = True
     if "seed_data" in item:
         seed_data = item["seed_data"]
         writestr(state, seed_data["plant_name"])
@@ -1173,7 +1201,7 @@ def extract_json(state, item):
 
 def assert_num_args(node, args, n):
     if len(args) != n:
-        raise Exception(f"invalid amount of arguments in translation call (found {len(args)}, expected {n}). Error source:   {ast.to_lua_source(node)}") 
+        raise Exception(f"invalid amount of arguments in translation call (found {len(args)}, expected {n}). Error source:   {ast.to_lua_source(node)}")
 
 
 def get_string_literal(node, args, pos):
@@ -1228,7 +1256,7 @@ class LuaCallVisitor(ast.ASTVisitor):
             if comment.is_trans_comment:
                 self.trans_comments.append(comment)
             else:
-                self.regular_comments.append(comment) 
+                self.regular_comments.append(comment)
 
     def report_unused_comments(self):
         for comment in self.trans_comments:

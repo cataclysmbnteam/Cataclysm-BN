@@ -264,6 +264,18 @@
     "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
+    "result": "legguard_lightplate_superalloy",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "time": "190 m",
+    "book_learn": [ [ "textbook_armwest", 8 ] ],
+    "using": [ [ "blacksmithing_advanced", 28 ] ],
+    "components": [ [ [ "alloy_sheet", 7 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
+  },
+  {
     "result": "legguard_metal",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -599,11 +611,12 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "40 m",
-    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 4 ] ],
-    "components": [ [ [ "link_sheet", 4 ] ], [ [ "chain_link", 100 ] ], [ [ "wire", 1 ] ], [ [ "rag", 6 ] ] ]
+    "difficulty": 4,
+    "skills_required": [ [ "tailor", 2 ] ],
+    "time": "20 m",
+    "autolearn": [ [ "fabrication", 6 ], [ "tailor", 4 ] ],
+    "book_learn": [ [ "textbook_armwest", 3 ], [ "textbook_fabrication", 3 ], [ "recipe_melee", 3 ] ],
+    "using": [ [ "chainmail_standard", 4 ] ]
   },
   {
     "result": "legguard_bronze",
@@ -655,5 +668,44 @@
     "book_learn": [ [ "manual_tailor", 1 ] ],
     "using": [ [ "sewing_standard", 8 ] ],
     "components": [ [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "skirt_armor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "rag", 10 ] ] ]
+  },
+  {
+    "result": "skirt_armor_leather",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "leather", 10 ] ] ]
+  },
+  {
+    "result": "skirt_armor_plate",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "15 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "sewing_standard", 10 ], [ "steel_tiny", 2 ] ],
+    "components": [ [ [ "skirt_armor_leather", 1 ] ] ]
   }
 ]

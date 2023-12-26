@@ -9,6 +9,7 @@
 #include "damage.h"
 #include "point.h"
 #include "string_id.h"
+#include "detached_ptr.h"
 
 class Creature;
 struct explosion_data;
@@ -29,11 +30,10 @@ struct projectile {
          * Returns an item that should be dropped or an item for which is_null() is true
          *  when item to drop is unset.
          */
-        const item &get_drop() const;
+        item *get_drop() const;
         /** Copies item `it` as a drop for this projectile. */
-        void set_drop( const item &it );
-        void set_drop( item &&it );
-        void unset_drop();
+        void set_drop( detached_ptr<item> &&it );
+        detached_ptr<item> unset_drop();
 
         const explosion_data &get_custom_explosion() const;
         void set_custom_explosion( const explosion_data &ex );
@@ -45,7 +45,7 @@ struct projectile {
 
         projectile();
         projectile( const projectile & );
-        projectile( projectile && );
+        projectile( projectile && ) noexcept ;
         projectile &operator=( const projectile & );
         ~projectile();
 
@@ -62,7 +62,7 @@ struct projectile {
     private:
         // Actual item used (to drop contents etc.).
         // Null in case of bullets (they aren't "made of cartridges").
-        std::unique_ptr<item> drop;
+        detached_ptr<item> drop;
         std::unique_ptr<explosion_data> custom_explosion;
         std::set<ammo_effect_str_id> proj_effects;
 };

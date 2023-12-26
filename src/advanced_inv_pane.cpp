@@ -12,6 +12,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_search.h"
+#include "make_static.h"
 #include "map.h"
 #include "options.h"
 #include "player.h"
@@ -54,8 +55,6 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     filter = save_state->filter;
 }
 
-static const std::string flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
-
 bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) const
 {
     return is_filtered( *it.items.front() );
@@ -63,7 +62,7 @@ bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) con
 
 bool advanced_inventory_pane::is_filtered( const item &it ) const
 {
-    if( it.has_flag( flag_HIDDEN_ITEM ) ) {
+    if( it.has_flag( STATIC( flag_id( "HIDDEN_ITEM" ) ) ) ) {
         return true;
     }
     if( filter.empty() ) {
@@ -95,11 +94,11 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
     // Existing items are *not* cleared on purpose, this might be called
     // several times in case all surrounding squares are to be shown.
     if( square.id == AIM_INVENTORY ) {
-        const invslice &stacks = u.inv.slice();
+        const_invslice stacks = u.inv_const_slice();
         for( size_t x = 0; x < stacks.size(); ++x ) {
             std::list<item *> item_pointers;
-            for( item &i : *stacks[x] ) {
-                item_pointers.push_back( &i );
+            for( item * const &i : *stacks[x] ) {
+                item_pointers.push_back( i );
             }
             advanced_inv_listitem it( item_pointers, x, square.id, false );
             if( is_filtered( *it.items.front() ) ) {
@@ -112,7 +111,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
     } else if( square.id == AIM_WORN ) {
         auto iter = u.worn.begin();
         for( size_t i = 0; i < u.worn.size(); ++i, ++iter ) {
-            advanced_inv_listitem it( &*iter, i, 1, square.id, false );
+            advanced_inv_listitem it( *iter, i, 1, square.id, false );
             if( is_filtered( *it.items.front() ) ) {
                 continue;
             }

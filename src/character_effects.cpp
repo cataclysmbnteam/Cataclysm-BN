@@ -10,6 +10,7 @@
 #include "make_static.h"
 #include "map_iterator.h"
 #include "player.h"
+#include "player_activity.h"
 #include "rng.h"
 #include "skill.h"
 #include "submap.h"
@@ -179,8 +180,8 @@ int calc_focus_equilibrium( const Character &who )
 {
     int focus_equilibrium = 100;
 
-    if( who.activity.id() == ACT_READ ) {
-        item_location loc = who.activity.targets[0];
+    if( who.activity->id() == ACT_READ ) {
+        safe_reference<item> loc = who.activity->targets[0];
         if( loc && loc->is_book() ) {
             auto &bt = *loc->type->book;
             // apply a penalty when we're actually learning something

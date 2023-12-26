@@ -29,7 +29,7 @@
         "melee_allowed": true,
         "buff_duration": 2,
         "flat_bonuses": [
-          { "stat": "hit", "scale": 1.0 },
+          { "stat": "hit", "scale": 1 },
           { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
           { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
           { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 }

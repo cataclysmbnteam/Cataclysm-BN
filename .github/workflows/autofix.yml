@@ -18,8 +18,6 @@ jobs:
 
       - run: sudo apt-get install astyle
 
-      - run: sudo pip install cmakelang
-
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
@@ -27,16 +25,31 @@ jobs:
       - name: format C++ files
         run: make astyle
 
-      - name: format markdown and typescript files
+      - name: format Markdown and TypeScript files
         run: deno fmt
 
-      - name: format CMake files
-        run: make cmake-format
+      - name: format Lua files
+        run: deno task dprint fmt
 
-      - name: json formatting
+      - name: format JSON
         run: make style-all-json-parallel RELEASE=1
 
-      - uses: autofix-ci/action@8caa572fd27b0019a65e4c695447089c8d3138b9
+      - uses: autofix-ci/action@bee19d72e71787c12ca0f29de72f2833e437e4c9
         if: ${{ always() }}
         with:
           commit-message: "style(autofix.ci): automated formatting"
+          comment: |
+            The Autofix app has automatically formatted this Pull Request.
+
+            If you edit your PR on web UI, you can ignore this message.
+            If you edit your PR locally, YOU MUST DO EITHER OF THE FOLLOWING:
+
+            - Run `git pull` to merge the automated commit into your local copy of the PR branch.
+            - [Format your code locally](https://docs.cataclysmbn.org/en/contribute/contributing/#code-style), and force push to your PR branch.
+
+            If you don't do this, your following work will be based on the old commit, and cause MERGE CONFLICT.
+
+      - name: lint and test typescript files
+        run: |
+          deno lint
+          deno test

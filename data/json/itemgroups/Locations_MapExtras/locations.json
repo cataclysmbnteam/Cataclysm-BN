@@ -269,7 +269,11 @@
     "type": "item_group",
     "id": "cave_minerals",
     "subtype": "distribution",
-    "entries": [ { "item": "material_niter", "prob": 20 }, { "item": "material_limestone", "prob": 5 } ]
+    "entries": [
+      { "item": "material_niter", "prob": 20 },
+      { "item": "iron_ore", "prob": 10 },
+      { "item": "material_limestone", "prob": 5 }
+    ]
   },
   {
     "id": "prison_textile",
@@ -480,6 +484,17 @@
       { "item": "sheet_metal", "prob": 5 },
       { "item": "sheet_metal_small", "prob": 5, "count": [ 2, 4 ] },
       { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 10 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "steel_mill_storage",
+    "subtype": "distribution",
+    "//": "storage locked behind industrial card reader",
+    "entries": [
+      { "item": "hard_plate", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "alloy_plate", "prob": 25, "count": [ 1, 3 ] },
+      { "item": "alloy_sheet", "prob": 25, "count": [ 1, 10 ] }
     ]
   },
   {
@@ -834,6 +849,7 @@
       [ "can_food_unsealed", 10 ],
       [ "lighter", 60 ],
       [ "ref_lighter", 1 ],
+      [ "electric_lighter", 1 ],
       [ "matches", 60 ],
       [ "flashlight", 40 ],
       [ "laptop", 20 ],
@@ -1031,16 +1047,19 @@
       [ "dao", 3 ],
       [ "sword_xiphos", 4 ],
       [ "khopesh", 4 ],
-      [ "spear_dory", 3 ]
+      [ "ax_bronze", 2 ],
+      [ "spear_dory", 3 ],
+      [ "dagger_bronze", 5 ]
     ]
   },
   {
     "type": "item_group",
     "id": "museum_guns",
     "items": [
-      [ "pistol_flintlock", 60 ],
-      [ "carbine_flintlock", 40 ],
-      [ "rifle_flintlock", 60 ],
+      [ "pistol_flintlock", 40 ],
+      [ "carbine_flintlock", 30 ],
+      [ "rifle_flintlock", 40 ],
+      [ "longrifle_flintlock", 50 ],
       [ "flintlock_pouch", 30 ],
       [ "flintlock_ammo", 60 ],
       [ "flintlock_shot", 40 ],
@@ -1051,7 +1070,11 @@
       [ "shot_paper_bird", 15 ],
       [ "shot_paper_slug", 10 ],
       [ "36navy", 50 ],
-      [ "44army", 50 ]
+      [ "44army", 50 ],
+      [ "gatlingdrum240", 10 ],
+      [ "4570_low", 10 ],
+      [ "cannonball_explosive", 5 ],
+      [ "cannonball_4lb", 20 ]
     ]
   },
   {
@@ -1104,6 +1127,7 @@
       [ "mag_porn", 20 ],
       [ "lighter", 60 ],
       [ "ref_lighter", 2 ],
+      [ "electric_lighter", 2 ],
       [ "matches", 60 ],
       [ "sewage", 60 ],
       [ "improvised_pipebomb", 4 ],
@@ -1176,6 +1200,7 @@
       [ "toolbox", 5 ],
       [ "coal_lump", 20 ],
       [ "material_shrd_limestone", 40 ],
+      [ "iron_ore", 10 ],
       [ "material_niter", 5 ],
       [ "chem_rdx", 5 ],
       [ "chem_hmtd", 10 ],
@@ -1191,6 +1216,7 @@
       { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
       { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
       { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "iron_ore", "prob": 20, "count": [ 1, 10 ] },
       { "item": "material_niter", "prob": 5, "count": [ 1, 10 ] },
       { "item": "material_sand", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
       { "item": "material_soil", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
@@ -1332,12 +1358,16 @@
       [ "wheel_bicycle_or", 5 ],
       [ "wheel_motorbike_or", 5 ],
       [ "wheel_slick", 5 ],
-      [ "1cyl_combustion", 10 ],
-      [ "v2_combustion", 10 ],
-      [ "i4_combustion", 10 ],
-      [ "v6_combustion", 10 ],
-      [ "v6_diesel", 10 ],
-      [ "v8_combustion", 10 ],
+      [ "1cyl_combustion", 5 ],
+      [ "v2_combustion", 5 ],
+      [ "i4_combustion", 5 ],
+      [ "v6_combustion", 5 ],
+      [ "v6_diesel", 5 ],
+      [ "v8_combustion", 5 ],
+      [ "engine_block_tiny", 10 ],
+      [ "engine_block_small", 5 ],
+      [ "engine_block_medium", 10 ],
+      [ "engine_block_large", 5 ],
       [ "steam_triple_small", 1 ],
       [ "steam_triple_medium", 1 ],
       [ "steam_watts_small", 1 ],
@@ -1539,6 +1569,7 @@
       { "item": "child_book", "prob": 60 },
       { "item": "lighter", "prob": 60 },
       { "item": "ref_lighter", "prob": 4 },
+      { "item": "electric_lighter", "prob": 4 },
       { "item": "matches", "prob": 60 },
       { "item": "coat_rain", "prob": 50 },
       { "item": "hood_rain", "prob": 30 },
@@ -2320,7 +2351,16 @@
       { "item": "boots_combat", "prob": 50 },
       { "item": "helmet_army", "prob": 10 },
       { "item": "gloves_tactical", "prob": 10 },
-      { "item": "modularvestceramic", "prob": 10 },
+      {
+        "distribution": [
+          { "item": "modularvestceramic", "prob": 50 },
+          { "item": "modularvest", "prob": 25 },
+          { "item": "modularveststeel", "prob": 10 },
+          { "item": "modularvesthard", "prob": 10 },
+          { "item": "modularvestsuper", "prob": 5 }
+        ],
+        "prob": 10
+      },
       { "group": "clothing_tactical_leg", "prob": 5 },
       {
         "distribution": [
@@ -2481,6 +2521,118 @@
       [ "oxygen_cylinder", 15 ],
       [ "coal_lump", 5 ],
       [ "material_limestone", 5 ]
+    ]
+  },
+  {
+    "id": "fort_giftshop",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "tshirt", "prob": 40 },
+      { "item": "ceramic_mug", "prob": 10 },
+      { "item": "teapot", "prob": 14 },
+      { "group": "tinware", "prob": 10 },
+      { "item": "tricorne", "prob": 25 },
+      { "item": "survnote", "prob": 1 }
+    ]
+  },
+  {
+    "id": "fort_giftshop_rare",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pocketwatch", "prob": 20 },
+      { "group": "jewelry_accessories", "prob": 30 },
+      { "item": "cavalry_sabre_fake", "container-item": "scabbard", "prob": 20 },
+      { "item": "knife_hunting", "container-item": "sheath", "prob": 5 },
+      { "item": "flintlock_pouch", "prob": 20 },
+      { "item": "bandolier_pistol", "prob": 3 },
+      { "item": "spiral_stone", "prob": 2 }
+    ]
+  },
+  {
+    "id": "fort_display_case",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Firearms are weighted 50% Civil War items, 30% Revolutionary War items, and 20% post-Civil War items.",
+    "entries": [
+      { "item": "tricorne", "prob": 10 },
+      { "item": "knee_high_boots", "prob": 3 },
+      { "item": "breeches", "prob": 2 },
+      { "item": "waistcoat", "prob": 3 },
+      { "item": "peacoat", "prob": 2 },
+      { "item": "greatcoat", "prob": 3 },
+      { "item": "hat_fur", "prob": 2 },
+      { "item": "cavalry_sabre", "prob": 10 },
+      { "item": "hatchet", "prob": 5 },
+      { "item": "cannonball_explosive", "prob": 10 },
+      { "item": "shotgun_paper", "prob": 10 },
+      { "item": "lemat_revolver", "prob": 5 },
+      { "item": "colt_army", "prob": 5 },
+      { "item": "colt_navy", "prob": 5 },
+      { "item": "longrifle_flintlock", "prob": 7 },
+      { "item": "rifle_flintlock", "prob": 3 },
+      { "item": "carbine_flintlock", "prob": 2 },
+      { "item": "pistol_flintlock", "prob": 3 },
+      { "item": "sharps", "prob": 8 },
+      { "item": "colt_saa", "prob": 2 }
+    ]
+  },
+  {
+    "id": "fort_historic_wardrobe",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "knee_high_boots", "prob": 80, "damage": [ 1, 4 ] },
+          { "item": "boots_fur", "prob": 20, "damage": [ 1, 4 ] }
+        ],
+        "prob": 20
+      },
+      {
+        "distribution": [ { "item": "breeches", "prob": 80, "damage": [ 1, 4 ] }, { "item": "pants_fur", "prob": 20, "damage": [ 1, 4 ] } ],
+        "prob": 50
+      },
+      { "item": "waistcoat", "prob": 30, "damage": [ 1, 4 ] },
+      {
+        "distribution": [ { "item": "peacoat", "prob": 80, "damage": [ 1, 4 ] }, { "item": "greatcoat", "prob": 20, "damage": [ 1, 4 ] } ],
+        "prob": 50
+      },
+      { "item": "leather_belt", "prob": 10, "damage": [ 1, 4 ] },
+      { "item": "knit_scarf", "prob": 10, "damage": [ 1, 4 ] },
+      {
+        "distribution": [ { "item": "tricorne", "prob": 80, "damage": [ 1, 4 ] }, { "item": "hat_fur", "prob": 20, "damage": [ 1, 4 ] } ],
+        "prob": 30
+      },
+      { "item": "gloves_leather", "prob": 10, "damage": [ 1, 4 ] },
+      {
+        "distribution": [
+          { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "stockings_wool", "prob": 50, "damage": [ 1, 4 ] }
+        ],
+        "prob": 30
+      }
+    ]
+  },
+  {
+    "id": "fort_crate",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "cannonball_4lb", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "rag", "prob": 50, "count": [ 1, 25 ] },
+      { "item": "gatlingdrum240", "prob": 25 }
+    ]
+  },
+  {
+    "id": "fort_powderbarrel",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small" },
+      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small", "prob": 50 },
+      { "item": "4570_low", "charges": [ 1, 240 ], "prob": 50 }
     ]
   }
 ]

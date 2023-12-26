@@ -1,0 +1,80 @@
+[
+  {
+    "id": "teleporter_controller",
+    "category": "tools",
+    "type": "TOOL",
+    "name": { "str": "Teleporter remote" },
+    "description": "A device with a digital display, connected to the teleporter network.  Can be used to check teleporter status and teleport the user.",
+    "symbol": "{",
+    "color": "black",
+    "weight": "500 g",
+    "volume": "1 L",
+    "price": "40 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "steel" ],
+    "to_hit": -4,
+    "bashing": 1,
+    "use_action": "teleporter_controller_use",
+    "looks_like": "teleporter",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml"
+  },
+  {
+    "id": "teleporter_anchor_undeployed",
+    "category": "tools",
+    "type": "TOOL",
+    "name": { "str": "Teleporter anchor (undeployed)" },
+    "description": "A teleporter anchor, can be placed to function as a target.",
+    "symbol": "{",
+    "color": "black",
+    "weight": "150 kg",
+    "volume": "150 L",
+    "price": "400 USD",
+    "price_postapoc": "50 USD",
+    "material": [ "steel" ],
+    "to_hit": -4,
+    "bashing": 1,
+    "use_action": "teleporter_anchor_use",
+    "looks_like": "telepad"
+  },
+  {
+    "id": "teleporter_station_undeployed",
+    "category": "tools",
+    "type": "TOOL",
+    "name": { "str": "Teleporter station (undeployed)" },
+    "description": "A deployable teleporter station.",
+    "symbol": "{",
+    "color": "black",
+    "weight": "400 kg",
+    "volume": "350 L",
+    "price": "1200 USD",
+    "price_postapoc": "100 USD",
+    "material": [ "steel" ],
+    "to_hit": -4,
+    "bashing": 1,
+    "use_action": "teleporter_station_use",
+    "looks_like": "f_MRI"
+  },
+  {
+    "id": "schematics_teleportation",
+    "type": "BOOK",
+    "name": { "str_sp": "Teleporter network schematics" },
+    "description": "A disjointed collection of lab book pages , post-it notes, and computer printouts containing some funky physics equations and circuit diagrams. They seem to be describing some form of stable teleportation technology.",
+    "copy-from": "schematics_generic"
+  }
+]

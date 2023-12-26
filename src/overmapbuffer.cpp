@@ -15,6 +15,7 @@
 #include "cata_utility.h"
 #include "character_id.h"
 #include "color.h"
+#include "map_iterator.h"
 #include "numeric_interval.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -671,6 +672,18 @@ void overmapbuffer::ter_set( const tripoint_abs_omt &p, const oter_id &id )
     return om_loc.om->ter_set( om_loc.local, id );
 }
 
+std::string *overmapbuffer::join_used_at( const std::pair<tripoint_abs_omt, cube_direction> &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p.first );
+    return om_loc.om->join_used_at( { om_loc.local, p.second } );
+}
+
+std::optional<mapgen_arguments> *overmapbuffer::mapgen_args( const tripoint_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->mapgen_args( om_loc.local );
+}
+
 bool overmapbuffer::reveal( const point_abs_omt &center, int radius, int z )
 {
     return reveal( tripoint_abs_omt( center, z ), radius );
@@ -919,6 +932,13 @@ bool overmapbuffer::check_overmap_special_type_existing(
         return false;
     }
     return om_loc.om->check_overmap_special_type( id, om_loc.local );
+}
+
+std::optional<overmap_special_id> overmapbuffer::overmap_special_at(
+    const tripoint_abs_omt &loc )
+{
+    const overmap_with_local_coords om_loc = get_om_global( loc );
+    return om_loc.om->overmap_special_at( om_loc.local );
 }
 
 bool overmapbuffer::check_ot( const std::string &type, ot_match_type match_type,
@@ -1514,10 +1534,10 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
             if( pattern != nullptr && lcmatch( note.text, *pattern ) ) {
                 continue;
             }
-            result.push_back( t_point_with_note(
-                                  project_combine( it.first, note.p ),
-                                  note.text
-                              ) );
+            result.emplace_back(
+                project_combine( it.first, note.p ),
+                note.text
+            );
         }
     }
     return result;
@@ -1540,10 +1560,10 @@ overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::stri
                     // pattern not found in note text
                     continue;
                 }
-                result.push_back( t_point_with_extra(
-                                      project_combine( om.pos(), p.xy() ),
-                                      om.extra( p )
-                                  ) );
+                result.emplace_back(
+                    project_combine( om.pos(), p.xy() ),
+                    om.extra( p )
+                );
             }
         }
     }
@@ -1560,17 +1580,15 @@ bool overmapbuffer::is_safe( const tripoint_abs_omt &p )
     return true;
 }
 
-bool overmapbuffer::place_special(
-    const overmap_special &special, const tripoint_abs_omt &p, om_direction::type dir,
-    const bool must_be_unexplored, const bool force )
+std::optional<std::vector<tripoint_abs_omt>> overmapbuffer::place_special(
+            const overmap_special &special, const tripoint_abs_omt &origin, om_direction::type dir,
+            const bool must_be_unexplored, const bool force )
 {
-    const overmap_with_local_coords om_loc = get_om_global( p );
+    const overmap_with_local_coords om_loc = get_om_global( origin );
 
-    bool placed = false;
     // Only place this special if we can actually place it per its criteria, or we're forcing
     // the placement, which is mostly a debug behavior, since a forced placement may not function
     // correctly (e.g. won't check correct underlying terrain).
-
     if( om_loc.om->can_place_special(
             special, om_loc.local, dir, must_be_unexplored ) || force ) {
         // Get the closest city that is within the overmap because
@@ -1578,103 +1596,54 @@ bool overmapbuffer::place_special(
         // the single overmap. If future generation is hoisted up to the
         // buffer to spawn overmaps, then this can also be changed accordingly.
         const city c = om_loc.om->get_nearest_city( om_loc.local );
-        om_loc.om->place_special( special, om_loc.local, dir, c,
-                                  must_be_unexplored, force );
-        placed = true;
+        std::vector<tripoint_abs_omt> result;
+        for( const tripoint_om_omt &p : om_loc.om->place_special(
+                 special, om_loc.local, dir, c, must_be_unexplored, force ) ) {
+            result.push_back( project_combine( om_loc.om->pos(), p ) );
+        }
+        return result;
     }
-    return placed;
+    return std::nullopt;
 }
 
 bool overmapbuffer::place_special( const overmap_special_id &special_id,
-                                   const tripoint_abs_omt &center, int radius )
+                                   const tripoint_abs_omt &center,
+                                   int min_radius, int max_radius )
 {
     // First find the requested special. If it doesn't exist, we're done here.
-    bool found = false;
-    overmap_special special;
-    for( const auto &elem : overmap_specials::get_all() ) {
-        if( elem.id == special_id ) {
-            special = elem;
-            found = true;
-            break;
-        }
-    }
-    if( !found ) {
+    if( !special_id.is_valid() ) {
         return false;
     }
-
-    // Force our special to occur just once when we're spawning it here.
-    special.occurrences.min = 1;
-    special.occurrences.max = 1;
-
-    // Figure out the longest side of the special for purposes of determining our sector size
-    // when attempting placements.
-    const auto calculate_longest_side = [&special]() {
-        auto min_max_x = std::minmax_element( special.terrains.begin(),
-                                              special.terrains.end(), []( const overmap_special_terrain & lhs,
-        const overmap_special_terrain & rhs ) {
-            return lhs.p.x < rhs.p.x;
-        } );
-
-        auto min_max_y = std::minmax_element( special.terrains.begin(),
-                                              special.terrains.end(), []( const overmap_special_terrain & lhs,
-        const overmap_special_terrain & rhs ) {
-            return lhs.p.y < rhs.p.y;
-        } );
-
-        const int special_longest_side = std::max( min_max_x.second->p.x - min_max_x.first->p.x,
-                                         min_max_y.second->p.y - min_max_y.first->p.y ) + 1;
-
-        // If our longest side is greater than the OMSPEC_FREQ, just use that instead.
-        return std::min( special_longest_side, OMSPEC_FREQ );
-    };
-
-    const int longest_side = calculate_longest_side();
-
-    // Predefine our sectors to search in.
-    om_special_sectors sectors = get_sectors( longest_side );
+    const overmap_special &special = *special_id;
+    const int longest_side = special.longest_side();
 
     // Get all of the overmaps within the defined radius of the center.
     for( const auto &om : get_overmaps_near(
-             project_to<coords::sm>( center ), omt_to_sm_copy( radius ) ) ) {
+             project_to<coords::sm>( center ), omt_to_sm_copy( max_radius ) ) ) {
 
-        // Build an overmap_special_batch for the special on this overmap.
-        std::vector<const overmap_special *> specials;
-        specials.push_back( &special );
-        overmap_special_batch batch( om->pos(), specials );
+        // We'll include points that within our radius. We reduce the radius by
+        // the length of the longest side of our special so that we don't end up in a
+        // scenario where one overmap terrain of the special is within the radius but the
+        // rest of it is outside the radius (due to size, rotation, etc), which would
+        // then result in us placing the special but then not finding it later if we
+        // search using the same radius value we used in placing it.
 
-        // Filter the sectors to those which are in in range of our center point, so
-        // that we don't end up creating specials in areas that are outside of our radius,
-        // since the whole point is to create a special that is within the parameters.
-        std::vector<point_om_omt> sector_points_in_range;
-        std::copy_if( sectors.sectors.begin(), sectors.sectors.end(),
-        std::back_inserter( sector_points_in_range ), [&]( point_om_omt & p ) {
-            const point_abs_omt global_sector_point = project_combine( om->pos(), p );
-            // We'll include this sector if it's within our radius. We reduce the radius by
-            // the length of the longest side of our special so that we don't end up in a
-            // scenario where one overmap terrain of the special is within the radius but the
-            // rest of it is outside the radius (due to size, rotation, etc), which would
-            // then result in us placing the special but then not finding it later if we
-            // search using the same radius value we used in placing it.
-            return square_dist( global_sector_point, center.xy() ) <= radius - longest_side;
-        } );
-        om_special_sectors sectors_in_range {sector_points_in_range, sectors.sector_width};
-
-        // Attempt to place the specials using our batch and sectors. We
-        // require they be placed in unexplored terrain right now.
-        om->place_specials_pass( batch, sectors_in_range, true, true );
-
-        // The place special pass will erase specials that have reached their
-        // maximum number of instances so first check if its been erased.
-        if( batch.empty() ) {
-            return true;
+        std::vector<tripoint_om_omt> points_in_range;
+        const int max = std::max( 1, max_radius - longest_side );
+        const int min = std::min( max, min_radius + longest_side );
+        for( const tripoint_abs_omt &p : closest_points_first( center, min, max ) ) {
+            point_abs_om overmap;
+            tripoint_om_omt omt_within_overmap;
+            std::tie( overmap, omt_within_overmap ) = project_remain<coords::om>( p );
+            if( overmap == om->pos() ) {
+                points_in_range.push_back( omt_within_overmap );
+            }
         }
 
-        // Hasn't been erased, so lets check placement counts.
-        for( const auto &special_placement : batch ) {
-            if( special_placement.instances_placed > 0 ) {
-                // It was placed, lets get outta here.
-                return true;
-            }
+        // Attempt to place the specials using filtered points. We
+        // require they be placed in unexplored terrain right now.
+        if( om->place_special_custom( special, points_in_range ) > 0 ) {
+            return true;
         }
     }
 

@@ -40,9 +40,7 @@
     "comfort": 5,
     "floor_bedding_warmth": 1000,
     "required_str": -1,
-    "deconstruct": {
-      "items": [ { "item": "mattress", "count": 2 }, { "item": "2x4", "count": 28 }, { "item": "nail", "charges": [ 20, 30 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "mattress", "count": 2 }, { "item": "2x4", "count": 30 }, { "item": "nail", "charges": 30 } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "CAN_SIT" ],
     "bash": {
       "str_min": 12,
@@ -60,6 +58,41 @@
   },
   {
     "type": "furniture",
+    "id": "f_triple_bunkbed",
+    "name": "triple berth",
+    "symbol": "#",
+    "description": "This bunk bed can hold 3 person at once - perfect solution for places with lack of free space.",
+    "looks_like": "f_bed",
+    "color": "magenta",
+    "move_cost_mod": 8,
+    "coverage": 40,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [
+        { "item": "mattress", "count": 3 },
+        { "item": "pipe", "count": 28 },
+        { "item": "sheet_metal", "count": 3 },
+        { "item": "sheet_metal_small", "count": 12 }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CAN_SIT" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 60,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "pipe", "count": [ 8, 15 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 2 ] },
+        { "item": "rag", "count": [ 120, 160 ] },
+        { "item": "scrap", "count": [ 60, 100 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_bed_frame",
     "name": "bed frame",
     "symbol": "#",
@@ -68,7 +101,7 @@
     "move_cost_mod": 4,
     "coverage": 40,
     "required_str": 5,
-    "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 10 ] } ] },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 10 } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "bash": {
       "str_min": 10,
@@ -146,9 +179,7 @@
     "comfort": 4,
     "floor_bedding_warmth": 500,
     "required_str": 10,
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "rag", "count": [ 30, 35 ] }, { "item": "nail", "charges": [ 4, 6 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "rag", "count": 35 }, { "item": "nail", "charges": 6 } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,
@@ -175,7 +206,7 @@
     "comfort": 2,
     "floor_bedding_warmth": 200,
     "required_str": -1,
-    "deconstruct": { "items": [ { "item": "stick", "count": 4 }, { "item": "straw_pile", "count": [ 7, 8 ] } ] },
+    "deconstruct": { "items": [ { "item": "stick", "count": 4 }, { "item": "straw_pile", "count": 8 } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 6,

@@ -124,6 +124,7 @@ int firecracker( player *, item *, bool, const tripoint & );
 int firecracker_act( player *, item *, bool, const tripoint & );
 int mininuke( player *, item *, bool, const tripoint & );
 int pheromone( player *, item *, bool, const tripoint & );
+int pick_lock( player *, item *, bool, const tripoint & );
 int portal( player *, item *, bool, const tripoint & );
 int tazer( player *, item *, bool, const tripoint & );
 int tazer2( player *, item *, bool, const tripoint & );

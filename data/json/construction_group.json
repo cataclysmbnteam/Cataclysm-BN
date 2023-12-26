@@ -306,6 +306,21 @@
   },
   {
     "type": "construction_group",
+    "id": "build_high_end_of_a_concrete_ramp",
+    "name": "Build High End of a Concrete Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_high_end_of_an_earthen_ramp",
+    "name": "Build High End of a Rammed Earth Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_high_end_of_a_wooden_ramp",
+    "name": "Build High End of a Wooden Ramp"
+  },
+  {
+    "type": "construction_group",
     "id": "build_improvised_shelter",
     "name": "Build Improvised Shelter"
   },
@@ -348,6 +363,21 @@
     "type": "construction_group",
     "id": "build_log_wall",
     "name": "Build Log Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_a_concrete_ramp",
+    "name": "Build Low End of a Concrete Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_an_earthen_ramp",
+    "name": "Build Low End of a Rammed Earth Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_a_wooden_ramp",
+    "name": "Build Low End of a Wooden Ramp"
   },
   {
     "type": "construction_group",
@@ -846,6 +876,11 @@
   },
   {
     "type": "construction_group",
+    "id": "extract_bog_iron",
+    "name": "Extract Bog Iron"
+  },
+  {
+    "type": "construction_group",
     "id": "extrude_resin_floor_and_roof",
     "name": "Extrude Resin Floor and Roof"
   },
@@ -912,12 +947,12 @@
   {
     "type": "construction_group",
     "id": "install_battery",
-    "name": "Install Battery"
+    "name": "Install Medium Storage Battery"
   },
   {
     "type": "construction_group",
     "id": "install_large_storage_battery",
-    "name": "Install Large Storage Battery"
+    "name": "Install Very Large Storage Battery"
   },
   {
     "type": "construction_group",
@@ -951,6 +986,11 @@
   },
   {
     "type": "construction_group",
+    "id": "install_plut_generator",
+    "name": "Install Plutonium Generator"
+  },
+  {
+    "type": "construction_group",
     "id": "place_small_space_heater",
     "name": "Place Small Space Heater"
   },
@@ -967,7 +1007,7 @@
   {
     "type": "construction_group",
     "id": "install_storage_battery",
-    "name": "Install Storage Battery"
+    "name": "Install Large Storage Battery"
   },
   {
     "type": "construction_group",
@@ -1068,6 +1108,11 @@
     "type": "construction_group",
     "id": "paint_wall_yellow",
     "name": "Paint Wall Yellow"
+  },
+  {
+    "type": "construction_group",
+    "id": "constr_wall_standard",
+    "name": "Build Standard Wall"
   },
   {
     "type": "construction_group",

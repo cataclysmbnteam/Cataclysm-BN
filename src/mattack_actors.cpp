@@ -661,15 +661,15 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
 {
     z.moves -= move_cost;
 
-    item gun( gun_type );
-    gun.gun_set_mode( mode );
+    detached_ptr<item> gun = item::spawn( gun_type );
+    gun->gun_set_mode( mode );
 
-    itype_id ammo = ammo_type ? ammo_type : gun.ammo_default();
+    itype_id ammo = ammo_type ? ammo_type : gun->ammo_default();
     if( ammo ) {
-        gun.ammo_set( ammo, z.ammo[ammo] );
+        gun->ammo_set( ammo, z.ammo[ammo] );
     }
 
-    if( !gun.ammo_sufficient() ) {
+    if( !gun->ammo_sufficient() ) {
         if( !no_ammo_sound.empty() ) {
             sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( no_ammo_sound ) );
         }
@@ -688,13 +688,13 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );
     }
-
-    tmp.set_primary_weapon( gun );
-    tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
+    int qty = gun->gun_current_mode().qty;
+    tmp.set_primary_weapon( std::move( gun ) );
+    tmp.i_add( item::spawn( "UPS_off", calendar::turn, 1000 ) );
 
     if( g->u.sees( z ) ) {
         add_msg( m_warning, _( description ), z.name(), tmp.primary_weapon().tname() );
     }
 
-    z.ammo[ammo] -= ranged::fire_gun( tmp, target, gun.gun_current_mode().qty );
+    z.ammo[ammo] -= ranged::fire_gun( tmp, target, qty );
 }

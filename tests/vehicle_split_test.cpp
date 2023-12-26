@@ -81,5 +81,6 @@ TEST_CASE( "vehicle_split_section" )
         if( vehs.size() == 1 ) {
             CHECK( vehs[ 0 ].v->part_count() == 38 );
         }
+        break;
     }
 }

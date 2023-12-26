@@ -459,8 +459,8 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, point p,
                 tank_color = c_light_red;
                 tank_goal = _( "empty" );
             }
-
-            item fitem( fuel_type );
+            //TODO!: push up
+            item &fitem = *item::spawn_temporary( fuel_type );
             int charges_per_L = fitem.charges_per_volume( 1_liter );
             if( charges_per_L == 0 || charges_per_L == item::INFINITE_CHARGES ) {
                 return;

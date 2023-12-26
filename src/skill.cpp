@@ -9,6 +9,7 @@
 
 #include "cata_utility.h"
 #include "debug.h"
+#include "game_constants.h"
 #include "item.h"
 #include "json.h"
 #include "options.h"
@@ -310,7 +311,7 @@ void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 
 bool SkillLevel::can_train() const
 {
-    return get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0;
+    return ( get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0 && _level < MAX_SKILL );
 }
 
 const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident ) const
@@ -362,7 +363,7 @@ int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context )
 
 bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const
 {
-    return meets_skill_requirements( req, item() );
+    return meets_skill_requirements( req, null_item_reference() );
 }
 
 bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req,
@@ -377,7 +378,7 @@ bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req
 std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(
     const std::map<skill_id, int> &req ) const
 {
-    return compare_skill_requirements( req, item() );
+    return compare_skill_requirements( req, null_item_reference() );
 }
 
 std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(

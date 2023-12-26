@@ -20,7 +20,7 @@ void node_t::set_strategy( const strategy_t *new_strategy )
 }
 void node_t::set_predicate( std::function<status_t ( const oracle_t * )> new_predicate )
 {
-    predicate = new_predicate;
+    predicate = std::move( new_predicate );
 }
 void node_t::set_goal( const std::string &new_goal )
 {

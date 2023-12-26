@@ -1733,7 +1733,7 @@ scrollingcombattext::cSCT::cSCT( point p_pos, const direction p_oDir,
     oLeft = iso_mode ? direction::NORTHWEST : direction::WEST;
     oUpLeft = iso_mode ? direction::NORTH : direction::NORTHWEST;
 
-    point pairDirXY = direction_XY( oDir );
+    point pairDirXY = displace_XY( oDir );
 
     dir = pairDirXY;
 
@@ -1820,7 +1820,7 @@ void scrollingcombattext::add( point pos, direction p_oDir,
                     iter->advanceStepOffset();
                 }
             }
-            vSCT.push_back( cSCT( pos, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType ) );
+            vSCT.emplace_back( pos, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType );
         }
 
     }

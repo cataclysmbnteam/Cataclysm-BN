@@ -163,7 +163,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "|------------2rrrrrrrrr2",
+        "|------------2rrrrrrrrr'",
         "|A MM  7y....2yrrryrrry2",
         "|A  M  7y....2yrrryrrry2",
         "|A     |8....2yrrryrrry2",
@@ -195,6 +195,7 @@
         ".": "t_pavement",
         "1": "t_window",
         "2": "t_sidewalk",
+        "'": "t_sidewalk",
         "V": "t_sidewalk",
         "W": "t_sidewalk",
         "3": "t_tree_young",
@@ -210,6 +211,7 @@
         "|": "t_wall_w"
       },
       "furniture": {
+        "'": "f_street_light",
         "A": "f_rack",
         "B": "f_toilet",
         "C": "f_counter",

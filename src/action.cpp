@@ -16,6 +16,7 @@
 #include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "flag.h"
 #include "game.h"
 #include "iexamine.h"
 #include "input.h"
@@ -44,10 +45,8 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
 static const std::string flag_CONSOLE( "CONSOLE" );
-static const std::string flag_FLOTATION( "FLOTATION" );
 static const std::string flag_GOES_DOWN( "GOES_DOWN" );
 static const std::string flag_GOES_UP( "GOES_UP" );
-static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
@@ -264,6 +263,8 @@ std::string action_ident( action_id act )
             return "morale";
         case ACTION_MESSAGES:
             return "messages";
+        case ACTION_OPEN_WIKI:
+            return "open_wiki";
         case ACTION_HELP:
             return "help";
         case ACTION_DEBUG:
@@ -387,6 +388,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_FACTIONS:
         case ACTION_MORALE:
         case ACTION_MESSAGES:
+        case ACTION_OPEN_WIKI:
         case ACTION_HELP:
         case ACTION_MAIN_MENU:
         case ACTION_KEYBINDINGS:
@@ -563,12 +565,12 @@ bool can_butcher_at( const tripoint &p )
     bool has_corpse = false;
 
     const inventory &crafting_inv = you.crafting_inventory();
-    for( item &items_it : items ) {
-        if( items_it.is_corpse() ) {
+    for( item *&items_it : items ) {
+        if( items_it->is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
             }
-        } else if( crafting::can_disassemble( you, items_it, crafting_inv ).success() ) {
+        } else if( crafting::can_disassemble( you, *items_it, crafting_inv ).success() ) {
             has_item = true;
         }
     }
@@ -800,7 +802,7 @@ action_id handle_action_menu()
             register_actions( { ACTION_SAVE } );
             register_action_if_hotkey_assigned( ACTION_QUICKLOAD );
             register_action_if_hotkey_assigned( ACTION_SUICIDE );
-            register_actions( { ACTION_HELP } );
+            register_actions( { ACTION_OPEN_WIKI, ACTION_HELP } );
             if( ( entry = &entries.back() ) ) {
                 // help _is_a menu.
                 entry->txt += "…";
@@ -924,7 +926,7 @@ action_id handle_main_menu()
     const auto register_actions = make_register_actions( entries, ctxt );
 
     register_actions( {
-        ACTION_HELP, ACTION_KEYBINDINGS, ACTION_OPTIONS, ACTION_AUTOPICKUP, ACTION_AUTONOTES,
+        ACTION_OPEN_WIKI, ACTION_HELP, ACTION_KEYBINDINGS, ACTION_OPTIONS, ACTION_AUTOPICKUP, ACTION_AUTONOTES,
         ACTION_SAFEMODE, ACTION_DISTRACTION_MANAGER, ACTION_COLOR, ACTION_WORLD_MODS,
         ACTION_ACTIONMENU, ACTION_QUICKSAVE, ACTION_SAVE, ACTION_DEBUG, ACTION_LUA_CONSOLE,
         ACTION_LUA_RELOAD

@@ -76,14 +76,14 @@ TEST_CASE( "Character is slowed down by pain", "[speed][pain]" )
 
 static void carry_weight_test( Character &guy, int load_kg, int speed_exp )
 {
-    item item_1kg( "test_1kg_cube" );
+    item &item_1kg = *item::spawn_temporary( "test_1kg_cube" );
     REQUIRE( item_1kg.weight() == 1_kilogram );
     REQUIRE( item_1kg.volume() == 10_ml );
 
     CAPTURE( load_kg, speed_exp );
     WHEN( "Character carries specified weight" ) {
         for( int i = 0; i < load_kg; i++ ) {
-            guy.inv.add_item( item_1kg );
+            guy.i_add( item::spawn( item_1kg ) );
         }
         THEN( "No effect on speed" ) {
             CHECK( guy.get_speed() == 100 );
@@ -104,12 +104,12 @@ TEST_CASE( "Character is slowed down while overburdened", "[speed]" )
     clear_all_state();
     player &guy = prepare_player();
 
-    item backpack( "test_backpack" );
-    REQUIRE( backpack.get_storage() == 15_liter );
-    REQUIRE( backpack.weight() == 633_gram );
+    detached_ptr<item> backpack = item::spawn( "test_backpack" );
+    REQUIRE( backpack->get_storage() == 15_liter );
+    REQUIRE( backpack->weight() == 633_gram );
 
     guy.clear_mutations();
-    guy.wear_item( backpack, false );
+    guy.wear_item( std::move( backpack ), false );
     REQUIRE( guy.weight_capacity() == 45_kilogram );
     REQUIRE( guy.volume_capacity() == 15_liter );
 

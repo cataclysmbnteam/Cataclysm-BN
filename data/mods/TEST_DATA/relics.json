@@ -70,8 +70,8 @@
     "volume": "1 L",
     "bashing": 32,
     "cutting": 32,
-    "price": 7500,
-    "price_postapoc": 300,
+    "price": "75 USD",
+    "price_postapoc": "3 USD",
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_ATTACK_COST", "add": -15 } ] } ]
     }

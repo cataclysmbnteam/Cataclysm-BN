@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "____,____,____,____,____",
+        "____,____,____,____,___'",
         "____,____,____,____,____",
         "____,____,____,____,____",
         "____,____,____,____,____",
@@ -48,6 +48,7 @@
         "S": "t_linoleum_white",
         "W": "t_window",
         "_": "t_pavement",
+        "'": "t_pavement",
         "d": "t_pavement",
         "g": "t_linoleum_gray",
         "w": "t_linoleum_white",
@@ -57,6 +58,7 @@
         "|": "t_wall_r"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "&": "f_trashcan",
         "B": "f_bench",
@@ -170,7 +172,7 @@
     "object": {
       "fill_ter": "t_carpet_green",
       "rows": [
-        "ssssssssssssssssssssssss",
+        "sssssssssssssssssssssss`",
         "ssssssssssssssssssssssss",
         "ssss|-------------|sssss",
         "____|&wlfF|.......|sssss",
@@ -220,6 +222,7 @@
         "g": "t_wall_glass",
         "l": "t_linoleum_gray",
         "s": "t_sidewalk",
+        "`": "t_sidewalk",
         "w": "t_linoleum_white",
         "{": "t_linoleum_white",
         "4": "t_gutter_downspout",
@@ -228,6 +231,7 @@
         "|": "t_wall_y"
       },
       "furniture": {
+        "`": "f_street_light",
         "#": "f_counter",
         "2": "f_counter",
         "&": "f_trashcan",
@@ -342,7 +346,7 @@
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
-        "____,____,____,____,____",
+        "____,____,____,____,___'",
         "____,____,____,____,____",
         "____,____,____,____,____",
         "____,____,____,____,____",
@@ -385,6 +389,7 @@
         "c": "t_rdoor_b",
         "x": "t_linoleum_white",
         "_": "t_pavement",
+        "'": "t_pavement",
         "f": "t_linoleum_white",
         "t": "t_linoleum_white",
         "4": "t_gutter_downspout",
@@ -394,6 +399,7 @@
         "|": "t_wall_w"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "G": "f_oven",
         "x": "f_rack",
@@ -511,7 +517,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "____,____,____,____,____",
+        "____,____,____,____,___'",
         "____,____,____,____,____",
         "____,____,____,____,____",
         "____,____,____,____,____",
@@ -553,6 +559,7 @@
         "S": "t_linoleum_white",
         "W": "t_window",
         "_": "t_pavement",
+        "'": "t_pavement",
         "d": "t_pavement",
         "g": "t_linoleum_gray",
         "w": "t_linoleum_white",
@@ -563,6 +570,7 @@
         "|": "t_wall_p"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "&": "f_trashcan",
         "B": "f_bench",

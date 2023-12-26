@@ -39,6 +39,7 @@
       "H": "t_wall_glass",
       "R": "t_railing_v",
       "s": "t_sidewalk",
+      "]": "t_sidewalk",
       "V": "t_wall_glass",
       "w": "t_window",
       "-": "t_wall",
@@ -53,6 +54,7 @@
       "N": "t_machinery_heavy"
     },
     "furniture": {
+      "]": "f_street_light",
       "?": "f_sofa",
       "M": "f_armchair",
       "b": "f_bench",

@@ -9,6 +9,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "omt_obsolete",
+    "//": "this omt is used for replacing obsoleted overmap terrain",
+    "name": "nether-chewed field",
+    "sym": "%",
+    "color": "dark_gray",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_city_building_no_sidewalk",
     "name": "city building",
     "sym": "^",
@@ -279,6 +288,28 @@
     "see_cost": 5,
     "//": "RISK_LOW due to risk and safety being based on NPCs perception of what the area may contain",
     "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "Bastion_Fort_1_NW",
+      "Bastion_Fort_1_NE",
+      "Bastion_Fort_1_SW",
+      "Bastion_Fort_1_SE",
+      "Bastion_Fort_2_NW",
+      "Bastion_Fort_2_NE",
+      "Bastion_Fort_2_SW",
+      "Bastion_Fort_2_SE",
+      "Bastion_Fort_roof_NW",
+      "Bastion_Fort_roof_NE",
+      "Bastion_Fort_roof_SW",
+      "Bastion_Fort_roof_SE"
+    ],
+    "name": "bastion fort",
+    "sym": "+",
+    "color": "light_gray",
+    "see_cost": 5,
+    "flags": [ "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",

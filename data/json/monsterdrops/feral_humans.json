@@ -3,13 +3,21 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_axe",
-    "entries": [ { "item": "fire_ax", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_zombie_clothes", "prob": 100 } ]
+    "entries": [
+      { "item": "fire_ax", "prob": 100, "damage": [ 2, 4 ] },
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "default_zombie_items_pockets", "prob": 50 }
+    ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_pipe",
-    "entries": [ { "item": "pipe", "prob": 100, "damage": [ 0, 2 ] }, { "group": "default_zombie_clothes", "prob": 100 } ]
+    "entries": [
+      { "item": "pipe", "prob": 100, "damage": [ 0, 2 ] },
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "default_zombie_items_pockets", "prob": 50 }
+    ]
   },
   {
     "type": "item_group",
@@ -128,49 +136,81 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_maids_death_drops_broom",
-    "entries": [ { "item": "broom", "prob": 100, "damage": [ 0, 2 ] }, { "group": "default_maid_clothes", "prob": 100 } ]
+    "entries": [
+      { "item": "broom", "prob": 100, "damage": [ 0, 2 ] },
+      { "group": "default_maid_clothes", "prob": 100 },
+      { "group": "default_zombie_items_pockets", "prob": 50 }
+    ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_maids_death_drops_candlestick",
-    "entries": [ { "item": "candlestick", "prob": 100, "damage": [ 0, 2 ] }, { "group": "default_maid_clothes", "prob": 100 } ]
+    "entries": [
+      { "item": "candlestick", "prob": 100, "damage": [ 0, 2 ] },
+      { "group": "default_maid_clothes", "prob": 100 },
+      { "group": "default_zombie_items_pockets", "prob": 50 }
+    ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_maids_death_drops_knife",
-    "entries": [ { "item": "knife_chef", "prob": 100, "damage": [ 0, 3 ] }, { "group": "default_maid_clothes", "prob": 100 } ]
+    "entries": [
+      { "item": "knife_chef", "prob": 100, "damage": [ 0, 3 ] },
+      { "group": "default_maid_clothes", "prob": 100 },
+      { "group": "default_zombie_items_pockets", "prob": 50 }
+    ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_fancy_death_drops_rapier",
-    "entries": [ { "item": "rapier", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_fancy_clothes", "prob": 100 } ]
+    "entries": [
+      { "item": "rapier", "prob": 100, "damage": [ 2, 4 ] },
+      { "group": "default_fancy_clothes", "prob": 100 },
+      { "group": "default_zombie_items_pockets", "prob": 50 }
+    ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_fancy_death_drops_rapier_fake",
-    "entries": [ { "item": "rapier_fake", "prob": 100, "damage": [ 0, 2 ] }, { "group": "default_fancy_clothes", "prob": 100 } ]
+    "entries": [
+      { "item": "rapier_fake", "prob": 100, "damage": [ 0, 2 ] },
+      { "group": "default_fancy_clothes", "prob": 100 },
+      { "group": "default_zombie_items_pockets", "prob": 50 }
+    ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_fancy_death_drops_crossbow",
-    "entries": [ { "item": "rep_crossbow", "prob": 100, "damage": [ 1, 3 ] }, { "group": "default_fancy_clothes", "prob": 100 } ]
+    "entries": [
+      { "item": "rep_crossbow", "prob": 100, "damage": [ 1, 3 ] },
+      { "group": "default_fancy_clothes", "prob": 100 },
+      { "group": "default_zombie_items_pockets", "prob": 50 }
+    ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_armored_death_drops_mace",
-    "entries": [ { "item": "mace", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_armored_clothes", "prob": 100 } ]
+    "entries": [
+      { "item": "mace", "prob": 100, "damage": [ 2, 4 ] },
+      { "group": "default_armored_clothes", "prob": 100 },
+      { "group": "default_zombie_items_pockets", "prob": 50 }
+    ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_armored_death_drops_battleaxe",
-    "entries": [ { "item": "battleaxe", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_armored_clothes", "prob": 100 } ]
+    "entries": [
+      { "item": "battleaxe", "prob": 100, "damage": [ 2, 4 ] },
+      { "group": "default_armored_clothes", "prob": 100 },
+      { "group": "default_zombie_items_pockets", "prob": 50 }
+    ]
   },
   {
     "type": "item_group",

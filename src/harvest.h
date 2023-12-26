@@ -29,7 +29,7 @@ struct harvest_entry {
 
     static harvest_entry load( const JsonObject &jo, const std::string &src );
 
-    std::vector<std::string> flags;
+    std::vector<flag_id> flags;
     std::vector<fault_id> faults;
 };
 
@@ -52,7 +52,7 @@ class harvest_list
             return entries().empty();
         }
 
-        bool has_entry_type( std::string type ) const;
+        bool has_entry_type( const std::string &type ) const;
 
         /**
          * Returns a set of cached, translated names of the items this harvest entry could produce.

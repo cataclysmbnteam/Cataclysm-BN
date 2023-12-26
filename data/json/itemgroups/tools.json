@@ -44,7 +44,8 @@
     "//": "Common household tools",
     "items": [
       [ "hacksaw", 50 ],
-      [ "hammer", 80 ],
+      [ "hammer", 70 ],
+      [ "hammer_bronze", 10 ],
       [ "misc_repairkit", 25 ],
       [ "pliers", 60 ],
       [ "saw", 60 ],
@@ -127,6 +128,7 @@
       [ "pockknife", 30 ],
       [ "pur_tablets", 10 ],
       [ "ref_lighter", 20 ],
+      [ "electric_lighter", 20 ],
       [ "rope_30", 20 ],
       [ "flint_steel", 10 ],
       [ "tinderbox", 10 ],
@@ -235,6 +237,7 @@
     "//": "Equipment of any size commonly used by engineers and mechanics",
     "ammo": 100,
     "items": [
+      [ "hammer_bronze", 5 ],
       { "group": "charged_UPS", "prob": 5 },
       [ "jack", 80 ],
       [ "jack_small", 80 ],
@@ -332,6 +335,7 @@
       [ "knife_folding", 30 ],
       [ "pur_tablets", 10 ],
       [ "ref_lighter", 20 ],
+      [ "electric_lighter", 20 ],
       [ "signal_flare", 20 ],
       [ "sm_extinguisher", 20 ],
       [ "whistle", 20 ],
@@ -418,6 +422,26 @@
       [ "cotton_ball", 4 ],
       { "group": "ammo_any_batteries_full", "prob": 50 },
       [ "acetylene_machine", 1 ]
+    ]
+  },
+  {
+    "id": "fireman_cabinet",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "items": [
+      { "item": "extinguisher", "prob": 35 },
+      { "item": "sm_extinguisher", "prob": 35 },
+      {
+        "collection": [
+          { "item": "hose" },
+          { "item": "sm_extinguisher" },
+          { "item": "fire_ax", "prob": 50 },
+          { "item": "crash_axe", "prob": 80 },
+          { "item": "throw_extinguisher", "prob": 30, "count": [ 3, 5 ] }
+        ],
+        "prob": 30
+      }
     ]
   },
   {

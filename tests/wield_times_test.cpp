@@ -15,10 +15,11 @@
 #include "item.h"
 #include "point.h"
 
-static void wield_check_internal( player &dummy, item &the_item, const char *section_text,
+static void wield_check_internal( player &dummy, item &the_item,
+                                  const char *section_text,
                                   const std::string &var_name, const int expected_cost )
 {
-    dummy.primary_weapon() = item();
+    dummy.remove_primary_weapon();
     dummy.set_moves( 1000 );
     const int old_moves = dummy.moves;
     dummy.wield( the_item );
@@ -35,9 +36,20 @@ static void wield_check_internal( player &dummy, item &the_item, const char *sec
 }
 
 // As macro, so that we can generate the test cases for easy copypasting
-#define wield_check(section_text, dummy, the_item, expected_cost) \
+#define wield_check_inv(section_text, dummy, the_item, expected_cost) \
     SECTION( section_text) { \
-        wield_check_internal(dummy, the_item, #section_text, #the_item, generating_cases ? -1 : (expected_cost)); \
+        detached_ptr<item> det=the_item;\
+        item &obj=*det;\
+        (dummy).i_add(std::move(det));\
+        wield_check_internal(dummy, obj, #section_text, #the_item, generating_cases ? -1 : (expected_cost)); \
+    }
+
+#define wield_check_floor(section_text, spot, dummy, the_item, expected_cost) \
+    SECTION( section_text) { \
+        detached_ptr<item> det=the_item;\
+        item &obj=*det;\
+        m.add_item(spot, std::move(det));\
+        wield_check_internal(dummy, obj, #section_text, #the_item, generating_cases ? -1 : (expected_cost)); \
     }
 
 static void do_test( const bool generating_cases )
@@ -48,36 +60,36 @@ static void do_test( const bool generating_cases )
 
     dummy.worn.clear();
     dummy.reset_encumbrance();
-    wield_check( "Wielding halberd from inventory while unencumbered", dummy,
-                 dummy.i_add( item( "halberd" ) ), 287 );
-    wield_check( "Wielding 1 aspirin from inventory while unencumbered", dummy,
-                 dummy.i_add( item( "aspirin" ).split( 1 ) ), 100 );
-    wield_check( "Wielding combat knife from inventory while unencumbered", dummy,
-                 dummy.i_add( item( "knife_combat" ) ), 125 );
-    wield_check( "Wielding metal tank from outside inventory while unencumbered", dummy,
-                 m.add_item( spot, item( "metal_tank" ) ), 300 );
-
-    dummy.worn = {{ item( "gloves_work" ) }};
+    wield_check_inv( "Wielding halberd from inventory while unencumbered", dummy,
+                     item::spawn( "halberd" ), 287 );
+    wield_check_inv( "Wielding 1 aspirin from inventory while unencumbered", dummy,
+                     item::spawn( "aspirin", calendar::start_of_cataclysm, 1 ), 100 );
+    wield_check_inv( "Wielding combat knife from inventory while unencumbered", dummy,
+                     item::spawn( "knife_combat" ), 125 );
+    wield_check_floor( "Wielding metal tank from outside inventory while unencumbered", spot, dummy,
+                       item::spawn( "metal_tank" ), 300 );
+    dummy.worn.clear();
+    dummy.worn.push_back( item::spawn( "gloves_work" ) );
     dummy.reset_encumbrance();
-    wield_check( "Wielding halberd from inventory while wearing work gloves", dummy,
-                 dummy.i_add( item( "halberd" ) ), 307 );
-    wield_check( "Wielding 1 aspirin from inventory while wearing work gloves", dummy,
-                 dummy.i_add( item( "aspirin" ).split( 1 ) ), 120 );
-    wield_check( "Wielding combat knife from inventory while wearing work gloves", dummy,
-                 dummy.i_add( item( "knife_combat" ) ), 150 );
-    wield_check( "Wielding metal tank from outside inventory while wearing work gloves", dummy,
-                 m.add_item( spot, item( "metal_tank" ) ), 340 );
-
-    dummy.worn = {{ item( "boxing_gloves" ) }};
+    wield_check_inv( "Wielding halberd from inventory while wearing work gloves", dummy,
+                     item::spawn( "halberd" ), 307 );
+    wield_check_inv( "Wielding 1 aspirin from inventory while wearing work gloves", dummy,
+                     item::spawn( "aspirin", calendar::start_of_cataclysm, 1 ), 120 );
+    wield_check_inv( "Wielding combat knife from inventory while wearing work gloves", dummy,
+                     item::spawn( "knife_combat" ), 150 );
+    wield_check_floor( "Wielding metal tank from outside inventory while wearing work gloves", spot,
+                       dummy, item::spawn( "metal_tank" ), 340 );
+    dummy.worn.clear();
+    dummy.worn.push_back( item::spawn( "boxing_gloves" ) );
     dummy.reset_encumbrance();
-    wield_check( "Wielding halberd from inventory while wearing boxing gloves", dummy,
-                 dummy.i_add( item( "halberd" ) ), 365 );
-    wield_check( "Wielding 1 aspirin from inventory while wearing boxing gloves", dummy,
-                 dummy.i_add( item( "aspirin" ).split( 1 ) ), 170 );
-    wield_check( "Wielding combat knife from inventory while wearing boxing gloves", dummy,
-                 dummy.i_add( item( "knife_combat" ) ), 200 );
-    wield_check( "Wielding metal tank from outside inventory while wearing boxing gloves", dummy,
-                 m.add_item( spot, item( "metal_tank" ) ), 400 );
+    wield_check_inv( "Wielding halberd from inventory while wearing boxing gloves", dummy,
+                     item::spawn( "halberd" ), 365 );
+    wield_check_inv( "Wielding 1 aspirin from inventory while wearing boxing gloves", dummy,
+                     item::spawn( "aspirin", calendar::start_of_cataclysm, 1 ), 170 );
+    wield_check_inv( "Wielding combat knife from inventory while wearing boxing gloves", dummy,
+                     item::spawn( "knife_combat" ), 200 );
+    wield_check_floor( "Wielding metal tank from outside inventory while wearing boxing gloves", spot,
+                       dummy, item::spawn( "metal_tank" ), 400 );
 }
 
 TEST_CASE( "Wield time test", "[wield]" )

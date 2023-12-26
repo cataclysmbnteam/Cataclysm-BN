@@ -24,7 +24,6 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_location.h"
 #include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"
@@ -85,10 +84,10 @@ class player : public Character
     public:
         player();
         player( const player & ) = delete;
-        player( player && );
+        player( player && ) noexcept ;
         ~player() override;
         player &operator=( const player & ) = delete;
-        player &operator=( player && );
+        player &operator=( player && ) noexcept ;
 
         bool is_player() const override {
             return true;
@@ -119,14 +118,16 @@ class player : public Character
          * @return An item that contains the removed charges, it's effectively a
          * copy of the item with the proper charges.
          */
-        item reduce_charges( int position, int quantity );
+        detached_ptr<item> reduce_charges( int position, int quantity );
         /**
          * Remove charges from a specific item (given by a pointer to it).
          * Otherwise identical to @ref reduce_charges(int,int)
          * @param it A pointer to the item, it *must* exist.
          * @param quantity How many charges to remove
+         * @return An item that contains the removed charges, it's effectively a
+         * copy of the item with the proper charges.
          */
-        item reduce_charges( item *it, int quantity );
+        detached_ptr<item> reduce_charges( item *it, int quantity );
 
         // Checks crafting inventory for books providing the requested recipe.
         // Then checks nearby NPCs who could provide it too.
@@ -139,7 +140,7 @@ class player : public Character
 
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
         recipe_subset get_recipes_from_books( const inventory &crafting_inv,
-                                              recipe_filter filter = nullptr ) const;
+                                              const recipe_filter &filter = nullptr ) const;
         /**
           * Returns all available recipes (from books and npc companions)
           * @param crafting_inv Current available items to craft
@@ -181,7 +182,7 @@ class player : public Character
         void make_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
         void make_all_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
         /** consume components and create an active, in progress craft containing them */
-        item_location start_craft( craft_command &command, const tripoint &loc );
+        item *start_craft( craft_command &command, const tripoint &loc );
         /**
          * Calculate a value representing the success of the player at crafting the given recipe,
          * taking player skill, recipe difficulty, npc helpers, and player mutations into account.
@@ -213,13 +214,15 @@ class player : public Character
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,
                                const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
-        std::list<item> consume_items( const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &filter = return_true<item>,
-                                       const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
-        std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
-                                       const std::function<bool( const item & )> &filter = return_true<item> );
+        std::vector<detached_ptr<item>> consume_items( const comp_selection<item_comp> &is, int batch,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
+        std::vector<detached_ptr<item>> consume_items( map &m, const comp_selection<item_comp> &is,
+                                     int batch,
+                                     const std::function<bool( const item & )> &filter = return_true<item>,
+                                     const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
+        std::vector<detached_ptr<item>> consume_items( const std::vector<item_comp> &components,
+                                     int batch = 1,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
         /** Consume tools for the next multiplier * 5% progress of the craft */
         bool craft_consume_tools( item &craft, int mulitplier, bool start_craft );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
@@ -241,7 +244,8 @@ class player : public Character
         weak_ptr_fast<Creature> last_target;
         std::optional<tripoint> last_target_pos;
         // Save favorite ammo location
-        item_location ammo_location;
+        //TODO!: check this
+        safe_reference<item> ammo_location;
         int scent = 0;
         int cash = 0;
         int movecounter = 0;

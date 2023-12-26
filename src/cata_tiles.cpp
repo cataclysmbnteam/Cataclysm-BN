@@ -1,3 +1,4 @@
+#include "units_temperature.h"
 #if defined(TILES)
 #include "cata_tiles.h"
 
@@ -845,7 +846,7 @@ void tileset_loader::process_variations_after_loading( weighted_int_list<std::ve
         std::remove_if(
             vs.begin(),
             vs.end(),
-    [&]( weighted_object<int, std::vector<int>> o ) {
+    [&]( const weighted_object<int, std::vector<int>> &o ) {
         return o.obj.empty();
     }
         ),
@@ -1298,29 +1299,27 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
 
             // Add temperature value to the overlay_strings list for every visible tile when displaying temperature
             if( g->display_overlay_state( ACTION_DISPLAY_TEMPERATURE ) && !invis ) {
-                int temp_value = get_weather().get_temperature( {temp_x, temp_y, center.z} );
-                int ctemp = units::fahrenheit_to_celsius( temp_value );
+                const auto temp = get_weather().get_temperature( tripoint_abs_omt{temp_x, temp_y, center.z} );
                 short color;
                 const short bold = 8;
-                if( ctemp > 40 ) {
+                if( temp > 40_c ) {
                     color = catacurses::red;
-                } else if( ctemp > 25 ) {
+                } else if( temp > 25_c ) {
                     color = catacurses::yellow + bold;
-                } else if( ctemp > 10 ) {
+                } else if( temp > 10_c ) {
                     color = catacurses::green + bold;
-                } else if( ctemp > 0 ) {
+                } else if( temp > 0_c ) {
                     color = catacurses::white + bold;
-                } else if( ctemp > -10 ) {
+                } else if( temp > -10_c ) {
                     color = catacurses::cyan + bold;
                 } else {
                     color = catacurses::blue + bold;
                 }
-                if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
-                    temp_value = units::fahrenheit_to_celsius( temp_value );
-                } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
-                    temp_value = units::fahrenheit_to_kelvin( temp_value );
+                const auto display_option = get_option<std::string>( "USE_CELSIUS" );
+                const int temp_value = display_option == "kelvin" ? units::to_kelvins( temp )
+                                       : display_option == "fahrenheit" ? units::to_fahrenheit( temp )
+                                       : units::to_celsius( temp );
 
-                }
                 overlay_strings.emplace( player_to_screen( point( temp_x, temp_y ) ) + point( tile_width / 2, 0 ),
                                          formatted_text( std::to_string( temp_value ), color,
                                                  direction::NORTH ) );
@@ -1843,6 +1842,8 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             return find_tile_looks_like_by_string_id<furn_t>( id, category, looks_like_jumps_limit );
         case C_TERRAIN:
             return find_tile_looks_like_by_string_id<ter_t>( id, category, looks_like_jumps_limit );
+        case C_TRAP:
+            return find_tile_looks_like_by_string_id<trap>( id, category, looks_like_jumps_limit );
         case C_FIELD:
             return find_tile_looks_like_by_string_id<field_type>( id, category, looks_like_jumps_limit );
         case C_MONSTER:
@@ -2022,14 +2023,15 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                 col = t.color;
             }
         } else if( category == C_ITEM ) {
-            item tmp;
+            //TODO!: push this up, it's a bad one
+            item *tmp;
             if( string_starts_with( found_id, "corpse_" ) ) {
-                tmp = item( itype_corpse, calendar::start_of_cataclysm );
+                tmp = item::spawn_temporary( itype_corpse, calendar::start_of_cataclysm );
             } else {
-                tmp = item( found_id, calendar::start_of_cataclysm );
+                tmp = item::spawn_temporary( found_id, calendar::start_of_cataclysm );
             }
-            sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
-            col = tmp.color();
+            sym = tmp->symbol().empty() ? ' ' : tmp->symbol().front();
+            col = tmp->color();
         } else if( category == C_OVERMAP_TERRAIN ) {
             const oter_type_str_id tmp( id );
             if( tmp.is_valid() ) {
@@ -3178,7 +3180,7 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
     if( tileset_ptr->find_tile_type( ZOMBIE_REVIVAL_INDICATOR ) && !invisible[0] &&
         item_override.find( pos ) == item_override.end() && here.could_see_items( pos, g->u ) ) {
         for( auto &i : here.i_at( pos ) ) {
-            if( i.can_revive() ) {
+            if( i->can_revive() ) {
                 return draw_from_id_string( ZOMBIE_REVIVAL_INDICATOR, C_NONE, empty_string, pos, 0, 0,
                                             lit_level::LIT, false, z_drop );
             }
@@ -3676,7 +3678,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
                 const auto direction = iter->getDirecton();
                 // Compensate for string length offset added at SCT creation
                 // (it will be readded using font size and proper encoding later).
-                const int direction_offset = ( -direction_XY( direction ).x + 1 ) * full_text_length / 2;
+                const int direction_offset = ( -displace_XY( direction ).x + 1 ) * full_text_length / 2;
 
                 overlay_strings.emplace(
                     player_to_screen( iD + point( direction_offset, 0 ) ),
@@ -3870,7 +3872,7 @@ void cata_tiles::get_tile_values( const int t, const int *tn, int &subtile, int 
     get_rotation_and_subtile( val, rotation, subtile );
 }
 
-void cata_tiles::do_tile_loading_report( std::function<void( std::string )> out )
+void cata_tiles::do_tile_loading_report( const std::function<void( std::string )> &out )
 {
     out( "Loaded tileset: " + get_option<std::string>( "TILES" ) );
 
@@ -4005,6 +4007,7 @@ std::vector<options_manager::id_and_option> cata_tiles::build_display_list()
     };
 
     int numdisplays = SDL_GetNumVideoDisplays();
+    display_names.reserve( numdisplays );
     for( int i = 0 ; i < numdisplays ; i++ ) {
         display_names.emplace_back( std::to_string( i ), std::string( SDL_GetDisplayName( i ) ) );
     }

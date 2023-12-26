@@ -203,7 +203,7 @@ std::string JsonObject::str() const
     }
 }
 
-void JsonObject::throw_error( std::string err, const std::string &name ) const
+void JsonObject::throw_error( const std::string &err, const std::string &name ) const
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -212,7 +212,17 @@ void JsonObject::throw_error( std::string err, const std::string &name ) const
     jsin->error( err );
 }
 
-void JsonArray::throw_error( std::string err )
+void JsonArray::string_error( const std::string &err, int idx, int offset )
+{
+    if( jsin && idx >= 0 && static_cast<size_t>( idx ) < positions.size() ) {
+        jsin->seek( positions[idx] );
+        jsin->string_error( err, offset );
+    } else {
+        throw_error( err );
+    }
+}
+
+void JsonArray::throw_error( const std::string &err )
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -220,7 +230,7 @@ void JsonArray::throw_error( std::string err )
     jsin->error( err );
 }
 
-void JsonArray::throw_error( std::string err, int idx )
+void JsonArray::throw_error( const std::string &err, int idx )
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -231,7 +241,7 @@ void JsonArray::throw_error( std::string err, int idx )
     jsin->error( err );
 }
 
-void JsonObject::throw_error( std::string err ) const
+void JsonObject::throw_error( const std::string &err ) const
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -239,7 +249,7 @@ void JsonObject::throw_error( std::string err ) const
     jsin->error( err );
 }
 
-void JsonObject::show_warning( std::string err ) const
+void JsonObject::show_warning( const std::string &err ) const
 {
 #ifndef CATA_IN_TOOL
     try {
@@ -252,7 +262,7 @@ void JsonObject::show_warning( std::string err ) const
 #endif // CATA_IN_TOOL
 }
 
-void JsonObject::show_warning( std::string err, const std::string &name ) const
+void JsonObject::show_warning( const std::string &err, const std::string &name ) const
 {
 #ifndef CATA_IN_TOOL
     try {
@@ -266,7 +276,7 @@ void JsonObject::show_warning( std::string err, const std::string &name ) const
 #endif // CATA_IN_TOOL
 }
 
-void JsonArray::show_warning( std::string err )
+void JsonArray::show_warning( const std::string &err )
 {
 #ifndef CATA_IN_TOOL
     try {
@@ -279,7 +289,7 @@ void JsonArray::show_warning( std::string err )
 #endif // CATA_IN_TOOL
 }
 
-void JsonArray::show_warning( std::string err, int idx )
+void JsonArray::show_warning( const std::string &err, int idx )
 {
 #ifndef CATA_IN_TOOL
     try {
@@ -293,7 +303,7 @@ void JsonArray::show_warning( std::string err, int idx )
 #endif // CATA_IN_TOOL
 }
 
-void JsonValue::show_warning( std::string err ) const
+void JsonValue::show_warning( const std::string &err ) const
 {
 #ifndef CATA_IN_TOOL
     try {
@@ -584,6 +594,12 @@ void JsonArray::verify_index( const size_t i ) const
 }
 
 /* iterative access */
+
+JsonValue JsonArray::next()
+{
+    verify_index( index );
+    return JsonValue( *jsin, positions[index++] );
+}
 
 bool JsonArray::next_bool()
 {
@@ -1342,9 +1358,13 @@ number_sci_notation JsonIn::get_any_number()
     number_sci_notation ret;
     int mod_e = 0;
     eat_whitespace();
-    stream->get( ch );
+    if( !stream->get( ch ) ) {
+        error( "unexpected end of input", 0 );
+    }
     if( ( ret.negative = ch == '-' ) ) {
-        stream->get( ch );
+        if( !stream->get( ch ) ) {
+            error( "unexpected end of input", 0 );
+        }
     } else if( ch != '.' && ( ch < '0' || ch > '9' ) ) {
         // not a valid float
         std::stringstream err;
@@ -1361,36 +1381,42 @@ number_sci_notation JsonIn::get_any_number()
     while( ch >= '0' && ch <= '9' ) {
         ret.number *= 10;
         ret.number += ( ch - '0' );
-        stream->get( ch );
+        if( !stream->get( ch ) ) {
+            break;
+        }
     }
     if( ch == '.' ) {
-        stream->get( ch );
-        while( ch >= '0' && ch <= '9' ) {
+        while( stream->get( ch ) && ch >= '0' && ch <= '9' ) {
             ret.number *= 10;
             ret.number += ( ch - '0' );
             mod_e -= 1;
-            stream->get( ch );
         }
     }
-    if( ch == 'e' || ch == 'E' ) {
-        stream->get( ch );
+    if( stream && ( ch == 'e' || ch == 'E' ) ) {
+        if( !stream->get( ch ) ) {
+            error( "unexpected end of input", 0 );
+        }
         bool neg;
-        if( ( neg = ch == '-' ) ) {
-            stream->get( ch );
-        } else if( ch == '+' ) {
-            stream->get( ch );
+        if( ( neg = ch == '-' ) || ch == '+' ) {
+            if( !stream->get( ch ) ) {
+                error( "unexpected end of input", 0 );
+            }
         }
         while( ch >= '0' && ch <= '9' ) {
             ret.exp *= 10;
             ret.exp += ( ch - '0' );
-            stream->get( ch );
+            if( !stream->get( ch ) ) {
+                break;
+            }
         }
         if( neg ) {
             ret.exp *= -1;
         }
     }
     // unget the final non-number character (probably a separator)
-    stream->unget();
+    if( stream ) {
+        stream->unget();
+    }
     end_value();
     ret.exp += mod_e;
     return ret;
@@ -1549,6 +1575,22 @@ bool JsonIn::test_object()
 }
 
 /* non-fatal value setting by reference */
+
+bool JsonIn::read_null( bool throw_on_error )
+{
+    if( !test_null() ) {
+        return error_or_false( throw_on_error, "Expected null" );
+    }
+    char text[5];
+    if( !stream->get( text, 5 ) ) {
+        error( "Unexpected end of stream reading null", 0 );
+    }
+    if( 0 != strcmp( text, "null" ) ) {
+        error( std::string( "Expected 'null', got '" ) + text + "'", -4 );
+    }
+    end_value();
+    return true;
+}
 
 bool JsonIn::read( bool &b, bool throw_on_error )
 {

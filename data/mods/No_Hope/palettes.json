@@ -359,10 +359,10 @@
     "type": "palette",
     "id": "bike_shop",
     "terrain": {
-      "'": "t_region_groundcover_barren",
       " ": "t_region_groundcover_urban",
       "*": [ [ "t_region_groundcover_urban", 4 ], "t_region_tree_shade" ],
       "_": "t_sidewalk",
+      "'": "t_sidewalk",
       ".": "t_floor",
       "#": "t_wall_w",
       "-": "t_wall_glass",
@@ -418,6 +418,7 @@
     "type": "palette",
     "id": "hotel_tower_palette.json",
     "furniture": {
+      "!": "f_street_light",
       "B": "f_bed",
       "c": "f_counter",
       "m": "f_bench",
@@ -448,6 +449,7 @@
       "6": "t_wall_glass",
       "_": "t_pavement",
       "2": "t_carpet_green",
+      "!": "t_sidewalk",
       "s": "t_sidewalk",
       "'": [ [ "t_region_groundcover_urban", 5 ], "t_region_shrub_decorative" ],
       "M": [ "t_region_shrub_decorative" ],
@@ -481,6 +483,7 @@
     "id": "office_doctor",
     "terrain": {
       " ": "t_region_groundcover_urban",
+      "]": "t_region_groundcover_urban",
       "!": "t_door_locked_interior",
       "#": "t_wall_w",
       "$": "t_floor",
@@ -533,6 +536,7 @@
       "6": "t_console"
     },
     "furniture": {
+      "]": "f_street_light",
       "$": "f_safe_l",
       "&": "f_toilet",
       "B": "f_bed",

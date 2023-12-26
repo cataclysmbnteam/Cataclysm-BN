@@ -644,7 +644,7 @@ class cata_tiles
         float get_tile_ratioy() const {
             return tile_ratioy;
         }
-        void do_tile_loading_report( std::function<void( std::string )> out );
+        void do_tile_loading_report( const std::function<void( std::string )> &out );
         point player_to_screen( point ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();

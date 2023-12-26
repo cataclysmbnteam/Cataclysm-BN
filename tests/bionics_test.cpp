@@ -26,7 +26,7 @@ static void clear_bionics( player &p )
 static void test_consumable_charges( player &p, std::string &itemname, bool when_none,
                                      bool when_max )
 {
-    item it = item( itemname, calendar::start_of_cataclysm, 0 );
+    item &it = *item::spawn_temporary( itemname, calendar::start_of_cataclysm, 0 );
 
     INFO( "\'" + it.tname() + "\' is count-by-charges" );
     CHECK( it.count_by_charges() );
@@ -43,15 +43,17 @@ static void test_consumable_charges( player &p, std::string &itemname, bool when
 static void test_consumable_ammo( player &p, std::string &itemname, bool when_empty,
                                   bool when_full )
 {
-    item it = item( itemname, calendar::start_of_cataclysm, 0 );
+    detached_ptr<item> it = item::spawn( itemname, calendar::start_of_cataclysm, 0 );
 
-    it.ammo_unset();
-    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( p.can_consume( it ) == when_empty );
+    it->ammo_unset();
+    INFO( "consume \'" + it->tname() + "\' with " + std::to_string( it->ammo_remaining() ) +
+          " charges" );
+    REQUIRE( p.can_consume( *it ) == when_empty );
 
-    it.ammo_set( it.ammo_default(), -1 ); // -1 -> full
-    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( p.can_consume( it ) == when_full );
+    it->ammo_set( it->ammo_default(), -1 ); // -1 -> full
+    INFO( "consume \'" + it->tname() + "\' with " + std::to_string( it->ammo_remaining() ) +
+          " charges" );
+    REQUIRE( p.can_consume( *it ) == when_full );
 }
 
 TEST_CASE( "bionics", "[bionics] [item]" )

@@ -605,7 +605,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     //  because it involves iterating over all cargo
     // Rotors only use rotor mass in calculation.
     const float mass = ( part_info( part ).rotor_diameter() > 0 ) ?
-                       to_kilogram( parts[ part ].base.weight() ) : to_kilogram( total_mass() );
+                       to_kilogram( parts[ part ].base->weight() ) : to_kilogram( total_mass() );
 
     //Calculate damage resulting from d_E
     const material_id_list &mats = part_info( ret.part ).item->materials;
@@ -1578,6 +1578,12 @@ void vehicle::check_falling_or_floating()
         deep_water_tiles += here.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
         water_tiles += here.has_flag( TFLAG_SWIMMABLE, p ) ? 1 : 0;
     }
+
+    if( is_falling && is_rotorcraft() ) {
+        is_falling = false;
+        is_flying = true;
+    }
+
     // floating if 2/3rds of the vehicle is in deep water
     is_floating = 3 * deep_water_tiles >= 2 * pts.size();
     // in_water if 1/2 of the vehicle is in water at all

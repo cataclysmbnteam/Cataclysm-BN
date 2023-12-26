@@ -25,6 +25,8 @@ struct diary_page {
     std::string m_text;
     /*turn the page was created*/
     time_point turn;
+    /*player's position on overmap when writing the page*/
+    std::string overmap_position_str;
     /*mission ids for completed/active and failed missions*/
     std::vector<int> mission_completed;
     std::vector<int> mission_active;
@@ -133,6 +135,6 @@ class diary
         /*exports the diary to a readable .md file. If it's the last export, it's exported to memorial otherwise its exported to the world folder*/
         void export_to_md( bool last_export = false );
         /*method for adding changes to the changelist. with the possibility to connect a description*/
-        void add_to_change_list( std::string entry, std::string desc = "" );
+        void add_to_change_list( const std::string &entry, const std::string &desc = "" );
 };
 #endif // CATA_SRC_DIARY_H

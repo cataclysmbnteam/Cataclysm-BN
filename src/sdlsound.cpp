@@ -583,7 +583,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
         }
     }
     if( failed ) {
-        dbg( DL::Error ) << "Failed to play sound effect { id: " << id << ", variant: " << variant << " }: "
+        dbg( DL::Debug ) << "Failed to play sound effect { id: " << id << ", variant: " << variant << " }: "
                          << Mix_GetError();
         if( is_pitched ) {
             cleanup_when_channel_finished( channel, effect_to_play );
@@ -633,7 +633,7 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
         }
     }
     if( failed ) {
-        dbg( DL::Error ) << "Failed to play sound effect { id: " << id << ", variant: " << variant << " }: "
+        dbg( DL::Debug ) << "Failed to play sound effect { id: " << id << ", variant: " << variant << " }: "
                          << Mix_GetError();
         if( is_pitched ) {
             cleanup_when_channel_finished( ch, effect_to_play );

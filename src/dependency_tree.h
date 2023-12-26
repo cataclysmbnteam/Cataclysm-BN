@@ -60,8 +60,8 @@ class dependency_tree
         dependency_tree();
 
         void init(
-            std::map<mod_id, std::vector<mod_id> > key_dependency_map,
-            std::map<mod_id, std::vector<mod_id> > key_conflict_map
+            const std::map<mod_id, std::vector<mod_id> > &key_dependency_map,
+            const std::map<mod_id, std::vector<mod_id> > &key_conflict_map
         );
 
         void clear();
@@ -80,10 +80,10 @@ class dependency_tree
         std::map<mod_id, dependency_node, mod_id::LexCmp> master_node_map;
     private:
         // Don't need to be called directly. Only reason to call these are during initialization phase.
-        void build_node_map( std::map<mod_id, std::vector<mod_id > > key_dependency_map );
+        void build_node_map( const std::map<mod_id, std::vector<mod_id > > &key_dependency_map );
         void build_connections(
-            std::map<mod_id, std::vector<mod_id > > key_dependency_map,
-            std::map<mod_id, std::vector<mod_id > > key_conflict_map
+            const std::map<mod_id, std::vector<mod_id > > &key_dependency_map,
+            const std::map<mod_id, std::vector<mod_id > > &key_conflict_map
         );
 
         /*

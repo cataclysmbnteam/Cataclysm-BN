@@ -1,3 +1,7 @@
 #include "../pch/main-pch.hpp"
 #define CATCH_CONFIG_ALL_PARTS
-#include "catch/catch.hpp"
+#if defined(CMAKE)
+#  include "../catch/catch.hpp"
+#else
+#  include "catch/catch.hpp"
+#endif

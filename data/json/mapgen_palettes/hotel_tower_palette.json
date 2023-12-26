@@ -3,6 +3,7 @@
     "type": "palette",
     "id": "hotel_tower_palette.json",
     "furniture": {
+      "!": "f_street_light",
       "B": "f_bed",
       "c": "f_counter",
       "m": "f_bench",
@@ -33,6 +34,7 @@
       "6": "t_wall_glass",
       "_": "t_pavement",
       "2": "t_carpet_green",
+      "!": "t_sidewalk",
       "s": "t_sidewalk",
       "'": [ [ "t_region_groundcover_urban", 5 ], "t_region_shrub_decorative" ],
       "M": [ "t_region_shrub_decorative" ],

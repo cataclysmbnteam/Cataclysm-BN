@@ -216,6 +216,19 @@
   },
   {
     "type": "recipe",
+    "result": "wooden_barrel_small",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "12 m",
+    "autolearn": true,
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "55gal_drum",
     "id_suffix": "from_scratch",
     "category": "CC_OTHER",

@@ -19,7 +19,6 @@
 #include "cursesdef.h"
 #include "input.h"
 #include "item_handling_util.h"
-#include "item_location.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "units.h"
@@ -32,8 +31,8 @@ class string_input_popup;
 struct tripoint;
 class ui_adaptor;
 
-using excluded_stack = std::pair<const item *, int>;
-using excluded_stacks = std::map<const item *, int>;
+using excluded_stack = std::pair<item *, int>;
+using excluded_stacks = std::map<item *, int>;
 
 enum class navigation_mode : int {
     ITEM = 0,
@@ -51,7 +50,7 @@ struct inventory_input;
 class inventory_entry
 {
     public:
-        std::vector<item_location> locations;
+        std::vector<item *> locations;
 
         size_t chosen_count = 0;
         int custom_invlet = INT_MIN;
@@ -70,7 +69,7 @@ class inventory_entry
             this->custom_category = custom_category;
         }
 
-        inventory_entry( const std::vector<item_location> &locations,
+        inventory_entry( const std::vector<item *> &locations,
                          const item_category *custom_category = nullptr,
                          bool enabled = true ) :
             locations( locations ),
@@ -105,15 +104,15 @@ class inventory_entry
             return is_item() && enabled;
         }
 
-        const item_location &any_item() const {
+        item *any_item() const {
             assert( !locations.empty() );
             return locations.front();
         }
 
         /** Pointer to first item in relevant stack on character. */
-        const item *item_stack_on_character() const {
+        item *item_stack_on_character() const {
             assert( !locations.empty() );
-            return locations.front().get_item();
+            return locations.front();
         }
 
         size_t get_stack_size() const {
@@ -142,7 +141,7 @@ class inventory_selector_preset
         virtual ~inventory_selector_preset() = default;
 
         /** Does this entry satisfy the basic preset conditions? */
-        virtual bool is_shown( const item_location & ) const {
+        virtual bool is_shown( const item * ) const {
             return true;
         }
 
@@ -150,7 +149,7 @@ class inventory_selector_preset
          * The reason why this entry cannot be selected.
          * @return Either the reason of denial or empty string if it's accepted.
          */
-        virtual std::string get_denial( const item_location & ) const {
+        virtual std::string get_denial( const item * ) const {
             return std::string();
         }
         /** Whether the first item is considered to go before the second. */
@@ -184,7 +183,7 @@ class inventory_selector_preset
          * @param title Title of the cell.
          * @param stub The cell won't be "revealed" if it contains only this value
          */
-        void append_cell( const std::function<std::string( const item_location & )> &func,
+        void append_cell( const std::function<std::string( const item * )> &func,
                           const std::string &title = std::string(),
                           const std::string &stub = std::string() );
         void append_cell( const std::function<std::string( const inventory_entry & )> &func,
@@ -276,10 +275,10 @@ class inventory_column
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
         void clear();
-        void set_stack_favorite( const item_location &location, bool favorite );
+        void set_stack_favorite( const item *location, bool favorite );
 
         /** Selects the specified location. */
-        bool select( const item_location &loc );
+        bool select( const item *loc );
 
         /**
          * Change the selection.
@@ -488,15 +487,15 @@ class inventory_selector
                 const tripoint &pos );
 
         void add_entry( inventory_column &target_column,
-                        std::vector<item_location> &&locations,
+                        std::vector<item *> &&locations,
                         const item_category *custom_category = nullptr );
 
         void add_item( inventory_column &target_column,
-                       item_location &&location,
+                       item *location,
                        const item_category *custom_category = nullptr );
 
         void add_items( inventory_column &target_column,
-                        const std::function<item_location( item * )> &locator,
+                        const std::function<item*( item * )> &locator,
                         const std::vector<std::list<item *>> &stacks,
                         const item_category *custom_category = nullptr );
 
@@ -561,7 +560,7 @@ class inventory_selector
          * @param loc Location to select
          * @return true on success.
          */
-        bool select( const item_location &loc );
+        bool select( const item *loc );
 
         const inventory_entry &get_selected() {
             return get_active_column().get_selected();
@@ -658,7 +657,7 @@ class inventory_pick_selector : public inventory_selector
                                  const inventory_selector_preset &preset = default_preset ) :
             inventory_selector( p, preset ) {}
 
-        item_location execute();
+        item *execute();
 };
 
 class inventory_multiselector : public inventory_selector
@@ -696,7 +695,7 @@ class inventory_iuse_selector : public inventory_multiselector
                                  const std::string &selector_title,
                                  const inventory_selector_preset &preset = default_preset,
                                  const GetStats & = {} );
-        std::list<iuse_location> execute();
+        std::vector<iuse_location> execute();
 
     protected:
         stats get_raw_stats() const override;

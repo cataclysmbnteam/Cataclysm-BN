@@ -2550,5 +2550,19 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "chili_pepper", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cacao_nibs",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "60 m",
+    "//": "The original fermentation and roasting process for making cacao nibs can take anywhere from two days to a week, depending on the cacao variety, but I cut it down to an hour to avoid that hassle.",
+    "charges": 30,
+    "autolearn": true,
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [ [ [ "cacao_pod", 1 ] ] ]
   }
 ]

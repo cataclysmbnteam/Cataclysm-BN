@@ -514,7 +514,7 @@ void options_manager::add_empty_line( const std::string &sPageIn )
 
 void options_manager::add_option_group( const std::string &page_id,
                                         const options_manager::Group &group,
-                                        std::function<void( const std::string & )> entries )
+                                        const std::function<void( const std::string & )> &entries )
 {
     if( !adding_to_group_.empty() ) {
         // Nested groups are not allowed
@@ -982,7 +982,7 @@ void options_manager::cOpt::setValue( int iSetIn )
 }
 
 //set value
-void options_manager::cOpt::setValue( std::string sSetIn )
+void options_manager::cOpt::setValue( const std::string &sSetIn )
 {
     if( sType == "string_select" ) {
         if( getItemPos( sSetIn ) != -1 ) {
@@ -1106,7 +1106,7 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     // Load from user directory
     std::vector<options_manager::id_and_option> user_tilesets = load_tilesets_from(
                 PATH_INFO::user_gfx() );
-    for( options_manager::id_and_option id : user_tilesets ) {
+    for( const options_manager::id_and_option &id : user_tilesets ) {
         if( std::find( result.begin(), result.end(), id ) == result.end() ) {
             result.emplace_back( id );
         }
@@ -1159,8 +1159,8 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
 #if defined(__ANDROID__)
 bool android_get_default_setting( const char *settings_name, bool default_value )
 {
-    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    JNIEnv *env = static_cast< JNIEnv *>( SDL_AndroidGetJNIEnv() );
+    jobject activity = static_cast< jobject>( SDL_AndroidGetActivity() );
     jclass clazz( env->GetObjectClass( activity ) );
     jmethodID method_id = env->GetMethodID( clazz, "getDefaultSetting", "(Ljava/lang/String;Z)Z" );
     jboolean ans = env->CallBooleanMethod( activity, method_id, env->NewStringUTF( settings_name ),
@@ -1471,7 +1471,7 @@ void options_manager::add_options_interface()
         { "", translate_marker( "System language" ) },
     };
     for( const language_info &info : list_available_languages() ) {
-        lang_options.push_back( {info.id, no_translation( info.name )} );
+        lang_options.emplace_back( info.id, no_translation( info.name ) );
     }
 
     add( "USE_LANG", interface, translate_marker( "Language" ),
@@ -2243,6 +2243,16 @@ void options_manager::add_options_world_default()
          0, 8, 4
        );
 
+    add( "SPECIALS_DENSITY", world_default, translate_marker( "Overmap specials density" ),
+         translate_marker( "A scaling factor that determines density of overmap specials." ),
+         0.0, 10.0, 1, 0.1
+       );
+
+    add( "SPECIALS_SPACING", world_default, translate_marker( "Overmap specials spacing" ),
+         translate_marker( "A number determing minimum distance between overmap specials.  -1 allows intersections of specials." ),
+         -1, 18, 6
+       );
+
     add( "SPAWN_DENSITY", world_default, translate_marker( "Spawn rate scaling factor" ),
          translate_marker( "A scaling factor that determines density of monster spawns." ),
          0.0, 50.0, 1.0, 0.1
@@ -2319,6 +2329,11 @@ void options_manager::add_options_world_default()
          0, 1000, 100
        );
 
+    add( "GROWTH_SCALING", world_default, translate_marker( "Growth scaling" ),
+         translate_marker( "Sets the time of crop growth in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales growth time to match the world's season length." ),
+         0, 1000, 0
+       );
+
     add( "ETERNAL_SEASON", world_default, translate_marker( "Eternal season" ),
          translate_marker( "Keep the initial season for ever." ),
          false
@@ -2365,13 +2380,6 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "ZLEVELS", world_default, translate_marker( "Z-levels" ),
-         translate_marker( "If true, enables several features related to vertical movement, such as hauling items up stairs, climbing downspouts, flying aircraft and ramps.  May cause problems if toggled mid-game." ),
-         true
-       );
-
-    add_empty_line();
-
     add( "CHARACTER_POINT_POOLS", world_default, translate_marker( "Character point pools" ),
          translate_marker( "Allowed point pools for character generation." ),
     { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } },
@@ -2381,12 +2389,6 @@ void options_manager::add_options_world_default()
     add( "DISABLE_LIFTING", world_default,
          translate_marker( "Disables lifting requirements for vehicle parts." ),
          translate_marker( "If true, strength checks and/or lifting qualities no longer need to be met in order to change parts." ),
-         false, COPT_ALWAYS_HIDE
-       );
-
-    add( "ELEVATED_BRIDGES", world_default,
-         translate_marker( "Generate elevated bridges." ),
-         translate_marker( "If true, bridges are generated at z+1 level, allowing boats to pass underneath." ),
          false, COPT_ALWAYS_HIDE
        );
 }
@@ -2669,7 +2671,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
-            tilecontext->do_tile_loading_report( []( std::string str ) {
+            tilecontext->do_tile_loading_report( []( const std::string & str ) {
                 DebugLog( DL::Info, DC::Main ) << str;
             } );
         } catch( const std::exception &err ) {

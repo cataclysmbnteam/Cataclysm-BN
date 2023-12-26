@@ -6,8 +6,8 @@
     "description": ".380 ACP ammunition with a brass jacketed 95gr bullet.  Popular in pocket pistols for over a century, it is often considered the weakest caliber to consider carrying.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
     "weight": "6 g",
     "volume": "250 ml",
-    "price": 140,
-    "price_postapoc": 1000,
+    "price": "140 cent",
+    "price_postapoc": "10 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "powder" ],
     "symbol": "=",
@@ -38,13 +38,13 @@
     "type": "AMMO",
     "name": { "str": ".380 ACP +P" },
     "description": "Overpressure .380 ACP ammunition with a 90gr jacketed hollow point bullet.  These defensive loadings are designed to maximize performance and tend to be more accurate than practice ammo.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
-    "price": 190,
-    "price_postapoc": 1500,
+    "price": "190 cent",
+    "price_postapoc": "15 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 25,
     "damage": { "damage_type": "bullet", "amount": 30, "armor_penetration": 0 },
     "relative": { "dispersion": -15 },
-    "proportional": { "recoil": 2.0 }
+    "proportional": { "recoil": 2 }
   },
   {
     "id": "bp_380_FMJ",

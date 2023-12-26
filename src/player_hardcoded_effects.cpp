@@ -188,10 +188,10 @@ static void eff_fun_rat( player &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( "RAT" );
+            u.mutate_category( mutation_category_id( "RAT" ) );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( "TROGLOBITE" );
+            u.mutate_category( mutation_category_id( "TROGLOBITE" ) );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -210,7 +210,7 @@ static void eff_fun_bleed( player &u, effect &it )
     // on the wound or otherwise suppressing the flow. (Kits contain either
     // QuikClot or bandages per the recipe.)
     const int intense = it.get_intensity();
-    if( one_in( 36 / intense ) && u.activity.id() != ACT_FIRSTAID ) {
+    if( one_in( 36 / intense ) && u.activity->id() != ACT_FIRSTAID ) {
         u.add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
                                  _( "<npcname> loses some blood." ) );
         // Prolonged hemorrhage is a significant risk for developing anemia
@@ -565,7 +565,7 @@ void Character::hardcoded_effects( effect &it )
         bool lesserEvil = primary_weapon().has_effect_when_wielded( AEP_EVIL ) ||
                           primary_weapon().has_effect_when_carried( AEP_EVIL );
         for( auto &w : worn ) {
-            if( w.has_effect_when_worn( AEP_EVIL ) ) {
+            if( w->has_effect_when_worn( AEP_EVIL ) ) {
                 lesserEvil = true;
                 break;
             }
@@ -1066,7 +1066,7 @@ void Character::hardcoded_effects( effect &it )
             set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia
         }
 
-        if( get_fatigue() <= 10 && !has_effect( effect_narcosis ) ) {
+        if( get_fatigue() <= 10 && !has_effect( effect_narcosis ) && !is_hibernating() ) {
             set_fatigue( 0 );
             if( get_sleep_deprivation() < sleep_deprivation_levels::harmless ) {
                 add_msg_if_player( m_good, _( "You feel well rested." ) );
@@ -1110,7 +1110,7 @@ void Character::hardcoded_effects( effect &it )
         }
 
         // Check mutation category strengths to see if we're mutated enough to get a dream
-        std::string highcat = get_highest_category();
+        mutation_category_id highcat = get_highest_category();
         int highest = mutation_category_level[highcat];
 
         // Determine the strength of effects or dreams based upon category strength
@@ -1137,7 +1137,7 @@ void Character::hardcoded_effects( effect &it )
                 // Mycus folks upgrade in their sleep.
                 if( has_trait( trait_THRESH_MYCUS ) ) {
                     if( one_in( 8 ) ) {
-                        mutate_category( "MYCUS" );
+                        mutate_category( mutation_category_id( "MYCUS" ) );
                         mod_stored_nutr( 10 );
                         mod_thirst( 10 );
                         mod_fatigue( 5 );
@@ -1255,7 +1255,7 @@ void Character::hardcoded_effects( effect &it )
                 if( dur == 1_turns ) {
                     if( !asleep ) {
                         add_msg_if_player( _( "Your internal chronometer went off and you haven't slept a wink." ) );
-                        activity.set_to_null();
+                        activity->set_to_null();
                     } else {
                         // Secure the flag before wake_up() clears the effect
                         bool slept_through = has_effect( effect_slept_through_alarm );

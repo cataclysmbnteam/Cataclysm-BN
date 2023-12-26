@@ -77,7 +77,7 @@ class craft_command
          * Consumes the selected components and returns the resulting in progress craft item.
          * Must be called after execute().
          */
-        item create_in_progress_craft();
+        detached_ptr<item> create_in_progress_craft();
 
         bool is_long() const {
             return longcraft;

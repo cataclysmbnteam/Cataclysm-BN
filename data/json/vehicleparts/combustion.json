@@ -31,7 +31,7 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "gasoline",
-    "fuel_options": [ "gasoline", "avgas" ],
+    "fuel_options": [ "gasoline", "avgas", "biodiesel" ],
     "//2": "TODO: remove when injectors are implemented",
     "m2c": 60,
     "//": "30% energy efficiency",
@@ -58,9 +58,10 @@
     "power": 223800,
     "energy_consumption": 559500,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 40 ] },
-      { "item": "steel_chunk", "count": [ 30, 40 ] },
-      { "item": "scrap", "count": [ 30, 40 ] }
+      { "item": "engine_block_medium" },
+      { "item": "steel_lump", "count": [ 0, 6 ] },
+      { "item": "steel_chunk", "count": [ 0, 6 ] },
+      { "item": "scrap", "count": [ 0, 6 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
@@ -79,9 +80,10 @@
     "power": 149200,
     "energy_consumption": 373000,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 40 ] },
-      { "item": "steel_chunk", "count": [ 30, 40 ] },
-      { "item": "scrap", "count": [ 30, 40 ] }
+      { "item": "engine_block_medium" },
+      { "item": "steel_lump", "count": [ 0, 6 ] },
+      { "item": "steel_chunk", "count": [ 0, 6 ] },
+      { "item": "scrap", "count": [ 0, 6 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
@@ -100,9 +102,10 @@
     "power": 242450,
     "energy_consumption": 606250,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 40 ] },
-      { "item": "steel_chunk", "count": [ 30, 40 ] },
-      { "item": "scrap", "count": [ 30, 40 ] }
+      { "item": "engine_block_large" },
+      { "item": "steel_lump", "count": [ 0, 6 ] },
+      { "item": "steel_chunk", "count": [ 0, 6 ] },
+      { "item": "scrap", "count": [ 0, 6 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
@@ -121,11 +124,12 @@
     "epower": 0,
     "power": 5370,
     "energy_consumption": 14425,
-    "folded_volume": 4,
+    "folded_volume": "1 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 5, 10 ] },
-      { "item": "steel_chunk", "count": [ 5, 10 ] },
-      { "item": "scrap", "count": [ 5, 10 ] }
+      { "item": "engine_block_tiny" },
+      { "item": "steel_lump", "count": [ 0, 1 ] },
+      { "item": "steel_chunk", "count": [ 0, 1 ] },
+      { "item": "scrap", "count": [ 0, 1 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -145,11 +149,12 @@
     "epower": 0,
     "power": 41000,
     "energy_consumption": 124500,
-    "folded_volume": 8,
+    "folded_volume": "2 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 12 ] },
-      { "item": "steel_chunk", "count": [ 6, 12 ] },
-      { "item": "scrap", "count": [ 6, 12 ] }
+      { "item": "engine_block_small" },
+      { "item": "steel_lump", "count": [ 0, 2 ] },
+      { "item": "steel_chunk", "count": [ 0, 22 ] },
+      { "item": "scrap", "count": [ 0, 2 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -169,9 +174,10 @@
     "power": 93250,
     "energy_consumption": 311000,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 20, 30 ] },
-      { "item": "steel_chunk", "count": [ 20, 30 ] },
-      { "item": "scrap", "count": [ 20, 30 ] }
+      { "item": "engine_block_small" },
+      { "item": "steel_lump", "count": [ 0, 5 ] },
+      { "item": "steel_chunk", "count": [ 0, 5 ] },
+      { "item": "scrap", "count": [ 0, 5 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
@@ -190,9 +196,10 @@
     "power": 447600,
     "energy_consumption": 1492000,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 45, 58 ] },
-      { "item": "steel_chunk", "count": [ 45, 58 ] },
-      { "item": "scrap", "count": [ 45, 58 ] }
+      { "item": "engine_block_massive" },
+      { "item": "steel_lump", "count": [ 0, 10 ] },
+      { "item": "steel_chunk", "count": [ 0, 10 ] },
+      { "item": "scrap", "count": [ 0, 10 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
@@ -211,9 +218,10 @@
     "power": 447600,
     "energy_consumption": 1119000,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 45, 58 ] },
-      { "item": "steel_chunk", "count": [ 45, 58 ] },
-      { "item": "scrap", "count": [ 45, 58 ] }
+      { "item": "engine_block_massive" },
+      { "item": "steel_lump", "count": [ 0, 10 ] },
+      { "item": "steel_chunk", "count": [ 0, 10 ] },
+      { "item": "scrap", "count": [ 0, 10 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
@@ -232,9 +240,10 @@
     "power": 149200,
     "energy_consumption": 497500,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 40 ] },
-      { "item": "steel_chunk", "count": [ 30, 40 ] },
-      { "item": "scrap", "count": [ 30, 40 ] }
+      { "item": "engine_block_medium" },
+      { "item": "steel_lump", "count": [ 0, 6 ] },
+      { "item": "steel_chunk", "count": [ 0, 6 ] },
+      { "item": "scrap", "count": [ 0, 6 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
@@ -253,9 +262,10 @@
     "power": 242450,
     "energy_consumption": 808200,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 40, 50 ] },
-      { "item": "steel_chunk", "count": [ 40, 50 ] },
-      { "item": "scrap", "count": [ 40, 50 ] }
+      { "item": "engine_block_large" },
+      { "item": "steel_lump", "count": [ 0, 8 ] },
+      { "item": "steel_chunk", "count": [ 0, 8 ] },
+      { "item": "scrap", "count": [ 0, 8 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
@@ -273,11 +283,12 @@
     "epower": -50,
     "power": 37300,
     "energy_consumption": 124500,
-    "folded_volume": 8,
+    "folded_volume": "2 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 10, 20 ] },
-      { "item": "steel_chunk", "count": [ 10, 20 ] },
-      { "item": "scrap", "count": [ 10, 20 ] }
+      { "item": "engine_block_tiny" },
+      { "item": "steel_lump", "count": [ 0, 3 ] },
+      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "scrap", "count": [ 0, 3 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
@@ -377,8 +388,8 @@
     "durability": 300,
     "epower": -20,
     "//": "45% energy efficiency",
-    "power": 551700,
-    "energy_consumption": 1226000,
+    "power": 1006695,
+    "energy_consumption": 2237100,
     "extend": { "flags": [ "E_NO_POWER_DECAY" ] },
     "description": "A closed cycle steam engine powering a hefty turbine.  Burns coal or charcoal from a bunker in the vehicle to produce steam, its power will not diminish even when multiple of them are installed.",
     "breaks_into": [

@@ -4,6 +4,7 @@
     "id": "lumberyard",
     "terrain": {
       " ": [ "t_region_groundcover" ],
+      "'": "t_region_groundcover_barren",
       "_": [ [ "t_railroad_rubble", 2 ], [ "t_region_groundcover_barren", 6 ], [ "t_region_groundcover", 2 ] ],
       "%": "t_open_air",
       "#": "t_brick_wall",
@@ -33,6 +34,7 @@
       ",": "t_thconc_floor"
     },
     "furniture": {
+      "'": "f_street_light",
       "B": "f_bandsaw",
       "J": "f_jointer",
       "M": "f_mitresaw",

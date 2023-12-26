@@ -37,7 +37,7 @@
     "name": "Large Building",
     "points": -2,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
-    "allowed_locs": [ "sloc_mall_loading_area", "sloc_mall_food_court", "sloc_apartments_rooftop", "sloc_hospital" ],
+    "allowed_locs": [ "sloc_mall_loading_area", "sloc_mall_food_court", "sloc_apartments_rooftop", "sloc_hospital", "sloc_bastion_fort" ],
     "start_name": "In Large Building",
     "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
   },
@@ -81,7 +81,8 @@
       "sloc_lmoe",
       "sloc_horse_ranch",
       "sloc_lighthouse_ground",
-      "sloc_cabin_lake"
+      "sloc_cabin_lake",
+      "sloc_freshwater_research_station"
     ],
     "start_name": "Safe Building",
     "flags": [ "LONE_START" ]
@@ -327,7 +328,8 @@
       "sloc_hermit_shack",
       "sloc_farm_survivalist",
       "sloc_campsite",
-      "sloc_campground"
+      "sloc_campground",
+      "sloc_bastion_fort"
     ],
     "start_name": "Outside Town",
     "flags": [ "SUR_START", "WIN_START", "LONE_START" ],
@@ -358,7 +360,8 @@
       "sloc_campsite",
       "sloc_campground",
       "sloc_cabin_lake",
-      "sloc_lighthouse_ground"
+      "sloc_lighthouse_ground",
+      "sloc_bastion_fort"
     ],
     "start_name": "Outside Town",
     "flags": [ "SUM_ADV_START", "LONE_START" ],
@@ -576,7 +579,12 @@
     "allowed_locs": [ "sloc_field", "sloc_forest" ],
     "professions": [
       "soldier",
+      "mil_auto_rifleman",
+      "mil_grenadier",
+      "mil_marksman",
+      "prof_combat_engineer",
       "specops",
+      "power_armor_soldier",
       "bio_soldier",
       "bio_sniper",
       "bionic_spy",
@@ -657,7 +665,21 @@
     "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse all alone.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
     "start_name": "Military Base Warehouse",
     "allowed_locs": [ "sloc_military_base_warehouse" ],
-    "professions": [ "unemployed", "soldier", "specops", "bio_soldier", "bio_sniper", "labtech", "medic", "mili_pilot" ],
+    "professions": [
+      "unemployed",
+      "soldier",
+      "mil_auto_rifleman",
+      "mil_grenadier",
+      "mil_marksman",
+      "prof_combat_engineer",
+      "specops",
+      "power_armor_soldier",
+      "bio_soldier",
+      "bio_sniper",
+      "labtech",
+      "medic",
+      "mili_pilot"
+    ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -681,6 +703,32 @@
       "musician",
       "roadie",
       "bio_gangster"
+    ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "aircraft_carrier_start",
+    "name": "CVN Sailor",
+    "points": 4,
+    "description": "For some reason your mission off the coast of North Korea has ended up stateside, stuck in the middle of a lake.  You have no idea what's happened, but now you have more important things to do.",
+    "start_name": "Aircraft Carrier",
+    "allowed_locs": [ "aircraft_carrier_berth", "aircraft_carrier_bridge" ],
+    "professions": [
+      "unemployed",
+      "electrician",
+      "chef",
+      "soldier",
+      "mil_auto_rifleman",
+      "mil_grenadier",
+      "mil_marksman",
+      "specops",
+      "power_armor_soldier",
+      "bio_soldier",
+      "bio_sniper",
+      "medic",
+      "mili_pilot",
+      "prof_combat_engineer"
     ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   }

@@ -15,6 +15,7 @@
 #include <memory>
 #include <string>
 #include <utility>
+#include <filesystem>
 #include <vector>
 #if defined(_WIN32)
 #   include "platform_win.h"
@@ -43,6 +44,11 @@
 #include "rng.h"
 #include "type_id.h"
 #include "ui_manager.h"
+
+#if defined(PREFIX)
+#   undef PREFIX
+#   include "prefix.h"
+#endif
 
 class ui_adaptor;
 
@@ -83,7 +89,7 @@ static void *thread_func( void * )
             __android_log_write( ANDROID_LOG_DEBUG, tag, buf );
         }
     }
-    return 0;
+    return nullptr;
 }
 
 int start_logger( const char *app_name )
@@ -91,8 +97,8 @@ int start_logger( const char *app_name )
     tag = app_name;
 
     /* make stdout line-buffered and stderr unbuffered */
-    setvbuf( stdout, 0, _IOLBF, 0 );
-    setvbuf( stderr, 0, _IONBF, 0 );
+    setvbuf( stdout, nullptr, _IOLBF, 0 );
+    setvbuf( stderr, nullptr, _IONBF, 0 );
 
     /* create the pipe and redirect stdout and stderr */
     pipe( pfd );
@@ -100,7 +106,7 @@ int start_logger( const char *app_name )
     dup2( pfd[1], 2 );
 
     /* spawn the logging thread */
-    if( pthread_create( &thr, 0, thread_func, 0 ) == -1 ) {
+    if( pthread_create( &thr, nullptr, thread_func, nullptr ) == -1 ) {
         return -1;
     }
     pthread_detach( thr );
@@ -144,7 +150,7 @@ static void report_fatal_error( const std::string &msg )
 #if defined(TILES)
     if( test_mode ) {
 #endif
-        std::cerr << "Cataclysm BN: Fatal error" << std::endl << msg << std::endl;
+        std::cerr << "Cataclysm BN: Fatal error" << '\n' << msg << '\n';
 #if defined(TILES)
     } else {
         SDL_ShowSimpleMessageBox(
@@ -207,17 +213,12 @@ int main( int argc, char *argv[] )
     // On Android first launch, we copy all data files from the APK into the app's writeable folder so std::io stuff works.
     // Use the external storage so it's publicly modifiable data (so users can mess with installed data, save games etc.)
     std::string external_storage_path( SDL_AndroidGetExternalStoragePath() );
-    if( external_storage_path.back() != '/' ) {
-        external_storage_path += '/';
-    }
 
     PATH_INFO::init_base_path( external_storage_path );
 #else
     // Set default file paths
 #if defined(PREFIX)
-#define Q(STR) #STR
-#define QUOTE(STR) Q(STR)
-    PATH_INFO::init_base_path( std::string( QUOTE( PREFIX ) ) );
+    PATH_INFO::init_base_path( std::string( PREFIX ) );
 #else
     PATH_INFO::init_base_path( "" );
 #endif
@@ -229,7 +230,7 @@ int main( int argc, char *argv[] )
 #   if defined(USE_HOME_DIR) || defined(USE_XDG_DIR)
     PATH_INFO::init_user_dir( "" );
 #   else
-    PATH_INFO::init_user_dir( "./" );
+    PATH_INFO::init_user_dir( "." );
 #   endif
 #endif
     PATH_INFO::set_standard_filenames();
@@ -600,23 +601,29 @@ int main( int argc, char *argv[] )
         }
     }
 
+    std::string current_path = std::filesystem::current_path().string();
+
     if( !dir_exist( PATH_INFO::datadir() ) ) {
         std::string msg = string_format(
                               "Can't find directory \"%s\"\n"
+                              "Current path: \"%s\"\n"
                               "Please ensure the current working directory is correct.\n"
                               "Perhaps you meant to start \"cataclysm-launcher\"?\n",
-                              PATH_INFO::datadir().c_str()
+                              PATH_INFO::datadir(),
+                              current_path
                           );
         report_fatal_error( msg );
         exit( 1 );
     }
 
-    const auto check_dir_good = []( const std::string & dir ) {
+    const auto check_dir_good = [&current_path]( const std::string & dir ) {
         if( !assure_dir_exist( dir ) ) {
             std::string msg = string_format(
                                   "Can't open or create \"%s\"\n"
+                                  "Current path: \"%s\"\n"
                                   "Please ensure you have write permission.\n",
-                                  dir.c_str()
+                                  dir.c_str(),
+                                  current_path
                               );
             report_fatal_error( msg );
             exit( 1 );
@@ -624,8 +631,10 @@ int main( int argc, char *argv[] )
         if( !can_write_to_dir( dir ) ) {
             std::string msg = string_format(
                                   "Can't write to \"%s\"\n"
+                                  "Current path: \"%s\"\n"
                                   "Please ensure you have write permission and free storage space.\n",
-                                  dir.c_str()
+                                  dir.c_str(),
+                                  current_path
                               );
             report_fatal_error( msg );
             exit( 1 );
@@ -674,7 +683,7 @@ int main( int argc, char *argv[] )
             catacurses::init_interface();
         } catch( const std::exception &err ) {
             // can't use any curses function as it has not been initialized
-            std::cerr << "Error while initializing the interface: " << err.what() << std::endl;
+            std::cerr << "Error while initializing the interface: " << err.what() << '\n';
             DebugLog( DL::Error, DC::Main ) << "Error while initializing the interface: " << err.what();
             return 1;
         }

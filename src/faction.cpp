@@ -474,7 +474,7 @@ const faction &string_id<faction>::obj() const
 template<>
 bool string_id<faction>::is_valid() const
 {
-    return g->faction_manager_ptr->get( *this, false );
+    return g->faction_manager_ptr->get( *this, false ) != nullptr;
 }
 
 void basecamp::faction_display( const catacurses::window &fac_w, const int width ) const
@@ -566,8 +566,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     std::string can_see;
     nc_color see_color;
-    bool u_has_radio = g->u.has_item_with_flag( "TWO_WAY_RADIO", true );
-    bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
+
+    static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
+    bool u_has_radio = g->u.has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
+    bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
         ( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) ) {

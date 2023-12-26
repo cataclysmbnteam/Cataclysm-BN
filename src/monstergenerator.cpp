@@ -383,6 +383,12 @@ void MonsterGenerator::finalize_mtypes()
         if( mon.armor_fire < 0 ) {
             mon.armor_fire = 0;
         }
+        if( mon.armor_cold < 0 ) {
+            mon.armor_cold = 0;
+        }
+        if( mon.armor_electric < 0 ) {
+            mon.armor_electric = 0;
+        }
 
         // Lower bound for hp scaling
         mon.hp = std::max( mon.hp, 1 );
@@ -749,6 +755,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_stab", armor_stab, strict, 0 );
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
+    assign( jo, "armor_cold", armor_cold, strict, 0 );
+    assign( jo, "armor_electric", armor_electric, strict, 0 );
 
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
@@ -1165,7 +1173,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
     }
 }
 
-void mtype::add_regeneration_modifier( JsonObject inner, const std::string & )
+void mtype::add_regeneration_modifier( const JsonObject &inner, const std::string & )
 {
     const std::string effect_name = inner.get_string( "effect" );
     const efftype_id effect( effect_name );
@@ -1220,8 +1228,9 @@ void MonsterGenerator::check_monster_definitions() const
         if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.empty() ) {
             debugmsg( "monster %s is flagged milkable, but has no starting ammo", mon.id.c_str() );
         }
+        //TODO!: move temporary upwards
         if( mon.has_flag( MF_MILKABLE ) && !mon.starting_ammo.empty() &&
-            !item( mon.starting_ammo.begin()->first ).made_of( LIQUID ) ) {
+            !item::spawn_temporary( mon.starting_ammo.begin()->first )->made_of( LIQUID ) ) {
             debugmsg( "monster % is flagged milkable, but starting ammo %s is not a liquid type",
                       mon.id.c_str(), mon.starting_ammo.begin()->first.str() );
         }

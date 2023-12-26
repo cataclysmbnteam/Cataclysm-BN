@@ -425,6 +425,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_freshwater_research_station",
+    "name": "Freshwater Research Station",
+    "terrain": [ "sealab_small_surface" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_gas_station",
     "name": "Gas Station",
     "terrain": [ "s_gas_rural" ]
@@ -443,6 +449,18 @@
   },
   {
     "type": "start_location",
+    "id": "aircraft_carrier_berth",
+    "name": "Aircraft Carrier Berth",
+    "terrain": [ "aircraft_carrier_1b" ]
+  },
+  {
+    "type": "start_location",
+    "id": "aircraft_carrier_bridge",
+    "name": "Aircraft Carrier Captain's Bridge",
+    "terrain": [ "aircraft_carrier_1b" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_private_resort",
     "name": "Private resort",
     "terrain": [ "p_resort_2ss" ]
@@ -452,6 +470,13 @@
     "id": "sloc_mansion",
     "name": "Mansion",
     "terrain": [ "mansion_+2", "mansion_+1", "mansion_+4", "mansion_+3" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_bastion_fort",
+    "name": "Bastion Fort",
+    "terrain": [ "Bastion_Fort_1_SW" ],
     "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

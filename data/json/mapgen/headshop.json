@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "__d_____sssdd___d___d___",
+        "__d_____sssdd___d___d__'",
         "________sss_____________",
         "__|----|sss|----|4|-|4_d",
         "d_-S..H-sss-HttH|-|^|-|_",
@@ -39,6 +39,7 @@
         "4": "t_tree_pine",
         "D": "t_pavement",
         "_": "t_grass",
+        "'": "t_dirt",
         "a": "t_door_c",
         "d": "t_dirt",
         "p": "t_pavement",
@@ -49,6 +50,7 @@
         "U": "t_grass"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_displaycase",
         "&": "f_trashcan",
         "D": [ "f_dumpster", "f_recycle_bin" ],

@@ -21,6 +21,7 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h" // use_function
+#include "mapdata.h"
 #include "pldata.h" // add_type
 #include "shape.h"
 #include "stomach.h"
@@ -231,16 +232,7 @@ struct islot_container {
     itype_id unseals_into = itype_id::NULL_ID();
 };
 
-struct islot_armor {
-    /**
-     * Bitfield of enum body_part
-     * TODO: document me.
-     */
-    body_part_set covers;
-    /**
-     * Whether this item can be worn on either side of the body
-     */
-    bool sided = false;
+struct armor_portion_data {
     /**
      * How much this item encumbers the player.
      */
@@ -254,6 +246,20 @@ struct islot_armor {
      * This determines how likely it is to hit the item instead of the player.
      */
     int coverage = 0;
+
+    // Where does this cover if any
+    body_part_set covers;
+
+    // What layer does it cover if any
+    // TODO: Not currently supported, we still use flags for this
+    //std::optional<layer_level> layer;
+};
+
+struct islot_armor {
+    /**
+    * Whether this item can be worn on either side of the body
+    */
+    bool sided = false;
     /**
      * TODO: document me.
      */
@@ -282,11 +288,15 @@ struct islot_armor {
     * Bonus to weight capacity
     */
     units::mass weight_capacity_bonus = 0_gram;
+
+    bool was_loaded;
     /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */
     std::vector<std::string> valid_mods;
+    // Layer, encumbrance and coverage information.
+    std::vector<armor_portion_data> data;
 };
 
 struct islot_pet_armor {
@@ -756,7 +766,10 @@ struct islot_seed {
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */
     std::vector<itype_id> byproducts;
-
+    /**
+     * Terrain tag required to plant the seed.
+     */
+    std::string required_terrain_flag = "PLANTABLE";
     islot_seed() = default;
 };
 
@@ -805,7 +818,7 @@ class islot_milling
 struct itype {
         friend class Item_factory;
 
-        using FlagsSetType = std::set<std::string>;
+        using FlagsSetType = std::set<flag_id>;
 
         std::vector<std::pair<itype_id, mod_id>> src;
 
@@ -1034,9 +1047,7 @@ struct itype {
 
         bool has_use() const;
 
-        // TODO: Remove the string version
-        bool has_flag( const std::string &flag ) const;
-        bool has_flag( const flag_str_id &flag ) const;
+        bool has_flag( const flag_id &flag ) const;
 
         // returns read-only set of all item tags/flags
         const FlagsSetType &get_flags() const;
@@ -1048,6 +1059,9 @@ struct itype {
         int invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
         int invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
         void tick( player &p, item &it, const tripoint &pos ) const;
+
+        bool is_fuel() const;
+        bool is_seed() const;
 };
 
 #endif // CATA_SRC_ITYPE_H

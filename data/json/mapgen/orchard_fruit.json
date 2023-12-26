@@ -6,7 +6,7 @@
     "weight": 100,
     "object": {
       "rows": [
-        "________________________",
+        "_______________________'",
         "________________________",
         "----__------------------",
         "|...__................u-",
@@ -44,6 +44,7 @@
         "T": "t_tree_cherry",
         "W": "t_window_domestic",
         "_": "t_sidewalk",
+        "'": "t_sidewalk",
         "a": "t_tree_birch",
         "b": "t_grass",
         "c": "t_thconc_floor",
@@ -54,7 +55,7 @@
         "w": "t_wall_log",
         "|": "t_fence_v"
       },
-      "furniture": { "C": "f_chair", "D": "f_desk", "H": "f_sofa", "b": "f_bench" },
+      "furniture": { "'": "f_street_light", "C": "f_chair", "D": "f_desk", "H": "f_sofa", "b": "f_bench" },
       "place_items": [
         { "item": "supplies_farming", "x": 6, "y": 13, "chance": 50 },
         { "item": "supplies_farming", "x": 4, "y": 11, "chance": 15 },
@@ -75,7 +76,7 @@
     "weight": 100,
     "object": {
       "rows": [
-        "________________________",
+        "_______________________'",
         "________________________",
         "----__------------------",
         "|..&__................U-",
@@ -115,6 +116,7 @@
         "U": "t_underbrush",
         "W": "t_window_domestic",
         "_": "t_sidewalk",
+        "'": "t_sidewalk",
         "a": "t_dirt",
         "b": "t_grass",
         "c": "t_thconc_floor",
@@ -126,7 +128,15 @@
         "w": "t_wall_log",
         "|": "t_fence_v"
       },
-      "furniture": { "&": "f_trashcan", "C": "f_chair", "D": "f_desk", "H": "f_sofa", "a": "f_trashcan", "b": "f_bench" },
+      "furniture": {
+        "'": "f_street_light",
+        "&": "f_trashcan",
+        "C": "f_chair",
+        "D": "f_desk",
+        "H": "f_sofa",
+        "a": "f_trashcan",
+        "b": "f_bench"
+      },
       "place_items": [
         { "item": "supplies_farming", "x": 6, "y": 13, "chance": 50 },
         { "item": "supplies_farming", "x": 4, "y": 11, "chance": 15 },

@@ -52,6 +52,16 @@
     "explosion": { "damage": 20, "radius": 7, "fire": true }
   },
   {
+    "id": "ACID_TRAIL",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_acid", "intensity_min": 1, "intensity_max": 3, "chance": 66 }
+  },
+  {
+    "id": "ACID_TRAIL_WEAK",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_acid", "intensity_min": 1, "intensity_max": 2, "chance": 33 }
+  },
+  {
     "id": "ACIDBOMB",
     "type": "ammo_effect",
     "aoe": { "field_type": "fd_acid", "intensity_min": 3, "intensity_max": 3 }
@@ -155,7 +165,11 @@
       "check_sees": true,
       "check_sees_radius": 3
     },
-    "explosion": { "damage": 300, "radius": 20 }
+    "explosion": {
+      "damage": 300,
+      "radius": 20,
+      "fragment": { "impact": { "damage_type": "heat", "amount": 300, "armor_multiplier": 2 }, "range": 24 }
+    }
   },
   {
     "id": "FLASHBANG",
@@ -366,10 +380,5 @@
     "id": "RECYCLED",
     "type": "ammo_effect",
     "//": "Nearly-immeasurable chance to fail to fire."
-  },
-  {
-    "id": "NON-FOULING",
-    "type": "ammo_effect",
-    "//": "Doesn't cause gunk to build up."
   }
 ]

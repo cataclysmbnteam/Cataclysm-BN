@@ -9,6 +9,7 @@
 #include "avatar_action.h"
 #include "catch/catch.hpp"
 #include "player.h"
+#include "units_temperature.h"
 #include "weather.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -167,8 +168,7 @@ static decltype( player::temp_cur ) converge_temperature( player &p, size_t iter
 static void equip_clothing( player &p, const std::vector<std::string> &clothing )
 {
     for( const std::string &c : clothing ) {
-        const item article( itype_id( c ), calendar::start_of_cataclysm );
-        p.wear_item( article );
+        p.wear_item( item::spawn( itype_id( c ), calendar::start_of_cataclysm ) );
     }
 }
 
@@ -195,7 +195,7 @@ static void test_temperature_spread( player &p,
 {
     const auto thresholds = bodytemp_voronoi();
     for( int i = 0; i < 7; i++ ) {
-        get_weather().temperature = to_fahrenheit( air_temperatures[i] );
+        get_weather().temperature = air_temperatures[i];
         get_weather().clear_temp_cache();
         CAPTURE( air_temperatures[i] );
         CAPTURE( get_weather().temperature );
@@ -321,7 +321,7 @@ static std::array<units::temperature, bodytemps.size()> find_temperature_points(
     std::vector<temperatures_wrapper> all_converged_temperatures;
     all_converged_temperatures.resize( max_air_temp - min_air_temp, temperatures_wrapper( {} ) );
     for( int i = min_air_temp; i < max_air_temp; i++ ) {
-        get_weather().temperature = i;
+        get_weather().temperature = units::from_millidegree_celsius( i * 500 );
         get_weather().clear_temp_cache();
         all_converged_temperatures[i - min_air_temp] = converge_temperature( p, 10000 );
         int converged_torso_temp = all_converged_temperatures[i - min_air_temp][0];
@@ -408,9 +408,10 @@ static int find_converging_water_temp( player &p, int expected_water, int expect
     int step = 2 * 128;
     do {
         step /= 2;
-        get_weather().water_temperature = actual_water;
+        get_weather().water_temperature = units::from_fahrenheit( actual_water );
         get_weather().clear_temp_cache();
-        const int actual_temperature = get_weather().get_water_temperature( p.pos() );
+        const int actual_temperature = units::celsius_to_fahrenheit( get_weather().get_water_temperature(
+                                           p.pos() ).value() );
         REQUIRE( actual_temperature == actual_water );
 
         int converged_temperature = converge_temperature( p, 10000 )[0];
@@ -456,7 +457,10 @@ TEST_CASE( "Player body temperatures in water.", "[.][bodytemp]" )
     REQUIRE( !g->is_in_sunlight( pos ) );
     get_weather().weather_id = WEATHER_CLOUDY;
 
-    dummy.drench( 100, body_part_set::all(), true );
+    dummy.drench( 100, { bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+                         bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ),
+                         bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
+                       }, true );
 
     SECTION( "Nude target temperatures." ) {
         test_water_temperature_spread( dummy, {{ 38, 53, 70, 86, 102, 118, 135 }} );
@@ -478,7 +482,7 @@ TEST_CASE( "Player body temperatures in water.", "[.][bodytemp]" )
 static void hypothermia_check( player &p, int water_temperature, time_duration expected_time,
                                int expected_temperature )
 {
-    get_weather().water_temperature = water_temperature;
+    get_weather().water_temperature = units::from_fahrenheit( water_temperature );
     get_weather().clear_temp_cache();
     int expected_turns = to_turns<int>( expected_time );
     int lower_bound = expected_turns * 0.8f;
@@ -510,7 +514,10 @@ TEST_CASE( "Water hypothermia check.", "[.][bodytemp]" )
     REQUIRE( !g->is_in_sunlight( pos ) );
     get_weather().weather_id = WEATHER_CLOUDY;
 
-    dummy.drench( 100, body_part_set::all(), true );
+    dummy.drench( 100, { bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+                         bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ),
+                         bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
+                       }, true );
 
     SECTION( "Cold" ) {
         hypothermia_check( dummy, units::celsius_to_fahrenheit( 20 ), 5_minutes, BODYTEMP_COLD );

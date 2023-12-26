@@ -29,13 +29,12 @@
     "description": "This is an improvised set of picks and torsion wrenches made from scrap metal.  You need MacGyver-like skills to open locks with these as they are brittle, but they lower the chances of alarms being set off.",
     "weight": "23 g",
     "volume": "5 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "LOCKPICK", 3 ] ],
-    "use_action": { "type": "picklock", "pick_quality": 3 }
+    "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
     "id": "iceaxe",
@@ -88,13 +87,12 @@
     "description": "This is a locksmith's set of sturdy steel lock picks and torsion wrenches.  It is essential for silently and quickly opening locks, provided you have some mechanical skill.",
     "weight": "544 g",
     "volume": "100 ml",
-    "price": 20000,
-    "price_postapoc": 1000,
+    "price": "200 USD",
+    "price_postapoc": "10 USD",
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "LOCKPICK", 5 ] ],
-    "use_action": { "type": "picklock", "pick_quality": 5 }
+    "qualities": [ [ "LOCKPICK", 5 ] ]
   },
   {
     "id": "pseudo_bio_picklock",
@@ -103,14 +101,11 @@
     "name": { "str": "bio lockpick" },
     "description": "this a pseudo item",
     "volume": "0 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 1,
-    "max_charges": 1,
-    "charges_per_use": 1,
     "qualities": [ [ "LOCKPICK", 40 ] ],
-    "use_action": { "type": "picklock", "pick_quality": 40 }
+    "flags": [ "PSEUDO", "PERFECT_LOCKPICK" ]
   }
 ]

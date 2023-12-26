@@ -3,23 +3,15 @@
     "method": "json",
     "object": {
       "furniture": {
+        "'": "f_street_light",
         "#": "f_bench",
         "&": "f_trashcan",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
         "O": "f_dive_block",
         "S": "f_shower",
         "P": "f_sign",
         "T": "f_toilet",
-        "_": "f_null",
         "a": "f_trashcan",
-        "d": "f_null",
-        "s": "f_null",
-        "t": "f_null",
-        "w": "f_null",
-        "{": "f_locker",
-        "|": "f_null"
+        "{": "f_locker"
       },
       "place_item": [ { "chance": 10, "repeat": 3, "item": "goggles_swim", "x": [ 15, 19 ], "y": 2 } ],
       "place_items": [
@@ -42,7 +34,7 @@
       "place_toilets": [ { "x": 3, "y": 20 }, { "x": 20, "y": 20 } ],
       "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 6, 17 ], "y": [ 6, 15 ], "repeat": [ 2, 6 ] } ],
       "rows": [
-        "sssssssssssssssssssssss_",
+        "sssssssssssssssssssssss'",
         "_||||||||||++||||||||||_",
         "_|&P#####......#####P&|_",
         "_|....................|_",
@@ -78,6 +70,7 @@
         "S": "t_concrete",
         "T": "t_thconc_floor",
         "_": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_dirt",
         "d": "t_door_c",
         "s": "t_sidewalk",
         "t": "t_thconc_floor",
@@ -130,19 +123,12 @@
     "method": "json",
     "object": {
       "furniture": {
+        "'": "f_street_light",
         "#": "f_bench",
         "&": "f_toilet",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
         "S": "f_sink",
-        "_": "f_null",
-        "f": "f_null",
-        "r": "f_null",
-        "s": "f_null",
         "t": "f_trashcan",
         "v": "f_vending_c",
-        "w": "f_null",
         "{": "f_locker"
       },
       "place_items": [
@@ -167,7 +153,7 @@
       "place_toilets": [ { "x": 2, "y": 3 }, { "x": 4, "y": 3 }, { "x": 19, "y": 3 }, { "x": 21, "y": 3 } ],
       "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 4, 19 ], "y": [ 11, 19 ], "repeat": [ 2, 6 ] } ],
       "rows": [
-        "ssssssssssssssssssssssss",
+        "sssssssssssssssssssssss'",
         "sssssssssssssssssssssss_",
         "_||||||||||rr||||||||||_",
         "_|&|&|StS|ffff|StS|&|&|_",
@@ -198,6 +184,7 @@
         "+": [ "t_door_o", "t_door_c" ],
         "-": "t_chainfence",
         ".": "t_concrete",
+        "'": "t_sidewalk",
         "S": "t_floor",
         "_": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "f": "t_floor",
@@ -254,24 +241,17 @@
     "method": "json",
     "object": {
       "furniture": {
+        "'": "f_street_light",
         "#": "f_bench",
         "&": "f_sink",
-        "+": "f_null",
-        ".": "f_null",
         "O": "f_dive_block",
         "P": "f_sign",
         "S": "f_sign",
         "T": "f_trashcan",
-        "_": "f_null",
         "a": "f_table",
         "b": "f_bigmirror",
-        "f": "f_null",
-        "r": "f_null",
-        "s": "f_null",
         "t": "f_toilet",
-        "w": "f_null",
-        "{": "f_locker",
-        "|": "f_null"
+        "{": "f_locker"
       },
       "place_item": [
         { "chance": 10, "repeat": [ 1, 4 ], "item": "goggles_swim", "x": 2, "y": [ 6, 11 ] },
@@ -299,7 +279,7 @@
       "place_toilets": [ { "x": 6, "y": 3 }, { "x": 8, "y": 3 }, { "x": 15, "y": 3 }, { "x": 17, "y": 3 } ],
       "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 2, 6 ] } ],
       "rows": [
-        "ssssssssssssssssssssssss",
+        "sssssssssssssssssssssss'",
         "ssssssssssssssssssssssss",
         "_||||||||||rr||||||||||_",
         "_|T&&|t|t|ffff|t|t|&&T|_",
@@ -329,6 +309,7 @@
         "&": "t_floor",
         "+": [ "t_door_o", "t_door_c" ],
         ".": "t_thconc_floor",
+        "'": "t_sidewalk",
         "O": "t_water_pool",
         "P": "t_wall_b",
         "S": "t_thconc_floor",
@@ -395,24 +376,14 @@
     "method": "json",
     "object": {
       "furniture": {
+        "'": "f_street_light",
         "#": "f_bench",
         "&": "f_toilet",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "D": "f_null",
         "P": "f_sign",
         "S": "f_sink",
-        "_": "f_null",
-        "a": "f_null",
         "b": "f_bench",
-        "d": "f_null",
-        "f": "f_null",
-        "s": "f_null",
         "t": "f_trashcan",
-        "w": "f_null",
-        "{": "f_locker",
-        "|": "f_null"
+        "{": "f_locker"
       },
       "place_items": [
         { "chance": 10, "repeat": [ 1, 4 ], "item": "trash", "x": 13, "y": 21 },
@@ -428,7 +399,7 @@
       ],
       "place_toilets": [ { "x": 2, "y": 19 }, { "x": 2, "y": 21 }, { "x": 21, "y": 19 }, { "x": 21, "y": 21 } ],
       "rows": [
-        "ssssssssssssssssssssssss",
+        "sssssssssssssssssssssss'",
         "ssssssssssssssssssssssss",
         "_|--|--|--|++|--|--|--|_",
         "_-....................-_",
@@ -459,6 +430,7 @@
         "+": "t_door_metal_c",
         "-": "t_wall_glass",
         ".": "t_thconc_floor",
+        "'": "t_sidewalk",
         "D": [ "t_door_o", "t_door_c" ],
         "P": "t_brick_wall",
         "S": "t_floor",
@@ -520,24 +492,15 @@
     "method": "json",
     "object": {
       "furniture": {
+        "'": "f_street_light",
         "#": "f_bench",
         "&": "f_sink",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
         "P": "f_sign",
         "T": "f_toilet",
-        "W": "f_null",
-        "_": "f_null",
         "a": "f_trashcan",
         "c": "f_counter",
-        "f": "f_null",
-        "r": "f_null",
-        "s": "f_null",
         "t": "f_table",
-        "w": "f_null",
-        "{": "f_locker",
-        "|": "f_null"
+        "{": "f_locker"
       },
       "place_item": [ { "item": "goggles_swim", "chance": 10, "x": 13, "y": 11 } ],
       "place_items": [
@@ -559,7 +522,7 @@
       "place_toilets": [ { "x": 6, "y": 3 }, { "x": 8, "y": 3 }, { "x": 15, "y": 3 }, { "x": 17, "y": 3 } ],
       "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 6, 17 ], "y": [ 11, 17 ], "repeat": [ 2, 6 ] } ],
       "rows": [
-        "...........ss...........",
+        "...........ss..........'",
         "...........ss...........",
         "..||||||||.ss.||||||||..",
         "..|&&-T-T|WrrW|T-T-&&|..",
@@ -590,6 +553,7 @@
         "+": [ "t_door_o", "t_door_c" ],
         "-": "t_wall",
         ".": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_dirt",
         "P": "t_thconc_floor",
         "T": "t_floor",
         "W": "t_wall_glass",
@@ -659,7 +623,7 @@
     "//": "Outdoor pool",
     "object": {
       "rows": [
-        "ssssssssssssssssssssssss",
+        "sssssssssssssssssssssss'",
         ".++++++++++++++++++++++.",
         ".+++n++n++n++n++n++n+++.",
         ".++wwwwwwwwwwwwwwwwww++.",
@@ -687,11 +651,12 @@
       "terrain": {
         "+": "t_concrete",
         ".": [ "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_sidewalk",
         "n": "t_concrete",
         "w": "t_water_pool",
         "s": "t_sidewalk"
       },
-      "furniture": { "n": "f_dive_block" },
+      "furniture": { "'": "f_street_light", "n": "f_dive_block" },
       "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 2, 6 ] } ]
     }
   },
@@ -702,7 +667,7 @@
     "//": "Outdoor pool",
     "object": {
       "rows": [
-        "....ss..................",
+        "....ss.................'",
         ".---oo-----------------.",
         ".-xx++xxxxxxxxxxxxxx++-.",
         ".-++++cc++cc++cc++cc++-.",
@@ -732,6 +697,7 @@
         "-": "t_chainfence_v",
         "x": "t_grass",
         ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
+        "'": "t_dirt",
         "W": "t_water_pool",
         "c": "t_concrete",
         "s": "t_sidewalk",
@@ -739,6 +705,7 @@
         "w": "t_water_pool"
       },
       "furniture": {
+        "'": "f_street_light",
         "c": "f_camp_chair",
         "n": "f_dive_block",
         "x": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ]

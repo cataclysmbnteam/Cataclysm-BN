@@ -515,7 +515,7 @@
     "starting_trait": true,
     "category": [ "BIRD", "ELFA", "FELINE" ],
     "cancels": [ "CLUMSY" ],
-    "noise_modifier": 0.0
+    "noise_modifier": 0
   },
   {
     "type": "mutation",
@@ -856,7 +856,7 @@
     "valid": false,
     "prereqs": [ "BADHEARING" ],
     "cancels": [ "GOODHEARING" ],
-    "hearing_modifier": 0.0
+    "hearing_modifier": 0
   },
   {
     "type": "mutation",
@@ -1086,7 +1086,7 @@
     "description": "You make more noise while walking.",
     "starting_trait": true,
     "cancels": [ "LIGHTSTEP" ],
-    "noise_modifier": 2.0
+    "noise_modifier": 2
   },
   {
     "type": "mutation",
@@ -1386,9 +1386,9 @@
     "types": [ "HEALING" ],
     "prereqs": [ "FASTHEALER2" ],
     "category": [ "SLIME", "TROGLOBITE" ],
-    "healing_awake": 2.0,
+    "healing_awake": 2,
     "healing_resting": 1.5,
-    "mending_modifier": 1.0
+    "mending_modifier": 1
   },
   {
     "type": "mutation",
@@ -1402,7 +1402,7 @@
     "prereqs": [ "FASTHEALER" ],
     "threshreq": [ "THRESH_LIZARD" ],
     "category": [ "LIZARD" ],
-    "mending_modifier": 1.0
+    "mending_modifier": 1
   },
   {
     "type": "mutation",
@@ -3209,7 +3209,7 @@
     "description": "You recover from pain slightly faster than normal.",
     "starting_trait": true,
     "changes_to": [ "NOPAIN" ],
-    "pain_recovery": 1.0
+    "pain_recovery": 1
   },
   {
     "type": "mutation",
@@ -3603,7 +3603,7 @@
     "valid": false,
     "types": [ "EARS" ],
     "category": [ "MOUSE", "RAT" ],
-    "hearing_modifier": 2.0
+    "hearing_modifier": 2
   },
   {
     "type": "mutation",
@@ -4108,7 +4108,7 @@
     "hp_modifier": -0.3,
     "dodge_modifier": 2,
     "weight_capacity_modifier": 0.5,
-    "noise_modifier": 0.0,
+    "noise_modifier": 0,
     "body_size": "TINY"
   },
   {
@@ -4128,7 +4128,7 @@
     "hp_modifier": -0.25,
     "dodge_modifier": 2,
     "weight_capacity_modifier": 0.7,
-    "noise_modifier": 0.0,
+    "noise_modifier": 0,
     "body_size": "TINY"
   },
   {
@@ -4587,7 +4587,7 @@
     "changes_to": [ "HUNGER3" ],
     "types": [ "METABOLISM" ],
     "category": [ "BEAST", "SLIME", "RAPTOR" ],
-    "metabolism_modifier": 1.0
+    "metabolism_modifier": 1
   },
   {
     "type": "mutation",
@@ -4600,7 +4600,7 @@
     "leads_to": [ "EATHEALTH" ],
     "types": [ "METABOLISM" ],
     "category": [ "CHIMERA" ],
-    "metabolism_modifier": 2.0
+    "metabolism_modifier": 2
   },
   {
     "type": "mutation",
@@ -4624,7 +4624,7 @@
     "changes_to": [ "THIRST3" ],
     "cancels": [ "NO_THIRST" ],
     "category": [ "FISH", "SLIME", "CEPHALOPOD" ],
-    "thirst_modifier": 1.0
+    "thirst_modifier": 1
   },
   {
     "type": "mutation",
@@ -4634,7 +4634,7 @@
     "description": "You dry out seriously quickly, requiring three times as much liquid to stay hydrated.",
     "cancels": [ "NO_THIRST" ],
     "prereqs": [ "THIRST2" ],
-    "thirst_modifier": 2.0
+    "thirst_modifier": 2
   },
   {
     "type": "mutation",
@@ -4666,7 +4666,7 @@
     "prereqs": [ "SLEEPY" ],
     "types": [ "SLEEP" ],
     "category": [ "FELINE" ],
-    "fatigue_modifier": 1.0
+    "fatigue_modifier": 1
   },
   {
     "type": "mutation",
@@ -5617,7 +5617,7 @@
     ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "movecost_modifier": 1.2,
-    "noise_modifier": 0.0
+    "noise_modifier": 0
   },
   {
     "type": "mutation",
@@ -6358,6 +6358,15 @@
     "points": 99,
     "valid": false,
     "description": "Lets you instantly install torsion ratchets for your eight legs.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_STAMINA",
+    "name": { "str": "Debug Infinite Stamina" },
+    "points": 99,
+    "valid": false,
+    "description": "Lets you run or swim forever (in other words, until you fix that bug).",
     "debug": true
   },
   {

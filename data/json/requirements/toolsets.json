@@ -75,13 +75,15 @@
   {
     "id": "chainmail_standard",
     "type": "requirement",
-    "//": "Construction of chainmail items",
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [
-      [ [ "pliers", -1 ], [ "multitool", -1 ] ],
-      [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
-      [ [ "cordless_drill", 10 ] ]
-    ]
+    "//": "Construction of riveted mail items, 1 per 925 (min, links only) to 1085 (max with weight of rags) grams of item weight.  It is assumed that each ring used comes with a prepared rivet.  Time used should be 5 minutes per sheet, most of the time having already been spent making the sheets in advance.",
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "ANVIL", "level": 1 },
+      { "id": "DRILL", "level": 2 }
+    ],
+    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ] ],
+    "components": [ [ [ "link_sheet", 1 ] ], [ [ "chain_link", 25 ] ], [ [ "rag", 2 ] ] ]
   },
   {
     "id": "soldering_standard",

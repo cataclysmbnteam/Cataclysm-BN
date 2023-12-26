@@ -7,8 +7,8 @@
     "weight": "100 g",
     "volume": "250 ml",
     "integral_volume": "100 ml",
-    "price": 480,
-    "price_postapoc": 10,
+    "price": "480 cent",
+    "price_postapoc": "10 cent",
     "material": "cotton",
     "symbol": ":",
     "color": "green",
@@ -24,6 +24,6 @@
       [ "ROCKET_LAUNCHERS" ],
       [ "FLAMETHROWERS" ]
     ],
-    "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "IS_ARMOR", "BELTED", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   }
 ]

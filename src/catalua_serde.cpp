@@ -8,15 +8,18 @@
 #include "string_formatter.h"
 
 #include <algorithm>
+#include <utility>
 #include <vector>
 #include <stdexcept>
 #include <utility>
 
 namespace cata
 {
-void serialize_lua_table_internal( sol::table t, JsonOut &jsout, std::vector<sol::table> &stack );
+void serialize_lua_table_internal( const sol::table &t, JsonOut &jsout,
+                                   std::vector<sol::table> &stack );
 
-static void serialize_lua_object( sol::object val, JsonOut &jsout, std::vector<sol::table> &stack )
+static void serialize_lua_object( const sol::object &val, JsonOut &jsout,
+                                  std::vector<sol::table> &stack )
 {
     sol::state_view lua( val.lua_state() );
 
@@ -85,7 +88,8 @@ static void serialize_lua_object( sol::object val, JsonOut &jsout, std::vector<s
     jsout.end_object();
 }
 
-void serialize_lua_table_internal( sol::table t, JsonOut &jsout, std::vector<sol::table> &stack )
+void serialize_lua_table_internal( const sol::table &t, JsonOut &jsout,
+                                   std::vector<sol::table> &stack )
 {
     for( const sol::table &it : stack ) {
         if( it == t ) {
@@ -105,7 +109,7 @@ void serialize_lua_table_internal( sol::table t, JsonOut &jsout, std::vector<sol
         jsout.start_array();
 
         // TODO: persistent key order?
-        t.for_each( [&]( sol::object key, sol::object val ) {
+        t.for_each( [&]( const sol::object & key, const sol::object & val ) {
             serialize_lua_object( key, jsout, stack );
             serialize_lua_object( val, jsout, stack );
         } );
@@ -117,7 +121,7 @@ void serialize_lua_table_internal( sol::table t, JsonOut &jsout, std::vector<sol
     stack.pop_back();
 }
 
-void serialize_lua_table( sol::table t, JsonOut &jsout )
+void serialize_lua_table( const sol::table &t, JsonOut &jsout )
 {
     std::vector<sol::table> stack;
     serialize_lua_table_internal( t, jsout, stack );

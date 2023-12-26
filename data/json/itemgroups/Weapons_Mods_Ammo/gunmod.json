@@ -60,6 +60,16 @@
   },
   {
     "type": "item_group",
+    "id": "military_accessories_grenadier",
+    "subtype": "distribution",
+    "//": "For underbarrel launchers mounted on rifles used by fireteam grenadiers",
+    "entries": [
+      { "item": "m203", "ammo-item": "40x46mm_m433", "prob": 75, "charges": 1 },
+      { "item": "m320_mod", "ammo-item": "40x46mm_m433", "prob": 25, "charges": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "sights_all",
     "//": "All aftermarket sights.",
     "items": [
@@ -156,6 +166,6 @@
     "type": "item_group",
     "id": "gunmod_archery",
     "//": "Gunmods for bows and crossbows.",
-    "items": [ [ "arrowrest", 100 ], [ "bow_sight", 100 ], [ "bow_stabilizer", 100 ] ]
+    "items": [ [ "arrowrest", 100 ], [ "bow_sight", 100 ], [ "bow_stabilizer", 100 ], [ "crossbow_lever", 100 ] ]
   }
 ]

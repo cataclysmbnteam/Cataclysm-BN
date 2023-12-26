@@ -6,8 +6,8 @@
     "description": "An ordinary paperback book.  Or is it?  It is.",
     "weight": "400 g",
     "volume": "750 ml",
-    "price": 750,
-    "price_postapoc": 50,
+    "price": "750 cent",
+    "price_postapoc": "50 cent",
     "material": [ "paper" ],
     "bashing": 5,
     "intelligence": 6,
@@ -26,7 +26,7 @@
     "copy-from": "paperback_novel",
     "weight": "60 g",
     "volume": "200 ml",
-    "price": 300,
+    "price": "3 USD",
     "bashing": 1,
     "intelligence": 4,
     "time": "15 m",
@@ -38,7 +38,7 @@
     "name": { "str": "King James Bible", "str_pl": "copies of King James Bible" },
     "description": "An English translation of the Christian Bible, which originated in England in the early 1600s.",
     "copy-from": "paperback_novel",
-    "price": 550,
+    "price": "550 cent",
     "color": "dark_gray",
     "time": "40 m",
     "intelligence": 7,
@@ -52,7 +52,7 @@
     "//": "ooh, military records, probably Classified!",
     "description": "A full flight log for a military aircraft.  Nothing of interest stands out.",
     "copy-from": "paperback_novel",
-    "price": 5000,
+    "price": "50 USD",
     "color": "light_green",
     "fun": -2
   },
@@ -62,7 +62,7 @@
     "name": { "str": "children's book" },
     "description": "A little book for little readers.  The colorful cartoon characters and sweet stories contained herein belong to a different time, before the dead walked and the world moved on.",
     "copy-from": "paperback_novel",
-    "price": 550,
+    "price": "550 cent",
     "fun": 1
   },
   {
@@ -71,7 +71,7 @@
     "name": { "str_sp": "Ranch Prospectus" },
     "description": "A short paper of the economic viability of constructing an agricultural outpost.",
     "copy-from": "paperback_novel",
-    "price": 3000
+    "price": "30 USD"
   },
   {
     "id": "decoy_elfa",
@@ -79,7 +79,7 @@
     "name": { "str": "standpipe maintenance log" },
     "description": "This binder details the scheduled maintenance for several plumbing systems throughout the facility.",
     "copy-from": "black_box_transcript",
-    "price": 400,
+    "price": "4 USD",
     "material": [ "paper", "plastic" ]
   },
   {
@@ -88,7 +88,7 @@
     "name": { "str": "book of essays", "str_pl": "books of essays" },
     "description": "A collection of essays by various authors from around the world, including works by Churchill, Mailer, Eco, and Voltaire.",
     "copy-from": "paperback_novel",
-    "price": 1250
+    "price": "1250 cent"
   },
   {
     "id": "fairy_tales",
@@ -96,7 +96,7 @@
     "name": { "str": "book of fairy tales", "str_pl": "books of fairy tales" },
     "description": "An amusing collection of folklore featuring the usual cast of fairies, goblins, and trolls.",
     "copy-from": "paperback_novel",
-    "price": 950,
+    "price": "950 cent",
     "//": "The ids below represent the Aarne-Thompson System of folklore classification.  Do not change.",
     "snippet_category": [
       {
@@ -192,7 +192,7 @@
     "name": { "str": "TIME magazine" },
     "description": "Current events concerning a bunch of people who're all (un)dead now.",
     "copy-from": "mag_comic",
-    "price": 400
+    "price": "4 USD"
   },
   {
     "id": "mag_porn",
@@ -200,8 +200,9 @@
     "name": { "str": "Playboy", "str_pl": "issues of Playboy" },
     "description": "You can read it for the articles.  Or not.",
     "copy-from": "mag_comic",
-    "price": 400,
-    "price_postapoc": 250,
+    "price": "4 USD",
+    "price_postapoc": "250 cent",
+    "intelligence": 0,
     "color": "pink"
   },
   {
@@ -210,7 +211,7 @@
     "name": { "str": "frequency list" },
     "description": "A notepad with a number of frequencies scribbled on it.",
     "copy-from": "mag_comic",
-    "price": 3000,
+    "price": "30 USD",
     "fun": -2
   },
   {
@@ -226,7 +227,7 @@
     "name": { "str": "Rural Digest-Examiner", "str_pl": "issues of Rural Digest-Examiner" },
     "description": "A newsweekly covering regional events.  There is an article on the winter's snowstorms and several letters to the editor concerning the community response.",
     "copy-from": "mag_comic",
-    "price": 350
+    "price": "350 cent"
   },
   {
     "id": "novel_adventure",
@@ -234,7 +235,7 @@
     "name": { "str": "adventure novel" },
     "description": "The stirring tale of a race against time, in search of a lost city located in the dark heart of the African continent.",
     "copy-from": "paperback_novel",
-    "price": 850
+    "price": "850 cent"
   },
   {
     "id": "novel_buddy",
@@ -242,7 +243,7 @@
     "name": { "str": "buddy novel" },
     "description": "A gripping tale of two friends struggling to survive on the streets of New York City.",
     "copy-from": "paperback_novel",
-    "price": 650
+    "price": "650 cent"
   },
   {
     "id": "novel_coa",
@@ -257,7 +258,7 @@
     "name": { "str": "crime novel" },
     "description": "After their diamond heist goes wrong, the surviving criminals begin to suspect that one of them is a police informant.",
     "copy-from": "paperback_novel",
-    "price": 850
+    "price": "850 cent"
   },
   {
     "id": "novel_drama",
@@ -335,7 +336,7 @@
     "name": { "str": "satire novel" },
     "description": "A political satire of the pre-apocalypse world.  Looking back on it from this side of Armageddon makes it seem all the more ridiculous.",
     "copy-from": "paperback_novel",
-    "price": 850
+    "price": "850 cent"
   },
   {
     "id": "novel_scifi",
@@ -343,7 +344,7 @@
     "name": { "str": "scifi novel" },
     "description": "Aliens, ray guns, and space ships.",
     "copy-from": "paperback_novel",
-    "price": 850,
+    "price": "850 cent",
     "snippet_category": [
       {
         "id": "scifi1_1",
@@ -693,7 +694,7 @@
       },
       { "id": "philosophy45", "text": "This is a copy of \"Anti-Capitalist Mentality\" by Ludwig von Mises." }
     ],
-    "price": 1250
+    "price": "1250 cent"
   },
   {
     "id": "phonebook",
@@ -703,7 +704,7 @@
     "copy-from": "black_box_transcript",
     "weight": "2 kg",
     "volume": "1500 ml",
-    "price": 800
+    "price": "8 USD"
   },
   {
     "id": "photo_album",
@@ -711,7 +712,7 @@
     "name": { "str": "photo album" },
     "description": "A leather album full of photos of somebody's family.  You don't know any of the people in them, but seeing these pictures still makes you think of happier times.",
     "copy-from": "paperback_novel",
-    "price": 3000,
+    "price": "30 USD",
     "material": [ "paper", "leather" ],
     "fun": 1
   },
@@ -721,7 +722,7 @@
     "name": { "str": "book of plays", "str_pl": "books of plays" },
     "description": "A collection of plays by various authors from around the world, including scripts by Wilde, Beckett, Checkov, and Shakespeare.",
     "copy-from": "paperback_novel",
-    "price": 1150
+    "price": "1150 cent"
   },
   {
     "id": "poetry_book",
@@ -729,7 +730,7 @@
     "name": { "str": "book of poetry", "str_pl": "books of poetry" },
     "description": "A collection of poetry by various authors from around the world, including writings by Dickinson, Goethe, Thoreau, and Yeats.",
     "copy-from": "paperback_novel",
-    "price": 1050
+    "price": "1050 cent"
   },
   {
     "id": "record_accounting",
@@ -737,7 +738,7 @@
     "name": { "str": "corporate accounting ledger" },
     "description": "If you knew what to look for something might stand out…",
     "copy-from": "black_box_transcript",
-    "price": 2000
+    "price": "20 USD"
   },
   {
     "id": "record_patient",
@@ -745,7 +746,7 @@
     "name": { "str_sp": "patient treatment records" },
     "description": "A massive stack of medical records that contain every gory detail.",
     "copy-from": "paperback_novel",
-    "price": 500,
+    "price": "5 USD",
     "fun": -1,
     "flags": [ "MORBID" ]
   },
@@ -755,7 +756,7 @@
     "name": { "str_sp": "national weather transcripts" },
     "description": "Old weather records are about as interesting as a rock.",
     "copy-from": "black_box_transcript",
-    "price": 500
+    "price": "5 USD"
   },
   {
     "id": "story_book",
@@ -763,7 +764,7 @@
     "name": { "str": "big book of short stories", "str_pl": "big books of short stories" },
     "description": "This humongous volume contains a vast collection of short stories by different authors, spanning a wide variety of topics and genres.",
     "copy-from": "paperback_novel",
-    "price": 1400
+    "price": "14 USD"
   },
   {
     "id": "tall_tales",
@@ -771,7 +772,7 @@
     "name": { "str": "book of tall tales", "str_pl": "books of tall tales" },
     "description": "An entertaining collection of early American folklore, featuring tales of larger than life individuals and their amazing adventures.",
     "copy-from": "paperback_novel",
-    "price": 1050
+    "price": "1050 cent"
   },
   {
     "type": "BOOK",
@@ -873,7 +874,7 @@
       { "id": "classic52", "text": "This is a copy of \"Mr Midshipman Easy\" by Frederick Marryat." },
       { "id": "classic53", "text": "This is a copy of \"Peter Simple\" by Frederick Marryat." }
     ],
-    "price": 2000,
+    "price": "20 USD",
     "looks_like": "tall_tales"
   },
   {
@@ -955,7 +956,7 @@
         "text": "This is a first edition copy of Terry Pratchett's \"The Colour of Magic\".  In the inner cover is a handwritten note that reads \"To Chris, thanks for believing I could do it.  Best regards, Terry.\""
       }
     ],
-    "price": 4550,
+    "price": "4550 cent",
     "looks_like": "tall_tales",
     "fun": 3
   },
@@ -964,7 +965,7 @@
     "type": "BOOK",
     "name": { "str_sp": "High Level Commercial and Military Cryptology" },
     "description": "An incredibly dense volume describing different advanced cryptographical methods, their strenghts, and weaknesses.  This text would probably be easier to digest with an added decade in Computer Science Academia.",
-    "weight": 3000,
+    "weight": "3 kg",
     "volume": "2 L",
     "price": "450 USD",
     "bashing": 5,

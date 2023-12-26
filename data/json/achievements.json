@@ -2,7 +2,7 @@
   {
     "id": "achievement_kill_zombie",
     "type": "achievement",
-    "name": { "str": "[Combat] One Down, Billions to Go\u2026" },
+    "name": { "str": "[Combat] One Down, Billions to Go…" },
     "kill_requirements": [ { "species": "ZOMBIE", "is": ">=", "count": 1 } ],
     "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": "anything" } ]
   },
@@ -69,7 +69,7 @@
     "id": "achievement_survive_28_days",
     "type": "achievement",
     "name": { "str": "[Survival] 28 Days Later" },
-    "description": "Survive for a month",
+    "description": "Survive for 28 days",
     "hidden_by": [ "achievement_survive_7_days" ],
     "time_constraint": { "since": "game_start", "is": ">=", "target": "28 days" },
     "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
@@ -78,7 +78,7 @@
     "id": "achievement_survive_91_days",
     "type": "achievement",
     "name": { "str": "[Survival] A Time to Every Purpose Under Heaven" },
-    "description": "Survive for a season",
+    "description": "Survive for 91 days",
     "hidden_by": [ "achievement_survive_28_days" ],
     "time_constraint": { "since": "game_start", "is": ">=", "target": "91 days" },
     "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
@@ -87,7 +87,7 @@
     "id": "achievement_survive_365_days",
     "type": "achievement",
     "name": { "str": "[Survival] And Yet It Moves" },
-    "description": "Survive for a year",
+    "description": "Survive for 365 days",
     "hidden_by": [ "achievement_survive_91_days" ],
     "time_constraint": { "since": "game_start", "is": ">=", "target": "365 days" },
     "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]

@@ -57,7 +57,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": 4 },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -426,7 +426,18 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "hacksaw": {
+      "result": "t_window_reinforced",
+      "duration": "5 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 4 ] } ]
+    },
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_window_empty",
+      "duration": "4 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 40,
@@ -448,6 +459,17 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_window_empty",
+      "duration": "4 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
+    },
+    "hacksaw": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "5 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 4 ] } ]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 40,
@@ -468,6 +490,7 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "PERMEABLE" ],
+    "oxytorch": { "result": "t_window_empty", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 60,
       "str_max": 250,
@@ -491,8 +514,15 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
+    "hacksaw": {
+      "result": "t_window_alarm",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
+    },
     "delete": { "flags": [ "FLAMMABLE", "BARRICADABLE_WINDOW" ] },
     "extend": { "flags": [ "ALARMED" ] },
+    "oxytorch": { "result": "t_window_alarm", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": { "ter_set": "t_window_bars" }
   },
   {
@@ -505,7 +535,14 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 95,
+    "hacksaw": {
+      "result": "t_window_domestic",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
+    },
     "roof": "t_flat_roof",
+    "oxytorch": { "result": "t_window_domestic", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "flags": [
       "NOITEM",
       "OPENCLOSE_INSIDE",
@@ -543,7 +580,14 @@
     "looks_like": "t_window_bars",
     "color": "light_gray",
     "move_cost": 0,
+    "hacksaw": {
+      "result": "t_window_domestic",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
+    },
     "roof": "t_flat_roof",
+    "oxytorch": { "result": "t_window_domestic", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "flags": [
       "TRANSPARENT",
       "NOITEM",
@@ -639,6 +683,17 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "oxytorch": {
+      "result": "t_window_reinforced",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
+    "hacksaw": {
+      "result": "t_window_reinforced",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "flags": [
       "TRANSPARENT",
       "NOITEM",
@@ -677,6 +732,17 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "oxytorch": {
+      "result": "t_window_reinforced",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
+    "hacksaw": {
+      "result": "t_window_reinforced",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
@@ -719,6 +785,17 @@
       "REDUCE_SCENT",
       "WINDOW"
     ],
+    "oxytorch": {
+      "result": "t_window_reinforced",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
+    "hacksaw": {
+      "result": "t_window_reinforced",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
@@ -750,7 +827,18 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "hacksaw": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "WINDOW" ],
+    "oxytorch": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "deconstruct": {
       "ter_set": "t_window_reinforced",
       "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
@@ -779,9 +867,20 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "hacksaw": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
+    "oxytorch": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "open": "t_metal_grate_window_with_curtain_open",
     "deconstruct": {
       "ter_set": "t_window_reinforced",
@@ -821,6 +920,17 @@
       "REDUCE_SCENT",
       "WINDOW"
     ],
+    "oxytorch": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
+    "hacksaw": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
@@ -3254,6 +3364,31 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_porthole",
+    "name": "porthole",
+    "description": "A thick round window surrounded with a strong metal frame, the window is sealed closed.",
+    "looks_like": "t_laminated_glass",
+    "symbol": "o",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_metal_flat_roof",
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 75,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor",
+      "items": [
+        { "item": "steel_lump", "prob": 55 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "glass_shard", "count": [ 20, 50 ] }
+      ]
     }
   }
 ]

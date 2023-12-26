@@ -45,10 +45,12 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     player &dummy = g->u;
 
     g->clear_zombies();
-    item &test_item = dummy.i_add( item( "bot_manhack", calendar::start_of_cataclysm,
-                                         item::default_charges_tag{} ) );
+    detached_ptr<item> det = item::spawn( "bot_manhack", calendar::start_of_cataclysm,
+                                          item::default_charges_tag{} );
+    item &test_item = *det;
+    dummy.i_add( std::move( det ) );
 
-    int test_item_pos = dummy.inv.position_by_item( &test_item );
+    int test_item_pos = dummy.inv_position_by_item( &test_item );
     REQUIRE( test_item_pos != INT_MIN );
 
     monster *new_manhack = find_adjacent_monster( dummy.pos() );
@@ -56,7 +58,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 
     dummy.invoke_item( &test_item );
 
-    test_item_pos = dummy.inv.position_by_item( &test_item );
+    test_item_pos = dummy.inv_position_by_item( &test_item );
     REQUIRE( test_item_pos == INT_MIN );
 
     new_manhack = find_adjacent_monster( dummy.pos() );
@@ -65,22 +67,25 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     g->clear_zombies();
 }
 
+namespace
+{
 
-static void cut_up_yields( const std::string &target )
+auto cut_up_yields( const std::string &target ) -> void
 {
     map &here = get_map();
-    player &guy = get_avatar();
+    player &you = get_avatar();
     clear_avatar();
     // Nominal dex to avoid yield penalty.
-    guy.dex_cur = 12;
+    you.dex_cur = 12;
     //guy.set_skill_level( skill_id( "fabrication" ), 10 );
-    here.i_at( guy.pos() ).clear();
+    here.i_at( you.pos() ).clear();
 
     CAPTURE( target );
     salvage_actor test_actor;
-    item cut_up_target{ target };
-    item tool{ "knife_butcher" };
-    const std::vector<material_id> &target_materials = cut_up_target.made_of();
+    detached_ptr<item> cut_up_target = item::spawn( target );
+    detached_ptr<item> tool = item::spawn( "knife_butcher" );
+
+    const std::vector<material_id> &target_materials = cut_up_target->made_of();
     units::mass smallest_yield_mass = units::mass_max;
     for( const material_id &mater : target_materials ) {
         if( const std::optional<itype_id> item_id = mater->salvaged_into() ) {
@@ -89,22 +94,24 @@ static void cut_up_yields( const std::string &target )
     }
     REQUIRE( smallest_yield_mass != units::mass_max );
 
-    units::mass cut_up_target_mass = cut_up_target.weight();
-    item &spawned_item = here.add_item_or_charges( guy.pos(), cut_up_target );
-    item_location item_loc( map_cursor( guy.pos() ), &spawned_item );
+    units::mass cut_up_target_mass = cut_up_target->weight();
+    item &item_to_cut = *cut_up_target;
+    here.add_item_or_charges( you.pos(), std::move( cut_up_target ) );
 
     REQUIRE( smallest_yield_mass <= cut_up_target_mass );
 
-    test_actor.cut_up( guy, tool, item_loc );
+    test_actor.cut_up( you, *tool, item_to_cut );
 
-    map_stack salvaged_items = here.i_at( guy.pos() );
-    units::mass salvaged_mass = 0_gram;
-    for( const item &salvage : salvaged_items ) {
-        salvaged_mass += salvage.weight();
-    }
+    map_stack salvaged_items = here.i_at( you.pos() );
+    const units::mass salvaged_mass = std::accumulate( salvaged_items.begin(), salvaged_items.end(),
+    0_gram, []( const units::mass acc, const item * salvage ) {
+        return acc + salvage->weight();
+    } );
+
     CHECK( salvaged_mass <= cut_up_target_mass );
     CHECK( salvaged_mass >= ( cut_up_target_mass * 0.99 ) - smallest_yield_mass );
 }
+} // namespace
 
 TEST_CASE( "cut_up_yields" )
 {

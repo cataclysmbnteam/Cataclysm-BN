@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "..,,,,,...uuuu...,,,,,..",
+        "..,,,,,...uuuu...,,,,,.'",
         "..,,,,,..uaaaau..,,,,,..",
         "..,,,,,.uaffffau.,,,,,..",
         "..,,,,,..uuuuuu..,,,,,..",
@@ -39,6 +39,7 @@
         ",": "t_pavement",
         "-": "t_wall_w",
         ".": "t_grass",
+        "'": "t_dirt",
         "L": "t_linoleum_white",
         "T": "t_linoleum_white",
         "a": "t_dirt",
@@ -53,6 +54,7 @@
       },
       "toilets": { "&": {  } },
       "furniture": {
+        "'": "f_street_light",
         "C": "f_coffin_c",
         "D": "f_desk",
         "H": "f_bench",

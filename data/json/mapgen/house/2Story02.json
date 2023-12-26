@@ -1,0 +1,394 @@
+[
+  {
+    "//": "Bsmt - 1: layout a ",
+    "type": "mapgen",
+    "om_terrain": "2Story02_basement",
+    "weight": 50,
+    "method": "json",
+    "object": {
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette", "standard_domestic_lino_bathroom" ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^||||||||||^^^^^^^",
+        "^^^^^^^|Qw|b UUU|^^^^^^^",
+        "^^^^^^^|__+     |^^^^^^^",
+        "^^^^^^^|tS|    <|^^^^^^^",
+        "^^|||||||||  ||||||###^^",
+        "^^|$$$$|zz   |Prrr|qN#^^",
+        "^^|    *     +  h +,,#^^",
+        "^^|$$$$|&&   |T   |ZW#^^",
+        "^^||||||||   |||||||||^^",
+        "^^|!lE   |    | VVV T|^^",
+        "^^|!)))) +    +      |^^",
+        "^^|x))H) |||+||A ee A|^^",
+        "^^|x))H)T|b  0|A ee A|^^",
+        "^^|x))H)R|   0|A ee A|^^",
+        "^^|!))))R|    |      |^^",
+        "^^|! El R|u c |%%%%%%|^^",
+        "^^||||||||||||||||||||^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^"
+      ],
+      "terrain": {
+        ",": "t_thconc_floor",
+        "_": "t_linoleum_gray",
+        "W": "t_thconc_floor",
+        "c": "t_floor",
+        "u": "t_floor",
+        "H": "t_carpet_purple",
+        ")": "t_carpet_purple",
+        "Z": "t_thconc_floor",
+        "N": "t_thconc_floor",
+        "q": "t_thconc_floor"
+      },
+      "furniture": { "!": "f_speaker_cabinet", "$": "f_rack", "%": "f_counter", "&": "f_table", "0": "f_rack" },
+      "items": {
+        "%": { "item": "alcohol_bottled_canned", "chance": 25 },
+        "$": { "item": "wines_worthy", "chance": 40 },
+        "0": { "item": "sports", "chance": 40, "repeat": [ 1, 2 ] },
+        "&": { "item": "table_foyer", "chance": 30 }
+      },
+      "place_loot": [ { "item": "television", "x": 3, "y": 16 }, { "item": "laptop", "x": 16, "y": 9, "chance": 50 } ]
+    }
+  },
+  {
+    "//": "Bsmt - 1: layout b ",
+    "type": "mapgen",
+    "om_terrain": "2Story02_basement",
+    "weight": 50,
+    "method": "json",
+    "object": {
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^##########^^^^^^^",
+        "^^^^^^^#֎,,,,,,g#^^^^^^^",
+        "^^^^^^^#,,,,,Z|||^^^^^^^",
+        "^^^^^^^#qqq,,W|<|^^^^^^^",
+        "^^|||||||||+||| ||||||^^",
+        "^^|lHHHl% |  T   bRRR|^^",
+        "^^|&&&&&& +          |^^",
+        "^^|&&&&&& |R    }}}}}|^^",
+        "^^|      s|R    }}h}}|^^",
+        "^^| xxx  s|     }rrr/|^^",
+        "^^|||||||||+||+|||||||^^",
+        "^^|zzz))))  |  ~~RRR |^^",
+        "^^|zz       |U      N|^^",
+        "^^|v     A  |U     AN|^^",
+        "^^|?0z      |U      N|^^",
+        "^^|??z  ]  b|U zz T N|^^",
+        "^^||||||||||||||||||||^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^"
+      ],
+      "terrain": {
+        ",": "t_thconc_floor",
+        "g": "t_thconc_floor",
+        "֎": "t_thconc_floor",
+        "W": "t_thconc_floor",
+        "Z": "t_thconc_floor",
+        "q": "t_thconc_floor",
+        "}": "t_carpet_green",
+        "/": "t_carpet_green",
+        "h": "t_carpet_green",
+        "r": "t_carpet_green",
+        "&": "t_carpet_purple",
+        "l": "t_carpet_purple",
+        "H": "t_carpet_purple",
+        "%": "t_carpet_purple"
+      },
+      "furniture": {
+        "0": "f_rack",
+        "/": "f_floor_lamp",
+        "%": "f_floor_lamp",
+        "֎": "f_home_furnace",
+        "?": "f_chair",
+        "~": "f_rack",
+        "]": "f_speaker_cabinet",
+        ")": "f_counter"
+      },
+      "items": {
+        ")": [
+          { "item": "book_mag_gen", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "book_mag_interests", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "book_mag_tech", "chance": 30, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_loot": [
+        { "item": "television", "x": 5, "y": 13 },
+        { "item": "laptop", "x": 18, "y": 13 },
+        { "group": "hardware_books", "x": [ 17, 19 ], "y": 15, "chance": 50, "repeat": [ 2, 3 ] },
+        { "group": "hardware", "x": [ 15, 16 ], "y": 15, "chance": 50, "repeat": [ 2, 3 ] },
+        { "item": "guitar_stand", "x": 9, "y": 19 },
+        { "item": "guitar_electric", "x": 9, "y": 19 },
+        { "item": "amplifier_head", "x": 8, "y": 19 }
+      ]
+    }
+  },
+  {
+    "//": "ground floor: layout a ",
+    "type": "mapgen",
+    "om_terrain": "2Story02_1",
+    "weight": 50,
+    "method": "json",
+    "object": {
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "................p_______",
+        "....[...X.-------_______",
+        "..........-------_______",
+        ".[.....%%%----%%%_______",
+        "....[..####o*o###_______",
+        ".......#L y   ii#_______",
+        ".......#        #_______",
+        ".%%%%%%#§|R  &|>#%%%%%%.",
+        ".%######||R  &||##oo##%.",
+        ".%#QwBB|RRR        Ey#%.",
+        ".%o,,,,+       ys    #%.",
+        "..#tS88|y //// VH l a#..",
+        ".^#|||||y //// VH l a#..",
+        "..#U+     //// VH    o..",
+        "..#||||b  //// yHHs Eo..",
+        "..#47A|        |     #^.",
+        "..#F,,,  |<|y    h h #..",
+        "..o5,,,  |||T   hfff o..",
+        ".%oO,6|  iii     fffho%.",
+        ".%#J16|y     y&  h h #%.",
+        ".%##oo#####¶:#####oo##%.",
+        ".%%%%%%...----...%%%%%%.",
+        "..[.....................",
+        "......................[."
+      ],
+      "terrain": { "#": "t_wall_g", ",": "t_linoleum_gray", "A": "t_linoleum_gray", "/": "t_carpet_yellow" },
+      "furniture": { "§": "f_rack", "&": "f_table" },
+      "items": {
+        "§": { "item": "clothing_outdoor_shoes", "chance": 30, "repeat": [ 1, 2 ] },
+        "&": { "item": "table_foyer", "chance": 30 }
+      },
+      "place_vehicles": [ { "vehicle": "car", "x": 22, "y": 4, "chance": 15, "rotation": 90 } ]
+    }
+  },
+  {
+    "//": "ground floor: layout b ",
+    "type": "mapgen",
+    "om_terrain": "2Story02_1",
+    "weight": 50,
+    "method": "json",
+    "object": {
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "_______...----..........",
+        "_______...----..........",
+        "_______...----........[.",
+        "_______..p----..........",
+        "_______####o*o###.......",
+        "_______#q|&֎֎֎+L#.[.....",
+        "_______#$+ ֎֎b||#!!!!...",
+        "..!!!!!#$+     >#!!!!...",
+        "..######|||  |||##oo##..",
+        "..#BBS8|&&T    h h yy#..",
+        "..o,,,,+       fff   #..",
+        "..#ww,8|RRR   hfffh a#..",
+        ".^#||||||||     h   a#..",
+        "..#sxxx VVV          o..",
+        "..#             RRRR o..",
+        "..#            ||||||#^.",
+        "..# lll  |<|R  ,,,,,4#..",
+        "..o     E|||R  A7JJ,3o..",
+        "..oHHHH   ֎֎֎  ,,,,,1o..",
+        "..#Tyy    ֎֎֎66FJOJ52#..",
+        "..##oo####o¶:#####oo##..",
+        "......!!!.---.jjj.......",
+        "....[.....---.....G.....",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_wall_g",
+        ",": "t_linoleum_gray",
+        "G": "t_region_groundcover_urban",
+        "֎": "t_carpet_red",
+        "b": "t_carpet_red",
+        "A": "t_linoleum_gray",
+        "/": "t_carpet_yellow"
+      },
+      "furniture": { "&": "f_table", "$": "f_rack" },
+      "items": {
+        "$": { "item": "clothing_outdoor_shoes", "chance": 50, "repeat": [ 1, 2 ] },
+        "&": { "item": "table_foyer", "chance": 30 }
+      },
+      "place_loot": [ { "item": "television", "x": 5, "y": 13 } ],
+      "place_vehicles": [ { "vehicle": "car", "x": 4, "y": 4, "chance": 20, "rotation": 90 } ]
+    }
+  },
+  {
+    "//": "second floor: layout a ",
+    "type": "mapgen",
+    "om_terrain": "2Story02_2",
+    "weight": 50,
+    "method": "json",
+    "object": {
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".......##oo##oo##.......",
+        ".......#d  dd  T#.......",
+        ".......#d      ¤#.......",
+        ".......#||b   @@#.......",
+        "..##oo## +    @@##oo##..",
+        "..#rh R|v|D    ¤|D  $#..",
+        "..#r  R||||+|||||D  $#..",
+        ".^#| |||iii yRRR||| |#..",
+        "..#b  +          +  |#..",
+        "..o  y| {{{{{{{{ |  %o..",
+        "..o  d| {??????{ |d  o..",
+        "..#  d| {??????{y|d  #..",
+        "..#¤  | {{>|||||||b T#^.",
+        "..o@@ |    |BB_Y8|   o..",
+        "..o@@ |R   +____S|@@ o..",
+        "..#¤ T|RR&&|888_t|@@¤#..",
+        "..##o####oo##oo####o##..",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_wall_g",
+        "_": "t_linoleum_gray",
+        "{": "t_railing_v",
+        "Y": "t_linoleum_gray",
+        ".": "t_open_air",
+        "?": "t_open_air_rooved"
+      },
+      "furniture": { "$": "f_clothing_rail", "%": "f_exercise", "&": "f_table" },
+      "items": {
+        "&": { "item": "table_foyer", "chance": 30 },
+        "$": [ { "item": "dress_shop", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "jackets", "chance": 30, "repeat": [ 1, 2 ] } ]
+      },
+      "place_loot": [ { "item": "laptop", "x": 3, "y": 10 } ]
+    }
+  },
+  {
+    "//": "second floor: layout b ",
+    "type": "mapgen",
+    "om_terrain": "2Story02_2",
+    "weight": 50,
+    "method": "json",
+    "object": {
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".......##oo##oo##.......",
+        ".......#I  xxyyy#.......",
+        ".......#I       #.......",
+        ".......#I  @@  ~#.......",
+        "..##oo##  ¤@@¤  ##oo##..",
+        "..#rrrT|++||||   +  d#..",
+        "..#   d|DD|UU| &b|d d#..",
+        ".^#R  d||||++|+||||||#..",
+        "..#¤    +        |wQ|#..",
+        "..o@@   |{{{{{{{ +  zo..",
+        "..o@@ bD|??????{ |zzzo..",
+        "..#||||||??????{ ||||#..",
+        "..#II  d||>{{{{{ |S_8#^.",
+        "..oh    +        +__8o..",
+        "..o     |       R|___o..",
+        "..#@@¤ T|y& rrr R|BBt#..",
+        "..##o####oo##oo####o##..",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_wall_g",
+        "_": "t_linoleum_gray",
+        "{": "t_railing_v",
+        ".": "t_open_air",
+        "?": "t_open_air_rooved",
+        "Q": "t_floor",
+        "w": "t_floor"
+      },
+      "furniture": { "$": "f_clothing_rail", "&": "f_table", "~": "f_treadmill" },
+      "items": {
+        "&": { "item": "table_foyer", "chance": 30 },
+        "$": [ { "item": "dress_shop", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "jackets", "chance": 30, "repeat": [ 1, 2 ] } ]
+      },
+      "place_loot": [
+        { "group": "toy_box", "x": [ 3, 7 ], "y": [ 17, 19 ], "chance": 35, "repeat": [ 4, 7 ] },
+        { "group": "child_items", "x": [ 3, 7 ], "y": [ 17, 19 ], "chance": 35, "repeat": [ 2, 3 ] },
+        { "item": "television", "x": 11, "y": 5 },
+        { "item": "laptop", "x": 13, "y": 19 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "swivel_chair", "x": 13, "y": 18, "chance": 100, "status": 5, "fuel": 0, "rotation": 90 },
+        { "vehicle": "swivel_chair", "x": 4, "y": 10, "chance": 100, "status": 5, "fuel": 0, "rotation": 270 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "2Story02_roof",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [ "roof_palette" ],
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       ---------|       ",
+        "       3........|       ",
+        "       3........|       ",
+        "       3........|       ",
+        "  3-----..X.....------  ",
+        "  3..................|  ",
+        "  3..................|  ",
+        "  3.................~|  ",
+        "  3.................~|  ",
+        "  3..................|  ",
+        "  3..................|  ",
+        "  3..................|  ",
+        "  3..................5  ",
+        "  3..................|  ",
+        "  3..=...............|  ",
+        "  3..................|  ",
+        "  22222222222222222222  ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

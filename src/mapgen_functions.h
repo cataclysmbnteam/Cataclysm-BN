@@ -13,6 +13,7 @@
 class map;
 class mapgendata;
 class mission;
+struct mapgen_parameters;
 struct point;
 struct tripoint;
 
@@ -64,19 +65,7 @@ void mapgen_open_air( mapgendata &dat );
 void mapgen_rift( mapgendata &dat );
 void mapgen_hellmouth( mapgendata &dat );
 void mapgen_subway( mapgendata &dat );
-void mapgen_sewer_curved( mapgendata &dat );
-void mapgen_sewer_four_way( mapgendata &dat );
-void mapgen_sewer_straight( mapgendata &dat );
-void mapgen_sewer_tee( mapgendata &dat );
-void mapgen_ants_curved( mapgendata &dat );
-void mapgen_ants_four_way( mapgendata &dat );
-void mapgen_ants_straight( mapgendata &dat );
-void mapgen_ants_tee( mapgendata &dat );
-void mapgen_ants_food( mapgendata &dat );
-void mapgen_ants_larvae( mapgendata &dat );
-void mapgen_ants_larvae_acid( mapgendata &dat );
-void mapgen_ants_queen( mapgendata &dat );
-void mapgen_ants_queen_acid( mapgendata &dat );
+void mapgen_sewer( mapgendata &dat );
 void mapgen_tutorial( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
 
@@ -93,6 +82,7 @@ bool run_mapgen_update_func( const std::string &update_mapgen_id, mapgendata &da
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat );
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
             const std::string &update_mapgen_id );
+mapgen_parameters get_map_special_params( const std::string &mapgen_id );
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat );
 

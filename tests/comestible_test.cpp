@@ -2,14 +2,13 @@
 
 #include <algorithm>
 #include <cstdio>
-#include <memory>
 #include <utility>
 #include <vector>
 
 #include "character.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
+#include "make_static.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -89,17 +88,17 @@ static all_stats recipe_permutations(
 static int byproduct_calories( const recipe &recipe_obj )
 {
 
-    std::vector<item> byproducts = recipe_obj.create_byproducts();
+    std::vector<detached_ptr<item>> byproducts = recipe_obj.create_byproducts();
     int kcal = 0;
-    for( const item &it : byproducts ) {
-        if( it.is_comestible() ) {
-            kcal += it.type->comestible->default_nutrition.kcal * it.charges;
+    for( detached_ptr<item> &it : byproducts ) {
+        if( it->is_comestible() ) {
+            kcal += it->type->comestible->default_nutrition.kcal * it->charges;
         }
     }
     return kcal;
 }
 
-static item food_or_food_container( const item &it )
+static item &food_or_food_container( item &it )
 {
     return it.is_food_container() ? it.contents.front() : it;
 }
@@ -117,9 +116,10 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
     for( const auto &recipe_pair : recipe_dict ) {
         // the resulting item
         const recipe &recipe_obj = recipe_pair.first.obj();
-        item res_it = food_or_food_container( recipe_obj.create_result() );
+        detached_ptr<item> res = recipe_obj.create_result();
+        item &res_it = food_or_food_container( *res );
         const bool is_food = res_it.is_food();
-        const bool has_override = res_it.has_flag( "NUTRIENT_OVERRIDE" );
+        const bool has_override = res_it.has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) );
         if( is_food && !has_override ) {
             // Collection of kcal values of all ingredient permutations
             all_stats mystats = recipe_permutations( recipe_obj.simple_requirements().get_components(),
@@ -158,7 +158,7 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
     clear_all_state();
     // This test verifies that predicted calorie ranges properly take into
     // account the "RAW"/"COOKED" flags.
-    const item veggy_wild_cooked( "veggy_wild_cooked" );
+    const item &veggy_wild_cooked = *item::spawn_temporary( "veggy_wild_cooked" );
     const recipe_id veggy_wild_cooked_recipe( "veggy_wild_cooked" );
 
     const Character &u = get_player_character();

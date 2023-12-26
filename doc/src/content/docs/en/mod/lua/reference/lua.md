@@ -12,7 +12,7 @@ sidebar:
 This page is auto-generated from [`data/raw/generate_docs.lua`][generate_docs] and should not be
 edited directly.
 
-[generate_docs]: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/raw/generate_docs.lua
+[generate_docs]: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/raw/generate_docs.lua
 
 :::
 
@@ -1646,6 +1646,10 @@ Function `( Character ) -> string`
 #### add_msg
 
 Function `( MsgType, ... )` Function `( ... )`
+
+#### place_player_overmap_at
+
+Function `( Tripoint )`
 
 #### current_turn
 

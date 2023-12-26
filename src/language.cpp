@@ -242,7 +242,7 @@ static std::vector<language_info> load_languages( const std::string &filepath )
             }
         }
         if( info.genders.empty() ) {
-            info.genders.push_back( "n" );
+            info.genders.emplace_back( "n" );
         }
     }
 

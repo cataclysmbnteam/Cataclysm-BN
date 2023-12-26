@@ -439,6 +439,12 @@
     "info": "This clothing is large enough to accommodate <info>abnormally large mutated anatomy</info>."
   },
   {
+    "id": "resized_large",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has been modified to accommodate <info>abnormally large mutated anatomy</info> with some <bad>increase to encumbrance</bad>."
+  },
+  {
     "id": "UNDERSIZE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -647,6 +653,12 @@
     "info": "This item can be used to communicate with radio waves."
   },
   {
+    "id": "PERFECT_LOCKPICK",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item can be used to <info>pick locks</info> with <good>zero effort</good>."
+  },
+  {
     "id": "RAINPROOF",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -670,8 +682,7 @@
     "id": "COMPACT",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "Prevents the item from participating in the layering encumbrance system when worn.",
-    "info": "It is designed not to interfere with other equipment in the same layer."
+    "//": "Prevents the item from participating in the layering encumbrance system when worn."
   },
   {
     "id": "SHEATH_AXE",
@@ -887,12 +898,6 @@
   {
     "id": "USES_GRID_POWER",
     "type": "json_flag",
-    "context": [ "TOOL" ],
-    "info": "This item is uses power from an <info>electric grid</info>."
-  },
-  {
-    "id": "USES_GRID_POWER",
-    "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
     "info": "This item is uses power from an <info>electric grid</info>."
   },
@@ -1000,6 +1005,12 @@
     "//": "The spell makes no sound at its point of impact."
   },
   {
+    "id": "NO_EXPLOSION_VFX",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "This makes the spell skip displaying visual effect sprites for faster rendering."
+  },
+  {
     "id": "LOUD",
     "type": "json_flag",
     "context": [ "SPELL" ],
@@ -1069,6 +1080,21 @@
   },
   {
     "id": "EFFECT_BULLET_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_CLAIRVOYANCE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_CLAIRVOYANCE_PLUS",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_SUPER_CLAIRVOYANCE",
     "context": [  ],
     "type": "json_flag"
   },
@@ -1334,7 +1360,12 @@
     "context": [  ]
   },
   {
-    "id": "ETHEREAL_ITEM",
+    "id": "EXPLOSION_SMASHED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "EXPLOSION_PROPELLED",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1464,12 +1495,22 @@
     "context": [  ]
   },
   {
+    "id": "IN_CBM",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "IR_EFFECT",
     "type": "json_flag",
     "context": [  ]
   },
   {
     "id": "IS_ARMOR",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "IS_EXPLOSION_PROPELLED",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1537,7 +1578,7 @@
     "id": "MOUNTED_GUN",
     "type": "json_flag",
     "context": [  ],
-    "info": "This weapon is <bad>too unwieldy</bad> to fire on its own and <info>must be mounted</info> on a vehicle or furniture (window, table, mound of dirt, etc.) before use, <info>Large or Huge</info> mutants can fire from the hip with <bad>reduced accuracy.</bad>"
+    "info": "This weapon <bad>can only be fired if mounted</bad> on a vehicle or furniture (window, table, mound of dirt, etc.) to fire, <info>Large or Huge</info> mutants or those with active <info>Power Armor</info> can fire from the hip with <bad>reduced accuracy.</bad>"
   },
   {
     "id": "MYCUS_OK",
@@ -1716,6 +1757,11 @@
   },
   {
     "id": "REACH3",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "REACH",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1997,6 +2043,12 @@
     "context": [  ]
   },
   {
+    "id": "HEAVY_WEAPON_SUPPORT",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This equipment <good>allows you to fire</good> unwieldy weapons without requiring support from mountable terrain, as a <info>Large or Huge</info> mutant could, at the expense of <bad>reduced accuracy.</bad>"
+  },
+  {
     "id": "FIRE_TWOHAND",
     "type": "json_flag",
     "context": [  ]
@@ -2027,22 +2079,12 @@
     "context": [  ]
   },
   {
-    "id": "NON-FOULING",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "PUMP_RAIL_COMPATIBLE",
     "type": "json_flag",
     "context": [  ]
   },
   {
     "id": "RADIO_MODABLE",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "STR_DRAW",
     "type": "json_flag",
     "context": [  ]
   },

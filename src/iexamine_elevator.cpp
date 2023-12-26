@@ -4,6 +4,7 @@
 #include "game.h"
 #include "iexamine.h"
 #include "mapdata.h"
+#include "flood_fill.h"
 #include "output.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
@@ -19,15 +20,13 @@
 namespace
 {
 
-// still not sure whether there's a utility function for this
 // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 auto move_item( map &here, const tripoint &src, const tripoint &dest ) -> void
 {
-    map_stack items = here.i_at( src );
-    for( auto it = items.begin(); it != items.end(); ) {
-        here.add_item_or_charges( dest, *it );
-        it = here.i_rem( src, it );
-    }
+    map_stack items_src = here.i_at( src );
+    map_stack items_dest = here.i_at( dest );
+
+    items_src.move_all_to( &items_dest );
 }
 
 namespace elevator
@@ -38,15 +37,10 @@ using tiles = std::vector<tripoint>;
 auto here( const Character &you ) -> elevator::tiles
 {
     const auto &here = get_map();
-    const auto &points = closest_points_first( you.pos(), SEEX - 1 );
+    const auto is_elevator = [&here]( const tripoint & pos ) -> bool { return here.has_flag( TFLAG_ELEVATOR, pos ); };
 
-    elevator::tiles tiles;
-    std::copy_if( points.begin(), points.end(), std::back_inserter( tiles ),
-    [&here]( const tripoint & pos ) {
-        return here.has_flag( TFLAG_ELEVATOR, pos );
-    } );
-
-    return tiles;
+    std::unordered_set<tripoint> visited;
+    return ff::point_flood_fill_4_connected( you.pos(), visited, is_elevator );
 }
 
 auto dest( const elevator::tiles &elevator_here,
@@ -181,17 +175,19 @@ auto move_creatures_away( const elevator::tiles &dest ) -> void
     }
 }
 
-auto move_items( const elevator::tiles from, const elevator::tiles dest ) -> void
+auto move_items( const elevator::tiles &from, const elevator::tiles &dest ) -> void
 {
+    using size_type = elevator::tiles::size_type;
     map &here = get_map();
 
-    for( decltype( from )::size_type i = 0; i < from.size(); i++ ) {
+    // oh how i wish i could use zip here
+    for( size_type i = 0; i < from.size(); i++ ) {
         const tripoint &src = from[i];
         move_item( here, src, dest[i] );
     }
 }
 
-auto move_creatures( const elevator::tiles from, const elevator::tiles dest ) -> void
+auto move_creatures( const elevator::tiles &from, const elevator::tiles &dest ) -> void
 {
     for( Creature &critter : g->all_creatures() ) {
         const auto eit = std::find( from.cbegin(), from.cend(), critter.pos() );

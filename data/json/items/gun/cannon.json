@@ -1,0 +1,28 @@
+[
+  {
+    "id": "cannon_3in_ordnance",
+    "copy-from": "launcher_base",
+    "weapon_category": [ "1SHOT" ],
+    "type": "GUN",
+    "name": { "str": "3-inch ordnance rifle" },
+    "description": "A light (by artillery standards) rifled cannon widely used in the American Civil War, noted for its reliability.",
+    "weight": "371946 g",
+    "volume": "134 L",
+    "price": "350 USD",
+    "price_postapoc": "10 USD",
+    "to_hit": -4,
+    "bashing": 50,
+    "material": [ "iron" ],
+    "color": "dark_gray",
+    "looks_like": "mark19",
+    "ammo": "cannon",
+    "dispersion": 855,
+    "durability": 5,
+    "blackpowder_tolerance": 96,
+    "loudness": 300,
+    "clip_size": 1,
+    "reload": 30000,
+    "valid_mod_locations": [  ],
+    "flags": [ "MOUNTED_GUN", "NEVER_JAMS" ]
+  }
+]

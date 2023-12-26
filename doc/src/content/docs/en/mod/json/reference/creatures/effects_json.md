@@ -371,6 +371,31 @@ effect can hurt the player.
 Type of morale effect provided. Mandatory if there is a morale effect, must not be specified
 otherwise.
 
+### Other effects on removal
+
+```json
+"effects_on_remove": [
+    {
+        "intensity_requirement": 0, - Defaults to 0
+        "effect_type": "cold",      - (Mandatory) Effect that will be applied
+        "allow_on_decay": false,    - Defaults to true
+        "allow_on_remove" true,     - Defaults to false
+        "intensity": 5,             - Defaults to 0
+        "inherit_intensity": false, - Defaults to false
+        "duration": "10 s",         - Defaults to 0
+        "inherit_duration": true,   - Defaults to true
+        "body_part": "hand_r,       - Defaults to null
+        "inherit_body_part": false  - Defaults to true
+    }
+]
+```
+
+"intensity_requirement" will prevent adding the new effect if current effect has lower intensity.
+"allow_on_decay" enables adding the effect if parent decayed (was removed due to 0 duration).
+"allow_on_remove" enables adding the effect if parent was removed before 0 duration.
+"inherit_duration", "inherit_intensity" and "inherit_body_part" cause the relevant variable to be
+copied from parent effect.
+
 ### Effect effects
 
 ```json
@@ -490,6 +515,15 @@ Valid arguments:
 "thirst_chance"     - Chance to become more thirsty
 "thirst_chance_bot"
 "thirst_tick"       - Defaults to every tick
+
+"sleepdebt_amount"     - Amount of sleep debt it can give/take.
+"sleepdebt_min"        - Minimal amount of sleep, certain effect will give/take
+"sleepdebt_max"        - if 0 or missing value will be exactly "sleepdebt_min"
+"sleepdebt_min_val"    - Defaults to 0, which means uncapped
+"sleepdebt_max_val"    - Defaults to 0, which means uncapped
+"sleepdebt_chance"     - Chance to give more sleep
+"sleepdebt_chance_bot" - Min chance, unsure, needs auditing
+"sleepdebt_tick"       - Defaults to every tick
 
 "fatigue_amount"    - Amount of fatigue it can give/take. After certain amount character will need to sleep.
 "fatigue_min"       - Minimal amount of fatigue, certain effect will give/take

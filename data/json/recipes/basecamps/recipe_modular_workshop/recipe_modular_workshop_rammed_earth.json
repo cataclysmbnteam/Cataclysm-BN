@@ -61,10 +61,10 @@
           [ { "id": "SMOOTH" } ]
         ],
         "components": [
-          [ [ "2x4", 135 ] ],
+          [ [ "2x4", 134 ] ],
           [ [ "concrete", 6 ], [ "material_quicklime", 120 ], [ "material_sand", 120 ] ],
           [ [ "material_soil", 600 ] ],
-          [ [ "nail", 382 ] ],
+          [ [ "nail", 380 ] ],
           [ [ "pointy_stick", 12 ], [ "spear_wood", 12 ] ],
           [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 300 ], [ "water_clean", 300 ] ],

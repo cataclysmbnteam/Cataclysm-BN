@@ -880,6 +880,13 @@
   },
   {
     "type": "keybinding",
+    "id": "SET_SPECIAL_ARGS",
+    "category": "OVERMAP",
+    "name": "Set Overmap Special Arguments",
+    "bindings": [ { "input_method": "keyboard", "key": "a" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "View Missions",
     "category": "OVERMAP",
     "id": "MISSIONS",
@@ -2006,6 +2013,13 @@
     "category": "DEFAULTMODE",
     "id": "messages",
     "bindings": [ { "input_method": "keyboard", "key": "P" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Open Wiki",
+    "category": "DEFAULTMODE",
+    "id": "open_wiki",
+    "bindings": [ { "input_method": "keyboard", "key": "w" } ]
   },
   {
     "type": "keybinding",

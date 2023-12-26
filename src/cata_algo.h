@@ -3,6 +3,7 @@
 #define CATA_SRC_CATA_ALGO_H
 
 #include <algorithm>
+#include <map>
 #include <cassert>
 #include <optional>
 #include <unordered_map>
@@ -131,6 +132,32 @@ auto and_then( std::optional<T> const &opt, Fn &&f ) -> std::optional<std::invok
     return std::nullopt;
 }
 
+/// @brief Group elements of a container into key-value map by a given selector function.
+///
+/// @tparam M map type to use for the result. defaults to std::map
+/// @tparam C container type, usually inferred
+/// @param selector mapped to each container. otuput type is used as a key for the result map
+///
+/// @return A map of key-value pairs, where the the value is a container of elements grouped by the key.
+///
+/// @example
+/// ```cpp
+/// group_by( {1, 2, 3, 4, 5}, []( int i ) -> std::string { return i % 2 == 0 ? "even" : "odd" } )
+/// //=> Map{ "even": {2, 4}, "odd": {1, 3, 5} }
+/// ```
+///
+/// @remark poor person's https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/group-by.html
+template<template<typename...> typename M = std::map, typename C, typename F>
+auto group_by( const C &c, F && selector )
+{
+    using K = std::invoke_result_t<F, std::decay_t<decltype( *c.begin() )>>;
+
+    auto result = M<K, C> {};
+    for( const auto &elem : c ) {
+        result[selector( elem )].emplace_back( elem );
+    }
+    return result;
+}
 
 } // namespace cata
 

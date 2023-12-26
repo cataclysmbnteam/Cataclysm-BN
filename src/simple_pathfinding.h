@@ -68,7 +68,7 @@ using two_node_scoring_fn =
 
 // non-templated implementation
 directed_path<point> greedy_path( point source, point dest, point max,
-                                  two_node_scoring_fn<point> scorer );
+                                  const two_node_scoring_fn<point> &scorer );
 
 /**
  * Uses Greedy Best-First-Search to find a short path from source to destination [2D only].

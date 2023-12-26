@@ -4,6 +4,7 @@
     "object": {
       "fill_ter": "t_floor",
       "furniture": {
+        "'": "f_street_light",
         "#": "f_chair",
         "&": "f_toilet",
         "H": "f_sofa",
@@ -57,7 +58,7 @@
       ],
       "place_toilets": [ { "x": 2, "y": 14 }, { "x": 4, "y": 14 }, { "x": 6, "y": 14 } ],
       "rows": [
-        "________ss______________",
+        "________ss_____________'",
         "_______rss-----|||W||___",
         "______ursssssssW...#|___",
         "____dufrsssssss+....|___",
@@ -91,6 +92,7 @@
         "T": "t_concrete",
         "W": "t_window_no_curtains",
         "_": [ [ "t_grass", 6 ], [ "t_dirt", 2 ], [ "t_grass_long", 4 ], [ "t_underbrush", 2 ] ],
+        "'": "t_dirt",
         "b": "t_concrete",
         "c": "t_carpet_red",
         "d": "t_dirt",
@@ -168,6 +170,7 @@
     "object": {
       "fill_ter": "t_floor",
       "furniture": {
+        "'": "f_street_light",
         "#": "f_chair",
         "&": "f_toilet",
         "C": "f_counter",
@@ -218,7 +221,7 @@
       "place_furniture": [ { "furn": "f_speaker_cabinet", "x": 5, "y": [ 7, 12 ], "repeat": [ 1, 2 ] } ],
       "place_toilets": [ { "x": 4, "y": 2 }, { "x": 6, "y": 2 }, { "x": 8, "y": 2 } ],
       "rows": [
-        ".......d.......sss......",
+        ".......d.......sss.....'",
         "...||||||||--||TTT||||..",
         "...|&|&|&|___^|TTT|vv|..",
         "...|D|D|f|____|a-a|__|..",
@@ -248,6 +251,7 @@
         "_": "t_floor",
         "-": "t_wall_glass",
         ".": [ [ "t_grass", 20 ], [ "t_dirt", 2 ], [ "t_underbrush", 1 ] ],
+        "'": "t_dirt",
         "D": "t_door_metal_c",
         "T": "t_thconc_floor",
         "a": "t_door_glass_c",

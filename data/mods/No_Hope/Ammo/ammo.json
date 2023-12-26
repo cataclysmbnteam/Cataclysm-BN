@@ -2,8 +2,8 @@
   {
     "type": "AMMO",
     "id": "shotcanister_scrap",
-    "price": 1000,
-    "price_postapoc": 250,
+    "price": "10 USD",
+    "price_postapoc": "250 cent",
     "name": { "str": "scrap shotcanister" },
     "symbol": "=",
     "color": "green",
@@ -24,8 +24,8 @@
   {
     "type": "AMMO",
     "id": "shotcanister_pebble",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "name": { "str": "pebble shotcanister" },
     "symbol": "=",
     "color": "green",
@@ -46,8 +46,8 @@
   {
     "type": "AMMO",
     "id": "shotcanister_flechette",
-    "price": 1000,
-    "price_postapoc": 250,
+    "price": "10 USD",
+    "price_postapoc": "250 cent",
     "name": { "str": "flechette shotcanister" },
     "symbol": "=",
     "color": "green",
@@ -68,8 +68,8 @@
   {
     "type": "AMMO",
     "id": "shotcanister_bearing",
-    "price": 1000,
-    "price_postapoc": 250,
+    "price": "10 USD",
+    "price_postapoc": "250 cent",
     "name": { "str": "bearing shotcanister" },
     "symbol": "=",
     "color": "green",

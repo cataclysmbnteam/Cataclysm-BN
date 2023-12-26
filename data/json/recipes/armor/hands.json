@@ -133,9 +133,8 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "1 h 15 m",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_wool_knitting", 240 ] ]
+    "using": [ [ "tailoring_wool_knitting", 140 ] ]
   },
   {
     "result": "gloves_fur_fingerless",
@@ -245,7 +244,7 @@
     "components": [
       [ [ "fabric_standard", 2, "LIST" ] ],
       [ [ "fabric_hides_proper", 2, "LIST" ] ],
-      [ [ "scrap", 4 ] ],
+      [ [ "steel_standard", 1, "LIST" ] ],
       [ [ "duct_tape", 50 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [
@@ -272,7 +271,7 @@
     "components": [
       [ [ "rag", 2 ] ],
       [ [ "leather", 2 ] ],
-      [ [ "alloy_sheet", 2 ] ],
+      [ [ "alloy_sheet", 1 ] ],
       [ [ "duct_tape", 50 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [
@@ -330,6 +329,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "1 h",
+    "reversible": true,
     "autolearn": [ [ "tailor", 5 ] ],
     "book_learn": [ [ "manual_tailor", 1 ], [ "mag_tailor", 0 ], [ "textbook_survival", 2 ], [ "pocket_survival", 2 ] ],
     "using": [ [ "tailoring_wool_knitting", 160 ] ]
@@ -382,6 +382,18 @@
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "using": [ [ "blacksmithing_advanced", 24 ], [ "steel_standard", 6 ] ],
     "components": [ [ [ "fabric_hides_proper", 10, "LIST" ] ] ]
+  },
+  {
+    "result": "gloves_plate_superalloy",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "7 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "blacksmithing_advanced", 24 ] ],
+    "components": [ [ [ "alloy_sheet", 6 ] ], [ [ "fabric_hides_proper", 10, "LIST" ] ] ]
   },
   {
     "result": "gloves_survivor",
@@ -508,26 +520,6 @@
     ]
   },
   {
-    "result": "gloves_xlsurvivor",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HANDS",
-    "skill_used": "tailor",
-    "difficulty": 6,
-    "skills_required": [ "fabrication", 4 ],
-    "time": "1 h 20 m",
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 100 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
-    "components": [
-      [ [ "fabric_hides_proper", 16, "LIST" ] ],
-      [ [ "fabric_standard", 6, "LIST" ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "duct_tape", 160 ] ],
-      [ [ "gloves_tactical", 2 ], [ "kevlar_plate", 6 ] ]
-    ]
-  },
-  {
     "result": "mittens",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -535,9 +527,10 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "50 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 250 ] ] ]
+    "components": [ [ [ "yarn", 125 ] ] ]
   },
   {
     "result": "nomex_gloves",
@@ -594,10 +587,11 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "20 m",
-    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 2 ] ],
-    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ]
+    "difficulty": 4,
+    "skills_required": [ [ "tailor", 2 ] ],
+    "time": "10 m",
+    "autolearn": [ [ "fabrication", 6 ], [ "tailor", 4 ] ],
+    "book_learn": [ [ "textbook_armwest", 3 ], [ "textbook_fabrication", 3 ], [ "recipe_melee", 3 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ]
   }
 ]

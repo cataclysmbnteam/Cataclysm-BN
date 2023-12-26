@@ -370,5 +370,23 @@
         [ "honey_glassed", 2 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "chocolate",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "50 m",
+    "batch_time_factors": [ 80, 2 ],
+    "book_learn": [ [ "cookbook_foodfashions", 2 ], [ "mag_cooking", 2 ], [ "sweets_book", 1 ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ], [ [ "food_processor", 20 ], [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "components": [
+      [ [ "cacao_nibs", 10 ] ],
+      [ [ "cacao_nibs", 5 ], [ "cooking_oil", 2 ], [ "edible_tallow_lard", 1, "LIST" ] ],
+      [ [ "sugar", 15 ] ]
+    ]
   }
 ]

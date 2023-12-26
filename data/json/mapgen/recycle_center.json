@@ -4,6 +4,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "furniture": {
+        "'": "f_street_light",
         "#": "f_table",
         "&": "f_trashcan",
         "P": "f_sign",
@@ -29,7 +30,7 @@
         { "chance": 50, "repeat": [ 180, 350 ], "item": "recycle_plastic", "x": [ 7, 8 ], "y": [ 11, 19 ] }
       ],
       "rows": [
-        ".........s..............",
+        ".........s.............'",
         ".........s..............",
         ".........s..............",
         ".........s..............",
@@ -58,6 +59,7 @@
         "&": "t_floor",
         "+": "t_door_metal_c",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_dirt",
         "D": "t_door_c",
         "_": "t_thconc_floor",
         "c": "t_floor",
@@ -140,6 +142,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "furniture": {
+        "'": "f_street_light",
         "#": "f_table",
         "&": "f_trashcan",
         "C": "f_chair",
@@ -169,7 +172,7 @@
       ],
       "place_vehicles": [ { "chance": 75, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "forklift", "x": 16, "y": [ 7, 16 ] } ],
       "rows": [
-        ".....cccc...............",
+        ".....cccc..............'",
         ".....cccc...............",
         ".....cccc...............",
         "..---S++S--|||ww||D|w|..",
@@ -198,6 +201,7 @@
         "+": "t_chaingate_c",
         "-": "t_chainfence",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_dirt",
         "D": "t_door_metal_c",
         "P": "t_concrete",
         "S": "t_chainfence",
@@ -283,6 +287,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "&": "f_trashcan",
         "P": "f_sign",
@@ -309,7 +314,7 @@
       ],
       "place_loot": [ { "item": "television", "x": 4, "y": 14, "chance": 100 }, { "item": "stepladder", "x": 8, "y": 13, "chance": 100 } ],
       "rows": [
-        "__________ppppp_________",
+        "__________ppppp________'",
         "__________ppppp_________",
         "______4___ppppp_____7___",
         "_4________ppppp_________",
@@ -344,6 +349,7 @@
         "P": "t_concrete",
         "R": "t_recycler",
         "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_dirt",
         "p": "t_pavement",
         "s": "t_grass",
         "t": "t_thconc_floor",

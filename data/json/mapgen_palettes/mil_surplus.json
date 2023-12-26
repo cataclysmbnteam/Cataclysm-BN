@@ -4,6 +4,7 @@
     "id": "mil_surplus",
     "terrain": {
       ".": "t_region_groundcover_urban",
+      "!": "t_region_groundcover_barren",
       "~": "t_sidewalk",
       "-": "t_wall_w",
       "|": "t_wall_w",
@@ -17,6 +18,7 @@
       "<": "t_ladder_up"
     },
     "furniture": {
+      "!": "f_street_light",
       "#": "f_counter",
       "U": [ "f_dumpster", "f_recycle_bin" ],
       "h": "f_chair",

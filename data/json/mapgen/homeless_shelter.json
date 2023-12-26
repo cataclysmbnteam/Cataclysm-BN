@@ -5,6 +5,7 @@
     "terrain": {
       "*": "t_open_air",
       "~": "t_open_air_rooved",
+      "]": "t_dirt",
       ".": [ [ "t_grass_long", 200 ], [ "t_grass", 600 ], [ "t_dirt", 200 ], [ "t_shrub", 1 ] ],
       ",": [
         [ "t_grass_long", 75 ],
@@ -54,6 +55,7 @@
       "n": "t_dirtmound"
     },
     "furniture": {
+      "]": "f_street_light",
       "3": "f_bench",
       "B": "f_bench",
       "S": "f_sink",
@@ -129,7 +131,7 @@
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
-        "ffssffffffff............",
+        "ffssffffffff...........]",
         "f.ss.,,,,,,f.,,,,.......",
         "f.ss.,,,,,,||vvvv||.....",
         "f.ss.,,|||||pBBBBp|||||.",

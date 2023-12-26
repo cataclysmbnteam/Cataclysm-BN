@@ -346,6 +346,11 @@
     "vehicles": [ [ "engine_crane", 50 ], [ "handjack", 150 ], [ "wheelbarrow", 100 ], [ "forklift", 100 ] ]
   },
   {
+    "id": "warehouse_truck",
+    "type": "vehicle_group",
+    "vehicles": [ [ "flatbed_truck", 50 ], [ "tatra_truck", 50 ] ]
+  },
+  {
     "id": "school_vehicles",
     "type": "vehicle_group",
     "//": "School bus or fire truck found near school locations",
@@ -797,5 +802,15 @@
     "id": "park_playground_vehicles",
     "type": "vehicle_group",
     "vehicles": [ [ "ice_cream_cart", 100 ], [ "food_cart", 200 ], [ "bicycle", 150 ], [ "bicycle_dirt", 125 ], [ "tricycle", 5 ] ]
+  },
+  {
+    "id": "bastion_fort_vehicles",
+    "type": "vehicle_group",
+    "vehicles": [ [ "cannon_3in", 90 ], [ "gatling_carriage", 10 ] ]
+  },
+  {
+    "id": "museum_vehicles",
+    "type": "vehicle_group",
+    "vehicles": [ [ "cannon_3in", 50 ], [ "gatling_carriage", 50 ] ]
   }
 ]

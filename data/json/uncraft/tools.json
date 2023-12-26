@@ -16,5 +16,25 @@
     "time": "50 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "wire", 4 ] ], [ [ "splinter", 8 ] ] ]
+  },
+  {
+    "result": "pot_copper",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "scrap_copper", 14 ] ], [ [ "tin", 30 ] ] ]
+  },
+  {
+    "result": "copper_pan",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "25 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "scrap_copper", 12 ] ], [ [ "tin", 20 ] ] ]
   }
 ]

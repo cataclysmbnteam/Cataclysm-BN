@@ -11,6 +11,7 @@
       "S": "f_sink",
       "T": "f_toilet",
       "W": "f_large_canvas_wall",
+      "Z": "f_crate_o",
       "b": "f_bench",
       "c": "f_counter",
       "d": "f_dresser",
