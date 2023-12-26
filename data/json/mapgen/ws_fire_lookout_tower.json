@@ -201,11 +201,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        "X": "t_concrete_wall",
-        "<": "t_ladder_up",
-        ">": "t_ladder_down"
-      }
+      "terrain": { "X": "t_concrete_wall", "<": "t_ladder_up", ">": "t_ladder_down" }
     }
   },
   {
@@ -240,11 +236,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        "X": "t_concrete_wall",
-        "<": "t_ladder_up",
-        ">": "t_ladder_down"
-      }
+      "terrain": { "X": "t_concrete_wall", "<": "t_ladder_up", ">": "t_ladder_down" }
     }
   },
   {
