@@ -147,6 +147,19 @@
     "flags": [ "SKINTIGHT", "COMPACT", "WATER_FRIENDLY" ]
   },
   {
+    "id": "shoulder_holster",
+    "copy-from": "holster",
+    "type": "ARMOR",
+    "name": { "str": "shoulder holster" },
+    "description": "A shoulder holster designed to be worn under a jacket or coat that allows a gun to hang comfortably beneath the arm.  Activate to holster/draw a gun.",
+    "weight": "320 g",
+    "volume": "750 ml",
+    "price": "100 USD",
+    "price_postapoc": "8 USD",
+    "covers": [ "arm_either" ],
+    "flags": [ "WAIST" ]
+  },
+  {
     "id": "survivor_vest",
     "type": "ARMOR",
     "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },

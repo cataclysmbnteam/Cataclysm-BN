@@ -3409,7 +3409,8 @@
       { "item": "wristholster", "prob": 1 },
       { "item": "bow_sling", "prob": 5 },
       { "item": "bscabbard", "prob": 5 },
-      { "item": "holster", "prob": 20 },
+      { "item": "holster", "prob": 15 },
+      { "item": "shoulder_holster", "prob": 5 },
       { "item": "scabbard", "prob": 10 },
       { "item": "sheath", "prob": 25 },
       { "item": "sholster", "prob": 5 }
