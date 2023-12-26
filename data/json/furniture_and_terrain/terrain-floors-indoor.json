@@ -776,5 +776,16 @@
       "sound_fail_vol": 4,
       "ter_set": "t_dirt"
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_grate_indoor",
+    "name": "metal grate",
+    "looks_like": "t_grate",
+    "description": "A type of walkway that can be used as protective covering over drains or even used as a filter.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "INDOORS" ]
   }
 ]

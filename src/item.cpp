@@ -4628,8 +4628,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             tagtext += _( " (unread)" );
         }
     }
-    if( has_var( "bionics_scanned_by" ) && has_flag( flag_CBM_SCANNED ) ) {
-        tagtext += _( " (bionic detected)" );
+    if( has_var( "bionics_scanned_by" ) ) {
+        if( has_flag( flag_CBM_SCANNED ) ) {
+            tagtext += _( " (bionic detected)" );
+        } else {
+            tagtext += _( " (scanned)" );
+        }
     }
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
@@ -8297,7 +8301,7 @@ float item::simulate_burn( fire_data &frd ) const
     }
 
     if( count_by_charges() ) {
-        int stack_burnt = rng( type->stack_size / 2, type->stack_size );
+        const int stack_burnt = type->stack_size;
         time_added *= stack_burnt;
         smoke_added *= stack_burnt;
         burn_added *= stack_burnt;

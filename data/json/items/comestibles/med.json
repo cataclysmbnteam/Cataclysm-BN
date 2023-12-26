@@ -1751,17 +1751,12 @@
   {
     "id": "disinrag",
     "type": "COMESTIBLE",
+    "copy-from": "rag_abstract",
     "comestible_type": "MED",
     "name": { "str": "antiseptic soaked rag" },
     "description": "A rag soaked in antiseptic.  Useful for light wounds, probably won't help with deep bites.",
-    "weight": "80 g",
-    "//": "Can't copy-from rag, it breaks the stacking for some reason!",
-    "volume": "250 ml",
     "price": "250 cent",
     "price_postapoc": "50 cent",
-    "material": "cotton",
-    "symbol": ",",
-    "color": "white",
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "heal",

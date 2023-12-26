@@ -196,7 +196,8 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "114 g",
     "volume": "250 ml",
-    "category": "spare_parts"
+    "category": "spare_parts",
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -223,7 +224,8 @@
     "weight": "100 g",
     "volume": "250 ml",
     "category": "spare_parts",
-    "to_hit": -1
+    "to_hit": -1,
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -239,7 +241,8 @@
     "weight": "100 g",
     "volume": "250 ml",
     "category": "spare_parts",
-    "to_hit": -1
+    "to_hit": -1,
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -254,7 +257,8 @@
     "material": [ "nomex" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "42 g",
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -270,7 +274,8 @@
     "weight": "45 g",
     "volume": "250 ml",
     "to_hit": -2,
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [ "UNRECOVERABLE" ],
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -623,7 +628,8 @@
     "material": "steel",
     "weight": "151 g",
     "volume": "500 ml",
-    "to_hit": -2
+    "to_hit": -2,
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -637,7 +643,8 @@
     "material": "steel",
     "weight": "302 g",
     "volume": "500 ml",
-    "to_hit": -2
+    "to_hit": -2,
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -669,7 +676,8 @@
     "volume": "1500 ml",
     "bashing": 12,
     "to_hit": -1,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -1677,16 +1685,37 @@
     "to_hit": -6
   },
   {
+    "abstract": "rag_abstract",
+    "type": "GENERIC",
+    "name": { "str": "rag" },
+    "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.  It's a bug if you see this.",
+    "category": "spare_parts",
+    "weight": "80 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": "cotton",
+    "symbol": ",",
+    "color": "white",
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
+  },
+  {
+    "id": "rag",
+    "type": "GENERIC",
+    "name": { "str": "rag" },
+    "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
+    "copy-from": "rag_abstract",
+    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 }, "WASH_HARD_ITEMS" ]
+  },
+  {
     "type": "GENERIC",
     "id": "rag_bloody",
-    "symbol": ",",
+    "copy-from": "rag_abstract",
     "color": "red",
     "name": { "str": "blood soaked rag" },
     "description": "A large rag, drenched in blood.  It could be cleaned with boiling water.",
-    "material": "cotton",
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
-    "weight": "80 g",
-    "volume": "250 ml"
+    "extend": { "flags": "TRADER_AVOID" }
   },
   {
     "id": "pipe_cleaner",
@@ -2651,7 +2680,8 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "80 g",
     "volume": "250 ml",
-    "category": "spare_parts"
+    "category": "spare_parts",
+    "stackable": true
   },
   {
     "id": "cerberus_laser",

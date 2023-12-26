@@ -2920,7 +2920,7 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
                                _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart." ) );
         } else {
             add_msg_if_player( m_mixed,
-                               _( "You stay very, very still, focusing intently on an interesting stain on the ceiling, as the Autodoc slices painlessly into you." ) );
+                               _( "You stay very, very still, intently staring off into space, as the Autodoc slices painlessly into you." ) );
         }
     }
 
