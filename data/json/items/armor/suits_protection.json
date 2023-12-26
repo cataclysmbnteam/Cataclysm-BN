@@ -171,6 +171,17 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
   {
+    "id": "armor_lightplate_superalloy",
+    "copy-from": "armor_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "superalloy plate armor" },
+    "description": "A suit of Gothic plate armor, remade using modern superalloy.",
+    "material": [ "superalloy", "leather" ],
+    "color": "light_cyan",
+    "encumbrance": 15,
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
     "id": "armor_nomad",
     "type": "ARMOR",
     "name": { "str": "nomad gear" },
@@ -263,6 +274,17 @@
     "warmth": 20,
     "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER", "FANCY" ]
+  },
+  {
+    "id": "armor_plate_superalloy",
+    "copy-from": "armor_plate",
+    "type": "ARMOR",
+    "name": { "str": "ornamental superalloy plate armor" },
+    "description": "A heavy suit of ornamental armor, remade using modern superalloy.",
+    "material": [ "superalloy", "leather" ],
+    "color": "light_cyan",
+    "encumbrance": 40,
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },
   {
     "id": "armor_riot",

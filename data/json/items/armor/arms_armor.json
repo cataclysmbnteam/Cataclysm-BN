@@ -121,6 +121,18 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ]
   },
   {
+    "id": "armguard_lightplate_superalloy",
+    "copy-from": "armguard_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "pair of superalloy arm guards", "str_pl": "pairs of superalloy arm guards" },
+    "description": "A full assembly of medieval arm protection, made from cutting-edge superalloy.  Rerebraces, couters, and vambraces, with leather straps to secure each piece and connect it as part of a set.",
+    "material": [ "superalloy", "leather" ],
+    "color": "light_cyan",
+    "//": "Superalloy armor uses 5 less encumbrance than base item",
+    "encumbrance": 15,
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
     "id": "armguard_metal",
     "type": "ARMOR",
     "name": { "str": "pair of metal arm guards", "str_pl": "pairs of metal arm guards" },

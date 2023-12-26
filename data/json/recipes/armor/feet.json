@@ -205,6 +205,18 @@
     "components": [ [ [ "fabric_hides_proper", 16, "LIST" ] ] ]
   },
   {
+    "result": "boots_plate_superalloy",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "8 h",
+    "book_learn": [ [ "textbook_armwest", 6 ] ],
+    "using": [ [ "blacksmithing_advanced", 32 ] ],
+    "components": [ [ [ "alloy_sheet", 8 ] ], [ [ "fabric_hides_proper", 16, "LIST" ] ] ]
+  },
+  {
     "result": "boots_scrap",
     "type": "recipe",
     "category": "CC_ARMOR",

@@ -405,6 +405,19 @@
     "components": [ [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
+    "result": "helmet_barbute_superalloy",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "9 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "blacksmithing_intermediate", 40 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "alloy_sheet", 10 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
+  },
+  {
     "result": "helmet_chitin",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -532,6 +545,19 @@
     "using": [ [ "blacksmithing_intermediate", 56 ], [ "steel_standard", 14 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
+  },
+  {
+    "result": "helmet_plate_superalloy",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "time": "9 h",
+    "book_learn": [ [ "textbook_armwest", 8 ] ],
+    "using": [ [ "blacksmithing_intermediate", 56 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "alloy_sheet", 14 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
     "result": "helmet_scavenger",

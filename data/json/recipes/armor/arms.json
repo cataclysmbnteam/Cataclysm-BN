@@ -88,6 +88,20 @@
     "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
+    "result": "armguard_lightplate_superalloy",
+    "//": "Superalloy armor recipes use alloy sheets equal to steel lumps used, difficulty 2 levels higher (maxing out at 10)",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "skills_required": [ [ "tailor", 3 ] ],
+    "time": "50 m",
+    "book_learn": [ [ "textbook_armwest", 8 ] ],
+    "using": [ [ "blacksmithing_advanced", 24 ] ],
+    "components": [ [ [ "alloy_sheet", 6 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
+  },
+  {
     "result": "armguard_metal",
     "type": "recipe",
     "category": "CC_ARMOR",

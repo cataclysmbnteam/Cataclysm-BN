@@ -559,6 +559,17 @@
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
+    "id": "gloves_plate_superalloy",
+    "copy-from": "gloves_plate",
+    "type": "ARMOR",
+    "name": { "str": "pair of superalloy armored gauntlets", "str_pl": "pairs of superalloy armored gauntlets" },
+    "description": "An set of armor-plated leather gloves, made with lightweight superalloy.",
+    "material": [ "superalloy", "leather" ],
+    "color": "light_cyan",
+    "encumbrance": 15,
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
     "id": "gloves_rubber",
     "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
