@@ -19,11 +19,11 @@ jobs:
       - uses: actions/checkout@v3
       - id: env_vars
         run: |
-          COMMITS=$(git log --oneline --since="$(date -u --iso-8601 --date='1 day ago')" | wc -l)
-          TAG_NAME=$(date -u --iso-8601=date)
+          TAG_NAME=$(date -u --iso-8601 --date='1 day ago')
+          COMMITS=$(git log --oneline --since="$TAG_NAME" | wc -l)
           RELEASE_NAME="Experimental $TAG_NAME"
 
-          echo "commits yesterday: $COMMITS" >> "$GITHUB_STEP_SUMMARY"
+          echo "commits yesterday ($TAG_NAME): $COMMITS" >> "$GITHUB_STEP_SUMMARY"
 
           echo "count=$COMMITS" >> "$GITHUB_OUTPUT"
           echo "tag_name=$TAG_NAME" >> "$GITHUB_OUTPUT"
