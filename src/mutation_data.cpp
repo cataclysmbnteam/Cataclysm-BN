@@ -896,6 +896,12 @@ std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()
     return rval;
 }
 
+template<>
+const mutation_category_trait &string_id<mutation_category_trait>::obj() const
+{
+    return mutation_category_traits.find( *this )->second;
+}
+
 bool mutation_category_is_valid( const mutation_category_id &cat )
 {
     return mutation_category_traits.count( cat );
@@ -906,3 +912,4 @@ bool string_id<mutation_category_trait>::is_valid() const
 {
     return mutation_category_traits.count( *this );
 }
+

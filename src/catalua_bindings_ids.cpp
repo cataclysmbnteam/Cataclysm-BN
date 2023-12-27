@@ -113,15 +113,11 @@ void cata::detail::reg_game_ids( sol::state &lua )
 
     reg_id<activity_type, false>( lua );
     reg_id<bionic_data, false>( lua );
-    // FIXME(AluminumAlman): for some reason, the current `disease_type`
-    // `is_valid` implementation causes a linker freeze
-    //reg_id<disease_type, false>( lua );
+    reg_id<disease_type, false>( lua );
     reg_id<monfaction, true>( lua );
     reg_id<morale_type_data, false>( lua );
     reg_id<mutation_branch, false>( lua );
-    // FIXME(AluminumAlman): for some reason, the current `mutation_category_trait`
-    // `is_valid` implementation causes a linker freeze
-    //reg_id<mutation_category_trait, false>( lua );
+    reg_id<mutation_category_trait, false>( lua );
     reg_id<Skill, false>( lua );
     reg_id<json_flag, false>( lua );
     reg_id<json_trait_flag, false>( lua );
