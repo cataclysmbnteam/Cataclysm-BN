@@ -12,6 +12,16 @@
 #include "mapdata.h"
 #include "type_id.h"
 
+#include "activity_type.h"
+#include "bionics.h"
+#include "disease.h"
+#include "monfaction.h"
+#include "morale_types.h"
+#include "mutation.h"
+#include "skill.h"
+#include "flag.h"
+#include "flag_trait.h"
+
 
 template<typename T, bool do_int_id>
 void reg_id( sol::state &lua )
@@ -100,6 +110,22 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<body_part_type, true>( lua );
     reg_id<effect_type, false>( lua );
     reg_id<field_type, true>( lua );
+
+    reg_id<activity_type, false>( lua );
+    reg_id<bionic_data, false>( lua );
+    // FIXME(AluminumAlman): for some reason, the current `disease_type`
+    // `is_valid` implementation causes a linker freeze
+    //reg_id<disease_type, false>( lua );
+    reg_id<monfaction, true>( lua );
+    reg_id<morale_type_data, false>( lua );
+    reg_id<mutation_branch, false>( lua );
+    // FIXME(AluminumAlman): for some reason, the current `mutation_category_trait`
+    // `is_valid` implementation causes a linker freeze
+    //reg_id<mutation_category_trait, false>( lua );
+    reg_id<Skill, false>( lua );
+    reg_id<json_flag, false>( lua );
+    reg_id<json_trait_flag, false>( lua );
+
 }
 
 void cata::detail::reg_types( sol::state &lua )

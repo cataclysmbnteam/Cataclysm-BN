@@ -7,6 +7,9 @@
 
 #include "type_id.h"
 
+#include "catalua_type_operators.h"
+
+
 class JsonObject;
 
 class json_trait_flag
@@ -33,6 +36,8 @@ class json_trait_flag
         static bool is_ready();
 
         static const std::vector<json_trait_flag> &get_all();
+
+        LUA_TYPE_OPS( json_trait_flag, id );
 
     private:
         std::set<trait_flag_str_id> conflicts_;

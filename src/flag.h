@@ -7,6 +7,10 @@
 
 #include "translations.h"
 #include "type_id.h"
+
+#include "catalua_type_operators.h"
+
+
 class JsonObject;
 
 extern const flag_id flag_NULL;
@@ -412,6 +416,8 @@ class json_flag
         static bool is_ready();
 
         static const std::vector<json_flag> &get_all();
+
+        LUA_TYPE_OPS( json_flag, id );
 
     private:
         translation info_;

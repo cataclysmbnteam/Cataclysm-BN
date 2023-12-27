@@ -61,6 +61,13 @@ const monfaction &string_id<monfaction>::obj() const
     return id().obj();
 }
 
+/** @relates int_id */
+template<>
+bool int_id<monfaction>::is_valid() const
+{
+    return faction_map.count( this->id() ) > 0;
+}
+
 /** @relates string_id */
 template<>
 bool string_id<monfaction>::is_valid() const
