@@ -7,6 +7,8 @@
 #include "translations.h"
 #include "type_id.h"
 
+#include "catalua_type_operators.h"
+
 class JsonObject;
 struct itype;
 
@@ -34,6 +36,8 @@ class morale_type_data
         static void load_type( const JsonObject &jo, const std::string &src );
         static void check_all();
         static void reset();
+
+        LUA_TYPE_OPS( morale_type_data, id );
 };
 
 // Legacy crap - get rid of it when possible

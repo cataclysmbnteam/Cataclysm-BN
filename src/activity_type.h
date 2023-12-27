@@ -7,6 +7,8 @@
 #include "string_id.h"
 #include "translations.h"
 
+#include "catalua_type_operators.h"
+
 class JsonObject;
 class activity_type;
 class player;
@@ -81,6 +83,8 @@ class activity_type
         static void load( const JsonObject &jo );
         static void check_consistency();
         static void reset();
+
+        LUA_TYPE_OPS( activity_type, id_ );
 };
 
 #endif // CATA_SRC_ACTIVITY_TYPE_H

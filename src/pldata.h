@@ -4,6 +4,9 @@
 
 #include "calendar.h"
 
+#include "enum_traits.h"
+#include "enum_conversions.h"
+
 class JsonIn;
 class JsonOut;
 template <typename E> struct enum_traits;

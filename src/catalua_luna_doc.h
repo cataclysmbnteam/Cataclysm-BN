@@ -5,8 +5,22 @@
 #include "catalua_luna.h"
 #include "type_id.h"
 
+#include "creature.h" // Has to be included because of Creature::Attitude
+#include "units_angle.h"  // 'units' namespace 'types'/'classes' are actually defined
+#include "units_energy.h" // through 'using' with a template class.
+#include "units_mass.h"
+#include "units_volume.h"
+
 enum color_id : int;
 enum game_message_type : int;
+
+enum body_part : int;
+enum character_movemode : int;
+enum class add_type : int;
+enum damage_type : int;
+enum mf_attitude : int;
+enum npc_attitude : int;
+enum npc_need : int;
 
 class avatar;
 class Character;
@@ -30,6 +44,11 @@ struct body_part_type;
 struct field_type;
 struct point;
 struct tripoint;
+
+class character_id;
+class Skill;
+struct npc_opinion;
+struct npc_personality;
 
 
 // These definitions help the doc generator
@@ -71,6 +90,14 @@ LUNA_VAL( tinymap, "Tinymap" );
 LUNA_VAL( tripoint, "Tripoint" );
 LUNA_VAL( uilist, "UiList" );
 
+LUNA_VAL( character_id, "CharacterId" );
+LUNA_VAL( npc_opinion, "NpcOpinion" );
+LUNA_VAL( npc_personality, "NpcPersonality" );
+LUNA_VAL( units::angle, "UnitsAngle" );
+LUNA_VAL( units::energy, "UnitsEnergy" );
+LUNA_VAL( units::mass, "UnitsMass" );
+LUNA_VAL( units::volume, "UnitsVolume" );
+
 
 // Ids for in-game objects
 LUNA_ID( body_part_type, "BodyPartType" )
@@ -81,9 +108,28 @@ LUNA_ID( furn_t, "Furn" )
 LUNA_ID( itype, "Itype" )
 LUNA_ID( ter_t, "Ter" )
 
+LUNA_ID( activity_type, "ActivityType" )
+LUNA_ID( bionic_data, "BionicData" )
+LUNA_ID( disease_type, "DiseaseType" )
+LUNA_ID( monfaction, "MonsterFaction" )
+LUNA_ID( morale_type_data, "MoraleTypeData" )
+LUNA_ID( mutation_branch, "MutationBranch" )
+LUNA_ID( mutation_category_trait, "MutationCategoryTrait" )
+LUNA_ID( Skill, "Skill" )
+LUNA_ID( json_flag, "JsonFlag" )
+LUNA_ID( json_trait_flag, "JsonTraitFlag" )
 
 // Enums
 LUNA_ENUM( game_message_type, "MsgType" )
+
+LUNA_ENUM( add_type, "AddictionType" )
+LUNA_ENUM( Creature::Attitude, "CreatureAttitude" )
+LUNA_ENUM( body_part, "BodyPart" )
+LUNA_ENUM( character_movemode, "CharacterMoveMode" )
+LUNA_ENUM( damage_type, "DamageType" )
+LUNA_ENUM( mf_attitude, "MonsterFactionAttitude" )
+LUNA_ENUM( npc_attitude, "NpcAttitude" )
+LUNA_ENUM( npc_need, "NpcNeed" )
 
 
 #endif // CATA_SRC_CATALUA_LUNA_DOC_H

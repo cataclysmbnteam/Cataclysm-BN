@@ -50,6 +50,8 @@
 #include "vehicle_part.h"
 #include "vpart_position.h"
 
+#include "enum_conversions.h"
+
 static const ammo_effect_str_id ammo_effect_APPLY_SAP( "APPLY_SAP" );
 static const ammo_effect_str_id ammo_effect_BEANBAG( "BEANBAG" );
 static const ammo_effect_str_id ammo_effect_BLINDS_EYES( "BLINDS_EYES" );
@@ -2011,6 +2013,25 @@ void Creature::check_dead_state()
     if( is_dead_state() ) {
         die( nullptr );
     }
+}
+
+template<>
+std::string io::enum_to_string<Creature::Attitude>( Creature::Attitude att )
+{
+    switch( att ) {
+        case Creature::A_HOSTILE:
+            return "Hostile";
+        case Creature::A_NEUTRAL:
+            return "Neutral";
+        case Creature::A_FRIENDLY:
+            return "Friendly";
+        case Creature::A_ANY:
+            return "Any";
+        case Creature::NUM_A:
+            break;
+    }
+    debugmsg( "Invalid Creature::Attitude" );
+    abort();
 }
 
 std::string Creature::attitude_raw_string( Attitude att )

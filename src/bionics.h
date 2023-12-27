@@ -17,6 +17,8 @@
 #include "type_id.h"
 #include "units.h"
 
+#include "catalua_type_operators.h"
+
 class JsonIn;
 class JsonObject;
 class JsonOut;
@@ -150,6 +152,8 @@ struct bionic_data {
     void load( const JsonObject &obj, const std::string & );
     void check() const;
     void finalize() const;
+
+    LUA_TYPE_OPS( bionic_data, id );
 };
 
 struct bionic {

@@ -11,6 +11,8 @@
 #include "calendar.h"
 #include "type_id.h"
 
+#include "catalua_type_operators.h"
+
 class JsonObject;
 class disease_type
 {
@@ -33,6 +35,8 @@ class disease_type
         std::optional<int> health_threshold;
         /**effect applied by this disease*/
         efftype_id symptoms;
+
+        LUA_TYPE_OPS( disease_type, id );
 
 };
 #endif // CATA_SRC_DISEASE_H

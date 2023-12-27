@@ -29,6 +29,11 @@
 #include "type_id.h"
 #include "ui.h"
 
+#include "monfaction.h"
+#include "units_energy.h"
+#include "units_mass.h"
+#include "units_volume.h"
+
 std::string_view luna::detail::current_comment;
 
 std::string cata::detail::fmt_lua_va( sol::variadic_args va )
@@ -599,6 +604,15 @@ void cata::detail::reg_colors( sol::state &lua )
 void cata::detail::reg_enums( sol::state &lua )
 {
     reg_enum<game_message_type>( lua );
+
+    reg_enum<add_type>( lua );
+    reg_enum<Creature::Attitude>( lua );
+    reg_enum<body_part>( lua );
+    reg_enum<character_movemode>( lua );
+    reg_enum<damage_type>( lua );
+    reg_enum<mf_attitude>( lua );
+    reg_enum<npc_attitude>( lua );
+    reg_enum<npc_need>( lua );
 }
 
 void cata::detail::reg_hooks_examples( sol::state &lua )
