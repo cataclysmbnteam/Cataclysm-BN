@@ -337,6 +337,7 @@
       [ "bandolier_shotgun", 8 ],
       [ "torso_bandolier_shotgun", 3 ],
       [ "holster", 8 ],
+      [ "shoulder_holster", 4 ],
       [ "bootstrap", 2 ],
       [ "wristholster", 1 ],
       [ "bholster", 5 ],
