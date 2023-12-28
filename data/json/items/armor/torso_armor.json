@@ -83,7 +83,7 @@
     "encumbrance": 20,
     "warmth": 10,
     "material_thickness": 12,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "OVERSIZE" ]
   },
   {
     "id": "chainmail_vest",
@@ -202,7 +202,7 @@
     "encumbrance": 5,
     "warmth": 25,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "STURDY" ]
   },
   {
@@ -254,6 +254,7 @@
     "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 1,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "OUTER" ]
   },
   {
@@ -274,6 +275,7 @@
     "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 1,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "VARSIZE", "OUTER" ]
   },
   {

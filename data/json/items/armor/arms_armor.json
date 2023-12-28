@@ -20,7 +20,7 @@
     "warmth": 5,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_chitin",
@@ -185,7 +185,8 @@
     "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+    "valid_mods": [ "resized_large" ],
+    "flags": [ "BELTED", "OVERSIZE", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_scrap",
@@ -269,7 +270,7 @@
     "covers": [ "arms" ],
     "coverage": 30,
     "material_thickness": 5,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -292,7 +293,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ]
   }
 ]

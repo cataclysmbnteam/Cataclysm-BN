@@ -19,7 +19,7 @@
     "encumbrance": 25,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "bunker_pants",
@@ -86,7 +86,7 @@
     "encumbrance": 3,
     "warmth": 10,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "OUTER" ]
   },
   {
@@ -129,7 +129,7 @@
     "covers": [ "legs" ],
     "coverage": 30,
     "material_thickness": 5,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -247,7 +247,7 @@
     "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "OVERSIZE" ]
   },
   {
     "id": "legguard_scrap",
