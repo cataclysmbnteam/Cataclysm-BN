@@ -2,8 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_jewelry" ],
-    "weight": 500,
+    "om_terrain": "s_jewelry",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -17,10 +16,10 @@
         "....|-hhhhh++hhhhh-|....",
         "....|              |....",
         "....|hh ;;;;;;;; hh|....",
-        "....|%v ;;hhhh;; v%|....",
-        "....|%v ;;v##v;; v%|....",
-        "....|%v ;;v##v;; v%|....",
-        "85^5|%v ;;hhhh;; v%|....",
+        "....|%h ;;hhhh;; h%|....",
+        "....|%h ;;h##h;; h%|....",
+        "....|%h ;;h##h;; h%|....",
+        "85^5|%h ;;hhhh;; h%|....",
         "8___|hh ;;;;;;;; hh|....",
         "8___|   ;;CttC;;  r|....",
         "8__4|   ;;;;;;;;  r|||||",
@@ -33,7 +32,6 @@
         "....|--------------|||||"
       ],
       "terrain": {
-        " ": "t_floor",
         "#": "t_carpet_yellow",
         ";": "t_carpet_yellow",
         "C": "t_carpet_yellow",
@@ -42,18 +40,18 @@
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
         "-": "t_wall_b",
-        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
-        "'": "t_dirt",
+        ".": "t_region_groundcover_urban",
+        "'": "t_region_groundcover_urban",
         "5": "t_chainfence_h",
         "8": "t_chainfence_v",
         "F": "t_sidewalk",
         "^": "t_chaingate_l",
         "_": "t_pavement",
         "h": "t_wall_glass_alarm",
-        "v": "t_wall_glass_alarm",
         "?": "t_console_broken",
         "4": "t_gutter_downspout",
-        "|": "t_wall_b"
+        "|": "t_wall_b",
+        "U": "t_pavement"
       },
       "furniture": {
         "'": "f_street_light",
