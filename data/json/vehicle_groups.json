@@ -60,7 +60,8 @@
       [ "food_truck", 50 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 100 ],
-      [ "4x4_car", 500 ],
+      [ "4x4_car", 400 ],
+      [ "whillys_mb", 100 ],
       [ "car_sports_atomic", 15 ],
       [ "bubble_car", 20 ]
     ]
@@ -105,7 +106,8 @@
       [ "cube_van_cheap", 500 ],
       [ "hippie_van", 450 ],
       [ "hippie_van_electric", 50 ],
-      [ "4x4_car", 500 ]
+      [ "4x4_car", 400 ],
+      [ "whillys_mb", 100 ]
     ]
   },
   {
@@ -159,7 +161,8 @@
       [ "car_roadwarrior", 2 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 300 ],
-      [ "4x4_car", 400 ]
+      [ "4x4_car", 300 ],
+      [ "whillys_mb", 100 ]
     ]
   },
   {
@@ -192,7 +195,8 @@
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
       [ "tricycle", 5 ],
-      [ "4x4_car", 200 ]
+      [ "4x4_car", 175 ],
+      [ "whillys_mb", 25 ]
     ]
   },
   {
@@ -256,7 +260,8 @@
       [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
       [ "portable_generator", 50 ],
-      [ "4x4_car", 200 ],
+      [ "4x4_car", 175 ],
+      [ "whillys_mb", 25 ],
       [ "bubble_car", 50 ]
     ]
   },
@@ -275,7 +280,8 @@
       [ "quad_bike_chassis", 20 ],
       [ "car_racing_electric", 5 ],
       [ "superbike", 5 ],
-      [ "welding_cart", 20 ]
+      [ "welding_cart", 20 ],
+      [ "whillys_mb", 50 ]
     ]
   },
   {
@@ -307,7 +313,8 @@
       [ "apc", 500 ],
       [ "apc-gl", 250 ],
       [ "aapc-mg", 250 ],
-      [ "aapc-gl", 125 ]
+      [ "aapc-gl", 125 ],
+      [ "whillys_mb", 50 ]
     ]
   },
   {
@@ -360,7 +367,13 @@
     "id": "bandit_vehicles",
     "type": "vehicle_group",
     "//": "Vehicles used by Hell's Raiders for scouting and assaults",
-    "vehicles": [ [ "pickup_technical", 150 ], [ "quad_bike", 150 ], [ "motorcycle", 300 ], [ "motorcycle_methcart", 50 ] ]
+    "vehicles": [
+      [ "pickup_technical", 150 ],
+      [ "quad_bike", 150 ],
+      [ "motorcycle", 300 ],
+      [ "motorcycle_methcart", 50 ],
+      [ "whillys_mb", 10 ]
+    ]
   },
   {
     "type": "vehicle_group",
@@ -381,7 +394,8 @@
       [ "pickup", 480 ],
       [ "pickup_diesel", 120 ],
       [ "hippie_van", 700 ],
-      [ "4x4_car", 500 ]
+      [ "4x4_car", 400 ],
+      [ "whillys_mb", 100 ]
     ]
   },
   {
@@ -404,7 +418,8 @@
       [ "pickup", 400 ],
       [ "pickup_diesel", 100 ],
       [ "hippie_van", 350 ],
-      [ "4x4_car", 500 ]
+      [ "4x4_car", 400 ],
+      [ "whillys_mb", 100 ]
     ]
   },
   {
@@ -427,7 +442,8 @@
       [ "pickup_diesel", 140 ],
       [ "hippie_van", 720 ],
       [ "hippie_van_electric", 80 ],
-      [ "4x4_car", 800 ]
+      [ "4x4_car", 600 ],
+      [ "whillys_mb", 200 ]
     ]
   },
   {
@@ -656,7 +672,8 @@
     "type": "vehicle_group",
     "id": "parking_garage",
     "vehicles": [
-      [ "4x4_car", 200 ],
+      [ "4x4_car", 175 ],
+      [ "whillys_mb", 25 ],
       [ "car_sports_electric", 100 ],
       [ "car_mini", 375 ],
       [ "beetle", 750 ],
@@ -812,5 +829,10 @@
     "id": "museum_vehicles",
     "type": "vehicle_group",
     "vehicles": [ [ "cannon_3in", 50 ], [ "gatling_carriage", 50 ] ]
+  },
+  {
+    "id": "military_display_vehicles",
+    "type": "vehicle_group",
+    "vehicles": [ [ "whillys_mb_display", 75 ], [ "cannon_3in", 20 ], [ "gatling_carriage", 5 ] ]
   }
 ]
