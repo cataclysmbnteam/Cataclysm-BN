@@ -1295,7 +1295,7 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( is_armed, bool() const );
 
         //SET_FX_T( can_wield, ret_val<bool>( const item & ) const );
-        luna::set_fx( ut, "can_wield", []( const UT_CLASS & utObj, const item & i) -> bool {
+        luna::set_fx( ut, "can_wield", []( const UT_CLASS & utObj, const item & i ) -> bool {
             const auto result = utObj.can_wield( i );
             return !result.success() ? result.success() : result.value();
         } );
@@ -1303,7 +1303,7 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( wield, bool( item & target ) );
 
         //SET_FX_T( can_unwield, ret_val<bool>( const item & ) const );
-        luna::set_fx( ut, "can_unwield", []( const UT_CLASS & utObj, const item & i) -> bool {
+        luna::set_fx( ut, "can_unwield", []( const UT_CLASS & utObj, const item & i ) -> bool {
             const auto result = utObj.can_unwield( i );
             return !result.success() ? result.success() : result.value();
         } );
@@ -1349,8 +1349,8 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( get_skill_level, int( const skill_id & ) const );
         //SET_FX_T( get_skill_level, int( const skill_id &, const item &context ) const );
 
-        SET_FX_T( get_all_skills, const SkillLevelMap &() const );
-        SET_FX_T( get_skill_level_object, SkillLevel &( const skill_id &ident ) );
+        SET_FX_T( get_all_skills, const SkillLevelMap & () const );
+        SET_FX_T( get_skill_level_object, SkillLevel & ( const skill_id & ident ) );
 
         //SET_FX_T( get_skill_level_object, const SkillLevel &( const skill_id &ident ) const );
 
@@ -1706,12 +1706,12 @@ void cata::detail::reg_character( sol::state &lua )
 
         //SET_FX_T( get_learned_recipes, const recipe_subset &() const );
         //SET_FX_T( knows_recipe, bool( const recipe *rec ) const );
-        luna::set_fx( ut, "knows_recipe", []( const UT_CLASS & utObj, const recipe_id &rec ) -> bool {
-            return utObj.knows_recipe( &(rec.obj()) );
+        luna::set_fx( ut, "knows_recipe", []( const UT_CLASS & utObj, const recipe_id & rec ) -> bool {
+            return utObj.knows_recipe( &( rec.obj() ) );
         } );
         //SET_FX_T( learn_recipe, void( const recipe *rec ) );
-        luna::set_fx( ut, "learn_recipe", []( UT_CLASS & utObj, const recipe_id &rec ) -> void {
-            utObj.learn_recipe( &(rec.obj()) );
+        luna::set_fx( ut, "learn_recipe", []( UT_CLASS & utObj, const recipe_id & rec ) -> void {
+            utObj.learn_recipe( &( rec.obj() ) );
         } );
         //SET_FX_T( can_learn_by_disassembly, bool( const recipe &rec ) const );
 

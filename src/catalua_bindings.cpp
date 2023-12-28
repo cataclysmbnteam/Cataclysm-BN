@@ -123,11 +123,11 @@ void cata::detail::reg_units( sol::state &lua )
 {
     {
         sol::usertype<units::angle> ut =
-        luna::new_usertype<units::angle>(
-            lua,
-            luna::no_bases,
-            luna::no_constructor
-        );
+            luna::new_usertype<units::angle>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
+            );
         luna::set_fx( ut, "from_radians", &units::from_radians<double> );
         luna::set_fx( ut, "to_radians", &units::to_radians );
         luna::set_fx( ut, "from_degrees", &units::from_degrees<double> );
@@ -141,11 +141,11 @@ void cata::detail::reg_units( sol::state &lua )
     }
     {
         sol::usertype<units::energy> ut =
-        luna::new_usertype<units::energy>(
-            lua,
-            luna::no_bases,
-            luna::no_constructor
-        );
+            luna::new_usertype<units::energy>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
+            );
         luna::set_fx( ut, "from_joule", &units::from_joule<double> );
         luna::set_fx( ut, "to_joule", &units::to_joule<double> );
         luna::set_fx( ut, "from_kilojoule", &units::from_kilojoule<double> );
@@ -157,11 +157,11 @@ void cata::detail::reg_units( sol::state &lua )
     }
     {
         sol::usertype<units::mass> ut =
-        luna::new_usertype<units::mass>(
-            lua,
-            luna::no_bases,
-            luna::no_constructor
-        );
+            luna::new_usertype<units::mass>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
+            );
         luna::set_fx( ut, "from_milligram", &units::from_milligram<double> );
         luna::set_fx( ut, "to_milligram", &units::to_milligram<double> );
         luna::set_fx( ut, "from_gram", &units::from_gram<double> );
@@ -177,11 +177,11 @@ void cata::detail::reg_units( sol::state &lua )
     }
     {
         sol::usertype<units::volume> ut =
-        luna::new_usertype<units::volume>(
-            lua,
-            luna::no_bases,
-            luna::no_constructor
-        );
+            luna::new_usertype<units::volume>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
+            );
         luna::set_fx( ut, "from_milliliter", &units::from_milliliter<double> );
         luna::set_fx( ut, "from_liter", &units::from_liter<double> );
         luna::set_fx( ut, "to_milliliter", &units::to_milliliter<double> );
@@ -197,11 +197,11 @@ void cata::detail::reg_skill_level_map( sol::state &lua )
 {
     {
         sol::usertype<SkillLevel> ut =
-        luna::new_usertype<SkillLevel>(
-            lua,
-            luna::no_bases,
-            luna::no_constructor
-        );
+            luna::new_usertype<SkillLevel>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
+            );
 
         luna::set_fx( ut, "is_training", &SkillLevel::isTraining );
         luna::set_fx( ut, "level", sol::resolve<int() const>( &SkillLevel::level ) );
@@ -211,18 +211,18 @@ void cata::detail::reg_skill_level_map( sol::state &lua )
     }
     {
         sol::usertype<SkillLevelMap> ut =
-        luna::new_usertype<SkillLevelMap>(
-            lua,
-            luna::bases<std::map<skill_id, SkillLevel>>(),
-            luna::no_constructor
-        );
+            luna::new_usertype<SkillLevelMap>(
+                lua,
+                luna::bases<std::map<skill_id, SkillLevel>>(),
+                luna::no_constructor
+            );
         luna::set_fx( ut, "mod_skill_level", &SkillLevelMap::mod_skill_level );
         luna::set_fx( ut, "get_skill_level",
-                sol::resolve<int( const skill_id & ) const>
-                ( &SkillLevelMap::get_skill_level ) );
+                      sol::resolve<int( const skill_id & ) const>
+                      ( &SkillLevelMap::get_skill_level ) );
         luna::set_fx( ut, "get_skill_level_object",
-                sol::resolve<SkillLevel &( const skill_id & )>
-                ( &SkillLevelMap::get_skill_level_object ) );
+                      sol::resolve<SkillLevel &( const skill_id & )>
+                      ( &SkillLevelMap::get_skill_level_object ) );
     }
 }
 
