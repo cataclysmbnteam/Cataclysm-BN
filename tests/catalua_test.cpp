@@ -18,6 +18,11 @@
 #include "string_formatter.h"
 #include "type_id.h"
 
+#include "units_angle.h"
+#include "units_energy.h"
+#include "units_mass.h"
+#include "units_volume.h"
+
 #include <optional>
 #include <string>
 #include <stdexcept>
@@ -59,15 +64,23 @@ TEST_CASE( "lua_global_functions", "[lua]" )
 
     // Randomize avatar name
     get_avatar().pick_name();
-    std::string expected = get_avatar().name;
+    std::string expected_name = get_avatar().name;
 
     // Run Lua script
     run_lua_test_script( lua, "global_functions_test.lua" );
 
     // Get test output
-    std::string res = test_data["out"];
+    std::string lua_avatar_name = test_data["avatar_name"];
+    std::string lua_creature_avatar_name = test_data["creature_avatar_name"];
+    std::string lua_monster_avatar_name = test_data["monster_avatar_name"];
+    std::string lua_character_avatar_name = test_data["character_avatar_name"];
+    std::string lua_npc_avatar_name = test_data["npc_avatar_name"];
 
-    REQUIRE( res == expected );
+    REQUIRE( lua_avatar_name == expected_name );
+    REQUIRE( lua_creature_avatar_name == expected_name );
+    REQUIRE( lua_monster_avatar_name == "nil" );
+    REQUIRE( lua_character_avatar_name == expected_name );
+    REQUIRE( lua_npc_avatar_name == "nil" );
 }
 
 TEST_CASE( "lua_called_from_cpp", "[lua]" )
@@ -720,6 +733,42 @@ TEST_CASE( "catalua_table_serde", "[lua]" )
         t[key2] = "world";
         run_serde_test( lua, t );
     }
+}
+
+TEST_CASE( "lua_units_functions", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+
+    // Test variables
+    const double angle_degrees = 32.0; // Multiple of 2 in case of floating-point error
+    const double energy_kilojoules = 128.0;
+    const double mass_kilograms = 64.0;
+    const double volume_liters = 16.0;
+
+    // Create global table for test
+    sol::table test_data = lua.create_table();
+    lua.globals()["test_data"] = test_data;
+
+    // Set global table keys
+    test_data["angle_degrees"] = angle_degrees;
+    test_data["energy_kilojoules"] = angle_kilojoules;
+    test_data["mass_kilograms"] = mass_kilograms;
+    test_data["volume_liters"] = volume_liters;
+
+    // Run Lua script
+    run_lua_test_script( lua, "units_test.lua" );
+
+    // Get test output
+    double lua_angle_arcmins = test_data["angle_arcmins"];
+    double lua_energy_joules = test_data["energy_joules"];
+    double lua_mass_grams = test_data["mass_grams"];
+    double lua_volume_milliliters = test_data["volume_milliliters"];
+
+    // Check if match
+    REQUIRE( lua_angle_arcmins == units::to_arcmin( units::from_degrees( angle_degrees ) ) );
+    REQUIRE( lua_energy_joules == units::to_joule( units::from_kilojoule( energy_kilojoules ) ) );
+    REQUIRE( lua_mass_grams == units::to_gram( units::from_kilogram( mass_kilograms ) ) );
+    REQUIRE( lua_volume_milliliters == units::to_milliliter( units::from_liter( volume_liters ) ) );
 }
 
 #endif
