@@ -7,6 +7,9 @@ on:
 permissions:
   contents: read
 
+env:
+  DENO_DIR: '~/.cache/deno'
+
 jobs:
   autofix:
     runs-on: ubuntu-22.04
@@ -21,6 +24,12 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
+
+      - name: cache deno dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.DENO_DIR }}
+          key: deno-${{ hashFiles('deno.lock') }}
 
       - name: format C++ files
         run: make astyle
