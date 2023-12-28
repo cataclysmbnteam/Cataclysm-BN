@@ -97,7 +97,7 @@
   {
     "type": "item_action",
     "id": "GUN_CLEAN",
-    "name": { "str": "Repair/mend a gun" }
+    "name": { "str": "Clean/mend a gun" }
   },
   {
     "type": "item_action",
