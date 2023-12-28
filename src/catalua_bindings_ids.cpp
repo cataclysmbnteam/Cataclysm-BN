@@ -21,6 +21,7 @@
 #include "skill.h"
 #include "flag.h"
 #include "flag_trait.h"
+#include "recipe.h"
 
 
 template<typename T, bool do_int_id>
@@ -121,6 +122,7 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<Skill, false>( lua );
     reg_id<json_flag, false>( lua );
     reg_id<json_trait_flag, false>( lua );
+    reg_id<recipe, false>( lua );
 
 }
 

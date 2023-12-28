@@ -33,6 +33,11 @@ void reg_game_ids( sol::state &lua );
 void reg_types( sol::state &lua );
 void reg_ui_elements( sol::state &lua );
 
+void reg_units( sol::state &lua );
+void reg_character( sol::state &lua );
+void reg_npc( sol::state &lua );
+void reg_skill_level_map( sol::state &lua );
+
 } // namespace detail
 
 void reg_all_bindings( sol::state &lua );

@@ -47,6 +47,9 @@ struct tripoint;
 
 class character_id;
 class Skill;
+class SkillLevel;
+class SkillLevelMap;
+class recipe;
 struct npc_opinion;
 struct npc_personality;
 
@@ -97,6 +100,8 @@ LUNA_VAL( units::angle, "UnitsAngle" );
 LUNA_VAL( units::energy, "UnitsEnergy" );
 LUNA_VAL( units::mass, "UnitsMass" );
 LUNA_VAL( units::volume, "UnitsVolume" );
+LUNA_VAL( SkillLevel, "SkillLevel" );
+LUNA_VAL( SkillLevelMap, "SkillLevelMap" );
 
 
 // Ids for in-game objects
@@ -118,6 +123,7 @@ LUNA_ID( mutation_category_trait, "MutationCategoryTrait" )
 LUNA_ID( Skill, "Skill" )
 LUNA_ID( json_flag, "JsonFlag" )
 LUNA_ID( json_trait_flag, "JsonTraitFlag" )
+LUNA_ID( recipe, "Recipe" )
 
 // Enums
 LUNA_ENUM( game_message_type, "MsgType" )
