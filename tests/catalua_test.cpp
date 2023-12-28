@@ -751,7 +751,7 @@ TEST_CASE( "lua_units_functions", "[lua]" )
 
     // Set global table keys
     test_data["angle_degrees"] = angle_degrees;
-    test_data["energy_kilojoules"] = angle_kilojoules;
+    test_data["energy_kilojoules"] = energy_kilojoules;
     test_data["mass_kilograms"] = mass_kilograms;
     test_data["volume_liters"] = volume_liters;
 
