@@ -44,12 +44,7 @@
         "t": "t_dirtfloor",
         "|": "t_fence"
       },
-      "furniture": {
-        "'": "f_street_light",
-        "O": "f_standing_tank",
-        "P": "f_sign",
-        "t": "f_table"
-      },
+      "furniture": { "'": "f_street_light", "O": "f_standing_tank", "P": "f_sign", "t": "f_table" },
       "items": { "D": { "item": "hydro", "chance": 15 } },
       "place_items": [
         { "chance": 35, "repeat": 2, "item": "supplies_farming", "x": 6, "y": 4 },
@@ -197,12 +192,7 @@
         "w": "t_wall_wood",
         "|": "t_fence"
       },
-      "furniture": {
-        "'": "f_street_light",
-        "O": "f_standing_tank",
-        "P": "f_sign",
-        "t": "f_table"
-      },
+      "furniture": { "'": "f_street_light", "O": "f_standing_tank", "P": "f_sign", "t": "f_table" },
       "items": { "D": { "item": "hydro", "chance": 15 }, "#": { "item": "hydro", "chance": 15 } },
       "place_items": [
         { "chance": 20, "item": "tools_earthworking", "x": 7, "y": 16 },
