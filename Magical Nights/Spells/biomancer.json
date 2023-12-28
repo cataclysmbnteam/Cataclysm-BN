@@ -273,5 +273,22 @@
     "min_duration": 10500,
     "max_duration": 22500,
     "duration_increment": 300
-  }
+  },
+  {
+    "id": "bio_create_acid",
+	"type": "SPELL",
+	"name": { "str": "Create Hydrochloric Acid" },
+	"description": "Produces usable hydrochloric acid (aka muriatc acid) using magic.",
+	"valid_targets": [ "self" ],
+	"effect": "spawn_item",
+	"effect_str": "chem_muriatic_acid",
+	"flags": [ "SOMATIC", "PERMANENT", "NO_LEGS" ],
+	"energy_source": "MANA",
+	"spell_class": "BIOMANCER",
+	"difficulty": 4,
+	"base_casting_time": 25000,
+	"base_energy_cost": 300,
+	"min_damage": 1,
+	"max_damage": 1
+  } 
 ]

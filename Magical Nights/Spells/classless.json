@@ -93,14 +93,11 @@
     "effect": "spawn_item",
     "effect_str": "magic_light",
     "energy_source": "MANA",
-    "flags": [ "VERBAL", "NO_LEGS", "NO_EXPLOSION_VFX" ],
+    "flags": [ "VERBAL", "NO_LEGS", "NO_EXPLOSION_VFX", "PERMANENT" ],
     "difficulty": 1,
-    "max_level": 30,
     "base_casting_time": 1000,
     "base_energy_cost": 200,
-    "min_duration": 775000,
-    "max_duration": 2175000,
-    "duration_increment": 45000
+    "duration_increment": 42
   },
   {
     "id": "blinding_flash",

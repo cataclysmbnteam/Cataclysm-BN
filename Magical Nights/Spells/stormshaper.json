@@ -34,9 +34,9 @@
     "valid_targets": [ "ally", "hostile", "ground" ],
     "flags": [ "LOUD", "SOMATIC", "NO_LEGS" ],
     "max_level": 50,
-    "min_damage": 158,
-    "max_damage": 450,
     "damage_increment": 6,
+    "min_damage": 88,
+    "max_damage": 388,
     "min_range": 10,
     "max_range": 18,
     "range_increment": 0.25,
@@ -284,5 +284,39 @@
     "min_field_intensity": 3,
     "max_field_intensity": 3,
     "field_intensity_variance": 1
-  }
+  },
+  {
+    "id": "storm_condense_water",
+	"type": "SPELL",
+	"name": { "str": "Condense Water" },
+	"description": "Draws water forth from the air then condenses it down into usable water.  Handy in situations where you just don't have reliable access to water, but have access to a method of cleaning it.",
+	"valid_targets": [ "self" ],
+	"effect": "spawn_item",
+	"effect_str": "water",
+	"flags": [ "SOMATIC", "PERMANENT", "NO_LEGS" ],
+	"energy_source": "MANA",
+	"spell_class": "STORMSHAPER",
+	"difficulty": 3,
+	"base_casting_time": 20000,
+	"base_energy_cost": 200,
+	"min_damage": 1,
+	"max_damage": 1
+  },
+  {
+    "id": "storm_condense_clean_water",
+	"type": "SPELL",
+	"name": { "str": "Condense Clean Water" },
+	"description": "Draws water forth from the air then condenses it into fully cleaned water.  Takes more finesse than simply condensing normal water, but that's to be expected.",
+	"valid_targets": [ "self" ],
+	"effect": "spawn_item",
+	"effect_str": "water_clean",
+	"flags": [ "SOMATIC", "PERMANENT", "NO_LEGS" ],
+	"energy_source": "MANA",
+	"spell_class": "STORMSHAPER",
+	"difficulty": 6,
+	"base_casting_time": 45000,
+	"base_energy_cost": 450,
+	"min_damage": 1,
+	"max_damage": 1
+  } 
 ]

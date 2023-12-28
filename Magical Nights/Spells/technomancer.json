@@ -25,7 +25,7 @@
     "name": { "str": "Lamp" },
     "description": "Creates a magical lamp.",
     "valid_targets": [ "none" ],
-    "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
+    "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX", "PERMANENT" ],
     "min_range": 0,
     "max_range": 0,
     "min_damage": 1,
@@ -35,12 +35,9 @@
     "energy_source": "MANA",
     "spell_class": "TECHNOMANCER",
     "difficulty": 2,
-    "max_level": 30,
     "base_casting_time": 200,
     "base_energy_cost": 750,
-    "min_duration": 775000,
-    "max_duration": 2175000,
-    "duration_increment": 45000
+    "duration_increment": 42
   },
   {
     "id": "recover_bionic_power",
