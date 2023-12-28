@@ -191,7 +191,7 @@
     "description": "A piece of cloth that can be used for cleaning impervious surfaces.",
     "weight": "80 g",
     "volume": "250 ml",
-    "price": 0,
+    "price": "0 cent",
     "material": "cotton",
     "symbol": ",",
     "color": "white",

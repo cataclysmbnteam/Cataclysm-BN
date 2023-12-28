@@ -22,7 +22,7 @@
     "weight": "5 kg",
     "looks_like": "ceramic_bowl",
     "volume": "2500 ml",
-    "price": 1000,
+    "price": "10 USD",
     "to_hit": -1,
     "bashing": 1,
     "material": "steel",
