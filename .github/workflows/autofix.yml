@@ -48,15 +48,43 @@ jobs:
         with:
           commit-message: "style(autofix.ci): automated formatting"
           comment: |
-            The Autofix app has automatically formatted this Pull Request.
+            The Autofix app has found [code style violation][code-style] and automatically formatted this Pull Request.
 
-            If you edit your PR on web UI, you can ignore this message.
-            If you edit your PR locally, YOU MUST DO EITHER OF THE FOLLOWING:
+            ### I locally edit my commits (e.g: git, github desktop)
 
-            - Run `git pull` to merge the automated commit into your local copy of the PR branch.
-            - [Format your code locally](https://docs.cataclysmbn.org/en/contribute/contributing/#code-style), and force push to your PR branch.
+            Please choose following options:
 
-            If you don't do this, your following work will be based on the old commit, and cause MERGE CONFLICT.
+            <details><summary>I'd like to accept the automated commit</summary>
+
+            1. Run `git pull`. this will merge the automated commit into your local copy of the PR branch.
+            2. Continue working.
+
+            </details>
+
+            <details><summary>I do not want the automated commit</summary>
+
+            1. [Format your code locally](https://docs.cataclysmbn.org/en/contribute/contributing/#code-style), then commit it.
+            2. Run `git push --force` to force push your branch. This will overwrite the automated commit on remote with your local one.
+            3. Continue working.
+
+            </details>
+
+            If you don't do this, your following commits will be based on the old commit, and cause **MERGE CONFLICT**.
+
+            ### This PR is complete and I don't want to edit it anymore
+
+            It's safe to ignore this message.
+
+            ### I edit this PR through web UI
+
+            You can ignore this message and continue working.
+
+            ### I have no idea what this message is talking about
+
+            You can ignore this message and continue working. If you find any problem, please [ask for help][q-a] and ping @scarf005.
+
+            [q-a]: https://github.com/cataclysmbnteam/Cataclysm-BN/discussions/categories/q-a
+            [code-style]: https://docs.cataclysmbn.org/en/contribute/contributing/#code-style
 
       - name: lint and test typescript files
         run: |
