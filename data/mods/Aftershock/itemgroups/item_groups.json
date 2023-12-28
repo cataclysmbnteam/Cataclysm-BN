@@ -349,7 +349,7 @@
     "type": "item_group",
     "items": [
       { "item": "afs_titanium_frame", "prob": 5 },
-      { "item": "afs_scrap_titanium", "prob": 5, "count": [ 2, 8 ] }, 
+      { "item": "afs_scrap_titanium", "prob": 5, "count": [ 2, 8 ] },
       [ "afs_titanium_small", 5 ]
     ]
   },
