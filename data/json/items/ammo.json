@@ -1002,8 +1002,8 @@
   {
     "type": "AMMO",
     "id": "RPG_die",
-    "price": 10,
-    "price_postapoc": 10,
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
     "name": { "str": "RPG die", "str_pl": "RPG dice" },
     "symbol": "=",
     "color": "light_gray",
@@ -1024,8 +1024,8 @@
   {
     "type": "AMMO",
     "id": "metal_RPG_die",
-    "price": 50,
-    "price_postapoc": 10,
+    "price": "50 cent",
+    "price_postapoc": "10 cent",
     "name": { "str": "metal RPG die", "str_pl": "metal RPG dice" },
     "symbol": "=",
     "color": "light_gray",
