@@ -3985,5 +3985,23 @@
       { "point": [ 0, 0, 3 ], "overmap": "afs_augmentation_clinic_n4_north" }
     ],
     "locations": [ "land" ]
+  },
+  {
+    "type": "city_building",
+    "id": "community_garden",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "communitygarden_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "communitygarden_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "community_garden_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "communitygarden_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "communitygarden_2_roof_north" }
+    ]
   }
 ]
