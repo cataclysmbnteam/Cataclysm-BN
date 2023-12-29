@@ -859,5 +859,32 @@
     "name": { "str": "Scroll of Wall of Fog", "str_pl": "Scrolls of Wall of Fog" },
     "description": "Draws forth a broad wall of thick fog.  While the sudden force of air pressure will floor any enemies caught in it, the conjuration is otherwise harmless.",
     "use_action": { "type": "learn_spell", "spells": [ "stormshaper_wall_of_fog" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_condense_water",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Condense Water", "str_pl": "Scrolls of Condense Water" },
+    "description": "Allows you to condense water from the air around you.",
+    "use_action": { "type": "learn_spell", "spells": [ "storm_condense_water" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_condense_clean_water",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Condense Clean Water", "str_pl": "Scrolls of Condense Clean Water" },
+    "description": "Allows you to condense clean water from the air around you.",
+    "use_action": { "type": "learn_spell", "spells": [ "storm_condense_clean_water" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_create_acid",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Create Hydrochloric Acid", "str_pl": "Scrolls of Create Hydrochloric Acid" },
+    "description": "Produces usable Hydrochloric Acid for you.",
+    "use_action": { "type": "learn_spell", "spells": [ "bio_create_acid" ] }
   }
 ]

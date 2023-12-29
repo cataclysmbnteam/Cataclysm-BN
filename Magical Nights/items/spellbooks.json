@@ -46,14 +46,14 @@
     "type": "GENERIC",
     "category": "spellbooks",
     "name": { "str": "Wizarding Guide to Backpacking", "str_pl": "copies of Wizarding Guide to Backpacking" },
-    "//": "1 Magus, 1 Biomancer, 1, Kelvinist, 1 classless spell",
+    "//": "1 Magus, 1 Biomancer, 1, Kelvinist, 1 Stormshaper, 1 classless spell",
     "description": "This appears to be the spell version of a guide for what things to take with you when backpacking.  It's a little bulky, but will certainly prove useful.",
     "weight": "1 kg",
     "volume": "1250 ml",
     "price": "350 USD",
     "symbol": "?",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura", "storm_condense_water" ] }
   },
   {
     "id": "pyro",
@@ -132,7 +132,7 @@
     "id": "tome_of_storms",
     "type": "GENERIC",
     "category": "spellbooks",
-    "//": "6 Stormshaper spells",
+    "//": "8 Stormshaper spells",
     "name": { "str": "The Tome of The Oncoming Storm", "str_pl": "copies of The Tome of The Oncoming Storm" },
     "description": "A large book embossed with crossed lightning bolts and storm clouds, it tingles to the touch.",
     "weight": "430 g",
@@ -142,7 +142,7 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "jolt", "windstrike", "windrun", "storm_hammer", "lightning_bolt", "lightning_blast" ]
+      "spells": [ "jolt", "windstrike", "windrun", "storm_hammer", "lightning_bolt", "lightning_blast", "storm_condense_water", "storm_condense_clean_water" ]
     }
   },
   {
@@ -188,7 +188,7 @@
     "type": "GENERIC",
     "category": "spellbooks",
     "name": { "str": "The Tome of Flesh", "str_pl": "copies of The Tome of Flesh" },
-    "//": "5 Biomancer spells",
+    "//": "6 Biomancer spells",
     "description": "A small tome, seemingly covered in tanned human skin.",
     "weight": "355 g",
     "volume": "500 ml",
@@ -196,7 +196,7 @@
     "color": "red",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "vicious_tentacle", "bio_grotesque", "bio_acidicspray", "bio_fleshpouch", "bio_bonespear" ]
+      "spells": [ "vicious_tentacle", "bio_grotesque", "bio_acidicspray", "bio_fleshpouch", "bio_bonespear", "bio_create_acid" ]
     }
   },
   {

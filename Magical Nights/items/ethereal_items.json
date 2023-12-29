@@ -70,13 +70,13 @@
     "description": "a magical light source that will light up a small area.",
     "weight": "1 g",
     "volume": "250 ml",
+	"material": "paper",
     "price": "1 cent",
     "to_hit": -2,
-    "bashing": 8,
+    "bashing": 1,
     "symbol": ",",
     "color": "light_green",
-    "covers": [ "head" ],
-    "flags": [ "LIGHT_15", "LEAK_DAM", "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "LIGHT_15", "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "magic_light",
@@ -86,11 +86,11 @@
     "description": "A small magical light that you can read by.",
     "weight": "0 kg",
     "volume": "0 ml",
+	"material": "paper",
     "price": "0 cent",
     "symbol": ",",
     "color": "light_green",
-    "covers": [ "head" ],
-    "flags": [ "LIGHT_5", "LEAK_DAM", "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "LIGHT_5", "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "shield_ice",
