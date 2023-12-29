@@ -8248,8 +8248,11 @@ bool item::reload( player &u, item &loc, int qty )
         }
     }
 
+    // we have transfered ammo from the container to the item
+    // therefore, we erase the 0-charge item inside container
+    // TODO: why don't we just remove 0-charge items?
     if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
-        if( container != nullptr ) {
+        if( container != nullptr && !container->contents.empty() ) {
             container->remove_item( container->contents.front() );
             u.inv_restack( ); // emptied containers do not stack with non-empty ones
         } else {
