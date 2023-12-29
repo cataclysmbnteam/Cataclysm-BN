@@ -18,9 +18,9 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
         g->u.clear_mutations();
 
         WHEN( "the item is a normal size" ) {
-            std::string name = item::spawn_temporary( "bookplate" )->display_name();
+            std::string name = item::spawn_temporary( "chestguard_hard" )->display_name();
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate" );
+                CHECK( name == "<color_c_light_green>||\u00A0</color>hard chest guard" );
             }
         }
 
@@ -54,9 +54,9 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
         g->u.toggle_trait( trait_id( "HUGE_OK" ) );
 
         WHEN( "the item is a normal size" ) {
-            std::string name = item::spawn_temporary( "bookplate" )->display_name();
+            std::string name = item::spawn_temporary( "chestguard_hard" )->display_name();
             THEN( "the item name says its too small" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate (too small)" );
+                CHECK( name == "<color_c_light_green>||\u00A0</color>hard chest guard (too small)" );
             }
         }
 
@@ -90,9 +90,9 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
         g->u.toggle_trait( trait_id( "SMALL_OK" ) );
 
         WHEN( "the item is a normal size" ) {
-            std::string name = item::spawn_temporary( "bookplate" )->display_name();
+            std::string name = item::spawn_temporary( "chestguard_hard" )->display_name();
             THEN( "the item name says its too big" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate (too big)" );
+                CHECK( name == "<color_c_light_green>||\u00A0</color>hard chest guard (too big)" );
             }
         }
 

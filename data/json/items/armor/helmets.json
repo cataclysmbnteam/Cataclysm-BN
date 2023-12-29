@@ -342,7 +342,7 @@
     "material_thickness": 4,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "helmet_larmor",
@@ -714,7 +714,7 @@
     "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "FANCY", "STAB" ]
   },
   {

@@ -605,6 +605,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 2,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "FANCY" ]
   },
   {
@@ -692,7 +693,7 @@
     "encumbrance": 30,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "footrags",
@@ -1320,7 +1321,7 @@
     "covers": [ "feet" ],
     "coverage": 80,
     "warmth": 2,
-    "flags": [ "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "socks_wool",

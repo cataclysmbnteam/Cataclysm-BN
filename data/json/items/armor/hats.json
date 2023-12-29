@@ -141,7 +141,8 @@
     "coverage": 60,
     "encumbrance": 10,
     "warmth": 4,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "valid_mods": [ "resized_large" ]
   },
   {
     "id": "hat_boonie",
@@ -185,6 +186,7 @@
     "warmth": 5,
     "material_thickness": 1,
     "environmental_protection": 2,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "SUN_GLASSES" ]
   },
   {
@@ -206,7 +208,8 @@
     "encumbrance": 15,
     "warmth": 5,
     "material_thickness": 2,
-    "environmental_protection": 1
+    "environmental_protection": 1,
+    "valid_mods": [ "resized_large" ]
   },
   {
     "id": "hat_cotton",
@@ -244,7 +247,8 @@
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 70,
-    "material_thickness": 3
+    "material_thickness": 3,
+    "valid_mods": [ "resized_large" ]
   },
   {
     "id": "hat_faux_fur",
@@ -380,7 +384,7 @@
     "encumbrance": 17,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "DEAF", "HELMET_COMPAT" ]
+    "flags": [ "OVERSIZE", "DEAF", "HELMET_COMPAT" ]
   },
   {
     "id": "hat_sombrero",
@@ -403,6 +407,7 @@
     "warmth": 2,
     "material_thickness": 2,
     "environmental_protection": 4,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "FANCY", "OUTER", "SUN_GLASSES" ]
   },
   {
@@ -423,6 +428,7 @@
     "coverage": 40,
     "warmth": 3,
     "material_thickness": 1,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "HELMET_COMPAT" ]
   },
   {
@@ -444,7 +450,8 @@
     "encumbrance": 10,
     "warmth": 6,
     "material_thickness": 1,
-    "environmental_protection": 1
+    "environmental_protection": 1,
+    "valid_mods": [ "resized_large" ]
   },
   {
     "id": "maid_hat",
@@ -509,6 +516,7 @@
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 2,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "SUN_GLASSES" ]
   },
   {
@@ -546,7 +554,7 @@
     "color": "yellow",
     "covers": [ "head" ],
     "coverage": 90,
-    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "OVERSIZE", "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "tophat",
@@ -635,6 +643,7 @@
     "warmth": 5,
     "material_thickness": 1,
     "environmental_protection": 1,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "SUN_GLASSES" ]
   }
 ]
