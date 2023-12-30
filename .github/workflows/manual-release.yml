@@ -4,13 +4,14 @@ concurrency: release
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: "Version string for the release"
-        required: true
-        type: string
+      major: { description: SemVer major, required: true, type: number, default: 0 }
+      minor: { description: SemVer minor, required: true, type: number }
+      patch: { description: SemVer patch, required: true, type: number, default: 0 }
+
 env:
-  VERSION: ${{ inputs.version }}
+  VERSION: "v${{ inputs.major }}.${{ inputs.minor }}.${{ inputs.patch }}"
   VCPKG_BINARY_SOURCES: "default"
+
 jobs:
   release:
     name: Create Release
@@ -22,8 +23,8 @@ jobs:
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          echo "tag_name=cbn-${{ inputs.version }}" >> $GITHUB_OUTPUT
-          echo "release_name=Cataclysm-BN ${{ inputs.version }}" >> $GITHUB_OUTPUT
+          echo "tag_name=${{ env.VERSION }}" >> $GITHUB_OUTPUT
+          echo "release_name=Cataclysm-BN ${{ env.VERSION }}" >> $GITHUB_OUTPUT
       - name: Check if there is existing git tag
         id: tag_check
         uses: mukunku/tag-exists-action@v1.4.0
@@ -160,7 +161,7 @@ jobs:
         run: |
           cat >VERSION.txt <<EOL
           build type: ${{ matrix.artifact }}
-          build version string: ${{ inputs.version }}
+          build version string: ${{ env.VERSION }}
           commit sha: ${{ github.sha }}
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
@@ -222,14 +223,14 @@ jobs:
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none'
         run: |
           make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} LUA=1 RELEASE=1 LANGUAGES=all PCH=0 bindist
-          mv cataclysmbn-${{ inputs.version }}.tar.gz cbn-${{ matrix.artifact }}-${{ inputs.version }}.tar.gz
+          mv cataclysmbn-${{ env.VERSION }}.tar.gz cbn-${{ matrix.artifact }}-${{ env.VERSION }}.tar.gz
       - name: Build CBN (windows)
         if: matrix.mxe != 'none'
         env:
           PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc11-
         run: |
           make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 LUA=1 RELEASE=1 LANGUAGES=all PCH=0 bindist
-          mv cataclysmbn-${{ inputs.version }}.zip cbn-${{ matrix.artifact }}-${{ inputs.version }}.zip
+          mv cataclysmbn-${{ env.VERSION }}.zip cbn-${{ matrix.artifact }}-${{ env.VERSION }}.zip
       - name: Build CBN (windows msvc)
         if: runner.os == 'Windows'
         env:
@@ -237,12 +238,12 @@ jobs:
         run: |
           msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features\Cataclysm-vcpkg-static.sln
           .\build-scripts\windist.ps1
-          mv cataclysmbn.zip cbn-${{ matrix.artifact }}-${{ inputs.version }}.zip
+          mv cataclysmbn.zip cbn-${{ matrix.artifact }}-${{ env.VERSION }}.zip
       - name: Build CBN (osx)
         if: runner.os == 'macOS'
         run: |
           make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} LUA=1 RELEASE=1 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=11 PCH=0 dmgdist COMPILER=clang++
-          mv CataclysmBN-${{ inputs.version }}.dmg cbn-${{ matrix.artifact }}-${{ inputs.version }}.dmg
+          mv CataclysmBN-${{ env.VERSION }}.dmg cbn-${{ matrix.artifact }}-${{ env.VERSION }}.dmg
       - name: Set up JDK 11 (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
         uses: actions/setup-java@v3
@@ -265,16 +266,16 @@ jobs:
           chmod +x gradlew
           if [ ${{ matrix.android }} = arm64 ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleStableRelease -Poverride_version=${{ inputs.version }}
-               mv ./app/build/outputs/apk/stable/release/*.apk ../cbn-${{ matrix.artifact }}-${{ inputs.version }}.apk
+               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleStableRelease -Poverride_version=${{ env.VERSION }}
+               mv ./app/build/outputs/apk/stable/release/*.apk ../cbn-${{ matrix.artifact }}-${{ env.VERSION }}.apk
           elif [ ${{ matrix.android }} = arm32 ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleStableRelease -Poverride_version=${{ inputs.version }}
-               mv ./app/build/outputs/apk/stable/release/*.apk ../cbn-${{ matrix.artifact }}-${{ inputs.version }}.apk
+               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleStableRelease -Poverride_version=${{ env.VERSION }}
+               mv ./app/build/outputs/apk/stable/release/*.apk ../cbn-${{ matrix.artifact }}-${{ env.VERSION }}.apk
           elif [ ${{ matrix.android }} = bundle ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) bundleStableRelease -Poverride_version=${{ inputs.version }}
-               mv ./app/build/outputs/bundle/stableRelease/*.aab ../cbn-${{ matrix.artifact }}-${{ inputs.version }}.aab
+               ./gradlew -Pj=$((`nproc`+0)) bundleStableRelease -Poverride_version=${{ env.VERSION }}
+               mv ./app/build/outputs/bundle/stableRelease/*.aab ../cbn-${{ matrix.artifact }}-${{ env.VERSION }}.aab
           fi
       - name: Upload release asset
         id: upload-release-asset
@@ -283,6 +284,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.upload_url }}
-          asset_path: cbn-${{ matrix.artifact }}-${{ inputs.version }}.${{ matrix.ext }}
-          asset_name: cbn-${{ matrix.artifact }}-${{ inputs.version }}.${{ matrix.ext }}
+          asset_path: cbn-${{ matrix.artifact }}-${{ env.VERSION }}.${{ matrix.ext }}
+          asset_name: cbn-${{ matrix.artifact }}-${{ env.VERSION }}.${{ matrix.ext }}
           asset_content_type: ${{ matrix.content }}
