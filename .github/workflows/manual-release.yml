@@ -19,12 +19,6 @@ jobs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       release_already_exists: ${{ steps.tag_check.outputs.exists }}
     steps:
-      - name: Get build timestamp
-        id: get-timestamp
-        uses: nanzm/get-time-action@v1.1
-        with:
-          timeZone: 0
-          format: "YYYY-MM-DD-HHmm"
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
