@@ -125,7 +125,7 @@
           "kevlar_rigid"
         ],
         "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled", "owlbear_furred", "demonchitin_padded" ]
+        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled", "owlbear_furred", "demonchitin_padded", "blackdragon_coated" ]
       }
     ]
   }
