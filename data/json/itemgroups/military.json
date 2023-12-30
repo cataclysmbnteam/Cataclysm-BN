@@ -410,9 +410,7 @@
     "id": "army_bed",
     "subtype": "distribution",
     "entries": [
-      { "item": "blanket", "prob": 70 },
-      { "item": "pillow", "prob": 70 },
-      { "item": "sheet", "prob": 70 },
+      { "group": "mil_bedding", "prob": 210 },
       { "item": "mag_porn", "prob": 40 },
       { "item": "mag_comic", "prob": 10 },
       { "item": "mag_guns", "prob": 10 },
@@ -426,6 +424,19 @@
       { "item": "manual_traps_mil", "prob": 5 },
       { "item": "mag_pistol", "prob": 10 },
       { "item": "mag_rifle", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_bedding",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pillow", "prob": 25 },
+      { "item": "sleeping_bag_roll", "prob": 15 },
+      { "item": "rollmat", "prob": 10 },
+      { "item": "blanket", "prob": 15 },
+      { "item": "sheet", "prob": 10 },
+      { "item": "emer_blanket", "prob": 25 }
     ]
   },
   {
