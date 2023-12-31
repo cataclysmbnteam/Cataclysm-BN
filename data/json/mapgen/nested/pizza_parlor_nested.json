@@ -15,14 +15,7 @@
         "O    {"
       ],
       "terrain": { " ": "t_null" },
-      "furniture": {
-        "{": "f_rack",
-        "c": "f_counter",
-        "F": "f_fridge",
-        "L": "f_locker",
-        "Z": "f_freezer",
-        "O": "f_woodstove"
-      }
+      "furniture": { "{": "f_rack", "c": "f_counter", "F": "f_fridge", "L": "f_locker", "Z": "f_freezer", "O": "f_woodstove" }
     }
   },
   {
@@ -41,12 +34,7 @@
         "ccfccc"
       ],
       "terrain": { " ": "t_null" },
-      "furniture": {
-        "{": "f_rack",
-        "c": "f_counter",
-        "O": "f_woodstove",
-        "f": "f_counter_gate_c"
-      }
+      "furniture": { "{": "f_rack", "c": "f_counter", "O": "f_woodstove", "f": "f_counter_gate_c" }
     }
   }
 ]
