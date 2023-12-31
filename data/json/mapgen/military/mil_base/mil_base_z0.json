@@ -456,7 +456,6 @@
         { "group": "dry_goods", "x": [ 41, 46 ], "y": 53, "chance": 75, "repeat": 15 },
         { "group": "groce_ingredient", "x": [ 37, 40 ], "y": 53, "chance": 75, "repeat": 25 },
         { "group": "pantry_liquids", "x": 36, "y": 53, "chance": 75, "repeat": 10 },
-
         { "item": "water_clean", "x": [ 36, 46 ], "y": 48, "chance": 75, "repeat": 50 }
       ],
       "place_monsters": [
@@ -503,8 +502,8 @@
         "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ss|$.OOt##t..`O-uuu-...-S...+T-c.??..??..?|ss   ,,,,b ,, x",
         "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ss|$...h##h...O-u..z...-c...---c.??..??..?|ss    ,, b,,,,x",
         "  X  ss/](]]])]]])]]])]]])]]])]/ss  X ssw.....##....O-..h-...-S...+T-c.??..??..?|ss    ,, b ,, x",
-        "  X  ss/......................./ss  X ss|$........Y.l-tVV--d----d----c.??..??..?|ss   ,,, b ,, x",
-        "  X  ss/uuuuu.uuuuu.uuuuu....../ss  X ss|$..l------=------.........>-..........?|ss   ,,, b,,,,x",
+        "  X  ss/......................>/ss  X ss|$........Y.l-tVV--d----d----c.??..??..?|ss   ,,, b ,, x",
+        "  X  ss/uuuuu.uuuuu.uuuuu.....>/ss  X ss|$..l------=------.........>-..........?|ss   ,,, b,,,,x",
         "  X  ss///////////////////d///(/ss  X ssw...Y-......................d..........?|ss    ,,,b ,, x",
         "  X  ss/th..$/uuuu$$/uuuu...u/>/ss  X ss|$...=......................-c.??..??..?|ss   ,,, b ,, x",
         "  X  ss/###..D......d.......u///ss  X ss|$$OO-......................-c.??..??..?|ss    ,, b,,, x",
@@ -656,10 +655,14 @@
         { "item": "extinguisher", "x": 67, "y": 44, "chance": 75 },
         { "item": "extinguisher", "x": 21, "y": 22, "chance": 75 },
         { "item": "extinguisher", "x": 62, "y": 9, "chance": 75 },
+
+
+
         { "item": "atgm_launcher", "x": 8, "y": 9, "chance": 75, "repeat": 1 },
         { "item": "atgm_heat", "x": 8, "y": 10, "chance": 75, "repeat": 10 },
         { "item": "LAW_Packed", "x": 8, "y": 11, "chance": 75, "repeat": 10 },
         { "item": "c4", "x": 8, "y": 12, "chance": 75, "repeat": 20 },
+
         { "item": "grenade", "x": 10, "y": 9, "chance": 75, "repeat": 50 },
         { "item": "grenade_inc", "x": 10, "y": 9, "chance": 75, "repeat": 25 },
         { "item": "smokebomb", "x": 10, "y": 10, "chance": 75, "repeat": 50 },
@@ -668,6 +671,7 @@
         { "item": "m203", "x": 10, "y": 11, "chance": 75, "repeat": 5 },
         { "item": "mgl", "x": 10, "y": 11, "chance": 75, "repeat": 3 },
         { "item": "40x46mm_m433", "x": 10, "y": 12, "chance": 75, "repeat": 20 },
+
         { "item": "m4a1", "x": 12, "y": [ 9, 11 ], "magazine": 100, "chance": 75, "repeat": 30 },
         { "item": "m27iar", "x": 12, "y": 9, "magazine": 100, "chance": 75, "repeat": 8 },
         { "item": "m16a4", "x": 12, "y": 9, "magazine": 100, "chance": 75, "repeat": 2 },
@@ -704,14 +708,18 @@
         { "item": "50_incendiary", "x": 26, "y": 12, "chance": 75, "repeat": 3 },
         { "item": "50match", "x": 26, "y": 12, "chance": 75, "repeat": 3 },
         { "item": "50ss", "x": 26, "y": 12, "chance": 75, "repeat": 3 },
+
         { "item": "m17", "x": 28, "y": [ 9, 10 ], "magazine": 100, "chance": 75, "repeat": 90 },
         { "item": "m9", "x": 28, "y": 11, "magazine": 100, "chance": 75, "repeat": 45 },
         { "item": "glock_19", "x": 28, "y": 11, "magazine": 100, "chance": 75, "repeat": 10 },
         { "item": "p320mag_17rd_9x19mm", "x": 28, "y": 12, "chance": 75, "repeat": 90 },
         { "item": "m9mag", "x": 28, "y": 12, "chance": 75, "repeat": 45 },
         { "item": "glockmag", "x": 28, "y": 12, "chance": 75, "repeat": 10 },
+
         { "item": "9mm", "x": 30, "y": 9, "chance": 75, "repeat": 25 },
         { "item": "9mmfmj", "x": 30, "y": [ 10, 12 ], "chance": 75, "repeat": 50 },
+
+
         { "item": "shoulder_strap", "x": [ 8, 9 ], "y": 15, "chance": 75, "repeat": 100 },
         { "item": "holo_sight", "x": 10, "y": 15, "chance": 75, "repeat": 50 },
         { "item": "acog_scope", "x": 11, "y": 15, "chance": 75, "repeat": 30 },
@@ -721,6 +729,10 @@
         { "item": "sheath", "x": 24, "y": 15, "chance": 75, "repeat": 100 },
         { "item": "knife_combat", "x": [ 22, 23 ], "y": 15, "chance": 75, "repeat": 100 },
         { "item": "holster", "x": [ 20, 21 ], "y": 15, "chance": 75, "repeat": 100 },
+
+
+
+
         { "group": "mil_base_tent_medical_thrash", "x": [ 52, 64 ], "y": [ 54, 71 ], "chance": 25, "repeat": 15 }
       ],
       "place_monsters": [
