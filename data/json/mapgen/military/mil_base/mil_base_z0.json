@@ -497,18 +497,18 @@
         "  X  sssssssssssssssssssssssssssss  X            ss|6....-...-......-..77.|{sssXss     ,, b ,, x",
         "  X  sssssssssssssssssssssssssssss  X            ss|6....d...d......d..77.|{ss{Xss    ,,, b ,, x",
         "  X  ss/////////////////////////ss  X sssssssssssss|6...u-...-u.pp.u-u.77.|{ss{Xsss   ,,, b ,, x",
-        "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ssssssssssss~|u...u-...-l.pp.u-u....|{ss{Xsss   ,,, b,,, x",
-        "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ss||w|||w|||w|------...-------------|||||||ss    ,,,b,,,,x",
-        "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ss|$.OOt##t..`O-uuu-...-S...+T-c.??..??..?|ss   ,,,,b ,, x",
-        "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ss|$...h##h...O-u..z...-c...---c.??..??..?|ss    ,, b,,,,x",
-        "  X  ss/](]]])]]])]]])]]])]]])]/ss  X ssw.....##....O-..h-...-S...+T-c.??..??..?|ss    ,, b ,, x",
-        "  X  ss/......................>/ss  X ss|$........Y.l-tVV--d----d----c.??..??..?|ss   ,,, b ,, x",
-        "  X  ss/uuuuu.uuuuu.uuuuu.....>/ss  X ss|$..l------=------.........>-..........?|ss   ,,, b,,,,x",
-        "  X  ss///////////////////d///(/ss  X ssw...Y-......................d..........?|ss    ,,,b ,, x",
-        "  X  ss/th..$/uuuu$$/uuuu...u/>/ss  X ss|$...=......................-c.??..??..?|ss   ,,, b ,, x",
-        "  X  ss/###..D......d.......u///ss  X ss|$$OO-......................-c.??..??..?|ss    ,, b,,, x",
-        "  X  ssg###..5$$..[[/u..[[[.u/ssss  X ss|-----..-----------------...-c.??..??..?|ss    ,, b ,,,x",
-        "  X  ss/th..$///ggg//u..[[[../ssss  X ss|O$`Y-..-.`$$$-u.QV.qV.v-...-c.??..??..?|ss    ,, b ,, x",
+        "  X  ss/u..uu..uuuu..uu..u]...u/ss  X ssssssssssss~|u...u-...-l.pp.u-u....|{ss{Xsss   ,,, b,,, x",
+        "  X  ss/u..uu........uu..u]...u/ss  X ss||w|||w|||w|------...-------------|||||||ss    ,,,b,,,,x",
+        "  X  ss/u................u]...u/ss  X ss|$.OOt##t..`O-uuu-...-S...+T-c.??..??..?|ss   ,,,,b ,, x",
+        "  X  ss/u................u]...u/ss  X ss|$...h##h...O-u..z...-c...---c.??..??..?|ss    ,, b,,,,x",
+        "  X  ss/]]]]]]]]))]]]]]]]]]..///ss  X ssw.....##....O-..h-...-S...+T-c.??..??..?|ss    ,, b ,, x",
+        "  X  ss/.....................(>/ss  X ss|$........Y.l-tVV--d----d----c.??..??..?|ss   ,,, b ,, x",
+        "  X  ss/uuuuu.uuuuu.uuuuu....(>/ss  X ss|$..l------=------.........>-..........?|ss   ,,, b,,,,x",
+        "  X  ss///////////////////d/////ss  X ssw...Y-......................d..........?|ss    ,,,b ,, x",
+        "  X  ss/th..$/uuuu$$/uuuu...u/ssss  X ss|$...=......................-c.??..??..?|ss   ,,, b ,, x",
+        "  X  ss/###..D......d.......u/ssss  X ss|$$OO-......................-c.??..??..?|ss    ,, b,,, x",
+        "  X  ssg###..5$$..[[/u..[[[.u/ss    X ss|-----..-----------------...-c.??..??..?|ss    ,, b ,,,x",
+        "  X  ss/th..$///ggg//u..[[[../ss    X ss|O$`Y-..-.`$$$-u.QV.qV.v-...-c.??..??..?|ss    ,, b ,, x",
         "  X  ss/`....$/[.i.[/u....i../ss    X ssw....=..=.....-u.......V-...-...........|ss   ,,,,b ,, x",
         "  X  ss/OO...Y/[...[/l.e...../ss    X ss|###.-..-Y.###-uh....h..d...-...........|ss    ,, b ,,,x",
         "  XXXGX///gz///w/d/w////DDDD//XGXXXXX ss|th..-..-l..ht-VVVt.VVVu-...-l........e.|ss    ,, b ,, x",
@@ -677,10 +677,14 @@
         { "item": "m16a4", "x": 12, "y": 9, "magazine": 100, "chance": 75, "repeat": 2 },
         { "item": "stanag30", "x": 12, "y": 12, "chance": 75, "repeat": 80 },
         { "item": "stanag50", "x": 12, "y": 12, "chance": 75, "repeat": 20 },
+
         { "item": "556", "x": 14, "y": [ 9, 12 ], "chance": 75, "repeat": 150 },
+
         { "item": "m4a1", "x": 16, "y": [ 9, 11 ], "magazine": 100, "chance": 75, "repeat": 36 },
         { "item": "stanag30", "x": 16, "y": 12, "chance": 75, "repeat": 100 },
+
         { "item": "556", "x": 18, "y": [ 9, 12 ], "chance": 75, "repeat": 150 },
+
         { "item": "m249", "x": 20, "y": 9, "chance": 75, "repeat": 6 },
         { "item": "m240", "x": 20, "y": 9, "chance": 75, "repeat": 4 },
         { "item": "m1014", "x": 20, "y": 10, "chance": 75, "repeat": 10 },
@@ -690,6 +694,7 @@
         { "item": "m2010mag", "x": 20, "y": 12, "chance": 75, "repeat": 10 },
         { "item": "hk417mag_20rd", "x": 20, "y": 12, "chance": 75, "repeat": 16 },
         { "item": "hk417mag_10rd", "x": 20, "y": 12, "chance": 75, "repeat": 8 },
+
         { "item": "300_winmag", "x": 22, "y": 12, "chance": 75, "repeat": 10 },
         { "item": "belt223", "x": 22, "y": 9, "chance": 75, "repeat": 3 },
         { "item": "belt308", "x": 22, "y": 9, "chance": 75, "repeat": 2 },
@@ -700,9 +705,11 @@
         { "item": "shot_flechette", "x": 22, "y": 10, "chance": 75, "repeat": 5 },
         { "item": "762_51_incendiary", "x": 22, "y": 11, "chance": 75, "repeat": 5 },
         { "item": "762_51", "x": 22, "y": [ 11, 12 ], "chance": 75, "repeat": 30 },
+
         { "item": "m2browning", "x": 24, "y": [ 9, 10 ], "chance": 75, "repeat": 2 },
         { "item": "m107a1", "x": 24, "y": 11, "magazine": 100, "chance": 75, "repeat": 1 },
         { "item": "m107a1mag", "x": 24, "y": 12, "chance": 75, "repeat": 6 },
+
         { "item": "belt50", "x": 26, "y": 9, "chance": 75, "repeat": 5 },
         { "item": "50bmg", "x": 26, "y": [ 10, 12 ], "chance": 75, "repeat": 10 },
         { "item": "50_incendiary", "x": 26, "y": 12, "chance": 75, "repeat": 3 },
@@ -718,6 +725,11 @@
 
         { "item": "9mm", "x": 30, "y": 9, "chance": 75, "repeat": 25 },
         { "item": "9mmfmj", "x": 30, "y": [ 10, 12 ], "chance": 75, "repeat": 50 },
+
+
+
+
+
 
 
         { "item": "shoulder_strap", "x": [ 8, 9 ], "y": 15, "chance": 75, "repeat": 100 },
