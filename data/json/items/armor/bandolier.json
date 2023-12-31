@@ -189,6 +189,7 @@
       ],
       "draw_cost": 20
     },
+    "valid_mods": [ "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -259,6 +260,7 @@
       "draw_cost": 30,
       "flags": [ "GRENADE" ]
     },
+    "valid_mods": [ "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT" ]
   }
 ]

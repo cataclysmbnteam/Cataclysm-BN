@@ -1896,5 +1896,11 @@
     "type": "MIGRATION",
     "replace": "sasurvivor_suit",
     "flags": [ "resized_large" ]
+  },
+  {
+    "id": "leg_warmers_xl",
+    "type": "MIGRATION",
+    "replace": "leg_warmers",
+    "flags": [ "resized_large" ]
   }
 ]

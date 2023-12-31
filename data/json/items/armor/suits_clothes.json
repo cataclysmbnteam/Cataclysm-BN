@@ -68,7 +68,7 @@
     "warmth": 50,
     "material_thickness": 5,
     "environmental_protection": 2,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "OUTER" ]
   },
   {
@@ -167,7 +167,7 @@
     "warmth": 50,
     "material_thickness": 7,
     "environmental_protection": 2,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "OUTER" ]
   },
   {

@@ -51,9 +51,9 @@
         "x ,,,b,,,,,,                                                             sss________________sss ",
         "x ,,,b,,,,                                                               sss_______yy_______sss ",
         "x ,,,b ,,,                                  ffff                         sss_______yy_______sss ",
-        "x ,, b,,,,                                   ;;fffff                     sss_______yy_______sss ",
-        "x ,,,b ,,                                f;;  ;;;;;fff                   sss________________sss ",
-        "x ,, b ,,                                ff;;   ;;;;;ff                  sss_______yy_______sss ",
+        "x ,, b,,,,                                   ;;fffff                     sss_______yy_______ssss",
+        "x ,,,b ,,                                f;;  ;;;;;fff                   sss________________ssss",
+        "x ,, b ,,                                ff;;   ;;;;;ff                  sss_______yy_______ssss",
         "x ,, b,,,,                                f;;;;   ;;;;f                  sss_______yy_______sss ",
         "x,,, b ,,,                                ff;;;;;    ;                   sss_______yy_______sss ",
         "x ,,,b ,,                                  fff;;;;;;                     sss________________sss ",
@@ -202,17 +202,17 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,b...b ,,,x",
         ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,d..<b ,, x",
         " ,  , , ,   , ,,,,    ,, ,  , , , , , ,  ,,   , ,,    , ,,,,,  , , ,,, ,, , ,, ,,,,,,,bbbbb,,, x",
-        "                                                                                 ,,,,,,,, b,,,,x",
-        "                                                                                   ,,,,,,,b ,, x",
-        "                                                                                     ,,,,,b ,, x",
-        "                                                                                      ,,,,b,,, x",
-        "                                                                                      ,,, b,,, x",
-        "                                                                                       ,, b,,,,x",
-        "                                                                      ,,,,,,          ,,, b ,,,x",
-        "                                                                     ,,NNNN,,          ,, b ,, x",
-        "                                                                    ,,NNnnNN,         ,,,,b ,, x",
-        "                                                                    ,NNn,,nN,         ,,,,b ,,,x",
-        "                                                                    ,N,,,,NN,         ,,,,b ,,,x",
+        "   sssssssssssssss                                                               ,,,,,,,, b,,,,x",
+        "  sssssssssssssssss                                                                ,,,,,,,b ,, x",
+        "  sssy_________ysss                                                                  ,,,,,b ,, x",
+        "  ssIy_________yNss                                                                   ,,,,b,,, x",
+        "ssss y_________yNss                                                                   ,,, b,,, x",
+        "ssss y_________yNss                                                                    ,, b,,,,x",
+        "ssss y_________yNss                                                   ,,,,,,          ,,, b ,,,x",
+        "  ss y_________yNss                                                  ,,NNNN,,          ,, b ,, x",
+        "  sssy_________ysss                                                 ,,NNnnNN,         ,,,,b ,, x",
+        "  sssssssssssssssss                                                 ,NNn,,nN,         ,,,,b ,,,x",
+        "   sssssssssssssss                                                  ,N,,,,NN,         ,,,,b ,,,x",
         "                                                                    ,N,,,NN,           ,, b ,, x",
         "                                                                    ,,,NNN,          ,,,,,b ,, x",
         "                                                                       ,,,            ,,, b ,,,x",
@@ -274,7 +274,10 @@
         "t": [ { "item": "trash_cart", "chance": 75, "repeat": [ 1, 10 ] } ],
         "3": [ { "item": "mil_base_tent_civilian", "chance": 30, "repeat": [ 1, 2 ] } ]
       },
-      "place_loot": [ { "group": "mil_base_hmg", "x": 73, "y": 43, "chance": 10, "magazine": 100 } ],
+      "place_loot": [
+        { "group": "mil_base_hmg", "x": 73, "y": 43, "chance": 10, "magazine": 100 },
+        { "item": "american_flag", "x": 4, "y": 38 }
+      ],
       "place_monsters": [
         { "monster": "GROUP_MIL_BASE_CIVILIAN", "x": [ 0, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 5 ], "density": 0.1 },
         { "monster": "GROUP_MIL_BASE_CIVILIAN", "x": [ 24, 47 ], "y": [ 1, 23 ], "repeat": [ 6, 8 ], "density": 0.1 },
@@ -303,8 +306,10 @@
         { "vehicle": "parkinglotbasic", "x": 12, "y": 12, "chance": 100 },
         { "vehicle": "parkinglotbasic", "x": 12, "y": 5, "chance": 100, "rotation": 270 },
         { "vehicle": "parkinglotbasic", "x": 18, "y": 5, "chance": 100, "rotation": 270 },
-        { "vehicle": "parkinglotbasic", "x": 3, "y": 20, "chance": 100, "rotation": 90 }
-      ]
+        { "vehicle": "parkinglotbasic", "x": 3, "y": 20, "chance": 100, "rotation": 90 },
+        { "vehicle": "military_display_vehicles", "x": 9, "y": 40, "chance": 100, "rotation": 180 }
+      ],
+      "place_signs": [ { "signage": "Please do not touch or climb on display.", "x": 4, "y": 42 } ]
     }
   },
   {
