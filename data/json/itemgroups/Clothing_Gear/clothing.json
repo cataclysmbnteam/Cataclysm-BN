@@ -124,7 +124,7 @@
       { "item": "winter_jacket_army", "prob": 5 },
       { "item": "coat_rain", "prob": 3 },
       { "item": "folding_poncho", "prob": 2 },
-      { "item": "webbing_belt", "prob": 5 }
+      { "item": "webbing_belt", "prob": 5 },
       { "item": "gloves_liner", "prob": 3 },
       { "item": "gloves_liner_wool", "prob": 2 },
       { "item": "winter_gloves_army", "prob": 5 },
@@ -416,7 +416,7 @@
       { "item": "modularvest", "prob": 10 },
       { "item": "modularvestceramic", "prob": 20 },
       { "item": "modularvesthard", "prob": 5 },
-      { "item": helmet_army"", "prob": 30 },
+      { "item": "helmet_army", "prob": 30 },
       { "item": "tac_helmet", "prob": 10 },
       { "item": "glasses_bal", "prob": 10 },
       { "item": "mask_bal", "prob": 5 },
