@@ -6904,9 +6904,9 @@ bool vehicle::restore( const std::string &data )
         debugmsg( "Error restoring vehicle: %s", e.c_str() );
         return false;
     }
-    for(vehicle_part &part : parts){
-		part.hack_id = get_next_hack_id();
-	}
+    for( vehicle_part &part : parts ) {
+        part.hack_id = get_next_hack_id();
+    }
     refresh_locations_hack();
     refresh();
     face.init( 0_degrees );
