@@ -63,10 +63,10 @@
         "...4...................."
       ],
       "terrain": {
-        ".": [ [ "t_grass", 5 ], "t_dirt" ],
+        ".": "t_region_groundcover_urban",
         ",": "t_floor",
         "|": "t_wall_w",
-        "'": "t_dirt",
+        "'": "t_region_groundcover_urban",
         "s": "t_sidewalk",
         "P": "t_console_broken",
         "D": "t_door_c",
@@ -146,7 +146,8 @@
         "D": "t_door_locked",
         "g": "t_wall_glass_alarm",
         "&": "t_flat_roof",
-        "=": "t_flat_roof"
+        "=": "t_flat_roof",
+        "A": "t_flat_roof"
       },
       "place_loot": [ { "item": "television", "x": 14, "y": 9, "chance": 100 }, { "item": "stepladder", "x": 5, "y": 10, "chance": 100 } ],
       "items": {
