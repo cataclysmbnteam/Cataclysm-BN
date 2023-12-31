@@ -132,10 +132,9 @@
         "               -.....-  ",
         "               -------  ",
         "                        ",
-        "........................"
+        "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "furniture": { "A": "f_air_conditioner" },
       "place_items": [ { "item": "roof_trash", "x": [ 3, 19 ], "y": [ 11, 16 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
