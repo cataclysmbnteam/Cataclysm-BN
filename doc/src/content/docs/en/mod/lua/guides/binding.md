@@ -93,7 +93,7 @@ class is by transforming its header file. For the third step of the second part 
 [previously](#binding-new-type-to-lua), it's possible to use regex and macros to bind the class
 for us.
 
-1.  Copy the class declaration to another place.
+1.  Copy the class definition to another place.
 2.  Remove `};` at the end of the class definition.
 3.  Apply both:
     `%s@class \([^{]|\)\+{@private:@`
