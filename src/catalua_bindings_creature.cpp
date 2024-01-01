@@ -790,60 +790,6 @@ void cata::detail::reg_npc( sol::state &lua )
             luna::no_constructor
         );
 
-        //Delete any private/protected methods:
-        //%s@\(private:\|protected:\)\_.\{-}\(public:\|};\)@\2
-        //
-        //Delete the public labels:
-        //%s@ *public:\n@
-        //
-        //Delete comments:
-        //%s@ *\/\*\_.\{-}\*\/@
-        //%s@ *\/\/\_.\{-}\n@\r
-        //
-        //Delete the enveloping 'class ... { ... },
-        //indent backwards until there's no unnecessary indentation.
-        //
-        //Turn method definitions into declarations:
-        //%s@ *{\(}\|\_.\{-}\n^}\)@;
-        //
-        //Push most method declarations into a single line
-        //%s@\((\|,\)\n *@\1
-        //
-        //Remove default values.
-        //%s@ *= *\_.\{-}\( )\|;\|,\)@\1@g
-        //
-        //Remove overriden/static methods/members
-        //%s@.*\(override\|static\).*\n@
-        //
-        //Remove usings
-        //%s@.*using.*\n@
-        //
-        //Remove templates
-        //%s@template<.*\n@
-        //
-        //Remove virtual tag
-        //%s@virtual *@
-        //
-        //Count how many functions there are
-        //%s@\(.*(\_.\{-}).*\n\)@@nc
-        //
-        //Push first found function to end of file
-        //%s@\(.*(\_.\{-}).*\n\+\)\(\_.*\)@\2\1
-        //
-        //In neovim, input '[COUNT - 1]@:' to repeat the above command where COUNT is matches of functions
-        //
-        //Clean up new lines
-        //%s@\n\{3,}@\r\r
-        //
-        //Search for non-semicolon ended lines (for fixing)
-        //[^;]\n
-        //
-        //Wrap methods into a macro:
-        //%s@\(.*\) \+\([^ ]\+\)\((.*\);@SET_FX_T( \2, \1\3 );
-        //
-        //Wrap members into a macro; make sure to select which lines to affect first!
-        //s@.\{-}\([^ ]\+\);@SET_MEMB( \1 );
-
         // Members
         SET_MEMB( current_activity_id );
         SET_MEMB( personality );
