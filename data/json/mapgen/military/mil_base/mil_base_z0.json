@@ -497,13 +497,13 @@
         "  X  sssssssssssssssssssssssssssss  X            ss|6....-...-......-..77.|{sssXss     ,, b ,, x",
         "  X  sssssssssssssssssssssssssssss  X            ss|6....d...d......d..77.|{ss{Xss    ,,, b ,, x",
         "  X  ss/////////////////////////ss  X sssssssssssss|6...u-...-u.pp.u-u.77.|{ss{Xsss   ,,, b ,, x",
-        "  X  ss/u..uu..uuuu..uu..u]...u/ss  X ssssssssssss~|u...u-...-l.pp.u-u....|{ss{Xsss   ,,, b,,, x",
-        "  X  ss/u..uu........uu..u]...u/ss  X ss||w|||w|||w|------...-------------|||||||ss    ,,,b,,,,x",
+        "  X  ss/u..u..uuuuuu..u..u]...u/ss  X ssssssssssss~|u...u-...-l.pp.u-u....|{ss{Xsss   ,,, b,,, x",
+        "  X  ss/u..u..........u..u]...u/ss  X ss||w|||w|||w|------...-------------|||||||ss    ,,,b,,,,x",
         "  X  ss/u................u]...u/ss  X ss|$.OOt##t..`O-uuu-...-S...+T-c.??..??..?|ss   ,,,,b ,, x",
-        "  X  ss/u................u]...u/ss  X ss|$...h##h...O-u..z...-c...---c.??..??..?|ss    ,, b,,,,x",
-        "  X  ss/]]]]]]]]))]]]]]]]]]..///ss  X ssw.....##....O-..h-...-S...+T-c.??..??..?|ss    ,, b ,, x",
+        "  X  ss/u.....uuuuuu.....u]...u/ss  X ss|$...h##h...O-u..z...-c...---c.??..??..?|ss    ,, b,,,,x",
+        "  X  ss/]]]]))]]]]]]))]]]]]..///ss  X ssw.....##....O-..h-...-S...+T-c.??..??..?|ss    ,, b ,, x",
         "  X  ss/.....................(>/ss  X ss|$........Y.l-tVV--d----d----c.??..??..?|ss   ,,, b ,, x",
-        "  X  ss/uuuuu.uuuuu.uuuuu....(>/ss  X ss|$..l------=------.........>-..........?|ss   ,,, b,,,,x",
+        "  X  ss/.....................(>/ss  X ss|$..l------=------.........>-..........?|ss   ,,, b,,,,x",
         "  X  ss///////////////////d/////ss  X ssw...Y-......................d..........?|ss    ,,,b ,, x",
         "  X  ss/th..$/uuuu$$/uuuu...u/ssss  X ss|$...=......................-c.??..??..?|ss   ,,, b ,, x",
         "  X  ss/###..D......d.......u/ssss  X ss|$$OO-......................-c.??..??..?|ss    ,, b,,, x",
@@ -658,75 +658,6 @@
 
 
 
-        { "item": "atgm_launcher", "x": 8, "y": 9, "chance": 75, "repeat": 1 },
-        { "item": "atgm_heat", "x": 8, "y": 10, "chance": 75, "repeat": 10 },
-        { "item": "LAW_Packed", "x": 8, "y": 11, "chance": 75, "repeat": 10 },
-        { "item": "c4", "x": 8, "y": 12, "chance": 75, "repeat": 20 },
-
-        { "item": "grenade", "x": 10, "y": 9, "chance": 75, "repeat": 50 },
-        { "item": "grenade_inc", "x": 10, "y": 9, "chance": 75, "repeat": 25 },
-        { "item": "smokebomb", "x": 10, "y": 10, "chance": 75, "repeat": 50 },
-        { "item": "flashbang", "x": 10, "y": 10, "chance": 75, "repeat": 20 },
-        { "item": "m320_mod", "x": 10, "y": 11, "chance": 75, "repeat": 10 },
-        { "item": "m203", "x": 10, "y": 11, "chance": 75, "repeat": 5 },
-        { "item": "mgl", "x": 10, "y": 11, "chance": 75, "repeat": 3 },
-        { "item": "40x46mm_m433", "x": 10, "y": 12, "chance": 75, "repeat": 20 },
-
-        { "item": "m4a1", "x": 12, "y": [ 9, 11 ], "magazine": 100, "chance": 75, "repeat": 30 },
-        { "item": "m27iar", "x": 12, "y": 9, "magazine": 100, "chance": 75, "repeat": 8 },
-        { "item": "m16a4", "x": 12, "y": 9, "magazine": 100, "chance": 75, "repeat": 2 },
-        { "item": "stanag30", "x": 12, "y": 12, "chance": 75, "repeat": 80 },
-        { "item": "stanag50", "x": 12, "y": 12, "chance": 75, "repeat": 20 },
-
-        { "item": "556", "x": 14, "y": [ 9, 12 ], "chance": 75, "repeat": 150 },
-
-        { "item": "m4a1", "x": 16, "y": [ 9, 11 ], "magazine": 100, "chance": 75, "repeat": 36 },
-        { "item": "stanag30", "x": 16, "y": 12, "chance": 75, "repeat": 100 },
-
-        { "item": "556", "x": 18, "y": [ 9, 12 ], "chance": 75, "repeat": 150 },
-
-        { "item": "m249", "x": 20, "y": 9, "chance": 75, "repeat": 6 },
-        { "item": "m240", "x": 20, "y": 9, "chance": 75, "repeat": 4 },
-        { "item": "m1014", "x": 20, "y": 10, "chance": 75, "repeat": 10 },
-        { "item": "mossberg_590", "x": 20, "y": 10, "chance": 75, "repeat": 8 },
-        { "item": "m2010", "x": 20, "y": 11, "magazine": 100, "chance": 75, "repeat": 2 },
-        { "item": "m110a1", "x": 20, "y": 11, "magazine": 100, "chance": 75, "repeat": 8 },
-        { "item": "m2010mag", "x": 20, "y": 12, "chance": 75, "repeat": 10 },
-        { "item": "hk417mag_20rd", "x": 20, "y": 12, "chance": 75, "repeat": 16 },
-        { "item": "hk417mag_10rd", "x": 20, "y": 12, "chance": 75, "repeat": 8 },
-
-        { "item": "300_winmag", "x": 22, "y": 12, "chance": 75, "repeat": 10 },
-        { "item": "belt223", "x": 22, "y": 9, "chance": 75, "repeat": 3 },
-        { "item": "belt308", "x": 22, "y": 9, "chance": 75, "repeat": 2 },
-        { "item": "shot_00", "x": 22, "y": 10, "chance": 75, "repeat": 10 },
-        { "item": "shot_slug", "x": 22, "y": 10, "chance": 75, "repeat": 5 },
-        { "item": "shot_beanbag", "x": 22, "y": 10, "chance": 75, "repeat": 3 },
-        { "item": "shot_he", "x": 22, "y": 10, "chance": 75, "repeat": 5 },
-        { "item": "shot_flechette", "x": 22, "y": 10, "chance": 75, "repeat": 5 },
-        { "item": "762_51_incendiary", "x": 22, "y": 11, "chance": 75, "repeat": 5 },
-        { "item": "762_51", "x": 22, "y": [ 11, 12 ], "chance": 75, "repeat": 30 },
-
-        { "item": "m2browning", "x": 24, "y": [ 9, 10 ], "chance": 75, "repeat": 2 },
-        { "item": "m107a1", "x": 24, "y": 11, "magazine": 100, "chance": 75, "repeat": 1 },
-        { "item": "m107a1mag", "x": 24, "y": 12, "chance": 75, "repeat": 6 },
-
-        { "item": "belt50", "x": 26, "y": 9, "chance": 75, "repeat": 5 },
-        { "item": "50bmg", "x": 26, "y": [ 10, 12 ], "chance": 75, "repeat": 10 },
-        { "item": "50_incendiary", "x": 26, "y": 12, "chance": 75, "repeat": 3 },
-        { "item": "50match", "x": 26, "y": 12, "chance": 75, "repeat": 3 },
-        { "item": "50ss", "x": 26, "y": 12, "chance": 75, "repeat": 3 },
-
-        { "item": "m17", "x": 28, "y": [ 9, 10 ], "magazine": 100, "chance": 75, "repeat": 90 },
-        { "item": "m9", "x": 28, "y": 11, "magazine": 100, "chance": 75, "repeat": 45 },
-        { "item": "glock_19", "x": 28, "y": 11, "magazine": 100, "chance": 75, "repeat": 10 },
-        { "item": "p320mag_17rd_9x19mm", "x": 28, "y": 12, "chance": 75, "repeat": 90 },
-        { "item": "m9mag", "x": 28, "y": 12, "chance": 75, "repeat": 45 },
-        { "item": "glockmag", "x": 28, "y": 12, "chance": 75, "repeat": 10 },
-
-        { "item": "9mm", "x": 30, "y": 9, "chance": 75, "repeat": 25 },
-        { "item": "9mmfmj", "x": 30, "y": [ 10, 12 ], "chance": 75, "repeat": 50 },
-
-
 
 
 
@@ -736,12 +667,13 @@
         { "item": "holo_sight", "x": 10, "y": 15, "chance": 75, "repeat": 50 },
         { "item": "acog_scope", "x": 11, "y": 15, "chance": 75, "repeat": 30 },
         { "item": "red_dot_sight", "x": 12, "y": 15, "chance": 75, "repeat": 20 },
+
         { "item": "goggles_ir", "x": [ 14, 16 ], "y": 15, "chance": 75, "repeat": 50 },
         { "item": "goggles_nv", "x": [ 17, 18 ], "y": 15, "chance": 75, "repeat": 40 },
-        { "item": "sheath", "x": 24, "y": 15, "chance": 75, "repeat": 100 },
-        { "item": "knife_combat", "x": [ 22, 23 ], "y": 15, "chance": 75, "repeat": 100 },
-        { "item": "holster", "x": [ 20, 21 ], "y": 15, "chance": 75, "repeat": 100 },
 
+        { "item": "holster", "x": [ 20, 21 ], "y": 15, "chance": 75, "repeat": 100 },
+        { "item": "knife_combat", "x": [ 22, 23 ], "y": 15, "chance": 75, "repeat": 100 },
+        { "item": "sheath", "x": 24, "y": 15, "chance": 75, "repeat": 100 },
 
 
 
