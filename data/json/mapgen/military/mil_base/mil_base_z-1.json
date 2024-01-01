@@ -27,7 +27,7 @@
         "@@@@@@@@@/..............",
         "@@@@@@@@@/..............",
         "@@@@@@@@@/]((]/]]]((]]]/",
-        "@@@@@@@@@/..../C......C/",
+        "@@@@@@@@@/C.../C......C/",
         "@@@@@@@@@/C.../C......C/",
         "@@@@@@@@@/C.uu/C.CCCC.C/",
         "@@@@@@@@@///////////////"
@@ -37,29 +37,22 @@
         { "group": "ammo_rifle_milspec", "x": 10, "y": [ 12, 15 ], "chance": 75, "repeat": 15 },
         { "group": "ammo_milspec", "x": 10, "y": [ 12, 15 ], "chance": 75, "repeat": 10 },
         { "group": "mags_milspec", "x": 10, "y": [ 12, 15 ], "chance": 75, "repeat": 5 },
-
         { "group": "military_standard_shotguns", "x": 13, "y": [ 12, 13 ], "chance": 75, "repeat": 5 },
         { "group": "guns_shotgun_milspec", "x": 13, "y": [ 12, 13 ], "chance": 75, "repeat": 5 },
-
         { "group": "military_standard_sniper_rifles", "x": [ 16, 20 ], "y": 12, "chance": 75, "repeat": 5 },
         { "group": "guns_rifle_milspec", "x": [ 16, 20 ], "y": 12, "chance": 75, "repeat": 5 },
         { "group": "guns_smg_milspec", "x": [ 16, 20 ], "y": 12, "chance": 75, "repeat": 5 },
-
         { "group": "military_standard_assault_rifles", "x": [ 16, 20 ], "y": 15, "chance": 75, "repeat": 20 },
         { "group": "military_standard_lmgs", "x": [ 16, 20 ], "y": 15, "chance": 75, "repeat": 10 },
         { "group": "mil_base_hmg", "x": [ 16, 20 ], "y": 15, "chance": 75, "repeat": 2 },
-
         { "group": "military_standard_pistols", "x": 23, "y": [ 12, 13 ], "chance": 75, "repeat": 10 },
         { "group": "guns_pistol_milspec", "x": 23, "y": [ 12, 13 ], "chance": 75, "repeat": 5 },
-
-
-        { "group": "pwr_armor", "x": 10, "y": [ 21, 22 ], "chance": 75 },
-        { "group": "pwr_armor_acc", "x": 10, "y": [ 21, 22 ], "chance": 75, "repeat": 3 },
-
+        { "group": "military", "x": 10, "y": [ 20, 21 ], "chance": 75, "repeat": 25 },
+        { "group": "pwr_armor", "x": 10, "y": 22, "chance": 75 },
+        { "group": "pwr_armor_acc", "x": 10, "y": 22, "chance": 75, "repeat": 3 },
         { "item": "adv_UPS_off", "x": 12, "y": 22, "chance": 75, "repeat": 2 },
         { "item": "plut_cell", "x": 12, "y": 22, "chance": 75, "repeat": 4 },
         { "group": "mech_power_cell_spawn", "x": 13, "y": 22 },
-
         { "group": "guns_launcher_rocket", "x": 15, "y": [ 20, 22 ], "chance": 75, "repeat": 5 },
         { "group": "grenades", "x": [ 17, 20 ], "y": 22, "chance": 75, "repeat": 20 },
         { "group": "guns_launcher_grenade", "x": 22, "y": [ 20, 22 ], "chance": 75, "repeat": 5 },

@@ -445,7 +445,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "mags_milspec", "prob": 40 },
-      { "item": "adv_UPS_off", "prob": 5, "charges": [ 0, 2000 ] },
+      { "group": "mil_armor_electronics", "prob": 20 },
       { "item": "plut_cell", "prob": 5 },
       { "item": "flamethrower", "prob": 20 },
       { "item": "rm451_flamethrower", "prob": 10 },
@@ -545,6 +545,7 @@
       { "group": "guns_launcher_milspec", "prob": 5 },
       { "group": "guns_launcher_rocket", "prob": 44 },
       { "group": "guns_rifle_milspec", "prob": 10 },
+      { "group": "mil_armor_electronics", "prob": 40 },
       { "item": "human_flesh", "prob": 4, "count-min": 1, "count-max": 10 },
       { "item": "bone_human", "prob": 10, "count-min": 1, "count-max": 5 },
       { "item": "rag_bloody", "prob": 10, "count-min": 1, "count-max": 10 },
@@ -594,8 +595,6 @@
       { "item": "v8_combustion", "prob": 5 },
       { "item": "engine_block_large", "prob": 5 },
       { "item": "extinguisher", "prob": 20 },
-      { "item": "radio", "prob": 20 },
-      { "item": "adv_UPS_off", "prob": 10, "charges": [ 0, 2000 ] },
       { "item": "tacvest", "prob": 10 },
       { "item": "molle_pack", "prob": 8 },
       { "item": "legrig", "prob": 10 },
@@ -614,32 +613,29 @@
       { "item": "glasses_bal", "prob": 10 },
       { "item": "55gal_drum", "prob": 1 },
       { "item": "30gal_drum", "prob": 2 },
-      { "item": "optical_cloak", "prob": 1 },
-      { "item": "holo_cloak", "prob": 1 },
       { "item": "grapnel", "prob": 1 },
       { "item": "briefcase", "prob": 5 },
       { "item": "survnote", "prob": 2 },
-      { "item": "robot_controls", "prob": 3 },
-      { "item": "solarpack", "prob": 1 }
+      { "item": "robot_controls", "prob": 3 }
     ]
   },
   {
     "id": "inactive_bots_milspec",
     "type": "item_group",
     "items": [
-      [ "bot_EMP_hack", 100 ],
-      [ "bot_c4_hack", 25 ],
-      [ "bot_flashbang_hack", 50 ],
-      [ "bot_gasbomb_hack", 50 ],
-      [ "bot_grenade_hack", 50 ],
-      [ "bot_antimateriel", 5 ],
-      [ "bot_manhack", 100 ],
-      [ "bot_mininuke_hack", 2 ],
-      [ "bot_rifleturret", 10 ],
-      [ "bot_crows_m240", 10 ],
+      [ "bot_haulerbot", 25 ],
+      [ "bot_grenade_hack", 5 ],
+      [ "bot_EMP_hack", 5 ],
+      [ "bot_flashbang_hack", 5 ],
+      [ "bot_gasbomb_hack", 5 ],
+      [ "bot_c4_hack", 4 ],
+      [ "bot_mininuke_hack", 1 ],
+      [ "bot_secubot", 10 ],
       [ "bot_talon_m202a1", 10 ],
-      [ "bot_dispatch_military", 15 ],
-      [ "bot_turret_searchlight", 75 ]
+      [ "bot_dispatch_military", 5 ],
+      [ "bot_turret_longrange", 5 ],
+      [ "bot_turret_medium", 10 ],
+      [ "bot_turret_searchlight", 10 ]
     ]
   },
   {

@@ -497,11 +497,11 @@
         "  X  sssssssssssssssssssssssssssss  X            ss|6....-...-......-..77.|{sssXss     ,, b ,, x",
         "  X  sssssssssssssssssssssssssssss  X            ss|6....d...d......d..77.|{ss{Xss    ,,, b ,, x",
         "  X  ss/////////////////////////ss  X sssssssssssss|6...u-...-u.pp.u-u.77.|{ss{Xsss   ,,, b ,, x",
-        "  X  ss/u..u..uuuuuu..u..u]...u/ss  X ssssssssssss~|u...u-...-l.pp.u-u....|{ss{Xsss   ,,, b,,, x",
-        "  X  ss/u..u..........u..u]...u/ss  X ss||w|||w|||w|------...-------------|||||||ss    ,,,b,,,,x",
-        "  X  ss/u................u]...u/ss  X ss|$.OOt##t..`O-uuu-...-S...+T-c.??..??..?|ss   ,,,,b ,, x",
-        "  X  ss/u.....uuuuuu.....u]...u/ss  X ss|$...h##h...O-u..z...-c...---c.??..??..?|ss    ,, b,,,,x",
-        "  X  ss/]]]]))]]]]]]))]]]]]..///ss  X ssw.....##....O-..h-...-S...+T-c.??..??..?|ss    ,, b ,, x",
+        "  X  ss/u..u..uuuuuu..u..u]h..O/ss  X ssssssssssss~|u...u-...-l.pp.u-u....|{ss{Xsss   ,,, b,,, x",
+        "  X  ss/u..u..........u..u]...O/ss  X ss||w|||w|||w|------...-------------|||||||ss    ,,,b,,,,x",
+        "  X  ss/u................u]h..O/ss  X ss|$.OOt##t..`O-uuu-...-S...+T-c.??..??..?|ss   ,,,,b ,, x",
+        "  X  ss/u.....uuuuuu.....u]...O/ss  X ss|$...h##h...O-u..z...-c...---c.??..??..?|ss    ,, b,,,,x",
+        "  X  ss/]]]]((]]]]]]((]]]]]..///ss  X ssw.....##....O-..h-...-S...+T-c.??..??..?|ss    ,, b ,, x",
         "  X  ss/.....................(>/ss  X ss|$........Y.l-tVV--d----d----c.??..??..?|ss   ,,, b ,, x",
         "  X  ss/.....................(>/ss  X ss|$..l------=------.........>-..........?|ss   ,,, b,,,,x",
         "  X  ss///////////////////d/////ss  X ssw...Y-......................d..........?|ss    ,,,b ,, x",
@@ -586,9 +586,13 @@
         { "group": "SUS_coffee_cupboard", "x": 3, "y": 63, "chance": 50, "repeat": [ 1, 2 ] },
         { "group": "dinnerware", "x": 3, "y": 63, "chance": 50, "repeat": [ 5, 10 ] },
         { "group": "liquor_and_spirits", "x": 3, "y": 63, "chance": 50, "repeat": [ 1, 2 ] },
+
+
+
         { "group": "metal_workshop", "x": 55, "y": 20, "chance": 50, "repeat": [ 5, 20 ] },
         { "group": "supplies_metal", "x": 55, "y": 21, "chance": 50, "repeat": [ 10, 40 ] },
         { "group": "tools_electronics", "x": 55, "y": 22, "chance": 50, "repeat": [ 5, 20 ] },
+
         { "group": "tools_common", "x": 63, "y": 23, "chance": 50, "repeat": [ 5, 20 ] },
         { "group": "tools_common", "x": 54, "y": 11, "chance": 50, "repeat": [ 5, 10 ] },
         { "group": "tools_electronics", "x": 55, "y": 11, "chance": 50, "repeat": [ 5, 10 ] },
@@ -650,6 +654,7 @@
         { "item": "diesel", "x": 75, "y": 19, "chance": 80, "repeat": [ 1, 10 ] },
         { "item": "jerrycan", "x": 75, "y": 20, "chance": 80, "repeat": [ 1, 10 ] },
         { "group": "supplies_metal", "x": 76, "y": [ 17, 20 ], "chance": 50, "repeat": [ 20, 80 ] },
+
         { "item": "extinguisher", "x": 69, "y": 23, "chance": 75 },
         { "item": "extinguisher", "x": 52, "y": 25, "chance": 75 },
         { "item": "extinguisher", "x": 67, "y": 44, "chance": 75 },
@@ -663,19 +668,18 @@
 
 
 
-        { "item": "shoulder_strap", "x": [ 8, 9 ], "y": 15, "chance": 75, "repeat": 100 },
-        { "item": "holo_sight", "x": 10, "y": 15, "chance": 75, "repeat": 50 },
-        { "item": "acog_scope", "x": 11, "y": 15, "chance": 75, "repeat": 30 },
-        { "item": "red_dot_sight", "x": 12, "y": 15, "chance": 75, "repeat": 20 },
 
-        { "item": "goggles_ir", "x": [ 14, 16 ], "y": 15, "chance": 75, "repeat": 50 },
-        { "item": "goggles_nv", "x": [ 17, 18 ], "y": 15, "chance": 75, "repeat": 40 },
-
-        { "item": "holster", "x": [ 20, 21 ], "y": 15, "chance": 75, "repeat": 100 },
-        { "item": "knife_combat", "x": [ 22, 23 ], "y": 15, "chance": 75, "repeat": 100 },
-        { "item": "sheath", "x": 24, "y": 15, "chance": 75, "repeat": 100 },
-
-
+        { "group": "gunmod_milspec", "x": 8, "y": [ 9, 12 ], "chance": 75, "repeat": 20 },
+        { "group": "mil_armor_electronics", "x": 11, "y": [ 9, 10 ], "chance": 75, "repeat": 10 },
+        { "item": "knife_combat", "x": [ 14, 15 ], "y": 9, "chance": 75, "repeat": 15 },
+        { "item": "PR24-retracted", "x": [ 16, 17 ], "y": 9, "chance": 75, "repeat": 10 },
+        { "item": "knife_rm42", "x": [ 18, 19 ], "y": 9, "chance": 75, "repeat": 5 },
+        { "item": "shoulder_strap", "x": [ 14, 15 ], "y": 12, "chance": 75, "repeat": 25 },
+        { "item": "holster", "x": [ 16, 17 ], "y": 12, "chance": 75, "repeat": 10 },
+        { "item": "sheath", "x": [ 18, 19 ], "y": 12, "chance": 75, "repeat": 10 },
+        { "group": "tools_gunsmith", "x": 22, "y": [ 9, 10 ], "chance": 75, "repeat": 10 },
+        { "group": "inactive_bots_milspec", "x": 25, "y": [ 9, 12 ], "chance": 75, "repeat": 5 },
+        { "group": "book_military", "x": 30, "y": [ 9, 12 ], "chance": 75, "repeat": 20 },
 
         { "group": "mil_base_tent_medical_thrash", "x": [ 52, 64 ], "y": [ 54, 71 ], "chance": 25, "repeat": 15 }
       ],

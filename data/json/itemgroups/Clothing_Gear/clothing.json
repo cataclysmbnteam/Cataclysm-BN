@@ -263,7 +263,6 @@
     "id": "clothing_military_pilot_distribution",
     "type": "item_group",
     "subtype": "distribution",
-    "//": "todo: when #57228 would be closed, change this one to copy-from `clothing_military`",
     "items": [
       { "item": "chestrig", "prob": 40 },
       { "item": "helmet_army" },
@@ -287,7 +286,11 @@
     "id": "clothing_soldier_shirt",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "tshirt" } ]
+    "entries": [
+    { "item": "tshirt", "prob": 75 },
+    { "item": "army_top", "prob": 15 },
+    { "item": "tank_top", "prob": 10 }
+    ]
   },
   {
     "id": "clothing_outdoor_pants",
@@ -1937,16 +1940,25 @@
       { "group": "military_ballistic_armor", "prob": 200 },
       { "group": "pwr_armor", "prob": 10 },
       { "group": "pwr_armor_acc", "prob": 10 },
+      { "group": "mil_armor_electronics", "prob": 20 },
       [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
-      [ "mask_gas", 10 ],
-      [ "goggles_nv", 1 ],
-      [ "goggles_ir", 1 ],
-      [ "optical_cloak", 1 ],
-      [ "holo_cloak", 1 ],
-      [ "adv_UPS_off", 10 ],
-      [ "solarpack", 5 ]
+      [ "mask_gas", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_armor_electronics",
+    "items": [
+      { "item": "radio", "prob": 5, "charges": [ 0, 300 ] },
+      { "item": "two_way_radio", "prob": 20, "charges": [ 0, 300 ] },
+      { "item": "adv_UPS_off", "prob": 25, "charges": [ 0, 2000 ] },
+      { "item": "goggles_nv", "prob": 20, "charges": [ 0, 150 ] },
+      { "item": "goggles_ir", "prob": 20, "charges": [ 0, 150 ] },
+      [ "solarpack", 5 ],
+      [ "optical_cloak", 3 ],
+      [ "holo_cloak", 2 ]
     ]
   },
   {
@@ -1979,27 +1991,17 @@
     "type": "item_group",
     "id": "mil_accessories",
     "items": [
+      { "group": "mil_armor_electronics", "prob": 40 },
+      { "group": "pwr_armor_acc", "prob": 10 },
       [ "mask_gas", 10 ],
       [ "duffelbag", 15 ],
-      [ "goggles_nv", 1 ],
-      [ "goggles_ir", 1 ],
-      [ "optical_cloak", 1 ],
-      [ "holo_cloak", 1 ],
       [ "mess_kit", 9 ],
       [ "mil_mess_kit", 1 ],
       [ "backpack", 32 ],
       [ "briefcase", 10 ],
-      { "item": "adv_UPS_off", "prob": 10, "charges": [ 0, 2000 ] },
       [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
-      [ "power_armor_frame", 4 ],
-      [ "power_armor_back_holster", 1 ],
-      [ "power_armor_holster", 1 ],
-      [ "power_armor_chest_rig", 1 ],
-      [ "power_armor_bscabbard", 1 ],
-      [ "power_armor_scabbard", 1 ],
-      [ "power_armor_sheath", 1 ],
       [ "elbow_pads", 40 ],
       [ "knee_pads", 40 ],
       [ "mask_bal", 5 ],
@@ -2013,7 +2015,6 @@
       [ "holster", 15 ],
       [ "sholster", 10 ],
       [ "bandolier_shotgun", 8 ],
-      [ "solarpack", 5 ],
       [ "chem_hexamine", 3 ],
       [ "esbit_stove", 6 ],
       [ "mess_tin", 4 ],
