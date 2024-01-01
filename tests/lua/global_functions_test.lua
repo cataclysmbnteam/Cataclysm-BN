@@ -9,24 +9,16 @@ local avatar_pos = avatar:get_pos_ms()
 
 -- Run some global functions
 local creature_avatar = gapi.get_creature_at(avatar_pos)
-local creature_avatar_name = if creature_avatar
-    then creature_avatar:get_name()
-    else NIL_STRING
+local creature_avatar_name = if creature_avatar then creature_avatar:get_name() else NIL_STRING
 
 local monster_avatar = gapi.get_monster_at(avatar_pos) -- Should be nil
-local monster_avatar_name = if monster_avatar
-    then monster_avatar.name
-    else monster_avatar
+local monster_avatar_name = if monster_avatar then monster_avatar.name else monster_avatar
 
 local character_avatar = gapi.get_character_at(avatar_pos)
-local character_avatar_name = if character_avatar
-    then character_avatar.name
-    else NIL_STRING
+local character_avatar_name = if character_avatar then character_avatar.name else NIL_STRING
 
 local npc_avatar = gapi.get_npc_at(avatar_pos) -- Should be nil
-local npc_avatar_name = if npc_avatar
-    then npc_avatar.name
-    else NIL_STRING
+local npc_avatar_name = if npc_avatar then npc_avatar.name else NIL_STRING
 
 -- Write to return table
 test_data["avatar_name"] = avatar_name
