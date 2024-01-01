@@ -12,7 +12,6 @@
 #include <vector>
 
 #include "animation.h"
-#include "creature.h"
 #include "enums.h"
 #include "lightmap.h"
 #include "line.h"
@@ -602,7 +601,7 @@ class cata_tiles
         void void_draw_below_override();
 
         void init_draw_monster_override( const tripoint &p, const mtype_id &id, int count,
-                                         bool more, Creature::Attitude att );
+                                         bool more, Attitude att );
         void void_monster_override();
 
         bool has_draw_override( const tripoint &p ) const;
@@ -754,7 +753,7 @@ class cata_tiles
         std::map<tripoint, std::tuple<vpart_id, int, units::angle, bool, point>> vpart_override;
         std::map<tripoint, bool> draw_below_override;
         // int represents spawn count
-        std::map<tripoint, std::tuple<mtype_id, int, bool, Creature::Attitude>> monster_override;
+        std::map<tripoint, std::tuple<mtype_id, int, bool, Attitude>> monster_override;
         pimpl<std::vector<tile_render_info>> draw_points_cache;
 
     private:

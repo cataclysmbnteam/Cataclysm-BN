@@ -2267,7 +2267,7 @@ bool game::handle_action()
 
             case ACTION_WHITELIST_ENEMY:
                 if( safe_mode == SAFE_MODE_STOP && !get_safemode().empty() ) {
-                    get_safemode().add_rule( get_safemode().lastmon_whitelist, Creature::A_ANY, 0, RULE_WHITELISTED );
+                    get_safemode().add_rule( get_safemode().lastmon_whitelist, Attitude::A_ANY, 0, RULE_WHITELISTED );
                     add_msg( m_info, _( "Creature whitelisted: %s" ), get_safemode().lastmon_whitelist );
                     set_safe_mode( SAFE_MODE_ON );
                     mostseen = 0;

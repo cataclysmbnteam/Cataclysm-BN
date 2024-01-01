@@ -128,6 +128,7 @@ void cata::detail::reg_units( sol::state &lua )
                 luna::no_bases,
                 luna::no_constructor
             );
+
         luna::set_fx( ut, "from_radians", &units::from_radians<double> );
         luna::set_fx( ut, "to_radians", &units::to_radians );
         luna::set_fx( ut, "from_degrees", &units::from_degrees<double> );
@@ -146,10 +147,11 @@ void cata::detail::reg_units( sol::state &lua )
                 luna::no_bases,
                 luna::no_constructor
             );
-        luna::set_fx( ut, "from_joule", &units::from_joule<double> );
-        luna::set_fx( ut, "to_joule", &units::to_joule<double> );
-        luna::set_fx( ut, "from_kilojoule", &units::from_kilojoule<double> );
-        luna::set_fx( ut, "to_kilojoule", &units::to_kilojoule<double> );
+
+        luna::set_fx( ut, "from_joule", &units::from_joule<int> );
+        luna::set_fx( ut, "to_joule", &units::to_joule<int> );
+        luna::set_fx( ut, "from_kilojoule", &units::from_kilojoule<int> );
+        luna::set_fx( ut, "to_kilojoule", &units::to_kilojoule<int> );
 
         luna::set_fx( ut, sol::meta_function::equal_to, &units::energy::operator== );
         luna::set_fx( ut, sol::meta_function::less_than, &units::energy::operator< );
@@ -162,14 +164,15 @@ void cata::detail::reg_units( sol::state &lua )
                 luna::no_bases,
                 luna::no_constructor
             );
-        luna::set_fx( ut, "from_milligram", &units::from_milligram<double> );
-        luna::set_fx( ut, "to_milligram", &units::to_milligram<double> );
-        luna::set_fx( ut, "from_gram", &units::from_gram<double> );
-        luna::set_fx( ut, "to_gram", &units::to_gram<double> );
-        luna::set_fx( ut, "from_kilogram", &units::from_kilogram<double> );
-        luna::set_fx( ut, "to_kilogram", &units::to_kilogram<double> );
-        luna::set_fx( ut, "from_newton", &units::from_newton<double> );
-        luna::set_fx( ut, "to_newton", &units::to_newton<double> );
+
+        luna::set_fx( ut, "from_milligram", &units::from_milligram<std::int64_t> );
+        luna::set_fx( ut, "to_milligram", &units::to_milligram<std::int64_t> );
+        luna::set_fx( ut, "from_gram", &units::from_gram<std::int64_t> );
+        luna::set_fx( ut, "to_gram", &units::to_gram<std::int64_t> );
+        luna::set_fx( ut, "from_kilogram", &units::from_kilogram<std::int64_t> );
+        luna::set_fx( ut, "to_kilogram", &units::to_kilogram<std::int64_t> );
+        luna::set_fx( ut, "from_newton", &units::from_newton<std::int64_t> );
+        luna::set_fx( ut, "to_newton", &units::to_newton<std::int64_t> );
 
         luna::set_fx( ut, sol::meta_function::equal_to, &units::mass::operator== );
         luna::set_fx( ut, sol::meta_function::less_than, &units::mass::operator< );
@@ -182,9 +185,10 @@ void cata::detail::reg_units( sol::state &lua )
                 luna::no_bases,
                 luna::no_constructor
             );
-        luna::set_fx( ut, "from_milliliter", &units::from_milliliter<double> );
-        luna::set_fx( ut, "from_liter", &units::from_liter<double> );
-        luna::set_fx( ut, "to_milliliter", &units::to_milliliter<double> );
+
+        luna::set_fx( ut, "from_milliliter", &units::from_milliliter<int> );
+        luna::set_fx( ut, "from_liter", &units::from_liter<int> );
+        luna::set_fx( ut, "to_milliliter", &units::to_milliliter<int> );
         luna::set_fx( ut, "to_liter", &units::to_liter );
 
         luna::set_fx( ut, sol::meta_function::equal_to, &units::volume::operator== );
@@ -522,10 +526,6 @@ void cata::detail::reg_game_api( sol::state &lua )
     luna::set_fx( lib, "get_avatar", &get_avatar );
     luna::set_fx( lib, "get_map", &get_map );
     luna::set_fx( lib, "get_distribution_grid_tracker", &get_distribution_grid_tracker );
-    // Now handled in Character bindings.
-    //luna::set_fx( lib, "get_character_name", []( const Character & you ) -> std::string {
-    //    return you.name;
-    //} );
     luna::set_fx( lib, "add_msg", sol::overload(
                       add_msg_lua,
     []( sol::variadic_args va ) {
@@ -578,13 +578,6 @@ void cata::detail::reg_game_api( sol::state &lua )
         }
         return g->critter_at<Character>( p );
     } );
-    //luna::set_fx( lib, "get_player_at", []( const tripoint &p,
-    //std::optional<bool> allow_hallucination ) -> player * {
-    //    if( allow_hallucination ) {
-    //        return g->critter_at<player>( p, *allow_hallucination );
-    //    }
-    //    return g->critter_at<player>( p );
-    //} );
     luna::set_fx( lib, "get_npc_at", []( const tripoint & p,
     std::optional<bool> allow_hallucination ) -> npc * {
         if( allow_hallucination )
@@ -698,7 +691,7 @@ void cata::detail::reg_enums( sol::state &lua )
     reg_enum<game_message_type>( lua );
 
     reg_enum<add_type>( lua );
-    reg_enum<Creature::Attitude>( lua );
+    reg_enum<Attitude>( lua );
     reg_enum<body_part>( lua );
     reg_enum<character_movemode>( lua );
     reg_enum<damage_type>( lua );

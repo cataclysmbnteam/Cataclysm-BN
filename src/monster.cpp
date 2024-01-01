@@ -60,6 +60,8 @@
 #include "trap.h"
 #include "weather.h"
 
+#include "enums.h"
+
 static const ammo_effect_str_id ammo_effect_WHIP( "WHIP" );
 
 static const efftype_id effect_badpoison( "badpoison" );
@@ -1195,7 +1197,7 @@ Creature *monster::attack_target()
 
     Creature *target = g->critter_at( move_target() );
     if( target == nullptr || target == this ||
-        attitude_to( *target ) == Creature::A_FRIENDLY || !sees( *target ) ) {
+        attitude_to( *target ) == Attitude::A_FRIENDLY || !sees( *target ) ) {
         return nullptr;
     }
 
@@ -1214,7 +1216,7 @@ bool monster::is_fleeing( player &u ) const
     return att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4 );
 }
 
-Creature::Attitude monster::attitude_to( const Creature &other ) const
+Attitude monster::attitude_to( const Creature &other ) const
 {
     const monster *m = other.is_monster() ? static_cast< const monster *>( &other ) : nullptr;
     const player *p = other.as_player();

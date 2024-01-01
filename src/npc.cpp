@@ -2141,7 +2141,7 @@ bool npc::is_travelling() const
     return mission == NPC_MISSION_TRAVELLING;
 }
 
-Creature::Attitude npc::attitude_to( const Creature &other ) const
+Attitude npc::attitude_to( const Creature &other ) const
 {
     if( other.is_npc() || other.is_player() ) {
         const player &guy = dynamic_cast<const player &>( other );

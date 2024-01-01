@@ -4,6 +4,26 @@
 
 template<typename T> struct enum_traits;
 
+/**
+ * Simplified attitude towards any creature:
+ * hostile - hate, want to kill, etc.
+ * neutral - anything between.
+ * friendly - avoid harming it, maybe even help.
+ * any - any of the above, used in safemode_ui
+ */
+enum Attitude : int {
+    A_HOSTILE,
+    A_NEUTRAL,
+    A_FRIENDLY,
+    A_ANY,
+    NUM_A
+};
+
+template<>
+struct enum_traits<Attitude> {
+    static constexpr Attitude last = Attitude::NUM_A;
+};
+
 template<typename T>
 constexpr inline int sgn( const T x )
 {

@@ -34,8 +34,12 @@ void reg_types( sol::state &lua );
 void reg_ui_elements( sol::state &lua );
 
 void reg_units( sol::state &lua );
+void reg_creature( sol::state &lua );
+void reg_monster( sol::state &lua );
 void reg_character( sol::state &lua );
+void reg_player( sol::state &lua );
 void reg_npc( sol::state &lua );
+void reg_avatar( sol::state &lua );
 void reg_skill_level_map( sol::state &lua );
 
 } // namespace detail

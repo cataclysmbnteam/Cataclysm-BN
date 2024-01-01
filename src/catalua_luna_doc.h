@@ -5,7 +5,6 @@
 #include "catalua_luna.h"
 #include "type_id.h"
 
-#include "creature.h" // Has to be included because of Creature::Attitude
 #include "units_angle.h"  // 'units' namespace 'types'/'classes' are actually defined
 #include "units_energy.h" // through 'using' with a template class.
 #include "units_mass.h"
@@ -14,6 +13,7 @@
 enum color_id : int;
 enum game_message_type : int;
 
+enum Attitude : int;
 enum body_part : int;
 enum character_movemode : int;
 enum class add_type : int;
@@ -129,7 +129,7 @@ LUNA_ID( recipe, "Recipe" )
 LUNA_ENUM( game_message_type, "MsgType" )
 
 LUNA_ENUM( add_type, "AddictionType" )
-LUNA_ENUM( Creature::Attitude, "CreatureAttitude" )
+LUNA_ENUM( Attitude, "Attitude" )
 LUNA_ENUM( body_part, "BodyPart" )
 LUNA_ENUM( character_movemode, "CharacterMoveMode" )
 LUNA_ENUM( damage_type, "DamageType" )

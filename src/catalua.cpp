@@ -2,7 +2,7 @@
 
 #include "debug.h"
 
-constexpr int LUA_API_VERSION = 1;
+constexpr int LUA_API_VERSION = 2;
 
 #ifndef LUA
 

@@ -993,7 +993,7 @@ void monster::move()
 
             const Creature *target = g->critter_at( candidate, is_hallucination() );
             if( target != nullptr ) {
-                const Creature::Attitude att = attitude_to( *target );
+                const Attitude att = attitude_to( *target );
                 if( att == A_HOSTILE ) {
                     // When attacking an adjacent enemy, we're direct.
                     moved = true;
