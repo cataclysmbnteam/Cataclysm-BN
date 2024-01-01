@@ -46,11 +46,11 @@ void cata::detail::reg_creature( sol::state &lua )
 #define UT_CLASS Creature
     {
         sol::usertype<UT_CLASS> ut =
-            luna::new_usertype<UT_CLASS>(
-                lua,
-                luna::no_bases,
-                luna::no_constructor
-            );
+        luna::new_usertype<UT_CLASS>(
+            lua,
+            luna::no_bases,
+            luna::no_constructor
+        );
 
         // Methods
         SET_FX_T( get_name, std::string() const );
@@ -139,7 +139,8 @@ void cata::detail::reg_creature( sol::state &lua )
                                             const time_duration & dur,
                                             sol::optional<const bodypart_str_id &> bpid,
                                             sol::optional<int> intensity
-        ) {
+                                          )
+        {
             int eint = intensity ? *intensity : 0;
             body_part bp = bpid ? ( *bpid ) -> token : num_bp;
             cr.add_effect( eff, dur, bp, eint );
@@ -256,11 +257,11 @@ void cata::detail::reg_monster( sol::state &lua )
 #define UT_CLASS monster
     {
         sol::usertype<UT_CLASS> ut =
-            luna::new_usertype<UT_CLASS>(
-                lua,
-                luna::bases<Creature>(),
-                luna::no_constructor
-            );
+        luna::new_usertype<UT_CLASS>(
+            lua,
+            luna::bases<Creature>(),
+            luna::no_constructor
+        );
 
         // Members
         SET_MEMB( friendly );
@@ -312,11 +313,11 @@ void cata::detail::reg_character( sol::state &lua )
 #define UT_CLASS Character
     {
         sol::usertype<UT_CLASS> ut =
-            luna::new_usertype<UT_CLASS>(
-                lua,
-                luna::bases<Creature>(),
-                luna::no_constructor
-            );
+        luna::new_usertype<UT_CLASS>(
+            lua,
+            luna::bases<Creature>(),
+            luna::no_constructor
+        );
 
         // Members
         SET_MEMB( name );
@@ -749,14 +750,14 @@ void cata::detail::reg_character( sol::state &lua )
 #define UT_CLASS character_id
     {
         sol::usertype<UT_CLASS> ut =
-            luna::new_usertype<UT_CLASS>(
-                lua,
-                luna::no_bases,
-                luna::constructors<
-                    UT_CLASS(),
-                    UT_CLASS( int )
-                >()
-            );
+        luna::new_usertype<UT_CLASS>(
+            lua,
+            luna::no_bases,
+            luna::constructors <
+            UT_CLASS(),
+            UT_CLASS( int )
+            > ()
+        );
 
         SET_FX( is_valid );
         SET_FX( get_value );
