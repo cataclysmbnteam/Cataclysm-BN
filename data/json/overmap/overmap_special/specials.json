@@ -1942,7 +1942,7 @@
     "type": "overmap_special",
     "id": "rest_stop",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roadstop_north" }, { "point": [ 0, 0, 1 ], "overmap": "roadstop_roof_north" } ],
-    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "existing": true } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "existing": true, "from": [ 0, 0, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 10, 200 ],
     "occurrences": [ 0, 4 ],
@@ -1955,7 +1955,7 @@
       { "point": [ 0, 0, 0 ], "overmap": "roadstop_a_north" },
       { "point": [ 0, 0, 1 ], "overmap": "roadstop_a_roof_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "existing": true } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "existing": true, "from": [ 0, 0, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 10, 200 ],
     "occurrences": [ 0, 4 ],
@@ -1968,7 +1968,7 @@
       { "point": [ 0, 0, 0 ], "overmap": "roadstop_b_north" },
       { "point": [ 0, 0, 1 ], "overmap": "roadstop_b_roof_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "existing": true } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "existing": true, "from": [ 0, 0, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 10, 200 ],
     "occurrences": [ 0, 4 ],
