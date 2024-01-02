@@ -2088,6 +2088,33 @@
     }
   },
   {
+    "//":"You got a random book box!",
+    "type": "profession",
+    "id": "student_with_books",
+    "name": "Library Nerd",
+    "description": "They say reading is food for brain, but those corpses seem to be coming for your brain as food. In your haste to escape, you grab the library's return box, but is there anything in there that might help you?",
+    "points": 2,
+    "traits":["LOVES_BOOKS"],
+    "items": {
+      "both": {
+        "items": [
+          "pants",
+          "tshirt",
+          "socks",
+          "sneakers",
+          "backpack",
+          "wristwatch",
+          "smart_phone"
+        ],
+        "entries":[ 
+          {"contents-group":["manuals_school", "textbooks_school","light_reading"], "item":"box_small" } 
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
     "type": "profession",
     "id": "svictim",
     "name": "Shower Victim",
