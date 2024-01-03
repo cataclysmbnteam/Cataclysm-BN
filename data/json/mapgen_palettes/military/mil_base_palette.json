@@ -28,6 +28,7 @@
       "s": "t_sidewalk",
       "{": "t_sidewalk",
       "I": "t_column",
+      "i": "t_elevator",
       "b": [ [ "t_brick_wall", 100 ], "t_pit_shallow" ],
       "F": "t_fence_barbed",
       "f": "t_fence_wire",
@@ -58,7 +59,8 @@
       "'": "t_console_broken",
       "0": "t_console",
       "@": "t_rock",
-      "~": "t_gutter_downspout"
+      "~": "t_gutter_downspout",
+      "α": "t_elevator_control"
     },
     "furniture": {
       "}": "f_rubble",
