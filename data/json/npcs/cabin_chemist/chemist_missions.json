@@ -83,7 +83,7 @@
     "name": "Establish A Trade Route",
     "description": "Establish trade relations between the chemist and a refugee center, and bring back a writ of the agreement.",
     "goal": "MGOAL_FIND_ITEM",
-    "item": "trade_writ",
+    "item": "trade_writ_chemist",
     "count": 1,
     "difficulty": 30,
     "value": 20000,
