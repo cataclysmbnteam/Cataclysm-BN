@@ -6507,7 +6507,7 @@
     "type": "overmap_special",
     "id": "Occupied Scrap Yard",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "smallscrapyard_ocu_north" } ],
-    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "connections": [ { "point": [ -1, 0, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "field" ],
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
