@@ -852,7 +852,7 @@
         "topic": "TALK_DONE"
       }
     ]
-  },  
+  },
   {
     "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",
     "type": "talk_topic",
