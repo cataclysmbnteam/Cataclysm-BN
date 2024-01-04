@@ -12,32 +12,5 @@
       { "monster": "mon_chickenbot", "freq": 60, "cost_multiplier": 0 },
       { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0 }
     ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_MIL_BASE",
-    "monsters": [
-      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
-      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
-      { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_MAYBE_MIL",
-    "monsters": [
-      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
-      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
-      { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_MIL_STRONG",
-    "monsters": [
-      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
-      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
-      { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
-    ]
   }
 ]
