@@ -217,9 +217,6 @@
         "                                                                    ,,,NNN,          ,,,,,b ,, x",
         "                                                                       ,,,            ,,, b ,,,x",
         "                  ,,,,,,              ,,,,,,              ,,,,,,                       ,, b ,, x",
-
-
-
         "             ,,,,,,|67|,,,,,     ,,,,,,|67|,,,,,     ,,,,,,|67|,,,,,                  ,,,,b,,, x",
         "             ,|||||||||||||,     ,|||||||||||||,     ,|||||||||||||,                   ,, b ,, x",
         "             ,|LLLLL-T-T-T|,     ,|LLLLL-T-T-T|,     ,|LLLLL-T-T-T|,                  ,,,,b ,,,x",
@@ -377,9 +374,9 @@
         "x ,,,b ,,,,,  ,,,,,,,,,NNn,,Nss//D///////////////////////////////////////sss_______yy_______ssss",
         "x ,,,b ,,,,,,,,,,,,,,,,,NNnNNss/e...???????????..???????....<..(>/$$.`OO/sss________________ssss",
         "x ,, b ,,,,,,,,,,,  ,   ,NNN,ss/...............................///....ht/sss_______yy_______ssss",
-        "x ,, b,,,,,,,, ,         ,,, ss/.................................d.i.###gsss_______yy_______sss|",
-        "x ,,,b,,,,,,                 ss/..............................i../...###/sss_______yy_______sss|",
-        "x ,, b,,,,,                  ss/...........................::..../$.i.ht/sss________________sss|",
+        "x ,, b,,,,,,,, ,         ,,, ss/.................................d...###gsss_______yy_______sss|",
+        "x ,,,b,,,,,,                 ss/................................./...###/sss_______yy_______sss|",
+        "x ,, b,,,,,                  ss/...........................::..../$...ht/sss________________sss|",
         "x ,,,b ,,,                   ss/....???????????..???????...::..../$.....gsss_______yy_______sss|",
         "x,,, b,,,,                   ss/....???????????..???????........./$.Y.$$/sss_______yy_______sss|",
         "x ,, b ,,,                   ss/...........................::....//g/D5//sss_______yy_______sss|",
@@ -392,7 +389,7 @@
         "x ,, bbbb},,,                ss/.................................Dssssssssss_______yy_______sss|",
         "G ,,,b,,}},,,,               ss/................................./ssssssssss_______yy_______sss|",
         "G ,, b,,}}},,                ss/................................./ssssssssss________________sssw",
-        "x ,,,b,}}}},,,               ss/....???????????..???????......i../ssssssssss_______yy_______sss|",
+        "x ,,,b,}}}},,,               ss/....???????????..???????........./ssssssssss_______yy_______sss|",
         "x ,, bb}}},,,,               ss/....???????????..???????.........Dssssssssss_______yy_______sss|",
         "x,,, b}},,,,,,               ss/.................................Dssssssssss_______yy_______sss~",
         "x ,,,b,,,,,,,                ss/.................................Dssssssssss________________ssss",
@@ -414,10 +411,8 @@
         "O": [ { "item": "mil_base_books", "chance": 30, "repeat": [ 1, 5 ] } ],
         "Y": [ { "item": "mil_base_coats", "chance": 25, "repeat": [ 1, 2 ] } ]
       },
-      "monster": { "i": { "monster": "mon_zombie_soldier", "chance": 30 } },
       "place_loot": [
         { "group": "mil_base_hmg", "x": 25, "y": 46, "chance": 10, "magazine": 100 },
-
         { "group": "SUS_janitors_closet", "x": 34, "y": 26 },
         { "group": "SUS_kitchen_sink", "x": 31, "y": 34 },
         { "group": "SUS_kitchen_sink", "x": 31, "y": 36 },
@@ -458,6 +453,10 @@
         { "group": "pantry_liquids", "x": 36, "y": 53, "chance": 75, "repeat": 10 },
         { "item": "water_clean", "x": [ 36, 46 ], "y": 48, "chance": 75, "repeat": 50 }
       ],
+      "place_monster": [
+      { "group": "GROUP_ROBOTS_MIL", "x": [ 33, 47 ], "y": [ 48, 70 ] },
+      { "group": "GROUP_ROBOTS_MIL", "x": [ 48, 64 ], "y": [ 48, 70 ] }
+     ],
       "place_monsters": [
         { "monster": "GROUP_MIL_BASE", "x": [ 4, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ], "density": 0.1 },
         { "monster": "GROUP_MIL_BASE", "x": [ 24, 47 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ], "density": 0.1 },
@@ -499,7 +498,7 @@
         "  X  ss/////////////////////////ss  X sssssssssssss|6...u-...-u.pp.u-u.77.|{ss{Xsssss ,,, b ,, x",
         "  X  ss/u..u..uuuuuu..u..u]h..O/ss  X ssssssssssss~|u...u-...-l.pp.u-u....|{ss{Xsssss ,,, b,,, x",
         "  X  ss/u..u..........u..u]...O/ss  X ss||w|||w|||w|------...-------------|||||||||ss  ,,,b,,,,x",
-        "  X  ss/u................u]h..O/ss  X ss|$.OOt##t..`O-uuu-...-S...+T-c.????.????.?|ss ,,,,b ,, x",
+        "  X  ss/u................u]h..O/ss  X ss|$.OOt##t..`O-uuu-...-S...+T-c..???.???..?|ss ,,,,b ,, x",
         "  X  ss/u.....uuuuuu.....u]...O/ss  X ss|$...h##h...O-u..z...-c...---c...........?|ss  ,, b,,,,x",
         "  X  ss/]]]]((]]]]]]((]]]]]..///ss  X ssw.....##....O-..h-...-S...+T-c...........?|ss  ,, b ,, x",
         "  X  ss/.....................(>/ss  X ss|$........Y.l-tVV--d----d----c..iiiiiii..?|ss ,,, b ,, x",
@@ -512,7 +511,6 @@
         "  X  ss/`....$/[...[/u......./ss    X ssw....=..=.....-u.......V-...-c..iiiiiii...|ss ,,,,b ,, x",
         "  X  ss/OO...Y/[...[/l.e...../ss    X ss|###.-..-Y.###-uh....h..d...-...iiiiiii...|ss  ,, b ,,,x",
         "  XXXGX///gz///w/d/w////DDDD//XGXXXXX ss|th..-..-l..ht-VVVt.VVVu-...-l.eiiiiiiiα..|ss  ,, b ,, x",
-
         "      ssssssssssssssssssssssssss      ss||||||wz||w|-------d------d-||||DDDDDDD||||ss ,,, b,,, x",
         "sssssssssssssssssssssssssssssssssssssssssssssssssss|..uuuu...uuuu...|~ss______ss{{sss  ,,,b ,, x",
         "sssssssssssssssssssssssssssssssssssssssssssssssssssz................|sss______sssssss  ,, b ,,,x",
@@ -537,15 +535,14 @@
         "ssssssssssssssssssssssssssssssss_________________ss||||||||||||||||||ss_______________,,,,b ,,,x",
         "ssssssssssssssssssssssssssssssss_________________sss~ssssssssssssssssss_______________ ,,,b,,, x",
         "ssssss||w||||w|||||w|||||w|||ss _________________ssssssssssssssssssssss_______________,,,,b,,, x",
-
         "ssssss|[..-$$.`U-$`.$$-O...$|ss ________________                       _______________,,,,b ,, x",
         "ssssss|...-th...-...ht-th..$|ss ______________________________________________________,,, b ,,,x",
         "|ww|z||...-###..-..###-###.`|ss ______________________________________________________ ,, b,,, x",
         "..........-.....-....O-....U|ss ______________________________________________________ ,, b ,,,x",
         "###.......-Y..OO-Y...O-.Y---|ss ______________________________________________________ ,,,b ,,,x",
         "th....-...--=-----=----=-///|ss ______________________________________________________,,, b ,, x",
-        "OOO$$$-..................D>/|ss ______________________________________________________,,, b,,, x",
-        "-------..................5//|ss ______________________________________________________ ,,,b ,,,x",
+        "OOO$$$-..................z>/|ss ______________________________________________________,,, b,,, x",
+        "-------..................///|ss ______________________________________________________ ,,,b ,,,x",
         "OAAO.Y-...--=-----=----=----|ss ____1112111_______________________111111111111111_____,,,,b,,, x",
         "......+...-Y.$$$-Y...`-.Y`$$|ss ____1B___^1__1112111______________1^M_M_M^MBM_M^1_____,,,,b ,, x",
         "...[.A-...-.....-....$-.....|ss ____1MM_MM1__1____^1______________1_M_M_M_M_M_M_1_____ ,;,b,,, x",
@@ -574,6 +571,7 @@
         "O": [ { "item": "mil_base_books", "chance": 30, "repeat": [ 1, 5 ] } ],
         "Y": [ { "item": "mil_base_coats", "chance": 25, "repeat": [ 1, 2 ] } ],
         ";": [ { "item": "mil_base_bodybag", "chance": 90, "repeat": [ 0, 1 ] } ],
+        "l": [ { "item": "fireman_cabinet", "chance": 75 } ],
         "V": [ { "item": "tools_common", "chance": 50, "repeat": [ 0, 1 ] } ],
         "U": [
           { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 10 ] },
@@ -587,97 +585,36 @@
         { "group": "SUS_coffee_cupboard", "x": 3, "y": 63, "chance": 50, "repeat": [ 1, 2 ] },
         { "group": "dinnerware", "x": 3, "y": 63, "chance": 50, "repeat": [ 5, 10 ] },
         { "group": "liquor_and_spirits", "x": 3, "y": 63, "chance": 50, "repeat": [ 1, 2 ] },
-
-
-
-
-
-
-        { "group": "metal_workshop", "x": 55, "y": 20, "chance": 50, "repeat": [ 5, 20 ] },
-        { "group": "supplies_metal", "x": 55, "y": 21, "chance": 50, "repeat": [ 10, 40 ] },
-        { "group": "tools_electronics", "x": 55, "y": 22, "chance": 50, "repeat": [ 5, 20 ] },
-
-        { "group": "tools_common", "x": 63, "y": 23, "chance": 50, "repeat": [ 5, 20 ] },
-
-        { "group": "tools_common", "x": 54, "y": 11, "chance": 50, "repeat": [ 5, 10 ] },
-        { "group": "tools_electronics", "x": 55, "y": 11, "chance": 50, "repeat": [ 5, 10 ] },
-        { "group": "supplies_electronics", "x": 56, "y": 11, "chance": 50, "repeat": [ 5, 20 ] },
-
-        { "group": "supplies_metal", "x": 54, "y": 12, "chance": 50, "repeat": [ 5, 20 ] },
-
-        { "group": "SUS_welding_gear", "x": 61, "y": 25, "chance": 100, "repeat": [ 1, 2 ] },
-        { "group": "tools_mechanic", "x": 62, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },
-        { "group": "ammo_medium_batteries", "x": 63, "y": 25, "chance": 50, "repeat": [ 5, 10 ] },
+        { "group": "metal_workshop", "x": 55, "y": 20, "chance": 50, "repeat": 10 },
+        { "group": "supplies_metal", "x": 55, "y": 21, "chance": 50, "repeat": 10 },
+        { "group": "tools_electronics", "x": 55, "y": 22, "chance": 50, "repeat": 10 },
+        { "group": "tools_common", "x": 63, "y": 23, "chance": 50, "repeat": 10 },
+        { "group": "tools_common", "x": 54, "y": 11, "chance": 50, "repeat": 10 },
+        { "group": "tools_electronics", "x": 55, "y": 11, "chance": 50, "repeat": 10 },
+        { "group": "supplies_electronics", "x": 56, "y": 11, "chance": 50, "repeat": 5 },
+        { "group": "supplies_metal", "x": 54, "y": 12, "chance": 50, "repeat": 5 },
+        { "group": "SUS_welding_gear", "x": 61, "y": 25, "chance": 100 },
+        { "group": "tools_mechanic", "x": 62, "y": 25, "chance": 50, "repeat": 5 },
+        { "group": "ammo_medium_batteries", "x": 63, "y": 25, "chance": 50, "repeat": 5 },
         { "item": "recharge_station", "x": 63, "y": 25, "chance": 90 },
-        { "group": "supplies_metal", "x": 64, "y": 25, "chance": 50, "repeat": [ 10, 40 ] },
-        { "group": "tools_electronics", "x": [ 56, 57 ], "y": 25, "chance": 50, "repeat": [ 10, 40 ] },
-        { "group": "tools_common", "x": [ 54, 55 ], "y": 25, "chance": 50, "repeat": [ 10, 40 ] },
-
-        { "group": "mechanics", "x": [ 55, 56 ], "y": [ 35, 36 ], "chance": 50, "repeat": [ 1, 10 ] },
-        { "group": "mechanics", "x": [ 59, 60 ], "y": [ 35, 36 ], "chance": 50, "repeat": [ 1, 10 ] },
-        { "group": "mechanics", "x": [ 63, 64 ], "y": [ 35, 36 ], "chance": 50, "repeat": [ 1, 10 ] },
-
-        { "group": "tools_common", "x": 57, "y": 44, "chance": 50, "repeat": [ 5, 10 ] },
-        { "group": "supplies_mechanics", "x": 58, "y": 44, "chance": 50, "repeat": [ 5, 20 ] },
-        { "group": "tools_electronics", "x": [ 63, 65 ], "y": 44, "chance": 50, "repeat": [ 5, 10 ] },
-        { "group": "supplies_electronics", "x": [ 63, 65 ], "y": 44, "chance": 50, "repeat": [ 10, 40 ] },
-
+        { "group": "supplies_metal", "x": 64, "y": 25, "chance": 50, "repeat": 5 },
+        { "group": "tools_electronics", "x": [ 56, 57 ], "y": 25, "chance": 50, "repeat": 5 },
+        { "group": "tools_common", "x": [ 54, 55 ], "y": 25, "chance": 50, "repeat": 5 },
+        { "group": "mechanics", "x": [ 55, 56 ], "y": [ 35, 36 ], "chance": 50, "repeat": 5 },
+        { "group": "mechanics", "x": [ 59, 60 ], "y": [ 35, 36 ], "chance": 50, "repeat": 5 },
+        { "group": "mechanics", "x": [ 63, 64 ], "y": [ 35, 36 ], "chance": 50, "repeat": 5 },
+        { "group": "tools_common", "x": 57, "y": 44, "chance": 50, "repeat": 5 },
+        { "group": "supplies_mechanics", "x": 58, "y": 44, "chance": 50, "repeat": 5 },
+        { "group": "tools_electronics", "x": [ 63, 65 ], "y": 44, "chance": 50, "repeat": 5 },
+        { "group": "supplies_electronics", "x": [ 63, 65 ], "y": 44, "chance": 50, "repeat": 5 },
         { "group": "tools_common", "x": 52, "y": 9, "chance": 20 },
-        { "group": "tools_common", "x": 56, "y": [ 8, 9 ], "chance": 20, "repeat": [ 0, 1 ] },
-        { "group": "tools_common", "x": 62, "y": [ 8, 9 ], "chance": 20, "repeat": [ 0, 1 ] },
-        { "group": "tools_common", "x": 66, "y": [ 8, 9 ], "chance": 20, "repeat": [ 0, 1 ] },
-        { "group": "tools_common", "x": 68, "y": [ 8, 9 ], "chance": 20, "repeat": [ 0, 1 ] },
-        { "item": "hdframe", "x": 71, "y": [ 11, 12 ], "chance": 75, "repeat": [ 5, 20 ] },
-        { "item": "mil_plate", "x": 71, "y": 13, "chance": 75, "repeat": [ 5, 30 ] },
-        { "item": "steel_plate", "x": 72, "y": 11, "chance": 75, "repeat": [ 10, 40 ] },
-        { "item": "reinforced_glass_sheet", "x": 72, "y": [ 13, 14 ], "chance": 75, "repeat": [ 5, 20 ] },
-        { "item": "wheel_mount_heavy", "x": 75, "y": [ 11, 12 ], "chance": 75, "repeat": [ 5, 10 ] },
-        { "item": "wheel_armor", "x": 75, "y": [ 13, 14 ], "chance": 75, "repeat": [ 5, 10 ] },
-        { "item": "v8_diesel", "x": 76, "y": [ 11, 12 ], "chance": 75, "repeat": [ 1, 2 ] },
-        { "item": "v12_diesel", "x": 76, "y": 13, "chance": 75 },
-        { "item": "small_turbine_engine", "x": 76, "y": 14, "chance": 75 },
-        { "item": "alternator_truck", "x": 79, "y": 11, "chance": 50, "repeat": [ 5, 10 ] },
-        { "item": "battery_car", "x": 79, "y": 12, "chance": 75, "repeat": [ 5, 10 ] },
-        { "item": "vehicle_controls", "x": 79, "y": 13, "chance": 50, "repeat": [ 1, 5 ] },
-        { "item": "vehicle_dashboard", "x": 79, "y": 14, "chance": 50, "repeat": [ 1, 5 ] },
-        { "item": "muffler", "x": 79, "y": 15, "chance": 50, "repeat": [ 1, 10 ] },
-        { "item": "drivebelt", "x": 79, "y": 16, "chance": 50, "repeat": [ 10, 40 ] },
-        { "item": "filter_air", "x": 79, "y": 16, "chance": 50, "repeat": [ 10, 40 ] },
-        { "item": "filter_liquid", "x": 79, "y": 16, "chance": 50, "repeat": [ 10, 40 ] },
-        { "item": "glowplug", "x": 79, "y": 16, "chance": 50, "repeat": [ 10, 40 ] },
-        { "item": "motor_small", "x": 79, "y": 17, "chance": 50, "repeat": [ 10, 20 ] },
-        { "item": "power_supply", "x": 79, "y": 17, "chance": 50, "repeat": [ 10, 20 ] },
-        { "item": "cable", "x": 79, "y": 17, "chance": 50, "repeat": [ 1, 20 ] },
-        { "item": "engine_block_large", "x": 79, "y": 18, "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "engine_block_massive", "x": 79, "y": 18, "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "well_pump", "x": 79, "y": 19, "chance": 50, "repeat": [ 1, 20 ] },
-        { "item": "pump_complex", "x": 79, "y": 19, "chance": 50, "repeat": [ 1, 20 ] },
-        { "item": "metal_tank_little", "x": 79, "y": 19, "chance": 50, "repeat": [ 10, 20 ] },
-        { "item": "turret_mount", "x": 79, "y": 20, "chance": 50, "repeat": [ 1, 5 ] },
-        { "item": "weldtank", "x": 71, "y": [ 17, 18 ], "chance": 50, "repeat": [ 5, 10 ] },
-        { "item": "weldtank", "x": 72, "y": [ 17, 18 ], "chance": 50, "repeat": [ 5, 10 ] },
-        { "item": "tinyweldtank", "x": 71, "y": [ 19, 20 ], "chance": 50, "repeat": [ 5, 10 ] },
-        { "item": "tinyweldtank", "x": 72, "y": [ 19, 20 ], "chance": 50, "repeat": [ 5, 10 ] },
-        { "item": "motor_oil", "x": 75, "y": [ 17, 18 ], "chance": 50, "repeat": [ 20, 40 ] },
-        { "item": "diesel", "x": 75, "y": 19, "chance": 80, "repeat": [ 1, 10 ] },
-        { "item": "jerrycan", "x": 75, "y": 20, "chance": 80, "repeat": [ 1, 10 ] },
-
-        { "group": "supplies_metal", "x": 76, "y": [ 17, 20 ], "chance": 50, "repeat": [ 20, 80 ] },
-
-        { "item": "extinguisher", "x": 69, "y": 23, "chance": 75 },
-        { "item": "extinguisher", "x": 52, "y": 25, "chance": 75 },
-        { "item": "extinguisher", "x": 67, "y": 44, "chance": 75 },
-        { "item": "extinguisher", "x": 21, "y": 22, "chance": 75 },
-        { "item": "extinguisher", "x": 62, "y": 9, "chance": 75 },
-
-
-
-
-
-
-
-
-
+        { "group": "tools_common", "x": 56, "y": [ 8, 9 ], "chance": 20 },
+        { "group": "tools_common", "x": 62, "y": [ 8, 9 ], "chance": 20 },
+        { "group": "tools_common", "x": 66, "y": [ 8, 9 ], "chance": 20 },
+        { "group": "tools_common", "x": 68, "y": [ 8, 9 ], "chance": 20 },
+        { "group": "supplies_mechanics", "x": [ 72, 74 ], "y": 11, "chance": 75, "repeat": 10 },
+        { "group": "supplies_spares_vehicle", "x": [ 76, 78 ], "y": 11, "chance": 75, "repeat": 5 },
+        { "group": "supplies_mechanics_milspec", "x": 72, "y": [ 11, 20 ], "chance": 75, "repeat": 20 },
         { "group": "gunmod_milspec", "x": 8, "y": [ 9, 12 ], "chance": 75, "repeat": 20 },
         { "group": "mil_armor_electronics", "x": 11, "y": [ 9, 10 ], "chance": 75, "repeat": 10 },
         { "item": "knife_combat", "x": [ 14, 15 ], "y": 9, "chance": 75, "repeat": 15 },
@@ -689,13 +626,15 @@
         { "group": "tools_gunsmith", "x": 22, "y": [ 9, 10 ], "chance": 75, "repeat": 10 },
         { "group": "inactive_bots_milspec", "x": 25, "y": [ 9, 12 ], "chance": 75, "repeat": 5 },
         { "group": "book_military", "x": 30, "y": [ 9, 12 ], "chance": 75, "repeat": 20 },
-
         { "group": "mil_base_tent_medical_thrash", "x": [ 52, 64 ], "y": [ 54, 71 ], "chance": 25, "repeat": 15 }
       ],
+      "place_monster": [
+      { "group": "GROUP_ROBOTS_MIL", "x": [ 9, 23 ], "y": [ 10, 21 ], "repeat": [ 2, 5 ] },
+      { "group": "GROUP_ROBOTS_MIL", "x": [ 1, 23 ], "y": [ 51, 60 ], "repeat": [ 3, 6 ] }
+     ],
       "place_monsters": [
         { "monster": "GROUP_MIL_BASE", "x": [ 0, 23 ], "y": [ 26, 47 ], "repeat": [ 6, 8 ], "density": 0.1 },
         { "monster": "GROUP_MIL_BASE", "x": [ 24, 47 ], "y": [ 26, 47 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_MIL_BASE_HOSPITAL", "x": [ 0, 23 ], "y": [ 48, 71 ], "repeat": [ 0, 1 ], "density": 0.1 },
         { "monster": "GROUP_MIL_BASE_HOSPITAL", "x": [ 24, 47 ], "y": [ 48, 71 ], "repeat": [ 0, 1 ], "density": 0.1 },
         { "monster": "GROUP_MIL_BASE_HOSPITAL", "x": [ 48, 71 ], "y": [ 48, 71 ], "repeat": [ 4, 5 ], "density": 0.1 },
         { "monster": "GROUP_MIL_BASE_HOSPITAL", "x": [ 72, 95 ], "y": [ 48, 71 ], "repeat": [ 4, 5 ], "density": 0.1 }
