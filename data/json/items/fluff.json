@@ -16,7 +16,6 @@
     "intelligence": 5,
     "time": "10 m"
   },
-
   {
     "id": "trade_writ_scrap",
     "type": "BOOK",
@@ -33,7 +32,7 @@
     "color": "light_cyan",
     "intelligence": 5,
     "time": "10 m"
-  },  
+  },
   {
     "id": "trade_writ_lumberyard",
     "type": "BOOK",
