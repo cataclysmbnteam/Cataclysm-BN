@@ -81,7 +81,7 @@
     "name": "Establish A Trade Route",
     "description": "Establish trade relations between the scrapper and a refugee center, and bring back a writ of the agreement.",
     "goal": "MGOAL_FIND_ITEM",
-    "item": "trade_writ",
+    "item": "trade_writ_scrap",
     "count": 1,
     "difficulty": 35,
     "value": 10000,
