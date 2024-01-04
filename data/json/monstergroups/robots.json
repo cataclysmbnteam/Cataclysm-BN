@@ -57,5 +57,5 @@
       { "monster": "mon_dispatch", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_dispatch_military", "freq": 50, "cost_multiplier": 0 }
     ]
-  },
+  }
 ]

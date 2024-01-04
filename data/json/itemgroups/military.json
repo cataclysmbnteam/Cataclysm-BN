@@ -623,7 +623,8 @@
     "id": "inactive_bots_milspec",
     "type": "item_group",
     "items": [
-      [ "bot_haulerbot", 25 ],
+      [ "bot_haulerbot", 20 ],
+      [ "bot_molebot", 5 ],
       [ "bot_grenade_hack", 5 ],
       [ "bot_EMP_hack", 5 ],
       [ "bot_flashbang_hack", 5 ],
@@ -679,7 +680,7 @@
       [ "large_turbine_engine", 3 ],
       [ "weldrig", 1 ],
       [ "solar_cell", 1 ],
-      [ "bearing", 10 ],
+      [ "bearing", 1 ],
       [ "reinforced_glass_sheet", 10 ],
       [ "motor_large", 1 ],
       [ "battery_car", 6 ],

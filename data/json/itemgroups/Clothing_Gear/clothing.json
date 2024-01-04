@@ -135,7 +135,6 @@
       { "item": "elbow_pads", "prob": 5 },
       { "item": "boots", "prob": 10 },
       { "item": "boots_combat", "prob": 10 }
-
     ]
   },
   {
@@ -286,11 +285,7 @@
     "id": "clothing_soldier_shirt",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-    { "item": "tshirt", "prob": 75 },
-    { "item": "army_top", "prob": 15 },
-    { "item": "tank_top", "prob": 10 }
-    ]
+    "entries": [ { "item": "tshirt", "prob": 75 }, { "item": "army_top", "prob": 15 }, { "item": "tank_top", "prob": 10 } ]
   },
   {
     "id": "clothing_outdoor_pants",
@@ -388,7 +383,14 @@
     "type": "item_group",
     "//": "Tactical gear that can be strapped to the legs",
     "subtype": "distribution",
-    "entries": [ { "item": "legpouch", "prob": 25 }, { "item": "legpouch_large", "prob": 75 }, { "item": "legrig", "prob": 50 }, { "item": "dump_pouch", "prob": 50 }, { "item": "grenadebandolier", "prob": 25 }, { "item": "grenadebandolier", "prob": 25 } ]
+    "entries": [
+      { "item": "legpouch", "prob": 25 },
+      { "item": "legpouch_large", "prob": 75 },
+      { "item": "legrig", "prob": 50 },
+      { "item": "dump_pouch", "prob": 50 },
+      { "item": "grenadebandolier", "prob": 25 },
+      { "item": "grenadebandolier", "prob": 25 }
+    ]
   },
   {
     "id": "clothing_tactical_torso",
@@ -408,7 +410,6 @@
       { "item": "bigback", "prob": 10 }
     ]
   },
-
   {
     "id": "military_ballistic_armor",
     "type": "item_group",
@@ -426,8 +427,6 @@
       { "item": "shield_ballistic", "prob": 5 }
     ]
   },
-
-
   {
     "id": "clothing_watch",
     "type": "item_group",
@@ -1953,7 +1952,8 @@
     "items": [
       { "item": "radio", "prob": 5, "charges": [ 0, 300 ] },
       { "item": "two_way_radio", "prob": 20, "charges": [ 0, 300 ] },
-      { "item": "adv_UPS_off", "prob": 25, "charges": [ 0, 2000 ] },
+      { "item": "adv_UPS_off", "prob": 20, "charges": [ 0, 2000 ] },
+      { "group": "used_UPS", "prob": 5 },
       { "item": "goggles_nv", "prob": 20, "charges": [ 0, 150 ] },
       { "item": "goggles_ir", "prob": 20, "charges": [ 0, 150 ] },
       [ "solarpack", 5 ],
@@ -1968,9 +1968,15 @@
     "entries": [
       { "collection": [ { "item": "power_armor_basic" }, { "item": "power_armor_helmet_basic", "prob": 75 } ], "prob": 40 },
       { "item": "power_armor_helmet_basic", "prob": 10 },
-      { "collection": [ { "item": "power_armor_light" }, { "item": "power_armor_helmet_light", "prob": 75 } ], "prob": 20 },
+      {
+        "collection": [ { "item": "power_armor_light" }, { "item": "power_armor_helmet_light", "prob": 75 } ],
+        "prob": 20
+      },
       { "item": "power_armor_helmet_light", "prob": 5 },
-      { "collection": [ { "item": "power_armor_heavy" }, { "item": "power_armor_helmet_heavy", "prob": 75 } ], "prob": 20 },
+      {
+        "collection": [ { "item": "power_armor_heavy" }, { "item": "power_armor_helmet_heavy", "prob": 75 } ],
+        "prob": 20
+      },
       { "item": "power_armor_helmet_heavy", "prob": 5 }
     ]
   },
@@ -2025,17 +2031,15 @@
     "type": "item_group",
     "id": "mil_armor_torso",
     "items": [
-      { "group": "clothing_tactical_torso", "prob": 75 },
+      { "group": "clothing_tactical_torso", "prob": 20 },
+      { "group": "clothing_soldier_shirt", "prob": 30 },
       [ "kevlar", 10 ],
       [ "modularvest", 25 ],
       [ "modularvestceramic", 30 ],
       [ "winter_jacket_army", 30 ],
       [ "vest", 15 ],
-      [ "tacvest", 10 ],
-      [ "molle_pack", 8 ],
       [ "under_armor", 20 ],
       [ "power_armor_basic", 5 ],
-      [ "army_top", 30 ],
       [ "elbow_pads", 20 ]
     ]
   },

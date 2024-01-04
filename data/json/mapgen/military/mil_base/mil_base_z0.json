@@ -454,9 +454,9 @@
         { "item": "water_clean", "x": [ 36, 46 ], "y": 48, "chance": 75, "repeat": 50 }
       ],
       "place_monster": [
-      { "group": "GROUP_ROBOTS_MIL", "x": [ 33, 47 ], "y": [ 48, 70 ] },
-      { "group": "GROUP_ROBOTS_MIL", "x": [ 48, 64 ], "y": [ 48, 70 ] }
-     ],
+        { "group": "GROUP_ROBOTS_MIL", "x": [ 33, 47 ], "y": [ 48, 70 ] },
+        { "group": "GROUP_ROBOTS_MIL", "x": [ 48, 64 ], "y": [ 48, 70 ] }
+      ],
       "place_monsters": [
         { "monster": "GROUP_MIL_BASE", "x": [ 4, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ], "density": 0.1 },
         { "monster": "GROUP_MIL_BASE", "x": [ 24, 47 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ], "density": 0.1 },
@@ -614,7 +614,7 @@
         { "group": "tools_common", "x": 68, "y": [ 8, 9 ], "chance": 20 },
         { "group": "supplies_mechanics", "x": [ 72, 74 ], "y": 11, "chance": 75, "repeat": 10 },
         { "group": "supplies_spares_vehicle", "x": [ 76, 78 ], "y": 11, "chance": 75, "repeat": 5 },
-        { "group": "supplies_mechanics_milspec", "x": 72, "y": [ 11, 20 ], "chance": 75, "repeat": 20 },
+        { "group": "supplies_mechanics_milspec", "x": 81, "y": [ 11, 20 ], "chance": 75, "repeat": 20 },
         { "group": "gunmod_milspec", "x": 8, "y": [ 9, 12 ], "chance": 75, "repeat": 20 },
         { "group": "mil_armor_electronics", "x": 11, "y": [ 9, 10 ], "chance": 75, "repeat": 10 },
         { "item": "knife_combat", "x": [ 14, 15 ], "y": 9, "chance": 75, "repeat": 15 },
@@ -629,9 +629,9 @@
         { "group": "mil_base_tent_medical_thrash", "x": [ 52, 64 ], "y": [ 54, 71 ], "chance": 25, "repeat": 15 }
       ],
       "place_monster": [
-      { "group": "GROUP_ROBOTS_MIL", "x": [ 9, 23 ], "y": [ 10, 21 ], "repeat": [ 2, 5 ] },
-      { "group": "GROUP_ROBOTS_MIL", "x": [ 1, 23 ], "y": [ 51, 60 ], "repeat": [ 3, 6 ] }
-     ],
+        { "group": "GROUP_ROBOTS_MIL", "x": [ 9, 23 ], "y": [ 10, 21 ], "repeat": [ 2, 5 ] },
+        { "group": "GROUP_ROBOTS_MIL", "x": [ 1, 23 ], "y": [ 51, 60 ], "repeat": [ 3, 6 ] }
+      ],
       "place_monsters": [
         { "monster": "GROUP_MIL_BASE", "x": [ 0, 23 ], "y": [ 26, 47 ], "repeat": [ 6, 8 ], "density": 0.1 },
         { "monster": "GROUP_MIL_BASE", "x": [ 24, 47 ], "y": [ 26, 47 ], "repeat": [ 1, 2 ], "density": 0.1 },
