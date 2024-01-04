@@ -16,11 +16,29 @@
     "intelligence": 5,
     "time": "10 m"
   },
+
+  {
+    "id": "trade_writ_scrap",
+    "type": "BOOK",
+    "name": { "str": "writ of trade (scrap)", "str_pl": "writs of trade (scrap)" },
+    "description": "A handwritten listing of the inventory at the scrapyard.",
+    "weight": "1 g",
+    "volume": "5 ml",
+    "price": 3000,
+    "price_postapoc": 50,
+    "bashing": 1,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "mag_glam",
+    "color": "light_cyan",
+    "intelligence": 5,
+    "time": "10 m"
+  },  
   {
     "id": "trade_writ_lumberyard",
     "type": "BOOK",
     "name": { "str": "writ of trade (lumberyard)", "str_pl": "writs of trade (lumberyard)" },
-    "description": "A handwritten listing of the inventory at the lumberyard.",
+    "description": "A printout of the local lumberyard's latest inventory.",
     "weight": "1 g",
     "volume": "5 ml",
     "price": 3000,
