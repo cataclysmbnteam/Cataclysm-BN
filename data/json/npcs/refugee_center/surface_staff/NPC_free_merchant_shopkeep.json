@@ -836,7 +836,7 @@
     "responses": [
       {
         "text": "Well, how about 250 merch for 50 kilos of…",
-        "effect": { "u_buy_item": "trade_writ" },
+        "effect": { "u_buy_item": "trade_writ_lumberyard" },
         "topic": "TALK_DONE"
       }
     ]
@@ -848,7 +848,7 @@
     "responses": [
       {
         "text": "Well, how about 300 merch for 10 liters of…",
-        "effect": { "u_buy_item": "trade_writ" },
+        "effect": { "u_buy_item": "trade_writ_chemist" },
         "topic": "TALK_DONE"
       }
     ]
