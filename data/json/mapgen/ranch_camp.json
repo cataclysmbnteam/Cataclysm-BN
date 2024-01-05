@@ -599,6 +599,7 @@
         "..%..................................../W;;;;W;;;;W;;;;W;;;;W;;;;W;;;;W."
       ],
       "palettes": [ "ranch_camp" ],
+      "terrain": { "r": "t_dirtfloor" },
       "items": { ";": { "item": "farming_tools", "chance": 1 } },
       "place_item": [
         { "item": "cattlefodder", "x": [ 41, 44 ], "y": [ 25, 29 ], "amount": [ 0, 2 ] },
