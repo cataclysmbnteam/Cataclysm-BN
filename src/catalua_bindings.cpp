@@ -290,7 +290,7 @@ void cata::detail::reg_damage_instance( sol::state &lua )
 #undef UT_CLASS // #define UT_CLASS damage_instance
 #define UT_CLASS dealt_damage_instance
     {
-        DOC( "Represents the final deal damage" );
+        DOC( "Represents the final dealt damage" );
         sol::usertype<UT_CLASS> ut =
             luna::new_usertype<UT_CLASS>(
                 lua,

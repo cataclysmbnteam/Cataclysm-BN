@@ -141,45 +141,45 @@ std::string doc_value( sol::types<std::tuple<Args...>> )
 template<typename Val>
 std::string doc_value( sol::types<sol::optional<Val>> )
 {
-    std::string ret = "Opt(";
+    std::string ret = "Opt( ";
     ret += doc_value( sol::types<Val>() );
-    return ret + ")";
+    return ret + " )";
 }
 
 template<typename Val, std::size_t N>
 std::string doc_value( sol::types<std::array<Val, N>> )
 {
-    std::string ret = "Array(";
+    std::string ret = "Array( ";
     ret += doc_value(sol::types<Val>());
-    ret += ",";
-    ret += N;
-    return ret + ")";
+    ret += ", ";
+    ret += std::to_string( N );
+    return ret + " )";
 }
 
 template<typename Val>
 std::string doc_value( sol::types<std::vector<Val>> )
 {
-    std::string ret = "Vector(";
+    std::string ret = "Vector( ";
     ret += doc_value(sol::types<Val>());
-    return ret + ")";
+    return ret + " )";
 }
 
 template<typename Val>
 std::string doc_value( sol::types<std::set<Val>> )
 {
-    std::string ret = "Set(";
+    std::string ret = "Set( ";
     ret += doc_value(sol::types<Val>());
-    return ret + ")";
+    return ret + " )";
 }
 
 template<typename Key, typename Val>
 std::string doc_value( sol::types<std::map<Key, Val>> )
 {
-    std::string ret = "Map(";
+    std::string ret = "Map( ";
     ret += doc_value(sol::types<Key>());
-    ret += ",";
+    ret += ", ";
     ret += doc_value(sol::types<Val>());
-    return ret + ")";
+    return ret + " )";
 }
 
 template<typename Val>
