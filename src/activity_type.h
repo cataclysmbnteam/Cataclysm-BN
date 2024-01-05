@@ -4,10 +4,9 @@
 
 #include <string>
 
+#include "catalua_type_operators.h"
 #include "string_id.h"
 #include "translations.h"
-
-#include "catalua_type_operators.h"
 
 class JsonObject;
 class activity_type;

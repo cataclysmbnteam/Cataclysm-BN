@@ -9,11 +9,10 @@
 #include <vector>
 
 #include "debug.h"
+#include "enum_conversions.h"
 #include "int_id.h"
 #include "json.h"
 #include "string_id.h"
-
-#include "enum_conversions.h"
 
 std::unordered_map< mfaction_str_id, mfaction_id > faction_map;
 std::vector< monfaction > faction_list;

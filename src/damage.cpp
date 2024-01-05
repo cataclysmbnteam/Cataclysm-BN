@@ -6,15 +6,14 @@
 #include <numeric>
 #include <utility>
 
+#include "cata_utility.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "item.h"
 #include "json.h"
 #include "monster.h"
 #include "mtype.h"
 #include "translations.h"
-#include "cata_utility.h"
-
-#include "enum_conversions.h"
 
 bool damage_unit::operator==( const damage_unit &other ) const
 {

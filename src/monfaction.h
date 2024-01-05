@@ -4,10 +4,9 @@
 
 #include <unordered_map>
 
-#include "type_id.h"
-
 #include "catalua_type_operators.h"
 #include "enum_traits.h"
+#include "type_id.h"
 
 class JsonObject;
 

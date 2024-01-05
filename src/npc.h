@@ -24,6 +24,7 @@
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
+#include "enum_traits.h"
 #include "faction.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -40,8 +41,6 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-
-#include "enum_traits.h"
 
 class JsonIn;
 class JsonObject;

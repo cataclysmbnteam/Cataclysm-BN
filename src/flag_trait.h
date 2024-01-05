@@ -5,10 +5,8 @@
 #include <set>
 #include <string>
 
-#include "type_id.h"
-
 #include "catalua_type_operators.h"
-
+#include "type_id.h"
 
 class JsonObject;
 

@@ -9,9 +9,8 @@
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "type_id.h"
-
 #include "catalua_type_operators.h"
+#include "type_id.h"
 
 class JsonObject;
 class disease_type

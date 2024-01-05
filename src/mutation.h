@@ -13,17 +13,16 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "creature.h"
 #include "damage.h"
 #include "hash_utils.h"
 #include "memory_fast.h"
-#include "point.h"
 #include "pldata.h"
+#include "point.h"
 #include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
-
-#include "catalua_type_operators.h"
 
 class Character;
 class JsonObject;

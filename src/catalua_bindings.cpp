@@ -5,39 +5,39 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "catalua_bindings_utils.h"
+#include "catalua.h"
 #include "catalua_impl.h"
 #include "catalua_log.h"
 #include "catalua_luna_doc.h"
 #include "catalua_luna.h"
-#include "catalua.h"
 #include "character.h"
 #include "creature.h"
+#include "damage.h"
 #include "distribution_grid.h"
 #include "enum_conversions.h"
-#include "field_type.h"
+#include "enums.h"
 #include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
 #include "messages.h"
+#include "monfaction.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "player.h"
 #include "popup.h"
 #include "rng.h"
+#include "skill.h"
+#include "sounds.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-
-#include "skill.h"
-#include "monfaction.h"
 #include "units_angle.h"
 #include "units_energy.h"
 #include "units_mass.h"
 #include "units_volume.h"
-#include "mtype.h"
-#include "enums.h"
-#include "sounds.h"
 
 std::string_view luna::detail::current_comment;
 
@@ -231,6 +231,80 @@ void cata::detail::reg_skill_level_map( sol::state &lua )
                       sol::resolve<SkillLevel &( const skill_id & )>
                       ( &SkillLevelMap::get_skill_level_object ) );
     }
+}
+
+void cata::detail::reg_damage_instance( sol::state &lua )
+{
+#define UT_CLASS damage_unit
+    {
+        DOC( "Represents a damage amount" );
+        DOC( "Constructors are:" );
+        DOC( "new()" );
+        DOC( "new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)" );
+        sol::usertype<UT_CLASS> ut =
+            luna::new_usertype<UT_CLASS>(
+                lua,
+                luna::no_bases,
+                luna::constructors<
+                    UT_CLASS( damage_type, float, float, float, float )
+                >()
+            );
+
+        SET_MEMB( type );
+        SET_MEMB( amount );
+        SET_MEMB( res_pen );
+        SET_MEMB( res_mult );
+        SET_MEMB( damage_multiplier );
+
+        luna::set_fx( ut, sol::meta_function::equal_to, &UT_CLASS::operator== );
+
+    }
+#undef UT_CLASS // #define UT_CLASS damage_unit
+#define UT_CLASS damage_instance
+    {
+        DOC( "Represents a bunch of damage amounts" );
+        DOC( "Constructors are:" );
+        DOC( "new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)" );
+        sol::usertype<UT_CLASS> ut =
+            luna::new_usertype<UT_CLASS>(
+                lua,
+                luna::no_bases,
+                luna::constructors<
+                    UT_CLASS(),
+                    UT_CLASS( damage_type, float, float, float, float )
+                >()
+            );
+
+        SET_MEMB( damage_units );
+
+        SET_FX( mult_damage );
+        SET_FX( type_damage );
+        SET_FX( total_damage );
+        SET_FX( clear );
+        SET_FX( empty );
+        SET_FX( add_damage );
+        SET_FX_T( add, void( const damage_unit & ) );
+
+        luna::set_fx( ut, sol::meta_function::equal_to, &UT_CLASS::operator== );
+    }
+#undef UT_CLASS // #define UT_CLASS damage_instance
+#define UT_CLASS dealt_damage_instance
+    {
+        DOC( "Represents the final deal damage" );
+        sol::usertype<UT_CLASS> ut =
+            luna::new_usertype<UT_CLASS>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
+            );
+
+        SET_MEMB( dealt_dams );
+        SET_MEMB( bp_hit );
+
+        SET_FX( type_damage );
+        SET_FX( total_damage );
+    }
+#undef UT_CLASS // #define UT_CLASS dealt_damage_instance
 }
 
 void cata::detail::reg_item( sol::state &lua )
@@ -930,6 +1004,7 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_locale_api( lua );
     reg_units( lua );
     reg_skill_level_map( lua );
+    reg_damage_instance( lua );
     reg_creature_family( lua );
     reg_point_tripoint( lua );
     reg_item( lua );

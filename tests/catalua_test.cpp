@@ -14,10 +14,9 @@
 #include "mapdata.h"
 #include "options.h"
 #include "point.h"
-#include "stringmaker.h"
 #include "string_formatter.h"
+#include "stringmaker.h"
 #include "type_id.h"
-
 #include "units_angle.h"
 #include "units_energy.h"
 #include "units_mass.h"

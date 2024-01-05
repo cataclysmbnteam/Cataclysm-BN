@@ -7,9 +7,8 @@
 #include <vector>
 #include <string>
 
-#include "type_id.h"
-
 #include "enum_traits.h"
+#include "type_id.h"
 
 class item;
 class monster;

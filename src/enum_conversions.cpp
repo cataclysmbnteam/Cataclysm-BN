@@ -1,5 +1,9 @@
-#include "enums.h"
+///
+/// A place for enum conversions which don't fit anywhere else
+///
 #include "enum_conversions.h"
+
+#include "enums.h"
 
 template<>
 std::string io::enum_to_string<Attitude>( Attitude att )

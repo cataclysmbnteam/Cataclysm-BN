@@ -5,31 +5,30 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "catalua.h"
 #include "catalua_bindings_utils.h"
 #include "catalua_impl.h"
 #include "catalua_log.h"
-#include "catalua_luna_doc.h"
 #include "catalua_luna.h"
-#include "catalua.h"
+#include "catalua_luna_doc.h"
 #include "character.h"
 #include "creature.h"
 #include "damage.h"
 #include "disease.h"
-#include "field_type.h"
 #include "field.h"
-#include "morale_types.h"
+#include "field_type.h"
+#include "flag.h"
+#include "flag_trait.h"
 #include "monfaction.h"
 #include "monster.h"
+#include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
 #include "player.h"
 #include "pldata.h"
-#include "skill.h"
-
-#include "type_id.h"
-#include "flag.h"
-#include "flag_trait.h"
 #include "recipe.h"
+#include "skill.h"
+#include "type_id.h"
 
 void cata::detail::reg_creature_family( sol::state &lua )
 {
@@ -83,6 +82,12 @@ void cata::detail::reg_creature( sol::state &lua )
         SET_FX_T( ranged_target_size, double() const );
 
         SET_FX_T( knock_back_to, void( const tripoint & ) );
+
+        SET_FX_T( deal_damage, dealt_damage_instance( Creature *source, bodypart_id bp,
+                const damage_instance &dam ) );
+
+        SET_FX_T( apply_damage, void( Creature *source, bodypart_id bp, int amount,
+                bool bypass_med ) );
 
         SET_FX_T( size_melee_penalty, int() const );
 
@@ -293,6 +298,13 @@ void cata::detail::reg_monster( sol::state &lua )
         SET_FX_T( flies, bool() const );
         SET_FX_T( climbs, bool() const );
         SET_FX_T( swims, bool() const );
+
+        SET_FX_T( move_target, tripoint() );
+        SET_FX_N_T( wander, "is_wandering", bool() );
+
+        SET_FX_T( wander_to, void( const tripoint &p, int f ) );
+        SET_FX_T( move_to, bool( const tripoint &p, bool force, bool step_on_critter,
+                    float stagger_adjustment ) );
 
         SET_FX_T( attitude, monster_attitude( const Character * ) const );
 

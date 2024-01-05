@@ -1,6 +1,7 @@
 #include "animation.h"
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "character.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -22,7 +23,6 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "weather.h"
-#include "cached_options.h"
 
 #if defined(TILES)
 #include <memory>

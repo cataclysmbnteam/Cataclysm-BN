@@ -146,8 +146,18 @@ std::string doc_value( sol::types<sol::optional<Val>> )
     return ret + ")";
 }
 
+template<typename Val, std::size_t N>
+std::string doc_value( sol::types<std::array<Val, N>> )
+{
+    std::string ret = "Array(";
+    ret += doc_value(sol::types<Val>());
+    ret += ",";
+    ret += N;
+    return ret + ")";
+}
+
 template<typename Val>
-std::string doc_value(sol::types<std::vector<Val>>)
+std::string doc_value( sol::types<std::vector<Val>> )
 {
     std::string ret = "Vector(";
     ret += doc_value(sol::types<Val>());
@@ -155,7 +165,7 @@ std::string doc_value(sol::types<std::vector<Val>>)
 }
 
 template<typename Val>
-std::string doc_value(sol::types<std::set<Val>>)
+std::string doc_value( sol::types<std::set<Val>> )
 {
     std::string ret = "Set(";
     ret += doc_value(sol::types<Val>());
@@ -163,7 +173,7 @@ std::string doc_value(sol::types<std::set<Val>>)
 }
 
 template<typename Key, typename Val>
-std::string doc_value(sol::types<std::map<Key, Val>>)
+std::string doc_value( sol::types<std::map<Key, Val>> )
 {
     std::string ret = "Map(";
     ret += doc_value(sol::types<Key>());

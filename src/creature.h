@@ -12,16 +12,15 @@
 
 #include "anatomy.h"
 #include "bodypart.h"
+#include "cached_options.h"
+#include "enums.h"
+#include "enum_traits.h"
+#include "memory_fast.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "cached_options.h"
-#include "enums.h"
-#include "memory_fast.h"
-
-#include "enum_traits.h"
 
 enum game_message_type : int;
 class nc_color;

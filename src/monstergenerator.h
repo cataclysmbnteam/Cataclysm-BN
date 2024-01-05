@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "catalua_type_operators.h"
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
@@ -14,8 +15,6 @@
 #include "pimpl.h"
 #include "translations.h"
 #include "type_id.h"
-
-#include "catalua_type_operators.h"
 
 class Creature;
 class JsonObject;
