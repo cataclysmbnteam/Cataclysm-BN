@@ -2934,6 +2934,9 @@ int map::collapse_check( const tripoint &p )
                 if( tbelow == pbelow ) {
                     num_supports += 2;
                 }
+                if( has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p ) ) {
+                    num_supports = 0;
+                }
             }
         }
     }
@@ -2957,6 +2960,9 @@ int map::collapse_check( const tripoint &p )
                     num_supports += 3;
                 }
             }
+        }
+        if( has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p ) ) {
+            num_supports = 0;
         }
     }
 
