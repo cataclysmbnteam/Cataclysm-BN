@@ -59,7 +59,7 @@ class mon_special_attack
         // deserialize inline in monster::load due to backwards/forwards compatibility concerns
 };
 
-enum monster_attitude {
+enum monster_attitude : int {
     MATT_NULL = 0,
     MATT_FRIEND,
     MATT_FPASSIVE,
@@ -69,6 +69,11 @@ enum monster_attitude {
     MATT_ATTACK,
     MATT_ZLAVE,
     NUM_MONSTER_ATTITUDES
+};
+
+template<>
+struct enum_traits<monster_attitude> {
+    static constexpr monster_attitude last = monster_attitude::NUM_MONSTER_ATTITUDES;
 };
 
 enum monster_effect_cache_fields {

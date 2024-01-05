@@ -5,11 +5,6 @@
 #include "catalua_luna.h"
 #include "type_id.h"
 
-#include "units_angle.h"  // 'units' namespace 'types'/'classes' are actually defined
-#include "units_energy.h" // through 'using' with a template class.
-#include "units_mass.h"
-#include "units_volume.h"
-
 enum color_id : int;
 enum game_message_type : int;
 
@@ -21,6 +16,13 @@ enum damage_type : int;
 enum mf_attitude : int;
 enum npc_attitude : int;
 enum npc_need : int;
+enum m_flag : int;
+enum m_size : int;
+enum monster_attitude : int;
+namespace sfx
+{
+    enum class channel : int;
+}
 
 class avatar;
 class Character;
@@ -50,18 +52,40 @@ class Skill;
 class SkillLevel;
 class SkillLevelMap;
 class recipe;
+namespace units
+{
+    template<typename V, typename U>
+    class quantity;
+
+    class angle_in_radians_tag;
+    using angle = quantity<double, angle_in_radians_tag>;
+
+    class energy_in_joule_tag;
+    using energy = quantity<int, energy_in_joule_tag>;
+
+    class mass_in_milligram_tag;
+    using mass = quantity<std::int64_t, mass_in_milligram_tag>;
+
+    class volume_in_milliliter_tag;
+    using volume = quantity<int, volume_in_milliliter_tag>;
+}
 struct npc_opinion;
 struct npc_personality;
+struct species_type;
 
 
 // These definitions help the doc generator
 LUNA_DOC( bool, "bool" );
 LUNA_DOC( int, "int" );
+LUNA_DOC( unsigned int, "int" );
+LUNA_DOC( std::int64_t, "int");
 LUNA_DOC( size_t, "int" );
 LUNA_DOC( float, "double" );
 LUNA_DOC( double, "double" );
 LUNA_DOC( void, "nil" );
 LUNA_DOC( char, "char" );
+LUNA_DOC( signed char, "char" );
+LUNA_DOC( unsigned char, "char" );
 LUNA_DOC( const char *, "string" );
 LUNA_DOC( std::string, "string" );
 LUNA_DOC( std::string_view, "string" );
@@ -96,10 +120,10 @@ LUNA_VAL( uilist, "UiList" );
 LUNA_VAL( character_id, "CharacterId" );
 LUNA_VAL( npc_opinion, "NpcOpinion" );
 LUNA_VAL( npc_personality, "NpcPersonality" );
-LUNA_VAL( units::angle, "UnitsAngle" );
-LUNA_VAL( units::energy, "UnitsEnergy" );
-LUNA_VAL( units::mass, "UnitsMass" );
-LUNA_VAL( units::volume, "UnitsVolume" );
+LUNA_VAL( units::angle, "Angle" );
+LUNA_VAL( units::energy, "Energy" );
+LUNA_VAL( units::mass, "Mass" );
+LUNA_VAL( units::volume, "Volume" );
 LUNA_VAL( SkillLevel, "SkillLevel" );
 LUNA_VAL( SkillLevelMap, "SkillLevelMap" );
 
@@ -124,6 +148,7 @@ LUNA_ID( Skill, "Skill" )
 LUNA_ID( json_flag, "JsonFlag" )
 LUNA_ID( json_trait_flag, "JsonTraitFlag" )
 LUNA_ID( recipe, "Recipe" )
+LUNA_ID( species_type, "SpeciesType" )
 
 // Enums
 LUNA_ENUM( game_message_type, "MsgType" )
@@ -136,6 +161,10 @@ LUNA_ENUM( damage_type, "DamageType" )
 LUNA_ENUM( mf_attitude, "MonsterFactionAttitude" )
 LUNA_ENUM( npc_attitude, "NpcAttitude" )
 LUNA_ENUM( npc_need, "NpcNeed" )
+LUNA_ENUM( m_flag, "MonsterFlag" )
+LUNA_ENUM( m_size, "MonsterSize" )
+LUNA_ENUM( monster_attitude, "MonsterAttitude" )
+LUNA_ENUM( sfx::channel, "SfxChannel" )
 
 
 #endif // CATA_SRC_CATALUA_LUNA_DOC_H

@@ -15,6 +15,8 @@
 #include "translations.h"
 #include "type_id.h"
 
+#include "catalua_type_operators.h"
+
 class Creature;
 class JsonObject;
 class monster;
@@ -45,6 +47,8 @@ struct species_type {
     }
 
     void load( const JsonObject &jo, const std::string &src );
+
+    LUA_TYPE_OPS( species_type, id );
 };
 
 class MonsterGenerator

@@ -59,6 +59,20 @@ struct enum_traits<holiday> {
     static constexpr holiday last = holiday::num_holiday;
 };
 
+enum m_size : int {
+    MS_TINY = 0,    // Squirrel
+    MS_SMALL,      // Dog
+    MS_MEDIUM,    // Human
+    MS_LARGE,    // Cow
+    MS_HUGE,    // TAAAANK
+    num_m_size // last
+};
+
+template<>
+struct enum_traits<m_size> {
+    static constexpr m_size last = m_size::num_m_size;
+};
+
 enum class temperature_flag : int {
     TEMP_NORMAL = 0,
     TEMP_HEATER,

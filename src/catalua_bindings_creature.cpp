@@ -245,7 +245,7 @@ void cata::detail::reg_creature( sol::state &lua )
 
         SET_FX_T( has_grab_break_tec, bool() const );
 
-        luna::set_fx( ut, "get_weight_capacity", []( Creature & cr ) -> std::int64_t {
+        luna::set_fx( ut, "get_weight_capacity", []( UT_CLASS & cr ) -> std::int64_t {
             return cr.weight_capacity().value();
         } );
     }
@@ -474,8 +474,6 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( global_square_location, tripoint() const );
 
         SET_FX_T( global_sm_location, tripoint() const );
-
-        SET_FX_T( global_omt_location, tripoint_abs_omt() const );
 
         SET_FX_T( has_mabuff, bool( const mabuff_id & ) const );
 
@@ -734,8 +732,6 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( irradiate, bool( float rads, bool bypass ) );
 
-        SET_FX_T( drench, void( int saturation, const body_part_set & flags, bool ignore_waterproof ) );
-
         SET_FX_T( can_hear, bool( const tripoint & source, int volume ) const );
 
         SET_FX_T( hearing_ability, float() const );
@@ -853,7 +849,7 @@ void cata::detail::reg_npc( sol::state &lua )
         SET_FX_T( smash_ability, int() const );
 
         luna::set_fx( ut, "complain_about", []( UT_CLASS & npchar, const std::string & issue,
-        const time_duration & dur, const std::string & speech, std::optional<bool> force ) -> bool {
+        const time_duration & dur, const std::string & speech, sol::optional<bool> force ) -> bool {
             return npchar.complain_about( issue, dur, speech, force ? *force : false );
         } );
 

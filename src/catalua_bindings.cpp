@@ -35,6 +35,9 @@
 #include "units_energy.h"
 #include "units_mass.h"
 #include "units_volume.h"
+#include "mtype.h"
+#include "enums.h"
+#include "sounds.h"
 
 std::string_view luna::detail::current_comment;
 
@@ -555,32 +558,32 @@ void cata::detail::reg_game_api( sol::state &lua )
     } );
 
     luna::set_fx( lib, "get_creature_at", []( const tripoint & p,
-    std::optional<bool> allow_hallucination ) -> Creature * {
-        if( allow_hallucination )
+    sol::optional<bool> allow_hallucination ) -> Creature * {
+        if( allow_hallucination.has_value() )
         {
             return g->critter_at<Creature>( p, *allow_hallucination );
         }
         return g->critter_at<Creature>( p );
     } );
     luna::set_fx( lib, "get_monster_at", []( const tripoint & p,
-    std::optional<bool> allow_hallucination ) -> monster * {
-        if( allow_hallucination )
+    sol::optional<bool> allow_hallucination ) -> monster * {
+        if( allow_hallucination.has_value() )
         {
             return g->critter_at<monster>( p, *allow_hallucination );
         }
         return g->critter_at<monster>( p );
     } );
     luna::set_fx( lib, "get_character_at", []( const tripoint & p,
-    std::optional<bool> allow_hallucination ) -> Character * {
-        if( allow_hallucination )
+    sol::optional<bool> allow_hallucination ) -> Character * {
+        if( allow_hallucination.has_value() )
         {
             return g->critter_at<Character>( p, *allow_hallucination );
         }
         return g->critter_at<Character>( p );
     } );
     luna::set_fx( lib, "get_npc_at", []( const tripoint & p,
-    std::optional<bool> allow_hallucination ) -> npc * {
-        if( allow_hallucination )
+    sol::optional<bool> allow_hallucination ) -> npc * {
+        if( allow_hallucination.has_value() )
         {
             return g->critter_at<npc>( p, *allow_hallucination );
         }
@@ -588,23 +591,45 @@ void cata::detail::reg_game_api( sol::state &lua )
     } );
 
     luna::set_fx( lib, "choose_adjacent", []( const std::string & message,
-    std::optional<bool> allow_vertical ) -> std::optional<tripoint> {
-        if( allow_vertical )
+    sol::optional<bool> allow_vertical ) -> sol::optional<tripoint> {
+        std::optional<tripoint> stdOpt;
+        if( allow_vertical.has_value() )
         {
-            return choose_adjacent( message, *allow_vertical );
+            stdOpt = choose_adjacent( message, *allow_vertical );
         }
-        return choose_adjacent( message );
+        else
+        {
+            stdOpt = choose_adjacent( message );
+        }
+        if( stdOpt.has_value() )
+        {
+            return sol::optional<tripoint>( *stdOpt );
+        }
+        return sol::optional<tripoint>();
     } );
     luna::set_fx( lib, "choose_direction", []( const std::string & message,
-    std::optional<bool> allow_vertical ) -> std::optional<tripoint> {
-        if( allow_vertical )
+    sol::optional<bool> allow_vertical ) -> sol::optional<tripoint> {
+        std::optional<tripoint> stdOpt;
+        if( allow_vertical.has_value() )
         {
-            return choose_direction( message, *allow_vertical );
+            stdOpt = choose_direction( message, *allow_vertical );
         }
-        return choose_direction( message );
+        else
+        {
+            stdOpt = choose_direction( message );
+        }
+        if( stdOpt.has_value() )
+        {
+            return sol::optional<tripoint>( *stdOpt );
+        }
+        return sol::optional<tripoint>();
     } );
     luna::set_fx( lib, "look_around", []() {
-        return g->look_around();
+        auto result = g->look_around();
+        if ( result.has_value() ) {
+            return sol::optional<tripoint>( *result );
+        }
+        return sol::optional<tripoint>();
     } );
 
     luna::set_fx( lib, "play_variant_sound",
@@ -698,6 +723,10 @@ void cata::detail::reg_enums( sol::state &lua )
     reg_enum<mf_attitude>( lua );
     reg_enum<npc_attitude>( lua );
     reg_enum<npc_need>( lua );
+    reg_enum<m_flag>( lua );
+    reg_enum<m_size>( lua );
+    reg_enum<monster_attitude>( lua );
+    reg_enum<sfx::channel>( lua );
 }
 
 void cata::detail::reg_hooks_examples( sol::state &lua )

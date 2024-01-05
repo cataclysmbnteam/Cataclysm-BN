@@ -22,6 +22,7 @@
 #include "flag.h"
 #include "flag_trait.h"
 #include "recipe.h"
+#include "monstergenerator.h"
 
 
 template<typename T, bool do_int_id>
@@ -123,6 +124,7 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<json_flag, false>( lua );
     reg_id<json_trait_flag, false>( lua );
     reg_id<recipe, false>( lua );
+    reg_id<species_type, false>( lua );
 
 }
 

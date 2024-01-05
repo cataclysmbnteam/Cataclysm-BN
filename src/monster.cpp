@@ -1269,6 +1269,33 @@ Attitude monster::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
+template<>
+std::string io::enum_to_string<monster_attitude>(monster_attitude att)
+{
+    switch( att ) {
+        case MATT_NULL:
+            return "MATT_NULL";
+        case MATT_FRIEND:
+            return "MATT_FRIEND";
+        case MATT_FPASSIVE:
+            return "MATT_FPASSIVE";
+        case MATT_FLEE:
+            return "MATT_FLEE";
+        case MATT_IGNORE:
+            return "MATT_IGNORE";
+        case MATT_FOLLOW:
+            return "MATT_FOLLOW";
+        case MATT_ATTACK:
+            return "MATT_ATTACK";
+        case MATT_ZLAVE:
+            return "MATT_ZLAVE";
+        case NUM_MONSTER_ATTITUDES:
+            break;
+    }
+    debugmsg( "Invalid monster_attitude" );
+    abort();
+}
+
 monster_attitude monster::attitude( const Character *u ) const
 {
     if( friendly != 0 ) {

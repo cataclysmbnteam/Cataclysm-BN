@@ -165,4 +165,9 @@ void do_fatigue();
 void do_obstacle( const std::string &obst = "" );
 } // namespace sfx
 
+template<>
+struct enum_traits<sfx::channel> {
+    static constexpr auto last = sfx::channel::MAX_CHANNEL;
+};
+
 #endif // CATA_SRC_SOUNDS_H
