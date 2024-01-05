@@ -226,10 +226,10 @@ and should not be edited directly.
   Variable of type `int`
 
 #### follower_ids
-  Variable of type `Set(CharacterId)`
+  Variable of type `Set( CharacterId )`
 
 #### mutation_category_level
-  Variable of type `Map(MutationCategoryTraitId,int)`
+  Variable of type `Map( MutationCategoryTraitId, int )`
 
 #### getID
   Function `( Character ) -> CharacterId`
@@ -496,7 +496,7 @@ and should not be edited directly.
   Function `( Character ) -> Tripoint`
 
 #### has_mabuff
-  Function `( Character, <cppval: 9string_idI7ma_buffE > ) -> bool`
+  Function `( Character, MartialArtsBuffId ) -> bool`
 
 #### mabuff_tohit_bonus
   Function `( Character ) -> double`
@@ -544,7 +544,7 @@ and should not be edited directly.
   Function `( Character, MutationCategoryTraitId )`
 
 #### mutate_towards
-  Function `( Character, Vector(MutationBranchId), int ) -> bool`
+  Function `( Character, Vector( MutationBranchId ), int ) -> bool`
 
 #### mutate_towards
   Function `( Character, MutationBranchId ) -> bool`
@@ -568,7 +568,7 @@ and should not be edited directly.
   Function `( Character, BodyPartTypeIntId, DamageType ) -> double`
 
 #### get_bionics
-  Function `( Character ) -> Vector(BionicDataId)`
+  Function `( Character ) -> Vector( BionicDataId )`
 
 #### has_bionic
   Function `( Character, BionicDataId ) -> bool`
@@ -721,10 +721,10 @@ and should not be edited directly.
   Function `( Character, string ) -> double`
 
 #### get_base_traits
-  Function `( Character ) -> Vector(MutationBranchId)`
+  Function `( Character ) -> Vector( MutationBranchId )`
 
 #### get_mutations
-  Function `( Character, bool ) -> Vector(MutationBranchId)`
+  Function `( Character, bool ) -> Vector( MutationBranchId )`
 
 #### clear_skills
   Function `( Character )`
@@ -754,7 +754,7 @@ and should not be edited directly.
   Function `( Character, JsonFlagId, bool ) -> bool`
 
 #### all_items_with_flag
-  Function `( Character, JsonFlagId ) -> Vector(Item)`
+  Function `( Character, JsonFlagId ) -> Vector( Item )`
 
 #### assign_activity
   Function `( Character, ActivityTypeId, int, int, int, string )`
@@ -871,10 +871,10 @@ and should not be edited directly.
   Function `( Character, TimeDuration )`
 
 #### get_hostile_creatures
-  Function `( Character, int ) -> Vector(Creature)`
+  Function `( Character, int ) -> Vector( Creature )`
 
 #### get_visible_creatures
-  Function `( Character, int ) -> Vector(Creature)`
+  Function `( Character, int ) -> Vector( Creature )`
 
 #### wearing_something_on
   Function `( Character, BodyPartTypeIntId ) -> bool`
@@ -928,7 +928,7 @@ and should not be edited directly.
   Function `( Character ) -> int`
 
 #### bodypart_exposure
-  Function `( Character ) -> Map(BodyPartTypeIntId,double)`
+  Function `( Character ) -> Map( BodyPartTypeIntId, double )`
 
 
 ## CharacterId
@@ -965,7 +965,7 @@ and should not be edited directly.
   Function `( Creature ) -> string`
 
 #### get_grammatical_genders
-  Function `( Creature ) -> Vector(string)`
+  Function `( Creature ) -> Vector( string )`
 
 #### is_avatar
   Function `( Creature ) -> bool`
@@ -1018,6 +1018,12 @@ and should not be edited directly.
 #### knock_back_to
   Function `( Creature, Tripoint )`
 
+#### deal_damage
+  Function `( Creature, Creature, BodyPartTypeIntId, DamageInstance ) -> DealtDamageInstance`
+
+#### apply_damage
+  Function `( Creature, Creature, BodyPartTypeIntId, int, bool )`
+
 #### size_melee_penalty
   Function `( Creature ) -> int`
 
@@ -1064,23 +1070,23 @@ and should not be edited directly.
   Function `( Creature, Tripoint )`
 
 #### has_effect
-  Function `( Creature, EffectTypeId, Opt(BodyPartTypeId) ) -> bool`
+  Function `( Creature, EffectTypeId, Opt( BodyPartTypeId ) ) -> bool`
 
 #### has_effect_with_flag
-  Function `( Creature, JsonFlagId, Opt(BodyPartTypeId) ) -> bool`
+  Function `( Creature, JsonFlagId, Opt( BodyPartTypeId ) ) -> bool`
 
 #### get_effect_dur
-  Function `( Creature, EffectTypeId, Opt(BodyPartTypeId) ) -> TimeDuration`
+  Function `( Creature, EffectTypeId, Opt( BodyPartTypeId ) ) -> TimeDuration`
 
 #### get_effect_int
-  Function `( Creature, EffectTypeId, Opt(BodyPartTypeId) ) -> int`
+  Function `( Creature, EffectTypeId, Opt( BodyPartTypeId ) ) -> int`
 
 #### add_effect
 Effect type, duration, bodypart and intensity
-  Function `( Creature, EffectTypeId, TimeDuration, Opt(BodyPartTypeId), Opt(int) )`
+  Function `( Creature, EffectTypeId, TimeDuration, Opt( BodyPartTypeId ), Opt( int ) )`
 
 #### remove_effect
-  Function `( Creature, EffectTypeId, Opt(BodyPartTypeId) ) -> bool`
+  Function `( Creature, EffectTypeId, Opt( BodyPartTypeId ) ) -> bool`
 
 #### clear_effects
   Function `( Creature )`
@@ -1179,10 +1185,10 @@ Effect type, duration, bodypart and intensity
   Function `( Creature ) -> MonsterSize`
 
 #### get_hp
-  Function `( Creature, Opt(BodyPartTypeIntId) ) -> int`
+  Function `( Creature, Opt( BodyPartTypeIntId ) ) -> int`
 
 #### get_hp_max
-  Function `( Creature, Opt(BodyPartTypeIntId) ) -> int`
+  Function `( Creature, Opt( BodyPartTypeIntId ) ) -> int`
 
 #### hp_percentage
   Function `( Creature ) -> int`
@@ -1246,6 +1252,94 @@ Effect type, duration, bodypart and intensity
 
 #### get_weight_capacity
   Function `( Creature ) -> int`
+
+
+## DamageInstance
+new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
+### Bases
+  No base classes.
+
+### Constructors
+#### `DamageInstance.new()`
+#### `DamageInstance.new( DamageType, double, double, double, double )`
+
+### Members
+#### damage_units
+  Variable of type `Vector( DamageUnit )`
+
+#### mult_damage
+  Function `( DamageInstance, double, bool )`
+
+#### type_damage
+  Function `( DamageInstance, DamageType ) -> double`
+
+#### total_damage
+  Function `( DamageInstance ) -> double`
+
+#### clear
+  Function `( DamageInstance )`
+
+#### empty
+  Function `( DamageInstance ) -> bool`
+
+#### add_damage
+  Function `( DamageInstance, DamageType, double, double, double, double )`
+
+#### add
+  Function `( DamageInstance, DamageUnit )`
+
+#### __eq
+  Function `( DamageInstance, DamageInstance ) -> bool`
+
+
+## DamageUnit
+new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
+### Bases
+  No base classes.
+
+### Constructors
+#### `DamageUnit.new( DamageType, double, double, double, double )`
+
+### Members
+#### type
+  Variable of type `DamageType`
+
+#### amount
+  Variable of type `double`
+
+#### res_pen
+  Variable of type `double`
+
+#### res_mult
+  Variable of type `double`
+
+#### damage_multiplier
+  Variable of type `double`
+
+#### __eq
+  Function `( DamageUnit, DamageUnit ) -> bool`
+
+
+## DealtDamageInstance
+Represents the final dealt damage
+### Bases
+  No base classes.
+
+### Constructors
+  No constructors.
+
+### Members
+#### dealt_dams
+  Variable of type `Array( int, 11 )`
+
+#### bp_hit
+  Variable of type `BodyPart`
+
+#### type_damage
+  Function `( DealtDamageInstance, DamageType ) -> int`
+
+#### total_damage
+  Function `( DealtDamageInstance ) -> int`
 
 
 ## DiseaseTypeId
@@ -1840,6 +1934,44 @@ In map squares
   Function `( MapStack ) -> ItemStack`
 
 
+## MartialArtsBuffId
+### Bases
+  No base classes.
+
+### Constructors
+#### `MartialArtsBuffId.new()`
+#### `MartialArtsBuffId.new( MartialArtsBuffId )`
+#### `MartialArtsBuffId.new( string )`
+
+### Members
+#### obj
+  Function `( MartialArtsBuffId ) -> MartialArtsBuffRaw`
+
+#### implements_int_id
+  Function `() -> bool`
+
+#### is_null
+  Function `( MartialArtsBuffId ) -> bool`
+
+#### is_valid
+  Function `( MartialArtsBuffId ) -> bool`
+
+#### str
+  Function `( MartialArtsBuffId ) -> string`
+
+#### NULL_ID
+  Function `() -> MartialArtsBuffId`
+
+#### __tostring
+  Function `( MartialArtsBuffId ) -> string`
+
+#### serialize
+  Function `( MartialArtsBuffId, <cppval: 7JsonOut > )`
+
+#### deserialize
+  Function `( MartialArtsBuffId, <cppval: 6JsonIn > )`
+
+
 ## Mass
 ### Bases
   No base classes.
@@ -1964,6 +2096,18 @@ In map squares
 
 #### swims
   Function `( Monster ) -> bool`
+
+#### move_target
+  Function `( Monster ) -> Tripoint`
+
+#### is_wandering
+  Function `( Monster ) -> bool`
+
+#### wander_to
+  Function `( Monster, Tripoint, int )`
+
+#### move_to
+  Function `( Monster, Tripoint, bool, bool, double ) -> bool`
 
 #### attitude
   Function `( Monster, Character ) -> MonsterAttitude`
@@ -2192,7 +2336,7 @@ In map squares
   Variable of type `bool`
 
 #### needs
-  Variable of type `Vector(NpcNeed)`
+  Variable of type `Vector( NpcNeed )`
 
 #### set_faction_id
   Function `( Npc, FactionId )`
@@ -2279,7 +2423,7 @@ In map squares
   Function `( Npc ) -> int`
 
 #### complain_about
-  Function `( Npc, string, TimeDuration, string, Opt(bool) ) -> bool`
+  Function `( Npc, string, TimeDuration, string, Opt( bool ) ) -> bool`
 
 #### warn_about
   Function `( Npc, string, TimeDuration, string, int, Tripoint )`
@@ -2553,7 +2697,7 @@ Returns selected action
 
 ## SkillLevelMap
 ### Bases
-- `Map(SkillId,SkillLevel)`
+- `Map( SkillId, SkillLevel )`
 
 ### Constructors
   No constructors.
@@ -3426,13 +3570,13 @@ Methods for manipulating coord systems and calculating distance
   Function `( Tripoint ) -> ( Point, Tripoint )`
 
 #### sm_to_ms
-  Function `( Tripoint, Opt(Point) ) -> Tripoint`
+  Function `( Tripoint, Opt( Point ) ) -> Tripoint`
 
 #### omt_to_ms
-  Function `( Tripoint, Opt(Point) ) -> Tripoint`
+  Function `( Tripoint, Opt( Point ) ) -> Tripoint`
 
 #### om_to_ms
-  Function `( Point, Opt(Tripoint) ) -> Tripoint`
+  Function `( Point, Opt( Tripoint ) ) -> Tripoint`
 
 #### rl_dist
   Function `( Tripoint, Tripoint ) -> int`
@@ -3482,25 +3626,25 @@ Global game methods
   Function `( TimeDuration, function )`
 
 #### get_creature_at
-  Function `( Tripoint, Opt(bool) ) -> Creature`
+  Function `( Tripoint, Opt( bool ) ) -> Creature`
 
 #### get_monster_at
-  Function `( Tripoint, Opt(bool) ) -> Monster`
+  Function `( Tripoint, Opt( bool ) ) -> Monster`
 
 #### get_character_at
-  Function `( Tripoint, Opt(bool) ) -> Character`
+  Function `( Tripoint, Opt( bool ) ) -> Character`
 
 #### get_npc_at
-  Function `( Tripoint, Opt(bool) ) -> Npc`
+  Function `( Tripoint, Opt( bool ) ) -> Npc`
 
 #### choose_adjacent
-  Function `( string, Opt(bool) ) -> Opt(Tripoint)`
+  Function `( string, Opt( bool ) ) -> Opt( Tripoint )`
 
 #### choose_direction
-  Function `( string, Opt(bool) ) -> Opt(Tripoint)`
+  Function `( string, Opt( bool ) ) -> Opt( Tripoint )`
 
 #### look_around
-  Function `() -> Opt(Tripoint)`
+  Function `() -> Opt( Tripoint )`
 
 #### play_variant_sound
   Function `( string, string, int )`
