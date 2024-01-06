@@ -21,6 +21,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "field_type.h"
 #include "flag.h"
 #include "game.h"
 #include "gates.h"
@@ -35,6 +36,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "npc.h"
 #include "output.h"
 #include "options.h"
@@ -1058,6 +1060,311 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin
     return actor;
 }
 
+void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    const map &here = get_map();
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->hacksaw->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s hacksaw is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        act.moves_total = to_moves<int>( furn_type->hacksaw->duration() );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->hacksaw->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s hacksaw is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+        act.moves_total = to_moves<int>( ter_type->hacksaw->duration() );
+    } else {
+        if( !testing ) {
+            debugmsg( "hacksaw activity called on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    act.moves_left = act.moves_total;
+}
+
+void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+{
+    if( tool->ammo_sufficient() ) {
+        tool->ammo_consume( tool->ammo_required(), tool->position() );
+        sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
+        if( calendar::once_every( 1_minutes ) ) {
+            //~ Sound of a metal sawing tool at work!
+            sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
+        }
+    } else {
+        if( who.is_avatar() ) {
+            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+        } else { // who.is_npc()
+            if( get_avatar().sees( who.pos() ) ) {
+                add_msg( _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                         true ), tool->tname() );
+            }
+        }
+        who.cancel_activity();
+    }
+}
+
+void hacksaw_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    std::string message;
+    const activity_data_common *data;
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->hacksaw->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s hacksaw is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const furn_str_id new_furn = furn_type->hacksaw->result();
+        if( !new_furn.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "hacksaw furniture: %s invalid furniture", new_furn.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*furn_type->hacksaw );
+        here.furn_set( target, new_furn );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->hacksaw->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s hacksaw is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const ter_str_id new_ter = ter_type->hacksaw->result();
+        if( !new_ter.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "hacksaw terrain: %s invalid terrain", new_ter.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*ter_type->hacksaw );
+        here.ter_set( target, new_ter );
+    } else {
+        if( !testing ) {
+            debugmsg( "hacksaw activity finished on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    for( const activity_byproduct &byproduct : data->byproducts() ) {
+        const int amount = byproduct.roll();
+        if( byproduct.item->count_by_charges() ) {
+            here.add_item_or_charges( target, item::spawn( byproduct.item, calendar::turn, amount ) );
+        } else {
+            for( int i = 0; i < amount; ++i ) {
+                here.add_item_or_charges( target, item::spawn( byproduct.item, calendar::turn ) );
+            }
+        }
+    }
+
+    if( !data->message().empty() ) {
+        who.add_msg_if_player( m_info, data->message().translated() );
+    }
+
+    act.set_to_null();
+}
+
+void hacksaw_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "tool", tool );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonIn &jsin )
+{
+    std::unique_ptr<hacksaw_activity_actor> actor( new hacksaw_activity_actor(
+                tripoint_zero, safe_reference<item>() ) );
+    JsonObject data = jsin.get_object();
+    data.read( "target", actor->target );
+    data.read( "tool", actor->tool );
+    return actor;
+}
+
+void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    const map &here = get_map();
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->boltcut->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        act.moves_total = to_moves<int>( furn_type->boltcut->duration() );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->boltcut->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+        act.moves_total = to_moves<int>( ter_type->boltcut->duration() );
+    } else {
+        if( !testing ) {
+            debugmsg( "boltcut activity called on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    act.moves_left = act.moves_total;
+}
+
+void boltcutting_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+{
+    if( tool->ammo_sufficient() ) {
+        tool->ammo_consume( tool->ammo_required(), tool->position() );
+    } else {
+        if( who.is_avatar() ) {
+            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+        } else { // who.is_npc()
+            if( get_avatar().sees( who.pos() ) ) {
+                add_msg( _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                         true ), tool->tname() );
+            }
+        }
+        who.cancel_activity();
+    }
+}
+
+void boltcutting_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    std::string message;
+    const activity_data_common *data;
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->boltcut->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const furn_str_id new_furn = furn_type->boltcut->result();
+        if( !new_furn.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "boltcut furniture: %s invalid furniture", new_furn.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*furn_type->boltcut );
+        here.furn_set( target, new_furn );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->boltcut->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const ter_str_id new_ter = ter_type->boltcut->result();
+        if( !new_ter.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "boltcut terrain: %s invalid terrain", new_ter.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*ter_type->boltcut );
+        here.ter_set( target, new_ter );
+    } else {
+        if( !testing ) {
+            debugmsg( "boltcut activity finished on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    if( data->sound().empty() ) {
+        sounds::sound( target, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ),
+                       true, "tool", "boltcutters" );
+    } else {
+        sounds::sound( target, 5, sounds::sound_t::combat, data->sound().translated(),
+                       true, "tool", "boltcutters" );
+    }
+
+
+    for( const activity_byproduct &byproduct : data->byproducts() ) {
+        const int amount = byproduct.roll();
+        if( byproduct.item->count_by_charges() ) {
+            here.add_item_or_charges( target, item::spawn( byproduct.item, calendar::turn, amount ) );
+        } else {
+            for( int i = 0; i < amount; ++i ) {
+                here.add_item_or_charges( target, item::spawn( byproduct.item, calendar::turn ) );
+            }
+        }
+    }
+
+    if( !data->message().empty() ) {
+        who.add_msg_if_player( m_info, data->message().translated() );
+    }
+
+    act.set_to_null();
+}
+
+void boltcutting_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "tool", tool );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonIn &jsin )
+{
+    std::unique_ptr<boltcutting_activity_actor> actor( new boltcutting_activity_actor(
+                tripoint_zero, safe_reference<item>() ) );
+
+    JsonObject data = jsin.get_object();
+    data.read( "target", actor->target );
+    data.read( "tool", actor->tool );
+    return actor;
+}
+
 std::unique_ptr<lockpick_activity_actor> lockpick_activity_actor::use_item(
     int moves_total,
     item &lockpick,
@@ -1250,6 +1557,160 @@ std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonIn &js
     data.read( "fake_lockpick", actor->fake_lockpick );
     data.read( "target", actor->target );
 
+    return actor;
+}
+
+void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    const map &here = get_map();
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->oxytorch->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s oxytorch is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        act.moves_total = to_moves<int>( furn_type->oxytorch->duration() );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->oxytorch->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s oxytorch is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+        act.moves_total = to_moves<int>( ter_type->oxytorch->duration() );
+    } else {
+        if( !testing ) {
+            debugmsg( "oxytorch activity called on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    act.moves_left = act.moves_total;
+}
+
+void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+{
+    if( tool->ammo_sufficient() ) {
+        tool->ammo_consume( tool->ammo_required(), tool->position() );
+        sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( target ) );
+        if( calendar::once_every( 2_turns ) ) {
+            sounds::sound( target, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
+        }
+    } else {
+        if( who.is_avatar() ) {
+            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+        } else { // who.is_npc()
+            if( get_avatar().sees( who.pos() ) ) {
+                add_msg( _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                         true ), tool->tname() );
+            }
+        }
+        who.cancel_activity();
+    }
+}
+
+void oxytorch_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    std::string message;
+    const activity_data_common *data;
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->oxytorch->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s oxytorch is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const furn_str_id new_furn = furn_type->oxytorch->result();
+        if( !new_furn.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "oxytorch furniture: %s invalid furniture", new_furn.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*furn_type->oxytorch );
+        here.furn_set( target, new_furn );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->oxytorch->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s oxytorch is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const ter_str_id new_ter = ter_type->oxytorch->result();
+        if( !new_ter.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "oxytorch terrain: %s invalid terrain", new_ter.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*ter_type->oxytorch );
+        here.ter_set( target, new_ter );
+    } else {
+        if( !testing ) {
+            debugmsg( "oxytorch activity finished on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    for( const activity_byproduct &byproduct : data->byproducts() ) {
+        const int amount = byproduct.roll();
+        if( byproduct.item->count_by_charges() ) {
+            here.add_item_or_charges( target, item::spawn( byproduct.item, calendar::turn, amount ) );
+        } else {
+            for( int i = 0; i < amount; ++i ) {
+                here.add_item_or_charges( target, item::spawn( byproduct.item, calendar::turn ) );
+            }
+        }
+    }
+
+    // 50% chance of starting a fire.
+    if( one_in( 2 ) && here.flammable_items_at( target ) ) {
+        here.add_field( target, fd_fire, 1, 10_minutes );
+    }
+
+    if( !data->message().empty() ) {
+        who.add_msg_if_player( m_info, data->message().translated() );
+    }
+
+    act.set_to_null();
+}
+
+void oxytorch_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "tool", tool );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> oxytorch_activity_actor::deserialize( JsonIn &jsin )
+{
+    std::unique_ptr<oxytorch_activity_actor> actor( new oxytorch_activity_actor(
+                tripoint_zero, safe_reference<item>() ) );
+    JsonObject data = jsin.get_object();
+    data.read( "target", actor->target );
+    data.read( "tool", actor->tool );
     return actor;
 }
 
@@ -1459,14 +1920,17 @@ const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( Json
 deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
     { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
+    { activity_id( "ACT_BOLTCUTTING" ), &boltcutting_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
+    { activity_id( "ACT_HACKSAW" ), &hacksaw_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_TOGGLE_GATE" ), &toggle_gate_activity_actor::deserialize },
+    { activity_id( "ACT_OXYTORCH" ), &oxytorch_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_THROW" ), &throw_activity_actor::deserialize },

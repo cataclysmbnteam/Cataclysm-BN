@@ -19,7 +19,7 @@
     "encumbrance": 25,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "bunker_pants",
@@ -86,7 +86,7 @@
     "encumbrance": 3,
     "warmth": 10,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "OUTER" ]
   },
   {
@@ -129,7 +129,7 @@
     "covers": [ "legs" ],
     "coverage": 30,
     "material_thickness": 5,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -197,6 +197,17 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
   {
+    "id": "legguard_lightplate_superalloy",
+    "copy-from": "legguard_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "pair of superalloy leg guards", "str_pl": "pairs of superalloy leg guards" },
+    "description": "A full assembly of medieval leg protection, made from cutting-edge superalloy.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
+    "material": [ "superalloy", "leather" ],
+    "color": "light_cyan",
+    "encumbrance": 15,
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
     "id": "legguard_metal",
     "type": "ARMOR",
     "name": { "str": "pair of iron greaves", "str_pl": "pairs of iron greaves" },
@@ -236,7 +247,7 @@
     "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "OVERSIZE" ]
   },
   {
     "id": "legguard_scrap",

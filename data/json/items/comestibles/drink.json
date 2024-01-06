@@ -125,8 +125,8 @@
     "quench": 34,
     "healthy": 1,
     "description": "A healthy beverage made from bee balm steeped in boiling water.  Can be used to reduce negative effects of common cold or flu.",
-    "price": 100,
-    "price_postapoc": 25,
+    "price": "1 USD",
+    "price_postapoc": "25 cent",
     "fun": 1
   },
   {
@@ -186,8 +186,8 @@
     "quench": 34,
     "healthy": 1,
     "description": "A healthy beverage made from chamomile flowers steeped in boiling water.  Can be used to treat insomnia.",
-    "price": 100,
-    "price_postapoc": 25,
+    "price": "1 USD",
+    "price_postapoc": "25 cent",
     "fun": 1
   },
   {
@@ -929,8 +929,8 @@
     "quench": 34,
     "healthy": 1,
     "description": "A healthy beverage made from spurge flowers steeped in boiling water.  Can be used to prevent asthma attacks.",
-    "price": 100,
-    "price_postapoc": 25,
+    "price": "1 USD",
+    "price_postapoc": "25 cent",
     "fun": 1
   },
   {
@@ -970,8 +970,7 @@
     "material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "fun": 2,
-    "freezing_point": 22
+    "fun": 2
   },
   {
     "type": "COMESTIBLE",
@@ -1032,8 +1031,8 @@
     "symbol": "~",
     "quench": -35,
     "description": "Often regarded as folk medicine in some countries, bark tea tastes awful and tends to dry you out, but can help flush out stomach or other gut bugs.",
-    "price": 1250,
-    "price_postapoc": 25,
+    "price": "1250 cent",
+    "price_postapoc": "25 cent",
     "volume": "500 ml",
     "material": [ "water" ],
     "phase": "liquid",
@@ -1071,9 +1070,9 @@
     "category": "food",
     "name": { "str_sp": "water" },
     "description": "Water, the stuff of life, the best thirst-quencher available.  It would be safer to drink once purified.",
-    "weight": 250,
-    "volume": 1,
-    "price": 50,
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": "50 cent",
     "symbol": "~",
     "color": "light_blue",
     "phase": "liquid",

@@ -12,6 +12,7 @@
 #include "cata_utility.h"
 #include "catacharset.h" // used for utf8_width()
 #include "character_display.h"
+#include "clothing_utils.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
@@ -83,9 +84,9 @@ item_penalties get_item_penalties( const location_vector<item>::const_iterator &
             continue;
         }
         const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
-        [layer, bp]( item * const & i ) {
-            return i->get_layer() == layer && i->covers( bp ) && !( i->has_flag( flag_SEMITANGIBLE ) ||
-                    i->has_flag( flag_COMPACT ) );
+        [&layer, &bp, &c]( item * const & i ) {
+            return i->get_layer() == layer && i->covers( bp )
+                   && !( i->has_flag( flag_SEMITANGIBLE ) || is_compact( *i, c ) );
         } );
         if( num_items > 1 ) {
             body_parts_with_stacking_penalty.push_back( bp );

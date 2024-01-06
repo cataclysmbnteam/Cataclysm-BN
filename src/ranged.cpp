@@ -126,14 +126,11 @@ static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 
-static const skill_id skill_archery( "archery" );
 static const skill_id skill_driving( "driving" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
-static const skill_id skill_shotgun( "shotgun" );
-static const skill_id skill_smg( "smg" );
 static const skill_id skill_throw( "throw" );
 
 static const bionic_id bio_railgun( "bio_railgun" );
@@ -3903,25 +3900,18 @@ double ranged::aim_speed_encumbrance_modifier( const Character &who )
     return ( who.encumb( bp_hand_l ) + who.encumb( bp_hand_r ) ) / 10.0;
 }
 
-double ranged::aim_cap_from_volume( const item &gun )
+double ranged::aim_multiplier_from_volume( const item &gun )
 {
-    skill_id gun_skill = gun.gun_skill();
-    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( gun.volume() / 75_ml ) );
-    // TODO: also scale with skill level.
-    if( gun_skill == skill_smg ) {
-        aim_cap = std::max( 12.0, aim_cap );
-    } else if( gun_skill == skill_shotgun ) {
-        aim_cap = std::max( 12.0, aim_cap );
-    } else if( gun_skill == skill_pistol ) {
-        aim_cap = std::max( 15.0, aim_cap * 1.25 );
-    } else if( gun_skill == skill_rifle ) {
-        aim_cap = std::max( 7.0, aim_cap - 5.0 );
-    } else if( gun_skill == skill_archery ) {
-        aim_cap = std::max( 13.0, aim_cap );
-    } else { // Launchers, etc.
-        aim_cap = std::max( 10.0, aim_cap );
+    // Penalty scales linearly as volume increases
+    // 1 liters = multiplier of 0.9
+    // 5 liters = multiplier of 0.5
+    // Return early with maximum penalty of 0.1 at 9 liters and above.
+    if( gun.volume() >= 9_liter ) {
+        return 0.1f;
     }
-    return aim_cap;
+    double aim_mult = ( 10000.0 - static_cast<float>( gun.volume() / 1_ml ) ) / 10000.0;
+    // TODO: also scale with skill level?
+    return aim_mult;
 }
 
 double ranged::aim_per_move( const Character &who, const item &gun, double recoil )
@@ -3958,7 +3948,7 @@ double ranged::aim_per_move( const Character &who, const item &gun, double recoi
     // Each 5 points (combined) of hand encumbrance decreases aim speed by one unit.
     aim_speed -= aim_speed_encumbrance_modifier( who );
 
-    aim_speed = std::min( aim_speed, aim_cap_from_volume( gun ) );
+    aim_speed *= aim_multiplier_from_volume( gun );
 
     // Just a raw scaling factor.
     aim_speed *= 6.5;

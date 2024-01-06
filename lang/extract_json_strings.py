@@ -107,7 +107,7 @@ ignorable = {
     "monstergroup",
     "MONSTER_WHITELIST",
     "mutation_type",
-    "obsolete_terrain",
+    "oter_id_migration",
     "overlay_order",
     "overmap_connection",
     "overmap_location",
@@ -1094,6 +1094,30 @@ def extract_json(state, item):
             wrote = True
         if "sound_fail" in bash:
             writestr(state, bash["sound_fail"])
+            wrote = True
+    if "oxytorch" in item and "message" in item["oxytorch"]:
+        c = f"message when oxytorch cutting {name}"
+        writestr(state, item["oxytorch"]["message"], comment=c)
+        wrote = True
+    if "hacksaw" in item:
+        hacksaw = item["hacksaw"]
+        if "sound" in hacksaw:
+            c = f"sound of sawing {name}"
+            writestr(state, hacksaw["sound"], comment=c)
+            wrote = True
+        if "message" in hacksaw:
+            c = f"message when finished sawing {name}"
+            writestr(state, hacksaw["message"], comment=c)
+            wrote = True
+    if "boltcut" in item:
+        boltcut = item["boltcut"]
+        if "sound" in boltcut:
+            c = f"sound of bolt cutting {name}"
+            writestr(state, boltcut["sound"], comment=c)
+            wrote = True
+        if "message" in boltcut:
+            c = f"message when finished bolt cutting {name}"
+            writestr(state, boltcut["message"], comment=c)
             wrote = True
     if "pry" in item:
         pry = item["pry"]

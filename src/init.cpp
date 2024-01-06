@@ -187,9 +187,8 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                     debugmsg( "JSON source location has null path when reporting circular dependency" );
                 } else {
                     try {
-                        shared_ptr_fast<std::istream> stream = get_cached_stream( *it->first.path );
-                        JsonIn jsin( *stream, elem.first );
-                        jsin.error( "JSON contains circular dependency, this object is discarded" );
+                        throw_error_at_json_loc( elem.first,
+                                                 "JSON contains circular dependency, this object is discarded" );
                     } catch( const JsonError &err ) {
                         debugmsg( "(json-error)\n%s", err.what() );
                     }
@@ -397,7 +396,7 @@ void DynamicDataLoader::initialize()
     add( "weapon_category", &weapon_category::load_weapon_categories );
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
-    add( "obsolete_terrain", &overmap::load_obsolete_terrains );
+    add( "oter_id_migration", &overmap::load_oter_id_migration );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
     add( "construction_group", &construction_groups::load );
@@ -598,7 +597,7 @@ void DynamicDataLoader::unload_data()
     overmap_locations::reset();
     overmap_specials::reset();
     overmap_terrains::reset();
-    overmap::reset_obsolete_terrains();
+    overmap::reset_oter_id_migrations();
     profession::reset();
     quality::reset();
     recipe_dictionary::reset();
@@ -1028,7 +1027,7 @@ bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opt
         const std::vector<mod_id> mods_empty;
         WORLDPTR test_world = world_generator->make_new_world( mods_empty );
         if( !test_world ) {
-            std::cerr << "Failed to generate test world." << std::endl;
+            std::cerr << "Failed to generate test world." << '\n';
             return false;
         }
         world_generator->set_active_world( test_world );
@@ -1043,7 +1042,7 @@ bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opt
         try {
             load_and_finalize_packs( ui, _( "Checking mods" ), mods_list );
         } catch( const std::exception &err ) {
-            std::cerr << "Error loading data: " << err.what() << std::endl;
+            std::cerr << "Error loading data: " << err.what() << '\n';
         }
 
         std::string world_name = world_generator->active_world->world_name;

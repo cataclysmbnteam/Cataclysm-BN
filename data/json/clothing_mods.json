@@ -24,7 +24,7 @@
     "mod_value": [
       { "type": "bash", "value": 3, "proportion": [ "thickness" ] },
       { "type": "cut", "value": 3, "proportion": [ "thickness" ] },
-      { "type": "bullet", "value": 2, "proportion": [ "thickness" ] },
+      { "type": "bullet", "value": 2.5, "proportion": [ "thickness" ] },
       { "type": "encumbrance", "value": 5, "round_up": true, "proportion": [ "thickness", "coverage" ] }
     ]
   },
@@ -39,7 +39,7 @@
     "mod_value": [
       { "type": "bash", "value": 3, "proportion": [ "thickness" ] },
       { "type": "cut", "value": 3, "proportion": [ "thickness" ] },
-      { "type": "bullet", "value": 2, "proportion": [ "thickness" ] },
+      { "type": "bullet", "value": 2.5, "proportion": [ "thickness" ] },
       { "type": "encumbrance", "value": 4, "round_up": true, "proportion": [ "thickness", "coverage" ] }
     ]
   },
@@ -52,9 +52,9 @@
     "destroy_prompt": "Destroy Kevlar padding",
     "mod_value": [
       { "type": "bash", "value": 1, "proportion": [ "thickness" ] },
-      { "type": "cut", "value": 1.5, "proportion": [ "thickness" ] },
-      { "type": "bullet", "value": 2.5, "proportion": [ "thickness" ] },
-      { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+      { "type": "cut", "value": 2, "proportion": [ "thickness" ] },
+      { "type": "bullet", "value": 3, "proportion": [ "thickness" ] },
+      { "type": "encumbrance", "value": 3, "round_up": true, "proportion": [ "thickness", "coverage" ] }
     ]
   },
   {
@@ -82,5 +82,15 @@
       { "type": "encumbrance", "value": 3, "proportion": [ "coverage" ] },
       { "type": "warmth", "value": 20, "proportion": [ "coverage" ] }
     ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "resized_large",
+    "flag": "resized_large",
+    "item": "rag",
+    "implement_prompt": "Resize to fit abnormally large mutated anatomy",
+    "destroy_prompt": "Undo resizing for mutated anatomy",
+    "restricted": true,
+    "mod_value": [ { "type": "encumbrance", "value": 10, "proportion": [ "coverage" ] } ]
   }
 ]

@@ -1900,6 +1900,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                     carried_part.set_flag( vehicle_part::tracked_flag );
                 }
                 parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
+                carry_veh->parts[ carry_part ].removed = true;
             }
             refresh_locations_hack();
 
@@ -1923,7 +1924,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         //~ %1$s is the vehicle being loaded onto the bicycle rack
         add_msg( _( "You load the %1$s on the rack" ), carry_veh->name );
         map &here = get_map();
-        here.destroy_vehicle( carry_veh );
+        carry_veh->part_removal_cleanup();
         here.dirty_vehicle_list.insert( this );
         here.set_transparency_cache_dirty( sm_pos.z );
         here.set_seen_cache_dirty( tripoint_zero );
@@ -5101,8 +5102,8 @@ namespace distribution_graph
 {
 
 template <bool IsConst,
-          typename Vehicle = typename std::conditional<IsConst, const vehicle, vehicle>::type,
-          typename Grid = typename std::conditional<IsConst, const distribution_grid, distribution_grid>::type>
+          typename Vehicle = std::conditional_t<IsConst, const vehicle, vehicle>,
+          typename Grid = std::conditional_t<IsConst, const distribution_grid, distribution_grid>>
 struct vehicle_or_grid {
     enum class type_t : char {
         vehicle,
@@ -5140,7 +5141,7 @@ void traverse( StartPoint &start,
                VehFunc veh_action, GridFunc grid_action )
 {
     using tvr = traverse_visitor_result;
-    constexpr bool IsConst = std::is_const<StartPoint>::value;
+    constexpr bool IsConst = std::is_const_v<StartPoint>;
     struct hash {
         const std::hash<char> char_hash = std::hash<char>();
         const std::hash<size_t> ptr_hash = std::hash<size_t>();
@@ -6903,6 +6904,10 @@ bool vehicle::restore( const std::string &data )
         debugmsg( "Error restoring vehicle: %s", e.c_str() );
         return false;
     }
+    for( vehicle_part &part : parts ) {
+        part.hack_id = get_next_hack_id();
+    }
+    refresh_locations_hack();
     refresh();
     face.init( 0_degrees );
     turn_dir = 0_degrees;

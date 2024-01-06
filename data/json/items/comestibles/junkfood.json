@@ -411,8 +411,7 @@
     "phase": "liquid",
     "charges": 16,
     "fun": 5,
-    "vitamins": [ [ "calcium", 2 ] ],
-    "freezing_point": -70
+    "vitamins": [ [ "calcium", 2 ] ]
   },
   {
     "type": "COMESTIBLE",

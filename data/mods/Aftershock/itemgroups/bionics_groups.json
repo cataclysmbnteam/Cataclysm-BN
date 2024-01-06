@@ -25,11 +25,6 @@
     "items": [ [ "afs_bio_wind_turbine", 10 ], [ "afs_bio_skullgun", 2 ] ]
   },
   {
-    "id": "afs_bionics_power",
-    "type": "item_group",
-    "items": [ [ "bio_power_storage_mkII", 1 ], [ "bio_power_storage", 14 ] ]
-  },
-  {
     "id": "afs_bionic_toolkit",
     "type": "item_group",
     "items": [ [ "afs_complete_bionic_toolkit", 1 ], [ "bionic_maintenance_toolkit", 14 ] ]

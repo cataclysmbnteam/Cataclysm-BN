@@ -94,13 +94,12 @@
     "category": "weapons",
     "name": { "str": "tazer" },
     "description": "This is a high-powered stun gun.  Use this item to attempt to electrocute an adjacent enemy, damaging and temporarily paralyzing them.  Because the shock can actually jump through the air, it is difficult to miss.",
-    "weight": "151 g",
-    "volume": "250 ml",
-    "price": 14000,
-    "price_postapoc": 1500,
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": "140 USD",
+    "price_postapoc": "15 USD",
     "to_hit": -1,
     "bashing": 6,
-    "//": "Yes, this is smaller than its magazine well. Go with it.",
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -113,6 +112,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": "500 ml",
+    "flags": [ "BELT_CLIP" ]
   }
 ]

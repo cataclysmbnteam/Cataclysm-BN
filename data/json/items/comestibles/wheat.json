@@ -572,7 +572,7 @@
     "type": "COMESTIBLE",
     "name": "space cake",
     "copy-from": "sponge_cake",
-    "price_postapoc": 500,
+    "price_postapoc": "5 USD",
     "description": "This cake's destiny is to take you on a gnarly trip.",
     "fun": 12,
     "use_action": "WEED_CAKE"
@@ -594,7 +594,7 @@
     "name": { "str": "'special' brownie" },
     "copy-from": "brownie",
     "description": "This is definitely not how grandma used to bake them.",
-    "price_postapoc": 500,
+    "price_postapoc": "5 USD",
     "fun": 15,
     "use_action": "WEED_CAKE"
   }

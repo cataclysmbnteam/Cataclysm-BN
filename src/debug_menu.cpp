@@ -520,37 +520,37 @@ void character_edit_menu( Character &c )
     std::string nmenu_label;
     if( np != nullptr ) {
         std::stringstream data;
-        data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
+        data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << '\n';
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
              ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
              ( np->get_faction() ? np->get_faction()->currency->nname( 1 ) : _( "no currency" ) )
              << "; " <<
-             "api: " << np->get_faction_ver() << std::endl;
+             "api: " << np->get_faction_ver() << '\n';
         if( np->has_destination() ) {
             data << string_format(
                      _( "Destination: %s %s" ), np->goal.to_string(),
-                     overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
+                     overmap_buffer.ter( np->goal )->get_name() ) << '\n';
         } else {
-            data << _( "No destination." ) << std::endl;
+            data << _( "No destination." ) << '\n';
         }
         data << string_format( _( "Trust: %d" ), np->op_of_u.trust ) << " "
              << string_format( _( "Fear: %d" ), np->op_of_u.fear ) << " "
              << string_format( _( "Value: %d" ), np->op_of_u.value ) << " "
              << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << " "
-             << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << std::endl;
+             << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << '\n';
 
         data << string_format( _( "Aggression: %d" ),
                                static_cast<int>( np->personality.aggression ) ) << " "
              << string_format( _( "Bravery: %d" ), static_cast<int>( np->personality.bravery ) ) << " "
              << string_format( _( "Collector: %d" ), static_cast<int>( np->personality.collector ) ) << " "
-             << string_format( _( "Altruism: %d" ), static_cast<int>( np->personality.altruism ) ) << std::endl;
+             << string_format( _( "Altruism: %d" ), static_cast<int>( np->personality.altruism ) ) << '\n';
 
-        data << _( "Needs:" ) << std::endl;
+        data << _( "Needs:" ) << '\n';
         for( const auto &need : np->needs ) {
-            data << need << std::endl;
+            data << need << '\n';
         }
-        data << string_format( _( "Total morale: %d" ), np->get_morale_level() ) << std::endl;
+        data << string_format( _( "Total morale: %d" ), np->get_morale_level() ) << '\n';
 
         nmenu_label = data.str();
     } else {
@@ -1981,21 +1981,21 @@ void debug()
             int count = 0;
             for( const auto &elem : g->faction_manager_ptr->all() ) {
                 std::cout << std::to_string( count ) << " Faction_id key in factions map = " << elem.first.str() <<
-                          std::endl;
+                          '\n';
                 std::cout << std::to_string( count ) << " Faction name associated with this id is " <<
-                          elem.second.name << std::endl;
+                          elem.second.name << '\n';
                 std::cout << std::to_string( count ) << " the id of that faction object is " << elem.second.id.str()
-                          << std::endl;
+                          << '\n';
                 count++;
             }
-            std::cout << "Player faction is " << g->u.get_faction()->id.str() << std::endl;
+            std::cout << "Player faction is " << g->u.get_faction()->id.str() << '\n';
             break;
         }
         case DEBUG_PRINT_NPC_MAGIC: {
             for( npc &guy : g->all_npcs() ) {
                 const std::vector<spell_id> spells = guy.magic->spells();
                 if( spells.empty() ) {
-                    std::cout << guy.disp_name() << " does not know any spells." << std::endl;
+                    std::cout << guy.disp_name() << " does not know any spells." << '\n';
                     continue;
                 }
                 std::cout << guy.disp_name() << "knows : ";
@@ -2005,7 +2005,7 @@ void debug()
                     if( counter < static_cast<int>( spells.size() ) ) {
                         std::cout << "and ";
                     } else {
-                        std::cout << "." << std::endl;
+                        std::cout << "." << '\n';
                     }
                     counter++;
                 }
@@ -2123,7 +2123,7 @@ void debug()
         case DEBUG_RELOAD_TILES:
             std::ostringstream ss;
             g->reload_tileset( [&ss]( const std::string & str ) {
-                ss << str << std::endl;
+                ss << str << '\n';
             } );
             add_msg( ss.str() );
             break;

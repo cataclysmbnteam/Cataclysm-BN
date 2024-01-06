@@ -20,8 +20,8 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY" ]
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
+    "flags": [ "POCKETS", "OUTER", "WATER_FRIENDLY" ]
   },
   {
     "id": "blazer",
@@ -172,7 +172,7 @@
     "encumbrance": 50,
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   },
   {
     "id": "gown",

@@ -1314,5 +1314,16 @@
     "seals": true,
     "watertight": true,
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+  },
+  {
+    "id": "hazardous_waste_drum",
+    "copy-from": "55gal_drum",
+    "type": "CONTAINER",
+    "name": { "str": "hazardous waste drum" },
+    "description": "A yellow drum meant for the storage of hazardous substances.",
+    "material": [ "steel", "lead" ],
+    "symbol": "0",
+    "contains": "200 L",
+    "color": "yellow"
   }
 ]

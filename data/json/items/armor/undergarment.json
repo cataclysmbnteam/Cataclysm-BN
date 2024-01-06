@@ -17,6 +17,7 @@
     "encumbrance": 1,
     "warmth": 20,
     "material_thickness": 1,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "SKINTIGHT" ]
   },
   {
@@ -349,6 +350,7 @@
     "encumbrance": 1,
     "warmth": 20,
     "material_thickness": 1,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "SKINTIGHT" ]
   },
   {
@@ -370,26 +372,6 @@
     "warmth": 40,
     "material_thickness": 2,
     "flags": [ "VARSIZE" ]
-  },
-  {
-    "id": "leg_warmers_xl",
-    "type": "ARMOR",
-    "name": { "str": "pair of XL leg warmers", "str_pl": "pairs of XL leg warmers" },
-    "description": "Large, soft, snug cloth sleeves to keep your exotic anatomy warm.",
-    "weight": "50 g",
-    "volume": "750 ml",
-    "price": "200 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "leg_warmers",
-    "color": "light_gray",
-    "covers": [ "legs" ],
-    "coverage": 60,
-    "encumbrance": 7,
-    "warmth": 20,
-    "material_thickness": 2,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
   },
   {
     "id": "long_underpants",

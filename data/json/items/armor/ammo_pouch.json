@@ -100,6 +100,7 @@
       "draw_cost": 40,
       "flags": [ "MAG_COMPACT", "MAG_BULKY", "SPEEDLOADER" ]
     },
+    "valid_mods": [ "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "WAIST" ]
   },
   {
@@ -128,6 +129,7 @@
       "draw_cost": 40,
       "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]
     },
+    "valid_mods": [ "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -156,6 +158,7 @@
       "draw_cost": 40,
       "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]
     },
+    "valid_mods": [ "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -243,14 +246,14 @@
       "draw_cost": 40,
       "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]
     },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
   },
   {
     "id": "modularvest",
     "type": "ARMOR",
     "name": { "str": "MBR vest (empty)", "str_pl": "MBR vests (empty)" },
     "description": "A Modular Bullet Resistant Vest.  It has pouches for extra armor inserts, but without them provides little more protection over a regular vest.  It has four pouches capable of carrying magazines.",
-    "weight": "3000 g",
+    "weight": "3 kg",
     "volume": "6 L",
     "price": "299 USD",
     "price_postapoc": "20 USD",
@@ -283,7 +286,7 @@
     "type": "ARMOR",
     "name": { "str": "MBR vest (ceramic plates)", "str_pl": "MBR vests (ceramic plates)" },
     "description": "A Modular Bullet Resistant Vest.  Ceramic plates have been inserted to improve its protection, offering good resistance to bullets at the expense of being less durable than other plate options.  It has four pouches capable of carrying magazines.",
-    "weight": "4308 g",
+    "weight": "5 kg",
     "volume": "6 L",
     "price": "399 USD",
     "price_postapoc": "40 USD",
@@ -316,7 +319,7 @@
     "type": "ARMOR",
     "name": { "str": "MBR vest (hard plates)", "str_pl": "MBR vests (hard plates)" },
     "description": "A Modular Bullet Resistant Vest.  Hardened steel plates have been inserted, greatly increasing its protection at the cost of a great deal of weight and loss of flexibility.  It has four pouches capable of carrying magazines.",
-    "weight": "14860 g",
+    "weight": "15 kg",
     "volume": "6 L",
     "price": "399 USD",
     "price_postapoc": "35 USD",
@@ -349,9 +352,9 @@
     "type": "ARMOR",
     "name": { "str": "MBR vest (steel plating)", "str_pl": "MBR vests (steel plating)" },
     "description": "A Modular Bullet Resistant Vest.  Its armor pouches have steel plates in them; this improves protection, but makes the vest much heavier and encumbering.  It has four pouches capable of carrying magazines.",
-    "weight": "10860 g",
+    "weight": "11 kg",
     "volume": "6 L",
-    "price": "399 USD",
+    "price": "400 USD",
     "price_postapoc": "25 USD",
     "to_hit": -3,
     "bashing": 8,
@@ -379,36 +382,13 @@
   },
   {
     "id": "modularvestsuper",
+    "copy-from": "modularveststeel",
     "type": "ARMOR",
     "name": { "str": "MBR vest (superalloy)", "str_pl": "MBR vests (superalloy)" },
     "description": "A Modular Bullet Resistant Vest.  Its armor pouches have superalloy plating in them, giving it extra protection with marginal flexibility loss and additional weight.  It has four pouches capable of carrying magazines.",
-    "weight": "6460 g",
-    "volume": "6 L",
-    "price": "800 USD",
-    "price_postapoc": "50 USD",
-    "to_hit": -3,
-    "bashing": 8,
     "material": [ "kevlar", "superalloy" ],
-    "symbol": "[",
-    "looks_like": "modularvestkevlar",
-    "color": "light_cyan",
-    "covers": [ "torso" ],
-    "coverage": 85,
     "encumbrance": 15,
-    "storage": "1 L",
-    "warmth": 15,
-    "material_thickness": 8,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
-    "flags": [ "STURDY", "OUTER" ]
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },
   {
     "id": "quiver",
@@ -523,6 +503,7 @@
       "draw_cost": 60,
       "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
     },
+    "valid_mods": [ "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "WAIST" ]
   },
   {

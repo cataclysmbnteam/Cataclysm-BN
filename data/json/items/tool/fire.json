@@ -268,8 +268,8 @@
     "name": { "str": "electric lighter" },
     "description": "A battery-powered lighter.  More efficient than a crude electric firestarter, its batteries last for quite a while.",
     "copy-from": "lighter",
-    "volume": "25 ml",
-    "magazine_well": "25 ml",
+    "volume": "50 ml",
+    "magazine_well": "50 ml",
     "max_charges": 5,
     "price": "1 USD",
     "price_postapoc": "10 cent",
@@ -278,19 +278,6 @@
     "looks_like": "lighter",
     "ammo": "battery",
     "use_action": { "type": "firestarter", "moves": 50 },
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ]
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
   }
 ]

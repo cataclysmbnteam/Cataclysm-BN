@@ -75,14 +75,14 @@
     "id": "bridge",
     "copy-from": "generic_bridge",
     "extras": "bridgehead_ground",
-    "flags": [ "RIVER" ]
+    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY" ]
   },
   {
     "type": "overmap_terrain",
     "id": "bridge_under",
     "copy-from": "generic_bridge",
     "color": "blue",
-    "flags": [ "RIVER" ]
+    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY" ]
   },
   {
     "type": "overmap_terrain",
@@ -97,7 +97,7 @@
     "name": "bridgehead (ground)",
     "sym": "v",
     "extras": "bridgehead_ground",
-    "flags": [ "RIVER" ]
+    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY" ]
   },
   {
     "type": "overmap_terrain",
@@ -112,8 +112,7 @@
     "name": "roadstop",
     "sym": "^",
     "color": "light_blue",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -121,8 +120,7 @@
     "name": "public washroom",
     "sym": "^",
     "color": "light_blue",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -130,8 +128,7 @@
     "name": "roadside foodcart",
     "sym": "^",
     "color": "magenta",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",

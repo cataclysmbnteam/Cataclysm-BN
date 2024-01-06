@@ -186,7 +186,7 @@ void debug_write_lua_backtrace( std::ostream &out )
     luaL_traceback( container.lua_state(), state->lua.lua_state(), "=== Lua backtrace report ===", 0 );
 
     std::string data = sol::stack::pop<std::string>( container );
-    out << data << std::endl;
+    out << data << '\n';
 }
 
 static sol::table get_mod_storage_table( lua_state &state )

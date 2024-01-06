@@ -219,10 +219,10 @@
     "id": "shotgun_trap",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "shotgun trap" },
-    "description": "This is a simple tripwire is attached to the trigger of a loaded double-barreled shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
-    "weight": "2922 g",
-    "volume": "1750 ml",
+    "name": { "str": "double-barreled shotgun trap" },
+    "description": "This is a simple tripwire is attached to the trigger of a loaded double-barreled shotgun.  When pulled, the shotgun fires, discharging both barrels into the target.",
+    "weight": "3500 g",
+    "volume": "3 L",
     "price": "250 USD",
     "price_postapoc": "10 USD",
     "to_hit": -2,
@@ -233,6 +233,22 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_shotgun_2",
+      "moves": 225,
+      "practice": 5,
+      "done_message": "You set the shotgun trap."
+    }
+  },
+  {
+    "id": "shotgun_trap_single",
+    "copy-from": "shotgun_trap",
+    "type": "GENERIC",
+    "name": { "str": "shotgun trap" },
+    "description": "This is a simple tripwire is attached to the trigger of a loaded single-barreled shotgun.  When pulled, the shotgun fires.",
+    "weight": "2600 g",
+    "volume": "2500 ml",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_shotgun_1",
       "moves": 225,
       "practice": 5,
       "done_message": "You set the shotgun trap."
@@ -259,6 +275,30 @@
       "moves": 175,
       "practice": 3,
       "done_message": "You string up the tripwire."
+    }
+  },
+  {
+    "id": "can_alarm_trap",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "makeshift perimeter alarm" },
+    "description": "This is a set of empty cans used as makeshift noisemakers, strung up across a doorway or other thin passage.  It will make noise when activated to alert you of intruders, but is otherwise harmless.",
+    "weight": "120 g",
+    "volume": "1 L",
+    "price": "3 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": -1,
+    "material": "aluminum",
+    "symbol": ";",
+    "looks_like": "boobytrap",
+    "color": "light_gray",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_can_alarm",
+      "needs_solid_neighbor": true,
+      "moves": 200,
+      "practice": 3,
+      "done_message": "You string up some cans on a tripwire."
     }
   },
   {

@@ -119,12 +119,35 @@ void trap::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "map_regen", map_regen, "none" );
     optional( jo, was_loaded, "benign", benign, false );
+    optional( jo, was_loaded, "remove_on_trigger", remove_on_trigger, false );
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     optional( jo, was_loaded, "spell_data", spell_data );
     assign( jo, "trigger_weight", trigger_weight );
+    if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    jo.read( "looks_like", looks_like );
+    for( const JsonValue entry : jo.get_array( "trigger_items" ) ) {
+        itype_id item_type;
+        int quantity = 0;
+        int charges = 0;
+        if( entry.test_object() ) {
+            JsonObject jc = entry.get_object();
+            jc.read( "item", item_type, true );
+            quantity = jc.get_int( "quantity", 1 );
+            charges = jc.get_int( "charges", 1 );
+        } else {
+            entry.read( item_type, true );
+            quantity = 1;
+            charges = 1;
+        }
+        if( !item_type.is_empty() && quantity > 0 && charges > 0 ) {
+            trigger_components.emplace_back( item_type, quantity, charges );
+        }
+    }
     for( const JsonValue entry : jo.get_array( "drops" ) ) {
         itype_id item_type;
         int quantity = 0;
@@ -255,6 +278,20 @@ bool trap::triggered_by_item( const item &itm ) const
 bool trap::is_funnel() const
 {
     return !is_null() && funnel_radius_mm > 0;
+}
+
+
+void trap::trigger_aftermath( map &m, const tripoint &p ) const
+{
+    for( auto &i : m.tr_at( p ).trigger_components ) {
+        const itype_id &item_type = std::get<0>( i );
+        const int quantity = std::get<1>( i );
+        const int charges = std::get<2>( i );
+        m.spawn_item( p.xy(), item_type, quantity, charges );
+    }
+    if( m.tr_at( p ).remove_trap_when_triggered() ) {
+        m.remove_trap( p );
+    }
 }
 
 void trap::on_disarmed( map &m, const tripoint &p ) const

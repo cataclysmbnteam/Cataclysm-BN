@@ -705,5 +705,31 @@
       "bio_gangster"
     ],
     "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "aircraft_carrier_start",
+    "name": "CVN Sailor",
+    "points": 4,
+    "description": "For some reason your mission off the coast of North Korea has ended up stateside, stuck in the middle of a lake.  You have no idea what's happened, but now you have more important things to do.",
+    "start_name": "Aircraft Carrier",
+    "allowed_locs": [ "aircraft_carrier_berth", "aircraft_carrier_bridge" ],
+    "professions": [
+      "unemployed",
+      "electrician",
+      "chef",
+      "soldier",
+      "mil_auto_rifleman",
+      "mil_grenadier",
+      "mil_marksman",
+      "specops",
+      "power_armor_soldier",
+      "bio_soldier",
+      "bio_sniper",
+      "medic",
+      "mili_pilot",
+      "prof_combat_engineer"
+    ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   }
 ]

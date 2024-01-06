@@ -3,7 +3,7 @@ name: Windows build (MSYS2)
 on:
   push:
     branches:
-    - upload
+    - main
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'

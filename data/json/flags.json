@@ -439,6 +439,12 @@
     "info": "This clothing is large enough to accommodate <info>abnormally large mutated anatomy</info>."
   },
   {
+    "id": "resized_large",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has been modified to accommodate <info>abnormally large mutated anatomy</info> with some <bad>increase to encumbrance</bad>."
+  },
+  {
     "id": "UNDERSIZE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -676,8 +682,7 @@
     "id": "COMPACT",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "Prevents the item from participating in the layering encumbrance system when worn.",
-    "info": "It is designed not to interfere with other equipment in the same layer."
+    "//": "Prevents the item from participating in the layering encumbrance system when worn."
   },
   {
     "id": "SHEATH_AXE",

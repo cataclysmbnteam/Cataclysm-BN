@@ -1818,5 +1818,89 @@
     "id": "sheet_lycra_patchwork",
     "type": "MIGRATION",
     "replace": "sheet_nylon_patchwork"
+  },
+  {
+    "id": "mask_fsurvivorxl",
+    "type": "MIGRATION",
+    "replace": "mask_fsurvivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "mask_survivorxl",
+    "type": "MIGRATION",
+    "replace": "mask_survivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "mask_wsurvivorxl",
+    "type": "MIGRATION",
+    "replace": "mask_wsurvivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "mask_h20survivorxl",
+    "type": "MIGRATION",
+    "replace": "mask_h20survivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "mask_h20survivorxl_on",
+    "type": "MIGRATION",
+    "replace": "mask_h20survivor_on",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "boots_xlsurvivor",
+    "type": "MIGRATION",
+    "replace": "boots_survivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "gloves_xlsurvivor",
+    "type": "MIGRATION",
+    "replace": "gloves_survivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "helmet_xlsurvivor",
+    "type": "MIGRATION",
+    "replace": "helmet_survivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "hood_xlsurvivor",
+    "type": "MIGRATION",
+    "replace": "hood_survivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "jumpsuit_xl",
+    "type": "MIGRATION",
+    "replace": "jumpsuit",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "xlsurvivor_suit",
+    "type": "MIGRATION",
+    "replace": "survivor_suit",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "xlhsurvivor_suit",
+    "type": "MIGRATION",
+    "replace": "hsurvivor_suit",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "xlsasurvivor_suit",
+    "type": "MIGRATION",
+    "replace": "sasurvivor_suit",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "leg_warmers_xl",
+    "type": "MIGRATION",
+    "replace": "leg_warmers",
+    "flags": [ "resized_large" ]
   }
 ]

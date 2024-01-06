@@ -1285,7 +1285,7 @@ item::sizing item::get_sizing( const Character &p ) const
         // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
         // is a bit of cognitive dissonance when something 'fits' and is 'oversized' and the same time
         const bool undersize = has_flag( flag_UNDERSIZE );
-        const bool oversize = has_flag( flag_OVERSIZE );
+        const bool oversize = has_flag( flag_OVERSIZE ) || has_flag( flag_resized_large );
 
         if( undersize ) {
             if( small ) {
@@ -2755,7 +2755,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                         break;
                     case sizing::small_sized_big_char:
                     case sizing::human_sized_big_char:
-                        resize_str = _( "<bad>can not be upsized</bad>" );
+                        resize_str = _( "<bad>can not be upsized</bad> without drastically altering it" );
                         break;
                     default:
                         break;
@@ -4628,8 +4628,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             tagtext += _( " (unread)" );
         }
     }
-    if( has_var( "bionics_scanned_by" ) && has_flag( flag_CBM_SCANNED ) ) {
-        tagtext += _( " (bionic detected)" );
+    if( has_var( "bionics_scanned_by" ) ) {
+        if( has_flag( flag_CBM_SCANNED ) ) {
+            tagtext += _( " (bionic detected)" );
+        } else {
+            tagtext += _( " (scanned)" );
+        }
     }
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
@@ -4653,6 +4657,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
 
+    if( has_flag( flag_resized_large ) ) {
+        tagtext += _( " (XL)" );
+    }
     const sizing sizing_level = get_sizing( you );
 
     if( sizing_level == sizing::human_sized_small_char ) {
@@ -5582,8 +5589,10 @@ auto get_hourly_rotpoints_at_temp( const units::temperature temp ) -> int
     if( temp > 40_c ) {
         return 21240;
     }
-    const int temp_c = units::to_celsius( temp );
-    return rot_chart[temp_c];
+    // HACK: due to frequent fahrenheit <-> celsius conversion, 18C is actually 17.777C
+    // remove rounding after most of temperatures passed around are in `units::temperature`
+    const float temp_c = static_cast<float>( units::to_millidegree_celsius( temp ) ) / 1000;
+    return rot_chart[std::round( temp_c )];
 }
 
 auto item::calc_rot( time_point time, const units::temperature temp ) const -> time_duration
@@ -8293,8 +8302,11 @@ bool item::reload( player &u, item &loc, int qty )
         }
     }
 
+    // we have transfered ammo from the container to the item
+    // therefore, we erase the 0-charge item inside container
+    // TODO: why don't we just remove 0-charge items?
     if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
-        if( container != nullptr ) {
+        if( container != nullptr && !container->contents.empty() ) {
             container->remove_item( container->contents.front() );
             u.inv_restack( ); // emptied containers do not stack with non-empty ones
         } else {
@@ -8346,7 +8358,7 @@ float item::simulate_burn( fire_data &frd ) const
     }
 
     if( count_by_charges() ) {
-        int stack_burnt = rng( type->stack_size / 2, type->stack_size );
+        const int stack_burnt = type->stack_size;
         time_added *= stack_burnt;
         smoke_added *= stack_burnt;
         burn_added *= stack_burnt;
@@ -9068,7 +9080,7 @@ detached_ptr<item>  item::process_rot( detached_ptr<item> &&self, const bool sea
     // note we're also gated by item::processing_speed
     constexpr time_duration smallest_interval = 10_minutes;
 
-    units::temperature temp = units::from_fahrenheit( weather.get_temperature( pos ) );
+    units::temperature temp = weather.get_temperature( pos );
     temp = clip_by_temperature_flag( temp, flag );
 
     time_point time = self->last_rot_check;

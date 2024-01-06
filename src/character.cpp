@@ -21,6 +21,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
+#include "clothing_utils.h"
 #include "catacharset.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
@@ -97,6 +98,7 @@
 #include "trap.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "units_temperature.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
@@ -1138,7 +1140,7 @@ void Character::set_pain( int npain )
 
 int Character::get_perceived_pain() const
 {
-    if( get_effect_int( effect_adrenaline ) > 1 ) {
+    if( has_effect( effect_adrenaline ) ) {
         return 0;
     }
 
@@ -3235,7 +3237,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<bool>::make_failure( _( "Can't wear that, it's filthy!" ) );
     }
 
-    if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_SEMITANGIBLE ) ) {
+    if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_resized_large ) &&
+        !it.has_flag( flag_SEMITANGIBLE ) ) {
         for( const trait_id &mut : get_mutations() ) {
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
@@ -4271,7 +4274,7 @@ static void layer_item( char_encumbrance_data &vals,
             encumber_val = 0;
             layering_encumbrance = 0;
         }
-        if( it.has_flag( flag_COMPACT ) ) {
+        if( is_compact( it, c ) ) {
             layering_encumbrance = 0;
         }
 
@@ -5476,7 +5479,8 @@ needs_rates Character::calc_needs_rates() const
 
     if( has_trait( trait_TRANSPIRATION ) ) {
         // Transpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
-        rates.thirst *= ( ( get_weather().get_temperature( pos() ) - 32.5f ) / 40.0f );
+        rates.thirst *= ( ( units::to_fahrenheit( get_weather().get_temperature(
+                                pos() ) ) - 32.5f ) / 40.0f );
     }
 
     if( is_npc() ) {
@@ -5510,10 +5514,6 @@ void Character::check_needs_extremes()
             add_msg_if_player( _( "Your heart spasms and stops." ) );
         }
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_jetinjector );
-        set_part_hp_cur( bodypart_id( "torso" ), 0 );
-    } else if( get_effect_dur( effect_adrenaline ) > 50_minutes ) {
-        add_msg_if_player( m_bad, _( "Your heart spasms and stops." ) );
-        g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_adrenaline );
         set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( get_effect_int( effect_drunk ) > 4 ) {
         add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
@@ -5722,7 +5722,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
     const auto player_local_temp = weather.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // In Celsius / 100
-    int Ctemperature = static_cast<int>( 100 * units::fahrenheit_to_celsius( player_local_temp ) );
+    int Ctemperature = units::to_millidegree_celsius( player_local_temp ) / 10;
     const w_point &weather_point = get_weather().get_precise();
     int vehwindspeed = 0;
     const optional_vpart_position vp = m.veh_at( pos() );
@@ -5756,7 +5756,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature_raw =
-        100 * units::fahrenheit_to_celsius( weather.get_water_temperature( pos() ) );
+        units::to_millidegree_celsius( weather.get_water_temperature( pos() ) ) / 10;
     // Rescale so that 0C is 0 (FREEZING) and 30C is 5k (NORM).
     const int water_temperature = water_temperature_raw * 5 / 3;
 
@@ -5890,7 +5890,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
         // Calculate windchill
         int windchill = submerged_bp
                         ? 0
-                        : get_local_windchill( player_local_temp,
+                        : get_local_windchill( units::to_fahrenheit( player_local_temp ),
                                                air_humidity,
                                                bp_windpower );
 
@@ -6067,7 +6067,8 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
             double adjusted_warmth = warmth_per_bp.at( bp ) - wetness_percentage;
-            int Ftemperature = static_cast<int>( player_local_temp + 0.2 * adjusted_warmth );
+            int Ftemperature = static_cast<int>( units::to_fahrenheit( player_local_temp ) + 0.2 *
+                                                 adjusted_warmth );
             // Windchill reduced by your armor
             int FBwindPower = static_cast<int>(
                                   total_windpower * ( 1 - wind_res_per_bp[ bp ] / 100.0 ) );
@@ -9201,7 +9202,7 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
     if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
         ( get_part_hp_cur( bodypart_id( "head" ) ) < 25 ||
           get_part_hp_cur( bodypart_id( "torso" ) ) < 15 ) ) {
-        add_effect( effect_adrenaline, 20_minutes );
+        add_effect( effect_adrenaline, 3_minutes );
     }
 
     if( disturb ) {
@@ -10447,7 +10448,7 @@ void Character::on_item_takeoff( const item &it )
 void Character::on_effect_int_change( const efftype_id &effect_type, int intensity,
                                       const bodypart_str_id &bp )
 {
-    // Adrenaline can reduce perceived pain (or increase it when you enter comedown).
+    // Adrenaline can reduce perceived pain (or increase it when it times out).
     // See @ref get_perceived_pain()
     if( effect_type == effect_adrenaline ) {
         // Note that calling this does no harm if it wasn't changed.

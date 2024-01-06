@@ -55,6 +55,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_temperature.h"
 #include "weather.h"
 
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
@@ -158,6 +159,7 @@ static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
+static const trait_id trait_DEBUG_STAMINA( "DEBUG_STAMINA" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
@@ -236,6 +238,10 @@ void Character::suffer_mutation_power( const mutation_branch &mdata, char_trait_
 
 void Character::suffer_while_underwater()
 {
+    // Infinite breath
+    if( has_trait( trait_DEBUG_STAMINA ) ) {
+        return;
+    }
     if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
         oxygen--;
     }
@@ -767,7 +773,7 @@ void Character::suffer_feral_kill_withdrawl()
                     if( !one_in( 4 ) ) {
                         add_msg_if_player( m_bad, _( "You jolt awake in a panic attack!" ) );
                         wake_up();
-                        add_effect( effect_adrenaline, rng( 3_minutes, 5_minutes ) );
+                        add_effect( effect_adrenaline, rng( 1_minutes, 2_minutes ) );
                         mod_stim( rng( 5, 10 ) );
                         add_morale( MORALE_FEELING_BAD, -5, -25, 10_minutes, 3_minutes, true );
                     } else {
@@ -810,10 +816,11 @@ void Character::suffer_in_sunlight()
         const bool has_hat = wearing_something_on( bodypart_id( "head" ) );
         const float weather_factor = ( get_weather().weather_id->sun_intensity >=
                                        sun_intensity_type::normal ) ? 1.0 : 0.5;
-        const int player_local_temp = get_weather().get_temperature( pos() );
-        const int flux = ( player_local_temp - 65 ) / 2;
 
         int sunlight_nutrition = 0;
+        const int player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos() ) );
+        const int flux = ( player_local_temp - 65 ) / 2;
+
         if( !has_hat ) {
             sunlight_nutrition += ( 100 + flux ) * weather_factor;
         }
@@ -1756,7 +1763,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     }
 }
 
-void Character::apply_wetness_morale( int temperature )
+void Character::apply_wetness_morale( const units::temperature &temperature )
 {
     // First, a quick check if we have any wetness to calculate morale from
     // Faster than checking all worn items for friendliness
@@ -1767,9 +1774,11 @@ void Character::apply_wetness_morale( int temperature )
         return;
     }
 
+    int normalized_temperature = units::to_fahrenheit( temperature );
     // Normalize temperature to [-1.0,1.0]
-    temperature = std::max( 0, std::min( 100, temperature ) );
-    const double global_temperature_mod = -1.0 + ( 2.0 * temperature / 100.0 );
+    normalized_temperature = std::clamp( normalized_temperature, 0, 100 );
+
+    const double global_temperature_mod = -1.0 + ( 2.0 * normalized_temperature / 100.0 );
 
     int total_morale = 0;
     const auto wet_friendliness = exclusive_flag_coverage( flag_WATER_FRIENDLY );

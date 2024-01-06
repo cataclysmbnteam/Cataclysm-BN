@@ -627,8 +627,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( !eff_only && !bio.is_auto_start_keep_full() ) {
             add_msg_if_player( m_info, _( "You activate your %s." ), bio.info().name );
         } else if( get_player_character().sees( pos() ) ) {
-            add_msg( m_info, _( "%s activates their %s." ), disp_name(),
-                     bio.info().name );
+            add_msg_if_npc( m_info, _( "%s activates their %s." ), disp_name(),
+                            bio.info().name );
         }
     };
     auto refund_power = [&]() {
@@ -774,6 +774,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
     } else if( bio.id == bio_blood_filter ) {
         add_msg_activate();
         static const std::vector<efftype_id> removable = {{
+                effect_adrenaline,
                 effect_fungus, effect_dermatik, effect_bloodworms,
                 effect_poison, effect_stung, effect_badpoison,
                 effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
@@ -788,7 +789,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             remove_effect( eff );
         }
         // Purging the substance won't remove the fatigue it caused
-        force_comedown( get_effect( effect_adrenaline ) );
         force_comedown( get_effect( effect_meth ) );
         set_painkiller( 0 );
         set_stim( 0 );
@@ -826,7 +826,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             return false;
         } else {
             add_msg_activate();
-            add_effect( effect_adrenaline, 20_minutes );
+            add_effect( effect_adrenaline, 3_minutes );
         }
     } else if( bio.id == bio_emp ) {
         if( const std::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
@@ -985,7 +985,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                            print_temperature(
                                get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
                                        weatherPoint.humidity,
-                                       windpower / 100 ) + player_local_temp ) );
+                                       windpower / 100 ) + units::to_fahrenheit( player_local_temp ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == bio_remote ) {
@@ -2920,7 +2920,7 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
                                _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart." ) );
         } else {
             add_msg_if_player( m_mixed,
-                               _( "You stay very, very still, focusing intently on an interesting stain on the ceiling, as the Autodoc slices painlessly into you." ) );
+                               _( "You stay very, very still, intently staring off into space, as the Autodoc slices painlessly into you." ) );
         }
     }
 

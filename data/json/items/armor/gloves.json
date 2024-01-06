@@ -143,7 +143,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "STURDY" ]
   },
   {
@@ -166,7 +166,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "STURDY" ]
   },
   {
@@ -304,7 +304,8 @@
     "coverage": 95,
     "encumbrance": 30,
     "warmth": 70,
-    "material_thickness": 3
+    "material_thickness": 3,
+    "valid_mods": [ "resized_large" ]
   },
   {
     "id": "gloves_fur_fingerless",
@@ -345,25 +346,14 @@
   },
   {
     "id": "gloves_sasurvivor",
+    "copy-from": "gloves_hsurvivor",
     "type": "ARMOR",
     "name": { "str": "pair of superalloy survivor gloves", "str_pl": "pairs of superalloy survivor gloves" },
     "description": "A pair of heavily customized, superalloy-backed armored Kevlar gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
-    "weight": "800 g",
-    "volume": "1 L",
-    "price": "200 USD",
-    "price_postapoc": "40 USD",
-    "to_hit": 2,
     "material": [ "kevlar", "superalloy" ],
-    "symbol": "[",
-    "looks_like": "fire_gauntlets",
     "color": "light_cyan",
-    "covers": [ "hands" ],
-    "coverage": 100,
     "encumbrance": 25,
-    "warmth": 15,
-    "material_thickness": 4,
-    "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },
   {
     "id": "glove_jackson",
@@ -384,7 +374,7 @@
     "coverage": 95,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "FANCY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "FANCY" ]
   },
   {
     "id": "gloves_leather",
@@ -427,6 +417,7 @@
     "encumbrance": 2,
     "warmth": 20,
     "material_thickness": 2,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "WATER_FRIENDLY" ]
   },
   {
@@ -463,7 +454,7 @@
     "encumbrance": 1,
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "gloves_liner_wool",
@@ -544,7 +535,7 @@
     "encumbrance": 1,
     "material_thickness": 1,
     "environmental_protection": 6,
-    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "gloves_plate",
@@ -568,6 +559,17 @@
     "material_thickness": 4,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "gloves_plate_superalloy",
+    "copy-from": "gloves_plate",
+    "type": "ARMOR",
+    "name": { "str": "pair of superalloy armored gauntlets", "str_pl": "pairs of superalloy armored gauntlets" },
+    "description": "An set of armor-plated leather gloves, made with lightweight superalloy.",
+    "material": [ "superalloy", "leather" ],
+    "color": "light_cyan",
+    "encumbrance": 15,
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },
   {
     "id": "gloves_rubber",
@@ -655,7 +657,8 @@
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 70,
-    "material_thickness": 4
+    "material_thickness": 4,
+    "valid_mods": [ "resized_large" ]
   },
   {
     "id": "gloves_wool",
@@ -675,7 +678,8 @@
     "coverage": 95,
     "encumbrance": 20,
     "warmth": 60,
-    "material_thickness": 3
+    "material_thickness": 3,
+    "valid_mods": [ "resized_large" ]
   },
   {
     "id": "gloves_wool_fingerless",
@@ -712,7 +716,7 @@
     "warmth": 25,
     "material_thickness": 3,
     "environmental_protection": 5,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "WATERPROOF", "STURDY" ]
   },
   {
@@ -844,28 +848,6 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
-    "id": "gloves_xlsurvivor",
-    "type": "ARMOR",
-    "name": { "str": "pair of XL survivor gloves", "str_pl": "pairs of XL survivor gloves" },
-    "description": "A massive pair of customized, Kevlar armored leather gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
-    "weight": "480 g",
-    "volume": "1500 ml",
-    "price": "180 USD",
-    "price_postapoc": "15 USD",
-    "to_hit": 2,
-    "material": [ "kevlar", "leather" ],
-    "symbol": "[",
-    "looks_like": "gloves_survivor",
-    "color": "brown",
-    "covers": [ "hands" ],
-    "coverage": 100,
-    "encumbrance": 30,
-    "warmth": 15,
-    "material_thickness": 2,
-    "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
-  },
-  {
     "id": "long_glove_white",
     "repairs_like": "arm_warmers",
     "type": "ARMOR",
@@ -987,7 +969,8 @@
     "coverage": 100,
     "encumbrance": 20,
     "warmth": 50,
-    "material_thickness": 4
+    "material_thickness": 4,
+    "valid_mods": [ "resized_large" ]
   },
   {
     "id": "gloves_golf",

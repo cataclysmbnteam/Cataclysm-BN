@@ -155,7 +155,7 @@ static void format( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
             jsin.seek( i );
             std::cerr << jsin.peek();
         }
-        std::cerr << "\"" << std::endl;
+        std::cerr << "\"" << '\n';
     }
 }
 
@@ -172,7 +172,7 @@ int main( int argc, char *argv[] )
         if( argc == 2 ) {
             filename = argv[1];
         } else if( argc != 1 ) {
-            std::cout << "Supply a filename to style or no arguments." << std::endl;
+            std::cout << "Supply a filename to style or no arguments." << '\n';
             exit( EXIT_FAILURE );
         }
 
@@ -181,7 +181,7 @@ int main( int argc, char *argv[] )
         } else {
             std::ifstream fin( filename, std::ios::binary );
             if( !fin.good() ) {
-                std::cout << "Failed to open " << filename << std::endl;
+                std::cout << "Failed to open " << filename << '\n';
                 exit( EXIT_FAILURE );
             }
             in << fin.rdbuf();
@@ -199,7 +199,7 @@ int main( int argc, char *argv[] )
     }
 
     if( in.str().size() == 0 ) {
-        std::cout << "Error, input empty." << std::endl;
+        std::cout << "Error, input empty." << '\n';
         exit( EXIT_FAILURE );
     }
     JsonOut jsout( out, true );
@@ -207,7 +207,7 @@ int main( int argc, char *argv[] )
 
     format( jsin, jsout );
 
-    out << std::endl;
+    out << '\n';
 
     if( filename.empty() ) {
         std::cout << header;
@@ -231,8 +231,8 @@ int main( int argc, char *argv[] )
             std::ofstream fout( filename, std::ios::binary | std::ios::trunc );
             fout << out.str();
             fout.close();
-            std::cout << color_bad << "Needs linting : " << color_end << filename << std::endl;
-            std::cout << "Please read doc/JSON_STYLE.md" << std::endl;
+            std::cout << color_bad << "Needs linting : " << color_end << filename << '\n';
+            std::cout << "Please read doc/JSON_STYLE.md" << '\n';
             exit( EXIT_FAILURE );
         }
     }

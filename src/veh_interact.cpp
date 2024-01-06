@@ -787,7 +787,9 @@ bool veh_interact::update_part_requirements()
         if( !axles.empty() && axles.count( -dd.x ) == 0 ) {
             // Installing more than one steerable axle is hard
             // (but adding a wheel to an existing axle isn't)
+            // As with engines, cap at the actual maximum skill.
             dif_steering = axles.size() + 5;
+            dif_steering = std::min( 10, dif_steering );
         }
     }
 
@@ -3250,10 +3252,10 @@ void veh_interact::complete_vehicle( player &p )
                 veh->remove_remote_part( vehicle_part );
             }
             if( veh->is_towing() || veh->is_towed() ) {
-                std::cout << "vehicle is towing/towed" << std::endl;
+                std::cout << "vehicle is towing/towed" << '\n';
                 vehicle *other_veh = veh->is_towing() ? veh->tow_data.get_towed() : veh->tow_data.get_towed_by();
                 if( other_veh ) {
-                    std::cout << "other veh exists" << std::endl;
+                    std::cout << "other veh exists" << '\n';
                     other_veh->remove_part( other_veh->part_with_feature( other_veh->get_tow_part(), "TOW_CABLE",
                                             true ) );
                     other_veh->tow_data.clear_towing();
