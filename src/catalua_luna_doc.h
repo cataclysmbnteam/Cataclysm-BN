@@ -20,7 +20,7 @@ enum npc_attitude : int;
 enum npc_need : int;
 namespace sfx
 {
-    enum class channel : int;
+enum class channel : int;
 }
 
 class avatar;
@@ -59,20 +59,20 @@ struct species_type;
 struct tripoint;
 namespace units
 {
-    template<typename V, typename U>
-    class quantity;
+template<typename V, typename U>
+class quantity;
 
-    class angle_in_radians_tag;
-    using angle = quantity<double, angle_in_radians_tag>;
+class angle_in_radians_tag;
+using angle = quantity<double, angle_in_radians_tag>;
 
-    class energy_in_joule_tag;
-    using energy = quantity<int, energy_in_joule_tag>;
+class energy_in_joule_tag;
+using energy = quantity<int, energy_in_joule_tag>;
 
-    class mass_in_milligram_tag;
-    using mass = quantity<std::int64_t, mass_in_milligram_tag>;
+class mass_in_milligram_tag;
+using mass = quantity<std::int64_t, mass_in_milligram_tag>;
 
-    class volume_in_milliliter_tag;
-    using volume = quantity<int, volume_in_milliliter_tag>;
+class volume_in_milliliter_tag;
+using volume = quantity<int, volume_in_milliliter_tag>;
 }
 
 
@@ -80,7 +80,7 @@ namespace units
 LUNA_DOC( bool, "bool" );
 LUNA_DOC( int, "int" );
 LUNA_DOC( unsigned int, "int" );
-LUNA_DOC( std::int64_t, "int");
+LUNA_DOC( std::int64_t, "int" );
 LUNA_DOC( size_t, "int" );
 LUNA_DOC( float, "double" );
 LUNA_DOC( double, "double" );

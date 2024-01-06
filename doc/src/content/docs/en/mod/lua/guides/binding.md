@@ -90,45 +90,30 @@ similar file. They are also spread out into functions, for the same reasons. Let
 
 Binding classes/structs to Lua by hand can be quite tedious, which is why another way to bind a
 class is by transforming its header file. For the third step of the second part from
-[previously](#binding-new-type-to-lua), it's possible to use regex and macros to bind the class
-for us.
+[previously](#binding-new-type-to-lua), it's possible to use regex and macros to bind the class for
+us.
 
-1.  Copy the class definition to another place.
-2.  Remove `};` at the end of the class definition.
-3.  Apply both:
-    `%s@class \([^{]|\)\+{@private:@`
-    `%s@struct \([^{]|\)\+{@public:@`
-4.  Manually remove the constructors/unwanted methods at the beginning.
-5.  Delete all `private`/`protected` methods:
-    `%s@\(private:\|protected:\)\_.\{-}\(public:\|};\)@\2`
-6.  Delete `public` labels:
-    `%s@ *public:\n@`
-7.  Delete comments:
-    `%s@\( *\/\*\_.\{-}\*\/\)\|\( *\/\/\_.\{-}\(\n\)\)@\3`
-8.  Unindent until there is zero base indentation.
-9.  Turn method definitions into declarations:
-    `%s@ *{\(}\|\_.\{-}\n^}\)@;`
-10. Push most method declarations into a single line:
-    `%s@\((\|,\)\n *@\1@g`
-11. Remove default values:
-    `%s@ *= *\_.\{-}\( )\|;\|,\)@\1@g`
+1. Copy the class definition to another place.
+2. Remove `};` at the end of the class definition.
+3. Apply both: `%s@class \([^{]|\)\+{@private:@` `%s@struct \([^{]|\)\+{@public:@`
+4. Manually remove the constructors/unwanted methods at the beginning.
+5. Delete all `private`/`protected` methods: `%s@\(private:\|protected:\)\_.\{-}\(public:\|};\)@\2`
+6. Delete `public` labels: `%s@ *public:\n@`
+7. Delete comments: `%s@\( *\/\*\_.\{-}\*\/\)\|\( *\/\/\_.\{-}\(\n\)\)@\3`
+8. Unindent until there is zero base indentation.
+9. Turn method definitions into declarations: `%s@ *{\(}\|\_.\{-}\n^}\)@;`
+10. Push most method declarations into a single line: `%s@\((\|,\)\n *@\1@g`
+11. Remove default values: `%s@ *= *\_.\{-}\( )\|;\|,\)@\1@g`
 12. Remove `overriden`/`static` methods/members, `using`s and `template`s:
     `%s@.*\(override\|static\|using\|template<\).*\n@`
-13. Remove `virtual` tag:
-    `%s@virtual *@`
-14. Ensure all lines end in a semicolon:
-    `%s@\([^;]\)\n@\1 @g`
-15. Count how many functions there are:
-    `%s@\(.*(\_.\{-}).*\n\)@@nc`
-16. Push first found function to the end:
-    `%s@\(.*(\_.\{-}).*\n\+\)\(\_.*\)@\2\1`
-17. Now you'll want to repeat step 16 for the number of matches in step 15 minus one.
-    For Neovim, input the match count minus one, '@', then ':', e.g. '217@:' repeats
-    the last command 217 times.
-18. Clean up new lines:
-    `%s@\n\{3,}@\r\r`
-19. Wrap methods into a macro:
-    `%s@\(.*\) \+\([^ ]\+\)\((.*\);@SET_FX_T( \2, \1\3 );`
+13. Remove `virtual` tag: `%s@virtual *@`
+14. Ensure all lines end in a semicolon: `%s@\([^;]\)\n@\1 @g`
+15. Count how many functions there are: `%s@\(.*(\_.\{-}).*\n\)@@nc`
+16. Push first found function to the end: `%s@\(.*(\_.\{-}).*\n\+\)\(\_.*\)@\2\1`
+17. Now you'll want to repeat step 16 for the number of matches in step 15 minus one. For Neovim,
+    input the match count minus one, '@', then ':', e.g. '217@:' repeats the last command 217 times.
+18. Clean up new lines: `%s@\n\{3,}@\r\r`
+19. Wrap methods into a macro: `%s@\(.*\) \+\([^ ]\+\)\((.*\);@SET_FX_T( \2, \1\3 );`
 20. Wrap members into a macro; make sure to select which lines to affect first:
     `s@.\{-}\([^ ]\+\);@SET_MEMB( \1 );`
 21. Make the previously multi-line method declarations span multiple lines again:
@@ -136,6 +121,7 @@ for us.
 
 Now what's left to do is to take this chunk of text and to wrap it. Continuing with the horde
 example, this is how it should look like with these macros:
+
 ```cpp
 #ifdef LUA
 #include "catalua_bindings.h"
@@ -182,11 +168,12 @@ void cata::detail::reg_horde( sol::state &lua )
     #undef UT_TYPE // #define UT_TYPE horde
 }
 ```
-An example can be found in `catalua_bindings_creature.cpp`. Note that this method of binding to
-Lua isn't without its own issues. These regex substitutions may output broken code with some
-classes or structs, therefore it's a good idea to give them a test and a glance over. Some classes
-may have a declared, but an undefined method. This still allows for the source files to be
-compiled, but the compilation will freeze at the linking stage with an error and no error message.
+
+An example can be found in `catalua_bindings_creature.cpp`. Note that this method of binding to Lua
+isn't without its own issues. These regex substitutions may output broken code with some classes or
+structs, therefore it's a good idea to give them a test and a glance over. Some classes may have a
+declared, but an undefined method. This still allows for the source files to be compiled, but the
+compilation will freeze at the linking stage with an error and no error message.
 
 ### Binding new enum to Lua
 

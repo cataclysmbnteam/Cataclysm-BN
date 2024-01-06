@@ -83,11 +83,11 @@ void cata::detail::reg_creature( sol::state &lua )
 
         SET_FX_T( knock_back_to, void( const tripoint & ) );
 
-        SET_FX_T( deal_damage, dealt_damage_instance( Creature *source, bodypart_id bp,
-                const damage_instance &dam ) );
+        SET_FX_T( deal_damage, dealt_damage_instance( Creature * source, bodypart_id bp,
+                  const damage_instance & dam ) );
 
-        SET_FX_T( apply_damage, void( Creature *source, bodypart_id bp, int amount,
-                bool bypass_med ) );
+        SET_FX_T( apply_damage, void( Creature * source, bodypart_id bp, int amount,
+                                      bool bypass_med ) );
 
         SET_FX_T( size_melee_penalty, int() const );
 
@@ -302,9 +302,9 @@ void cata::detail::reg_monster( sol::state &lua )
         SET_FX_T( move_target, tripoint() );
         SET_FX_N_T( wander, "is_wandering", bool() );
 
-        SET_FX_T( wander_to, void( const tripoint &p, int f ) );
-        SET_FX_T( move_to, bool( const tripoint &p, bool force, bool step_on_critter,
-                    float stagger_adjustment ) );
+        SET_FX_T( wander_to, void( const tripoint & p, int f ) );
+        SET_FX_T( move_to, bool( const tripoint & p, bool force, bool step_on_critter,
+                                 float stagger_adjustment ) );
 
         SET_FX_T( attitude, monster_attitude( const Character * ) const );
 

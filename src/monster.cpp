@@ -1269,7 +1269,7 @@ Attitude monster::attitude_to( const Creature &other ) const
 }
 
 template<>
-std::string io::enum_to_string<monster_attitude>(monster_attitude att)
+std::string io::enum_to_string<monster_attitude>( monster_attitude att )
 {
     switch( att ) {
         case MATT_NULL:

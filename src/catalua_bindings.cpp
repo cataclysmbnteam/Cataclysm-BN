@@ -242,13 +242,13 @@ void cata::detail::reg_damage_instance( sol::state &lua )
         DOC( "new()" );
         DOC( "new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)" );
         sol::usertype<UT_CLASS> ut =
-            luna::new_usertype<UT_CLASS>(
-                lua,
-                luna::no_bases,
-                luna::constructors<
-                    UT_CLASS( damage_type, float, float, float, float )
-                >()
-            );
+        luna::new_usertype<UT_CLASS>(
+            lua,
+            luna::no_bases,
+            luna::constructors <
+            UT_CLASS( damage_type, float, float, float, float )
+            > ()
+        );
 
         SET_MEMB( type );
         SET_MEMB( amount );
@@ -266,14 +266,14 @@ void cata::detail::reg_damage_instance( sol::state &lua )
         DOC( "Constructors are:" );
         DOC( "new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)" );
         sol::usertype<UT_CLASS> ut =
-            luna::new_usertype<UT_CLASS>(
-                lua,
-                luna::no_bases,
-                luna::constructors<
-                    UT_CLASS(),
-                    UT_CLASS( damage_type, float, float, float, float )
-                >()
-            );
+        luna::new_usertype<UT_CLASS>(
+            lua,
+            luna::no_bases,
+            luna::constructors <
+            UT_CLASS(),
+            UT_CLASS( damage_type, float, float, float, float )
+            > ()
+        );
 
         SET_MEMB( damage_units );
 
@@ -292,11 +292,11 @@ void cata::detail::reg_damage_instance( sol::state &lua )
     {
         DOC( "Represents the final dealt damage" );
         sol::usertype<UT_CLASS> ut =
-            luna::new_usertype<UT_CLASS>(
-                lua,
-                luna::no_bases,
-                luna::no_constructor
-            );
+        luna::new_usertype<UT_CLASS>(
+            lua,
+            luna::no_bases,
+            luna::no_constructor
+        );
 
         SET_MEMB( dealt_dams );
         SET_MEMB( bp_hit );
@@ -670,8 +670,7 @@ void cata::detail::reg_game_api( sol::state &lua )
         if( allow_vertical.has_value() )
         {
             stdOpt = choose_adjacent( message, *allow_vertical );
-        }
-        else
+        } else
         {
             stdOpt = choose_adjacent( message );
         }
@@ -687,8 +686,7 @@ void cata::detail::reg_game_api( sol::state &lua )
         if( allow_vertical.has_value() )
         {
             stdOpt = choose_direction( message, *allow_vertical );
-        }
-        else
+        } else
         {
             stdOpt = choose_direction( message );
         }
@@ -700,7 +698,7 @@ void cata::detail::reg_game_api( sol::state &lua )
     } );
     luna::set_fx( lib, "look_around", []() {
         auto result = g->look_around();
-        if ( result.has_value() ) {
+        if( result.has_value() ) {
             return sol::optional<tripoint>( *result );
         }
         return sol::optional<tripoint>();
