@@ -10,6 +10,20 @@ constexpr inline int sgn( const T x )
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
 
+/**
+ * Simplified attitude towards any creature:
+ * hostile - hate, want to kill, etc.
+ * neutral - anything between.
+ * friendly - avoid harming it, maybe even help.
+ * any - any of the above, used in safemode_ui
+ */
+enum Attitude : int {
+    A_HOSTILE,
+    A_NEUTRAL,
+    A_FRIENDLY,
+    A_ANY
+};
+
 enum class bionic_ui_sort_mode : int {
     NONE   = 0,
     POWER  = 1,

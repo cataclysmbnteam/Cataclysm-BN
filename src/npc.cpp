@@ -2141,15 +2141,15 @@ bool npc::is_travelling() const
     return mission == NPC_MISSION_TRAVELLING;
 }
 
-Creature::Attitude npc::attitude_to( const Creature &other ) const
+Attitude npc::attitude_to( const Creature &other ) const
 {
     if( other.is_npc() || other.is_player() ) {
         const player &guy = dynamic_cast<const player &>( other );
         // check faction relationships first
         if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
-            return A_HOSTILE;
+            return Attitude::A_HOSTILE;
         } else if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
-            return A_FRIENDLY;
+            return Attitude::A_FRIENDLY;
         }
     }
 
@@ -2160,11 +2160,11 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
     if( other.is_npc() ) {
         // Hostile NPCs are also hostile towards player's allies
-        if( is_enemy() && other.attitude_to( g->u ) == A_FRIENDLY ) {
-            return A_HOSTILE;
+        if( is_enemy() && other.attitude_to( g->u ) == Attitude::A_FRIENDLY ) {
+            return Attitude::A_HOSTILE;
         }
 
-        return A_NEUTRAL;
+        return Attitude::A_NEUTRAL;
     } else if( other.is_player() ) {
         // For now, make it symmetric.
         return other.attitude_to( *this );
@@ -2177,18 +2177,18 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_FPASSIVE:
         case MATT_IGNORE:
         case MATT_FLEE:
-            return A_NEUTRAL;
+            return Attitude::A_NEUTRAL;
         case MATT_FRIEND:
         case MATT_ZLAVE:
-            return A_FRIENDLY;
+            return Attitude::A_FRIENDLY;
         case MATT_ATTACK:
-            return A_HOSTILE;
+            return Attitude::A_HOSTILE;
         case MATT_NULL:
         case NUM_MONSTER_ATTITUDES:
             break;
     }
 
-    return A_NEUTRAL;
+    return Attitude::A_NEUTRAL;
 }
 
 void npc::npc_dismount()

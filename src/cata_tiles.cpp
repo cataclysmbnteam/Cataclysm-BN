@@ -3038,7 +3038,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     bool result;
     bool is_player;
     bool sees_player;
-    Creature::Attitude attitude;
+    Attitude attitude;
     const auto override = monster_override.find( p );
     if( override != monster_override.end() ) {
         const mtype_id id = std::get<0>( override->second );
@@ -3070,7 +3070,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         result = false;
         sees_player = false;
         is_player = false;
-        attitude = Creature::A_ANY;
+        attitude = Attitude::A_ANY;
         const monster *m = dynamic_cast<const monster *>( &critter );
         if( m != nullptr ) {
             const auto ent_category = C_MONSTER;
@@ -3361,7 +3361,7 @@ void cata_tiles::init_draw_below_override( const tripoint &p, const bool draw )
     draw_below_override.emplace( p, draw );
 }
 void cata_tiles::init_draw_monster_override( const tripoint &p, const mtype_id &id, const int count,
-        const bool more, const Creature::Attitude att )
+        const bool more, const Attitude att )
 {
     monster_override.emplace( p, std::make_tuple( id, count, more, att ) );
 }

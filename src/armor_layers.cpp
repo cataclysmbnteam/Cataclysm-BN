@@ -724,7 +724,7 @@ void show_armor_layers_ui( Character &who )
                 you.add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), who.name );
                 return;
             }
-            if( you.attitude_to( you ) != Creature::A_FRIENDLY ) {
+            if( you.attitude_to( you ) != Attitude::A_FRIENDLY ) {
                 you.add_msg_if_npc( m_bad, _( "%s is not friendly!" ), who.name );
                 return;
             }
