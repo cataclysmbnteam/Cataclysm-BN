@@ -311,7 +311,11 @@
       "mil_base_tunnels_f",
       "mil_base_tunnels_g",
       "mil_base_tunnels_h",
-      "mil_base_tunnels_i"
+      "mil_base_tunnels_i",
+      "mil_base_tunnels_j",
+      "mil_base_tunnels_l",
+      "mil_base_tunnels_m",
+      "mil_base_tunnels_n"
     ],
     "copy-from": "generic_military_base",
     "name": "military base - tunnel"

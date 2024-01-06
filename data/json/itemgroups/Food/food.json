@@ -43,6 +43,7 @@
       { "item": "oatmeal", "prob": 40 },
       { "item": "fruit_leather", "prob": 15 },
       { "item": "salted_fish", "prob": 15 },
+      { "item": "meat_salted", "prob": 15 },
       { "item": "dry_beans", "prob": 40 },
       { "item": "dry_lentils", "prob": 30 },
       { "item": "dry_rice", "prob": 40 }

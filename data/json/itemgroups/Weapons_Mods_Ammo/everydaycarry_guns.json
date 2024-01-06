@@ -1513,6 +1513,17 @@
     ]
   },
   {
+    "id": "everyday_m2browning",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "m2browning", "ammo-item": "50_incendiary", "charges-min": 0, "charges-max": 100 },
+      { "group": "on_hand_50" }
+    ]
+  },
+  {
     "id": "everyday_bh_m89",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
