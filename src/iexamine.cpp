@@ -38,7 +38,6 @@
 #include "construction_partial.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
-#include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -937,7 +936,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
                 critter.has_flag( MF_ID_CARD_DESPAWN ) &&
-                critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
+                critter.attitude_to( p ) == Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
             }
         }

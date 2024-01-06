@@ -158,20 +158,6 @@ class Creature
         virtual float stability_roll() const = 0;
 
         /**
-         * Simplified attitude towards any creature:
-         * hostile - hate, want to kill, etc.
-         * neutral - anything between.
-         * friendly - avoid harming it, maybe even help.
-         * any - any of the above, used in safemode_ui
-         */
-        enum Attitude : int {
-            A_HOSTILE,
-            A_NEUTRAL,
-            A_FRIENDLY,
-            A_ANY
-        };
-
-        /**
          * Simplified attitude string for unlocalized needs.
          */
         static std::string attitude_raw_string( Attitude att );

@@ -507,7 +507,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // Helps avoid (possibly expensive) attitude calculation
             continue;
         }
-        if( m->attitude_to( u ) == A_HOSTILE ) {
+        if( m->attitude_to( u ) == Attitude::A_HOSTILE ) {
             target_rating = ( mon_rating + hostile_adj ) / dist;
             if( maybe_boo ) {
                 boo_hoo++;
@@ -2016,11 +2016,11 @@ void Creature::check_dead_state()
 std::string Creature::attitude_raw_string( Attitude att )
 {
     switch( att ) {
-        case Creature::A_HOSTILE:
+        case Attitude::A_HOSTILE:
             return "hostile";
-        case Creature::A_NEUTRAL:
+        case Attitude::A_NEUTRAL:
             return "neutral";
-        case Creature::A_FRIENDLY:
+        case Attitude::A_FRIENDLY:
             return "friendly";
         default:
             return "other";

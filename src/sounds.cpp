@@ -1250,7 +1250,7 @@ void sfx::do_danger_music()
     audio_muted = false;
     int hostiles = 0;
     for( auto &critter : player_character.get_visible_creatures( 40 ) ) {
-        if( player_character.attitude_to( *critter ) == Creature::A_HOSTILE ) {
+        if( player_character.attitude_to( *critter ) == Attitude::A_HOSTILE ) {
             hostiles++;
         }
     }
