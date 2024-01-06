@@ -740,9 +740,9 @@ TEST_CASE( "lua_units_functions", "[lua]" )
 
     // Test variables
     const double angle_degrees = 32.0; // Multiple of 2 in case of floating-point error
-    const double energy_kilojoules = 128.0;
-    const double mass_kilograms = 64.0;
-    const double volume_liters = 16.0;
+    const int energy_kilojoules = 128;
+    const std::int64_t mass_kilograms = 64;
+    const int volume_liters = 16;
 
     // Create global table for test
     sol::table test_data = lua.create_table();
@@ -759,9 +759,9 @@ TEST_CASE( "lua_units_functions", "[lua]" )
 
     // Get test output
     double lua_angle_arcmins = test_data["angle_arcmins"];
-    double lua_energy_joules = test_data["energy_joules"];
-    double lua_mass_grams = test_data["mass_grams"];
-    double lua_volume_milliliters = test_data["volume_milliliters"];
+    int lua_energy_joules = test_data["energy_joules"];
+    std::int64_t lua_mass_grams = test_data["mass_grams"];
+    int lua_volume_milliliters = test_data["volume_milliliters"];
 
     // Check if match
     REQUIRE( lua_angle_arcmins == units::to_arcmin( units::from_degrees( angle_degrees ) ) );

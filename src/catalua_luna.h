@@ -2,7 +2,10 @@
 #ifndef CATA_SRC_CATALUA_LUNA_H
 #define CATA_SRC_CATALUA_LUNA_H
 
+#include <array>
 #include <functional>
+#include <map>
+#include <set>
 #include <string_view>
 #include <type_traits>
 #include <utility>
