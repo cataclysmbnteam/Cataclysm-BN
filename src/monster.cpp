@@ -14,23 +14,24 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
-#include "event.h"
+#include "enums.h"
 #include "event_bus.h"
+#include "event.h"
 #include "explosion.h"
 #include "field_type.h"
 #include "flat_set.h"
-#include "game.h"
 #include "game_constants.h"
+#include "game.h"
 #include "int_id.h"
-#include "item.h"
 #include "item_group.h"
+#include "item.h"
 #include "itype.h"
 #include "line.h"
 #include "locations.h"
 #include "make_static.h"
+#include "mapdata.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapdata.h"
 #include "mattack_common.h"
 #include "melee.h"
 #include "messages.h"
@@ -1265,6 +1266,33 @@ Attitude monster::attitude_to( const Creature &other ) const
     }
     // Should not happen!, creature should be either player or monster
     return Attitude::A_NEUTRAL;
+}
+
+template<>
+std::string io::enum_to_string<monster_attitude>( monster_attitude att )
+{
+    switch( att ) {
+        case MATT_NULL:
+            return "MATT_NULL";
+        case MATT_FRIEND:
+            return "MATT_FRIEND";
+        case MATT_FPASSIVE:
+            return "MATT_FPASSIVE";
+        case MATT_FLEE:
+            return "MATT_FLEE";
+        case MATT_IGNORE:
+            return "MATT_IGNORE";
+        case MATT_FOLLOW:
+            return "MATT_FOLLOW";
+        case MATT_ATTACK:
+            return "MATT_ATTACK";
+        case MATT_ZLAVE:
+            return "MATT_ZLAVE";
+        case NUM_MONSTER_ATTITUDES:
+            break;
+    }
+    debugmsg( "Invalid monster_attitude" );
+    abort();
 }
 
 monster_attitude monster::attitude( const Character *u ) const

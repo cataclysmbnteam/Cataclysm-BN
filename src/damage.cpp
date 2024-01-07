@@ -6,13 +6,14 @@
 #include <numeric>
 #include <utility>
 
+#include "cata_utility.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "item.h"
 #include "json.h"
 #include "monster.h"
 #include "mtype.h"
 #include "translations.h"
-#include "cata_utility.h"
 
 bool damage_unit::operator==( const damage_unit &other ) const
 {
@@ -229,6 +230,40 @@ resistances &resistances::operator+=( const resistances &other )
     }
 
     return *this;
+}
+
+template<>
+std::string io::enum_to_string<damage_type>( damage_type dt )
+{
+    // Using a switch instead of name_by_dt because otherwise the game freezes during launch
+    switch( dt ) {
+        case DT_NULL:
+            return "DT_NULL";
+        case DT_TRUE:
+            return "DT_TRUE";
+        case DT_BIOLOGICAL:
+            return "DT_BIOLOGICAL";
+        case DT_BASH:
+            return "DT_BASH";
+        case DT_CUT:
+            return "DT_CUT";
+        case DT_ACID:
+            return "DT_ACID";
+        case DT_STAB:
+            return "DT_STAB";
+        case DT_HEAT:
+            return "DT_HEAT";
+        case DT_COLD:
+            return "DT_COLD";
+        case DT_ELECTRIC:
+            return "DT_ELECTRIC";
+        case DT_BULLET:
+            return "DT_BULLET";
+        case NUM_DT:
+            break;
+    }
+    debugmsg( "Invalid damage_type" );
+    abort();
 }
 
 static const std::map<std::string, damage_type> dt_map = {
