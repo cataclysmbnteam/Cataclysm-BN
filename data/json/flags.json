@@ -1997,6 +1997,7 @@
     "type": "json_flag",
     "context": [ "AMMO", "CONSUMABLE" ]
   },
+  {
     "id": "ACTIVATE_ON_PLACE",
     "type": "json_flag",
     "context": [  ],
