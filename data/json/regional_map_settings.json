@@ -484,6 +484,7 @@
         "chance": 75,
         "extras": {
           "mx_helicopter": 1,
+          "mx_bombed_crater": 50,
           "mx_military": 25,
           "mx_science": 40,
           "mx_collegekids": 50,
@@ -505,6 +506,7 @@
       "build": {
         "chance": 90,
         "extras": {
+          "mx_bombed_crater": 50,
           "mx_house_spider": 40,
           "mx_house_wasp": 60,
           "mx_military": 5,
