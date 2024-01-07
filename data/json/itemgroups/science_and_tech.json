@@ -61,6 +61,7 @@
       [ "pocket_firstaid", 4 ],
       [ "pocket_survival", 2 ],
       [ "pocket_firearms", 2 ],
+      [ "manual_luty", 1 ],
       [ "SICP", 3 ],
       [ "textbook_robots", 1 ],
       [ "reference_cooking", 1 ],

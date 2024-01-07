@@ -65,6 +65,7 @@
       [ "pocket_firstaid", 2 ],
       [ "pocket_survival", 2 ],
       [ "pocket_firearms", 2 ],
+      [ "manual_luty", 1 ],
       [ "mag_archery", 15 ],
       [ "manual_archery", 8 ],
       [ "book_archery", 2 ]
