@@ -50,8 +50,8 @@
         "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
       }
     },
-    "flags": [ "BOMB", "TRADER_AVOID","ACTIVATE_ON_PLACE" ]
-  },  
+    "flags": [ "BOMB", "TRADER_AVOID", "ACTIVATE_ON_PLACE" ]
+  },
   {
     "id": "acidbomb",
     "type": "TOOL",

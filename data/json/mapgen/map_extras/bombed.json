@@ -4,9 +4,7 @@
     "method": "json",
     "update_mapgen_id": "mx_bombed_car",
     "object": {
-      "place_vehicles": [
-        { "vehicle": "city_vehicles", "x": 12, "y": 12, "chance": 100, "rotation": 270, "fuel": 0, "status": 0 }
-      ],		
+      "place_vehicles": [ { "vehicle": "city_vehicles", "x": 12, "y": 12, "chance": 100, "rotation": 270, "fuel": 0, "status": 0 } ],
       "place_item": [ { "item": "tool_bomb_active", "x": 12, "y": 12 } ]
     }
   },
