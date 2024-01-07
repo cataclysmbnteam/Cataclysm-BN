@@ -16,6 +16,43 @@
     }
   },
   {
+    "id": "tool_bomb_active",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active bomb" },
+    "looks_like": "tool_rdx_charge_act",
+    "description": "This is an bomb.  It has been already been activated and will explode immediately.",
+    "weight": "4400 g",
+    "volume": "10 L",
+    "price": 0,
+    "to_hit": -5,
+    "bashing": 20,
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_red",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": {
+      "damage": 70,
+      "radius": 6,
+      "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
+    },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "ssss...",
+      "no_deactivate_msg": "The %s is already active.",
+      "explosion": {
+        "damage": 70,
+        "radius": 6,
+        "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
+      }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID","ACTIVATE_ON_PLACE" ]
+  },  
+  {
     "id": "acidbomb",
     "type": "TOOL",
     "category": "weapons",
