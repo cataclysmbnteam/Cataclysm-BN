@@ -25,6 +25,7 @@
       { "item": "manual_shotgun", "prob": 30 },
       { "item": "manual_smg", "prob": 10 },
       { "item": "pocket_firearms", "prob": 100 },
+      { "item": "manual_luty", "prob": 45 },
       { "item": "recipe_bullets", "prob": 80 }
     ]
   },
@@ -90,6 +91,7 @@
       { "item": "manual_stabbing", "prob": 40 },
       { "item": "manual_swimming", "prob": 30 },
       { "item": "manual_traps_mil", "prob": 30 },
+      { "item": "manual_luty", "prob": 10 },
       { "item": "pocket_firearms", "prob": 10 },
       { "item": "textbook_firstaid", "prob": 30 }
     ]
@@ -383,6 +385,7 @@
       { "item": "textbook_gaswarfare", "prob": 5 },
       { "item": "recipe_bullets", "prob": 8 },
       { "item": "pocket_firearms", "prob": 2 },
+      { "item": "manual_luty", "prob": 1 },
       { "item": "textbook_traps", "prob": 4 },
       { "item": "reference_cooking", "prob": 2 },
       { "item": "reference_fabrication1", "prob": 6 },

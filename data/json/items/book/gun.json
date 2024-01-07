@@ -50,5 +50,23 @@
     "max_level": 2,
     "intelligence": 6,
     "time": "20 m"
+  },
+  {
+    "id": "manual_luty",
+    "type": "BOOK",
+    "name": { "str": "Expedient Homemade Firearms", "str_pl": "copies of Expedient Homemade Firearms" },
+    "description": "A manual written by Philip Luty regarding the production of the homemade submachine gun that often is referred to simply as the Luty Submachine Gun.  Contains instructions for the original 9x19 model and also for .45 ACP and .40 S&W variations.",
+    "weight": "230 g",
+    "volume": "275 ml",
+    "price": "25 USD",
+    "price_postapoc": "40 USD",
+    "material": "paper",
+    "symbol": "?",
+    "color": "green",
+    "skill": "gun",
+    "max_level": 6,
+    "intelligence": 8,
+    "time": "30 m",
+    "looks_like": "pocket_firearms"
   }
 ]
