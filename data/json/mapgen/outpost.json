@@ -42,7 +42,7 @@
         "+": "t_chaingate_l",
         "*": "t_door_c",
         "=": "t_door_locked",
-        ";": "t_door_metal_pickable",
+        ";": "t_door_metal_interior_locked",
         "6": "t_console",
         "p": "t_plut_generator",
         "x": "t_door_metal_locked"
@@ -216,7 +216,7 @@
         "+": "t_chaingate_l",
         "*": "t_door_c",
         "=": "t_door_locked",
-        ";": "t_door_metal_pickable",
+        ";": "t_door_metal_interior_locked",
         "6": "t_console",
         "p": "t_plut_generator",
         "x": "t_door_metal_locked"
