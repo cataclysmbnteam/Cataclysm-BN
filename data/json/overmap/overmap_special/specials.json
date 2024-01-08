@@ -699,7 +699,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "MILITARY" ]
+    "flags": [ "MILITARY", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -708,7 +708,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "MILITARY" ]
+    "flags": [ "MILITARY", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
