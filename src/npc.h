@@ -24,6 +24,7 @@
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
+#include "enum_traits.h"
 #include "faction.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -103,6 +104,11 @@ enum npc_attitude : int {
 std::string npc_attitude_id( npc_attitude );
 std::string npc_attitude_name( npc_attitude );
 
+template<>
+struct enum_traits<npc_attitude> {
+    static constexpr npc_attitude last = NPCATT_END;
+};
+
 // Attitudes are grouped by overall behavior towards player
 enum class attitude_group : int {
     neutral = 0, // Doesn't particularly mind the player
@@ -165,11 +171,16 @@ std::string npc_class_name_str( const npc_class_id & );
 
 enum npc_action : int;
 
-enum npc_need {
+enum npc_need : int {
     need_none,
     need_ammo, need_weapon, need_gun,
     need_food, need_drink, need_safety,
     num_needs
+};
+
+template<>
+struct enum_traits<npc_need> {
+    static constexpr npc_need last = num_needs;
 };
 
 // TODO: Turn the personality struct into a vector/map?
