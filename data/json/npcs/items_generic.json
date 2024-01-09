@@ -349,12 +349,12 @@
   {
     "type": "item_group",
     "id": "npc_smg",
-    "items": [ { "group": "guns_smg_common", "prob": 50 }, { "group": "guns_smg_improvised", "prob": 50 } ]
+    "items": [ { "group": "guns_smg_common", "prob": 25 }, { "group": "guns_smg_improvised", "prob": 25 }, [ "null", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_launcher",
-    "items": [ { "group": "guns_launcher_improvised", "prob": 100 } ]
+    "items": [ { "group": "guns_launcher_improvised", "prob": 15 }, [ "m79", 10 ], [ "null", 75 ] ]
   },
   {
     "type": "item_group",
@@ -376,7 +376,7 @@
   {
     "type": "item_group",
     "id": "npc_unarmed",
-    "items": [ [ "knuckle_brass", 50 ], [ "punch_dagger", 50 ] ]
+    "items": [ [ "knuckle_brass", 25 ], [ "punch_dagger", 25 ], [ "null", 50 ] ]
   },
   {
     "type": "item_group",
