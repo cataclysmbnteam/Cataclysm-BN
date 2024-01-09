@@ -70,6 +70,17 @@
   },
   {
     "type": "city_building",
+    "id": "2StoryModern05",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, -1 ], "overmap": "2StoryModern05_basement_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "2StoryModern05_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "2StoryModern05_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "2StoryModern05_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "bungalow01",
     "locations": [ "land" ],
     "overmaps": [
