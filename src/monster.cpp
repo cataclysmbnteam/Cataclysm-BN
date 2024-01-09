@@ -1223,6 +1223,10 @@ Attitude monster::attitude_to( const Creature &other ) const
         if( m == this ) {
             return Attitude::A_FRIENDLY;
         }
+        // Ignore inactive mechs
+        if( m->has_flag( MF_RIDEABLE_MECH ) && !m->has_effect( effect_ridden ) ) {
+            return Attitude::A_NEUTRAL;
+        }
 
         static const string_id<monfaction> faction_zombie( "zombie" );
         auto faction_att = faction.obj().attitude( m->faction );
