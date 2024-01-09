@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "result": "scrambled_eggs",
-	"id_suffix": "from_dino",
+    "id_suffix": "from_dino",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -18,7 +18,7 @@
   {
     "type": "recipe",
     "result": "scrambled_eggs",
-	"id_suffix": "from_large_dino",
+    "id_suffix": "from_large_dino",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -76,7 +76,7 @@
   {
     "type": "recipe",
     "result": "deluxe_eggs",
-	"id_suffix": "from_dino",
+    "id_suffix": "from_dino",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -91,7 +91,7 @@
   {
     "type": "recipe",
     "result": "pancakes",
-	"id_suffix": "from_dino",
+    "id_suffix": "from_dino",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -113,7 +113,7 @@
   {
     "type": "recipe",
     "result": "fruit_pancakes",
-	"id_suffix": "from_dino",
+    "id_suffix": "from_dino",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -136,7 +136,7 @@
   {
     "type": "recipe",
     "result": "choc_pancakes",
-	"id_suffix": "from_dino",
+    "id_suffix": "from_dino",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -159,7 +159,7 @@
   {
     "type": "recipe",
     "result": "frenchtoast",
-	"id_suffix": "from_dino",
+    "id_suffix": "from_dino",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -179,7 +179,7 @@
   {
     "type": "recipe",
     "result": "waffles",
-	"id_suffix": "from_dino",
+    "id_suffix": "from_dino",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -201,7 +201,7 @@
   {
     "type": "recipe",
     "result": "fruit_waffles",
-	"id_suffix": "from_dino",
+    "id_suffix": "from_dino",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -224,7 +224,7 @@
   {
     "type": "recipe",
     "result": "choc_waffles",
-	"id_suffix": "from_dino",
+    "id_suffix": "from_dino",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -247,7 +247,7 @@
   {
     "type": "recipe",
     "result": "powder_eggs",
-	"id_suffix": "from_dino",
+    "id_suffix": "from_dino",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
@@ -262,7 +262,7 @@
   {
     "type": "recipe",
     "result": "powder_eggs",
-	"id_suffix": "from_large_dino",
+    "id_suffix": "from_large_dino",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
