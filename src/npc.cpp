@@ -820,6 +820,33 @@ int npc::best_skill_level() const
     return highest_level;
 }
 
+namespace
+{
+
+const std::map<skill_id, std::string> skill_to_weapons = {
+    { skill_bashing, "bashing" },
+    { skill_cutting, "cutting" },
+    { skill_unarmed, "unarmed" },
+    { skill_throw, "throw" },
+    { skill_archery, "archery" },
+    { skill_launcher, "launcher" },
+    { skill_pistol, "pistol" },
+    { skill_shotgun, "shotgun" },
+    { skill_smg, "smg" },
+    { skill_rifle, "rifle" },
+    { skill_stabbing, "stabbing" }
+};
+
+/// if NPC has no suitable skills default to stabbing weapon
+auto best_weapon_category( const skill_id &best_skill ) -> std::string
+{
+    const auto &res = skill_to_weapons.find( best_skill );
+
+    return res != skill_to_weapons.end() ? res->second : "stabbing";
+}
+
+} // namespace
+
 void npc::starting_weapon( const npc_class_id &type )
 {
     if( item_group::group_is_defined( type->weapon_override ) ) {
@@ -828,31 +855,8 @@ void npc::starting_weapon( const npc_class_id &type )
     }
 
     const skill_id best = best_skill();
-
-    if( best == skill_bashing ) {
-        set_primary_weapon( random_item_from( type, "bashing" ) );
-    } else if( best == skill_cutting ) {
-        set_primary_weapon( random_item_from( type, "cutting" ) );
-    } else if( best == skill_unarmed ) {
-        set_primary_weapon( random_item_from( type, "unarmed" ) );
-    } else if( best == skill_throw ) {
-        set_primary_weapon( random_item_from( type, "throw" ) );
-    } else if( best == skill_archery ) {
-        set_primary_weapon( random_item_from( type, "archery" ) );
-    } else if( best == skill_launcher ) {
-        set_primary_weapon( random_item_from( type, "launcher" ) );
-    } else if( best == skill_pistol ) {
-        set_primary_weapon( random_item_from( type, "pistol" ) );
-    } else if( best == skill_shotgun ) {
-        set_primary_weapon( random_item_from( type, "shotgun" ) );
-    } else if( best == skill_smg ) {
-        set_primary_weapon( random_item_from( type, "smg" ) );
-    } else if( best == skill_rifle ) {
-        set_primary_weapon( random_item_from( type, "rifle" ) );
-    } else {
-        // if NPC has no suitable skills default to stabbing weapon
-        set_primary_weapon( random_item_from( type, "stabbing" ) );
-    }
+    const std::string category = best_weapon_category( best );
+    set_primary_weapon( random_item_from( type, category ) );
 
     if( primary_weapon().is_gun() ) {
         primary_weapon().ammo_set( primary_weapon().ammo_default() );
