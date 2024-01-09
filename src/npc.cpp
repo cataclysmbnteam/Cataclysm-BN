@@ -103,12 +103,14 @@ static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
 static const skill_id skill_smg( "smg" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
+static const skill_id skill_unarmed( "unarmed" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -790,7 +792,7 @@ skill_id npc::best_skill() const
     skill_id highest_skill( skill_id::NULL_ID() );
 
     for( const auto &p : *_skills ) {
-        if( p.first.obj().is_combat_skill() ) {
+        if( p.first.obj().is_weapon_skill() ) {
             const int level = p.second.level();
             if( level > highest_level ) {
                 highest_level = level;
@@ -827,25 +829,29 @@ void npc::starting_weapon( const npc_class_id &type )
 
     const skill_id best = best_skill();
 
-    // if NPC has no suitable skills default to stabbing weapon
-    if( !best || best == skill_stabbing ) {
-        set_primary_weapon( random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) ) );
-    } else if( best == skill_bashing ) {
-        set_primary_weapon( random_item_from( type, "bashing",  item_group_id( "survivor_bashing" ) ) );
+    if( best == skill_bashing ) {
+        set_primary_weapon( random_item_from( type, "bashing" ) );
     } else if( best == skill_cutting ) {
-        set_primary_weapon( random_item_from( type, "cutting",  item_group_id( "survivor_cutting" ) ) );
+        set_primary_weapon( random_item_from( type, "cutting" ) );
+    } else if( best == skill_unarmed ) {
+        set_primary_weapon( random_item_from( type, "unarmed" ) );
     } else if( best == skill_throw ) {
         set_primary_weapon( random_item_from( type, "throw" ) );
     } else if( best == skill_archery ) {
         set_primary_weapon( random_item_from( type, "archery" ) );
+    } else if( best == skill_launcher ) {
+        set_primary_weapon( random_item_from( type, "launcher" ) );
     } else if( best == skill_pistol ) {
-        set_primary_weapon( random_item_from( type, "pistol",  item_group_id( "guns_pistol_common" ) ) );
+        set_primary_weapon( random_item_from( type, "pistol" ) );
     } else if( best == skill_shotgun ) {
-        set_primary_weapon( random_item_from( type, "shotgun",  item_group_id( "guns_shotgun_common" ) ) );
+        set_primary_weapon( random_item_from( type, "shotgun" ) );
     } else if( best == skill_smg ) {
-        set_primary_weapon( random_item_from( type, "smg",  item_group_id( "guns_smg_common" ) ) );
+        set_primary_weapon( random_item_from( type, "smg" ) );
     } else if( best == skill_rifle ) {
-        set_primary_weapon( random_item_from( type, "rifle",  item_group_id( "guns_rifle_common" ) ) );
+        set_primary_weapon( random_item_from( type, "rifle" ) );
+    } else {
+        // if NPC has no suitable skills default to stabbing weapon
+        set_primary_weapon( random_item_from( type, "stabbing" ) );
     }
 
     if( primary_weapon().is_gun() ) {
