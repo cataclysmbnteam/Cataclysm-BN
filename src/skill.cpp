@@ -221,6 +221,13 @@ bool Skill::is_contextual_skill() const
     return _tags.count( contextual_skill ) > 0;
 }
 
+// used to check NPC weapon skills for determining starting weapon
+bool Skill::is_weapon_skill() const
+{
+    static const std::string weapon_skill( "weapon_skill" );
+    return _tags.count( weapon_skill ) > 0;
+}
+
 void SkillLevel::train( int amount, bool skip_scaling )
 {
     // Working off rust to regain levels goes twice as fast as reaching levels in the first place
