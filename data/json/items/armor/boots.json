@@ -1463,6 +1463,7 @@
     "copy-from": "socks",
     "looks_like": "socks",
     "warmth": 15,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "encumbrance": 3
   }
 ]
