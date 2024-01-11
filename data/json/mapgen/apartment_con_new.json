@@ -407,7 +407,7 @@
       ],
       "palettes": [ "apartment_palette" ],
       "faction_owner": [ { "id": "no_faction", "x": [ 0, 23 ], "y": [ 30, 39 ] } ],
-      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "no_faction", "x": [ 0, 13 ], "y": [ 30, 39 ] } ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "wasteland_scavengers", "x": [ 0, 13 ], "y": [ 30, 39 ] } ],
       "place_npcs": [ { "class": "apartment_survivor", "x": 8, "y": 37 } ]
     }
   },
