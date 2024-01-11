@@ -177,8 +177,8 @@
         { "group": "bunker_basement_food", "x": 2, "y": [ 9, 13 ], "chance": 75, "repeat": 10 },
         { "group": "bunker_basement_drugs", "x": 7, "y": [ 9, 13 ], "chance": 75, "repeat": 10 },
         { "group": "military_standard_shotguns", "x": 2, "y": 19, "chance": 75 },
-        { "item": "militarymap", "x": 5, "y": 3, "chance": 75 },
-        { "group": "flask_liquor", "x": 5, "y": 3, "chance": 75 },
+        { "item": "militarymap", "x": 17, "y": 3, "chance": 75 },
+        { "group": "flask_liquor", "x": 17, "y": 3, "chance": 75 },
         { "item": "television", "x": 17, "y": 8, "chance": 95 },
         { "item": "stereo", "x": 17, "y": 9, "chance": 80 }
       ],
