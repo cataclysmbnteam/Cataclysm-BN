@@ -82,7 +82,7 @@
       "place_nested": [
         {
           "chunks": [
-            [ "null", 40 ],
+            [ "house_w_null_6x6", 40 ],
             [ "roof_6x6_garden_4", 5 ],
             [ "roof_6x6_garden_1", 15 ],
             [ "greenhouse_6x6_herbal", 10 ],
