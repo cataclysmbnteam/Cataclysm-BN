@@ -4,11 +4,11 @@
     "method": "json",
     "om_terrain": [ "bunker" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "   /III/++++++++/III/   ",
         "   /lddI________Iddl/   ",
-        "|||/,h?I________I?h,/|||",
+        "|||/.h?I________I?h./|||",
         "|  /*///________///*/  |",
         "|       ________       |",
         "| yyyyyy________yyyyyy |",
@@ -35,12 +35,16 @@
         " ": "t_region_groundcover_urban",
         "*": "t_door_metal_pickable",
         "+": "t_chaingate_l",
-        ",": "t_floor",
+        ".": "t_floor",
+        ",": "t_metal_floor",
         "_": "t_pavement",
         "/": "t_concrete_wall",
         "?": "t_console_broken",
         "6": "t_card_military",
         ">": "t_stairs_down",
+        "d": "t_floor",
+        "h": "t_floor",
+        "l": "t_floor",
         "D": "t_door_metal_locked",
         "I": "t_ballistic_glass",
         "M": "t_wall_metal",
@@ -112,7 +116,7 @@
     "om_terrain": [ "bunker_basement" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "########################",
         "#MMMMMMMMMMMMMMMMMMMMMM#",
@@ -140,7 +144,7 @@
         "########################"
       ],
       "palettes": [ "basement_bunker" ],
-      "terrain": { " ": "t_floor", "=": "t_door_metal_c", "^": "t_door_metal_pickable" },
+      "terrain": { " ": "t_metal_floor", "=": "t_door_metal_c", "^": "t_door_metal_pickable" },
       "furniture": {
         "r": "f_rack",
         "f": "f_fridge",
@@ -189,9 +193,9 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "bunker_basement" ],
-    "weight": 750,
+    "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "########################",
         "#MMMMMMMMMMMMMMMMMMMMMM#",
