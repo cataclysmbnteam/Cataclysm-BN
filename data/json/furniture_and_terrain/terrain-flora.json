@@ -2154,8 +2154,8 @@
   {
     "type": "terrain",
     "id": "t_tree_coca",
-    "name": "coca",
-    "description": "A tree native to South America, coca leaves have been used as medicine, tonic, and tea for thousands of years.  Oddly enough, the tree has also been modified to withstand New England's climate through the power of genetic engineering.  If you examined the trunk of the tree, you could probably find some mature coca leaves.  You could cut it down with the right tools.",
+    "name": "coca plant",
+    "description": "A tree native to South America, coca leaves have been used as medicine, tonic, and tea for thousands of years.  It was modified to withstand New England weather for medical research, only to be accidentally introduced to the wild.  If you examined the trunk of the tree, you could probably find some mature coca leaves.",
     "symbol": "7",
     "color": [ "light_green", "light_green", "light_green", "light_green" ],
     "move_cost": 4,
@@ -2181,8 +2181,8 @@
   {
     "type": "terrain",
     "id": "t_tree_coca_harvested",
-    "name": "coca",
-    "description": "A tree native to South America, coca leaves have been used as medicine, tonic, and tea for thousands of years.  Looks like all the coca leaves have been picked.  You could cut it down with the right tools.",
+    "name": "harvested coca plant",
+    "description": "A tree native to South America, coca leaves have been used as medicine, tonic, and tea for thousands of years.  Looks like all the coca leaves have been picked.",
     "symbol": "7",
     "color": [ "green", "green", "green", "green" ],
     "move_cost": 4,
