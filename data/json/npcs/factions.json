@@ -227,7 +227,7 @@
       { "power_min": 150, "id": "epilogue_faction_lapin_150" }
     ],
     "description": "Mr. Lapin and any acolytes he may have gathered in the apocalypse."
-  },  
+  },
   {
     "type": "faction",
     "id": "free_merchants",
