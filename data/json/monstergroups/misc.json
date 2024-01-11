@@ -220,5 +220,18 @@
       { "monster": "mon_zombie_technician", "freq": 300, "cost_multiplier": 1 },
       { "monster": "mon_secubot", "freq": 50, "cost_multiplier": 3 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_INFESTED_SPAWN",
+    "//": "For Compromised Shelter scenario.",
+    "default": "mon_zombie_tough",
+    "monsters": [
+      { "monster": "mon_zombie", "freq": 250, "pack_size": [ 2, 3 ], "cost_multiplier": 2 },
+      { "monster": "mon_zombie_runner", "freq": 150, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_fat", "freq": 200, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_child", "freq": 200, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_survivor", "freq": 200, "cost_multiplier": 2, "starts": 800 }
+    ]
   }
 ]
