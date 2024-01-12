@@ -497,7 +497,7 @@ void sounds::process_sound_markers( player *p )
                 !p->has_effect( effect_narcosis ) ) {
                 //Not kidding about sleep-through-firefight
                 p->wake_up();
-                add_msg( m_warning, _( "Something is making noise." ) );
+                p->add_msg_if_player( m_warning, _( "Something is making noise." ) );
             } else {
                 continue;
             }

@@ -2365,7 +2365,10 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             // other npcs should not try to move into this npc anymore,
             // so infinite loop can be avoided.
             realnomove->insert( pos() );
-            say( "<let_me_pass>" );
+            // Don't spam player with messages over followers blunder into each other.
+            if( !np->is_following() ) {
+                say( "<let_me_pass>" );
+            }
             np->move_away_from( pos(), true, realnomove );
             // if we moved NPC, readjust their path, so NPCs don't jostle each other out of their activity paths.
             if( np->attitude == NPCATT_ACTIVITY ) {
