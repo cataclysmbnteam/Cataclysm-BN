@@ -315,6 +315,10 @@ std::vector<sphere> npc::find_dangerous_explosives() const
             continue;
         }
 
+        if( !sees( elem->position() ) ) {
+            continue;   // We can't worry about what we can't see.
+        }
+
         const explosion_iuse *actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
         const int safe_range = actor->explosion.safe_range();
 
