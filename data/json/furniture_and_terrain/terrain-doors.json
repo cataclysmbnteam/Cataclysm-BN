@@ -2247,6 +2247,8 @@
     "looks_like": "t_door_metal_pickable",
     "//": "Same as t_door_metal_pickable, but without OPENCLOSE_INSIDE. Due the inheritance issues cannot copy from the t_door_metal_pickable, delete doesn't work with flags",
     "lockpick_result": "t_door_metal_c",
+    "lockpick_message": "With a satisfying click, the lock on the door opens.",
+    "examine_action": "locked_object_pickable",
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
