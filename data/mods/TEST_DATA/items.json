@@ -758,10 +758,20 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
+    "material": [ "faux_fur" ],
     "resistance": { "cut": 0, "bullet": 1000 },
     "warmth": 0,
     "material_thickness": 1,
     "coverage": 100,
     "covers": [ "torso", "arm_l", "arm_r", "head", "leg_l", "leg_r" ]
+  },
+  {
+    "id": "test_override_armor_damageable",
+    "copy-from": "test_override_armor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "damageable anti-bullet armor" },
+    "description": "This armor protects from bullets, but can be damaged to protect a bit less.",
+    "material_thickness": 10
   }
 ]

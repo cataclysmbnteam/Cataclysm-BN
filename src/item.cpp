@@ -6066,16 +6066,6 @@ static int phys_resist( const item &it, damage_type dt, clothing_mod_type cmt,
         return 0;
     }
 
-    float mod = it.get_clothing_mod_val( cmt );
-
-    std::optional<resistances> overriden_resistance = it.damage_resistance_override();
-    if( overriden_resistance ) {
-        auto iter = overriden_resistance->flat.find( dt );
-        if( iter != overriden_resistance->flat.end() ) {
-            return std::lround( iter->second + mod );
-        }
-    }
-
     float resist = 0;
     int eff_thickness = 1;
 
@@ -6084,6 +6074,21 @@ static int phys_resist( const item &it, damage_type dt, clothing_mod_type cmt,
     const int dmg = it.damage_level( 4 );
     const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
     eff_thickness = std::max( 1, it.get_thickness() - eff_damage );
+
+    float mod = it.get_clothing_mod_val( cmt );
+
+    std::optional<resistances> overriden_resistance = it.damage_resistance_override();
+    if( overriden_resistance ) {
+        float base_resistance = 0.0f;
+        auto iter = overriden_resistance->flat.find( dt );
+        if( iter != overriden_resistance->flat.end() ) {
+            base_resistance = iter->second;
+        }
+
+        float damaged_resistance = base_resistance * eff_thickness / it.get_thickness();
+
+        return std::lround( damaged_resistance + mod );
+    }
 
     const std::vector<const material_type *> mat_types = it.made_of_types();
     if( !mat_types.empty() ) {
@@ -6104,40 +6109,7 @@ int item::bash_resist( bool to_self ) const
 
 int item::cut_resist( bool to_self ) const
 {
-    if( is_null() ) {
-        return 0;
-    }
-
-    float mod = get_clothing_mod_val( clothing_mod_type_cut );
-
-    std::optional<resistances> overriden_resistance = damage_resistance_override();
-    if( overriden_resistance ) {
-        auto iter = overriden_resistance->flat.find( DT_CUT );
-        if( iter != overriden_resistance->flat.end() ) {
-            return std::lround( overriden_resistance->flat[DT_CUT] + mod );
-        }
-    }
-
-    const int base_thickness = get_thickness();
-    float resist = 0;
-    int eff_thickness = 1;
-
-    // base resistance
-    // Don't give reinforced items +armor, just more resistance to ripping
-    const int dmg = damage_level( 4 );
-    const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-    eff_thickness = std::max( 1, base_thickness - eff_damage );
-
-    const std::vector<const material_type *> mat_types = made_of_types();
-    if( !mat_types.empty() ) {
-        for( const material_type *mat : mat_types ) {
-            resist += mat->cut_resist();
-        }
-        // Average based on number of materials.
-        resist /= mat_types.size();
-    }
-
-    return std::lround( ( resist * eff_thickness ) + mod );
+    return phys_resist( *this, DT_CUT, clothing_mod_type_cut, &material_type::cut_resist, to_self );
 }
 
 #if defined(_MSC_VER)
@@ -6152,38 +6124,8 @@ int item::stab_resist( bool to_self ) const
 
 int item::bullet_resist( bool to_self ) const
 {
-    if( is_null() ) {
-        return 0;
-    }
-
-    float mod = get_clothing_mod_val( clothing_mod_type_bullet );
-
-    std::optional<resistances> overriden_resistance = damage_resistance_override();
-    if( overriden_resistance ) {
-        return std::lround( overriden_resistance->flat[DT_BULLET] + mod );
-    }
-
-    const int base_thickness = get_thickness();
-    float resist = 0;
-
-    int eff_thickness = 1;
-
-    // base resistance
-    // Don't give reinforced items +armor, just more resistance to ripping
-    const int dmg = damage_level( 4 );
-    const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-    eff_thickness = std::max( 1, base_thickness - eff_damage );
-
-    const std::vector<const material_type *> mat_types = made_of_types();
-    if( !mat_types.empty() ) {
-        for( const material_type *mat : mat_types ) {
-            resist += mat->bullet_resist();
-        }
-        // Average based on number of materials.
-        resist /= mat_types.size();
-    }
-
-    return std::lround( ( resist * eff_thickness ) + mod );
+    return phys_resist( *this, DT_BULLET, clothing_mod_type_bullet, &material_type::bullet_resist,
+                        to_self );
 }
 
 int item::acid_resist( bool to_self, int base_env_resist ) const
