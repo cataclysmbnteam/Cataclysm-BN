@@ -15,6 +15,17 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "rock_mining_extra",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "material_rocksalt", "prob": 50 },
+      { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 30 },
+      { "item": "material_zincite", "count": [ 1, 4 ], "prob": 10 },
+      { "item": "material_rhodonite", "prob": 10 }
+    ]
+  },
+  {
     "type": "terrain",
     "id": "t_wall",
     "alias": [ "t_wall_h", "t_wall_v" ],
@@ -343,7 +354,8 @@
       "items": [
         { "item": "rock", "count": [ 35, 50 ] },
         { "item": "sharp_rock", "count": [ 3, 7 ] },
-        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 }
+        { "item": "material_limestone", "charges": [ 5, 15 ], "prob": 80 },
+        { "item": "material_rocksalt", "prob": 10 }
       ]
     }
   },
@@ -1193,11 +1205,8 @@
       "items": [
         { "item": "rock", "count": [ 65, 85 ] },
         { "item": "sharp_rock", "count": [ 5, 9 ] },
-        { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 10 },
         { "item": "material_limestone", "charges": [ 10, 25 ], "prob": 80 },
-        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 },
-        { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 3 },
-        { "item": "material_zincite", "count": [ 0, 5 ], "prob": 5 }
+        { "group": "rock_mining_extra", "prob": 25 }
       ]
     }
   },
@@ -1217,7 +1226,12 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "rock", "count": [ 35, 50 ] }, { "item": "sharp_rock", "count": [ 3, 7 ] } ]
+      "items": [
+        { "item": "rock", "count": [ 35, 50 ] },
+        { "item": "sharp_rock", "count": [ 3, 7 ] },
+        { "item": "material_limestone", "charges": [ 5, 15 ], "prob": 80 },
+        { "item": "material_rocksalt", "prob": 10 }
+      ]
     }
   },
   {
@@ -1236,7 +1250,12 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "rock", "count": [ 35, 50 ] }, { "item": "sharp_rock", "count": [ 3, 7 ] } ]
+      "items": [
+        { "item": "rock", "count": [ 35, 50 ] },
+        { "item": "sharp_rock", "count": [ 3, 7 ] },
+        { "item": "material_limestone", "charges": [ 5, 15 ], "prob": 80 },
+        { "item": "material_rocksalt", "prob": 10 }
+      ]
     }
   },
   {
@@ -1255,7 +1274,12 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "rock", "count": [ 35, 50 ] }, { "item": "sharp_rock", "count": [ 3, 7 ] } ]
+      "items": [
+        { "item": "rock", "count": [ 35, 50 ] },
+        { "item": "sharp_rock", "count": [ 3, 7 ] },
+        { "item": "material_limestone", "charges": [ 5, 15 ], "prob": 80 },
+        { "item": "material_rocksalt", "prob": 10 }
+      ]
     }
   },
   {
