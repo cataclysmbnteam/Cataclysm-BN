@@ -474,7 +474,7 @@
   },
   {
     "id": "bio_infolink",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Infolink CBM" },
     "looks_like": "bio_int_enhancer",
