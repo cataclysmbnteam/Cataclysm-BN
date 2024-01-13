@@ -160,11 +160,11 @@ static const bionic_id bio_flashbang( "bio_flashbang" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
+static const bionic_id bio_infolink( "bio_infolink" );
 static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_magnet( "bio_magnet" );
-static const bionic_id bio_meteorologist( "bio_meteorologist" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
@@ -956,7 +956,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         explosion_handler::shockwave( pos(), sw, "explosion", &get_player_character() );
         add_msg_if_player( m_neutral, _( "You unleash a powerful shockwave!" ) );
         mod_moves( -100 );
-    } else if( bio.id == bio_meteorologist ) {
+    } else if( bio.id == bio_infolink ) {
         const weather_manager &weather = get_weather();
         add_msg_activate();
         // Calculate local wind power

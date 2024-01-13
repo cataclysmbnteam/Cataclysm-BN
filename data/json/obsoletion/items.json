@@ -5022,4 +5022,40 @@
     "weight": "100 g",
     "difficulty": 5
   },
+  {
+    "id": "bio_watch",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Obsolete Bionic" },
+    "looks_like": "bio_int_enhancer",
+    "description": "The effects of this bionic in the code have been replaced with Bionic Infolink, so this should no longer spawn.  If you're still finding these in the wild, update your mods.",
+    "price": "10 USD",
+    "weight": "10 g",
+    "installation_data": "AID_bio_watch"
+  },
+  {
+    "id": "AID_bio_watch",
+    "type": "GENERIC",
+    "copy-from": "AID_abstract",
+    "name": { "str_sp": "Internal Chronometer CBM installation data" },
+    "description": "Precise step-by-step instructions and other required data for installation of Internal Chronometer CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
+  },
+  {
+    "id": "bio_meteorologist",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Obsolete Bionic" },
+    "looks_like": "bio_int_enhancer",
+    "description": "The effects of this bionic in the code have been replaced with Bionic Infolink, so this should no longer spawn.  If you're still finding these in the wild, update your mods.",
+    "price": "3500 USD",
+    "weight": "700 g",
+    "installation_data": "AID_bio_meteorologist"
+  },
+  {
+    "id": "AID_bio_meteorologist",
+    "type": "GENERIC",
+    "copy-from": "AID_abstract",
+    "name": { "str_sp": "Weather Reader CBM installation data" },
+    "description": "Precise step-by-step instructions and other required data for installation of Weather Reader CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
+  }
 ]

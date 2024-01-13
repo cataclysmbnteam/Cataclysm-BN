@@ -423,8 +423,9 @@
     "name": { "str": "Cranial Flashlight" },
     "description": "Surgically mounted between your eyes is a small but powerful LED flashlight.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
-    "act_cost": "3 J",
-    "react_cost": "3 J",
+    "//": "Slightly more efficient than a standard flashlight.",
+    "act_cost": "8 J",
+    "react_cost": "8 J",
     "time": 1,
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -516,6 +517,14 @@
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
     "time": 1
+  },
+  {
+    "id": "bio_infolink",
+    "type": "bionic",
+    "name": { "str": "Bionic Infolink" },
+    "description": "A state of the art communications and information package has been installed in your body.  While the cell phone network may be down, it can still double as a two-way radio.  Additionally tells you the time and local air temperature, provides a silent alarm clock function, and if activated will give a more detailed readout on local weather conditions.",
+    "occupied_bodyparts": [ [ "torso", 1 ], [ "head", 1 ] ],
+    "act_cost": "10 J"
   },
   {
     "id": "bio_infrared",
@@ -630,14 +639,6 @@
     "fuel_efficiency": 0.25,
     "time": 1,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
-  },
-  {
-    "id": "bio_meteorologist",
-    "type": "bionic",
-    "name": { "str": "Weather Reader" },
-    "description": "A multitude of scientific instruments and sensors collect environmental data.  The data is compiled and presented as a simple readout of the current weather.  It also passively tells you the local air temperature.",
-    "occupied_bodyparts": [ [ "torso", 1 ], [ "head", 1 ] ],
-    "act_cost": "10 J"
   },
   {
     "id": "bio_nanobots",
@@ -1094,13 +1095,6 @@
     "description": "You will likely spend the rest of your days serving as a walking testament to why you don't opt for the Autodoc's 'Cyborg Identity Package'.  A remodulator unit jammed down your throat has given you a creepy robot voice.",
     "occupied_bodyparts": [ [ "torso", 2 ], [ "mouth", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ]
-  },
-  {
-    "id": "bio_watch",
-    "type": "bionic",
-    "name": { "str": "Internal Chronometer" },
-    "description": "You have been equipped with an internal atomic clock, ensuring that you will always know the current time.  Additionally, it includes a silent alarm clock function.",
-    "occupied_bodyparts": [ [ "head", 1 ] ]
   },
   {
     "id": "bio_fuel_cell_gasoline",

@@ -123,7 +123,7 @@
       { "item": "AID_bio_power_armor_interface" },
       { "item": "AID_bio_power_storage" },
       { "item": "AID_bio_power_storage_mkII" },
-      { "item": "AID_bio_watch" },
+      { "item": "AID_bio_infolink" },
       { "item": "AID_bio_syringe" },
       { "item": "AID_bio_blood_anal" },
       { "item": "AID_bio_flashlight" },
@@ -136,7 +136,6 @@
       { "item": "AID_bio_climate" },
       { "item": "AID_bio_geiger" },
       { "item": "AID_bio_heatsink" },
-      { "item": "AID_bio_meteorologist" },
       { "item": "AID_bio_railgun" },
       { "item": "AID_bio_ups" },
       { "item": "AID_bio_weight" }

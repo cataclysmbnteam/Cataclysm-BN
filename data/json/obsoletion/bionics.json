@@ -24,5 +24,17 @@
     "description": "Nanotubes surgically embedded in the palm of your hand will pump any available fluid out of a dead body, cleanse it of impurities and convert it into drinkable water.  You must, however, have a container to store the water in.",
     "occupied_bodyparts": [ [ "arm_r", 1 ], [ "hand_r", 2 ] ],
     "act_cost": "20 kJ"
+  },
+  {
+    "id": "bio_watch",
+    "type": "bionic",
+    "name": { "str": "Obsolete Bionic" },
+    "description": "The effects of this bionic in the code have been replaced with Bionic Infolink.  It can be uninstalled at minimum difficulty."
+  },
+  {
+    "id": "bio_meteorologist",
+    "type": "bionic",
+    "name": { "str": "Obsolete Bionic" },
+    "description": "The effects of this bionic in the code have been replaced with Bionic Infolink.  It can be uninstalled at minimum difficulty."
   }
 ]

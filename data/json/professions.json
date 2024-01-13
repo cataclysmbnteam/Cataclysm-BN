@@ -2416,7 +2416,7 @@
     "name": "Bionic Boffin",
     "description": "Prior to the apocalypse you were employed by a major international corporation as a representative and technical advisor, utilizing the incredible power of your cybernetically augmented mind.",
     "points": 4,
-    "CBMs": [ "bio_int_enhancer", "bio_face_mask", "bio_watch", "bio_memory", "bio_batteries", "bio_power_storage_mkII" ],
+    "CBMs": [ "bio_int_enhancer", "bio_face_mask", "bio_infolink", "bio_memory", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 2, "name": "barter" }, { "level": 2, "name": "speech" } ],
     "no_bonus": "teleumbrella",
     "items": {
@@ -2663,7 +2663,7 @@
     "name": "Commercial Cyborg",
     "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone?  Only time will tell if your passion for electronics and your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
     "points": 6,
-    "CBMs": [ "bio_flashlight", "bio_tools", "bio_ups", "bio_watch", "bio_batteries", "bio_power_storage_mkII" ],
+    "CBMs": [ "bio_flashlight", "bio_tools", "bio_ups", "bio_infolink", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "fabrication" } ],
     "items": {
       "both": [ "tshirt", "sneakers", "jacket_light", "wristwatch", "smart_phone" ],
