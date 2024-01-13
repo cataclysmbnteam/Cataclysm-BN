@@ -120,7 +120,6 @@
     "id": "autodoc_installation_programs",
     "items": [
       { "item": "AID_bio_alarm" },
-      { "item": "AID_bio_tattoo_led" },
       { "item": "AID_bio_power_armor_interface" },
       { "item": "AID_bio_power_storage" },
       { "item": "AID_bio_power_storage_mkII" },

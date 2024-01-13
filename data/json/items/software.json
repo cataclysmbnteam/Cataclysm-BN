@@ -19,13 +19,6 @@
     "description": "Precise step-by-step instructions and other required data for installation of Alarm System CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
   },
   {
-    "id": "AID_bio_tattoo_led",
-    "type": "GENERIC",
-    "copy-from": "AID_abstract",
-    "name": { "str_sp": "LED Tattoo CBM installation data" },
-    "description": "Precise step-by-step instructions and other required data for installation of LED Tattoo CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
-  },
-  {
     "id": "AID_bio_power_armor_interface",
     "type": "GENERIC",
     "copy-from": "AID_abstract",
