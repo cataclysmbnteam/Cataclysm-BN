@@ -8186,7 +8186,7 @@ bool item::reload( player &u, item &loc, int qty )
             }
         }
 
-        detached_ptr<item> to_reload = ammo->split(qty);
+        detached_ptr<item> to_reload = ammo->split( qty );
         bool merged = false;
         for( item *it : contents.all_items_top() ) {
             if( it->merge_charges( std::move( to_reload ) ) ) {
@@ -8244,15 +8244,15 @@ bool item::reload( player &u, item &loc, int qty )
             ammo->charges -= qty;
             charges += qty;
         }
-		// we have transfered ammo from the container to the item
-		// therefore, we erase the 0-charge item inside container
-		// TODO: why don't we just remove 0-charge items?
-		if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
-			ammo->detach();
-			if(container!=nullptr){
-				u.inv_restack();
-			}
-	    }
+        // we have transfered ammo from the container to the item
+        // therefore, we erase the 0-charge item inside container
+        // TODO: why don't we just remove 0-charge items?
+        if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
+            ammo->detach();
+            if( container != nullptr ) {
+                u.inv_restack();
+            }
+        }
     }
 
     return true;
