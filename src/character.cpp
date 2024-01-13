@@ -6841,11 +6841,12 @@ float Character::active_light() const
 
     if( lumination < 300 && has_active_bionic( bio_flashlight ) ) {
         lumination = 300;
+    } else if( lumination < 40 && has_active_bionic( bio_tattoo_led ) ) {
+        lumination = 40;
     } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
         lumination = 25;
     } else if( lumination < 5 && ( has_effect( effect_glowing ) ||
-                                   ( has_active_bionic( bio_tattoo_led ) ||
-                                     has_effect( effect_glowy_led ) ) ) ) {
+                                   has_effect( effect_glowy_led ) ) ) {
         lumination = 5;
     }
     return lumination;
