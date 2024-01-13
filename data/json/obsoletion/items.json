@@ -4983,25 +4983,6 @@
     "material": "steel"
   },
   {
-    "id": "bio_tattoo_led",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "LED Tattoo" },
-    "looks_like": "bio_int_enhancer",
-    "description": "An LED display implanted beneath the epidermis that can display patterns or pictures through the skin.  When active it glows dimly, providing a very small amount of light.",
-    "price": "200 USD",
-    "weight": "20 g",
-    "difficulty": 1,
-    "installation_data": "AID_bio_tattoo_led"
-  },
-  {
-    "id": "AID_bio_tattoo_led",
-    "type": "GENERIC",
-    "copy-from": "AID_abstract",
-    "name": { "str_sp": "LED Tattoo CBM installation data" },
-    "description": "Precise step-by-step instructions and other required data for installation of LED Tattoo CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
-  },
-  {
     "id": "bio_emp",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -5009,17 +4990,6 @@
     "looks_like": "bio_int_enhancer",
     "description": "Small parabolic EMP field generators that are mounted in the palm of the user's right hand.  These can be used to instantly fire a wide, but short-ranged blast which will disable electronics and robots.",
     "price": "7200 USD",
-    "difficulty": 5
-  },
-  {
-    "id": "bio_water_extractor",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Water Extraction Unit CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "This module contains nanotubes that are embedded in the palm of the hand to pump any available fluid out of a dead body, cleanse it of impurities and convert it into potable water.  Water container not included.",
-    "price": "5500 USD",
-    "weight": "100 g",
     "difficulty": 5
   },
   {

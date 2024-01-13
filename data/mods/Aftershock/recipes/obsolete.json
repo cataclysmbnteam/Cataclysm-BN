@@ -92,15 +92,5 @@
     "result": "afs_rebar_rifle",
     "type": "recipe",
     "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_water_extractor",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_water_extractoruncraft",
-    "obsolete": true
   }
 ]

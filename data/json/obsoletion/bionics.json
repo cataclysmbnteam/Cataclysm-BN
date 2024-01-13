@@ -1,29 +1,11 @@
 [
   {
-    "id": "bio_tattoo_led",
-    "type": "bionic",
-    "name": { "str": "LED Tattoo" },
-    "description": "A small LED display just beneath your dermal layer can be illuminated on command to show patterns of your choice at dim or bright luminosity.  It doesn't provide enough light to comfortably read or craft, but it can suffice if you have nothing else.",
-    "act_cost": "1 J",
-    "react_cost": "1 J",
-    "time": 1,
-    "flags": [ "BIONIC_TOGGLED" ]
-  },
-  {
     "id": "bio_emp",
     "type": "bionic",
     "name": { "str": "Directional EMP" },
     "description": "Surgically mounted in the palm of your hand are small parabolic EMP field generators.  You may use power to fire a wide, but short-ranged blast which will disable electronics and robots.",
     "occupied_bodyparts": [ [ "arm_r", 1 ], [ "hand_r", 2 ] ],
     "act_cost": "50 kJ"
-  },
-  {
-    "id": "bio_water_extractor",
-    "type": "bionic",
-    "name": { "str": "Water Extraction Unit" },
-    "description": "Nanotubes surgically embedded in the palm of your hand will pump any available fluid out of a dead body, cleanse it of impurities and convert it into drinkable water.  You must, however, have a container to store the water in.",
-    "occupied_bodyparts": [ [ "arm_r", 1 ], [ "hand_r", 2 ] ],
-    "act_cost": "20 kJ"
   },
   {
     "id": "bio_watch",

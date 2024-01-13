@@ -418,6 +418,16 @@
     "act_cost": "10 kJ"
   },
   {
+    "id": "bio_tattoo_led",
+    "type": "bionic",
+    "name": { "str": "LED Tattoo" },
+    "description": "A small LED display just beneath your dermal layer can be illuminated on command to show patterns of your choice at dim or bright luminosity.  It doesn't provide enough light, but it can suffice for reading or crafting if you have nothing else.",
+    "act_cost": "1 J",
+    "react_cost": "1 J",
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
     "id": "bio_flashlight",
     "type": "bionic",
     "name": { "str": "Cranial Flashlight" },
@@ -1095,6 +1105,14 @@
     "description": "You will likely spend the rest of your days serving as a walking testament to why you don't opt for the Autodoc's 'Cyborg Identity Package'.  A remodulator unit jammed down your throat has given you a creepy robot voice.",
     "occupied_bodyparts": [ [ "torso", 2 ], [ "mouth", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ]
+  },
+  {
+    "id": "bio_water_extractor",
+    "type": "bionic",
+    "name": { "str": "Water Extraction Unit" },
+    "description": "Nanotubes surgically embedded in the palm of your hand will pump any available fluid out of a dead body, cleanse it of impurities and convert it into drinkable water.  You must, however, have a container to store the water in.",
+    "occupied_bodyparts": [ [ "arm_r", 1 ], [ "hand_r", 2 ] ],
+    "act_cost": "20 kJ"
   },
   {
     "id": "bio_fuel_cell_gasoline",

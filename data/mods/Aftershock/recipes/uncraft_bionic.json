@@ -94,5 +94,22 @@
       [ [ "afs_material_1", 6 ] ],
       [ [ "burnt_out_bionic", 1 ] ]
     ]
+  },
+  {
+    "type": "uncraft",
+    "result": "bio_water_extractor",
+    "skill_used": "electronics",
+    "difficulty": 7,
+    "time": "4 h",
+    "decomp_learn": 7,
+    "using": [ [ "soldering_standard", 60 ] ],
+    "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
+    "components": [
+      [ [ "afs_biomaterial_4", 1 ] ],
+      [ [ "afs_neural_io_1", 2 ] ],
+      [ [ "afs_circuitry_2", 1 ] ],
+      [ [ "afs_material_2", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   }
 ]

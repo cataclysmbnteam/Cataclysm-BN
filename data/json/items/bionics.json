@@ -395,6 +395,18 @@
     "installation_data": "AID_bio_flashlight"
   },
   {
+    "id": "bio_tattoo_led",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "LED Tattoo" },
+    "looks_like": "bio_int_enhancer",
+    "description": "An LED display implanted beneath the epidermis that can display patterns or pictures through the skin.  When active it glows dimly, providing a very small amount of light.",
+    "price": "200 USD",
+    "weight": "20 g",
+    "difficulty": 1,
+    "installation_data": "AID_bio_tattoo_led"
+  },
+  {
     "id": "bio_geiger",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -981,6 +993,17 @@
     "weight": "700 g",
     "difficulty": 3,
     "installation_data": "AID_bio_ups"
+  },
+  {
+    "id": "bio_water_extractor",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Water Extraction Unit CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "This module contains nanotubes that are embedded in the palm of the hand to pump any available fluid out of a dead body, cleanse it of impurities and convert it into potable water.  Water container not included.",
+    "price": "5500 USD",
+    "weight": "100 g",
+    "difficulty": 5
   },
   {
     "id": "bio_syringe",
