@@ -1284,6 +1284,17 @@
     "difficulty": 3
   },
   {
+    "id": "bio_electrosense",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Electrosense CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "An advanced set of digital scanning equipment for reading electrical signals.  When installed it can be activated to scan nearby corpses for bionics, with the added bonus of detecting robots and creatures charged with electricity through walls.  A secondary mode allows it to assist with electrical work like a voltmeter, for checking and modifying grid connections.",
+    "price": "4500 USD",
+    "weight": "500 g",
+    "difficulty": 6
+  },
+  {
     "id": "bio_perpetual_test",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

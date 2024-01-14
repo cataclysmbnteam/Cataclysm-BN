@@ -2335,18 +2335,6 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
                 }
             }
 
-            int charges = static_cast<int>( cbms.size() );
-            charges -= it->ammo_consume( charges, pos );
-            if( possess && it->has_flag( flag_USE_UPS ) ) {
-                if( p->use_charges_if_avail( itype_UPS, charges ) ) {
-                    charges = 0;
-                }
-            }
-            if( charges > 0 ) {
-                it->deactivate( p, true );
-                return 0;
-            }
-
             corpse->set_var( "bionics_scanned_by", p->getID().get_value() );
             if( !cbms.empty() ) {
                 corpse->set_flag( flag_CBM_SCANNED );

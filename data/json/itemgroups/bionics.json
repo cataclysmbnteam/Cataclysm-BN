@@ -95,7 +95,8 @@
       [ "afs_bio_linguistic_coprocessor", 10 ],
       [ "afs_bio_dopamine_stimulators", 10 ],
       [ "bio_blaster", 5 ],
-      [ "bio_reactor", 10 ]
+      [ "bio_reactor", 10 ],
+      [ "bio_electrosense", 10 ]
     ]
   },
   {
@@ -211,7 +212,8 @@
       [ "bio_jointservo", 10 ],
       [ "bio_shotgun", 10 ],
       [ "bio_blaster", 5 ],
-      [ "afs_bio_dopamine_stimulators", 10 ]
+      [ "afs_bio_dopamine_stimulators", 10 ],
+      [ "bio_electrosense", 10 ]
     ]
   },
   {
@@ -302,7 +304,8 @@
       [ "bio_shotgun", 10 ],
       [ "bn_bio_solar", 15 ],
       [ "afs_bio_missiles", 10 ],
-      [ "afs_bio_dopamine_stimulators", 10 ]
+      [ "afs_bio_dopamine_stimulators", 10 ],
+      [ "bio_electrosense", 10 ]
     ]
   },
   {
@@ -366,7 +369,8 @@
       [ "bio_night_vision", 10 ],
       [ "bio_speed", 10 ],
       [ "bio_ups", 10 ],
-      [ "bio_weight", 10 ]
+      [ "bio_weight", 10 ],
+      [ "bio_electrosense", 10 ]
     ]
   },
   {
@@ -384,7 +388,8 @@
       [ "bio_faraday", 20 ],
       [ "bio_weight", 20 ],
       [ "bio_shock_absorber", 20 ],
-      [ "bio_soporific", 20 ]
+      [ "bio_soporific", 20 ],
+      [ "bio_electrosense", 5 ]
     ]
   },
   {
@@ -427,7 +432,8 @@
       [ "bio_leukocyte", 15 ],
       [ "bio_syringe", 2 ],
       [ "bio_jointservo", 10 ],
-      [ "bio_soporific", 2 ]
+      [ "bio_soporific", 2 ],
+      [ "bio_electrosense", 8 ]
     ]
   },
   {

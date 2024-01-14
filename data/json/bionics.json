@@ -1258,6 +1258,26 @@
     "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
   {
+    "id": "bio_electrosense",
+    "type": "bionic",
+    "name": { "str": "Electrosense Scanner" },
+    "description": "Activating this bionic will allow you to see robots and other electric creatures through walls, and automatically scan nearby corpses for bionics that could be harvested, at the cost of steadily draining power.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": "20 J",
+    "react_cost": "20 J",
+    "time": 1,
+    "included_bionics": [ "bio_electrosense_voltmeter" ]
+  },
+  {
+    "id": "bio_electrosense_voltmeter",
+    "type": "bionic",
+    "name": { "str": "Electrosense Voltmeter" },
+    "description": "Using this bionic allows you to check the status of any local grid connections or battery charge in your surroundings, as well as make modifications to grid connections.",
+    "act_cost": "10 J",
+    "included": true
+  },
+  {
     "id": "bio_perpetual_test",
     "type": "bionic",
     "name": { "str": "Perpetual Generator" },

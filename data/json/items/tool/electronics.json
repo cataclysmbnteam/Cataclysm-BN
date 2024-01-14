@@ -595,7 +595,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "bionic scanner (on)" },
-    "description": "A small metal scanner specialized in detecting bionic hardware.  Used automatically whenever you look at corpses that might contain bionics.  Consumes power proportional to number of bionics identified this way.",
+    "description": "A small metal scanner specialized in detecting bionic hardware.  While in use it will steadily drain power, automatically scanning corpses near you for bionics.",
     "weight": "141 g",
     "volume": "250 ml",
     "price": "100 USD",
@@ -605,6 +605,7 @@
     "color": "magenta",
     "use_action": "NOTE_BIONICS",
     "revert_to": "bionic_scanner",
+    "power_draw": 10000,
     "revert_msg": "The %s shuts down."
   }
 ]

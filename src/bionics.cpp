@@ -153,6 +153,8 @@ static const bionic_id bio_blood_filter( "bio_blood_filter" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_electrosense( "bio_electrosense" );
+static const bionic_id bio_electrosense_voltmeter( "bio_electrosense_voltmeter" );
 static const bionic_id bio_emp( "bio_emp" );
 static const bionic_id bio_evap( "bio_evap" );
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
@@ -1080,6 +1082,11 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             refund_power();
             return false;
         }
+    } else if( bio.id == bio_electrosense_voltmeter ) {
+        add_msg_activate();
+        item *ctr;
+        ctr = item::spawn_temporary( "voltmeter", calendar::start_of_cataclysm );
+        int power_use = invoke_item( ctr );
     } else {
         add_msg_activate();
     }
@@ -1773,6 +1780,43 @@ void Character::process_bionic( bionic &bio )
         }
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
+    } else if( bio.id == bio_electrosense ) {
+        // This is a horrible mess but can't use the active iuse behavior directly
+        map &here = get_map();
+        for( const tripoint &pt : here.points_in_radius( pos(), PICKUP_RANGE ) ) {
+            if( !here.has_items( pt ) || !sees( pt ) ) {
+                continue;
+            }
+            for( item * const &corpse : here.i_at( pt ) ) {
+                if( !corpse->is_corpse() ||
+                    corpse->get_var( "bionics_scanned_by", -1 ) == getID().get_value() ) {
+                    continue;
+                }
+
+                std::vector<const item *> cbms;
+                for( const item * const &maybe_cbm : corpse->get_components() ) {
+                    if( maybe_cbm->is_bionic() ) {
+                        cbms.push_back( maybe_cbm );
+                    }
+                }
+
+                corpse->set_var( "bionics_scanned_by", getID().get_value() );
+                if( !cbms.empty() ) {
+                    corpse->set_flag( flag_CBM_SCANNED );
+                    std::string bionics_string =
+                        enumerate_as_string( cbms.begin(), cbms.end(),
+                    []( const item * entry ) -> std::string {
+                        return entry->display_name();
+                    }, enumeration_conjunction::none );
+                    //~ %1 is corpse name, %2 is direction, %3 is bionic name
+                    add_msg_if_player( m_good, _( "A %1$s located %2$s contains %3$s." ),
+                                       corpse->display_name().c_str(),
+                                       direction_name( direction_from( pos(), pt ) ).c_str(),
+                                       bionics_string.c_str()
+                                     );
+                }
+            }
+        }
     } else if( bio.id == bio_radscrubber ) {
         if( calendar::once_every( 10_minutes ) ) {
             const units::energy trigger_cost = bio.info().power_trigger;
