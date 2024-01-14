@@ -2302,8 +2302,6 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
 // Ugly and uses variables that shouldn't be public
 int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
 {
-    const bool possess = p->has_item( *it );
-
     if( !t ) {
         it->deactivate( p, true );
         return 0;
