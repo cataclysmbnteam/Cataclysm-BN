@@ -1084,9 +1084,9 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     } else if( bio.id == bio_electrosense_voltmeter ) {
         add_msg_activate();
-        item *ctr;
-        ctr = item::spawn_temporary( "voltmeter", calendar::start_of_cataclysm );
-        int power_use = invoke_item( ctr );
+        item *vtm;
+        vtm = item::spawn_temporary( "voltmeter", calendar::start_of_cataclysm );
+        invoke_item( vtm );
     } else {
         add_msg_activate();
     }
