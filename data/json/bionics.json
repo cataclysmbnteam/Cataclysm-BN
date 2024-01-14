@@ -418,16 +418,6 @@
     "act_cost": "10 kJ"
   },
   {
-    "id": "bio_tattoo_led",
-    "type": "bionic",
-    "name": { "str": "LED Tattoo" },
-    "description": "A small LED display just beneath your dermal layer can be illuminated on command to show patterns of your choice at dim or bright luminosity.  It doesn't provide enough light, but it can suffice for reading or crafting if you have nothing else.",
-    "act_cost": "1 J",
-    "react_cost": "1 J",
-    "time": 1,
-    "flags": [ "BIONIC_TOGGLED" ]
-  },
-  {
     "id": "bio_flashlight",
     "type": "bionic",
     "name": { "str": "Cranial Flashlight" },
@@ -436,6 +426,16 @@
     "//": "Slightly more efficient than a standard flashlight.",
     "act_cost": "8 J",
     "react_cost": "8 J",
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_tattoo_led",
+    "type": "bionic",
+    "name": { "str": "LED Tattoo" },
+    "description": "A small LED display just beneath your dermal layer can be illuminated on command to show patterns of your choice at dim or bright luminosity.  It doesn't provide enough light, but it can suffice for reading or crafting if you have nothing else.",
+    "act_cost": "1 J",
+    "react_cost": "1 J",
     "time": 1,
     "flags": [ "BIONIC_TOGGLED" ]
   },
