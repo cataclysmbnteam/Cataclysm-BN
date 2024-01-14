@@ -84,6 +84,7 @@ static const bionic_id bio_furnace( "bio_furnace" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
+static const bionic_id bio_infolink( "bio_infolink" );
 static const bionic_id bio_leukocyte( "bio_leukocyte" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_ods( "bio_ods" );
@@ -4172,8 +4173,9 @@ void npc::reach_omt_destination()
             Character &player_character = get_player_character();
             talk_function::assign_guard( *this );
             if( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) {
-                if( player_character.has_item_with_flag( flag_TWO_WAY_RADIO, true ) &&
-                    has_item_with_flag( flag_TWO_WAY_RADIO, true ) ) {
+                if( ( player_character.has_item_with_flag( flag_TWO_WAY_RADIO, true ) ||
+                      player_character.has_bionic( bio_infolink ) ) &&
+                    ( has_item_with_flag( flag_TWO_WAY_RADIO, true ) || has_bionic( bio_infolink ) ) ) {
                     add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
                                         "'I've arrived, boss!'" ), disp_name() );
                 }

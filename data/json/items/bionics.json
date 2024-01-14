@@ -287,16 +287,6 @@
     "difficulty": 6
   },
   {
-    "id": "bio_emp",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Directional EMP CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "Small parabolic EMP field generators that are mounted in the palm of the user's right hand.  These can be used to instantly fire a wide, but short-ranged blast which will disable electronics and robots.",
-    "price": "7200 USD",
-    "difficulty": 5
-  },
-  {
     "id": "bio_emp_armgun",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -483,6 +473,18 @@
     "difficulty": 6
   },
   {
+    "id": "bio_infolink",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Infolink CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "Before the Cataclysm this was a state-of-the-art communications package.  Even without cell service, it can still double as a two-way radio if installed.  Also comes with an internal chronometer with silent alarm clock feature, an air temperature sensor, and more detailed weather readouts when activated.",
+    "price": "3500 USD",
+    "weight": "700 g",
+    "difficulty": 3,
+    "installation_data": "AID_bio_infolink"
+  },
+  {
     "id": "bio_infrared",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -591,18 +593,6 @@
     "price": "700 USD",
     "weight": "700 g",
     "difficulty": 4
-  },
-  {
-    "id": "bio_meteorologist",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Weather Reader CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "A multitude of scientific instruments and sensors collect environmental data.  The data is compiled and presented as a simple readout of the current weather.  It also passively tells the user their external temperature.",
-    "price": "3500 USD",
-    "weight": "700 g",
-    "difficulty": 3,
-    "installation_data": "AID_bio_meteorologist"
   },
   {
     "id": "bio_nanobots",
@@ -1003,18 +993,6 @@
     "weight": "700 g",
     "difficulty": 3,
     "installation_data": "AID_bio_ups"
-  },
-  {
-    "id": "bio_watch",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Internal Chronometer CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "This bionic module contains an atomic clock, complete with silent alarm clock function.",
-    "price": "10 USD",
-    "weight": "10 g",
-    "difficulty": 1,
-    "installation_data": "AID_bio_watch"
   },
   {
     "id": "bio_water_extractor",

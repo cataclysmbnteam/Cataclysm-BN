@@ -121,7 +121,7 @@ static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
-static const bionic_id bio_watch( "bio_watch" );
+static const bionic_id bio_infolink( "bio_infolink" );
 
 static const matec_id WBLOCK_1( "WBLOCK_1" );
 static const matec_id WBLOCK_2( "WBLOCK_2" );
@@ -1063,7 +1063,7 @@ bool Character::has_alarm_clock() const
     return ( has_item_with_flag( flag_ALARMCLOCK, true ) ||
              ( here.veh_at( pos() ) &&
                !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
-             has_bionic( bio_watch ) );
+             has_bionic( bio_infolink ) );
 }
 
 bool Character::has_watch() const
@@ -1072,7 +1072,7 @@ bool Character::has_watch() const
     return ( has_item_with_flag( flag_WATCH, true ) ||
              ( here.veh_at( pos() ) &&
                !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
-             has_bionic( bio_watch ) );
+             has_bionic( bio_infolink ) );
 }
 
 void Character::react_to_felt_pain( int intensity )
@@ -6839,13 +6839,14 @@ float Character::active_light() const
 
     lumination = std::max( lumination, mut_lum );
 
-    if( lumination < 60 && has_active_bionic( bio_flashlight ) ) {
-        lumination = 60;
+    if( lumination < 300 && has_active_bionic( bio_flashlight ) ) {
+        lumination = 300;
+    } else if( lumination < 40 && has_active_bionic( bio_tattoo_led ) ) {
+        lumination = 40;
     } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
         lumination = 25;
     } else if( lumination < 5 && ( has_effect( effect_glowing ) ||
-                                   ( has_active_bionic( bio_tattoo_led ) ||
-                                     has_effect( effect_glowy_led ) ) ) ) {
+                                   has_effect( effect_glowy_led ) ) ) {
         lumination = 5;
     }
     return lumination;
