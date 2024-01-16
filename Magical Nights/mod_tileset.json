@@ -1299,7 +1299,10 @@
             "multitile": true,
             "additional_tiles": [ { "id": "broken", "fg": 641 } ]
           },
-          { "id": "wizardtower1_ground", "fg": 642, "rotates": false }
+          { "id": "wizardtower1_ground", "fg": 642, "rotates": false },
+		  { "id": "novice_kelvin_spellbook", "fg": 643, "rotates": false },
+		  { "id": "novice_earth_spellbook", "fg": 644, "rotates": false },
+		  { "id": "novice_storm_spellbook", "fg": 645, "rotates": false }
         ],
         "//": "range 1 to 656",
         "sprite_width": 32,

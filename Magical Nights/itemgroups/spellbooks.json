@@ -125,7 +125,7 @@
     "id": "spellbook_tier_0",
     "type": "item_group",
     "//": "These are spellbooks that a beginner would have, or scrolls that would have this tier or one tier higher of spells.",
-    "items": [ [ "wizard_beginner", 30 ], [ "priest_beginner", 30 ], [ "techno_idiots", 30 ] ]
+    "items": [ [ "wizard_beginner", 30 ], [ "priest_beginner", 30 ], [ "techno_idiots", 30 ], [ "novice_techno_spellbook", 30 ], [ "novice_storm_spellbook", 30 ], [ "novice_earth_spellbook", 30 ], [ "novice_kelvin_spellbook", 30 ] ]
   },
   {
     "id": "spellbook_tier_1",

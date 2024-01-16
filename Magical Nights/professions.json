@@ -204,7 +204,7 @@
     "points": 2,
     "skills": [ { "level": 1, "name": "spellcraft" } ],
     "items": {
-      "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "primitive_knife" ],
+      "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "primitive_knife", "summon_undead_spellbook" ],
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -218,7 +218,7 @@
     "spells": [ { "id": "lightning_bolt", "level": 1 }, { "id": "windrun", "level": 1 } ],
     "points": 0,
     "items": {
-      "both": [ "jeans", "tshirt", "hat_ball", "sneakers", "socks", "hoodie" ],
+      "both": [ "jeans", "tshirt", "hat_ball", "sneakers", "socks", "hoodie", "novice_storm_spellbook" ],
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -232,7 +232,7 @@
     "spells": [ { "id": "stonefist", "level": 1 }, { "id": "seismic_stomp", "level": 1 } ],
     "points": 0,
     "items": {
-      "both": [ "jeans", "tshirt", "boxing_gloves", "hat_ball", "sneakers", "socks", "hoodie" ],
+      "both": [ "jeans", "tshirt", "boxing_gloves", "hat_ball", "sneakers", "socks", "hoodie", "novice_earth_spellbook" ],
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -246,10 +246,24 @@
     "spells": [ { "id": "synaptic_stimulation", "level": 4 } ],
     "points": 0,
     "items": {
-      "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "sneakers", "socks", "hoodie" ],
+      "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "sneakers", "socks", "hoodie", "novice_techno_spellbook" ],
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     },
     "traits": [ "TECHNOMANCER" ]
+  },
+  {
+    "type": "profession",
+    "id": "novice_kelvinist",
+    "name": "Novice Kelvinist",
+    "description": "Even from a young age, you'd always felt drawn to the hot and cold.  Fire had always warmed your spirits, and every Winter you were praying for a snow day simply because you loved them so much, even as you got older.  It's only natural that you'd find yourself learning the magic to control these primal elements.",
+    "spells": [ { "id": "create_lighter", "level": 1 }, { "id": "chilling_touch", "level": 1 } ],
+    "points": 0,
+    "items": {
+      "both": [ "jeans", "tshirt", "hat_ball", "gloves_light", "sneakers", "socks", "hoodie", "novice_kelvin_spellbook" ],
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "KELVINIST" ]
   }
 ]
