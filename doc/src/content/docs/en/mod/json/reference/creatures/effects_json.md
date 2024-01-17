@@ -89,6 +89,7 @@ the listed effects to the player. The effects are added one after another.
 Mutations can give effects with the field "enchantments", the following mutation grants a special
 attack. The enchant provided after the ink gland mutation permanently affects armor values on the
 player.
+
 ```json
 {
     "type": "mutation",
@@ -113,6 +114,7 @@ player.
     ]
   }
 ```
+
 ## Required fields
 
 ```json
