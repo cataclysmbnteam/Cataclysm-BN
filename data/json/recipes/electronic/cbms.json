@@ -172,7 +172,7 @@
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "recipe_augs", 7 ] ],
     "//": "Additional metalworking for assembling radiator and component housing, nanomaterial due to medical interface",
     "using": [ [ "soldering_standard", 60 ] ],
-    "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "tools": [ [ [ "autoclave", 5000 ], [ "fake_autoclave", -1 ] ] ],
     "components": [
       [ [ "hose", 2 ] ],
