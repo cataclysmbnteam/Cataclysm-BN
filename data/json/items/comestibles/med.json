@@ -1218,7 +1218,6 @@
     "phase": "liquid",
     "quench": -50,
     "fun": -5,
-    "spoils_in": "28 days",
     "use_action": "ANTIPARASITIC",
     "flags": "NPC_SAFE"
   },
@@ -1488,7 +1487,6 @@
     "symbol": "~",
     "color": "yellow",
     "phase": "liquid",
-    "spoils_in": "28 days",
     "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 100 }
   },

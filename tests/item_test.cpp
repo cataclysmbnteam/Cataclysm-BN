@@ -66,8 +66,8 @@ TEST_CASE( "stacking_cash_cards", "[item]" )
 
 TEST_CASE( "stacking_over_time", "[item]" )
 {
-    item &A = *item::spawn_temporary( "neccowafers" );
-    item &B = *item::spawn_temporary( "neccowafers" );
+    item &A = *item::spawn_temporary( "bologna" );
+    item &B = *item::spawn_temporary( "bologna" );
 
     GIVEN( "Two items with the same birthday" ) {
         REQUIRE( A.stacks_with( B ) );
