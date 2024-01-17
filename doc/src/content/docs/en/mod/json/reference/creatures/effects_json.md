@@ -84,6 +84,34 @@ have an additional field:
 If a creature successfully damages the player and their chance roll succeeds they will apply all of
 the listed effects to the player. The effects are added one after another.
 
+### Mutations
+
+Mutations can give effects with the field "enchantments", the following mutation grants a special attack.
+The enchant provided after the ink gland mutation permanently affects armor values on the player.
+
+{
+    "type": "mutation",
+    "id": "INK_GLANDS",
+    "name": { "str": "Ink glands" },
+    "points": 1,
+    "visibility": 1,
+    "ugliness": 1,
+    "description": "Several ink glands have grown onto your torso.  They can be used to spray defensive ink and blind an attacker in an emergency, as long as the torso isn't covered.",
+    "enchantments": [ "MEP_INK_GLAND_SPRAY" ],
+    "category": [ "CEPHALOPOD" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_BIO_CARBON",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "ARMOR_BASH", "multiply": -0.05 },
+      { "value": "ARMOR_CUT", "multiply": -0.1 },
+      { "value": "ARMOR_STAB", "multiply": -0.08 },
+      { "value": "ARMOR_BULLET", "multiply": -0.15 }
+    ]
+  }
+
 ## Required fields
 
 ```json
