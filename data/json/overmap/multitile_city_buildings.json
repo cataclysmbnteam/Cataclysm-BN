@@ -773,10 +773,7 @@
     "type": "city_building",
     "id": "house_22ab",
     "locations": [ "land" ],
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "house_22ab_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "house_22_roof_north" }
-    ]
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "house_22ab_north" }, { "point": [ 0, 0, 1 ], "overmap": "house_22_roof_north" } ]
   },
   {
     "type": "city_building",
