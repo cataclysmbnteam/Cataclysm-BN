@@ -163,5 +163,22 @@
     "price": "200 USD",
     "price_postapoc": "10 cent",
     "flags": [ "FIREWOOD" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "fuel_briquette",
+    "symbol": "/",
+    "color": "brown",
+    "name": { "str": "fuel briquette" },
+    "description": "A hunk of dried plant matter condensed into a puck, then dried.  It burns well.",
+    "material": "wood",
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ],
+    "weight": "240 g",
+    "volume": "3000 ml",
+    "looks_like": "straw_pile",
+    "bashing": 18,
+    "to_hit": -1,
+    "category": "spare_parts"
   }
 ]
