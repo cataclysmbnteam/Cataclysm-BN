@@ -41,7 +41,7 @@ TEST_CASE( "fun for rotten food", "[fun_for][food][rotten]" )
     std::pair<int, int> actual_fun;
 
     GIVEN( "some rotten food" ) {
-        item &nuts = *item::spawn_temporary( "pine_nuts" );
+        item &nuts = *item::spawn_temporary( "almond_milk" );
         REQUIRE( nuts.is_comestible() );
         // food rot > 1.0 is rotten
         nuts.set_relative_rot( 1.5 );
