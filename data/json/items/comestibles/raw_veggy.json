@@ -936,7 +936,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rice_bran",
-    "name": { "str": "rice bran", "str_pl": "rice bran" },
+    "name": { "str": "rice bran" },
     "weight": "210 g",
     "color": "brown",
     "comestible_type": "FOOD",
