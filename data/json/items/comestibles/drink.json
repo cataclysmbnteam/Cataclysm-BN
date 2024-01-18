@@ -1203,6 +1203,6 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 2
+    "fun": 3
   }
 ]
