@@ -16,7 +16,7 @@
       { "group": "forage_carrot_wild", "prob": 5 },
       { "group": "forage_bee_balm", "prob": 5 },
       { "group": "forage_mugwort", "prob": 5 },
-      { "group": "forage_salsify_raw", "prob": 5 },
+      { "group": "forage_salsify_raw", "prob": 5 }
       
     ]
   },
