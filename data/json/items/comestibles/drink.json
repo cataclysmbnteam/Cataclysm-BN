@@ -1195,6 +1195,7 @@
     "quench": 35,
     "healthy": 2,
     "calories": 120,
+    "charges": 8,
     "description": "A traditional Korean beverage made from rice, often served as a dessert or a digestive aid.",
     "price": "85 cent",
     "price_postapoc": "25 cent",
