@@ -534,6 +534,6 @@
     "time": "5 m",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ "withered", 12 ], [ "straw_pile", 12 ] ]
+    "components": [ [ [ "withered", 12 ], [ "straw_pile", 12 ] ] ]
   }
 ]
