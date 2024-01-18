@@ -962,7 +962,8 @@
         [ "acorns_cooked", 2 ],
         [ "oats", 4 ],
         [ "starch", 1 ],
-        [ "dry_rice", 5 ]
+        [ "dry_rice", 5 ],
+        [ "rice_bran", 5 ]
       ]
     ]
   },
@@ -1159,7 +1160,8 @@
         [ "acorns_cooked", 2 ],
         [ "oats", 4 ],
         [ "starch", 1 ],
-        [ "dry_rice", 5 ]
+        [ "dry_rice", 5 ],
+        [ "rice_bran", 5 ]
       ]
     ]
   },
@@ -1211,7 +1213,8 @@
         [ "raw_beans", 5 ],
         [ "cabbage", 5 ],
         [ "veggy_wild", 5 ],
-        [ "veggy", 5 ]
+        [ "veggy", 5 ],
+        [ "rice_brain", 5 ]
       ]
     ]
   },
@@ -1296,6 +1299,8 @@
         [ "sourdough_bread", 1 ],
         [ "hardtack", 1 ],
         [ "crackers", 1 ],
+        [ "seed_rice", 1 ],
+        [ "rice_bran", 1 ],
         [ "brioche", 1 ]
       ]
     ]

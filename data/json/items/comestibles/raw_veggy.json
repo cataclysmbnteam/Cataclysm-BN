@@ -950,6 +950,7 @@
     "volume": "250 ml",
     "fun": -3,
     "flags": [ "RAW" ],
+    "milling": { "into": "flour", "conversion_rate": 5 },
     "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 9 ] ]
   }
 ]
