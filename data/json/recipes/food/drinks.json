@@ -1298,5 +1298,23 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "sewage", 1 ] ], [ [ "hard_liquor_chem", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sikhye",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ 
+      [ [ "dry_rice", 1 ] ], 
+      [ [ "barley", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
   }
 ]

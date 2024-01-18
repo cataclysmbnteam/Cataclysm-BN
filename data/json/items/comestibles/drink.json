@@ -1181,5 +1181,28 @@
     "price_postapoc": "110 cent",
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "fun": 15
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sikhye",
+    "name": { "str_sp": "sikhye" },
+    "weight": "263 g",
+    "color": "brown",
+    "spoils_in": "6 days",
+    "container": "bottle_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 35,
+    "healthy": 2,
+    "calories": 120,
+    "description": "A traditional Korean beverage made from rice, often served as a dessert or a digestive aid.  It's tastiest when wearing a scarf.",
+    "price": "85 cent",
+    "price_postapoc": "25 cent",
+    "material": "veggy",
+    "primary_material": "water",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_HOT" ],
+    "fun": 2
   }
 ]
