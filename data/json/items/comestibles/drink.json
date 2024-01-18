@@ -1202,7 +1202,7 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_COLD" ],
     "fun": 2
   }
 ]
