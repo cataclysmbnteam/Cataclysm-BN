@@ -605,7 +605,7 @@ bool try_uncanny_dodge( Character &who )
     bool is_u = who.is_avatar();
     bool seen = is_u || get_player_character().sees( who );
     std::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
-    if( adjacent ) {
+    if( adjacent && x_in_y( who.get_dodge(), 10 ) ) {
         if( is_u ) {
             add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
         } else if( seen ) {
@@ -614,9 +614,9 @@ bool try_uncanny_dodge( Character &who )
         return true;
     } else {
         if( is_u ) {
-            add_msg( _( "You try to dodge but there's no room!" ) );
+            add_msg( _( "You try to dodge but fail!" ) );
         } else if( seen ) {
-            add_msg( _( "%s tries to dodge but there's no room!" ), who.disp_name() );
+            add_msg( _( "%s tries to dodge but fails!" ), who.disp_name() );
         }
         return false;
     }

@@ -536,6 +536,9 @@ static double occupied_tile_fraction( creature_size target_size )
 
 double Creature::ranged_target_size() const
 {
+    if( const_cast<Creature &>( *this ).uncanny_dodge() ) {
+        return 0.0;
+    }
     if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
             case creature_size::tiny:
