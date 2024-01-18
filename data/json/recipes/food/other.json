@@ -2200,10 +2200,6 @@
     "byproducts": [ [ "rice_bran", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [
-      [
-        [ "seed_rice", 1 ]
-      ]
-    ]
+    "components": [ [ [ "seed_rice", 1 ] ] ]
   }
 ]

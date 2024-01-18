@@ -1311,10 +1311,6 @@
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ 
-      [ [ "dry_rice", 1 ] ], 
-      [ [ "barley", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
-    ]
+    "components": [ [ [ "dry_rice", 1 ] ], [ [ "barley", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   }
 ]
