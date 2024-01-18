@@ -469,7 +469,7 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
-    "fun": 2
+    "fun": 20
   },
   {
     "type": "COMESTIBLE",
@@ -1371,6 +1371,6 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
-    "fun": 2
+    "fun": 20
   }
 ]
