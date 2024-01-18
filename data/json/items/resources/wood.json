@@ -177,8 +177,6 @@
     "weight": "240 g",
     "volume": "3000 ml",
     "looks_like": "straw_pile",
-    "bashing": 18,
-    "to_hit": -1,
     "category": "spare_parts"
   }
 ]
