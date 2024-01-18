@@ -2018,7 +2018,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
 // End of move cost
 
-double map::ranged_target_size( const tripoint &p ) const
+double map::ranged_target_size( const tripoint &p, double range ) const
 {
     if( impassable( p ) ) {
         return 1.0;
@@ -2028,7 +2028,12 @@ double map::ranged_target_size( const tripoint &p ) const
         return 0.0;
     }
 
-    // TODO: Handle cases like shrubs, trees, furniture, sandbags...
+    // Coverage of furniture like sandbags gives X% chance to intercept a shot
+    // Does not apply if you're adjacent, it's assumed you're firing over it
+    if( x_in_y( coverage( p ), 100 ) && range > 1 ) {
+        return 1.0;
+    }
+
     return 0.1;
 }
 

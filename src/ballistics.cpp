@@ -211,7 +211,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     map &here = get_map();
     double target_size = target_critter != nullptr ?
                          target_critter->ranged_target_size() :
-                         here.ranged_target_size( target_arg );
+                         here.ranged_target_size( target_arg, range );
     projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
 
     // TODO: move to-hit roll back in here

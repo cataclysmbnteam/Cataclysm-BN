@@ -603,8 +603,10 @@ class map
          * Size of map objects at `p` for purposes of ranged combat.
          * Size is in percentage of tile: if 1.0, all attacks going through tile
          * should hit map objects on it, if 0.0 there is nothing to be hit (air/water).
+         * Coverage value of furniture adds a percent chance to intercept shots
+         * unless shooter is adjacent to it.
          */
-        double ranged_target_size( const tripoint &p ) const;
+        double ranged_target_size( const tripoint &p, double range ) const;
 
         // Sees:
         /**
