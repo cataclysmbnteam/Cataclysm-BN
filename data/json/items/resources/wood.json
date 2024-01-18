@@ -171,7 +171,7 @@
     "color": "brown",
     "name": { "str": "fuel briquette" },
     "description": "A hunk of dried plant matter condensed into a puck, then dried.  It burns well.",
-    "material": "wood",
+    "material": "dry_plant",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "TRADER_AVOID", "FIREWOOD" ],
     "weight": "240 g",
