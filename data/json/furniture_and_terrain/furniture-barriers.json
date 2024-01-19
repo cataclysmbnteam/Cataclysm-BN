@@ -5,7 +5,7 @@
     "name": "road barricade",
     "symbol": "#",
     "bgcolor": "yellow",
-    "description": "A road barricade.  For barricading roads.",
+    "description": "A road barricade.  For barricading roads.  You could stand next to it to fire past without it blocking your shots, not that it will slow them down much.",
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 5,
