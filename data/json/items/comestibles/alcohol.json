@@ -1370,7 +1370,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_HOT", "EATEN_COLD" ],
     "fun": 20
   }
 ]
