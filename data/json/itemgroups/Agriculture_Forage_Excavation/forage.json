@@ -178,6 +178,6 @@
     "id": "forage_wildrice",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "seed_rice", "prob": 10, "charges": [ 1, 3 ] } ]
+    "entries": [ { "item": "straw_pile", "prob": 25, "count": [ 4, 6 ] }, { "item": "seed_rice", "charges": [ 1, 3 ] } ]
   }
 ]
