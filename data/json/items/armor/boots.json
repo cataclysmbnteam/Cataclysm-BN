@@ -1439,7 +1439,7 @@
   {
     "id": "sandal_armor",
     "type": "ARMOR",
-    "name": { "str_sp": "armored sandals" },
+    "name": { "str_sp": "pair of armored sandals" },
     "description": "A pair of strapped sandals with a leather plate in the front to serve as greaves, similar to those used by ancient Roman and Greek soldiers.",
     "weight": "100 g",
     "volume": "1 L",
@@ -1455,5 +1455,15 @@
     "warmth": 2,
     "material_thickness": 3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "socks_thick",
+    "type": "ARMOR",
+    "name": { "str": "pair of thick socks", "str_pl": "pairs of thick socks" },
+    "copy-from": "socks",
+    "looks_like": "socks",
+    "warmth": 15,
+    "material_thickness": 2,
+    "encumbrance": 3
   }
 ]

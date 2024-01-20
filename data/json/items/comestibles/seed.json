@@ -311,7 +311,6 @@
     "name": { "str": "garlic clove" },
     "weight": "3 g",
     "color": "white",
-    "spoils_in": "360 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -3,
@@ -785,5 +784,21 @@
     "price": "1 USD",
     "charges": 2,
     "seed_data": { "plant_name": "mustard", "fruit": "seed_mustard", "byproducts": [ "withered" ], "grow": "14 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_rice",
+    "copy-from": "seed",
+    "name": { "str_sp": "raw wild rice" },
+    "color": "green",
+    "looks_like": "dry_rice",
+    "description": "Some northern wild rice, ready for planting or drying.  Must be planted in shallow water.",
+    "seed_data": {
+      "plant_name": "rice",
+      "fruit": "seed_rice",
+      "byproducts": [ "straw_pile" ],
+      "grow": "14 days",
+      "required_terrain_flag": "SHALLOW_WATER"
+    }
   }
 ]

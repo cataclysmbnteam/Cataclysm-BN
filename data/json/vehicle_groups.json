@@ -540,17 +540,17 @@
       [ "Medevac2", 200 ],
       [ "Medevac1_Wreck", 200 ],
       [ "Medevac2_Wreck", 200 ],
-      [ "helicopter_apache_1a", 95 ],
-      [ "helicopter_apache_1b", 380 ],
-      [ "helicopter_apache_1c", 190 ],
-      [ "helicopter_atomic", 15 ],
-      [ "helicopter_atomic_wreck", 90 ],
-      [ "helicopter_osprey_2a", 95 ],
-      [ "helicopter_osprey_2b", 380 ],
-      [ "helicopter_osprey_2c", 190 ],
-      [ "helicopter_blackhawk_3a", 95 ],
-      [ "helicopter_blackhawk_3b", 380 ],
-      [ "helicopter_blackhawk_3c", 190 ]
+      [ "helicopter_apache_1a", 300 ],
+      [ "helicopter_apache_1b", 150 ],
+      [ "helicopter_apache_1c", 150 ],
+      [ "helicopter_atomic", 50 ],
+      [ "helicopter_atomic_wreck", 50 ],
+      [ "helicopter_osprey_2a", 300 ],
+      [ "helicopter_osprey_2b", 150 ],
+      [ "helicopter_osprey_2c", 150 ],
+      [ "helicopter_blackhawk_3a", 300 ],
+      [ "helicopter_blackhawk_3b", 150 ],
+      [ "helicopter_blackhawk_3c", 150 ]
     ]
   },
   {

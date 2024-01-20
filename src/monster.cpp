@@ -14,23 +14,24 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
-#include "event.h"
+#include "enums.h"
 #include "event_bus.h"
+#include "event.h"
 #include "explosion.h"
 #include "field_type.h"
 #include "flat_set.h"
-#include "game.h"
 #include "game_constants.h"
+#include "game.h"
 #include "int_id.h"
-#include "item.h"
 #include "item_group.h"
+#include "item.h"
 #include "itype.h"
 #include "line.h"
 #include "locations.h"
 #include "make_static.h"
+#include "mapdata.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapdata.h"
 #include "mattack_common.h"
 #include "melee.h"
 #include "messages.h"
@@ -1195,7 +1196,7 @@ Creature *monster::attack_target()
 
     Creature *target = g->critter_at( move_target() );
     if( target == nullptr || target == this ||
-        attitude_to( *target ) == Creature::A_FRIENDLY || !sees( *target ) ) {
+        attitude_to( *target ) == Attitude::A_FRIENDLY || !sees( *target ) ) {
         return nullptr;
     }
 
@@ -1214,13 +1215,17 @@ bool monster::is_fleeing( player &u ) const
     return att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4 );
 }
 
-Creature::Attitude monster::attitude_to( const Creature &other ) const
+Attitude monster::attitude_to( const Creature &other ) const
 {
     const monster *m = other.is_monster() ? static_cast< const monster *>( &other ) : nullptr;
     const player *p = other.as_player();
     if( m != nullptr ) {
         if( m == this ) {
-            return A_FRIENDLY;
+            return Attitude::A_FRIENDLY;
+        }
+        // Ignore inactive mechs
+        if( m->has_flag( MF_RIDEABLE_MECH ) && !m->has_effect( effect_ridden ) ) {
+            return Attitude::A_NEUTRAL;
         }
 
         static const string_id<monfaction> faction_zombie( "zombie" );
@@ -1229,42 +1234,69 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
             // Friendly (to player) monsters are friendly to each other
             // Unfriendly monsters go by faction attitude
-            return A_FRIENDLY;
+            return Attitude::A_FRIENDLY;
         } else if( g->u.has_trait( trait_PROF_FERAL ) && ( faction == faction_zombie ||
                    type->in_species( ZOMBIE ) ) && ( m->faction == faction_zombie ||
                            m->type->in_species( ZOMBIE ) ) ) {
             // Zombies ignoring a feral survivor aren't quite the same as friendly
             // Ignore actually-friendly zombies/ferals but not other friendlies like reprogramed bots
-            return A_FRIENDLY;
+            return Attitude::A_FRIENDLY;
         } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) ) {
             // Stuff that hates a specific faction will always attack that faction
-            return A_HOSTILE;
+            return Attitude::A_HOSTILE;
         } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) ||
                    morale < 0 || anger < 10 ) {
             // Stuff that won't attack is neutral to everything
-            return A_NEUTRAL;
+            return Attitude::A_NEUTRAL;
         } else {
-            return A_HOSTILE;
+            return Attitude::A_HOSTILE;
         }
     } else if( p != nullptr ) {
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
             case MATT_ZLAVE:
-                return A_FRIENDLY;
+                return Attitude::A_FRIENDLY;
             case MATT_FPASSIVE:
             case MATT_FLEE:
             case MATT_IGNORE:
             case MATT_FOLLOW:
-                return A_NEUTRAL;
+                return Attitude::A_NEUTRAL;
             case MATT_ATTACK:
-                return A_HOSTILE;
+                return Attitude::A_HOSTILE;
             case MATT_NULL:
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
     }
     // Should not happen!, creature should be either player or monster
-    return A_NEUTRAL;
+    return Attitude::A_NEUTRAL;
+}
+
+template<>
+std::string io::enum_to_string<monster_attitude>( monster_attitude att )
+{
+    switch( att ) {
+        case MATT_NULL:
+            return "MATT_NULL";
+        case MATT_FRIEND:
+            return "MATT_FRIEND";
+        case MATT_FPASSIVE:
+            return "MATT_FPASSIVE";
+        case MATT_FLEE:
+            return "MATT_FLEE";
+        case MATT_IGNORE:
+            return "MATT_IGNORE";
+        case MATT_FOLLOW:
+            return "MATT_FOLLOW";
+        case MATT_ATTACK:
+            return "MATT_ATTACK";
+        case MATT_ZLAVE:
+            return "MATT_ZLAVE";
+        case NUM_MONSTER_ATTITUDES:
+            break;
+    }
+    debugmsg( "Invalid monster_attitude" );
+    abort();
 }
 
 monster_attitude monster::attitude( const Character *u ) const
@@ -1613,7 +1645,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
 
     if( target.is_player() ||
-        ( target.is_npc() && g->u.attitude_to( target ) == A_FRIENDLY ) ) {
+        ( target.is_npc() && g->u.attitude_to( target ) == Attitude::A_FRIENDLY ) ) {
         // Make us a valid target for a few turns
         add_effect( effect_hit_by_player, 3_turns );
     }

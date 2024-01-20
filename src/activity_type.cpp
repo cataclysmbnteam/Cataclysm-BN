@@ -33,6 +33,14 @@ const activity_type &string_id<activity_type>::obj() const
     return found->second;
 }
 
+/** @relates string_id */
+template<>
+bool string_id<activity_type>::is_valid() const
+{
+    const auto found = activity_type_all.find( *this );
+    return found != activity_type_all.end();
+}
+
 static const std::unordered_map< std::string, based_on_type > based_on_type_values = {
     { "time", based_on_type::TIME },
     { "speed", based_on_type::SPEED },

@@ -211,5 +211,22 @@
       { "item": "holybook_bible1", "prob": 3 },
       { "item": "candlestick", "prob": 2 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "cabin_chemist_sell",
+    "items": [ { "group": "chem_lab", "prob": 100 }, { "group": "harddrugs", "prob": 70 }, { "group": "tools_medical", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "still_alcohol",
+    "//": "Alcohol you'd find in at a still or moonshine camp",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "moonshine", "prob": 86 },
+      { "item": "beer", "prob": 80 },
+      { "item": "fruit_wine", "prob": 40 },
+      { "item": "brandy", "prob": 20 }
+    ]
   }
 ]

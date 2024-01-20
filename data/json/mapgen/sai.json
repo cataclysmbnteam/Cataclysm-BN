@@ -36,7 +36,7 @@
         "#": "t_sai_box",
         "+": "t_chaingate_c",
         "-": "t_chainfence_h",
-        ".": "t_grass",
+        ".": "t_region_groundcover",
         "x": "t_chainfence_posts",
         "|": "t_chainfence_v"
       },

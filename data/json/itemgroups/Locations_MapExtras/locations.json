@@ -65,6 +65,7 @@
       [ "pocket_firstaid", 2 ],
       [ "pocket_survival", 2 ],
       [ "pocket_firearms", 2 ],
+      [ "manual_luty", 1 ],
       [ "mag_archery", 15 ],
       [ "manual_archery", 8 ],
       [ "book_archery", 2 ]
@@ -1185,7 +1186,7 @@
       [ "grapnel", 1 ],
       [ "toolbox", 5 ],
       [ "apron_leather", 10 ],
-      [ "bio_meteorologist", 10 ],
+      [ "bio_infolink", 10 ],
       [ "chem_aluminium_sulphate", 20 ]
     ]
   },
@@ -1638,7 +1639,7 @@
       [ "misc_repairkit", 5 ],
       [ "toolbox", 2 ],
       [ "apron_leather", 10 ],
-      [ "bio_meteorologist", 3 ],
+      [ "bio_infolink", 3 ],
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],

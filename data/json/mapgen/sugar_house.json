@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "sugar_house" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,15 +31,10 @@
         ".-------++------------.M",
         "........................"
       ],
-      "set": [
-        { "point": "terrain", "id": "t_grass", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-        { "point": "terrain", "id": "t_grass", "x": [ 0, 21 ], "y": 0, "repeat": [ 5, 10 ] },
-        { "point": "terrain", "id": "t_grass", "x": [ 0, 21 ], "y": 23, "repeat": [ 5, 10 ] }
-      ],
       "terrain": {
         "+": "t_door_c",
         "-": "t_wall_g",
-        ".": "t_dirt",
+        ".": "t_region_groundcover",
         ";": "t_door_c",
         "M": "t_tree_maple_tapped",
         "v": "t_window",

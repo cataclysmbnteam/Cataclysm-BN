@@ -689,7 +689,7 @@ class game
                                   units::angle veh_dir, bool hilite, point mount );
         void draw_below_override( const tripoint &p, bool draw );
         void draw_monster_override( const tripoint &p, const mtype_id &id, int count,
-                                    bool more, Creature::Attitude att );
+                                    bool more, Attitude att );
 
         bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
         /**

@@ -1,5 +1,71 @@
 [
   {
+    "id": "bunker_basement_loot",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "group": "ammo_milspec", "prob": 10 },
+      { "group": "military_specops_guns", "prob": 5 },
+      { "group": "mags_milspec", "prob": 5 },
+      { "group": "grenades", "prob": 5 },
+      { "group": "sopmod_2", "prob": 5 },
+      { "group": "military_ballistic_armor", "prob": 10 },
+      { "group": "mil_armor_electronics", "prob": 10 },
+      { "group": "infantry_common_gear", "prob": 10 },
+      { "group": "mil_hw", "prob": 30 },
+      { "group": "energy_weapon_armory", "prob": 2 },
+      { "group": "pwr_armor_acc", "prob": 2 },
+      { "group": "inactive_bots_milspec", "prob": 2 },
+      { "group": "bionics_mil", "prob": 2 },
+      { "group": "bionic_power_storage_mil", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bunker_basement_books",
+    "items": [
+      { "group": "book_military", "prob": 50 },
+      { "group": "book_survival", "prob": 50 },
+      { "group": "magazines", "prob": 80 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bunker_basement_drugs",
+    "items": [ { "group": "drugs_pharmacy", "prob": 50 }, { "group": "drugs_soldier", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bunker_basement_food",
+    "items": [ { "group": "mil_food_nodrugs", "prob": 50 }, { "group": "cannedfood", "prob": 30 }, { "group": "pasta", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bunker_basement_suicide",
+    "subtype": "collection",
+    "items": [
+      { "item": "m1911", "charges": 6, "ammo-item": "45_acp" },
+      { "item": "45_casing", "charges-min": 1, "charges-max": 1 },
+      { "group": "underwear" },
+      { "item": "corpse" }
+    ]
+  },
+  {
+    "id": "bunker_basement_clothing",
+    "type": "item_group",
+    "items": [
+      { "group": "clothing_military_distribution", "prob": 50 },
+      { "group": "clothing_soldier_shirt", "prob": 10 },
+      { "group": "clothing_tactical_leg", "prob": 10 },
+      { "group": "clothing_tactical_torso", "prob": 10 },
+      { "group": "underwear_unisex", "prob": 5 },
+      { "group": "socks_unisex", "prob": 5 },
+      { "group": "clothing_glasses", "prob": 5 },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "military_standard_assault_rifles",
     "//": "Mainly the standard rifles that an Army/Marine rifleman, Army TL, or Marine assistant automatic rifleman would use, but allow a handful of Ranger and Delta Force rifles",
@@ -410,9 +476,7 @@
     "id": "army_bed",
     "subtype": "distribution",
     "entries": [
-      { "item": "blanket", "prob": 70 },
-      { "item": "pillow", "prob": 70 },
-      { "item": "sheet", "prob": 70 },
+      { "group": "mil_bedding", "prob": 210 },
       { "item": "mag_porn", "prob": 40 },
       { "item": "mag_comic", "prob": 10 },
       { "item": "mag_guns", "prob": 10 },
@@ -430,11 +494,24 @@
   },
   {
     "type": "item_group",
+    "id": "mil_bedding",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pillow", "prob": 25 },
+      { "item": "sleeping_bag_roll", "prob": 15 },
+      { "item": "rollmat", "prob": 10 },
+      { "item": "blanket", "prob": 15 },
+      { "item": "sheet", "prob": 10 },
+      { "item": "emer_blanket", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "mil_hw",
     "subtype": "distribution",
     "entries": [
       { "group": "mags_milspec", "prob": 40 },
-      { "item": "adv_UPS_off", "prob": 5, "charges": [ 0, 2000 ] },
+      { "group": "mil_armor_electronics", "prob": 20 },
       { "item": "plut_cell", "prob": 5 },
       { "item": "flamethrower", "prob": 20 },
       { "item": "rm451_flamethrower", "prob": 10 },
@@ -534,6 +611,7 @@
       { "group": "guns_launcher_milspec", "prob": 5 },
       { "group": "guns_launcher_rocket", "prob": 44 },
       { "group": "guns_rifle_milspec", "prob": 10 },
+      { "group": "mil_armor_electronics", "prob": 40 },
       { "item": "human_flesh", "prob": 4, "count-min": 1, "count-max": 10 },
       { "item": "bone_human", "prob": 10, "count-min": 1, "count-max": 5 },
       { "item": "rag_bloody", "prob": 10, "count-min": 1, "count-max": 10 },
@@ -583,8 +661,6 @@
       { "item": "v8_combustion", "prob": 5 },
       { "item": "engine_block_large", "prob": 5 },
       { "item": "extinguisher", "prob": 20 },
-      { "item": "radio", "prob": 20 },
-      { "item": "adv_UPS_off", "prob": 10, "charges": [ 0, 2000 ] },
       { "item": "tacvest", "prob": 10 },
       { "item": "molle_pack", "prob": 8 },
       { "item": "legrig", "prob": 10 },
@@ -603,32 +679,30 @@
       { "item": "glasses_bal", "prob": 10 },
       { "item": "55gal_drum", "prob": 1 },
       { "item": "30gal_drum", "prob": 2 },
-      { "item": "optical_cloak", "prob": 1 },
-      { "item": "holo_cloak", "prob": 1 },
       { "item": "grapnel", "prob": 1 },
       { "item": "briefcase", "prob": 5 },
       { "item": "survnote", "prob": 2 },
-      { "item": "robot_controls", "prob": 3 },
-      { "item": "solarpack", "prob": 1 }
+      { "item": "robot_controls", "prob": 3 }
     ]
   },
   {
     "id": "inactive_bots_milspec",
     "type": "item_group",
     "items": [
-      [ "bot_EMP_hack", 100 ],
-      [ "bot_c4_hack", 25 ],
-      [ "bot_flashbang_hack", 50 ],
-      [ "bot_gasbomb_hack", 50 ],
-      [ "bot_grenade_hack", 50 ],
-      [ "bot_antimateriel", 5 ],
-      [ "bot_manhack", 100 ],
-      [ "bot_mininuke_hack", 2 ],
-      [ "bot_rifleturret", 10 ],
-      [ "bot_crows_m240", 10 ],
+      [ "bot_haulerbot", 20 ],
+      [ "bot_molebot", 5 ],
+      [ "bot_grenade_hack", 5 ],
+      [ "bot_EMP_hack", 5 ],
+      [ "bot_flashbang_hack", 5 ],
+      [ "bot_gasbomb_hack", 5 ],
+      [ "bot_c4_hack", 4 ],
+      [ "bot_mininuke_hack", 1 ],
+      [ "bot_secubot", 10 ],
       [ "bot_talon_m202a1", 10 ],
-      [ "bot_dispatch_military", 15 ],
-      [ "bot_turret_searchlight", 75 ]
+      [ "bot_dispatch_military", 5 ],
+      [ "bot_turret_longrange", 5 ],
+      [ "bot_turret_medium", 10 ],
+      [ "bot_turret_searchlight", 10 ]
     ]
   },
   {
@@ -644,14 +718,17 @@
       [ "v_airjack_item", 20 ],
       [ "jumper_cable", 15 ],
       [ "jumper_cable_heavy", 5 ],
-      [ "frame", 10 ],
       [ "hd_tow_cable", 5 ],
+      [ "frame", 10 ],
       [ "hdframe", 20 ],
-      [ "motor", 2 ],
+      [ "steel_plate", 20 ],
+      [ "mil_plate", 10 ],
+      [ "wheel_mount_heavy", 10 ],
       [ "wheel", 10 ],
       [ "wheel_wide", 10 ],
       [ "wheel_small", 10 ],
       [ "wheel_wide_or", 5 ],
+      [ "wheel_armor", 10 ],
       [ "1cyl_combustion", 1 ],
       [ "v2_combustion", 2 ],
       [ "i4_combustion", 2 ],
@@ -670,17 +747,18 @@
       [ "weldrig", 1 ],
       [ "solar_cell", 1 ],
       [ "bearing", 1 ],
-      [ "headlight_reinforced", 10 ],
+      [ "reinforced_glass_sheet", 10 ],
       [ "motor_large", 1 ],
       [ "battery_car", 6 ],
       [ "alternator_car", 6 ],
       [ "alternator_truck", 6 ],
-      [ "hd_tow_cable", 1 ],
       [ "generator_7500w", 3 ],
       [ "storage_battery", 6 ],
       [ "motor_oil", 100 ],
       [ "solar_panel", 3 ],
-      [ "recharge_station", 8 ]
+      [ "recharge_station", 8 ],
+      [ "turret_mount", 12 ],
+      [ "turret_controls", 3 ]
     ]
   }
 ]

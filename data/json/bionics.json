@@ -324,14 +324,6 @@
     "included_bionics": [ "bio_earplugs" ]
   },
   {
-    "id": "bio_emp",
-    "type": "bionic",
-    "name": { "str": "Directional EMP" },
-    "description": "Surgically mounted in the palm of your hand are small parabolic EMP field generators.  You may use power to fire a wide, but short-ranged blast which will disable electronics and robots.",
-    "occupied_bodyparts": [ [ "arm_r", 1 ], [ "hand_r", 2 ] ],
-    "act_cost": "50 kJ"
-  },
-  {
     "type": "bionic",
     "id": "bio_emp_armgun",
     "name": { "str": "EMP Projector" },
@@ -431,8 +423,9 @@
     "name": { "str": "Cranial Flashlight" },
     "description": "Surgically mounted between your eyes is a small but powerful LED flashlight.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
-    "act_cost": "3 J",
-    "react_cost": "3 J",
+    "//": "Slightly more efficient than a standard flashlight.",
+    "act_cost": "8 J",
+    "react_cost": "8 J",
     "time": 1,
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -440,7 +433,7 @@
     "id": "bio_tattoo_led",
     "type": "bionic",
     "name": { "str": "LED Tattoo" },
-    "description": "A small LED display just beneath your dermal layer can be illuminated on command to show patterns of your choice at dim or bright luminosity.  It doesn't provide enough light to comfortably read or craft, but it can suffice if you have nothing else.",
+    "description": "A small LED display just beneath your dermal layer can be illuminated on command to show patterns of your choice at dim or bright luminosity.  It doesn't provide enough light, but it can suffice for reading or crafting if you have nothing else.",
     "act_cost": "1 J",
     "react_cost": "1 J",
     "time": 1,
@@ -534,6 +527,14 @@
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
     "time": 1
+  },
+  {
+    "id": "bio_infolink",
+    "type": "bionic",
+    "name": { "str": "Bionic Infolink" },
+    "description": "A state of the art communications and information package has been installed in your body.  While the cell phone network may be down, it can still double as a two-way radio.  Additionally tells you the time and local air temperature, provides a silent alarm clock function, and if activated will give a more detailed readout on local weather conditions.",
+    "occupied_bodyparts": [ [ "torso", 1 ], [ "head", 1 ] ],
+    "act_cost": "10 J"
   },
   {
     "id": "bio_infrared",
@@ -648,14 +649,6 @@
     "fuel_efficiency": 0.25,
     "time": 1,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
-  },
-  {
-    "id": "bio_meteorologist",
-    "type": "bionic",
-    "name": { "str": "Weather Reader" },
-    "description": "A multitude of scientific instruments and sensors collect environmental data.  The data is compiled and presented as a simple readout of the current weather.  It also passively tells you the local air temperature.",
-    "occupied_bodyparts": [ [ "torso", 1 ], [ "head", 1 ] ],
-    "act_cost": "10 J"
   },
   {
     "id": "bio_nanobots",
@@ -1114,13 +1107,6 @@
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
-    "id": "bio_watch",
-    "type": "bionic",
-    "name": { "str": "Internal Chronometer" },
-    "description": "You have been equipped with an internal atomic clock, ensuring that you will always know the current time.  Additionally, it includes a silent alarm clock function.",
-    "occupied_bodyparts": [ [ "head", 1 ] ]
-  },
-  {
     "id": "bio_water_extractor",
     "type": "bionic",
     "name": { "str": "Water Extraction Unit" },
@@ -1191,8 +1177,8 @@
   {
     "id": "bio_weight",
     "type": "bionic",
-    "name": { "str": "Titanium Skeletal Bracing" },
-    "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
+    "name": { "str": "Skeletal Bracing" },
+    "description": "A framework of lightweight alloy bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "weight_capacity_bonus": "20 kg",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
@@ -1270,6 +1256,26 @@
     "act_cost": "50 kJ",
     "fake_item": "bio_blaster_gun",
     "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
+  },
+  {
+    "id": "bio_electrosense",
+    "type": "bionic",
+    "name": { "str": "Electrosense Scanner" },
+    "description": "Activating this bionic will allow you to see robots and other electric creatures through walls, and automatically scan nearby corpses for bionics that could be harvested, at the cost of steadily draining power.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": "20 J",
+    "react_cost": "20 J",
+    "time": 1,
+    "included_bionics": [ "bio_electrosense_voltmeter" ]
+  },
+  {
+    "id": "bio_electrosense_voltmeter",
+    "type": "bionic",
+    "name": { "str": "Electrosense Voltmeter" },
+    "description": "Using this bionic allows you to check the status of any local grid connections or battery charge in your surroundings, as well as make modifications to grid connections.",
+    "act_cost": "10 J",
+    "included": true
   },
   {
     "id": "bio_perpetual_test",

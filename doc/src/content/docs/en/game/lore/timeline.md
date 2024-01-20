@@ -4,7 +4,7 @@ title: Timeline
 
 :::danger{title="spoiler alert"}
 
-spoilers below!
+spoilers below! Heavily to be revised for lore changes in Factions.
 
 :::
 

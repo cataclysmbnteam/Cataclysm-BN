@@ -43,6 +43,7 @@
       { "item": "oatmeal", "prob": 40 },
       { "item": "fruit_leather", "prob": 15 },
       { "item": "salted_fish", "prob": 15 },
+      { "item": "meat_salted", "prob": 15 },
       { "item": "dry_beans", "prob": 40 },
       { "item": "dry_lentils", "prob": 30 },
       { "item": "dry_rice", "prob": 40 }
@@ -803,7 +804,8 @@
       { "item": "wine_cabernet", "prob": 30 },
       { "item": "wine_noir", "prob": 20 },
       { "item": "wine_vermouth", "prob": 25 },
-      { "item": "wine_marsala", "prob": 15 }
+      { "item": "wine_marsala", "prob": 15 },
+      { "item": "sake", "prob": 5 }
     ]
   },
   {
@@ -821,7 +823,8 @@
       { "item": "single_malt_whiskey", "prob": 2 },
       { "item": "single_pot_whiskey", "prob": 10 },
       { "item": "cheap_whiskey", "prob": 10 },
-      { "item": "canadian_whiskey", "prob": 10 }
+      { "item": "canadian_whiskey", "prob": 10 },
+      { "item": "sake", "prob": 4 }
     ]
   },
   {
