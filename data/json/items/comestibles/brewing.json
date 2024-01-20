@@ -398,5 +398,26 @@
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "brewable": { "time": "7 hours", "results": [ "vinegar" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "brew_sake",
+    "name": "sake must",
+    "description": "Unfermented sake, made from rice.",
+    "weight": "46 g",
+    "color": "light_red",
+    "container": "bottle_glass",
+    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "symbol": "~",
+    "calories": 17,
+    "quench": 6,
+    "fun": -5,
+    "price": "0 cent",
+    "volume": "250 ml",
+    "price_postapoc": "10 cent",
+    "charges": 7,
+    "phase": "liquid",
+    "comestible_type": "DRINK",
+    "brewable": { "time": "12 hours", "results": [ "sake", "yeast" ] }
   }
 ]

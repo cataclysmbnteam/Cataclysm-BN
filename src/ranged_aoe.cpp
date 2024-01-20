@@ -86,7 +86,8 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
             // noop
         } else {
             projectile proj_copy = proj;
-            here.shoot( p, proj_copy, false );
+            // Origin and target are same point so AoE can bypass cover mechanics
+            here.shoot( p, p, proj_copy, false );
             // There should be a nicer way than rechecking after shoot
             if( !aoe_permeable( p ) ) {
                 continue;
