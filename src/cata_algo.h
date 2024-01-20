@@ -159,6 +159,17 @@ auto group_by( const C &c, F && selector )
     return result;
 }
 
+/// @brief helper struct to pattern match `std::variant` variants
+///
+/// @remark poor person's https://doc.rust-lang.org/rust-by-example/flow_control/match.html
+///
+/// @see https://en.cppreference.com/w/cpp/utility/variant/visit
+/// @see https://polomack.eu/std-variant/
+template <class... Ts> struct match : Ts... {
+    using Ts::operator()...;
+};
+template <class... Ts> match( Ts... )->match<Ts...>;
+
 } // namespace cata
 
 #endif // CATA_SRC_CATA_ALGO_H
