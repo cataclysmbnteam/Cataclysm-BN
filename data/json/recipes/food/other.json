@@ -148,7 +148,8 @@
         [ "seed_sunflower", 2 ],
         [ "seed_canola", 4 ],
         [ "seed_grapes", 6 ],
-        [ "seed_weed", 6 ]
+        [ "seed_weed", 6 ],
+        [ "rice_bran", 6 ]
       ]
     ]
   },
@@ -961,7 +962,8 @@
         [ "acorns_cooked", 2 ],
         [ "oats", 4 ],
         [ "starch", 1 ],
-        [ "dry_rice", 5 ]
+        [ "dry_rice", 5 ],
+        [ "rice_bran", 5 ]
       ]
     ]
   },
@@ -1158,7 +1160,8 @@
         [ "acorns_cooked", 2 ],
         [ "oats", 4 ],
         [ "starch", 1 ],
-        [ "dry_rice", 5 ]
+        [ "dry_rice", 5 ],
+        [ "rice_bran", 5 ]
       ]
     ]
   },
@@ -1210,7 +1213,8 @@
         [ "raw_beans", 5 ],
         [ "cabbage", 5 ],
         [ "veggy_wild", 5 ],
-        [ "veggy", 5 ]
+        [ "veggy", 5 ],
+        [ "rice_bran", 5 ]
       ]
     ]
   },
@@ -1295,6 +1299,8 @@
         [ "sourdough_bread", 1 ],
         [ "hardtack", 1 ],
         [ "crackers", 1 ],
+        [ "seed_rice", 1 ],
+        [ "rice_bran", 1 ],
         [ "brioche", 1 ]
       ]
     ]
@@ -2184,5 +2190,21 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "eggs_small_dry", 2, "LIST" ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "potato", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dry_rice",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "charges": 1,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 5 ],
+    "byproducts": [ [ "rice_bran", 1 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "seed_rice", 1 ] ] ]
   }
 ]
