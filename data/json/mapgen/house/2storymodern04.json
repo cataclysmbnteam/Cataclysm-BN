@@ -106,9 +106,10 @@
         "ᨖ": "t_carpet_red",
         "₸": "t_sidewalk",
         "K": "t_sidewalk",
-        "U": "t_concrete",
-        "N": "t_concrete",
-        "q": "t_concrete"
+        "`": "t_thconc_floor",
+        "U": "t_thconc_floor",
+        "N": "t_thconc_floor",
+        "q": "t_thconc_floor"
       },
       "furniture": { "֎": "f_counter", "₸": "f_deckchair" },
       "items": { "֎": { "item": "liquor_and_spirits", "chance": 30 } },
