@@ -332,7 +332,7 @@ class Creature
          * Size of the target this creature presents to ranged weapons.
          * 0.0 means unhittable, 1.0 means all projectiles going through this creature's tile will hit it.
          */
-        double ranged_target_size() const;
+        virtual auto ranged_target_size() const -> double;
 
         // handles blocking of damage instance. mutates &dam
         virtual bool block_hit( Creature *source, bodypart_id &bp_hit,

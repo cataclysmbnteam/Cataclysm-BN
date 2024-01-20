@@ -606,6 +606,12 @@ class Character : public Creature, public location_visitable<Character>
         bool block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
 
         // melee.cpp
+        /**
+         * Size of the target this character presents to ranged weapons.
+         * 0.0 means unhittable, 1.0 means all projectiles going through this creature's tile will hit it.
+         */
+        auto ranged_target_size() const -> double override;
+
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
         /** Returns the best item for blocking with */
