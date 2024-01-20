@@ -469,7 +469,7 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
-    "fun": 2
+    "fun": 20
   },
   {
     "type": "COMESTIBLE",
@@ -1344,6 +1344,33 @@
     "charges": 5,
     "phase": "liquid",
     "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
+    "fun": 20
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sake",
+    "name": { "str_sp": "sake" },
+    "weight": "36 g",
+    "color": "light_red",
+    "addiction_type": "alcohol",
+    "use_action": "ALCOHOL",
+    "stim": -4,
+    "container": "bottle_glass",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 10,
+    "healthy": -2,
+    "addiction_potential": 4,
+    "calories": 204,
+    "description": "The traditional alcohol of Japan, this wine is made from rice.",
+    "price": "550 cent",
+    "price_postapoc": "1 USD",
+    "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "charges": 7,
+    "flags": [ "UNSAFE_CONSUME", "EATEN_HOT", "EATEN_COLD" ],
     "fun": 20
   }
 ]
