@@ -1,12 +1,13 @@
-#include "character_functions.h"
-
 #include <utility>
+#include <variant>
 
 #include "ammo.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "character_martial_arts.h"
 #include "character.h"
+#include "character_functions.h"
+#include "cata_algo.h"
 #include "creature.h"
 #include "flag.h"
 #include "game.h"
@@ -592,34 +593,60 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
     return true;
 }
 
-bool try_uncanny_dodge( Character &who )
+auto uncanny_dodge_result( const Character &who ) -> UncannyDodgeResult
 {
-    const units::energy trigger_cost = bio_uncanny_dodge->power_trigger;
+    const auto trigger_cost = bio_uncanny_dodge->power_trigger;
     if( who.get_power_level() < trigger_cost || !who.has_active_bionic( bio_uncanny_dodge ) ) {
-        return false;
+        return UncannyDodgeFail::NoEnergy;
     }
-    who.mod_power_level( -trigger_cost );
-    bool is_u = who.is_avatar();
-    bool seen = is_u || get_player_character().sees( who );
-    std::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
-    if( adjacent && x_in_y( who.get_dodge(), 10 ) ) {
-        if( is_u ) {
-            add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
-        } else if( seen ) {
-            add_msg( _( "%s dodges… so fast!" ), who.disp_name() );
-        }
-        return true;
-    } else {
-        if( is_u ) {
-            add_msg( _( "You try to dodge but fail!" ) );
-        } else if( seen ) {
-            add_msg( _( "%s tries to dodge but fails!" ), who.disp_name() );
-        }
-        return false;
+
+    const auto adjacent = pick_safe_adjacent_tile( who );
+    if( !adjacent ) {
+        return UncannyDodgeFail::NoSpace;
     }
+
+    return *adjacent;
 }
 
-std::optional<tripoint> pick_safe_adjacent_tile( const Character &who )
+bool try_uncanny_dodge( Character &who )
+{
+    const auto trigger_cost = bio_uncanny_dodge->power_trigger;
+    const auto result = uncanny_dodge_result( who );
+    const bool is_u = who.is_avatar();
+    const bool seen = is_u || get_player_character().sees( who );
+
+    who.mod_power_level( -trigger_cost );
+
+    const auto visitor = cata::match{
+        [&who, is_u, seen]( const tripoint & dest )
+        {
+            if( is_u ) {
+                add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+            } else if( seen ) {
+                add_msg( _( "%s dodges… so fast!" ), who.disp_name() );
+            }
+            who.setpos( dest );
+            return true;
+        },
+        [&who, is_u, seen]( const UncannyDodgeFail fail ) -> bool {
+            switch( fail )
+            {
+                case UncannyDodgeFail::NoEnergy:
+                    return false;
+                case UncannyDodgeFail::NoSpace:
+                    if( is_u ) {
+                        add_msg( _( "You try to dodge but there's no room!" ) );
+                    } else if( seen ) {
+                        add_msg( _( "%s tries to dodge but there's no room!" ), who.disp_name() );
+                    }
+                    return false;
+            }
+        }
+    };
+    return std::visit( visitor, result );
+}
+
+auto pick_safe_adjacent_tile( const Character &who ) -> std::optional<tripoint>
 {
     std::vector<tripoint> ret;
     int dangerous_fields = 0;
