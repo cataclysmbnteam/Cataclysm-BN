@@ -12,6 +12,7 @@
       "bio_power_storage_mkII",
       "bio_flashlight",
       "bio_tools",
+      "bio_electrosense",
       "bio_sunglasses"
     ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],

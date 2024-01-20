@@ -40,7 +40,7 @@
     "name": { "str": "40x53mm M430A1 HEDP" },
     "description": "A high velocity 40x53mm HEDP grenade.  It can penetrate 3 inches of steel armor and fragmentation of the projectile body also makes it suitable for use against infantry.",
     "weight": "340 g",
-    "damage": { "damage_type": "bullet", "amount": 250, "armor_penetration": 45 },
+    "damage": { "damage_type": "bullet", "amount": 145, "armor_penetration": 45 },
     "casing": "40x53mm_m169_casing",
     "extend": { "effects": [ "FRAG" ] }
   },

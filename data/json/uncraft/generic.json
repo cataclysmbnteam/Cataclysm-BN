@@ -480,10 +480,8 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 7,
-    "skills_required": [ "firstaid", 5 ],
     "time": "50 m",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
@@ -491,10 +489,8 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 7,
-    "skills_required": [ "firstaid", 5 ],
     "time": "50 m",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
@@ -502,10 +498,8 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 7,
-    "skills_required": [ "firstaid", 5 ],
     "time": "50 m",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
@@ -513,10 +507,8 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 7,
-    "skills_required": [ "firstaid", 5 ],
     "time": "50 m",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
@@ -524,10 +516,8 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 7,
-    "skills_required": [ "firstaid", 5 ],
     "time": "50 m",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
@@ -535,10 +525,8 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 7,
-    "skills_required": [ "firstaid", 5 ],
     "time": "50 m",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
@@ -546,10 +534,8 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 7,
-    "skills_required": [ "firstaid", 5 ],
     "time": "50 m",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
