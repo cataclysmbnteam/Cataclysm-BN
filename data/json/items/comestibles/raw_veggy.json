@@ -932,5 +932,25 @@
     "healthy": -2,
     "//": "Fiddleheads that haven't been boiled can make you sick.",
     "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "rice_bran",
+    "name": { "str": "rice bran" },
+    "weight": "210 g",
+    "color": "brown",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": -2,
+    "calories": 333,
+    "description": "The leftover outer layer of rice seeds, this vegetable matter is quite nutritionally dense and makes for a good cooking oil.",
+    "price": "90 cent",
+    "price_postapoc": "50 cent",
+    "material": "veggy",
+    "volume": "250 ml",
+    "fun": -3,
+    "flags": [ "RAW" ],
+    "milling": { "into": "flour", "conversion_rate": 5 },
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 9 ] ]
   }
 ]
