@@ -1193,7 +1193,7 @@
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "furn_set": "f_aut_gas_console_o",
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 5, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 5, "block_unaimed_chance": "25%", "flammable": true }
     }
   },
   {
@@ -1220,7 +1220,7 @@
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 45, "block_unaimed_chance": "25%", "flammable": true }
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 45, "block_unaimed_chance": "25%" }
     }
   },
   {
