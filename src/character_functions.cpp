@@ -628,6 +628,8 @@ bool try_uncanny_dodge( Character &who )
             } else if( seen ) {
                 add_msg( _( "%s dodges… so fast!" ), who.disp_name() );
             }
+            auto &here = get_map();
+            here.add_field( who.pos(), fd_smoke, 1 );
             who.setpos( dest );
             return true;
         },
