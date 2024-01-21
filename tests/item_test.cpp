@@ -174,3 +174,11 @@ TEST_CASE( "armor_override", "[item]" )
     CHECK( armor.bullet_resist() > 100 );
     CHECK( armor.cut_resist() == 0 );
 }
+
+TEST_CASE( "armor_override_damaged", "[item]" )
+{
+    item armor_undamaged( "test_override_armor_damageable" );
+    item armor( "test_override_armor_damageable" );
+    armor.inc_damage();
+    CHECK( armor_undamaged.bullet_resist() > armor.bullet_resist() );
+}

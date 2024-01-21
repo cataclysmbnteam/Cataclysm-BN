@@ -6,6 +6,7 @@
 #include <numeric>
 #include <utility>
 
+#include "assign.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -184,10 +185,7 @@ int dealt_damage_instance::total_damage() const
     return std::accumulate( dealt_dams.begin(), dealt_dams.end(), 0 );
 }
 
-resistances::resistances()
-{
-    resist_vals.fill( 0 );
-}
+resistances::resistances() = default;
 
 resistances::resistances( const item &armor, bool to_self )
 {
