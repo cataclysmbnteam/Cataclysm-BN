@@ -680,27 +680,12 @@
   },
   {
     "type": "recipe",
-    "result": "bio_laser",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bio_metabolicsuncraft",
     "obsolete": true
   },
   {
     "type": "recipe",
     "result": "bio_nanobotsuncraft",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_power_armor_interface",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_power_armor_interface_mkII",
     "obsolete": true
   },
   {
