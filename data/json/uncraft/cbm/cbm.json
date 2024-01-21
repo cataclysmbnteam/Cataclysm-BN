@@ -309,12 +309,7 @@
     "difficulty": 9,
     "time": "50 m",
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [
-      [ [ "memory_module", 1 ] ],
-      [ [ "cable", 2 ] ],
-      [ [ "plastic_chunk", 1 ] ],
-      [ [ "burnt_out_bionic", 1 ] ]
-    ]
+    "components": [ [ [ "memory_module", 1 ] ], [ [ "cable", 2 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
     "type": "uncraft",
@@ -348,42 +343,5 @@
       [ [ "plastic_chunk", 1 ] ],
       [ [ "burnt_out_bionic", 1 ] ]
     ]
-  },
-  {
-    "type": "uncraft",
-    "result": "",
-    "skill_used": "electronics",
-    "difficulty": ,
-    "time": "50 m",
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-
-  },
-  {
-    "type": "uncraft",
-    "result": "",
-    "skill_used": "electronics",
-    "difficulty": ,
-    "time": "50 m",
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-
-  },
-  {
-    "type": "uncraft",
-    "result": "",
-    "skill_used": "electronics",
-    "difficulty": ,
-    "time": "50 m",
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-
-  },
-  {
-    "type": "uncraft",
-    "result": "",
-    "skill_used": "electronics",
-    "difficulty": ,
-    "time": "50 m",
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-
-  },
-
+  }
 ]

@@ -22,7 +22,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -50,7 +51,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -78,7 +80,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -106,7 +109,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -134,7 +138,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -158,7 +163,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -183,7 +189,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -208,7 +215,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -237,7 +245,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -264,7 +273,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -291,7 +301,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -315,7 +326,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -341,7 +353,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -366,7 +379,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -389,7 +403,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -412,7 +427,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -438,7 +454,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -465,7 +482,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -493,7 +511,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -516,7 +535,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -539,7 +559,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -566,7 +587,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -591,7 +613,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -615,7 +638,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -640,7 +664,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -667,7 +692,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -691,7 +717,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -718,7 +745,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -742,7 +770,8 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
@@ -768,6 +797,7 @@
       [ [ "burnt_out_bionic", 1 ] ],
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "pouch_autoclave", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   }
 ]
