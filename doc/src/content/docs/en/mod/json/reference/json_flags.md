@@ -597,7 +597,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `SEALED` Can't use <kbd>e</kbd> to retrieve items; must smash them open first.
 - `SEEN_FROM_ABOVE` Visible from a higher level (provided the tile above has no floor)
 - `SHARP` May do minor damage to players/monsters passing through it.
-- `SHOOT_ME` Players can aim at terrain or furniture with this flag like they can with `tr_practice_target ` to train marksmanship.
+- `SHOOT_ME` Players can aim at terrain or furniture with this flag like they can with
+  `tr_practice_target` to train marksmanship.
 - `SHORT` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - `SIGN` Show written message on examine.
 - `SMALL_PASSAGE` This terrain or furniture is too small for large or huge creatures to pass
