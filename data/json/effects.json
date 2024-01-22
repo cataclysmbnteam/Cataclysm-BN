@@ -8,7 +8,8 @@
     "type": "effect_type",
     "id": "hit_by_player",
     "name": [ "Hit By Player" ],
-    "desc": [ "AI tag for when monsters are hit by player.  This is a bug if you have it." ]
+    "desc": [ "AI tag for when monsters are hit by player.  This is a bug if you have it." ],
+    "max_duration": "10 m"
   },
   {
     "type": "effect_type",

@@ -1646,8 +1646,8 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( target.is_player() ||
         ( target.is_npc() && g->u.attitude_to( target ) == Attitude::A_FRIENDLY ) ) {
-        // Make us a valid target for a few turns
-        add_effect( effect_hit_by_player, 3_turns );
+        // Make us a valid target
+        add_effect( effect_hit_by_player, 10_minutes );
     }
 
     if( has_flag( MF_HIT_AND_RUN ) ) {

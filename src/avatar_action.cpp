@@ -67,6 +67,7 @@ class player;
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
@@ -289,6 +290,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                     return false;
                 }
             }
+            // Ask for confirmation before attacking a neutral creature unless we've already taken a swing at it
+            if( ( att == MATT_IGNORE || att == MATT_FLEE ) && !critter.has_effect( effect_hit_by_player ) &&
+                !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
+                return false;
+            }
+
             you.melee_attack( critter, true );
             if( critter.is_hallucination() ) {
                 critter.die( &you );
