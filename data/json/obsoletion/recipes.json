@@ -690,6 +690,11 @@
   },
   {
     "type": "recipe",
+    "result": "bio_power_armor_interface_mkII",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "bio_recycleruncraft",
     "obsolete": true
   },
