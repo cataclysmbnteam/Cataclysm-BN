@@ -291,7 +291,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 }
             }
             // Ask for confirmation before attacking a neutral creature unless we've already taken a swing at it
-            if( ( att == MATT_IGNORE || att == MATT_FLEE ) && !critter.has_effect( effect_hit_by_player ) &&
+            if( ( att == MATT_IGNORE || att == MATT_FLEE ) &&
+                get_option<bool>( "QUERY_BEFORE_ATTACKING_NEUTRAL" ) &&
+                !critter.has_effect( effect_hit_by_player ) &&
                 !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
                 return false;
             }
