@@ -33,7 +33,7 @@
         ">>>>>>>>>>>>>>>>>>>>>>>>"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { "V": "t_triffid_slope_down",">": "t_open_air" }
+      "terrain": { "V": "t_triffid_slope_down", ">": "t_open_air" }
     }
   }
 ]

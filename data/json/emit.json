@@ -169,7 +169,7 @@
     "field": "fd_pollen_triffid",
     "intensity": 2,
     "qty": 24
-  },  
+  },
   {
     "id": "emit_cold_air2_stream",
     "type": "emit",

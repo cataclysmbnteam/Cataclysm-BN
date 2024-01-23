@@ -536,7 +536,7 @@
     },
     "show_in_info": true,
     "blood_analysis_description": "Unknown Organic Toxin"
-  },  
+  },
   {
     "type": "effect_type",
     "id": "paralyzepoison",

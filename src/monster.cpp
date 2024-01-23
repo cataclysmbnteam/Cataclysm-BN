@@ -85,7 +85,7 @@ static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
-static const efftype_id effect_tpollen("tpollen");
+static const efftype_id effect_tpollen( "tpollen" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
@@ -104,7 +104,7 @@ static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
 static const species_id MAMMAL( "MAMMAL" );
 static const species_id MOLLUSK( "MOLLUSK" );
-static const species_id PLANT("PLANT");
+static const species_id PLANT( "PLANT" );
 static const species_id ROBOT( "ROBOT" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
@@ -1558,8 +1558,8 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
                ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
     }
 
-    if (effect == effect_tpollen) {
-        return type->in_species(PLANT);
+    if( effect == effect_tpollen ) {
+        return type->in_species( PLANT );
     }
 
     if( effect == effect_stunned ) {
