@@ -535,7 +535,7 @@
     "legacy_enum_id": 51,
     "intensity_levels": [
       {
-        "name": "hazy cloud",
+        "name": "faint triffid pollen",
         "sym": "8",
         "dangerous": true,
         "translucency": 1,
