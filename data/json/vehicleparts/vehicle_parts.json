@@ -1616,7 +1616,7 @@
     "damage_modifier": 10,
     "durability": 20,
     "description": "A solar panel.  Will slowly recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed even more.",
-    "epower": 100,
+    "epower": 80,
     "item": "solar_panel",
     "location": "on_roof",
     "requirements": {
