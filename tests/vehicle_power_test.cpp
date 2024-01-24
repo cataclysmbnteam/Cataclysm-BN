@@ -87,7 +87,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
                             THEN( "the battery should be further charged" ) {
                                 charge = veh_ptr->fuel_left( fuel_type_battery ) / 100;
-                                CHECK( 15 <= charge );
+                                CHECK( 25 <= charge );
                                 CHECK( charge <= 30 );
                             }
                         }
