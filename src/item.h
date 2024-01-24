@@ -1208,6 +1208,7 @@ class item : public location_visitable<item>, public game_object<item>
          * @param pos The location of the artifact (should be the player location if carried).
          */
         void process_artifact( player *carrier, const tripoint &pos );
+        void overwrite_relic( const relic &nrelic );
         void process_relic( Character &carrier );
 
         bool destroyed_at_zero_charges() const;

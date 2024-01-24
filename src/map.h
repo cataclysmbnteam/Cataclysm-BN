@@ -56,6 +56,7 @@ class mapgendata;
 class monster;
 class optional_vpart_position;
 class player;
+class relic_procgen_data;
 class submap;
 template<typename Tripoint>
 class tripoint_range;
@@ -98,6 +99,8 @@ namespace cata
 {
 template <class T> class poly_serialized;
 } // namespace cata
+
+using relic_procgen_id = string_id<relic_procgen_data>;
 
 class map_stack : public item_stack
 {
@@ -1200,8 +1203,7 @@ class map
         detached_ptr<item> i_rem( point p, item *it ) {
             return i_rem( tripoint( p, abs_sub.z ), it );
         }
-        void spawn_artifact( const tripoint &p );
-        void spawn_natural_artifact( const tripoint &p, artifact_natural_property prop );
+        void spawn_artifact( const tripoint &p, const relic_procgen_id &id );
         void spawn_item( const tripoint &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 );
