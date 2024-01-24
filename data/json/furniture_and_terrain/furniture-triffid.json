@@ -41,7 +41,7 @@
     "type": "furniture",
     "id": "f_midden",
     "name": "composting midden",
-    "description": "A hole that has been dug into the roots here, and a pretty unpleasant smell emits from it.",
+    "description": "A hole that has been dug into the roots here, a pretty unpleasant smell emits from it.",
     "symbol": "O",
     "bgcolor": "brown",
     "move_cost_mod": 3,
