@@ -5863,7 +5863,7 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
             break;
     }
 
-    mvwprintw( w_look, point( line, column ), visibility_message );
+    mvwprintw( w_look, point( column, line ), visibility_message );
     line += 2;
 }
 
