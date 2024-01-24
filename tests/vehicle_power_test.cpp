@@ -87,7 +87,11 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
                             THEN( "the battery should be further charged" ) {
                                 charge = veh_ptr->fuel_left( fuel_type_battery ) / 100;
+<<<<<<< HEAD
                                 CHECK( 25 <= charge );
+=======
+                                CHECK( 20 <= charge );
+>>>>>>> parent of 049ab4cb7df (Power test potential fix)
                                 CHECK( charge <= 30 );
                             }
                         }
