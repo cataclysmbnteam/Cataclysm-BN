@@ -501,7 +501,7 @@
       "tec_medievalpole_execute",
       "tec_medievalpole_break"
     ],
-    "weapon_category": [ "HOOKED_POLES", "1H_AXES", "2H_AXES", "1H_HAMMERS", "2H_HAMMERS", "GLAIVES" ]
+    "weapon_category": [ "1H_HOOKED", "HOOKED_POLES", "1H_AXES", "2H_AXES", "1H_HAMMERS", "2H_HAMMERS", "GLAIVES" ]
   },
   {
     "type": "martial_art",
@@ -995,7 +995,7 @@
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
     "weapon_category": [ "KNIVES", "BATONS", "TONFAS", "QUARTERSTAVES", "SPEARS", "GLAIVES" ],
-    "weapons": [ "sickle", "scythe", "hockey_stick", "golf_club" ]
+    "weapons": [ "machete", "makeshift_machete", "survivor_machete", "sickle", "scythe", "hockey_stick", "golf_club" ]
   },
   {
     "type": "martial_art",
