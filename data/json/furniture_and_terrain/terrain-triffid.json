@@ -151,7 +151,7 @@
     "type": "terrain",
     "id": "t_bramble_door_c",
     "name": "closed bramble roots",
-    "description": "A bramble of roots are here, covering a hole.  They could easily be pulled apart.",
+    "description": "A bramble of roots can be seen here, covering a hole.  They could easily be pulled apart.",
     "symbol": "+",
     "color": "brown",
     "move_cost": 0,
