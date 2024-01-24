@@ -517,7 +517,7 @@
     "id": "tpollen",
     "name": [ "Pollen Inhalation" ],
     "desc": [ "The pollen makes it hard to breathe!" ],
-    "miss_messages": [ [ "You cough out pollen.", 1 ] ],
+    "miss_messages": [ [ "Your head is swimming from the pollen in the air.", 1 ] ],
     "rating": "bad",
     "harmful_cough": true,
     "pain_sizing": true,
