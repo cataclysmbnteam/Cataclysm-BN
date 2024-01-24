@@ -209,7 +209,7 @@
     "id": "primitive_adze",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "HOOKED_POLES" ],
+    "weapon_category": [ "1H_HOOKED" ],
     "name": { "str": "stone adze" },
     "description": "This is a stone adze, somewhat useful for smoothing wood objects.",
     "weight": "1300 g",

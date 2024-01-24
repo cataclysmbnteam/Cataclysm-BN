@@ -1828,6 +1828,8 @@ container. It could also be written as a generic item ("type": "GENERIC") with "
 | ---             | ---                                                                                      |
 | WHIPS           | Flexible tool used to strike at range.                                                   |
 | ---             | ---                                                                                      |
+| 1H_HOOKED       | One handed weapon with hooking capability. (and isn't an axe or hammer)                  |
+| ---             | ---                                                                                      |
 | HOOKED_POLES    | Polearm with hooked end (Like a shepherd's crook)                                        |
 | SPEARS          | Polearm with a long shaft and a sharp tip made of hard material.                         |
 | PIKES           | Very long spear that can only be wielded in two hands, very unwieldy.                    |

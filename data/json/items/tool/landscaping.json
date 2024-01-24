@@ -121,7 +121,7 @@
     "id": "sickle",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "SHORT_SWORDS", "HOOKED_POLES" ],
+    "weapon_category": [ "1H_HOOKED" ],
     "name": { "str": "sickle" },
     "description": "This is an old-fashioned farming tool used to cut tall grass.  While it may be a massive curved blade on a handle, it is incredibly awkward to use for anything but its intended purpose.",
     "weight": "1432 g",
