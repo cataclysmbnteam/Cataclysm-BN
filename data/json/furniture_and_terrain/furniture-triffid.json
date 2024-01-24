@@ -2,7 +2,7 @@
   {
     "type": "furniture",
     "id": "f_glowingbulb",
-    "name": "illuminating plant bulb",
+    "name": "luminous plant bulb",
     "description": "A small plant grows among the roots here, its green onion-like bulb illuminating the area around it.",
     "symbol": "!",
     "color": "brown",
