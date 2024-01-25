@@ -20,7 +20,7 @@
     "name": { "str": "martial art manual" },
     "weight": "150 g",
     "volume": "250 ml",
-    "price": 20000,
+    "price": "200 USD",
     "material": "paper",
     "symbol": "?",
     "color": "green",

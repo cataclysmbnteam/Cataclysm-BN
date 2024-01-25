@@ -361,6 +361,7 @@
         "AAAAAAAAAAAAAAAAAAAAAAAA",
         "AAAAAAAAAAAAAAAAAAAAAAAA"
       ],
+      "terrain": { ".": "t_metal_flat_roof" },
       "palettes": [ "airliner_palette" ]
     }
   },

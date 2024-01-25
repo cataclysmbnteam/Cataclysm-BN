@@ -662,9 +662,9 @@
     "id": "overrun",
     "name": "Overrun",
     "points": 3,
-    "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse all alone.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
-    "start_name": "Military Base Warehouse",
-    "allowed_locs": [ "sloc_military_base_warehouse" ],
+    "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and didn't make it there in time.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
+    "start_name": "Military Base",
+    "allowed_locs": [ "sloc_military_base_barracks", "sloc_military_base_mess_hall", "sloc_military_base_communications_center" ],
     "professions": [
       "unemployed",
       "soldier",
@@ -680,7 +680,7 @@
       "medic",
       "mili_pilot"
     ],
-    "flags": [ "CHALLENGE", "LONE_START" ]
+    "flags": [ "CHALLENGE", "LONE_START", "CITY_START" ]
   },
   {
     "type": "scenario",
@@ -711,10 +711,25 @@
     "id": "aircraft_carrier_start",
     "name": "CVN Sailor",
     "points": 4,
-    "description": "For some reason your mission off the coast of North Korea was ended in the middle of a lake, in unknown location.  You have no idea what's happened, but now you have more important things to do.",
+    "description": "For some reason your mission off the coast of North Korea has ended up stateside, stuck in the middle of a lake.  You have no idea what's happened, but now you have more important things to do.",
     "start_name": "Aircraft Carrier",
     "allowed_locs": [ "aircraft_carrier_berth", "aircraft_carrier_bridge" ],
-    "professions": [ "unemployed", "electrician", "chef", "soldier", "specops", "medic", "mili_pilot", "prof_combat_engineer" ],
+    "professions": [
+      "unemployed",
+      "electrician",
+      "chef",
+      "soldier",
+      "mil_auto_rifleman",
+      "mil_grenadier",
+      "mil_marksman",
+      "specops",
+      "power_armor_soldier",
+      "bio_soldier",
+      "bio_sniper",
+      "medic",
+      "mili_pilot",
+      "prof_combat_engineer"
+    ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   }
 ]

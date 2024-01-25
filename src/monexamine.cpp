@@ -831,7 +831,7 @@ void monexamine::add_leash( monster &z )
         return;
     }
     item *rope_item = rope_inv[index - 1];
-    z.set_tied_item( rope_item->detach( ) );
+    z.set_tied_item( rope_item->split( 1 ) );
     z.add_effect( effect_leashed, 1_turns );
     z.get_effect( effect_leashed ).set_permanent();
     add_msg( _( "You add a leash to your %s." ), z.get_name() );

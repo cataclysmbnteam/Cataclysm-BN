@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_ENUMS_H
 #define CATA_SRC_ENUMS_H
 
+#include "enum_traits.h"
+
 template<typename T> struct enum_traits;
 
 template<typename T>
@@ -9,6 +11,26 @@ constexpr inline int sgn( const T x )
 {
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
+
+/**
+ * Simplified attitude towards any creature:
+ * hostile - hate, want to kill, etc.
+ * neutral - anything between.
+ * friendly - avoid harming it, maybe even help.
+ * any - any of the above, used in safemode_ui
+ */
+enum Attitude : int {
+    A_HOSTILE,
+    A_NEUTRAL,
+    A_FRIENDLY,
+    A_ANY,
+    NUM_A
+};
+
+template<>
+struct enum_traits<Attitude> {
+    static constexpr Attitude last = Attitude::NUM_A;
+};
 
 enum class bionic_ui_sort_mode : int {
     NONE   = 0,
@@ -37,6 +59,20 @@ enum class holiday : int {
 template<>
 struct enum_traits<holiday> {
     static constexpr holiday last = holiday::num_holiday;
+};
+
+enum m_size : int {
+    MS_TINY = 0,    // Squirrel
+    MS_SMALL,      // Dog
+    MS_MEDIUM,    // Human
+    MS_LARGE,    // Cow
+    MS_HUGE,    // TAAAANK
+    num_m_size // last
+};
+
+template<>
+struct enum_traits<m_size> {
+    static constexpr m_size last = m_size::num_m_size;
 };
 
 enum class temperature_flag : int {

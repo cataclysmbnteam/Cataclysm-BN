@@ -55,20 +55,6 @@ struct trap;
 
 template<typename T> struct enum_traits;
 
-enum m_size : int {
-    MS_TINY = 0,    // Squirrel
-    MS_SMALL,      // Dog
-    MS_MEDIUM,    // Human
-    MS_LARGE,    // Cow
-    MS_HUGE,    // TAAAANK
-    num_m_size // last
-};
-
-template<>
-struct enum_traits<m_size> {
-    static constexpr m_size last = m_size::num_m_size;
-};
-
 enum FacingDirection {
     FD_NONE = 0,
     FD_LEFT = 1,
@@ -156,20 +142,6 @@ class Creature
         virtual float hit_roll() const = 0;
         virtual float dodge_roll() = 0;
         virtual float stability_roll() const = 0;
-
-        /**
-         * Simplified attitude towards any creature:
-         * hostile - hate, want to kill, etc.
-         * neutral - anything between.
-         * friendly - avoid harming it, maybe even help.
-         * any - any of the above, used in safemode_ui
-         */
-        enum Attitude : int {
-            A_HOSTILE,
-            A_NEUTRAL,
-            A_FRIENDLY,
-            A_ANY
-        };
 
         /**
          * Simplified attitude string for unlocalized needs.

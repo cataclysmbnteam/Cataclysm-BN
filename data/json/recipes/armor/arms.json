@@ -88,6 +88,20 @@
     "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
+    "result": "armguard_lightplate_superalloy",
+    "//": "Superalloy armor recipes use alloy sheets equal to steel lumps used, difficulty 2 levels higher (maxing out at 10)",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "skills_required": [ [ "tailor", 3 ] ],
+    "time": "50 m",
+    "book_learn": [ [ "textbook_armwest", 8 ] ],
+    "using": [ [ "blacksmithing_advanced", 24 ] ],
+    "components": [ [ [ "alloy_sheet", 6 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
+  },
+  {
     "result": "armguard_metal",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -209,11 +223,11 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "fabrication",
-    "difficulty": 7,
+    "difficulty": 4,
     "skills_required": [ [ "tailor", 2 ] ],
-    "time": "40 m",
-    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 3 ] ],
-    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 1 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
+    "time": "15 m",
+    "autolearn": [ [ "fabrication", 6 ], [ "tailor", 4 ] ],
+    "book_learn": [ [ "textbook_armwest", 3 ], [ "textbook_fabrication", 3 ], [ "recipe_melee", 3 ] ],
+    "using": [ [ "chainmail_standard", 3 ] ]
   }
 ]

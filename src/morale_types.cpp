@@ -101,6 +101,7 @@ const morale_type_data &morale_type::obj() const
     return morale_data.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool morale_type::is_valid() const
 {

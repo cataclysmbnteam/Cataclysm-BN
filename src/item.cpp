@@ -1285,7 +1285,7 @@ item::sizing item::get_sizing( const Character &p ) const
         // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
         // is a bit of cognitive dissonance when something 'fits' and is 'oversized' and the same time
         const bool undersize = has_flag( flag_UNDERSIZE );
-        const bool oversize = has_flag( flag_OVERSIZE );
+        const bool oversize = has_flag( flag_OVERSIZE ) || has_flag( flag_resized_large );
 
         if( undersize ) {
             if( small ) {
@@ -2755,7 +2755,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                         break;
                     case sizing::small_sized_big_char:
                     case sizing::human_sized_big_char:
-                        resize_str = _( "<bad>can not be upsized</bad>" );
+                        resize_str = _( "<bad>can not be upsized</bad> without drastically altering it" );
                         break;
                     default:
                         break;
@@ -4628,8 +4628,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             tagtext += _( " (unread)" );
         }
     }
-    if( has_var( "bionics_scanned_by" ) && has_flag( flag_CBM_SCANNED ) ) {
-        tagtext += _( " (bionic detected)" );
+    if( has_var( "bionics_scanned_by" ) ) {
+        if( has_flag( flag_CBM_SCANNED ) ) {
+            tagtext += _( " (bionic detected)" );
+        } else {
+            tagtext += _( " (scanned)" );
+        }
     }
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
@@ -4653,6 +4657,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
 
+    if( has_flag( flag_resized_large ) ) {
+        tagtext += _( " (XL)" );
+    }
     const sizing sizing_level = get_sizing( you );
 
     if( sizing_level == sizing::human_sized_small_char ) {
@@ -8179,9 +8186,7 @@ bool item::reload( player &u, item &loc, int qty )
             }
         }
 
-        detached_ptr<item> to_reload = item::spawn( *ammo );
-        to_reload->charges = qty;
-        ammo->charges -= qty;
+        detached_ptr<item> to_reload = ammo->split( qty );
         bool merged = false;
         for( item *it : contents.all_items_top() ) {
             if( it->merge_charges( std::move( to_reload ) ) ) {
@@ -8239,16 +8244,17 @@ bool item::reload( player &u, item &loc, int qty )
             ammo->charges -= qty;
             charges += qty;
         }
-    }
-
-    if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
-        if( container != nullptr ) {
-            container->remove_item( container->contents.front() );
-            u.inv_restack( ); // emptied containers do not stack with non-empty ones
-        } else {
-            loc.detach();
+        // we have transfered ammo from the container to the item
+        // therefore, we erase the 0-charge item inside container
+        // TODO: why don't we just remove 0-charge items?
+        if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
+            ammo->detach();
+            if( container != nullptr ) {
+                u.inv_restack();
+            }
         }
     }
+
     return true;
 }
 
@@ -8294,7 +8300,7 @@ float item::simulate_burn( fire_data &frd ) const
     }
 
     if( count_by_charges() ) {
-        int stack_burnt = rng( type->stack_size / 2, type->stack_size );
+        const int stack_burnt = type->stack_size;
         time_added *= stack_burnt;
         smoke_added *= stack_burnt;
         burn_added *= stack_burnt;

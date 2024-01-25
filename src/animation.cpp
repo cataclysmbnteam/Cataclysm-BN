@@ -1,12 +1,13 @@
 #include "animation.h"
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "character.h"
-#include "creature.h"
 #include "cursesdef.h"
+#include "enums.h"
 #include "explosion.h"
-#include "game.h"
 #include "game_constants.h"
+#include "game.h"
 #include "line.h"
 #include "map.h"
 #include "monster.h"
@@ -22,7 +23,6 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "weather.h"
-#include "cached_options.h"
 
 #if defined(TILES)
 #include <memory>
@@ -1038,7 +1038,7 @@ void game::draw_below_override( const tripoint &, const bool )
 
 #if defined(TILES)
 void game::draw_monster_override( const tripoint &p, const mtype_id &id, const int count,
-                                  const bool more, const Creature::Attitude att )
+                                  const bool more, const Attitude att )
 {
     if( use_tiles ) {
         tilecontext->init_draw_monster_override( p, id, count, more, att );
@@ -1046,7 +1046,7 @@ void game::draw_monster_override( const tripoint &p, const mtype_id &id, const i
 }
 #else
 void game::draw_monster_override( const tripoint &, const mtype_id &, const int,
-                                  const bool, const Creature::Attitude )
+                                  const bool, const Attitude )
 {
 }
 #endif

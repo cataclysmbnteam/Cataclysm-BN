@@ -12,6 +12,7 @@
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "bionics.h"
 #include "character.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -33,6 +34,8 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+
+static const bionic_id bio_infolink( "bio_infolink" );
 
 namespace npc_factions
 {
@@ -568,8 +571,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     nc_color see_color;
 
     static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
-    bool u_has_radio = g->u.has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
-    bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
+    bool u_has_radio = g->u.has_item_with_flag( json_flag_TWO_WAY_RADIO, true ) ||
+                       g->u.has_bionic( bio_infolink );
+    bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true ) ||
+                         has_bionic( bio_infolink );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
         ( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) ) {

@@ -51,12 +51,15 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &,
         }
 
         item &gift = *ip.locs.front();
-        gift.set_owner( receiver );
-        int charges = npc_gives ? ip.u_charges : ip.npc_charges;
+        const int charges = npc_gives ? ip.u_charges : ip.npc_charges;
 
         if( ip.charges ) {
-            receiver.i_add( gift.split( charges ) );
+            auto to_give = gift.split( charges );
+            to_give->set_owner( receiver );
+
+            receiver.i_add( std::move( to_give ) );
         } else {
+            gift.set_owner( receiver );
             for( item *&it : ip.locs ) {
                 receiver.i_add( it->detach() );
             }

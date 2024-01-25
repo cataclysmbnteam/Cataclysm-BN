@@ -10,7 +10,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "yellow",
-    "price_postapoc": 1000,
+    "price_postapoc": "10 USD",
     "use_action": "install_bionic",
     "flags": [ "CBM" ],
     "is_upgrade": false,
@@ -287,16 +287,6 @@
     "difficulty": 6
   },
   {
-    "id": "bio_emp",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Directional EMP CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "Small parabolic EMP field generators that are mounted in the palm of the user's right hand.  These can be used to instantly fire a wide, but short-ranged blast which will disable electronics and robots.",
-    "price": "7200 USD",
-    "difficulty": 5
-  },
-  {
     "id": "bio_emp_armgun",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -483,6 +473,18 @@
     "difficulty": 6
   },
   {
+    "id": "bio_infolink",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Infolink CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "Before the Cataclysm this was a state-of-the-art communications package.  Even without cell service, it can still double as a two-way radio if installed.  Also comes with an internal chronometer with silent alarm clock feature, an air temperature sensor, and more detailed weather readouts when activated.",
+    "price": "3500 USD",
+    "weight": "700 g",
+    "difficulty": 3,
+    "installation_data": "AID_bio_infolink"
+  },
+  {
     "id": "bio_infrared",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -591,18 +593,6 @@
     "price": "700 USD",
     "weight": "700 g",
     "difficulty": 4
-  },
-  {
-    "id": "bio_meteorologist",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Weather Reader CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "A multitude of scientific instruments and sensors collect environmental data.  The data is compiled and presented as a simple readout of the current weather.  It also passively tells the user their external temperature.",
-    "price": "3500 USD",
-    "weight": "700 g",
-    "difficulty": 3,
-    "installation_data": "AID_bio_meteorologist"
   },
   {
     "id": "bio_nanobots",
@@ -1005,18 +995,6 @@
     "installation_data": "AID_bio_ups"
   },
   {
-    "id": "bio_watch",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Internal Chronometer CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "This bionic module contains an atomic clock, complete with silent alarm clock function.",
-    "price": "10 USD",
-    "weight": "10 g",
-    "difficulty": 1,
-    "installation_data": "AID_bio_watch"
-  },
-  {
     "id": "bio_water_extractor",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -1043,7 +1021,7 @@
     "id": "bio_weight",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Titanium Skeletal Bracing CBM" },
+    "name": { "str": "Skeletal Bracing CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A set of hinges, springs, and other synthetic augments for the skeletal structure.  These artificial enhancers strengthen the knees and elbows, allowing the user to carry more weight.",
     "price": "500 USD",
@@ -1304,6 +1282,17 @@
     "description": "Heavy-duty fusion blaster was integrated into your left arm!  You may use your energy banks to fire a damaging heat ray.",
     "price": "2200 USD",
     "difficulty": 3
+  },
+  {
+    "id": "bio_electrosense",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Electrosense CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "An advanced set of digital scanning equipment for reading electrical signals.  When installed it can be activated to scan nearby corpses for bionics, with the added bonus of detecting robots and creatures charged with electricity through walls.  A secondary mode allows it to assist with electrical work like a voltmeter, for checking and modifying grid connections.",
+    "price": "4500 USD",
+    "weight": "500 g",
+    "difficulty": 6
   },
   {
     "id": "bio_perpetual_test",

@@ -2310,6 +2310,7 @@ void Item_factory::load( islot_seed &slot, const JsonObject &jo, const std::stri
     assign( jo, "fruit", slot.fruit_id );
     assign( jo, "seeds", slot.spawn_seeds );
     assign( jo, "byproducts", slot.byproducts );
+    assign( jo, "required_terrain_flag", slot.required_terrain_flag );
 }
 
 void Item_factory::load( islot_container &slot, const JsonObject &jo, const std::string & )

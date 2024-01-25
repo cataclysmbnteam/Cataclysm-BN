@@ -127,6 +127,12 @@
   },
   {
     "type": "weapon_category",
+    "id": "1H_HOOKED",
+    "name": "One-handed Hooking",
+    "//": "One handed weapon with hooking capability that doesn't fall under traditional classification (ie: not a hammer or an axe)."
+  },
+  {
+    "type": "weapon_category",
     "id": "HOOKED_POLES",
     "name": "Hooked Polearms",
     "//": "Polearm with hooked end (Like a shepherd's crook)"

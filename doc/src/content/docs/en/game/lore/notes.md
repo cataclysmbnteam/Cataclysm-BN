@@ -4,7 +4,7 @@ title: Xedra Notes
 
 :::danger{title="spoiler alert"}
 
-spoilers below!
+spoilers below! All of this is to be revised to fit new lore introduced in Factions
 
 :::
 

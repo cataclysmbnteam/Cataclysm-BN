@@ -196,7 +196,8 @@
         "L": [ "t_sandbox" ],
         "M": [ "t_monkey_bars" ],
         "#": [ "t_slide" ],
-        "*": [ "t_railroad_track_small" ]
+        "*": [ "t_railroad_track_small" ],
+        "C": "t_floor"
       },
       "furniture": { "b": [ "f_bench" ], "B": [ "f_birdbath" ], "C": [ "f_counter" ] },
       "monsters": { "u": { "monster": "GROUP_SCHOOL", "chance": 1, "density": 0.001 } },

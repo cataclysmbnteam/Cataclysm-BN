@@ -713,5 +713,17 @@
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [ { "monster": "mon_zombie", "freq": 65, "cost_multiplier": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_FIRELOOKOUTTOWER",
+    "default": "mon_zombie",
+    "monsters": [
+      { "monster": "mon_zombie_cop", "freq": 500, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_survivor", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_necro", "freq": 8, "cost_multiplier": 20, "starts": 500 },
+      { "monster": "mon_zombie_master", "freq": 2, "cost_multiplier": 25, "starts": 1000 }
+    ]
   }
 ]

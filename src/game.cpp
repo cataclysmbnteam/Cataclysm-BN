@@ -3609,7 +3609,7 @@ Creature *game::is_hostile_very_close()
 Creature *game::is_hostile_within( int distance )
 {
     for( auto &critter : u.get_visible_creatures( distance ) ) {
-        if( u.attitude_to( *critter ) == Creature::A_HOSTILE ) {
+        if( u.attitude_to( *critter ) == Attitude::A_HOSTILE ) {
             return critter;
         }
     }
@@ -5528,7 +5528,7 @@ void game::examine( const tripoint &examp )
                 if( monexamine::pay_bot( *mon ) ) {
                     return;
                 }
-            } else if( mon->attitude_to( u ) == Creature::A_FRIENDLY && !u.is_mounted() ) {
+            } else if( mon->attitude_to( u ) == Attitude::A_FRIENDLY && !u.is_mounted() ) {
                 if( monexamine::mfriend_menu( *mon ) ) {
                     return;
                 }
@@ -5863,7 +5863,7 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
             break;
     }
 
-    mvwprintw( w_look, point( line, column ), visibility_message );
+    mvwprintw( w_look, point( column, line ), visibility_message );
     line += 2;
 }
 
@@ -5872,7 +5872,6 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
                                int &line )
 {
     const int max_width = getmaxx( w_look ) - column - 1;
-    int lines;
 
     const auto fmt_tile_info = []( const tripoint & lp ) {
         map &here = get_map();
@@ -5897,23 +5896,23 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     std::string tile = string_format( "(%s) %s", area_name, fmt_tile_info( lp ) );
 
     if( m.impassable( lp ) ) {
-        lines = fold_and_print( w_look, point( column, line ), max_width, c_light_gray,
+        line += fold_and_print( w_look, point( column, line ), max_width, c_light_gray,
                                 _( "%s; Impassable" ),
                                 tile );
     } else {
-        lines = fold_and_print( w_look, point( column, line ), max_width, c_light_gray,
+        line += fold_and_print( w_look, point( column, line ), max_width, c_light_gray,
                                 _( "%s; Movement cost %d" ),
                                 tile, m.move_cost( lp ) * 50 );
 
         const auto ll = get_light_level( std::max( 1.0,
                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
-        mvwprintw( w_look, point( column, ++lines ), _( "Lighting: " ) );
+        mvwprintw( w_look, point( column, line++ ), _( "Lighting: " ) );
         wprintz( w_look, ll.second, ll.first );
     }
 
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
-        trim_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
+        trim_and_print( w_look, point( column, line++ ), max_width, c_dark_gray,
                         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
                         u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage );
     }
@@ -5924,23 +5923,21 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         std::string tile_below = fmt_tile_info( below );
 
         if( !m.has_floor_or_support( lp ) ) {
-            fold_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
-                            _( "Below: %s; No support" ),
-                            tile_below );
+            line += fold_and_print( w_look, point( column, line ), max_width, c_dark_gray,
+                                    _( "Below: %s; No support" ),
+                                    tile_below );
         } else {
-            fold_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
-                            _( "Below: %s; Walkable" ),
-                            tile_below );
+            line += fold_and_print( w_look, point( column, line ), max_width, c_dark_gray,
+                                    _( "Below: %s; Walkable" ),
+                                    tile_below );
         }
     }
 
-    int map_features = fold_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
-                                       m.features( lp ) );
-    fold_and_print( w_look, point( column, ++lines ), max_width, c_light_gray, _( "Coverage: %d%%" ),
-                    m.coverage( lp ) );
-    if( line < lines ) {
-        line = lines + map_features - 1;
-    }
+    line += fold_and_print( w_look, point( column, line ), max_width, c_dark_gray,
+                            m.features( lp ) );
+    line += fold_and_print( w_look, point( column, line ), max_width, c_light_gray,
+                            _( "Coverage: %d%%" ),
+                            m.coverage( lp ) );
 }
 
 void game::print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column,
@@ -7824,7 +7821,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     // first integer is the row the attitude category string is printed in the menu
-    std::map<int, Creature::Attitude> mSortCategory;
+    std::map<int, Attitude> mSortCategory;
 
     for( int i = 0, last_attitude = -1; i < static_cast<int>( monster_list.size() ); i++ ) {
         const auto attitude = monster_list[i]->attitude_to( u );
@@ -7919,7 +7916,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         const std::string monName = is_npc ? get_safemode().npc_type_name() : m->name();
 
                         std::string sSafemode;
-                        if( get_safemode().has_rule( monName, Creature::A_ANY ) ) {
+                        if( get_safemode().has_rule( monName, Attitude::A_ANY ) ) {
                             sSafemode = _( "<R>emove from safemode Blacklist" );
                         } else {
                             sSafemode = _( "<A>dd to safemode Blacklist" );
@@ -8027,15 +8024,15 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             const auto m = dynamic_cast<monster *>( cCurMon );
             const std::string monName = ( m != nullptr ) ? m->name() : "human";
 
-            if( get_safemode().has_rule( monName, Creature::A_ANY ) ) {
-                get_safemode().remove_rule( monName, Creature::A_ANY );
+            if( get_safemode().has_rule( monName, Attitude::A_ANY ) ) {
+                get_safemode().remove_rule( monName, Attitude::A_ANY );
             }
         } else if( action == "SAFEMODE_BLACKLIST_ADD" ) {
             if( !get_safemode().empty() ) {
                 const auto m = dynamic_cast<monster *>( cCurMon );
                 const std::string monName = ( m != nullptr ) ? m->name() : "human";
 
-                get_safemode().add_rule( monName, Creature::A_ANY, get_option<int>( "SAFEMODEPROXIMITY" ),
+                get_safemode().add_rule( monName, Attitude::A_ANY, get_option<int>( "SAFEMODEPROXIMITY" ),
                                          RULE_BLACKLISTED );
             }
         } else if( action == "look" ) {
@@ -8146,7 +8143,10 @@ static void add_corpses( uilist &menu, const std::vector<item *> &its,
     int hotkey = get_initial_hotkey( menu_index );
 
     for( const item * const &it : its ) {
-        menu.addentry( menu_index++, true, hotkey, it->get_mtype()->nname() );
+        const std::string msg_name = it->has_flag( flag_CBM_SCANNED )
+                                     ? string_format( _( "%s (bionic detected)" ), it->get_mtype()->nname() )
+                                     :  _( it->get_mtype()->nname() );
+        menu.addentry( menu_index++, true, hotkey, msg_name );
         hotkey = -1;
     }
 }

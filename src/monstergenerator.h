@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "catalua_type_operators.h"
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
@@ -45,6 +46,8 @@ struct species_type {
     }
 
     void load( const JsonObject &jo, const std::string &src );
+
+    LUA_TYPE_OPS( species_type, id );
 };
 
 class MonsterGenerator

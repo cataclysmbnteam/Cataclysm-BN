@@ -263,7 +263,7 @@
       "central_lab_core_stub": { "overmap": "central_lab_core" },
       "central_lab_stub": { "overmap": "central_lab_core" },
       "central_lab_stairs_stub": {
-        "overmap": "central_lab_core",
+        "overmap": "central_lab_stairs",
         "below": "lab_to_lab",
         "north": { "id": "lab_to_lab", "type": "reject" },
         "east": { "id": "lab_to_lab", "type": "reject" },

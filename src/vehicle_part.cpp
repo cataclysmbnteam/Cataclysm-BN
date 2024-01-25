@@ -76,6 +76,7 @@ void vehicle_part::refresh_locations_hack( vehicle *veh )
 
 void vehicle_part::copy_static_from( const vehicle_part &source )
 {
+    carry_names = source.carry_names;
     mount = source.mount;
     precalc = source.precalc;
     blood = source.blood;
