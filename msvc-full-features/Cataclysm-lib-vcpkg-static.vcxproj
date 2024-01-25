@@ -39,10 +39,9 @@
     <VcpkgAdditionalInstallOptions>--clean-after-build</VcpkgAdditionalInstallOptions>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-
   <PropertyGroup Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
@@ -52,7 +51,6 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
@@ -134,15 +132,17 @@
   <ItemGroup>
     <ClCompile Include="..\src\lua\*.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <ForcedIncludeFiles></ForcedIncludeFiles>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
     </ClCompile>
     <ClInclude Include="..\src\lua\*.h">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <ForcedIncludeFiles></ForcedIncludeFiles>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\*.h" Exclude ="..src\message.h" />
+    <ClInclude Include="..\src\*.h" Exclude="..src\message.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
