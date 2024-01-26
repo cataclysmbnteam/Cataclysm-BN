@@ -290,5 +290,13 @@
     "name": "abandoned textile mill",
     "color": "light_blue",
     "extend": { "flags": [ "SOURCE_CONSTRUCTION" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "smallscrapyard_ocu" ],
+    "name": "scrap yard",
+    "sym": "s",
+    "color": "red",
+    "flags": [ "SOURCE_PEOPLE" ]
   }
 ]

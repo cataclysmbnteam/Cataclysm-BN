@@ -103,12 +103,14 @@ static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
 static const skill_id skill_smg( "smg" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
+static const skill_id skill_unarmed( "unarmed" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -790,7 +792,7 @@ skill_id npc::best_skill() const
     skill_id highest_skill( skill_id::NULL_ID() );
 
     for( const auto &p : *_skills ) {
-        if( p.first.obj().is_combat_skill() ) {
+        if( p.first.obj().is_weapon_skill() ) {
             const int level = p.second.level();
             if( level > highest_level ) {
                 highest_level = level;
@@ -818,6 +820,33 @@ int npc::best_skill_level() const
     return highest_level;
 }
 
+namespace
+{
+
+const std::map<skill_id, std::string> skill_to_weapons = {
+    { skill_bashing, "bashing" },
+    { skill_cutting, "cutting" },
+    { skill_unarmed, "unarmed" },
+    { skill_throw, "throw" },
+    { skill_archery, "archery" },
+    { skill_launcher, "launcher" },
+    { skill_pistol, "pistol" },
+    { skill_shotgun, "shotgun" },
+    { skill_smg, "smg" },
+    { skill_rifle, "rifle" },
+    { skill_stabbing, "stabbing" }
+};
+
+/// if NPC has no suitable skills default to stabbing weapon
+auto best_weapon_category( const skill_id &best_skill ) -> std::string
+{
+    const auto &res = skill_to_weapons.find( best_skill );
+
+    return res != skill_to_weapons.end() ? res->second : "stabbing";
+}
+
+} // namespace
+
 void npc::starting_weapon( const npc_class_id &type )
 {
     if( item_group::group_is_defined( type->weapon_override ) ) {
@@ -826,27 +855,8 @@ void npc::starting_weapon( const npc_class_id &type )
     }
 
     const skill_id best = best_skill();
-
-    // if NPC has no suitable skills default to stabbing weapon
-    if( !best || best == skill_stabbing ) {
-        set_primary_weapon( random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) ) );
-    } else if( best == skill_bashing ) {
-        set_primary_weapon( random_item_from( type, "bashing",  item_group_id( "survivor_bashing" ) ) );
-    } else if( best == skill_cutting ) {
-        set_primary_weapon( random_item_from( type, "cutting",  item_group_id( "survivor_cutting" ) ) );
-    } else if( best == skill_throw ) {
-        set_primary_weapon( random_item_from( type, "throw" ) );
-    } else if( best == skill_archery ) {
-        set_primary_weapon( random_item_from( type, "archery" ) );
-    } else if( best == skill_pistol ) {
-        set_primary_weapon( random_item_from( type, "pistol",  item_group_id( "guns_pistol_common" ) ) );
-    } else if( best == skill_shotgun ) {
-        set_primary_weapon( random_item_from( type, "shotgun",  item_group_id( "guns_shotgun_common" ) ) );
-    } else if( best == skill_smg ) {
-        set_primary_weapon( random_item_from( type, "smg",  item_group_id( "guns_smg_common" ) ) );
-    } else if( best == skill_rifle ) {
-        set_primary_weapon( random_item_from( type, "rifle",  item_group_id( "guns_rifle_common" ) ) );
-    }
+    const std::string category = best_weapon_category( best );
+    set_primary_weapon( random_item_from( type, category ) );
 
     if( primary_weapon().is_gun() ) {
         primary_weapon().ammo_set( primary_weapon().ammo_default() );
@@ -2141,15 +2151,15 @@ bool npc::is_travelling() const
     return mission == NPC_MISSION_TRAVELLING;
 }
 
-Creature::Attitude npc::attitude_to( const Creature &other ) const
+Attitude npc::attitude_to( const Creature &other ) const
 {
     if( other.is_npc() || other.is_player() ) {
         const player &guy = dynamic_cast<const player &>( other );
         // check faction relationships first
         if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
-            return A_HOSTILE;
+            return Attitude::A_HOSTILE;
         } else if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
-            return A_FRIENDLY;
+            return Attitude::A_FRIENDLY;
         }
     }
 
@@ -2160,11 +2170,11 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
     if( other.is_npc() ) {
         // Hostile NPCs are also hostile towards player's allies
-        if( is_enemy() && other.attitude_to( g->u ) == A_FRIENDLY ) {
-            return A_HOSTILE;
+        if( is_enemy() && other.attitude_to( g->u ) == Attitude::A_FRIENDLY ) {
+            return Attitude::A_HOSTILE;
         }
 
-        return A_NEUTRAL;
+        return Attitude::A_NEUTRAL;
     } else if( other.is_player() ) {
         // For now, make it symmetric.
         return other.attitude_to( *this );
@@ -2177,18 +2187,18 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_FPASSIVE:
         case MATT_IGNORE:
         case MATT_FLEE:
-            return A_NEUTRAL;
+            return Attitude::A_NEUTRAL;
         case MATT_FRIEND:
         case MATT_ZLAVE:
-            return A_FRIENDLY;
+            return Attitude::A_FRIENDLY;
         case MATT_ATTACK:
-            return A_HOSTILE;
+            return Attitude::A_HOSTILE;
         case MATT_NULL:
         case NUM_MONSTER_ATTITUDES:
             break;
     }
 
-    return A_NEUTRAL;
+    return Attitude::A_NEUTRAL;
 }
 
 void npc::npc_dismount()
@@ -2628,6 +2638,16 @@ std::string npc_attitude_id( npc_attitude att )
     return iter->second;
 }
 
+template<>
+std::string io::enum_to_string<npc_attitude>( npc_attitude att )
+{
+    std::string result = npc_attitude_id( att );
+    if( result == "NPCATT_INVALID" ) {
+        abort();
+    }
+    return result;
+}
+
 std::string npc_attitude_name( npc_attitude att )
 {
     switch( att ) {
@@ -2951,6 +2971,33 @@ std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs>
         { "need_safety", overmap_location_str_id( "source_of_safety" ) }
     }
 };
+
+template<>
+std::string io::enum_to_string<npc_need>( npc_need need )
+{
+    // Thought about using npc::need_data, however,
+    // 'Accessing a nonexistent element through [] operator is undefined behavior.'
+    switch( need ) {
+        case need_none:
+            return "need_none";
+        case need_ammo:
+            return "need_ammo";
+        case need_weapon:
+            return "need_weapon";
+        case need_gun:
+            return "need_gun";
+        case need_food:
+            return "need_food";
+        case need_drink:
+            return "need_drink";
+        case need_safety:
+            return "need_safety";
+        case num_needs:
+            break;
+    }
+    debugmsg( "Invalid npc_need" );
+    abort();
+}
 
 std::string npc::get_need_str_id( const npc_need &need )
 {

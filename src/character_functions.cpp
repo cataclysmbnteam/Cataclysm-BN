@@ -648,7 +648,7 @@ std::optional<tripoint> pick_safe_adjacent_tile( const Character &who )
         }
     }
 
-    return random_entry( ret );
+    return random_entry_opt( ret );
 }
 
 bool is_bp_immune_to( const Character &who, body_part bp, damage_unit dam )

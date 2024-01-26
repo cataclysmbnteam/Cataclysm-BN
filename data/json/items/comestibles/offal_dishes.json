@@ -141,7 +141,6 @@
     "material": [ "flesh", "wheat", "milk", "veggy" ],
     "primary_material": "processed_food",
     "color": "magenta",
-    "spoils_in": "360 days",
     "volume": "1750 ml",
     "weight": "112 g",
     "charges": 14,

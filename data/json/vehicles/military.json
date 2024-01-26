@@ -652,5 +652,121 @@
       { "x": 0, "y": 1, "parts": [ "frame_wood_horizontal", "wheel_wood_b" ] },
       { "x": -1, "y": 0, "parts": [ "frame_wood_handle" ] }
     ]
+  },
+  {
+    "id": "whillys_mb",
+    "type": "vehicle",
+    "name": "Jeep",
+    "//": "Working version, possibly in civilian hands, thus spawns fueled up but no weapon mounted",
+    "blueprint": [
+      [ " o|_'oH" ],
+      [ " |=#'|H" ],
+      [ "o|t#'|H" ],
+      [ " o|_'oH" ]
+    ],
+    "parts": [
+      { "x": 3, "y": -1, "parts": [ "hdframe_horizontal" ] },
+      {
+        "x": 2,
+        "y": -1,
+        "parts": [ "frame_nw", "hdhalfboard_nw", "wheel_mount_medium_steerable", "wheel_wide_or", "headlight" ]
+      },
+      { "x": 1, "y": -1, "parts": [ "frame_vertical", "reinforced_windshield_nw" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_vertical", "trunk_floor" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_vertical", "hdhalfboard_vertical" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_sw", "hdhalfboard_sw", "wheel_mount_medium", "wheel_wide_or" ] },
+      { "x": 3, "y": 0, "parts": [ "hdframe_horizontal_2" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_horizontal", "hdhalfboard_horizontal" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_vertical", "reinforced_windshield_horizontal_front" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "frame_vertical_2", "seat", { "part": "tank", "fuel": "gasoline" }, "controls", "dashboard", "horn_car" ]
+      },
+      { "x": -1, "y": 0, "parts": [ "frame_vertical", "trunk" ] },
+      { "x": -2, "y": 0, "parts": [ "frame_vertical", "hdhalfboard_horizontal" ] },
+      { "x": 3, "y": 1, "parts": [ "hdframe_horizontal_2" ] },
+      {
+        "x": 2,
+        "y": 1,
+        "parts": [ "frame_horizontal", "hdhalfboard_horizontal", "engine_inline4", "alternator_car", "battery_car" ]
+      },
+      { "x": 1, "y": 1, "parts": [ "frame_vertical", "reinforced_windshield_horizontal_front" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_vertical_2", "seat" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_vertical", "trunk", "turret_mount" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_vertical", "hdhalfboard_horizontal" ] },
+      { "x": -3, "y": 1, "parts": [ "mounted_spare_tire" ] },
+      { "x": 3, "y": 2, "parts": [ "hdframe_horizontal" ] },
+      {
+        "x": 2,
+        "y": 2,
+        "parts": [ "frame_ne", "hdhalfboard_ne", "wheel_mount_medium_steerable", "wheel_wide_or", "headlight" ]
+      },
+      { "x": 1, "y": 2, "parts": [ "frame_vertical", "reinforced_windshield_ne" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_vertical", "trunk_floor" ] },
+      { "x": -1, "y": 2, "parts": [ "frame_vertical", "hdhalfboard_vertical", "muffler" ] },
+      { "x": -2, "y": 2, "parts": [ "frame_se", "hdhalfboard_se", "wheel_mount_medium", "wheel_wide_or" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 1, "chance": 1, "items": [ "roadmap" ] },
+      { "x": 0, "y": 1, "chance": 10, "items": [ "flashlight" ] },
+      { "x": 0, "y": 1, "chance": 5, "items": [ "1st_aid" ] },
+      { "x": 0, "y": 1, "chance": 5, "item_groups": [ "infantry_officer_gear" ] },
+      { "x": 0, "y": -1, "chance": 10, "item_groups": [ "infantry_common_gear" ] },
+      { "x": -1, "y": 0, "chance": 20, "item_groups": [ "car_kit" ] },
+      { "x": -1, "y": 1, "chance": 20, "item_groups": [ "car_kit" ] },
+      { "x": -1, "y": 1, "chance": 10, "item_groups": [ "fuel_gasoline" ] }
+    ]
+  },
+  {
+    "id": "whillys_mb_display",
+    "type": "vehicle",
+    "name": "Jeep",
+    "//": "Version for display in military locations, weapon mounted but with no fuel or ammo",
+    "blueprint": [
+      [ " o|_'oH" ],
+      [ " |=#'|H" ],
+      [ "o|t#'|H" ],
+      [ " o|_'oH" ]
+    ],
+    "parts": [
+      { "x": 3, "y": -1, "parts": [ "hdframe_horizontal" ] },
+      {
+        "x": 2,
+        "y": -1,
+        "parts": [ "frame_nw", "hdhalfboard_nw", "wheel_mount_medium_steerable", "wheel_wide_or", "headlight" ]
+      },
+      { "x": 1, "y": -1, "parts": [ "frame_vertical", "reinforced_windshield_nw" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_vertical", "trunk_floor" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_vertical", "hdhalfboard_vertical" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_sw", "hdhalfboard_sw", "wheel_mount_medium", "wheel_wide_or" ] },
+      { "x": 3, "y": 0, "parts": [ "hdframe_horizontal_2" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_horizontal", "hdhalfboard_horizontal" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_vertical", "reinforced_windshield_horizontal_front" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "seat", "tank", "controls", "dashboard", "horn_car" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_vertical", "trunk" ] },
+      { "x": -2, "y": 0, "parts": [ "frame_vertical", "hdhalfboard_horizontal" ] },
+      { "x": 3, "y": 1, "parts": [ "hdframe_horizontal_2" ] },
+      {
+        "x": 2,
+        "y": 1,
+        "parts": [ "frame_horizontal", "hdhalfboard_horizontal", "engine_inline4", "alternator_car", "battery_car" ]
+      },
+      { "x": 1, "y": 1, "parts": [ "frame_vertical", "reinforced_windshield_horizontal_front" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_vertical_2", "seat" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_vertical", "trunk", "turret_mount", "mounted_browning" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_vertical", "hdhalfboard_horizontal" ] },
+      { "x": -3, "y": 1, "parts": [ "mounted_spare_tire" ] },
+      { "x": 3, "y": 2, "parts": [ "hdframe_horizontal" ] },
+      {
+        "x": 2,
+        "y": 2,
+        "parts": [ "frame_ne", "hdhalfboard_ne", "wheel_mount_medium_steerable", "wheel_wide_or", "headlight" ]
+      },
+      { "x": 1, "y": 2, "parts": [ "frame_vertical", "reinforced_windshield_ne" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_vertical", "trunk_floor" ] },
+      { "x": -1, "y": 2, "parts": [ "frame_vertical", "hdhalfboard_vertical", "muffler" ] },
+      { "x": -2, "y": 2, "parts": [ "frame_se", "hdhalfboard_se", "wheel_mount_medium", "wheel_wide_or" ] }
+    ]
   }
 ]

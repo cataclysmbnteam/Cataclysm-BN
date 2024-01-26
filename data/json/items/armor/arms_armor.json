@@ -20,7 +20,7 @@
     "warmth": 5,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_chitin",
@@ -121,6 +121,18 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ]
   },
   {
+    "id": "armguard_lightplate_superalloy",
+    "copy-from": "armguard_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "pair of superalloy arm guards", "str_pl": "pairs of superalloy arm guards" },
+    "description": "A full assembly of medieval arm protection, made from cutting-edge superalloy.  Rerebraces, couters, and vambraces, with leather straps to secure each piece and connect it as part of a set.",
+    "material": [ "superalloy", "leather" ],
+    "color": "light_cyan",
+    "//": "Superalloy armor uses 5 less encumbrance than base item",
+    "encumbrance": 15,
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
     "id": "armguard_metal",
     "type": "ARMOR",
     "name": { "str": "pair of metal arm guards", "str_pl": "pairs of metal arm guards" },
@@ -173,7 +185,8 @@
     "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+    "valid_mods": [ "resized_large" ],
+    "flags": [ "BELTED", "OVERSIZE", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_scrap",
@@ -257,7 +270,7 @@
     "covers": [ "arms" ],
     "coverage": 30,
     "material_thickness": 5,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -280,7 +293,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ]
   }
 ]

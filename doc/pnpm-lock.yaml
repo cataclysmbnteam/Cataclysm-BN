@@ -12,8 +12,8 @@ dependencies:
     specifier: ^3.0.12
     version: 3.0.12(@types/node@20.5.9)
   sharp:
-    specifier: ^0.32.5
-    version: 0.32.5
+    specifier: ^0.32.6
+    version: 0.32.6
   starlight-links-validator:
     specifier: ^0.3.0
     version: 0.3.0(@astrojs/starlight@0.9.1)(astro@3.0.12)
@@ -32,8 +32,8 @@ devDependencies:
     specifier: ^3.0.0
     version: 3.0.0
   vite:
-    specifier: ^4.4.12
-    version: 4.4.12(@types/node@20.5.9)
+    specifier: ^4.5.2
+    version: 4.5.2(@types/node@20.5.9)
 
 packages:
 
@@ -1165,13 +1165,13 @@ packages:
       undici: 5.26.3
       unist-util-visit: 4.1.2
       vfile: 5.3.7
-      vite: 4.4.12(@types/node@20.5.9)
-      vitefu: 0.2.4(vite@4.4.12)
+      vite: 4.5.2(@types/node@20.5.9)
+      vitefu: 0.2.4(vite@4.5.2)
       which-pm: 2.1.1
       yargs-parser: 21.1.1
       zod: 3.21.1
     optionalDependencies:
-      sharp: 0.32.5
+      sharp: 0.32.6
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -3426,8 +3426,8 @@ packages:
     resolution: {integrity: sha512-rb+9B5YBIEzYcD6x2VKidaa+cqYBJQKnU4oe4E3ANwRRN56yk/ua1YCJT1n21NTS8w6CcOclAKNP3PhdCXKYtQ==}
     dev: false
 
-  /sharp@0.32.5:
-    resolution: {integrity: sha512-0dap3iysgDkNaPOaOL4X/0akdu0ma62GcdC2NBQ+93eqpePdDdr2/LM0sFdDSMmN7yS+odyZtPsb7tx/cYBKnQ==}
+  /sharp@0.32.6:
+    resolution: {integrity: sha512-KyLTWwgcR9Oe4d9HwCwNM2l7+J0dUQwn/yf7S0EnTtb0eVS4RxO0eUSvxPtzT4F3SY+C4K6fqdv/DO27sJ/v/w==}
     engines: {node: '>=14.15.0'}
     requiresBuild: true
     dependencies:
@@ -3924,8 +3924,8 @@ packages:
       vfile-message: 4.0.2
     dev: false
 
-  /vite@4.4.12(@types/node@20.5.9):
-    resolution: {integrity: sha512-KtPlUbWfxzGVul8Nut8Gw2Qe8sBzWY+8QVc5SL8iRFnpnrcoCaNlzO40c1R6hPmcdTwIPEDkq0Y9+27a5tVbdQ==}
+  /vite@4.5.2(@types/node@20.5.9):
+    resolution: {integrity: sha512-tBCZBNSBbHQkaGyhGCDUGqeo2ph8Fstyp6FMSvTtsXeZSPpSMGlviAOav2hxVTqFcx8Hj/twtWKsMJXNY0xI8w==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
@@ -3959,7 +3959,7 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
 
-  /vitefu@0.2.4(vite@4.4.12):
+  /vitefu@0.2.4(vite@4.5.2):
     resolution: {integrity: sha512-fanAXjSaf9xXtOOeno8wZXIhgia+CZury481LsDaV++lSvcU2R9Ch2bPh3PYFyoHW+w9LqAeYRISVQjUIew14g==}
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0
@@ -3967,7 +3967,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.4.12(@types/node@20.5.9)
+      vite: 4.5.2(@types/node@20.5.9)
     dev: false
 
   /vscode-oniguruma@1.7.0:

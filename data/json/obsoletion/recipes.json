@@ -660,11 +660,6 @@
   },
   {
     "type": "recipe",
-    "result": "bio_batteries",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bio_blood_filteruncraft",
     "obsolete": true
   },
@@ -675,17 +670,7 @@
   },
   {
     "type": "recipe",
-    "result": "bio_evap",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bio_face_maskuncraft",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_flashlight",
     "obsolete": true
   },
   {
@@ -720,22 +705,7 @@
   },
   {
     "type": "recipe",
-    "result": "bio_power_storage",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_power_storage_mkII",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bio_recycleruncraft",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_water_extractor",
     "obsolete": true
   },
   {
@@ -2090,26 +2060,6 @@
   },
   {
     "type": "recipe",
-    "result": "bio_armor_head",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_armor_arms",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_armor_torso",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_armor_legs",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "years_old_newspaperuncraft",
     "obsolete": true
   },
@@ -3192,6 +3142,77 @@
   {
     "type": "recipe",
     "result": "i4_combustionuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mask_fsurvivorxl",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mask_survivorxl",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mask_wsurvivorxl",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mask_h20survivorxl",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "boots_xlsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gloves_xlsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_xlsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hood_xlsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jumpsuit_xl",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jumpsuit_xl",
+    "id_suffix": "from_jumpsuit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xlsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xlhsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xlsasurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leg_warmers_xl",
     "obsolete": true
   }
 ]

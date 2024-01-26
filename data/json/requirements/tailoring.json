@@ -7,13 +7,6 @@
     "components": [ [ [ "acidchitin_piece", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
   },
   {
-    "id": "armor_chainmail_assembling",
-    "type": "requirement",
-    "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
-    "components": [ [ [ "link_sheet", 1 ] ], [ [ "chain_link", 25 ] ] ]
-  },
-  {
     "id": "armor_chitin",
     "type": "requirement",
     "//": "Shaping and attaching a chitin plate to something, per 90 g of chitin.  Time needed is 10 minutes per unit.",

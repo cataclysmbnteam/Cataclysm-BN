@@ -432,7 +432,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
 static bool check_butcher_cbm( const int roll )
 {
     // Success rate for dissection rolls, simple percentage roll
-    // +10% per fine cutting quality, +10% per 2 levels of first aid, +10% per 4 levels of electronics
+    // +10% per fine cutting quality, +10% per 2 levels of first aid and electronics
     // Additional, small randomized bonus/penalty if dexterity is above/below average
     // Roll is reduced by corpse damage level (up to -4), minimum of 10% success chance
     add_msg( m_debug, _( "Roll = %i" ), roll );
@@ -1166,14 +1166,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return;
     }
 
-    int skill_level = p->get_skill_level( skill_survival ) / 2;
+    int skill_level = p->get_skill_level( skill_survival );
     int factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE :
                                   qual_BUTCHER );
 
     // DISSECT has special case factor calculation and results.
     if( action == DISSECT ) {
         skill_level = p->get_skill_level( skill_firstaid ) / 2;
-        skill_level += p->get_skill_level( skill_electronics ) / 4;
+        skill_level += p->get_skill_level( skill_electronics ) / 2;
         skill_level += inv.max_quality( qual_CUT_FINE );
         add_msg( m_debug, _( "Skill: %s" ), skill_level );
     }
@@ -3580,10 +3580,12 @@ void activity_handlers::plant_seed_finish( player_activity *act, player *p )
         }
         used_seed.front()->set_flag( flag_HIDDEN_ITEM );
         here.add_item_or_charges( examp, std::move( used_seed.front() ) );
-        if( here.has_flag_furn( flag_PLANTABLE, examp ) ) {
+        if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) ) {
             here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
-        } else {
+        } else if( seed_id->seed->required_terrain_flag == flag_PLANTABLE ) {
             here.set( examp, t_dirt, f_plant_seed );
+        } else {
+            here.furn_set( examp, f_plant_seed );
         }
         p->add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
                                   item::nname( seed_id ) );

@@ -12,7 +12,7 @@
       "X": "t_chainfence",
       "G": "t_chaingate_c",
       ".": "t_thconc_floor",
-      "|": "t_wall_w",
+      "|": "t_brick_wall",
       "-": "t_wall_w",
       "/": "t_strconc_wall",
       "_": "t_pavement",
@@ -28,6 +28,7 @@
       "s": "t_sidewalk",
       "{": "t_sidewalk",
       "I": "t_column",
+      "i": "t_elevator",
       "b": [ [ "t_brick_wall", 100 ], "t_pit_shallow" ],
       "F": "t_fence_barbed",
       "f": "t_fence_wire",
@@ -39,7 +40,7 @@
       "g": "t_reinforced_glass_shutter",
       ">": "t_stairs_down",
       "<": "t_stairs_up",
-      "w": "t_window_domestic",
+      "w": "t_window_bars_curtains",
       "]": "t_bars",
       "(": "t_door_bar_locked",
       ")": [ "t_door_bar_c", "t_door_bar_o", "t_door_bar_locked" ],
@@ -58,7 +59,9 @@
       "'": "t_console_broken",
       "0": "t_console",
       "@": "t_rock",
-      "~": "t_gutter_downspout"
+      "~": "t_gutter_downspout",
+      "α": "t_elevator_control",
+      "ω": "t_thconc_floor_olight"
     },
     "furniture": {
       "}": "f_rubble",

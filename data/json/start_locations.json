@@ -444,8 +444,27 @@
   {
     "type": "start_location",
     "id": "sloc_military_base_warehouse",
+    "//": "Obsoleted, may be dangerous to start in due to robot spawns",
     "name": "Military Base Warehouse",
     "terrain": [ "mil_base_2g" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_military_base_barracks",
+    "name": "Barracks",
+    "terrain": [ "mil_base_2d", "mil_base_2e", "mil_base_3d", "mil_base_3e", "mil_base_5c", "mil_base_6c", "mil_base_7c" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_military_base_mess_hall",
+    "name": "Mess Hall",
+    "terrain": [ "mil_base_2f", "mil_base_3f" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_military_base_communications_center",
+    "name": "Communications Center",
+    "terrain": [ "mil_base_3h" ]
   },
   {
     "type": "start_location",

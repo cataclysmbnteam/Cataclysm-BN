@@ -22,6 +22,7 @@
       "max_weight": "400 g",
       "flags": [ "BELT_CLIP" ]
     },
+    "valid_mods": [ "resized_large" ],
     "flags": [ "WAIST", "WATER_FRIENDLY", "STURDY" ]
   },
   {

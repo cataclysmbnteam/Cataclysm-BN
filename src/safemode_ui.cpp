@@ -284,14 +284,14 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
         } else if( action == "ADD_DEFAULT_RULESET" ) {
             changes_made = true;
-            current_tab.emplace_back( "*", true, false, Creature::A_HOSTILE,
+            current_tab.emplace_back( "*", true, false, Attitude::A_HOSTILE,
                                       get_option<int>( "SAFEMODEPROXIMITY" )
                                       , HOSTILE_SPOTTED );
-            current_tab.emplace_back( "*", true, true, Creature::A_HOSTILE, 5, SOUND );
+            current_tab.emplace_back( "*", true, true, Attitude::A_HOSTILE, 5, SOUND );
             line = current_tab.size() - 1;
         } else if( action == "ADD_RULE" ) {
             changes_made = true;
-            current_tab.emplace_back( "", true, false, Creature::A_HOSTILE,
+            current_tab.emplace_back( "", true, false, Attitude::A_HOSTILE,
                                       get_option<int>( "SAFEMODEPROXIMITY" ), HOSTILE_SPOTTED );
             line = current_tab.size() - 1;
         } else if( action == "REMOVE_RULE" && !current_tab.empty() ) {
@@ -390,17 +390,20 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             } else if( column == COLUMN_ATTITUDE ) {
                 auto &attitude = current_tab[line].attitude;
                 switch( attitude ) {
-                    case Creature::A_HOSTILE:
-                        attitude = Creature::A_NEUTRAL;
+                    case Attitude::A_HOSTILE:
+                        attitude = Attitude::A_NEUTRAL;
                         break;
-                    case Creature::A_NEUTRAL:
-                        attitude = Creature::A_FRIENDLY;
+                    case Attitude::A_NEUTRAL:
+                        attitude = Attitude::A_FRIENDLY;
                         break;
-                    case Creature::A_FRIENDLY:
-                        attitude = Creature::A_ANY;
+                    case Attitude::A_FRIENDLY:
+                        attitude = Attitude::A_ANY;
                         break;
-                    case Creature::A_ANY:
-                        attitude = Creature::A_HOSTILE;
+                    case Attitude::A_ANY:
+                        attitude = Attitude::A_HOSTILE;
+                        break;
+                    case Attitude::NUM_A:
+                        attitude = Attitude::A_NEUTRAL;
                 }
             } else if( column == COLUMN_PROXIMITY && ( current_tab[line].category == SOUND ||
                        !current_tab[line].whitelist ) ) {
@@ -595,7 +598,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     }
 }
 
-void safemode::add_rule( const std::string &rule_in, const Creature::Attitude attitude_in,
+void safemode::add_rule( const std::string &rule_in, const Attitude attitude_in,
                          const int proximity_in,
                          const rule_state state_in )
 {
@@ -610,7 +613,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
     }
 }
 
-bool safemode::has_rule( const std::string &rule_in, const Creature::Attitude attitude_in )
+bool safemode::has_rule( const std::string &rule_in, const Attitude attitude_in )
 {
     for( auto &elem : character_rules ) {
         if( rule_in.length() == elem.rule.length()
@@ -622,7 +625,7 @@ bool safemode::has_rule( const std::string &rule_in, const Creature::Attitude at
     return false;
 }
 
-void safemode::remove_rule( const std::string &rule_in, const Creature::Attitude attitude_in )
+void safemode::remove_rule( const std::string &rule_in, const Attitude attitude_in )
 {
     for( auto it = character_rules.begin();
          it != character_rules.end(); ++it ) {
@@ -680,11 +683,11 @@ void safemode::add_rules( const std::vector<rules_class> &rules_in )
 
 void safemode::set_rule( const rules_class &rule_in, const std::string &name_in, rule_state rs_in )
 {
-    static std::vector<Creature::Attitude> attitude_any = { {Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY} };
+    static std::vector<Attitude> attitude_any = { {Attitude::A_HOSTILE, Attitude::A_NEUTRAL, Attitude::A_FRIENDLY} };
     switch( rule_in.category ) {
         case HOSTILE_SPOTTED:
             if( !rule_in.rule.empty() && rule_in.active && wildcard_match( name_in, rule_in.rule ) ) {
-                if( rule_in.attitude == Creature::A_ANY ) {
+                if( rule_in.attitude == Attitude::A_ANY ) {
                     for( auto &att : attitude_any ) {
                         safemode_rules_hostile[name_in][att] = rule_state_class( rs_in, rule_in.proximity,
                                                                HOSTILE_SPOTTED );
@@ -704,7 +707,7 @@ void safemode::set_rule( const rules_class &rule_in, const std::string &name_in,
 }
 
 rule_state safemode::check_monster( const std::string &creature_name_in,
-                                    const Creature::Attitude attitude_in,
+                                    const Attitude attitude_in,
                                     const int proximity_in ) const
 {
     const auto iter = safemode_rules_hostile.find( creature_name_in );
@@ -845,7 +848,7 @@ void safemode::deserialize( JsonIn &jsin )
         const std::string rule = jo.get_string( "rule" );
         const bool active = jo.get_bool( "active" );
         const bool whitelist = jo.get_bool( "whitelist" );
-        const Creature::Attitude attitude = static_cast<Creature::Attitude>( jo.get_int( "attitude" ) );
+        const Attitude attitude = static_cast<Attitude>( jo.get_int( "attitude" ) );
         const int proximity = jo.get_int( "proximity" );
         const Categories cat = jo.has_member( "category" ) ? static_cast<Categories>
                                ( jo.get_int( "category" ) ) : HOSTILE_SPOTTED;

@@ -1,17 +1,28 @@
 #ifdef LUA
 #include "catalua_bindings.h"
 
+#include "activity_type.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "catalua_luna_doc.h"
 #include "catalua_luna.h"
+#include "disease.h"
 #include "effect.h"
 #include "faction.h"
 #include "field_type.h"
+#include "flag.h"
+#include "flag_trait.h"
 #include "itype.h"
 #include "json.h"
 #include "mapdata.h"
+#include "martialarts.h"
+#include "monfaction.h"
+#include "monstergenerator.h"
+#include "morale_types.h"
+#include "mutation.h"
+#include "recipe.h"
+#include "skill.h"
 #include "type_id.h"
-
 
 template<typename T, bool do_int_id>
 void reg_id( sol::state &lua )
@@ -93,13 +104,27 @@ void cata::detail::reg_game_ids( sol::state &lua )
     // Some already may have them, but for the rest you can do it
     // with LUA_TYPE_OPS macro.
 
-    reg_id<faction, false>( lua );
-    reg_id<itype, false>( lua );
-    reg_id<ter_t, true>( lua );
-    reg_id<furn_t, true>( lua );
+    reg_id<activity_type, false>( lua );
+    reg_id<bionic_data, false>( lua );
     reg_id<body_part_type, true>( lua );
+    reg_id<disease_type, false>( lua );
     reg_id<effect_type, false>( lua );
+    reg_id<faction, false>( lua );
     reg_id<field_type, true>( lua );
+    reg_id<furn_t, true>( lua );
+    reg_id<itype, false>( lua );
+    reg_id<json_flag, false>( lua );
+    reg_id<json_trait_flag, false>( lua );
+    reg_id<ma_buff, false>( lua );
+    reg_id<monfaction, true>( lua );
+    reg_id<morale_type_data, false>( lua );
+    reg_id<mutation_branch, false>( lua );
+    reg_id<mutation_category_trait, false>( lua );
+    reg_id<recipe, false>( lua );
+    reg_id<Skill, false>( lua );
+    reg_id<species_type, false>( lua );
+    reg_id<ter_t, true>( lua );
+
 }
 
 void cata::detail::reg_types( sol::state &lua )

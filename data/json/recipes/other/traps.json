@@ -137,11 +137,11 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "components": [ [ [ "tripwire", 1 ] ], [ [ "crossbow", 1 ] ], [ [ "bolt_steel", 1 ], [ "bolt_wood", 4 ] ] ]
+    "components": [ [ [ "tripwire", 1 ] ], [ [ "crossbow", 1 ] ], [ [ "bolt_steel", 1 ], [ "bolt_wood", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "shotgun_trap",
+    "result": "shotgun_trap_single",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
     "skill_used": "traps",
@@ -150,6 +150,20 @@
     "time": "5 m",
     "reversible": true,
     "decomp_learn": 2,
+    "autolearn": true,
+    "components": [ [ [ "tripwire", 1 ] ], [ [ "shotgun_s", 1 ] ], [ [ "shot_00", 1 ], [ "shot_slug", 1 ], [ "shot_flechette", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "shotgun_trap",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TRAPS",
+    "skill_used": "traps",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "time": "5 m",
+    "reversible": true,
+    "decomp_learn": 3,
     "autolearn": true,
     "components": [ [ [ "tripwire", 1 ] ], [ [ "shotgun_d", 1 ] ], [ [ "shot_00", 2 ], [ "shot_slug", 2 ], [ "shot_flechette", 2 ] ] ]
   },

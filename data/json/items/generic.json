@@ -196,7 +196,8 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "114 g",
     "volume": "250 ml",
-    "category": "spare_parts"
+    "category": "spare_parts",
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -223,7 +224,8 @@
     "weight": "100 g",
     "volume": "250 ml",
     "category": "spare_parts",
-    "to_hit": -1
+    "to_hit": -1,
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -239,7 +241,8 @@
     "weight": "100 g",
     "volume": "250 ml",
     "category": "spare_parts",
-    "to_hit": -1
+    "to_hit": -1,
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -254,7 +257,8 @@
     "material": [ "nomex" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "42 g",
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -270,7 +274,8 @@
     "weight": "45 g",
     "volume": "250 ml",
     "to_hit": -2,
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [ "UNRECOVERABLE" ],
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -367,8 +372,8 @@
     "description": "Cotton rags, bundled tightly together for storage.  Activate or disassemble to unpack.",
     "weight": "800 g",
     "volume": "750 ml",
-    "price": 0,
-    "price_postapoc": 5,
+    "price": "0 cent",
+    "price_postapoc": "5 cent",
     "material": "cotton",
     "symbol": ",",
     "color": "white",
@@ -383,8 +388,8 @@
     "description": "Leather patches, bundled tightly together for storage.  Disassemble to unpack.",
     "weight": "1000 g",
     "volume": "1 L",
-    "price": 20000,
-    "price_postapoc": 50,
+    "price": "200 USD",
+    "price_postapoc": "50 cent",
     "material": "leather",
     "symbol": ",",
     "color": "brown",
@@ -399,8 +404,8 @@
     "description": "Felt patches, bundled tightly together for storage.  Disassemble to unpack.",
     "weight": "1000 g",
     "volume": "1 L",
-    "price": 20000,
-    "price_postapoc": 50,
+    "price": "200 USD",
+    "price_postapoc": "50 cent",
     "material": "wool",
     "symbol": ",",
     "color": "white",
@@ -623,7 +628,8 @@
     "material": "steel",
     "weight": "151 g",
     "volume": "500 ml",
-    "to_hit": -2
+    "to_hit": -2,
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -637,7 +643,8 @@
     "material": "steel",
     "weight": "302 g",
     "volume": "500 ml",
-    "to_hit": -2
+    "to_hit": -2,
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -669,7 +676,8 @@
     "volume": "1500 ml",
     "bashing": 12,
     "to_hit": -1,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -1658,7 +1666,7 @@
     "price": "80 USD",
     "price_postapoc": "1 USD",
     "material": "ceramic",
-    "weight": "362 g",
+    "weight": "500 g",
     "volume": "500 ml",
     "bashing": 4
   },
@@ -1677,16 +1685,37 @@
     "to_hit": -6
   },
   {
+    "abstract": "rag_abstract",
+    "type": "GENERIC",
+    "name": { "str": "rag" },
+    "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.  It's a bug if you see this.",
+    "category": "spare_parts",
+    "weight": "80 g",
+    "volume": "250 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": "cotton",
+    "symbol": ",",
+    "color": "white",
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
+  },
+  {
+    "id": "rag",
+    "type": "GENERIC",
+    "name": { "str": "rag" },
+    "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
+    "copy-from": "rag_abstract",
+    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 }, "WASH_HARD_ITEMS" ]
+  },
+  {
     "type": "GENERIC",
     "id": "rag_bloody",
-    "symbol": ",",
+    "copy-from": "rag_abstract",
     "color": "red",
     "name": { "str": "blood soaked rag" },
     "description": "A large rag, drenched in blood.  It could be cleaned with boiling water.",
-    "material": "cotton",
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
-    "weight": "80 g",
-    "volume": "250 ml"
+    "extend": { "flags": "TRADER_AVOID" }
   },
   {
     "id": "pipe_cleaner",
@@ -1695,8 +1724,8 @@
     "description": "This is a tool designed to clean interior surface of pipes, bottles, and similar objects.  This one is thin enough to be used for cleaning firearm barrels from dirt and fouling.",
     "weight": "50 g",
     "volume": "250 ml",
-    "price": 500,
-    "price_postapoc": 50,
+    "price": "5 USD",
+    "price_postapoc": "50 cent",
     "material": [ "steel", "cotton" ],
     "symbol": ";",
     "color": "light_gray",
@@ -2651,7 +2680,8 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "80 g",
     "volume": "250 ml",
-    "category": "spare_parts"
+    "category": "spare_parts",
+    "stackable": true
   },
   {
     "id": "cerberus_laser",
@@ -2861,8 +2891,8 @@
     "color": "white",
     "name": { "str": "in progress craft" },
     "description": "This is an in progress craft.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "weight": "1 g",
     "volume": "250 ml",
     "use_action": "CRAFT",
@@ -3008,8 +3038,8 @@
     "description": "A small box filled with tools and items to help you survive in case of an emergency.  Disassemble to get its content.",
     "weight": "1612 g",
     "volume": "1 L",
-    "price": 5000,
-    "price_postapoc": 250,
+    "price": "50 USD",
+    "price_postapoc": "250 cent",
     "material": "aluminum",
     "symbol": "!",
     "color": "green",

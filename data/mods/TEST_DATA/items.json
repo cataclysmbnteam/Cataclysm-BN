@@ -147,7 +147,7 @@
     "description": "This is a large, two-handed pickhead axe normally used by firefighters.  It makes a powerful melee weapon, but is a bit slow to recover between swings.",
     "weight": "2520 g",
     "volume": "2 L",
-    "price": 20000,
+    "price": "200 USD",
     "to_hit": 1,
     "bashing": 20,
     "cutting": 20,

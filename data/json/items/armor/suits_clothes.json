@@ -68,7 +68,7 @@
     "warmth": 50,
     "material_thickness": 5,
     "environmental_protection": 2,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "OUTER" ]
   },
   {
@@ -92,28 +92,6 @@
     "warmth": 15,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "POCKETS" ]
-  },
-  {
-    "id": "jumpsuit_xl",
-    "type": "ARMOR",
-    "name": { "str": "XL jumpsuit" },
-    "description": "A thin, short-sleeved jumpsuit updated for the trans-human who needs full-body clothing.  Provides some storage and is adjustable to minimize encumbrance.",
-    "weight": "810 g",
-    "volume": "5 L",
-    "price": "200 USD",
-    "price_postapoc": "50 cent",
-    "to_hit": -3,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "jumpsuit",
-    "color": "yellow",
-    "covers": [ "legs", "arms", "torso" ],
-    "coverage": 95,
-    "encumbrance": 2,
-    "storage": "2500 ml",
-    "warmth": 15,
-    "material_thickness": 1,
-    "flags": [ "POCKETS", "OVERSIZE" ]
   },
   {
     "id": "robofac_jumpsuit",
@@ -189,7 +167,7 @@
     "warmth": 50,
     "material_thickness": 7,
     "environmental_protection": 2,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "OUTER" ]
   },
   {

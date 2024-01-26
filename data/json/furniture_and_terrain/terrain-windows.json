@@ -9,7 +9,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 3,
@@ -142,7 +142,7 @@
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
-    "delete": { "flags": [ "TRANSPARENT", "REDUCE_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL" ] },
+    "delete": { "flags": [ "TRANSPARENT", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL" ] },
     "extend": { "flags": [ "WALL" ] },
     "bash": {
       "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ],
@@ -182,7 +182,7 @@
     "color": "light_gray",
     "move_cost": 4,
     "extend": { "flags": [ "OPENCLOSE_INSIDE", "MOUNTABLE", "THIN_OBSTACLE", "SMALL_PASSAGE", "WINDOW" ] },
-    "delete": { "flags": [ "REDUCE_SCENT", "BARRICADABLE_WINDOW", "BLOCK_WIND" ] },
+    "delete": { "flags": [ "NO_SCENT", "BARRICADABLE_WINDOW", "BLOCK_WIND" ] },
     "curtain_transform": "t_window_no_curtains",
     "examine_action": "curtains",
     "close": "t_window_domestic",
@@ -206,7 +206,7 @@
     "move_cost": 0,
     "coverage": 95,
     "extend": { "flags": [ "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "WINDOW" ] },
-    "delete": { "flags": [ "TRANSPARENT", "REDUCE_SCENT", "BARRICADABLE_WINDOW" ] },
+    "delete": { "flags": [ "TRANSPARENT", "BARRICADABLE_WINDOW" ] },
     "curtain_transform": "t_window_no_curtains",
     "open": "t_window_domestic",
     "examine_action": "curtains",
@@ -361,7 +361,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "NO_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 3,
       "str_max": 30,
@@ -384,7 +384,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "NO_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 30,
@@ -432,7 +432,7 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "rebar", "count": [ 1, 4 ] } ]
     },
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "NO_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "oxytorch": {
       "result": "t_window_empty",
       "duration": "4 seconds",
@@ -543,15 +543,7 @@
     },
     "roof": "t_flat_roof",
     "oxytorch": { "result": "t_window_domestic", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
-    "flags": [
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
+    "flags": [ "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "NO_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
     "open": "t_window_bars_domestic",
@@ -593,7 +585,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -625,7 +617,7 @@
     "color": "light_green",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
@@ -644,7 +636,7 @@
     "color": "light_red",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
@@ -663,7 +655,7 @@
     "color": "light_blue",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
@@ -701,7 +693,7 @@
       "BARRICADABLE_WINDOW",
       "THIN_OBSTACLE",
       "BLOCK_WIND",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "WINDOW"
     ],
     "deconstruct": {
@@ -743,7 +735,7 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
     },
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "NO_SCENT", "WINDOW" ],
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
     "open": "t_metal_grate_window_with_curtain_open",
@@ -782,7 +774,7 @@
       "THIN_OBSTACLE",
       "BARRICADABLE_WINDOW_CURTAINS",
       "BLOCK_WIND",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "WINDOW"
     ],
     "oxytorch": {
@@ -969,7 +961,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1047,7 +1039,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -1093,7 +1085,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1186,7 +1178,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1264,7 +1256,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -1310,7 +1302,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1403,7 +1395,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1481,7 +1473,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -1527,7 +1519,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1620,7 +1612,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1699,7 +1691,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -1745,6 +1737,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "MOUNTABLE",
+      "NO_SCENT",
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
@@ -1840,7 +1833,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1918,7 +1911,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -1964,7 +1957,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -2057,7 +2050,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -2135,7 +2128,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -2181,6 +2174,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "MOUNTABLE",
+      "NO_SCENT",
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
@@ -2276,7 +2270,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -2352,7 +2346,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -2398,7 +2392,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -2491,7 +2485,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -2569,7 +2563,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -2663,6 +2657,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "MOUNTABLE",
+      "NO_SCENT",
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
@@ -3167,7 +3162,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -3244,7 +3239,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -3290,7 +3285,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -3376,7 +3371,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_metal_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BLOCK_WIND", "NO_SCENT" ],
     "bash": {
       "str_min": 50,
       "str_max": 75,

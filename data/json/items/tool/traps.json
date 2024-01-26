@@ -219,10 +219,10 @@
     "id": "shotgun_trap",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "shotgun trap" },
-    "description": "This is a simple tripwire is attached to the trigger of a loaded double-barreled shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
-    "weight": "2922 g",
-    "volume": "1750 ml",
+    "name": { "str": "double-barreled shotgun trap" },
+    "description": "This is a simple tripwire is attached to the trigger of a loaded double-barreled shotgun.  When pulled, the shotgun fires, discharging both barrels into the target.",
+    "weight": "3500 g",
+    "volume": "3 L",
     "price": "250 USD",
     "price_postapoc": "10 USD",
     "to_hit": -2,
@@ -233,6 +233,22 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_shotgun_2",
+      "moves": 225,
+      "practice": 5,
+      "done_message": "You set the shotgun trap."
+    }
+  },
+  {
+    "id": "shotgun_trap_single",
+    "copy-from": "shotgun_trap",
+    "type": "GENERIC",
+    "name": { "str": "shotgun trap" },
+    "description": "This is a simple tripwire is attached to the trigger of a loaded single-barreled shotgun.  When pulled, the shotgun fires.",
+    "weight": "2600 g",
+    "volume": "2500 ml",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_shotgun_1",
       "moves": 225,
       "practice": 5,
       "done_message": "You set the shotgun trap."

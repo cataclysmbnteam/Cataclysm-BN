@@ -313,18 +313,70 @@
   },
   {
     "type": "item_group",
+    "id": "npc_bashing",
+    "items": [ { "group": "survivor_bashing", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_cutting",
+    "items": [ { "group": "survivor_cutting", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
     "id": "npc_stabbing",
     "items": [ { "group": "survivor_knife", "prob": 20 }, { "group": "survivor_stabbing", "prob": 80 } ]
   },
   {
     "type": "item_group",
+    "id": "npc_pistol",
+    "items": [ { "group": "guns_pistol_common", "prob": 75 }, { "group": "guns_pistol_improvised", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_shotgun",
+    "items": [ { "group": "guns_shotgun_common", "prob": 75 }, { "group": "guns_shotgun_improvised", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_rifle",
+    "items": [
+      [ "crossbow", 15 ],
+      [ "compcrossbow", 10 ],
+      { "group": "guns_rifle_common", "prob": 50 },
+      { "group": "guns_rifle_improvised", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_smg",
+    "items": [ { "group": "guns_smg_common", "prob": 25 }, { "group": "guns_smg_improvised", "prob": 25 }, [ "null", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_launcher",
+    "items": [ { "group": "guns_launcher_improvised", "prob": 15 }, [ "m79", 10 ], [ "null", 75 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "npc_throw",
-    "items": [ [ "throwing_knife", 7 ], [ "throwing_axe", 4 ] ]
+    "items": [
+      [ "slingshot", 15 ],
+      [ "wristrocket", 10 ],
+      [ "sling", 15 ],
+      [ "staff_sling", 10 ],
+      [ "throwing_knife", 30 ],
+      [ "throwing_axe", 20 ]
+    ]
   },
   {
     "type": "item_group",
     "id": "npc_archery",
-    "items": [ [ "crossbow", 50 ] ]
+    "items": [ [ "shortbow", 50 ], [ "compbow", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_unarmed",
+    "items": [ [ "knuckle_brass", 25 ], [ "punch_dagger", 25 ], [ "null", 50 ] ]
   },
   {
     "type": "item_group",

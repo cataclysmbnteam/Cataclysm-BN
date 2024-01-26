@@ -1708,7 +1708,7 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
                 }
             } else {
                 for( int i = 0; i < amount; i++ ) {
-                    here.spawn_an_item( pos.xy(), item::spawn( result ), amount, 0 );
+                    here.add_item_or_charges( pos, item::spawn( result ) );
                 }
             }
         } else {
@@ -3767,20 +3767,26 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
         }
     }
 
+    const auto copy_flags = [&]( item & it ) {
+        for( const auto &flag : used_up_item_flags ) {
+            it.set_flag( flag );
+        }
+    };
+
+    // TODO: make this less cursed
     if( !used_up_item_id.is_empty() ) {
         // If the item is a tool, `make` it the new form
         // Otherwise it probably was consumed, so create a new one
-        if( it.is_tool() ) {
+        if( it.is_tool() || ( it.count_by_charges() && it.charges <= used_up_item_charges ) ) {
             it.convert( used_up_item_id );
-            for( const auto &flag : used_up_item_flags ) {
-                it.set_flag( flag );
-            }
+            copy_flags( it );
         } else {
+            if( it.count_by_charges() && it.charges > used_up_item_charges ) {
+                it.charges -= used_up_item_charges;
+            }
             item *used_up = item::spawn_temporary( used_up_item_id, it.birthday() );
             used_up->charges = used_up_item_charges;
-            for( const auto &flag : used_up_item_flags ) {
-                used_up->set_flag( flag );
-            }
+            copy_flags( *used_up );
             for( int count = 0; count < used_up_item_quantity; count++ ) {
                 healer.i_add_or_drop( item::spawn( *used_up ) );
             }
@@ -4787,7 +4793,10 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     const inventory &crafting_inv = p.crafting_inventory();
     // Go through all discovered repair items and see if we have any of them available
     for( auto &cm : clothing_mods::get_all() ) {
-        has_enough[cm.item_string] = crafting_inv.has_amount( cm.item_string, items_needed );
+        has_enough[cm.item_string] =
+            item::count_by_charges( cm.item_string )
+            ? crafting_inv.has_charges( cm.item_string, items_needed )
+            : crafting_inv.has_amount( cm.item_string, items_needed );
     }
 
     int mod_count = 0;
@@ -4801,6 +4810,10 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     std::vector<std::string> valid_mods;
     if( mod.find_armor_data() ) {
         valid_mods = mod.find_armor_data()->valid_mods;
+    }
+
+    if( mod.has_flag( flag_VARSIZE ) && !mod.has_flag( flag_OVERSIZE ) ) {
+        valid_mods.push_back( "resized_large" );
     }
 
     const auto get_compare_color = [&]( const int before, const int after,
@@ -4831,15 +4844,15 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
         bool enab = false;
         std::string prompt;
+        // TODO: Fix for UTF-8 strings
+        // TODO: find other places where this is used and make a global function for all
+        static const auto tolower = []( std::string t ) {
+            if( !t.empty() ) {
+                t.front() = std::tolower( t.front() );
+            }
+            return t;
+        };
         if( !mod.has_own_flag( obj.flag ) ) {
-            // TODO: Fix for UTF-8 strings
-            // TODO: find other places where this is used and make a global function for all
-            static const auto tolower = []( std::string t ) {
-                if( !t.empty() ) {
-                    t.front() = std::tolower( t.front() );
-                }
-                return t;
-            };
             // Mod not already present, check if modification is possible
             if( obj.restricted &&
                 std::find( valid_mods.begin(), valid_mods.end(), obj.flag.str() ) == valid_mods.end() ) {
@@ -4855,17 +4868,25 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ), tolower( obj.implement_prompt ),
                                         items_needed, item::nname( obj.item_string, items_needed ) );
             } else {
-                // Modification is possible
-                enab = true;
-                //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
-                prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ), tolower( obj.implement_prompt ),
-                                        items_needed, item::nname( obj.item_string, items_needed ), thread_needed );
+                // Modification is possible unless we're wearing it and doing so would make it not fit
+                if( p.is_worn( mod ) && !p.can_wear( temp_item ).success() ) {
+                    prompt = string_format( _( "Can't %s while wearing it" ), tolower( obj.implement_prompt ) );
+                } else {
+                    enab = true;
+                    //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
+                    prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ), tolower( obj.implement_prompt ),
+                                            items_needed, item::nname( obj.item_string, items_needed ), thread_needed );
+                }
             }
 
         } else {
-            // Mod already present, give option to destroy
-            enab = true;
-            prompt = _( obj.destroy_prompt );
+            // Mod already present, give option to destroy, unless we're wearing it and doing so would make it not fit
+            if( p.is_worn( mod ) && !p.can_wear( temp_item ).success() ) {
+                prompt = string_format( _( "Can't %s while wearing it" ), tolower( obj.destroy_prompt ) );
+            } else {
+                enab = true;
+                prompt = _( obj.destroy_prompt );
+            }
         }
         std::string desc;
         desc += format_desc_string( _( "Bash" ), mod.bash_resist(), temp_item.bash_resist(), true );

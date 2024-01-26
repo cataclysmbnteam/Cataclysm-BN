@@ -53,6 +53,7 @@
       [ "RIFLES" ],
       [ "MACHINE_GUNS" ],
       [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
       [ "BOWS" ],
       [ "S_XBOWS" ],
       [ "M_XBOWS" ],

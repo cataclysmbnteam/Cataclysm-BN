@@ -23,6 +23,7 @@ enum game_message_type : int;
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class effect;
 
 /** Handles the large variety of weed messages. */
 void weed_msg( player &p );
@@ -33,6 +34,50 @@ enum effect_rating {
     e_bad,      // The effect is bad for the one who has it.
     e_mixed     // The effect has good and bad parts to the one who has it.
 };
+
+struct caused_effect {
+    public:
+        efftype_id type;
+        /** Minimum parent effect intensity to apply the new effect. */
+        int intensity_requirement = 0;
+        /** If false, prevents application if the trigger was parent decaying to 0 duration. */
+        bool allow_on_decay = true;
+        /** If false, prevents application if the trigger was parent being removed with at least 1 turn of duration left. */
+        bool allow_on_remove = false;
+
+        /**
+         * Duration of the new effect.
+         * If 0, type's max duration will be used instead.
+         * Should be left at 0 for permanent effects.
+         */
+        time_duration duration = 0_turns;
+        /**
+         * If true, duration field is ignored and parent intensity is copied.
+         * If true and parent duration was <1, the new effect will not be applied.
+         */
+        bool inherit_duration = false;
+        /** Intensity of the new effect. */
+        int intensity = 0;
+        /** If true, intensity field is ignored and parent effect intensity is copied. */
+        bool inherit_intensity = false;
+
+        bodypart_str_id bp = bodypart_str_id::NULL_ID();
+        bool inherit_body_part = true;
+
+        void load_decay( const JsonObject &jo );
+
+        auto tie() const {
+            return std::tie( type, intensity_requirement, allow_on_decay, allow_on_remove,
+                             duration, inherit_duration, intensity, inherit_intensity );
+        }
+
+        bool operator==( const caused_effect &rhs ) const {
+            return tie() == rhs.tie();
+        }
+    private:
+        void load( const JsonObject &jo );
+};
+
 
 class effect_type
 {
@@ -80,6 +125,10 @@ class effect_type
 
         /** Returns the id of morale type this effect produces. */
         morale_type get_morale_type() const;
+
+        const std::vector<caused_effect> &get_effects_on_remove() const {
+            return effects_on_remove;
+        }
 
         bool is_show_in_info() const;
 
@@ -158,6 +207,8 @@ class effect_type
         std::string blood_analysis_description;
 
         morale_type morale;
+
+        std::vector<caused_effect> effects_on_remove;
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <
@@ -308,6 +359,11 @@ class effect
         /** Returns if the effect is supposed to be handled in Creature::movement */
         bool impairs_movement() const;
 
+        /** Create a set of effects that should replace this one when it decays to 0 duration. */
+        std::vector<effect> create_decay_effects() const;
+        /** Create a set of effects that should replace this one when it is removed prematurely. */
+        std::vector<effect> create_removal_effects() const;
+
         /** Returns the effect's matching effect_type id. */
         const efftype_id &get_id() const {
             return eff_type->id;
@@ -315,6 +371,9 @@ class effect
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+
+    private:
+        std::vector<effect> create_child_effects( bool decay ) const;
 
     protected:
         const effect_type *eff_type;

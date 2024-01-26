@@ -776,8 +776,10 @@ namespace
 auto is_mountable( const map &m, const tripoint &pos ) -> bool
 {
     // usage of any attached bipod is dependent upon terrain
-    // sandbag barricades are impassable but climbable
-    if( m.climb_difficulty( pos ) <= 5 && m.has_flag_ter_or_furn( "MOUNTABLE", pos ) ) {
+    // only allow mounting passable OR climable terrain
+    // example: sandbag barricades are impassable but climbable
+    if( ( m.climb_difficulty( pos ) <= 5 || m.passable( pos ) ) &&
+        m.has_flag_ter_or_furn( "MOUNTABLE", pos ) ) {
         return true;
     }
 
@@ -2130,7 +2132,7 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
         }
 
         // TODO: get rid of fake npcs (pos() check)
-        if( &c == &critter || c.pos() == critter.pos() || c.attitude_to( critter ) == Creature::Attitude::A_FRIENDLY )
+        if( &c == &critter || c.pos() == critter.pos() || c.attitude_to( critter ) == Attitude::A_FRIENDLY )
         {
             return false;
         }
@@ -2895,10 +2897,10 @@ std::vector<weak_ptr_fast<Creature>> target_ui::list_friendlies_in_lof()
         if( p != dst && p != src ) {
             Creature *cr = g->critter_at( p, true );
             if( cr && you->sees( *cr ) ) {
-                Creature::Attitude a = cr->attitude_to( *this->you );
+                Attitude a = cr->attitude_to( *this->you );
                 if(
-                    ( cr->is_npc() && a != Creature::A_HOSTILE ) ||
-                    ( !cr->is_npc() && a == Creature::A_FRIENDLY )
+                    ( cr->is_npc() && a != Attitude::A_HOSTILE ) ||
+                    ( !cr->is_npc() && a == Attitude::A_FRIENDLY )
                 ) {
                     ret.emplace_back( g->shared_from( *cr ) );
                 }

@@ -38,7 +38,8 @@
     "encumbrance": 1,
     "warmth": 5,
     "material_thickness": 1,
-    "environmental_protection": 1
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE" ]
   },
   {
     "id": "bondage_mask",
@@ -102,7 +103,8 @@
     "coverage": 90,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "valid_mods": [ "resized_large" ]
   },
   {
     "id": "mask_bal",
@@ -180,7 +182,8 @@
     "encumbrance": 8,
     "warmth": 5,
     "material_thickness": 1,
-    "environmental_protection": 2
+    "environmental_protection": 2,
+    "valid_mods": [ "resized_large" ]
   },
   {
     "id": "mask_guy_fawkes",
@@ -202,7 +205,7 @@
     "warmth": 5,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "WATER_FRIENDLY" ]
   },
   {
@@ -227,7 +230,7 @@
     "warmth": 5,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "STURDY" ]
   },
   {
@@ -250,6 +253,6 @@
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "HELMET_COMPAT" ]
+    "flags": [ "OVERSIZE", "HELMET_COMPAT" ]
   }
 ]
