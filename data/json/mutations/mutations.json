@@ -1229,6 +1229,17 @@
   },
   {
     "type": "mutation",
+    "id": "ROBUST",
+    "name": { "str": "Robust Genetics" },
+    "points": 3,
+    "description": "You have a very strong genetic base.  Mutations gained from eating mutant flesh will balance out at a higher number of positive mutations.",
+    "starting_trait": true,
+    "cancels": [ "CHAOTIC_BAD" ],
+    "category": [ "FISH", "SLIME", "ALPHA", "MEDICAL" ],
+    "mutagen_target_modifier": 8
+  },
+  {
+    "type": "mutation",
     "id": "CHAOTIC_BAD",
     "name": { "str": "Genetic Downward Spiral" },
     "points": -12,
@@ -1236,7 +1247,8 @@
     "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, and all mutations you receive (from any source) are negative.",
     "starting_trait": true,
     "cancels": [ "ROBUST" ],
-    "valid": false
+    "valid": false,
+    "mutagen_target_modifier": -50
   },
   {
     "type": "mutation",
@@ -5640,7 +5652,9 @@
     "description": "You sometimes look back on your days before your tail came in.  But you're better now.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "//": "Based on highest of category's iv_hunger, iv_thirst, or iv_fatigue.  Most default to 10+10+5 so default value of 10",
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5650,7 +5664,8 @@
     "description": "You're sure you'll fly someday.  In the meantime, there are still nests to build.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5660,7 +5675,8 @@
     "description": "Ninety percent of the planet, and it's yours to explore.  And colonize.  And enjoy.  What was that about a surface?",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5670,7 +5686,8 @@
     "description": "It's about time you grew out.  Now that you've matured, it is time to make something of yourself.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5680,7 +5697,8 @@
     "description": "Stalking prey, eating well, and lying in the sun.  Mmm, all you could ever desire.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5690,7 +5708,8 @@
     "description": "You're the perfect candidate to lead a pack.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5701,7 +5720,8 @@
     "cancels": [ "CARNIVORE" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5711,7 +5731,8 @@
     "description": "Civilization collapsed?  Great!  You and your kin will never have to worry about a slaughterhouse again.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5721,7 +5742,8 @@
     "description": "It would be good to be a Queen, having workers constantly servicing your every need… but how would you keep them in line?",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5731,7 +5753,8 @@
     "description": "Well, you still have those other walking flowers-and the mushrooms too-to deal with.  But you'll manage.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5741,7 +5764,8 @@
     "description": "What was that old advertisement?  'Paint the planet'?  That might be a good long-term goal, but for now…",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5751,7 +5775,8 @@
     "description": "Not much point to rebuilding up in that horribly bright roofless wasteland.  Now that you've become accustomed to your new digs, there's the beginning of a great empire right here, underground.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5761,7 +5786,8 @@
     "description": "Strange aeons, true, but Death seems to be slacking, and you are doing just fine.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5771,7 +5797,8 @@
     "description": "Well, maybe you'll just have to make your own worldwide web.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5781,7 +5808,8 @@
     "description": "Hey.  Civilization fell.  You're still around.  'Rat' just isn't respectful.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5791,7 +5819,9 @@
     "description": "After all those experiments, what's a few more, hmm?",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "//": "iv_fatigue of 5, other values are lower",
+    "mutagen_target_modifier": 5
   },
   {
     "type": "mutation",
@@ -5801,7 +5831,9 @@
     "description": "You're the perfect candidate to tidy this mess.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "//": "iv_fatigue of 5, other values are lower",
+    "mutagen_target_modifier": 5
   },
   {
     "type": "mutation",
@@ -5811,7 +5843,8 @@
     "description": "You are the tree under which humankind will shelter during these dark times.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5821,7 +5854,9 @@
     "description": "You can't tell what you are anymore.  Everything and yet nothing, like you weren't meant to exist.  But you do, and you're a force, no matter what happens.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "//": "iv_hunger, iv_thirst, and iv_fatigue are all at 20",
+    "mutagen_target_modifier": 20
   },
   {
     "type": "mutation",
@@ -5831,7 +5866,8 @@
     "description": "The chance to undo not one but TWO extinction events.  You're confident you'll do fine.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5841,7 +5877,8 @@
     "description": "So much food, everywhere!  And nobody's even guarding it anymore!  These are good times.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",

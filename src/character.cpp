@@ -7123,6 +7123,7 @@ mutation_value_map = {
     { "mana_modifier", calc_mutation_value_additive<&mutation_branch::mana_modifier> },
     { "mana_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_multiplier> },
     { "mana_regen_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_regen_multiplier> },
+    { "mutagen_target_modifier", calc_mutation_value_additive<&mutation_branch::mutagen_target_modifier> },
     { "speed_modifier", calc_mutation_value_multiplicative<&mutation_branch::speed_modifier> },
     { "movecost_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier> },
     { "movecost_flatground_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier> },
