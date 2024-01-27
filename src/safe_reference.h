@@ -370,7 +370,7 @@ class safe_reference
                 sec_rec->id = REDIRECTED_MASK;
                 sec_rec->target.redirect = pri_rec;
                 pri_rec->mem_count++;
-            }else{
+            } else {
                 //This is the worse case, we actually need a redirect
                 sec_rec->id = sec_rec->id | REDIRECTED_MASK;
                 sec_rec->target.redirect = pri_rec;
