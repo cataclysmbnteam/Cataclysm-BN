@@ -353,7 +353,7 @@
         "r  "
       ],
       "palettes": [ "lab_palette" ],
-      "mapping": { "r": { "items": [ { "item": "bionics", "chance": 100, "repeat": [ 2, 4 ] } ] } }
+      "mapping": { "r": { "items": [ { "item": "bionics", "chance": 100, "repeat": [ 2, 4 ] }, { "item": "autodoc_installation_programs_advanced", "chance": 100, "repeat": [ 1, 3 ] } ] } }
     }
   }
 ]

@@ -1149,7 +1149,10 @@
         "o": { "item": "lab_bookshelves", "chance": 50 },
         "r": { "item": "chem_lab", "chance": 25 }
       },
-      "place_loot": [ { "group": "gear_medical", "x": 66, "y": [ 26, 29 ], "chance": 25, "repeat": 4 } ],
+      "place_loot": [
+        { "group": "gear_medical", "x": 66, "y": [ 26, 29 ], "chance": 25, "repeat": 4 },
+        { "group": "autodoc_installation_programs_advanced", "x": [ 66, 68 ], "y": 41, "chance": 50, "repeat": 3 }
+      ],
       "place_vendingmachines": [ { "item_group": "vending_food", "x": 39, "y": 33 }, { "item_group": "vending_drink", "x": 39, "y": 34 } ],
       "place_monster": [
         { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
