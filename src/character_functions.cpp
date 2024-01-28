@@ -178,13 +178,16 @@ float fine_detail_vision_mod( const Character &who, const tripoint &p )
           !who.has_trait( trait_PER_SLIME_OK ) ) ) {
         return 11.0;
     }
+    // Regular NV trait isn't enough to help at all, while Full Night Vision allows reading at a penalty
+    float nvbonus = who.mutation_value( "night_vision_range" ) >= 8 ? 4 : 0;
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
     // Therefore give a hefty bonus relative to ambient light.
     float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - who.active_light() - 2.0f );
 
-    // Same calculation as above, but with a result 3 lower.
-    float ambient_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) + 1.0f );
+    // Same calculation as above, but with a result 3 lower, and night vision is allowed to affect it.
+    float ambient_light = std::max( 1.0f,
+                                    LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) - nvbonus + 1.0f );
 
     return std::min( own_light, ambient_light );
 }
