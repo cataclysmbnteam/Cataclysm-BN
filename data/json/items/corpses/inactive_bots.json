@@ -24,7 +24,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_c4_hack",
@@ -51,7 +51,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_flashbang_hack",
@@ -78,7 +78,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_gasbomb_hack",
@@ -105,7 +105,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_grenade_hack",
@@ -132,7 +132,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_laserturret",
@@ -181,7 +181,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_mininuke_hack",
@@ -209,7 +209,7 @@
       "skills": [ "electronics", "computer" ]
     },
     "//": "Good luck tossing this one, but sure why not",
-    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_turret_riot",
@@ -458,7 +458,7 @@
       "skills": [ "electronics", "computer" ]
     },
     "//": "Few character will have the strength for this, but allow trying it anyway",
-    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_hazmatbot",

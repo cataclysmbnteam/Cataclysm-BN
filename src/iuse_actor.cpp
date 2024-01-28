@@ -1022,10 +1022,11 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( mtypeid );
     monster &newmon = *newmon_ptr;
     newmon.init_from_item( it );
+    tripoint pnt = it.active ? pos : p.pos();
     if( place_randomly ) {
         // place_critter_around returns the same pointer as its parameter (or null)
         // Allow position to be different from the player for tossed or launched items
-        if( !g->place_critter_around( newmon_ptr, pos, 1 ) ) {
+        if( !g->place_critter_around( newmon_ptr, pnt, 1 ) ) {
             p.add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
                                  newmon.name() );
             // If remotely triggered due to ACT_ON_RANGED_HIT, set it back to being inactive so it won't spawn infinitely
@@ -1044,7 +1045,11 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
             return 0;
         }
     }
-    p.moves -= moves;
+    // If it's active then we know it was triggered by ACT_ON_RANGED_HIT and did not deactivate from lack of room earlier
+    // If so, don't drain moves from remote deployment since it would trigger after the throw
+    if( !it.active ) {
+        p.moves -= moves;
+    }
     if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
         for( auto &amdef : newmon.ammo ) {
             item &ammo_item = *item::spawn_temporary( amdef.first, calendar::start_of_cataclysm );
