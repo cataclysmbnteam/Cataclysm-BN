@@ -66,10 +66,10 @@ std::string enum_to_string<relic_recharge_req>( relic_recharge_req data )
     abort();
 }
 
-    template<>
-    std::string enum_to_string<relic_procgen_data::type>( relic_procgen_data::type data )
-    {
-        switch( data ) {
+template<>
+std::string enum_to_string<relic_procgen_data::type>( relic_procgen_data::type data )
+{
+    switch( data ) {
     // *INDENT-OFF*
         case relic_procgen_data::type::active_enchantment: return "active_enchantment";
         case relic_procgen_data::type::hit_me: return "hit_me";
@@ -78,10 +78,10 @@ std::string enum_to_string<relic_recharge_req>( relic_recharge_req data )
         case relic_procgen_data::type::passive_enchantment_mult: return "passive_enchantment_mult";
         case relic_procgen_data::type::last: break;
     // *INDENT-ON*
-        }
-        debugmsg( "Invalid enchantment::has" );
-        abort();
     }
+    debugmsg( "Invalid enchantment::has" );
+    abort();
+}
 } // namespace io
 
 bool relic_recharge::operator==( const relic_recharge &rhs ) const
