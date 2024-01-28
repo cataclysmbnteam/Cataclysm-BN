@@ -3,8 +3,8 @@
     "id": "bot_EMP_hack",
     "type": "TOOL",
     "name": { "str": "inactive EMP hack" },
-    "description": "This is an inactive EMP hack.  EMP hacks are fist-sized robots that fly through the air.  This one contains an EMP grenade and attacks by flying at its target and detonating.  Use this item to reprogram and release the EMP hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "3750 g",
+    "description": "This is an inactive EMP hack.  EMP hacks are fist-sized robots that fly through the air.  This one contains an EMP grenade and attacks by flying at its target and detonating.  Use or throw this item to reprogram and release the EMP hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "2 kg",
     "volume": "750 ml",
     "price": "645 USD",
     "price_postapoc": "30 USD",
@@ -23,14 +23,15 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_c4_hack",
     "type": "TOOL",
     "name": { "str": "inactive C-4 hack" },
-    "description": "This is an inactive C-4 hack.  C-4 hacks are fist-sized robots that fly through the air.  This one contains some C-4 and attacks by flying at its target and detonating.  Use this item to reprogram and activate the C-4 hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "4920 g",
+    "description": "This is an inactive C-4 hack.  C-4 hacks are fist-sized robots that fly through the air.  This one contains some C-4 and attacks by flying at its target and detonating.  Use or throw this item to reprogram and activate the C-4 hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "3200 g",
     "volume": "1500 ml",
     "price": "675 USD",
     "price_postapoc": "30 USD",
@@ -49,14 +50,15 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_flashbang_hack",
     "type": "TOOL",
     "name": { "str": "inactive flashbang hack" },
-    "description": "This is an inactive flashbang hack.  Flashbang hacks are fist-sized robots that fly through the air.  This one contains a flashbang and attacks by flying at its target and detonating.  Use this item to reprogram and activate the flashbang hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "3590 g",
+    "description": "This is an inactive flashbang hack.  Flashbang hacks are fist-sized robots that fly through the air.  This one contains a flashbang and attacks by flying at its target and detonating.  Use or throw this item to reprogram and activate the flashbang hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "1800 g",
     "volume": "750 ml",
     "price": "595 USD",
     "price_postapoc": "5 USD",
@@ -75,14 +77,15 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_gasbomb_hack",
     "type": "TOOL",
     "name": { "str": "inactive tear gas hack" },
-    "description": "This is an inactive tear gas hack.  Tear gas hacks are fist-sized robots that fly through the air.  This one contains a tear gas canister and attacks by flying at its target and releasing tear gas.  Use this item to reprogram and activate the tear gas hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "4410 g",
+    "description": "This is an inactive tear gas hack.  Tear gas hacks are fist-sized robots that fly through the air.  This one contains a tear gas canister and attacks by flying at its target and releasing tear gas.  Use or throw this item to reprogram and activate the tear gas hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "2700 g",
     "volume": "750 ml",
     "price": "605 USD",
     "price_postapoc": "5 USD",
@@ -101,14 +104,15 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_grenade_hack",
     "type": "TOOL",
     "name": { "str": "inactive grenade hack" },
-    "description": "This is an inactive grenade hack.  Grenade hacks are fist-sized robots that fly through the air.  This one contains a grenade and attacks by flying at its target and detonating.  Use this item to reprogram and activate the grenade hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "3750 g",
+    "description": "This is an inactive grenade hack.  Grenade hacks are fist-sized robots that fly through the air.  This one contains a grenade and attacks by flying at its target and detonating.  Use or throw this item to reprogram and activate the grenade hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "2800 g",
     "volume": "750 ml",
     "price": "600 USD",
     "price_postapoc": "10 USD",
@@ -127,7 +131,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_laserturret",
@@ -155,8 +160,8 @@
     "id": "bot_manhack",
     "type": "TOOL",
     "name": { "str": "inactive manhack" },
-    "description": "This is an inactive manhack.  Manhacks are fist-sized robots that fly through the air.  They are covered with whirring blades and attack by throwing themselves against their target.  Use this item to reprogram and activate the manhack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "4450 g",
+    "description": "This is an inactive manhack.  Manhacks are fist-sized robots that fly through the air.  They are covered with whirring blades and attack by throwing themselves against their target.  Use or throw this item to reprogram and activate the manhack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "2700 g",
     "volume": "750 ml",
     "price": "600 USD",
     "price_postapoc": "5 USD",
@@ -175,15 +180,16 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_mininuke_hack",
     "type": "TOOL",
     "name": { "str": "inactive mininuke hack" },
-    "description": "This is an inactive mininuke hack.  Many times as large as a normal manhack, a mininuke hack contains a mininuke and attack by flying at their target and detonating.  Use this item to reprogram and activate the mininuke hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "26370 g",
-    "volume": "18750 ml",
+    "description": "This is an inactive mininuke hack.  Many times as large as a normal manhack, a mininuke hack contains a mininuke and attack by flying at their target and detonating.  Use this item to reprogram and activate the mininuke hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.  An inhumanly strong user could also deploy it remotely by throwing it, which might give you a head start if it's programmed incorrectly.",
+    "weight": "24600 g",
+    "volume": "18550 ml",
     "price": "26775 USD",
     "price_postapoc": "100 USD",
     "to_hit": -3,
@@ -201,7 +207,9 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "//": "Good luck tossing this one, but sure why not",
+    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_turret_riot",
@@ -428,9 +436,9 @@
     "looks_like": "broken_eyebot",
     "type": "TOOL",
     "name": { "str": "inactive eyebot" },
-    "description": "This is an inactive eyebot.  Using this item involves turning it on and launching the UAV.  If reprogrammed and rewired successfully the eyebot will then keep watch for intruders.",
-    "weight": "40750 g",
-    "volume": "30 L",
+    "description": "This is an inactive eyebot.  Using this item involves turning it on and launching the UAV.  If reprogrammed and rewired successfully the eyebot will then keep watch for intruders.  An inhumanly strong user could also deploy it remotely by throwing it.",
+    "weight": "9400 g",
+    "volume": "20 L",
     "price": "100 USD",
     "price_postapoc": "5 USD",
     "to_hit": -3,
@@ -446,8 +454,11 @@
       "//": "Like most surveillance tech these likely have poor security. Secure the wifi!",
       "difficulty": 1,
       "moves": 100,
+      "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "//": "Few character will have the strength for this, but allow trying it anyway",
+    "flags": [ "ALLOWS_REMOTE_USE", "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bot_hazmatbot",
