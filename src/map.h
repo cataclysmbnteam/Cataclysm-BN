@@ -1764,7 +1764,6 @@ class map
         void draw_temple( const mapgendata &dat );
         void draw_mine( mapgendata &dat );
         void draw_slimepit( mapgendata &dat );
-        void draw_triffid( const mapgendata &dat );
         void draw_connections( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
