@@ -534,6 +534,7 @@
     "name": { "str": "Bionic Infolink" },
     "description": "A state of the art communications and information package has been installed in your body.  While the cell phone network may be down, it can still double as a two-way radio.  Additionally tells you the time and local air temperature, provides a silent alarm clock function, and if activated will give a more detailed readout on local weather conditions.",
     "occupied_bodyparts": [ [ "torso", 1 ], [ "head", 1 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ],
     "act_cost": "10 J"
   },
   {
