@@ -84,6 +84,7 @@ static const bionic_id bio_furnace( "bio_furnace" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
+static const bionic_id bio_infolink( "bio_infolink" );
 static const bionic_id bio_leukocyte( "bio_leukocyte" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_ods( "bio_ods" );
@@ -313,6 +314,10 @@ std::vector<sphere> npc::find_dangerous_explosives() const
 
         if( !use ) {
             continue;
+        }
+
+        if( !sees( elem->position() ) ) {
+            continue;   // We can't worry about what we can't see.
         }
 
         const explosion_iuse *actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
@@ -2361,7 +2366,10 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             // other npcs should not try to move into this npc anymore,
             // so infinite loop can be avoided.
             realnomove->insert( pos() );
-            say( "<let_me_pass>" );
+            // Don't spam player with messages over followers blunder into each other.
+            if( !np->is_following() ) {
+                say( "<let_me_pass>" );
+            }
             np->move_away_from( pos(), true, realnomove );
             // if we moved NPC, readjust their path, so NPCs don't jostle each other out of their activity paths.
             if( np->attitude == NPCATT_ACTIVITY ) {
@@ -4165,8 +4173,9 @@ void npc::reach_omt_destination()
             Character &player_character = get_player_character();
             talk_function::assign_guard( *this );
             if( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) {
-                if( player_character.has_item_with_flag( flag_TWO_WAY_RADIO, true ) &&
-                    has_item_with_flag( flag_TWO_WAY_RADIO, true ) ) {
+                if( ( player_character.has_item_with_flag( flag_TWO_WAY_RADIO, true ) ||
+                      player_character.has_bionic( bio_infolink ) ) &&
+                    ( has_item_with_flag( flag_TWO_WAY_RADIO, true ) || has_bionic( bio_infolink ) ) ) {
                     add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
                                         "'I've arrived, boss!'" ), disp_name() );
                 }

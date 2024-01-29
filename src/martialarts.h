@@ -10,6 +10,7 @@
 
 #include "bonuses.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "input.h"
 #include "translations.h"
 #include "type_id.h"
@@ -222,6 +223,8 @@ class ma_buff
         bool stealthy = false; // do we make less noise when moving?
 
         void load( const JsonObject &jo, const std::string &src );
+
+        LUA_TYPE_OPS( ma_buff, id );
 };
 
 class martialart

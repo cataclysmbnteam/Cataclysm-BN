@@ -13,12 +13,13 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "creature.h"
 #include "damage.h"
 #include "hash_utils.h"
 #include "memory_fast.h"
-#include "point.h"
 #include "pldata.h"
+#include "point.h"
 #include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -399,6 +400,8 @@ struct mutation_branch {
          * Return the idents of all trait groups that are known.
          */
         static std::vector<trait_group::Trait_group_tag> get_all_group_names();
+
+        LUA_TYPE_OPS( mutation_branch, id );
 };
 
 struct mutation_category_trait {
@@ -465,6 +468,8 @@ struct mutation_category_trait {
         static void check_consistency();
 
         static void load( const JsonObject &jsobj );
+
+        LUA_TYPE_OPS( mutation_category_trait, id );
 };
 
 void load_mutation_type( const JsonObject &jsobj );

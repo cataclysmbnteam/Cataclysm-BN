@@ -244,7 +244,6 @@
     "name": "hardtack",
     "weight": "80 g",
     "color": "white",
-    "spoils_in": "360 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,

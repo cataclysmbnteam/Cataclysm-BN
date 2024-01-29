@@ -3576,7 +3576,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         }
 
         case HARVEST_SAP: {
-            liquid_handler::handle_liquid( *container, PICKUP_RANGE );
+            liquid_handler::handle_liquid( container->contents.front(), PICKUP_RANGE );
             return;
         }
 

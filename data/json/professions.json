@@ -2416,11 +2416,11 @@
     "name": "Bionic Boffin",
     "description": "Prior to the apocalypse you were employed by a major international corporation as a representative and technical advisor, utilizing the incredible power of your cybernetically augmented mind.",
     "points": 4,
-    "CBMs": [ "bio_int_enhancer", "bio_face_mask", "bio_watch", "bio_memory", "bio_batteries", "bio_power_storage_mkII" ],
+    "CBMs": [ "bio_int_enhancer", "bio_face_mask", "bio_infolink", "bio_memory", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 2, "name": "barter" }, { "level": 2, "name": "speech" } ],
     "no_bonus": "teleumbrella",
     "items": {
-      "both": [ "socks", "suit", "dress_shoes", "gold_watch", "knit_scarf", "briefcase", "smart_phone", "file", "teleumbrella" ],
+      "both": [ "socks", "suit", "dress_shoes", "knit_scarf", "briefcase", "file", "teleumbrella" ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -2553,7 +2553,7 @@
     "type": "profession",
     "id": "bionic_spy",
     "name": "Bionic Agent",
-    "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm, lock picking capabilities and a hacking module.",
+    "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm, an infolink, lock picking capabilities and a hacking module.",
     "points": 4,
     "CBMs": [
       "bio_fingerhack",
@@ -2562,14 +2562,11 @@
       "bio_alarm",
       "bio_night_vision",
       "bio_batteries",
+      "bio_infolink",
       "bio_power_storage_mkII"
     ],
     "skills": [ { "level": 2, "name": "speech" } ],
-    "items": {
-      "both": [ "dress_shoes", "socks", "knit_scarf", "suit", "wristwatch", "smart_phone" ],
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
-    }
+    "items": { "both": [ "dress_shoes", "socks", "knit_scarf", "suit" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
   },
   {
     "type": "profession",
@@ -2663,10 +2660,10 @@
     "name": "Commercial Cyborg",
     "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone?  Only time will tell if your passion for electronics and your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
     "points": 6,
-    "CBMs": [ "bio_flashlight", "bio_tools", "bio_ups", "bio_watch", "bio_batteries", "bio_power_storage_mkII" ],
+    "CBMs": [ "bio_flashlight", "bio_tools", "bio_ups", "bio_infolink", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "fabrication" } ],
     "items": {
-      "both": [ "tshirt", "sneakers", "jacket_light", "wristwatch", "smart_phone" ],
+      "both": [ "tshirt", "sneakers", "jacket_light" ],
       "male": [ "briefs", "socks", "pants" ],
       "female": [ "bra", "panties", "stockings", "skirt" ]
     }

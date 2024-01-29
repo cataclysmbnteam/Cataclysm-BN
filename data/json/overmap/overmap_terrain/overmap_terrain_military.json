@@ -112,12 +112,19 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "bunker_roof",
+    "copy-from": "bunker",
+    "name": "military bunker roof",
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "bunker_basement",
     "name": "military bunker",
     "sym": "B",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "NO_ROTATE", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+    "flags": [ "KNOWN_UP", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -128,6 +135,19 @@
     "see_cost": 2,
     "extras": "build",
     "flags": [ "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "outpost_1",
+    "copy-from": "outpost",
+    "looks_like": "outpost"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "outpost_roof", "outpost_1_roof" ],
+    "copy-from": "outpost",
+    "name": "military outpost roof",
+    "looks_like": "outpost"
   },
   {
     "type": "overmap_terrain",

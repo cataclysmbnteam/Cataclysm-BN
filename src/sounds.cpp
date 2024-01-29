@@ -131,7 +131,43 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
     case sounds::sound_t::order: return "order";
     case sounds::sound_t::_LAST: break;
     }
-    debugmsg( "Invalid valid_target" );
+    debugmsg( "Invalid sound_t" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<sfx::channel>( sfx::channel chan )
+{
+    switch ( chan ) {
+    case sfx::channel::any: return "any";
+    case sfx::channel::daytime_outdoors_env: return "daytime_outdoors_env";
+    case sfx::channel::nighttime_outdoors_env: return "nighttime_outdoors_env";
+    case sfx::channel::underground_env: return "underground_env";
+    case sfx::channel::indoors_env: return "indoors_env";
+    case sfx::channel::indoors_rain_env: return "indoors_rain_env";
+    case sfx::channel::outdoors_snow_env: return "outdoors_snow_env";
+    case sfx::channel::outdoors_flurry_env: return "outdoors_flurry_env";
+    case sfx::channel::outdoors_thunderstorm_env: return "outdoors_thunderstorm_env";
+    case sfx::channel::outdoors_rain_env: return "outdoors_rain_env";
+    case sfx::channel::outdoors_drizzle_env: return "outdoors_drizzle_env";
+    case sfx::channel::outdoor_blizzard: return "outdoor_blizzard";
+    case sfx::channel::deafness_tone: return "deafness_tone";
+    case sfx::channel::danger_extreme_theme: return "danger_extreme_theme";
+    case sfx::channel::danger_high_theme: return "danger_high_theme";
+    case sfx::channel::danger_medium_theme: return "danger_medium_theme";
+    case sfx::channel::danger_low_theme: return "danger_low_theme";
+    case sfx::channel::stamina_75: return "stamina_75";
+    case sfx::channel::stamina_50: return "stamina_50";
+    case sfx::channel::stamina_35: return "stamina_35";
+    case sfx::channel::idle_chainsaw: return "idle_chainsaw";
+    case sfx::channel::chainsaw_theme: return "chainsaw_theme";
+    case sfx::channel::player_activities: return "player_activities";
+    case sfx::channel::exterior_engine_sound: return "exterior_engine_sound";
+    case sfx::channel::interior_engine_sound: return "interior_engine_sound";
+    case sfx::channel::radio: return "radio";
+    case sfx::channel::MAX_CHANNEL: break;
+    }
+    debugmsg( "Invalid sound channel" );
     abort();
 }
 // *INDENT-ON*
@@ -461,7 +497,7 @@ void sounds::process_sound_markers( player *p )
                 !p->has_effect( effect_narcosis ) ) {
                 //Not kidding about sleep-through-firefight
                 p->wake_up();
-                add_msg( m_warning, _( "Something is making noise." ) );
+                p->add_msg_if_player( m_warning, _( "Something is making noise." ) );
             } else {
                 continue;
             }
@@ -502,7 +538,7 @@ void sounds::process_sound_markers( player *p )
         }
 
         if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) &&
-            !p->has_bionic( bionic_id( "bio_watch" ) ) ) {
+            !p->has_bionic( bionic_id( "bio_infolink" ) ) ) {
             // if we don't have effect_sleep but we're in_sleep_state, either
             // we were trying to fall asleep for so long our alarm is now going
             // off or something disturbed us while trying to sleep

@@ -14,23 +14,24 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
-#include "event.h"
+#include "enums.h"
 #include "event_bus.h"
+#include "event.h"
 #include "explosion.h"
 #include "field_type.h"
 #include "flat_set.h"
-#include "game.h"
 #include "game_constants.h"
+#include "game.h"
 #include "int_id.h"
-#include "item.h"
 #include "item_group.h"
+#include "item.h"
 #include "itype.h"
 #include "line.h"
 #include "locations.h"
 #include "make_static.h"
+#include "mapdata.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapdata.h"
 #include "mattack_common.h"
 #include "melee.h"
 #include "messages.h"
@@ -84,6 +85,7 @@ static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_tpollen( "tpollen" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
@@ -102,6 +104,7 @@ static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
 static const species_id MAMMAL( "MAMMAL" );
 static const species_id MOLLUSK( "MOLLUSK" );
+static const species_id PLANT( "PLANT" );
 static const species_id ROBOT( "ROBOT" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
@@ -1222,6 +1225,10 @@ Attitude monster::attitude_to( const Creature &other ) const
         if( m == this ) {
             return Attitude::A_FRIENDLY;
         }
+        // Ignore inactive mechs
+        if( m->has_flag( MF_RIDEABLE_MECH ) && !m->has_effect( effect_ridden ) ) {
+            return Attitude::A_NEUTRAL;
+        }
 
         static const string_id<monfaction> faction_zombie( "zombie" );
         auto faction_att = faction.obj().attitude( m->faction );
@@ -1265,6 +1272,33 @@ Attitude monster::attitude_to( const Creature &other ) const
     }
     // Should not happen!, creature should be either player or monster
     return Attitude::A_NEUTRAL;
+}
+
+template<>
+std::string io::enum_to_string<monster_attitude>( monster_attitude att )
+{
+    switch( att ) {
+        case MATT_NULL:
+            return "MATT_NULL";
+        case MATT_FRIEND:
+            return "MATT_FRIEND";
+        case MATT_FPASSIVE:
+            return "MATT_FPASSIVE";
+        case MATT_FLEE:
+            return "MATT_FLEE";
+        case MATT_IGNORE:
+            return "MATT_IGNORE";
+        case MATT_FOLLOW:
+            return "MATT_FOLLOW";
+        case MATT_ATTACK:
+            return "MATT_ATTACK";
+        case MATT_ZLAVE:
+            return "MATT_ZLAVE";
+        case NUM_MONSTER_ATTITUDES:
+            break;
+    }
+    debugmsg( "Invalid monster_attitude" );
+    abort();
 }
 
 monster_attitude monster::attitude( const Character *u ) const
@@ -1522,6 +1556,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         effect == effect_poison ) {
         return !has_flag( MF_WARM ) ||
                ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
+    }
+
+    if( effect == effect_tpollen ) {
+        return type->in_species( PLANT );
     }
 
     if( effect == effect_stunned ) {

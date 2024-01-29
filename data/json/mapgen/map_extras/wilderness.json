@@ -222,11 +222,11 @@
       "palettes": [ "desolatebarn_palette" ],
       "terrain": { "?": [ "t_dirtfloor", "t_dirt" ], "R": "t_dirt" },
       "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ], "?": [ [ "f_null", 3 ], "f_rubble", "f_rubble_rock" ] },
-      "items": {
-        "_": { "item": "wood_workshop", "chance": 1 },
-        "?": [ { "item": "wood_workshop", "chance": 2 }, { "item": "mischw", "chance": 2 } ],
-        "R": [ { "item": "wood_workshop", "chance": 3 }, { "item": "mischw", "chance": 2 } ]
-      }
+      "place_loot": [
+        { "group": "stash_wood", "x": [ 1, 9 ], "y": [ 1, 9 ], "chance": 50, "repeat": 4 },
+        { "group": "recycle_iron", "x": [ 1, 9 ], "y": [ 1, 9 ], "chance": 50, "repeat": 2 },
+        { "group": "tools_carpentry", "x": [ 1, 9 ], "y": [ 1, 9 ], "chance": 50 }
+      ]
     }
   },
   {
@@ -248,11 +248,11 @@
       "palettes": [ "desolatebarn_palette" ],
       "terrain": { "?": [ "t_dirtfloor", "t_dirt" ], "R": "t_dirt" },
       "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ], "?": [ [ "f_null", 3 ], "f_rubble", "f_rubble_rock" ] },
-      "items": {
-        "_": { "item": "wood_workshop", "chance": 1 },
-        "?": [ { "item": "wood_workshop", "chance": 2 }, { "item": "mischw", "chance": 2 } ],
-        "R": [ { "item": "wood_workshop", "chance": 3 }, { "item": "mischw", "chance": 2 } ]
-      }
+      "place_loot": [
+        { "group": "stash_wood", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 50, "repeat": 4 },
+        { "group": "recycle_iron", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 50, "repeat": 2 },
+        { "group": "tools_carpentry", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 50 }
+      ]
     }
   }
 ]

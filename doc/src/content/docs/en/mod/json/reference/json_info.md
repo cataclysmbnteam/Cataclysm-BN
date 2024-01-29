@@ -1282,6 +1282,7 @@ wake up for the first time after 24 hours into the game.
                "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
                "active": false , // Will the target mutation start powered ( turn ON ).
                "moves": 100 // how many moves this costs. (default: 0)
+"enchantments": [ "MEP_INK_GLAND_SPRAY" ], // Applies this enchantment to the player. See magic.md and effects_json.md
 }
 ```
 
@@ -1826,6 +1827,8 @@ container. It could also be written as a generic item ("type": "GENERIC") with "
 | 2H_AXES         | Axes meant to be wielded with two hands.                                                 |
 | ---             | ---                                                                                      |
 | WHIPS           | Flexible tool used to strike at range.                                                   |
+| ---             | ---                                                                                      |
+| 1H_HOOKED       | One handed weapon with hooking capability. (and isn't an axe or hammer)                  |
 | ---             | ---                                                                                      |
 | HOOKED_POLES    | Polearm with hooked end (Like a shepherd's crook)                                        |
 | SPEARS          | Polearm with a long shaft and a sharp tip made of hard material.                         |

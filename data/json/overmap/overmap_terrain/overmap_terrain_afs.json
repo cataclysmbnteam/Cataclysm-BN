@@ -67,6 +67,7 @@
     "spawns": { "group": "AFS_GROUP_AUG_CLINIC", "population": [ 4, 10 ], "chance": 80 },
     "sym": "A",
     "color": "yellow",
-    "see_cost": 3
+    "see_cost": 3,
+    "flags": [ "SIDEWALK" ]
   }
 ]

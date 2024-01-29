@@ -130,7 +130,18 @@
     ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO", "BIOPROOF" ]
+    "flags": [
+      "SEES",
+      "NOHEAD",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "IMMOBILE",
+      "NO_BREATHE",
+      "DROPS_AMMO",
+      "ID_CARD_DESPAWN",
+      "CONSOLE_DESPAWN",
+      "BIOPROOF"
+    ]
   },
   {
     "id": "mon_turret_light",
