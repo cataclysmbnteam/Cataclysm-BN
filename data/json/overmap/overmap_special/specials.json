@@ -2122,10 +2122,12 @@
     "id": "Apple Orchard",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "orchard_processing_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "orchard_processing_roof_north" },
       { "point": [ 1, 0, 0 ], "overmap": "orchard_tree_apple_north" },
       { "point": [ 2, 0, 0 ], "overmap": "orchard_tree_apple_north" },
       { "point": [ 3, 0, 0 ], "overmap": "orchard_tree_apple_north" },
       { "point": [ 0, 1, 0 ], "overmap": "orchard_stall_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "orchard_stall_roof_north" },
       { "point": [ 1, 1, 0 ], "overmap": "orchard_tree_apple_north" },
       { "point": [ 2, 1, 0 ], "overmap": "orchard_tree_apple_north" },
       { "point": [ 3, 1, 0 ], "overmap": "orchard_tree_apple_north" },
