@@ -515,6 +515,31 @@
   },
   {
     "type": "effect_type",
+    "id": "tpollen",
+    "name": [ "Pollen Inhalation" ],
+    "desc": [ "The pollen makes it hard to breathe!" ],
+    "miss_messages": [ [ "Your head is swimming from the pollen in the air.", 1 ] ],
+    "rating": "bad",
+    "harmful_cough": true,
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "base_mods": {
+      "per_mod": [ -2, -1 ],
+      "dex_mod": [ -1, -1 ],
+      "str_mod": [ -2, 0 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 150, 900 ],
+      "hurt_min": [ 2 ],
+      "hurt_chance": [ 450, 2700 ],
+      "speed_mod": [ -10 ],
+      "cough_chance": [ 10 ]
+    },
+    "show_in_info": true,
+    "blood_analysis_description": "Unknown Organic Toxin"
+  },
+  {
+    "type": "effect_type",
     "id": "paralyzepoison",
     "name": [
       "Slowed",

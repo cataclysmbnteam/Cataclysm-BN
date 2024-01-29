@@ -976,6 +976,11 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     float weap_dam = weap.damage_melee( DT_BASH ) + stat_bonus;
     /** @EFFECT_UNARMED caps bash damage with unarmed weapons */
 
+    if( unarmed && weap.is_null() ) {
+        /** @EFFECT_UNARMED defines weapon damage of empty-handed unarmed attacks */
+        weap_dam += skill * 2;
+    }
+
     /** @EFFECT_BASHING caps bash damage with bashing weapons */
     float bash_cap = 2 * stat + 2 * skill;
     float bash_mul = 1.0f;
