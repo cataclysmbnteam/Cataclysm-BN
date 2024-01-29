@@ -180,8 +180,8 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "                       '",
-        "                        ",
+        "           ss          '",
+        "           ss           ",
         "  ---:::---++---:::---  ",
         "  |..................|  ",
         "  |..................|  ",
@@ -206,14 +206,15 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "'": "t_dirt",
+        " ": "t_region_groundcover_urban",
+        "'": "t_region_groundcover_urban",
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_floor",
         ":": "t_window",
         "4": "t_gutter_downspout",
-        "|": "t_wall_w"
+        "|": "t_wall_w",
+        "s": "t_sidewalk"
       },
       "furniture": {
         "'": "f_street_light",

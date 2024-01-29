@@ -114,11 +114,12 @@
     "id": "motorcycle_chassis",
     "type": "vehicle",
     "name": "Motorcycle Chassis",
-    "blueprint": [ "o#>" ],
+    "blueprint": [ "o#>o" ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "saddle_motor" ] },
       { "x": 1, "y": 0, "parts": [ "frame_handle", { "part": "tank_small", "fuel": "gasoline" } ] },
-      { "x": -1, "y": 0, "parts": [ "frame_vertical", "wheel_mount_light", "wheel_motorbike_rear" ] }
+      { "x": -1, "y": 0, "parts": [ "frame_vertical", "wheel_mount_light", "wheel_motorbike_rear" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_vertical", "wheel_mount_light_steerable", "wheel_motorbike" ] }
     ]
   },
   {
@@ -175,12 +176,13 @@
     "blueprint": [
       [ "O O" ],
       [ "|#>" ],
-      [ "O  " ]
+      [ "O O" ]
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "saddle_motor" ] },
       { "x": 1, "y": 0, "part": "frame_cover" },
       { "x": -1, "y": 0, "part": "frame_horizontal" },
+      { "x": 1, "y": 1, "parts": [ "frame_horizontal", "wheel_mount_light_steerable", "wheel_motorbike_or" ] },
       { "x": 1, "y": -1, "parts": [ "frame_horizontal", "wheel_mount_light_steerable", "wheel_motorbike_or" ] },
       { "x": -1, "y": -1, "parts": [ "frame_horizontal", "wheel_mount_light", "wheel_motorbike_or_rear" ] },
       { "x": -1, "y": 1, "parts": [ "frame_horizontal", "wheel_mount_light", "wheel_motorbike_or_rear" ] }
