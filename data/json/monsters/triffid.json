@@ -283,6 +283,7 @@
     "melee_cut": 0,
     "harvest": "triffid_large",
     "special_attacks": [ [ "SPIT_SAP", 3 ], [ "PARA_STING", 12 ] ],
+    "emit_fields": [ { "emit_id": "emit_pollen_stream", "delay": "1 s" } ],
     "death_function": [ "NORMAL" ],
     "flags": [ "NOHEAD", "IMMOBILE" ]
   },
