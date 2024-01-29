@@ -6870,12 +6870,8 @@ bool Character::sees_with_specials( const Creature &critter ) const
     }
 
     const int dist = rl_dist( pos(), critter.pos() );
-    if( dist <= 5 && ( has_active_mutation( trait_ANTENNAE ) ||
-                       ( has_active_bionic( bio_ground_sonar ) && !critter.has_flag( MF_FLIES ) ) ) ) {
-        return true;
-    }
-
-    return false;
+    return ( dist <= 5 && ( has_active_mutation( trait_ANTENNAE ) ||
+                            ( has_active_bionic( bio_ground_sonar ) && !critter.has_flag( MF_FLIES ) ) ) );
 }
 
 detached_ptr<item> Character::pour_into( item &container, detached_ptr<item> &&liquid, int limit )
