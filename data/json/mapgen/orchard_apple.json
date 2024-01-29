@@ -73,6 +73,42 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "orchard_processing_roof",
+    "object": {
+      "fill_ter": "t_metal_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   ..................   ",
+        "   ..................   ",
+        "   ..................   ",
+        "   ..................   ",
+        "   ..................   ",
+        "   ..................   ",
+        "   ..................   ",
+        "   ..................   ",
+        "   ..................   ",
+        "   ..................   ",
+        "   ..................   ",
+        "   ..................   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_metal_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "orchard_stall" ],
     "weight": 500,
     "object": {
@@ -152,6 +188,41 @@
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 45 }
       ],
       "place_vehicles": [ { "vehicle": "suburban_home", "x": 4, "y": 17, "chance": 50, "rotation": -90 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "orchard_stall_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            ..........  ",
+        "            ..........  ",
+        "            ..........  ",
+        "            ..........  ",
+        "            ..........  ",
+        "            ..........  ",
+        "            ..........  ",
+        "            ..........  ",
+        "            ..........  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   },
   {
