@@ -1768,7 +1768,7 @@ void npc::shop_restock()
     if( !ret.empty() ) {
         // Pick up nearby items as a free action since we'll be immediately deleting these items
         auto old_moves = moves;
-        for( map_cursor &cursor : map_selector( pos(), PICKUP_RANGE ) ) {
+        for( map_cursor &cursor : map_selector( pos(), 0 ) ) {
             cursor.remove_top_items_with( [this]( detached_ptr<item> &&it ) {
                 if( it->is_owned_by( *this ) ) {
                     inv.push_back( std::move( it ) );
