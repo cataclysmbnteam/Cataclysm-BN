@@ -221,8 +221,8 @@
     "category": "<arachnid_flying_harvest>",
     "text": [
       "<bug_harvest_flying_chitin>.",
-      "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>.",
-      "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>. <bug_harvest_flying_deeper>"
+      "<bug_harvest_general_descriptive>.",
+      "<bug_harvest_flying_deeper>"
     ]
   },
   {
@@ -230,7 +230,7 @@
     "category": "<firefly_harvest>",
     "text": [
       "<bug_harvest_flying_chitin>.",
-      "<bug_harvest_flying_chitin>.  <bug_harvest_general_descriptive>.  <bug_harvest_firefly>."
+      "<bug_harvest_firefly>."
     ]
   },
   {
@@ -238,8 +238,8 @@
     "category": "<arachnid_harvest>",
     "text": [
       "<bug_harvest_general_chitin>.",
-      "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.",
-      "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.  <bug_harvest_general_descriptive>."
+      "<bug_harvest_general_deeper>.",
+      "<bug_harvest_general_descriptive>."
     ]
   },
   {
@@ -247,8 +247,8 @@
     "category": "<acidant_harvest>",
     "text": [
       "<bug_harvest_acid_chitin>.",
-      "<bug_harvest_acid_chitin>.  <bug_harvest_acid_deeper>.",
-      "<bug_harvest_acid_chitin>.  <bug_harvest_acid_deeper>.  <bug_harvest_acid_descriptive>."
+      "<bug_harvest_acid_deeper>.",
+      "<bug_harvest_acid_descriptive>."
     ]
   }
 ]
