@@ -31,7 +31,7 @@
       },
       {
         "id": "cooked_mutant_meat_2",
-        "text": "This is a cooked chunk of meat from a mutated animal.  You thought you'd cleared out all the gross parts, but while cooking, a fluid-filled sac inside burst and covered it in some kind of thick grease."
+        "text": "This is a cooked chunk of meat from a mutated animal.  You thought you'd cleared out all the gross parts, but a fluid-filled sac inside bursts and covers it in some kind of thick grease."
       },
       {
         "id": "cooked_mutant_meat_3",
@@ -49,7 +49,7 @@
     "text": [
       {
         "id": "bug_organs_1",
-        "text": "These organs came from a giant mutant bug, and you really aren't sure what to make of them.  There are things you've never seen in any anatomy book, with spines and hair and other unidentified parts protruding off seemingly at random."
+        "text": "These organs came from a giant mutant bug, and you really aren't sure what to make of them, with spines and hair and other unidentified parts protruding off seemingly at random."
       },
       {
         "id": "bug_organs_2",
@@ -65,7 +65,7 @@
       },
       {
         "id": "bug_organs_5",
-        "text": "This is a meaty grey organ you removed from a mutant.  It has a chalky yellow coating that burns your skin, and several unidentifiable fleshy tubes sticking out of it.  The smell it gives off stings your nostrils.  You're pretty confident no natural creature has one of these."
+        "text": "This is a meaty grey organ you removed from a mutant.  It has a chalky yellow coating that burns your skin, and several unidentifiable fleshy tubes sticking out of it.  The smell it gives off stings your nostrils."
       },
       {
         "id": "bug_organs_6",
@@ -208,6 +208,16 @@
   },
   {
     "type": "snippet",
+    "category": "<bug_harvest_firefly>",
+    "text": [
+      "The light of its abdomen flickers with each cut, growing ever dimmer",
+      "An errant cut coats your tools with foul-smelling, glowing goop",
+      "What you saw as a homogenous light from a distance was the result of myriad strands of glowing chitin criscrossing just beneath the carapace",
+      "This one's very flesh is glowing with a blinding intensity, lighting up your gruesome work"
+    ]
+  },  
+  {
+    "type": "snippet",
     "category": "<bug_harvest_acid_descriptive>",
     "text": [
       "<bug_harvest_general_descriptive>",
@@ -224,7 +234,7 @@
   {
     "type": "snippet",
     "category": "<firefly_harvest>",
-    "text": [ "<bug_harvest_flying_chitin>.", "<bug_harvest_firefly>." ]
+    "text": [ "<bug_harvest_flying_chitin>.", "<bug_harvest_firefly>.", "<bug_harvest_firefly>." ]
   },
   {
     "type": "snippet",
