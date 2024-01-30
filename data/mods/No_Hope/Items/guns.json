@@ -140,14 +140,7 @@
     "blackpowder_tolerance": 56,
     "clip_size": 6,
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "sights", 1 ],
-      [ "underbarrel", 1 ],
-      [ "grip", 1 ],
-      [ "rail", 1 ],
-      [ "stock", 1 ]
-    ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "l_long_45",
