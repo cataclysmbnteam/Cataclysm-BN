@@ -341,9 +341,9 @@
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "dampening", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ],
       [ "mechanism", 1 ]
     ]
   },
