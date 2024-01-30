@@ -509,7 +509,7 @@
     "reproduction": { "baby_egg": "egg_dragonfly", "baby_count": 3, "baby_timer": 1 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "SWIMS", "BASHES", "PUSH_MON", "PUSH_VEH" ]
-  },  
+  },
   {
     "id": "mon_fly",
     "type": "MONSTER",

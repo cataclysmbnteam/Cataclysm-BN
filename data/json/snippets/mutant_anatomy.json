@@ -216,8 +216,6 @@
       "Several times, you nearly burn yourself piercing a concealed gland full of acid"
     ]
   },
-  
-  
   {
     "type": "snippet",
     "category": "<arachnid_flying_harvest>",
@@ -226,7 +224,7 @@
       "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>.",
       "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>. <bug_harvest_flying_deeper>"
     ]
-  },  
+  },
   {
     "type": "snippet",
     "category": "<firefly_harvest>",
@@ -234,7 +232,7 @@
       "<bug_harvest_flying_chitin>.",
       "<bug_harvest_flying_chitin>.  <bug_harvest_general_descriptive>.  <bug_harvest_firefly>."
     ]
-  },  
+  },
   {
     "type": "snippet",
     "category": "<arachnid_harvest>",
