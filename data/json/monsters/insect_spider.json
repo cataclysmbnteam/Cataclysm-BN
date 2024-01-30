@@ -477,8 +477,8 @@
   {
     "id": "mon_dragonfly_mega",
     "type": "MONSTER",
-    "name": { "str_sp": "fused dragonflies" },
-    "description": "What appears to be a single, enormous insect with a swollen abdomen is actually the amalgamation of two dragonflies, bodies still locked into a telltale heart shape.  The remains of their wings and abdomens form an egg sac they sluggishly pull between them, periodically dropping a handful of glistening eggs.",
+    "name": { "str": "mega dragonfly", "str_pl": "mega dragonflies" },
+    "description": "A single, enormous insect with a swollen abdomen and a distended ovipositor, periodically dropping a handful of glistening eggs.",
     "volume": "600 L",
     "weight": "800 kg",
     "default_faction": "dragonfly",
