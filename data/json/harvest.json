@@ -469,7 +469,7 @@
   {
     "id": "acidant_queen",
     "type": "harvest",
-    "message": "You laboriously dissect the colossal insect.<acidant_harvest>",
+    "message": "<acidant_harvest>",
     "entries": [
       { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "base_num": [ 40, 55 ], "scale_num": [ 0.5, 0.7 ], "max": 80, "type": "flesh" },
