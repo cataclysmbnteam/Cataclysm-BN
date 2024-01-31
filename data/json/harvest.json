@@ -536,7 +536,7 @@
   {
     "id": "arachnid_dragonfly_mega",
     "type": "harvest",
-    "message": "As you hack away at the chitinous abomination you can't help but follow the tunnel the (male?) dragonfly's tail bore into the flesh of its mate, ending up at a formless amalgamation of eyes, jaws, eggs, and ganglia deep within.  Love truly knows no bounds.  <arachnid_flying_harvest>",
+    "message": "<arachnid_flying_harvest>",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.15 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
