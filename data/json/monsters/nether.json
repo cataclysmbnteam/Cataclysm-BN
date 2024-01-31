@@ -403,9 +403,7 @@
     "harvest": "human",
     "death_function": [ "NORMAL" ],
     "anger_triggers": [ "NETHER_ATTENTION" ],
-    "special_attacks": [
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 8, "armor_multiplier": 0.8 } ] }
-    ],
+    "special_attacks": [ { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 8, "armor_multiplier": 0.8 } ] } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "HUMAN", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
   },
   {

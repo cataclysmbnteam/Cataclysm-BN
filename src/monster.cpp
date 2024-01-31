@@ -1349,7 +1349,8 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        if( type->has_anger_trigger( mon_trigger::NETHER_ATTENTION ) && u->has_effect( effect_attention ) ) {
+        if( type->has_anger_trigger( mon_trigger::NETHER_ATTENTION ) &&
+            u->has_effect( effect_attention ) ) {
             return MATT_ATTACK;
         }
 
@@ -2833,13 +2834,14 @@ void monster::process_effects_internal()
         const float light = g->m.ambient_light_at( pos() );
         add_msg( m_info, _( "Light level: %s" ), light );
         // Requires standing in a properly dark tile, scales as it gets darker
-        if ( light < 11.0f && one_in( 2 ) && hp < type->hp ) {
+        if( light < 11.0f && one_in( 2 ) && hp < type->hp ) {
             // Regen will max out at 50 at 6.0 light (barely able to craft), or top off to max HP
             int dark_regen_amount = std::min( static_cast<int>( 110.0f - ( light * 10.0f ) ), type->hp - hp );
             dark_regen_amount = std::min( dark_regen_amount, 50 );
             heal( round( dark_regen_amount ) );
-            if ( dark_regen_amount > 0 && g->u.sees( *this ) ) {
-                add_msg( m_warning, _( "The %1$s uses the darkness to regenerate %2$s damage." ), name(), dark_regen_amount );
+            if( dark_regen_amount > 0 && g->u.sees( *this ) ) {
+                add_msg( m_warning, _( "The %1$s uses the darkness to regenerate %2$s damage." ), name(),
+                         dark_regen_amount );
             }
         }
     }
