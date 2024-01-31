@@ -484,7 +484,7 @@
     "default_faction": "dragonfly",
     "bodytype": "insect",
     "species": [ "INSECT_FLYING" ],
-    "hp": 1100,
+    "hp": 110,
     "speed": 100,
     "material": [ "iflesh" ],
     "symbol": "Y",
