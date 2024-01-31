@@ -2843,7 +2843,6 @@ bool mattack::gene_sting( monster *z )
     bool hit = sting_shoot( z, target, dam, range );
     if( hit ) {
         //Add checks if previous NPC/player conditions are removed
-        dynamic_cast<player *>( target )->vitamin_mod( vitamin_mutant_toxin, rng( 250, 500 ) );
         dynamic_cast<player *>( target )->irradiate( rng( 50, 100 ) );
     }
 

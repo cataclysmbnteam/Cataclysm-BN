@@ -105,7 +105,6 @@ static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
 static const species_id MAMMAL( "MAMMAL" );
 static const species_id MOLLUSK( "MOLLUSK" );
-static const species_id NETHER( "NETHER" );
 static const species_id PLANT( "PLANT" );
 static const species_id ROBOT( "ROBOT" );
 static const species_id ZOMBIE( "ZOMBIE" );
@@ -2832,7 +2831,7 @@ void monster::process_effects_internal()
 
     if( type->regenerates_in_dark ) {
         const float light = g->m.ambient_light_at( pos() );
-        add_msg( m_info, _( "Light level: %s" ), light );
+        add_msg( m_debug, _( "%1$s local light level: %2$s" ), name(), light );
         // Requires standing in a properly dark tile, scales as it gets darker
         if( light < 11.0f && one_in( 2 ) && hp < type->hp ) {
             // Regen will max out at 50 at 6.0 light (barely able to craft), or top off to max HP
