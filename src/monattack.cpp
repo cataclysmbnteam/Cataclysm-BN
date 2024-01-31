@@ -207,6 +207,8 @@ static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
 
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
+const vitamin_id vitamin_mutant_toxin( "mutant_toxin" );
+
 // shared utility functions
 static bool within_visual_range( monster *z, int max_range )
 {
@@ -2842,7 +2844,7 @@ bool mattack::gene_sting( monster *z )
     if( hit ) {
         //Add checks if previous NPC/player conditions are removed
         dynamic_cast<player *>( target )->vitamin_mod( vitamin_mutant_toxin, rng( 250, 500 ) );
-        target->irradiate( rng( 50, 100 ) );
+        dynamic_cast<player *>( target )->irradiate( rng( 50, 100 ) );
     }
 
     return true;
