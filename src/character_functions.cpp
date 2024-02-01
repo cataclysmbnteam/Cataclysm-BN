@@ -434,7 +434,7 @@ std::string fmt_wielded_weapon( const Character &who )
     }
     const item &weapon = who.primary_weapon();
     if( weapon.is_gun() ) {
-        std::string str = string_format( "(%d) [%s] %s", weapon.ammo_remaining(),
+        std::string str = string_format( "(%d) [%s] %s", weapon.gun_current_mode()->ammo_remaining(),
                                          weapon.gun_current_mode().tname(), weapon.type_name() );
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( flag_RELOAD_AND_SHOOT );
