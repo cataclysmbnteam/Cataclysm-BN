@@ -788,7 +788,8 @@
     "price": "330 cent",
     "price_postapoc": "20 cent",
     "material": "flesh",
-    "flags": [ "RAW", "TRADER_AVOID", "UNSAFE_CONSUME" ],
+    "flags": [ "RAW", "TRADER_AVOID", "UNSAFE_CONSUME", "SMOKABLE" ],
+    "smoking_result":"cured_hide",
     "stack_size": 1,
     "fun": -12
   },
@@ -829,7 +830,8 @@
     "price": "330 cent",
     "price_postapoc": "1 USD",
     "material": [ "fur", "flesh" ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "SMOKABLE" ],
+    "smoking_result":"cured_pelt",
     "stack_size": 1,
     "fun": -24
   },
@@ -843,7 +845,7 @@
     "description": "A carefully folded raw skin harvested from a fur-bearing unnatural creature.  It still has the fur attached and is poisonous.  You can cure it for storage and tanning.",
     "price": "0 cent",
     "price_postapoc": "50 cent",
-    "flags": [ "NO_SALVAGE", "UNSAFE_CONSUME" ]
+    "flags": [ "NO_SALVAGE", "UNSAFE_CONSUME", "SMOKABLE" ]
   },
   {
     "type": "COMESTIBLE",
