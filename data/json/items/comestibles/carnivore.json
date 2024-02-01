@@ -789,7 +789,7 @@
     "price_postapoc": "20 cent",
     "material": "flesh",
     "flags": [ "RAW", "TRADER_AVOID", "UNSAFE_CONSUME", "SMOKABLE" ],
-    "smoking_result":"cured_hide",
+    "smoking_result": "cured_hide",
     "stack_size": 1,
     "fun": -12
   },
@@ -831,7 +831,7 @@
     "price_postapoc": "1 USD",
     "material": [ "fur", "flesh" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID", "SMOKABLE" ],
-    "smoking_result":"cured_pelt",
+    "smoking_result": "cured_pelt",
     "stack_size": 1,
     "fun": -24
   },
