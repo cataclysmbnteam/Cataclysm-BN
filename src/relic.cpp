@@ -159,6 +159,11 @@ void relic_recharge::check() const
     }
 }
 
+namespace
+{
+generic_factory<relic_procgen_data> relic_procgen_data_factory( "relic_procgen_data" );
+} // namespace
+
 template<>
 const relic_procgen_data &string_id<relic_procgen_data>::obj() const
 {
@@ -574,7 +579,6 @@ void process_recharge( item &itm, Character &carrier )
     }
 }
 
-generic_factory<relic_procgen_data> relic_procgen_data_factory( "relic_procgen_data" );
 } // namespace relic_funcs
 
 int relic::power_level( const relic_procgen_id &ruleset ) const
