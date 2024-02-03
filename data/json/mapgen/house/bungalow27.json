@@ -71,8 +71,8 @@
       "terrain": {
         "(": "t_wall_wood",
         "_": "t_linoleum_gray",
-        "/": "t_concrete",
-        "U": "t_concrete",
+        "/": "t_thconc_floor",
+        "U": "t_thconc_floor",
         ",": "t_carpet_purple",
         "s": "t_carpet_purple",
         "H": "t_carpet_purple",
