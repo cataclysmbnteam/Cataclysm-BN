@@ -3214,5 +3214,30 @@
     "type": "recipe",
     "result": "leg_warmers_xl",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "under_armoruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "under_armor_shortsuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tshirtuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tshirt_touruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "linuxtshirtuncraft",
+    "obsolete": true
   }
 ]
