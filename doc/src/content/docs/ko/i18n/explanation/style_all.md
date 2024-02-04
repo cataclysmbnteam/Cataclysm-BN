@@ -2,18 +2,29 @@
 title: General Style Guide
 ---
 
-Please follow these conventions when adding or editing in-game text:
+> 역주: 
+>
+> 이하의 사항은 영문에 해당합니다.
 
-1. Use US English spelling.
-2. Use double sentence spacing after periods. This means that a period that ends a sentence should
-   be followed by two spaces. If the sentence is the last in the block of text, there should be no
-   spaces following it.
-3. Use second person point of view (eg. "you").
-4. The names of traits, martial arts, and Compact Bionics Modules (CBM's) should be in title case.
-   This means that each word should be capitalized unless it is an article, preposition or
-   conjunction.
-5. Items and entities with proper noun names should also be in title case.
-6. All other item and entity names should be in all lower-case letters.
-7. Use the serial comma (Oxford comma).
-8. Use ellipsis character (…) instead of three dots (...). Replace instances of three periods with
-   the dedicated Unicode character for ellipsis, namely U+2026.
+
+게임 내 텍스트를 추가하거나 편집할 때는 이하의 규칙을 따르세요:
+
+1. 미국식 영어 철자를 사용합니다.
+
+2. 마침표 뒤에 두 문장 띄어쓰기를 사용합니다. 즉, 문장을 끝내는 마침표 뒤에 두 개의 공백이 뒤에 두 개의 공백이 와야 합니다. 문장이 텍스트 블록의 마지막 문장인 경우 그 뒤에 공백이 없어야 합니다.
+
+3. 2인칭 시점을 사용합니다(예: "당신").
+
+4. 특성, 무술, 소형 생체공학 모듈(Compact Bionic Modules, CBM)의 이름은 제목에 대문자로 표기해야 합니다. 즉, 관사, 전치사 또는 접속사가 아닌 한 각 단어는 대문자로 표기해야 합니다.
+
+5. 고유명사 이름의 항목과 개체도 제목에 대소문자를 사용해야 합니다.
+
+6. 다른 모든 항목 및 개체 이름은 모두 소문자로 표기합니다.
+
+7. 직렬 쉼표(옥스포드 쉼표)를 사용합니다.
+     > 역주: 혼란을 피하기 위해 연속으로 쉼표를 사용하는 것을 말합니다. 
+     > 
+     > `A, B, and C` 에서의 2번째 쉼표입니다.
+     > `I love my pet, my family, and 
+
+8. 마침표 3개(...) 대신 줄임표 문자(...)를 사용합니다. 마침표가 세 개 있는 경우 줄임표 전용 유니코드 문자, 즉 U+2026으로 대체합니다.
