@@ -596,7 +596,8 @@
         "items": [
           { "item": "bionics_common", "chance": 50 },
           { "item": "bionic_power_storage_mil", "chance": 25 },
-          { "item": "bionics", "chance": 10 }
+          { "item": "bionics", "chance": 10 },
+          { "item": "autodoc_installation_programs", "chance": 25 }
         ]
       }
     },
