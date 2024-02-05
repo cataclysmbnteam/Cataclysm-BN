@@ -2263,6 +2263,7 @@
     "weight": "100 g",
     "volume": "125 ml",
     "category": "spare_parts",
+    "stackable":true,
     "to_hit": -1
   },
   {
@@ -2279,6 +2280,7 @@
     "weight": "114 g",
     "volume": "170 ml",
     "category": "spare_parts",
+    "stackable":true,
     "to_hit": -1
   },
   {
