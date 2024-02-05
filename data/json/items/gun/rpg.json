@@ -24,8 +24,8 @@
       [ "mechanism", 4 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ]
   }
 ]

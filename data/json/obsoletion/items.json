@@ -386,7 +386,7 @@
     "range": -2,
     "dispersion": 300,
     "clip_size": 100,
-    "valid_mod_locations": [ [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ] ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "stock", 1 ], [ "rail", 1 ] ],
     "relative": { "reload": 4 }
   },
   {
@@ -461,7 +461,7 @@
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD" ]
@@ -1246,9 +1246,9 @@
       [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "blackpowder_tolerance": 60,
     "relative": { "durability": -3 },
@@ -1915,8 +1915,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ]
   },
   {
@@ -1943,7 +1943,7 @@
     "durability": 7,
     "clip_size": 1,
     "reload": 800,
-    "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "coilgun",
@@ -1974,8 +1974,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "nail", [ "nailmag" ] ] ]
   },
@@ -1999,8 +1999,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "nail", [ "nailmag" ] ] ],
     "relative": { "weight": 1000, "volume": 6, "range": 3, "ranged_damage": { "damage_type": "stab", "amount": 4 } },
