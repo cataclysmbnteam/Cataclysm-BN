@@ -77,7 +77,7 @@
     "name": { "str": "base slingshot" },
     "skill": "archery",
     "ammo": "pebble",
-    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "underbarrel", 1 ] ],
     "extend": { "flags": [ "BELT_CLIP" ] }
   },
   {

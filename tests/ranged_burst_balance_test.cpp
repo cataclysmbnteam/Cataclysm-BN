@@ -102,7 +102,7 @@ TEST_CASE( "average_burst_bipod", "[ranged] [balance]" )
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
     check_burst_penalty( shooter, "m249", {}, 40, true );
     check_burst_penalty( shooter, "m240", {}, 90, true );
-    check_burst_penalty( shooter, "m2browning", {"underbarrel_mount", "bipod"}, 160, true );
+    check_burst_penalty( shooter, "m2browning", {"bipod"}, 160, true );
     check_burst_penalty( shooter, "m1918", {"bipod"}, 160, true );
 }
 
