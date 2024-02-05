@@ -829,7 +829,7 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
-    "active": [ "solar", { "power": 50 } ],
+    "active": [ "solar", { "power": 80 } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -868,7 +868,7 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
-    "active": [ "solar", { "power": 100 } ],
+    "active": [ "solar", { "power": 160 } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [

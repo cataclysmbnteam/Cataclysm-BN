@@ -111,7 +111,7 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 5,
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "SHOOT_ME" ],
     "deconstruct": { "items": [ { "item": "steel_plate", "count": 1 }, { "item": "pipe", "count": 4 } ] },
     "bash": {
       "str_min": 6,

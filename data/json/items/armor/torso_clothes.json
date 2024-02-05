@@ -564,7 +564,7 @@
     "type": "ARMOR",
     "name": { "str": "work t-shirt" },
     "description": "A gray work t-shirt with a small front pocket.",
-    "weight": "64 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "price": "10 USD",
     "price_postapoc": "50 cent",
