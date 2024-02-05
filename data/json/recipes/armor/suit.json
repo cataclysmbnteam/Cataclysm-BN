@@ -724,6 +724,7 @@
     "difficulty": 4,
     "skills_required": [ "tailor", 2 ],
     "time": "5 m",
+    "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
     "using": [ [ "sewing_standard", 15 ], [ "soldering_standard", 10 ] ],
     "components": [
@@ -743,6 +744,7 @@
     "difficulty": 4,
     "skills_required": [ "tailor", 2 ],
     "time": "3 h 20 m",
+    "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
     "using": [ [ "sewing_standard", 30 ], [ "soldering_standard", 60 ] ],
     "components": [ [ [ "rag", 30 ], [ "union_suit", 1 ] ], [ [ "element", 12 ] ], [ [ "cable", 20 ] ] ]
