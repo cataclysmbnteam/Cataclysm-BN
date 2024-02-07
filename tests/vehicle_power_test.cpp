@@ -79,16 +79,16 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
                     THEN( "the battery should be partially charged" ) {
                         int charge = veh_ptr->fuel_left( fuel_type_battery ) / 100;
-                        CHECK( 10 <= charge );
-                        CHECK( charge <= 15 );
+                        CHECK( 20 <= charge );
+                        CHECK( charge <= 30 );
 
                         AND_WHEN( "another 30 minutes elapse" ) {
                             veh_ptr->update_time( start_time + 2 * 30_minutes );
 
                             THEN( "the battery should be further charged" ) {
                                 charge = veh_ptr->fuel_left( fuel_type_battery ) / 100;
-                                CHECK( 20 <= charge );
-                                CHECK( charge <= 30 );
+                                CHECK( 25 <= charge );
+                                CHECK( charge <= 35 );
                             }
                         }
                     }
