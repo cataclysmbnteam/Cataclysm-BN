@@ -22,7 +22,7 @@
         { "item": "nail", "charges": [ 4, 12 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40 }
+      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -50,7 +50,7 @@
         { "item": "splinter", "count": [ 6, 10 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40 }
+      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -97,7 +97,7 @@
         { "item": "nail", "charges": [ 2, 10 ] },
         { "item": "rag", "count": [ 8, 12 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     },
     "pry": {
       "success_message": "You wedge open the coffin.",
@@ -139,7 +139,7 @@
         { "item": "nail", "charges": [ 2, 10 ] },
         { "item": "rag", "count": [ 8, 12 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -171,7 +171,7 @@
       "sound": "smash!",
       "sound_fail": "wham!",
       "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "nail", "charges": [ 2, 10 ] } ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     },
     "pry": {
       "success_message": "You pop open the crate.",
@@ -200,7 +200,7 @@
       "sound": "smash!",
       "sound_fail": "wham!",
       "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "nail", "charges": [ 2, 10 ] } ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -261,7 +261,7 @@
         { "item": "nail", "charges": [ 4, 8 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -298,7 +298,7 @@
         { "item": "glass_shard", "count": [ 1, 10 ] },
         { "item": "scrap", "count": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -325,6 +325,7 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ],
+      "//": "double the expected damage reduction",
       "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "75%" }
     }
   },
@@ -352,6 +353,7 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ],
+      "//": "double the expected damage reduction",
       "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "75%" }
     }
   },
@@ -381,6 +383,7 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ],
+      "//": "double the expected damage reduction",
       "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "75%" }
     }
   },
@@ -408,6 +411,7 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ],
+      "//": "double the expected damage reduction",
       "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "75%" }
     }
   },
@@ -436,6 +440,7 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ],
+      "//": "double the expected damage reduction",
       "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "75%" }
     }
   },
@@ -463,7 +468,7 @@
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40 }
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -557,7 +562,7 @@
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "pipe", "count": 1 }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -580,7 +585,7 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 20, 40 ] }, { "item": "splinter", "count": 12 } ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -622,7 +627,7 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "plastic_chunk", "count": [ 2, 7 ] }, { "item": "pipe", "count": [ 1, 2 ] } ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -650,6 +655,7 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ],
+      "//": "double the expected damage reduction",
       "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "25%" }
     }
   },
@@ -678,6 +684,7 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ],
+      "//": "double the expected damage reduction",
       "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "25%" }
     }
   },
@@ -705,6 +712,7 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ],
+      "//": "double the expected damage reduction",
       "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "25%" }
     }
   },
@@ -760,7 +768,7 @@
         { "item": "pipe", "count": [ 0, 1 ] },
         { "item": "scrap", "count": [ 2, 5 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40 }
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -789,7 +797,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [ { "item": "scrap", "count": [ 0, 6 ] }, { "item": "sheet_metal", "count": [ 0, 4 ] } ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -823,7 +831,7 @@
         { "item": "sheet_metal_small", "count": [ 1, 4 ] },
         { "item": "pipe", "count": 1 }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -852,7 +860,7 @@
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "pipe", "count": 4 }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 40 }
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -890,7 +898,7 @@
         { "item": "scrap", "count": [ 10, 20 ] },
         { "item": "splinter", "count": 1 }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -914,7 +922,8 @@
       "sound_fail_vol": 12,
       "furn_set": "f_displaycase_b",
       "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ],
-      "ranged": { "reduction": [ 1, 6 ], "destroy_threshold": 5, "block_unaimed_chance": "75%" }
+      "//": "reduction matches that of the underlying broken case, destroy_threshold matches str_min since glass might shatter",
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 6, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -935,7 +944,7 @@
       "sound": "crunch!",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 2, 4 ] } ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -982,7 +991,7 @@
         { "item": "steel_chunk", "count": [ 1, 3 ] },
         { "item": "pipe", "count": [ 1, 2 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 45, "block_unaimed_chance": "75%" }
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 45, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -1013,7 +1022,7 @@
         { "item": "scrap", "count": [ 10, 20 ] },
         { "item": "splinter", "count": [ 1, 20 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -1042,7 +1051,7 @@
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "hinge", "charges": 2 }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   }
 ]

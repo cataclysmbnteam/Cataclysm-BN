@@ -804,7 +804,8 @@
         { "item": "material_limestone", "charges": [ 3, 8 ], "prob": 80 },
         { "group": "rock_mining_extra", "prob": 8 }
       ],
-      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 16, 32 ], "destroy_threshold": 32, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -830,7 +831,7 @@
         { "item": "material_limestone", "charges": [ 5, 15 ], "prob": 80 },
         { "group": "rock_mining_extra", "prob": 15 }
       ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 32, 64 ], "destroy_threshold": 64, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -855,7 +856,7 @@
         { "item": "material_limestone", "charges": [ 8, 20 ], "prob": 80 },
         { "group": "rock_mining_extra", "prob": 20 }
       ],
-      "ranged": { "reduction": [ 80, 160 ], "destroy_threshold": 160 }
+      "ranged": { "reduction": [ 64, 128 ], "destroy_threshold": 128 }
     }
   },
   {
@@ -893,7 +894,7 @@
         { "item": "cable", "charges": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -921,7 +922,7 @@
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "scrap", "count": [ 3, 12 ] }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
     }
   },
   {

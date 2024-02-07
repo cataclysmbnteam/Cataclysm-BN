@@ -17,7 +17,8 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "items": [ { "item": "rock", "count": [ 15, 30 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 80, "block_unaimed_chance": "75%" }
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 50, 100 ], "destroy_threshold": 100, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -39,7 +40,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [ { "item": "scrap", "count": [ 3, 6 ] }, { "item": "pipe", "prob": 50 } ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     },
     "deconstruct": { "items": [ { "item": "metal_tank", "count": 1 }, { "item": "pipe", "count": 1 } ] }
   },
@@ -66,7 +67,7 @@
         { "item": "steel_chunk", "count": [ 2, 6 ] },
         { "item": "sheet_metal_small", "count": [ 2, 6 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -118,7 +119,7 @@
         { "item": "sheet_metal_small", "count": [ 3, 10 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -145,7 +146,7 @@
         { "item": "sheet_metal_small", "count": [ 2, 5 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
     }
   },
   {

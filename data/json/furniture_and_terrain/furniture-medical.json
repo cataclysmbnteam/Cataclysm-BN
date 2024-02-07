@@ -38,7 +38,8 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
         { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 75, "block_unaimed_chance": "25%" }
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -67,7 +68,8 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "rag", "count": [ 20, 30 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 10, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -107,7 +109,7 @@
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -193,7 +195,7 @@
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "cu_pipe", "count": 1 }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 18, 35 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.15, "mass": "300 kg", "volume": "100L" }
@@ -243,7 +245,7 @@
         { "item": "glass_shard", "count": [ 3, 6 ] },
         { "item": "cable", "charges": [ 1, 2 ] }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 13, 25 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -283,7 +285,7 @@
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 13, 25 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -387,7 +389,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -433,7 +435,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 70, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 11, 22 ], "destroy_threshold": 70, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -475,7 +477,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 70, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 12, 24 ], "destroy_threshold": 70, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -516,7 +518,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 70, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 19, 38 ], "destroy_threshold": 70, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -557,7 +559,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 70, "block_unaimed_chance": "75%" }
+      "ranged": { "reduction": [ 18, 35 ], "destroy_threshold": 70, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -599,7 +601,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -641,7 +643,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -677,7 +679,7 @@
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 5, 10 ] }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -724,7 +726,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -769,7 +771,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -814,7 +816,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -907,7 +909,7 @@
       ]
     },
     "bash": {
-      "str_min": 3,
+      "str_min": 12,
       "str_max": 45,
       "sound": "crunch!",
       "sound_fail": "whack!",
@@ -919,7 +921,8 @@
         { "item": "sheet_metal", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 12, "block_unaimed_chance": "25%" }
     }
   }
 ]
