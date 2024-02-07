@@ -429,8 +429,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 {
     melee::melee_stats.attack_count += 1;
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
-    if( !t.is_player() ) {
-        // TODO: Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
+    // Old check for if the target is player retained in case you somehow hit yourself
+    if( !t.is_player() && is_player() ) {
         t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
     if( is_mounted() ) {
