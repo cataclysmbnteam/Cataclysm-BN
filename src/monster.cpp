@@ -63,6 +63,7 @@
 
 static const ammo_effect_str_id ammo_effect_WHIP( "WHIP" );
 
+static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
@@ -1345,6 +1346,11 @@ monster_attitude monster::attitude( const Character *u ) const
             if( u->has_trait( trait_PROF_FERAL ) && !u->has_effect( effect_feral_infighting_punishment ) ) {
                 return MATT_FRIEND;
             }
+        }
+
+        if( type->has_anger_trigger( mon_trigger::NETHER_ATTENTION ) &&
+            u->has_effect( effect_attention ) ) {
+            return MATT_ATTACK;
         }
 
         if( type->in_species( FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
@@ -2819,25 +2825,23 @@ void monster::process_effects_internal()
         regeneration_amount = 0;
     }
     const int healed_amount = heal( round( regeneration_amount ) );
-    if( healed_amount > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
-        add_msg( m_debug, ( "Regen: %s" ), healed_amount );
-        std::string healing_format_string;
-        if( healed_amount >= 50 ) {
-            healing_format_string = _( "The %s is visibly regenerating!" );
-        } else if( healed_amount >= 10 ) {
-            healing_format_string = _( "The %s seems a little healthier." );
-        } else {
-            healing_format_string = _( "The %s is healing slowly." );
-        }
-        add_msg( m_warning, healing_format_string, name() );
+    if( healed_amount > 0 && g->u.sees( *this ) ) {
+        add_msg( m_warning, _( "The %1$s regenerates %2$s damage." ), name(), healed_amount );
     }
 
     if( type->regenerates_in_dark ) {
         const float light = g->m.ambient_light_at( pos() );
-        // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
-        if( heal( static_cast<int>( 50.0 *  std::exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) &&
-                  g->u.sees( *this ) ) ) {
-            add_msg( m_warning, _( "The %s uses the darkness to regenerate." ), name() );
+        add_msg( m_debug, _( "%1$s local light level: %2$s" ), name(), light );
+        // Requires standing in a properly dark tile, scales as it gets darker
+        if( light < 11.0f && one_in( 2 ) && hp < type->hp ) {
+            // Regen will max out at 50 at 6.0 light (barely able to craft), or top off to max HP
+            int dark_regen_amount = std::min( static_cast<int>( 110.0f - ( light * 10.0f ) ), type->hp - hp );
+            dark_regen_amount = std::min( dark_regen_amount, 50 );
+            heal( round( dark_regen_amount ) );
+            if( dark_regen_amount > 0 && g->u.sees( *this ) ) {
+                add_msg( m_warning, _( "The %1$s uses the darkness to regenerate %2$s damage." ), name(),
+                         dark_regen_amount );
+            }
         }
     }
 

@@ -57,7 +57,8 @@
           { "id": "cacao_pod", "fg": 46 },
           { "id": "overlay_wielded_cacao_pod", "fg": 46 },
           { "id": "f_sign", "fg": 47 },
-          { "id": "tr_can_alarm", "fg": 48 }
+          { "id": "tr_can_alarm", "fg": 48 },
+          { "id": "mon_mothman", "fg": 49 }
         ],
         "sprite_width": 32,
         "sprite_height": 32

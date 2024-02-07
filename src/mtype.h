@@ -50,6 +50,7 @@ enum class mon_trigger : int {
     SOUND,              // Heard a sound
     PLAYER_NEAR_BABY,   // Player/npc is near a baby monster of this type
     MATING_SEASON,      // It's the monster's mating season (defined by baby_flags)
+    NETHER_ATTENTION,   // Player/npc currently has effect_attention
 
     _LAST               // This item must always remain last.
 };
