@@ -13,8 +13,7 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "light_cyan",
-    "intelligence": 5,
-    "time": "10 m"
+    "stackable ": true
   },
   {
     "id": "trade_writ_scrap",
@@ -30,8 +29,7 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "light_cyan",
-    "intelligence": 5,
-    "time": "10 m"
+    "stackable ": true
   },
   {
     "id": "trade_writ_lumberyard",
@@ -47,8 +45,7 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "light_cyan",
-    "intelligence": 5,
-    "time": "10 m"
+    "stackable ": true
   },
   {
     "id": "magic_8_ball",
