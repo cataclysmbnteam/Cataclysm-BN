@@ -1,7 +1,7 @@
 [
   {
     "id": "trade_writ_chemist",
-    "type": "BOOK",
+    "type": "GENERIC",
     "name": { "str": "writ of trade (chemist)", "str_pl": "writs of trade (chemist)" },
     "description": "A few sheets of paper from the chemist living out in the wilderness listing some of the chemical they're capable of making.",
     "weight": "1 g",
@@ -18,7 +18,7 @@
   },
   {
     "id": "trade_writ_scrap",
-    "type": "BOOK",
+    "type": "GENERIC",
     "name": { "str": "writ of trade (scrap)", "str_pl": "writs of trade (scrap)" },
     "description": "A handwritten listing of the inventory at the scrapyard.",
     "weight": "1 g",
@@ -35,7 +35,7 @@
   },
   {
     "id": "trade_writ_lumberyard",
-    "type": "BOOK",
+    "type": "GENERIC",
     "name": { "str": "writ of trade (lumberyard)", "str_pl": "writs of trade (lumberyard)" },
     "description": "A printout of the local lumberyard's latest inventory.",
     "weight": "1 g",
