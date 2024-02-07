@@ -172,7 +172,9 @@ namespace
 // TODO: add explicit action field to gun definitions
 auto defmode_name( itype &obj )
 {
-    if( obj.gun->clip == 1 ) {
+    if( obj.mod ) {
+        return translate_marker( "gunmod" ); // grenade launchers
+    } else if( obj.gun->clip == 1 ) {
         return translate_marker( "manual" ); // break-type actions
     } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.has_flag( flag_RELOAD_ONE ) ) {
         return translate_marker( "revolver" );
