@@ -12,8 +12,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_glam",
-    "color": "light_cyan",
-    "stackable ": true
+    "color": "light_cyan"
   },
   {
     "id": "trade_writ_scrap",
@@ -28,8 +27,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_glam",
-    "color": "light_cyan",
-    "stackable ": true
+    "color": "light_cyan"
   },
   {
     "id": "trade_writ_lumberyard",
@@ -44,8 +42,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_glam",
-    "color": "light_cyan",
-    "stackable ": true
+    "color": "light_cyan"
   },
   {
     "id": "magic_8_ball",
