@@ -520,6 +520,11 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
     return true;
 }
 
+bool assign( const JsonObject &jo,
+             const std::string &name,
+             resistances &val,
+             bool strict = false );
+
 template<typename T>
 inline bool assign( const JsonObject &jo, const std::string &name, std::optional<T> &val,
                     const bool strict = false )

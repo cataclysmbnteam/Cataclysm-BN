@@ -388,7 +388,7 @@
       { "item": "legpouch_large", "prob": 75 },
       { "item": "legrig", "prob": 50 },
       { "item": "dump_pouch", "prob": 50 },
-      { "item": "grenadebandolier", "prob": 25 },
+      { "item": "grenade_pouch", "prob": 25 },
       { "item": "grenadebandolier", "prob": 25 }
     ]
   },

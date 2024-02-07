@@ -6,6 +6,7 @@
 #include <numeric>
 #include <utility>
 
+#include "assign.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -14,6 +15,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "translations.h"
+#include "cata_utility.h"
 
 bool damage_unit::operator==( const damage_unit &other ) const
 {
@@ -183,10 +185,7 @@ int dealt_damage_instance::total_damage() const
     return std::accumulate( dealt_dams.begin(), dealt_dams.end(), 0 );
 }
 
-resistances::resistances()
-{
-    resist_vals.fill( 0 );
-}
+resistances::resistances() = default;
 
 resistances::resistances( const item &armor, bool to_self )
 {
@@ -211,11 +210,15 @@ resistances::resistances( monster &monster ) : resistances()
 }
 void resistances::set_resist( damage_type dt, float amount )
 {
-    resist_vals[dt] = amount;
+    flat[dt] = amount;
 }
 float resistances::type_resist( damage_type dt ) const
 {
-    return resist_vals[dt];
+    auto iter = flat.find( dt );
+    if( iter != flat.end() ) {
+        return iter->second;
+    }
+    return 0.0f;
 }
 float resistances::get_effective_resist( const damage_unit &du ) const
 {
@@ -223,13 +226,14 @@ float resistances::get_effective_resist( const damage_unit &du ) const
                      0.0f ) * du.res_mult;
 }
 
-resistances &resistances::operator+=( const resistances &other )
+resistances resistances::combined_with( const resistances &other ) const
 {
-    for( size_t i = 0; i < NUM_DT; i++ ) {
-        resist_vals[ i ] += other.resist_vals[ i ];
+    resistances ret = *this;
+    for( const auto &pr : other.flat ) {
+        ret.flat[ pr.first ] += pr.second;
     }
 
-    return *this;
+    return ret;
 }
 
 template<>
@@ -425,23 +429,42 @@ damage_instance load_damage_instance_inherit( const JsonArray &jarr, const damag
     return di;
 }
 
-std::array<float, NUM_DT> load_damage_array( const JsonObject &jo )
+std::map<damage_type, float> load_damage_map( const JsonObject &jo )
 {
-    std::array<float, NUM_DT> ret;
-    float init_val = jo.get_float( "all", 0.0f );
+    std::map<damage_type, float> ret;
+    std::optional<float> init_val = jo.has_float( "all" ) ?
+                                    jo.get_float( "all", 0.0f ) :
+                                    std::optional<float>();
 
-    float phys = jo.get_float( "physical", init_val );
-    ret[ DT_BASH ] = jo.get_float( "bash", phys );
-    ret[ DT_CUT ] = jo.get_float( "cut", phys );
-    ret[ DT_STAB ] = jo.get_float( "stab", phys );
-    ret[ DT_BULLET ] = jo.get_float( "bullet", phys );
+    auto load_if_present = [&ret, &jo]( const std::string & name, damage_type dt,
+    std::optional<float> fallback ) {
+        if( jo.has_float( name ) ) {
+            float val = jo.get_float( name );
+            ret[dt] = val;
+        } else if( fallback ) {
+            ret[dt] = *fallback;
+        }
+    };
 
-    float non_phys = jo.get_float( "non_physical", init_val );
-    ret[ DT_BIOLOGICAL ] = jo.get_float( "biological", non_phys );
-    ret[ DT_ACID ] = jo.get_float( "acid", non_phys );
-    ret[ DT_HEAT ] = jo.get_float( "heat", non_phys );
-    ret[ DT_COLD ] = jo.get_float( "cold", non_phys );
-    ret[ DT_ELECTRIC ] = jo.get_float( "electric", non_phys );
+    std::optional<float> phys = jo.has_float( "physical" ) ?
+                                jo.get_float( "physical", 0.0f ) :
+                                std::optional<float>();
+
+
+    load_if_present( "bash", DT_BASH, phys ? *phys : init_val );
+    load_if_present( "cut", DT_CUT, phys ? *phys : init_val );
+    load_if_present( "stab", DT_STAB, phys ? *phys : init_val );
+    load_if_present( "bullet", DT_BULLET, phys ? *phys : init_val );
+
+    std::optional<float> non_phys = jo.has_float( "non_physical" ) ?
+                                    jo.get_float( "non_physical", 0.0f ) :
+                                    std::optional<float>();
+
+    load_if_present( "biological", DT_BIOLOGICAL, non_phys ? *non_phys : init_val );
+    load_if_present( "acid", DT_ACID, non_phys ? *non_phys : init_val );
+    load_if_present( "heat", DT_HEAT, non_phys ? *non_phys : init_val );
+    load_if_present( "cold", DT_COLD, non_phys ? *non_phys : init_val );
+    load_if_present( "electric", DT_ELECTRIC, non_phys ? *non_phys : init_val );
 
     // DT_TRUE should never be resisted
     ret[ DT_TRUE ] = 0.0f;
@@ -451,6 +474,54 @@ std::array<float, NUM_DT> load_damage_array( const JsonObject &jo )
 resistances load_resistances_instance( const JsonObject &jo )
 {
     resistances ret;
-    ret.resist_vals = load_damage_array( jo );
+    ret.flat = load_damage_map( jo );
     return ret;
+}
+
+bool assign( const JsonObject &jo,
+             const std::string &name,
+             resistances &val,
+             bool /*strict*/ )
+{
+    // Object via which to report errors which differs for proportional/relative
+    // values
+    JsonObject err = jo;
+    err.allow_omitted_members();
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
+
+    if( relative.has_member( name ) ) {
+        err = relative;
+        JsonObject jo_relative = err.get_member( name );
+        const resistances tmp = load_resistances_instance( err );
+        for( size_t i = 0; i < val.flat.size(); i++ ) {
+            damage_type dt = static_cast<damage_type>( i );
+            auto iter = tmp.flat.find( dt );
+            if( iter != tmp.flat.end() ) {
+                val.flat[dt] += iter->second;
+            }
+        }
+
+    } else if( proportional.has_member( name ) ) {
+        err = relative;
+        JsonObject jo_proportional = err.get_member( name );
+        resistances tmp = load_resistances_instance( err );
+        for( size_t i = 0; i < val.flat.size(); i++ ) {
+            damage_type dt = static_cast<damage_type>( i );
+            auto iter = tmp.flat.find( dt );
+            if( iter != tmp.flat.end() ) {
+                val.flat[dt] *= iter->second;
+            }
+        }
+
+    } else if( jo.has_object( name ) ) {
+        JsonObject jo_inner = jo.get_object( name );
+        val = load_resistances_instance( jo_inner );
+    }
+
+    // TODO: Check for change - ie. `strict` check support
+
+    return true;
 }
