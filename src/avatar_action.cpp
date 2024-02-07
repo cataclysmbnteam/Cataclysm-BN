@@ -449,7 +449,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     // Invalid move
-    const bool waste_moves = you.is_blind() || you.has_effect( effect_stunned );
+    const bool waste_moves = ( you.is_blind() && you.clairvoyance() < 1 ) ||
+                             you.has_effect( effect_stunned );
     if( waste_moves || dest_loc.z != you.posz() ) {
         add_msg( _( "You bump into the %s!" ), m.obstacle_name( dest_loc ) );
         // Only lose movement if we're blind
