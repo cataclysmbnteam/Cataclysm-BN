@@ -157,7 +157,7 @@
     "color": "brown",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "DIGGABLE", "VEH_TREAT_AS_BASH_BELOW", "PLANTABLE", "SHALLOW_WATER" ],
-    "bash": { 
+    "bash": {
       "sound": "thump",
       "ter_set": "t_pit_shallow",
       "str_min": 50,
@@ -166,7 +166,7 @@
       "items": [ { "item": "clay_lump", "count": [ 2, 6 ] } ]
     },
     "examine_action": "dirtmound",
-    "//":"Is this work even not t_dirtmound?"
+    "//": "Is this work even not t_dirtmound?"
   },
   {
     "type": "terrain",
