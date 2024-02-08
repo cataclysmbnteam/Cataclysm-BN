@@ -172,7 +172,7 @@
     "type": "terrain",
     "id": "t_clay_bog",
     "name": "ooze bog",
-    "description": "A pit filled with muddy water. Neither used as a water source nor ground. Keep pouring water and stirring it.",
+    "description": "A pit filled with muddy water.  Neither used as a water source nor ground.  Keep pouring water and stirring it.",
     "symbol": "O",
     "color": "brown",
     "looks_like": "t_mud",
