@@ -118,7 +118,7 @@
     "required_skills": [ [ "survival", 2 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "pebble", "charges": [ 2, 16 ] } ],
+    "byproducts": [ { "item": "clay_lump", "charges": [ 6, 12 ] } ],
     "components": [ [ [ "water", 32 ], [ "water_clean", 32 ] ] ],
     "pre_terrain": "t_clay_bog",
     "post_terrain": "t_clay"
