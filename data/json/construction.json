@@ -81,7 +81,11 @@
     "required_skills": [ [ "survival", 1 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "components": [ [ [ "clay_lump", 8 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ], [ [ "material_sand", 20 ], [ "material_soil", 2 ] ] ],
+    "components": [
+      [ [ "clay_lump", 8 ] ],
+      [ [ "water", 4 ], [ "water_clean", 4 ] ],
+      [ [ "material_sand", 20 ], [ "material_soil", 2 ] ]
+    ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_paddy",
     "dark_craftable": true
