@@ -461,5 +461,22 @@
     "breaks_into": [ { "item": "scrap", "count": 28 }, { "item": "steel_chunk", "count": 20 }, { "item": "steel_lump", "count": 12 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
     "description": "A rotary firearm from the 19th Century driving multiple barrels with a hand crank for sustained fire."
+  },
+  {
+    "id": "mounted_slingshot_cannon",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted slingshot cannon" },
+    "item": "slingshot_cannon",
+    "looks_like": "tow_launcher",
+    "color": "brown",
+    "broken_color": "light_gray",
+    "breaks_into": [
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 0, 2 ] },
+      { "item": "splinter", "count": [ 8, 16 ] },
+      { "item": "hose", "count": [ 0, 2 ] }
+    ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   }
 ]
