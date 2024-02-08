@@ -16,6 +16,21 @@ on:
     - '!tools/format/**'
     - 'utilities/**'
     - 'scripts/**'
+  pull_request:
+    branches:
+    - main
+    paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
+    - 'lgtm/**'
+    - 'tools/**'
+    - '!tools/format/**'
+    - 'utilities/**'
+    - 'scripts/**'
 
 # We only care about the latest revision, so cancel previous instances.
 concurrency:
