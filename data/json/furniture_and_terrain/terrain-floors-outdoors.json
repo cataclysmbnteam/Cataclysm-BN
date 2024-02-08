@@ -152,7 +152,7 @@
     "type": "terrain",
     "id": "t_paddy",
     "name": "paddy field",
-    "description": "A damp, muddy field used to grow crops that require a lot of water. The clay holds moisture, making it perfect for the crops.", 
+    "description": "A damp, muddy field used to grow crops that require a lot of water. The clay holds moisture, making it perfect for the crops.",
     "symbol": "#",
     "color": "brown",
     "move_cost": 3,
