@@ -602,7 +602,7 @@
     "price_postapoc": "10 USD",
     "to_hit": -1,
     "bashing": 6,
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel", "plastic_nonflam" ],
     "symbol": "*",
     "color": "green",
     "use_action": {
@@ -627,7 +627,7 @@
     "price_postapoc": "0 cent",
     "to_hit": -1,
     "bashing": 6,
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel", "plastic_nonflam" ],
     "symbol": "*",
     "color": "green",
     "initial_charges": 5,
