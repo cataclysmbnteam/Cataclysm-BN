@@ -125,7 +125,7 @@
     "byproducts": [ { "item": "clay_lump", "charges": [ 6, 12 ] } ],
     "components": [ [ [ "water", 32 ], [ "water_clean", 32 ] ] ],
     "pre_terrain": "t_clay_bog",
-    "post_terrain": "t_clay"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
