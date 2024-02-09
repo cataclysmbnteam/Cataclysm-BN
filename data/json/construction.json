@@ -120,9 +120,9 @@
     "group": "gather_clay_from_dirt",
     "category": "OTHER",
     "required_skills": [ [ "survival", 2 ] ],
-    "time": "90 m",
+    "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "clay_lump", "charges": [ 6, 12 ] } ],
+    "byproducts": [ { "item": "clay_lump", "charges": [ 8, 16 ] } ],
     "components": [ [ [ "water", 32 ], [ "water_clean", 32 ] ] ],
     "pre_terrain": "t_clay_bog",
     "post_terrain": "t_dirt"
