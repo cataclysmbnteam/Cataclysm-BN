@@ -83,8 +83,8 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [
       [ [ "clay_lump", 8 ] ],
-      [ [ "water", 4 ], [ "water_clean", 4 ] ],
-      [ [ "material_sand", 20 ], [ "material_soil", 2 ] ]
+      [ [ "water", 12 ], [ "water_clean", 12 ] ],
+      [ [ "material_soil", 1 ] ]
     ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_paddy",
