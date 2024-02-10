@@ -33,20 +33,24 @@ Cataclysm: BN 을 번역하는 공식적인 사이트는 [Transifex translations
 
 ## BN 팀에 들어가기
 
-번역을 시작하려면 [번역 프로젝트][project]로 이동하여 주십시오. 우측 사이드바에 `JOIN THIS PROJECT` 를 통해 로그인 / 회원가입을 하는 화면으로 갈 수 있습니다. Transifex에 무료 계정을 만들 수도 있지만 GitHub, Google+ 또는 LinkedIn을 사용하여 로그인할 수도 있습니다.
+번역을 시작하려면 [번역 프로젝트][project]로 이동하여 주십시오. 우측 사이드바에 `JOIN THIS PROJECT`
+를 통해 로그인 / 회원가입을 하는 화면으로 갈 수 있습니다. Transifex에 무료 계정을 만들 수도 있지만
+GitHub, Google+ 또는 LinkedIn을 사용하여 로그인할 수도 있습니다.
 
 ![Start translating](./img/start_new.png)
 
-계정을 만든 후에는 [번역 프로젝트][project]로 돌아와서 `JOIN THIS PROJECT` 버튼을 클릭합니다. 그러면 번역에 관심 있는 언어를 선택할 수 있는 창이 열립니다. 번역하고 싶은 언어를 선택하고 `프로젝트에 참가` 버튼을 클릭합니다.
+계정을 만든 후에는 [번역 프로젝트][project]로 돌아와서 `JOIN THIS PROJECT` 버튼을 클릭합니다. 그러면
+번역에 관심 있는 언어를 선택할 수 있는 창이 열립니다. 번역하고 싶은 언어를 선택하고
+`프로젝트에 참가` 버튼을 클릭합니다.
 
 ![Join project](./img/choose.png)
 
 ## Choose a language
 
-참가 요청이 받아들여지면, 
-After this, the most straightforward thing to do is to reload the page, which should redirect you to
-the translation project's dashboard. Here, you can click the "Languages" link on the sidebar to see
-the list of supported languages and the current progress of the translation effort.
+참가 요청이 받아들여지면, After this, the most straightforward thing to do is to reload the page,
+which should redirect you to the translation project's dashboard. Here, you can click the
+"Languages" link on the sidebar to see the list of supported languages and the current progress of
+the translation effort.
 
 Note that you can request for the inclusion of additional languages, if the one you are interested
 in is not available on the list.
