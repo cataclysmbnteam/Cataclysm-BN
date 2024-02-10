@@ -947,7 +947,7 @@
       {
         "type": "salvage",
         "moves_per_part": 1000,
-        "material_whitelist": [ "steel", "hardsteel", "budget_steel", "tin", "silver_small", "gold_small", "copper", "iron" ]
+        "material_whitelist": [ "steel", "hardsteel", "budget_steel", "tin", "silver_small", "gold_small", "copper", "iron", "acidchitin", "alien_resin", "bone", "chitin", "cotton", "faux_fur", "fur", "kevlar", "kevlar_rigid", "leather", "neoprene", "nomex", "nylon", "plastic", "rubber", "wood", "wool" ]
       }
     ]
   },
@@ -991,7 +991,7 @@
       {
         "type": "salvage",
         "moves_per_part": 1000,
-        "material_whitelist": [ "steel", "hardsteel", "budget_steel", "tin", "silver_small", "gold_small", "copper", "iron" ]
+        "material_whitelist": [ "steel", "hardsteel", "budget_steel", "tin", "silver_small", "gold_small", "copper", "iron", "acidchitin", "alien_resin", "bone", "chitin", "cotton", "faux_fur", "fur", "kevlar", "kevlar_rigid", "leather", "neoprene", "nomex", "nylon", "plastic", "rubber", "wood", "wool" ]
       }
     ]
   },
@@ -1024,7 +1024,7 @@
       {
         "type": "salvage",
         "moves_per_part": 1000,
-        "material_whitelist": [ "steel", "hardsteel", "budget_steel", "tin", "silver_small", "gold_small", "copper", "iron" ]
+        "material_whitelist": [ "steel", "hardsteel", "budget_steel", "tin", "silver_small", "gold_small", "copper", "iron", "acidchitin", "alien_resin", "bone", "chitin", "cotton", "faux_fur", "fur", "kevlar", "kevlar_rigid", "leather", "neoprene", "nomex", "nylon", "plastic", "rubber", "wood", "wool" ]
       },
       { "flame": false, "type": "cauterize" }
     ],
