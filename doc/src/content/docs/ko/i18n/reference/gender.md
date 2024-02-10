@@ -1,25 +1,21 @@
 ---
-title: Grammatical gender
+title: 문법적 성별
 ---
 
-For NPC dialogue (and potentially other strings) some languages may wish to have alternate
-translations depending on the gender of the conversation participants. This two pieces of initial
-configuration.
+NPC 대화(및 기타 문자열)의 경우 일부 언어의 경우 대화 참가자의 
+성별에 따라 대체 번역이 필요할 수 있습니다. 이 두 가지 초기 구성은 
+다음과 같습니다.
 
-1. The dialogue must have the relevant genders listed in the json file defining it. See
-   [the NPC docs](../../mod/json/reference/creatures/npcs).
-2. Each language must specify the genders it wishes to use via `genders` list of the language's
-   entry in `data/raw/languages.json`. Don't add genders there until you're sure you will need them,
-   because it will make more work for you. Current choices are: `m` (male), `f` (female), `n`
-   (neuter). If you need different genders than the ones currently supported, see relevant note in
-   `src/language.h`.
+1. 대화를 정의하는 json 파일에 관련 성별이 나열되어 있어야 합니다. 참고: [NPC 문서](../../mod/json/reference/creatures/npcs).
+2. 각 언어는 `data/raw/languages.json`에 있는 언어 항목의 `genders` 목록을 통해 사용하고자 하는 성별을 지정해야 합니다. 성별이 필요하다는 확신이 들 때까지는 성별을 추가하지 않는 것이 좋습니다. 현재 선택 가능한 항목은 다음과 같습니다: `m`(남성), `f`(여성), `n`(중성). 현재 지원되는 성별과 다른 성별이 필요한 경우 `src/language.h`의 관련 참고 사항을 참조하세요.
 
-Having done this, the relevant dialogue lines will appear multiple times for translation, with
-different genders specified in the message context. For example, a context of `npc:m` would indicate
-that the NPC participant in the conversation is male.
+이렇게 하면 메시지 컨텍스트에 지정된 성별에 따라 관련 대화 
+행이 번역에 여러 번 표시됩니다. 예를 들어 `npc:m`의 컨텍스트는 
+대화에 참여한 NPC가 남성이라는 것을 나타냅니다.
 
-Because of technical limitations, all supported genders will appear as contexts, but you only need
-to provide translations for the genders listed in the grammatical gender list for your language.
+기술적인 제한으로 인해 지원되는 모든 성별이 컨텍스트로 
+표시되지만, 해당 언어의 문법적 성별 목록에 나열된 성별에 
+대한 번역만 제공하면 됩니다.
 
-Other parts of the game have various ad hoc solutions to grammatical gender, so don't be surprised
-to see other contexts appearing for other strings.
+게임의 다른 부분에는 문법적 성별에 대한 다양한 임시 해결책이 
+있으므로 다른 문자열에 대해 다른 컨텍스트가 표시되어도 놀라지 마세요.

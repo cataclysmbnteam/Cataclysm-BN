@@ -1,26 +1,27 @@
 ---
-title: Translation file format (.po)
+title: 번역 파일 포맷 (.po)
 ---
 
-Translations are stored in [`".po"` files (Portable Object)][po], named with a language code
-specific to each language and country. So for example the translations for the Spanish spoken in
-Spain would be found in `es_ES.po` and for Spanish spoken in Mexico would be found in `es_MX.po`.
+
+번역은 각 언어 및 국가별 언어 코드로 명명된 [`".po"` 파일(Portable Object)][po]에 저장됩니다. 
+예를 들어 스페인에서 사용되는 스페인어에 대한 번역은 `es_ES.po`에, 
+멕시코에서 사용되는 스페인어에 대한 번역은 `es_MX.po`에 저장됩니다.
 
 [po]: https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html
 
-It is a plain-text filetype, so you can edit it however you choose, but translators often prefer to
-use purpose-built translation editors (such as [Poedit](https://poedit.net)), or web-based
-translation tools (such as <https://translations.launchpad.net>).
+일반 텍스트 파일 형식이므로 원하는 대로 편집할 수 있지만 번역가는 다음을 선호하는 경우가 많습니다.
+전용 번역 편집기(예: [Poedit](https://poedit.net))를 사용하거나 웹 기반의
+번역 도구(예: <https://translations.launchpad.net>)를 선호합니다.
 
-The format of `".po"` files is a list of entries, with the english phrase to be translated, followed
-by the local translation. The english phrase is on the line or lines beginning with `msgid`, and the
-translated phrase goes on the line or lines beginning with `msgstr`.
+`".po"` 파일의 형식은 번역할 영어 문구와 그 뒤에 로컬 번역이 있는 항목
+ 목록입니다. 영어 문구는 `msgid`로 시작하는 줄에 있고, 번역된 구문은 
+ `msgstr`로 시작하는 줄에 있습니다.
 
-Before the `msgid` line there will be a comment line indicating where in the source code the word or
-phrase came from. This can often help when the meaning of the english is not obvious. There may also
-be comments left by the developers to make translation easier.
+`msgid` 줄 앞에는 해당 단어나 문구가 소스 코드에서 어디에서 왔는지를 나타내는 주석 줄이 있습니다. 
+이는 영어의 의미가 명확하지 않을 때 종종 도움이 될 수 있습니다. 
+또한 번역을 더 쉽게 하기 위해 개발자가 남긴 주석이 있을 수도 있습니다.
 
-Most entries will look something like this:
+대부분의 항목은 다음과 같이 표시됩니다:
 
 ```
 #: action.cpp:421
@@ -28,11 +29,12 @@ msgid "Construct Terrain"
 msgstr "niarreT tcurtsnoC"
 ```
 
-The english phrase here is "Construct Terrain", and it comes from line 421 of the file "action.cpp".
-The example translation is just a reversal of the english letters. With this, in stead of "Construct
-Terrain", the game will display "niarreT tcurtsnoC".
+여기서 영어 문구는 "Construct Terrain" 이고, 
+`action.cpp` 파일의 421 번째 줄에 나와 있습니다.
+이 예제는 그저 영어 문자를 뒤집은 것입니다. 
+이렇게 하면 "Construct Terrain" 대신 "niarreT tcurtsnoC"가 표시됩니다.
 
-Another exmple is:
+또 다른 예제로는:
 
 ```
 #: action.cpp:425 defense.cpp:635 defense.cpp:701 npcmove.cpp:2049
@@ -40,24 +42,25 @@ msgid "Sleep"
 msgstr "pleeS"
 ```
 
-This is similar to the last example, except it is a more common phrase. It is used in the files
-action.cpp, defense.cpp (twice) and npcmove.cpp. The translation will replace every usage.
+방금의 예제와 비슷하지만, 더 일반적인 문구에 대한 것입니다.
+이것은 `action.cpp`, `defense.cpp`(두 번) 및 `npcmove.cpp` 파일에서 사용됩니다. 
+이 문구가 사용된 모든 곳을 해당 번역으로 대체합니다.
 
-## File Header
 
-The header at the top of the `".po"` file is the only part that differs from the
-comment/msgid/msgstr format.
+## 파일 헤더
 
-If you are working on an already established translation you will not have to modify it.
+".po"` 파일 상단의 헤더는 주석/msgid/msgstr 형식과 다른 유일한 부분입니다.
 
-For a new translation, it should be mostly set up for you, either by the editor you are using or by
-the `msginit` program which is the recommended way of initializing a translation (see
-TRANSLATING.md).
+이미 설정된 번역을 작업하는 경우에는 수정할 필요가 없습니다.
 
-If you are starting from another translation file however, you might need to change a few things.
-Just fill it in as best you are able.
+새로 번역할 경우, 사용 중인 편집기, 또는 번역을 초기화할 때 권장되는 방식인 `msginit` 프로그램을 통해서 
+대부분 설정이 완료되어야 합니다(TRANSLATING.md 참조).
 
-The header will look something like:
+다른 번역 파일에서 시작하는 경우에도 
+몇 가지 사항을 변경해야 할 수 있습니다.
+가능한 한 최선을 다해 입력하세요.
+
+헤더는 다음과 같이 표시됩니다:
 
 ```
 # French translations for Cataclysm-DDA package.
@@ -80,26 +83,22 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 ```
 
-If you are starting a new translation, or you are in charge of the existing translation, it is
-helpful if you include your name and e-mail address so that you can be contacted with any questions
-or issues regarding the translation.
+새로 번역을 시작하거나 기존 번역을 담당하고 있는 경우, 번역과 관련된 질문이나 문제가 있을 때 연락을 받을 수 있도록 이름과 이메일 주소를 기재하면 도움이 됩니다.
 
-The only important part that cannot be easily filled out manually is the `Plural-Forms` section. It
-determines how different numbers of things are handled in your language. More on that later.
+수동으로 쉽게 작성할 수 없는 유일한 중요한 부분은 [`복수형 양식`](#복수형-양식) 항목입니다. 이 섹션은 귀하의 언어에서 다양한 수의 사물이 처리되는 방식을 결정합니다. 이에 대해서는 나중에 자세히 설명하겠습니다.
 
-## Format strings and newlines
+## 문자열 및 줄 바꿈 서식 지정
 
-Some strings will have special terms such as `%s`, `%2$d` and `\n`.
+일부 문자열에는 `%s`, `%2$d` 및 `\n`과 같은 특수 용어가 있습니다.
 
-`\n` represents a linebreak. Mostly these are unnecessary as the code wraps lines where it can, but
-sometimes these are used for placing things on different lines. Just use `\n` in your translation
-wherever a new line should go.
+`\n`은 줄 바꿈을 나타냅니다. 코드에서 줄 바꿈이 가능한 경우 
+줄을 감싸기 때문에 대부분 불필요하지만, 때로는 다른 줄에 내용을 
+배치할 때 사용되기도 합니다. 번역에서 새 줄이 있어야 할 곳에 
+`\n`을 사용하면 됩니다.
 
-`%s` and other similar terms are replaced with something else when the game is running. You might
-need to move them around, depending on the translation. It is important that every term beginning
-with `%` is kept in the translation.
+`%s` 및 기타 유사한 용어는 게임이 실행 중일 때 다른 용어로 대체됩니다. 번역에 따라 이러한 용어를 이동해야 할 수도 있습니다. 번역에서 `%`로 시작하는 모든 용어는 그대로 유지하는 것이 중요합니다.
 
-Here is an example which replaces a `%d` with a number:
+다음은 `%d`를 숫자로 대체한 예입니다:
 
 ```
 #: addiction.cpp:224
@@ -112,27 +111,31 @@ msgstr ""
 ".gnitimoV  .sgnivarc tneuqerF  .eerged emos ot niap lacisyhp dna noisserpeD"
 ```
 
-Here it is important that the `%d` was not reversed, and that the `\n` remained at the end of the
-line. In this case, `%d` will be replaced with the character's strength modifier when the message is
-displayed.
+여기서 `%d`가 반전되지 않고 `\n`이 줄 끝에 
+남아 있는 것이 중요합니다. 이 경우 메시지가 
+표시될 때 `%d`는 캐릭터의 힘 ( STR ) 수정자로 대체됩니다.
 
-In some cases it might be necessary to change the order of terms. This can confuse the game. If the
-order of the `%` terms changes, you must add numbers to all of them, so that the game knows which
-was which. Some strings will already have these numbers, but some might not.
+경우에 따라 용어의 순서를 변경해야 할 수도 있습니다. 게임에 혼란을 줄 수 있으니까요. 
+`%` 용어의 순서를 변경되면 모든 용어에 숫자를 추가해야 게임에서 어떤 것이 어떤 것인지 알 수 있습니다. 
+일부 문자열에는 이미 이러한 숫자가 있지만 그렇지 않은 문자열도 있을 수 있습니다.
 
-As an example, if there is a string with `%s shoots %s!`, it might change in translation. Perhaps it
-will become something like `%s is shot by %s!`. But now it is the wrong way around, the shooter has
-swapped with the shootee.
+예를 들어 `%s가 %s를 쐈다!`가 들어 있는 
+문자열이 있으면 번역할 때 바뀔 수 있습니다. 
+아마도 `%s가 %s에게 쏘였다!`와 같이 될 것입니다. 
+하지만 지금은 거꾸로, 쏘는 사람이 맞는 사람과 바뀐 것입니다.
 
-In this case, each `%s` should be numbered with a digit (1-9) then a dollar sign ($) between the `%`
-and the `s`. For example `%1$s shoots %2$s!` would be equivalent to `%s shoots %s!`. So the example
-translation above could be `%2$s is shot by %1$s!`, and this would work correctly.
+이 경우 각 `%s`는 숫자(1~9)로 번호를 매긴 다음 `%`와 `s` 사이에 달러 기호( `$` )를 넣어야 합니다. 
+예를 들어 `%1$s가 %2$s를 쐈다!`는 `%s가 %s를 쐈다!`와 동일합니다. 
+따라서 위의 번역 예제는 `%2$s가 %1$s에게 쏘였다!`가 
+될 수 있으며, 이 번역은 올바르게 작동합니다.
 
-The game can figure out these `%1$s` `%2$s` parameters automatically, but you must make sure that
-(A): all of the `%` terms in the translation are numbered; and (B): the numbers are correct in terms
-of the original ordering in the english text.
+게임에서 이러한 `%1$s` `%2$s` 매개변수를 
+자동으로 알아낼 수 있지만, (A): 번역의 모든 `%` 
+용어에 번호가 매겨져 있는지, (B): 영어 텍스트의 
+원래 순서에 따라 번호가 올바른지, 
+그 두 가지를 확인해야 합니다.
 
-For example:
+예시를 들자면:
 
 ```
 #: map.cpp:680
@@ -141,19 +144,20 @@ msgid "%s loses control of the %s."
 msgstr "%2$s eht fo lortnoc sesol %1$s"
 ```
 
-would be displayed in-game as `kcurt eht fo lortnoc sesol liagibA`, assuming `Abigail` was driving a
-`truck`.
+이것은 게임 내에서 `아비게일`이 `트럭`을 운전하고 있다고 가정할 때 `kcurt eht fo lortnoc sesol liagibA`로 표시됩니다.
 
-## Special tags in strings
+## 문자열에 포함된 특수 태그
 
-Some strings in the translation may have special tags in front of or inside them. These tags should
-be left as-is, and only the rest of the string translated.
+번역할 때 일부 문자열의 앞이나 안쪽에 특수 
+태그가 있을 수 있습니다. 이러한 태그는 그대로 
+두고 나머지 문자열만 번역해야 합니다.
 
-For example, the NPC and city names from "data/raw/names.json" are prefixed with `<name>` so as to
-avoid conflicts with words (such as `Wood` the material, and `Wood` the last name). For these, the
-`<name>` part should be left in.
+예를 들어, "data/raw/names.json"의 NPC 및 도시 
+이름 앞에는 단어와의 충돌을 피하기 위해 `<name>`이 
+붙습니다(예: 재료의 `Wood`, 성의 `Wood`). 이러한 
+경우 `<name>` 부분을 남겨 두어야 합니다.
 
-For example:
+이하는 그 예시입니다:
 
 ```
 #. ~ proper name; gender=female; usage=given
@@ -162,18 +166,22 @@ msgid "<name>Abigail"
 msgstr "<name>liagibA"
 ```
 
-Names also have a comment above them, indicating what the name is used for in-game. In this case,
-`Abigail` is a possible first name for a female NPC.
+또한 이름 위에는 해당 이름이 게임 내에서 어떤 
+용도로 사용되는지 알려주는 주석이 표시됩니다. 
+예시의 경우 '아비게일'은 여성 NPC의 이름으로 사용할 
+수 있는 이름입니다.
 
-## Plural forms
+## 복수형 양식
 
-Many languages use different terms for things depending on how many of them there are. These are
-supported using plural forms, defined by the `Plural-Form` line in the `".po"` file header.
+많은 언어가 사물의 수에 따라 다른 용어를 사용합니다. 
+이러한 용어는 `".po"` 파일 헤더의 `Plural-Form` 줄에 
+정의된 복수형을 사용하여 지원됩니다.
 
-For these, there will be multiple `msgstr` lines, intended for the different forms depending on
-number. The game will automatically choose the correct form depending on the number of things.
+이 경우 수에 따라 다른 형식을 위한 여러 개의 `msgstr` 
+줄이 있습니다. 게임은 개수에 따라 자동으로 올바른 
+형태를 선택합니다.
 
-For example:
+이하는 그 예시입니다:
 
 ```
 #: melee.cpp:913
@@ -184,5 +192,10 @@ msgstr[0] "!tih ymene %d"
 msgstr[1] "!tih seimene %d"
 ```
 
-Here the first entry is for when there is only one `enemy`, the second is for when there are more
-than one `enemies`. The rules differ wildly between languages.
+여기서 첫 번째 항목은 `enemy`가 하나만 있을 때, 
+두 번째 항목은 `enemies`이 하나보다 더 있을 때를 나타냅니다. 
+이 규칙은 언어마다 크게 다릅니다.
+
+> 역주: 
+>
+>한국어는 해당사항이 없습니다.
