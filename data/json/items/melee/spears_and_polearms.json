@@ -334,7 +334,7 @@
     "color": "light_gray",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
-    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE", "SPEAR" ]
+    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE", "SPEAR", "STAB" ]
   },
   {
     "id": "glaive",
@@ -348,7 +348,7 @@
     "price": "500 USD",
     "material": [ "steel", "wood" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "SPEAR", "STAB" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": "2100 g",
     "volume": "2500 ml",
@@ -372,7 +372,7 @@
     "bashing": 7,
     "cutting": 45,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "SPEAR", "STAB" ],
     "price": "800 USD",
     "price_postapoc": "95 USD"
   },
@@ -385,7 +385,7 @@
     "material": [ "budget_steel", "wood" ],
     "bashing": 29,
     "cutting": 11,
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "SPEAR" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "SPEAR", "STAB" ],
     "price_postapoc": "15 USD"
   },
   {
@@ -589,6 +589,6 @@
     "symbol": "/",
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "ALWAYS_TWOHAND", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "ALWAYS_TWOHAND", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR", "STAB" ]
   }
 ]
