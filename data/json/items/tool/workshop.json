@@ -690,7 +690,7 @@
     "color": "dark_gray",
     "use_action": "PICKAXE",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
   },
   {
     "id": "pin_reamer",
@@ -799,7 +799,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "SPEAR", "BELT_CLIP" ]
+    "flags": [ "STAB", "BELT_CLIP" ]
   },
   {
     "id": "screwdriver_set",
@@ -889,7 +889,7 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "STAB", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [
         "battery",
@@ -1147,7 +1147,7 @@
     "color": "light_gray",
     "techniques": "PRECISE",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ] ],
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "wrench",
