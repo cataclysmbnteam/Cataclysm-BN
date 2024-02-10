@@ -40,7 +40,7 @@
       "sound_fail": "whump!",
       "furn_set": "f_alien_scar_small",
       "items": [ { "item": "fetid_goop", "count": [ 3, 7 ], "prob": 100 } ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 26, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 7, 13 ], "destroy_threshold": 26, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -63,7 +63,7 @@
       "sound_fail": "whump!",
       "furn_set": "f_alien_scar_small",
       "items": [ { "item": "fetid_goop", "count": [ 15, 25 ], "prob": 100 } ],
-      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -100,7 +100,8 @@
       "sound": "splorch!",
       "sound_fail": "splat!",
       "items": [ { "item": "fetid_goop", "count": [ 6, 13 ], "prob": 100 } ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 300, "block_unaimed_chance": "25%" }
+      "//": "reduction matches that of weakest furniture that turns into this when destroyed",
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 600, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -143,7 +144,7 @@
       "sound": "splorch!",
       "sound_fail": "whump.",
       "items": [ { "item": "fetid_goop", "count": [ 5, 10 ], "prob": 100 }, { "group": "migo_pod_storage", "prob": 50 } ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -165,7 +166,7 @@
       "sound": "splorch!",
       "sound_fail": "whump.",
       "items": [ { "group": "migo_pod_samples", "prob": 75, "count": [ 1, 2 ] } ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -186,7 +187,7 @@
       "sound": "splorch!",
       "sound_fail": "whump.",
       "items": [ { "item": "alien_pod_resin", "count": [ 1, 2 ] } ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -207,7 +208,7 @@
       "sound": "splorch!",
       "sound_fail": "whump.",
       "furn_set": "f_alien_scar",
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 23, 45 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -232,7 +233,7 @@
       "sound_fail": "whump!",
       "furn_set": "f_alien_scar",
       "items": [ { "item": "fetid_goop", "count": [ 3, 5 ], "prob": 100 } ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   }
 ]

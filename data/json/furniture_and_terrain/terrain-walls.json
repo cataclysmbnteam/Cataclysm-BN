@@ -701,7 +701,7 @@
         { "item": "nail", "charges": [ 4, 10 ] },
         { "item": "splinter", "count": [ 1, 5 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 110, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 2, 4 ], "destroy_threshold": 110, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -781,7 +781,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": [ { "item": "splinter", "count": [ 10, 20 ] } ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -948,7 +948,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
-      "ranged": { "reduction": [ 1, 4 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 5 }
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 4 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 4 }
     }
   },
   {
@@ -972,7 +973,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
-      "ranged": { "reduction": [ 1, 4 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 5 }
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 4 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 4 }
     }
   },
   {
@@ -996,6 +998,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
+      "//": "half that of ballistic glass doors",
       "ranged": { "reduction": [ 20, 20 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 20 }
     }
   },
@@ -1020,6 +1023,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
+      "//": "matches that of ballistic glass doors",
       "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 40 }
     }
   },
@@ -1043,6 +1047,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 } ],
+      "//": "matches that of ballistic glass doors",
       "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 40 }
     }
   },
@@ -1066,6 +1071,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ],
+      "//": "matches that of ballistic glass doors, increased laser protection since closed shutters",
       "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 1, 10 ], "destroy_threshold": 40 }
     }
   },
@@ -1090,6 +1096,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ],
+      "//": "matches that of ballistic glass doors",
       "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 40 }
     }
   },
