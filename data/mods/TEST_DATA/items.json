@@ -174,7 +174,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "SPEAR", "BELT_CLIP" ]
+    "flags": [ "STAB", "BELT_CLIP" ]
   },
   {
     "id": "test_sonic_screwdriver",
