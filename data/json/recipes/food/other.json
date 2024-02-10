@@ -265,9 +265,8 @@
     "difficulty": 1,
     "time": "3 m",
     "autolearn": true,
-    "contained": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "roasted_coffee_bean", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "components": [ [ [ "roasted_coffee_bean", 1 ] ] ]
   },
   {
     "type": "recipe",
