@@ -1,8 +1,8 @@
 ---
-title: Translate BN with transifex
+title: Transifex로 BN 번역하기
 ---
 
-## Supported languages
+## 지원하는 언어
 
 Cataclysm: BN 을 번역하는 공식적인 사이트는 [Transifex translations project][project] 입니다.
 
@@ -29,7 +29,7 @@ Cataclysm: BN 을 번역하는 공식적인 사이트는 [Transifex translations
 - 스페인어(스페인)
 - 터키어
 
-위 목록에 귀하의 언어가 표시되지 않나요? Transifex에서 프로젝트에 추가할 수 있습니다!
+위 목록에 찾는 언어가 없으신가요? Transifex에서 프로젝트에 추가할 수 있습니다!
 
 ## BN 팀에 들어가기
 
@@ -37,46 +37,39 @@ Cataclysm: BN 을 번역하는 공식적인 사이트는 [Transifex translations
 를 통해 로그인 / 회원가입을 하는 화면으로 갈 수 있습니다. Transifex에 무료 계정을 만들 수도 있지만
 GitHub, Google+ 또는 LinkedIn을 사용하여 로그인할 수도 있습니다.
 
-![Start translating](./img/start_new.png)
+![번역 시작하기](./img/start_new.png)
 
 계정을 만든 후에는 [번역 프로젝트][project]로 돌아와서 `JOIN THIS PROJECT` 버튼을 클릭합니다. 그러면
 번역에 관심 있는 언어를 선택할 수 있는 창이 열립니다. 번역하고 싶은 언어를 선택하고
 `프로젝트에 참가` 버튼을 클릭합니다.
 
-![Join project](./img/choose.png)
+![프로젝트 참가하기](./img/choose.png)
 
-## Choose a language
+## 언어 선택하기
 
-참가 요청이 받아들여지면, After this, the most straightforward thing to do is to reload the page,
-which should redirect you to the translation project's dashboard. Here, you can click the
-"Languages" link on the sidebar to see the list of supported languages and the current progress of
-the translation effort.
+참가 요청이 받아들여지고 페이지를 새로고침하면 프로젝트 대시보드로 리다이렉트될 것입니다. 사이드바에
+있는 `Languages` 링크를 클릭하여 지원되는 언어 목록과 현재 번역 작업 진행 상황을 확인할 수 있습니다.
+만약 번역하고 싶은 언어가 목록에 없다면 추가 요청도 할 수 있습니다.
 
-Note that you can request for the inclusion of additional languages, if the one you are interested
-in is not available on the list.
+![언어 목록](./img/languages.png)
 
-![Language list](./img/languages.png)
+목록에서 원하는 언어를 클릭한 후 "Translate" 버튼을 클릭하여 바로 시작할 수 있습니다. 다른 언어도
+번역하고 싶다면, 그 언어를 클릭한 후 "Join team" 버튼을 클릭할 수도 있습니다.
 
-From this list, you can click on the language of your choice, and then click on the "Translate" to
-get started right away. Otherwise, you can click on any other language and click on the "Join team"
-button, if you are interested in translating for that language as well.
+"Translate" 버튼을 클릭하면 웹 편집기로 이동하는데, 번역을 시작하려면 번역할 자료를 선택해야 합니다.
+거의 대부분의 게임 내 텍스트는 `cataclysm-bright-nights` 자료에 포함되어 있으므로 이 항목을 선택하면
+됩니다.
 
-After clicking on the "Translate" button, you will be taken to the web editor. To begin, you need to
-choose a resource to translate. Most of the in-game text is contained in the
-`cataclysm-bright-nights` resource, so click on it to start.
+![자료 선택하기](./img/resource.png)
 
-![Choose a resource](./img/resource.png)
+## 편집기 사용하기
 
-## Using the editor
+편집기에서는 번역해야할 문장 목록이 나올 것입니다. 번역하고 싶은 문장을 클릭한 후 오른쪽 입력란에
+번역된 문장을 입력하면 됩니다. 번역이 마치고 "Save" 버튼을 누르면 변경 내역이 저장됩니다.
 
-At this point, the editor should show you the list of text available for translation, now you only
-need to click on the string you want to translate and type your translation on the translation area
-on the right side of the screen. Click on the "Save" button when you are satisfied with your
-translation.
+![웹 편집기](./img/editor.png)
 
-![Web editor](./img/editor.png)
-
-See [Transifex's documentation][docs] for more information.
+더 자세한 내용은 [Transifex 공식 문서][docs]를 참고해주세요.
 
 [project]: https://explore.transifex.com/bn-team/cataclysm-bright-nights/
 [docs]: https://docs.transifex.com/
