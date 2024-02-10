@@ -885,7 +885,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   volume not bigger than 2)
 - `SHEATH_SWORD` Item can be sheathed in a sword scabbard
 - `SPEAR` When making reach attacks intervening THIN_OBSTACLE terrain is not an obstacle. Should be
-  paired with REACH_ATTACK.
+  paired with `REACH_ATTACK`.
+- `STAB` A legacy flag that converts an weapon's damage type into pierce. This is a hack as we
+  cannot use the damage object used by ammo to specify the damage type of melee weapon.
 - `UNARMED_WEAPON` Wielding this item still counts as unarmed combat.
 - `WHIP` Has a chance of disarming the opponent.
 
