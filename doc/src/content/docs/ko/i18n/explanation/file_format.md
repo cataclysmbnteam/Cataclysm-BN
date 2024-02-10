@@ -8,15 +8,15 @@ title: 번역 파일 포맷 (.po)
 
 [po]: https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html
 
-일반 텍스트 파일 형식이므로 원하는 대로 편집할 수 있지만 번역가는 다음을 선호하는 경우가 많습니다.
-전용 번역 편집기(예: [Poedit](https://poedit.net))를 사용하거나 웹 기반의 번역 도구(예:
-<https://translations.launchpad.net>)를 선호합니다.
+평범한 텍스트 파일이므로 아무 텍스트 편집기를 써도 상관없으나 보통은
+[Poedit](https://poedit.net)같은 전용 번역 편집기나 <https://translations.launchpad.net> 웹 기반
+번역 도구를 쓸 수도 있습니다.
 
 `".po"` 파일의 형식은 번역할 영어 문구와 그 뒤에 로컬 번역이 있는 항목 목록입니다. 영어 문구는
 `msgid`로 시작하는 줄에 있고, 번역된 구문은 `msgstr`로 시작하는 줄에 있습니다.
 
 `msgid` 줄 앞에는 해당 단어나 문구가 소스 코드에서 어디에서 왔는지를 나타내는 주석 줄이 있습니다.
-이는 영어의 의미가 명확하지 않을 때 종종 도움이 될 수 있습니다. 또한 번역을 더 쉽게 하기 위해
+원문의 의미가 명확하지 않을 때 맥락을 파악하는데 도움을 줍니다. 또한 번역을 더 쉽게 하기 위해
 개발자가 남긴 주석이 있을 수도 있습니다.
 
 대부분의 항목은 다음과 같이 표시됩니다:
@@ -39,8 +39,8 @@ msgid "Sleep"
 msgstr "pleeS"
 ```
 
-방금의 예제와 비슷하지만, 더 일반적인 문구에 대한 것입니다. 이것은 `action.cpp`, `defense.cpp`(두
-번) 및 `npcmove.cpp` 파일에서 사용됩니다. 이 문구가 사용된 모든 곳을 해당 번역으로 대체합니다.
+방금의 예제와 비슷하지만, 더 많은 곳에서 쓰이는 문구를 번역했습니다. 이렇게 하면 `action.cpp`,
+`defense.cpp`(두 번), `npcmove.cpp` 총 네 곳에서 문구 "Sleep"이 "pleeS"로 표시됩니다.
 
 ## 파일 헤더
 
@@ -127,7 +127,7 @@ msgstr ""
 번호가 매겨져 있는지, (B): 영어 텍스트의 원래 순서에 따라 번호가 올바른지, 그 두 가지를 확인해야
 합니다.
 
-예시를 들자면:
+예를 들자면:
 
 ```
 #: map.cpp:680
@@ -136,8 +136,8 @@ msgid "%s loses control of the %s."
 msgstr "%2$s eht fo lortnoc sesol %1$s"
 ```
 
-이것은 게임 내에서 `아비게일`이 `트럭`을 운전하고 있다고 가정할 때
-`kcurt eht fo lortnoc sesol liagibA`로 표시됩니다.
+게임 내에서 `아비게일`이 `트럭`을 운전하고 있다고 가정할 때 `kcurt eht fo lortnoc sesol liagibA`로
+표시됩니다.
 
 ## 문자열에 포함된 특수 태그
 

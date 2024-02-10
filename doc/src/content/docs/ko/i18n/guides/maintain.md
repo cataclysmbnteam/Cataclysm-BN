@@ -10,9 +10,9 @@ title: 관리자를 위한 번역 병합 및 관리하기
 2. 번역 파일을 `lang/incoming/`에 넣고 `lang/po/`에 있는 파일과 이름이 일치하도록 합니다.
 3. `lang/update_pot.sh`를 실행하여 `lang/po/cataclysm-BN.pot`을 업데이트합니다(`polib` 및
    `luaparser` 모듈이 설치된 파이썬이 필요함).
-4. `lang/merge_po.sh`를 실행하여 `lang/po/*.po`를 업데이트합니다. ( 이것은 단지 로컬에서 번역을
-   테스트하는 데만 사용됩니다. 현재 프로젝트는 번역에 Transifex를 사용하기 때문입니다.) 이렇게 하면
-   `lang/incoming/`의 번역도 병합됩니다.
+4. `lang/merge_po.sh`를 실행하여 `lang/po/*.po`를 업데이트합니다. (로컬에서 번역을 테스트할 때만
+   쓰입니다. 지금은 Transifex로 프로젝트를 번역하기 때문입니다.) 이렇게 하면 `lang/incoming/`의
+   번역도 병합됩니다.
 
 이 단계만 거치면 번역 파일을 최신 상태로 유지할 수 있습니다.
 
