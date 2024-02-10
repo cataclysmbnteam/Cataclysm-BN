@@ -2248,11 +2248,20 @@
     "//": "Same as t_door_metal_pickable, but without OPENCLOSE_INSIDE. Due the inheritance issues cannot copy from the t_door_metal_pickable, delete doesn't work with flags",
     "lockpick_result": "t_door_metal_c",
     "lockpick_message": "With a satisfying click, the lock on the door opens.",
-    "examine_action": "locked_object_pickable",
+    "examine_action": "locked_object",
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
       "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
+    "pry": {
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "pry_quality": 4,
+      "noise": 24,
+      "sound": "metal screeching!",
+      "difficulty": 4,
+      "new_ter_type": "t_door_metal_o"
     },
     "symbol": "+",
     "color": "cyan",
@@ -2274,7 +2283,7 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_door_metal_o",
-    "examine_action": "locked_object_pickable",
+    "examine_action": "locked_object",
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
