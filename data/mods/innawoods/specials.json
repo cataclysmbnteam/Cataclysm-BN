@@ -56,7 +56,7 @@
     "rotate": false,
     "flags": [ "WILDERNESS", "UNIQUE" ]
   },
- {
+  {
     "type": "overmap_special",
     "id": "Spider Pit",
     "overmaps": [
@@ -188,7 +188,6 @@
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
-
   {
     "type": "overmap_special",
     "id": "Pond",
@@ -247,6 +246,4 @@
     "flags": [ "MI-GO" ],
     "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 2, 5 ], "radius": [ 2, 30 ] }
   }
-
-
 ]
