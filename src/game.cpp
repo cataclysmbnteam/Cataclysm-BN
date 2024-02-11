@@ -5680,10 +5680,10 @@ void game::peek()
         vertical_move( p->z, false, true );
 
         if( old_pos != u.pos() ) {
-            look_around();
             vertical_move( p->z * -1, false, true );
+        } else {
+            return;
         }
-        return;
     }
 
     if( m.impassable( u.pos() + *p ) || m.obstructed_by_vehicle_rotation( u.pos(), u.pos() + *p ) ) {
