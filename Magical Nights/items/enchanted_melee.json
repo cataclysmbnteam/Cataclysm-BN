@@ -805,7 +805,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ]
+    "flags": [ "SPEAR", "STAB", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ]
   },
   {
     "id": "rune_technomancer_weapon",

@@ -25,7 +25,7 @@
     "techniques": [ "WBLOCK_2", "DEF_DISARM", "IMPALE" ],
     "volume": "3 L",
     "cutting": 29,
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "DURABLE_MELEE", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "STAB", "REACH_ATTACK", "NONCONDUCTIVE", "DURABLE_MELEE", "SHEATH_SPEAR" ],
     "price": "150 USD"
   },
   {
@@ -38,7 +38,7 @@
     "description": "This weapon measures about 3 feet in length and is fletched like an arrow for better accuracy.  The business end of the javelin has wicked-looking barbs which could cause significant bleeding.",
     "weight": "2500 g",
     "volume": "2830 ml",
-    "flags": [ "SPEAR", "SHEATH_SPEAR", "JAVELIN", "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "STAB", "SHEATH_SPEAR", "JAVELIN", "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "id": "lizardfolk_javelin_gun",
