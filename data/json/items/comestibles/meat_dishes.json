@@ -1156,6 +1156,7 @@
     "description": "Dehydrated meat flakes.  With proper storage, this dried food will remain edible for an incredibly long time.",
     "price": "9 USD",
     "price_postapoc": "3 USD",
+    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "material": "flesh",
     "primary_material": "cured_meat",
     "volume": "125 ml"
