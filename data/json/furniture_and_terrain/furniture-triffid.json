@@ -34,7 +34,8 @@
       "str_max": 60,
       "sound": "smash",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 10, 15 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 15 ] } ],
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 60, "block_unaimed_chance": "50%" }
     }
   },
   {
