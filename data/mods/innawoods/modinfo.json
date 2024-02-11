@@ -1,0 +1,10 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "innawoods",
+    "name": "innawoods",
+    "description": "Innawoods",
+    "category": "total_conversion",
+    "dependencies": [ "bn" ]
+  }
+]
