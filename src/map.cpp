@@ -3836,6 +3836,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
     if( furn.bash.ranged ) {
         double range = rl_dist( origin, p );
         const ranged_bash_info &rfi = *furn.bash.ranged;
+        float destroy_roll = dam * rng_float( 0.9, 1.1 );
         if( !hit_items && ( !check( rfi.block_unaimed_chance ) || ( rfi.block_unaimed_chance < 100_pct &&
                             range <= 1 ) ) ) {
             // Nothing, it's a miss or we're shooting over nearby furniture
@@ -3851,7 +3852,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                     add_msg( _( "The shot hits the %s and punches through!" ), furnname( p ) );
                 }
             }
-            if( dam > rfi.destroy_threshold ) {
+            if( destroy_roll > rfi.destroy_threshold ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_furn_success( p, params );
             }
@@ -3862,6 +3863,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
     } else if( ter.bash.ranged ) {
         double range = rl_dist( origin, p );
         const ranged_bash_info &ri = *ter.bash.ranged;
+        float destroy_roll = dam * rng_float( 0.9, 1.1 );
         if( !hit_items && ( !check( ri.block_unaimed_chance ) || ( ri.block_unaimed_chance < 100_pct &&
                             range <= 1 ) ) ) {
             // Nothing, it's a miss or we're shooting over nearby terrain
@@ -3877,7 +3879,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                     add_msg( _( "The shot hits the %s and punches through!" ), tername( p ) );
                 }
             }
-            if( dam > ri.destroy_threshold ) {
+            if( destroy_roll > ri.destroy_threshold ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_ter_success( p, params );
             }
