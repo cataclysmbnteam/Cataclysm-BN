@@ -5,7 +5,7 @@
     "name": { "str": "Bless" },
     "description": "A spell of blessing that gives you energy and boosts your abilities.",
     "valid_targets": [ "self", "ally" ],
-    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "NO_EXPLOSION_VFX" ],
+    "flags": [ "VERBAL", "NO_LEGS", "NO_EXPLOSION_VFX", "NO_HANDS" ],
     "effect": "target_attack",
     "effect_str": "bless",
     "affected_body_parts": [ "torso" ],
@@ -33,7 +33,7 @@
     "name": { "str": "Holy Blade" },
     "description": "This blade of light will cut through any evil it makes contact with!",
     "valid_targets": [ "self" ],
-    "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
+    "flags": [ "NO_LEGS", "CONCENTRATE", "NO_HANDS", "NO_EXPLOSION_VFX" ],
     "min_range": 0,
     "max_range": 0,
     "min_damage": 1,
@@ -56,7 +56,7 @@
     "name": { "str": "Spiritual Armor" },
     "description": "Evil will not make it through your defenses if your faith is strong enough!",
     "valid_targets": [ "self" ],
-    "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE", "SOMATIC", "NO_EXPLOSION_VFX" ],
+    "flags": [ "NO_LEGS", "CONCENTRATE", "SOMATIC", "NO_EXPLOSION_VFX" ],
     "min_range": 0,
     "max_range": 0,
     "min_damage": 1,
@@ -91,7 +91,7 @@
     "spell_class": "ANIMIST",
     "difficulty": 8,
     "max_level": 22,
-    "flags": [ "VERBAL", "SOMATIC", "LOUD" ],
+    "flags": [ "SOMATIC", "LOUD", "NO_HANDS" ],
     "energy_source": "MANA"
   },
   {
@@ -112,7 +112,7 @@
     "base_energy_cost": 5,
     "energy_increment": 1,
     "final_energy_cost": 60,
-    "flags": [ "SOMATIC", "VERBAL", "SILENT", "NO_LEGS", "NO_EXPLOSION_VFX" ],
+    "flags": [ "SOMATIC","NO_HANDS", "SILENT", "NO_LEGS", "NO_EXPLOSION_VFX" ],
     "difficulty": 3
   },
   {
@@ -158,7 +158,7 @@
     "max_range": 3,
     "min_aoe": 2,
     "max_aoe": 2,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
+    "flags": [ "SOMATIC", "NO_HANDS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
     "min_duration": 120000,
     "max_duration": 315000,
     "duration_increment": 4000
@@ -186,7 +186,7 @@
     "max_range": 3,
     "min_aoe": 2,
     "max_aoe": 2,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
+    "flags": [ "SOMATIC", "NO_HANDS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
     "min_duration": 120000,
     "max_duration": 315000,
     "duration_increment": 4000
@@ -214,7 +214,7 @@
     "max_range": 3,
     "min_aoe": 2,
     "max_aoe": 2,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
+    "flags": [ "SOMATIC", "NO_HANDS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
     "min_duration": 120000,
     "max_duration": 315000,
     "duration_increment": 4000
@@ -228,7 +228,7 @@
     "effect": "target_attack",
     "spell_class": "ANIMIST",
     "energy_source": "HP",
-    "flags": [ "NO_LEGS", "CONCENTRATE", "SOMATIC" ],
+    "flags": [ "NO_LEGS", "NO_HANDS", "CONCENTRATE", "SOMATIC" ],
     "min_damage": 61,
     "max_damage": 351,
     "damage_increment": 6,
@@ -260,7 +260,7 @@
     "max_level": 0,
     "spell_class": "ANIMIST",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "NO_EXPLOSION_VFX", "NO_FAIL", "NO_HANDS" ]
   },
   {
     "id": "summon_wisps",
@@ -270,7 +270,7 @@
     "valid_targets": [ "ground" ],
     "effect": "summon",
     "effect_str": "mon_wisp",
-    "flags": [ "LOUD", "SOMATIC", "NO_EXPLOSION_VFX" ],
+    "flags": [ "LOUD", "SOMATIC", "NO_HANDS", "NO_EXPLOSION_VFX" ],
     "energy_source": "MANA",
     "spell_class": "ANIMIST",
     "difficulty": 2,
@@ -293,11 +293,11 @@
     "id": "summon_decaying_boneclub",
     "type": "SPELL",
     "name": { "str": "Decaying Boneclub" },
-    "description": "This spell ignites dust scattered in the air, creating a cone of flame.  The hot ashes can cling to targets, causing additional burns over time.",
+    "description": "This spell links your live blood to the dead blood & bones, creating a club hungry for the flesh of the living.",
     "effect": "spawn_item",
     "effect_str": "decaying_boneclub",
     "valid_targets": [ "self" ],
-    "flags": [ "SOMATIC", "CONCENTRATE", "VERBAL" ],
+    "flags": [ "SOMATIC", "CONCENTRATE", "VERBAL", "NO_HANDS" ],
     "components": "spell_components_decayingboneclub",
     "max_level": 15,
     "min_damage": 1,
