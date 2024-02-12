@@ -536,6 +536,11 @@ struct npc_short_term_cache {
     lru_cache<tripoint, int> searched_tiles;
 };
 
+struct npc_need_goal_cache {
+    tripoint_abs_omt goal;
+    tripoint_abs_omt omt_loc;
+};
+
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
 // TALK_AGREE_FOLLOW. There is also convert_talk_topic which can convert the enumeration values to
 // the new string values (used to load old saves).
@@ -1245,6 +1250,8 @@ class npc : public player
         std::map<std::string, time_point> complaints;
 
         npc_short_term_cache ai_cache;
+
+        std::map<npc_need, npc_need_goal_cache> goal_cache;
     public:
         /**
          * Global position, expressed in map square coordinate system
