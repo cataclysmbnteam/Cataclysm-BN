@@ -4267,11 +4267,11 @@ void npc::set_omt_destination()
             // look for the closest occurrence of any of that locations terrain types
             omt_find_params find_params;
             for( const oter_type_id &elem : get_location_for( fulfill )->get_all_terrains() ) {
-                std::pair<std::string, ot_match_type> temp_pair;
-                temp_pair.first = elem.id().str();
-                temp_pair.second = ot_match_type::type;
-                find_params.types.push_back( temp_pair );
+                find_params.types.emplace_back( elem.id().str(), ot_match_type::type );
             }
+            // note: no shuffle of `find_params.types` is needed, because `find_closest`
+            // disregards `types` order anyway, and already returns random result among
+            // those having equal minimal distance
             find_params.search_range = 75;
             find_params.existing_only = false;
             goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
