@@ -89,7 +89,7 @@
     "type": "furniture",
     "id": "f_plant_mature",
     "name": "maturing plant",
-    "description": "This plant is flowering.",
+    "description": "This plant is maturing.",
     "symbol": "#",
     "color": "green",
     "move_cost_mod": 0,
