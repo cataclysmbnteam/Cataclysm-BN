@@ -48,6 +48,7 @@ class player;
 class recipe;
 class relic;
 class relic_recharge;
+struct resistances;
 struct armor_portion_data;
 struct islot_comestible;
 struct itype;
@@ -1068,6 +1069,11 @@ class item : public location_visitable<item>, public game_object<item>
          * Resistance provided by this item against damage type given by an enum.
          */
         int damage_resist( damage_type dt, bool to_self = false ) const;
+
+        /**
+         * @returns damage resistance override, if set.
+         */
+        std::optional<resistances> damage_resistance_override() const;
 
         /**
          * Returns resistance to being damaged by attack against the item itself.

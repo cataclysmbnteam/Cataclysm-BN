@@ -287,6 +287,11 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
+    "use_action": {
+      "type": "salvage",
+      "moves_per_part": 1000,
+      "material_whitelist": [ "steel", "hardsteel", "budget_steel", "tin", "silver_small", "gold_small", "copper", "iron" ]
+    },
     "qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 1 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
     "flags": [ "BELT_CLIP" ]
   },
@@ -690,7 +695,7 @@
     "color": "dark_gray",
     "use_action": "PICKAXE",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
   },
   {
     "id": "pin_reamer",
@@ -799,7 +804,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "SPEAR", "BELT_CLIP" ]
+    "flags": [ "STAB", "BELT_CLIP" ]
   },
   {
     "id": "screwdriver_set",
@@ -889,7 +894,7 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "STAB", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [
         "battery",
@@ -936,7 +941,41 @@
       [ "SCREW_FINE", 1 ],
       [ "BUTCHER", 11 ]
     ],
-    "use_action": [ "HAMMER", "CROWBAR" ]
+    "use_action": [
+      "HAMMER",
+      "CROWBAR",
+      {
+        "type": "salvage",
+        "moves_per_part": 1000,
+        "material_whitelist": [
+          "steel",
+          "hardsteel",
+          "budget_steel",
+          "tin",
+          "silver_small",
+          "gold_small",
+          "copper",
+          "iron",
+          "acidchitin",
+          "alien_resin",
+          "bone",
+          "chitin",
+          "cotton",
+          "faux_fur",
+          "fur",
+          "kevlar",
+          "kevlar_rigid",
+          "leather",
+          "neoprene",
+          "nomex",
+          "nylon",
+          "plastic",
+          "rubber",
+          "wood",
+          "wool"
+        ]
+      }
+    ]
   },
   {
     "id": "toolbox_workshop",
@@ -972,7 +1011,41 @@
       [ "REAM", 1 ],
       [ "VISE", 1 ]
     ],
-    "use_action": [ "HAMMER", "CROWBAR" ]
+    "use_action": [
+      "HAMMER",
+      "CROWBAR",
+      {
+        "type": "salvage",
+        "moves_per_part": 1000,
+        "material_whitelist": [
+          "steel",
+          "hardsteel",
+          "budget_steel",
+          "tin",
+          "silver_small",
+          "gold_small",
+          "copper",
+          "iron",
+          "acidchitin",
+          "alien_resin",
+          "bone",
+          "chitin",
+          "cotton",
+          "faux_fur",
+          "fur",
+          "kevlar",
+          "kevlar_rigid",
+          "leather",
+          "neoprene",
+          "nomex",
+          "nylon",
+          "plastic",
+          "rubber",
+          "wood",
+          "wool"
+        ]
+      }
+    ]
   },
   {
     "id": "toolset_extended",
@@ -999,6 +1072,37 @@
         "skill": "mechanics",
         "cost_scaling": 0.1,
         "move_cost": 1000
+      },
+      {
+        "type": "salvage",
+        "moves_per_part": 1000,
+        "material_whitelist": [
+          "steel",
+          "hardsteel",
+          "budget_steel",
+          "tin",
+          "silver_small",
+          "gold_small",
+          "copper",
+          "iron",
+          "acidchitin",
+          "alien_resin",
+          "bone",
+          "chitin",
+          "cotton",
+          "faux_fur",
+          "fur",
+          "kevlar",
+          "kevlar_rigid",
+          "leather",
+          "neoprene",
+          "nomex",
+          "nylon",
+          "plastic",
+          "rubber",
+          "wood",
+          "wool"
+        ]
       },
       { "flame": false, "type": "cauterize" }
     ],
@@ -1147,7 +1251,7 @@
     "color": "light_gray",
     "techniques": "PRECISE",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ] ],
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "wrench",

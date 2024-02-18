@@ -6579,7 +6579,7 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
         damage_dealt = damage_direct( target_part, dmg, type );
     } else {
         // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
-        int protection = part_info( armor_part ).damage_reduction[ type ];
+        int protection = part_info( armor_part ).damage_reduction.type_resist( type );
         // Parts on roof aren't protected
         bool overhead = part_flag( target_part, "ROOF" ) || part_info( target_part ).location == "on_roof";
         // Calling damage_direct may remove the damaged part
@@ -6808,7 +6808,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
         return 0;
     }
 
-    dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ type ] );
+    dmg -= std::min<int>( dmg, part_info( p ).damage_reduction.type_resist( type ) );
     int dres = dmg - parts[p].hp();
     if( mod_hp( parts[ p ], 0 - dmg, type ) ) {
         insides_dirty = true;

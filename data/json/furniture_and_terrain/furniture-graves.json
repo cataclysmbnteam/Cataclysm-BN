@@ -16,7 +16,9 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 2, 7 ] } ]
+      "items": [ { "item": "rock", "count": [ 2, 7 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -27,6 +29,7 @@
     "symbol": "_",
     "color": "light_gray",
     "move_cost_mod": 0,
+    "coverage": 30,
     "required_str": -1,
     "crafting_pseudo_item": "boulder_anvil",
     "flags": [ "MINEABLE", "TRANSPARENT", "SHORT", "NOCOLLIDE", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "PLACE_ITEM" ],
@@ -35,7 +38,9 @@
       "str_max": 150,
       "sound": "crash!",
       "sound_fail": "thump!",
-      "items": [ { "item": "rock", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "rock", "count": [ 2, 4 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 50, 100 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -55,7 +60,9 @@
       "str_max": 160,
       "sound": "crash!",
       "sound_fail": "thump!",
-      "items": [ { "item": "rock", "count": [ 8, 14 ] } ]
+      "items": [ { "item": "rock", "count": [ 8, 14 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 60, 120 ], "destroy_threshold": 120, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -74,7 +81,9 @@
       "str_max": 120,
       "sound": "crash!",
       "sound_fail": "thump!",
-      "items": [ { "item": "rock", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "rock", "count": [ 5, 10 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 80, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -93,7 +102,9 @@
       "str_max": 180,
       "sound": "crash!",
       "sound_fail": "thunk!",
-      "items": [ { "item": "rock", "count": [ 18, 30 ] } ]
+      "items": [ { "item": "rock", "count": [ 18, 30 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 80, 160 ], "destroy_threshold": 160 }
     }
   }
 ]

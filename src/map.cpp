@@ -3093,7 +3093,8 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         if( will_explode_on_impact( power ) && it->will_explode_in_fire() ) {
             return item::detonate( std::move( it ), p, contents );
         }
-        if( ( power < min_destroy_threshold || !do_destroy ) && !it->can_revive() ) {
+        if( ( power < min_destroy_threshold || !do_destroy ) && !it->can_revive() &&
+            !it->get_mtype()->zombify_into ) {
             return std::move( it );
         }
         bool is_active_explosive = it->active && it->type->get_use( "explosion" ) != nullptr;
@@ -3801,7 +3802,7 @@ void map::crush( const tripoint &p )
     }
 }
 
-void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
+void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, const bool hit_items )
 {
     float initial_damage = 0.0;
     for( const damage_unit &dam : proj.impact ) {
@@ -3827,23 +3828,59 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         dam = vp->vehicle().damage( vp->part_index(), dam, inc ? DT_HEAT : DT_STAB, hit_items );
     }
 
+    furn_id furn_here = furn( p );
+    furn_t furn = furn_here.obj();
+
     ter_id terrain = ter( p );
     ter_t ter = terrain.obj();
 
-    if( ter.bash.ranged ) {
+    if( furn.bash.ranged ) {
+        double range = rl_dist( origin, p );
+        const ranged_bash_info &rfi = *furn.bash.ranged;
+        if( !hit_items && ( !check( rfi.block_unaimed_chance ) || ( rfi.block_unaimed_chance < 100_pct &&
+                            range <= 1 ) ) ) {
+            // Nothing, it's a miss or we're shooting over nearby furniture
+        } else if( rfi.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
+            dam -= rng( rfi.reduction_laser->min, rfi.reduction_laser->max );
+        } else {
+            dam -= rng( rfi.reduction.min, rfi.reduction.max );
+            // Only print if we hit something we can see enemies through, so we know cover did its job
+            if( get_avatar().sees( p ) && rfi.block_unaimed_chance < 100_pct ) {
+                if( dam <= 0 ) {
+                    add_msg( _( "The shot is stopped by the %s!" ), furnname( p ) );
+                } else {
+                    add_msg( _( "The shot hits the %s and punches through!" ), furnname( p ) );
+                }
+            }
+            if( dam > rfi.destroy_threshold ) {
+                bash_params params{0, false, true, hit_items, 1.0, false};
+                bash_furn_success( p, params );
+            }
+            if( rfi.flammable && inc ) {
+                add_field( p, fd_fire, 1 );
+            }
+        }
+    } else if( ter.bash.ranged ) {
+        double range = rl_dist( origin, p );
         const ranged_bash_info &ri = *ter.bash.ranged;
-        if( !hit_items && !check( ri.block_unaimed_chance ) ) {
-            // Nothing, it's a miss
+        if( !hit_items && ( !check( ri.block_unaimed_chance ) || ( ri.block_unaimed_chance < 100_pct &&
+                            range <= 1 ) ) ) {
+            // Nothing, it's a miss or we're shooting over nearby terrain
         } else if( ri.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
             dam -= rng( ri.reduction_laser->min, ri.reduction_laser->max );
         } else {
             dam -= rng( ri.reduction.min, ri.reduction.max );
+            // Only print if we hit something we can see enemies through, so we know cover did its job
+            if( get_avatar().sees( p ) && ri.block_unaimed_chance < 100_pct ) {
+                if( dam <= 0 ) {
+                    add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
+                } else {
+                    add_msg( _( "The shot hits the %s and punches through!" ), tername( p ) );
+                }
+            }
             if( dam > ri.destroy_threshold ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_ter_success( p, params );
-            }
-            if( dam <= 0 && is_transparent( p ) && get_avatar().sees( p ) ) {
-                add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
             }
             if( ri.flammable && inc ) {
                 add_field( p, fd_fire, 1 );

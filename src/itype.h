@@ -261,9 +261,15 @@ struct islot_armor {
     */
     bool sided = false;
     /**
-     * TODO: document me.
+     * Multiplier on resistances provided by armor's materials.
+     * Damaged armors have lower effective thickness, low capped at 1.
+     * Note: 1 thickness means item retains full resistance when damaged.
      */
     int thickness = 0;
+    /**
+     * Damage negated by this armor. Usually calculated from materials+thickness.
+     */
+    resistances resistance;
     /**
      * Resistance to environmental effects.
      */

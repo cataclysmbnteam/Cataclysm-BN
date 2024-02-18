@@ -37,7 +37,8 @@
         { "item": "hose", "count": [ 0, 2 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50 }
     }
   },
   {
@@ -77,7 +78,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 50 }
     }
   },
   {
@@ -92,7 +94,7 @@
     "coverage": 60,
     "required_str": 13,
     "max_volume": "200 L",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -121,7 +123,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -135,7 +138,7 @@
     "coverage": 60,
     "required_str": 12,
     "max_volume": "37500 ml",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -161,7 +164,8 @@
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -287,7 +291,8 @@
         { "item": "light_bulb", "count": [ 0, 2 ] },
         { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -361,7 +366,8 @@
         { "item": "scrap_copper", "count": [ 0, 2 ] },
         { "item": "glass_shard", "count": [ 2, 4 ] },
         { "item": "motor_tiny", "prob": 25 }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 50 }
     }
   },
   {
@@ -505,7 +511,8 @@
         { "item": "hose", "count": [ 0, 2 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50 }
     }
   },
   {
@@ -519,7 +526,7 @@
     "coverage": 60,
     "required_str": 12,
     "max_volume": "30 L",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -547,7 +554,8 @@
         { "item": "hose", "count": [ 0, 2 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -578,7 +586,8 @@
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "pilot_light", "count": 1 }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -612,7 +621,8 @@
         { "item": "pilot_light", "count": 1 },
         { "item": "water_faucet", "count": 1 },
         { "item": "pot", "count": [ 0, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -646,7 +656,8 @@
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 0, 6 ] },
         { "item": "wire", "count": [ 1, 3 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -683,7 +694,8 @@
         { "item": "chain", "count": [ 1, 3 ] },
         { "item": "scrap", "count": [ 10, 20 ] },
         { "item": "pipe", "count": [ 1, 3 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -761,7 +773,8 @@
         { "item": "pipe", "count": 1 },
         { "item": "e_scrap", "count": [ 20, 50 ] },
         { "item": "cable", "charges": [ 2, 8 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -803,7 +816,8 @@
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50 }
     }
   },
   {
@@ -892,10 +906,11 @@
     "symbol": ":",
     "color": "blue_white",
     "move_cost_mod": -1,
-    "coverage": 90,
+    "coverage": 60,
     "required_str": -1,
     "active": [ "battery", { "max_stored": 10000 } ],
     "examine_action": "check_power",
+    "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
@@ -919,7 +934,9 @@
         { "item": "pipe", "count": 1 },
         { "item": "cable", "charges": [ 2, 8 ] },
         { "item": "small_storage_battery", "count": [ 4, 16 ] }
-      ]
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -935,6 +952,7 @@
     "required_str": -1,
     "active": [ "battery", { "max_stored": 50000 } ],
     "examine_action": "check_power",
+    "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
@@ -958,7 +976,9 @@
         { "item": "pipe", "count": 1 },
         { "item": "cable", "charges": [ 2, 8 ] },
         { "item": "small_storage_battery", "count": [ 20, 80 ] }
-      ]
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -997,7 +1017,9 @@
         { "item": "pipe", "count": 1 },
         { "item": "cable", "charges": [ 2, 8 ] },
         { "item": "small_storage_battery", "count": [ 40, 160 ] }
-      ]
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16 }
     }
   },
   {
@@ -1012,6 +1034,7 @@
     "move_cost_mod": 2,
     "coverage": 10,
     "active": [ "battery", { "max_stored": 500 } ],
+    "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 10 },
@@ -1096,9 +1119,10 @@
     "symbol": ":",
     "color": "blue_white",
     "move_cost_mod": -1,
-    "coverage": 90,
+    "coverage": 10,
     "required_str": -1,
     "active": [ "charger", { "power": 15 } ],
+    "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
@@ -1114,10 +1138,8 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
-        { "item": "pipe", "count": 1 },
+        { "item": "e_scrap", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 0, 1 ] },
         { "item": "cable", "charges": [ 2, 8 ] }
       ]
     }
@@ -1131,6 +1153,7 @@
     "description": "A vehicle recharging station connected to building's electric grid, providing higher output than consumer battery chargers.",
     "symbol": ":",
     "color": "blue_white",
+    "coverage": 30,
     "active": [ "charger", { "power": 600 } ],
     "deconstruct": {
       "items": [
@@ -1139,6 +1162,19 @@
         { "item": "recharge_station", "count": 1 },
         { "item": "power_supply", "count": 1 }
       ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "e_scrap", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 2, 8 ] }
+      ],
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -1210,6 +1246,7 @@
     "color": "red",
     "description": "A vehicle welding rig connected to a electrical grid.  Has a soldering iron attached.",
     "extend": { "crafting_pseudo_item": [ "fake_gridsolderingiron" ] },
+    "coverage": 60,
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
@@ -1230,7 +1267,8 @@
         { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
         { "item": "frame", "count": [ 0, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 2, 4 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -1278,6 +1316,7 @@
     "symbol": "U",
     "description": "A vehicle forge rig connected to a electrical grid.",
     "color": "red",
+    "coverage": 60,
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
@@ -1297,7 +1336,8 @@
         { "item": "scrap", "count": [ 0, 2 ] },
         { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "element", "count": [ 2, 6 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -1452,10 +1492,10 @@
     "description": "A multi-function crafting station, with a water purifier, food processor, food dehydrator, vacuum sealer, and hand press for making ammo.  Draws power from the electrical grid.  If you attempt to craft an item that needs one of the kitchen buddy's functions, it will automatically be selected as a tool.",
     "color": "blue",
     "move_cost_mod": -1,
-    "coverage": 80,
+    "coverage": 60,
     "required_str": -1,
     "crafting_pseudo_item": [ "fake_gridfood_processor", "fake_griddehydrator", "fake_gridvac_sealer", "fake_gridwater_purifier", "press" ],
-    "flags": [ "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT", "TRANSPARENT" ],
     "deconstruct": {
       "items": [ { "item": "solder_wire", "charges": 20 }, { "item": "craftrig", "count": 1 }, { "item": "cable", "charges": 5 } ]
     },
@@ -1474,7 +1514,8 @@
         { "charges": 0, "item": "dehydrator", "prob": 50 },
         { "charges": 0, "item": "food_processor", "prob": 50 },
         { "charges": 0, "item": "press", "prob": 50 }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -1554,6 +1595,7 @@
     "description": "A vehicle chemistry lab connected to a electrical grid, combining the functions of a hotplate, electrolysis kit, and chemistry tools.",
     "color": "blue",
     "crafting_pseudo_item": [ "fake_oven", "fake_chemistry_set", "fake_gridelectrolysis_kit" ],
+    "coverage": 60,
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
@@ -1573,7 +1615,8 @@
         { "item": "glass_shard", "count": [ 0, 2 ] },
         { "item": "cable", "charges": [ 2, 8 ] },
         { "item": "frame", "count": [ 0, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -1639,7 +1682,8 @@
         { "item": "cu_pipe", "count": [ 2, 4 ] },
         { "item": "scrap_copper", "count": [ 1, 2 ] },
         { "item": "motor_tiny", "prob": 25 }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50 }
     }
   },
   {
@@ -1744,7 +1788,7 @@
     "description": "Abstract furniture.  If you see this, something went wrong.",
     "color": "blue",
     "move_cost_mod": -1,
-    "coverage": 50,
+    "coverage": 30,
     "required_str": -1,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "minifreezer", "count": 1 } ] },
@@ -1760,7 +1804,8 @@
         { "item": "scrap", "count": [ 8, 13 ] },
         { "item": "hose", "prob": 50 },
         { "item": "motor_tiny", "prob": 25 }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -1849,7 +1894,8 @@
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -2036,7 +2082,9 @@
         { "item": "steel_chunk", "count": [ 1, 6 ] },
         { "item": "plut_cell", "charges": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
-      ]
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     },
     "deconstruct": {
       "items": [
