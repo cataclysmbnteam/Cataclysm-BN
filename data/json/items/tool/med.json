@@ -97,7 +97,7 @@
     "color": "light_gray",
     "techniques": "PRECISE",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ] ],
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "smoxygen_tank",
@@ -189,7 +189,7 @@
     "seals": true,
     "watertight": true,
     "use_action": "BLOOD_DRAW",
-    "flags": [ "SPEAR" ]
+    "flags": [ "STAB" ]
   },
   {
     "id": "wrapped_rad_badge",

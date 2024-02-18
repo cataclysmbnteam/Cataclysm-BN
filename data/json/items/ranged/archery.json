@@ -462,7 +462,7 @@
     "price": "1000 USD",
     "material": [ "wood", "bone" ],
     "extend": { "flags": [ "BELTED", "COMPACT", "WATER_FRIENDLY", "STR_DRAW" ] },
-    "min_strength": 11,
+    "min_strength": 9,
     "weight": "740 g",
     "volume": "3750 ml",
     "price_postapoc": "40 USD",

@@ -67,6 +67,7 @@ class player;
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
@@ -289,6 +290,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                     return false;
                 }
             }
+            // Ask for confirmation before attacking a neutral creature unless we've already taken a swing at it
+            if( ( att == MATT_IGNORE || att == MATT_FLEE ) &&
+                get_option<bool>( "QUERY_BEFORE_ATTACKING_NEUTRAL" ) &&
+                !critter.has_effect( effect_hit_by_player ) &&
+                !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
+                return false;
+            }
+
             you.melee_attack( critter, true );
             if( critter.is_hallucination() ) {
                 critter.die( &you );
@@ -449,7 +458,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     // Invalid move
-    const bool waste_moves = you.is_blind() || you.has_effect( effect_stunned );
+    const bool waste_moves = ( you.is_blind() && you.clairvoyance() < 1 ) ||
+                             you.has_effect( effect_stunned );
     if( waste_moves || dest_loc.z != you.posz() ) {
         add_msg( _( "You bump into the %s!" ), m.obstacle_name( dest_loc ) );
         // Only lose movement if we're blind

@@ -82,7 +82,7 @@
     "weight": "2250 g",
     "volume": "3750 ml",
     "bashing": 25,
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "STAB" ],
     "price": "40 USD",
     "price_postapoc": "50 cent",
     "qualities": [ [ "HAMMER", 1 ] ]

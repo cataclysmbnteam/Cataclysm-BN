@@ -413,7 +413,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 rand.y = prev_point.y;
             }
             if( in_veh == nullptr || veh_pointer_or_null( here.veh_at( rand ) ) != in_veh ) {
-                here.shoot( rand, proj, false );
+                here.shoot( source, rand, proj, false );
                 if( proj.impact.total_damage() <= 0 ) {
                     //If the projectile stops here move it back a square so it doesn't end up inside the vehicle
                     traj_len = i - 1;
@@ -449,7 +449,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         } else if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
-            here.shoot( tp, proj, !no_item_damage && tp == target );
+            here.shoot( source, tp, proj, !no_item_damage && tp == target );
             has_momentum = proj.impact.total_damage() > 0;
         }
 

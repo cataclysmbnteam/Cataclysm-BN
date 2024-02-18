@@ -1245,7 +1245,7 @@ wake up for the first time after 24 hours into the game.
     ]
 ],
 "stealth_modifier" : 0, // Percentage to be subtracted from player's visibility range, capped to 60. Negative values work, but are not very effective due to the way vision ranges are capped
-"night_vision_range" : 0.0, // Night range vision. Only the best and the worst value out of all mutations are added. (default: 0.0)
+"night_vision_range" : 0.0, // Night range vision. Only the best and the worst value out of all mutations are added. A value of 8 or higher will allow reading in complete darkness as though the player were in dim lighting. (default: 0.0)
 "active" : true, //When set the mutation is an active mutation that the player needs to activate (default: false)
 "starts_active" : true, //When true, this 'active' mutation starts active (default: false, requires 'active')
 "cost" : 8, // Cost to activate this mutation. Needs one of the hunger, thirst, or fatigue values set to true. (default: 0)
@@ -1537,6 +1537,7 @@ Armor can be defined like this:
 "material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "power_armor" : false, // If this is a power armor item (those are special).
 "valid_mods" : ["steel_padded"] // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
+"resistance": { "cut": 0, "bullet": 1000 } // If set, overrides usual resistance calculation. Values are for undamaged item, thickness affects scaling with damage - 1 thickness means no reduction from damage, 2 means it's halved on first damage, 10 means each level of damage decreases armor by 10%
 ```
 
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:

@@ -1088,7 +1088,7 @@ class map
         /** Keeps bashing a square until there is no more furniture */
         void destroy_furn( const tripoint &p, bool silent = false );
         void crush( const tripoint &p );
-        void shoot( const tripoint &p, projectile &proj, bool hit_items );
+        void shoot( const tripoint &origin, const tripoint &p, projectile &proj, bool hit_items );
         /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
         int collapse_check( const tripoint &p );
         /** Causes a collapse at p, such as from destroying a wall */

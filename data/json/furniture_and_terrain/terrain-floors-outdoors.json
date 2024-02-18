@@ -150,6 +150,38 @@
   },
   {
     "type": "terrain",
+    "id": "t_paddy",
+    "name": "paddy field",
+    "description": "A damp, muddy field used to grow crops that require a lot of water.  The clay holds moisture, making it perfect for the crops.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "VEH_TREAT_AS_BASH_BELOW", "PLANTABLE", "SHALLOW_WATER" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_pit_shallow",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "items": [ { "item": "clay_lump", "count": [ 2, 6 ] } ]
+    },
+    "examine_action": "dirtmound",
+    "//": "Is this work even not t_dirtmound?"
+  },
+  {
+    "type": "terrain",
+    "id": "t_clay_bog",
+    "name": "ooze bog",
+    "description": "A pit filled with muddy water.  With additional work, some clay could be separated from the silt.",
+    "symbol": "O",
+    "color": "brown",
+    "looks_like": "t_mud",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "VEH_TREAT_AS_BASH_BELOW" ],
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
+  },
+  {
+    "type": "terrain",
     "id": "t_fault",
     "name": "odd fault",
     "description": "An unnaturally humanoid-shaped hole, it seems oddly familiar.  There's a strange sensation to examine it closer, as if it belongs to you somehow.",
@@ -491,6 +523,30 @@
     "description": "A bare and cold concrete floor with a streak of yellow paint.",
     "symbol": ".",
     "color": "yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 100,
+      "str_max": 400,
+      "str_min_supported": 150,
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_thconc_floor_no_roof",
+    "alias": "t_thconc_floor_nofloor",
+    "name": "concrete floor",
+    "description": "A bare and cold concrete floor.",
+    "symbol": ".",
+    "color": "cyan",
+    "looks_like": "t_thconc_floor",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
     "bash": {

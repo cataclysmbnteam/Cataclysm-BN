@@ -1357,6 +1357,12 @@ void options_manager::add_options_general()
          0, 3600, 200
        );
 
+    add( "QUERY_BEFORE_ATTACKING_NEUTRAL", general,
+         translate_marker( "Query before attacking neutral monsters" ),
+         translate_marker( "If true, you will be prompted to confirm before attacking neutral or fleeing monsters that you have yet to engage in combat with." ),
+         true
+       );
+
     add_empty_line();
 
     add( "TURN_DURATION", general, translate_marker( "Realtime turn progression" ),

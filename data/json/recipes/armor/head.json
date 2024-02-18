@@ -1350,6 +1350,7 @@
     "difficulty": 4,
     "skills_required": [ "tailor", 2 ],
     "time": "1 h 20 m",
+    "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
     "using": [ [ "sewing_standard", 8 ], [ "soldering_standard", 20 ] ],
     "components": [ [ [ "rag", 4 ], [ "scarf", 2 ], [ "scarf_long", 1 ], [ "balclava", 1 ] ], [ [ "element", 2 ] ], [ [ "cable", 6 ] ] ]
