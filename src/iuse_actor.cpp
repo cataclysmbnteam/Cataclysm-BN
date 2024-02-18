@@ -1096,6 +1096,10 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
             newmon.add_effect( effect_pet, 1_turns, num_bp );
         }
     }
+    // Transfer label from the item to monster nickname
+    if( it.has_var( "item_label" ) ) {
+        newmon.unique_name = it.get_var( "item_label" );
+    }
     // TODO: add a flag instead of monster id or something?
     if( newmon.type->id == mtype_id( "mon_laserturret" ) && !g->is_in_sunlight( newmon.pos() ) ) {
         p.add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );

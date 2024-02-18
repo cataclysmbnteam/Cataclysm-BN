@@ -756,7 +756,8 @@ static void smash()
 
     bool should_pulp = false;
     for( const item * const &it : here.i_at( smashp ) ) {
-        if( it->is_corpse() && it->damage() < it->max_damage() && it->can_revive() ) {
+        if( it->is_corpse() && it->damage() < it->max_damage() && ( it->can_revive() ||
+                it->get_mtype()->zombify_into ) ) {
             if( it->get_mtype()->bloodType()->has_acid ) {
                 if( query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
                     should_pulp = true;

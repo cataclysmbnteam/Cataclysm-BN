@@ -3063,6 +3063,10 @@ detached_ptr<item> monster::to_item() const
     detached_ptr<item> result = item::spawn( type->revert_to_itype, calendar::turn );
     const int damfac = std::max( 1, ( result->max_damage() + 1 ) * hp / type->hp );
     result->set_damage( std::max( 0, ( result->max_damage() + 1 ) - damfac ) );
+    // If we have a nickname, save it via the item's label
+    if( !unique_name.empty() ) {
+        result->set_var( "item_label", unique_name );
+    }
     return result;
 }
 
