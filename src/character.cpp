@@ -6869,7 +6869,9 @@ bool Character::sees_with_specials( const Creature &critter ) const
         return true;
     }
 
-    return false;
+    const int dist = rl_dist( pos(), critter.pos() );
+    return ( dist <= 5 && ( has_active_mutation( trait_ANTENNAE ) ||
+                            ( has_active_bionic( bio_ground_sonar ) && !critter.has_flag( MF_FLIES ) ) ) );
 }
 
 detached_ptr<item> Character::pour_into( item &container, detached_ptr<item> &&liquid, int limit )
@@ -6929,7 +6931,7 @@ resistances Character::mutation_armor( bodypart_id bp ) const
 {
     resistances res;
     for( const trait_id &iter : get_mutations() ) {
-        res += iter->damage_resistance( bp->token );
+        res = res.combined_with( iter->damage_resistance( bp->token ) );
     }
 
     return res;
@@ -11016,7 +11018,8 @@ bool Character::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
     const int dist = rl_dist( pos(), critter.pos() );
-    if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
+    if( dist <= 5 && ( has_active_mutation( trait_ANTENNAE ) ||
+                       ( has_active_bionic( bio_ground_sonar ) && !critter.has_flag( MF_FLIES ) ) ) ) {
         return true;
     }
 

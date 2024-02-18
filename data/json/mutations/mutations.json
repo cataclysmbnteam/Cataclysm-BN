@@ -1281,7 +1281,7 @@
     "id": "NIGHTVISION3",
     "name": { "str": "Full Night Vision" },
     "points": 6,
-    "description": "You can see in pitch blackness as if you were wearing night-vision goggles.  Activate to toggle NV-visible areas on or off.",
+    "description": "You can see in pitch blackness as if you were wearing night-vision goggles, and read in darkness as one can in dim lighting.  Activate to toggle NV-visible areas on or off.",
     "prereqs": [ "NIGHTVISION2" ],
     "leads_to": [ "INFRARED" ],
     "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],

@@ -172,7 +172,9 @@ namespace
 // TODO: add explicit action field to gun definitions
 auto defmode_name( itype &obj )
 {
-    if( obj.gun->clip == 1 ) {
+    if( obj.mod ) {
+        return translate_marker( "gunmod" ); // grenade launchers
+    } else if( obj.gun->clip == 1 ) {
         return translate_marker( "manual" ); // break-type actions
     } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.has_flag( flag_RELOAD_ONE ) ) {
         return translate_marker( "revolver" );
@@ -190,7 +192,7 @@ void Item_factory::finalize_pre( itype &obj )
         obj.item_tags.insert( flag_NO_REPAIR );
     }
 
-    if( obj.has_flag( flag_STAB ) || obj.has_flag( flag_SPEAR ) ) {
+    if( obj.has_flag( flag_STAB ) ) {
         std::swap( obj.melee[DT_CUT], obj.melee[DT_STAB] );
     }
 
@@ -577,6 +579,31 @@ void Item_factory::finalize_pre( itype &obj )
         // HACK: Legacy martial arts books rely on a hack whereby the name of the
         // martial art is derived from the item id
         obj.book->martial_art = matype_id( "style_" + obj.get_id().str().substr( 7 ) );
+    }
+
+    if( obj.armor ) {
+
+        auto set_resist = [&obj]( damage_type dt,
+        std::function<int( const material_type & )> resist_getter ) {
+            if( obj.armor->resistance.flat.find( dt ) != obj.armor->resistance.flat.end() ) {
+                return;
+            }
+            float resist = 0.0f;
+            if( !obj.materials.empty() ) {
+                for( const material_id &mat : obj.materials ) {
+                    resist += resist_getter( *mat );
+                }
+                resist /= obj.materials.size();
+            }
+
+            obj.armor->resistance.flat[dt] = std::lround( resist * obj.armor->thickness );
+        };
+        set_resist( DT_BASH, &material_type::bash_resist );
+        set_resist( DT_CUT, &material_type::cut_resist );
+        set_resist( DT_STAB, []( const material_type & t ) {
+            return t.cut_resist() * 0.8f;
+        } );
+        set_resist( DT_BULLET, &material_type::bullet_resist );
     }
 }
 
@@ -1913,6 +1940,7 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
 {
     const bool strict = is_strict_enabled( src );
 
+    assign( jo, "resistance", slot.resistance, strict );
     assign( jo, "material_thickness", slot.thickness, strict, 0 );
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
     assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );

@@ -476,69 +476,6 @@
     "components": [ [ [ "lens", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
-    "result": "bio_blood_filter",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 7,
-    "time": "50 m",
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
-  },
-  {
-    "result": "bio_digestion",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 7,
-    "time": "50 m",
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
-  },
-  {
-    "result": "bio_face_mask",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 7,
-    "time": "50 m",
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
-  },
-  {
-    "result": "bio_ground_sonar",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 7,
-    "time": "50 m",
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
-  },
-  {
-    "result": "bio_metabolics",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 7,
-    "time": "50 m",
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
-  },
-  {
-    "result": "bio_nanobots",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 7,
-    "time": "50 m",
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
-  },
-  {
-    "result": "bio_recycler",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 7,
-    "time": "50 m",
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
-  },
-  {
     "result": "blade",
     "type": "uncraft",
     "time": "1 m 30 s",
@@ -648,7 +585,9 @@
       [ [ "processor", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
-      [ [ "lens", 1 ] ]
+      [ [ "lens", 1 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "sheet_metal_small", 24 ] ]
     ]
   },
   {
@@ -4496,5 +4435,53 @@
     "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ], [ [ "clockworks", 1 ] ] ]
+  },
+  {
+    "result": "bottle_plastic_small",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_scrap", 8 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bottle_plastic",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "condiment_bottle_unsealed",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bottle_twoliter",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 6 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "jug_plastic",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 12 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "test_tube_micro",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_scrap", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

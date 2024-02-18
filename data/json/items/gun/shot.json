@@ -24,11 +24,11 @@
     "valid_mod_locations": [
       [ "accessories", 1 ],
       [ "grip", 1 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "mechanism", 4 ],
-      [ "sights mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "sights", 1 ],
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ]
   },
   {
@@ -50,7 +50,7 @@
     "burst": 6,
     "reload": 200,
     "handling": 30,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail", 1 ] ],
     "magazines": [ [ "shot", [ "shotbelt_20" ] ] ],
     "flags": [ "MOUNTED_GUN" ]
   },
@@ -96,10 +96,10 @@
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
+      [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "underbarrel", 2 ]
@@ -128,10 +128,10 @@
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
+      [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "underbarrel", 2 ]
@@ -157,11 +157,11 @@
       [ "mechanism", 4 ],
       [ "sling", 1 ],
       [ "barrel", 1 ],
-      [ "rail mount", 1 ],
+      [ "rail", 1 ],
       [ "loading port", 1 ],
       [ "brass catcher", 1 ],
       [ "sights", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEEDS_UNFOLD" ]
   },
@@ -236,14 +236,14 @@
       [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "barrel", 1 ],
-      [ "grip mount", 1 ],
+      [ "grip", 1 ],
       [ "stock", 1 ],
-      [ "rail mount", 1 ],
+      [ "rail", 1 ],
       [ "loading port", 1 ],
       [ "brass catcher", 1 ],
       [ "mechanism", 4 ],
       [ "sights", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ],
     "extend": { "flags": [ "RELOAD_ONE" ] }
   },
@@ -261,12 +261,12 @@
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "barrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "extend": { "flags": [ "RELOAD_ONE" ] }
   },
@@ -291,13 +291,13 @@
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "barrel", 1 ],
       [ "muzzle", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -347,11 +347,11 @@
       [ "grip", 1 ],
       [ "loading port", 1 ],
       [ "mechanism", 4 ],
-      [ "rail mount", 1 ],
+      [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ]
   },
   {
@@ -394,10 +394,10 @@
       [ "barrel", 1 ],
       [ "stock", 1 ],
       [ "mechanism", 4 ],
-      [ "rail mount", 1 ],
+      [ "rail", 1 ],
       [ "loading port", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "extend": { "flags": [ "RELOAD_ONE" ] }
   },
@@ -423,10 +423,10 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "barrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
   },
@@ -452,10 +452,10 @@
       [ "mechanism", 4 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "shot", [ "saiga10mag", "saiga30mag" ] ] ]
   },
@@ -496,12 +496,12 @@
       [ "bore", 1 ],
       [ "muzzle", 1 ],
       [ "mechanism", 1 ],
-      [ "sights mount", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "extend": { "flags": [ "NEVER_JAMS" ] }
   },
@@ -533,11 +533,11 @@
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
   },
@@ -562,14 +562,14 @@
       [ "accessories", 4 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ]
   },
@@ -595,11 +595,11 @@
       [ "accessories", 2 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "underbarrel", 2 ],
-      [ "rail mount", 1 ],
+      [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
@@ -628,9 +628,9 @@
       [ "muzzle", 1 ],
       [ "grip", 1 ],
       [ "brass catcher", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
     "magazines": [ [ "shot", [ "USAS10mag", "USAS20mag" ] ] ]
@@ -657,14 +657,14 @@
     "modes": [ [ "DEFAULT", "single", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "mechanism", 2 ],
       [ "barrel", 1 ],
-      [ "grip mount", 1 ],
+      [ "grip", 1 ],
       [ "brass catcher", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ]
   },
@@ -694,9 +694,9 @@
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "underbarrel", 1 ]
     ],
     "default_mods": [ "sword_bayonet" ],

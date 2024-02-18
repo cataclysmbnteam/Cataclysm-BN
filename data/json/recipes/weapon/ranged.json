@@ -1214,5 +1214,25 @@
     "book_learn": [ [ "manual_luty", 4 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "scrap", 3 ] ], [ [ "spring", 1 ] ], [ [ "2x4", 2 ] ], [ [ "sheet_metal", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "slingshot_cannon",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 2 ] ],
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ], [ "manual_launcher", 2 ] ],
+    "using": [ [ "wood_structural", 2 ], [ "steel_tiny", 1 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "SAW_W", "level": 1 }
+    ],
+    "components": [ [ [ "hose", 4 ] ], [ [ "foot_crank", 1 ] ], [ [ "spring", 1 ] ] ]
   }
 ]

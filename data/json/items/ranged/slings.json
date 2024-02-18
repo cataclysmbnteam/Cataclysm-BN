@@ -83,5 +83,30 @@
     "range": 8,
     "dispersion": 45,
     "durability": 7
+  },
+  {
+    "id": "slingshot_cannon",
+    "copy-from": "rifle_elastic",
+    "type": "GUN",
+    "weapon_category": [ "SLINGSHOTS", "ELASTIC" ],
+    "color": "brown",
+    "looks_like": "LAW",
+    "name": { "str": "slingshot cannon" },
+    "description": "Somewhere between a bullet crossbow and a slingshot on steroids, this shoulder-mounted weapon uses a winch to keep several elastic bands under tension.  It fires full-size rocks with much more power and range than pebbles out of a normal slingshot.  High strength will make it faster to reload.",
+    "price": "115 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "wood", "plastic" ],
+    "ammo": "rock",
+    "weight": "8 kg",
+    "volume": "4 L",
+    "skill": "launcher",
+    "ranged_damage": { "damage_type": "bash", "amount": 20 },
+    "dispersion": 60,
+    "range": 24,
+    "reload": 800,
+    "durability": 6,
+    "clip_size": 1,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "sling", 1 ] ],
+    "delete": { "flags": [ "WATERPROOF_GUN", "UNDERWATER_GUN" ] }
   }
 ]
