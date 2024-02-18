@@ -69,7 +69,8 @@
         { "item": "wood_panel", "count": [ 0, 1 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 70, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -103,7 +104,8 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": "wall_bash_results"
+      "items": "wall_bash_results",
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 20, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -275,7 +277,9 @@
       "sound": "crash!",
       "sound_fail": "bash!",
       "ter_set": "t_null",
-      "items": [ { "item": "rock", "count": [ 5, 8 ] }, { "item": "brick", "count": [ 1, 3 ] } ]
+      "items": [ { "item": "rock", "count": [ 5, 8 ] }, { "item": "brick", "count": [ 1, 3 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 30, 60 ], "destroy_threshold": 60, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -341,7 +345,9 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "rock", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "rock", "count": [ 3, 8 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -390,7 +396,9 @@
       "sound": "crash!",
       "sound_fail": "bash!",
       "ter_set": "t_null",
-      "items": [ { "item": "material_soil", "count": [ 4, 10 ] }, { "item": "adobe_brick", "count": [ 1, 3 ] } ]
+      "items": [ { "item": "material_soil", "count": [ 4, 10 ] }, { "item": "adobe_brick", "count": [ 1, 3 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -536,7 +544,9 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_pit_shallow",
-      "items": [ { "item": "rock", "count": [ 5, 11 ] } ]
+      "items": [ { "item": "rock", "count": [ 5, 11 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -579,7 +589,9 @@
       "sound": "scrrrash!",
       "sound_fail": "whump!",
       "ter_set": "t_reb_cage",
-      "items": [ { "item": "rock", "count": [ 5, 11 ] } ]
+      "items": [ { "item": "rock", "count": [ 5, 11 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -650,7 +662,8 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_pit_shallow",
-      "items": [ { "item": "steel_chunk", "count": [ 5, 11 ] } ]
+      "items": [ { "item": "steel_chunk", "count": [ 5, 11 ] } ],
+      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 130, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -748,7 +761,8 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 120, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -868,7 +882,8 @@
       "ter_set": "t_null",
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 3, 6 ] } ],
+      "ranged": { "reduction": [ 2, 4 ], "destroy_threshold": 110, "block_unaimed_chance": "50%" }
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_TO_WALL" ]
   },
@@ -887,7 +902,8 @@
       "ter_set": "t_null",
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "splinter", "count": [ 6, 6 ] } ]
+      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "splinter", "count": [ 6, 6 ] } ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 75, "block_unaimed_chance": "50%" }
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "REDUCE_SCENT", "MOUNTABLE" ]
   },
@@ -1350,7 +1366,9 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "rock", "count": [ 1, 3 ] }, { "item": "rebar", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "rock", "count": [ 1, 3 ] }, { "item": "rebar", "count": [ 0, 2 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 80, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -1361,6 +1379,7 @@
     "symbol": "*",
     "color": "light_gray",
     "move_cost": 5,
+    "coverage": 80,
     "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "PERMEABLE", "MINEABLE" ],
     "connects_to": "WALL",
     "bash": {
@@ -1369,7 +1388,9 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_reb_cage",
-      "items": [ { "item": "rock", "count": [ 5, 11 ] } ]
+      "items": [ { "item": "rock", "count": [ 5, 11 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 60, 120 ], "destroy_threshold": 120, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -1501,7 +1522,9 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "rock", "count": [ 3, 8 ] }, { "item": "pebble", "count": [ 20, 38 ] } ]
+      "items": [ { "item": "rock", "count": [ 3, 8 ] }, { "item": "pebble", "count": [ 20, 38 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 30, 60 ], "destroy_threshold": 60, "block_unaimed_chance": "50%" }
     }
   },
   {
