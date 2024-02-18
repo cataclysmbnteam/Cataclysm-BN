@@ -287,6 +287,11 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
+    "use_action": {
+      "type": "salvage",
+      "moves_per_part": 1000,
+      "material_whitelist": [ "steel", "hardsteel", "budget_steel", "tin", "silver_small", "gold_small", "copper", "iron" ]
+    },
     "qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 1 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
     "flags": [ "BELT_CLIP" ]
   },
@@ -936,7 +941,41 @@
       [ "SCREW_FINE", 1 ],
       [ "BUTCHER", 11 ]
     ],
-    "use_action": [ "HAMMER", "CROWBAR" ]
+    "use_action": [
+      "HAMMER",
+      "CROWBAR",
+      {
+        "type": "salvage",
+        "moves_per_part": 1000,
+        "material_whitelist": [
+          "steel",
+          "hardsteel",
+          "budget_steel",
+          "tin",
+          "silver_small",
+          "gold_small",
+          "copper",
+          "iron",
+          "acidchitin",
+          "alien_resin",
+          "bone",
+          "chitin",
+          "cotton",
+          "faux_fur",
+          "fur",
+          "kevlar",
+          "kevlar_rigid",
+          "leather",
+          "neoprene",
+          "nomex",
+          "nylon",
+          "plastic",
+          "rubber",
+          "wood",
+          "wool"
+        ]
+      }
+    ]
   },
   {
     "id": "toolbox_workshop",
@@ -972,7 +1011,41 @@
       [ "REAM", 1 ],
       [ "VISE", 1 ]
     ],
-    "use_action": [ "HAMMER", "CROWBAR" ]
+    "use_action": [
+      "HAMMER",
+      "CROWBAR",
+      {
+        "type": "salvage",
+        "moves_per_part": 1000,
+        "material_whitelist": [
+          "steel",
+          "hardsteel",
+          "budget_steel",
+          "tin",
+          "silver_small",
+          "gold_small",
+          "copper",
+          "iron",
+          "acidchitin",
+          "alien_resin",
+          "bone",
+          "chitin",
+          "cotton",
+          "faux_fur",
+          "fur",
+          "kevlar",
+          "kevlar_rigid",
+          "leather",
+          "neoprene",
+          "nomex",
+          "nylon",
+          "plastic",
+          "rubber",
+          "wood",
+          "wool"
+        ]
+      }
+    ]
   },
   {
     "id": "toolset_extended",
@@ -999,6 +1072,37 @@
         "skill": "mechanics",
         "cost_scaling": 0.1,
         "move_cost": 1000
+      },
+      {
+        "type": "salvage",
+        "moves_per_part": 1000,
+        "material_whitelist": [
+          "steel",
+          "hardsteel",
+          "budget_steel",
+          "tin",
+          "silver_small",
+          "gold_small",
+          "copper",
+          "iron",
+          "acidchitin",
+          "alien_resin",
+          "bone",
+          "chitin",
+          "cotton",
+          "faux_fur",
+          "fur",
+          "kevlar",
+          "kevlar_rigid",
+          "leather",
+          "neoprene",
+          "nomex",
+          "nylon",
+          "plastic",
+          "rubber",
+          "wood",
+          "wool"
+        ]
       },
       { "flame": false, "type": "cauterize" }
     ],
