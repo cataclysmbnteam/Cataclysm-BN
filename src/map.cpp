@@ -3845,10 +3845,12 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                             range <= 1 ) ) ) {
             // Nothing, it's a miss or we're shooting over nearby furniture
         } else if( rfi.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
-            dam -= std::max( ( rng( rfi.reduction_laser->min, rfi.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0 );
+            dam -= std::max( ( rng( rfi.reduction_laser->min,
+                                    rfi.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0 );
         } else {
             // Roll damage reduction value, reduce result by arpen, multiply by any armor mult, then finally set to zero if negative result
-            dam -= std::max( ( rng( rfi.reduction.min, rfi.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0 );
+            dam -= std::max( ( rng( rfi.reduction.min,
+                                    rfi.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0 );
             // Only print if we hit something we can see enemies through, so we know cover did its job
             if( get_avatar().sees( p ) && rfi.block_unaimed_chance < 100_pct ) {
                 if( dam <= 0 ) {
@@ -3873,10 +3875,12 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                             range <= 1 ) ) ) {
             // Nothing, it's a miss or we're shooting over nearby terrain
         } else if( ri.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
-            dam -= std::max( ( rng( ri.reduction_laser->min, ri.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0 );
+            dam -= std::max( ( rng( ri.reduction_laser->min,
+                                    ri.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0 );
         } else {
             // Roll damage reduction value, reduce result by arpen, multiply by any armor mult, then finally set to zero if negative result
-            dam -= std::max( ( rng( rfi.reduction.min, rfi.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0 );
+            dam -= std::max( ( rng( rfi.reduction.min,
+                                    rfi.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0 );
             // Only print if we hit something we can see enemies through, so we know cover did its job
             if( get_avatar().sees( p ) && ri.block_unaimed_chance < 100_pct ) {
                 if( dam <= 0 ) {
