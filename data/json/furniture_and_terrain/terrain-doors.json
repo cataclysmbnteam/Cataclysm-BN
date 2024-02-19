@@ -20,8 +20,8 @@
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 3, 5 ] } ],
-      "//": "half that of ballistic glass doors",
-      "ranged": { "reduction": [ 20, 20 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 20 }
+      "//": "reduction half that of ballistic glass doors, destroy_threshold equal to str_min for glass",
+      "ranged": { "reduction": [ 20, 20 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 100 }
     }
   },
   {
@@ -69,7 +69,7 @@
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 3, 5 ] } ],
       "//": "matches that of the other ballistic glass doors",
-      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 40 }
+      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 200 }
     }
   },
   {
@@ -108,7 +108,7 @@
     "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_reinforced_door_glass_o",
     "bash": {
-      "str_min": 40,
+      "str_min": 80,
       "str_max": 210,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
@@ -116,8 +116,8 @@
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ],
-      "//": "reduction and destroy_threshold both match str_min for ballistic/reinforced glass doors",
-      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 40 }
+      "//": "reduction matches ballistic glass, destroy_threshold matches str_min since fragile",
+      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -133,7 +133,7 @@
     "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE" ],
     "open": "t_reinforced_door_glass_lab_o",
     "bash": {
-      "str_min": 40,
+      "str_min": 80,
       "str_max": 210,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
@@ -141,8 +141,8 @@
       "sound_fail_vol": 14,
       "ter_set": "t_thconc_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ],
-      "//": "reduction and destroy_threshold both match str_min for ballistic/reinforced glass doors",
-      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 40 }
+      "//": "reduction matches ballistic glass, destroy_threshold matches str_min since fragile",
+      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -158,7 +158,7 @@
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
     "close": "t_reinforced_door_glass_c",
     "bash": {
-      "str_min": 40,
+      "str_min": 80,
       "str_max": 210,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
