@@ -12,16 +12,16 @@
     "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_laminated_door_glass_o",
     "bash": {
-      "str_min": 100,
-      "str_max": 180,
+      "str_min": 60,
+      "str_max": 200,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 3, 5 ] } ],
-      "//": "reduction half that of ballistic glass doors, destroy_threshold equal to str_min for glass",
-      "ranged": { "reduction": [ 20, 20 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 100 }
+      "//": "reduction half str_min for ballistic-style glass, destroy_threshold equal to str_min for glass",
+      "ranged": { "reduction": [ 30, 30 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 60 }
     }
   },
   {
@@ -37,8 +37,8 @@
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
     "close": "t_laminated_door_glass_c",
     "bash": {
-      "str_min": 100,
-      "str_max": 180,
+      "str_min": 60,
+      "str_max": 200,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 20,
@@ -60,7 +60,7 @@
     "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_ballistic_door_glass_o",
     "bash": {
-      "str_min": 200,
+      "str_min": 100,
       "str_max": 400,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
@@ -68,8 +68,8 @@
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 3, 5 ] } ],
-      "//": "matches that of the other ballistic glass doors",
-      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 200 }
+      "//": "reduction half str_min for ballistic-style glass, destroy_threshold equal to str_min for glass",
+      "ranged": { "reduction": [ 50, 50 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 100 }
     }
   },
   {
@@ -85,7 +85,7 @@
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
     "close": "t_ballistic_door_glass_c",
     "bash": {
-      "str_min": 200,
+      "str_min": 100,
       "str_max": 400,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
@@ -116,7 +116,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ],
-      "//": "reduction matches ballistic glass, destroy_threshold matches str_min since fragile",
+      "//": "reduction half str_min for ballistic-style glass, destroy_threshold equal to str_min for glass",
       "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 80 }
     }
   },
@@ -141,7 +141,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_thconc_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ],
-      "//": "reduction matches ballistic glass, destroy_threshold matches str_min since fragile",
+      "//": "reduction half str_min for ballistic-style glass, destroy_threshold equal to str_min for glass",
       "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 80 }
     }
   },
@@ -181,7 +181,7 @@
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
     "close": "t_reinforced_door_glass_lab_c",
     "bash": {
-      "str_min": 40,
+      "str_min": 80,
       "str_max": 210,
       "sound": "glass breaking!",
       "sound_fail": "whack!",

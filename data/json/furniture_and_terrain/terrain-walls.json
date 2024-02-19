@@ -1041,16 +1041,16 @@
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
-      "str_min": 100,
-      "str_max": 180,
+      "str_min": 60,
+      "str_max": 200,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
-      "//": "half that of ballistic glass doors",
-      "ranged": { "reduction": [ 20, 20 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 20 }
+      "//": "reduction half str_min for ballistic-style glass, destroy_threshold equal to str_min for glass",
+      "ranged": { "reduction": [ 30, 30 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 60 }
     }
   },
   {
@@ -1066,7 +1066,7 @@
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
-      "str_min": 200,
+      "str_min": 100,
       "str_max": 400,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
@@ -1074,8 +1074,8 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
-      "//": "matches that of ballistic glass doors",
-      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 40 }
+      "//": "reduction half str_min for ballistic-style glass, destroy_threshold equal to str_min for glass",
+      "ranged": { "reduction": [ 50, 50 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 100 }
     }
   },
   {
@@ -1090,7 +1090,7 @@
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
-      "str_min": 40,
+      "str_min": 80,
       "str_max": 210,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
@@ -1098,8 +1098,8 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 } ],
-      "//": "matches that of ballistic glass doors",
-      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 40 }
+      "//": "reduction half str_min for ballistic-style glass, destroy_threshold equal to str_min for glass",
+      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -1114,7 +1114,7 @@
     "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_reinforced_glass_shutter_open",
     "bash": {
-      "str_min": 60,
+      "str_min": 80,
       "str_max": 210,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
@@ -1122,8 +1122,8 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ],
-      "//": "matches that of ballistic glass doors, increased laser protection since closed shutters",
-      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 1, 10 ], "destroy_threshold": 40 }
+      "//": "reduction half str_min for ballistic-style glass, destroy_threshold equal to str_min for glass",
+      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 1, 10 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -1139,7 +1139,7 @@
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE", "BLOCK_WIND" ],
     "close": "t_reinforced_glass_shutter",
     "bash": {
-      "str_min": 40,
+      "str_min": 80,
       "str_max": 210,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
@@ -1147,8 +1147,8 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ],
-      "//": "matches that of ballistic glass doors",
-      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 40 }
+      "//": "reduction half str_min for ballistic-style glass, destroy_threshold equal to str_min for glass",
+      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 80 }
     }
   },
   {
