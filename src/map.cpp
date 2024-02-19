@@ -3093,9 +3093,11 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         if( will_explode_on_impact( power ) && it->will_explode_in_fire() ) {
             return item::detonate( std::move( it ), p, contents );
         }
-        if( ( power < min_destroy_threshold || !do_destroy ) && !it->can_revive() &&
-            !it->get_mtype()->zombify_into ) {
-            return std::move( it );
+        if( it->is_corpse() ) {
+            if( ( power < min_destroy_threshold || !do_destroy ) && !it->can_revive() &&
+                !it->get_mtype()->zombify_into ) {
+                return std::move( it );
+            }
         }
         bool is_active_explosive = it->active && it->type->get_use( "explosion" ) != nullptr;
         if( is_active_explosive && it->charges == 0 ) {
