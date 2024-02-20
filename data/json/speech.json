@@ -3029,7 +3029,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_dermatik_incubator_dog" ],
+    "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
     "sound": "a whimper",
     "volume": 10
   },
@@ -3038,5 +3038,11 @@
     "speaker": [ "mon_dermatik_incubator_dog" ],
     "sound": "a rasping growl",
     "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_spider" ],
+    "sound": "a quiet chittering",
+    "volume": 5
   }
 ]
