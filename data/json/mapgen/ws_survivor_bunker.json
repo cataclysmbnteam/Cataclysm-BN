@@ -78,13 +78,7 @@
         "########################",
         "########################"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "<": "t_ladder_up",
-        "-": "t_wall_wood",
-        "|": "t_wall_wood",
-        "D": "t_door_locked_interior"
-      },
+      "terrain": { "#": "t_rock", "<": "t_ladder_up", "-": "t_wall_wood", "|": "t_wall_wood", "D": "t_door_locked_interior" },
       "furniture": {
         "r": "f_rubble_rock",
         "s": "f_sandbag_half",
