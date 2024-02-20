@@ -657,6 +657,8 @@ class Character : public Creature, public location_visitable<Character>
         int attack_cost( const item &weap ) const;
         /** Gets melee accuracy component from weapon+skills */
         float get_hit_weapon( const item &weap ) const;
+        /** Gets the minimum combined bare-handed damage from skill, bionics, and mutations for display functions */
+        int display_empty_handed_base_damage() const;
 
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
