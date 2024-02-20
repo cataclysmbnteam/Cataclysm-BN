@@ -961,7 +961,7 @@
     "upgrades": { "age_grow": 21, "into": "mon_dermatik" },
     "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "SMELLS", "POISON", "CAN_DIG", "LARVA" ]
-  },  
+  },
   {
     "id": "mon_dermatik_midwife",
     "type": "MONSTER",

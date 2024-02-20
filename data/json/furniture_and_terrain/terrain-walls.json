@@ -927,7 +927,7 @@
       "ter_set": "t_mud_underground",
       "items": [ { "item": "material_soil", "count": [ 50, 100 ] } ]
     }
-  },  
+  },
   {
     "type": "terrain",
     "id": "t_junk_wall",

@@ -453,7 +453,7 @@
       { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
-  },  
+  },
   {
     "id": "arachnid_tainted",
     "type": "harvest",

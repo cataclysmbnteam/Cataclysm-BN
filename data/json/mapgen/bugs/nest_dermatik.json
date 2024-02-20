@@ -84,9 +84,7 @@
         "                        "
       ],
       "terrain": { ",": [ "t_roof_paper" ] },
-      "place_monster": [
-        { "monster": "mon_dermatik", "x": [ 6, 16 ], "y": [ 6, 16 ], "repeat": [ 1, 4 ] }
-      ]
+      "place_monster": [ { "monster": "mon_dermatik", "x": [ 6, 16 ], "y": [ 6, 16 ], "repeat": [ 1, 4 ] } ]
     }
   }
 ]

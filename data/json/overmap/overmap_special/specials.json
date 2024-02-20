@@ -204,7 +204,7 @@
     "flags": [ "BEE", "UNIQUE" ],
     "rotate": false,
     "spawns": { "group": "GROUP_BEE", "population": [ 20, 60 ], "radius": [ 2, 4 ] }
-  },  
+  },
   {
     "type": "overmap_special",
     "id": "Large Dermatik Nest",
