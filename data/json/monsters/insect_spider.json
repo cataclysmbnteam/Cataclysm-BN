@@ -906,7 +906,7 @@
     "id": "mon_dermatik",
     "type": "MONSTER",
     "name": { "str": "dermatik" },
-    "description": "A colorful parasitoid wasp grown to the size of a dog, with a huge ovipositor extruding from her abdomen. It darts around in search of a suitable home for her many, many children.",
+    "description": "A colorful parasitoid wasp grown to the size of a dog, with a huge ovipositor extruding from her abdomen.  It darts around in search of a suitable home for her many, many children.",
     "default_faction": "dermatik",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
