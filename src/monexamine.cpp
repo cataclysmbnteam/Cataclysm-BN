@@ -46,6 +46,7 @@ static const activity_id ACT_MILK( "ACT_MILK" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 
 static const efftype_id effect_ai_waiting( "ai_waiting" );
+static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_monster_armor( "monster_armor" );
@@ -98,6 +99,7 @@ bool monexamine::pet_menu( monster &z )
         remove_bat,
         insert_bat,
         check_bat,
+        change_orders,
         disable_pet,
         attack
     };
@@ -243,7 +245,14 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( insert_bat, false, 'x', _( "You need a %s to power this mech" ), type.nname( 1 ) );
         }
     }
-    if( !mon_item_id.is_empty() && !z.has_flag( MF_RIDEABLE_MECH ) ) {
+    if( z.has_flag( MF_CAN_BE_ORDERED ) ) {
+        if( z.has_effect( effect_docile ) ) {
+            amenu.addentry( change_orders, true, 'O', _( "Order to engage targets" ), pet_name );
+        } else {
+            amenu.addentry( change_orders, true, 'O', _( "Order to ignore enemies and follow" ), pet_name );
+        }
+    }
+    if( !mon_item_id.is_empty() && !z.has_flag( MF_RIDEABLE_MECH ) && !z.has_flag( MF_PAY_BOT ) ) {
         if( z.has_effect( effect_has_bag ) || z.has_effect( effect_monster_armor ) ||
             z.has_effect( effect_leashed ) || z.has_effect( effect_saddled ) ) {
             amenu.addentry( disable_pet, true, 'D', _( "Remove items and deactivate the %s" ), pet_name );
@@ -334,6 +343,9 @@ bool monexamine::pet_menu( monster &z )
             insert_battery( z );
             break;
         case check_bat:
+            break;
+        case change_orders:
+            toggle_ignore_targets( z );
             break;
         case disable_pet:
             if( query_yn( _( "Really deactivate your %s?" ), pet_name ) ) {
@@ -509,16 +521,29 @@ bool monexamine::mfriend_menu( monster &z )
     enum choices {
         push_monster = 0,
         rename,
+        change_orders,
+        disable_pet,
         attack
     };
 
     uilist amenu;
     const std::string pet_name = z.get_name();
+    const auto mon_item_id = z.type->revert_to_itype;
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
 
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
+    if( z.has_flag( MF_CAN_BE_ORDERED ) ) {
+        if( z.has_effect( effect_docile ) ) {
+            amenu.addentry( change_orders, true, 'O', _( "Order to engage targets" ), pet_name );
+        } else {
+            amenu.addentry( change_orders, true, 'O', _( "Order to ignore enemies and follow" ), pet_name );
+        }
+    }
+    if( !mon_item_id.is_empty() && !z.has_flag( MF_RIDEABLE_MECH ) && !z.has_flag( MF_PAY_BOT ) ) {
+        amenu.addentry( disable_pet, true, 'D', _( "Deactivate the %s" ), pet_name );
+    }
     amenu.addentry( attack, true, 'a', _( "Attack" ) );
 
     amenu.query();
@@ -530,6 +555,14 @@ bool monexamine::mfriend_menu( monster &z )
             break;
         case rename:
             rename_pet( z );
+            break;
+        case change_orders:
+            toggle_ignore_targets( z );
+            break;
+        case disable_pet:
+            if( query_yn( _( "Really deactivate your %s?" ), pet_name ) ) {
+                deactivate_pet( z );
+            }
             break;
         case attack:
             if( query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
@@ -891,6 +924,19 @@ void monexamine::start_leading( monster &z )
     add_msg( _( "You take hold of the %s's leash to make it follow you." ), z.get_name() );
 }
 
+void monexamine::toggle_ignore_targets( monster &z )
+{
+    if( z.has_effect( effect_docile) ) {
+         z.remove_effect( effect_docile );
+         add_msg( _( "You order the %s to engage targets." ), z.get_name() );
+        return;
+    } else {
+         z.add_effect( effect_docile, 1_turns );
+         add_msg( _( "You order the %s to focus on following you." ), z.get_name() );
+        return;
+    }
+}
+
 void monexamine::stop_leading( monster &z )
 {
     if( !z.has_effect( effect_led_by_leash ) ) {
@@ -900,7 +946,6 @@ void monexamine::stop_leading( monster &z )
     // The pet may or may not stop following so don't print that here
     add_msg( _( "You release the %s's leash." ), z.get_name() );
 }
-
 
 void monexamine::deactivate_pet( monster &z )
 {

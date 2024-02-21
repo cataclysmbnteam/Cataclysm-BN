@@ -881,14 +881,6 @@ class game
         void win_screen();       // Display our stats, "CONGRATULATIONS!"
         void draw_minimap();     // Draw the 5x5 minimap
     public:
-        /**
-         * If there is a robot (that can be disabled), query the player
-         * and try to disable it.
-         * @return true if the robot has been disabled or a similar action has
-         * been done. false if the player did not choose any action and the function
-         * has effectively done nothing.
-         */
-        bool disable_robot( const tripoint &p );
         // Draws the pixel minimap based on the player's current location
         void draw_pixel_minimap( const catacurses::window &w );
     private:
