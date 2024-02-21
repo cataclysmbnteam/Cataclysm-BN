@@ -38,6 +38,7 @@
     "type": "GENERIC",
     "name": { "str": "5-point harness", "str_pl": "5-point harnesses" },
     "description": "A harness made of three belts meant to be mounted on vehicle to fasten a passenger securely to their seat.",
+    "looks_like": "seatbelt",
     "material": "nylon",
     "weight": "2 kg",
     "volume": "750 ml",
