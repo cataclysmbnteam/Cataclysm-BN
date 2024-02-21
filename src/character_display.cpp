@@ -642,6 +642,57 @@ struct HeaderSkill {
     }
 };
 
+int display_empty_handed_base_damage( Character &you ) const
+{
+    int empty_hand_base_damage = you.get_skill_level( skill_unarmed ) * 2;
+    const bool left_empty = !you.natural_attack_restricted_on( bodypart_id( "hand_l" ) );
+    const bool right_empty = !you.natural_attack_restricted_on( bodypart_id( "hand_r" ) );
+
+    if( !left_empty && !right_empty ) {
+        // Mutation and bionic bonuses don't matter so just print unarmed bonus
+        return empty_hand_base_damage;
+    } else {
+
+        // Mutation and bionic bonuses double if both hands are free
+        int per_hand = 0;
+        if( you.has_bionic( bionic_id( "bio_razors" ) ) ) {
+            per_hand += 4;
+        }
+        for( const trait_id &mut : you.get_mutations() ) {
+            if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&
+                !has_active_mutation( mut ) ) {
+                continue;
+            }
+            // Fixed bonuses are nice and simple
+            per_hand += mut->bash_dmg_bonus + mut->cut_dmg_bonus + mut->pierce_dmg_bonus;
+
+            // Random bonuses are more fiddly, since we want baseline numbers let's just report the minimum
+            const std::pair<int, int> rand_bash = mut->rand_bash_bonus;
+            const std::pair<int, int> rand_cut = mut->rand_cut_bonus;
+            per_hand += rand_bash.first + rand_cut.first;
+
+            // Extra skill bonus is also fairly simple, but each type of fixed bonus can trigger it separately
+            if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 ) {
+                if( mut->bash_dmg_bonus > 0 ) {
+                    per_hand += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                }
+                if( mut->cut_dmg_bonus > 0 ) {
+                    per_hand += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                }
+                if( mut->pierce_dmg_bonus > 0 ) {
+                    per_hand += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                }
+            }
+        }
+        empty_hand_base_damage += per_hand; // First hand
+        if( left_empty && right_empty ) {
+            // Second hand
+            empty_hand_base_damage += per_hand;
+        }
+        return empty_hand_base_damage;
+    }
+}
+
 static void draw_skills_tab( const catacurses::window &w_skills,
                              Character &you, unsigned int line, const player_display_tab curtab,
                              std::vector<HeaderSkill> &skillslist,
@@ -726,7 +777,7 @@ static void draw_skills_tab( const catacurses::window &w_skills,
             }
             if( aSkill->ident() == skill_id( "unarmed" ) ) {
                 mvwprintz( w_skills, point( 15, y_pos ), cstatus, "%3d/%-2d(%2d%%)",
-                           you.display_empty_handed_base_damage(), level_num, exercise < 0 ? 0 : exercise );
+                           display_empty_handed_base_damage( you ), level_num, exercise < 0 ? 0 : exercise );
             } else {
                 mvwprintz( w_skills, point( 19, y_pos ), cstatus, "%-2d(%2d%%)",
                            level_num,

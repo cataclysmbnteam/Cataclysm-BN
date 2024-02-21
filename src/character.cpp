@@ -215,7 +215,6 @@ static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
-static const skill_id skill_unarmed( "unarmed" );
 
 static const species_id HUMAN( "HUMAN" );
 static const species_id ROBOT( "ROBOT" );
@@ -351,11 +350,9 @@ static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
-static const trait_flag_str_id trait_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
 static const trait_flag_str_id trait_flag_PRED2( "PRED2" );
 static const trait_flag_str_id trait_flag_PRED3( "PRED3" );
 static const trait_flag_str_id trait_flag_PRED4( "PRED4" );
-static const trait_flag_str_id trait_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
 static const trait_flag_str_id flag_NO_THIRST( "NO_THIRST" );
 static const trait_flag_str_id flag_NO_RADIATION( "NO_RADIATION" );
@@ -11225,57 +11222,6 @@ float Character::stability_roll() const
 
     /** @EFFECT_MELEE improves player stability roll */
     return get_melee() + get_str() + ( get_per() / 3.0f ) + ( get_dex() / 4.0f );
-}
-
-int Character::display_empty_handed_base_damage() const
-{
-    int empty_hand_base_damage = get_skill_level( skill_unarmed ) * 2;
-    const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
-    const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) );
-
-    if( !left_empty && !right_empty ) {
-        // Mutation and bionic bonuses don't matter so just print unarmed bonus
-        return empty_hand_base_damage;
-    } else {
-
-        // Mutation and bionic bonuses double if both hands are free
-        int per_hand = 0;
-        if( has_bionic( bionic_id( "bio_razors" ) ) ) {
-            per_hand += 4;
-        }
-        for( const trait_id &mut : get_mutations() ) {
-            if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&
-                !has_active_mutation( mut ) ) {
-                continue;
-            }
-            // Fixed bonuses are nice and simple
-            per_hand += mut->bash_dmg_bonus + mut->cut_dmg_bonus + mut->pierce_dmg_bonus;
-
-            // Random bonuses are more fiddly, since we want baseline numbers let's just report the minimum
-            const std::pair<int, int> rand_bash = mut->rand_bash_bonus;
-            const std::pair<int, int> rand_cut = mut->rand_cut_bonus;
-            per_hand += rand_bash.first + rand_cut.first;
-
-            // Extra skill bonus is also fairly simple, but each type of fixed bonus can trigger it separately
-            if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 ) {
-                if( mut->bash_dmg_bonus > 0 ) {
-                    per_hand += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
-                }
-                if( mut->cut_dmg_bonus > 0 ) {
-                    per_hand += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
-                }
-                if( mut->pierce_dmg_bonus > 0 ) {
-                    per_hand += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
-                }
-            }
-        }
-        empty_hand_base_damage += per_hand; // First hand
-        if( left_empty && right_empty ) {
-            // Second hand
-            empty_hand_base_damage += per_hand;
-        }
-        return empty_hand_base_damage;
-    }
 }
 
 bool Character::uncanny_dodge()
