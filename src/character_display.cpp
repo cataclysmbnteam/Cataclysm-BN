@@ -781,7 +781,7 @@ static void draw_skills_tab( const catacurses::window &w_skills,
             }
             if( aSkill->ident() == skill_id( "unarmed" ) ) {
                 mvwprintz( w_skills, point( 15, y_pos ), cstatus, "%3d/%-2d(%2d%%)",
-                           display_empty_handed_base_damage( you ), level_num, exercise < 0 ? 0 : exercise );
+                           character_display::display_empty_handed_base_damage( you ), level_num, exercise < 0 ? 0 : exercise );
             } else {
                 mvwprintz( w_skills, point( 19, y_pos ), cstatus, "%-2d(%2d%%)",
                            level_num,
