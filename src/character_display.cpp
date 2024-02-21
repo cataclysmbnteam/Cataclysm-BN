@@ -36,6 +36,7 @@
 #include "weather.h"
 
 static const skill_id skill_swimming( "swimming" );
+static const skill_id skill_unarmed( "unarmed" );
 
 static const std::string title_STATS = translate_marker( "STATS" );
 static const std::string title_ENCUMB = translate_marker( "ENCUMBRANCE AND WARMTH" );
@@ -44,6 +45,9 @@ static const std::string title_SPEED = translate_marker( "SPEED" );
 static const std::string title_SKILLS = translate_marker( "SKILLS" );
 static const std::string title_BIONICS = translate_marker( "BIONICS" );
 static const std::string title_TRAITS = translate_marker( "TRAITS" );
+
+static const trait_flag_str_id trait_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
+static const trait_flag_str_id trait_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces( 26, ' ' );
@@ -642,7 +646,7 @@ struct HeaderSkill {
     }
 };
 
-int display_empty_handed_base_damage( Character &you ) const
+int display_empty_handed_base_damage( Character &you )
 {
     int empty_hand_base_damage = you.get_skill_level( skill_unarmed ) * 2;
     const bool left_empty = !you.natural_attack_restricted_on( bodypart_id( "hand_l" ) );
@@ -660,7 +664,7 @@ int display_empty_handed_base_damage( Character &you ) const
         }
         for( const trait_id &mut : you.get_mutations() ) {
             if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&
-                !has_active_mutation( mut ) ) {
+                !you.has_active_mutation( mut ) ) {
                 continue;
             }
             // Fixed bonuses are nice and simple
@@ -674,13 +678,13 @@ int display_empty_handed_base_damage( Character &you ) const
             // Extra skill bonus is also fairly simple, but each type of fixed bonus can trigger it separately
             if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 ) {
                 if( mut->bash_dmg_bonus > 0 ) {
-                    per_hand += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                    per_hand += std::min( you.get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 if( mut->cut_dmg_bonus > 0 ) {
-                    per_hand += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                    per_hand += std::min( you.get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 if( mut->pierce_dmg_bonus > 0 ) {
-                    per_hand += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                    per_hand += std::min( you.get_skill_level( skill_unarmed ) / 2, 4 );
                 }
             }
         }
