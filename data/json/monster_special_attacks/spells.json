@@ -183,5 +183,23 @@
     "flags": [ "NO_EXPLOSION_VFX", "SILENT" ],
     "min_range": 20,
     "max_range": 40
+  },
+  {
+    "type": "SPELL",
+    "id": "dermatik_emergence",
+    "name": "Dermatik Emergence",
+    "description": "The incubating dermatik larvae flee their host.",
+    "flags": [ "HOSTILE_SUMMON", "PERMANENT", "RANDOM_DAMAGE" ],
+    "valid_targets": [ "ground", "self" ],
+    "base_casting_time": 20,
+    "min_range": 1,
+    "max_range": 5,
+    "min_damage": 1,
+    "max_damage": 3,
+    "damage_type": "stab",
+    "min_aoe": 2,
+    "max_aoe": 3,
+    "effect": "summon",
+    "effect_str": "mon_dermatik_larva"
   }
 ]

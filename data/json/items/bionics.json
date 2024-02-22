@@ -782,6 +782,7 @@
   {
     "id": "bio_reactoroverride",
     "copy-from": "bionic_general_npc_usable",
+    "looks_like": "bio_reactor",
     "type": "BIONIC_ITEM",
     "name": { "str": "Micro Reactor Safety Override CBM" },
     "description": "Disables the radiation safety protocols allowing for much higher energy production.  While active produces 40kJ of power a turn and 1 irradiated stack every 20 turns.",
@@ -1300,7 +1301,8 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Perpetual Generator CBM" },
     "description": "Installed within you is a perpetual generator powered by nonsensoleum.  When activated its power gen doubles.  If you are seeing this, you'd better be debugging.",
-    "price": "0 cent"
+    "price": "0 cent",
+    "looks_like": "bio_int_enhancer"
   },
   {
     "id": "debug_bio_fuel_cell",
@@ -1308,6 +1310,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Debug Fuel Cell CBM" },
     "description": "The power of the sun, in the palm of my hand!  Installed within you is a perpetual generator powered by nonsensoleum.  When activated its power gen doubles.  If you are seeing this, you'd better be debugging.",
-    "price": "0 cent"
+    "price": "0 cent",
+    "looks_like": "bio_int_enhancer"
   }
 ]

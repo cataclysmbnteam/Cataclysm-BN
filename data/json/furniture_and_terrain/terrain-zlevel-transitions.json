@@ -334,6 +334,7 @@
     "description": "The upper end of rail track leading down.",
     "symbol": ">",
     "color": "cyan",
+    "looks_like": "t_railroad_track",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "RAIL", "ROAD", "Z_TRANSPARENT" ]
   },
@@ -344,6 +345,7 @@
     "description": "The lower end of rail track leading down.",
     "symbol": ">",
     "color": "cyan",
+    "looks_like": "t_railroad_track",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "RAIL", "ROAD", "RAMP_DOWN", "Z_TRANSPARENT" ]
   },
@@ -354,6 +356,7 @@
     "description": "The upper end of rail track leading up.",
     "symbol": "<",
     "color": "cyan",
+    "looks_like": "t_railroad_track",
     "move_cost": 2,
     "flags": [ "RAIL", "ROAD", "RAMP_UP" ]
   },
@@ -364,6 +367,7 @@
     "description": "The lower end of rail track leading up.",
     "symbol": "<",
     "color": "cyan",
+    "looks_like": "t_railroad_track",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "RAIL", "ROAD" ]
   }
