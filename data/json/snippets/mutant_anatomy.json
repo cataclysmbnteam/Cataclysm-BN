@@ -196,7 +196,7 @@
       "On closer inspection, the head's armor is pocked by finger-sized holes with jagged edges, reminiscent of the creature's fangs",
       "In a hidden organ without an obvious connection to the outside world, you find a seemingly forgotten handful of glistening eggs"
     ]
-  },  
+  },
   {
     "type": "snippet",
     "category": "<bug_harvest_flying_chitin>",
@@ -296,23 +296,18 @@
   {
     "type": "snippet",
     "category": "<centipede_harvest>",
-    "text": [
-      "<bug_harvest_centipede_chitin>.",
-      "<bug_harvest_general_deeper>.",
-	  "<bug_harvest_centipede_descriptive>."
-    ]
+    "text": [ "<bug_harvest_centipede_chitin>.", "<bug_harvest_general_deeper>.", "<bug_harvest_centipede_descriptive>." ]
   },
   {
     "type": "snippet",
     "category": "<centipede_mom_harvest>",
-    "text": [ "<centipede_harvest>","<bug_harvest_general_deeper>.",
-	"<bug_harvest_centipede_mom>." ]
+    "text": [ "<centipede_harvest>", "<bug_harvest_general_deeper>.", "<bug_harvest_centipede_mom>." ]
   },
   {
     "type": "snippet",
     "category": "<centipede_mega_harvest>",
-    "text": [ "<centipede_harvest>","<bug_harvest_centipede_mega>.","<bug_harvest_centipede_mega>." ]
-  },  
+    "text": [ "<centipede_harvest>", "<bug_harvest_centipede_mega>.", "<bug_harvest_centipede_mega>." ]
+  },
   {
     "type": "snippet",
     "category": "<incubator_mammal>",
