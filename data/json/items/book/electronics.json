@@ -331,6 +331,7 @@
     "type": "BOOK",
     "name": { "str_sp": "hauler bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the hauler bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
+    "copy-from": "schematics_generic",
+    "looks_like": "schematics_riotbot"
   }
 ]

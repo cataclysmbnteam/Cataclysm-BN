@@ -269,7 +269,7 @@
     "type": "skill",
     "id": "unarmed",
     "name": { "str": "unarmed combat" },
-    "description": "Your skill in hand-to-hand fighting.  For the unskilled, it's a good way to get hurt, but those with enough practice can perform special blows and techniques to quickly dispatch enemies.",
+    "description": "Your skill in hand-to-hand fighting, with unarmed weapons or empty-handed.  Skill increases attack accuracy and unlocks techniques in many martial arts, while also providing a bonus to bare-handed damage.",
     "tags": [ "combat_skill", "weapon_skill" ],
     "companion_combat_rank_factor": 1,
     "companion_survival_rank_factor": 1,

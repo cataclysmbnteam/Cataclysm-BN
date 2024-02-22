@@ -5,6 +5,7 @@
     "category": "other",
     "name": { "str": "radio car base" },
     "description": "Generic radio car kit, you shouldn't see this.",
+    "looks_like": "radio_car_box",
     "weight": "3200 g",
     "volume": "2 L",
     "price": "300 USD",
