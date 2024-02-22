@@ -499,7 +499,7 @@
     "name": "red deck coating",
     "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in red color.",
     "copy-from": "t_deck_coating_no_roof",
-    "looks_like": " ",
+    "looks_like": "t_floor_red",
     "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
     "symbol": ".",
     "color": "red"
@@ -510,7 +510,7 @@
     "name": "white deck coating",
     "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in white color.",
     "copy-from": "t_deck_coating_no_roof",
-    "looks_like": " ",
+    "looks_like": "t_linoleum_white_no_roof",
     "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
     "symbol": ".",
     "color": "white"

@@ -108,6 +108,7 @@
     "name": "debug beer pump",
     "symbol": "&",
     "color": "white",
+    "looks_like": "f_still",
     "description": "Time to get infinitely drunk",
     "move_cost_mod": 2,
     "coverage": 30,

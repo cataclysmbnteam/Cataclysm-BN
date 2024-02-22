@@ -35,6 +35,10 @@ void disp_info( Character &ch );
  */
 void upgrade_stat_prompt( avatar &you, const character_stat &stat );
 
+/** Gets the minimum combined bare-handed damage from skill, bionics, and mutations for display functions */
+int display_empty_handed_base_damage( const Character &you );
+
 } // namespace character_display
+
 
 #endif // CATA_SRC_CHARACTER_DISPLAY_H
