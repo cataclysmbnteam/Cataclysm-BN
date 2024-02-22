@@ -104,6 +104,7 @@
     "type": "GUNMOD",
     "name": { "str": "steel bowstring" },
     "description": "A forged steel bowstring designed for crossbows.  Its increased draw strength makes the bolts fly farther and faster, but it makes reloading more difficult.",
+    "looks_like": "string_6",
     "weight": "50 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",

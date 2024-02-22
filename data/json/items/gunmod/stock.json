@@ -158,6 +158,7 @@
     "material": [ "wood" ],
     "symbol": ":",
     "color": "light_gray",
+    "looks_like": "pistol_stock",
     "location": "stock",
     "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ] ],
     "dispersion_modifier": 100,

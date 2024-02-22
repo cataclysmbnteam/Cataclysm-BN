@@ -87,6 +87,7 @@
     "id": "nonsensoleum",
     "symbol": "?",
     "color": "white",
+    "looks_like": "sunlight",
     "name": { "str": "nonsensoleum" },
     "description": "seeing this is a bug",
     "stackable": true,

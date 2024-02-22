@@ -37,7 +37,8 @@ struct ranged_bash_info {
         numeric_interval<int> reduction; // Damage reduction when shot. Rolled like rng(min, max).
         // As above, but for lasers. If set, lasers won't destroy us.
         std::optional<numeric_interval<int>> reduction_laser;
-        int destroy_threshold = 0; // If reduced dmg is still above this value, destroy us.
+        int destroy_threshold =
+            0; // If dmg (times 0.9 to 1.1) before reduction is above this value, destroy us.
         bool flammable = false; // If true, getting hit with any heat damage creates a fire.
         units::probability block_unaimed_chance =
             100_pct; // Chance to intercept projectiles not aimed at this tile

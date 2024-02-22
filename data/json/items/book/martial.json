@@ -17,6 +17,7 @@
       "str_pl": "copies of Las Nueve Reglas de la Montante",
       "//~": "Don't translate name, this book is in archaic Spanish with translations in the margins."
     },
+    "looks_like": "manual_swordsmanship",
     "price": "110 USD",
     "price_postapoc": "30 USD",
     "//~": "Spanish description should change to say that this is archaic text and should mention explanations of archaic words instead of translations.",
@@ -111,6 +112,7 @@
     "name": { "str": "The Ultimate Guide to Kickboxing", "str_pl": "copies of Ultimate Guide to Kickboxing" },
     "price_postapoc": "20 USD",
     "description": "The ultimate guide to learning and mastering kickboxing, from beginner to black belt.",
+    "looks_like": "manual_karate",
     "martial_art": "style_kickboxing"
   },
   {
