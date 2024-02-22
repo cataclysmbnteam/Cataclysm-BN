@@ -88,7 +88,7 @@ bool monexamine::pet_menu( monster &z )
         leash,
         unleash,
         play_with_pet,
-        cull,
+        slaughter,
         milk,
         shear,
         pay,
@@ -171,9 +171,10 @@ bool monexamine::pet_menu( monster &z )
     }
     if( is_zombie || can_slaughter ) {
         if( you.has_quality( qual_butcher, 1 ) ) {
-            amenu.addentry( slaughter, true, 's', _( "Slaughter %s." ), pet_name );
+            amenu.addentry( slaughter, true, 's', _( "Slaughter %s" ), pet_name );
         } else {
-            amenu.addentry( slaughter, false, 's', _( "You need a butchering tool to slaughter the %s." ), pet_name );
+            amenu.addentry( slaughter, false, 's', _( "You need a butchering tool to slaughter the %s" ),
+                            pet_name );
         }
     }
 
@@ -830,7 +831,7 @@ void monexamine::play_with( monster &z )
 void monexamine::kill_zslave( monster &z )
 {
     avatar &you = get_avatar();
-    you.add_msg_if_player( _( "With a clean cut you put your %s down." ), pet_name );
+    you.add_msg_if_player( _( "With a clean cut you put your %s down." ), z.get_name() );
     z.die( &you ); // execute it cleanly without damaging the corpse
 
     you.moves -= 150;
@@ -926,13 +927,13 @@ void monexamine::start_leading( monster &z )
 
 void monexamine::toggle_ignore_targets( monster &z )
 {
-    if( z.has_effect( effect_docile) ) {
-         z.remove_effect( effect_docile );
-         add_msg( _( "You order the %s to engage targets." ), z.get_name() );
+    if( z.has_effect( effect_docile ) ) {
+        z.remove_effect( effect_docile );
+        add_msg( _( "You order the %s to engage targets." ), z.get_name() );
         return;
     } else {
-         z.add_effect( effect_docile, 1_turns );
-         add_msg( _( "You order the %s to focus on following you." ), z.get_name() );
+        z.add_effect( effect_docile, 1_turns );
+        add_msg( _( "You order the %s to focus on following you." ), z.get_name() );
         return;
     }
 }
