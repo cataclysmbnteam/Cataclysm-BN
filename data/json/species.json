@@ -88,6 +88,14 @@
   },
   {
     "type": "SPECIES",
+    "id": "CENTIPEDE",
+    "name": { "str": "centipede" },	
+    "description": "a centipede",
+    "footsteps": "skittering.",
+    "fear_triggers": [ "FIRE" ]
+  },  
+  {
+    "type": "SPECIES",
     "id": "SPIDER",
     "name": { "str": "spider" },
     "description": "a spider",

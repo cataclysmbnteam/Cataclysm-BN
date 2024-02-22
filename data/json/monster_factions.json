@@ -150,6 +150,14 @@
     "hate": [ "insect", "small_animal", "bird" ],
     "neutral": [ "dragonfly" ]
   },
+    {
+    "type": "MONSTER_FACTION",
+    "name": "centipede",
+    "base_faction": "insect",
+    "neutral": [ "spider", "bee"],
+    "hate": [ "insect", "animal" ]
+  },
+  
   {
     "type": "MONSTER_FACTION",
     "name": "centipede",
