@@ -493,7 +493,7 @@
     "show_in_info": true,
     "blood_analysis_description": "Poison"
   },
- {
+  {
     "id": "venom_dmg",
     "type": "effect_type",
     "name": [ "Poisoned Wound" ],
@@ -554,7 +554,7 @@
       "stamina_chance": [ -0.021, -0.051 ],
       "speed_mod": [ -0.31, -0.21 ]
     }
-  },  
+  },
   {
     "type": "effect_type",
     "id": "foodpoison",
@@ -1265,7 +1265,7 @@
       "poison",
       "badpoison",
       "venom_dmg",
-      "venom_weaken",	  
+      "venom_weaken",
       "stung",
       "foodpoison",
       "paralyzepoison",

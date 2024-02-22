@@ -124,8 +124,7 @@
     "rot_spawn": "GROUP_EGG_SNAKE",
     "rot_spawn_chance": 60
   },
-  
-    {
+  {
     "type": "COMESTIBLE",
     "id": "egg_insect",
     "name": "Insect Egg",
@@ -139,14 +138,13 @@
     "weight": "300 g",
     "calories": 240,
     "quench": 10,
-    "healthy": -1,	
+    "healthy": -1,
     "fun": -20,
     "price": "25 cent",
     "price_postapoc": "5 cent",
     "flags": [ "RAW" ],
     "vitamins": [ [ "vitA", 19 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 66 ], [ "mutant_toxin", 25 ] ]
   },
-  
   {
     "type": "COMESTIBLE",
     "id": "ant_egg",
@@ -239,7 +237,7 @@
     "description": "A large, soft egg you got from butchering a mutant centipede.  Inside, you can already see a bundle of spindly legs, twitching in anticipation.",
     "rot_spawn": "GROUP_EGG_CENTIPEDE",
     "rot_spawn_chance": 50
-  },  
+  },
   {
     "type": "COMESTIBLE",
     "id": "razorclaw_roe",
@@ -359,6 +357,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "description": "A salsify omelette.",
+    "looks_like": "flatbread",
     "quench": 4,
     "healthy": 1,
     "calories": 349,
@@ -379,6 +378,7 @@
     "spoils_in": "2 days",
     "symbol": "%",
     "description": "An omelette made with wild vegetables.",
+    "looks_like": "flatbread",
     "quench": 4,
     "comestible_type": "FOOD",
     "healthy": 1,
@@ -400,6 +400,7 @@
     "spoils_in": "2 days",
     "symbol": "%",
     "description": "An omelette made with mushrooms.",
+    "looks_like": "flatbread",
     "quench": 4,
     "healthy": 1,
     "comestible_type": "FOOD",
@@ -421,6 +422,7 @@
     "spoils_in": "2 days",
     "symbol": "%",
     "description": "A spanish omelette.",
+    "looks_like": "flatbread",
     "quench": 4,
     "comestible_type": "FOOD",
     "healthy": 1,
