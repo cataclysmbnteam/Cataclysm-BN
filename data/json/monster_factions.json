@@ -121,7 +121,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "insect",
-    "neutral": [ "military", "defense_bot", "utility_bot", "zombie" ],
+    "neutral": [ "military", "defense_bot", "utility_bot", ],
+    "hate": "zombie",	
     "by_mood": "insect"
   },
   {

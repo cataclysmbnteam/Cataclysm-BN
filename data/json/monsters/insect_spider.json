@@ -405,7 +405,7 @@
     "species": [ "CENTIPEDE" ],
     "volume": "80 L",
     "weight": "110 kg",
-    "hp": 110,
+    "hp": 70,
     "speed": 110,
     "attack_cost": 110,
     "aggression": 9,
@@ -449,7 +449,7 @@
     "symbol": "A",
     "color": "green",
     "copy-from": "mon_centipede_giant",
-    "hp": 200,
+    "hp": 120,
     "volume": "300 L",
     "weight": "400 kg",
     "speed": 60,
@@ -473,7 +473,7 @@
         "type": "spell",
         "spell_data": { "id": "centipede_mom_summon" },
         "monster_message": "A small centipede is shaken off in the struggle!",
-        "cooldown": 20
+        "cooldown": 2
       }
     ],
     "dodge": 0,
@@ -498,7 +498,7 @@
     "species": [ "CENTIPEDE" ],
     "volume": "950 L",
     "weight": "2500 kg",
-    "hp": 850,
+    "hp": 250,
     "speed": 110,
     "attack_cost": 110,
     "aggression": 100,
