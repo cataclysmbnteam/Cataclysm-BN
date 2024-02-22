@@ -126,11 +126,6 @@ bool monexamine::pet_menu( monster &z )
         }
     }
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
-    if( ( is_zombie || can_slaughter ) && you.has_quality( qual_butcher, 1 ) ) {
-        amenu.addentry( slaughter, true, 'A', _( "Slaughter %s" ), pet_name );
-    } else {
-        amenu.addentry( attack, true, 'A', _( "Attack" ) );
-    }
     if( z.has_effect( effect_has_bag ) ) {
         amenu.addentry( give_items, true, 'g', _( "Place items into bag" ) );
         amenu.addentry( remove_bag, true, 'b', _( "Remove bag from %s" ), pet_name );
@@ -261,6 +256,11 @@ bool monexamine::pet_menu( monster &z )
         } else {
             amenu.addentry( disable_pet, true, 'D', _( "Deactivate the %s" ), pet_name );
         }
+    }
+    if( ( is_zombie || can_slaughter ) && you.has_quality( qual_butcher, 1 ) ) {
+        amenu.addentry( slaughter, true, 'A', _( "Slaughter %s" ), pet_name );
+    } else {
+        amenu.addentry( attack, true, 'A', _( "Attack" ) );
     }
     amenu.query();
     int choice = amenu.ret;
