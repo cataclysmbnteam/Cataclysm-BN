@@ -10961,12 +10961,12 @@ Attitude Character::attitude_to( const Creature &other ) const
         switch( m->attitude( const_cast<Character *>( this ) ) ) {
             // player probably does not want to harm them, but doesn't care much at all.
             case MATT_FOLLOW:
-            case MATT_FPASSIVE:
             case MATT_IGNORE:
             case MATT_FLEE:
                 return Attitude::A_NEUTRAL;
             // player does not want to harm those.
             case MATT_FRIEND:
+            case MATT_FPASSIVE:
             case MATT_ZLAVE:
                 // Don't want to harm your zlave!
                 return Attitude::A_FRIENDLY;

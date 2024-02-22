@@ -39,6 +39,7 @@
 
 
 static const quality_id qual_shear( "SHEAR" );
+static const quality_id qual_butcher( "BUTCHER" );
 
 static const efftype_id effect_sheared( "sheared" );
 
@@ -87,7 +88,7 @@ bool monexamine::pet_menu( monster &z )
         leash,
         unleash,
         play_with_pet,
-        pheromone,
+        cull,
         milk,
         shear,
         pay,
@@ -107,6 +108,7 @@ bool monexamine::pet_menu( monster &z )
     uilist amenu;
     std::string pet_name = z.get_name();
     bool is_zombie = z.type->in_species( ZOMBIE );
+    bool can_slaughter = z.type->in_category( "WILDLIFE" );
     const auto mon_item_id = z.type->revert_to_itype;
     avatar &you = get_avatar();
     if( is_zombie ) {
@@ -167,8 +169,12 @@ bool monexamine::pet_menu( monster &z )
                             pet_name );
         }
     }
-    if( is_zombie ) {
-        amenu.addentry( pheromone, true, 'z', _( "Tear out pheromone ball" ) );
+    if( is_zombie || can_slaughter ) {
+        if( you.has_quality( qual_butcher, 1 ) ) {
+            amenu.addentry( slaughter, true, 's', _( "Slaughter %s." ), pet_name );
+        } else {
+            amenu.addentry( slaughter, false, 's', _( "You need a butchering tool to slaughter the %s." ), pet_name );
+        }
     }
 
     if( z.has_flag( MF_MILKABLE ) ) {
@@ -303,8 +309,8 @@ bool monexamine::pet_menu( monster &z )
                 play_with( z );
             }
             break;
-        case pheromone:
-            if( query_yn( _( "Really kill the zombie slave?" ) ) ) {
+        case slaughter:
+            if( query_yn( _( "Really kill the %s?" ), pet_name ) ) {
                 kill_zslave( z );
             }
             break;
@@ -824,16 +830,10 @@ void monexamine::play_with( monster &z )
 void monexamine::kill_zslave( monster &z )
 {
     avatar &you = get_avatar();
-    z.apply_damage( &you, bodypart_id( "torso" ), 100 ); // damage the monster (and its corpse)
-    z.die( &you ); // and make sure it's really dead
+    you.add_msg_if_player( _( "With a clean cut you put your %s down." ), pet_name );
+    z.die( &you ); // execute it cleanly without damaging the corpse
 
     you.moves -= 150;
-
-    if( !one_in( 3 ) ) {
-        you.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
-        item *ball = item::spawn_temporary( "pheromone", calendar::start_of_cataclysm );
-        iuse::pheromone( &you, ball, true, you.pos() );
-    }
 }
 
 void monexamine::add_leash( monster &z )
