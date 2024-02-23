@@ -502,6 +502,7 @@
     "remove_message": "The burning pain subsides, but the damage is done.",
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "antitoxin" ],
     "pain_sizing": true,
     "hurt_sizing": true,
     "main_parts_only": true,
