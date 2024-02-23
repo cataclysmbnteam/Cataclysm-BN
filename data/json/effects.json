@@ -532,6 +532,7 @@
     "remove_message": "The weight on your chest lessens.",
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "antitoxin" ],
     "max_intensity": 125,
     "max_effective_intensity": 100,
     "max_duration": 18000,
