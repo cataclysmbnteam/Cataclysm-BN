@@ -28,14 +28,38 @@
     "monsters": [  ]
   },
   {
-    "name": "GROUP_DERMATIK",
     "type": "monstergroup",
+    "name": "GROUP_CENTIPEDE_ADULT",
+    "default": "mon_centipede_giant",
+    "monsters": [ { "monster": "mon_centipede_mom", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTIPEDE_GIANT",
+    "default": "mon_centipede_mom",
+    "monsters": [
+      { "monster": "mon_centipede_giant", "freq": 500, "cost_multiplier": 1 },
+      { "monster": "mon_centipede_mega", "freq": 50, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTIPEDE_MOM",
+    "default": "mon_centipede_giant",
+    "monsters": [
+      { "monster": "mon_centipede_mom", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_centipede_mega", "freq": 100, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DERMATIK",
     "default": "mon_null",
     "monsters": [ { "monster": "mon_dermatik", "freq": 1000, "cost_multiplier": 1 } ]
   },
   {
-    "name": "GROUP_DERMATIK_INCUB",
     "type": "monstergroup",
+    "name": "GROUP_DERMATIK_INCUB",
     "default": "mon_dermatik_incubator_deer",
     "monsters": [
       { "monster": "mon_dermatik_incubator_spider", "freq": 500, "cost_multiplier": 1 },
