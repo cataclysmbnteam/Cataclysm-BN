@@ -38,11 +38,9 @@
         "Y": "t_tree_young",
         "b": "t_underbrush",
         ">": "t_ladder_down",
-        "p": "t_dirt",
+        "p": "t_pit_spiked",
         "w": "t_dirt"
-      },
-      "furniture": {  },
-      "traps": { "p": { "trap": "tr_spike_pit" } }
+      }
     }
   },
   {
