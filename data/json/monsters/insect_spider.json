@@ -1106,7 +1106,7 @@
     "vision_day": 15,
     "vision_night": 5,
     "harvest": "arachnid_wasp",
-    "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK"],
+    "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 30, "into": "mon_wasp" },

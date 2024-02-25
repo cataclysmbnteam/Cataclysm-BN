@@ -89,13 +89,13 @@
   {
     "type": "SPECIES",
     "id": "WASP",
-    "name": "an angry wasp",	
+    "name": "an angry wasp",
     "description": "a flying insect",
     "footsteps": "BZZZZZZZZZZZZZZZZZ",
     "anger_triggers": [ "FRIEND_DIED", "HURT", "SOUND" ],
-    "fear_triggers": [ "FIRE" ]	,
+    "fear_triggers": [ "FIRE" ],
     "flags": [ "LOUDMOVES" ]
-  },  
+  },
   {
     "type": "SPECIES",
     "id": "CENTIPEDE",

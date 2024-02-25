@@ -83,7 +83,7 @@
     "default": "mon_spider_web",
     "monsters": [  ]
   },
- {
+  {
     "name": "GROUP_WASP_NEST",
     "type": "monstergroup",
     "default": "mon_null",

@@ -105,7 +105,7 @@
     "miss_msg_npc": "The %1$s tries to sting <npcname>, but they dodge!",
     "no_dmg_msg_u": "The %1$s tries to sting your %2$s, but it fails to penetrate your armor.",
     "no_dmg_msg_npc": "The %1$s tries to sting <npcname>'s %2$s, but it fails to penetrate their armor."
-  },  
+  },
   {
     "id": "acid_spray",
     "type": "GUN",

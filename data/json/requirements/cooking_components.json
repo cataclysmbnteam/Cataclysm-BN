@@ -60,7 +60,7 @@
         [ "egg_wasp", 4 ]
       ]
     ]
-  },  
+  },
   {
     "id": "eggs_small",
     "type": "requirement",

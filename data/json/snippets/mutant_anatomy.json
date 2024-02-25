@@ -187,7 +187,7 @@
       "As you cut into its abdomen you disturb a handful of normal-sized, wingless wasps clinging to a strange, tubular organ.  They crawl a few steps before falling lifelessly to the ground",
       "Some of the egg clusters are ransacked by fat, white worms tunneling blindly through its flesh"
     ]
-  },  
+  },
   {
     "type": "snippet",
     "category": "<bug_harvest_centipede_chitin>",
@@ -364,11 +364,11 @@
     "text": [
       "<bug_harvest_flying_chitin>.",
       "<bug_harvest_wasp_queen>.",
-	  "<bug_harvest_wasp_queen>.",
+      "<bug_harvest_wasp_queen>.",
       "<bug_harvest_wasp_chitin>.",
-	  "<bug_harvest_wasp_deeper>."
+      "<bug_harvest_wasp_deeper>."
     ]
-  },  
+  },
   {
     "type": "snippet",
     "category": "<incubator_mammal>",

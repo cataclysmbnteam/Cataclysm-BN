@@ -34,11 +34,10 @@
         "t": [ "t_region_tree", "t_region_groundcover_swamp" ],
         ",": [ "t_region_tree" ],
         "-": [ "t_paper" ],
-		".": [ "t_floor_paper" ],
-        "*": [ "t_floor_paper" ]		
-		
-      },      
-	  "monster": { "*": { "group": "GROUP_WASP_QUEEN" } },
+        ".": [ "t_floor_paper" ],
+        "*": [ "t_floor_paper" ]
+      },
+      "monster": { "*": { "group": "GROUP_WASP_QUEEN" } },
       "place_monster": [ { "group": "GROUP_WASP_NEST", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 5, 15 ] } ]
     }
   }

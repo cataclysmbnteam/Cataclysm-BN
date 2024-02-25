@@ -249,7 +249,7 @@
     "description": "A white, flexible wasp egg.  It looks like a pristine grain of rice, grown to the size of your palm.",
     "rot_spawn": "GROUP_EGG_WASP",
     "rot_spawn_chance": 100
-  },  
+  },
   {
     "type": "COMESTIBLE",
     "id": "razorclaw_roe",

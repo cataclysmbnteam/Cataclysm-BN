@@ -109,7 +109,14 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "honey_bottled", 3 ], [ "honeycomb", 3 ], [ "bee_sting", 3 ], [ "wasp_sting", 3 ], [ "mutant_bug_lungs", 2 ], [ "mutant_bug_organs", 2 ] ],
+      [
+        [ "honey_bottled", 3 ],
+        [ "honeycomb", 3 ],
+        [ "bee_sting", 3 ],
+        [ "wasp_sting", 3 ],
+        [ "mutant_bug_lungs", 2 ],
+        [ "mutant_bug_organs", 2 ]
+      ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
