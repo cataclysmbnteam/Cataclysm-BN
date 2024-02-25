@@ -10,7 +10,7 @@ import { Command } from "$catjazz/deps/cliffy.ts"
 import { timeit } from "$catjazz/utils/timeit.ts"
 import { applyRecursively } from "$catjazz/utils/transform.ts"
 import { fmtJsonRecursively } from "$catjazz/utils/json_fmt.ts"
-import { CataEntry, Entry, parseCataJson, readRecursively } from "$catjazz/utils/parse.ts"
+import { CataEntry, Entry, parseCataJson, readJSONsRec } from "$catjazz/utils/parse.ts"
 import { match, P } from "$catjazz/deps/ts_pattern.ts"
 import { id } from "$catjazz/utils/id.ts"
 import { deepMerge } from "$catjazz/deps/std/collection.ts"
@@ -122,11 +122,11 @@ export const schemasTransformer = (schemas: z.ZodTypeAny[]) => {
 }
 const main = () =>
   new Command()
-    .option(...cliOptions.path)
+    .option(...cliOptions.paths)
     .option(...cliOptions.quiet)
     .option(...cliOptions.format)
     .description(desc)
-    .action(async ({ path, format, quiet = false }) => {
+    .action(async ({ paths, format, quiet = false }) => {
       const timeIt = timeit(quiet)
 
       const transformer = schemasTransformer(schemas)
@@ -142,7 +142,7 @@ const main = () =>
 
       const recursiveTransformer = applyRecursively(mapgenIgnoringTransformer)
 
-      const entries = await timeIt({ name: "reading JSON", val: readRecursively(path) })
+      const entries = await timeIt({ name: "reading JSON", val: readJSONsRec(paths) })
 
       await timeIt({ name: "transform", val: recursiveTransformer(entries) })
 
