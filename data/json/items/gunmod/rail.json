@@ -179,6 +179,6 @@
       [ "ROCKET_LAUNCHERS" ],
       [ "FLAMETHROWERS" ]
     ],
-    "mod_exclusion_category": [ ]
+    "mod_exclusion_category": [  ]
   }
 ]
