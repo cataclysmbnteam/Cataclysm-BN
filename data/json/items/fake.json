@@ -171,12 +171,14 @@
   {
     "id": "fake_autoclave",
     "copy-from": "fake_item",
+    "looks_like": "autoclave",
     "type": "TOOL",
     "name": "laboratory autoclave"
   },
   {
     "id": "fake_centrifuge",
     "copy-from": "fake_item",
+    "looks_like": "microcentrifuge",
     "type": "TOOL",
     "name": "centrifuge",
     "qualities": [ [ "CONCENTRATE", 1 ], [ "SEPARATE", 1 ], [ "ANALYSIS", 1 ] ]
@@ -215,6 +217,7 @@
   {
     "id": "fake_gridsolderingiron",
     "copy-from": "fake_item",
+    "looks_like": "soldering_iron",
     "type": "TOOL",
     "name": { "str": "grid soldering iron" },
     "sub": "soldering_iron",
@@ -307,6 +310,7 @@
   {
     "id": "fake_gridwater_purifier",
     "copy-from": "fake_item",
+    "looks_like": "water_purifier",
     "type": "TOOL",
     "name": { "str": "grid water purifier" },
     "sub": "water_purifier",
@@ -325,6 +329,7 @@
   {
     "id": "fake_chemistry_set",
     "copy-from": "fake_item",
+    "looks_like": "chemistry_set_basic",
     "type": "TOOL",
     "name": { "str": "grid chemistry set" },
     "sub": "chemistry_set_basic",
@@ -335,6 +340,7 @@
   {
     "id": "gridautoclave",
     "copy-from": "fake_item",
+    "looks_like": "autoclave",
     "type": "TOOL",
     "name": { "str": "grid autoclave" },
     "sub": "autoclave",

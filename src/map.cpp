@@ -3093,8 +3093,11 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         if( will_explode_on_impact( power ) && it->will_explode_in_fire() ) {
             return item::detonate( std::move( it ), p, contents );
         }
-        if( ( power < min_destroy_threshold || !do_destroy ) && !it->can_revive() ) {
-            return std::move( it );
+        if( it->is_corpse() ) {
+            if( ( power < min_destroy_threshold || !do_destroy ) && !it->can_revive() &&
+                !it->get_mtype()->zombify_into ) {
+                return std::move( it );
+            }
         }
         bool is_active_explosive = it->active && it->type->get_use( "explosion" ) != nullptr;
         if( is_active_explosive && it->charges == 0 ) {
@@ -3804,9 +3807,12 @@ void map::crush( const tripoint &p )
 void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, const bool hit_items )
 {
     float initial_damage = 0.0;
+    float initial_arpen = 0.0;
+    float initial_armor_mult = 1.0;
     for( const damage_unit &dam : proj.impact ) {
         initial_damage += dam.amount * dam.damage_multiplier;
-        initial_damage += dam.res_pen;
+        initial_arpen += dam.res_pen;
+        initial_armor_mult *= dam.res_mult;
     }
     if( initial_damage < 0 ) {
         return;
@@ -3836,13 +3842,17 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
     if( furn.bash.ranged ) {
         double range = rl_dist( origin, p );
         const ranged_bash_info &rfi = *furn.bash.ranged;
+        float destroy_roll = dam * rng_float( 0.9, 1.1 );
         if( !hit_items && ( !check( rfi.block_unaimed_chance ) || ( rfi.block_unaimed_chance < 100_pct &&
                             range <= 1 ) ) ) {
             // Nothing, it's a miss or we're shooting over nearby furniture
         } else if( rfi.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
-            dam -= rng( rfi.reduction_laser->min, rfi.reduction_laser->max );
+            dam -= std::max( ( rng( rfi.reduction_laser->min,
+                                    rfi.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
         } else {
-            dam -= rng( rfi.reduction.min, rfi.reduction.max );
+            // Roll damage reduction value, reduce result by arpen, multiply by any armor mult, then finally set to zero if negative result
+            dam -= std::max( ( rng( rfi.reduction.min,
+                                    rfi.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0f );
             // Only print if we hit something we can see enemies through, so we know cover did its job
             if( get_avatar().sees( p ) && rfi.block_unaimed_chance < 100_pct ) {
                 if( dam <= 0 ) {
@@ -3851,7 +3861,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                     add_msg( _( "The shot hits the %s and punches through!" ), furnname( p ) );
                 }
             }
-            if( dam > rfi.destroy_threshold ) {
+            if( destroy_roll > rfi.destroy_threshold ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_furn_success( p, params );
             }
@@ -3862,13 +3872,17 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
     } else if( ter.bash.ranged ) {
         double range = rl_dist( origin, p );
         const ranged_bash_info &ri = *ter.bash.ranged;
+        float destroy_roll = dam * rng_float( 0.9, 1.1 );
         if( !hit_items && ( !check( ri.block_unaimed_chance ) || ( ri.block_unaimed_chance < 100_pct &&
                             range <= 1 ) ) ) {
             // Nothing, it's a miss or we're shooting over nearby terrain
         } else if( ri.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
-            dam -= rng( ri.reduction_laser->min, ri.reduction_laser->max );
+            dam -= std::max( ( rng( ri.reduction_laser->min,
+                                    ri.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
         } else {
-            dam -= rng( ri.reduction.min, ri.reduction.max );
+            // Roll damage reduction value, reduce result by arpen, multiply by any armor mult, then finally set to zero if negative result
+            dam -= std::max( ( rng( ri.reduction.min,
+                                    ri.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0f );
             // Only print if we hit something we can see enemies through, so we know cover did its job
             if( get_avatar().sees( p ) && ri.block_unaimed_chance < 100_pct ) {
                 if( dam <= 0 ) {
@@ -3877,7 +3891,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                     add_msg( _( "The shot hits the %s and punches through!" ), tername( p ) );
                 }
             }
-            if( dam > ri.destroy_threshold ) {
+            if( destroy_roll > ri.destroy_threshold ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_ter_success( p, params );
             }

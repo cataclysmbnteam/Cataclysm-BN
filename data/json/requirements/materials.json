@@ -251,5 +251,18 @@
     "type": "requirement",
     "//": "Any kind of bones, human or not.  Tainted bones are too brittle and won't work for this purpose.",
     "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+  },
+  {
+    "id": "bandages_all",
+    "type": "requirement",
+    "//": "Any kind of bandages, improvised or not, where quality does not matter for non-medical use",
+    "components": [
+      [
+        [ "bandages", 1 ],
+        [ "bandages_makeshift", 1 ],
+        [ "bandages_makeshift_bleached", 1 ],
+        [ "bandages_makeshift_boiled", 1 ]
+      ]
+    ]
   }
 ]

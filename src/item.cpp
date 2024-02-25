@@ -4104,7 +4104,7 @@ nc_color item::color_in_inventory( const player &p ) const
     } else if( active && !is_food() && !is_food_container() && !is_corpse() ) {
         // Active items show up as yellow
         ret = c_yellow;
-    } else if( is_corpse() && can_revive() ) {
+    } else if( is_corpse() && ( can_revive() || corpse->zombify_into ) && !has_flag( flag_PULPED ) ) {
         // Only reviving corpses are yellow
         ret = c_yellow;
     } else if( const item *food = get_food() ) {
@@ -9146,7 +9146,7 @@ detached_ptr<item> item::process_corpse( detached_ptr<item> &&self, player *carr
     if( self->corpse == nullptr || self->damage() >= self->max_damage() ) {
         return std::move( self );
     }
-    if( self->corpse->zombify_into && self->rotten() ) {
+    if( self->corpse->zombify_into && self->rotten() && !self->has_flag( flag_PULPED ) ) {
         self->rot -= self->get_shelf_life();
         self->corpse = &*self->corpse->zombify_into;
         return std::move( self );

@@ -18,6 +18,7 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_display.h"
 #include "character_functions.h"
 #include "character_effects.h"
 #include "character_martial_arts.h"
@@ -222,8 +223,11 @@ bool character_martial_arts::pick_style( const avatar &you )    // Style selecti
                                    "\n"
                                    "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
                                    "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
+                                   "Base empty-handed damage: %3d\n"
+                                   "Effective dodge rating: %4.1f\n"
                                    "Press [<color_yellow>%s</color>] for more info.\n" ),
                                 you.get_str(), you.get_dex(), you.get_per(), you.get_int(),
+                                character_display::display_empty_handed_base_damage( you ), you.get_dodge(),
                                 ctxt.get_desc( "SHOW_DESCRIPTION" ) );
     ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;

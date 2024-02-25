@@ -12,16 +12,16 @@
     "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_laminated_door_glass_o",
     "bash": {
-      "str_min": 100,
-      "str_max": 180,
+      "str_min": 60,
+      "str_max": 200,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 3, 5 ] } ],
-      "//": "half that of ballistic glass doors",
-      "ranged": { "reduction": [ 20, 20 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 20 }
+      "//": "reduction half str_min for ballistic-style glass, destroy_threshold equal to str_min for glass",
+      "ranged": { "reduction": [ 30, 30 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 60 }
     }
   },
   {
@@ -37,8 +37,8 @@
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
     "close": "t_laminated_door_glass_c",
     "bash": {
-      "str_min": 100,
-      "str_max": 180,
+      "str_min": 60,
+      "str_max": 200,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 20,
@@ -60,7 +60,7 @@
     "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_ballistic_door_glass_o",
     "bash": {
-      "str_min": 200,
+      "str_min": 100,
       "str_max": 400,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
@@ -68,8 +68,8 @@
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 3, 5 ] } ],
-      "//": "matches that of the other ballistic glass doors",
-      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 40 }
+      "//": "reduction half str_min for ballistic-style glass, destroy_threshold equal to str_min for glass",
+      "ranged": { "reduction": [ 50, 50 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 100 }
     }
   },
   {
@@ -85,7 +85,7 @@
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
     "close": "t_ballistic_door_glass_c",
     "bash": {
-      "str_min": 200,
+      "str_min": 100,
       "str_max": 400,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
@@ -108,7 +108,7 @@
     "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_reinforced_door_glass_o",
     "bash": {
-      "str_min": 40,
+      "str_min": 80,
       "str_max": 210,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
@@ -116,8 +116,8 @@
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ],
-      "//": "reduction and destroy_threshold both match str_min for ballistic/reinforced glass doors",
-      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 40 }
+      "//": "reduction half str_min for ballistic-style glass, destroy_threshold equal to str_min for glass",
+      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -133,7 +133,7 @@
     "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE" ],
     "open": "t_reinforced_door_glass_lab_o",
     "bash": {
-      "str_min": 40,
+      "str_min": 80,
       "str_max": 210,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
@@ -141,8 +141,8 @@
       "sound_fail_vol": 14,
       "ter_set": "t_thconc_floor",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ],
-      "//": "reduction and destroy_threshold both match str_min for ballistic/reinforced glass doors",
-      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 40 }
+      "//": "reduction half str_min for ballistic-style glass, destroy_threshold equal to str_min for glass",
+      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -158,7 +158,7 @@
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
     "close": "t_reinforced_door_glass_c",
     "bash": {
-      "str_min": 40,
+      "str_min": 80,
       "str_max": 210,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
@@ -181,16 +181,14 @@
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
     "close": "t_reinforced_door_glass_lab_c",
     "bash": {
-      "str_min": 40,
+      "str_min": 80,
       "str_max": 210,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ],
-      "//": "reduction and destroy_threshold both match str_min for ballistic/reinforced glass doors",
-      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 40 }
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
@@ -266,7 +264,8 @@
         { "item": "wood_panel", "prob": 10 },
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -304,7 +303,8 @@
         { "item": "wood_panel", "prob": 10 },
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -342,7 +342,8 @@
         { "item": "wood_panel", "prob": 10 },
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -380,7 +381,8 @@
         { "item": "wood_panel", "prob": 10 },
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -418,7 +420,8 @@
         { "item": "wood_panel", "prob": 10 },
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -602,7 +605,8 @@
         { "item": "nail", "charges": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 3, 5 ], "destroy_threshold": 70, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -638,7 +642,8 @@
         { "item": "nail", "charges": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 3, 5 ], "destroy_threshold": 70, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -674,7 +679,8 @@
         { "item": "nail", "charges": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 3, 5 ], "destroy_threshold": 70, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -710,7 +716,8 @@
         { "item": "nail", "charges": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 3, 5 ], "destroy_threshold": 70, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -834,7 +841,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_red_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 6 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 6 }
     }
   },
   {
@@ -882,7 +891,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_white_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 6 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 6 }
     }
   },
   {
@@ -906,7 +917,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_gray_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 6 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 6 }
     }
   },
   {
@@ -1041,7 +1054,8 @@
         { "item": "2x4", "prob": 25 },
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -1114,7 +1128,8 @@
         { "item": "nail", "charges": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 3, 5 ], "destroy_threshold": 70, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -1152,7 +1167,8 @@
         { "item": "nail", "charges": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 3, 5 ], "destroy_threshold": 70, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -1295,7 +1311,8 @@
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 2, 4 ] },
         { "item": "nail", "charges": [ 4, 12 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 100 }
     }
   },
   {
@@ -1331,7 +1348,8 @@
         { "item": "nail", "charges": [ 4, 18 ] },
         { "item": "splinter", "count": [ 2, 4 ] },
         { "item": "hinge", "count": [ 0, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 90, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -1394,7 +1412,8 @@
         { "item": "wood_panel", "prob": 10 },
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 80 }
     },
     "pry": {
       "success_message": "You pry open the door.",
@@ -1650,7 +1669,8 @@
         { "item": "rope_makeshift_6", "count": [ 0, 1 ] },
         { "item": "withered", "count": [ 2, 12 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 2, 4 ], "destroy_threshold": 20 }
     }
   },
   {
@@ -1907,7 +1927,8 @@
         { "item": "2x4", "count": [ 1, 3 ] },
         { "item": "nail", "charges": [ 2, 10 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 8, 15 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -1965,7 +1986,7 @@
         { "item": "splinter", "count": 1 },
         { "item": "hinge", "count": [ 0, 1 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 50 }
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 50 }
     }
   },
   {
@@ -1995,7 +2016,8 @@
         { "item": "nail", "charges": [ 2, 20 ] },
         { "item": "splinter", "count": 1 },
         { "item": "hinge", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -2026,7 +2048,8 @@
         { "item": "scrap", "count": [ 12, 24 ] },
         { "item": "steel_plate", "prob": 75 },
         { "item": "hinge", "count": [ 1, 3 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 250 }
     }
   },
   {
@@ -2047,7 +2070,8 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 250 }
     }
   },
   {
@@ -2087,7 +2111,8 @@
         { "item": "scrap", "count": [ 12, 24 ] },
         { "item": "steel_plate", "prob": 75 },
         { "item": "hinge", "count": [ 1, 3 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 250 }
     }
   },
   {
@@ -2165,7 +2190,8 @@
         { "item": "scrap", "count": [ 12, 24 ] },
         { "item": "steel_plate", "prob": 75 },
         { "item": "hinge", "count": [ 1, 3 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 250 }
     }
   },
   {
@@ -2222,7 +2248,8 @@
         { "item": "scrap", "count": [ 12, 24 ] },
         { "item": "steel_plate", "prob": 75 },
         { "item": "hinge", "count": [ 1, 3 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 250 }
     }
   },
   {
@@ -2308,7 +2335,8 @@
         { "item": "scrap", "count": [ 12, 24 ] },
         { "item": "steel_plate", "prob": 75 },
         { "item": "hinge", "count": [ 1, 3 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 250 }
     },
     "pry": {
       "success_message": "You pry open the door.",
@@ -2475,7 +2503,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 6 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 6 }
     }
   },
   {
@@ -2593,7 +2623,8 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 250 }
     }
   },
   {
