@@ -1173,7 +1173,7 @@
     "components": [
       [ [ "lobster_cooked", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "any_butter", 2, "LIST" ] ],
+      [ [ "any_butter", 1, "LIST" ] ],
       [ [ "lemon", 1 ] ],
       [ [ "seasoning_salt", 1 ] ],
       [ [ "pepper", 1 ] ]
