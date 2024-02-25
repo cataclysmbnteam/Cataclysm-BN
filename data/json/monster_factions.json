@@ -148,11 +148,7 @@
     "name": "wasp",
     "base_faction": "insect",
     "by_mood": [ "centipede", "spider" ],
-<<<<<<< Updated upstream
-    "hate": [ "insect", "small_animal", "dragonfly", "bee" ]
-=======
     "hate": [ "bee", "insect", "small_animal", "dragonfly" ]
->>>>>>> Stashed changes
   },
   {
     "type": "MONSTER_FACTION",
