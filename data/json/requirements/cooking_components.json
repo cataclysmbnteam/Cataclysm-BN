@@ -374,6 +374,58 @@
     ]
   },
   {
+    "id": "lobster_soup_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
+      [
+        [ "spaghetti_raw", 1 ],
+        [ "macaroni_raw", 1 ],
+        [ "noodles_fast", 1 ],
+        [ "veggy_any", 1, "LIST" ],
+        [ "sauerkraut", 1 ],
+        [ "can_corn", 1 ],
+        [ "hominy", 1 ],
+        [ "dry_veggy", 1 ],
+        [ "con_milk", 1 ],
+        [ "flatbread", 1 ],
+        [ "tortilla_corn", 1 ],
+        [ "bread", 1 ],
+        [ "bread_garlic", 1 ],
+        [ "cornbread", 1 ],
+        [ "biscuit", 1 ],
+        [ "hardtack", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "flour", 2 ],
+        [ "cornmeal", 2 ],
+        [ "milk_powder", 1 ],
+        [ "crackers", 1 ],
+        [ "eggs_small_dry", 1, "LIST" ],
+        [ "dry_beans", 1 ],
+        [ "raw_beans", 1 ],
+        [ "dry_lentils", 1 ],
+        [ "raw_lentils", 1 ],
+        [ "dry_rice", 1 ],
+        [ "can_beans", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "mushroom", 1 ],
+        [ "dry_mushroom", 1 ],
+        [ "mushroom_cooked", 1 ],
+        [ "morel_cooked", 1 ],
+        [ "acorns_cooked", 1 ]
+      ],
+      [
+        [ "lobster", 2 ],
+        [ "dry_lobster", 2 ],
+        [ "lobster_smoked", 2 ],
+        [ "lobster_pickled", 2 ],
+        [ "lobster_salted", 2 ],
+        [ "lobster_canned", 2 ]
+      ]
+    ]
+  },
+  {
     "id": "woods_soup_ingredients",
     "type": "requirement",
     "components": [

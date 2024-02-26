@@ -19,7 +19,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
-    "fun": 1,
+    "fun": 4,
     "vitamins": [ [ "iron", 3 ] ]
   },
   {
@@ -44,7 +44,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_SALVAGE" ],
-    "fun": 10,
+    "fun": 6,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
@@ -69,7 +69,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 43 ], [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 5 ] ],
-    "fun": 1
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -97,7 +97,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 80 ], [ "vitC", 36 ], [ "calcium", 3 ], [ "iron", 13 ], [ "vitB", 20 ] ],
-    "fun": 1
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -121,7 +121,31 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 12 ], [ "vitC", 28 ], [ "calcium", 4 ], [ "iron", 5 ], [ "vitB", 20 ] ],
-    "fun": 1
+    "fun": 4
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "soup_lobster",
+    "name": "lobster soup",
+    "weight": "265 g",
+    "color": "pink",
+    "spoils_in": "5 days",
+    "container": "can_medium",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 8,
+    "healthy": 1,
+    "calories": 359,
+    "description": "A nutritious and delicious hearty lobster soup.",
+    "price": "4 USD",
+    "price_postapoc": "1 USD",
+    "material": "flesh",
+    "volume": "500 ml",
+    "charges": 2,
+    "phase": "liquid",
+    "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 6 ], [ "iron", 15 ], [ "vitB", 20 ] ],
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -145,7 +169,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 178 ], [ "vitC", 35 ], [ "calcium", 4 ], [ "iron", 12 ] ],
-    "fun": 5
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -170,7 +194,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 19 ], [ "vitC", 30 ], [ "calcium", 5 ], [ "iron", 28 ], [ "vitB", 24 ] ],
-    "fun": 8
+    "fun": 5
   },
   {
     "type": "COMESTIBLE",
@@ -195,7 +219,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 20 ], [ "vitC", 9 ], [ "iron", 3 ], [ "vitB", 5 ] ],
-    "fun": 1
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -220,7 +244,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 10 ], [ "calcium", 1 ], [ "iron", 9 ], [ "vitB", 8 ] ],
-    "fun": 2
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -243,7 +267,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "fun": 1,
+    "fun": 3,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ]
   },
   {
@@ -265,9 +289,10 @@
     "material": "tomato",
     "volume": "250 ml",
     "phase": "liquid",
+    "charges": 2,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 7 ], [ "vitC", 10 ], [ "calcium", 1 ], [ "iron", 4 ] ],
-    "fun": 2
+    "fun": 3
   },
   {
     "type": "COMESTIBLE",
@@ -292,7 +317,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 81 ], [ "vitC", 7 ], [ "calcium", 9 ], [ "iron", 13 ], [ "vitB", 20 ] ],
-    "fun": 3
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -316,6 +341,6 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 15 ], [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ], [ "vitB", 8 ] ],
-    "fun": 3
+    "fun": 5
   }
 ]
