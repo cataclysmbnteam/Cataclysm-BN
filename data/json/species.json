@@ -82,9 +82,27 @@
     "id": "INSECT_FLYING",
     "name": "a flying insect",
     "description": "a flying insect",
-    "footsteps": "BZZZZZZZZZZZZZZZZZ",
+    "footsteps": "bzzzzzzzzzzzzzzzzz",
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "WASP",
+    "name": "an angry wasp",
+    "description": "a flying insect",
+    "footsteps": "BZZZZZZZZZZZZZZZZZ",
+    "anger_triggers": [ "FRIEND_DIED", "HURT", "SOUND" ],
+    "fear_triggers": [ "FIRE" ],
+    "flags": [ "LOUDMOVES" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "CENTIPEDE",
+    "name": { "str": "centipede" },
+    "description": "a centipede",
+    "footsteps": "skittering.",
+    "fear_triggers": [ "FIRE" ]
   },
   {
     "type": "SPECIES",
