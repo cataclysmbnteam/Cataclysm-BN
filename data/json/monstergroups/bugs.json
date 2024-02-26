@@ -246,8 +246,8 @@
     "type": "monstergroup",
     "default": "mon_wasp",
     "monsters": [
-      { "monster": "mon_dermatik", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_wasp_guard", "freq": 500, "cost_multiplier": 1 }
+      { "monster": "mon_wasp_guard", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_wasp_pupa", "freq": 500, "cost_multiplier": 1 }
     ]
   },
   {
