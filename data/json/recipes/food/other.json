@@ -341,7 +341,7 @@
     "type": "recipe",
     "result": "cheese_hard",
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
+    "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "40 m",
