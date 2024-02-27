@@ -631,16 +631,17 @@ int relic_procgen_data::power_level( const fake_spell &sp ) const
 item relic_procgen_data::create_item( const relic_procgen_data::generation_rules &rules ) const
 {
     const itype_id *it_id = item_weights.pick();
-    if( it_id == nullptr ) {
+
+    if( it_id->empty() ) {
         debugmsg( "ERROR: %s procgen data does not have items", id.c_str() );
-        return null_item_reference();
+        return detached_ptr<item>();
     }
 
-    item it( *it_id, calendar::turn );
+    detached_ptr<item> it = item::spawn( *it_id, calendar::turn );
 
-    it.overwrite_relic( generate( rules, *it_id ) );
+    it->overwrite_relic( generate( rules, *it_id ) );
 
-    return it;
+    return detached_ptr<item>( it );
 }
 
 relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &rules,
