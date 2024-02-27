@@ -80,7 +80,7 @@
     "symbol": "K",
     "color": "dark_gray",
     "type": "MONSTER",
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "BIOPROOF" ],
     "harvest": "mutant_human",
     "material": [ "hflesh" ],
     "bodytype": "human",
