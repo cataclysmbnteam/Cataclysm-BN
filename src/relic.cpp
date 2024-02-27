@@ -628,7 +628,7 @@ int relic_procgen_data::power_level( const fake_spell &sp ) const
     return 0;
 }
 
-item relic_procgen_data::create_item( const relic_procgen_data::generation_rules &rules ) const
+detached_ptr<item> relic_procgen_data::create_item( const relic_procgen_data::generation_rules& rules ) const
 {
     const itype_id *it_id = item_weights.pick();
 
