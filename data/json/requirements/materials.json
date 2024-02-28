@@ -229,6 +229,12 @@
     "components": [ [ [ "chunk_rubber", 1 ] ] ]
   },
   {
+    "id": "vehicle_repair_electronics",
+    "type": "requirement",
+    "//": "Materials used for repairing alternators and general electronics",
+    "components": [ [ [ "scrap", 1 ] ], [ [ "cable", 3 ] ] ]
+  },
+  {
     "id": "wood_structural",
     "type": "requirement",
     "//": "Planks, sticks, and long sticks used in recipes, roughly 1:1 by weight.",
