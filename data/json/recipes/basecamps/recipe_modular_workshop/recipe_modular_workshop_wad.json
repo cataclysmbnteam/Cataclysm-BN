@@ -189,7 +189,7 @@
       "time": "1 d 3 h 10 m",
       "skills": [ [ "survival", 3 ], [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "fake_gridwelder", 100 ], [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
+        "tools": [ [ [ "fake_gridwelder", 100 ], [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ] ] ],
         "qualities": [
           [ { "id": "CUT" } ],
           [ { "id": "GLARE", "level": 2 } ],
