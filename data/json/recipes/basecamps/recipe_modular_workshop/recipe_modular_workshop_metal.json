@@ -16,9 +16,7 @@
       "time": "2 d 12 h",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [
-          [ [ "fake_gridwelder", 900 ], [ "oxy_torch", 180 ], [ "toolset", 1350 ], [ "welder", 900 ], [ "welder_crude", 1350 ] ]
-        ],
+        "tools": [ [ [ "fake_gridwelder", 900 ], [ "oxy_torch", 180 ], [ "toolset", 1350 ], [ "welder", 900 ] ] ],
         "qualities": [
           [ { "id": "DIG" } ],
           [ { "id": "GLARE", "level": 2 } ],
@@ -52,7 +50,7 @@
       "time": "1 d 13 h 40 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "fake_gridwelder", 600 ], [ "oxy_torch", 120 ], [ "toolset", 900 ], [ "welder", 600 ], [ "welder_crude", 900 ] ] ],
+        "tools": [ [ [ "fake_gridwelder", 600 ], [ "oxy_torch", 120 ], [ "toolset", 900 ], [ "welder", 600 ] ] ],
         "qualities": [
           [ { "id": "DIG" } ],
           [ { "id": "GLARE", "level": 2 } ],
@@ -90,7 +88,7 @@
       "time": "2 d 3 h 15 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "fake_gridwelder", 400 ], [ "oxy_torch", 80 ], [ "toolset", 600 ], [ "welder", 400 ], [ "welder_crude", 600 ] ] ],
+        "tools": [ [ [ "fake_gridwelder", 400 ], [ "oxy_torch", 80 ], [ "toolset", 600 ], [ "welder", 400 ] ] ],
         "qualities": [
           [ { "id": "DIG" } ],
           [ { "id": "GLARE", "level": 2 } ],
@@ -130,7 +128,7 @@
       "time": "1 d 8 h 45 m",
       "skills": [ [ "fabrication", 4 ], [ "tailor", 3 ] ],
       "inline": {
-        "tools": [ [ [ "fake_gridwelder", 400 ], [ "oxy_torch", 80 ], [ "toolset", 600 ], [ "welder", 400 ], [ "welder_crude", 600 ] ] ],
+        "tools": [ [ [ "fake_gridwelder", 400 ], [ "oxy_torch", 80 ], [ "toolset", 600 ], [ "welder", 400 ] ] ],
         "qualities": [
           [ { "id": "DIG" } ],
           [ { "id": "GLARE", "level": 2 } ],
@@ -170,7 +168,7 @@
       "time": "1 d 8 h",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "fake_gridwelder", 400 ], [ "oxy_torch", 80 ], [ "toolset", 600 ], [ "welder", 400 ], [ "welder_crude", 600 ] ] ],
+        "tools": [ [ [ "fake_gridwelder", 400 ], [ "oxy_torch", 80 ], [ "toolset", 600 ], [ "welder", 400 ] ] ],
         "qualities": [
           [ { "id": "DIG" } ],
           [ { "id": "GLARE", "level": 2 } ],
@@ -210,9 +208,7 @@
       "time": "2 d 12 h",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [
-          [ [ "fake_gridwelder", 1100 ], [ "oxy_torch", 220 ], [ "toolset", 1650 ], [ "welder", 1100 ], [ "welder_crude", 1650 ] ]
-        ],
+        "tools": [ [ [ "fake_gridwelder", 1100 ], [ "oxy_torch", 220 ], [ "toolset", 1650 ], [ "welder", 1100 ] ] ],
         "qualities": [
           [ { "id": "DIG" } ],
           [ { "id": "GLARE", "level": 2 } ],
@@ -252,9 +248,7 @@
       "time": "3 d 9 h",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [
-          [ [ "fake_gridwelder", 1000 ], [ "oxy_torch", 200 ], [ "toolset", 1500 ], [ "welder", 1000 ], [ "welder_crude", 1500 ] ]
-        ],
+        "tools": [ [ [ "fake_gridwelder", 1000 ], [ "oxy_torch", 200 ], [ "toolset", 1500 ], [ "welder", 1000 ] ] ],
         "qualities": [
           [ { "id": "DIG" } ],
           [ { "id": "GLARE", "level": 2 } ],
