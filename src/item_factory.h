@@ -329,6 +329,11 @@ class Item_factory
          */
         bool load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const JsonObject &obj,
                            const std::string &name, const Item_group &parent );
+        /**
+         * Loads whether an item should be spawned active or not into modifiers.
+         * DO NOT attempt to apply to itemgroups.
+         */
+        bool load_active( bool &ac, const JsonObject &obj );
         bool load_string( std::vector<std::string> &vec, const JsonObject &obj, const std::string &name );
         void add_entry( Item_group &ig, const JsonObject &obj );
 

@@ -2987,6 +2987,16 @@ bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string
     return result;
 }
 
+bool Item_factory::load_active( bool &ac, const JsonObject &obj )
+{
+    bool result = false;
+    if( obj.has_bool( "active" ) ) {
+        ac = obj.get_bool( "active" );
+        result |= ac;
+    }
+    return result;
+}
+
 bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const JsonObject &obj,
                                  const std::string &name, const Item_group &parent )
 {
@@ -3110,6 +3120,7 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
     use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
+    use_modifier |= load_active( modifier.spawn_active, obj );
 
     std::vector<std::string> custom_flags;
     use_modifier |= load_string( custom_flags, obj, "custom-flags" );

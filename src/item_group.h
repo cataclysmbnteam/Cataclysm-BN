@@ -186,6 +186,11 @@ class Item_modifier
          */
         std::vector<flag_id> custom_flags;
 
+        /**
+        * Whether the item spawns active or not.
+        */
+        bool spawn_active = false;
+
         Item_modifier();
         Item_modifier( Item_modifier && ) = default;
 
