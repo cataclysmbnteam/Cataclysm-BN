@@ -297,7 +297,7 @@
     "see_cost": 2,
     "mondensity": 2,
     "spawns": { "group": "GROUP_WASP_GUARD", "population": [ 3, 8 ], "chance": 100 }
-  },  
+  },
   {
     "type": "overmap_terrain",
     "id": [ "bandit_camp_1", "bandit_camp_2", "bandit_camp_3", "bandit_camp_4" ],

@@ -1259,8 +1259,6 @@
       "ter_set": "t_floor_paper_hard"
     }
   },
-  
-  
   {
     "type": "terrain",
     "id": "t_root_wall",

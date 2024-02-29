@@ -851,9 +851,6 @@
     "flags": [ "TRANSPARENT" ],
     "examine_action": "ledge"
   },
-  
-  
-  
   {
     "type": "terrain",
     "id": "t_grate_indoor",

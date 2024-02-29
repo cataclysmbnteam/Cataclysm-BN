@@ -781,8 +781,6 @@
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC", "WILDERNESS", "ELECTRIC_GRID" ]
   },
-  
-  
   {
     "type": "overmap_special",
     "id": "Wasp Tower",
@@ -801,7 +799,7 @@
     "city_distance": [ 0, 20 ],
     "occurrences": [ 0, 5 ],
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 50, 80 ], "radius": [ 6, 20 ] },
-    "flags": [  "ELECTRIC_GRID" , "WILDERNESS", "UNIQUE" ]
+    "flags": [ "ELECTRIC_GRID", "WILDERNESS", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -821,9 +819,8 @@
     "city_distance": [ 0, 20 ],
     "occurrences": [ 0, 5 ],
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 50, 100 ], "radius": [ 6, 20 ] },
-    "flags": [  "ELECTRIC_GRID" , "WILDERNESS", "UNIQUE" ]
-  },  
-  
+    "flags": [ "ELECTRIC_GRID", "WILDERNESS", "UNIQUE" ]
+  },
   {
     "type": "overmap_special",
     "id": "Prison",
