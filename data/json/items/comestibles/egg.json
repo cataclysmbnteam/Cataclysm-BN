@@ -240,6 +240,18 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_wasp",
+    "name": { "str": "wasp egg" },
+    "copy-from": "egg_insect",
+    "color": "white",
+    "symbol": "o",
+    "spoils_in": "2 days",
+    "description": "A white, flexible wasp egg.  It looks like a pristine grain of rice, grown to the size of your palm.",
+    "rot_spawn": "GROUP_EGG_WASP",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "razorclaw_roe",
     "name": "razorclaw roe",
     "weight": "236 g",

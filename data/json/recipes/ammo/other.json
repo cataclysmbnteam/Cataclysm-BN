@@ -179,10 +179,7 @@
     "time": "8 m",
     "book_learn": [ [ "manual_launcher", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [
-      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "welder_crude", 45 ], [ "toolset", 45 ] ],
-      [ [ "hotplate", 50 ], [ "toolset", 50 ] ]
-    ],
+    "tools": [ [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "toolset", 45 ] ], [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "spike", 1 ] ],
