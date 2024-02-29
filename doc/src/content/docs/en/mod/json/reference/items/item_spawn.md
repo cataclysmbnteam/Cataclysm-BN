@@ -94,6 +94,7 @@ item(s):
 "charges": <number>|<array>,
 "charges-min": <number>,
 "charges-max": <number>,
+"active": "<bool>"
 "contents-item": "<item-id>" (can be a string or an array of strings),
 "contents-group": "<group-id>" (can be a string or an array of strings),
 "ammo-item": "<ammo-item-id>",
@@ -110,6 +111,9 @@ item. This allows water, that contains a book, that contains a steel frame, that
 `charges`: Setting only min, not max will make the game calculate the max charges based on container
 or ammo/magazine capacity. Setting max too high will decrease it to maximum capacity. Not setting
 min will set it to 0 when max is set.
+
+`active`: Will spawn the item active if true, note that this _does not work_ for itemgroups, only
+individual items _within_ itemgroups.
 
 ```json
 "damage-min": 0,
