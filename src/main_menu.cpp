@@ -58,10 +58,11 @@ enum class main_menu_opts : int {
     WORLD = 3,
     SETTINGS = 4,
     HELP = 5,
-    CREDITS = 6,
-    QUIT = 7
+    PATHS = 6,
+    CREDITS = 7,
+    QUIT = 8
 };
-static constexpr int max_menu_opts = 7;
+static constexpr int max_menu_opts = 8;
 
 static int getopt( main_menu_opts o )
 {
@@ -188,6 +189,10 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
         case main_menu_opts::MOTD:
             //~ Message Of The Day
             display_text( mmenu_motd, _( "MOTD" ), sel_line );
+            return;
+        case main_menu_opts::PATHS:
+            //~ Resolved Game Paths
+            display_text( mmenu_paths, _( "Paths" ), sel_line );
             return;
         case main_menu_opts::SETTINGS:
             for( int i = 0; static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
@@ -411,6 +416,26 @@ void main_menu::init_windows()
     LAST_TERM = point( TERMX, TERMY );
 }
 
+namespace
+{
+
+auto line( const std::string &name, const std::string &path ) -> std::string
+{
+    return string_format( "  %s: %s", colorize( name, c_yellow ), path );
+};
+
+auto path_info( const std::string &title,
+                const std::vector<std::pair<std::string, std::string>> &xs ) -> std::string
+{
+    std::string result = string_format( "%s:\n", colorize( title, c_white ) );
+
+    return result + enumerate_as_string( xs.begin(), xs.end(),
+                                         []( const auto & x ) -> std::string { return line( x.first, x.second ); },
+                                         enumeration_conjunction::newline ) + "\n\n";
+};
+
+} // namespace
+
 void main_menu::init_strings()
 {
     // ASCII Art
@@ -424,6 +449,62 @@ void main_menu::init_strings()
     }
     mmenu_motd = colorize( mmenu_motd, c_light_red );
     mmenu_motd_len = foldstring( mmenu_motd, FULL_SCREEN_WIDTH - 2 ).size();
+
+    // PATHS
+    mmenu_paths = ""
+    + path_info( _( "User Directory" ), {
+        { _( "user directory" ), colorize( PATH_INFO::user_dir(), c_white ) },
+        { _( "user mods" ), PATH_INFO::user_moddir() },
+        { _( "user saves" ), PATH_INFO::savedir() },
+        { _( "user sound" ), PATH_INFO::user_sound() },
+        { _( "user graphics" ), PATH_INFO::user_gfx() },
+        { _( "user fonts" ), PATH_INFO::user_fontdir() },
+        { _( "user memorial" ), PATH_INFO::memorialdir() },
+        { _( "user templates" ), PATH_INFO::templatedir() },
+        { _( "graveyard" ), PATH_INFO::graveyarddir() },
+    } )
+    + path_info( _( "Defaults Directory" ), {
+        {
+            _( "base path" ), PATH_INFO::base_path().empty()
+            ? colorize( _( "(current directory)" ), c_white )
+            : PATH_INFO::base_path()
+        },
+        { _( "data directory" ),  colorize( PATH_INFO::datadir(), c_white ) },
+        { _( "font" ), PATH_INFO::fontdir() },
+        { _( "help" ), PATH_INFO::help() },
+        { _( "mods" ), PATH_INFO::moddir() },
+        { _( "default enabled mods" ), PATH_INFO::mods_dev_default() },
+        { _( "replacement mods" ), PATH_INFO::mods_replacements() },
+        { _( "color templates" ), PATH_INFO::color_templates() },
+        { _( "colors" ), PATH_INFO::colors() },
+        { _( "font config" ), PATH_INFO::fontconfig() },
+        { _( "language definitions file" ), PATH_INFO::language_defs_file() },
+        { _( "sokoban" ), PATH_INFO::sokoban() },
+        { _( "main menu tips" ), PATH_INFO::main_menu_tips() },
+        { _( "keybindings" ), PATH_INFO::keybindingsdir() },
+        { _( "graphics" ), PATH_INFO::gfxdir() },
+        { _( "default sound" ), PATH_INFO::defaultsounddir() },
+        { _( "sound" ), PATH_INFO::data_sound() },
+    } )
+    + path_info( _( "Config Directory" ), {
+        { _( "config directory" ), colorize( PATH_INFO::config_dir(), c_white ) },
+        { _( "debug" ), PATH_INFO::debug() },
+        { _( "crash" ), PATH_INFO::crash() },
+        { _( "options" ), PATH_INFO::options() },
+        { _( "autopickup" ), PATH_INFO::autopickup() },
+        { _( "base colors" ), PATH_INFO::base_colors() },
+        { _( "custom colors" ), PATH_INFO::custom_colors() },
+        { _( "user default mods" ), PATH_INFO::mods_user_default() },
+        { _( "distraction" ), PATH_INFO::distraction() },
+        { _( "user font config" ), PATH_INFO::user_fontconfig() },
+        { _( "user keybindings" ), PATH_INFO::user_keybindings() },
+        { _( "last world" ), PATH_INFO::lastworld() },
+        { _( "Lua doc output" ), PATH_INFO::lua_doc_output() },
+        { _( "panel options" ), PATH_INFO::panel_options() },
+        { _( "safe mode" ), PATH_INFO::safemode() },
+    } );
+
+    mmenu_paths_len = foldstring( mmenu_paths, FULL_SCREEN_WIDTH - 2 ).size();
 
     // Credits
     mmenu_credits.clear();
@@ -449,6 +530,7 @@ void main_menu::init_strings()
     vMenuItems.emplace_back( pgettext( "Main Menu", "<W|w>orld" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "Se<t|T>tings" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "H<e|E|?>lp" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "<P|p>aths" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "<C|c>redits" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "<Q|q>uit" ) );
 
@@ -732,8 +814,9 @@ bool main_menu::opening_screen()
             int min_item_val = 0;
             main_menu_opts opt = static_cast<main_menu_opts>( sel1 );
             switch( opt ) {
-                case main_menu_opts::MOTD:
                 case main_menu_opts::CREDITS:
+                case main_menu_opts::MOTD:
+                case main_menu_opts::PATHS:
                     if( action == "UP" || action == "PAGE_UP" || action == "SCROLL_UP" ) {
                         if( sel_line > 0 ) {
                             sel_line--;
@@ -741,7 +824,8 @@ bool main_menu::opening_screen()
                     } else if( action == "DOWN" || action == "PAGE_DOWN" || action == "SCROLL_DOWN" ) {
                         int effective_height = sel_line + FULL_SCREEN_HEIGHT - 2;
                         if( ( opt == main_menu_opts::CREDITS && effective_height < mmenu_credits_len ) ||
-                            ( opt == main_menu_opts::MOTD && effective_height < mmenu_motd_len ) ) {
+                            ( opt == main_menu_opts::MOTD && effective_height < mmenu_motd_len ) ||
+                            ( opt == main_menu_opts::PATHS && effective_height < mmenu_paths_len ) ) {
                             sel_line++;
                         }
                     }
