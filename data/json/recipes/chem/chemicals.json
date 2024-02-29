@@ -483,6 +483,7 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "charges": 100,
     "time": "5 m",
+    "batch_time_factors": [ 50, 3 ],
     "autolearn": true,
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "chem_ammonium_nitrate_pellets", 100 ] ] ]
