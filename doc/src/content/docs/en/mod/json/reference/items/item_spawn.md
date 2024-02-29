@@ -112,7 +112,8 @@ item. This allows water, that contains a book, that contains a steel frame, that
 or ammo/magazine capacity. Setting max too high will decrease it to maximum capacity. Not setting
 min will set it to 0 when max is set.
 
-`active`: Will spawn the item active if true, note that this _does not work_ for itemgroups, only individual items _within_ itemgroups.
+`active`: Will spawn the item active if true, note that this _does not work_ for itemgroups, only
+individual items _within_ itemgroups.
 
 ```json
 "damage-min": 0,
