@@ -2181,11 +2181,13 @@ class jmapgen_spawn_item : public jmapgen_piece
         mapgen_value<itype_id> type;
         jmapgen_int amount;
         jmapgen_int chance;
+        bool spawn_active;
         jmapgen_spawn_item( const JsonObject &jsi ) :
             type( jsi.get_member( "item" ) )
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 ) {
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
+            spawn_active = jsi.get_bool( "active", false );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -2203,7 +2205,8 @@ class jmapgen_spawn_item : public jmapgen_piece
             const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
             int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
             for( int i = 0; i < spawn_count; i++ ) {
-                dat.m.spawn_item( point( x.get(), y.get() ), chosen_id, amount.get() );
+                dat.m.spawn_item( point( x.get(), y.get() ), chosen_id, amount.get(), 0,
+                                  calendar::start_of_cataclysm, 0, spawn_active );
             }
         }
 

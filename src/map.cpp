@@ -4302,7 +4302,7 @@ void map::spawn_natural_artifact( const tripoint &p, artifact_natural_property p
 
 void map::spawn_item( const tripoint &p, const itype_id &type_id,
                       const unsigned quantity, const int charges,
-                      const time_point &birthday, const int damlevel )
+                      const time_point &birthday, const int damlevel, bool spawn_active )
 {
     if( type_id.is_null() ) {
         return;
@@ -4314,6 +4314,9 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     for( size_t i = 0; i < quantity; i++ ) {
         // spawn the item
         detached_ptr<item> new_item = item::spawn( type_id, birthday );
+        if( spawn_active ) {
+            new_item->activate();
+        }
         if( one_in( 3 ) && new_item->has_flag( flag_VARSIZE ) ) {
             new_item->set_flag( flag_FIT );
         }
