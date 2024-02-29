@@ -2177,11 +2177,13 @@ class jmapgen_spawn_item : public jmapgen_piece
         mapgen_value<itype_id> type;
         jmapgen_int amount;
         jmapgen_int chance;
+        bool spawn_active;
         jmapgen_spawn_item( const JsonObject &jsi ) :
             type( jsi.get_member( "item" ) )
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 ) {
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
+            spawn_active = jsi.get_bool( "active", false );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -2193,13 +2195,28 @@ class jmapgen_spawn_item : public jmapgen_piece
             // individual items here.
             chosen_id = item_controller->migrate_id( chosen_id );
 
+            if( item_is_blacklisted( chosen_id ) ) {
+                return;
+            }
+
             const int c = chance.get();
 
             // 100% chance = exactly 1 item, otherwise scale by item spawn rate.
             const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-            int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
+            const int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
+            const int quantity = amount.get();
+
+            const point p = { x.get(), y.get() };
+
             for( int i = 0; i < spawn_count; i++ ) {
-                dat.m.spawn_item( point( x.get(), y.get() ), chosen_id, amount.get() );
+                for( int j = 0; j < quantity; j++ ) {
+                    detached_ptr<item> new_item = item::spawn( chosen_id, calendar::start_of_cataclysm );
+                    if( spawn_active ) {
+                        new_item->activate();
+                    }
+
+                    dat.m.spawn_an_item( p, std::move( new_item ), 0, 0 );
+                }
             }
         }
 
