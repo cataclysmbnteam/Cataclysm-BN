@@ -323,7 +323,7 @@
   {
     "type": "help",
     "order": 21,
-    "name": "<5>: Resolved Game Directories",
+    "name": "<5>: Resolved game directories",
     "messages": [ "<GAME_DIRECTORIES>" ]
   }
 ]
