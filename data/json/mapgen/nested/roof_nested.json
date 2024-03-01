@@ -490,5 +490,53 @@
       "terrain": { "_": "t_railroad_rubble", "b": "t_railroad_rubble", "2": "t_sandbox", "G": "t_sandbox" },
       "furniture": { "G": [ "f_boulder_medium", "f_boulder_large" ], "b": "f_bench" }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "NC_res_roof_solar_4X4",
+    "//": "NEST CONTAINER for domestic roof solar panels. This should be the nested chunk called by each individual house file. Global solar panel spawn rates for all houses that call this chunk can be managed by editing values below.",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "____",
+        "____",
+        "____",
+        "____"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_nested": [ { "chunks": [ [ "null", 20 ], [ "solar_panels_4X4", 5 ], [ "solar_panels_3X3", 5 ] ], "x": [ 0 ], "y": [ 0 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "solar_panels_4X4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "xxxx",
+        "xxxx",
+        "xxxx",
+        "xxxx"
+      ],
+      "terrain": { "_": "t_null" },
+      "furniture": { "x": "f_solar_unit" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "solar_panels_3X3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "xxx",
+        "xxx",
+        "xxx"
+      ],
+      "terrain": { "_": "t_null" },
+      "furniture": { "x": "f_solar_unit" }
+    }
   }
 ]
