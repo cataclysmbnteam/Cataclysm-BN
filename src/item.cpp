@@ -7829,28 +7829,28 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( !g_mod.usable.empty() || !g_mod.usable_category.empty() || !g_mod.exclusion.empty() ||
                !g_mod.exclusion_category.empty() ) {
         // First check that it's not explicitly excluded by id.
-        bool unusable = g_mod.exclusion.count( this->typeId() );
+        bool excluded = g_mod.exclusion.count( this->typeId() );
         // Then check if it's excluded by category.
         for( const std::unordered_set<weapon_category_id> &mod_cat : g_mod.exclusion_category ) {
-            if( unusable ) {
+            if( excluded ) {
                 break;
             }
             if( std::all_of( mod_cat.begin(), mod_cat.end(), [this]( const weapon_category_id & wcid ) {
             return this->type->weapon_category.count( wcid );
             } ) ) {
-                unusable = true;
+                excluded = true;
             }
         }
 
-        // Check that it's included by id, if so, override unusable so it's allowed.
+        // Check that it's included by id, if so, override banned so it's allowed.
         // A check is already in item_factory so that explicit inclusion and exclusion of the same id throws errors.
         bool usable = g_mod.usable.count( this->typeId() );
         if( usable ) {
-            unusable = false;
+            excluded = false;
         }
-        // Then check that it's included by category. If unusable is still true, skip, no point checking.
+        // Then check that it's included by category. If banned is still true, skip, no point checking.
         for( const std::unordered_set<weapon_category_id> &mod_cat : g_mod.usable_category ) {
-            if( usable || unusable ) {
+            if( usable || excluded ) {
                 break;
             }
             if( std::all_of( mod_cat.begin(), mod_cat.end(), [this]( const weapon_category_id & wcid ) {
@@ -7859,7 +7859,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
                 usable = true;
             }
         }
-        if( !usable || unusable ) {
+        if( !usable || excluded ) {
             return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname() );
         }
 
