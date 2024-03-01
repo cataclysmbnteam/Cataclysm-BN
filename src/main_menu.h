@@ -26,10 +26,8 @@ class main_menu
         std::vector<std::string> mmenu_title;
         std::string mmenu_motd;
         std::string mmenu_credits;
-        std::string mmenu_paths;
         int mmenu_motd_len;
         int mmenu_credits_len;
-        int mmenu_paths_len;
         std::vector<std::string> vMenuItems; // MOTD, New Game, Load Game, etc.
         std::vector<std::string> vWorldSubItems;
         std::vector<std::string> vNewGameSubItems;
