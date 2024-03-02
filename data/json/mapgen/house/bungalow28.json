@@ -120,7 +120,8 @@
         { "vehicle": "suv_electric", "x": 21, "y": 5, "chance": 15, "rotation": 90 },
         { "vehicle": "swivel_chair", "x": 13, "y": 18, "chance": 100, "rotation": 90 },
         { "vehicle": "swivel_chair", "x": 5, "y": 4, "chance": 100, "rotation": 45 }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 11, "y": 1 } ]
     }
   },
   {
