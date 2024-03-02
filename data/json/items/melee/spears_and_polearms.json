@@ -15,7 +15,7 @@
     "bashing": 5,
     "cutting": 23,
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ],
     "price": "20 USD",
     "price_postapoc": "5 USD"
   },
@@ -34,7 +34,7 @@
     "bashing": 5,
     "cutting": 11,
     "price_postapoc": "10 cent",
-    "flags": [ "SPEAR" ],
+    "flags": [ "STAB" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -69,7 +69,7 @@
     "volume": "1250 ml",
     "bashing": 4,
     "cutting": 13,
-    "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR", "STAB" ],
     "price": "40 USD",
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -91,7 +91,7 @@
     "color": "brown",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ]
   },
   {
     "id": "spear_knife",
@@ -112,7 +112,7 @@
     "color": "brown",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ]
   },
   {
     "id": "spear_knife_superior",
@@ -141,7 +141,7 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ]
   },
   {
     "id": "spear_forked",
@@ -159,7 +159,7 @@
     "volume": "1500 ml",
     "bashing": 6,
     "cutting": 18,
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ],
     "price": "49 USD",
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -181,7 +181,7 @@
     "to_hit": -1,
     "bashing": 6,
     "cutting": 25,
-    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "STAB" ],
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -199,7 +199,7 @@
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "to_hit": 1,
     "cutting": 20,
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ],
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -215,7 +215,7 @@
     "material": [ "steel", "wood" ],
     "to_hit": 1,
     "cutting": 30,
-    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ]
   },
   {
     "id": "spear_rebar",
@@ -232,7 +232,7 @@
     "bashing": 5,
     "cutting": 15,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "STAB" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
   },
   {
@@ -253,7 +253,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "STAB" ]
   },
   {
     "id": "qiang",
@@ -271,7 +271,7 @@
     "volume": "2500 ml",
     "bashing": 5,
     "cutting": 31,
-    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ],
     "price": "800 USD",
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -334,7 +334,7 @@
     "color": "light_gray",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
-    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
+    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE", "SPEAR" ]
   },
   {
     "id": "glaive",
@@ -348,7 +348,7 @@
     "price": "500 USD",
     "material": [ "steel", "wood" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "SPEAR" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": "2100 g",
     "volume": "2500 ml",
@@ -372,7 +372,7 @@
     "bashing": 7,
     "cutting": 45,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "SPEAR" ],
     "price": "800 USD",
     "price_postapoc": "95 USD"
   },
@@ -385,7 +385,7 @@
     "material": [ "budget_steel", "wood" ],
     "bashing": 29,
     "cutting": 11,
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "SPEAR" ],
     "price_postapoc": "15 USD"
   },
   {
@@ -399,7 +399,7 @@
     "bashing": 12,
     "cutting": 2,
     "to_hit": 1,
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "SPEAR" ],
     "price": "80 USD",
     "price_postapoc": "5 USD",
     "qualities": [  ]
@@ -420,7 +420,7 @@
     "volume": "2250 ml",
     "bashing": 6,
     "cutting": 40,
-    "flags": [ "STAB", "POLEARM", "REACH_ATTACK", "SHEATH_SPEAR" ],
+    "flags": [ "STAB", "POLEARM", "REACH_ATTACK", "SHEATH_SPEAR", "SPEAR" ],
     "//": "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
     "price": "80 USD",
     "price_postapoc": "45 USD",
@@ -442,7 +442,7 @@
     "volume": "1 L",
     "cutting": 11,
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 11 } ],
-    "flags": [ "SPEAR", "SHEATH_SPEAR", "JAVELIN" ],
+    "flags": [ "SHEATH_SPEAR", "JAVELIN", "STAB" ],
     "price": "40 USD",
     "price_postapoc": "250 cent",
     "qualities": [ [ "COOK", 1 ] ]
@@ -460,7 +460,7 @@
     "bashing": 5,
     "cutting": 19,
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 17 } ],
-    "flags": [ "SPEAR", "NONCONDUCTIVE", "SHEATH_SPEAR", "JAVELIN" ],
+    "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "JAVELIN", "STAB" ],
     "price": "90 USD",
     "price_postapoc": "5 USD"
   },
@@ -507,7 +507,17 @@
     "color": "brown",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
+    "flags": [
+      "DURABLE_MELEE",
+      "POLEARM",
+      "SPEAR",
+      "REACH_ATTACK",
+      "REACH3",
+      "NONCONDUCTIVE",
+      "SHEATH_SPEAR",
+      "ALWAYS_TWOHAND",
+      "STAB"
+    ]
   },
   {
     "id": "pike_inferior",
@@ -521,7 +531,7 @@
     "cutting": 8,
     "material": [ "budget_steel", "wood" ],
     "looks_like": "pike",
-    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "STAB" ]
   },
   {
     "id": "pike_fake",
@@ -537,7 +547,7 @@
     "cutting": 2,
     "material": [ "aluminum", "wood" ],
     "looks_like": "pike",
-    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ]
+    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "STAB" ]
   },
   {
     "id": "spear_dory",
@@ -558,7 +568,7 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE", "STAB" ]
   },
   {
     "id": "ji",
@@ -579,6 +589,6 @@
     "symbol": "/",
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "ALWAYS_TWOHAND", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "ALWAYS_TWOHAND", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR" ]
   }
 ]

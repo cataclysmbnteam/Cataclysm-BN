@@ -310,8 +310,9 @@
     "skill_used": "tailor",
     "time": "3 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "rag", 4 ] ] ]
+    "reversible": true,
+    "components": [ [ [ "rag", 4 ] ] ],
+    "flags": [ "BLIND_HARD" ]
   },
   {
     "result": "loincloth_fur",
@@ -319,9 +320,9 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
-    "time": "1 m",
+    "time": "3 m",
     "autolearn": true,
-    "tools": [  ],
+    "reversible": true,
     "components": [ [ [ "fur", 2 ], [ "cured_pelt", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -333,7 +334,7 @@
     "skill_used": "tailor",
     "time": "3 m",
     "autolearn": true,
-    "tools": [  ],
+    "reversible": true,
     "components": [ [ [ "leather", 2 ], [ "cured_hide", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -345,8 +346,9 @@
     "skill_used": "tailor",
     "time": "3 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "felt_patch", 4 ] ] ]
+    "reversible": true,
+    "components": [ [ [ "felt_patch", 4 ] ] ],
+    "flags": [ "BLIND_HARD" ]
   },
   {
     "result": "long_underpants",
@@ -372,7 +374,7 @@
     "time": "60 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
-    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "soldering_iron", 15 ], [ "toolset", 15 ] ] ],
+    "tools": [ [ [ "welder", 10 ], [ "soldering_iron", 15 ], [ "toolset", 15 ] ] ],
     "components": [
       [ [ "rag", 15 ] ],
       [ [ "bag_plastic", 4 ] ],

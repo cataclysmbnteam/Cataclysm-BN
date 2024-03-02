@@ -2841,7 +2841,7 @@ bool mattack::gene_sting( monster *z )
     bool hit = sting_shoot( z, target, dam, range );
     if( hit ) {
         //Add checks if previous NPC/player conditions are removed
-        dynamic_cast<player *>( target )->mutate();
+        dynamic_cast<player *>( target )->irradiate( rng( 100, 300 ) );
     }
 
     return true;

@@ -125,6 +125,8 @@
     "type": "MONSTER",
     "name": { "str": "mininuke hack" },
     "description": "Many times as large as a normal manhack, this flying quadcopter drone appears to have a mininuke inside.  If this is targeting you…  Run.",
+    "weight": "24600 g",
+    "volume": "18550 ml",
     "diff": 40,
     "hp": 20,
     "speed": 150,

@@ -24,8 +24,8 @@
       [ "brass catcher", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "modes": [ [ "DEFAULT", "semi", 1, "NPC_AVOID" ], [ "AUTO", "auto", 2, "NPC_AVOID" ] ],
     "magazines": [ [ "40x53mm", [ "belt40mm" ] ] ],

@@ -725,5 +725,16 @@
       { "monster": "mon_zombie_necro", "freq": 8, "cost_multiplier": 20, "starts": 500 },
       { "monster": "mon_zombie_master", "freq": 2, "cost_multiplier": 25, "starts": 1000 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_BUNKER",
+    "default": "mon_zombie_survivor",
+    "monsters": [
+      { "monster": "mon_zombie_survivor", "freq": 250, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_dog", "freq": 150, "cost_multiplier": 0 },
+      { "monster": "mon_dog_zombie_rot", "freq": 150, "cost_multiplier": 0 }
+    ]
   }
 ]

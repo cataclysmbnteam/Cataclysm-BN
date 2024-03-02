@@ -71,6 +71,7 @@
     "name": { "str": "feral bikers' shotgun" },
     "description": "A fake shotgun for feral bikers (because monster aiming is too lethal).",
     "material": [ "steel", "aluminum", "plastic" ],
+    "looks_like": "pipe_shotgun",
     "skill": "shotgun",
     "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "RELOAD_AND_SHOOT" ],
     "ammo": [ "shot" ],

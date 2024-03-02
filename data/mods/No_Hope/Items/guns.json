@@ -28,11 +28,11 @@
       [ "emitter", 1 ],
       [ "lens", 1 ],
       [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
@@ -88,8 +88,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
     "flags": [ "USE_UPS", "NO_UNLOAD", "PYROMANIAC_WEAPON", "NEVER_JAMS" ]
@@ -140,14 +140,7 @@
     "blackpowder_tolerance": 56,
     "clip_size": 6,
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "sights", 1 ],
-      [ "underbarrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ]
-    ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "l_long_45",
@@ -182,9 +175,9 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ],
       [ "muzzle", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ]
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "stock", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ]
@@ -238,9 +231,9 @@
       [ "sights", 1 ],
       [ "underbarrel", 1 ],
       [ "muzzle", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ]
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "stock", 1 ]
     ],
     "flags": [ "DURABLE_MELEE" ]
   },
@@ -487,8 +480,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ]
   },
   {
@@ -526,8 +519,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ]
   },
   {

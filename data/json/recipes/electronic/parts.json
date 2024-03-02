@@ -270,7 +270,7 @@
     "decomp_learn": 4,
     "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "soldering_iron", 1 ] ], [ [ "welder", 1 ], [ "welder_crude", 2 ] ] ]
+    "components": [ [ [ "soldering_iron", 1 ] ], [ [ "welder", 1 ] ] ]
   },
   {
     "type": "recipe",

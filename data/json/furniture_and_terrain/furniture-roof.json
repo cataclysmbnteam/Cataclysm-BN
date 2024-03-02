@@ -66,10 +66,12 @@
     "deconstruct": { "items": [ { "item": "sheet_metal", "count": 2 }, { "item": "brick", "count": 30 } ] },
     "bash": {
       "str_min": 15,
-      "str_max": 25,
+      "str_max": 50,
       "sound": "whack!",
       "sound_fail": "whump!",
-      "items": [ { "item": "brick", "count": [ 5, 30 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "brick", "count": [ 5, 30 ] }, { "item": "scrap", "count": [ 3, 6 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -114,7 +116,8 @@
       "str_max": 15,
       "sound": "whack!",
       "sound_fail": "whump!",
-      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 3 ] } ]
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 15, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -134,7 +137,8 @@
       "str_max": 12,
       "sound": "whack!",
       "sound_fail": "clang!",
-      "items": [ { "item": "sheet_metal_small", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "sheet_metal_small", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 3, 6 ] } ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 12, "block_unaimed_chance": "25%" }
     }
   }
 ]

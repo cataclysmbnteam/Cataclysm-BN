@@ -207,12 +207,25 @@
   },
   {
     "type": "overmap_special",
+    "id": "Large Dermatik Nest",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "nest_dermatik_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "nest_dermatik_roof_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 20, -1 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "WILDERNESS" ],
+    "spawns": { "group": "GROUP_DERMATIK", "population": [ 10, 20 ], "radius": [ 10, 15 ] }
+  },
+  {
+    "type": "overmap_special",
     "id": "Rural Gas Station",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_gas_rural_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_gas_rural_roof_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "existing": true } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "existing": true, "from": [ 0, 0, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 20, -1 ],
     "occurrences": [ 0, 2 ],
@@ -770,6 +783,46 @@
   },
   {
     "type": "overmap_special",
+    "id": "Wasp Tower",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "wasp_tower_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "radio_tower_odd_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "wasp_tower_even_1_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "wasp_tower_odd_1_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "wasp_tower_even_2_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "wasp_tower_odd_2_north" },
+      { "point": [ 0, 0, 6 ], "overmap": "wasp_tower_top_north" },
+      { "point": [ 0, 0, 7 ], "overmap": "wasp_tower_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, 20 ],
+    "occurrences": [ 80, 100 ],
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 50, 80 ], "radius": [ 6, 20 ] },
+    "flags": [ "ELECTRIC_GRID", "WILDERNESS", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Wasp Tower 1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "wasp_tower_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "wasp_tower_roof_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "wasp_tower_even_1_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "wasp_tower_odd_1_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "wasp_tower_even_2_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "wasp_tower_odd_2_north" },
+      { "point": [ 0, 0, 6 ], "overmap": "wasp_tower_top_north" },
+      { "point": [ 0, 0, 7 ], "overmap": "wasp_tower_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, 20 ],
+    "occurrences": [ 80, 100 ],
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 50, 100 ], "radius": [ 6, 20 ] },
+    "flags": [ "ELECTRIC_GRID", "WILDERNESS", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Prison",
     "overmaps": [
       { "point": [ -1, 0, 0 ], "overmap": "prison_1_3_north" },
@@ -975,16 +1028,35 @@
     "type": "overmap_special",
     "id": "Triffid Grove",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "triffid_grove" },
-      { "point": [ 0, 0, -1 ], "overmap": "triffid_roots" },
-      { "point": [ 0, 0, -2 ], "overmap": "triffid_finale" }
+      { "point": [ 0, 0, 3 ], "overmap": "triffid_grove_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "triffid_grove_z3_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "triffid_grove_z2_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "triffid_grove_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "triffid_field_north" },
+      { "point": [ 0, -1, 0 ], "overmap": "triffid_field_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "triffid_field_north" },
+      { "point": [ -1, 0, 0 ], "overmap": "triffid_field_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "triffid_field_north" },
+      { "point": [ -1, -1, 0 ], "overmap": "triffid_field_north" },
+      { "point": [ -1, 1, 0 ], "overmap": "triffid_field_north" },
+      { "point": [ 1, -1, 0 ], "overmap": "triffid_field_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "triffid_roots_north" },
+      { "point": [ 0, -1, -1 ], "overmap": "triffid_rootss_north" },
+      { "point": [ 0, 1, -1 ], "overmap": "triffid_rootsn_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "triffid_rootse_north" },
+      { "point": [ -1, 0, -1 ], "overmap": "triffid_rootsw_north" },
+      { "point": [ 1, 1, -1 ], "overmap": "triffid_rootsen_north" },
+      { "point": [ -1, 1, -1 ], "overmap": "triffid_rootsnw_north" },
+      { "point": [ -1, -1, -1 ], "overmap": "triffid_rootssw_north" },
+      { "point": [ 1, -1, -1 ], "overmap": "triffid_rootsse_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "triffid_finale_north" }
     ],
     "locations": [ "forest" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 0, 3 ],
     "flags": [ "TRIFFID" ],
     "rotate": false,
-    "spawns": { "group": "GROUP_TRIFFID", "population": [ 800, 1300 ], "radius": [ 12, 20 ] }
+    "spawns": { "group": "GROUP_TRIFFID_OUTER", "population": [ 1000, 1600 ], "radius": [ 12, 20 ] }
   },
   {
     "type": "overmap_special",
@@ -2103,10 +2175,12 @@
     "id": "Apple Orchard",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "orchard_processing_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "orchard_processing_roof_north" },
       { "point": [ 1, 0, 0 ], "overmap": "orchard_tree_apple_north" },
       { "point": [ 2, 0, 0 ], "overmap": "orchard_tree_apple_north" },
       { "point": [ 3, 0, 0 ], "overmap": "orchard_tree_apple_north" },
       { "point": [ 0, 1, 0 ], "overmap": "orchard_stall_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "orchard_stall_roof_north" },
       { "point": [ 1, 1, 0 ], "overmap": "orchard_tree_apple_north" },
       { "point": [ 2, 1, 0 ], "overmap": "orchard_tree_apple_north" },
       { "point": [ 3, 1, 0 ], "overmap": "orchard_tree_apple_north" },

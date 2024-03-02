@@ -82,7 +82,7 @@
     "weight": "2250 g",
     "volume": "3750 ml",
     "bashing": 25,
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "STAB" ],
     "price": "40 USD",
     "price_postapoc": "50 cent",
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -163,5 +163,20 @@
     "price": "200 USD",
     "price_postapoc": "10 cent",
     "flags": [ "FIREWOOD" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "fuel_briquette",
+    "symbol": "/",
+    "color": "brown",
+    "name": { "str": "fuel briquette" },
+    "description": "A hunk of dried plant matter condensed into a puck, then dried.  It burns well.",
+    "material": "dry_plant",
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ],
+    "weight": "240 g",
+    "volume": "3000 ml",
+    "looks_like": "straw_pile",
+    "category": "spare_parts"
   }
 ]

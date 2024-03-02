@@ -86,7 +86,15 @@
     "entries": [
       {
         "collection": [
-          { "group": "military_standard_assault_rifles", "contents-group": "military_accessories_grenadier" },
+          {
+            "distribution": [
+              { "group": "everyday_m4a1_grenadier", "prob": 75, "charges": [ 0, 30 ] },
+              { "group": "everyday_m27iar_grenadier", "prob": 10, "charges": [ 0, 30 ] },
+              { "group": "everyday_h&k416a5_grenadier", "prob": 5, "charges": [ 0, 30 ] },
+              { "group": "everyday_scar_h_grenadier", "prob": 5, "charges": [ 0, 30 ] },
+              { "item": "m16a4", "prob": 5, "charges": [ 0, 30 ], "contents-group": "military_accessories_grenadier" }
+            ]
+          },
           { "group": "on_hand_40x46mm" }
         ],
         "prob": 90

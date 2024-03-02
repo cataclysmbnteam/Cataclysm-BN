@@ -63,6 +63,7 @@
 
 static const ammo_effect_str_id ammo_effect_WHIP( "WHIP" );
 
+static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
@@ -85,6 +86,7 @@ static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_tpollen( "tpollen" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
@@ -103,6 +105,7 @@ static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
 static const species_id MAMMAL( "MAMMAL" );
 static const species_id MOLLUSK( "MOLLUSK" );
+static const species_id PLANT( "PLANT" );
 static const species_id ROBOT( "ROBOT" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
@@ -1345,6 +1348,11 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
+        if( type->has_anger_trigger( mon_trigger::NETHER_ATTENTION ) &&
+            u->has_effect( effect_attention ) ) {
+            return MATT_ATTACK;
+        }
+
         if( type->in_species( FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
                                             u->has_trait( trait_MYCUS_FRIEND ) ) ) {
             return MATT_FRIEND;
@@ -1556,6 +1564,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
                ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
     }
 
+    if( effect == effect_tpollen ) {
+        return type->in_species( PLANT );
+    }
+
     if( effect == effect_stunned ) {
         return has_flag( MF_STUN_IMMUNE );
     }
@@ -1646,8 +1658,8 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( target.is_player() ||
         ( target.is_npc() && g->u.attitude_to( target ) == Attitude::A_FRIENDLY ) ) {
-        // Make us a valid target for a few turns
-        add_effect( effect_hit_by_player, 3_turns );
+        // Make us a valid target
+        add_effect( effect_hit_by_player, 10_minutes );
     }
 
     if( has_flag( MF_HIT_AND_RUN ) ) {
@@ -2813,25 +2825,23 @@ void monster::process_effects_internal()
         regeneration_amount = 0;
     }
     const int healed_amount = heal( round( regeneration_amount ) );
-    if( healed_amount > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
-        add_msg( m_debug, ( "Regen: %s" ), healed_amount );
-        std::string healing_format_string;
-        if( healed_amount >= 50 ) {
-            healing_format_string = _( "The %s is visibly regenerating!" );
-        } else if( healed_amount >= 10 ) {
-            healing_format_string = _( "The %s seems a little healthier." );
-        } else {
-            healing_format_string = _( "The %s is healing slowly." );
-        }
-        add_msg( m_warning, healing_format_string, name() );
+    if( healed_amount > 0 && g->u.sees( *this ) ) {
+        add_msg( m_warning, _( "The %1$s regenerates %2$s damage." ), name(), healed_amount );
     }
 
     if( type->regenerates_in_dark ) {
         const float light = g->m.ambient_light_at( pos() );
-        // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
-        if( heal( static_cast<int>( 50.0 *  std::exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) &&
-                  g->u.sees( *this ) ) ) {
-            add_msg( m_warning, _( "The %s uses the darkness to regenerate." ), name() );
+        add_msg( m_debug, _( "%1$s local light level: %2$s" ), name(), light );
+        // Requires standing in a properly dark tile, scales as it gets darker
+        if( light < 11.0f && one_in( 2 ) && hp < type->hp ) {
+            // Regen will max out at 50 at 6.0 light (barely able to craft), or top off to max HP
+            int dark_regen_amount = std::min( static_cast<int>( 110.0f - ( light * 10.0f ) ), type->hp - hp );
+            dark_regen_amount = std::min( dark_regen_amount, 50 );
+            heal( round( dark_regen_amount ) );
+            if( dark_regen_amount > 0 && g->u.sees( *this ) ) {
+                add_msg( m_warning, _( "The %1$s uses the darkness to regenerate %2$s damage." ), name(),
+                         dark_regen_amount );
+            }
         }
     }
 
@@ -3053,6 +3063,10 @@ detached_ptr<item> monster::to_item() const
     detached_ptr<item> result = item::spawn( type->revert_to_itype, calendar::turn );
     const int damfac = std::max( 1, ( result->max_damage() + 1 ) * hp / type->hp );
     result->set_damage( std::max( 0, ( result->max_damage() + 1 ) - damfac ) );
+    // If we have a nickname, save it via the item's label
+    if( !unique_name.empty() ) {
+        result->set_var( "item_label", unique_name );
+    }
     return result;
 }
 

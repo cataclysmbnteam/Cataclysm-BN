@@ -338,14 +338,7 @@
     "dispersion": 375,
     "durability": 6,
     "reload": 800,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "dampening", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ],
-      [ "mechanism", 1 ]
-    ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "dampening", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "mechanism", 1 ] ]
   },
   {
     "id": "compositecrossbow",
@@ -426,8 +419,8 @@
     "price_postapoc": "60 USD",
     "bashing": 13,
     "to_hit": -1,
-    "ranged_damage": { "damage_type": "stab", "amount": 45 },
-    "range": 20,
+    "ranged_damage": { "damage_type": "stab", "amount": 40 },
+    "range": 15,
     "dispersion": 500,
     "recoil": 30,
     "durability": 6,
