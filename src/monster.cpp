@@ -507,10 +507,14 @@ void monster::try_reproduce()
         }
 
         chance += 2;
+
+        // wildlife creatures that are friendly to the player will spawn friendly offspring
+        const bool friendly_parent = type->in_category( "WILDLIFE" ) &&
+                                     attitude_to( get_player_character() ) == Attitude::A_FRIENDLY;
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                g->m.add_spawn( type->baby_monster, spawn_cnt, pos() );
+                g->m.add_spawn( type->baby_monster, spawn_cnt, pos(), friendly_parent );
             } else {
                 g->m.add_item_or_charges( pos(), item::spawn( type->baby_egg, *baby_timer, spawn_cnt ), true );
             }
