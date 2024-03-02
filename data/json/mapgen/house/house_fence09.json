@@ -181,7 +181,8 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "place_nested": [ { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 15, "y": 9 } ]
     }
   }
 ]
