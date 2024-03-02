@@ -3129,7 +3129,7 @@ auto load_active( std::vector<ItemFn> &xs, const JsonObject &obj ) -> bool
     if( result ) {
         xs.emplace_back( []( detached_ptr<item> &&it ) {
             it->activate();
-            return it;
+            return std::move(it);
         } );
     }
     return result;
