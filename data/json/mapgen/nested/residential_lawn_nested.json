@@ -1,0 +1,49 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "NC_res_frontlawn_3X3",
+    "//": "NEST CONTAINER - house spawns should call this chunk. Global spawn rates can be adjusted, and additional chunks can be added here, which will affect any house spawn that calls this nest container. These are scenes and decorations you might find on a residential front lawn",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_nested": [ { "chunks": [ [ "null", 5 ], [ "res_frontlawn_bbath", 5 ], [ "res_frontlawn_tree_stump", 5 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_frontlawn_bbath",
+    "//": "birdbath with flowers",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "!!!",
+        "!x!",
+        "!!!"
+      ],
+      "terrain": { "_": "t_null" },
+      "furniture": { "x": "f_birdbath", "!": "f_region_flower" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_frontlawn_tree_stump",
+    "//": "tree or stump",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "_x_",
+        "___"
+      ],
+      "terrain": { "_": "t_null", "x": [ "t_stump", "t_region_tree_fruit", "t_region_tree_nut", "t_region_tree_shade" ] }
+    }
+  }
+]
