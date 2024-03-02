@@ -1,5 +1,12 @@
 [
   {
+    "id": "test_grenade",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "For testing active item spawns",
+    "items": [ { "item": "grenade_act", "prob": 100, "active": true } ]
+  },
+  {
     "id": "shelter_supplies",
     "type": "item_group",
     "subtype": "collection",
@@ -109,7 +116,10 @@
         "5": "t_gutter_drop"
       },
       "furniture": { ":": "f_standing_tank", "#": "f_solar_unit", "&": "f_roof_turbine_vent" },
-      "place_items": [ { "item": "roof_trash", "x": [ 5, 17 ], "y": [ 9, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [
+        { "item": "roof_trash", "x": [ 5, 17 ], "y": [ 9, 22 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "test_grenade", "x": 12, "y": 12, "chance": 100, "repeat": 1 }
+      ],
       "place_item": [ { "item": "grenade_act", "x": 15, "y": 15, "chance": 100, "active": true } ]
     }
   },
@@ -194,7 +204,10 @@
         "5": "t_gutter_drop"
       },
       "furniture": { ":": "f_standing_tank", "#": "f_solar_unit", "&": "f_roof_turbine_vent" },
-      "place_items": [ { "item": "roof_trash", "x": [ 5, 17 ], "y": [ 11, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [
+        { "item": "roof_trash", "x": [ 5, 17 ], "y": [ 11, 22 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "test_grenade", "x": 12, "y": 12, "chance": 100, "repeat": 1 }
+      ],
       "place_item": [ { "item": "grenade_act", "x": 15, "y": 15, "chance": 100, "active": true } ]
     }
   },
@@ -289,7 +302,10 @@
         "5": "t_gutter_drop"
       },
       "furniture": { ":": "f_standing_tank", "#": "f_solar_unit", "&": "f_roof_turbine_vent" },
-      "place_items": [ { "item": "roof_trash", "x": [ 8, 15 ], "y": [ 7, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [
+        { "item": "roof_trash", "x": [ 8, 15 ], "y": [ 7, 22 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "test_grenade", "x": 12, "y": 12, "chance": 100, "repeat": 1 }
+      ],
       "place_item": [ { "item": "grenade_act", "x": 15, "y": 15, "chance": 100, "active": true } ]
     }
   },
