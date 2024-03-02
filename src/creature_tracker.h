@@ -65,6 +65,8 @@ class Creature_tracker
          * another monster at the location of the new monster.
          */
         bool add( const shared_ptr_fast<monster> &critter );
+        // inform tracker layer that the existing critter has switched to a new faction
+        void update_faction( const monster &critter );
         size_t size() const;
         /** Updates the position of the given monster to the given point. Returns whether the operation
          *  was successful. */
