@@ -11697,6 +11697,10 @@ int Character::item_reload_cost( const item &it, item &ammo, int qty ) const
         /** @EFFECT_STR over 10 reduces reload time of some weapons */
         /** maximum reduction down to 25% of reload rate */
         mv *= std::max<float>( 10.0f / std::max<float>( 10.0f, get_str() ), 0.25f );
+    } else if( it.has_flag( flag_STR_DRAW ) && it.get_min_str() > 1 ) {
+        // Threshold depends on str_req of the weapon instead of a fixed value
+        // Allow understrength characters to draw slower since base reload rate is about the same for all bows
+        mv *= std::max<float>( it.get_min_str() / std::max<float>( 1, get_str() ), 0.25f );
     }
 
     return std::max( mv, 25 );
