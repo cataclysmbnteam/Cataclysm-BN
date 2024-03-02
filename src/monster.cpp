@@ -1258,8 +1258,8 @@ Attitude monster::attitude_to( const Creature &other ) const
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
             case MATT_ZLAVE:
-                return Attitude::A_FRIENDLY;
             case MATT_FPASSIVE:
+                return Attitude::A_FRIENDLY;
             case MATT_FLEE:
             case MATT_IGNORE:
             case MATT_FOLLOW:

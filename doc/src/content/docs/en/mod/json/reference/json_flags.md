@@ -987,6 +987,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - `BLEED` Causes the player to bleed.
 - `BONES` May produce bones and sinews when butchered.
 - `BORES` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
+- `CAN_BE_ORDERED` This creature can be directed to not attack enemies, if friendly.
 - `CAN_DIG` Can dig _and_ walk.
 - `CAN_OPEN_DOORS` Can open doors on its path.
 - `CANPLAY` This creature can be played with if it's a pet.

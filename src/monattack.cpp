@@ -3119,9 +3119,9 @@ bool mattack::nurse_operate( monster *z )
 }
 bool mattack::check_money_left( monster *z )
 {
-    if( !z->has_effect( effect_pet ) ) {
+    if( !z->has_effect( effect_paid ) ) {
         if( z->friendly == -1 &&
-            z->has_effect( effect_paid ) ) { // if the pet effect runs out we're no longer friends
+            z->has_effect( effect_pet ) ) { // if the pet effect runs out we're no longer friends
             z->friendly = 0;
 
             if( !z->get_items().empty() ) {
@@ -3135,11 +3135,11 @@ bool mattack::check_money_left( monster *z )
             const SpeechBubble &speech_no_time = get_speech( "mon_grocerybot_friendship_done" );
             sounds::sound( z->pos(), speech_no_time.volume,
                            sounds::sound_t::electronic_speech, speech_no_time.text );
-            z->remove_effect( effect_paid );
+            z->remove_effect( effect_pet );
             return true;
         }
     } else {
-        const time_duration time_left = z->get_effect_dur( effect_pet );
+        const time_duration time_left = z->get_effect_dur( effect_paid );
         if( time_left < 1_minutes ) {
             if( calendar::once_every( 20_seconds ) ) {
                 const SpeechBubble &speech_time_low = get_speech( "mon_grocerybot_running_out_of_friendship" );

@@ -39,6 +39,7 @@
 
 
 static const quality_id qual_shear( "SHEAR" );
+static const quality_id qual_butcher( "BUTCHER" );
 
 static const efftype_id effect_sheared( "sheared" );
 
@@ -46,6 +47,7 @@ static const activity_id ACT_MILK( "ACT_MILK" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 
 static const efftype_id effect_ai_waiting( "ai_waiting" );
+static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_monster_armor( "monster_armor" );
@@ -86,7 +88,7 @@ bool monexamine::pet_menu( monster &z )
         leash,
         unleash,
         play_with_pet,
-        pheromone,
+        slaughter,
         milk,
         shear,
         pay,
@@ -98,6 +100,7 @@ bool monexamine::pet_menu( monster &z )
         remove_bat,
         insert_bat,
         check_bat,
+        change_orders,
         disable_pet,
         attack
     };
@@ -105,6 +108,7 @@ bool monexamine::pet_menu( monster &z )
     uilist amenu;
     std::string pet_name = z.get_name();
     bool is_zombie = z.type->in_species( ZOMBIE );
+    bool can_slaughter = z.type->in_category( "WILDLIFE" );
     const auto mon_item_id = z.type->revert_to_itype;
     avatar &you = get_avatar();
     if( is_zombie ) {
@@ -122,7 +126,6 @@ bool monexamine::pet_menu( monster &z )
         }
     }
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
-    amenu.addentry( attack, true, 'A', _( "Attack" ) );
     if( z.has_effect( effect_has_bag ) ) {
         amenu.addentry( give_items, true, 'g', _( "Place items into bag" ) );
         amenu.addentry( remove_bag, true, 'b', _( "Remove bag from %s" ), pet_name );
@@ -165,10 +168,6 @@ bool monexamine::pet_menu( monster &z )
                             pet_name );
         }
     }
-    if( is_zombie ) {
-        amenu.addentry( pheromone, true, 'z', _( "Tear out pheromone ball" ) );
-    }
-
     if( z.has_flag( MF_MILKABLE ) ) {
         amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name );
     }
@@ -243,13 +242,25 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( insert_bat, false, 'x', _( "You need a %s to power this mech" ), type.nname( 1 ) );
         }
     }
-    if( !mon_item_id.is_empty() && !z.has_flag( MF_RIDEABLE_MECH ) ) {
+    if( z.has_flag( MF_CAN_BE_ORDERED ) ) {
+        if( z.has_effect( effect_docile ) ) {
+            amenu.addentry( change_orders, true, 'O', _( "Order to engage targets" ), pet_name );
+        } else {
+            amenu.addentry( change_orders, true, 'O', _( "Order to ignore enemies and follow" ), pet_name );
+        }
+    }
+    if( !mon_item_id.is_empty() && !z.has_flag( MF_RIDEABLE_MECH ) && !z.has_flag( MF_PAY_BOT ) ) {
         if( z.has_effect( effect_has_bag ) || z.has_effect( effect_monster_armor ) ||
             z.has_effect( effect_leashed ) || z.has_effect( effect_saddled ) ) {
             amenu.addentry( disable_pet, true, 'D', _( "Remove items and deactivate the %s" ), pet_name );
         } else {
             amenu.addentry( disable_pet, true, 'D', _( "Deactivate the %s" ), pet_name );
         }
+    }
+    if( ( is_zombie || can_slaughter ) && you.has_quality( qual_butcher, 1 ) ) {
+        amenu.addentry( slaughter, true, 'A', _( "Slaughter %s" ), pet_name );
+    } else {
+        amenu.addentry( attack, true, 'A', _( "Attack" ) );
     }
     amenu.query();
     int choice = amenu.ret;
@@ -294,8 +305,8 @@ bool monexamine::pet_menu( monster &z )
                 play_with( z );
             }
             break;
-        case pheromone:
-            if( query_yn( _( "Really kill the zombie slave?" ) ) ) {
+        case slaughter:
+            if( query_yn( _( "Really kill the %s?" ), pet_name ) ) {
                 kill_zslave( z );
             }
             break;
@@ -334,6 +345,9 @@ bool monexamine::pet_menu( monster &z )
             insert_battery( z );
             break;
         case check_bat:
+            break;
+        case change_orders:
+            toggle_ignore_targets( z );
             break;
         case disable_pet:
             if( query_yn( _( "Really deactivate your %s?" ), pet_name ) ) {
@@ -509,16 +523,29 @@ bool monexamine::mfriend_menu( monster &z )
     enum choices {
         push_monster = 0,
         rename,
+        change_orders,
+        disable_pet,
         attack
     };
 
     uilist amenu;
     const std::string pet_name = z.get_name();
+    const auto mon_item_id = z.type->revert_to_itype;
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
 
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
+    if( z.has_flag( MF_CAN_BE_ORDERED ) ) {
+        if( z.has_effect( effect_docile ) ) {
+            amenu.addentry( change_orders, true, 'O', _( "Order to engage targets" ), pet_name );
+        } else {
+            amenu.addentry( change_orders, true, 'O', _( "Order to ignore enemies and follow" ), pet_name );
+        }
+    }
+    if( !mon_item_id.is_empty() && !z.has_flag( MF_RIDEABLE_MECH ) && !z.has_flag( MF_PAY_BOT ) ) {
+        amenu.addentry( disable_pet, true, 'D', _( "Deactivate the %s" ), pet_name );
+    }
     amenu.addentry( attack, true, 'a', _( "Attack" ) );
 
     amenu.query();
@@ -530,6 +557,14 @@ bool monexamine::mfriend_menu( monster &z )
             break;
         case rename:
             rename_pet( z );
+            break;
+        case change_orders:
+            toggle_ignore_targets( z );
+            break;
+        case disable_pet:
+            if( query_yn( _( "Really deactivate your %s?" ), pet_name ) ) {
+                deactivate_pet( z );
+            }
             break;
         case attack:
             if( query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
@@ -791,16 +826,10 @@ void monexamine::play_with( monster &z )
 void monexamine::kill_zslave( monster &z )
 {
     avatar &you = get_avatar();
-    z.apply_damage( &you, bodypart_id( "torso" ), 100 ); // damage the monster (and its corpse)
-    z.die( &you ); // and make sure it's really dead
+    you.add_msg_if_player( _( "With a clean cut you put your %s down." ), z.get_name() );
+    z.die( &you ); // execute it cleanly without damaging the corpse
 
     you.moves -= 150;
-
-    if( !one_in( 3 ) ) {
-        you.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
-        item *ball = item::spawn_temporary( "pheromone", calendar::start_of_cataclysm );
-        iuse::pheromone( &you, ball, true, you.pos() );
-    }
 }
 
 void monexamine::add_leash( monster &z )
@@ -891,6 +920,19 @@ void monexamine::start_leading( monster &z )
     add_msg( _( "You take hold of the %s's leash to make it follow you." ), z.get_name() );
 }
 
+void monexamine::toggle_ignore_targets( monster &z )
+{
+    if( z.has_effect( effect_docile ) ) {
+        z.remove_effect( effect_docile );
+        add_msg( _( "You order the %s to engage targets." ), z.get_name() );
+        return;
+    } else {
+        z.add_effect( effect_docile, 1_turns );
+        add_msg( _( "You order the %s to focus on following you." ), z.get_name() );
+        return;
+    }
+}
+
 void monexamine::stop_leading( monster &z )
 {
     if( !z.has_effect( effect_led_by_leash ) ) {
@@ -900,7 +942,6 @@ void monexamine::stop_leading( monster &z )
     // The pet may or may not stop following so don't print that here
     add_msg( _( "You release the %s's leash." ), z.get_name() );
 }
-
 
 void monexamine::deactivate_pet( monster &z )
 {

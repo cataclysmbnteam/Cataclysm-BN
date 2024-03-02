@@ -397,14 +397,6 @@ void monster::plan()
         return;
     }
 
-    if( docile ) {
-        if( friendly != 0 && target != nullptr ) {
-            set_dest( target->pos() );
-        }
-
-        return;
-    }
-
     int valid_targets = ( target == nullptr ) ? 1 : 0;
     for( npc &who : g->all_npcs() ) {
         auto faction_att = faction.obj().attitude( who.get_monster_faction() );
@@ -521,6 +513,14 @@ void monster::plan()
                     dist = rating;
                 }
             }
+        }
+    }
+
+    // Docile monsters should ignore targets, so place it after all possible ways target could be selected
+    if( docile ) {
+        if( target != nullptr ) {
+            // Stop fighting and focus on following the player
+            target = nullptr;
         }
     }
 
