@@ -145,7 +145,7 @@ class Item_spawn_data
         int probability;
 };
 
-using ItemFn = std::function < auto( detached_ptr<item> &&it ) -> detached_ptr<item> >;
+using ItemFn = std::function < detached_ptr<item> ( detached_ptr<item> &&it ) >;
 
 /**
  * Creates a single item, but can change various aspects
