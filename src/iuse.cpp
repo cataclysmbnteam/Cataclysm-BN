@@ -1538,8 +1538,7 @@ static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const c
 {
     if( mon.has_flag( food_flag ) ) {
         p.add_msg_if_player( m_good, message, mon.get_name() );
-        mon.friendly = -1;
-        mon.add_effect( effect_pet, 1_turns, num_bp );
+        mon.make_pet();
         p.consume_charges( it, 1 );
         return 0;
     } else {

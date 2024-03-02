@@ -11,6 +11,7 @@
 #include "avatar.h"
 #include "character.h"
 #include "coordinate_conversions.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -86,6 +87,7 @@ static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_tpollen( "tpollen" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_poison( "poison" );
@@ -2920,6 +2922,13 @@ void monster::make_ally( const monster &z )
 {
     friendly = z.friendly;
     faction = z.faction;
+}
+
+void monster::make_pet()
+{
+    friendly = -1;
+    g->critter_tracker->update_faction( *this );
+    add_effect( effect_pet, 1_turns, num_bp );
 }
 
 bool monster::is_hallucination() const
