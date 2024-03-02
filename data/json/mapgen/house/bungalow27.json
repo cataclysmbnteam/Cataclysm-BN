@@ -85,7 +85,8 @@
         "$": { "item": "table_foyer", "chance": 50 },
         "!": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] }
       },
-      "place_loot": [ { "item": "lawnmower", "x": [ 19 ], "y": [ 14 ], "chance": 20 } ]
+      "place_loot": [ { "item": "lawnmower", "x": [ 19 ], "y": [ 14 ], "chance": 20 } ],
+      "place_nested": [ { "chunks": [ "NC_res_backyard_3X3" ], "x": 18, "y": 20 } ]
     }
   },
   {

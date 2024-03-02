@@ -45,5 +45,63 @@
       ],
       "terrain": { "_": "t_null", "x": [ "t_stump", "t_region_tree_fruit", "t_region_tree_nut", "t_region_tree_shade" ] }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "NC_res_backyard_3X3",
+    "//": "NEST CONTAINER - house spawns should call this chunk. Global spawn rates can be adjusted, and additional chunks can be added here, which will affect any house spawn that calls this nest container. These are scenes and decorations you might find on a residential backyard",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_nested": [ { "chunks": [ [ "null", 5 ], [ "res_backyard_ptable", 5 ], [ "res_backyard_laundry", 5 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_backyard_ptable",
+    "//": "picnic table with random items.",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "xxx",
+        "uuu",
+        "xxx"
+      ],
+      "terrain": { "_": "t_null" },
+      "furniture": { "x": "f_bench", "u": "f_table" },
+      "place_loot": [
+        { "item": "spatula", "x": [ 0, 2 ], "y": 1, "chance": 3 },
+        { "item": "can_drink_unsealed", "x": [ 0, 2 ], "y": 1, "chance": 3 },
+        { "item": "ceramic_plate", "x": [ 0, 2 ], "y": 1, "chance": 3 },
+        { "item": "tongs", "x": [ 0, 2 ], "y": 1, "chance": 3 },
+        { "item": "knife_steak", "x": [ 0, 2 ], "y": 1, "chance": 3 },
+        { "item": "bottle_glass", "x": [ 0, 2 ], "y": 1, "chance": 3 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_backyard_laundry",
+    "//": "rotary clothes line and laundry basket ",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "_x_",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "furniture": { "x": "f_rotary_clothesline" },
+      "place_loot": [ { "item": "basket_laundry", "x": 0, "y": 2 } ],
+      "place_items": [ { "item": "laundry", "x": 0, "y": 2, "chance": 40, "repeat": [ 3, 5 ] } ]
+    }
   }
 ]
