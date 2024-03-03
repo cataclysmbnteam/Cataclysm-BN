@@ -76,9 +76,11 @@
     "category": "CC_CHEM",
     "subcategory": "CC_CHEM_OTHER",
     "skill_used": "fabrication",
-    "time": "8 m",
+    "time": "1 m",
+    "batch_time_factors": [ 50, 3 ],
+    "charges": 1,
     "autolearn": true,
-    "tools": [ [ [ "matches", 20 ] ], [ [ "mortar_pestle", -1 ] ] ]
+    "tools": [ [ [ "matches", 1 ] ], [ [ "mortar_pestle", -1 ] ] ]
   },
   {
     "result": "lye",

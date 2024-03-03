@@ -2575,6 +2575,33 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.emplace_back( "GUNMOD", used_on_str );
     }
 
+    if( !( mod.exclusion.empty() && mod.exclusion_category.empty() ) &&
+        parts->test( iteminfo_parts::GUNMOD_EXCLUSION ) ) {
+        std::string exclusion_str = _( "<bold>Cannot be used on:</bold>" );
+
+        if( !mod.exclusion.empty() ) {
+            exclusion_str += _( "\n  Specific: " ) + enumerate_as_string( mod.exclusion.begin(),
+            mod.exclusion.end(), []( const itype_id & excluded ) {
+                return string_format( "<info>%s</info>", excluded->nname( 1 ) );
+            } );
+        }
+
+        if( !mod.exclusion_category.empty() ) {
+            exclusion_str += _( "\n  Category: " );
+            std::vector<std::string> combination;
+            combination.reserve( mod.exclusion_category.size() );
+            for( const std::unordered_set<weapon_category_id> &catgroup : mod.exclusion_category ) {
+                combination.emplace_back( ( "[" ) + enumerate_as_string( catgroup.begin(),
+                catgroup.end(), []( const weapon_category_id & wcid ) {
+                    return string_format( "<info>%s</info>", wcid->name().translated() );
+                }, enumeration_conjunction::none ) + ( "]" ) );
+            }
+            exclusion_str += enumerate_as_string( combination, enumeration_conjunction::or_ );
+        }
+
+        info.emplace_back( "GUNMOD", exclusion_str );
+    }
+
     if( parts->test( iteminfo_parts::GUNMOD_LOCATION ) ) {
         info.emplace_back( "GUNMOD", string_format( _( "Location: %s" ),
                            mod.location.name() ) );
@@ -7799,10 +7826,31 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<bool>::make_failure( _( "doesn't have enough room for another %s mod" ),
                                             mod.type->gunmod->location.name() );
 
-    } else if( !g_mod.usable.empty() || !g_mod.usable_category.empty() ) {
+    } else if( !g_mod.usable.empty() || !g_mod.usable_category.empty() || !g_mod.exclusion.empty() ||
+               !g_mod.exclusion_category.empty() ) {
+        // First check that it's not explicitly excluded by id.
+        bool excluded = g_mod.exclusion.count( this->typeId() );
+        // Then check if it's excluded by category.
+        for( const std::unordered_set<weapon_category_id> &mod_cat : g_mod.exclusion_category ) {
+            if( excluded ) {
+                break;
+            }
+            if( std::all_of( mod_cat.begin(), mod_cat.end(), [this]( const weapon_category_id & wcid ) {
+            return this->type->weapon_category.count( wcid );
+            } ) ) {
+                excluded = true;
+            }
+        }
+
+        // Check that it's included by id, if so, override banned so it's allowed.
+        // A check is already in item_factory so that explicit inclusion and exclusion of the same id throws errors.
         bool usable = g_mod.usable.count( this->typeId() );
+        if( usable ) {
+            excluded = false;
+        }
+        // Then check that it's included by category. If banned is still true, skip, no point checking.
         for( const std::unordered_set<weapon_category_id> &mod_cat : g_mod.usable_category ) {
-            if( usable ) {
+            if( usable || excluded ) {
                 break;
             }
             if( std::all_of( mod_cat.begin(), mod_cat.end(), [this]( const weapon_category_id & wcid ) {
@@ -7811,7 +7859,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
                 usable = true;
             }
         }
-        if( !usable ) {
+        if( !usable || excluded ) {
             return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname() );
         }
 

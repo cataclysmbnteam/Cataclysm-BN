@@ -672,7 +672,7 @@
       "time": "2 h",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
+        "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ] ],
         "components": [ [ [ "pipe", 16 ] ], [ [ "sheet_metal", 4 ] ], [ [ "sheet_metal_small", 8 ] ] ]
       }

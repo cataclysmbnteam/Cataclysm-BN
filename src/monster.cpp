@@ -11,6 +11,7 @@
 #include "avatar.h"
 #include "character.h"
 #include "coordinate_conversions.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -86,6 +87,7 @@ static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_tpollen( "tpollen" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_poison( "poison" );
@@ -505,10 +507,14 @@ void monster::try_reproduce()
         }
 
         chance += 2;
+
+        // wildlife creatures that are friendly to the player will spawn friendly offspring
+        const bool friendly_parent = type->in_category( "WILDLIFE" ) &&
+                                     attitude_to( get_player_character() ) == Attitude::A_FRIENDLY;
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                g->m.add_spawn( type->baby_monster, spawn_cnt, pos() );
+                g->m.add_spawn( type->baby_monster, spawn_cnt, pos(), friendly_parent );
             } else {
                 g->m.add_item_or_charges( pos(), item::spawn( type->baby_egg, *baby_timer, spawn_cnt ), true );
             }
@@ -1258,8 +1264,8 @@ Attitude monster::attitude_to( const Creature &other ) const
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
             case MATT_ZLAVE:
-                return Attitude::A_FRIENDLY;
             case MATT_FPASSIVE:
+                return Attitude::A_FRIENDLY;
             case MATT_FLEE:
             case MATT_IGNORE:
             case MATT_FOLLOW:
@@ -2920,6 +2926,13 @@ void monster::make_ally( const monster &z )
 {
     friendly = z.friendly;
     faction = z.faction;
+}
+
+void monster::make_pet()
+{
+    friendly = -1;
+    g->critter_tracker->update_faction( *this );
+    add_effect( effect_pet, 1_turns, num_bp );
 }
 
 bool monster::is_hallucination() const

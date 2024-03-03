@@ -168,10 +168,7 @@
       "time": "1 d 10 h 55 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [
-          [ [ "fake_gridwelder", 100 ], [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ],
-          [ [ "log", -1 ] ]
-        ],
+        "tools": [ [ [ "fake_gridwelder", 100 ], [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ] ], [ [ "log", -1 ] ] ],
         "qualities": [
           [ { "id": "DIG", "level": 2 } ],
           [ { "id": "GLARE", "level": 2 } ],

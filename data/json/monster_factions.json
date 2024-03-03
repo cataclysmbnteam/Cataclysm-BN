@@ -145,6 +145,13 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "wasp",
+    "base_faction": "insect",
+    "by_mood": [ "centipede", "spider" ],
+    "hate": [ "bee", "insect", "small_animal", "dragonfly" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "dragonfly",
     "base_faction": "insect",
     "by_mood": [ "centipede", "spider" ],

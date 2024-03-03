@@ -3264,5 +3264,10 @@
     "type": "recipe",
     "result": "sights_mount",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "welder_crude",
+    "obsolete": true
   }
 ]

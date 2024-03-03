@@ -431,6 +431,8 @@ class monster : public Creature, public location_visitable<monster>
         void make_friendly();
         /** Makes this monster an ally of the given monster. */
         void make_ally( const monster &z );
+        // makes this monster a pet of the player
+        void make_pet();
         // Add an item to inventory
         void add_item( detached_ptr<item> &&it );
         // check mech power levels and modify it.

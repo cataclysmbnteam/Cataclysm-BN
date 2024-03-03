@@ -1631,7 +1631,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     // we need a shovel/hoe
                     return activity_reason_info::fail( do_activity_reason::NEEDS_TILLING );
                 }
-            } else if( here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) &&
+            } else if( seed.is_valid() &&
+                       here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) &&
                        warm_enough_to_plant( src_loc ) ) {
                 if( here.has_items( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
