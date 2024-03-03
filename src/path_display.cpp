@@ -9,7 +9,7 @@
 namespace
 {
 
-struct Section {
+struct section {
     std::string name, path;
 };
 
@@ -17,15 +17,15 @@ auto create_line_printer( const std::string &base_path )
 {
     const std::string colored_base_path = colorize( base_path, c_light_cyan );
 
-    return [&base_path, colored_base_path]( Section section ) -> std::string {
+    return [&base_path, colored_base_path]( section s ) -> std::string {
         return string_format( "    %s: %s",
-                              colorize( section.name, c_yellow ),
-                              replace_all( section.path, base_path, colored_base_path ) );
+                              colorize( s.name, c_yellow ),
+                              replace_all( s.path, base_path, colored_base_path ) );
     };
 };
 
-auto path_info( const Section &title,
-                const std::vector<Section> &xs ) -> std::string
+auto path_info( const section &title,
+                const std::vector<section> &xs ) -> std::string
 {
     const std::string result = string_format( "%s: %s\n",
                                colorize( title.name, c_white ),
@@ -56,7 +56,7 @@ auto user_directory() -> std::string
 
 auto defaults_directory() -> std::string
 {
-    const Section title = { _( "Defaults Directory" ),
+    const section title = { _( "Defaults Directory" ),
                             PATH_INFO::base_path().empty()
                             ? _( "(Current Working Directory)" )
                             : PATH_INFO::base_path()
