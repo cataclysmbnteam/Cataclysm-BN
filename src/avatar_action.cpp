@@ -675,12 +675,13 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
 
     std::vector<std::string> messages;
 
-    const gun_mode &mode = weapon.gun_current_mode();
-    bool check_common = ranged::gunmode_checks_common( you, m, messages, mode );
-    bool check_weapon = ranged::gunmode_checks_weapon( you, m, messages, mode );
-    bool can_use_mode = check_common && check_weapon;
-    if( can_use_mode ) {
-        return true;
+    for( const std::pair<const gun_mode_id, gun_mode> &mode_map : weapon.gun_all_modes() ) {
+        const bool check_common = ranged::gunmode_checks_common( you, m, messages, mode_map.second );
+        const bool check_weapon = ranged::gunmode_checks_weapon( you, m, messages, mode_map.second );
+        const bool can_use_mode = check_common && check_weapon;
+        if( can_use_mode ) {
+            return true;
+        }
     }
 
     for( const std::string &message : messages ) {
