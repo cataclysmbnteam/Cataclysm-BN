@@ -6288,6 +6288,14 @@ std::vector<item *> map::put_items_from_loc( const item_group_id &loc, const tri
 void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
                      int faction_id, int mission_id, const std::string &name ) const
 {
+    add_spawn( type, count, p, spawn_point::friendly_to_spawn_disposition( friendly ), faction_id,
+               mission_id, name );
+}
+
+void map::add_spawn( const mtype_id &type, int count, const tripoint &p,
+                     spawn_disposition disposition,
+                     int faction_id, int mission_id, const std::string &name ) const
+{
     if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
         debugmsg( "Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
         return;
@@ -6303,7 +6311,7 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
         return;
     }
-    spawn_point tmp( type, count, offset, faction_id, mission_id, friendly, name );
+    spawn_point tmp( type, count, offset, faction_id, mission_id, disposition, name );
     place_on_submap->spawns.push_back( tmp );
 }
 

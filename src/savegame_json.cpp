@@ -3922,7 +3922,7 @@ void submap::store( JsonOut &jsout ) const
         jsout.write( elem.pos.y );
         jsout.write( elem.faction_id );
         jsout.write( elem.mission_id );
-        jsout.write( elem.friendly );
+        jsout.write( elem.is_friendly() );
         jsout.write( elem.name );
         jsout.end_array();
     }
@@ -4166,7 +4166,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
             bool friendly = jsin.get_bool();
             std::string name = jsin.get_string();
             jsin.end_array();
-            spawn_point tmp( type, count, p, faction_id, mission_id, friendly, name );
+            spawn_point tmp( type, count, p, faction_id, mission_id,
+                             spawn_point::friendly_to_spawn_disposition( friendly ), name );
             spawns.push_back( tmp );
         }
     } else if( member_name == "vehicles" ) {

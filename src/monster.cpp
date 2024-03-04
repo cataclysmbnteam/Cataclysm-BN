@@ -58,6 +58,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_utils.h"
+#include "submap.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -509,16 +510,16 @@ void monster::try_reproduce()
 
         chance += 2;
 
-        // wildlife creatures that are friendly to the player will spawn friendly offspring
-        const bool friendly_parent = type->in_category( "WILDLIFE" ) &&
-                                     attitude_to( get_player_character() ) == Attitude::A_FRIENDLY;
+        // wildlife creatures that are pets of the player will spawn pet offspring
+        const spawn_disposition disposition = is_pet() ? spawn_disposition::SpawnDisp_Pet :
+                                              spawn_disposition::SpawnDisp_Default;
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                g->m.add_spawn( type->baby_monster, spawn_cnt, pos(), friendly_parent );
+                g->m.add_spawn( type->baby_monster, spawn_cnt, pos(), disposition );
             } else {
                 detached_ptr<item> item_to_spawn = item::spawn( type->baby_egg, *baby_timer, spawn_cnt );
-                if( friendly_parent ) {
+                if( disposition == spawn_disposition::SpawnDisp_Pet ) {
                     item_to_spawn->set_flag( flag_SPAWN_FRIENDLY );
                 }
                 g->m.add_item_or_charges( pos(), std::move( item_to_spawn ), true );
@@ -2938,6 +2939,11 @@ void monster::make_pet()
     friendly = -1;
     g->critter_tracker->update_faction( *this );
     add_effect( effect_pet, 1_turns, num_bp );
+}
+
+bool monster::is_pet() const
+{
+    return ( friendly == -1 && has_effect( effect_pet ) );
 }
 
 bool monster::is_hallucination() const
