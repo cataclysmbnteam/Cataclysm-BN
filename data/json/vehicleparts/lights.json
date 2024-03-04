@@ -17,7 +17,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "20 s",
+        "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
+      }
     },
     "flags": [ "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER", "FOLDABLE" ]
   },
@@ -38,7 +42,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "20 s",
+        "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
+      }
     },
     "flags": [ "ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE", "FOLDABLE" ]
   },
@@ -76,7 +84,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ], [ "electronics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ], [ "electronics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "20 s",
+        "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
+      }
     },
     "flags": [ "CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
   },
@@ -111,7 +123,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "20 s",
+        "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
+      }
     },
     "flags": [ "CONE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
   },
@@ -134,7 +150,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "20 s",
+        "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
+      }
     },
     "flags": [ "CONE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
   },
@@ -192,7 +212,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "20 s",
+        "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
+      }
     },
     "flags": [ "CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ],
     "damage_reduction": { "all": 6 }
@@ -239,7 +263,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "soldering_standard", 5 ], [ "vehicle_repair_electronics", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "soldering_standard", 5 ], [ "vehicle_repair_electronics", 1 ] ]
+      }
     },
     "flags": [ "AISLE", "BOARDABLE", "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
   },
