@@ -69,7 +69,7 @@
     "copy-from": "rifle_energy",
     "type": "GUN",
     "reload_noise_volume": 2,
-    "name": { "str": "RMES marksman system" },
+    "name": { "str": "RMES marksman laser system" },
     "description": "This is the integral weapon system for the RMES exoskeleton mech-suit, a quiet and accurate marksman laser rifle.",
     "weight": "12500 g",
     "volume": "5500 ml",
