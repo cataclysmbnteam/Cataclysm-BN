@@ -479,6 +479,12 @@
     "info": "As a weapon, this item needs considerable space to use properly and does 70% of its normal damage to adjacent enemies."
   },
   {
+    "id": "SPAWN_FRIENDLY",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "//": "This item will spawn friendly. Used for pets and such."
+  },
+  {
     "id": "STAB",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ]

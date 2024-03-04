@@ -290,6 +290,7 @@ const flag_id flag_SMOKABLE( "SMOKABLE" );
 const flag_id flag_SMOKED( "SMOKED" );
 const flag_id flag_SOLARPACK( "SOLARPACK" );
 const flag_id flag_SOLARPACK_ON( "SOLARPACK_ON" );
+const flag_id flag_SPAWN_FRIENDLY( "SPAWN_FRIENDLY" );
 const flag_id flag_SPEAR( "SPEAR" );
 const flag_id flag_SPEEDLOADER( "SPEEDLOADER" );
 const flag_id flag_SPLINT( "SPLINT" );

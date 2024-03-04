@@ -20,6 +20,7 @@
 #include "event.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "game.h"
@@ -516,7 +517,11 @@ void monster::try_reproduce()
             if( type->baby_monster ) {
                 g->m.add_spawn( type->baby_monster, spawn_cnt, pos(), friendly_parent );
             } else {
-                g->m.add_item_or_charges( pos(), item::spawn( type->baby_egg, *baby_timer, spawn_cnt ), true );
+                detached_ptr<item> item_to_spawn = item::spawn( type->baby_egg, *baby_timer, spawn_cnt );
+                if( friendly_parent ) {
+                    item_to_spawn->set_flag( flag_SPAWN_FRIENDLY );
+                }
+                g->m.add_item_or_charges( pos(), std::move( item_to_spawn ), true );
             }
         }
 
