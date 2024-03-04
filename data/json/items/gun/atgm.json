@@ -3,7 +3,7 @@
     "id": "atgm_launcher",
     "copy-from": "rocket_base",
     "type": "GUN",
-    "name": { "str_sp": "BGM-71F TOW" },
+    "name": { "str_sp": "BGM-71F TOW missile launcher" },
     "description": "A launcher for anti-tank guided missiles, capable of being deployed as a crew-served weapon or mounted on vehicles.  While fairly accurate, it isn't fire-and-forget.",
     "weight": "93000 g",
     "volume": "25 L",
