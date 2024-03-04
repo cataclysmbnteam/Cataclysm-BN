@@ -1,6 +1,7 @@
 name: Cataclysm Windows build (CMake + MSVC)
 
 on:
+  workflow_dispatch:
   push:
     branches:
     - main
@@ -84,6 +85,12 @@ jobs:
     - name: Integrate vcpkg
       run: |
         vcpkg integrate install
+
+    - name: Compile translations (windows)
+      if: runner.os == 'Windows'
+      shell: bash
+      run: |
+        lang/compile_mo.sh all
 
     - uses: ammaraskar/msvc-problem-matcher@master
     - name: Configure
