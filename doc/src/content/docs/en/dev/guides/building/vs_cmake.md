@@ -1,12 +1,9 @@
 ---
 title: CMake + Visual Studio + Vcpkg
+sidebar:
+  badge:
+    text: Experimental
 ---
-
-:::caution
-
-CMake build is work-in-progress.
-
-:::
 
 ## Prerequisites
 
