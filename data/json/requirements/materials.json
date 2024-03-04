@@ -229,10 +229,40 @@
     "components": [ [ [ "chunk_rubber", 1 ] ] ]
   },
   {
+    "id": "vehicle_repair_aluminium",
+    "type": "requirement",
+    "//": "Materials used for repairing aluminum parts",
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ] ]
+  },
+  {
     "id": "vehicle_repair_electronics",
     "type": "requirement",
     "//": "Materials used for repairing alternators and general electronics",
     "components": [ [ [ "scrap", 1 ] ], [ [ "cable", 3 ] ] ]
+  },
+  {
+    "id": "vehicle_repair_glass",
+    "type": "requirement",
+    "//": "Materials used for repairing glass parts",
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+  },
+  {
+    "id": "vehicle_repair_small_metal",
+    "type": "requirement",
+    "//": "Materials used for repairing small metal vehicleparts, that don't warrant use of steel_tiny",
+    "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "id": "vehicle_repair_small_wood",
+    "type": "requirement",
+    "//": "Materials used for repairing small wooden vehicleparts, that don't warrant use of wood_structural_small",
+    "components": [ [ [ "splinter", 1 ] ] ]
+  },
+  {
+    "id": "vehicle_repair_superalloy",
+    "type": "requirement",
+    "//": "Materials used for repairing superalloy parts",
+    "components": [ [ [ "alloy_sheet", 1 ] ] ]
   },
   {
     "id": "wood_structural",

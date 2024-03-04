@@ -38,7 +38,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "welding_standard", 2 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": "350 s", "using": [ [ "welding_standard", 2 ] ], "components": [ [ [ "scrap", 1 ] ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ],
+        "time": "350 s",
+        "using": [ [ "welding_standard", 2 ], [ "vehicle_repair_small_metal", 1 ] ]
+      }
     },
     "flags": [ "CARGO", "BOARDABLE" ],
     "damage_reduction": { "all": 6 }
@@ -73,7 +77,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ], "components": [ [ [ "scrap", 1 ] ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 1 ] ]
+      }
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
     "damage_reduction": { "all": 6 }
@@ -96,7 +104,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "welding_standard", 2 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": "350 s", "using": [ [ "welding_standard", 2 ] ], "components": [ [ [ "scrap", 1 ] ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ],
+        "time": "350 s",
+        "using": [ [ "welding_standard", 2 ], [ "vehicle_repair_small_metal", 1 ] ]
+      }
     },
     "flags": [ "CARGO", "BOARDABLE", "FOLDABLE" ],
     "damage_reduction": { "all": 4 }
@@ -119,7 +131,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ], "time": "250 s", "using": [ [ "welding_standard", 1 ] ], "components": [ [ [ "scrap", 1 ] ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ],
+        "time": "250 s",
+        "using": [ [ "welding_standard", 1 ], [ "vehicle_repair_small_metal", 1 ] ]
+      }
     },
     "flags": [ "CARGO", "BOARDABLE", "FOLDABLE" ],
     "damage_reduction": { "all": 6 }
@@ -156,7 +172,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ], "components": [ [ [ "scrap", 1 ] ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 1 ] ]
+      }
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
     "damage_reduction": { "all": 6 }
