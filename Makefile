@@ -582,7 +582,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
   ODIRLUA = $(W32ODIRLUA)
-  OTHER += -Wa,-mbig-obj
+  OTHERS += -Wa,-mbig-obj
   ifeq ($(DYNAMIC_LINKING), 1)
     # Windows isn't sold with programming support, these are static to remove MinGW dependency.
     LDFLAGS += -static-libgcc -static-libstdc++
