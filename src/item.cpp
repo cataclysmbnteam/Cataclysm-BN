@@ -6209,7 +6209,7 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
     float mod = get_clothing_mod_val( clothing_mod_type_fire );
 
     std::optional<resistances> overriden_resistance = damage_resistance_override();
-    if (overriden_resistance && overriden_resistance->flat.count(DT_ACID)) {
+    if( overriden_resistance && overriden_resistance->flat.count( DT_ACID ) ) {
         return std::lround( overriden_resistance->flat[DT_HEAT] + mod );
     }
 
