@@ -2164,26 +2164,21 @@ class jmapgen_vehicle : public jmapgen_piece
             type.check( oter_name, parameters );
         }
 };
-/**
- * Place a specific item.
- * "item": id of item type to spawn.
- * "chance": chance of spawning it (1 = always, otherwise one_in(chance)).
- * "amount": amount of items to spawn.
- * "repeat": number of times to apply this piece
- */
+
+/// Place a specific item.
 class jmapgen_spawn_item : public jmapgen_piece
 {
     public:
-        mapgen_value<itype_id> type;
-        jmapgen_int amount;
-        jmapgen_int chance;
-        bool spawn_active;
+        mapgen_value<itype_id> type; //< id of item type to spawn.
+        jmapgen_int amount;          //< amount of items to spawn.
+        jmapgen_int chance;          //< chance of spawning it (1 = always, otherwise one_in(chance)).
+        bool activate_on_spawn;      //< whether to activate the item on spawn.
         jmapgen_spawn_item( const JsonObject &jsi ) :
             type( jsi.get_member( "item" ) )
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 ) {
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
-            spawn_active = jsi.get_bool( "active", false );
+            activate_on_spawn = jsi.get_bool( "active", false );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -2211,7 +2206,7 @@ class jmapgen_spawn_item : public jmapgen_piece
             for( int i = 0; i < spawn_count; i++ ) {
                 for( int j = 0; j < quantity; j++ ) {
                     detached_ptr<item> new_item = item::spawn( chosen_id, calendar::start_of_cataclysm );
-                    if( spawn_active ) {
+                    if( activate_on_spawn ) {
                         new_item->activate();
                     }
 
