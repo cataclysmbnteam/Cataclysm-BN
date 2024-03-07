@@ -2164,24 +2164,21 @@ class jmapgen_vehicle : public jmapgen_piece
             type.check( oter_name, parameters );
         }
 };
-/**
- * Place a specific item.
- * "item": id of item type to spawn.
- * "chance": chance of spawning it (1 = always, otherwise one_in(chance)).
- * "amount": amount of items to spawn.
- * "repeat": number of times to apply this piece
- */
+
+/// Place a specific item.
 class jmapgen_spawn_item : public jmapgen_piece
 {
     public:
-        mapgen_value<itype_id> type;
-        jmapgen_int amount;
-        jmapgen_int chance;
+        mapgen_value<itype_id> type; //< id of item type to spawn.
+        jmapgen_int amount;          //< amount of items to spawn.
+        jmapgen_int chance;          //< chance of spawning it (1 = always, otherwise one_in(chance)).
+        bool activate_on_spawn;      //< whether to activate the item on spawn.
         jmapgen_spawn_item( const JsonObject &jsi ) :
             type( jsi.get_member( "item" ) )
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 ) {
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
+            activate_on_spawn = jsi.get_bool( "active", false );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -2193,13 +2190,28 @@ class jmapgen_spawn_item : public jmapgen_piece
             // individual items here.
             chosen_id = item_controller->migrate_id( chosen_id );
 
+            if( item_is_blacklisted( chosen_id ) ) {
+                return;
+            }
+
             const int c = chance.get();
 
             // 100% chance = exactly 1 item, otherwise scale by item spawn rate.
             const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-            int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
+            const int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
+            const int quantity = amount.get();
+
+            const point p = { x.get(), y.get() };
+
             for( int i = 0; i < spawn_count; i++ ) {
-                dat.m.spawn_item( point( x.get(), y.get() ), chosen_id, amount.get() );
+                for( int j = 0; j < quantity; j++ ) {
+                    detached_ptr<item> new_item = item::spawn( chosen_id, calendar::start_of_cataclysm );
+                    if( activate_on_spawn ) {
+                        new_item->activate();
+                    }
+
+                    dat.m.spawn_an_item( p, std::move( new_item ), 0, 0 );
+                }
             }
         }
 

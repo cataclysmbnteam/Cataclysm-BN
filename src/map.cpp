@@ -4303,6 +4303,10 @@ std::vector<detached_ptr<item>> map::i_clear( const tripoint &p )
 detached_ptr<item> map::spawn_an_item( const tripoint &p, detached_ptr<item> &&new_item,
                                        const int charges, const int damlevel )
 {
+    if( one_in( 3 ) && new_item->has_flag( flag_VARSIZE ) ) {
+        new_item->set_flag( flag_FIT );
+    }
+
     if( charges && new_item->charges > 0 ) {
         //let's fail silently if we specify charges for an item that doesn't support it
         new_item->charges = charges;
@@ -4364,9 +4368,6 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     for( size_t i = 0; i < quantity; i++ ) {
         // spawn the item
         detached_ptr<item> new_item = item::spawn( type_id, birthday );
-        if( one_in( 3 ) && new_item->has_flag( flag_VARSIZE ) ) {
-            new_item->set_flag( flag_FIT );
-        }
 
         spawn_an_item( p, std::move( new_item ), charges, damlevel );
     }
