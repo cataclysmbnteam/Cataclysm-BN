@@ -112,8 +112,32 @@ item. This allows water, that contains a book, that contains a steel frame, that
 or ammo/magazine capacity. Setting max too high will decrease it to maximum capacity. Not setting
 min will set it to 0 when max is set.
 
-`active`: Will spawn the item active if true, note that this _does not work_ for itemgroups, only
+`active`: If true, activates the item on spawn. Note that this _does not work_ for itemgroups, only
 individual items _within_ itemgroups.
+
+#### `active` Usage example
+
+```json
+[
+  {
+    "id": "test_grenade",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [{ "item": "grenade_act", "prob": 100, "active": true }]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "shelter_roof",
+    "weight": 100,
+    "object": {
+      // ...
+      "place_items": [{ "item": "test_grenade", "x": 12, "y": 12, "chance": 100, "repeat": 1 }],
+      "place_item": [{ "item": "grenade_act", "x": 15, "y": 15, "chance": 100, "active": true }]
+    }
+  }
+]
+```
 
 ```json
 "damage-min": 0,
