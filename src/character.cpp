@@ -4638,6 +4638,9 @@ int get_speedydex_bonus( const int dex )
 
 int Character::get_speed() const
 {
+    if( is_mounted() ) {
+        return mounted_creature.get()->get_speed();
+    }
     return Creature::get_speed();
 }
 
