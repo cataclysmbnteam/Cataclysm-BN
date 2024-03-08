@@ -218,7 +218,8 @@
         { "item": "stash_drugs", "chance": 1 },
         { "item": "maps", "chance": 7 }
       ]
-    }
+    },
+    "nested": { "§": { "chunks": [ "NC_res_personal_items_1X1" ] } }
   },
   {
     "type": "palette",
