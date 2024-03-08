@@ -129,6 +129,7 @@ enum debug_menu_index {
     DEBUG_SPAWN_MON,
     DEBUG_GAME_STATE,
     DEBUG_REPRODUCE_AREA,
+    DEBUG_ERASE_ITEMS_AREA,
     DEBUG_KILL_AREA,
     DEBUG_KILL_NPCS,
     DEBUG_MUTATE,
@@ -297,6 +298,7 @@ static int map_uilist()
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_REVEAL_MAP, true, 'r', _( "Reveal map" ) ) },
         { uilist_entry( DEBUG_REPRODUCE_AREA, true, 'R', _( "Reproduce in Area" ) ) },
+        { uilist_entry( DEBUG_ERASE_ITEMS_AREA, true, 'e', _( "Erase items in Area" ) ) },
         { uilist_entry( DEBUG_KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
         { uilist_entry( DEBUG_KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
         { uilist_entry( DEBUG_MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
@@ -1528,6 +1530,23 @@ void debug()
             for( Creature *critter : creatures ) {
                 static_cast<monster *>( critter )->reproduce();
             }
+        }
+        break;
+        case DEBUG_ERASE_ITEMS_AREA: {
+            const std::optional<tripoint_range<tripoint>> points_opt = select_area();
+            if( !points_opt.has_value() ) {
+                break;
+            }
+
+            const tripoint_range<tripoint> points = points_opt.value();
+
+            const int count = std::accumulate( points.begin(), points.end(), 0,
+            [&m]( int sum, const tripoint & p ) {
+                const int size = m.i_at( p ).size();
+                m.i_clear( p );
+                return sum + size;
+            } );
+            add_msg( m_good, string_format( _( "Erased %d items." ), count ) );
         }
         break;
         case DEBUG_KILL_AREA: {
