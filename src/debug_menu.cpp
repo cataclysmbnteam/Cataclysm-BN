@@ -1526,7 +1526,7 @@ void debug()
             } );
 
             for( Creature *critter : creatures ) {
-                static_cast<monster *>( critter )->try_reproduce( true );
+                static_cast<monster *>( critter )->reproduce();
             }
         }
         break;
