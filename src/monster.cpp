@@ -465,9 +465,6 @@ void monster::try_upgrade( bool pin_time )
 
 void monster::try_reproduce()
 {
-    if( !reproduces ) {
-        return;
-    }
     // This can happen if the monster type has changed (from reproducing to non-reproducing monster)
     if( !type->baby_timer ) {
         return;
@@ -510,23 +507,37 @@ void monster::try_reproduce()
 
         chance += 2;
 
-        // wildlife creatures that are pets of the player will spawn pet offspring
-        const spawn_disposition disposition = is_pet() ? spawn_disposition::SpawnDisp_Pet :
-                                              spawn_disposition::SpawnDisp_Default;
-        if( season_match && female && one_in( chance ) ) {
-            int spawn_cnt = rng( 1, type->baby_count );
-            if( type->baby_monster ) {
-                g->m.add_spawn( type->baby_monster, spawn_cnt, pos(), disposition );
-            } else {
-                detached_ptr<item> item_to_spawn = item::spawn( type->baby_egg, *baby_timer, spawn_cnt );
-                if( disposition == spawn_disposition::SpawnDisp_Pet ) {
-                    item_to_spawn->set_flag( flag_SPAWN_FRIENDLY );
-                }
-                g->m.add_item_or_charges( pos(), std::move( item_to_spawn ), true );
-            }
+        if( ( season_match && female && one_in( chance ) ) ) {
+            reproduce();
+        }
+        *baby_timer += *type->baby_timer;
+    }
+}
+
+void monster::reproduce()
+{
+    if( !reproduces ) {
+        return;
+    }
+
+    const int spawn_cnt = rng( 1, type->baby_count );
+    const auto birth = baby_timer ? *baby_timer : calendar::turn;
+
+    // wildlife creatures that are pets of the player will spawn pet offspring
+    const spawn_disposition disposition = is_pet()
+                                          ? spawn_disposition::SpawnDisp_Pet
+                                          : spawn_disposition::SpawnDisp_Default;
+
+    if( type->baby_monster ) {
+        g->m.add_spawn( type->baby_monster, spawn_cnt, pos(), disposition );
+    } else {
+        detached_ptr<item> item_to_spawn = item::spawn( type->baby_egg, birth, spawn_cnt );
+
+        if( disposition == spawn_disposition::SpawnDisp_Pet ) {
+            item_to_spawn->set_flag( flag_SPAWN_FRIENDLY );
         }
 
-        *baby_timer += *type->baby_timer;
+        g->m.add_item_or_charges( pos(), std::move( item_to_spawn ), true );
     }
 }
 
