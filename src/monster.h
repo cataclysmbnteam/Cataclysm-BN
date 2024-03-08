@@ -122,8 +122,10 @@ class monster : public Creature, public location_visitable<monster>
         int get_upgrade_time() const;
         void allow_upgrade();
         void try_upgrade( bool pin_time );
-        // check if monster should reproduce. boolean parameter can force reproduction
-        void try_reproduce( const bool force_reproduce = false );
+        /// Check if monster is ready to reproduce and do so if possible, refreshing baby timer.
+        void try_reproduce();
+        /// Immediatly spawn an offspring without mutating baby timer.
+        void reproduce();
         void refill_udders();
         void spawn( const tripoint &p );
         m_size get_size() const override;
