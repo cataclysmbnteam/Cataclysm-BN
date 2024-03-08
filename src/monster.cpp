@@ -463,7 +463,7 @@ void monster::try_upgrade( bool pin_time )
     }
 }
 
-void monster::try_reproduce()
+void monster::try_reproduce( const bool force_reproduce )
 {
     if( !reproduces ) {
         return;
@@ -476,6 +476,10 @@ void monster::try_reproduce()
     if( !baby_timer ) {
         // Assume this is a freshly spawned monster (because baby_timer is not set yet), set the point when it reproduce to somewhere in the future.
         baby_timer.emplace( calendar::turn + *type->baby_timer );
+    }
+
+    if( force_reproduce ) {
+        baby_timer = calendar::turn;
     }
 
     bool season_spawn = false;
@@ -513,7 +517,7 @@ void monster::try_reproduce()
         // wildlife creatures that are pets of the player will spawn pet offspring
         const spawn_disposition disposition = is_pet() ? spawn_disposition::SpawnDisp_Pet :
                                               spawn_disposition::SpawnDisp_Default;
-        if( season_match && female && one_in( chance ) ) {
+        if( ( season_match && female && one_in( chance ) ) || force_reproduce ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
                 g->m.add_spawn( type->baby_monster, spawn_cnt, pos(), disposition );
