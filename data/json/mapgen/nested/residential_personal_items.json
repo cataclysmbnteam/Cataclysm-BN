@@ -10,7 +10,7 @@
       "terrain": { "_": "t_null" },
       "place_nested": [
         {
-          "chunks": [ [ "null", 1 ], [ "res_personal_scuba_1X1", 125 ], [ "res_personal_elecgtr_1X1", 5 ] ],
+          "chunks": [ [ "null", 1 ], [ "res_personal_scuba_1X1", 5 ], [ "res_personal_elecgtr_1X1", 5 ] ],
           "x": [ 0 ],
           "y": [ 0 ]
         }
