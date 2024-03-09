@@ -1746,7 +1746,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "BASE", _( "rot (turns): " ),
                                    "", iteminfo::lower_is_better,
                                    to_turns<int>( food->rot ) );
-                info.emplace_back( "BASE", space + _( "max rot (turns): " ),
+                info.emplace_back( "BASE", space + _( "shelf life (turns): " ),
                                    "", iteminfo::lower_is_better,
                                    to_turns<int>( food->get_shelf_life() ) );
                 info.emplace_back( "BASE", _( "last rot: " ),
@@ -3520,7 +3520,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 }
 
 void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                          bool /*debug*/ ) const
+                          bool debug ) const
 {
     if( contents.empty() || !parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
         return;
@@ -3597,6 +3597,22 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
                                            c_light_blue ) );
                 }
                 info.emplace_back( "DESCRIPTION", description.translated() );
+            }
+
+            if( debug && contents_item && contents_item->goes_bad() ) {
+                info.emplace_back( "CONTAINER", space );
+                info.emplace_back( "CONTAINER", _( "age (turns): " ),
+                                   "", iteminfo::lower_is_better,
+                                   to_turns<int>( contents_item->age() ) );
+                info.emplace_back( "CONTAINER", _( "rot (turns): " ),
+                                   "", iteminfo::lower_is_better,
+                                   to_turns<int>( contents_item->rot ) );
+                info.emplace_back( "CONTAINER", space + _( "shelf life (turns): " ),
+                                   "", iteminfo::lower_is_better,
+                                   to_turns<int>( contents_item->get_shelf_life() ) );
+                info.emplace_back( "CONTAINER", _( "last rot: " ),
+                                   "", iteminfo::lower_is_better,
+                                   to_turn<int>( contents_item->last_rot_check ) );
             }
         }
     }
