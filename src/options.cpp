@@ -1246,12 +1246,15 @@ void options_manager::add_options_general()
             { "all", to_translation( "All" ) }
         }, "all" );
 
-        add( "MERGE_COMESTIBLES_FRESHNESS", general, translate_marker( "Freshness Threshold" ),
-             translate_marker( "Only merge comestibles fresher than given threshold."
-                               "  1.0 is fresh, 0.0 is rotten." ),
-             0.0, 1.0, 0.75, 0.05 );
+        add( "MERGE_COMESTIBLES_THRESHOLD", general, translate_marker( "Freshness similarity threshold" ),
+             translate_marker( "Limit maximum allowed staleness difference when merging comestibles."
+                               "  The lower the value, the more similar the items must be to merge."
+                               "  0.0: Only merge identical items."
+                               "  1.0: Merge comestibles regardless of its freshness."
+                             ),
+             0.0, 1.0, 0.25, 0.05 );
 
-        get_option( "MERGE_COMESTIBLES_FRESHNESS" ).setPrerequisites( "MERGE_COMESTIBLES", {"liquid", "all"} );
+        get_option( "MERGE_COMESTIBLES_THRESHOLD" ).setPrerequisites( "MERGE_COMESTIBLES", {"liquid", "all"} );
     } );
 
     add_empty_line();
@@ -3399,9 +3402,7 @@ void options_manager::cache_to_globals()
         : merge_comestible_t::merge_all;
     } )();
 
-    // actually 0.0 is fresh and 1.0 is rotten so we invert value
-    relative_rot_threshold =
-        1.0f - ::get_option<float>( "MERGE_COMESTIBLES_FRESHNESS" );
+    similarity_threshold = ::get_option<float>( "MERGE_COMESTIBLES_THRESHOLD" );
 
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );

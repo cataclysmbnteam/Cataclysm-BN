@@ -1022,12 +1022,8 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
                 }
             }
             [[fallthrough]];
-            default: {
-                if( get_relative_rot() > relative_rot_threshold ||
-                    rhs.get_relative_rot() > relative_rot_threshold ) {
-                    return false;
-                }
-            }
+            default:
+                return std::abs( get_relative_rot() - rhs.get_relative_rot() ) <= similarity_threshold;
         }
 
         if( rotten() != rhs.rotten() ) {

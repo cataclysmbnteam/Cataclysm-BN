@@ -14,8 +14,11 @@ enum class merge_comestible_t {
 extern merge_comestible_t merge_comestible_mode;
 
 /**
- * Only merge comestibles fresher than given threshold. Lower value means stricter merging. 0.0 is fresh, 1.0 is rotten.
+ * Limit maximum allowed staleness difference when merging comestibles.
+ * The lower the value, the more similar the items must be to merge.
+ * 0.0: Only merge identical items.
+ * 1.0: Merge comestibles regardless of its freshness.
  */
-extern float relative_rot_threshold;
+extern float similarity_threshold;
 
 #endif // CATA_SRC_CACHED_ITEM_OPTIONS_H

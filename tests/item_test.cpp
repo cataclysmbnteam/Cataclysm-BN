@@ -165,7 +165,7 @@ TEST_CASE( "stacking_over_time", "[item]" )
 
     GIVEN( "Two items with the same birthday (stack mode: all)" ) {
         merge_comestible_mode = merge_comestible_t::merge_all;
-        relative_rot_threshold = 1.0f;
+        similarity_threshold = 1.0f;
 
         REQUIRE( A.stacks_with( B ) );
         WHEN( "the items are aged different numbers of seconds" ) {

@@ -2,4 +2,4 @@
 
 merge_comestible_t merge_comestible_mode = merge_comestible_t::merge_legacy;
 
-float relative_rot_threshold;
+float similarity_threshold;
