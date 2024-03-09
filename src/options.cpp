@@ -1234,6 +1234,27 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
+    add_option_group( general, Group( "comestible_merging",
+                                      to_translation( "Merge similar comestibles" ),
+                                      to_translation( "Configure how similar items are stacked." ) ),
+    [&]( auto & page_id ) {
+        add( "MERGE_COMESTIBLES", page_id, translate_marker( "Merging Mode" ),
+        translate_marker( "Merge similar comestibles.  Legacy: default behavior.  Liquid: Merge only liquid comestibles.  All: Merge all comestibles." ), {
+            { "legacy", to_translation( "Legacy" ) },
+            // { "liquid", to_translation( "Liquid" ) },
+            { "all", to_translation( "All" ) }
+        }, "all" );
+
+        add( "MERGE_COMESTIBLES_FRESHNESS", general, translate_marker( "Freshness Threshold" ),
+             translate_marker( "Only merge comestibles fresher than given threshold."
+                               "  0 is rotten, 1 is fresh." ),
+             0.0, 1.0, 0.75, 0.05 );
+
+        get_option( "MERGE_COMESTIBLES_FRESHNESS" ).setPrerequisite( "MERGE_COMESTIBLES", "all" );
+    } );
+
+    add_empty_line();
+
     add( "AUTO_PICKUP", general, translate_marker( "Auto pickup enabled" ),
          translate_marker( "Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager." ),
          false
