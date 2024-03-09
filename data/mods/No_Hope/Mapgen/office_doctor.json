@@ -218,7 +218,8 @@
         { "item": "toy_store", "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "allsporting", "chance": 5 }
       ]
-    }
+    },
+    "nested": { "ɸ": { "chunks": [ "NC_res_personal_items_1X1" ] } }
   },
   {
     "type": "palette",
