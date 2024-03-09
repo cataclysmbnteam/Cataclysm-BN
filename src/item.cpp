@@ -1021,6 +1021,7 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
                     return false;
                 }
             }
+            [[fallthrough]];
             default: {
                 if( get_relative_rot() > relative_rot_threshold ||
                     rhs.get_relative_rot() > relative_rot_threshold ) {
