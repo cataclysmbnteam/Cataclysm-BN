@@ -1003,13 +1003,13 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     if( goes_bad() && rhs.goes_bad() ) {
         // Stack items that fall into the same "bucket" of freshness.
         // Distant buckets are larger than near ones.
-        std::pair<int, clipped_unit> my_clipped_time_to_rot =
-            clipped_time( get_shelf_life() - rot );
-        std::pair<int, clipped_unit> other_clipped_time_to_rot =
-            clipped_time( rhs.get_shelf_life() - rhs.rot );
-        if( my_clipped_time_to_rot != other_clipped_time_to_rot ) {
-            return false;
-        }
+        // std::pair<int, clipped_unit> my_clipped_time_to_rot =
+        //     clipped_time( get_shelf_life() - rot );
+        // std::pair<int, clipped_unit> other_clipped_time_to_rot =
+        //     clipped_time( rhs.get_shelf_life() - rhs.rot );
+        // if( my_clipped_time_to_rot != other_clipped_time_to_rot ) {
+        //     return false;
+        // }
         if( rotten() != rhs.rotten() ) {
             // just to be safe that rotten and unrotten food is *never* stacked.
             return false;
@@ -1059,6 +1059,10 @@ bool item::merge_charges( detached_ptr<item> &&rhs, bool force )
     safe_reference<item>::merge( this, &*rhs );
     detached_ptr<item> del = std::move( rhs );
 
+    const int base_charges = charges + obj.charges;
+    const auto weighted_averaged_rot =
+        base_charges > 0 ? ( rot * charges + obj.rot * obj.charges ) / base_charges :  0_seconds;
+
     // Prevent overflow when either item has "near infinite" charges.
     if( charges >= INFINITE_CHARGES / 2 || obj.charges >= INFINITE_CHARGES / 2 ) {
         charges = INFINITE_CHARGES;
@@ -1070,6 +1074,10 @@ bool item::merge_charges( detached_ptr<item> &&rhs, bool force )
                          ( obj.item_counter ) * obj.charges ) / ( charges + obj.charges );
     }
     charges += obj.charges;
+
+    rot = weighted_averaged_rot;
+    set_age( std::max( age(), obj.age() ) );
+
     return true;
 }
 
