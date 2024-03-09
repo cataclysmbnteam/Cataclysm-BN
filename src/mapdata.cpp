@@ -165,6 +165,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "SUPPORTS_ROOF",            TFLAG_SUPPORTS_ROOF },  // Supports its ceiling and roof above it.
         { "MINEABLE",                 TFLAG_MINEABLE },       // allows mining
         { "SWIMMABLE",                TFLAG_SWIMMABLE },      // monmove, many fields
+        { "PASTURE_GATE",             TFLAG_PASTURE_GATE },   // marks this tile as a gate to a pasture
         { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::is_transparent / lightmap
         { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
         { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile

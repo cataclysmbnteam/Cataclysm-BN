@@ -158,6 +158,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_PUSH_VEH: return "PUSH_VEH";
         case MF_AVOID_DANGER_1: return "PATH_AVOID_DANGER_1";
         case MF_AVOID_DANGER_2: return "PATH_AVOID_DANGER_2";
+        case MF_PET_AVOID_PASTURE_GATE: return "PET_AVOID_PASTURE_GATE";
         case MF_AVOID_FALL: return "PATH_AVOID_FALL";
         case MF_AVOID_FIRE: return "PATH_AVOID_FIRE";
         case MF_PRIORITIZE_TARGETS: return "PRIORITIZE_TARGETS";

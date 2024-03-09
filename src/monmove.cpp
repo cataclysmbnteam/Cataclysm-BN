@@ -159,6 +159,7 @@ bool monster::will_move_to( const tripoint &p ) const
     bool avoid_fall = has_flag( MF_AVOID_FALL );
     bool avoid_simple = has_flag( MF_AVOID_DANGER_1 );
     bool avoid_complex = has_flag( MF_AVOID_DANGER_2 );
+    const bool avoid_pasture_gate = is_pet() && has_flag( MF_PET_AVOID_PASTURE_GATE );
     /*
      * Because some avoidance behaviors are supersets of others,
      * we can cascade through the implications. Complex implies simple,
@@ -175,7 +176,7 @@ bool monster::will_move_to( const tripoint &p ) const
 
     // technically this will shortcut in evaluation from fire or fall
     // before hitting simple or complex but this is more explicit
-    if( avoid_fire || avoid_fall || avoid_simple || avoid_complex ) {
+    if( avoid_fire || avoid_fall || avoid_simple || avoid_complex || avoid_pasture_gate ) {
         const ter_id target = g->m.ter( p );
 
         // Don't enter lava if we have any concept of heat being bad
@@ -225,6 +226,10 @@ bool monster::will_move_to( const tripoint &p ) const
             return false;
         }
         if( avoid_simple && target_field.find_field( fd_electricity ) ) {
+            return false;
+        }
+
+        if( avoid_pasture_gate && g->m.has_flag( "PASTURE_GATE", p ) ) {
             return false;
         }
     }
@@ -846,6 +851,7 @@ void monster::move()
         }
     }
 
+    //add_msg( _( "The %s will have attitude %d!" ), name(), current_attitude );
     if( current_attitude == MATT_IGNORE ||
         ( current_attitude == MATT_FOLLOW && rl_dist( pos(), goal ) <= MONSTER_FOLLOW_DIST ) ) {
         moves -= 100;
