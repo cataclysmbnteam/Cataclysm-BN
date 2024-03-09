@@ -1015,6 +1015,11 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
                     return false;
                 }
             }
+            case merge_comestible_t::merge_liquid: {
+                if( !made_of( LIQUID ) || !rhs.made_of( LIQUID ) ) {
+                    return false;
+                }
+            }
             default: {
                 if( get_relative_rot() > relative_rot_threshold ||
                     rhs.get_relative_rot() > relative_rot_threshold ) {
