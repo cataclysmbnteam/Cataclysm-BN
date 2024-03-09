@@ -1064,6 +1064,20 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     return contents.stacks_with( rhs.contents );
 }
 
+namespace
+{
+
+time_duration weighted_averaged_rot( const item *a, const item *b )
+{
+    const int base_charges = a->charges + b->charges;
+
+    return base_charges > 0
+           ? ( a->get_rot() * a->charges + b->get_rot() * b->charges ) / base_charges
+           : 0_seconds;
+}
+
+} // namespace
+
 bool item::merge_charges( detached_ptr<item> &&rhs, bool force )
 {
     if( this == &*rhs ) {
@@ -1077,9 +1091,7 @@ bool item::merge_charges( detached_ptr<item> &&rhs, bool force )
     safe_reference<item>::merge( this, &*rhs );
     detached_ptr<item> del = std::move( rhs );
 
-    const int base_charges = charges + obj.charges;
-    const auto weighted_averaged_rot =
-        base_charges > 0 ? ( rot * charges + obj.rot * obj.charges ) / base_charges :  0_seconds;
+    const auto new_rot = weighted_averaged_rot( this, &obj );
 
     // Prevent overflow when either item has "near infinite" charges.
     if( charges >= INFINITE_CHARGES / 2 || obj.charges >= INFINITE_CHARGES / 2 ) {
@@ -1093,7 +1105,7 @@ bool item::merge_charges( detached_ptr<item> &&rhs, bool force )
     }
     charges += obj.charges;
 
-    rot = weighted_averaged_rot;
+    rot = new_rot;
     set_age( std::max( age(), obj.age() ) );
 
     return true;
@@ -8688,9 +8700,8 @@ detached_ptr<item> item::fill_with( detached_ptr<item> &&liquid, int amount )
         ammo_set( liquid->typeId(), ammo_remaining() + amount );
     } else if( is_food_container() ) {
         item &cts = contents.front();
-        // Use maximum rot between the two
-        cts.set_relative_rot( std::max( cts.get_relative_rot(),
-                                        liquid->get_relative_rot() ) );
+
+        cts.set_rot( weighted_averaged_rot( &cts, &*liquid ) );
         cts.mod_charges( amount );
     } else if( !is_container_empty() ) {
         // if container already has liquid we need to set the amount
