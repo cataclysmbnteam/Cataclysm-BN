@@ -521,7 +521,7 @@ void monster::reproduce()
     }
 
     const int spawn_cnt = rng( 1, type->baby_count );
-    const auto birth = baby_timer ? *baby_timer : calendar::turn;
+    const auto birth = baby_timer && ( *baby_timer <= calendar::turn ) ? *baby_timer : calendar::turn;
 
     // wildlife creatures that are pets of the player will spawn pet offspring
     const spawn_disposition disposition = is_pet()
