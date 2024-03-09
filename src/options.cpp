@@ -7,6 +7,7 @@
 #include <stdexcept>
 
 #include "calendar.h"
+#include "cached_item_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -1241,16 +1242,16 @@ void options_manager::add_options_general()
         add( "MERGE_COMESTIBLES", page_id, translate_marker( "Merging Mode" ),
         translate_marker( "Merge similar comestibles.  Legacy: default behavior.  Liquid: Merge only liquid comestibles.  All: Merge all comestibles." ), {
             { "legacy", to_translation( "Legacy" ) },
-            // { "liquid", to_translation( "Liquid" ) },
+            { "liquid", to_translation( "Liquid" ) },
             { "all", to_translation( "All" ) }
         }, "all" );
 
         add( "MERGE_COMESTIBLES_FRESHNESS", general, translate_marker( "Freshness Threshold" ),
              translate_marker( "Only merge comestibles fresher than given threshold."
-                               "  0 is rotten, 1 is fresh." ),
+                               "  1.0 is fresh, 0.0 is rotten." ),
              0.0, 1.0, 0.75, 0.05 );
 
-        get_option( "MERGE_COMESTIBLES_FRESHNESS" ).setPrerequisite( "MERGE_COMESTIBLES", "all" );
+        get_option( "MERGE_COMESTIBLES_FRESHNESS" ).setPrerequisites( "MERGE_COMESTIBLES", {"liquid", "all"} );
     } );
 
     add_empty_line();
@@ -3390,6 +3391,18 @@ void options_manager::cache_to_globals()
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     static_z_effect = ::get_option<bool>( "STATICZEFFECT" );
     PICKUP_RANGE = ::get_option<int>( "PICKUP_RANGE" );
+
+    merge_comestible_mode = ( [] {
+        const auto opt = ::get_option<std::string>( "MERGE_COMESTIBLES" );
+        return opt == "legacy" ? merge_comestible_t::merge_legacy
+        : opt == "liquid" ? merge_comestible_t::merge_liquid
+        : merge_comestible_t::merge_all;
+    } )();
+
+    // actually 0.0 is fresh and 1.0 is rotten so we invert value
+    relative_rot_threshold =
+        1.0f - ::get_option<float>( "MERGE_COMESTIBLES_FRESHNESS" );
+
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif

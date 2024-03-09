@@ -25,6 +25,7 @@
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "cached_item_options.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_encumbrance.h"
@@ -1004,25 +1005,24 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
         // Stack items that fall into the same "bucket" of freshness.
         // Distant buckets are larger than near ones.
 
-        // TODO: cache merging options?
-        const auto merge_mode = get_option<std::string>( "MERGE_COMESTIBLES" );
-
-        // actually 0 is fresh and 1 is rotten so we invert value
-        const float freshness_threshold = 1 - get_option<float>( "MERGE_COMESTIBLES_FRESHNESS" );
-
-        if( merge_mode == "legacy" ) {
-            std::pair<int, clipped_unit> my_clipped_time_to_rot =
-                clipped_time( get_shelf_life() - rot );
-            std::pair<int, clipped_unit> other_clipped_time_to_rot =
-                clipped_time( rhs.get_shelf_life() - rhs.rot );
-            if( my_clipped_time_to_rot != other_clipped_time_to_rot ) {
-                return false;
+        switch( merge_comestible_mode ) {
+            case merge_comestible_t::merge_legacy: {
+                std::pair<int, clipped_unit> my_clipped_time_to_rot =
+                    clipped_time( get_shelf_life() - rot );
+                std::pair<int, clipped_unit> other_clipped_time_to_rot =
+                    clipped_time( rhs.get_shelf_life() - rhs.rot );
+                if( my_clipped_time_to_rot != other_clipped_time_to_rot ) {
+                    return false;
+                }
             }
-        } else if( merge_mode == "all" ) {
-            if( get_relative_rot() > freshness_threshold || rhs.get_relative_rot() > freshness_threshold ) {
-                return false;
+            default: {
+                if( get_relative_rot() > relative_rot_threshold ||
+                    rhs.get_relative_rot() > relative_rot_threshold ) {
+                    return false;
+                }
             }
         }
+
         if( rotten() != rhs.rotten() ) {
             // just to be safe that rotten and unrotten food is *never* stacked.
             return false;
