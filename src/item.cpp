@@ -25,6 +25,7 @@
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "cached_item_options.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_encumbrance.h"
@@ -1003,13 +1004,28 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     if( goes_bad() && rhs.goes_bad() ) {
         // Stack items that fall into the same "bucket" of freshness.
         // Distant buckets are larger than near ones.
-        std::pair<int, clipped_unit> my_clipped_time_to_rot =
-            clipped_time( get_shelf_life() - rot );
-        std::pair<int, clipped_unit> other_clipped_time_to_rot =
-            clipped_time( rhs.get_shelf_life() - rhs.rot );
-        if( my_clipped_time_to_rot != other_clipped_time_to_rot ) {
-            return false;
+
+        switch( merge_comestible_mode ) {
+            case merge_comestible_t::merge_legacy: {
+                std::pair<int, clipped_unit> my_clipped_time_to_rot =
+                    clipped_time( get_shelf_life() - rot );
+                std::pair<int, clipped_unit> other_clipped_time_to_rot =
+                    clipped_time( rhs.get_shelf_life() - rhs.rot );
+                if( my_clipped_time_to_rot != other_clipped_time_to_rot ) {
+                    return false;
+                }
+            }
+            break;
+            case merge_comestible_t::merge_liquid: {
+                if( !made_of( LIQUID ) || !rhs.made_of( LIQUID ) ) {
+                    return false;
+                }
+            }
+            [[fallthrough]];
+            default:
+                return std::abs( get_relative_rot() - rhs.get_relative_rot() ) <= similarity_threshold;
         }
+
         if( rotten() != rhs.rotten() ) {
             // just to be safe that rotten and unrotten food is *never* stacked.
             return false;
@@ -1046,6 +1062,20 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     return contents.stacks_with( rhs.contents );
 }
 
+namespace
+{
+
+time_duration weighted_averaged_rot( const item *a, const item *b )
+{
+    const int base_charges = a->charges + b->charges;
+
+    return base_charges > 0
+           ? ( a->get_rot() * a->charges + b->get_rot() * b->charges ) / base_charges
+           : 0_seconds;
+}
+
+} // namespace
+
 bool item::merge_charges( detached_ptr<item> &&rhs, bool force )
 {
     if( this == &*rhs ) {
@@ -1059,6 +1089,8 @@ bool item::merge_charges( detached_ptr<item> &&rhs, bool force )
     safe_reference<item>::merge( this, &*rhs );
     detached_ptr<item> del = std::move( rhs );
 
+    const auto new_rot = weighted_averaged_rot( this, &obj );
+
     // Prevent overflow when either item has "near infinite" charges.
     if( charges >= INFINITE_CHARGES / 2 || obj.charges >= INFINITE_CHARGES / 2 ) {
         charges = INFINITE_CHARGES;
@@ -1070,6 +1102,10 @@ bool item::merge_charges( detached_ptr<item> &&rhs, bool force )
                          ( obj.item_counter ) * obj.charges ) / ( charges + obj.charges );
     }
     charges += obj.charges;
+
+    rot = new_rot;
+    set_age( std::max( age(), obj.age() ) );
+
     return true;
 }
 
@@ -1720,7 +1756,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "BASE", _( "rot (turns): " ),
                                    "", iteminfo::lower_is_better,
                                    to_turns<int>( food->rot ) );
-                info.emplace_back( "BASE", space + _( "max rot (turns): " ),
+                info.emplace_back( "BASE", space + _( "shelf life (turns): " ),
                                    "", iteminfo::lower_is_better,
                                    to_turns<int>( food->get_shelf_life() ) );
                 info.emplace_back( "BASE", _( "last rot: " ),
@@ -3494,7 +3530,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 }
 
 void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                          bool /*debug*/ ) const
+                          bool debug ) const
 {
     if( contents.empty() || !parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
         return;
@@ -3571,6 +3607,22 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
                                            c_light_blue ) );
                 }
                 info.emplace_back( "DESCRIPTION", description.translated() );
+            }
+
+            if( debug && contents_item && contents_item->goes_bad() ) {
+                info.emplace_back( "CONTAINER", space );
+                info.emplace_back( "CONTAINER", _( "age (turns): " ),
+                                   "", iteminfo::lower_is_better,
+                                   to_turns<int>( contents_item->age() ) );
+                info.emplace_back( "CONTAINER", _( "rot (turns): " ),
+                                   "", iteminfo::lower_is_better,
+                                   to_turns<int>( contents_item->rot ) );
+                info.emplace_back( "CONTAINER", space + _( "shelf life (turns): " ),
+                                   "", iteminfo::lower_is_better,
+                                   to_turns<int>( contents_item->get_shelf_life() ) );
+                info.emplace_back( "CONTAINER", _( "last rot: " ),
+                                   "", iteminfo::lower_is_better,
+                                   to_turn<int>( contents_item->last_rot_check ) );
             }
         }
     }
@@ -8646,9 +8698,8 @@ detached_ptr<item> item::fill_with( detached_ptr<item> &&liquid, int amount )
         ammo_set( liquid->typeId(), ammo_remaining() + amount );
     } else if( is_food_container() ) {
         item &cts = contents.front();
-        // Use maximum rot between the two
-        cts.set_relative_rot( std::max( cts.get_relative_rot(),
-                                        liquid->get_relative_rot() ) );
+
+        cts.set_rot( weighted_averaged_rot( &cts, &*liquid ) );
         cts.mod_charges( amount );
     } else if( !is_container_empty() ) {
         // if container already has liquid we need to set the amount
