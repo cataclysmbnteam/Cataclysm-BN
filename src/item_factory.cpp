@@ -3121,6 +3121,22 @@ bool Item_factory::load_string( std::vector<std::string> &vec, const JsonObject 
     return result;
 }
 
+namespace
+{
+auto load_active( std::vector<ItemFn> &xs, const JsonObject &obj ) -> bool
+{
+    const bool result = obj.has_bool( "active" ) && obj.get_bool( "active" );
+    if( result ) {
+        xs.emplace_back( []( detached_ptr<item> &&it ) {
+            it->activate();
+            return std::move( it );
+        } );
+    }
+    return result;
+}
+
+} // namespace
+
 void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
 {
     std::unique_ptr<Item_group> gptr;
@@ -3164,6 +3180,7 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
     use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
+    use_modifier |= load_active( modifier.postprocess_fns, obj );
 
     std::vector<std::string> custom_flags;
     use_modifier |= load_string( custom_flags, obj, "custom-flags" );

@@ -144,6 +144,9 @@ class Item_spawn_data
         /** probability, used by the parent object. */
         int probability;
 };
+
+using ItemFn = std::function < detached_ptr<item> ( detached_ptr<item> &&it ) >;
+
 /**
  * Creates a single item, but can change various aspects
  * of the created item.
@@ -185,6 +188,11 @@ class Item_modifier
          * Custom flags to be added to the item.
          */
         std::vector<flag_id> custom_flags;
+
+        /**
+         * Custom functions to be applied to the item after its creation.
+         */
+        std::vector<ItemFn> postprocess_fns;
 
         Item_modifier();
         Item_modifier( Item_modifier && ) = default;

@@ -505,7 +505,13 @@
         "____"
       ],
       "terrain": { "_": "t_null" },
-      "place_nested": [ { "chunks": [ [ "null", 20 ], [ "solar_panels_4X4", 5 ], [ "solar_panels_3X3", 5 ] ], "x": [ 0 ], "y": [ 0 ] } ]
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 30 ], [ "solar_panels_4X4", 5 ], [ "solar_panels_2X4", 5 ], [ "solar_panels_3X3", 5 ] ],
+          "x": 0,
+          "y": 0
+        }
+      ]
     }
   },
   {
@@ -527,6 +533,22 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "solar_panels_2X4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "xx__",
+        "xx__",
+        "xx__",
+        "xx__"
+      ],
+      "terrain": { "_": "t_null" },
+      "furniture": { "x": "f_solar_unit" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "solar_panels_3X3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -537,6 +559,55 @@
       ],
       "terrain": { "_": "t_null" },
       "furniture": { "x": "f_solar_unit" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "NC_res_roof_chunk_3X3",
+    "//": "NEST CONTAINER for items and encounters that might be found on a residence's roof. This should be the nested chunk called by each individual house file. Global solar panel spawn rates for all houses that call this chunk can be managed by editing values below. ",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_nested": [ { "chunks": [ [ "null", 30 ], [ "res_roof_frisb_bball", 5 ], [ "res_roof_crows", 5 ] ], "x": [ 0 ], "y": [ 0 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_roof_frisb_bball",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_loot": [
+        { "item": "frisbee", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 10 },
+        { "item": "baseball", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_roof_crows",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "x__",
+        "__x",
+        "x__"
+      ],
+      "terrain": { "_": "t_null" },
+      "monster": { "x": { "monster": "mon_crow" } }
     }
   }
 ]

@@ -374,6 +374,10 @@ detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
     for( const flag_id &flag : custom_flags ) {
         new_item->set_flag( flag );
     }
+
+    for( const auto &fn : postprocess_fns ) {
+        new_item = fn( std::move( new_item ) );
+    }
     return std::move( new_item );
 }
 

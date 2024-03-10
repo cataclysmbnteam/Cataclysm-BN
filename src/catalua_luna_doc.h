@@ -81,7 +81,7 @@ LUNA_DOC( bool, "bool" );
 LUNA_DOC( int, "int" );
 LUNA_DOC( unsigned int, "int" );
 LUNA_DOC( std::int64_t, "int" );
-LUNA_DOC( size_t, "int" );
+//LUNA_DOC( size_t, "int" ); This conflicts with the previous unsigned int def on some systems
 LUNA_DOC( float, "double" );
 LUNA_DOC( double, "double" );
 LUNA_DOC( void, "nil" );

@@ -36,6 +36,7 @@
 #include "type_id.h"
 #include "units.h"
 
+enum class spawn_disposition;
 struct scent_block;
 template <typename T> class string_id;
 
@@ -1559,6 +1560,9 @@ class map
         void apply_faction_ownership( point p1, point p2, const faction_id &id );
         void add_spawn( const mtype_id &type, int count, const tripoint &p,
                         bool friendly = false, int faction_id = -1, int mission_id = -1,
+                        const std::string &name = "NONE" ) const;
+        void add_spawn( const mtype_id &type, int count, const tripoint &p,
+                        spawn_disposition disposition, int faction_id = -1, int mission_id = -1,
                         const std::string &name = "NONE" ) const;
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
