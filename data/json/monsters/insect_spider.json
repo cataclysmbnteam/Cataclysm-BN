@@ -1207,8 +1207,8 @@
       "GROUP_MORALE",
       "CANPLAY",
       "HARDTOSHOOT",
-      "HIT_AND_RUN", 
-	  "LOUDMOVES",
+      "HIT_AND_RUN",
+      "LOUDMOVES",
       "PATH_AVOID_FIRE"
     ]
   },
