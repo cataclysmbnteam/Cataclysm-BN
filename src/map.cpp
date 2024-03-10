@@ -4303,6 +4303,10 @@ std::vector<detached_ptr<item>> map::i_clear( const tripoint &p )
 detached_ptr<item> map::spawn_an_item( const tripoint &p, detached_ptr<item> &&new_item,
                                        const int charges, const int damlevel )
 {
+    if( one_in( 3 ) && new_item->has_flag( flag_VARSIZE ) ) {
+        new_item->set_flag( flag_FIT );
+    }
+
     if( charges && new_item->charges > 0 ) {
         //let's fail silently if we specify charges for an item that doesn't support it
         new_item->charges = charges;
@@ -4364,9 +4368,6 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     for( size_t i = 0; i < quantity; i++ ) {
         // spawn the item
         detached_ptr<item> new_item = item::spawn( type_id, birthday );
-        if( one_in( 3 ) && new_item->has_flag( flag_VARSIZE ) ) {
-            new_item->set_flag( flag_FIT );
-        }
 
         spawn_an_item( p, std::move( new_item ), charges, damlevel );
     }
@@ -7320,7 +7321,9 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
                                          get_option<float>( "CARRION_SPAWNRATE" ) );
     if( rng( 0, 100 ) < chance ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
-        add_spawn( spawn_details.name, 1, pnt, false );
+        const spawn_disposition disposition = item.has_own_flag( flag_SPAWN_FRIENDLY ) ?
+                                              spawn_disposition::SpawnDisp_Pet : spawn_disposition::SpawnDisp_Default;
+        add_spawn( spawn_details.name, 1, pnt, disposition );
         if( g->u.sees( pnt ) ) {
             if( item.is_seed() ) {
                 add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );
@@ -7888,7 +7891,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             if( i.name != "NONE" ) {
                 tmp.unique_name = i.name;
             }
-            if( i.friendly ) {
+            if( i.is_friendly() ) {
                 tmp.friendly = -1;
             }
 
@@ -7902,6 +7905,9 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
                 monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ), p );
                 if( placed ) {
                     placed->on_load();
+                    if( i.disposition == spawn_disposition::SpawnDisp_Pet ) {
+                        placed->make_pet();
+                    }
                 }
             };
 

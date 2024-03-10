@@ -11,6 +11,7 @@
 #include "avatar.h"
 #include "character.h"
 #include "coordinate_conversions.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -19,6 +20,7 @@
 #include "event.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "game.h"
@@ -56,6 +58,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_utils.h"
+#include "submap.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -86,6 +89,7 @@ static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_tpollen( "tpollen" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_poison( "poison" );
@@ -461,9 +465,6 @@ void monster::try_upgrade( bool pin_time )
 
 void monster::try_reproduce()
 {
-    if( !reproduces ) {
-        return;
-    }
     // This can happen if the monster type has changed (from reproducing to non-reproducing monster)
     if( !type->baby_timer ) {
         return;
@@ -505,16 +506,38 @@ void monster::try_reproduce()
         }
 
         chance += 2;
-        if( season_match && female && one_in( chance ) ) {
-            int spawn_cnt = rng( 1, type->baby_count );
-            if( type->baby_monster ) {
-                g->m.add_spawn( type->baby_monster, spawn_cnt, pos() );
-            } else {
-                g->m.add_item_or_charges( pos(), item::spawn( type->baby_egg, *baby_timer, spawn_cnt ), true );
-            }
+
+        if( ( season_match && female && one_in( chance ) ) ) {
+            reproduce();
+        }
+        *baby_timer += *type->baby_timer;
+    }
+}
+
+void monster::reproduce()
+{
+    if( !reproduces ) {
+        return;
+    }
+
+    const int spawn_cnt = rng( 1, type->baby_count );
+    const auto birth = baby_timer && ( *baby_timer <= calendar::turn ) ? *baby_timer : calendar::turn;
+
+    // wildlife creatures that are pets of the player will spawn pet offspring
+    const spawn_disposition disposition = is_pet()
+                                          ? spawn_disposition::SpawnDisp_Pet
+                                          : spawn_disposition::SpawnDisp_Default;
+
+    if( type->baby_monster ) {
+        g->m.add_spawn( type->baby_monster, spawn_cnt, pos(), disposition );
+    } else {
+        detached_ptr<item> item_to_spawn = item::spawn( type->baby_egg, birth, spawn_cnt );
+
+        if( disposition == spawn_disposition::SpawnDisp_Pet ) {
+            item_to_spawn->set_flag( flag_SPAWN_FRIENDLY );
         }
 
-        *baby_timer += *type->baby_timer;
+        g->m.add_item_or_charges( pos(), std::move( item_to_spawn ), true );
     }
 }
 
@@ -2920,6 +2943,18 @@ void monster::make_ally( const monster &z )
 {
     friendly = z.friendly;
     faction = z.faction;
+}
+
+void monster::make_pet()
+{
+    friendly = -1;
+    g->critter_tracker->update_faction( *this );
+    add_effect( effect_pet, 1_turns, num_bp );
+}
+
+bool monster::is_pet() const
+{
+    return ( friendly == -1 && has_effect( effect_pet ) );
 }
 
 bool monster::is_hallucination() const

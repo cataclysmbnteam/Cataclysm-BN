@@ -1187,6 +1187,10 @@
     "type": "overmap_special",
     "id": "Hazardous Waste Sarcophagus",
     "overmaps": [
+      { "point": [ 1, 0, 1 ], "overmap": "haz_sar_1_1_roof_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "haz_sar_1_2_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "haz_sar_1_3_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "haz_sar_1_4_roof_north" },
       { "point": [ 1, 0, 0 ], "overmap": "haz_sar_1_1_north" },
       { "point": [ 0, 0, 0 ], "overmap": "haz_sar_1_2_north" },
       { "point": [ 1, 1, 0 ], "overmap": "haz_sar_1_3_north" },

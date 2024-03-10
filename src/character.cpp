@@ -4638,6 +4638,9 @@ int get_speedydex_bonus( const int dex )
 
 int Character::get_speed() const
 {
+    if( is_mounted() ) {
+        return mounted_creature.get()->get_speed();
+    }
     return Creature::get_speed();
 }
 
@@ -7125,6 +7128,7 @@ mutation_value_map = {
     { "mana_modifier", calc_mutation_value_additive<&mutation_branch::mana_modifier> },
     { "mana_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_multiplier> },
     { "mana_regen_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_regen_multiplier> },
+    { "mutagen_target_modifier", calc_mutation_value_additive<&mutation_branch::mutagen_target_modifier> },
     { "speed_modifier", calc_mutation_value_multiplicative<&mutation_branch::speed_modifier> },
     { "movecost_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier> },
     { "movecost_flatground_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier> },
@@ -11696,6 +11700,10 @@ int Character::item_reload_cost( const item &it, item &ammo, int qty ) const
         /** @EFFECT_STR over 10 reduces reload time of some weapons */
         /** maximum reduction down to 25% of reload rate */
         mv *= std::max<float>( 10.0f / std::max<float>( 10.0f, get_str() ), 0.25f );
+    } else if( it.has_flag( flag_STR_DRAW ) && it.get_min_str() > 1 ) {
+        // Threshold depends on str_req of the weapon instead of a fixed value
+        // Allow understrength characters to draw slower since base reload rate is about the same for all bows
+        mv *= std::max<float>( it.get_min_str() / std::max<float>( 1, get_str() ), 0.25f );
     }
 
     return std::max( mv, 25 );

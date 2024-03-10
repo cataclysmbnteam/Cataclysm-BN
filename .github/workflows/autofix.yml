@@ -48,13 +48,9 @@ jobs:
         with:
           commit-message: "style(autofix.ci): automated formatting"
           comment: |
-            The Autofix app has found [code style violation][code-style] and automatically formatted this Pull Request.
+            Autofix has formatted [code style violation][code-style] in this PR.
 
-            ### I locally edit my commits (e.g: git, github desktop)
-
-            Please choose following options:
-
-            <details><summary>I'd like to accept the automated commit</summary>
+            <details><summary>I edit commits locally (e.g: git, github desktop) and want to keep autofix</summary>
 
             1. Run `git pull`. this will merge the automated commit into your local copy of the PR branch.
             2. Continue working.
@@ -71,19 +67,6 @@ jobs:
 
             If you don't do this, your following commits will be based on the old commit, and cause **MERGE CONFLICT**.
 
-            ### This PR is complete and I don't want to edit it anymore
-
-            It's safe to ignore this message.
-
-            ### I edit this PR through web UI
-
-            You can ignore this message and continue working.
-
-            ### I have no idea what this message is talking about
-
-            You can ignore this message and continue working. If you find any problem, please [ask for help][q-a] and ping @scarf005.
-
-            [q-a]: https://github.com/cataclysmbnteam/Cataclysm-BN/discussions/categories/q-a
             [code-style]: https://docs.cataclysmbn.org/en/contribute/contributing/#code-style
 
       - name: lint and test typescript files

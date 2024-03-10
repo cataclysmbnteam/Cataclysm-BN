@@ -7,6 +7,7 @@
 #include <stdexcept>
 
 #include "calendar.h"
+#include "cached_item_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -1231,6 +1232,30 @@ void options_manager::add_options_general()
          translate_marker( "Set a default character name that will be used instead of a random name on character creation." ),
          "", 30
        );
+
+    add_empty_line();
+
+    add_option_group( general, Group( "comestible_merging",
+                                      to_translation( "Merge similar comestibles" ),
+                                      to_translation( "Configure how similar items are stacked." ) ),
+    [&]( auto & page_id ) {
+        add( "MERGE_COMESTIBLES", page_id, translate_marker( "Merging Mode" ),
+        translate_marker( "Merge similar comestibles.  Legacy: default behavior.  Liquid: Merge only liquid comestibles.  All: Merge all comestibles." ), {
+            { "legacy", to_translation( "Legacy" ) },
+            { "liquid", to_translation( "Liquid" ) },
+            { "all", to_translation( "All" ) }
+        }, "all" );
+
+        add( "MERGE_COMESTIBLES_THRESHOLD", general, translate_marker( "Freshness similarity threshold" ),
+             translate_marker( "Limit maximum allowed staleness difference when merging comestibles."
+                               "  The lower the value, the more similar the items must be to merge."
+                               "  0.0: Only merge identical items."
+                               "  1.0: Merge comestibles regardless of its freshness."
+                             ),
+             0.0, 1.0, 0.25, 0.05 );
+
+        get_option( "MERGE_COMESTIBLES_THRESHOLD" ).setPrerequisites( "MERGE_COMESTIBLES", {"liquid", "all"} );
+    } );
 
     add_empty_line();
 
@@ -3369,6 +3394,16 @@ void options_manager::cache_to_globals()
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     static_z_effect = ::get_option<bool>( "STATICZEFFECT" );
     PICKUP_RANGE = ::get_option<int>( "PICKUP_RANGE" );
+
+    merge_comestible_mode = ( [] {
+        const auto opt = ::get_option<std::string>( "MERGE_COMESTIBLES" );
+        return opt == "legacy" ? merge_comestible_t::merge_legacy
+        : opt == "liquid" ? merge_comestible_t::merge_liquid
+        : merge_comestible_t::merge_all;
+    } )();
+
+    similarity_threshold = ::get_option<float>( "MERGE_COMESTIBLES_THRESHOLD" );
+
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif

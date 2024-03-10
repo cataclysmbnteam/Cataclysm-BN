@@ -67,6 +67,7 @@ TEST_CASE( "repair_vehicle_part" )
         std::vector<detached_ptr<item>> tools;
         tools.push_back( item::spawn( "welder", bday, 500 ) );
         tools.push_back( item::spawn( "goggles_welding" ) );
+        tools.push_back( item::spawn( "material_aluminium_ingot", bday, 10 ) );
         test_repair( tools, true );
     }
     SECTION( "UPS_modded_welder" ) {
@@ -76,17 +77,20 @@ TEST_CASE( "repair_vehicle_part" )
         tools.push_back( std::move( welder ) );
         tools.push_back( item::spawn( "UPS_off", bday, 500 ) );
         tools.push_back( item::spawn( "goggles_welding" ) );
+        tools.push_back( item::spawn( "material_aluminium_ingot", bday, 10 ) );
         test_repair( tools, true );
     }
     SECTION( "welder_missing_goggles" ) {
         std::vector<detached_ptr<item>> tools;
         tools.push_back( item::spawn( "welder", bday, 500 ) );
+        tools.push_back( item::spawn( "material_aluminium_ingot", bday, 10 ) );
         test_repair( tools, false );
     }
     SECTION( "welder_missing_charge" ) {
         std::vector<detached_ptr<item>> tools;
         tools.push_back( item::spawn( "welder", bday, 5 ) );
         tools.push_back( item::spawn( "goggles_welding" ) );
+        tools.push_back( item::spawn( "material_aluminium_ingot", bday, 10 ) );
         test_repair( tools, false );
     }
     SECTION( "UPS_modded_welder_missing_charges" ) {
@@ -96,6 +100,7 @@ TEST_CASE( "repair_vehicle_part" )
         tools.push_back( std::move( welder ) );
         tools.push_back( item::spawn( "UPS_off", bday, 5 ) );
         tools.push_back( item::spawn( "goggles_welding" ) );
+        tools.push_back( item::spawn( "material_aluminium_ingot", bday, 10 ) );
         test_repair( tools, false );
     }
 }
