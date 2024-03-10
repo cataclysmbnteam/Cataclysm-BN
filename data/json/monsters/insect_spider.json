@@ -1110,7 +1110,18 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 30, "into": "mon_wasp" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE", "HARDTOSHOOT" ]
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "FLIES",
+      "SWARMS",
+      "GROUP_MORALE",
+      "CANPLAY",
+      "PATH_AVOID_FIRE",
+      "HIT_AND_RUN",
+      "HARDTOSHOOT"
+    ]
   },
   {
     "id": "mon_wasp_small_guard",
@@ -1187,7 +1198,19 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "HARDTOSHOOT", "PATH_AVOID_FIRE" ]
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "FLIES",
+      "SWARMS",
+      "GROUP_MORALE",
+      "CANPLAY",
+      "HARDTOSHOOT",
+      "HIT_AND_RUN", 
+	  "LOUDMOVES",
+      "PATH_AVOID_FIRE"
+    ]
   },
   {
     "id": "mon_wasp_guard",
@@ -1277,7 +1300,7 @@
     "special_attacks": [ [ "DERMATIK", 25 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "POISON", "FLIES", "PATH_AVOID_FIRE", "LOUDMOVES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "POISON", "FLIES", "PATH_AVOID_FIRE", "HIT_AND_RUN", "LOUDMOVES" ]
   },
   {
     "id": "mon_dermatik_larva",
