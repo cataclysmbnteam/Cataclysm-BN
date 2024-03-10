@@ -78,9 +78,7 @@
         [ "egg_pheasant", 1 ],
         [ "egg_cockatrice", 1 ],
         [ "egg_reptile", 1 ],
-        [ "spider_egg", 1 ],
-        [ "egg_roach", 1 ],
-        [ "egg_locust", 1 ]
+		[ "eggs_insect", 1, "LIST" ] 		
       ]
     ]
   },
