@@ -2,6 +2,12 @@
 title: CMake
 ---
 
+:::caution
+
+CMake build is work-in-progress.
+
+:::
+
 For official way to build CataclysmBN see [Compiler Support](../../reference/compiler_support.md).
 
 ## Prerequisites
