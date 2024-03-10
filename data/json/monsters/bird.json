@@ -26,7 +26,17 @@
     "reproduction": { "baby_egg": "egg_chicken", "baby_count": 1, "baby_timer": 2 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BIRDFOOD", "PET_WONT_FOLLOW", "PET_AVOID_PASTURE_GATE" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "BIRDFOOD",
+      "PET_WONT_FOLLOW",
+      "PET_AVOID_PASTURE_GATE"
+    ]
   },
   {
     "id": "mon_grouse",
@@ -212,7 +222,17 @@
     "harvest": "bird_tiny",
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 14, "into": "mon_chicken" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BIRDFOOD", "PET_WONT_FOLLOW", "PET_AVOID_PASTURE_GATE" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "BIRDFOOD",
+      "PET_WONT_FOLLOW",
+      "PET_AVOID_PASTURE_GATE"
+    ]
   },
   {
     "id": "mon_grouse_chick",
