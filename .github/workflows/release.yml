@@ -74,12 +74,12 @@ jobs:
       - name: Create release
         if: ${{ steps.tag_check.outputs.exists == 'false' }}
         id: create_release
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v2.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ needs.metadata.outputs.tag_name }}
-          release_name: ${{ needs.metadata.outputs.release_name }}
+          name: ${{ needs.metadata.outputs.release_name }}
           body: |
             ${{ steps.build_changelog.outputs.changelog }}
             These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
