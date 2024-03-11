@@ -32,7 +32,7 @@ jobs:
           tag: ${{ steps.generate_env_vars.outputs.tag_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5.5
@@ -41,7 +41,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: ${{ steps.generate_env_vars.outputs.tag_name }}
           tag_prefix: ""
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: git fetch origin tag ${{ steps.generate_env_vars.outputs.tag_name }} --no-tags
       - name: Build Changelog
         id: build_changelog
@@ -155,7 +155,7 @@ jobs:
     env:
       ZSTD_CLEVEL: 17
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Create VERSION.TXT
         shell: bash
         run: |

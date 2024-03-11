@@ -16,7 +16,7 @@ jobs:
       tag_name: ${{ steps.env_vars.outputs.tag_name }}
       release_name: ${{ steps.env_vars.outputs.release_name }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: env_vars
         run: |
           TAG_NAME=$(date -u --iso-8601 --date='1 day ago')
@@ -48,7 +48,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Push tag
         if: ${{ steps.tag_check.outputs.exists == 'false' }}
@@ -59,7 +59,7 @@ jobs:
           custom_tag: ${{ needs.metadata.outputs.tag_name }}
           tag_prefix: ""
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - run: git fetch origin tag ${{ needs.metadata.outputs.tag_name }} --no-tags
 
@@ -179,7 +179,7 @@ jobs:
     env:
       ZSTD_CLEVEL: 17
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Create VERSION.TXT
         shell: bash
         run: |
