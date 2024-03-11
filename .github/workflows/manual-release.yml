@@ -246,7 +246,7 @@ jobs:
           mv CataclysmBN-${{ env.VERSION }}.dmg cbn-${{ matrix.artifact }}-${{ env.VERSION }}.dmg
       - name: Set up JDK 11 (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4.1.0
         with:
           java-version: "11"
           distribution: "adopt"
