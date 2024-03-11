@@ -728,7 +728,7 @@
     "count": 25,
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_buy_item": "FMCNote", "count": 250 },
         { "u_add_var": "FMShopkeep_Mission5", "type": "mission", "context": "flag", "value": "yes" }
       ]
     },
@@ -740,7 +740,7 @@
       "rejected": "We'll hold for the moment, but I'll get an ulcer if I have to keep worrying.  If you reconsider let me know.",
       "advice": "Grocery stores, house kitchens, there's plenty of places to look.",
       "inquire": "How is the search going?",
-      "success": "That's one less thing to worry about.  Glad to have someone like you on our side.  Here's 25 merch, and the broker will buy any further glass jars you can find - at a reduced price, we can't keep up the premium rate.  Actually, the broker was saying they had some jobs like this for you, and that it might be easier to just go straight through their office if you want more work.",
+      "success": "That's one less thing to worry about.  Glad to have someone like you on our side.  Here's 250 merch, and the broker will buy any further glass jars you can find - at a reduced price, we can't keep up the premium rate.  Actually, the broker was saying they had some jobs like this for you, and that it might be easier to just go straight through their office if you want more work.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     }
