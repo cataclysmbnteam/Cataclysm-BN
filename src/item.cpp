@@ -1679,7 +1679,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
             if( use_actor ) {
                 //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
-                ntext = string_format( pgettext( "carving", "%1$s on the %2$s is: %3$s" ),
+                ntext = string_format( pgettext( "carving", "<info>%1$s on the %2$s is:</info> %3$s" ),
                                        use_actor->gerund, tname(), item_note->second );
             } else {
                 //~ %1$s: inscription text
@@ -1687,7 +1687,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
             info.emplace_back( "DESCRIPTION", ntext );
         }
-            insert_separation_line( info );
+        insert_separation_line( info );
     }
 
     insert_separation_line( info );
