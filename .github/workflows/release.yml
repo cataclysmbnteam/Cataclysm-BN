@@ -53,7 +53,7 @@ jobs:
       - name: Push tag
         if: ${{ steps.tag_check.outputs.exists == 'false' }}
         id: tag_version
-        uses: mathieudutour/github-tag-action@v5.5
+        uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: ${{ needs.metadata.outputs.tag_name }}
