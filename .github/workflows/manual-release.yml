@@ -27,7 +27,7 @@ jobs:
           echo "release_name=Cataclysm-BN ${{ env.VERSION }}" >> $GITHUB_OUTPUT
       - name: Check if there is existing git tag
         id: tag_check
-        uses: mukunku/tag-exists-action@v1.4.0
+        uses: mukunku/tag-exists-action@v1.6.0
         with:
           tag: ${{ steps.generate_env_vars.outputs.tag_name }}
         env:
