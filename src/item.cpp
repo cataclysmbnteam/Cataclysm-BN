@@ -1655,11 +1655,6 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( idescription != item_vars.end() ) {
             info.emplace_back( "DESCRIPTION", idescription->second );
         } else {
-            if( has_flag( flag_MAGIC_FOCUS ) ) {
-                info.emplace_back( "DESCRIPTION",
-                                   _( "This item is a <info>magical focus</info>.  "
-                                      "You can cast spells with it in your hand." ) );
-            }
             if( is_craft() ) {
                 const std::string desc = _( "This is an in progress %s.  "
                                             "It is %d percent complete." );
@@ -1671,7 +1666,28 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "DESCRIPTION", type->description.translated() );
             }
         }
-        insert_separation_line( info );
+        std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
+        std::map<std::string, std::string>::const_iterator item_note_tool =
+            item_vars.find( "item_note_tool" );
+
+        if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
+            std::string ntext;
+            const inscribe_actor *use_actor = nullptr;
+            if( item_note_tool != item_vars.end() ) {
+                const use_function *use_func = itype_id( item_note_tool->second )->get_use( "inscribe" );
+                use_actor = dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() );
+            }
+            if( use_actor ) {
+                //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
+                ntext = string_format( pgettext( "carving", "%1$s on the %2$s is: %3$s" ),
+                                       use_actor->gerund, tname(), item_note->second );
+            } else {
+                //~ %1$s: inscription text
+                ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second );
+            }
+            info.emplace_back( "DESCRIPTION", ntext );
+        }
+            insert_separation_line( info );
     }
 
     insert_separation_line( info );
@@ -3877,29 +3893,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
                                                   time.c_str() ) );
             }
         }
-    }
-
-    std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
-    std::map<std::string, std::string>::const_iterator item_note_tool =
-        item_vars.find( "item_note_tool" );
-
-    if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
-        insert_separation_line( info );
-        std::string ntext;
-        const inscribe_actor *use_actor = nullptr;
-        if( item_note_tool != item_vars.end() ) {
-            const use_function *use_func = itype_id( item_note_tool->second )->get_use( "inscribe" );
-            use_actor = dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() );
-        }
-        if( use_actor ) {
-            //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
-            ntext = string_format( pgettext( "carving", "%1$s on the %2$s is: %3$s" ),
-                                   use_actor->gerund, tname(), item_note->second );
-        } else {
-            //~ %1$s: inscription text
-            ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second );
-        }
-        info.emplace_back( "DESCRIPTION", ntext );
     }
 
     if( this->get_var( "die_num_sides", 0 ) != 0 ) {
