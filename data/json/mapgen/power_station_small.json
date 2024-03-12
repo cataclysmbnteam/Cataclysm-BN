@@ -36,7 +36,7 @@
         "*": "t_floor",
         "+": "t_chaingate_c",
         "-": "t_chainfence_h",
-        ".": "t_region_groundcover_urban",
+        ".": "t_region_groundcover",
         "8": "t_potential_trans",
         "B": "t_oil_circ_brkr_l",
         "C": "t_console_broken",
