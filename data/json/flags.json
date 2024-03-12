@@ -1622,6 +1622,11 @@
     "context": [  ]
   },
   {
+    "id": "NO_DAMAGE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "NO_DISPLAY",
     "type": "json_flag",
     "context": [  ]
