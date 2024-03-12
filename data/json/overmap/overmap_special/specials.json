@@ -5074,7 +5074,7 @@
     "locations": [ "land" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 20, 100 ],
-    "connections": [ { "point": [ -1, 15, 0 ], "connection": "local_road", "from": [ 0, 15, 0 ] } ],	
+    "connections": [ { "point": [ -1, 15, 0 ], "connection": "local_road", "from": [ 0, 15, 0 ] } ],
     "flags": [ "CLASSIC", "FARM", "UNIQUE" ]
   },
   {

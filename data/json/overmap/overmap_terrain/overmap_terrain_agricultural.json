@@ -1,5 +1,4 @@
 [
-
   {
     "type": "overmap_terrain",
     "id": "special_field",
@@ -19,7 +18,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 3,
-    "spawns": { "group": "GROUP_PARK_ANIMAL", "population": [ 0, 6 ], "chance": 5 },	
+    "spawns": { "group": "GROUP_PARK_ANIMAL", "population": [ 0, 6 ], "chance": 5 },
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
   },
   {
@@ -30,10 +29,9 @@
     "sym": "F",
     "color": "green",
     "see_cost": 4,
-    "spawns": { "group": "GROUP_PARK_ANIMAL", "population": [ 0, 6 ], "chance": 15 },	
+    "spawns": { "group": "GROUP_PARK_ANIMAL", "population": [ 0, 6 ], "chance": 15 },
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
   },
-
   {
     "type": "overmap_terrain",
     "abstract": "generic_rural_road",
