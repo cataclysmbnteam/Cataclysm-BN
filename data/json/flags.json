@@ -990,7 +990,7 @@
     "id": "MAGIC_FOCUS",
     "type": "json_flag",
     "context": [ "item" ],
-    "//": "You can cast spells with this item in your hand."
+    "info": "This item is a <info>magical focus</info>.  You can cast spells with it in your hand."
   },
   {
     "id": "HOSTILE_SUMMON",
