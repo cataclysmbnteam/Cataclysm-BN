@@ -7,6 +7,12 @@
   },
   {
     "type": "weapon_category",
+    "id": "STILETTOS",
+    "name": "Stilettos",
+    "//": "Short, tapering 'blade' fixed onto a handle, has no cutting edge"
+  },
+  {
+    "type": "weapon_category",
     "id": "KNIVES",
     "name": "Knives",
     "//": "Short blade fixed onto a handle, for cutting or as weapon."
