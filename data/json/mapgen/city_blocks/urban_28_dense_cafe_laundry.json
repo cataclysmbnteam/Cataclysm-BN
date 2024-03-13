@@ -1,6 +1,6 @@
 [
   {
-	"//": "Bionic Ripper Doc",	  
+    "//": "Bionic Ripper Doc",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "urban_28_1" ],
@@ -25,30 +25,34 @@
         "ii:i::::::::::::i%%%%%%%",
         "iZZi::::::i:::::i%%%%%%%",
         "i::::::::iiiiiiii%%%%%%%",
-        "i::::::::i::ḞḞḞḞi%%%%%%%",
-        "i:::::::ii::ḟṆṇḞi%%%%%%%",
-        "iŽ::::::iḈ::FḞḞḞi%%%%%%%",
-        "iŽŽ:::::+:::ḟṆṇḞi%%%%%%%",
-        "iiiiiiiii:::ḞḞḞḞi%%%%%%%",
+        "i::::::::i''ḞḞḞḞi%%%%%%%",
+        "i:::::::ii''ḞṆṇḞi%%%%%%%",
+        "iŽ::::::iḈ''ḟ'''i%%%%%%%",
+        "iŽŽ:::::+'''ḞṆṇḞi%%%%%%%",
+        "iiiiiiiii'''ḞḞḞḞi%%%%%%%",
         "%%%%%%%%iiiiiiiii%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
       "terrain": {
         "Ḉ": "t_strconc_floor",
         "Ḟ": "t_strconc_floor",
-        "ḟ": "t_strconc_floor",
         "ṇ": "t_strconc_floor",
         "Ṇ": "t_strconc_floor"
       },
       "furniture": {
         "Ḉ": "f_crate_o",
         "Ḟ": "f_large_canvas_wall",
-        "ḟ": "f_large_canvas_door",		  
         "ṇ": "f_autodoc",
-        "Ṇ": "f_autodoc_couch"  
-	  },	  	  
+        "Ṇ": "f_autodoc_couch"
+      },
       "palettes": [ "acidia_residential_commercial_palette" ],
-      "items": { "'": { "item": "home_hw", "chance": 1 }, ":": { "item": "trash", "chance": 1 }, "Ḉ": { "item": "bot_nursebot", "chance": 100 } }
+      "items": {
+        "'": { "item": "home_hw", "chance": 1 },
+        ":": { "item": "trash", "chance": 1 },
+        "Ḉ": { "item": "bot_nursebot", "chance": 100 },
+        "Ṇ": { "item": "bot_prototype_cyborg", "chance": 10 },
+        "ṇ": { "item": "autodoc_supplies", "chance": 100 }
+      }
     }
   },
   {

@@ -43,7 +43,7 @@
     }
   },
   {
-	"//": "Bionic Ripper Doc",
+    "//": "Bionic Ripper Doc",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "urban_26_2" ],
@@ -59,9 +59,9 @@
         "iiiiiiii+iiiiiiiiiiiiiii",
         "''''iḈ''''i  bbbe | rrri",
         "iii'i'''''i  bbb  |    i",
-        "''''iḞḟḞḟḞi  bbb  +    i",
-        "''''iḞṆḞṆḞi       |c   i",
-        "Z'''iḞṇḞṇḞi     |-|c   i",
+        "''''iḞḞḟḞḞi  bbb  +    i",
+        "''''iḞṆ'ṆḞi       |c   i",
+        "Z'''iḞṇ'ṇḞi     |-|c   i",
         "Z''ZiḞḞḞḞḞi  ee |@     |",
         "''ZZiiiiiii---|-|@ t   |",
         "'''ZZi'rriiT2S|>|@ t   i",
@@ -81,19 +81,19 @@
       "terrain": {
         "Ḉ": "t_strconc_floor",
         "Ḟ": "t_strconc_floor",
-        "ḟ": "t_strconc_floor",
         "ṇ": "t_strconc_floor",
         "Ṇ": "t_strconc_floor"
       },
       "furniture": {
         "Ḉ": "f_crate_o",
         "Ḟ": "f_large_canvas_wall",
-        "ḟ": "f_large_canvas_door",		  
         "ṇ": "f_autodoc",
-        "Ṇ": "f_autodoc_couch"  
-	  },	  
+        "Ṇ": "f_autodoc_couch"
+      },
       "items": {
-		"Ḉ": { "item": "bot_nursebot", "chance": 100 },		  
+        "Ḉ": { "item": "bot_nursebot", "chance": 100 },
+        "ṇ": { "item": "autodoc_supplies", "chance": 100 },
+        "Ṇ": { "item": "bot_prototype_cyborg", "chance": 10 },
         " ": { "item": "livingroom", "chance": 2 },
         "'": { "item": "stash_drugs", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 10 },

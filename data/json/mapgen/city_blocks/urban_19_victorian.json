@@ -68,12 +68,12 @@
         ":i:+:::i%%%%%%%%%%%%%%%%",
         ":::iZZZi%%%%%%%%%%%%%%%%",
         ":iiii+ii%%%%%%%%%%%%%%%%",
-        "ii''''ḞḞḞḞ%%%%%%%%%%%%%%",
-        "%i''''ḟṆṇḞ%%%%%%%%%%%%%%",
-        "%iḈ'ḞḟFḞḞḞ%%%%%%%%%%%%%%",
-        "%iiiḞṆḞiii%%%%%%%%%%%%%%",
-        "%%%iḞṇḞii%%%%%%%%%%%%%%%",
-        "%%%iḞḞḞi%%%%%%%%%%%%%%%%",
+        "ii'''''i%%%%%%%%%%%%%%%%",
+        "%i''ḞḟḞi%%%%%%%%%%%%%%%%",
+        "%iḈ'ḟ''i%%%%%%%%%%%%%%%%",
+        "%iiiḞṆ'i%%%%%%%%%%%%%%%%%",
+        "%%%iḞṇ'i%%%%%%%%%%%%%%%%",
+        "%%%iiiii%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
@@ -81,20 +81,20 @@
       "terrain": {
         "Ḉ": "t_strconc_floor",
         "Ḟ": "t_strconc_floor",
-        "ḟ": "t_strconc_floor",
         "ṇ": "t_strconc_floor",
         "Ṇ": "t_strconc_floor"
       },
       "furniture": {
         "Ḉ": "f_crate_o",
         "Ḟ": "f_large_canvas_wall",
-        "ḟ": "f_large_canvas_door",		  
         "ṇ": "f_autodoc",
-        "Ṇ": "f_autodoc_couch"  
-	  },	  
+        "Ṇ": "f_autodoc_couch"
+      },
       "palettes": [ "acidia_residential_commercial_palette" ],
       "items": {
         "Ḉ": { "item": "bot_nursebot", "chance": 100 },
+        "Ṇ": { "item": "bot_prototype_cyborg", "chance": 10 },
+        "ṇ": { "item": "autodoc_supplies", "chance": 100 },
         ":": { "item": "home_hw", "chance": 2 },
         "L": { "item": "farming_tools", "chance": 80 },
         "r": { "item": "home_hw", "chance": 60 }
