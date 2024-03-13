@@ -57,7 +57,7 @@
         "''''XXX''i%%%%%%%%%%%%%%",
         "'''''''ZZi%%%%%%%%%%%%%%",
         "iiiiiiii+iiiiiiiiiiiiiii",
-        "''''i'''''i  bbbe | rrri",
+        "''''iḈ''''i  bbbe | rrri",
         "iii'i'''''i  bbb  |    i",
         "''''iḞḟḞḟḞi  bbb  +    i",
         "''''iḞṆḞṆḞi       |c   i",
@@ -79,18 +79,21 @@
       "palettes": [ "acidia_residential_commercial_palette" ],
       "toilets": { "T": {  } },
       "terrain": {
+        "Ḉ": "t_strconc_floor",
         "Ḟ": "t_strconc_floor",
         "ḟ": "t_strconc_floor",
         "ṇ": "t_strconc_floor",
         "Ṇ": "t_strconc_floor"
       },
       "furniture": {
+        "Ḉ": "f_crate_o",
         "Ḟ": "f_large_canvas_wall",
         "ḟ": "f_large_canvas_door",		  
         "ṇ": "f_autodoc",
         "Ṇ": "f_autodoc_couch"  
-	  },
+	  },	  
       "items": {
+		"Ḉ": { "item": "bot_nursebot", "chance": 100 },		  
         " ": { "item": "livingroom", "chance": 2 },
         "'": { "item": "stash_drugs", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 10 },
