@@ -1,5 +1,51 @@
 [
   {
+	"//": "Bionic Ripper Doc",	  
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_28_1" ],
+    "weight": 150,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "%%%%%%%%%%%%%%%%iiiiiiii",
+        "%%%%%iii%%%%%%%%i'''''''",
+        "%%%%%i>i%%%%%%%%i'''''''",
+        "iiiiii1iiiiiiiiii''''ii'",
+        "i:::::::::::::::i''''ii'",
+        "i::::::::::::i::i'''''''",
+        "i:::iy:yii11iiiii'''''''",
+        "iŽŽŽiy:yi|::::::1'''''''",
+        "iiiiiiiii|::::::i'''yyyy",
+        "i::::::::|::::::iiiiiiii",
+        "0:~:::::i|:::i::i%%%%%%%",
+        "~~~:::::iiiiii::i%%%%%%%",
+        "0::i::::i:::::::i%%%%%%%",
+        "i::iiiiii:::::::i%%%%%%%",
+        "ii:i::::::::::::i%%%%%%%",
+        "iZZi::::::i:::::i%%%%%%%",
+        "i::::::::iiiiiiii%%%%%%%",
+        "i:::::::ii::::Ṇṇi%%%%%%%",
+        "i::::::::i::::::i%%%%%%%",
+        "iŽ:::::::i::::::i%%%%%%%",
+        "iŽŽ::::::+::::Ṇṇi%%%%%%%",
+        "iiiiiiiiiiiiiiiii%%%%%%%",
+        "%%%%%%%%%%%%%%%%%%%%%%%%",
+        "%%%%%%%%%%%%%%%%%%%%%%%%"
+      ],
+      "terrain": {
+        "ṇ": "t_strconc_floor",
+        "Ṇ": "t_strconc_floor"
+      },
+      "furniture": {
+        "ṇ": "f_autodoc",
+        "Ṇ": "f_autodoc_couch"  
+	  },	  
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "items": { "'": { "item": "home_hw", "chance": 1 }, ":": { "item": "trash", "chance": 1 } }
+    }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "urban_28_1" ],
@@ -23,11 +69,11 @@
         "i::iiiiii:::::::i%%%%%%%",
         "ii:i::::::::::::i%%%%%%%",
         "iZZi::::::i:::::i%%%%%%%",
-        "i::::::::~i:::::i%%%%%%%",
-        "i:::::::iiiii:::i%%%%%%%",
+        "i::::::::~iiiiiii%%%%%%%",
+        "i:::::::iii:::::i%%%%%%%",
         "i::::::::~i:::::i%%%%%%%",
         "iŽ::::::::i:::::i%%%%%%%",
-        "iŽŽ:::::::::::::i%%%%%%%",
+        "iŽŽ:::::::+:::::i%%%%%%%",
         "iiiiiiiiiiiiiiiii%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
