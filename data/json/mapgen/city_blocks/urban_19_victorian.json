@@ -49,6 +49,59 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "urban_19_2" ],
+    "weight": 150,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "%%%%%%%%%%%%%%%%%%%%%%%%",
+        "iiiii%%%%%%%%%%%%%%%%%%%",
+        "irrri%%%%%%%%%%%%%%%%%%%",
+        "i:::iiii%%%%%%%%%%%%%%%%",
+        ":::::::iii%%%%%%%%%%%%%%",
+        "::i::::1>i%%%%%%%%%%%%%%",
+        ":iii:::iii%%%%%%%%%%%%%%",
+        "::i:::Li%%%%%%%%%%%%%%%%",
+        "::::::Li%%%%%%%%%%%%%%%%",
+        ":::::::i%%%%%%%%%%%%%%%%",
+        "::rr:::i%%%%%%%%%%%%%%%%",
+        "iiiii+ii%%%%%%%%%%%%%%%%",
+        ":i:+:::i%%%%%%%%%%%%%%%%",
+        ":::iZZZi%%%%%%%%%%%%%%%%",
+        ":iiii+ii%%%%%%%%%%%%%%%%",
+        "ii''''ḞḞḞḞ%%%%%%%%%%%%%%",
+        "%i''''ḟṆṇḞ%%%%%%%%%%%%%%",
+        "%i''ḞḟFḞḞḞ%%%%%%%%%%%%%%",
+        "%iiiḞṆḞiii%%%%%%%%%%%%%%",
+        "%%%iḞṇḞii%%%%%%%%%%%%%%%",
+        "%%%iḞḞḞi%%%%%%%%%%%%%%%%",
+        "%%%%%%%%%%%%%%%%%%%%%%%%",
+        "%%%%%%%%%%%%%%%%%%%%%%%%",
+        "%%%%%%%%%%%%%%%%%%%%%%%%"
+      ],
+      "terrain": {
+        "Ḟ": "t_strconc_floor",
+        "ḟ": "t_strconc_floor",
+        "ṇ": "t_strconc_floor",
+        "Ṇ": "t_strconc_floor"
+      },
+      "furniture": {
+        "Ḟ": "f_large_canvas_wall",
+        "ḟ": "f_large_canvas_door",		  
+        "ṇ": "f_autodoc",
+        "Ṇ": "f_autodoc_couch"  
+	  },	  
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "items": {
+        ":": { "item": "home_hw", "chance": 2 },
+        "L": { "item": "farming_tools", "chance": 80 },
+        "r": { "item": "home_hw", "chance": 60 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_19_2" ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",

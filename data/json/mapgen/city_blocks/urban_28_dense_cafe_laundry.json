@@ -4,7 +4,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "urban_28_1" ],
-    "weight": 150,
+    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -25,19 +25,23 @@
         "ii:i::::::::::::i%%%%%%%",
         "iZZi::::::i:::::i%%%%%%%",
         "i::::::::iiiiiiii%%%%%%%",
-        "i:::::::ii::::Ṇṇi%%%%%%%",
-        "i::::::::i::::::i%%%%%%%",
-        "iŽ:::::::i::::::i%%%%%%%",
-        "iŽŽ::::::+::::Ṇṇi%%%%%%%",
-        "iiiiiiiiiiiiiiiii%%%%%%%",
-        "%%%%%%%%%%%%%%%%%%%%%%%%",
+        "i:::::::i:::ḞḞḞḞi%%%%%%%",
+        "i:::::::i:::ḟṆṇḞi%%%%%%%",
+        "iŽ::::::i:::FḞḞḞi%%%%%%%",
+        "iŽŽ:::::+:::ḟṆṇḞi%%%%%%%",
+        "iiiiiiiii:::ḞḞḞḞi%%%%%%%",
+        "%%%%%%%%iiiiiiiii%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
       "terrain": {
+        "Ḟ": "t_strconc_floor",
+        "Ḟ": "t_strconc_floor",
         "ṇ": "t_strconc_floor",
         "Ṇ": "t_strconc_floor"
       },
       "furniture": {
+        "Ḟ": "f_large_canvas_wall",
+        "ḟ": "f_large_canvas_door",
         "ṇ": "f_autodoc",
         "Ṇ": "f_autodoc_couch"  
 	  },	  

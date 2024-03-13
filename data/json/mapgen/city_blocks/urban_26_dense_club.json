@@ -47,7 +47,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "urban_26_2" ],
-    "weight": 150,
+    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -57,12 +57,12 @@
         "''''XXX''i%%%%%%%%%%%%%%",
         "'''''''ZZi%%%%%%%%%%%%%%",
         "iiiiiiii+iiiiiiiiiiiiiii",
-        "''''i''''ii  bbbe | rrri",
-        "iii'i''''ii  bbb  |    i",
-        "''''i''''ii  bbb  +    i",
-        "''''i''''ii       |c   i",
-        "Z'''iṆ''Ṇii     |-|c   i",
-        "Z''Ziṇ''ṇii  ee |@     |",
+        "''''i'''''i  bbbe | rrri",
+        "iii'i'''''i  bbb  |    i",
+        "''''iḞḟḞḟḞi  bbb  +    i",
+        "''''iḞṆḞṆḞi       |c   i",
+        "Z'''iḞṇḞṇḞi     |-|c   i",
+        "Z''ZiḞḞḞḞḞi  ee |@     |",
         "''ZZiiiiiii---|-|@ t   |",
         "'''ZZi'rriiT2S|>|@ t   i",
         "Z''''i'''ii-+-|+|@     i",
@@ -79,10 +79,14 @@
       "palettes": [ "acidia_residential_commercial_palette" ],
       "toilets": { "T": {  } },
       "terrain": {
+        "Ḟ": "t_strconc_floor",
+        "ḟ": "t_strconc_floor",
         "ṇ": "t_strconc_floor",
         "Ṇ": "t_strconc_floor"
       },
       "furniture": {
+        "Ḟ": "f_large_canvas_wall",
+        "ḟ": "f_large_canvas_door",		  
         "ṇ": "f_autodoc",
         "Ṇ": "f_autodoc_couch"  
 	  },
