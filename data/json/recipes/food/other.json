@@ -2215,14 +2215,12 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "tools": [
-      [ [ "surface_heat", 7, "LIST" ] ]
-    ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "water", 6 ], [ "water_clean", 6 ] ],
       [ [ "jar_3l_glass", 1 ] ],
       [ [ "yeast", 1 ] ],
       [ [ "beverage_sweetener", 6, "LIST" ] ]
     ]
-   }
+  }
 ]
