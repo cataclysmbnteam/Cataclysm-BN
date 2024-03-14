@@ -81,12 +81,14 @@
       "terrain": {
         "Ḉ": "t_strconc_floor",
         "Ḟ": "t_strconc_floor",
+        "ḟ": "t_strconc_floor",
         "ṇ": "t_strconc_floor",
         "Ṇ": "t_strconc_floor"
       },
       "furniture": {
         "Ḉ": "f_crate_o",
         "Ḟ": "f_large_canvas_wall",
+        "ḟ": "f_large_canvas_open",		
         "ṇ": "f_autodoc",
         "Ṇ": "f_autodoc_couch"
       },
