@@ -967,5 +967,34 @@
       ]
     ],
     "magazine_well": "250 ml"
+  },
+  {
+    "id": "jar_3l_glass_yeast",
+    "type": "GENERIC",
+    "category": "food",
+    "name": { "str_sp": "sealed yeast culture" },
+    "description": "A sealed 3L glass jar holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
+    "weight": "365 g",
+    "volume": "3 L",
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "to_hit": -1,
+    "bashing": 5,
+    "material": [ "glass", "powder" ],
+    "symbol": ")",
+    "looks_like": "jar_3l_glass_sealed",
+    "color": "light_cyan",
+    "use_action": {
+      "target": "yeast",
+      "msg": "You open the jar and harvest the culture.",
+      "container": "jar_3l_glass",
+      "target_charges": 60,
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 43200,
+      "not_ready_msg": "The yeast isn't done culturing yet.",
+      "//": "12 hours"
+    },
+    "flags": [ "TRADER_AVOID" ]
   }
 ]
