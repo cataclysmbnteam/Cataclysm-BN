@@ -71,13 +71,14 @@
         "ii'''''i%%%%%%%%%%%%%%%%",
         "%i''ḞḟḞi%%%%%%%%%%%%%%%%",
         "%iḈ'ḟ''i%%%%%%%%%%%%%%%%",
-        "%iiiḞṆ'i%%%%%%%%%%%%%%%%%",
+        "%iiiḞṆ'i%%%%%%%%%%%%%%%%",
         "%%%iḞṇ'i%%%%%%%%%%%%%%%%",
         "%%%iiiii%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
+      "palettes": [ "acidia_residential_commercial_palette" ],
       "terrain": {
         "Ḉ": "t_strconc_floor",
         "Ḟ": "t_strconc_floor",
@@ -88,14 +89,15 @@
       "furniture": {
         "Ḉ": "f_crate_o",
         "Ḟ": "f_large_canvas_wall",
-        "ḟ": "f_large_canvas_open",
+        "ḟ": "f_large_canvas_door",
         "ṇ": "f_autodoc",
         "Ṇ": "f_autodoc_couch"
       },
-      "palettes": [ "acidia_residential_commercial_palette" ],
-      "items": {
+      "item": {
         "Ḉ": { "item": "bot_nursebot", "chance": 100 },
-        "Ṇ": { "item": "bot_prototype_cyborg", "chance": 10 },
+        "Ṇ": { "item": "bot_prototype_cyborg", "chance": 10 }
+	  },
+      "items": {
         "ṇ": { "item": "autodoc_supplies", "chance": 100 },
         ":": { "item": "home_hw", "chance": 2 },
         "L": { "item": "farming_tools", "chance": 80 },
