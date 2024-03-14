@@ -32,7 +32,7 @@
         "iiiiiiiii'''ḞḞḞḞi%%%%%%%",
         "%%%%%%%%iiiiiiiii%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
-      ],	  
+      ],
       "palettes": [ "acidia_residential_commercial_palette" ],
       "terrain": {
         "Ḉ": "t_strconc_floor",
@@ -44,14 +44,11 @@
       "furniture": {
         "Ḉ": "f_crate_o",
         "Ḟ": "f_large_canvas_wall",
-        "ḟ": "f_large_canvas_door",		
+        "ḟ": "f_large_canvas_door",
         "ṇ": "f_autodoc",
         "Ṇ": "f_autodoc_couch"
       },
-      "item": {
-        "Ḉ": { "item": "bot_nursebot", "chance": 100 },
-        "Ṇ": { "item": "bot_prototype_cyborg", "chance": 10 }
-	  },
+      "item": { "Ḉ": { "item": "bot_nursebot", "chance": 100 }, "Ṇ": { "item": "bot_prototype_cyborg", "chance": 10 } },
       "items": {
         "'": { "item": "home_hw", "chance": 1 },
         ":": { "item": "trash", "chance": 1 },
