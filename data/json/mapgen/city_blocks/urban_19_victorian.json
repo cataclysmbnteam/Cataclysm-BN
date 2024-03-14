@@ -92,6 +92,7 @@
         "ṇ": "f_autodoc",
         "Ṇ": "f_autodoc_couch"
       },
+      "place_monsters": [ { "monster": "GROUP_LAB_CYBORG", "x": [ 1, 6 ], "y": [ 4, 14 ], "density": 0.03 } ],
       "palettes": [ "acidia_residential_commercial_palette" ],
       "items": {
         "Ḉ": { "item": "bot_nursebot", "chance": 100 },
