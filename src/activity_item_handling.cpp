@@ -1632,10 +1632,11 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     return activity_reason_info::fail( do_activity_reason::NEEDS_TILLING );
                 }
             } else if( seed.is_valid() &&
-                       here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) &&
-                       warm_enough_to_plant( src_loc ) ) {
+                       here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) ) {
                 if( here.has_items( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
+                } else if( !warm_enough_to_plant( src_loc ) ) {
+                    return activity_reason_info::fail( do_activity_reason::NEEDS_WARM_WEATHER );
                 } else {
                     // do we have the required seed on our person?
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
@@ -2714,12 +2715,15 @@ static requirement_check_result generic_multi_activity_check_requirement( player
         reason == do_activity_reason::NO_ZONE ||
         reason == do_activity_reason::ALREADY_DONE ||
         reason == do_activity_reason::BLOCKING_TILE ||
+        reason == do_activity_reason::NEEDS_WARM_WEATHER ||
         reason == do_activity_reason::UNKNOWN_ACTIVITY ) {
         // we can discount this tile, the work can't be done.
         if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
             p.add_msg_if_player( m_info, _( "You don't have the skill for this task." ) );
         } else if( reason == do_activity_reason::BLOCKING_TILE ) {
             p.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
+        } else if( reason == do_activity_reason::NEEDS_WARM_WEATHER ) {
+            p.add_msg_if_player( m_info, _( "It is too cold to plant anything now." ) );
         }
         return SKIP_LOCATION;
     } else if( reason == do_activity_reason::NO_COMPONENTS ||
