@@ -364,7 +364,7 @@
       "type": "delayed_transform",
       "transform_age": 86400,
       "not_ready_msg": "The yeast isn't done culturing yet.",
-      "//": "12 hours"
+      "//": "24 hours"
     }
   },
   {
