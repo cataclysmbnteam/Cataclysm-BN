@@ -2983,5 +2983,29 @@
     "color": "white",
     "see_cost": 999,
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "necropolis_level_1_12" ],
+    "name": "gardening store roof",
+    "sym": "<",
+    "color": "light_green_yellow",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "necropolis_level_1_2" ],
+    "name": "house roof",
+    "sym": "v",
+    "color": "light_green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "necropolis_level_1_10" ],
+    "name": "house roof",
+    "sym": ">",
+    "color": "light_green",
+    "see_cost": 5
   }
 ]
