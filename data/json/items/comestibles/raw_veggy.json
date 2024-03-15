@@ -700,7 +700,6 @@
     "name": "sugar beet",
     "weight": "143 g",
     "color": "brown",
-    "spoils_in": "95 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 62,
