@@ -997,7 +997,7 @@
     "name": "coca tea",
     "weight": "250 g",
     "color": "brown",
-    "fatigue_mod": -9,
+    "fatigue_mod": 10,
     "stim": 7,
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
