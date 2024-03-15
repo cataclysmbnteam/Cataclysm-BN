@@ -323,7 +323,8 @@ TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
 
         THEN( "they can eat food, but it nauseates them" ) {
             expect_can_eat( dummy, jihelucake );
-            expect_will_eat( dummy, jihelucake, "You still feel nauseous and will probably puke it all up again.",
+            expect_will_eat( dummy, jihelucake,
+                             "You still feel nauseous and will probably puke it all up again.",
                              edible_rating::nausea );
         }
     }
