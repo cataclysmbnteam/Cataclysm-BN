@@ -1,10 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [
-      [ "null", "necropolis_level_1_2" ],
-      [ "necropolis_level_1_10", "null" ]
-    ],
+    "om_terrain": [ [ "null", "necropolis_level_1_2" ], [ "necropolis_level_1_10", "null" ] ],
     "method": "json",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
