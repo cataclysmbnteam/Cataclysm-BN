@@ -47,15 +47,15 @@ TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
     std::pair<int, int> fun;
 
     GIVEN( "food with positive fun" ) {
-        detached_ptr<item> det = item::spawn( "toastem", calendar::start_of_cataclysm,
+        detached_ptr<item> det = item::spawn( "jihelucake", calendar::start_of_cataclysm,
                                               item::default_charges_tag{} );
-        item &toastem = *det;
+        item &jihelucake = *det;
         dummy.i_add( std::move( det ) );
-        fun = dummy.fun_for( toastem );
+        fun = dummy.fun_for( jihelucake );
         REQUIRE( fun.first > 0 );
 
         THEN( "character gets a morale bonus becase it tastes good" ) {
-            dummy.modify_morale( toastem );
+            dummy.modify_morale( jihelucake );
             CHECK( dummy.get_morale( MORALE_FOOD_GOOD ) >= fun.first );
         }
     }
@@ -389,31 +389,31 @@ TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
         REQUIRE( dummy.has_trait( trait_SAPROPHAGE ) );
 
         AND_GIVEN( "some rotten chewable food" ) {
-            detached_ptr<item> det = item::spawn( "toastem", calendar::start_of_cataclysm,
+            detached_ptr<item> det = item::spawn( "jihelucake", calendar::start_of_cataclysm,
                                                   item::default_charges_tag{} );
-            item &toastem = *det;
+            item &jihelucake = *det;
             dummy.i_add( std::move( det ) );
             // food rot > 1.0 is rotten
-            toastem.set_relative_rot( 1.5 );
-            REQUIRE( toastem.rotten() );
+            jihelucake.set_relative_rot( 1.5 );
+            REQUIRE( jihelucake.rotten() );
 
             THEN( "they enjoy it" ) {
-                dummy.modify_morale( toastem );
+                dummy.modify_morale( jihelucake );
                 CHECK( dummy.get_morale( MORALE_FOOD_GOOD ) > 10 );
             }
         }
 
         AND_GIVEN( "some fresh chewable food" ) {
-            detached_ptr<item> det = item::spawn( "toastem", calendar::start_of_cataclysm,
+            detached_ptr<item> det = item::spawn( "jihelucake", calendar::start_of_cataclysm,
                                                   item::default_charges_tag{} );
-            item &toastem = *det;
+            item &jihelucake = *det;
             dummy.i_add( std::move( det ) );
             // food rot < 0.1 is fresh
-            toastem.set_relative_rot( 0.0 );
-            REQUIRE( toastem.is_fresh() );
+            jihelucake.set_relative_rot( 0.0 );
+            REQUIRE( jihelucake.is_fresh() );
 
             THEN( "they get a morale penalty due to indigestion" ) {
-                dummy.modify_morale( toastem );
+                dummy.modify_morale( jihelucake );
                 CHECK( dummy.get_morale( MORALE_NO_DIGEST ) <= -25 );
             }
         }
