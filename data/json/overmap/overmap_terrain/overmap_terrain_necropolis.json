@@ -2986,15 +2986,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "necropolis_level_1_12" ],
-    "name": "gardening store roof",
-    "sym": "<",
-    "color": "light_green_yellow",
-    "see_cost": 5
+    "id": [ "necropolis_level_1_6", "necropolis_level_1_9", "necropolis_level_1_18" ],
+    "name": "open air",
+    "sym": ".",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "necropolis_level_1_2" ],
+    "id": "necropolis_level_1_2",
     "name": "house roof",
     "sym": "v",
     "color": "light_green",
@@ -3002,10 +3001,42 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "necropolis_level_1_10" ],
+    "id": [ "necropolis_level_1_7", "necropolis_level_1_8" ],
+    "name": "pump station roof",
+    "sym": "P",
+    "color": "red",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "necropolis_level_1_10",
     "name": "house roof",
     "sym": ">",
     "color": "light_green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "necropolis_level_1_12",
+    "name": "gardening store roof",
+    "sym": "<",
+    "color": "light_green_yellow",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "necropolis_level_1_16",
+    "name": "police station roof",
+    "sym": "<",
+    "color": "h_yellow",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "necropolis_level_1_17",
+    "name": "police station roof",
+    "sym": "v",
+    "color": "h_yellow",
     "see_cost": 5
   }
 ]
