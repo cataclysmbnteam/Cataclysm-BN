@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "id": "PrideFlags",
+    "id": "pride_flags",
     "name": "Pride Flags for BN",
     "authors": [ "Robbietheneko" ],
     "maintainers": [ "Robbietheneko" ],

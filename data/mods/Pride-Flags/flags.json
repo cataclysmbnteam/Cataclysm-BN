@@ -1,6 +1,6 @@
 [
   {
-    "id": "transFlag",
+    "id": "trans_flag",
     "type": "ARMOR",
     "copy-from": "american_flag",
     "name": { "str": "Trans pride flag" },
@@ -8,7 +8,7 @@
     "color": "light_blue"
   },
   {
-    "id": "rainbowFlag",
+    "id": "rainbow_flag",
     "type": "ARMOR",
     "copy-from": "american_flag",
     "name": { "str": "LGBTQ+ pride flag" },
@@ -16,7 +16,7 @@
     "color": "red"
   },
   {
-    "id": "aromanticFlag",
+    "id": "aromantic_flag",
     "type": "ARMOR",
     "copy-from": "american_flag",
     "name": { "str": "Aromantic pride flag" },
@@ -24,7 +24,7 @@
     "color": "light_green"
   },
   {
-    "id": "asexualFlag",
+    "id": "asexual_flag",
     "type": "ARMOR",
     "copy-from": "american_flag",
     "name": { "str": "Asexual pride flag" },
@@ -32,7 +32,7 @@
     "color": "light_gray"
   },
   {
-    "id": "bisexualFlag",
+    "id": "bisexual_flag",
     "type": "ARMOR",
     "copy-from": "american_flag",
     "name": { "str": "Bisexual pride flag" },
@@ -40,7 +40,7 @@
     "color": "magenta"
   },
   {
-    "id": "intersexFlag",
+    "id": "intersex_flag",
     "type": "ARMOR",
     "copy-from": "american_flag",
     "name": { "str": "Intersex pride flag" },
@@ -48,7 +48,7 @@
     "color": "yellow"
   },
   {
-    "id": "lesbianFlag",
+    "id": "lesbian_flag",
     "type": "ARMOR",
     "copy-from": "american_flag",
     "name": { "str": "Lesbian pride flag" },
@@ -56,7 +56,7 @@
     "color": "light_red"
   },
   {
-    "id": "enbyFlag",
+    "id": "enby_flag",
     "type": "ARMOR",
     "copy-from": "american_flag",
     "name": { "str": "Non-binary pride flag" },
@@ -64,7 +64,7 @@
     "color": "white"
   },
   {
-    "id": "pansexualFlag",
+    "id": "pansexual_flag",
     "type": "ARMOR",
     "copy-from": "american_flag",
     "name": { "str": "Pansexual pride flag" },
@@ -72,7 +72,7 @@
     "color": "pink"
   },
   {
-    "id": "gayFlag",
+    "id": "gay_flag",
     "type": "ARMOR",
     "copy-from": "american_flag",
     "name": { "str": "Gay pride flag" },
@@ -80,7 +80,7 @@
     "color": "green"
   },
   {
-    "id": "genderfluidFlag",
+    "id": "genderfluid_flag",
     "type": "ARMOR",
     "copy-from": "american_flag",
     "name": { "str": "Genderfluid pride flag" },
