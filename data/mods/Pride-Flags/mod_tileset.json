@@ -1,0 +1,51 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE", "MshockRealXotto", "MSX++DEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "Pride.png",
+        "tiles": [
+          { "id": "transFlag", "fg": 1 },
+          { "id": "overlay_wielded_transFlag", "fg": 1 },
+          { "id": "overlay_worn_transFlag", "fg": 2 },
+          { "id": "rainbowFlag", "fg": 3 },
+          { "id": "overlay_wielded_rainbowFlag", "fg": 3 },
+          { "id": "overlay_worn_rainbowFlag", "fg": 4 },
+          { "id": "aromanticFlag", "fg": 5 },
+          { "id": "overlay_wielded_aromanticFlag", "fg": 5 },
+          { "id": "overlay_worn_aromanticFlag", "fg": 6 },
+          { "id": "asexualFlag", "fg": 7 },
+          { "id": "overlay_wielded_asexualFlag", "fg": 7 },
+          { "id": "overlay_worn_asexualFlag", "fg": 8 },
+          { "id": "bisexualFlag", "fg": 9 },
+          { "id": "overlay_wielded_bisexualFlag", "fg": 9 },
+          { "id": "overlay_worn_bisexualFlag", "fg": 10 },
+          { "id": "intersexFlag", "fg": 11 },
+          { "id": "overlay_wielded_intersexFlag", "fg": 11 },
+          { "id": "overlay_worn_intersexFlag", "fg": 12 },
+          { "id": "lesbianFlag", "fg": 13 },
+          { "id": "overlay_wielded_lesbianFlag", "fg": 13 },
+          { "id": "overlay_worn_lesbianFlag", "fg": 14 },
+          { "id": "enbyFlag", "fg": 15 },
+          { "id": "overlay_wielded_enbyFlag", "fg": 15 },
+          { "id": "overlay_worn_enbyFlag", "fg": 16 },
+          { "id": "pansexualFlag", "fg": 17 },
+          { "id": "overlay_wielded_pansexualFlag", "fg": 17 },
+          { "id": "overlay_worn_pansexualFlag", "fg": 18 },
+          { "id": "gayFlag", "fg": 19 },
+          { "id": "overlay_wielded_gayFlag", "fg": 19 },
+          { "id": "overlay_worn_gayFlag", "fg": 20 },
+          { "id": "genderfluidFlag", "fg": 21 },
+          { "id": "overlay_wielded_genderfluidFlag", "fg": 21 },
+          { "id": "overlay_worn_genderfluidFlag", "fg": 22 }
+        ],
+        "//": "current max id: 120",
+        "sprite_width": 32,
+        "sprite_height": 32,
+        "sprite_offset_x": 0,
+        "sprite_offset_y": 0
+      }
+    ]
+  }
+]

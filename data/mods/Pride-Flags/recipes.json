@@ -1,0 +1,123 @@
+[
+  {
+    "result": "transFlag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": "80 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
+    "components": [ [ [ "rag", 35 ] ] ]
+  },
+  {
+    "result": "rainbowFlag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": "80 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
+    "components": [ [ [ "rag", 35 ] ] ]
+  },
+  {
+    "result": "aromanticFlag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": "80 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
+    "components": [ [ [ "rag", 35 ] ] ]
+  },
+  {
+    "result": "asexualFlag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": "80 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
+    "components": [ [ [ "rag", 35 ] ] ]
+  },
+  {
+    "result": "bisexualFlag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": "80 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
+    "components": [ [ [ "rag", 35 ] ] ]
+  },
+  {
+    "result": "intersexFlag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": "80 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
+    "components": [ [ [ "rag", 35 ] ] ]
+  },
+  {
+    "result": "lesbianFlag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": "80 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
+    "components": [ [ [ "rag", 35 ] ] ]
+  },
+  {
+    "result": "enbyFlag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": "80 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
+    "components": [ [ [ "rag", 35 ] ] ]
+  },
+  {
+    "result": "pansexualFlag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": "80 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
+    "components": [ [ [ "rag", 35 ] ] ]
+  },
+  {
+    "result": "gayFlag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": "80 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
+    "components": [ [ [ "rag", 35 ] ] ]
+  },
+  {
+    "result": "genderfluidFlag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": "80 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
+    "components": [ [ [ "rag", 35 ] ] ]
+  }
+]

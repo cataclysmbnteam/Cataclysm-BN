@@ -1,0 +1,26 @@
+[
+  {
+    "id": "prideFlagItemgroup",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "transFlag", "prob": 25 },
+      { "item": "rainbowFlag", "prob": 35 },
+      { "item": "aromanticFlag", "prob": 25 },
+      { "item": "asexualFlag", "prob": 25 },
+      { "item": "bisexualFlag", "prob": 25 },
+      { "item": "intersexFlag", "prob": 25 },
+      { "item": "lesbianFlag", "prob": 25 },
+      { "item": "enbyFlag", "prob": 25 },
+      { "item": "pansexualFlag", "prob": 25 },
+      { "item": "gayFlag", "prob": 25 },
+      { "item": "genderfluidFlag", "prob": 25 }
+    ]
+  },
+  {
+    "id": "accesories_personal_unisex",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "prideFlagItemgroup", "prob": 10 } ]
+  }
+]
