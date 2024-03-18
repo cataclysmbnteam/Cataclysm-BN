@@ -385,7 +385,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wild_veggy_omelette",
-    "name": { "str_sp": "wild veggetable omelette" },
+    "name": { "str_sp": "wild vegetable omelette" },
     "color": "yellow",
     "spoils_in": "2 days",
     "symbol": "%",
