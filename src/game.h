@@ -490,8 +490,6 @@ class game
         void validate_mounted_npcs();
         /** validate towed vehicles so they get linked up again after a load */
         void validate_linked_vehicles();
-        /** validate camps to ensure they are on the overmap list */
-        void validate_camps();
         /** process vehicles that are following the player */
         void autopilot_vehicles();
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
