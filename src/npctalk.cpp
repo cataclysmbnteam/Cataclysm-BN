@@ -32,7 +32,6 @@
 #include "enums.h"
 #include "flag.h"
 #include "faction.h"
-#include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -412,7 +411,6 @@ void game::chat()
     const int follower_count = followers.size();
     const std::vector<npc *> guards = get_npcs_if( [&]( const npc & guy ) {
         return guy.mission == NPC_MISSION_GUARD_ALLY &&
-               guy.companion_mission_role_id != "FACTION_CAMP" &&
                guy.can_hear( u.pos(), volume );
     } );
     const int guard_count = guards.size();
@@ -2770,16 +2768,11 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_butcher ),
             WRAP( do_farming ),
             WRAP( assign_guard ),
-            WRAP( assign_camp ),
-            WRAP( abandon_camp ),
             WRAP( stop_guard ),
-            WRAP( start_camp ),
             WRAP( buy_cow ),
             WRAP( buy_chicken ),
             WRAP( buy_horse ),
-            WRAP( recover_camp ),
             WRAP( remove_overseer ),
-            WRAP( basecamp_mission ),
             WRAP( wake_up ),
             WRAP( reveal_stats ),
             WRAP( end_conversation ),
