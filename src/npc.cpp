@@ -11,7 +11,6 @@
 
 #include "auto_pickup.h"
 #include "avatar.h"
-#include "basecamp.h"
 #include "bodypart.h"
 #include "character.h"
 #include "character_id.h"
@@ -1407,9 +1406,6 @@ void npc::mutiny()
     g->remove_npc_follower( getID() );
     set_fac( faction_id( "amf" ) );
     job.clear_all_priorities();
-    if( assigned_camp ) {
-        assigned_camp = std::nullopt;
-    }
     chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     set_attitude( NPCATT_NULL );
     say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
@@ -2102,21 +2098,6 @@ bool npc::is_leader() const
     return attitude == NPCATT_LEAD;
 }
 
-bool npc::within_boundaries_of_camp() const
-{
-    const point_abs_omt p( global_omt_location().xy() );
-    for( int x2 = -3; x2 < 3; x2++ ) {
-        for( int y2 = -3; y2 < 3; y2++ ) {
-            const point_abs_omt nearby = p + point( x2, y2 );
-            std::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
-            if( bcp ) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
 bool npc::is_enemy() const
 {
     return attitude == NPCATT_KILL || attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP;
@@ -2530,13 +2511,6 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
-    if( assigned_camp ) {
-        std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
-        if( bcp ) {
-            ( *bcp )->remove_assignee( getID() );
-        }
-    }
-    assigned_camp = std::nullopt;
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {
