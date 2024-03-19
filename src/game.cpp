@@ -43,7 +43,6 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "avatar_functions.h"
-#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -1952,20 +1951,6 @@ void game::validate_npc_followers()
     }
 }
 
-void game::validate_camps()
-{
-    basecamp camp = m.hoist_submap_camp( u.pos() );
-    if( camp.is_valid() ) {
-        overmap_buffer.add_camp( camp );
-        m.remove_submap_camp( u.pos() );
-    } else if( camp.camp_omt_pos() != tripoint_abs_omt() ) {
-        std::string camp_name = _( "Faction Camp" );
-        camp.set_name( camp_name );
-        overmap_buffer.add_camp( camp );
-        m.remove_submap_camp( u.pos() );
-    }
-}
-
 std::set<character_id> game::get_follower_list()
 {
     return follower_ids;
@@ -2600,7 +2585,6 @@ bool game::load( const save_t &name )
     reload_npcs();
     validate_npc_followers();
     validate_mounted_npcs();
-    validate_camps();
     validate_linked_vehicles();
     update_map( u );
     for( auto &e : u.inv_dump() ) {
