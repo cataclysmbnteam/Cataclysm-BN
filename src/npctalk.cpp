@@ -50,7 +50,6 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
-#include "mission_companion.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
