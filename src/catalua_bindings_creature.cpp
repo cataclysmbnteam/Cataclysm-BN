@@ -837,7 +837,6 @@ void cata::detail::reg_npc( sol::state &lua )
         SET_FX_T( is_guarding, bool() const );
 
         SET_FX_T( is_patrolling, bool() const );
-        SET_FX_T( within_boundaries_of_camp, bool() const );
 
         SET_FX_T( has_player_activity, bool() const );
         SET_FX_T( is_travelling, bool() const );
