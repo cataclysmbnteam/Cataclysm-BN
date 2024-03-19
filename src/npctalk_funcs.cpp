@@ -10,7 +10,6 @@
 
 #include "auto_pickup.h"
 #include "avatar.h"
-#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -299,40 +298,13 @@ void talk_function::goto_location( npc &p )
     int i = 0;
     uilist selection_menu;
     selection_menu.text = _( "Select a destination" );
-    std::vector<basecamp *> camps;
     tripoint_abs_omt destination;
     Character &player_character = get_player_character();
-    for( const auto &elem : player_character.camps ) {
-        if( elem == p.global_omt_location() ) {
-            continue;
-        }
-        std::optional<basecamp *> camp = overmap_buffer.find_camp( elem.xy() );
-        if( !camp ) {
-            continue;
-        }
-        basecamp *temp_camp = *camp;
-        camps.push_back( temp_camp );
-    }
-    for( auto iter : camps ) {
-        //~ %1$s: camp name, %2$d and %3$d: coordinates
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at %2$s" ),
-                                 iter->camp_name(), iter->camp_omt_pos().to_string() );
-    }
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
     selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     selection_menu.selected = 0;
     selection_menu.query();
     auto index = selection_menu.ret;
-    if( index < 0 || index > static_cast<int>( camps.size() + 1 ) ||
-        index == static_cast<int>( camps.size() + 1 ) ) {
-        return;
-    }
-    if( index == static_cast<int>( camps.size() ) ) {
-        destination = g->u.global_omt_location();
-    } else {
-        auto selected_camp = camps[index];
-        destination = selected_camp->camp_omt_pos();
-    }
     p.goal = destination;
     p.omt_path = overmap_buffer.get_travel_path( p.global_omt_location(), p.goal,
                  overmap_path_params::for_npc() );
@@ -366,34 +338,6 @@ void talk_function::assign_guard( npc &p )
     p.set_omt_destination();
 }
 
-void talk_function::abandon_camp( npc &p )
-{
-    std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
-    if( bcp ) {
-        basecamp *temp_camp = *bcp;
-        temp_camp->abandon_camp();
-    }
-}
-
-void talk_function::assign_camp( npc &p )
-{
-    std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
-    if( bcp ) {
-        basecamp *temp_camp = *bcp;
-        p.set_attitude( NPCATT_NULL );
-        p.set_mission( NPC_MISSION_GUARD_ALLY );
-        temp_camp->add_assignee( p.getID() );
-        temp_camp->job_assignment_ui();
-        temp_camp->validate_assignees();
-        add_msg( _( "%1$s is assigned to %2$s" ), p.disp_name(), temp_camp->camp_name() );
-        if( p.has_player_activity() ) {
-            p.revert_after_activity();
-        }
-        p.chatbin.first_topic = "TALK_FRIEND_GUARD";
-        p.set_omt_destination();
-    }
-}
-
 void talk_function::stop_guard( npc &p )
 {
     if( !p.is_player_ally() ) {
@@ -410,13 +354,6 @@ void talk_function::stop_guard( npc &p )
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = tripoint_min;
-    if( p.assigned_camp ) {
-        if( std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
-            ( *bcp )->remove_assignee( p.getID() );
-            ( *bcp )->validate_assignees();
-        }
-        p.assigned_camp = std::nullopt;
-    }
 }
 
 void talk_function::wake_up( npc &p )
