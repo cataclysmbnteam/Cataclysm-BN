@@ -71,7 +71,6 @@
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
-#include "mission_companion.h"
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
