@@ -13,7 +13,6 @@
 
 #include "active_item_cache.h"
 #include "activity_handlers.h"
-#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_algo.h"
@@ -889,15 +888,7 @@ void npc::move()
                 mission = NPC_MISSION_NULL;
             }
         }
-        if( assigned_camp && attitude != NPCATT_ACTIVITY ) {
-            if( has_job() && calendar::once_every( 10_minutes ) && find_job_to_perform() ) {
-                action = npc_player_activity;
-            } else {
-                action = npc_worker_downtime;
-                goal = global_omt_location();
-            }
-        }
-        if( is_stationary( true ) && !assigned_camp ) {
+        if( is_stationary( true ) ) {
             // if we're in a vehicle, stay in the vehicle
             if( in_vehicle ) {
                 action = npc_pause;
@@ -911,9 +902,6 @@ void npc::move()
         } else if( !fetching_item ) {
             find_item();
             print_action( "find_item %s", action );
-        } else if( assigned_camp ) {
-            // this should be covered above, but justincase to stop them zooming away.
-            action = npc_pause;
         }
 
         // check if in vehicle before rushing off to fetch things
@@ -1846,9 +1834,6 @@ npc_action npc::address_needs( float danger )
     // Extreme thirst or hunger, bypass safety check.
     if( get_thirst() > thirst_levels::dehydrated ||
         get_stored_kcal() + stomach.get_calories() < max_stored_kcal() * 0.75 ) {
-        if( consume_food_from_camp() ) {
-            return npc_noop;
-        }
         if( consume_food() ) {
             return npc_noop;
         }
@@ -1866,9 +1851,6 @@ npc_action npc::address_needs( float danger )
 
     if( one_in( 3 ) && ( get_thirst() > thirst_levels::thirsty ||
                          get_stored_kcal() + stomach.get_calories() < max_stored_kcal() * 0.95 ) ) {
-        if( consume_food_from_camp() ) {
-            return npc_noop;
-        }
         if( consume_food() ) {
             return npc_noop;
         }
@@ -2640,83 +2622,6 @@ bool npc::find_job_to_perform()
         }
     }
     return false;
-}
-
-void npc::worker_downtime()
-{
-    map &here = get_map();
-    // are we already in a chair
-    if( here.has_flag_furn( "CAN_SIT", pos() ) ) {
-        // just chill here
-        move_pause();
-        return;
-    }
-    //  already know of a chair, go there
-    if( chair_pos != tripoint_min ) {
-        if( here.has_flag_furn( "CAN_SIT", here.getlocal( chair_pos ) ) ) {
-            update_path( here.getlocal( chair_pos ) );
-            if( pos() == here.getlocal( chair_pos ) || path.empty() ) {
-                move_pause();
-                path.clear();
-            } else {
-                move_to_next();
-            }
-            wander_pos = tripoint_min;
-            return;
-        } else {
-            chair_pos = tripoint_min;
-        }
-    } else {
-        // find a chair
-        if( !is_mounted() ) {
-            for( const tripoint &elem : here.points_in_radius( pos(), 30 ) ) {
-                if( here.has_flag_furn( "CAN_SIT", elem ) && !g->critter_at( elem ) && could_move_onto( elem ) &&
-                    here.point_within_camp( here.getabs( elem ) ) ) {
-                    // this one will do
-                    chair_pos = here.getabs( elem );
-                    return;
-                }
-            }
-        }
-    }
-    // we got here if there are no chairs available.
-    // wander back to near the bulletin board of the camp.
-    if( wander_pos != tripoint_min ) {
-        update_path( here.getlocal( wander_pos ) );
-        if( pos() == here.getlocal( wander_pos ) || path.empty() ) {
-            move_pause();
-            path.clear();
-            if( one_in( 30 ) ) {
-                wander_pos = tripoint_min;
-            }
-        } else {
-            move_to_next();
-        }
-        return;
-    }
-    if( assigned_camp ) {
-        std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
-        if( !bcp ) {
-            assigned_camp = std::nullopt;
-            move_pause();
-            return;
-        }
-        basecamp *temp_camp = *bcp;
-        std::vector<tripoint> pts;
-        for( const tripoint &elem : here.points_in_radius( here.getlocal( temp_camp->get_bb_pos() ),
-                10 ) ) {
-            if( g->critter_at( elem ) || !could_move_onto( elem ) || here.has_flag( TFLAG_DEEP_WATER, elem ) ||
-                !here.has_floor( elem ) || g->is_dangerous_tile( elem ) ) {
-                continue;
-            }
-            pts.push_back( elem );
-        }
-        if( !pts.empty() ) {
-            wander_pos = here.getabs( random_entry( pts ) );
-            return;
-        }
-    }
-    move_pause();
 }
 
 void npc::move_pause()
@@ -3950,43 +3855,6 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
     }
 
     return weight;
-}
-
-bool npc::consume_food_from_camp()
-{
-    if( !is_player_ally() ) {
-        return false;
-    }
-    Character &player_character = get_player_character();
-    std::optional<basecamp *> potential_bc;
-    for( const tripoint_abs_omt &camp_pos : player_character.camps ) {
-        if( rl_dist( camp_pos, global_omt_location() ) < 3 ) {
-            potential_bc = overmap_buffer.find_camp( camp_pos.xy() );
-            if( potential_bc ) {
-                break;
-            }
-        }
-    }
-    if( !potential_bc ) {
-        return false;
-    }
-    basecamp *bcp = *potential_bc;
-    if( get_thirst() > thirst_levels::thirsty && bcp->has_water() ) {
-        complain_about( "camp_water_thanks", 1_hours, "<camp_water_thanks>", false );
-        set_thirst( 0 );
-        return true;
-    }
-    faction *yours = player_character.get_faction();
-    int camp_kcals = std::min( std::max( 0, 19 * max_stored_kcal() / 20 - get_stored_kcal() -
-                                         stomach.get_calories() ), yours->food_supply );
-    if( camp_kcals > 0 ) {
-        complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
-        mod_stored_kcal( camp_kcals );
-        yours->food_supply -= camp_kcals;
-        return true;
-    }
-    complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty>", false );
-    return false;
 }
 
 bool npc::consume_food()
