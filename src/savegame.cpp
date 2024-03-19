@@ -12,7 +12,6 @@
 
 #include "achievement.h"
 #include "avatar.h"
-#include "basecamp.h"
 #include "cata_io.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
@@ -561,13 +560,6 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                 }
                 npcs.push_back( new_npc );
             }
-        } else if( name == "camps" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                basecamp new_camp;
-                new_camp.deserialize( jsin );
-                camps.push_back( new_camp );
-            }
         } else if( name == "overmap_special_placements" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
@@ -973,14 +965,6 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : npcs ) {
         json.write( *i );
-    }
-    json.end_array();
-    fout << '\n';
-
-    json.member( "camps" );
-    json.start_array();
-    for( auto &i : camps ) {
-        json.write( i );
     }
     json.end_array();
     fout << '\n';
