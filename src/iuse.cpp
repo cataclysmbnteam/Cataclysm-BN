@@ -4172,7 +4172,7 @@ void iuse::play_music( player &p, const tripoint &source, const int volume, cons
     // the other characters around should be able to profit as well.
     const bool do_effects = p.can_hear( source, volume );
     std::string sound = "music";
-    if( calendar::once_every( 5_minutes ) ) {
+    if( calendar::once_every( 1_hours ) ) {
         // Every 5 minutes, describe the music
         const std::string music = get_music_description();
         if( !music.empty() ) {

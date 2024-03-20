@@ -2,6 +2,24 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "special_field",
+    "object": { "predecessor_mapgen": "field" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "special_forest",
+    "object": { "predecessor_mapgen": "forest" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "special_forest_thick",
+    "object": { "predecessor_mapgen": "forest_thick" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [
       [ "farm_isherwood_3", "farm_isherwood_2", "farm_isherwood_1" ],
       [ "farm_isherwood_6", "farm_isherwood_5", "farm_isherwood_4" ],

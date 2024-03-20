@@ -323,7 +323,7 @@
     "id": "flask_yeast",
     "type": "GENERIC",
     "category": "food",
-    "name": { "str_sp": "sealed yeast culture" },
+    "name": { "str_sp": "small sealed yeast culture" },
     "description": "A sealed flask holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
     "weight": "250 g",
     "volume": "250 ml",
@@ -352,6 +352,9 @@
     "name": { "str_sp": "sealed yeast culture" },
     "description": "A sealed jar holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
     "copy-from": "flask_yeast",
+    "looks_like": "jar_glass_sealed",
+    "weight": "500 g",
+    "volume": "500 ml",
     "use_action": {
       "target": "yeast",
       "msg": "You open the jar and harvest the culture.",
@@ -359,16 +362,38 @@
       "target_charges": 10,
       "moves": 50,
       "type": "delayed_transform",
-      "transform_age": 43200,
-      "not_ready_msg": "The yeast isn't done culturing yet."
+      "transform_age": 86400,
+      "not_ready_msg": "The yeast isn't done culturing yet.",
+      "//": "24 hours"
+    }
+  },
+  {
+    "id": "jar_3l_glass_yeast",
+    "type": "GENERIC",
+    "name": { "str_sp": "large sealed yeast culture" },
+    "description": "A sealed 3L glass jar holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
+    "copy-from": "jar_yeast",
+    "looks_like": "jar_3l_glass_sealed",
+    "weight": "3 kg",
+    "volume": "3 L",
+    "use_action": {
+      "target": "yeast",
+      "msg": "You open the jar and harvest the culture.",
+      "container": "jar_3l_glass",
+      "target_charges": 60,
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 259200,
+      "not_ready_msg": "The yeast isn't done culturing yet.",
+      "//": "3 days"
     }
   },
   {
     "id": "wild_yeast",
     "type": "GENERIC",
     "name": { "str_sp": "sealed wild yeast culture" },
-    "description": "Mixture of water, sugar and fruits with some naturally occuring yeast, that will eventually produce a more sizeable yeast culture.",
-    "copy-from": "flask_yeast",
+    "description": "Mixture of water, sugar and fruits with some naturally occurring yeast, that will eventually produce a more sizable yeast culture.",
+    "copy-from": "jar_yeast",
     "use_action": {
       "target": "yeast",
       "msg": "You open the jar and harvest the culture.",

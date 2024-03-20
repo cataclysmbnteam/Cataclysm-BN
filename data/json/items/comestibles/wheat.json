@@ -554,7 +554,7 @@
     "color": "brown",
     "calories": 278,
     "fun": 4,
-    "spoils_in": 420,
+    "spoils_in": "14 days",
     "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 5 ] ],
     "flags": [ "EATEN_HOT" ]
   },

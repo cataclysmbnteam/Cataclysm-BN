@@ -1806,6 +1806,7 @@ container. It could also be written as a generic item ("type": "GENERIC") with "
 | --------------- | ---------------------------------------------------------------------------------------- |
 | FIST_WEAPONS    | Handheld weapons used to supplement fists in martial arts.                               |
 | ---             | ---                                                                                      |
+| STILETTOS       | Short, tapering 'blade' fixed onto a handle, has no cutting edge                         |
 | KNIVES          | Short blade fixed onto a handle, for cutting or as weapon.                               |
 | SHORT_SWORDS    | One handed sword of length between a large knife and a 'proper' sword.                   |
 | 1H_SWORDS       | Sword meant to be wielded with one hand.                                                 |

@@ -1064,7 +1064,7 @@
     "description": "A lead-acid battery salvaged from a vehicle and connected to building's electric grid.",
     "symbol": ":",
     "color": "blue_white",
-    "active": [ "battery", { "max_stored": 2500 } ],
+    "active": [ "battery", { "max_stored": 3000 } ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 10 },
@@ -1082,7 +1082,7 @@
     "description": "A small lead-acid battery salvaged from a vehicle and connected to building's electric grid.",
     "symbol": ":",
     "color": "blue_white",
-    "active": [ "battery", { "max_stored": 500 } ],
+    "active": [ "battery", { "max_stored": 600 } ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 10 },
@@ -1100,7 +1100,7 @@
     "description": "A tiny lead-acid battery salvaged from a vehicle and connected to building's electric grid.  Better than nothing if you're desperate to turn the lights back on.",
     "symbol": ":",
     "color": "blue_white",
-    "active": [ "battery", { "max_stored": 150 } ],
+    "active": [ "battery", { "max_stored": 300 } ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 10 },

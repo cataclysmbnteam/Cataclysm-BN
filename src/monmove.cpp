@@ -1252,6 +1252,12 @@ tripoint monster::scent_move()
         bestsmell = g->scent.get( pos() );
     }
 
+    const scenttype_id player_scent = g->u.get_type_of_scent();
+    // The main purpose of scent_move() is to either move toward scents or away from scents depending on the value of the fleeing flag.
+    // However, if the monster is a pet who is not actively fleeing and has the WONT_FOLLOW flag, we'd rather let it stumble instead of
+    // vaguely follow the player's scent.
+    const bool ignore_player_scent = !fleeing && is_pet() && has_flag( MF_PET_WONT_FOLLOW );
+
     tripoint next( -1, -1, posz() );
     if( ( !fleeing && g->scent.get( pos() ) > smell_threshold ) ||
         ( fleeing && bestsmell == 0 ) ) {
@@ -1280,6 +1286,10 @@ tripoint monster::scent_move()
         }
         // is the monster actually ignoring this scent
         if( !ignored_scents.empty() && ( ignored_scents.find( type_scent ) != ignored_scents.end() ) ) {
+            right_scent = false;
+        }
+
+        if( ignore_player_scent && type_scent == player_scent ) {
             right_scent = false;
         }
 
