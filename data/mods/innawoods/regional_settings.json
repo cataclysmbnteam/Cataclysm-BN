@@ -388,17 +388,10 @@
       "forest": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 0,
-          "mx_military": 0,
-          "mx_science": 0,
-          "mx_collegekids": 0,
-          "mx_drugdeal": 0,
-          "mx_supplydrop": 0,
           "mx_portal": 0,
           "mx_crater": 10,
           "mx_portal_in": 3,
           "mx_grass": 20,
-          "mx_fallen_shed": 30,
           "mx_spider": 200,
           "mx_grove": 500,
           "mx_shrubbery": 500,
@@ -407,25 +400,16 @@
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
           "mx_point_burned_ground": 500,
-          "mx_casings": 30,
-          "mx_corpses": 30,
           "mx_mass_grave": 5
         }
       },
       "forest_thick": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 0,
-          "mx_military": 0,
-          "mx_science": 0,
-          "mx_collegekids": 0,
-          "mx_drugdeal": 0,
-          "mx_supplydrop": 0,
           "mx_portal": 3,
           "mx_crater": 10,
           "mx_portal_in": 3,
           "mx_grass": 10,
-          "mx_fallen_shed": 0,
           "mx_spider": 200,
           "mx_jabberwock": 1,
           "mx_grove": 500,
@@ -434,26 +418,16 @@
           "mx_pond": 125,
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
-          "mx_point_burned_ground": 500,
-          "mx_casings": 30,
-          "mx_corpses": 30,
-          "mx_mass_grave": 0
+          "mx_point_burned_ground": 500
         }
       },
       "forest_water": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 0,
-          "mx_military": 0,
-          "mx_science": 0,
-          "mx_collegekids": 0,
-          "mx_drugdeal": 0,
-          "mx_supplydrop": 0,
           "mx_portal": 3,
           "mx_crater": 10,
           "mx_portal_in": 3,
           "mx_grass": 20,
-          "mx_fallen_shed": 60,
           "mx_spider": 200,
           "mx_grove": 500,
           "mx_shrubbery": 500,
@@ -462,21 +436,12 @@
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
           "mx_point_burned_ground": 500,
-          "mx_casings": 30,
-          "mx_corpses": 30,
-          "mx_nest_dermatik": 10,
-          "mx_mass_grave": 5
+          "mx_nest_dermatik": 10
         }
       },
       "field": {
         "chance": 6,
         "extras": {
-          "mx_helicopter": 0,
-          "mx_military": 0,
-          "mx_science": 0,
-          "mx_collegekids": 0,
-          "mx_drugdeal": 0,
-          "mx_supplydrop": 0,
           "mx_portal": 0,
           "mx_crater": 15,
           "mx_portal_in": 1,
@@ -486,70 +451,27 @@
           "mx_fallen_shed": 0,
           "mx_pond": 0,
           "mx_point_burned_ground": 0,
-          "mx_casings": 0,
-          "mx_corpses": 3,
           "mx_nest_wasp": 200,
-          "mx_mass_grave": 0,
-          "mx_grave": 0
+          "mx_mass_grave": 0
         }
       },
       "road": {
         "chance": 0,
-        "extras": {
-          "mx_helicopter": 0,
-          "mx_military": 0,
-          "mx_science": 0,
-          "mx_collegekids": 0,
-          "mx_roadblock": 0,
-          "mx_bandits_block": 0,
-          "mx_drugdeal": 0,
-          "mx_supplydrop": 0,
-          "mx_portal": 0,
-          "mx_crater": 0,
-          "mx_portal_in": 0,
-          "mx_roadworks": 0,
-          "mx_mayhem": 0,
-          "mx_casings": 0,
-          "mx_corpses": 0,
-          "mx_prison_bus": 0
-        }
+        "extras": { "mx_crater": 1 }
       },
       "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "build": {
         "chance": 0,
-        "extras": {
-          "mx_house_spider": 0,
-          "mx_house_wasp": 0,
-          "mx_military": 0,
-          "mx_science": 0,
-          "mx_collegekids": 0,
-          "mx_jabberwock": 0,
-          "mx_portal": 0,
-          "mx_crater": 60,
-          "mx_portal_in": 3,
-          "mx_point_burned_ground": 0,
-          "mx_casings": 0,
-          "mx_looters": 0,
-          "mx_corpses": 0
-        }
+        "extras": { "mx_crater": 1 }
       },
       "marloss": { "chance": 0, "extras": { "mx_marloss_pilgrimage": 0 } },
       "subway": {
         "chance": 0,
-        "extras": { "mx_military": 0, "mx_science": 0, "mx_collegekids": 0, "mx_portal": 7, "mx_portal_in": 3, "mx_casings": 0 }
+        "extras": { "mx_crater": 1 }
       },
       "research_facility_lot": {
         "chance": 0,
-        "extras": {
-          "mx_helicopter": 0,
-          "mx_military": 0,
-          "mx_collegekids": 0,
-          "mx_portal": 0,
-          "mx_crater": 0,
-          "mx_portal_in": 0,
-          "mx_point_burned_ground": 0,
-          "mx_casings": 0
-        }
+        "extras": { "mx_crater": 1 }
       },
       "research_facility_interior": {
         "chance": 0,
