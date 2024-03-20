@@ -455,24 +455,12 @@
           "mx_mass_grave": 0
         }
       },
-      "road": {
-        "chance": 0,
-        "extras": { "mx_crater": 1 }
-      },
+      "road": { "chance": 0, "extras": { "mx_crater": 1 } },
       "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
-      "build": {
-        "chance": 0,
-        "extras": { "mx_crater": 1 }
-      },
+      "build": { "chance": 0, "extras": { "mx_crater": 1 } },
       "marloss": { "chance": 0, "extras": { "mx_marloss_pilgrimage": 0 } },
-      "subway": {
-        "chance": 0,
-        "extras": { "mx_crater": 1 }
-      },
-      "research_facility_lot": {
-        "chance": 0,
-        "extras": { "mx_crater": 1 }
-      },
+      "subway": { "chance": 0, "extras": { "mx_crater": 1 } },
+      "research_facility_lot": { "chance": 0, "extras": { "mx_crater": 1 } },
       "research_facility_interior": {
         "chance": 0,
         "extras": {

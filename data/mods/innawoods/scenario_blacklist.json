@@ -2,8 +2,6 @@
   {
     "type": "SCENARIO_BLACKLIST",
     "subtype": "whitelist",
-    "scenarios": [
-      "wilderness"
-    ]
+    "scenarios": [ "wilderness" ]
   }
 ]
