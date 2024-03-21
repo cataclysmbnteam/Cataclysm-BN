@@ -275,7 +275,7 @@
     "name": { "str_sp": "commercial fertilizer" },
     "weight": "350 g",
     "color": "yellow",
-    "flags": [ "FERTILIZER", "UNSAFE_CONSUME" ],
+    "flags": [ "FERTILIZER", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "use_action": "PLANTBLECH",
     "container": "bag_canvas",
     "comestible_type": "FOOD",
