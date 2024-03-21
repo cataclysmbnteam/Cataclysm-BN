@@ -258,12 +258,6 @@
       { "text": "Can I do anything for the center?", "topic": "TALK_MISSION_LIST" },
       { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_EVAC_MERCHANT" },
       {
-        "text": "I figured you might be looking for some help…",
-        "topic": "TALK_NONE",
-        "effect": { "companion_mission": "REFUGEE_MERCHANT" },
-        "condition": { "u_has_any_trait": [ "NPC_MISSION_LEV_1" ] }
-      },
-      {
         "text": "What's with these 'free merchant certified notes'?",
         "topic": "TALK_EVAC_MERCHANT_MERCH",
         "condition": { "u_has_item": "FMCNote" }

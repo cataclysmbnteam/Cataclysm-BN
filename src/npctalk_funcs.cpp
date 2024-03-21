@@ -299,13 +299,12 @@ void talk_function::goto_location( npc &p )
     uilist selection_menu;
     selection_menu.text = _( "Select a destination" );
     tripoint_abs_omt destination;
-    Character &player_character = get_player_character();
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
     selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     selection_menu.selected = 0;
     selection_menu.query();
     auto index = selection_menu.ret;
-    if (index < 0 || index > static_cast<int>(1) ||
+    if (index < 0 || index > static_cast<int>(2) ||
         index == static_cast<int>(1)) {
         return;
     }
