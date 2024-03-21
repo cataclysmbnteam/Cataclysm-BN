@@ -2598,7 +2598,7 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
 {
     talk_effect_fun_t subeffect_fun;
     const bool is_npc = true;
-if( jo.has_string( "u_add_effect" ) ) {
+    if( jo.has_string( "u_add_effect" ) ) {
         subeffect_fun.set_add_effect( jo, "u_add_effect" );
     } else if( jo.has_string( "npc_add_effect" ) ) {
         subeffect_fun.set_add_effect( jo, "npc_add_effect", is_npc );
