@@ -307,13 +307,13 @@
     "type": "overmap_special",
     "id": "Alcatraz Prison",
     "copy-from": "Alcatraz Prison",
-    "occurrences": [ 0, 0 ],
+    "occurrences": [ 0, 0 ]
   },
   {
     "type": "overmap_special",
     "id": "Prison Hidden Lab",
     "copy-from": "Prison Hidden Lab",
-    "occurrences": [ 0, 0 ],
+    "occurrences": [ 0, 0 ]
   },
   {
     "type": "overmap_special",
@@ -803,8 +803,9 @@
     "occurrences": [ 0, 0 ]
   },
   {
-    "id": "Railroad Station",
     "type": "overmap_special",
+    "id": "Railroad Station",
+    "copy-from": "Railroad Station",
     "occurrences": [ 0, 0 ]
   },
   {
@@ -829,7 +830,7 @@
     "type": "overmap_special",
     "id": "4x4_microlab_surface",
     "copy-from": "4x4_microlab_surface",
-    "occurrences": [ 0, 0 ],
+    "occurrences": [ 0, 0 ]
   },
   {
     "type": "overmap_special",
@@ -957,8 +958,8 @@
   {
     "type": "overmap_special",
     "id": "Island",
-    "id": "Island",
-    "occurrences": [ 0, 0 ],
+    "copy-from": "Island",
+    "occurrences": [ 0, 0 ]
   },
   {
     "type": "overmap_special",
@@ -1434,6 +1435,7 @@
   {
     "type": "overmap_special",
     "id": "Large Campground",
+    "copy-from": "Large Campground",
     "occurrences": [ 0, 0 ]
   },
   {
@@ -1493,7 +1495,7 @@
   {
     "type": "overmap_special",
     "id": "Power_Plant_Small",
-    "id": "Power_Plant_Small",
+    "copy-from": "Power_Plant_Small",
     "occurrences": [ 0, 0 ]
   },
   {
@@ -1519,5 +1521,45 @@
     "id": "Occupied Lumbermill",
     "copy-from": "Occupied Lumbermill",
     "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "municipal_reactor",
+    "copy-from": "municipal_reactor",
+    "occurrences": [ 0, 0 ]
+  } ,
+  
+  {
+    "type": "overmap_special",
+    "id": "Mine Entrance",
+    "copy-from": "Mine Entrance",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Spiral mine",
+    "copy-from": "Spiral mine",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Amigara mine",
+    "copy-from": "Amigara mine",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Wyrms mine",
+    "copy-from": "Wyrms mine",
+    "occurrences": [ 0, 0 ]
+  },
+  
+   {
+    "type": "overmap_special",
+    "id": "aircraft_carrier",
+    "copy-from": "aircraft_carrier",
+    "occurrences": [ 0, 0 ]
   }
+  
+  
 ]
