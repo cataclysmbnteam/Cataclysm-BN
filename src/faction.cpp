@@ -673,7 +673,7 @@ void faction_manager::display() const
         switch( tab ) {
             case tab_mode::TAB_MYFACTION: {
                 const std::string no_camp = _( "You have no camps" );
-                    mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_camp );
+                mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_camp );
             }
             break;
             case tab_mode::TAB_FOLLOWERS: {
