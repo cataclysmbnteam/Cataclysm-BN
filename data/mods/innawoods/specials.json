@@ -56,23 +56,8 @@
   {
     "type": "overmap_special",
     "id": "Bee Hive",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "hive" },
-      { "point": [ 0, 1, 0 ], "overmap": "hive" },
-      { "point": [ 0, 2, 0 ], "overmap": "hive" },
-      { "point": [ 1, 0, 0 ], "overmap": "hive" },
-      { "point": [ 1, 1, 0 ], "overmap": "hive" },
-      { "point": [ 1, 2, 0 ], "overmap": "hive" },
-      { "point": [ 2, 0, 0 ], "overmap": "hive" },
-      { "point": [ 2, 1, 0 ], "overmap": "hive" },
-      { "point": [ 2, 2, 0 ], "overmap": "hive" }
-    ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 10, -1 ],
-    "occurrences": [ 80, 100 ],
-    "flags": [ "BEE", "UNIQUE" ],
-    "rotate": false,
-    "spawns": { "group": "GROUP_BEE", "population": [ 20, 60 ], "radius": [ 2, 4 ] }
+    "copy-from": "Bee Hive",
+    "occurrences": [ 0, 0 ]
   },
   {
     "type": "overmap_special",
