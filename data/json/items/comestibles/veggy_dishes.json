@@ -302,7 +302,8 @@
     "milling": { "into": "flour", "conversion_rate": 3 },
     "charges": 3,
     "vitamins": [ [ "iron", 3 ] ],
-    "fun": -15
+    "fun": -15,
+    "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
     "type": "COMESTIBLE",
