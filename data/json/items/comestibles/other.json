@@ -190,7 +190,8 @@
     "material": "powder",
     "volume": "250 ml",
     "charges": 4,
-    "fun": -10
+    "fun": -10,
+    "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
     "type": "COMESTIBLE",
