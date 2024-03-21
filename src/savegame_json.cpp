@@ -1376,21 +1376,6 @@ void npc_favor::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void job_data::serialize( JsonOut &json ) const
-{
-    json.start_object();
-    json.member( "task_priorities", task_priorities );
-    json.end_object();
-}
-void job_data::deserialize( JsonIn &jsin )
-{
-    if( jsin.test_object() ) {
-        JsonObject jo = jsin.get_object();
-        jo.allow_omitted_members();
-        jo.read( "task_priorities", task_priorities );
-    }
-}
-
 /*
  * load npc
  */
@@ -1491,7 +1476,6 @@ void npc::load( const JsonObject &data )
     }
     data.read( "chair_pos", chair_pos );
     data.read( "wander_pos", wander_pos );
-    data.read( "job", job );
     if( data.read( "mission", misstmp ) ) {
         mission = static_cast<npc_mission>( misstmp );
         static const std::set<npc_mission> legacy_missions = {{
@@ -1663,7 +1647,6 @@ void npc::store( JsonOut &json ) const
     json.member( "pulp_location", pulp_location );
     json.member( "chair_pos", chair_pos );
     json.member( "wander_pos", wander_pos );
-    json.member( "job", job );
     // TODO: stringid
     json.member( "mission", mission );
     json.member( "previous_mission", previous_mission );

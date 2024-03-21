@@ -5119,13 +5119,6 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
         }
     }
 
-    if( bcp ) {
-        ret = bcp->use_charges( type, quantity );
-        if( quantity <= 0 ) {
-            return ret;
-        }
-    }
-
     for( const tripoint &p : reachable_pts ) {
         if( has_furn( p ) ) {
             use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret, filter );

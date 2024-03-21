@@ -673,7 +673,7 @@ noexcept
     cash = source.cash ;
     follower_ids = std::move( source.follower_ids );
     ammo_location = std::move( source.ammo_location );
-     cached_time = source.cached_time ;
+    cached_time = source.cached_time ;
 
     addictions = std::move( source.addictions );
 

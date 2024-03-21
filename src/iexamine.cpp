@@ -6273,7 +6273,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "pit_covered", &iexamine::pit_covered },
             { "slot_machine", &iexamine::slot_machine },
             { "safe", &iexamine::safe },
-            { "bulletin_board", &iexamine::bulletin_board },
             { "fault", &iexamine::fault },
             { "notify", &iexamine::notify },
             { "transform", &iexamine::transform },

@@ -1186,9 +1186,6 @@ class npc : public player
         void set_attitude( npc_attitude new_attitude );
         void set_mission( npc_mission new_mission );
         bool has_activity() const;
-        bool has_job() const {
-            return job.has_job();
-        }
         npc_attitude get_previous_attitude();
         npc_mission get_previous_mission();
         void revert_after_activity();
@@ -1287,7 +1284,6 @@ class npc : public player
         std::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint_abs_omt no_goal_point{ tripoint_min };
-        job_data job;
         time_point last_updated;
         /**
          * Do some cleanup and caching as npc is being unloaded from map.

@@ -498,8 +498,6 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
 
     //get NPC followers, status, direction, location, needs, weapon, etc.
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Press enter to talk to this follower " ) );
-    mvwprintz( fac_w, point( width, ++y ), col, _( "Location: %s" ), guy_abspos.to_string() );
-    }
     std::string can_see;
     nc_color see_color;
 
@@ -763,7 +761,7 @@ void faction_manager::display() const
             }
             active_vec_size = followers.size();
         } else if( tab == tab_mode::TAB_MYFACTION ) {
-            active_vec_size = 0
+            active_vec_size = 0;
         } else if( tab == tab_mode::TAB_OTHERFACTIONS ) {
             if( selection < valfac.size() ) {
                 cur_fac = valfac[selection];

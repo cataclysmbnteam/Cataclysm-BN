@@ -305,6 +305,13 @@ void talk_function::goto_location( npc &p )
     selection_menu.selected = 0;
     selection_menu.query();
     auto index = selection_menu.ret;
+    if (index < 0 || index > static_cast<int>(1) ||
+        index == static_cast<int>(1)) {
+        return;
+    }
+    if (index == static_cast<int>(1)) {
+        destination = g->u.global_omt_location();
+    }
     p.goal = destination;
     p.omt_path = overmap_buffer.get_travel_path( p.global_omt_location(), p.goal,
                  overmap_path_params::for_npc() );
@@ -729,7 +736,6 @@ void talk_function::leave( npc &p )
     g->remove_npc_follower( p.getID() );
     std::string new_fac_id = "solo_";
     new_fac_id += p.name;
-    p.job.clear_all_priorities();
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( p.name,
                             faction_id( new_fac_id ), faction_id( "no_faction" ) );

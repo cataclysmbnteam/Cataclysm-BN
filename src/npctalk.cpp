@@ -1156,7 +1156,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return "&" + p->opinion_text();
     } else if( topic == "TALK_MIND_CONTROL" ) {
         bool not_following = g->get_follower_list().count( p->getID() ) == 0;
-        p->companion_mission_role_id.clear();
         talk_function::follow( *p );
         if( not_following ) {
             return _( "YES, MASTER!" );
@@ -1953,15 +1952,6 @@ talk_effect_fun_t::talk_effect_fun_t( const std::function<void( const dialogue &
     };
 }
 
-void talk_effect_fun_t::set_companion_mission( const std::string &role_id )
-{
-    function = [role_id]( const dialogue & d ) {
-        npc &p = *d.beta;
-        p.companion_mission_role_id = role_id;
-        talk_function::companion_mission( p );
-    };
-}
-
 // TODO: Remove after effect permanence change
 #include "effect.h"
 void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string &member,
@@ -2608,10 +2598,7 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
 {
     talk_effect_fun_t subeffect_fun;
     const bool is_npc = true;
-    if( jo.has_string( "companion_mission" ) ) {
-        std::string role_id = jo.get_string( "companion_mission" );
-        subeffect_fun.set_companion_mission( role_id );
-    } else if( jo.has_string( "u_add_effect" ) ) {
+if( jo.has_string( "u_add_effect" ) ) {
         subeffect_fun.set_add_effect( jo, "u_add_effect" );
     } else if( jo.has_string( "npc_add_effect" ) ) {
         subeffect_fun.set_add_effect( jo, "npc_add_effect", is_npc );
@@ -2771,7 +2758,6 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( buy_cow ),
             WRAP( buy_chicken ),
             WRAP( buy_horse ),
-            WRAP( remove_overseer ),
             WRAP( wake_up ),
             WRAP( reveal_stats ),
             WRAP( end_conversation ),

@@ -1405,7 +1405,6 @@ void npc::mutiny()
     my_fac->respects_u -= 5;
     g->remove_npc_follower( getID() );
     set_fac( faction_id( "amf" ) );
-    job.clear_all_priorities();
     chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     set_attitude( NPCATT_NULL );
     say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
@@ -3423,58 +3422,5 @@ void npc_follower_rules::clear_overrides()
 {
     overrides = ally_rule::DEFAULT;
     override_enable = ally_rule::DEFAULT;
-}
-
-bool job_data::set_task_priority( const activity_id &task, int new_priority )
-{
-    auto it = task_priorities.find( task );
-    if( it != task_priorities.end() ) {
-        task_priorities[task] = new_priority;
-        return true;
-    }
-    return false;
-}
-
-void job_data::clear_all_priorities()
-{
-    for( auto &elem : task_priorities ) {
-        elem.second = 0;
-    }
-}
-
-std::vector<activity_id> job_data::get_prioritised_vector() const
-{
-    std::vector<std::pair<activity_id, int>> pairs( begin( task_priorities ), end( task_priorities ) );
-
-    std::vector<activity_id> ret;
-    sort( begin( pairs ), end( pairs ), []( const std::pair<activity_id, int> &a,
-    const std::pair<activity_id, int> &b ) {
-        return a.second > b.second;
-    } );
-    ret.reserve( pairs.size() );
-    for( std::pair<activity_id, int> elem : pairs ) {
-        ret.push_back( elem.first );
-    }
-    return ret;
-}
-
-int job_data::get_priority_of_job( const activity_id &req_job ) const
-{
-    auto it = task_priorities.find( req_job );
-    if( it != task_priorities.end() ) {
-        return it->second;
-    } else {
-        return 0;
-    }
-}
-
-bool job_data::has_job() const
-{
-    for( auto &elem : task_priorities ) {
-        if( elem.second > 0 ) {
-            return true;
-        }
-    }
-    return false;
 }
 

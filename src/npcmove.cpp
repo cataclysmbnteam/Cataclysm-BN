@@ -146,7 +146,6 @@ enum npc_action : int {
     npc_investigate_sound,
     npc_return_to_guard_pos,
     npc_player_activity,
-    npc_worker_downtime,
     num_npc_actions
 };
 
@@ -964,9 +963,6 @@ void npc::execute_action( npc_action action )
     switch( action ) {
         case npc_pause:
             move_pause();
-            break;
-        case npc_worker_downtime:
-            worker_downtime();
             break;
         case npc_reload: {
             do_reload( primary_weapon() );
@@ -2607,23 +2603,6 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
     move_to( best_pos, no_bash_atk, nomove );
 }
 
-bool npc::find_job_to_perform()
-{
-    for( activity_id &elem : job.get_prioritised_vector() ) {
-        if( job.get_priority_of_job( elem ) == 0 ) {
-            continue;
-        }
-        player_activity scan_act = player_activity( elem );
-        if( elem == activity_id( "ACT_MOVE_LOOT" ) ) {
-            assign_activity( elem );
-        } else if( generic_multi_activity_handler( scan_act, *this->as_player(), true ) ) {
-            assign_activity( elem );
-            return true;
-        }
-    }
-    return false;
-}
-
 void npc::move_pause()
 
 {
@@ -4258,8 +4237,6 @@ std::string npc_action_name( npc_action action )
             return "Undecided";
         case npc_pause:
             return "Pause";
-        case npc_worker_downtime:
-            return "Relaxing";
         case npc_reload:
             return "Reload";
         case npc_investigate_sound:
