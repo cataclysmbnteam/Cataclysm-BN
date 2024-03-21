@@ -163,7 +163,7 @@
     "type": "overmap_special",
     "id": "Sugar House",
     "copy-from": "Sugar House",
-    "occurrences": [ 0,0 ]
+    "occurrences": [ 0, 0 ]
   },
   {
     "type": "overmap_special",
@@ -199,7 +199,7 @@
     "type": "overmap_special",
     "id": "farm_lot_empty_3x2",
     "copy-from": "farm_lot_empty_3x2",
-    "occurrences": [ 0, 0]
+    "occurrences": [ 0, 0 ]
   },
   {
     "type": "overmap_special",
@@ -493,7 +493,6 @@
     "type": "overmap_special",
     "id": "sai",
     "copy-from": "sai",
-	
     "occurrences": [ 0, 0 ]
   },
   {
@@ -614,7 +613,7 @@
     "type": "overmap_special",
     "id": "Swamp Shack 1",
     "copy-from": "Swamp Shack 1",
-    "occurrences": [ 0, 0]
+    "occurrences": [ 0, 0 ]
   },
   {
     "type": "overmap_special",
@@ -632,7 +631,7 @@
     "type": "overmap_special",
     "id": "State Park",
     "copy-from": "State Park",
-    "occurrences": [ 0,0 ]
+    "occurrences": [ 0, 0 ]
   },
   {
     "type": "overmap_special",
@@ -716,7 +715,7 @@
     "type": "overmap_special",
     "id": "shooting range",
     "copy-from": "shooting range",
-    "occurrences": [ 0,0 ]
+    "occurrences": [ 0, 0 ]
   },
   {
     "type": "overmap_special",
@@ -740,7 +739,7 @@
     "type": "overmap_special",
     "id": "golf course",
     "copy-from": "golf course",
-    "occurrences": [ 0, 0]
+    "occurrences": [ 0, 0 ]
   },
   {
     "type": "overmap_special",
@@ -1448,7 +1447,7 @@
     "type": "overmap_special",
     "id": "miniature railway",
     "copy-from": "miniature railway",
-    "occurrences": [ 0,0 ]
+    "occurrences": [ 0, 0 ]
   },
   {
     "type": "overmap_special",
@@ -1527,8 +1526,7 @@
     "id": "municipal_reactor",
     "copy-from": "municipal_reactor",
     "occurrences": [ 0, 0 ]
-  } ,
-  
+  },
   {
     "type": "overmap_special",
     "id": "Mine Entrance",
@@ -1553,13 +1551,10 @@
     "copy-from": "Wyrms mine",
     "occurrences": [ 0, 0 ]
   },
-  
-   {
+  {
     "type": "overmap_special",
     "id": "aircraft_carrier",
     "copy-from": "aircraft_carrier",
     "occurrences": [ 0, 0 ]
   }
-  
-  
 ]
