@@ -821,9 +821,6 @@ void game::load_npcs()
         if( temp->is_active() ) {
             continue;
         }
-        if( temp->has_companion_mission() ) {
-            continue;
-        }
 
         const tripoint sm_loc = temp->global_sm_location();
         // NPCs who are out of bounds before placement would be pushed into bounds
