@@ -563,7 +563,7 @@ void character_edit_menu( Character &c )
 
     enum edit_character {
         pick, desc, skills, stats, items, delete_items, item_worn,
-        hp, stamina, morale, pain, needs, healthy, status, mission_add, mission_edit,
+        hp, stamina, morale, clear_morale, pain, needs, healthy, status, mission_add, mission_edit,
         tele, mutate, bionics, npc_class, attitude, opinion, effects,
         learn_ma, unlock_recipes, learn_spells, level_spells
     };
@@ -580,6 +580,7 @@ void character_edit_menu( Character &c )
             uilist_entry( edit_character::hp, true, 'h',  _( "Set [h]it points" ) ),
             uilist_entry( edit_character::stamina, true, 'S',  _( "Set [S]tamina" ) ),
             uilist_entry( edit_character::morale, true, 'o',  _( "Set m[o]rale" ) ),
+            uilist_entry( edit_character::clear_morale, true, 'O',  _( "Clear all m[O]rale effects" ) ),
             uilist_entry( edit_character::pain, true, 'P',  _( "Cause [P]ain" ) ),
             uilist_entry( edit_character::healthy, true, 'a',  _( "Set he[a]lth" ) ),
             uilist_entry( edit_character::needs, true, 'n',  _( "Set [n]eeds" ) ),
@@ -770,6 +771,9 @@ void character_edit_menu( Character &c )
             }
         }
         break;
+        case edit_character::clear_morale:
+            p.clear_morale();
+            break;
         case edit_character::opinion: {
             if( np == nullptr ) {
                 // HACK: For some reason, tidy is not satisfied with simple assert(np)
