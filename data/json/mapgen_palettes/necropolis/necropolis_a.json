@@ -3,9 +3,12 @@
     "type": "palette",
     "id": "necropolis_a",
     "furniture": {
+      "@": "f_bed",
+      "à": "f_bed",
+      "é": "f_desk",
+      "è": "f_dresser",
       ")": "f_wreckage",
       "?": "f_sofa",
-      "@": "f_bed",
       "B": "f_bathtub",
       "C": "f_region_weed",
       "D": "f_trashcan",
@@ -41,6 +44,10 @@
       "u": "f_barricade_road"
     },
     "terrain": {
+      "@": "t_floor",
+      "à": "t_floor",
+      "é": "t_floor",
+      "è": "t_floor",
       "!": "t_bars",
       "#": "t_region_shrub",
       "&": "t_sidewalk",
@@ -65,7 +72,6 @@
       "=": "t_door_metal_locked",
       ">": "t_stairs_down",
       "?": "t_floor",
-      "@": "t_floor",
       "A": "t_railing_h",
       "B": "t_floor",
       "C": "t_region_groundcover_urban",
