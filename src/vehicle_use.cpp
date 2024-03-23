@@ -90,7 +90,7 @@ static const fault_id fault_starter( "fault_engine_starter" );
 
 static const skill_id skill_mechanics( "mechanics" );
 
-static const trait_id trait_BRAWLER("BRAWLER");
+static const trait_id trait_BRAWLER( "BRAWLER" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
@@ -834,24 +834,25 @@ void vehicle::use_controls( const tripoint &pos )
         }
     }
 
-    if (has_part("TURRET") /*&& !player_character.has_trait(trait_BRAWLER) */) {
-        bool enabled = !you.has_trait(trait_BRAWLER);
+    if( has_part( "TURRET" ) /*&& !player_character.has_trait(trait_BRAWLER) */ ) {
+        bool enabled = !you.has_trait( trait_BRAWLER );
 
-        options.emplace_back(0, enabled, keybind("TURRET_TARGET_MODE"), ("Set turret targeting modes"));
+        options.emplace_back( 0, enabled, keybind( "TURRET_TARGET_MODE" ),
+                              ( "Set turret targeting modes" ) );
         actions.emplace_back( [&] { turrets_set_targeting(); refresh(); } );
 
         options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
         actions.emplace_back( [&] { turrets_set_mode(); refresh(); } );
 
         // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
-        options.emplace_back(0, enabled, keybind("TURRET_FIRE_MODE"), ("Set turret firing modes"));
+        options.emplace_back( 0, enabled, keybind( "TURRET_FIRE_MODE" ), ( "Set turret firing modes" ) );
         actions.emplace_back( [&] { turrets_aim_and_fire_all_manual( true ); refresh(); } );
 
         // This lets us manually override and set the target for the automatic turrets instead.
-        options.emplace_back(0, enabled, keybind("TURRET_MANUAL_AIM"), ("Aim turrets manually"));
+        options.emplace_back( 0, enabled, keybind( "TURRET_MANUAL_AIM" ), ( "Aim turrets manually" ) );
         actions.emplace_back( [&] { turrets_override_automatic_aim(); refresh(); } );
 
-        options.emplace_back(0, enabled, keybind("TURRET_SINGLE_FIRE"), ("Aim individual turret"));
+        options.emplace_back( 0, enabled, keybind( "TURRET_SINGLE_FIRE" ), ( "Aim individual turret" ) );
         actions.emplace_back( [&] { turrets_aim_and_fire_single(); refresh(); } );
     }
 

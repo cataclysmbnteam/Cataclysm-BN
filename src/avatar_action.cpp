@@ -80,7 +80,7 @@ static const itype_id itype_underbrush( "underbrush" );
 
 static const skill_id skill_swimming( "swimming" );
 
-static const trait_id trait_BRAWLER("BRAWLER");
+static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
@@ -704,8 +704,8 @@ bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
         return false;
     }
 
-    if (you.has_trait(trait_BRAWLER)) {
-        add_msg(m_bad, _("You refuse to use the %s."), turret.name());
+    if( you.has_trait( trait_BRAWLER ) ) {
+        add_msg( m_bad, _( "You refuse to use the %s." ), turret.name() );
         return false;
     }
 

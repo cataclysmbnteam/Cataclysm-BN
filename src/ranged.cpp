@@ -137,7 +137,7 @@ static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_targeting( "bio_targeting" );
 static const bionic_id bio_ups( "bio_ups" );
 
-static const trait_id trait_BRAWLER("BRAWLER");
+static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_NORANGEDCRIT( "NO_RANGED_CRIT" );
 
@@ -3726,9 +3726,9 @@ bool ranged::gunmode_checks_common( avatar &you, const map &m, std::vector<std::
                                     const gun_mode &gmode )
 {
     bool result = true;
-    if (you.has_trait(trait_BRAWLER)) {
-        messages.push_back(string_format(_("Pfft.  You are a brawler; using %s is beneath you."),
-            gmode->tname()));
+    if( you.has_trait( trait_BRAWLER ) ) {
+        messages.push_back( string_format( _( "Pfft.  You are a brawler; using %s is beneath you." ),
+                                           gmode->tname() ) );
         result = false;
     }
 
