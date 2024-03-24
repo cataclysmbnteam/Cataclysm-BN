@@ -396,8 +396,7 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
 
     avatar& player_character = get_avatar();
     if (player_character.has_trait(trait_BRAWLER)) {
-        player_character.add_msg_if_player(
-            _("Pfft.  You are a brawler; using turrets is beneath you."));
+        player_character.add_msg_if_player( ("Pfft.  You are a brawler; using turrets is beneath you."));
         return false;
     }
 
