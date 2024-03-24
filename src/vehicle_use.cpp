@@ -834,23 +834,23 @@ void vehicle::use_controls( const tripoint &pos )
         }
     }
 
-    if (has_part("TURRET")) {
-        options.emplace_back(_("Set turret targeting modes"), keybind("TURRET_TARGET_MODE"));
-        actions.emplace_back([&] { turrets_set_targeting(); refresh(); });
+    if( has_part( "TURRET" ) ) {
+        options.emplace_back( _( "Set turret targeting modes" ), keybind( "TURRET_TARGET_MODE" ) );
+        actions.emplace_back( [&] { turrets_set_targeting(); refresh(); } );
 
-        options.emplace_back(_("Set turret firing modes"), keybind("TURRET_FIRE_MODE"));
-        actions.emplace_back([&] { turrets_set_mode(); refresh(); });
+        options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
+        actions.emplace_back( [&] { turrets_set_mode(); refresh(); } );
 
         // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
-        options.emplace_back(_("Aim turrets manually"), keybind("TURRET_MANUAL_AIM"));
-        actions.emplace_back([&] { turrets_aim_and_fire_all_manual(true); refresh(); });
+        options.emplace_back( _( "Aim turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
+        actions.emplace_back( [&] { turrets_aim_and_fire_all_manual( true ); refresh(); } );
 
         // This lets us manually override and set the target for the automatic turrets instead.
-        options.emplace_back(_("Aim automatic turrets"), keybind("TURRET_MANUAL_OVERRIDE"));
-        actions.emplace_back([&] { turrets_override_automatic_aim(); refresh(); });
+        options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
+        actions.emplace_back( [&] { turrets_override_automatic_aim(); refresh(); } );
 
-        options.emplace_back(_("Aim individual turret"), keybind("TURRET_SINGLE_FIRE"));
-        actions.emplace_back([&] { turrets_aim_and_fire_single(); refresh(); });
+        options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
+        actions.emplace_back( [&] { turrets_aim_and_fire_single(); refresh(); } );
     }
 
     uilist menu;
