@@ -30,7 +30,7 @@ static const itype_id fuel_type_battery( "battery" );
 
 static const efftype_id effect_on_roof( "on_roof" );
 
-static const trait_id trait_BRAWLER("BRAWLER");
+static const trait_id trait_BRAWLER( "BRAWLER" );
 
 std::vector<vehicle_part *> vehicle::turrets()
 {
@@ -393,10 +393,10 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
         t->reset_target( global_part_pos3( *t ) );
     }
 
-
     avatar& player_character = get_avatar();
     if (player_character.has_trait(trait_BRAWLER)) {
         player_character.add_msg_if_player( ("Pfft.  You are a brawler; using turrets is beneath you."));
+
         return false;
     }
 
