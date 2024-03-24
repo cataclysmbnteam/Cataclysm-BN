@@ -1754,10 +1754,15 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                active );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
-            const std::string tags_listed = enumerate_as_string( item_tags, []( const flag_id & f ) {
-                return f.str();
-            }, enumeration_conjunction::none );
+
+            static const auto f = []( const flag_id & f ) -> std::string { return f.str(); };
+            const std::string itype_tags_listed = enumerate_as_string( type->item_tags, f,
+                                                  enumeration_conjunction::none );
+            info.emplace_back( "BASE", string_format( _( "itype tags: %s" ), itype_tags_listed ) );
+
+            const std::string tags_listed = enumerate_as_string( item_tags, f, enumeration_conjunction::none );
             info.emplace_back( "BASE", string_format( _( "tags: %s" ), tags_listed ) );
+
             for( auto const &imap : item_vars ) {
                 info.emplace_back( "BASE",
                                    string_format( _( "item var: %s, %s" ), imap.first,
