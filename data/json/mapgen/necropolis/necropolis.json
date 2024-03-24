@@ -405,7 +405,14 @@
         "...........ss|r {{  {{{{sMsssssMsMMsMMMMMMMMMMMMMMMNNNMNNMNNNNNNMss....."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "%": "t_elevator_control_off", "Y": "t_elevator", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_thconc_floor" },
+      "terrain": {
+        "%": "t_elevator_control_off",
+        "Y": "t_elevator",
+        "Z": "t_floor",
+        "l": "t_floor",
+        "u": "t_floor",
+        "z": "t_thconc_floor"
+      },
       "furniture": { "Y": "f_crate_c" },
       "set": [
         { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
