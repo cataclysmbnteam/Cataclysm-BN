@@ -868,7 +868,7 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": "SHOCKTONFA_OFF",
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
     "magazines": [
       [
         "battery",
@@ -885,7 +885,7 @@
     "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them.  It also has a nifty flashlight, which is currently active.",
     "revert_to": "shocktonfa_off",
     "use_action": "SHOCKTONFA_ON",
-    "flags": [ "LIGHT_20", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "extend": { "flags": [ "LIGHT_20", "TRADER_AVOID" ] },
     "magazine_well": "500 ml"
   },
   {
