@@ -233,7 +233,11 @@
         [ "bismuth", 70 ],
         [ "shrapnel", 40 ]
       ],
-      [ [ "volatile_explosive", 75, "LIST" ], [ "stable_explosive", 75, "LIST" ], [ "military_explosive", 75, "LIST" ] ],
+      [
+        [ "volatile_explosive", 75, "LIST" ],
+        [ "stable_explosive", 75, "LIST" ],
+        [ "military_explosive", 75, "LIST" ]
+      ],
       [ [ "delay_fuze", 1 ], [ "fuse", 1 ] ]
     ]
   },
