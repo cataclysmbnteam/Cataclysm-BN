@@ -3,7 +3,7 @@
     "type": "MOD_INFO",
     "id": "innawoods",
     "name": "innawoods",
-    "description": "Innawoods",
+    "description": "removes all urban locations and lets you live `innawoods`",
     "category": "total_conversion",
     "dependencies": [ "bn" ]
   }
