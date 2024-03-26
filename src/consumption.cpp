@@ -1045,7 +1045,7 @@ const morale_type MORALE_FOOD_VERY_COLD( "morale_food_very_cold" );
 
 void Character::modify_morale( item &food, int nutr )
 {
-    time_duration morale_time = 2_hours;
+    time_duration morale_time = 12_hours;
 
     const int nutr_morale = clamped_nutr( nutr );
     const auto food_morale = [&]( const morale_type & type ) -> void {
