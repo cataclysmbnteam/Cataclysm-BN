@@ -22,8 +22,6 @@
 #include "weather_gen.h"
 #include "weather.h"
 
-static const activity_id ACT_READ( "ACT_READ" );
-
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
