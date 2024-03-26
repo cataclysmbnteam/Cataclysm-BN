@@ -212,7 +212,7 @@
     "book_learn": [ [ "manual_traps_mil", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ] ],
+      [ [ "superglue", 1 ], [ "bone_glue", 1 ], [ "duct_tape", 75 ] ],
       [
         [ "scrap", 3 ],
         [ "steel_chunk", 1 ],
@@ -220,20 +220,25 @@
         [ "clay_canister", 1 ],
         [ "can_food_unsealed", 1 ]
       ],
-      [ [ "bb", 200 ], [ "nail", 100 ] ],
       [
-        [ "gunpowder", 72 ],
-        [ "chem_black_powder", 72 ],
-        [ "shot_bird", 24 ],
-        [ "shot_00", 12 ],
-        [ "shot_slug", 12 ],
-        [ "shot_flechette", 12 ],
-        [ "shot_he", 3 ],
-        [ "gasoline", 600 ],
-        [ "diesel", 600 ],
-        [ "biodiesel", 600 ],
-        [ "grenade", 1 ]
-      ]
+        [ "scrap", 10 ],
+        [ "nail", 100 ],
+        [ "bb", 200 ],
+        [ "solder_wire", 100 ],
+        [ "platinum_small", 40 ],
+        [ "gold_small", 40 ],
+        [ "bearing", 50 ],
+        [ "lead", 70 ],
+        [ "silver_small", 70 ],
+        [ "bismuth", 70 ],
+        [ "shrapnel", 40 ]
+      ],
+      [
+        [ "volatile_explosive", 75, "LIST" ],
+        [ "stable_explosive", 75, "LIST" ],
+        [ "military_explosive", 75, "LIST" ]
+      ],
+      [ [ "delay_fuze", 1 ], [ "impact_fuze", 1 ], [ "fuse", 1 ] ]
     ]
   },
   {
