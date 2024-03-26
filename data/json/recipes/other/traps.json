@@ -238,11 +238,7 @@
         [ "stable_explosive", 75, "LIST" ],
         [ "military_explosive", 75, "LIST" ]
       ],
-      [ 
-        [ "delay_fuze", 1 ],
-        [ "impact_fuze", 1 ],
-        [ "fuse", 1 ]
-      ]
+      [ [ "delay_fuze", 1 ], [ "impact_fuze", 1 ], [ "fuse", 1 ] ]
     ]
   },
   {
