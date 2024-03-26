@@ -187,7 +187,7 @@ int calc_focus_equilibrium( const Character &who )
             // apply a penalty when we're actually learning something
             const SkillLevel &skill_level = who.get_skill_level_object( bt.skill );
             if( skill_level.can_train() && skill_level < bt.level ) {
-                focus_equilibrium -= 50;
+                focus_equilibrium -= 0;
             }
         }
     }
@@ -260,7 +260,7 @@ int calc_focus_change( const Character &who )
 
     // for every 100 points, we have a flat gain of 1 focus.
     // for every n points left over, we have an n% chance of 1 focus
-    int gain = focus_gap / 100;
+    int gain = focus_gap / 10;
     if( rng( 1, 100 ) <= focus_gap % 100 ) {
         gain++;
     }
