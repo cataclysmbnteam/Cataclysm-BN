@@ -197,6 +197,7 @@ const flag_id flag_NONCONDUCTIVE( "NONCONDUCTIVE" );
 const flag_id flag_NON_FOULING( "NON_FOULING" );
 const flag_id flag_NO_BLOAT( "NO_BLOAT" );
 const flag_id flag_NO_CVD( "NO_CVD" );
+const flag_id flag_NO_DAMAGE( "NO_DAMAGE" );
 const flag_id flag_NO_DISPLAY( "NO_DISPLAY" );
 const flag_id flag_NO_DROP( "NO_DROP" );
 const flag_id flag_NO_INGEST( "NO_INGEST" );
