@@ -43,7 +43,7 @@
           "t_tree_cottonwood": 256,
           "t_tree_young": 128,
           "t_tree_birch": 16,
-          "t_tree": 16,
+          "t_tree": 8,
           "t_tree_elm": 16,
           "t_tree_pine": 72,
           "t_tree_maple": 32,
