@@ -1,36 +1,21 @@
 #include "string_utils.h"
 
+#include <algorithm>
+#include <locale>
+#include <regex>
+#include <sstream>
+
 #include "catacharset.h"
 #include "color.h"
 #include "name.h"
 #include "translations.h"
+#include "string_utils_fuzzy.h"
 
-#include <algorithm>
-#include <locale>
-#include <sstream>
-
-bool lcmatch( const std::string &str, const std::string &qry )
+auto lcmatch( const std::string &str, const std::string &qry ) -> bool
 {
-    auto temp_locale = std::locale{};
-    if( temp_locale.name() != "en_US.UTF-8" && temp_locale.name() != "C" ) {
-        auto &f = std::use_facet<std::ctype<wchar_t>>( temp_locale );
-        std::wstring wneedle = utf8_to_wstr( qry );
-        std::wstring whaystack = utf8_to_wstr( str );
+    const auto matcher = fuzzy_search( utf8_to_wstr( qry ) ).regex;
 
-        f.tolower( &whaystack[0], &whaystack[0] + whaystack.size() );
-        f.tolower( &wneedle[0], &wneedle[0] + wneedle.size() );
-
-        return whaystack.find( wneedle ) != std::wstring::npos;
-    }
-    std::string needle;
-    needle.reserve( qry.size() );
-    std::transform( qry.begin(), qry.end(), std::back_inserter( needle ), tolower );
-
-    std::string haystack;
-    haystack.reserve( str.size() );
-    std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
-
-    return haystack.find( needle ) != std::string::npos;
+    return std::regex_search( utf8_to_wstr( str ), matcher );
 }
 
 bool lcmatch( const translation &str, const std::string &qry )
@@ -230,7 +215,7 @@ std::string to_upper_case( const std::string &s )
     if( temp_locale.name() != "en_US.UTF-8" && temp_locale.name() != "C" ) {
         const auto &f = std::use_facet<std::ctype<wchar_t>>( temp_locale );
         std::wstring wstr = utf8_to_wstr( s );
-        f.toupper( &wstr[0], &wstr[0] + wstr.size() );
+        f.toupper( wstr.data(), wstr.data() + wstr.size() );
         return wstr_to_utf8( wstr );
     }
     std::string res;
@@ -246,7 +231,7 @@ std::string to_lower_case( const std::string &s )
     if( temp_locale.name() != "en_US.UTF-8" && temp_locale.name() != "C" ) {
         const auto &f = std::use_facet<std::ctype<wchar_t>>( temp_locale );
         std::wstring wstr = utf8_to_wstr( s );
-        f.tolower( &wstr[0], &wstr[0] + wstr.size() );
+        f.tolower( wstr.data(), wstr.data() + wstr.size() );
         return wstr_to_utf8( wstr );
     }
     std::string res;
