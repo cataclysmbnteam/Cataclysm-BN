@@ -1113,15 +1113,16 @@ void zone_manager::serialize( JsonOut &json ) const
 void zone_manager::deserialize( JsonIn &jsin )
 {
     jsin.read( zones );
-    for( auto it = zones.begin(); it != zones.end(); ++it ) {
-        const zone_type_id zone_type = it->get_type();
-        if( !has_type( zone_type ) ) {
-            it = zones.erase( it );
-            debugmsg( "Invalid zone type: %s", zone_type.c_str() );
-        } else {
-            it++;
-        }
-    }
+    zones.erase( std::remove_if( zones.begin(), zones.end(),
+    [this]( const zone_data & it ) -> bool {
+        const zone_type_id zone_type = it.get_type();
+        const bool is_valid = has_type( zone_type );
+
+        if( !is_valid ) debugmsg( "Invalid zone type: %s", zone_type.c_str() );
+
+        return is_valid;
+    } ),
+    zones.end() );
 }
 
 void zone_data::serialize( JsonOut &json ) const
