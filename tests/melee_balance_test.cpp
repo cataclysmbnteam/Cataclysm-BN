@@ -11,24 +11,14 @@
 #include "monattack.h"
 #include "monster.h"
 #include "npc.h"
+#include "player_helpers.h"
 #include "player.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "type_id.h"
+
+
 
 static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
-
-static std::vector<const itype *> find_weapons()
-{
-    std::vector<const itype *> result;
-    for( const itype *it : item_controller->all() ) {
-        if( it->melee[DT_BASH] + it->melee[DT_CUT] + it->melee[DT_STAB] >= 10 ) {
-            result.push_back( it );
-        }
-    }
-
-    return result;
-}
 
 static void print_stats( const player &p, const std::vector<const itype *> &weapons,
                          const monster &m )
