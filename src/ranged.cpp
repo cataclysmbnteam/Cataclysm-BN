@@ -534,7 +534,7 @@ static double occupied_tile_fraction( m_size target_size )
     return 0.5;
 }
 
-double Creature::ranged_target_size() const
+auto Creature::ranged_target_size() const -> double
 {
     if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
@@ -552,6 +552,14 @@ double Creature::ranged_target_size() const
         }
     }
     return occupied_tile_fraction( get_size() );
+}
+
+auto Character::ranged_target_size() const -> double
+{
+    if( std::holds_alternative<tripoint>( character_funcs::uncanny_dodge_result( *this ) ) ) {
+        return 0.0f;
+    }
+    return Creature::ranged_target_size();
 }
 
 int range_with_even_chance_of_good_hit( int dispersion )

@@ -5,6 +5,7 @@
 #include "type_id.h"
 
 #include <optional>
+#include <variant>
 #include <string>
 
 enum body_part : int;
@@ -147,14 +148,31 @@ void store_in_container( Character &who, item &container, detached_ptr<item> &&p
 bool try_wield_contents( Character &who, item &container, item *internal_item, bool penalties,
                          int base_cost );
 
+enum class UncannyDodgeFail {
+    NoEnergy, //< Not enough energy
+    NoSpace, //< No space to dodge
+};
+using UncannyDodgeResult = std::variant<tripoint, UncannyDodgeFail>;
+
+/**
+ * Check if it's possible to uncanny dodge bionic ability.
+ * @param who Character doing the dodging
+ */
+auto uncanny_dodge_result( const Character &who ) -> UncannyDodgeResult;
+
 /**
  * Try to execute an uncanny dodge bionic ability.
  * @param who Character doing the dodging
  */
 bool try_uncanny_dodge( Character &who );
 
-/** Returns an unoccupied, safe adjacent point. */
-std::optional<tripoint> pick_safe_adjacent_tile( const Character &who );
+/**
+ * Returns an unoccupied, safe adjacent point.
+ *
+ * @warning this won't take account of whether you're immune to dangerous fields.
+ * TODO: add boolean flag to take account of player immunity?
+ */
+auto pick_safe_adjacent_tile( const Character &who ) -> std::optional<tripoint>;
 
 /**
  * Check if character's body part is immune to given damage.

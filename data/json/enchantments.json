@@ -22,5 +22,21 @@
       { "value": "ARMOR_STAB", "multiply": -0.08 },
       { "value": "ARMOR_BULLET", "multiply": -0.15 }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_UNCANNY_DODGE",
+    "condition": "ACTIVE",
+    "mutations": [ "ENCH_UNCANNY_DODGE_EFFECT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ENCH_UNCANNY_DODGE_EFFECT",
+    "name": { "str": "Uncanny Dodge" },
+    "points": 0,
+    "valid": false,
+    "description": "You're currently under the effects of the Uncanny Dodge CBM.",
+    "dodge_modifier": 2,
+    "player_display": false
   }
 ]
