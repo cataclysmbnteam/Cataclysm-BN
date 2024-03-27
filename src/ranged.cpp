@@ -3726,11 +3726,6 @@ bool ranged::gunmode_checks_common( avatar &you, const map &m, std::vector<std::
                                     const gun_mode &gmode )
 {
     bool result = true;
-    if( you.has_trait( trait_BRAWLER ) ) {
-        messages.push_back( string_format( _( "Pfft.  You are a brawler; using %s is beneath you." ),
-                                           gmode->tname() ) );
-        result = false;
-    }
 
     // Check that passed gun mode is valid and we are able to use it
     if( !( gmode && you.can_use( *gmode ) ) ) {
@@ -3759,7 +3754,11 @@ bool ranged::gunmode_checks_common( avatar &you, const map &m, std::vector<std::
                                            gmode->tname() ) );
         result = false;
     }
-
+    if( you.has_trait( trait_BRAWLER ) ) {
+        messages.push_back( string_format( _( "Pfft.  You are a brawler; using %s is beneath you." ),
+                                           gmode->tname() ) );
+        result = false;
+    }
     return result;
 }
 
