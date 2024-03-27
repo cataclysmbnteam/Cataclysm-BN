@@ -627,7 +627,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( batch ) {
                 current.clear();
-                for( int i = 1; i <= 50; i++ ) {
+                for( int i = 1; i <= chosen->max_batch_size(); i++ ) {
                     current.push_back( chosen );
                     available.emplace_back( chosen, i,
                                             !show_unavailable || available_recipes.contains( *chosen ) );
