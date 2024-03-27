@@ -95,8 +95,6 @@ static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
 static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
 
-class basecamp;
-
 static std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
         bool can_lift );
 
@@ -1891,7 +1889,7 @@ void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
 
 /* we use this if we selected the tool earlier */
 void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            const tripoint &origin, int radius, basecamp *bcp )
+                            const tripoint &origin, int radius )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
         return;
@@ -1902,7 +1900,7 @@ void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int b
         use_charges( tool.comp.type, quantity );
     }
     if( tool.use_from & use_from_map ) {
-        m.use_charges( origin, radius, tool.comp.type, quantity, return_true<item>, bcp );
+        m.use_charges( origin, radius, tool.comp.type, quantity, return_true<item> );
     }
 
     // else, use_from_none (or cancel), so we don't use up any tools;

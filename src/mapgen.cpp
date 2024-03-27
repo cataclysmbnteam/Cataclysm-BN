@@ -15,7 +15,6 @@
 #include <unordered_map>
 
 #include "all_enum_values.h"
-#include "basecamp.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "catalua.h"

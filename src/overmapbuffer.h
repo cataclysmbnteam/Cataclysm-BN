@@ -20,7 +20,6 @@
 #include "string_id.h"
 #include "type_id.h"
 
-class basecamp;
 class character_id;
 enum class cube_direction : int;
 class map_extra;
@@ -88,22 +87,6 @@ struct city_reference {
 
     operator bool() const {
         return city != nullptr;
-    }
-
-    int get_distance_from_bounds() const;
-};
-
-struct camp_reference {
-    static const camp_reference invalid;
-    /** The camp itself, points into @ref overmap::camps */
-    basecamp *camp;
-    /** The global absolute position of the camp (in submap coordinates!) */
-    tripoint_abs_sm abs_sm_pos;
-    /** Distance to center of the search */
-    int distance;
-
-    operator bool() const {
-        return camp != nullptr;
     }
 
     int get_distance_from_bounds() const;
@@ -261,19 +244,10 @@ class overmapbuffer
          */
         void add_vehicle( vehicle *veh );
         /**
-         * Remove basecamp
-         */
-        void remove_camp( const basecamp &camp );
-        /**
          * Remove the vehicle from being tracked in the overmap.
          */
         void remove_vehicle( const vehicle *veh );
-        /**
-         * Add Basecamp to overmapbuffer
-         */
-        void add_camp( const basecamp &camp );
 
-        std::optional<basecamp *> find_camp( const point_abs_omt &p );
         /**
          * Get all npcs in a area with given radius around given central point.
          * Only npcs on the given z-level are considered.
@@ -479,7 +453,6 @@ class overmapbuffer
          * All entries in the returned vector are valid (have a valid tower pointer).
          */
         std::vector<radio_tower_reference> find_all_radio_stations();
-        std::vector<camp_reference> get_camps_near( const tripoint_abs_sm &location, int radius );
         /**
          * Find all cities within the specified @ref radius.
          * Result is sorted by proximity to @ref location in ascending order.

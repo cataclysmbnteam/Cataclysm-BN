@@ -1666,7 +1666,6 @@ class Character : public Creature, public location_visitable<Character>
         std::set<character_id> follower_ids;
         // Save favorite ammo location
         safe_reference<item> ammo_location;
-        std::set<tripoint_abs_omt> camps;
         /* crafting inventory cached time */
         time_point cached_time;
 

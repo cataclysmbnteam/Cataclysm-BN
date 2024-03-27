@@ -302,10 +302,6 @@ TEST_CASE( "npc_talk_location", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a om_location_field test response." );
-    change_om_type( "faction_base_camp_11" );
-    gen_response_lines( d, 2 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a faction camp any test response." );
 }
 
 TEST_CASE( "npc_talk_role", "[npc_talk]" )
