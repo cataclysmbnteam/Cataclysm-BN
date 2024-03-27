@@ -277,6 +277,7 @@
         [ "fish_cooked", 1 ],
         [ "fish_cooked_seasoned", 1 ],
         [ "fish_smoked", 1 ],
+        [ "dry_fish", 1 ],
         [ "can_herring", 1 ],
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
