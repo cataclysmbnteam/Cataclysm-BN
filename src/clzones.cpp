@@ -1118,6 +1118,8 @@ void zone_manager::deserialize( JsonIn &jsin )
         if( !has_type( zone_type ) ) {
             it = zones.erase( it );
             debugmsg( "Invalid zone type: %s", zone_type.c_str() );
+        } else {
+            it++;
         }
     }
 }
