@@ -18,7 +18,6 @@
 #include "ammo_effect.h"
 #include "artifact.h"
 #include "avatar.h"
-#include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -5099,7 +5098,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
 
 std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const int range,
                              const itype_id &type, int &quantity,
-                             const std::function<bool( const item & )> &filter, basecamp *bcp )
+                             const std::function<bool( const item & )> &filter )
 {
     std::vector<detached_ptr<item>> ret;
 
@@ -5116,13 +5115,6 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
             water->charges = quantity;
             ret.push_back( std::move( water ) );
             quantity = 0;
-            return ret;
-        }
-    }
-
-    if( bcp ) {
-        ret = bcp->use_charges( type, quantity );
-        if( quantity <= 0 ) {
             return ret;
         }
     }
@@ -5755,40 +5747,6 @@ computer *map::computer_at( const tripoint &p )
     point l;
     submap *const sm = get_submap_at( p, l );
     return sm->get_computer( l );
-}
-
-bool map::point_within_camp( const tripoint &point_check ) const
-{
-    // TODO: fix point types
-    const tripoint_abs_omt omt_check( ms_to_omt_copy( point_check ) );
-    const point_abs_omt p = omt_check.xy();
-    for( int x2 = -2; x2 < 2; x2++ ) {
-        for( int y2 = -2; y2 < 2; y2++ ) {
-            if( std::optional<basecamp *> bcp = overmap_buffer.find_camp( p + point( x2, y2 ) ) ) {
-                return ( *bcp )->camp_omt_pos().z() == point_check.z;
-            }
-        }
-    }
-    return false;
-}
-
-void map::remove_submap_camp( const tripoint &p )
-{
-    get_submap_at( p )->camp.reset();
-}
-
-basecamp map::hoist_submap_camp( const tripoint &p )
-{
-    basecamp *pcamp = get_submap_at( p )->camp.get();
-    return pcamp ? *pcamp : basecamp();
-}
-
-void map::add_camp( const tripoint_abs_omt &omt_pos, const std::string &name )
-{
-    basecamp temp_camp = basecamp( name, omt_pos );
-    overmap_buffer.add_camp( temp_camp );
-    g->u.camps.insert( omt_pos );
-    g->validate_camps();
 }
 
 void map::update_submap_active_item_status( const tripoint &p )

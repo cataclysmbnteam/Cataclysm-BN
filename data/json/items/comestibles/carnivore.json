@@ -41,6 +41,14 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
+    "id": "fish_cooked_seasoned",
+    "copy-from": "fish_cooked",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "cooked seasoned fish" },
+    "description": "Freshly cooked fish with seasoning.  Very nutritious.",
+    "fun": 2
+  },
+  {
     "id": "lobster",
     "copy-from": "flesh",
     "type": "COMESTIBLE",
@@ -213,6 +221,14 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
+    "id": "human_cooked_seasoned",
+    "copy-from": "human_cooked",
+    "type": "COMESTIBLE",
+    "name": "cooked seasoned creep",
+    "description": "A freshly cooked slice of some unpleasant person.  Tastes great especially with the seasoning.",
+    "fun": 2
+  },
+  {
     "id": "meat",
     "copy-from": "flesh",
     "type": "COMESTIBLE",
@@ -291,6 +307,14 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
+    "id": "mutant_human_cooked_seasoned",
+    "copy-from": "mutant_human_cooked",
+    "type": "COMESTIBLE",
+    "name": "cooked seasoned cretin",
+    "description": "Cooked meat from a heavily mutated humanoid with added seasoning.",
+    "fun": 1
+  },
+  {
     "id": "meat_cooked",
     "copy-from": "flesh",
     "weight": "296 g",
@@ -307,6 +331,14 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
+    "id": "meat_cooked_seasoned",
+    "copy-from": "meat_cooked",
+    "type": "COMESTIBLE",
+    "name": "cooked seasoned meat",
+    "description": "This is a chunk of freshly cooked meat with added seasoning.  It's filling and nutritious.",
+    "fun": 2
+  },
+  {
     "id": "meat_scrap_cooked",
     "copy-from": "meat_scrap",
     "type": "COMESTIBLE",
@@ -320,6 +352,14 @@
     "calories": 51
   },
   {
+    "id": "meat_scrap_cooked_seasoned",
+    "copy-from": "meat_scrap_cooked",
+    "type": "COMESTIBLE",
+    "name": { "str": "cooked scrap of seasoned meat", "str_pl": "cooked scraps of seasoned meat" },
+    "description": "This is a tiny scrap of cooked mutant meat with added seasoning.",
+    "fun": 1
+  },
+  {
     "id": "mutant_meat_cooked",
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat",
@@ -330,7 +370,7 @@
     "proportional": { "price": 1.5 },
     "parasites": 0,
     "healthy": 0,
-    "fun": -1,
+    "fun": -2,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
@@ -338,13 +378,30 @@
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat_scrap",
     "name": { "str": "cooked scrap of mutant meat", "str_pl": "cooked scraps of mutant meat" },
+    "description": "This is a tiny scrap of meat from a mutated animal.  Still tough and the color is wrong, but at least it smells edible now.",
     "looks_like": "meat_scrap_cooked",
     "spoils_in": "2 days",
     "parasites": 0,
     "calories": 25,
-    "fun": 0,
+    "fun": -1,
     "healthy": 0,
     "flags": [ "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "id": "mutant_meat_cooked_seasoned",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_meat_cooked",
+    "name": "cooked seasoned mutant meat",
+    "description": "This is a cooked chunk of meat from a mutated animal with added seasoning.  Still tough and the color is wrong, but at least it smells edible now.",
+    "fun": 0
+  },
+  {
+    "id": "mutant_meat_scrap_cooked_seasoned",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_meat_scrap_cooked",
+    "name": { "str": "cooked scrap of seasoned mutant meat", "str_pl": "cooked scraps of seasoned mutant meat" },
+    "description": "This is a tiny scrap of meat from a mutated animal with added seasoning.  Still tough and the color is wrong, but at least it smells edible now.",
+    "fun": 0
   },
   {
     "id": "offal",

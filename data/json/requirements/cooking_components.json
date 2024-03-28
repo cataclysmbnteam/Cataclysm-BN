@@ -237,7 +237,7 @@
   {
     "id": "meat_cooked",
     "type": "requirement",
-    "//": "meat you'd put on a sandwich",
+    "//": "cooked meat",
     "components": [
       [
         [ "meat_cooked", 1 ],
@@ -246,6 +246,22 @@
         [ "mutant_meat_scrap_cooked", 10 ],
         [ "human_cooked", 1 ],
         [ "mutant_human_cooked", 1 ],
+        [ "meat_cooked_seasoned", 1 ],
+        [ "meat_scrap_cooked_seasoned", 10 ],
+        [ "mutant_meat_cooked_seasoned", 1 ],
+        [ "mutant_meat_scrap_cooked_seasoned", 10 ],
+        [ "human_cooked_seasoned", 1 ],
+        [ "mutant_human_cooked_seasoned", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_sandwich",
+    "type": "requirement",
+    "//": "meat you'd put on a sandwich",
+    "components": [
+      [
+        [ "meat_cooked", 1, "LIST" ],
         [ "meat_pickled", 1 ],
         [ "meat_smoked", 1 ],
         [ "meat_salted", 1 ],
@@ -259,7 +275,9 @@
         [ "fried_spam", 2 ],
         [ "can_chicken", 1 ],
         [ "fish_cooked", 1 ],
+        [ "fish_cooked_seasoned", 1 ],
         [ "fish_smoked", 1 ],
+        [ "dry_fish", 1 ],
         [ "can_herring", 1 ],
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
@@ -284,7 +302,7 @@
     "id": "human_meat_cooked",
     "type": "requirement",
     "//": "Cooked meat that non-cannibals would be unhappy eating.",
-    "components": [ [ [ "human_cooked", 1 ], [ "mutant_human_cooked", 1 ] ] ]
+    "components": [ [ [ "human_cooked", 1 ], [ "human_cooked_seasoned", 1 ], [ "mutant_human_cooked", 1 ] ] ]
   },
   {
     "id": "meat_soup_ingredients",
@@ -314,7 +332,7 @@
         [ "dry_lentils", 1 ],
         [ "raw_lentils", 1 ]
       ],
-      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ]
+      [ [ "meat_red", 1, "LIST" ], [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ]
     ]
   },
   {
@@ -440,7 +458,8 @@
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],
         [ "bratwurst_sausage", 1 ],
-        [ "eggs_small_dry", 2, "LIST" ]
+        [ "eggs_small_dry", 2, "LIST" ],
+        [ "meat_cooked", 1, "LIST" ]
       ],
       [
         [ "veggy_wild", 2 ],
@@ -520,6 +539,7 @@
     "components": [
       [
         [ "pepper", 1 ],
+        [ "salt", 1 ],
         [ "seasoning_salt", 1 ],
         [ "seasoning_italian", 1 ],
         [ "wild_herbs", 1 ],
