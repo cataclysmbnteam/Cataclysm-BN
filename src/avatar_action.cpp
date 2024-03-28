@@ -665,7 +665,7 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
     }
 
     if( you.has_trait( trait_BRAWLER ) ) {
-        add_msg( m_good, _( "Pfft.  You are a brawler; using this weapon is beneath you." ) );
+        add_msg( m_good, _( "You refuse to use this ranged weapon." ) );
         return false;
     }
 
