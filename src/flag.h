@@ -201,6 +201,7 @@ extern const flag_id flag_NONCONDUCTIVE;
 extern const flag_id flag_NON_FOULING;
 extern const flag_id flag_NO_BLOAT;
 extern const flag_id flag_NO_CVD;
+extern const flag_id flag_NO_DAMAGE;
 extern const flag_id flag_NO_DISPLAY;
 extern const flag_id flag_NO_DROP;
 extern const flag_id flag_NO_INGEST;

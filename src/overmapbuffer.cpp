@@ -10,7 +10,6 @@
 #include <queue>
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character_id.h"
@@ -60,12 +59,6 @@ int city_reference::get_distance_from_bounds() const
 {
     assert( city != nullptr );
     return distance - omt_to_sm_copy( city->size );
-}
-
-int camp_reference::get_distance_from_bounds() const
-{
-    assert( camp != nullptr );
-    return distance - omt_to_sm_copy( 4 );
 }
 
 omt_find_params::~omt_find_params() = default;
@@ -586,19 +579,6 @@ void overmapbuffer::move_vehicle( vehicle *veh, const point_abs_ms &old_msp )
     }
 }
 
-void overmapbuffer::remove_camp( const basecamp &camp )
-{
-    const point_abs_omt omt = camp.camp_omt_pos().xy();
-    const overmap_with_local_coords om_loc = get_om_global( omt );
-    std::vector<basecamp> &camps = om_loc.om->camps;
-    for( auto it = camps.begin(); it != camps.end(); ++it ) {
-        if( it->camp_omt_pos().xy() == omt ) {
-            camps.erase( it );
-            return;
-        }
-    }
-}
-
 void overmapbuffer::remove_vehicle( const vehicle *veh )
 {
     const tripoint_abs_omt omt = veh->global_omt_location();
@@ -627,13 +607,6 @@ void overmapbuffer::add_vehicle( vehicle *veh )
     tracked_veh.p = om_loc.local.xy();
     tracked_veh.name = veh->name;
     veh->om_id = id;
-}
-
-void overmapbuffer::add_camp( const basecamp &camp )
-{
-    const point_abs_omt omt = camp.camp_omt_pos().xy();
-    const overmap_with_local_coords om_loc = get_om_global( omt );
-    om_loc.om->camps.push_back( camp );
 }
 
 bool overmapbuffer::seen( const tripoint_abs_omt &p )
@@ -1156,21 +1129,6 @@ shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
     return nullptr;
 }
 
-std::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
-{
-    for( auto &it : overmaps ) {
-        const point_abs_omt p2( p );
-        for( int x2 = p2.x() - 3; x2 < p2.x() + 3; x2++ ) {
-            for( int y2 = p2.y() - 3; y2 < p2.y() + 3; y2++ ) {
-                if( std::optional<basecamp *> camp = it.second->find_camp( point_abs_omt( x2, y2 ) ) ) {
-                    return camp;
-                }
-            }
-        }
-    }
-    return std::nullopt;
-}
-
 void overmapbuffer::insert_npc( const shared_ptr_fast<npc> &who )
 {
     assert( who );
@@ -1330,28 +1288,6 @@ std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
             }
         }
     }
-    return result;
-}
-
-std::vector<camp_reference> overmapbuffer::get_camps_near( const tripoint_abs_sm &location,
-        int radius )
-{
-    std::vector<camp_reference> result;
-    for( const auto om : get_overmaps_near( location, radius ) ) {
-        result.reserve( result.size() + om->camps.size() );
-        std::transform( om->camps.begin(), om->camps.end(), std::back_inserter( result ),
-        [&]( basecamp & element ) {
-            const tripoint_abs_omt camp_pt = element.camp_omt_pos();
-            const tripoint_abs_sm camp_sm = project_to<coords::sm>( camp_pt );
-            const auto distance = rl_dist( camp_sm, location );
-
-            return camp_reference{ &element, camp_sm, distance };
-        } );
-    }
-    std::sort( result.begin(), result.end(), []( const camp_reference & lhs,
-    const camp_reference & rhs ) {
-        return lhs.get_distance_from_bounds() < rhs.get_distance_from_bounds();
-    } );
     return result;
 }
 
