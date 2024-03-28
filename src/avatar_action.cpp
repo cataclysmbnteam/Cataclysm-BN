@@ -664,6 +664,11 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
         return false;
     }
 
+    if (you.has_trait(trait_BRAWLER)) {
+        add_msg(m_good, _("Pfft.  You are a brawler; using this weapon is beneath you."));
+        return false;
+    }
+
     if( you.has_effect( effect_relax_gas ) ) {
         if( one_in( 5 ) ) {
             add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
