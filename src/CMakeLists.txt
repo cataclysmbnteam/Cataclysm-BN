@@ -124,8 +124,9 @@ if (TILES)
         target_link_libraries(cataclysm-tiles-common PUBLIC backtrace)
     endif ()
 
-    if (TRACY)
+    if (USE_TRACY)
         target_link_libraries(cataclysm-tiles PUBLIC TracyClient)
+        target_include_directories(cataclysm-tiles-common SYSTEM PUBLIC ${tracy_SOURCE_DIR}/public)
     endif ()
 
     if (RELEASE)
@@ -196,8 +197,9 @@ if (CURSES)
         target_link_libraries(cataclysm-common PUBLIC backtrace)
     endif ()
 
-    if (TRACY)
+    if (USE_TRACY)
         target_link_libraries(cataclysm-common PUBLIC TracyClient)
+        target_include_directories(cataclysm-common SYSTEM PUBLIC ${tracy_SOURCE_DIR}/public)
     endif ()
 
     if (RELEASE)

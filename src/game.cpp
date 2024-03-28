@@ -176,6 +176,7 @@
 #include "wcwidth.h"
 #include "weather.h"
 #include "worldfactory.h"
+#include "profile.h"
 
 class computer;
 
@@ -1343,6 +1344,7 @@ void game::calc_driving_offset( vehicle *veh )
 // Returns true if game is over (death, saved, quit, etc)
 bool game::do_turn()
 {
+    ZoneScoped;
     cleanup_arenas();
     if( is_game_over() ) {
         return cleanup_at_end();
@@ -1588,6 +1590,7 @@ bool game::do_turn()
     u.volume = 0;
 
     return false;
+    FrameMark;
 }
 
 void game::set_driving_view_offset( point p )
