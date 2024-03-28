@@ -1120,7 +1120,7 @@ void zone_manager::deserialize( JsonIn &jsin )
 
         if( !is_valid ) debugmsg( "Invalid zone type: %s", zone_type.c_str() );
 
-        return is_valid;
+        return !is_valid;
     } ),
     zones.end() );
 }
