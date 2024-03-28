@@ -1334,7 +1334,6 @@ static void reach_attack( avatar &you )
 static void fire()
 {
     avatar &u = g->u;
-    map &here = get_map();
 
     // Use vehicle turret or draw a pistol from a holster if unarmed
     if( !u.is_armed() ) {
