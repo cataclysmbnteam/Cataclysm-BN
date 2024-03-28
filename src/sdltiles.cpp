@@ -33,7 +33,6 @@
 #endif
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "cata_tiles.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -1106,14 +1105,6 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
             const tripoint_abs_omt city_center = coords::project_to<coords::omt>( city.abs_sm_pos );
             if( overmap_buffer.seen( city_center ) && overmap_area.contains( city_center.raw() ) ) {
                 label_bg( city.abs_sm_pos, city.city->name );
-            }
-        }
-
-        for( const camp_reference &camp : overmap_buffer.get_camps_near(
-                 coords::project_to<coords::sm>( center_abs_omt ), radius ) ) {
-            const tripoint_abs_omt camp_center = coords::project_to<coords::omt>( camp.abs_sm_pos );
-            if( overmap_buffer.seen( camp_center ) && overmap_area.contains( camp_center.raw() ) ) {
-                label_bg( camp.abs_sm_pos, camp.camp->name );
             }
         }
     }

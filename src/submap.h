@@ -25,7 +25,6 @@
 
 class JsonIn;
 class JsonOut;
-class basecamp;
 class map;
 struct trap;
 struct ter_t;
@@ -238,7 +237,6 @@ class submap : maptile_soa<SEEX, SEEY>
          */
         std::vector<std::unique_ptr<vehicle>> vehicles;
         std::map<tripoint, std::unique_ptr<partial_con>> partial_constructions;
-        std::unique_ptr<basecamp> camp;  // only allowing one basecamp per submap
         std::map<point_sm_ms, cata::poly_serialized<active_tile_data>> active_furniture;
 
         static void swap( submap &first, submap &second );

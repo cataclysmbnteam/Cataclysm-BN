@@ -218,12 +218,10 @@
     "responses": [
       { "text": "You have any kids?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE2" },
       {
-        "condition": { "not": "u_has_camp" },
         "text": "Would you like to travel with me?  Someone good with a trade could be helpful, and it's got to be better than wasting away here.",
         "topic": "TALK_REFUGEE_BEGGAR_4_JOIN"
       },
       {
-        "condition": "u_has_camp",
         "text": "I have a camp.  It's a damn sight better than those place, and there are regular meals.  Someone with your trades experience would be welcome, even if you can't do the big jobs anymore.",
         "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT1"
       },
@@ -242,12 +240,10 @@
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE1" },
       {
-        "condition": { "not": "u_has_camp" },
         "text": "Would you like to travel with me?  Someone good with a trade could be helpful, and it's got to be better than wasting away here.",
         "topic": "TALK_REFUGEE_BEGGAR_4_JOIN"
       },
       {
-        "condition": "u_has_camp",
         "text": "I have a camp.  It's a damn sight better than those place, and there are regular meals.  Someone with your trades experience would be welcome, even if you can't do the big jobs anymore.",
         "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT1"
       },

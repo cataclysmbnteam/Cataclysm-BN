@@ -15,8 +15,11 @@
   {
     "type": "recipe",
     "result": "meat_scrap_cooked",
-    "copy-from": "meat_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
     "time": "45 s",
+    "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
@@ -37,6 +40,19 @@
   },
   {
     "type": "recipe",
+    "result": "mutant_meat_scrap_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "45 s",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "mutant_meat_scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "mutant_human_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -47,6 +63,78 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "mutant_human_flesh", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "meat_cooked_seasoned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "meat", 1 ] ], [ [ "seasoning_mild", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "meat_scrap_cooked_seasoned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "charges": 10,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "meat_scrap", 10 ] ], [ [ "seasoning_mild", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_meat_cooked_seasoned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "mutant_meat", 1 ] ], [ [ "seasoning_mild", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_meat_scrap_cooked_seasoned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "charges": 10,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "mutant_meat_scrap", 10 ] ], [ [ "seasoning_mild", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_human_cooked_seasoned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "mutant_human_flesh", 1 ] ], [ [ "seasoning_mild", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -112,6 +200,20 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "fish", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "fish_cooked_seasoned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "fish", 1 ] ], [ [ "seasoning_mild", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -452,6 +554,20 @@
   },
   {
     "type": "recipe",
+    "result": "human_cooked_seasoned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "human_flesh", 1 ] ], [ [ "seasoning_mild", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "meat_aspic",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -466,12 +582,12 @@
       [ [ "broth_bone", 1 ] ],
       [
         [ "meat_red", 1, "LIST" ],
-        [ "meat_cooked", 1 ],
-        [ "mutant_meat_cooked", 1 ],
+        [ "meat_cooked", 1, "LIST" ],
         [ "can_salmon", 2 ],
         [ "can_herring", 2 ],
         [ "fish", 2 ],
         [ "fish_cooked", 2 ],
+        [ "fish_cooked_seasoned", 2 ],
         [ "can_tuna", 2 ],
         [ "can_sardine", 2 ],
         [ "can_clams", 2 ],
@@ -847,20 +963,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 30 ] ],
-      [
-        [ "meat_red", 2, "LIST" ],
-        [ "can_chicken", 2 ],
-        [ "meat_salted", 2 ],
-        [ "dry_meat", 2 ],
-        [ "fish", 2 ],
-        [ "fish_canned", 2 ],
-        [ "can_tuna", 2 ],
-        [ "salted_fish", 2 ],
-        [ "rehydrated_fish", 2 ],
-        [ "dry_fish", 2 ],
-        [ "tofu", 2 ],
-        [ "dry_tofu", 2 ]
-      ],
+      [ [ "meat_red", 2, "LIST" ], [ "meat_sandwich", 2, "LIST" ], [ "tofu", 2 ], [ "dry_tofu", 2 ] ],
       [
         [ "veggy_any", 2, "LIST" ],
         [ "mushroom", 2 ],
@@ -870,7 +973,8 @@
         [ "dry_veggy", 2 ]
       ],
       [ [ "cheese_any", 2, "LIST" ] ],
-      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ] ],
+      [ [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -888,19 +992,9 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 30 ] ],
-      [
-        [ "meat_red", 2, "LIST" ],
-        [ "can_chicken", 2 ],
-        [ "meat_salted", 2 ],
-        [ "dry_meat", 2 ],
-        [ "fish", 2 ],
-        [ "fish_canned", 2 ],
-        [ "can_tuna", 2 ],
-        [ "salted_fish", 2 ],
-        [ "rehydrated_fish", 2 ],
-        [ "dry_fish", 2 ]
-      ],
-      [ [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
+      [ [ "meat_red", 2, "LIST" ], [ "meat_sandwich", 2, "LIST" ] ],
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
+      [ [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -1219,7 +1313,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_sandwich", 1, "LIST" ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "cheese_any", 2, "LIST" ] ],
       [
@@ -1507,7 +1601,7 @@
     "time": "3 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "meat_cooked", 1, "LIST" ] ] ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "meat_sandwich", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2619,16 +2713,6 @@
   },
   {
     "type": "recipe",
-    "result": "mutant_meat_scrap_cooked",
-    "copy-from": "mutant_meat_cooked",
-    "delete_flags": [ "BAD_TASTE" ],
-    "time": "45 s",
-    "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "mutant_meat_scrap", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "mutant_tallow",
     "copy-from": "tallow",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
@@ -2711,7 +2795,7 @@
     "time": "2 m 30 s",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "meat_cooked", 1, "LIST" ] ], [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "veggy_any", 1, "LIST" ] ] ]
+    "components": [ [ [ "meat_sandwich", 1, "LIST" ] ], [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "veggy_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2724,7 +2808,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "meat_cooked", 1, "LIST" ] ],
+      [ [ "meat_sandwich", 1, "LIST" ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "veggy_any", 1, "LIST" ] ],
       [ [ "condiment", 1, "LIST" ], [ "seasoning_salt", 5 ] ]

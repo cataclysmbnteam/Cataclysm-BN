@@ -20,7 +20,6 @@
 
 #include "all_enum_values.h"
 #include "assign.h"
-#include "basecamp.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
@@ -6191,16 +6190,6 @@ shared_ptr_fast<npc> overmap::find_npc( const character_id &id ) const
         }
     }
     return nullptr;
-}
-
-std::optional<basecamp *> overmap::find_camp( const point_abs_omt &p )
-{
-    for( auto &v : camps ) {
-        if( v.camp_omt_pos().xy() == p ) {
-            return &v;
-        }
-    }
-    return std::nullopt;
 }
 
 bool overmap::is_omt_generated( const tripoint_om_omt &loc ) const

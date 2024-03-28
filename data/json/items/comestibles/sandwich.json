@@ -212,7 +212,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "1 L",
     "charges": 2,
-    "fun": 2,
+    "fun": 3,
     "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ], [ "vitB", 389 ] ]
   },
   {

@@ -89,6 +89,7 @@ static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
 static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
 static const ammo_effect_str_id ammo_effect_NO_CRIT( "NO_CRIT" );
+static const ammo_effect_str_id ammo_effect_NO_DAMAGE( "NO_DAMAGE" );
 static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
 static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
 static const ammo_effect_str_id ammo_effect_NON_FOULING( "NON_FOULING" );
@@ -1259,6 +1260,10 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
     // handling for tangling thrown items
     if( thrown.has_flag( flag_TANGLE ) ) {
         proj.add_effect( ammo_effect_TANGLE );
+    }
+
+    if( thrown.has_flag( flag_NO_DAMAGE ) ) {
+        proj.add_effect( ammo_effect_NO_DAMAGE );
     }
 
     Creature *critter = g->critter_at( target, true );

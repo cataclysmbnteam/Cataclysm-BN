@@ -127,7 +127,6 @@ static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
-static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
@@ -1586,8 +1585,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
     if( act == ACT_TIDY_UP ) {
-        if( mgr.has_near( zone_type_LOOT_UNSORTED, here.getabs( src_loc ), distance ) ||
-            mgr.has_near( z_camp_storage, here.getabs( src_loc ), distance ) ) {
+        if( mgr.has_near( zone_type_LOOT_UNSORTED, here.getabs( src_loc ), distance ) ) {
             return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
         }
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
@@ -1675,23 +1673,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
 }
 
-static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tripoint &src_loc,
-        player &p, std::vector<tripoint> &loot_zone_spots, std::vector<tripoint> &combined_spots )
-{
-    if( npc *const guy = dynamic_cast<npc *>( &p ) ) {
-        map &here = get_map();
-        if( guy->assigned_camp &&
-            mgr.has_near( z_camp_storage, here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE ) ) {
-            std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_id( "CAMP_STORAGE" ),
-                    here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE );
-            for( const tripoint &elem : bc_storage_set ) {
-                loot_zone_spots.push_back( here.getlocal( elem ) );
-                combined_spots.push_back( here.getlocal( elem ) );
-            }
-        }
-    }
-}
-
 static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player &p,
         const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
@@ -1746,7 +1727,6 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             combined_spots.push_back( elem );
         }
     }
-    add_basecamp_storage_to_loot_zone_list( mgr, src_loc, p, loot_spots, combined_spots );
     // if the requirements aren't available, then stop.
     if( !are_requirements_nearby( pickup_task ? loot_spots : combined_spots, things_to_fetch_id, p,
                                   activity_to_restore, pickup_task, src_loc ) ) {
@@ -2751,7 +2731,6 @@ static requirement_check_result generic_multi_activity_check_requirement( player
         for( const tripoint &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
             combined_spots.push_back( elem );
         }
-        add_basecamp_storage_to_loot_zone_list( mgr, src_loc, p, loot_zone_spots, combined_spots );
 
         if( ( reason == do_activity_reason::NO_COMPONENTS ||
               reason == do_activity_reason::NO_COMPONENTS_PREREQ ||
