@@ -1339,8 +1339,6 @@ static void fire()
     // Use vehicle turret or draw a pistol from a holster if unarmed
     if( !u.is_armed() ) {
 
-        const optional_vpart_position vp = here.veh_at( u.pos() );
-
         std::vector<std::string> options;
         std::vector<std::function<void()>> actions;
 
