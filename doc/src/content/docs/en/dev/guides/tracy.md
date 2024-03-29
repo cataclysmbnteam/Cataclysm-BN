@@ -8,22 +8,39 @@ Tracy is a tool for profiling and debugging your code. It is separated into two 
 client. Server is a part of your application that collects data and client is a GUI that displays
 it.
 
-## Install tracy client
+## Install Tracy Profiler
 
-### Linux, MacOS
+### Linux
 
 ```sh
-make -j 10 -C profiler/build/unix LEGACY=1 release
+$ git clone https://github.com/wolfpld/tracy
+$ cd tracy
 ```
 
-Clone <https://github.com/wolfpld/tracy> and build from source. For more instructions, check
-[tracy's github actions](https://github.com/wolfpld/tracy/blob/master/.github/workflows/gcc.yml).
+1. Clone <https://github.com/wolfpld/tracy>.
+
+```sh
+$ cmake -B profiler/build -S profiler # if you're using wayland
+```
+
+2. Set up cmake. By default tracy uses wayland, if you want to use X11, you need to add `LEGACY=1`
+   flag.
 
 :::note{title="for X11"}
+
+```sh
+$ cmake -DLEGACY=ON -B profiler/build -S profiler # if you're using X11
+```
 
 tracy uses wayland by default, if you want to use X11, you need to add `LEGACY=1` flag.
 
 :::
+
+```sh
+$ cmake --build profiler/build --config Release --parallel $(nproc)
+```
+
+3. Build the binary. It will be available on `./profiler/build/tracy-profiler`.
 
 ### Windows
 
@@ -33,5 +50,5 @@ Download pre-compiled executable from <https://github.com/wolfpld/tracy/releases
 
 ## Build BN with tracy server
 
-Build on cmake with `-D TRACY=ON` flag. See
+Build on cmake with `-D USE_TRACY=ON` flag. See
 [CMake options](building/cmake.md#cataclysmbn-specific-options) for more information.

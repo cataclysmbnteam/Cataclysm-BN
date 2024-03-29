@@ -362,7 +362,7 @@ much faster.
 
 [libbacktrace]: https://github.com/ianlancetaylor/libbacktrace
 
-- TRACY=`<boolean>`
+- USE_TRACY=`<boolean>`
 
 Use tracy profiler. See [Profiling with tracy](../tracy.md) for more information.
 
