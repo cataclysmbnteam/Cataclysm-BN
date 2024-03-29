@@ -124,6 +124,7 @@ static const quality_id qual_CUT( "CUT" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
+static const trait_id trait_BRAWLER("BRAWLER");
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -1333,9 +1334,33 @@ static void reach_attack( avatar &you )
 static void fire()
 {
     avatar &u = g->u;
+    map& here = get_map();
 
     // Use vehicle turret or draw a pistol from a holster if unarmed
     if( !u.is_armed() ) {
+
+
+        const optional_vpart_position vp = here.veh_at(u.pos());
+
+        turret_data turret;
+        if (vp && (turret = vp->vehicle().turret_query(u.pos()))) {
+            if (u.has_trait(trait_BRAWLER)) {
+                add_msg(m_bad, _("You refuse to use the turret."));
+                return;
+            }
+            avatar_action::fire_turret_manual(u, here, turret);
+            return;
+        }
+
+        if (vp.part_with_feature("CONTROLS", true)) {
+            if (u.has_trait(trait_BRAWLER)) {
+                add_msg(m_bad, _("You refuse to use the turret."));
+                return;
+            }
+            if (vp->vehicle().turrets_aim_and_fire_all_manual()) {
+                return;
+            }
+        }
 
         std::vector<std::string> options;
         std::vector<std::function<void()>> actions;
