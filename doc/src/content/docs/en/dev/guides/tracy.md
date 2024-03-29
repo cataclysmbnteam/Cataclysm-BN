@@ -20,10 +20,20 @@ $ cd tracy
 1. Clone <https://github.com/wolfpld/tracy>.
 
 ```sh
+# for ubuntu
+$ sudo apt install cmake clang git libcapstone-dev xorg-dev dbus libgtk-3-dev
+
+# for arch, copied from https://github.com/wolfpld/tracy/blob/master/.github/workflows/linux.yml#L16C12-L16C163
+$ pacman -Syu --noconfirm && pacman -S --noconfirm --needed freetype2 tbb debuginfod wayland dbus libxkbcommon libglvnd meson cmake git wayland-protocols
+```
+
+2. Install dependencies.
+
+```sh
 $ cmake -B profiler/build -S profiler # if you're using wayland
 ```
 
-2. Set up cmake. By default tracy uses wayland, if you want to use X11, you need to add `LEGACY=1`
+3. Set up cmake. By default tracy uses wayland, if you want to use X11, you need to add `LEGACY=1`
    flag.
 
 :::note{title="for X11"}
