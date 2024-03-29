@@ -1504,6 +1504,7 @@ bool game::do_turn()
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
+        ZoneScopedN( "field_emits" );
         for( const tripoint &elem : m.get_furn_field_locations() ) {
             const auto &furn = m.furn( elem ).obj();
             for( const emit_id &e : furn.emissions ) {
@@ -1590,7 +1591,6 @@ bool game::do_turn()
     u.volume = 0;
 
     return false;
-    FrameMark;
 }
 
 void game::set_driving_view_offset( point p )
@@ -4070,6 +4070,7 @@ void game::cleanup_dead()
 
 void game::monmove()
 {
+    ZoneScopedS( 30 );
     cleanup_dead();
 
     for( monster &critter : all_monsters() ) {
@@ -4196,6 +4197,7 @@ void game::monmove()
 
 void game::overmap_npc_move()
 {
+    ZoneScoped;
     std::vector<npc *> travelling_npcs;
     static constexpr int move_search_radius = 600;
     for( auto &elem : overmap_buffer.get_npcs_near_player( move_search_radius ) ) {

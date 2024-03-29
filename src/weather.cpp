@@ -37,6 +37,7 @@
 #include "units_temperature.h"
 #include "vpart_position.h"
 #include "weather_gen.h"
+#include "profile.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
@@ -526,6 +527,7 @@ double precip_mm_per_hour( precip_class const p )
 
 void handle_weather_effects( const weather_type_id &w )
 {
+    ZoneScoped;
     if( w->rains && w->precip != precip_class::none ) {
         fill_water_collectors( precip_mm_per_hour( w->precip ),
                                w->acidic );

@@ -43,6 +43,7 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vehicle_part.h"
+#include "profile.h"
 
 class map_extra;
 
@@ -480,6 +481,7 @@ void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_
 
 void overmapbuffer::process_mongroups()
 {
+    ZoneScoped;
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const auto radius = MAPSIZE * 2;
     // TODO: fix point types
@@ -491,6 +493,8 @@ void overmapbuffer::process_mongroups()
 
 void overmapbuffer::move_hordes()
 {
+    ZoneScoped;
+
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const auto radius = MAPSIZE * 2;
     // TODO: fix point types

@@ -78,6 +78,7 @@
 #include "player.h"
 #include "point_float.h"
 #include "projectile.h"
+#include "profile.h"
 #include "rng.h"
 #include "safe_reference.h"
 #include "scent_map.h"
@@ -8398,6 +8399,7 @@ void map::do_vehicle_caching( int z )
 
 void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
+    ZoneScoped;
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
     bool seen_cache_dirty = false;
