@@ -1240,8 +1240,15 @@
     "skills_required": [ "survival", 4 ],
     "time": "75 m",
     "batch_time_factors": [ 90, 4 ],
-    "autolearn": [ [ "fabrication", 5 ], [ "survival", 5 ] ],
-    "book_learn": [ [ "textbook_armschina", 3 ], [ "survival_book", 3 ], [ "welding_book", 4 ] ],
+    "autolearn": true,
+    "book_learn": [
+      [ "textbook_armschina", 3 ],
+      [ "textbook_survival", 3 ],
+      [ "manual_survival", 3 ],
+      [ "atomic_survival", 3 ],
+      [ "survival_book", 3 ],
+      [ "welding_book", 3 ]
+    ],
     "using": [ [ "forging_standard", 6 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "//": "Additional coal required for carburization, proportionate by weight.  Yield is roughly 25%.",
