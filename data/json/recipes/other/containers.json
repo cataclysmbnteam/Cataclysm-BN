@@ -445,8 +445,8 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "glazing", 1 ], [ "earthenware_firing", 60 ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ] ]
+    "using": [ [ "glazing", 1 ], [ "earthenware_firing", 30 ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
