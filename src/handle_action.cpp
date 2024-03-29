@@ -1344,19 +1344,13 @@ static void fire()
 
         turret_data turret;
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
-            if( u.has_trait( trait_BRAWLER ) ) {
-                add_msg( m_bad, _( "You refuse to use the turret." ) );
-                return;
-            }
+
             avatar_action::fire_turret_manual( u, here, turret );
             return;
         }
 
         if( vp.part_with_feature( "CONTROLS", true ) ) {
-            if( u.has_trait( trait_BRAWLER ) ) {
-                add_msg( m_bad, _( "You refuse to use the turret." ) );
-                return;
-            }
+
             if( vp->vehicle().turrets_aim_and_fire_all_manual() ) {
                 return;
             }
