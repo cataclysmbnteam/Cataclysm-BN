@@ -102,6 +102,7 @@
     "difficulty": 2,
     "skills_required": [ "survival", 2 ],
     "time": "10 m",
+    "autolearn": true,
     "batch_time_factors": [ 80, 5 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
