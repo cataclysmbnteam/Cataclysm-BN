@@ -42,6 +42,33 @@ $ cmake --build profiler/build --config Release --parallel $(nproc)
 
 3. Build the binary. It will be available on `./profiler/build/tracy-profiler`.
 
+:::tip{title="Adding desktop entry"}
+
+```
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Tracy Profiler
+GenericName=Code profiler
+GenericName[pl]=Profiler kodu
+GenericName[ko]=코드 프로파일러
+Comment=Examine code to see where it is slow
+Comment[pl]=Znajdowanie wolno wykonującego się kodu
+Comment[ko]=코드 분석해서 느린 곳 찾기
+Exec=<THE_PATH_WHERE_YOU_INSTALLED_TRACY>/profiler/build/tracy-profiler %f
+Icon=<THE_PATH_WHERE_YOU_INSTALLED_TRACY>/icon/icon.ico
+Terminal=false
+Categories=Development;Profiling;
+MimeType=application/tracy;
+X-Desktop-File-Install-Version=0.26
+```
+
+To make the profiler available in app runner, create `$HOME/.local/share/applications/tracy.desktop`
+file with the following content. Make sure to replace `<THE_PATH_WHERE_YOU_INSTALLED_TRACY>` with
+the path where you installed tracy!
+
+:::
+
 ### Windows
 
 ![image](https://github.com/cataclysmbnteam/Cataclysm-BN/assets/54838975/b6f73c09-969c-4305-b8fb-070d14fb834a)
