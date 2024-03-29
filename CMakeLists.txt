@@ -274,7 +274,7 @@ find_package(Threads REQUIRED)
 
 if (USE_TRACY)
     include(FetchContent)
-    add_compile_definitions(TRACY_ENABLE)
+    add_compile_definitions(TRACY_ENABLE TRACY_ON_DEMAND)
 
     FetchContent_Declare(
         tracy
