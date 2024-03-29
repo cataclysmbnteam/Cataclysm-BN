@@ -77,5 +77,42 @@ Download pre-compiled executable from <https://github.com/wolfpld/tracy/releases
 
 ## Build BN with tracy server
 
-Build on cmake with `-D USE_TRACY=ON` flag. See
-[CMake options](building/cmake.md#cataclysmbn-specific-options) for more information.
+Build on cmake with `-D USE_TRACY=ON` flag. For example,
+
+```sh
+$ cmake -B build -DUSE_TRACY=ON ...other flags...
+```
+
+See [CMake options](building/cmake.md#cataclysmbn-specific-options) for more information.
+
+## Mark zone to profile
+
+Mark `ZoneScoped` in the function you'd like to profile. It will be displayed in the tracy GUI. For
+example,
+
+```cpp
+bool game::do_turn()
+{
+    ZoneScoped;
+
+    /** Other code... */
+}
+```
+
+There are also more complex profiling macros available. Check following links for more:
+
+- <https://github.com/wolfpld/tracy>
+- <https://luxeengine.com/integrating-tracy-profiler-in-cpp/>
+- [An Introduction to Tracy Profiler in C++ - Marcos Slomp - CppCon 2023](https://www.youtube.com/watch?v=ghXk3Bk5F2U)
+
+## Use Tracy Profiler
+
+1. Start BN (built with `USE_TRACY=ON`), and run the tracy profiler.
+
+![](../../../../../assets/img/tracy/main.png)
+
+2. Click `connect` button to connect to the game.
+
+![](../../../../../assets/img/tracy/stats.png)
+
+3. Profiling data will be displayed in the GUI.
