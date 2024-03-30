@@ -275,10 +275,19 @@ find_package(Threads REQUIRED)
 if (USE_TRACY)
     include(FetchContent)
 
+    if (NOT TRACY_VERSION)
+        if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+            set(TRACY_VERSION 30f1b901a9bab40a193c97c77ec82ac70805164d)
+        else()
+            set(TRACY_VERSION v0.10)
+        endif()
+        message(STATUS "Using tracy version: ${TRACY_VERSION}")
+    endif()
+
     FetchContent_Declare(
         tracy
         GIT_REPOSITORY https://github.com/wolfpld/tracy.git
-        GIT_TAG v0.10
+        GIT_TAG "${TRACY_VERSION}"
         GIT_SHALLOW TRUE
         GIT_PROGRESS TRUE)
 
