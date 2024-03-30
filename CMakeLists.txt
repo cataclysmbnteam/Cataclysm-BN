@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.24)
 
 project(CataclysmBN C CXX)
 
@@ -274,7 +274,6 @@ find_package(Threads REQUIRED)
 
 if (USE_TRACY)
     include(FetchContent)
-    add_compile_definitions(TRACY_ENABLE TRACY_ON_DEMAND)
 
     FetchContent_Declare(
         tracy
@@ -284,6 +283,7 @@ if (USE_TRACY)
         GIT_PROGRESS TRUE)
 
     FetchContent_MakeAvailable(tracy)
+    set_target_properties(TracyClient PROPERTIES TRACY_ENABLE ON TRACY_ON_DEMAND ON)
 
     if(NOT MSVC)
         target_compile_options(TracyClient PRIVATE "-Wno-everything")
