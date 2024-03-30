@@ -2342,7 +2342,7 @@ void options_manager::add_options_world_default()
 
     add( "INITIAL_DAY", world_default, translate_marker( "Initial day" ),
          translate_marker( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
-         -1, 999, 7
+         -1, 999, 15
        );
 
     add( "SPAWN_DELAY", world_default, translate_marker( "Spawn delay" ),
@@ -2352,7 +2352,7 @@ void options_manager::add_options_world_default()
 
     add( "SEASON_LENGTH", world_default, translate_marker( "Season length" ),
          translate_marker( "Season length, in days." ),
-         14, 127, 14
+         14, 127, 30
        );
 
     add( "CONSTRUCTION_SCALING", world_default, translate_marker( "Construction scaling" ),
