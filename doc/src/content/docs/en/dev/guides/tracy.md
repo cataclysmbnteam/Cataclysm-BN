@@ -2,19 +2,29 @@
 title: Profiling with tracy
 ---
 
-![](https://camo.githubusercontent.com/addc8ec15d303dd7084724123e18c3c47fbe721e000c6e2c58a2ac1185badf1f/68747470733a2f2f6d656469612e646973636f72646170702e6e65742f6174746163686d656e74732f3833303931363435313531373835373839342f313135323137353437343038353139393837322f696d6167652e706e673f77696474683d31303939266865696768743d363235)
-
-Tracy is a tool for profiling and debugging your code. It is separated into two parts: server and
-client. Server is a part of your application that collects data and client is a GUI that displays
-it.
+[Tracy](https://github.com/wolfpld/tracy) is a realtime profiler which you can use to analyze
+performance bottleneck. It consists of two parts: client and profiler. The client integrated in BN
+sends profiling data to the profiler. As the client is opt-in, you need to build BN with tracy
+client in order to start profiling.
 
 ## Install Tracy Profiler
+
+:::caution
+
+Both the game and profiler have to be built with same version of tracy to work properly. Due to
+[numerous issues](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3253#discussion_r1545267113),
+The windows version uses [`v0.10`](https://github.com/wolfpld/tracy/releases/tag/v0.10) wheras the
+linux version uses
+[`30f1b90`](https://github.com/wolfpld/tracy/commit/30f1b901a9bab40a193c97c77ec82ac70805164d).
+
+:::
 
 ### Linux
 
 ```sh
 $ git clone https://github.com/wolfpld/tracy
 $ cd tracy
+$ git checkout 30f1b901a9bab40a193c97c77ec82ac70805164d # the commit used by BN tracy client
 ```
 
 1. Clone <https://github.com/wolfpld/tracy>.
@@ -62,7 +72,7 @@ flags to use gtk fileselector.
 $ cmake --build profiler/build --config Release --parallel $(nproc)
 ```
 
-1. Build the binary. It will be available on `./profiler/build/tracy-profiler`.
+4. Build the binary. It will be available on `./profiler/build/tracy-profiler`.
 
 :::tip{title="Adding desktop entry"}
 
@@ -97,9 +107,9 @@ the path where you installed tracy!
 
 Download pre-compiled executable from <https://github.com/wolfpld/tracy/releases>.
 
-## Build BN with tracy server
+## Build BN with Tracy Client
 
-Build on cmake with `-D USE_TRACY=ON` flag. For example,
+Build on [cmake](../guides/building/cmake.md) with `-D USE_TRACY=ON` flag. For example,
 
 ```sh
 $ cmake -B build -DUSE_TRACY=ON ...other flags...
