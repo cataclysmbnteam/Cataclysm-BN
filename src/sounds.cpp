@@ -49,6 +49,7 @@
 #include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "profile.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -340,6 +341,8 @@ static int get_signal_for_hordes( const centroid &centr )
 
 void sounds::process_sounds()
 {
+    ZoneScoped;
+
     std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
     const int weather_vol = get_weather().weather_id->sound_attn;
     for( const auto &this_centroid : sound_clusters ) {

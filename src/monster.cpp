@@ -63,6 +63,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "weather.h"
+#include "profile.h"
 
 static const ammo_effect_str_id ammo_effect_WHIP( "WHIP" );
 
@@ -2432,6 +2433,8 @@ void monster::decrement_summon_timer()
 
 void monster::process_turn()
 {
+    ZoneScoped;
+
     decrement_summon_timer();
     if( !is_hallucination() ) {
         for( const std::pair<const emit_id, time_duration> &e : type->emit_fields ) {
@@ -2721,6 +2724,8 @@ static void process_item_valptr( item *ptr, monster &mon )
 
 void monster::process_items()
 {
+    ZoneScoped;
+
     inv.remove_with( [this]( detached_ptr<item> &&it ) {
         if( it->needs_processing() ) {
             return item::process( std::move( it ), nullptr, pos(), false );

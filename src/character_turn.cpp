@@ -30,6 +30,7 @@
 #include "vpart_position.h"
 #include "weather_gen.h"
 #include "weather.h"
+#include "profile.h"
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -839,6 +840,8 @@ void Character::environmental_revert_effect()
 
 void Character::process_items()
 {
+    ZoneScoped;
+
     auto process_item = [this]( detached_ptr<item> &&ptr ) {
         return item::process( std::move( ptr ), as_player(), pos(), false );
     };

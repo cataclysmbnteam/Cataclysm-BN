@@ -49,6 +49,7 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
+#include "profile.h"
 
 static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_bouldering( "bouldering" );
@@ -320,6 +321,8 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
 
 void monster::plan()
 {
+    ZoneScoped;
+
     const auto &factions = g->critter_tracker->factions();
 
     // Bots are more intelligent than most living stuff

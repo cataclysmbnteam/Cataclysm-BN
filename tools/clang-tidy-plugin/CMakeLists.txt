@@ -42,7 +42,8 @@ if ("${CATA_CLANG_TIDY_INCLUDE_DIR}" STREQUAL "")
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
         INSTALL_COMMAND ""
-        TEST_COMMAND "")
+        TEST_COMMAND ""
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
 
     add_dependencies(CataAnalyzerPlugin clang-tidy-plugin-support)
     target_include_directories(CataAnalyzerPlugin SYSTEM PRIVATE ${CTPS_SRC}/include)
