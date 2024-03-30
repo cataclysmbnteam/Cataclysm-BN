@@ -285,7 +285,9 @@ if (USE_TRACY)
 
     FetchContent_MakeAvailable(tracy)
 
-    target_compile_options(TracyClient PRIVATE "-Wno-everything")
+    if(NOT MSVC)
+        target_compile_options(TracyClient PRIVATE "-Wno-everything")
+    endif()
 endif ()
 
 # Check for build types and libraries
