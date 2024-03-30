@@ -46,11 +46,23 @@ tracy uses wayland by default, if you want to use X11, you need to add `LEGACY=1
 
 :::
 
+:::note{title="fileselector fixes"}
+
+```sh
+$ cmake -DGTK_FILESELECTOR=ON -B profiler/build -S profiler
+```
+
+Due to issues with [default fileselector (xdg-portal)](https://github.com/wolfpld/tracy/issues/764),
+tracy may fail to open or save trace history. As an workaround, add `GTK_FILESELECTOR=ON` in compile
+flags to use gtk fileselector.
+
+:::
+
 ```sh
 $ cmake --build profiler/build --config Release --parallel $(nproc)
 ```
 
-3. Build the binary. It will be available on `./profiler/build/tracy-profiler`.
+1. Build the binary. It will be available on `./profiler/build/tracy-profiler`.
 
 :::tip{title="Adding desktop entry"}
 
