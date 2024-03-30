@@ -288,6 +288,9 @@ if (USE_TRACY)
     if(NOT MSVC)
         target_compile_options(TracyClient PRIVATE "-Wno-everything")
     endif()
+    if (NOT DYNAMIC_LINKING)
+        set_target_properties(TracyClient PROPERTIES TRACY_STATIC ON)
+    endif ()
 endif ()
 
 # Check for build types and libraries
