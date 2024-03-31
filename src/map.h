@@ -293,8 +293,8 @@ struct drawsq_params {
 
 //This is included in the global namespace rather than within level_cache as c++ doesn't allow forward declarations within a namespace
 struct diagonal_blocks {
-    bool nw;
-    bool ne;
+    bool nw : 4;
+    bool ne : 4;
 };
 
 struct level_cache {
