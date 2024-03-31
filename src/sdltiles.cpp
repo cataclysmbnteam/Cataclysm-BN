@@ -33,7 +33,6 @@
 #endif
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "cata_tiles.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -351,8 +350,12 @@ static void WinCreate()
     if( !software_renderer ) {
         dbg( DL::Info ) << "Attempting to initialize accelerated SDL renderer.";
 
-        renderer.reset( SDL_CreateRenderer( ::window.get(), renderer_id, SDL_RENDERER_ACCELERATED |
-                                            SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE ) );
+        int init_flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE;
+        if( get_option<bool>( "VSYNC" ) ) {
+            init_flags |= SDL_RENDERER_PRESENTVSYNC;
+        }
+
+        renderer.reset( SDL_CreateRenderer( ::window.get(), renderer_id, init_flags ) );
         if( printErrorIf( !renderer,
                           "Failed to initialize accelerated renderer, falling back to software rendering" ) ) {
             software_renderer = true;
@@ -1106,14 +1109,6 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
             const tripoint_abs_omt city_center = coords::project_to<coords::omt>( city.abs_sm_pos );
             if( overmap_buffer.seen( city_center ) && overmap_area.contains( city_center.raw() ) ) {
                 label_bg( city.abs_sm_pos, city.city->name );
-            }
-        }
-
-        for( const camp_reference &camp : overmap_buffer.get_camps_near(
-                 coords::project_to<coords::sm>( center_abs_omt ), radius ) ) {
-            const tripoint_abs_omt camp_center = coords::project_to<coords::omt>( camp.abs_sm_pos );
-            if( overmap_buffer.seen( camp_center ) && overmap_area.contains( camp_center.raw() ) ) {
-                label_bg( camp.abs_sm_pos, camp.camp->name );
             }
         }
     }

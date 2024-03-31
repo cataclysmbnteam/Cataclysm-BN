@@ -127,7 +127,6 @@ static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
-static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
@@ -1586,8 +1585,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
     if( act == ACT_TIDY_UP ) {
-        if( mgr.has_near( zone_type_LOOT_UNSORTED, here.getabs( src_loc ), distance ) ||
-            mgr.has_near( z_camp_storage, here.getabs( src_loc ), distance ) ) {
+        if( mgr.has_near( zone_type_LOOT_UNSORTED, here.getabs( src_loc ), distance ) ) {
             return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
         }
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
@@ -1631,10 +1629,12 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     // we need a shovel/hoe
                     return activity_reason_info::fail( do_activity_reason::NEEDS_TILLING );
                 }
-            } else if( here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) &&
-                       warm_enough_to_plant( src_loc ) ) {
+            } else if( seed.is_valid() &&
+                       here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) ) {
                 if( here.has_items( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
+                } else if( !warm_enough_to_plant( src_loc ) ) {
+                    return activity_reason_info::fail( do_activity_reason::NEEDS_WARM_WEATHER );
                 } else {
                     // do we have the required seed on our person?
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
@@ -1671,23 +1671,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     }
     // Shouldn't get here because the zones were checked previously. if it does, set enum reason as "no zone"
     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
-}
-
-static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tripoint &src_loc,
-        player &p, std::vector<tripoint> &loot_zone_spots, std::vector<tripoint> &combined_spots )
-{
-    if( npc *const guy = dynamic_cast<npc *>( &p ) ) {
-        map &here = get_map();
-        if( guy->assigned_camp &&
-            mgr.has_near( z_camp_storage, here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE ) ) {
-            std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_id( "CAMP_STORAGE" ),
-                    here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE );
-            for( const tripoint &elem : bc_storage_set ) {
-                loot_zone_spots.push_back( here.getlocal( elem ) );
-                combined_spots.push_back( here.getlocal( elem ) );
-            }
-        }
-    }
 }
 
 static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player &p,
@@ -1744,7 +1727,6 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             combined_spots.push_back( elem );
         }
     }
-    add_basecamp_storage_to_loot_zone_list( mgr, src_loc, p, loot_spots, combined_spots );
     // if the requirements aren't available, then stop.
     if( !are_requirements_nearby( pickup_task ? loot_spots : combined_spots, things_to_fetch_id, p,
                                   activity_to_restore, pickup_task, src_loc ) ) {
@@ -2713,12 +2695,15 @@ static requirement_check_result generic_multi_activity_check_requirement( player
         reason == do_activity_reason::NO_ZONE ||
         reason == do_activity_reason::ALREADY_DONE ||
         reason == do_activity_reason::BLOCKING_TILE ||
+        reason == do_activity_reason::NEEDS_WARM_WEATHER ||
         reason == do_activity_reason::UNKNOWN_ACTIVITY ) {
         // we can discount this tile, the work can't be done.
         if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
             p.add_msg_if_player( m_info, _( "You don't have the skill for this task." ) );
         } else if( reason == do_activity_reason::BLOCKING_TILE ) {
             p.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
+        } else if( reason == do_activity_reason::NEEDS_WARM_WEATHER ) {
+            p.add_msg_if_player( m_info, _( "It is too cold to plant anything now." ) );
         }
         return SKIP_LOCATION;
     } else if( reason == do_activity_reason::NO_COMPONENTS ||
@@ -2746,7 +2731,6 @@ static requirement_check_result generic_multi_activity_check_requirement( player
         for( const tripoint &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
             combined_spots.push_back( elem );
         }
-        add_basecamp_storage_to_loot_zone_list( mgr, src_loc, p, loot_zone_spots, combined_spots );
 
         if( ( reason == do_activity_reason::NO_COMPONENTS ||
               reason == do_activity_reason::NO_COMPONENTS_PREREQ ||

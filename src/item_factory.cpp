@@ -1420,10 +1420,34 @@ void Item_factory::check_definitions() const
                     }
                 }
             }
+            for( const itype_id &t : type->gunmod->exclusion ) {
+                if( !t.is_valid() ) {
+                    msg += string_format( "gunmod excludes for invalid item %s\n", t.c_str() );
+                }
+                if( type->gunmod->usable.count( t ) ) {
+                    msg += string_format( "gunmod includes and excludes same item %s\n", t.c_str() );
+                }
+            }
             for( const std::unordered_set<weapon_category_id> &wv : type->gunmod->usable_category ) {
                 for( const weapon_category_id &wid : wv ) {
                     if( !wid.is_valid() ) {
                         msg += string_format( "gunmod is usable for invalid weapon category %s\n", wid.c_str() );
+                    }
+                }
+            }
+            for( const std::unordered_set<weapon_category_id> &wv : type->gunmod->exclusion_category ) {
+                for( const weapon_category_id &wid : wv ) {
+                    if( !wid.is_valid() ) {
+                        msg += string_format( "gunmod excludes for invalid weapon category %s\n", wid.c_str() );
+                    }
+                }
+                for( const std::unordered_set<weapon_category_id> &test_wv : type->gunmod->usable_category ) {
+                    if( wv == test_wv ) {
+                        std::string group_format = ( "[" ) + enumerate_as_string( wv.begin(),
+                        wv.end(), []( const weapon_category_id & wcid ) {
+                            return string_format( "%s", wcid.c_str() );
+                        }, enumeration_conjunction::none ) + ( "]" );
+                        msg += string_format( "gunmod includes and excludes weapon category group %s\n", group_format );
                     }
                 }
             }
@@ -2379,6 +2403,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
 
     assign( jo, "mod_targets", slot.usable );
     assign( jo, "mod_target_category", slot.usable_category );
+    assign( jo, "mod_exclusions", slot.exclusion );
+    assign( jo, "mod_exclusion_category", slot.exclusion_category );
 
     assign( jo, "mode_modifier", slot.mode_modifier );
     assign( jo, "reload_modifier", slot.reload_modifier );
@@ -3095,6 +3121,22 @@ bool Item_factory::load_string( std::vector<std::string> &vec, const JsonObject 
     return result;
 }
 
+namespace
+{
+auto load_active( std::vector<ItemFn> &xs, const JsonObject &obj ) -> bool
+{
+    const bool result = obj.has_bool( "active" ) && obj.get_bool( "active" );
+    if( result ) {
+        xs.emplace_back( []( detached_ptr<item> &&it ) {
+            it->activate();
+            return std::move( it );
+        } );
+    }
+    return result;
+}
+
+} // namespace
+
 void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
 {
     std::unique_ptr<Item_group> gptr;
@@ -3138,6 +3180,7 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
     use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
+    use_modifier |= load_active( modifier.postprocess_fns, obj );
 
     std::vector<std::string> custom_flags;
     use_modifier |= load_string( custom_flags, obj, "custom-flags" );

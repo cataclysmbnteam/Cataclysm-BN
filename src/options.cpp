@@ -7,6 +7,7 @@
 #include <stdexcept>
 
 #include "calendar.h"
+#include "cached_item_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -1234,6 +1235,30 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
+    add_option_group( general, Group( "comestible_merging",
+                                      to_translation( "Merge similar comestibles" ),
+                                      to_translation( "Configure how similar items are stacked." ) ),
+    [&]( auto & page_id ) {
+        add( "MERGE_COMESTIBLES", page_id, translate_marker( "Merging Mode" ),
+        translate_marker( "Merge similar comestibles.  Legacy: default behavior.  Liquid: Merge only liquid comestibles.  All: Merge all comestibles." ), {
+            { "legacy", to_translation( "Legacy" ) },
+            { "liquid", to_translation( "Liquid" ) },
+            { "all", to_translation( "All" ) }
+        }, "all" );
+
+        add( "MERGE_COMESTIBLES_THRESHOLD", general, translate_marker( "Freshness similarity threshold" ),
+             translate_marker( "Limit maximum allowed staleness difference when merging comestibles."
+                               "  The lower the value, the more similar the items must be to merge."
+                               "  0.0: Only merge identical items."
+                               "  1.0: Merge comestibles regardless of its freshness."
+                             ),
+             0.0, 1.0, 0.25, 0.05 );
+
+        get_option( "MERGE_COMESTIBLES_THRESHOLD" ).setPrerequisites( "MERGE_COMESTIBLES", {"liquid", "all"} );
+    } );
+
+    add_empty_line();
+
     add( "AUTO_PICKUP", general, translate_marker( "Auto pickup enabled" ),
          translate_marker( "Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager." ),
          false
@@ -2065,6 +2090,13 @@ void options_manager::add_options_graphics()
          false, COPT_CURSES_HIDE
        );
 
+#if defined(SDL_HINT_RENDER_VSYNC)
+    add( "VSYNC", graphics, translate_marker( "Use VSync" ),
+         translate_marker( "Enable vertical synchronization to prevent screen tearing.  VSync can slow the game down a lot.  Requires restart." ),
+         false, COPT_CURSES_HIDE
+       );
+#endif
+
 #if defined(__ANDROID__)
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
 #else
@@ -2317,7 +2349,7 @@ void options_manager::add_options_world_default()
 
     add( "INITIAL_DAY", world_default, translate_marker( "Initial day" ),
          translate_marker( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
-         -1, 999, 7
+         -1, 999, 15
        );
 
     add( "SPAWN_DELAY", world_default, translate_marker( "Spawn delay" ),
@@ -2327,7 +2359,7 @@ void options_manager::add_options_world_default()
 
     add( "SEASON_LENGTH", world_default, translate_marker( "Season length" ),
          translate_marker( "Season length, in days." ),
-         14, 127, 14
+         14, 127, 30
        );
 
     add( "CONSTRUCTION_SCALING", world_default, translate_marker( "Construction scaling" ),
@@ -3369,6 +3401,16 @@ void options_manager::cache_to_globals()
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     static_z_effect = ::get_option<bool>( "STATICZEFFECT" );
     PICKUP_RANGE = ::get_option<int>( "PICKUP_RANGE" );
+
+    merge_comestible_mode = ( [] {
+        const auto opt = ::get_option<std::string>( "MERGE_COMESTIBLES" );
+        return opt == "legacy" ? merge_comestible_t::merge_legacy
+        : opt == "liquid" ? merge_comestible_t::merge_liquid
+        : merge_comestible_t::merge_all;
+    } )();
+
+    similarity_threshold = ::get_option<float>( "MERGE_COMESTIBLES_THRESHOLD" );
+
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif

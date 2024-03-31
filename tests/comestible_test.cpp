@@ -12,6 +12,7 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
+#include "output.h"
 #include "stomach.h"
 #include "state_helpers.h"
 #include "string_id.h"
@@ -118,37 +119,63 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
         const recipe &recipe_obj = recipe_pair.first.obj();
         detached_ptr<item> res = recipe_obj.create_result();
         item &res_it = food_or_food_container( *res );
+
         const bool is_food = res_it.is_food();
         const bool has_override = res_it.has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) );
-        if( is_food && !has_override ) {
-            // Collection of kcal values of all ingredient permutations
-            all_stats mystats = recipe_permutations( recipe_obj.simple_requirements().get_components(),
-                                byproduct_calories( recipe_obj ) );
-            if( mystats.calories.n() < 2 ) {
-                continue;
-            }
-            // The calories of the result
-            int default_calories = 0;
-            if( res_it.type->comestible ) {
-                default_calories = res_it.type->comestible->default_nutrition.kcal;
-            }
-            if( res_it.charges > 0 ) {
-                default_calories *= res_it.charges;
-            }
-            // Make the range of acceptable average calories of permutations, using result's calories
-            const float lower_bound = std::min( default_calories - mystats.calories.stddev() * 2,
-                                                default_calories * 0.8 );
-            const float upper_bound = std::max( default_calories + mystats.calories.stddev() * 2,
-                                                default_calories * 1.2 );
-            CHECK( mystats.calories.min() >= 0 );
-            CHECK( lower_bound <= mystats.calories.avg() );
-            CHECK( mystats.calories.avg() <= upper_bound );
-            if( mystats.calories.min() < 0 || lower_bound > mystats.calories.avg() ||
-                mystats.calories.avg() > upper_bound ) {
-                cata_printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n",
-                             recipe_pair.first.c_str(), lower_bound, mystats.calories.avg(),
-                             upper_bound );
-            }
+        if( !is_food || has_override ) {
+            continue;
+        }
+
+        const auto xs = recipe_obj.simple_requirements().get_components();
+
+        // Collection of kcal values of all ingredient permutations
+        const int byproduct_kcal = byproduct_calories( recipe_obj );
+        all_stats mystats = recipe_permutations( xs, byproduct_kcal );
+
+        INFO( "recipe id: " << recipe_pair.first.c_str() << '\n'
+              << "  used:\n" << enumerate_as_string( xs.begin(),
+        xs.end(), []( const std::vector<item_comp> &ys ) {
+            return "    [" + enumerate_as_string( ys.begin(), ys.end(),
+            []( const item_comp & z ) -> std::string {
+                return z.to_string(); },
+            enumeration_conjunction::or_ ) + "]";
+        }, enumeration_conjunction::newline ) << '\n'
+                                              << "  result: " << recipe_obj.result().c_str() );
+
+        // The calories of the result
+        int default_calories = 0;
+        if( res_it.type->comestible ) {
+            default_calories = res_it.type->comestible->default_nutrition.kcal;
+        }
+        if( res_it.charges > 0 ) {
+            default_calories *= res_it.charges;
+        }
+
+        const bool is_drink = res->type->comestible && res->type->comestible->comesttype == "DRINK";
+        if( is_drink ) {
+            CHECK( mystats.calories.min() >= 0 ); // e.g water
+        } else {
+            CHECK( mystats.calories.min() > 0 );
+        }
+
+        if( mystats.calories.n() < 2 ) {
+            continue;
+        }
+
+        // Make the range of acceptable average calories of permutations, using result's calories
+        const float lower_bound = std::min( default_calories - mystats.calories.stddev() * 2,
+                                            default_calories * 0.8 );
+        const float upper_bound = std::max( default_calories + mystats.calories.stddev() * 2,
+                                            default_calories * 1.2 );
+
+
+        CHECK( lower_bound <= mystats.calories.avg() );
+        CHECK( mystats.calories.avg() <= upper_bound );
+        if( mystats.calories.min() < 0 || lower_bound > mystats.calories.avg() ||
+            mystats.calories.avg() > upper_bound ) {
+            cata_printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n",
+                         recipe_pair.first.c_str(), lower_bound, mystats.calories.avg(),
+                         upper_bound );
         }
     }
 }

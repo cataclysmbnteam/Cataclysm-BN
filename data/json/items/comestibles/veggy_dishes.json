@@ -39,7 +39,6 @@
     "name": { "str_sp": "roasted garlic" },
     "weight": "18 g",
     "color": "white",
-    "spoils_in": "180 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
@@ -303,7 +302,8 @@
     "milling": { "into": "flour", "conversion_rate": 3 },
     "charges": 3,
     "vitamins": [ [ "iron", 3 ] ],
-    "fun": -15
+    "fun": -15,
+    "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -513,7 +513,7 @@
     "name": { "str_sp": "pesto" },
     "weight": "65 g",
     "color": "light_green",
-    "spoils_in": 144,
+    "spoils_in": "3 days",
     "container": "jar_glass_sealed",
     "comestible_type": "FOOD",
     "symbol": "%",

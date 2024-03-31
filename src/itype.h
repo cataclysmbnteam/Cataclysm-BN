@@ -567,6 +567,8 @@ struct islot_gunmod : common_ranged_data {
     /** What kind of weapons can this gunmod be used with (e.g. "rifle", "crossbow")? */
     std::unordered_set<itype_id> usable;
     std::vector<std::unordered_set<weapon_category_id>> usable_category;
+    std::unordered_set<itype_id> exclusion;
+    std::vector<std::unordered_set<weapon_category_id>> exclusion_category;
 
     /** If this value is set (non-negative), this gunmod functions as a sight. A sight is only usable to aim by a character whose current @ref Character::recoil is at or below this value. */
     int sight_dispersion = -1;

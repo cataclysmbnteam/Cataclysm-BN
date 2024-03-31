@@ -1538,8 +1538,7 @@ static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const c
 {
     if( mon.has_flag( food_flag ) ) {
         p.add_msg_if_player( m_good, message, mon.get_name() );
-        mon.friendly = -1;
-        mon.add_effect( effect_pet, 1_turns, num_bp );
+        mon.make_pet();
         p.consume_charges( it, 1 );
         return 0;
     } else {
@@ -4173,7 +4172,7 @@ void iuse::play_music( player &p, const tripoint &source, const int volume, cons
     // the other characters around should be able to profit as well.
     const bool do_effects = p.can_hear( source, volume );
     std::string sound = "music";
-    if( calendar::once_every( 5_minutes ) ) {
+    if( calendar::once_every( 1_hours ) ) {
         // Every 5 minutes, describe the music
         const std::string music = get_music_description();
         if( !music.empty() ) {

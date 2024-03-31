@@ -49,6 +49,7 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
+#include "profile.h"
 
 static const ammo_effect_str_id ammo_effect_APPLY_SAP( "APPLY_SAP" );
 static const ammo_effect_str_id ammo_effect_BEANBAG( "BEANBAG" );
@@ -59,11 +60,11 @@ static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
 static const ammo_effect_str_id ammo_effect_LARGE_BEANBAG( "LARGE_BEANBAG" );
 static const ammo_effect_str_id ammo_effect_magic( "magic" );
 static const ammo_effect_str_id ammo_effect_NO_CRIT( "NO_CRIT" );
+static const ammo_effect_str_id ammo_effect_NO_DAMAGE( "NO_DAMAGE" );
 static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
 static const ammo_effect_str_id ammo_effect_NOGIB( "NOGIB" );
 static const ammo_effect_str_id ammo_effect_PARALYZEPOISON( "PARALYZEPOISON" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
-
 
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
@@ -255,6 +256,8 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
 
 bool Creature::sees( const Creature &critter ) const
 {
+    ZoneScoped;
+
     // Creatures always see themselves (simplifies drawing).
     if( &critter == this ) {
         return true;
@@ -878,6 +881,11 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             impact.mult_damage( 1.0f / dmg_ratio );
         }
     }
+
+    if( proj.has_effect( ammo_effect_NO_DAMAGE ) ) {
+        impact.mult_damage( 0.0f );
+    }
+
     // If we have a shield, it might passively block ranged impacts
     block_ranged_hit( source, bp_hit, impact );
     dealt_dam = deal_damage( source, bp_hit, impact );

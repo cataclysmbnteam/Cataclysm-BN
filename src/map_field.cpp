@@ -13,7 +13,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -61,6 +60,7 @@
 #include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "profile.h"
 
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
@@ -141,6 +141,8 @@ int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int sc
 
 void map::process_fields()
 {
+    ZoneScoped;
+
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     for( int z = minz; z <= maxz; z++ ) {
@@ -1560,6 +1562,8 @@ void map::player_in_field( player &u )
 
 void map::creature_in_field( Creature &critter )
 {
+    ZoneScoped;
+
     bool in_vehicle = false;
     bool inside_vehicle = false;
     player *u = critter.as_player();

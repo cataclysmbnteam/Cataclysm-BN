@@ -837,7 +837,6 @@ void cata::detail::reg_npc( sol::state &lua )
         SET_FX_T( is_guarding, bool() const );
 
         SET_FX_T( is_patrolling, bool() const );
-        SET_FX_T( within_boundaries_of_camp, bool() const );
 
         SET_FX_T( has_player_activity, bool() const );
         SET_FX_T( is_travelling, bool() const );
@@ -884,7 +883,6 @@ void cata::detail::reg_npc( sol::state &lua )
         SET_FX_T( get_attitude, npc_attitude() const );
         SET_FX_T( set_attitude, void( npc_attitude new_attitude ) );
         SET_FX_T( has_activity, bool() const );
-        SET_FX_T( has_job, bool() const );
     }
 #undef UT_CLASS // #define UT_CLASS npc
 

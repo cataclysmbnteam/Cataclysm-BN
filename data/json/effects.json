@@ -278,6 +278,15 @@
     "desc": [ "AI tag used for monsters pushing each other.  This is a bug if you have it." ]
   },
   {
+    "type": "effect_type",
+    "id": "mon_mitosis",
+    "name": [ "Recently Split" ],
+    "desc": [
+      "AI tag for ABSORBS_SPLITS monsters having recently divided, forcing a cooldown between splits.  This is a bug if you have it."
+    ],
+    "max_duration": "1 m"
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",

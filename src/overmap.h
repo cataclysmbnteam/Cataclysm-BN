@@ -36,7 +36,6 @@
 class JsonIn;
 class JsonObject;
 class JsonOut;
-class basecamp;
 class character_id;
 class map_extra;
 class monster;
@@ -328,11 +327,9 @@ class overmap
         // TODO: make private
         std::vector<radio_tower> radios;
         std::map<int, om_vehicle> vehicles;
-        std::vector<basecamp> camps;
         std::vector<city> cities;
         std::map<overmap_connection_id, std::vector<tripoint_om_omt>> connections_out;
         std::optional<overmap_connection_cache> connection_cache;
-        std::optional<basecamp *> find_camp( const point_abs_omt &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( const shared_ptr_fast<npc> &who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).

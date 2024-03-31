@@ -347,7 +347,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 } ],
     "using": [ [ "steel_tiny", 1 ] ],
-    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ], [ [ "soldering_iron", 10 ] ] ],
+    "tools": [ [ [ "welder", 50 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ], [ [ "soldering_iron", 10 ] ] ],
     "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pipe", 2 ] ], [ [ "chain", 1 ] ], [ [ "circuit", 1 ] ] ]
   },
   {
@@ -636,6 +636,7 @@
     "difficulty": 1,
     "charges": 1562,
     "time": "5 m",
+    "batch_time_factors": [ 50, 3 ],
     "autolearn": true,
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -1121,7 +1122,7 @@
     "//": "sawing it down doesn't teach anything useful",
     "autolearn": true,
     "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "tools": [ [ [ "welder", 50 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "steel_lump", 4 ] ] ]
   },
   {
@@ -1239,8 +1240,15 @@
     "skills_required": [ "survival", 4 ],
     "time": "75 m",
     "batch_time_factors": [ 90, 4 ],
-    "autolearn": [ [ "fabrication", 5 ], [ "survival", 5 ] ],
-    "book_learn": [ [ "textbook_armschina", 3 ], [ "survival_book", 3 ], [ "welding_book", 4 ] ],
+    "autolearn": true,
+    "book_learn": [
+      [ "textbook_armschina", 3 ],
+      [ "textbook_survival", 3 ],
+      [ "manual_survival", 3 ],
+      [ "atomic_survival", 3 ],
+      [ "survival_book", 3 ],
+      [ "welding_book", 3 ]
+    ],
     "using": [ [ "forging_standard", 6 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "//": "Additional coal required for carburization, proportionate by weight.  Yield is roughly 25%.",

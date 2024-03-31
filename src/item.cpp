@@ -25,6 +25,7 @@
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "cached_item_options.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_encumbrance.h"
@@ -1003,13 +1004,28 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     if( goes_bad() && rhs.goes_bad() ) {
         // Stack items that fall into the same "bucket" of freshness.
         // Distant buckets are larger than near ones.
-        std::pair<int, clipped_unit> my_clipped_time_to_rot =
-            clipped_time( get_shelf_life() - rot );
-        std::pair<int, clipped_unit> other_clipped_time_to_rot =
-            clipped_time( rhs.get_shelf_life() - rhs.rot );
-        if( my_clipped_time_to_rot != other_clipped_time_to_rot ) {
-            return false;
+
+        switch( merge_comestible_mode ) {
+            case merge_comestible_t::merge_legacy: {
+                std::pair<int, clipped_unit> my_clipped_time_to_rot =
+                    clipped_time( get_shelf_life() - rot );
+                std::pair<int, clipped_unit> other_clipped_time_to_rot =
+                    clipped_time( rhs.get_shelf_life() - rhs.rot );
+                if( my_clipped_time_to_rot != other_clipped_time_to_rot ) {
+                    return false;
+                }
+            }
+            break;
+            case merge_comestible_t::merge_liquid: {
+                if( !made_of( LIQUID ) || !rhs.made_of( LIQUID ) ) {
+                    return false;
+                }
+            }
+            [[fallthrough]];
+            default:
+                return std::abs( get_relative_rot() - rhs.get_relative_rot() ) <= similarity_threshold;
         }
+
         if( rotten() != rhs.rotten() ) {
             // just to be safe that rotten and unrotten food is *never* stacked.
             return false;
@@ -1046,6 +1062,20 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     return contents.stacks_with( rhs.contents );
 }
 
+namespace
+{
+
+time_duration weighted_averaged_rot( const item *a, const item *b )
+{
+    const int base_charges = a->charges + b->charges;
+
+    return base_charges > 0
+           ? ( a->get_rot() * a->charges + b->get_rot() * b->charges ) / base_charges
+           : 0_seconds;
+}
+
+} // namespace
+
 bool item::merge_charges( detached_ptr<item> &&rhs, bool force )
 {
     if( this == &*rhs ) {
@@ -1059,6 +1089,8 @@ bool item::merge_charges( detached_ptr<item> &&rhs, bool force )
     safe_reference<item>::merge( this, &*rhs );
     detached_ptr<item> del = std::move( rhs );
 
+    const auto new_rot = weighted_averaged_rot( this, &obj );
+
     // Prevent overflow when either item has "near infinite" charges.
     if( charges >= INFINITE_CHARGES / 2 || obj.charges >= INFINITE_CHARGES / 2 ) {
         charges = INFINITE_CHARGES;
@@ -1070,6 +1102,10 @@ bool item::merge_charges( detached_ptr<item> &&rhs, bool force )
                          ( obj.item_counter ) * obj.charges ) / ( charges + obj.charges );
     }
     charges += obj.charges;
+
+    rot = new_rot;
+    set_age( std::max( age(), obj.age() ) );
+
     return true;
 }
 
@@ -1619,11 +1655,6 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( idescription != item_vars.end() ) {
             info.emplace_back( "DESCRIPTION", idescription->second );
         } else {
-            if( has_flag( flag_MAGIC_FOCUS ) ) {
-                info.emplace_back( "DESCRIPTION",
-                                   _( "This item is a <info>magical focus</info>.  "
-                                      "You can cast spells with it in your hand." ) );
-            }
             if( is_craft() ) {
                 const std::string desc = _( "This is an in progress %s.  "
                                             "It is %d percent complete." );
@@ -1634,6 +1665,27 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             } else {
                 info.emplace_back( "DESCRIPTION", type->description.translated() );
             }
+        }
+        std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
+        std::map<std::string, std::string>::const_iterator item_note_tool =
+            item_vars.find( "item_note_tool" );
+
+        if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
+            std::string ntext;
+            const inscribe_actor *use_actor = nullptr;
+            if( item_note_tool != item_vars.end() ) {
+                const use_function *use_func = itype_id( item_note_tool->second )->get_use( "inscribe" );
+                use_actor = dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() );
+            }
+            if( use_actor ) {
+                //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
+                ntext = string_format( pgettext( "carving", "<info>%1$s on the %2$s is:</info> %3$s" ),
+                                       use_actor->gerund, tname(), item_note->second );
+            } else {
+                //~ %1$s: inscription text
+                ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second );
+            }
+            info.emplace_back( "DESCRIPTION", ntext );
         }
         insert_separation_line( info );
     }
@@ -1702,10 +1754,15 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                active );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
-            const std::string tags_listed = enumerate_as_string( item_tags, []( const flag_id & f ) {
-                return f.str();
-            }, enumeration_conjunction::none );
+
+            static const auto f = []( const flag_id & f ) -> std::string { return f.str(); };
+            const std::string itype_tags_listed = enumerate_as_string( type->item_tags, f,
+                                                  enumeration_conjunction::none );
+            info.emplace_back( "BASE", string_format( _( "itype tags: %s" ), itype_tags_listed ) );
+
+            const std::string tags_listed = enumerate_as_string( item_tags, f, enumeration_conjunction::none );
             info.emplace_back( "BASE", string_format( _( "tags: %s" ), tags_listed ) );
+
             for( auto const &imap : item_vars ) {
                 info.emplace_back( "BASE",
                                    string_format( _( "item var: %s, %s" ), imap.first,
@@ -1720,7 +1777,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "BASE", _( "rot (turns): " ),
                                    "", iteminfo::lower_is_better,
                                    to_turns<int>( food->rot ) );
-                info.emplace_back( "BASE", space + _( "max rot (turns): " ),
+                info.emplace_back( "BASE", space + _( "shelf life (turns): " ),
                                    "", iteminfo::lower_is_better,
                                    to_turns<int>( food->get_shelf_life() ) );
                 info.emplace_back( "BASE", _( "last rot: " ),
@@ -2573,6 +2630,33 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         info.emplace_back( "GUNMOD", used_on_str );
+    }
+
+    if( !( mod.exclusion.empty() && mod.exclusion_category.empty() ) &&
+        parts->test( iteminfo_parts::GUNMOD_EXCLUSION ) ) {
+        std::string exclusion_str = _( "<bold>Cannot be used on:</bold>" );
+
+        if( !mod.exclusion.empty() ) {
+            exclusion_str += _( "\n  Specific: " ) + enumerate_as_string( mod.exclusion.begin(),
+            mod.exclusion.end(), []( const itype_id & excluded ) {
+                return string_format( "<info>%s</info>", excluded->nname( 1 ) );
+            } );
+        }
+
+        if( !mod.exclusion_category.empty() ) {
+            exclusion_str += _( "\n  Category: " );
+            std::vector<std::string> combination;
+            combination.reserve( mod.exclusion_category.size() );
+            for( const std::unordered_set<weapon_category_id> &catgroup : mod.exclusion_category ) {
+                combination.emplace_back( ( "[" ) + enumerate_as_string( catgroup.begin(),
+                catgroup.end(), []( const weapon_category_id & wcid ) {
+                    return string_format( "<info>%s</info>", wcid->name().translated() );
+                }, enumeration_conjunction::none ) + ( "]" ) );
+            }
+            exclusion_str += enumerate_as_string( combination, enumeration_conjunction::or_ );
+        }
+
+        info.emplace_back( "GUNMOD", exclusion_str );
     }
 
     if( parts->test( iteminfo_parts::GUNMOD_LOCATION ) ) {
@@ -3467,7 +3551,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 }
 
 void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                          bool /*debug*/ ) const
+                          bool debug ) const
 {
     if( contents.empty() || !parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
         return;
@@ -3544,6 +3628,22 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
                                            c_light_blue ) );
                 }
                 info.emplace_back( "DESCRIPTION", description.translated() );
+            }
+
+            if( debug && contents_item && contents_item->goes_bad() ) {
+                info.emplace_back( "CONTAINER", space );
+                info.emplace_back( "CONTAINER", _( "age (turns): " ),
+                                   "", iteminfo::lower_is_better,
+                                   to_turns<int>( contents_item->age() ) );
+                info.emplace_back( "CONTAINER", _( "rot (turns): " ),
+                                   "", iteminfo::lower_is_better,
+                                   to_turns<int>( contents_item->rot ) );
+                info.emplace_back( "CONTAINER", space + _( "shelf life (turns): " ),
+                                   "", iteminfo::lower_is_better,
+                                   to_turns<int>( contents_item->get_shelf_life() ) );
+                info.emplace_back( "CONTAINER", _( "last rot: " ),
+                                   "", iteminfo::lower_is_better,
+                                   to_turn<int>( contents_item->last_rot_check ) );
             }
         }
     }
@@ -3798,29 +3898,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
                                                   time.c_str() ) );
             }
         }
-    }
-
-    std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
-    std::map<std::string, std::string>::const_iterator item_note_tool =
-        item_vars.find( "item_note_tool" );
-
-    if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
-        insert_separation_line( info );
-        std::string ntext;
-        const inscribe_actor *use_actor = nullptr;
-        if( item_note_tool != item_vars.end() ) {
-            const use_function *use_func = itype_id( item_note_tool->second )->get_use( "inscribe" );
-            use_actor = dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() );
-        }
-        if( use_actor ) {
-            //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
-            ntext = string_format( pgettext( "carving", "%1$s on the %2$s is: %3$s" ),
-                                   use_actor->gerund, tname(), item_note->second );
-        } else {
-            //~ %1$s: inscription text
-            ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second );
-        }
-        info.emplace_back( "DESCRIPTION", ntext );
     }
 
     if( this->get_var( "die_num_sides", 0 ) != 0 ) {
@@ -6143,7 +6220,7 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
     float mod = get_clothing_mod_val( clothing_mod_type_acid );
 
     std::optional<resistances> overriden_resistance = damage_resistance_override();
-    if( overriden_resistance ) {
+    if( overriden_resistance && overriden_resistance->flat.count( DT_ACID ) ) {
         return std::lround( overriden_resistance->flat[DT_ACID] + mod );
     }
 
@@ -6182,7 +6259,7 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
     float mod = get_clothing_mod_val( clothing_mod_type_fire );
 
     std::optional<resistances> overriden_resistance = damage_resistance_override();
-    if( overriden_resistance ) {
+    if( overriden_resistance && overriden_resistance->flat.count( DT_HEAT ) ) {
         return std::lround( overriden_resistance->flat[DT_HEAT] + mod );
     }
 
@@ -7799,10 +7876,31 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<bool>::make_failure( _( "doesn't have enough room for another %s mod" ),
                                             mod.type->gunmod->location.name() );
 
-    } else if( !g_mod.usable.empty() || !g_mod.usable_category.empty() ) {
+    } else if( !g_mod.usable.empty() || !g_mod.usable_category.empty() || !g_mod.exclusion.empty() ||
+               !g_mod.exclusion_category.empty() ) {
+        // First check that it's not explicitly excluded by id.
+        bool excluded = g_mod.exclusion.count( this->typeId() );
+        // Then check if it's excluded by category.
+        for( const std::unordered_set<weapon_category_id> &mod_cat : g_mod.exclusion_category ) {
+            if( excluded ) {
+                break;
+            }
+            if( std::all_of( mod_cat.begin(), mod_cat.end(), [this]( const weapon_category_id & wcid ) {
+            return this->type->weapon_category.count( wcid );
+            } ) ) {
+                excluded = true;
+            }
+        }
+
+        // Check that it's included by id, if so, override banned so it's allowed.
+        // A check is already in item_factory so that explicit inclusion and exclusion of the same id throws errors.
         bool usable = g_mod.usable.count( this->typeId() );
+        if( usable ) {
+            excluded = false;
+        }
+        // Then check that it's included by category. If banned is still true, skip, no point checking.
         for( const std::unordered_set<weapon_category_id> &mod_cat : g_mod.usable_category ) {
-            if( usable ) {
+            if( usable || excluded ) {
                 break;
             }
             if( std::all_of( mod_cat.begin(), mod_cat.end(), [this]( const weapon_category_id & wcid ) {
@@ -7811,7 +7909,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
                 usable = true;
             }
         }
-        if( !usable ) {
+        if( !usable || excluded ) {
             return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname() );
         }
 
@@ -8598,9 +8696,8 @@ detached_ptr<item> item::fill_with( detached_ptr<item> &&liquid, int amount )
         ammo_set( liquid->typeId(), ammo_remaining() + amount );
     } else if( is_food_container() ) {
         item &cts = contents.front();
-        // Use maximum rot between the two
-        cts.set_relative_rot( std::max( cts.get_relative_rot(),
-                                        liquid->get_relative_rot() ) );
+
+        cts.set_rot( weighted_averaged_rot( &cts, &*liquid ) );
         cts.mod_charges( amount );
     } else if( !is_container_empty() ) {
         // if container already has liquid we need to set the amount

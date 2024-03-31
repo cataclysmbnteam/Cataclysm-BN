@@ -233,6 +233,8 @@ struct mutation_branch {
         float mana_modifier = 0.0f;
         float mana_multiplier = 1.0f;
         float mana_regen_multiplier = 1.0f;
+        // Bonus or penalty when mutating from toxins, see Character::mutation_chances
+        float mutagen_target_modifier = 0;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         /** mutation enchantments */

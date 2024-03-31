@@ -474,6 +474,7 @@
     "reload": 200,
     "handling": 40,
     "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NON_FOULING" ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
     "faults": [  ]
   },
   {

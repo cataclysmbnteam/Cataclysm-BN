@@ -1902,5 +1902,11 @@
     "type": "MIGRATION",
     "replace": "leg_warmers",
     "flags": [ "resized_large" ]
+  },
+  {
+    "id": "welder_crude",
+    "type": "MIGRATION",
+    "replace": "welder",
+    "flags": [ "resized_large" ]
   }
 ]

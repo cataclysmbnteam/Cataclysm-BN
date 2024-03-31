@@ -368,11 +368,7 @@
     "//": "abstracted chloralkali process, followed by 'burning' resulting chlorine and hydrogen with electric arc as uv source and crucible serving as reaction furnace, then dissolving resulting hydrogen chloride gas in water",
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [
-      [ [ "electrolysis_kit", 500 ] ],
-      [ [ "welder", 100 ], [ "welder_crude", 150 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
-    ],
+    "tools": [ [ [ "electrolysis_kit", 500 ] ], [ [ "welder", 100 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "salt_water", 4 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
@@ -487,6 +483,7 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "charges": 100,
     "time": "5 m",
+    "batch_time_factors": [ 50, 3 ],
     "autolearn": true,
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "chem_ammonium_nitrate_pellets", 100 ] ] ]

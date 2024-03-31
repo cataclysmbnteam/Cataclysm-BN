@@ -15,7 +15,6 @@
 #include <unordered_map>
 
 #include "all_enum_values.h"
-#include "basecamp.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "catalua.h"
@@ -2164,24 +2163,21 @@ class jmapgen_vehicle : public jmapgen_piece
             type.check( oter_name, parameters );
         }
 };
-/**
- * Place a specific item.
- * "item": id of item type to spawn.
- * "chance": chance of spawning it (1 = always, otherwise one_in(chance)).
- * "amount": amount of items to spawn.
- * "repeat": number of times to apply this piece
- */
+
+/// Place a specific item.
 class jmapgen_spawn_item : public jmapgen_piece
 {
     public:
-        mapgen_value<itype_id> type;
-        jmapgen_int amount;
-        jmapgen_int chance;
+        mapgen_value<itype_id> type; //< id of item type to spawn.
+        jmapgen_int amount;          //< amount of items to spawn.
+        jmapgen_int chance;          //< chance of spawning it (1 = always, otherwise one_in(chance)).
+        bool activate_on_spawn;      //< whether to activate the item on spawn.
         jmapgen_spawn_item( const JsonObject &jsi ) :
             type( jsi.get_member( "item" ) )
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 ) {
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
+            activate_on_spawn = jsi.get_bool( "active", false );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -2193,13 +2189,28 @@ class jmapgen_spawn_item : public jmapgen_piece
             // individual items here.
             chosen_id = item_controller->migrate_id( chosen_id );
 
+            if( item_is_blacklisted( chosen_id ) ) {
+                return;
+            }
+
             const int c = chance.get();
 
             // 100% chance = exactly 1 item, otherwise scale by item spawn rate.
             const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-            int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
+            const int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
+            const int quantity = amount.get();
+
+            const point p = { x.get(), y.get() };
+
             for( int i = 0; i < spawn_count; i++ ) {
-                dat.m.spawn_item( point( x.get(), y.get() ), chosen_id, amount.get() );
+                for( int j = 0; j < quantity; j++ ) {
+                    detached_ptr<item> new_item = item::spawn( chosen_id, calendar::start_of_cataclysm );
+                    if( activate_on_spawn ) {
+                        new_item->activate();
+                    }
+
+                    dat.m.spawn_an_item( p, std::move( new_item ), 0, 0 );
+                }
             }
         }
 
@@ -6291,6 +6302,14 @@ std::vector<item *> map::put_items_from_loc( const item_group_id &loc, const tri
 void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
                      int faction_id, int mission_id, const std::string &name ) const
 {
+    add_spawn( type, count, p, spawn_point::friendly_to_spawn_disposition( friendly ), faction_id,
+               mission_id, name );
+}
+
+void map::add_spawn( const mtype_id &type, int count, const tripoint &p,
+                     spawn_disposition disposition,
+                     int faction_id, int mission_id, const std::string &name ) const
+{
     if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
         debugmsg( "Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
         return;
@@ -6306,7 +6325,7 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
         return;
     }
-    spawn_point tmp( type, count, offset, faction_id, mission_id, friendly, name );
+    spawn_point tmp( type, count, offset, faction_id, mission_id, disposition, name );
     place_on_submap->spawns.push_back( tmp );
 }
 

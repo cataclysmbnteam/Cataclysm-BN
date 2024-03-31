@@ -374,7 +374,7 @@
     "time": "60 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
-    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "soldering_iron", 15 ], [ "toolset", 15 ] ] ],
+    "tools": [ [ [ "welder", 10 ], [ "soldering_iron", 15 ], [ "toolset", 15 ] ] ],
     "components": [
       [ [ "rag", 15 ] ],
       [ [ "bag_plastic", 4 ] ],

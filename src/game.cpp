@@ -43,7 +43,6 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "avatar_functions.h"
-#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -177,6 +176,7 @@
 #include "wcwidth.h"
 #include "weather.h"
 #include "worldfactory.h"
+#include "profile.h"
 
 class computer;
 
@@ -203,8 +203,6 @@ static constexpr int DANGEROUS_PROXIMITY = 5;
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 
-static const mtype_id mon_manhack( "mon_manhack" );
-
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -223,7 +221,6 @@ static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
-static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_evil( "evil" );
@@ -235,7 +232,6 @@ static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
-static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
@@ -826,9 +822,6 @@ void game::load_npcs()
         if( temp->is_active() ) {
             continue;
         }
-        if( temp->has_companion_mission() ) {
-            continue;
-        }
 
         const tripoint sm_loc = temp->global_sm_location();
         // NPCs who are out of bounds before placement would be pushed into bounds
@@ -1351,6 +1344,7 @@ void game::calc_driving_offset( vehicle *veh )
 // Returns true if game is over (death, saved, quit, etc)
 bool game::do_turn()
 {
+    ZoneScoped;
     cleanup_arenas();
     if( is_game_over() ) {
         return cleanup_at_end();
@@ -1510,6 +1504,7 @@ bool game::do_turn()
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
+        ZoneScopedN( "field_emits" );
         for( const tripoint &elem : m.get_furn_field_locations() ) {
             const auto &furn = m.furn( elem ).obj();
             for( const emit_id &e : furn.emissions ) {
@@ -1560,6 +1555,7 @@ bool game::do_turn()
         }
     }
     if( wait_redraw ) {
+        ZoneScopedN( "wait_redraw" );
         if( first_redraw_since_waiting_started ||
             calendar::once_every( std::min( 1_minutes, wait_refresh_rate ) ) ) {
             if( first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
@@ -1652,6 +1648,7 @@ void game::process_voluntary_act_interrupt()
 
 void game::process_activity()
 {
+    ZoneScoped;
     if( !u.activity ) {
         return;
     }
@@ -1953,20 +1950,6 @@ void game::validate_npc_followers()
     // Make sure that serialized player followers sync up with game list
     for( const auto &temp_id : u.follower_ids ) {
         add_npc_follower( temp_id );
-    }
-}
-
-void game::validate_camps()
-{
-    basecamp camp = m.hoist_submap_camp( u.pos() );
-    if( camp.is_valid() ) {
-        overmap_buffer.add_camp( camp );
-        m.remove_submap_camp( u.pos() );
-    } else if( camp.camp_omt_pos() != tripoint_abs_omt() ) {
-        std::string camp_name = _( "Faction Camp" );
-        camp.set_name( camp_name );
-        overmap_buffer.add_camp( camp );
-        m.remove_submap_camp( u.pos() );
     }
 }
 
@@ -2561,6 +2544,7 @@ bool game::load( const save_t &name )
     // Now load up the master game data; factions (and more?)
     load_master();
     u = avatar();
+    u.recalc_hp();
     u.set_save_id( name.decoded_name() );
     u.name = name.decoded_name();
     if( !read_from_file( playerpath + SAVE_EXTENSION, std::bind( &game::unserialize, this, _1 ) ) ) {
@@ -2603,7 +2587,6 @@ bool game::load( const save_t &name )
     reload_npcs();
     validate_npc_followers();
     validate_mounted_npcs();
-    validate_camps();
     validate_linked_vehicles();
     update_map( u );
     for( auto &e : u.inv_dump() ) {
@@ -3850,6 +3833,8 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
 
 void game::mon_info_update( )
 {
+    ZoneScoped;
+
     int newseen = 0;
     const int safe_proxy_dist = get_option<int>( "SAFEMODEPROXIMITY" );
     const int iProxyDist = ( safe_proxy_dist <= 0 ) ? MAX_VIEW_DISTANCE :
@@ -4089,6 +4074,7 @@ void game::cleanup_dead()
 
 void game::monmove()
 {
+    ZoneScoped;
     cleanup_dead();
 
     for( monster &critter : all_monsters() ) {
@@ -4215,6 +4201,7 @@ void game::monmove()
 
 void game::overmap_npc_move()
 {
+    ZoneScoped;
     std::vector<npc *> travelling_npcs;
     static constexpr int move_search_radius = 600;
     for( auto &elem : overmap_buffer.get_npcs_near_player( move_search_radius ) ) {
@@ -5492,9 +5479,6 @@ static std::string get_fire_fuel_string( const tripoint &examp )
 
 void game::examine( const tripoint &examp )
 {
-    if( disable_robot( examp ) ) {
-        return;
-    }
 
     Creature *c = critter_at( examp );
     if( c != nullptr ) {
@@ -8235,9 +8219,19 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
     bool has_skin = false;
     bool has_organs = false;
 
-    if( corpse != -1 ) {
-        const mtype *dead_mon = corpses[corpse]->get_mtype();
-        if( dead_mon ) {
+    // check if either the specific corpse has skin/organs or if any
+    // of the corpses do in case of a batch job
+    int i = 0;
+    for( const item * const &it : corpses ) {
+        // only interested in a specific corpse, skip the rest
+        if( corpse != -1 && corpse != i ) {
+            ++i;
+            continue;
+        }
+        ++i;
+
+        const mtype *dead_mon = it->get_mtype();
+        if( dead_mon != nullptr ) {
             for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
                 if( entry.type == "skin" ) {
                     has_skin = true;
@@ -8666,68 +8660,6 @@ void game::set_safe_mode( safe_mode_type mode )
 {
     safe_mode = mode;
     safe_mode_warning_logged = false;
-}
-
-bool game::disable_robot( const tripoint &p )
-{
-    monster *const mon_ptr = critter_at<monster>( p );
-    if( !mon_ptr ) {
-        return false;
-    }
-    monster &critter = *mon_ptr;
-    if( critter.friendly == 0 || critter.has_effect( effect_pet ) ||
-        critter.has_flag( MF_RIDEABLE_MECH ) ||
-        ( critter.has_flag( MF_PAY_BOT ) && critter.has_effect( effect_paid ) ) ) {
-        // Can only disable / reprogram friendly monsters
-        return false;
-    }
-    const auto mid = critter.type->id;
-    const auto mon_item_id = critter.type->revert_to_itype;
-    if( !mon_item_id.is_empty() &&
-        query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
-
-        u.moves -= 100;
-        m.add_item_or_charges( p, critter.to_item() );
-        if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
-            for( auto &ammodef : critter.ammo ) {
-                if( ammodef.second > 0 ) {
-                    m.spawn_item( p.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
-                }
-            }
-        }
-        remove_zombie( critter );
-        return true;
-    }
-    // Manhacks are special, they have their own menu here.
-    if( mid == mon_manhack ) {
-        int choice = UILIST_CANCEL;
-        if( critter.has_effect( effect_docile ) ) {
-            choice = uilist( _( "Reprogram the manhack?" ), { _( "Engage targets." ) } );
-        } else {
-            choice = uilist( _( "Reprogram the manhack?" ), { _( "Follow me." ) } );
-        }
-        switch( choice ) {
-            case 0:
-                if( critter.has_effect( effect_docile ) ) {
-                    critter.remove_effect( effect_docile );
-                    if( one_in( 3 ) ) {
-                        add_msg( _( "The %s hovers momentarily as it surveys the area." ),
-                                 critter.name() );
-                    }
-                } else {
-                    critter.add_effect( effect_docile, 1_turns, num_bp );
-                    if( one_in( 3 ) ) {
-                        add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
-                                 critter.name() );
-                    }
-                }
-                u.moves -= 100;
-                return true;
-            default:
-                break;
-        }
-    }
-    return false;
 }
 
 bool game::is_dangerous_tile( const tripoint &dest_loc ) const
@@ -9215,23 +9147,32 @@ point game::place_player( const tripoint &dest_loc )
         // TODO: handling for ridden creatures other than players mount.
         if( !critter.has_effect( effect_ridden ) ) {
             if( u.is_mounted() ) {
-                std::vector<tripoint> valid;
+                std::vector<tripoint> maybe_valid;
                 for( const tripoint &jk : m.points_in_radius( critter.pos(), 1 ) ) {
                     if( is_empty( jk ) ) {
-                        valid.push_back( jk );
+                        maybe_valid.push_back( jk );
                     }
                 }
-                if( !valid.empty() ) {
-                    critter.move_to( random_entry( valid ) );
-                    add_msg( _( "You push the %s out of the way." ), critter.name() );
-                } else {
+                bool moved = false;
+                while( !maybe_valid.empty() ) {
+                    if( critter.move_to( random_entry_removed( maybe_valid ) ) ) {
+                        add_msg( _( "You push the %s out of the way." ), critter.name() );
+                        moved = true;
+                    }
+                }
+                if( !moved ) {
                     add_msg( _( "There is no room to push the %s out of the way." ), critter.name() );
                     return u.pos().xy();
                 }
             } else {
-                critter.move_to( u.pos(), false,
-                                 true ); // Force the movement even though the player is there right now.
-                add_msg( _( "You displace the %s." ), critter.name() );
+                // Force the movement even though the player is there right now.
+                const bool moved = critter.move_to( u.pos(), /*force=*/false, /*step_on_critter=*/true );
+                if( moved ) {
+                    add_msg( _( "You displace the %s." ), critter.name() );
+                } else {
+                    add_msg( _( "You cannot move the %s out of the way." ), critter.name() );
+                    return u.pos().xy();
+                }
             }
         } else if( !u.has_effect( effect_riding ) ) {
             add_msg( _( "You cannot move the %s out of the way." ), critter.name() );
@@ -10927,6 +10868,8 @@ void game::replace_stair_monsters()
 // TODO: refactor so zombies can follow up and down stairs instead of this mess
 void game::update_stair_monsters()
 {
+    ZoneScoped;
+
     // Search for the stairs closest to the player.
     std::vector<int> stairx;
     std::vector<int> stairy;

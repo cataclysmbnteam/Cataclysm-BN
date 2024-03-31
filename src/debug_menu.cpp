@@ -128,6 +128,8 @@ enum debug_menu_index {
     DEBUG_SPAWN_NPC,
     DEBUG_SPAWN_MON,
     DEBUG_GAME_STATE,
+    DEBUG_REPRODUCE_AREA,
+    DEBUG_ERASE_ITEMS_AREA,
     DEBUG_KILL_AREA,
     DEBUG_KILL_NPCS,
     DEBUG_MUTATE,
@@ -295,6 +297,8 @@ static int map_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_REVEAL_MAP, true, 'r', _( "Reveal map" ) ) },
+        { uilist_entry( DEBUG_REPRODUCE_AREA, true, 'R', _( "Reproduce in Area" ) ) },
+        { uilist_entry( DEBUG_ERASE_ITEMS_AREA, true, 'e', _( "Erase items in Area" ) ) },
         { uilist_entry( DEBUG_KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
         { uilist_entry( DEBUG_KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
         { uilist_entry( DEBUG_MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
@@ -559,7 +563,7 @@ void character_edit_menu( Character &c )
 
     enum edit_character {
         pick, desc, skills, stats, items, delete_items, item_worn,
-        hp, stamina, morale, pain, needs, healthy, status, mission_add, mission_edit,
+        hp, stamina, morale, clear_morale, pain, needs, healthy, status, mission_add, mission_edit,
         tele, mutate, bionics, npc_class, attitude, opinion, effects,
         learn_ma, unlock_recipes, learn_spells, level_spells
     };
@@ -576,6 +580,7 @@ void character_edit_menu( Character &c )
             uilist_entry( edit_character::hp, true, 'h',  _( "Set [h]it points" ) ),
             uilist_entry( edit_character::stamina, true, 'S',  _( "Set [S]tamina" ) ),
             uilist_entry( edit_character::morale, true, 'o',  _( "Set m[o]rale" ) ),
+            uilist_entry( edit_character::clear_morale, true, 'O',  _( "Clear all m[O]rale effects" ) ),
             uilist_entry( edit_character::pain, true, 'P',  _( "Cause [P]ain" ) ),
             uilist_entry( edit_character::healthy, true, 'a',  _( "Set he[a]lth" ) ),
             uilist_entry( edit_character::needs, true, 'n',  _( "Set [n]eeds" ) ),
@@ -766,6 +771,9 @@ void character_edit_menu( Character &c )
             }
         }
         break;
+        case edit_character::clear_morale:
+            p.clear_morale();
+            break;
         case edit_character::opinion: {
             if( np == nullptr ) {
                 // HACK: For some reason, tidy is not satisfied with simple assert(np)
@@ -1381,6 +1389,33 @@ void benchmark( const int max_difference, bench_kind kind )
              difference / 1000.0, 1000.0 * draw_counter / static_cast<double>( difference ) );
 }
 
+// prompts player to select 2 points that will form a rectangular area
+static std::optional<tripoint_range<tripoint>> select_area()
+{
+    static_popup popup;
+    popup.on_top( true );
+    popup.message( "%s", _( "Select first point." ) );
+
+    tripoint initial_pos = g->u.pos();
+    const look_around_result first = g->look_around( false, initial_pos, initial_pos,
+                                     false, true, false, false, tripoint_zero, true );
+
+    if( !first.position ) {
+        return std::nullopt;
+    }
+
+    popup.message( "%s", _( "Select second point." ) );
+    const look_around_result second = g->look_around( false, initial_pos, *first.position,
+                                      true, true, false, false, tripoint_zero, true );
+
+    if( !second.position ) {
+        return std::nullopt;
+    }
+
+    return get_map().points_in_rectangle(
+               first.position.value(), second.position.value() );
+}
+
 void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
@@ -1484,30 +1519,47 @@ void debug()
             g->disp_NPCs();
             break;
         }
+        case DEBUG_REPRODUCE_AREA: {
+            const std::optional<tripoint_range<tripoint>> points_opt = select_area();
+            if( !points_opt.has_value() ) {
+                break;
+            }
+
+            const tripoint_range<tripoint> points = points_opt.value();
+            std::vector<Creature *> creatures = g->get_creatures_if(
+            [&points]( const Creature & critter ) -> bool {
+                return !critter.is_avatar() && critter.is_monster() && points.is_point_inside( critter.pos() );
+            } );
+
+            for( Creature *critter : creatures ) {
+                static_cast<monster *>( critter )->reproduce();
+            }
+        }
+        break;
+        case DEBUG_ERASE_ITEMS_AREA: {
+            const std::optional<tripoint_range<tripoint>> points_opt = select_area();
+            if( !points_opt.has_value() ) {
+                break;
+            }
+
+            const tripoint_range<tripoint> points = points_opt.value();
+
+            const int count = std::accumulate( points.begin(), points.end(), 0,
+            [&m]( int sum, const tripoint & p ) {
+                const int size = m.i_at( p ).size();
+                m.i_clear( p );
+                return sum + size;
+            } );
+            add_msg( m_good, string_format( _( "Erased %d items." ), count ) );
+        }
+        break;
         case DEBUG_KILL_AREA: {
-            static_popup popup;
-            popup.on_top( true );
-            popup.message( "%s", _( "Select first point." ) );
-
-            tripoint initial_pos = g->u.pos();
-            const look_around_result first = g->look_around( false, initial_pos, initial_pos,
-                                             false, true, false, false, tripoint_zero, true );
-
-            if( !first.position ) {
+            const std::optional<tripoint_range<tripoint>> points_opt = select_area();
+            if( !points_opt.has_value() ) {
                 break;
             }
 
-            popup.message( "%s", _( "Select second point." ) );
-            const look_around_result second = g->look_around( false, initial_pos, *first.position,
-                                              true, true, false, false, tripoint_zero, true );
-
-            if( !second.position ) {
-                break;
-            }
-
-            const tripoint_range<tripoint> points = get_map().points_in_rectangle(
-                    first.position.value(), second.position.value() );
-
+            const tripoint_range<tripoint> points = points_opt.value();
             std::vector<Creature *> creatures = g->get_creatures_if(
             [&points]( const Creature & critter ) -> bool {
                 return !critter.is_avatar() && points.is_point_inside( critter.pos() );

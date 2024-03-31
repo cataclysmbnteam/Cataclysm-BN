@@ -105,6 +105,34 @@ void Creature_tracker::add_to_faction_map( const shared_ptr_fast<monster> &critt
     }
 }
 
+void Creature_tracker::update_faction( const monster &critter )
+{
+    // find critter in monsters_list and obtain shared_ptr
+    const auto critter_ptr = std::find_if( monsters_list.begin(), monsters_list.end(),
+    [&]( const shared_ptr_fast<monster> &ptr ) {
+        return ptr.get() == &critter;
+    } );
+    if( critter_ptr == monsters_list.end() ) {
+        debugmsg( "Tried to update faction for invalid monster %s", critter.name() );
+        return;
+    }
+
+    // remove existing entry from monster_faction_map.
+    // it's just a weak ptr, the shared_ptr is still valid through monsters_list.
+    for( auto &pair : monster_faction_map_ ) {
+        auto &faction_monster_set = pair.second;
+        const auto fac_iter = faction_monster_set.find( *critter_ptr );
+        if( fac_iter != faction_monster_set.end() ) {
+            faction_monster_set.erase( fac_iter );
+            break;
+        }
+    }
+
+    // finally, rely on existing logic to re-add critter to the appropriate faction
+    // in the monster_faction_map
+    add_to_faction_map( *critter_ptr );
+}
+
 size_t Creature_tracker::size() const
 {
     return monsters_list.size();

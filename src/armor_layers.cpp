@@ -886,7 +886,9 @@ void show_armor_layers_ui( Character &who )
             if( loc ) {
                 // wear the item
                 loc->obtain( who );
-                if( !who.as_player()->wear_possessed( *loc, true, access_tmp_worn( leftListIndex ) ) &&
+                const std::optional<location_vector<item>::iterator> position = ( leftListSize > 0 ) ?
+                        access_tmp_worn( leftListIndex ) : std::optional<location_vector<item>::iterator>( std::nullopt );
+                if( !who.as_player()->wear_possessed( *loc, true, position ) &&
                     who.is_npc() ) {
                     // TODO: Pass the reason here
                     popup( _( "Can't put this on!" ) );

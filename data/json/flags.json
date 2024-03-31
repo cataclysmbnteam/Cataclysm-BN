@@ -479,6 +479,12 @@
     "info": "As a weapon, this item needs considerable space to use properly and does 70% of its normal damage to adjacent enemies."
   },
   {
+    "id": "SPAWN_FRIENDLY",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "//": "This item will spawn friendly. Used for pets and such."
+  },
+  {
     "id": "STAB",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ]
@@ -984,7 +990,7 @@
     "id": "MAGIC_FOCUS",
     "type": "json_flag",
     "context": [ "item" ],
-    "//": "You can cast spells with this item in your hand."
+    "info": "This item is a <info>magical focus</info>.  You can cast spells with it in your hand."
   },
   {
     "id": "HOSTILE_SUMMON",
@@ -1612,6 +1618,11 @@
   },
   {
     "id": "NON_FOULING",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NO_DAMAGE",
     "type": "json_flag",
     "context": [  ]
   },

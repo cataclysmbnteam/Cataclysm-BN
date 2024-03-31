@@ -49,6 +49,7 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
+#include "profile.h"
 
 static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_bouldering( "bouldering" );
@@ -58,6 +59,7 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_mon_mitosis( "mon_mitosis" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
@@ -319,6 +321,8 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
 
 void monster::plan()
 {
+    ZoneScoped;
+
     const auto &factions = g->critter_tracker->factions();
 
     // Bots are more intelligent than most living stuff
@@ -393,14 +397,6 @@ void monster::plan()
 
     if( waiting ) {
         set_dest( pos() );
-        return;
-    }
-
-    if( docile ) {
-        if( friendly != 0 && target != nullptr ) {
-            set_dest( target->pos() );
-        }
-
         return;
     }
 
@@ -520,6 +516,14 @@ void monster::plan()
                     dist = rating;
                 }
             }
+        }
+    }
+
+    // Docile monsters should ignore targets, so place it after all possible ways target could be selected
+    if( docile ) {
+        if( target != nullptr ) {
+            // Stop fighting and focus on following the player
+            target = nullptr;
         }
     }
 
@@ -701,7 +705,8 @@ void monster::move()
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
     // TODO: Stick this in a map and dispatch to it via the action string.
-    if( action == "consume_items" ) {
+    if( action == "consume_items" && ( !has_effect( effect_mon_mitosis ) || hp < type->hp * 3 ) ) {
+        // Eat items unless we're both recently split AND binged too hard afterwards
         if( g->u.sees( *this ) ) {
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name() );
@@ -709,13 +714,19 @@ void monster::move()
         static const auto volume_per_hp = 250_ml;
         for( auto &elem : g->m.i_at( pos() ) ) {
             hp += elem->volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            if( has_flag( MF_ABSORBS_SPLITS ) ) {
+            // Don't split if we're still recovering from last time
+            if( has_flag( MF_ABSORBS_SPLITS ) && !has_effect( effect_mon_mitosis ) ) {
                 while( hp / 2 > type->hp ) {
                     monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
                     if( !spawn ) {
                         break;
                     }
+                    // Splitting takes a bit out of both
                     hp -= type->hp;
+                    hp *= 0.75;
+                    add_effect( effect_mon_mitosis, 1_minutes );
+                    spawn->hp *= 0.75;
+                    spawn->add_effect( effect_mon_mitosis, 1_minutes );
                     //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
                     spawn->make_ally( *this );
                     if( g->u.sees( *this ) ) {
@@ -1244,6 +1255,12 @@ tripoint monster::scent_move()
         bestsmell = g->scent.get( pos() );
     }
 
+    const scenttype_id player_scent = g->u.get_type_of_scent();
+    // The main purpose of scent_move() is to either move toward scents or away from scents depending on the value of the fleeing flag.
+    // However, if the monster is a pet who is not actively fleeing and has the WONT_FOLLOW flag, we'd rather let it stumble instead of
+    // vaguely follow the player's scent.
+    const bool ignore_player_scent = !fleeing && is_pet() && has_flag( MF_PET_WONT_FOLLOW );
+
     tripoint next( -1, -1, posz() );
     if( ( !fleeing && g->scent.get( pos() ) > smell_threshold ) ||
         ( fleeing && bestsmell == 0 ) ) {
@@ -1272,6 +1289,10 @@ tripoint monster::scent_move()
         }
         // is the monster actually ignoring this scent
         if( !ignored_scents.empty() && ( ignored_scents.find( type_scent ) != ignored_scents.end() ) ) {
+            right_scent = false;
+        }
+
+        if( ignore_player_scent && type_scent == player_scent ) {
             right_scent = false;
         }
 

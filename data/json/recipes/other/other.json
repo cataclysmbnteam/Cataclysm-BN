@@ -169,7 +169,7 @@
       { "id": "WRENCH", "level": 1 },
       { "id": "GLARE", "level": 2 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "soldering_iron", 150 ] ] ],
+    "tools": [ [ [ "welder", 100 ], [ "toolset", 150 ] ] ],
     "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ] ]
   },
   {
@@ -182,7 +182,7 @@
     "difficulty": 2,
     "time": "35 m",
     "autolearn": true,
-    "using": [ [ "earthenware_firing", 75 ] ],
+    "using": [ [ "glazing", 1 ], [ "earthenware_firing", 60 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ] ]
   },
   {

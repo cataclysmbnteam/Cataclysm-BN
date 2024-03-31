@@ -18,7 +18,6 @@
 #include "ammo_effect.h"
 #include "artifact.h"
 #include "avatar.h"
-#include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -79,6 +78,7 @@
 #include "player.h"
 #include "point_float.h"
 #include "projectile.h"
+#include "profile.h"
 #include "rng.h"
 #include "safe_reference.h"
 #include "scent_map.h"
@@ -464,6 +464,8 @@ void map::destroy_vehicle( vehicle *veh )
 
 void map::on_vehicle_moved( const int smz )
 {
+    ZoneScoped;
+
     set_outside_cache_dirty( smz );
     set_transparency_cache_dirty( smz );
     set_floor_cache_dirty( smz );
@@ -473,6 +475,8 @@ void map::on_vehicle_moved( const int smz )
 
 void map::vehmove()
 {
+    ZoneScoped;
+
     // give vehicles movement points
     VehicleList vehicle_list;
     int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
@@ -2351,6 +2355,8 @@ void map::support_dirty( const tripoint &p )
 
 void map::process_falling()
 {
+    ZoneScoped;
+
     if( !zlevels ) {
         support_cache_dirty.clear();
         return;
@@ -4303,6 +4309,10 @@ std::vector<detached_ptr<item>> map::i_clear( const tripoint &p )
 detached_ptr<item> map::spawn_an_item( const tripoint &p, detached_ptr<item> &&new_item,
                                        const int charges, const int damlevel )
 {
+    if( one_in( 3 ) && new_item->has_flag( flag_VARSIZE ) ) {
+        new_item->set_flag( flag_FIT );
+    }
+
     if( charges && new_item->charges > 0 ) {
         //let's fail silently if we specify charges for an item that doesn't support it
         new_item->charges = charges;
@@ -4363,9 +4373,6 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     for( size_t i = 0; i < quantity; i++ ) {
         // spawn the item
         detached_ptr<item> new_item = item::spawn( type_id, birthday );
-        if( one_in( 3 ) && new_item->has_flag( flag_VARSIZE ) ) {
-            new_item->set_flag( flag_FIT );
-        }
 
         spawn_an_item( p, std::move( new_item ), charges, damlevel );
     }
@@ -5097,7 +5104,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
 
 std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const int range,
                              const itype_id &type, int &quantity,
-                             const std::function<bool( const item & )> &filter, basecamp *bcp )
+                             const std::function<bool( const item & )> &filter )
 {
     std::vector<detached_ptr<item>> ret;
 
@@ -5114,13 +5121,6 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
             water->charges = quantity;
             ret.push_back( std::move( water ) );
             quantity = 0;
-            return ret;
-        }
-    }
-
-    if( bcp ) {
-        ret = bcp->use_charges( type, quantity );
-        if( quantity <= 0 ) {
             return ret;
         }
     }
@@ -5753,40 +5753,6 @@ computer *map::computer_at( const tripoint &p )
     point l;
     submap *const sm = get_submap_at( p, l );
     return sm->get_computer( l );
-}
-
-bool map::point_within_camp( const tripoint &point_check ) const
-{
-    // TODO: fix point types
-    const tripoint_abs_omt omt_check( ms_to_omt_copy( point_check ) );
-    const point_abs_omt p = omt_check.xy();
-    for( int x2 = -2; x2 < 2; x2++ ) {
-        for( int y2 = -2; y2 < 2; y2++ ) {
-            if( std::optional<basecamp *> bcp = overmap_buffer.find_camp( p + point( x2, y2 ) ) ) {
-                return ( *bcp )->camp_omt_pos().z() == point_check.z;
-            }
-        }
-    }
-    return false;
-}
-
-void map::remove_submap_camp( const tripoint &p )
-{
-    get_submap_at( p )->camp.reset();
-}
-
-basecamp map::hoist_submap_camp( const tripoint &p )
-{
-    basecamp *pcamp = get_submap_at( p )->camp.get();
-    return pcamp ? *pcamp : basecamp();
-}
-
-void map::add_camp( const tripoint_abs_omt &omt_pos, const std::string &name )
-{
-    basecamp temp_camp = basecamp( name, omt_pos );
-    overmap_buffer.add_camp( temp_camp );
-    g->u.camps.insert( omt_pos );
-    g->validate_camps();
 }
 
 void map::update_submap_active_item_status( const tripoint &p )
@@ -7319,7 +7285,9 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
                                          get_option<float>( "CARRION_SPAWNRATE" ) );
     if( rng( 0, 100 ) < chance ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
-        add_spawn( spawn_details.name, 1, pnt, false );
+        const spawn_disposition disposition = item.has_own_flag( flag_SPAWN_FRIENDLY ) ?
+                                              spawn_disposition::SpawnDisp_Pet : spawn_disposition::SpawnDisp_Default;
+        add_spawn( spawn_details.name, 1, pnt, disposition );
         if( g->u.sees( pnt ) ) {
             if( item.is_seed() ) {
                 add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );
@@ -7887,7 +7855,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             if( i.name != "NONE" ) {
                 tmp.unique_name = i.name;
             }
-            if( i.friendly ) {
+            if( i.is_friendly() ) {
                 tmp.friendly = -1;
             }
 
@@ -7901,6 +7869,9 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
                 monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ), p );
                 if( placed ) {
                     placed->on_load();
+                    if( i.disposition == spawn_disposition::SpawnDisp_Pet ) {
+                        placed->make_pet();
+                    }
                 }
             };
 
@@ -8267,6 +8238,8 @@ bool map::build_floor_cache( const int zlev )
 
 void map::build_floor_caches()
 {
+    ZoneScoped;
+
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     for( int z = minz; z <= maxz; z++ ) {
@@ -8433,6 +8406,7 @@ void map::do_vehicle_caching( int z )
 
 void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
+    ZoneScoped;
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
     bool seen_cache_dirty = false;

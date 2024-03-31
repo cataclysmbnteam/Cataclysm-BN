@@ -89,6 +89,7 @@ static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
 static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
 static const ammo_effect_str_id ammo_effect_NO_CRIT( "NO_CRIT" );
+static const ammo_effect_str_id ammo_effect_NO_DAMAGE( "NO_DAMAGE" );
 static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
 static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
 static const ammo_effect_str_id ammo_effect_NON_FOULING( "NON_FOULING" );
@@ -1259,6 +1260,10 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
     // handling for tangling thrown items
     if( thrown.has_flag( flag_TANGLE ) ) {
         proj.add_effect( ammo_effect_TANGLE );
+    }
+
+    if( thrown.has_flag( flag_NO_DAMAGE ) ) {
+        proj.add_effect( ammo_effect_NO_DAMAGE );
     }
 
     Creature *critter = g->critter_at( target, true );
@@ -2497,7 +2502,8 @@ void target_ui::init_window_and_input()
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
-    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Shape &&
+            relevant->is_gun() ) ) {
         ctxt.register_action( "SWITCH_MODE" );
         if( mode == TargetMode::TurretManual || relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) {
             // Turrets may support multiple ammo types.
@@ -3303,7 +3309,8 @@ void target_ui::draw_ui_window()
     panel_cursor_info( text_y );
     text_y += compact ? 0 : 1;
 
-    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Shape &&
+            relevant->is_gun() ) ) {
         panel_gun_info( text_y );
         panel_recoil( text_y );
         text_y += compact ? 0 : 1;
@@ -3449,7 +3456,8 @@ void target_ui::draw_controls_list( int text_y )
         lines.push_back( { 2, colored( col_fire, aim ) } );
         lines.push_back( { 4, colored( col_fire, aim_and_fire ) } );
     }
-    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Shape &&
+            relevant->is_gun() ) ) {
         lines.push_back( { 5, colored( col_enabled, string_format( _( "[%c] to switch firing modes." ),
                                        bound_key( "SWITCH_MODE" ) ) ) } );
         lines.push_back( { 6, colored( col_enabled, string_format( _( "[%c] to switch ammo." ),
