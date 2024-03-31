@@ -1489,23 +1489,20 @@ void map::apply_vision_transparency_cache( const tripoint &center, int target_z,
                 continue;
             }
 
-            if (adjacent == point_north_east) {
-                diagonal_blocks& blocks = blocked_cache[center.x][center.y];
+            if( adjacent == point_north_east ) {
+                diagonal_blocks &blocks = blocked_cache[center.x][center.y];
                 blocked_restore_cache[i] = !blocks.ne;
                 blocks.ne = true;
-            }
-            else if (adjacent == point_south_east) {
-                diagonal_blocks& blocks = blocked_cache[p.x][p.y];
+            } else if( adjacent == point_south_east ) {
+                diagonal_blocks &blocks = blocked_cache[p.x][p.y];
                 blocked_restore_cache[i] = !blocks.nw;
                 blocks.nw = true;
-            }
-            else if (adjacent == point_south_west) {
-                diagonal_blocks& blocks = blocked_cache[p.x][p.y];
+            } else if( adjacent == point_south_west ) {
+                diagonal_blocks &blocks = blocked_cache[p.x][p.y];
                 blocked_restore_cache[i] = !blocks.ne;
                 blocks.ne = true;
-            }
-            else {
-                diagonal_blocks& blocks = blocked_cache[center.x][center.y];
+            } else {
+                diagonal_blocks &blocks = blocked_cache[center.x][center.y];
                 blocked_restore_cache[i] = !blocks.nw;
                 blocks.nw = true;
             }
@@ -1531,16 +1528,13 @@ void map::restore_vision_transparency_cache( const tripoint &center, int target_
         transparency_cache[p.x][p.y] = vision_restore_cache[i];
 
         if( blocked_restore_cache[i] ) {
-            if (adjacent == point_north_east) {
+            if( adjacent == point_north_east ) {
                 blocked_cache[center.x][center.y].ne = false;
-            }
-            else if (adjacent == point_south_east) {
+            } else if( adjacent == point_south_east ) {
                 blocked_cache[p.x][p.y].nw = false;
-            }
-            else if (adjacent == point_south_west) {
+            } else if( adjacent == point_south_west ) {
                 blocked_cache[p.x][p.y].ne = false;
-            }
-            else {
+            } else {
                 blocked_cache[center.x][center.y].nw = false;
             }
         }
