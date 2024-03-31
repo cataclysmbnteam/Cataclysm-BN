@@ -4356,7 +4356,7 @@ void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id )
     rules.power_level = 1000;
     rules.max_negative_power = -2000;
 
-    add_item_or_charges( p, item::spawn( id->create_item( rules ) ) );
+    add_item_or_charges( p, id->create_item( rules ) );
 }
 
 void map::spawn_item( const tripoint &p, const itype_id &type_id,
