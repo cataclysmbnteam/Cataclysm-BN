@@ -53,7 +53,10 @@
     "price": "350 USD",
     "symbol": "?",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura", "storm_condense_water" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura", "storm_condense_water" ]
+    }
   },
   {
     "id": "pyro",
@@ -142,7 +145,16 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "jolt", "windstrike", "windrun", "storm_hammer", "lightning_bolt", "lightning_blast", "storm_condense_water", "storm_condense_clean_water" ]
+      "spells": [
+        "jolt",
+        "windstrike",
+        "windrun",
+        "storm_hammer",
+        "lightning_bolt",
+        "lightning_blast",
+        "storm_condense_water",
+        "storm_condense_clean_water"
+      ]
     }
   },
   {
@@ -366,55 +378,55 @@
   },
   {
     "id": "novice_techno_spellbook",
-	"type": "GENERIC",
-	"category": "spellbooks",
-	"name": { "str": "The Novice Technomancer's Spellbook", "str_pl": "copies of The Novice Technomancer's Spellbook" },
-	"//": "2 basic technomancer spells",
-	"description": "A fairly simplistic looking technomancer's spellbook containing just a couple simple technomancy spells.",
-	"weight": "256 g",
-	"volume": "500 ml",
-	"symbol": "?",
-	"color": "green",
-	"use_action": { "type": "learn_spell", "spells": [ "synaptic_stimulation", "taze" ] },
-	"looks_like": "techno_idiots"
+    "type": "GENERIC",
+    "category": "spellbooks",
+    "name": { "str": "The Novice Technomancer's Spellbook", "str_pl": "copies of The Novice Technomancer's Spellbook" },
+    "//": "2 basic technomancer spells",
+    "description": "A fairly simplistic looking technomancer's spellbook containing just a couple simple technomancy spells.",
+    "weight": "256 g",
+    "volume": "500 ml",
+    "symbol": "?",
+    "color": "green",
+    "use_action": { "type": "learn_spell", "spells": [ "synaptic_stimulation", "taze" ] },
+    "looks_like": "techno_idiots"
   },
   {
     "id": "novice_storm_spellbook",
-	"type": "GENERIC",
-	"category": "spellbooks",
-	"name": { "str": "The Novice Stormshaper's Spellbook", "str_pl": "copies of The Novice Stormshaper's Spellbook" },
-	"//": "2 basic stormshaper spells",
-	"description": "A fairly simplistic looking stormshaper's spellbook containing just a couple simple stormshaping spells.",
-	"weight": "256 g",
-	"volume": "500 ml",
-	"symbol": "?",
-	"color": "blue",
-	"use_action": { "type": "learn_spell", "spells": [ "windrun", "jolt" ] }
+    "type": "GENERIC",
+    "category": "spellbooks",
+    "name": { "str": "The Novice Stormshaper's Spellbook", "str_pl": "copies of The Novice Stormshaper's Spellbook" },
+    "//": "2 basic stormshaper spells",
+    "description": "A fairly simplistic looking stormshaper's spellbook containing just a couple simple stormshaping spells.",
+    "weight": "256 g",
+    "volume": "500 ml",
+    "symbol": "?",
+    "color": "blue",
+    "use_action": { "type": "learn_spell", "spells": [ "windrun", "jolt" ] }
   },
   {
     "id": "novice_earth_spellbook",
-	"type": "GENERIC",
-	"category": "spellbooks",
-	"name": { "str": "The Novice Earthshaper's Spellbook", "str_pl": "copies of The Novice Earthshaper's Spellbook" },
-	"//": "2 basic earthshaper spells",
-	"description": "A fairly simplistic looking earthshaper's spellbook containing just a couple simple earthshaping spells.",
-	"weight": "256 g",
-	"volume": "500 ml",
-	"symbol": "?",
-	"color": "brown",
-	"use_action": { "type": "learn_spell", "spells": [ "stonefist", "eshaper_rockbolt" ] }
+    "type": "GENERIC",
+    "category": "spellbooks",
+    "name": { "str": "The Novice Earthshaper's Spellbook", "str_pl": "copies of The Novice Earthshaper's Spellbook" },
+    "//": "2 basic earthshaper spells",
+    "description": "A fairly simplistic looking earthshaper's spellbook containing just a couple simple earthshaping spells.",
+    "weight": "256 g",
+    "volume": "500 ml",
+    "symbol": "?",
+    "color": "brown",
+    "use_action": { "type": "learn_spell", "spells": [ "stonefist", "eshaper_rockbolt" ] }
   },
   {
     "id": "novice_kelvin_spellbook",
-	"type": "GENERIC",
-	"category": "spellbooks",
-	"name": { "str": "The Novice Kelvinist's Spellbook", "str_pl": "copies of The Novice Kelvinist's Spellbook" },
-	"//": "4 basic kelvinist spells: 2 ice and 2 fire",
-	"description": "A fairly simplistic looking kelvinist's spellbook containing just a couple simple spells from both fire and ice.",
-	"weight": "260 g",
-	"volume": "500 ml",
-	"symbol": "?",
-	"color": "light_blue",
-	"use_action": { "type": "learn_spell", "spells": [ "chilling_touch", "glide_ice", "flamebreath", "create_flamesword" ] }
+    "type": "GENERIC",
+    "category": "spellbooks",
+    "name": { "str": "The Novice Kelvinist's Spellbook", "str_pl": "copies of The Novice Kelvinist's Spellbook" },
+    "//": "4 basic kelvinist spells: 2 ice and 2 fire",
+    "description": "A fairly simplistic looking kelvinist's spellbook containing just a couple simple spells from both fire and ice.",
+    "weight": "260 g",
+    "volume": "500 ml",
+    "symbol": "?",
+    "color": "light_blue",
+    "use_action": { "type": "learn_spell", "spells": [ "chilling_touch", "glide_ice", "create_lighter", "point_flare" ] }
   }
 ]

@@ -112,7 +112,7 @@
     "base_energy_cost": 5,
     "energy_increment": 1,
     "final_energy_cost": 60,
-    "flags": [ "SOMATIC","NO_HANDS", "SILENT", "NO_LEGS", "NO_EXPLOSION_VFX" ],
+    "flags": [ "SOMATIC", "NO_HANDS", "SILENT", "NO_LEGS", "NO_EXPLOSION_VFX" ],
     "difficulty": 3
   },
   {
@@ -229,8 +229,8 @@
     "spell_class": "ANIMIST",
     "energy_source": "HP",
     "flags": [ "NO_LEGS", "NO_HANDS", "CONCENTRATE", "SOMATIC" ],
-    "min_damage": 61,
-    "max_damage": 351,
+    "min_damage": 20,
+    "max_damage": 242,
     "damage_increment": 6,
     "min_range": 5,
     "max_range": 10,

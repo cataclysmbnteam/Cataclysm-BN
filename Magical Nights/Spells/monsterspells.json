@@ -143,8 +143,8 @@
     "effect": "target_attack",
     "energy_source": "HP",
     "flags": [ "NO_LEGS", "CONCENTRATE", "SOMATIC" ],
-    "min_damage": 30,
-    "max_damage": 320,
+    "min_damage": 20,
+    "max_damage": 310,
     "damage_increment": 6,
     "min_range": 5,
     "max_range": 10,
@@ -177,5 +177,17 @@
     "min_aoe": 100,
     "max_aoe": 165,
     "aoe_increment": 5
+  },
+  {
+    "id": "monster_pain_split",
+    "type": "SPELL",
+    "name": { "str": "Monster Pain Split" },
+    "description": "Perfect for evening out damage on breath attacks",
+    "valid_targets": [ "self", "hostile" ],
+    "effect": "pain_split",
+    "energy_source": "MANA",
+    "flags": [ "SOMATIC", "NO_LEGS", "CONCENTRATE", "NO_EXPLOSION_VFX", "NO_HANDS" ],
+    "difficulty": 4,
+    "max_level": 1
   }
 ]

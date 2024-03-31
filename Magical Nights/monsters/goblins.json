@@ -9,7 +9,7 @@
     "species": [ "GOBLIN" ],
     "volume": "30 L",
     "weight": "45 kg",
-    "hp": 45,
+    "hp": 50,
     "speed": 115,
     "material": [ "flesh" ],
     "symbol": "g",
@@ -79,7 +79,7 @@
     "copy-from": "mon_goblin_warrior",
     "name": { "str": "Goblin Chieftain" },
     "description": "An ugly bastard of a goblin who asserted his rule over the rest through liberal application of violence and a little extra cunning.  He's much tougher, and he brandishes a weapon that has faint tinges of magic.",
-    "hp": 135,
+    "hp": 150,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "death_drops": "goblin_chieftain_drops"

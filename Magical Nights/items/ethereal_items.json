@@ -130,7 +130,7 @@
     "coverage": 100,
     "encumbrance": 0,
     "warmth": 30,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
     "flags": [ "WATERPROOF", "ROLLER_QUAD", "BELTED", "POWERARMOR_COMPATIBLE" ]
