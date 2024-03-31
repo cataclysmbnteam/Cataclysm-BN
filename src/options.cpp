@@ -2090,6 +2090,13 @@ void options_manager::add_options_graphics()
          false, COPT_CURSES_HIDE
        );
 
+#if defined(SDL_HINT_RENDER_VSYNC)
+    add( "VSYNC", graphics, translate_marker( "Use VSync" ),
+         translate_marker( "Enable vertical synchronization to prevent screen tearing.  VSync can slow the game down a lot.  Requires restart." ),
+         false, COPT_CURSES_HIDE
+       );
+#endif
+
 #if defined(__ANDROID__)
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
 #else
@@ -2342,7 +2349,7 @@ void options_manager::add_options_world_default()
 
     add( "INITIAL_DAY", world_default, translate_marker( "Initial day" ),
          translate_marker( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
-         -1, 999, 7
+         -1, 999, 15
        );
 
     add( "SPAWN_DELAY", world_default, translate_marker( "Spawn delay" ),
@@ -2352,7 +2359,7 @@ void options_manager::add_options_world_default()
 
     add( "SEASON_LENGTH", world_default, translate_marker( "Season length" ),
          translate_marker( "Season length, in days." ),
-         14, 127, 14
+         14, 127, 30
        );
 
     add( "CONSTRUCTION_SCALING", world_default, translate_marker( "Construction scaling" ),

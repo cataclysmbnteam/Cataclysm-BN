@@ -78,6 +78,7 @@
 #include "player.h"
 #include "point_float.h"
 #include "projectile.h"
+#include "profile.h"
 #include "rng.h"
 #include "safe_reference.h"
 #include "scent_map.h"
@@ -463,6 +464,8 @@ void map::destroy_vehicle( vehicle *veh )
 
 void map::on_vehicle_moved( const int smz )
 {
+    ZoneScoped;
+
     set_outside_cache_dirty( smz );
     set_transparency_cache_dirty( smz );
     set_floor_cache_dirty( smz );
@@ -472,6 +475,8 @@ void map::on_vehicle_moved( const int smz )
 
 void map::vehmove()
 {
+    ZoneScoped;
+
     // give vehicles movement points
     VehicleList vehicle_list;
     int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
@@ -2350,6 +2355,8 @@ void map::support_dirty( const tripoint &p )
 
 void map::process_falling()
 {
+    ZoneScoped;
+
     if( !zlevels ) {
         support_cache_dirty.clear();
         return;
@@ -8232,6 +8239,8 @@ bool map::build_floor_cache( const int zlev )
 
 void map::build_floor_caches()
 {
+    ZoneScoped;
+
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     for( int z = minz; z <= maxz; z++ ) {
@@ -8398,6 +8407,7 @@ void map::do_vehicle_caching( int z )
 
 void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
+    ZoneScoped;
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
     bool seen_cache_dirty = false;

@@ -20,7 +20,7 @@
     "difficulty": 1,
     "time": "45 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ] ],
+    "using": [ [ "earthenware_firing", 10 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 1 ] ] ]
   },
   {

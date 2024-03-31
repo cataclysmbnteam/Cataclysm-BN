@@ -31,6 +31,7 @@
 #include "npc.h"
 #include "player.h"
 #include "point.h"
+#include "profile.h"
 #include "string_formatter.h"
 #include "submap.h"
 #include "tileray.h"
@@ -434,6 +435,7 @@ void map::build_sunlight_cache( int pzlev )
 
 void map::generate_lightmap( const int zlev )
 {
+    ZoneScoped;
     auto &map_cache = get_cache( zlev );
     auto &lm = map_cache.lm;
     auto &sm = map_cache.sm;

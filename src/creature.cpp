@@ -49,6 +49,7 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
+#include "profile.h"
 
 static const ammo_effect_str_id ammo_effect_APPLY_SAP( "APPLY_SAP" );
 static const ammo_effect_str_id ammo_effect_BEANBAG( "BEANBAG" );
@@ -255,6 +256,8 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
 
 bool Creature::sees( const Creature &critter ) const
 {
+    ZoneScoped;
+
     // Creatures always see themselves (simplifies drawing).
     if( &critter == this ) {
         return true;

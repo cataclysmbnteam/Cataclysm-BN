@@ -11,6 +11,7 @@
 #include "game_ui.h"
 #include "point.h"
 #include "sdltiles.h"
+#include "profile.h"
 
 using ui_stack_t = std::vector<std::reference_wrapper<ui_adaptor>>;
 
@@ -257,10 +258,12 @@ void ui_adaptor::redraw()
         ui_stack.back().get().invalidated = true;
     }
     redraw_invalidated();
+    FrameMark;
 }
 
 void ui_adaptor::redraw_invalidated()
 {
+    ZoneScoped;
     if( test_mode || ui_stack.empty() ) {
         return;
     }
