@@ -184,13 +184,35 @@
   {
     "type": "construction",
     "id": "constr_door_frame",
-    "group": "build_door",
-    "//": "Step 1: door frame",
+    "group": "build_door_frame",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 24 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_door_frame"
+  },
+  {
+    "type": "construction",
+    "id": "constr_door_frame_glue",
+    "group": "build_door_frame",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "90 m",
+    "components": [ [ [ "2x4", 12 ] ], [ [ "superglue", 3 ], [ "bone_glue", 3 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_door_frame"
+  },
+  {
+    "type": "construction",
+    "id": "constr_door_frame_fancy",
+    "group": "build_door_frame",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "CHISEL", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 12 ], [ "log", 2 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_door_frame"
   },
