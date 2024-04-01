@@ -1391,6 +1391,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_door_frame",
+    "name": "Build Door Frame"
+  },
+  {
+    "type": "construction_group",
     "id": "repair_wood_wall",
     "name": "Repair Wood Wall"
   },

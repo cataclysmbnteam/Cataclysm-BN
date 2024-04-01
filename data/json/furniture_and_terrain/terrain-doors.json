@@ -1738,7 +1738,7 @@
     "type": "terrain",
     "id": "t_door_frame",
     "name": "empty door frame",
-    "description": "An empty door frame made from two by fours and nails.  A variety of doors could be constructed here.",
+    "description": "An empty door frame made from wood.  A variety of doors could be constructed here.",
     "symbol": ".",
     "looks_like": "t_floor",
     "color": "brown",
