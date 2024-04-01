@@ -3675,6 +3675,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_leanto_harvested",
+    "group": "build_pine_lean_to",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "90m",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "wood_structural_small", 3, "LIST" ] ] ],
+    "pre_terrain": "t_tree_pine_harvested",
+    "post_terrain": "t_leanto"
+  },
+  {
+    "type": "construction",
     "id": "constr_tarptent",
     "group": "build_tarp_lean_to",
     "category": "CONSTRUCT",
