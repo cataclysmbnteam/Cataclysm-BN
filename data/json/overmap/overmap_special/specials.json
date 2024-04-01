@@ -6732,7 +6732,7 @@
       { "point": [ 6, 7, 2 ], "overmap": "speedway_6_7_2_north" }
     ],
     "occurrences": [ 50, 100 ],
-    "connections": [ { "point": [ 5, 10, 0 ], "terrain": "road", "from": [ 5, 9, 0 ] } ],
+    "connections": [ { "point": [ 5, 10, 0 ], "connection": "local_road", "from": [ 5, 9, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 5, -1 ],

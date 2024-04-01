@@ -816,6 +816,44 @@
     ]
   },
   {
+    "type": "vehicle_group",
+    "id": "speedway_rv",
+    "vehicles": [
+      [ "lux_rv", 300 ]
+      [ "rv", 700 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "speedway_bike",
+    "vehicles": [
+      [ "motorcycle", 690 ],
+      [ "superbike", 200 ],
+      [ "motorcycle_sidecart", 100 ],
+      [ "scooter", 10 ],
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "speedway_car_truck",
+    "vehicles": [
+      [ "car", 500 ],
+      [ "electric_car", 100 ],
+      [ "car_sports", 300 ],
+      [ "car_sports_electric", 300 ],
+      [ "suv", 500 ],
+      [ "suv_electric", 500 ],
+      [ "car_mini", 500 ],
+      [ "beetle", 500 ],
+      [ "motorcycle", 200 ],
+      [ "superbike", 200 ],
+      [ "pickup", 640 ],
+      [ "pickup_diesel", 160 ],
+      [ "hippie_van", 180 ],
+      [ "hippie_van_electric", 200 ]
+    ]
+  },
+  {
     "id": "park_playground_vehicles",
     "type": "vehicle_group",
     "vehicles": [ [ "ice_cream_cart", 100 ], [ "food_cart", 200 ], [ "bicycle", 150 ], [ "bicycle_dirt", 125 ], [ "tricycle", 5 ] ]
