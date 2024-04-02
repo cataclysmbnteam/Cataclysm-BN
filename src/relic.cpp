@@ -633,7 +633,7 @@ detached_ptr<item> relic_procgen_data::create_item( const relic_procgen_data::ge
 {
     const itype_id *it_id = item_weights.pick();
 
-    if( it_id->empty() ) {
+    if( it_id->is_empty() ) {
         debugmsg( "ERROR: %s procgen data does not have items", id.c_str() );
         return detached_ptr<item>();
     }
@@ -642,7 +642,7 @@ detached_ptr<item> relic_procgen_data::create_item( const relic_procgen_data::ge
 
     it->overwrite_relic( generate( rules, *it_id ) );
 
-    return detached_ptr<item>( it );
+    return it;
 }
 
 relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &rules,
