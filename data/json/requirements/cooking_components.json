@@ -253,6 +253,27 @@
     ]
   },
   {
+    "id": "offal_cooked",
+    "type": "requirement",
+    "//": "cooked offal",
+    "components": [
+      [
+        [ "liver_cooked", 5 ],
+        [ "brain_cooked", 5 ],
+        [ "sweetbread_cooked", 5 ],
+        [ "lung_cooked", 5 ],
+        [ "kidney_cooked", 5 ],
+        [ "fried_livers", 1 ],
+        [ "canned_liver", 1 ],
+        [ "fried_brain", 2 ],
+        [ "grilled_sweetbread", 2 ],
+        [ "offal_canned", 1 ],
+        [ "offal_cooked", 1 ],
+        [ "offal_pickled", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "meat_sausage",
     "type": "requirement",
     "//": "sausages for food stuff",
@@ -263,7 +284,8 @@
         [ "bratwurst_sausage", 1 ],
         [ "sweet_sausage", 1 ],
         [ "sausage_wasteland", 1 ],
-        [ "sausage_wasteland_cooked", 1 ]
+        [ "sausage_wasteland_cooked", 1 ],
+        [ "hotdogs_campfire", 1 ]
       ]
     ]
   },
@@ -342,6 +364,7 @@
         [ "meat_nofish", 1, "LIST" ],
         [ "meat_sausage", 1, "LIST" ],
         [ "meat_cooked", 1, "LIST" ],
+        [ "offal_cooked", 1, "LIST" ],
         [ "can_chicken", 1 ]
       ]
     ]
@@ -470,7 +493,8 @@
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
         [ "eggs_small_dry", 2, "LIST" ],
-        [ "meat_cooked", 1, "LIST" ]
+        [ "meat_cooked", 1, "LIST" ],
+        [ "offal_cooked", 1, "LIST" ]
       ],
       [
         [ "veggy_wild", 2 ],
