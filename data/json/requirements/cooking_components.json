@@ -221,15 +221,8 @@
         [ "kidney", 5 ],
         [ "lung", 5 ],
         [ "sweetbread", 5 ],
-        [ "bacon", 4 ],
-        [ "lunchmeat", 5 ],
-        [ "bologna", 5 ],
-        [ "can_spam", 2 ],
-        [ "can_chicken", 1 ],
+        [ "brain", 5 ],
         [ "meat_pickled", 1 ],
-        [ "dry_meat", 1 ],
-        [ "jerky", 1 ],
-        [ "meat_smoked", 1 ],
         [ "meat_salted", 1 ]
       ]
     ]
@@ -241,6 +234,9 @@
     "components": [
       [
         [ "meat_cooked", 1 ],
+        [ "meat_smoked", 1 ],
+        [ "meat_pickled", 1 ],
+        [ "dry_meat", 1 ],
         [ "meat_scrap_cooked", 10 ],
         [ "mutant_meat_cooked", 1 ],
         [ "mutant_meat_scrap_cooked", 10 ],
@@ -251,7 +247,23 @@
         [ "mutant_meat_cooked_seasoned", 1 ],
         [ "mutant_meat_scrap_cooked_seasoned", 10 ],
         [ "human_cooked_seasoned", 1 ],
-        [ "mutant_human_cooked_seasoned", 1 ]
+        [ "mutant_human_cooked_seasoned", 1 ],
+        [ "jerky", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_sausage",
+    "type": "requirement",
+    "//": "sausages for food stuff",
+    "components": [
+      [
+        [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "bratwurst_sausage", 1 ],
+        [ "sweet_sausage", 1 ],
+        [ "sausage_wasteland", 1 ],
+        [ "sausage_wasteland_cooked", 1 ]
       ]
     ]
   },
@@ -262,15 +274,12 @@
     "components": [
       [
         [ "meat_cooked", 1, "LIST" ],
-        [ "meat_pickled", 1 ],
-        [ "meat_smoked", 1 ],
+        [ "meat_sausage", 1, "LIST" ],
         [ "meat_salted", 1 ],
-        [ "dry_meat", 1 ],
-        [ "rehydrated_meat", 1 ],
-        [ "jerky", 1 ],
+        [ "bologna", 5 ],
         [ "bacon", 1 ],
         [ "lunchmeat", 2 ],
-        [ "bologna", 5 ],
+        [ "rehydrated_meat", 1 ],
         [ "can_spam", 2 ],
         [ "fried_spam", 2 ],
         [ "can_chicken", 1 ],
@@ -285,10 +294,7 @@
         [ "can_clams", 1 ],
         [ "fish_pickled", 1 ],
         [ "cracklins", 1 ],
-        [ "meat_aspic", 1 ],
-        [ "sausage", 1 ],
-        [ "sausage_cooked", 1 ],
-        [ "bratwurst_sausage", 1 ]
+        [ "meat_aspic", 1 ]
       ]
     ]
   },
@@ -332,7 +338,12 @@
         [ "dry_lentils", 1 ],
         [ "raw_lentils", 1 ]
       ],
-      [ [ "meat_red", 1, "LIST" ], [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ]
+      [
+        [ "meat_nofish", 1, "LIST" ],
+        [ "meat_sausage", 1, "LIST" ],
+        [ "meat_cooked", 1, "LIST" ],
+        [ "can_chicken", 1 ]
+      ]
     ]
   },
   {
@@ -378,14 +389,14 @@
         [ "acorns_cooked", 1 ]
       ],
       [
-        [ "fish", 2 ],
-        [ "dry_fish", 2 ],
-        [ "fish_smoked", 2 ],
-        [ "fish_pickled", 2 ],
-        [ "salted_fish", 2 ],
-        [ "fish_canned", 2 ],
-        [ "can_salmon", 2 ],
-        [ "can_tuna", 2 ]
+        [ "fish", 1 ],
+        [ "dry_fish", 1 ],
+        [ "fish_smoked", 1 ],
+        [ "fish_pickled", 1 ],
+        [ "salted_fish", 1 ],
+        [ "fish_canned", 1 ],
+        [ "can_salmon", 1 ],
+        [ "can_tuna", 1 ]
       ]
     ]
   },
@@ -448,16 +459,16 @@
       [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "pine_tea", 2 ] ],
       [
         [ "meat_nofish", 1, "LIST" ],
+        [ "meat_sausage", 1, "LIST" ],
+        [ "can_chicken", 1 ],
         [ "fish", 1 ],
-        [ "fish_smoked", 1 ],
         [ "dry_fish", 1 ],
-        [ "rehydrated_fish", 1 ],
+        [ "fish_smoked", 1 ],
+        [ "fish_pickled", 1 ],
+        [ "salted_fish", 1 ],
         [ "fish_canned", 1 ],
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
-        [ "sausage", 1 ],
-        [ "sausage_cooked", 1 ],
-        [ "bratwurst_sausage", 1 ],
         [ "eggs_small_dry", 2, "LIST" ],
         [ "meat_cooked", 1, "LIST" ]
       ],
