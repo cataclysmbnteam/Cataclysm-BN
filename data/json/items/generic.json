@@ -1891,7 +1891,7 @@
     "weight": "220 g",
     "volume": "500 ml",
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "type": "GENERIC",
