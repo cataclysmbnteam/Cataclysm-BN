@@ -486,7 +486,7 @@
     "symbol": "%",
     "healthy": -1,
     "calories": 356,
-    "description": "So-called ramen noodles. Can be eaten raw.",
+    "description": "So-called ramen noodles.  Can be eaten raw.",
     "price": "2 USD",
     "price_postapoc": "1 USD",
     "material": "wheat",
