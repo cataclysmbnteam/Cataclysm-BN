@@ -184,7 +184,7 @@ jobs:
 
       # problem matchers are only ran on GCC to reduce error spam
       - name: add problem matcher
-        if: ${{ matrix.always-run }}
+        if: ${{ matrix.always-run == true }}
         run: |
           # Enable GitHub actions problem matchers
           # (See https://github.com/actions/toolkit/blob/master/docs/problem-matchers.md)
