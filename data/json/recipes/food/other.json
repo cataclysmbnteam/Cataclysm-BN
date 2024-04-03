@@ -694,7 +694,7 @@
       [ [ "eggs_small_dry", 2, "LIST" ] ],
       [
         [ "bacon", 2 ],
-        [ "meat_cooked", 1, "LIST" ],
+        [ "meat_red_cooked", 1, "LIST" ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
