@@ -1026,7 +1026,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -2,
-    "calories": 130,
+    "calories": 200,
     "description": "A heavily processed sausage, commonplace at baseball games before the Cataclysm.  It would taste much better prepared.",
     "price": "8 USD",
     "price_postapoc": "450 cent",
