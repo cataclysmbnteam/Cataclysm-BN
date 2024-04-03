@@ -858,7 +858,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -1,
-    "calories": 353,
+    "calories": 450,
     "description": "A hot dog, served with chili con carne as a topping.  Yum!",
     "price": "9 USD",
     "price_postapoc": "150 cent",
@@ -912,7 +912,7 @@
     "charges": 1,
     "description": "A homemade sausage, dipped in batter and deep fried.  Cooked, this corn dog now tastes much better, but will spoil.",
     "fun": 18,
-    "calories": 250
+    "calories": 300
   },
   {
     "type": "COMESTIBLE",
