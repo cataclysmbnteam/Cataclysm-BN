@@ -3,11 +3,6 @@
 set -e
 set -x
 
-# Enable GitHub actions problem matchers
-# (See https://github.com/actions/toolkit/blob/master/docs/problem-matchers.md)
-echo "::add-matcher::build-scripts/problem-matchers/catch2.json"
-echo "::add-matcher::build-scripts/problem-matchers/debugmsg.json"
-
 if [[ "$LIBBACKTRACE" == "1" ]]; then
     git clone https://github.com/ianlancetaylor/libbacktrace.git
     (

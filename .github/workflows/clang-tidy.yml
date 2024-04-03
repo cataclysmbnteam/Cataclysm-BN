@@ -53,6 +53,13 @@ jobs:
             libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev ccache \
             libflac-dev gettext
 
+      - name: add problem matcher
+        run: |
+          # Enable GitHub actions problem matchers
+          # (See https://github.com/actions/toolkit/blob/master/docs/problem-matchers.md)
+          echo "::add-matcher::build-scripts/problem-matchers/catch2.json"
+          echo "::add-matcher::build-scripts/problem-matchers/debugmsg.json"
+
       - name: prepare
         run: bash ./build-scripts/requirements.sh
       - uses: ammaraskar/gcc-problem-matcher@master
