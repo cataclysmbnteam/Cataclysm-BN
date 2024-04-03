@@ -819,7 +819,7 @@
     "type": "vehicle_group",
     "id": "speedway_rv",
     "vehicles": [
-      [ "lux_rv", 300 ]
+      [ "lux_rv", 300 ],
       [ "rv", 700 ]
     ]
   },
@@ -830,7 +830,7 @@
       [ "motorcycle", 690 ],
       [ "superbike", 200 ],
       [ "motorcycle_sidecart", 100 ],
-      [ "scooter", 10 ],
+      [ "scooter", 10 ]
     ]
   },
   {
