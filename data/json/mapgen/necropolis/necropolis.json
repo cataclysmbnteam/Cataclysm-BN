@@ -79,28 +79,28 @@
         "......................................ss................................",
         "...............X......................ss................................",
         ".qQQQQQQQQQQQQQQQQQQQQQQQq......sssssssssssssssss8777777777777777777778.",
-        ".q.......................q.....ssssssssssssssssss8ssrrrrrrrrrrsssssssr8.",
-        ".q..|-vv-|----|-|-----|..q....ss_________________9sssssssssssssssssssr8.",
-        ".q..|((Sc|BtcS|>|d @@ |..q...ss__________________9sssssssssssssssZZssr8.",
-        ".q..|(   |B   | +  @@ v..q..ss___________________9sssssssssssssssZZssr8.",
-        ".q..vO   |--+-|-|     |..q.ss____________________9sssssssssssssssssssr8.",
-        ".q..vc          +     v..qss_____________________9sssssssssssssssssssr8.",
-        ".q..|f   |c    ?| ddd |..qss_____________________9sssssssssssssssZZssr8.",
-        ".q..|-| -|c    ?|-----|..qss_________________s...8sssZZssssZZssssZZssr8.",
-        ".q....|        ?v........qss________________ss...8sssZZssssZZssssssssr8.",
-        ".q....V hnnh    |........qss________________ss...8sssssssssssssssssssr8.",
-        ".q....V hnnh    ;sssssssssss_______,,_______ss...8sssssssssssssssZZssr8.",
-        ".q....V         ;sssssssssss_______,,_______ss...8srrrrrrrrrsssssZZssr8.",
-        ".q....|      ooP|....s...qss_______,,_______ss..|------------|rssssssr8.",
-        ".q....|;|--+----|--|es...qss________________ss..|222222222222|rssssssr8.",
-        ".q..ssss|r̲~~~~~~~~~=_______________,,_______ss..w3          2|rssZZssr8.",
-        ".q..sЮss|r̲~~~~~~~~~=_______________,,_______ss..w3  11  11  2|rssZZssr8.",
-        ".q..sЯss|r̲~~~~~~~~~=_______________,,_______ss..w3  11  11  2|rssssssr8.",
-        ".q..sЮss|r̲~~~~~~~~~=________________________ss..|r           [sssssssr8.",
-        ".q..ssss|r̲~~~~~~~~~=_______________,,_______ss..w3  11       [sssssssr8.",
-        ".q......|----------|.....qss_______,,_______ss..w3  11  cc  1|rssssssr8.",
-        ".q.......................qss_______,,_______ss..w3      6   1|rssZZssr8.",
-        ".qQQQQQQQQQQQQQQQQQQQQQQQqss________________ss..|r333r  c   1|rssZZssr8.",
+        ".q.......................q.....ssssssssssssssssss8ssṟṟṟṟṟṟṟṟṟṟsssssssṟ8.",
+        ".q..|-vv-|----|-|-----|..q....ss_________________9sssssssssssssssssssṟ8.",
+        ".q..|((Sc|BtcS|>|d @@ |..q...ss__________________9sssssssssssssssZZssṟ8.",
+        ".q..|(   |B   | +  @@ v..q..ss___________________9sssssssssssssssZZssṟ8.",
+        ".q..vO   |--+-|-|     |..q.ss____________________9sssssssssssssssssssṟ8.",
+        ".q..vc          +     v..qss_____________________9sssssssssssssssssssṟ8.",
+        ".q..|f   |c    ?| ddd |..qss_____________________9sssssssssssssssZZssṟ8.",
+        ".q..|-| -|c    ?|-----|..qss_________________s...8sssZZssssZZssssZZssṟ8.",
+        ".q....|        ?v........qss________________ss...8sssZZssssZZssssssssṟ8.",
+        ".q....V hnnh    |........qss________________ss...8sssssssssssssssssssṟ8.",
+        ".q....V hnnh    ;sssssssssss_______,,_______ss...8sssssssssssssssZZssṟ8.",
+        ".q....V         ;sssssssssss_______,,_______ss...8sṟṟṟṟṟṟṟṟṟsssssZZssṟ8.",
+        ".q....|      ooP|....s...qss_______,,_______ss..|------------|ṟssssssṟ8.",
+        ".q....|;|--+----|--|es...qss________________ss..|222222222222|ṟssssssṟ8.",
+        ".q..ssss|r̲~~~~~~~~~=_______________,,_______ss..w3          2|ṟssZZssṟ8.",
+        ".q..sЮss|r̲~~~~~~~~~=_______________,,_______ss..w3  11  11  2|ṟssZZssṟ8.",
+        ".q..sЯss|r̲~~~~~~~~~=_______________,,_______ss..w3  11  11  2|ṟssssssṟ8.",
+        ".q..sЮss|r̲~~~~~~~~~=________________________ss..|r           [sssssssṟ8.",
+        ".q..ssss|r̲~~~~~~~~~=_______________,,_______ss..w3  11       [sssssssṟ8.",
+        ".q......|----------|.....qss_______,,_______ss..w3  11  cc  1|ṟssssssṟ8.",
+        ".q.......................qss_______,,_______ss..w3      6   1|ṟssZZssṟ8.",
+        ".qQQQQQQQQQQQQQQQQQQQQQQQqss________________ss..|r333r  c   1|ṟssZZssṟ8.",
         "..........................ss_______,,_______ss..|-www-[[-www-|777777778."
       ],
       "palettes": [ "necropolis_a" ],
@@ -197,7 +197,7 @@
         ".|-{{{-sss-ssssssM.MMMsMMmm]]]]]]]]]]]]]]]]]mmMMMMMs_M_M___,,_______sss."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "l": "t_floor", "u": "t_floor" },
+      "terrain": { "l": "t_floor" },
       "set": [
         { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
         { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
@@ -291,7 +291,7 @@
         "..|P           : | hhhhh |ss________________,________,________8........."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "Z": "t_floor", "l": "t_floor", "z": "t_floor" },
       "furniture": { "F": "f_filing_cabinet" },
       "items": {
         "F": { "item": "office_paper", "chance": 40, "repeat": 5 },
@@ -355,8 +355,8 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        ".....sssssssssssssssssssssss_______,,_______ss..........................",
-        "....ssssssssssssssssssssssss_______,,_______sss.........................",
+        ".....sssssssssssssssssssssss_______,,_______ss........ss................",
+        "....ssssssssssssssssssssssss_______,,_______sss.......ss................",
         "....sss_____,______,_____sss________________ssssssssssssssssssssssssssss",
         "....ss______,______,______ss_______,,________sssssssssssssssssssssssssss",
         "....ss______,______,______ss_______,,___________________________________",
@@ -410,7 +410,6 @@
         "Y": "t_elevator",
         "Z": "t_floor",
         "l": "t_floor",
-        "u": "t_floor",
         "z": "t_thconc_floor"
       },
       "furniture": { "Y": "f_crate_c" },
@@ -525,7 +524,7 @@
         "..ss________________sss..........|c      |---------|      h    @@ |--|.."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "Z": "t_floor", "l": "t_floor", "z": "t_floor" },
       "set": [
         { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
         { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
@@ -622,7 +621,7 @@
         "......|-{{{{ssMsMssMssMMMMMMMmm]]]]]]]]]]]]]]]]]]]mmMMMMM.M..M..MM......"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "Z": "t_floor", "l": "t_floor", "z": "t_floor" },
       "furniture": { "$": "f_safe_l" },
       "set": [
         { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
@@ -708,7 +707,7 @@
         "........|BB|d@@d@@ n|sss________________________sss|   jjjjjj D|l    |ss"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "D": "t_floor", "R": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "D": "t_floor", "R": "t_floor", "l": "t_floor", "z": "t_floor" },
       "furniture": { "R": "f_rack" },
       "set": [
         { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
@@ -799,7 +798,7 @@
         "ss________________________ss_______,,______________,,,,_________________"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "Z": "t_floor", "l": "t_floor", "N": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "Z": "t_floor", "l": "t_floor", "N": "t_floor", "z": "t_floor" },
       "furniture": { "N": "f_table" },
       "items": { "n": { "item": "traveler", "chance": 50 } },
       "place_loot": [
@@ -880,7 +879,7 @@
         "___________________________________,,_______ss......C..................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "Z": "t_floor", "l": "t_floor", "z": "t_floor" },
       "furniture": { "$": "f_safe_l" },
       "set": [
         { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
@@ -960,8 +959,8 @@
         "________________u_______________________________________________________",
         "________________________________________________________________________",
         "__________________u_____________________________________________________",
-        "_,,,_,,,_,,,_,,,_,u,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,",
-        "_,,,_,,,_,,,_,,,_,u,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,",
+        "_,,,_,,,_,,,_,,,_,u̲,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,",
+        "_,,,_,,,_,,,_,,,_,u̲,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,_,,,",
         "________________________________________________________________________",
         "_________________u______________________________________________________",
         "_________________u______________________________________________________",
@@ -975,7 +974,7 @@
         ".............###.s______,______,______,______s##s___,,___s|hnnh  hnnh|ss"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "D": "t_floor", "Z": "t_floor", "l": "t_floor", "z": "t_floor" },
       "items": { "n": { "item": "traveler", "chance": 50 } },
       "place_loot": [
         { "group": "dining", "x": [ 56, 57 ], "y": [ 17, 18 ], "chance": 70 },
@@ -1150,7 +1149,7 @@
         "_____________________________s.......#.................................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "Z": "t_floor", "l": "t_floor", "z": "t_floor" },
       "items": { "r": { "item": "SUS_junk_drawer", "chance": 75 } },
       "place_loot": [
         { "group": "SUS_bathroom_medicine", "x": 59, "y": 10, "chance": 50 },
@@ -1209,7 +1208,7 @@
         "........................................................#..............."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "D": "t_floor", "Z": "t_floor", "l": "t_floor", "z": "t_floor" },
       "items": {
         "L": { "item": "cleaning", "chance": 50, "repeat": 2 },
         "n": { "item": "dining", "chance": 50 },
@@ -1248,7 +1247,7 @@
         "__________________________ss_______,,_______ss________s________ssD|r cc ",
         "s_________________________ss____________uuu_ss________s________sss[     ",
         "sssssss____________,,,,,,,ss_______,,_______ss________I________sss[     ",
-        "__________________________ss_______,uuu_____ss________&________ssD|r    ",
+        "__________________________ss_______,u̲uu_____ss________&________ssD|r    ",
         "__________________________ss_______,,________s________I________sssw     ",
         "__________________________ss__uuu______________________________sssw rrr ",
         "__________________________ss_______,,__________________________sss| rrr ",
@@ -1262,7 +1261,7 @@
         "............................________________ss.........................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "Z": "t_floor", "l": "t_floor", "z": "t_floor" },
       "gaspumps": { "&": {  } },
       "place_loot": [
         { "group": "alcohol", "x": [ 67, 71 ], "y": 19, "chance": 30, "repeat": 3 },
@@ -1313,7 +1312,7 @@
         "..............#........................................................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "Z": "t_floor", "l": "t_floor", "z": "t_floor" },
       "place_vendingmachines": [ { "item_group": "vending_food", "x": 3, "y": 5 }, { "item_group": "vending_drink", "x": 4, "y": 5 } ],
       "items": { "o": { "item": "hardware_books", "chance": 50 } },
       "place_loot": [
