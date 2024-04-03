@@ -13,6 +13,9 @@
       "h̲": "f_chair",
       "d̲": "f_dumpster",
       "r̲": "f_rack",
+      "u": "f_barricade_road",
+      "u̲": "f_barricade_road",
+      "ṟ": "f_rack",
       ")": "f_wreckage",
       "?": "f_sofa",
       "B": "f_bathtub",
@@ -46,8 +49,7 @@
       "z": "f_crate_c",
       "(": "f_cupboard",
       "{": "f_rubble",
-      "t": "f_toilet",
-      "u": "f_barricade_road"
+      "t": "f_toilet"
     },
     "terrain": {
       "Ю": "t_sidewalk",
@@ -61,6 +63,9 @@
       "d̲": "t_sidewalk",
       "~": "t_thconc_floor",
       "r̲": "t_thconc_floor",
+      "u": "t_pavement",
+      "u̲": "t_pavement_y",
+      "ṟ": "t_sidewalk",
       "!": "t_bars",
       "#": "t_region_shrub",
       "&": "t_sidewalk",
@@ -133,7 +138,6 @@
       "r": "t_floor",
       "s": "t_sidewalk",
       "t": "t_floor",
-      "u": "t_pavement",
       "v": "t_window_domestic",
       "w": "t_window",
       "x": "t_region_groundcover_urban",
