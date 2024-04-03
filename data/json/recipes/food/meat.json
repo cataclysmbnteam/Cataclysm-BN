@@ -580,19 +580,7 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "broth_bone", 1 ] ],
-      [
-        [ "meat_red", 1, "LIST" ],
-        [ "meat_red_cooked", 1, "LIST" ],
-        [ "can_salmon", 2 ],
-        [ "can_herring", 2 ],
-        [ "fish", 2 ],
-        [ "fish_cooked", 2 ],
-        [ "fish_cooked_seasoned", 2 ],
-        [ "can_tuna", 2 ],
-        [ "can_sardine", 2 ],
-        [ "can_clams", 2 ],
-        [ "fish_canned", 2 ]
-      ],
+      [ [ "meat_red", 1, "LIST" ], [ "meat_red_cooked", 1, "LIST" ], [ "fish", 2 ], [ "fishs_cooked", 2, "LIST" ] ],
       [ [ "water_clean", 1 ], [ "water", 1 ] ]
     ]
   },
@@ -903,7 +891,7 @@
         [ "dry_rice", 1 ]
       ],
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
-      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
+      [ [ "meat_red", 1, "LIST" ], [ "meat_red_cooked", 1, "LIST" ] ],
       [ [ "curry_powder", 4 ], [ "chilly-p", 4 ] ]
     ]
   },
@@ -945,7 +933,7 @@
         [ "onion", 1 ],
         [ "garlic_clove", 1 ]
       ],
-      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
+      [ [ "meat_red", 1, "LIST" ], [ "meat_red_cooked", 1, "LIST" ] ],
       [ [ "chilly-p", 2 ], [ "chili_pepper", 1 ] ]
     ]
   },
@@ -963,7 +951,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 30 ] ],
-      [ [ "meat_red", 2, "LIST" ], [ "meat_sandwich", 2, "LIST" ], [ "tofu", 2 ], [ "dry_tofu", 2 ] ],
+      [ [ "meat_sausage_raw", 2, "LIST" ], [ "meat_sausage_cooked", 2, "LIST" ], [ "tofu", 2 ], [ "dry_tofu", 2 ] ],
       [
         [ "veggy_any", 2, "LIST" ],
         [ "mushroom", 2 ],
@@ -992,7 +980,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 30 ] ],
-      [ [ "meat_red", 2, "LIST" ], [ "meat_sandwich", 2, "LIST" ] ],
+      [ [ "meat_sausage_raw", 2, "LIST" ], [ "meat_sausage_cooked", 2, "LIST" ] ],
       [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
       [ [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]

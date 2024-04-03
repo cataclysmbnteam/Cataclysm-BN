@@ -248,6 +248,25 @@
     ]
   },
   {
+    "id": "fishs_cooked",
+    "type": "requirement",
+    "components": [
+      [
+        [ "fish_cooked", 1 ],
+        [ "fish_cooked_seasoned", 1 ],
+        [ "fish_smoked", 1 ],
+        [ "dry_fish", 1 ],
+        [ "fish_pickled", 1 ],
+        [ "salted_fish", 1 ],
+        [ "fish_canned", 1 ],
+        [ "can_sardine", 1 ],
+        [ "can_tuna", 1 ],
+        [ "can_salmon", 1 ],
+        [ "can_herring", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "offals_cooked",
     "type": "requirement",
     "//": "cooked offal",
@@ -418,16 +437,7 @@
         [ "morel_cooked", 1 ],
         [ "acorns_cooked", 1 ]
       ],
-      [
-        [ "fish", 1 ],
-        [ "dry_fish", 1 ],
-        [ "fish_smoked", 1 ],
-        [ "fish_pickled", 1 ],
-        [ "salted_fish", 1 ],
-        [ "fish_canned", 1 ],
-        [ "can_salmon", 1 ],
-        [ "can_tuna", 1 ]
-      ]
+      [ [ "fish", 1 ], [ "fishs_cooked", 1, "LIST" ] ]
     ]
   },
   {
@@ -491,13 +501,7 @@
         [ "meat_sausage_raw", 1, "LIST" ],
         [ "can_chicken", 1 ],
         [ "fish", 1 ],
-        [ "dry_fish", 1 ],
-        [ "fish_smoked", 1 ],
-        [ "fish_pickled", 1 ],
-        [ "salted_fish", 1 ],
-        [ "fish_canned", 1 ],
-        [ "can_salmon", 1 ],
-        [ "can_tuna", 1 ],
+        [ "fishs_cooked", 1, "LIST" ],
         [ "eggs_small_dry", 2, "LIST" ],
         [ "meat_sausage_cooked", 1, "LIST" ],
         [ "offals_cooked", 1, "LIST" ]
