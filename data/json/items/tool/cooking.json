@@ -411,6 +411,12 @@
     "name": { "str_sp": "sealed wild yeast culture" },
     "description": "Mixture of water, sugar and fruits with some naturally occurring yeast, that will eventually produce a more sizable yeast culture.",
     "copy-from": "jar_yeast",
+    "looks_like": "bowl_clay",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "material": [ "clay", "powder" ],
+    "symbol": ")",
+    "color": "brown",
     "use_action": {
       "target": "yeast",
       "msg": "You open the jar and harvest the culture.",
