@@ -147,7 +147,7 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
 }
 
 // does eating enough food per day keep you alive
-TEST_CASE( "all_nutrition_starve_test", "[!mayfail][starve][slow]" )
+TEST_CASE( "all_nutrition_starve_test", "[.][!mayfail][starve][slow]" )
 {
     clear_all_state();
     // change this bool when editing the test

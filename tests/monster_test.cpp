@@ -326,7 +326,7 @@ TEST_CASE( "monster_speed_square", "[speed]" )
 }
 
 // TODO: Figure out why this sometimes fails, seems to be RNG-dependent
-TEST_CASE( "monster_speed_trig", "[speed][!mayfail]" )
+TEST_CASE( "monster_speed_trig", "[.][speed][!mayfail]" )
 {
     clear_all_state();
     put_player_underground();

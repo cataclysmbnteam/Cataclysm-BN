@@ -169,7 +169,7 @@ TEST_CASE( "filesystem_utf8", "[filesystem]" )
 // (e.g. "è" vs "e\u0300"), but it also means that paths written with composed chars
 // will have them decomposed when read back from the filesystem.
 // Hence, the 'mayfail' flag.
-TEST_CASE( "filesystem_utf8_comp", "[filesystem][!mayfail]" )
+TEST_CASE( "filesystem_utf8_comp", "[.][filesystem][!mayfail]" )
 {
     // Hindi (should be unaffected)
     filesystem_test_group( 4, u8R"(नमस्ते)", u8R"(स्ते)", u8R"(मस्)" );
