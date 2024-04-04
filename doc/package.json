@@ -30,6 +30,6 @@
     "@types/mdast": "^3.0.12",
     "@types/node": "^20.5.9",
     "@types/unist": "^3.0.0",
-    "vite": "^4.5.2"
+    "vite": "^4.5.3"
   }
 }

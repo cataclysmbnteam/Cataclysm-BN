@@ -673,30 +673,19 @@
     "components": [
       [ [ "edible_tallow_lard", 1, "LIST" ] ],
       [
-        [ "jerky", 2 ],
-        [ "dry_meat", 2 ],
-        [ "meat_smoked", 2 ],
-        [ "dry_fish", 2 ],
-        [ "salted_fish", 2 ],
-        [ "fish_smoked", 2 ]
+        [ "meat_nofish_raw", 2, "LIST" ],
+        [ "meat_red_cooked", 2, "LIST" ],
+        [ "offals_cooked", 2, "LIST" ],
+        [ "fishs_cooked", 2, "LIST" ],
+        [ "fish", 2 ]
       ],
       [
-        [ "dry_veggy", 2 ],
-        [ "dry_fruit", 2 ],
-        [ "dry_mushroom", 2 ],
-        [ "juice_pulp", 4 ],
-        [ "irradiated_strawberries", 1 ],
-        [ "strawberries", 1 ],
-        [ "irradiated_blueberries", 1 ],
-        [ "blueberries", 1 ],
-        [ "irradiated_cherries", 1 ],
-        [ "cherries", 1 ],
-        [ "irradiated_cranberries", 1 ],
-        [ "cranberries", 1 ],
-        [ "irradiated_raspberries", 1 ],
-        [ "raspberries", 1 ],
-        [ "irradiated_blackberries", 1 ],
-        [ "blackberries", 1 ]
+        [ "veggy_any", 1, "LIST" ],
+        [ "mushroom", 1 ],
+        [ "mushroom_cooked", 1 ],
+        [ "dry_mushroom", 1 ],
+        [ "morel_cooked", 1 ],
+        [ "sweet_fruit_like", 1, "LIST" ]
       ]
     ]
   },
