@@ -406,6 +406,23 @@
     }
   },
   {
+    "id": "wild_clay_yeast",
+    "type": "GENERIC",
+    "name": { "str_sp": "sealed wild yeast culture" },
+    "description": "Mixture of water, sugar and fruits with some naturally occurring yeast, that will eventually produce a more sizable yeast culture.",
+    "copy-from": "jar_yeast",
+    "use_action": {
+      "target": "yeast",
+      "msg": "You open the jar and harvest the culture.",
+      "container": "bowl_clay",
+      "target_charges": 2,
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 259200,
+      "not_ready_msg": "The yeast isn't done culturing yet."
+    }
+  },
+  {
     "id": "food_processor",
     "type": "TOOL",
     "category": "tools",
