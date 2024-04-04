@@ -2894,5 +2894,25 @@
       [ [ "veggy_any", 1, "LIST" ] ],
       [ [ "condiment", 1, "LIST" ], [ "seasoning_salt", 5 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "offal",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "1 s",
+    "autolearn": true,
+    "components": [
+      [
+        [ "sweetbread", 1 ],
+        [ "liver", 1 ],
+        [ "lung", 1 ],
+        [ "kidney", 1 ],
+        [ "brain", 1 ],
+        [ "stomach_large", 1 ],
+        [ "stomach", 1 ]
+      ]
+    ]
   }
 ]

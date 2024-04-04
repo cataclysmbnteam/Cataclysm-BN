@@ -239,11 +239,13 @@
       [
         [ "offal", 1 ],
         [ "mutant_offal", 1 ],
-        [ "sweetbread", 2 ],
-        [ "liver", 2 ],
-        [ "lung", 2 ],
-        [ "kidney", 2 ],
-        [ "brain", 2 ]
+        [ "sweetbread", 1 ],
+        [ "liver", 1 ],
+        [ "lung", 1 ],
+        [ "kidney", 1 ],
+        [ "brain", 1 ],
+        [ "stomach", 1 ],
+        [ "stomach_large", 1 ]
       ]
     ]
   },
@@ -283,7 +285,9 @@
         [ "grilled_sweetbread", 2 ],
         [ "offal_canned", 1 ],
         [ "offal_cooked", 1 ],
-        [ "offal_pickled", 1 ]
+        [ "offal_pickled", 1 ],
+        [ "stomach_boiled", 1 ],
+        [ "small_stomach_boiled", 1 ]
       ]
     ]
   },
