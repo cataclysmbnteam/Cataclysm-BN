@@ -61,7 +61,7 @@
     "type": "harvest",
     "message": "You carefully crack open the lobster's exoskeleton to get at the delicious flesh beneath.",
     "entries": [
-      { "drop": "lobster", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "fish", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
     ]
