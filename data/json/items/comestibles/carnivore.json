@@ -411,6 +411,7 @@
     "description": "Offal is uncooked internal organs and entrails.  It's filled with essential vitamins, but most people consider it a bit gross unless very carefully prepared.",
     "proportional": { "parasites": 2 },
     "price_postapoc": "25 cent",
+    "calories": 100,
     "delete": { "flags": [ "SMOKABLE" ] },
     "relative": { "vitamins": [ [ "vitA", 5 ], [ "iron", 4 ] ], "fun": -5 }
   },
