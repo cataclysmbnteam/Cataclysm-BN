@@ -350,10 +350,10 @@ static void WinCreate()
     if( !software_renderer ) {
         dbg( DL::Info ) << "Attempting to initialize accelerated SDL renderer.";
 
-		renderer.reset( SDL_CreateRenderer( ::window.get(), renderer_id, SDL_RENDERER_ACCELERATED |
+        renderer.reset( SDL_CreateRenderer( ::window.get(), renderer_id, SDL_RENDERER_ACCELERATED |
                                             SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE ) );
-											
-											
+
+
         if( printErrorIf( !renderer,
                           "Failed to initialize accelerated renderer, falling back to software rendering" ) ) {
             software_renderer = true;
