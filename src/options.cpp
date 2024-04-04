@@ -2090,13 +2090,6 @@ void options_manager::add_options_graphics()
          false, COPT_CURSES_HIDE
        );
 
-#if defined(SDL_HINT_RENDER_VSYNC)
-    add( "VSYNC", graphics, translate_marker( "Use VSync" ),
-         translate_marker( "Enable vertical synchronization to prevent screen tearing.  VSync can slow the game down a lot.  Requires restart." ),
-         false, COPT_CURSES_HIDE
-       );
-#endif
-
 #if defined(__ANDROID__)
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
 #else
