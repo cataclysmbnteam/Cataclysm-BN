@@ -788,7 +788,7 @@
     "charges": 10,
     "autolearn": true,
     "batch_time_factors": [ 50, 3 ],
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
       [
@@ -839,10 +839,11 @@
     "//": "process sugar beets into sugar",
     "skill_used": "cooking",
     "byproducts": [ [ "molasses", 1 ] ],
+    "autolearn": true,
     "difficulty": 5,
     "time": "1 h 30 m",
     "batch_time_factors": [ 50, 3 ],
-    "book_learn": [ [ "adv_chemistry", 6 ], [ "textbook_chemistry", 6 ], [ "cookbook_foodfashions", 5, "Natural Beet Sugar" ] ],
+    "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "cookbook_foodfashions", 4, "Natural Beet Sugar" ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
     "components": [ [ [ "sugar_beet", 2 ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "lye_powder", 20 ] ] ]
