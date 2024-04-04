@@ -789,6 +789,7 @@
         [ "veggy_any_uncooked", 1, "LIST" ],
         [ "veggy_canned", 1 ],
         [ "veggy_salted", 1 ],
+        [ "dry_veggy", 1 ],
         [ "chili_pepper_roasted", 1 ]
       ]
     ]
