@@ -101,6 +101,26 @@
   },
   {
     "type": "recipe",
+    "result": "wild_clay_yeast",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "skills_required": [ "survival", 4 ],
+    "time": "20 m",
+    "book_learn": [ [ "brewing_cookbook", 1 ], [ "textbook_survival", 1 ] ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "bowl_clay", 1 ] ],
+      [ [ "sweet_fruit", 1, "LIST" ] ],
+      [ [ "beverage_sweetener", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "salt",
     "id_suffix": "from_salt_water",
     "category": "CC_FOOD",
