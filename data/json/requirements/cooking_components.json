@@ -287,7 +287,7 @@
         [ "offal_cooked", 1 ],
         [ "offal_pickled", 1 ],
         [ "stomach_boiled", 1 ],
-        [ " small_stomach_boiled ", 1 ]
+        [ "small_stomach_boiled", 1 ]
       ]
     ]
   },
