@@ -370,6 +370,8 @@
     "time": "40 m",
     "reversible": true,
     "decomp_learn": 5,
+	"autolearn": false,
+    "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -415,6 +417,8 @@
     "time": "40 m",
     "reversible": true,
     "decomp_learn": 5,
+	"autolearn": false,
+    "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
