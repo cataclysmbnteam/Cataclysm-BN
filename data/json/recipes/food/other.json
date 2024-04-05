@@ -81,6 +81,23 @@
   },
   {
     "type": "recipe",
+    "result": "clay_yeast",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "bowl_clay", 1 ] ],
+      [ [ "yeast", 1 ] ],
+      [ [ "beverage_sweetener", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "wild_yeast",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
