@@ -616,9 +616,8 @@
       [
         [ "sweet_fruit_like", 1, "LIST" ],
         [ "jam_fruit", 1 ],
-        [ "chocolate", 1 ],
+        [ "chocolate_any", 1, "LIST" ],
         [ "candy", 1 ],
-        [ "candy2", 1 ],
         [ "choco_coffee_beans", 2 ]
       ]
     ]
@@ -1450,9 +1449,8 @@
     "components": [
       [ [ "milk_standard", 1, "LIST" ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [
-        [ "chocolate", 1 ],
+        [ "chocolate_any", 1, "LIST" ],
         [ "candy", 1 ],
-        [ "candy2", 1 ],
         [ "candy3", 1 ],
         [ "maple_candy", 1 ],
         [ "syrup", 1 ],
@@ -1484,9 +1482,8 @@
     "components": [
       [ [ "milk_standard", 1, "LIST" ] ],
       [
-        [ "chocolate", 2 ],
+        [ "chocolate_any", 2, "LIST" ],
         [ "candy", 2 ],
-        [ "candy2", 2 ],
         [ "candy3", 2 ],
         [ "maple_candy", 2 ],
         [ "syrup", 2 ],
@@ -1520,9 +1517,8 @@
     "components": [
       [ [ "milk_standard", 2, "LIST" ] ],
       [
-        [ "chocolate", 1 ],
+        [ "chocolate_any", 1, "LIST" ],
         [ "candy", 1 ],
-        [ "candy2", 1 ],
         [ "candy3", 1 ],
         [ "maple_candy", 1 ],
         [ "syrup", 1 ],
@@ -1552,9 +1548,8 @@
       [ [ "water_clean", 2 ] ],
       [ [ "milk_standard", 2, "LIST" ] ],
       [
-        [ "chocolate", 1 ],
+        [ "chocolate_any", 1, "LIST" ],
         [ "candy", 1 ],
-        [ "candy2", 1 ],
         [ "candy3", 1 ],
         [ "maple_candy", 1 ],
         [ "syrup", 1 ],
@@ -1582,7 +1577,7 @@
     "autolearn": true,
     "components": [
       [ [ "icecream", 1 ], [ "icecream_artificial", 1 ] ],
-      [ [ "chocolate", 1 ], [ "candy", 1 ], [ "candy2", 1 ], [ "candy3", 1 ], [ "maple_candy", 1 ], [ "syrup", 1 ] ],
+      [ [ "chocolate_any", 1, "LIST" ], [ "candy", 1 ], [ "candy3", 1 ], [ "maple_candy", 1 ], [ "syrup", 1 ] ],
       [ [ "sugar", 5 ] ]
     ]
   },
@@ -1611,9 +1606,8 @@
     "components": [
       [ [ "milk_standard", 2, "LIST" ] ],
       [
-        [ "chocolate", 1 ],
+        [ "chocolate_any", 1, "LIST" ],
         [ "candy", 1 ],
-        [ "candy2", 1 ],
         [ "candy3", 1 ],
         [ "maple_candy", 1 ],
         [ "syrup", 1 ],
@@ -1676,9 +1670,8 @@
     "components": [
       [ [ "milk_standard", 1, "LIST" ] ],
       [
-        [ "chocolate", 1 ],
+        [ "chocolate_any", 1, "LIST" ],
         [ "candy", 1 ],
-        [ "candy2", 1 ],
         [ "candy3", 1 ],
         [ "maple_candy", 1 ],
         [ "syrup", 1 ],
