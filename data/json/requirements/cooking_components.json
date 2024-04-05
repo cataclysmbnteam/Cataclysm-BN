@@ -894,6 +894,6 @@
     "id": "chocolate_any",
     "type": "requirement",
     "//": "Anything involving chocolate and being used as a ingredient.",
-    "components": [ [ [ "chocolate", 1 ], [ "cacao_nibs", 15 ], [ "candy2", 1 ] ] ]
+    "components": [ [ [ "chocolate", 1 ], [ "cacao_nibs", 5 ], [ "candy2", 1 ] ] ]
   }
 ]
