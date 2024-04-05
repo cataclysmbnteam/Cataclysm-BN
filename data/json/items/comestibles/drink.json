@@ -651,7 +651,7 @@
     "symbol": "~",
     "color": "brown",
     "comestible_type": "DRINK",
-    "calories": 225,
+    "calories": 200,
     "quench": 35,
     "fun": 10,
     "spoils_in": "1 day",
