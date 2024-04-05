@@ -184,7 +184,12 @@
         [ "honey_glassed", 2 ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "sweet_fruit_like", 1, "LIST" ], [ "choco_coffee_beans", 5 ], [ "chocolate", 1 ], [ "jam_fruit", 1 ] ]
+      [
+        [ "sweet_fruit_like", 1, "LIST" ],
+        [ "choco_coffee_beans", 5 ],
+        [ "chocolate_any", 1, "LIST" ],
+        [ "jam_fruit", 1 ]
+      ]
     ]
   },
   {
@@ -199,7 +204,7 @@
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "roasted_coffee_bean", 1 ] ], [ [ "chocolate", 1 ] ] ]
+    "components": [ [ [ "roasted_coffee_bean", 1 ] ], [ [ "chocolate_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -214,7 +219,7 @@
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "pretzels", 2 ] ], [ [ "chocolate", 1 ] ] ]
+    "components": [ [ [ "pretzels", 2 ] ], [ [ "chocolate_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -248,7 +253,7 @@
     "book_learn": [ [ "sweets_book", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "grahmcrackers", 1 ] ], [ [ "marshmallow", 1 ] ], [ [ "chocolate", 1 ] ] ]
+    "components": [ [ [ "grahmcrackers", 1 ] ], [ [ "marshmallow", 1 ] ], [ [ "chocolate_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -377,7 +382,8 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
-    "difficulty": 2,
+    "difficulty": 3,
+    "autolearn": true,
     "time": "50 m",
     "batch_time_factors": [ 80, 2 ],
     "book_learn": [ [ "cookbook_foodfashions", 2 ], [ "mag_cooking", 2 ], [ "sweets_book", 1 ] ],
@@ -386,7 +392,7 @@
     "components": [
       [ [ "cacao_nibs", 10 ] ],
       [ [ "cacao_nibs", 5 ], [ "cooking_oil", 2 ], [ "edible_tallow_lard", 1, "LIST" ] ],
-      [ [ "sugar", 15 ] ]
+      [ [ "sugar", 10 ] ]
     ]
   }
 ]

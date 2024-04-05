@@ -16,7 +16,7 @@
       [ [ "flour", 4 ] ],
       [ [ "salt", 12 ] ],
       [ [ "sugar", 24 ] ],
-      [ [ "chocolate", 3 ] ],
+      [ [ "chocolate_any", 3, "LIST" ] ],
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "eggs_small_dry", 2, "LIST" ] ],
       [ [ "water", 6 ], [ "water_clean", 6 ] ]
@@ -83,7 +83,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 2 ], [ "syrup", 1 ] ],
-      [ [ "chocolate", 1 ] ],
+      [ [ "chocolate_any", 1, "LIST" ] ],
       [ [ "eggs_small_dry", 1, "LIST" ] ]
     ]
   },
@@ -98,7 +98,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 2 ], [ "syrup", 1 ] ],
-      [ [ "chocolate", 1 ] ],
+      [ [ "chocolate_any", 1, "LIST" ] ],
       [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "weed", 5 ] ]
     ]
@@ -267,7 +267,7 @@
       [ [ "syrup", 1 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
+      [ [ "chocolate_any", 1, "LIST" ] ]
     ]
   },
   {
@@ -338,7 +338,7 @@
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
+      [ [ "chocolate_any", 1, "LIST" ] ]
     ]
   },
   {
