@@ -706,8 +706,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "wind_turbine_ground", "wind_turbine_pillar", "wind_turbine_pillar_platform", "wind_turbine_roof" ],
+    "id": [ "wind_turbine_ground", "wind_turbine_pillar", "wind_turbine_pillar_platform" ],
     "name": "wind turbine",
+    "sym": "o",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [  "wind_turbine_roof" ],
+    "name": "wind turbine",
+	"spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 3, 5 ], "chance": 20 },	
     "sym": "o",
     "color": "light_gray"
   },
