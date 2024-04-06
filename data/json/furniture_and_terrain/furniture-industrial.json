@@ -234,7 +234,8 @@
         { "item": "pipe", "count": [ 1, 2 ] }
       ]
     },
-    "deconstruct": { "items": [ { "item": "cable", "charges": [ 200, 800 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] }
+    "deconstruct": { "items": [ { "item": "cable", "charges": [ 200, 800 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "active": [ "steady_consumer", { "power": -1, "consume_every": "300 s" } ]
   },
   {
     "type": "furniture",
@@ -264,6 +265,7 @@
         { "item": "power_supply", "count": [ 0, 2 ] },
         { "item": "metal_tank_little", "count": [ 0, 6 ] }
       ]
-    }
+    },
+    "active": [ "steady_consumer", { "power": -1, "consume_every": "15 s" } ]
   }
 ]
