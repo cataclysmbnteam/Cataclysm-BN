@@ -164,6 +164,27 @@
       "pry_items": [ { "item": "manhole_cover" } ]
     }
   },
+  
+  {
+    "type": "terrain",
+    "id": "t_ladder_up_down",
+    "name": "ladder",
+    "description": "A ladder leading up and down.",
+    "symbol": "H",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_floor",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
+  },  
+  
+  
   {
     "type": "terrain",
     "id": "t_ladder_up",
@@ -172,7 +193,15 @@
     "symbol": "<",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z" ]
+    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_floor",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -182,7 +211,15 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ]
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_floor",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
   },
   {
     "type": "terrain",

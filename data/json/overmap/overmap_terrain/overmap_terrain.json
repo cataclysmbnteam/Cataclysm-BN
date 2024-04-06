@@ -703,5 +703,19 @@
     "sym": "O",
     "color": "brown",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wind_turbine_ground", "wind_turbine_pillar", "wind_turbine_pillar_platform", "wind_turbine_roof" ],
+    "name": "wind turbine",
+    "sym": "o",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wind_turbine_nacelle" ],
+    "name": "wind turbine",
+    "sym": "Y",
+    "color": "white"
   }
 ]

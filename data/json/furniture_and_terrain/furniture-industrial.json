@@ -210,5 +210,65 @@
       ],
       "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     }
-  }
+  },
+  {
+    "type": "furniture",
+    "id": "f_electrical_conduit",
+    "name": "electrical conduit",
+    "looks_like": "f_cable_connector",
+    "description": "A thick bundle of electrical wiring protected by a metal conduit.",
+    "symbol": "|",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOCOLLIDE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 100,
+      "sound": "smash!",
+      "sound_fail": "thunk!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 10, 20 ] },
+        { "item": "cable", "charges": [ 20, 100 ] },
+        { "item": "pipe", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 200, 800 ] },
+        { "item": "pipe", "count": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_capacitor",
+    "name": "capacitor bank",
+    "looks_like": "f_machinery_electronic",
+    "description": "A bank of heavy metal cylinders connected by large wires.",
+    "symbol": "=",
+    "color": "light_blue",
+    "move_cost_mod": 4,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 200,
+      "explosive": 15,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 100, 800 ] },
+        { "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "circuit", "count": [ 0, 5 ] },
+        { "item": "e_scrap", "count": [ 2, 8 ] },
+        { "item": "amplifier", "count": [ 0, 4 ] },
+        { "item": "power_supply", "count": [ 0, 2 ] },
+        { "item": "metal_tank_little", "count": [ 0, 6 ] }
+      ]
+    }
+  }  
 ]

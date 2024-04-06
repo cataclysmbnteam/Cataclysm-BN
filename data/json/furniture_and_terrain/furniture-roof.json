@@ -140,5 +140,5 @@
       "items": [ { "item": "sheet_metal_small", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 3, 6 ] } ],
       "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 12, "block_unaimed_chance": "25%" }
     }
-  }
+  } 
 ]
