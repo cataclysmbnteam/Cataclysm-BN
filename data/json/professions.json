@@ -1488,7 +1488,7 @@
     "type": "profession",
     "id": "mech_eng",
     "name": "Mechanical Engineer",
-    "description": "Fresh out of college, you've got little in the way of practical engineering experience.  The Cataclysm might prove to be a rather complicated problem to solve even from an engineering perspective, and you are not sure if you will pass this stress test.",
+    "description": "Fresh out of college, you've got little in the way of practical engineering experience.  The Cataclysm might prove to be a rather complicated problem to solve even from an engineering perspective, and you're not sure if you will pass this stress test.",
     "points": 2,
     "skills": [ 
      { "level": 4, "name": "mechanics" },
