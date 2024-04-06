@@ -42,8 +42,7 @@
       },
       "furniture": { "I": "f_electrical_conduit" }
       }
-    }
-  },
+    },
   {
     "type": "mapgen",
     "method": "json",
