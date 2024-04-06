@@ -1463,23 +1463,9 @@
     "name": "Electrical Engineer",
     "description": "Fresh out of college, you've got little in the way of practical engineering experience.  The Cataclysm might prove to be a rather complicated problem to solve even from an engineering perspective, and you're not sure if you can solder your way out of this one.",
     "points": 2,
-    "skills": [ 
-     { "level": 4, "name": "electronics" },
-     { "level": 2, "name": "fabrication" },
-     { "level": 2, "name": "computer" } 
-    ],
+    "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "fabrication" }, { "level": 2, "name": "computer" } ],
     "items": {
-      "both": {
-        "items": [
-          "pants",
-          "dress_shirt",
-          "socks",
-          "dress_shoes",
-          "wristwatch",
-          "water_clean",
-          "smart_phone",
-          "file" ]
-      },
+      "both": { "items": [ "pants", "dress_shirt", "socks", "dress_shoes", "wristwatch", "water_clean", "smart_phone", "file" ] },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -1490,23 +1476,9 @@
     "name": "Mechanical Engineer",
     "description": "Fresh out of college, you've got little in the way of practical engineering experience.  The Cataclysm might prove to be a rather complicated problem to solve even from an engineering perspective, and you're not sure if you will pass this stress test.",
     "points": 2,
-    "skills": [ 
-     { "level": 4, "name": "mechanics" },
-     { "level": 2, "name": "fabrication" },
-     { "level": 2, "name": "computer" } 
-    ],
+    "skills": [ { "level": 4, "name": "mechanics" }, { "level": 2, "name": "fabrication" }, { "level": 2, "name": "computer" } ],
     "items": {
-      "both": {
-        "items": [
-          "pants",
-          "dress_shirt",
-          "socks",
-          "dress_shoes",
-          "wristwatch",
-          "water_clean",
-          "smart_phone",
-          "file" ]
-      },
+      "both": { "items": [ "pants", "dress_shirt", "socks", "dress_shoes", "wristwatch", "water_clean", "smart_phone", "file" ] },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
