@@ -36,7 +36,7 @@
         "H": "t_ladder_up",
         "-": "t_metal_floor_no_roof",
         "S": "t_switchgear_l",
-        "X": "t_door_metal_locked"
+        "X": "t_door_metal_locked",
         "I": "t_metal_floor_no_roof",
         "#": "t_wall_metal"
       },
