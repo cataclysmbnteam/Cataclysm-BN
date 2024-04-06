@@ -823,12 +823,12 @@
   {
     "type": "furniture",
     "id": "f_turbine_unit",
-	"looks_like": "f_wind_mill",
+    "looks_like": "f_wind_mill",
     "name": "mounted wind turbine",
     "description": "A mounted wind turbine connected to building's electric grid.",
     "symbol": "#",
     "color": "yellow",
-    "move_cost_mod":-1,
+    "move_cost_mod": -1,
     "required_str": -1,
     "active": [ "steady_consumer", { "power": -20, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
@@ -858,7 +858,7 @@
   {
     "type": "furniture",
     "id": "f_xl_turbine_unit",
-	"looks_like": "f_wind_mill",
+    "looks_like": "f_wind_mill",
     "name": "mounted wind turbine",
     "description": "A large mounted wind turbine connected to building's electric grid.",
     "symbol": "#",
