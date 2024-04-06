@@ -157,7 +157,7 @@
         "                        ",
         "                        "
       ],
-      "furniture": { "I": "f_electrical_conduit","C": "f_capacitor" },
+      "furniture": { "I": "f_electrical_conduit", "C": "f_capacitor" },
       "terrain": {
         " ": "t_open_air",
         "H": "t_ladder_up_down",

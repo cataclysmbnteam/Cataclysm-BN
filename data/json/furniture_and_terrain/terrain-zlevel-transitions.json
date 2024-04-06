@@ -164,7 +164,6 @@
       "pry_items": [ { "item": "manhole_cover" } ]
     }
   },
-  
   {
     "type": "terrain",
     "id": "t_ladder_up_down",
@@ -182,9 +181,7 @@
       "ter_set": "t_floor",
       "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
     }
-  },  
-  
-  
+  },
   {
     "type": "terrain",
     "id": "t_ladder_up",
