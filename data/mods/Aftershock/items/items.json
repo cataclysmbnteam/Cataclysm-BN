@@ -34,33 +34,6 @@
     "use_action": "HEAT_FOOD"
   },
   {
-    "id": "afs_fridge",
-    "category": "veh_parts",
-    "type": "GENERIC",
-    "name": { "str": "vehicle refrigerator" },
-    "description": "A household refrigerator with impressive capacity.  Its power connection has been refurbished, and it can be mounted onto a vehicle to draw from its power.",
-    "symbol": "{",
-    "color": "white",
-    "weight": "142882 g",
-    "volume": "300 L",
-    "price": "400 USD",
-    "price_postapoc": "100 USD",
-    "material": [ "steel" ],
-    "to_hit": -4,
-    "bashing": 8,
-    "flags": [ "DURABLE_MELEE" ],
-    "looks_like": "minifridge"
-  },
-  {
-    "id": "afs_freezer",
-    "category": "veh_parts",
-    "type": "GENERIC",
-    "name": { "str": "vehicle freezer" },
-    "copy-from": "afs_fridge",
-    "description": "This refurbished refrigerator has been stripped of much of its internal components and converted to run at a much lower temperature, causing it to serve as a freezer for more power.  Like its predecessor, it runs on vehicle power.",
-    "color": "light_blue"
-  },
-  {
     "type": "GENERIC",
     "id": "afs_scrap_titanium",
     "symbol": ",",

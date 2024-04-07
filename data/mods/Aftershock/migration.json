@@ -46,5 +46,15 @@
     "type": "MIGRATION",
     "replace": "legpouch_large",
     "//": "No flag even needed for this one, it's getting OVERSIZE now"
+  },
+  {
+    "id": "afs_fridge",
+    "type": "MIGRATION",
+    "replace": "fridge"
+  },
+  {
+    "id": "afs_freezer",
+    "type": "MIGRATION",
+    "replace": "freezer"
   }
 ]
