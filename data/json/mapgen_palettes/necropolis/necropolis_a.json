@@ -16,6 +16,12 @@
       "u": "f_barricade_road",
       "u̲": "f_barricade_road",
       "ṟ": "f_rack",
+      "ẖ": "f_chair",
+      "c̱": "f_counter",
+      "ḵ": "f_desk",
+      "P̱": "f_indoor_plant",
+      "Ḻ": "f_locker",
+      "o̱": "f_bookcase",
       ")": "f_wreckage",
       "?": "f_sofa",
       "B": "f_bathtub",
@@ -66,6 +72,12 @@
       "u": "t_pavement",
       "u̲": "t_pavement_y",
       "ṟ": "t_sidewalk",
+      "ẖ": "t_thconc_floor",
+      "c̱": "t_thconc_floor",
+      "ḵ": "t_thconc_floor",
+      "P̱": "t_thconc_floor",
+      "Ḻ": "t_thconc_floor",
+      "o̱": "t_thconc_floor",
       "!": "t_bars",
       "#": "t_region_shrub",
       "&": "t_sidewalk",
@@ -160,7 +172,9 @@
       "d": { "item": "dresser", "chance": 50, "repeat": 3 },
       "f": { "item": "SUS_fridge", "chance": 80 },
       "k": { "item": "office", "chance": 75, "repeat": 2 },
-      "o": { "item": "homebooks", "chance": 50, "repeat": 2 }
+      "ḵ": { "item": "office", "chance": 75, "repeat": 2 },
+      "o": { "item": "homebooks", "chance": 50, "repeat": 2 },
+      "o̱": { "item": "manuals", "chance": 75, "repeat": [ 1, 2 ] }
     }
   }
 ]
