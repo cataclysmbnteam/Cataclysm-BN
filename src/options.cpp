@@ -1233,6 +1233,12 @@ void options_manager::add_options_general()
          "", 30
        );
 
+    add( "DEF_CHAR_GENDER", general, translate_marker( "Default character gender" ),
+    translate_marker( "Set a default character gender that will be used on character creation." ), {
+        { "male", to_translation( "Male" )},
+        { "female", to_translation( "Female" )},
+    }, "male" );
+
     add_empty_line();
 
     add_option_group( general, Group( "comestible_merging",

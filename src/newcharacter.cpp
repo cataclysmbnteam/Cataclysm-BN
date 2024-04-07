@@ -408,6 +408,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     prof = profession::generic();
     g->scen = scenario::generic();
+    male = get_option<std::string>( "DEF_CHAR_GENDER" ) == "male";
 
     const bool interactive = type != character_type::NOW &&
                              type != character_type::FULL_RANDOM;
