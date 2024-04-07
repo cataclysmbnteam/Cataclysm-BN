@@ -3333,5 +3333,20 @@
     "type": "recipe",
     "result": "rehydrated_lobster",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fish_bagel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sandwich_cucumber",
+    "obsolete": true
   }
 ]
