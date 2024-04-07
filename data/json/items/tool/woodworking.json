@@ -302,5 +302,28 @@
     "thrown_damage": [ { "damage_type": "bash", "amount": 10 }, { "damage_type": "cut", "amount": 14 } ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ]
+  },
+  {
+    "id": "tomahawk_copper",
+    "type": "GENERIC",
+    "category": "weapons",
+    "weapon_category": [ "1H_AXES" ],
+    "symbol": ";",
+    "color": "light_red",
+    "name": { "str": "copper tomahawk" },
+    "description": "A lightweight one-handed combat hatchet made using basic copper;  slightly better than stone, though not as historically accurate.",
+    "price": 3000,
+    "price_postapoc": 600,
+    "material": [ "copper", "wood" ],
+    "techniques": [ "WBLOCK_1" ],
+    "volume": "1750 ml",
+    "weight": "2600 g",
+    "looks_like": "hatchet",
+    "bashing": 10,
+    "cutting": 17,
+    "to_hit": 1,
+    "thrown_damage": [ { "damage_type": "bash", "amount": 10 }, { "damage_type": "cut", "amount": 19 } ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
   }
 ]
