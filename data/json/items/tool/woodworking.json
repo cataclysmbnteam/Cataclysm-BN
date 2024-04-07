@@ -130,7 +130,6 @@
     "price_postapoc": "50 cent",
     "bashing": 30,
     "cutting": 20,
-    "to_hit": 0,
     "material": [ "wood", "copper" ],
     "symbol": "/",
     "color": "brown",
