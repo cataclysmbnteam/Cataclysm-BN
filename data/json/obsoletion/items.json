@@ -5265,7 +5265,6 @@
 	"copy-from": "sandwich_cheese_grilled",
     "name": { "str": "cucumber sandwich", "str_pl": "cucumber sandwiches" },
     "quench": 2,
-    "healthy": 1,
     "calories": 516,
     "description": "A refreshing cucumber sandwich.  Not very filling, but quite tasty.",
     "price": "250 cent",
