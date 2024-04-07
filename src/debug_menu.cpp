@@ -212,7 +212,7 @@ static int info_uilist( bool display_all_entries = true )
         { uilist_entry( DEBUG_SAVE_SCREENSHOT, true, 'H', _( "Take screenshot" ) ) },
         { uilist_entry( DEBUG_BUG_REPORT, true, 'U', _( "Submit a bug report on github" ) ) },
         { uilist_entry( DEBUG_GAME_REPORT, true, 'r', _( "Generate game report" ) ) },
-        { uilist_entry( DEBUG_JOIN_DISCORD, true, 'J', _("Join us on Discord")) },
+        { uilist_entry( DEBUG_JOIN_DISCORD, true, 'J', _( "Join us on Discord" ) ) },
     };
 
     if( display_all_entries ) {
@@ -2120,8 +2120,8 @@ void debug()
         break;
 
         case DEBUG_JOIN_DISCORD: {
-            open_url("https://discord.gg/mXUSMGTc");
-            popup(_("Opened a link to join Bright Nights Discord."));
+            open_url( "https://discord.gg/mXUSMGTc" );
+            popup( _( "Opened a link to join Bright Nights Discord." ) );
             break;
         }
 
