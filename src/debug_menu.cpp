@@ -2120,6 +2120,7 @@ void debug()
         break;
 
         case DEBUG_JOIN_DISCORD: {
+            open_url("https://discord.gg/mXUSMGTc");
             popup(_("Opened a link to join Bright Nights Discord."));
             break;
         }
