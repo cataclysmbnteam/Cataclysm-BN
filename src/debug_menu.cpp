@@ -173,6 +173,7 @@ enum debug_menu_index {
     DEBUG_SAVE_SCREENSHOT,
     DEBUG_BUG_REPORT,
     DEBUG_GAME_REPORT,
+    DEBUG_JOIN_DISCORD,
     DEBUG_DISPLAY_SCENTS_LOCAL,
     DEBUG_DISPLAY_SCENTS_TYPE_LOCAL,
     DEBUG_DISPLAY_TEMP,
@@ -211,6 +212,7 @@ static int info_uilist( bool display_all_entries = true )
         { uilist_entry( DEBUG_SAVE_SCREENSHOT, true, 'H', _( "Take screenshot" ) ) },
         { uilist_entry( DEBUG_BUG_REPORT, true, 'U', _( "Submit a bug report on github" ) ) },
         { uilist_entry( DEBUG_GAME_REPORT, true, 'r', _( "Generate game report" ) ) },
+        { uilist_entry( DEBUG_JOIN_DISCORD, true, 'J', _("Join us on Discord")) },
     };
 
     if( display_all_entries ) {
@@ -2116,6 +2118,11 @@ void debug()
             popup( popup_msg );
         }
         break;
+
+        case DEBUG_JOIN_DISCORD: {
+            popup(_("Opened a link to join Bright Nights Discord."));
+            break;
+        }
 
         case DEBUG_VEHICLE_BATTERY_CHARGE: {
             optional_vpart_position v_part_pos = g->m.veh_at( u.pos() );

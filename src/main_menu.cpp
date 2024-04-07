@@ -48,7 +48,6 @@
 #include "translations.h"
 #include "ui_manager.h"
 #include "ui.h"
-#include "url_utility.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
 
