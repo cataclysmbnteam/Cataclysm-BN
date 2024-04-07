@@ -711,7 +711,9 @@
     "id": "coffee_display",
     "items": [
       { "group": "salty_snacks", "prob": 121 },
-      [ "sandwich_t", 22 ],
+      [ "sandwich_deluxe", 10 ],
+      [ "sandwich_deluxe_nocheese", 10 ],
+      [ "sandwich_t", 10 ],
       [ "tea_raw", 50 ],
       [ "cookies", 25 ],
       [ "brownie", 25 ],

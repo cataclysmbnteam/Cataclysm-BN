@@ -841,6 +841,8 @@
       [ "pudding", 15 ],
       [ "apple", 10 ],
       [ "sandwich_t", 15 ],
+      [ "sandwich_deluxe", 15 ],
+      [ "sandwich_deluxe_nocheese", 15 ],
       [ "mushroom", 20 ],
       [ "tomato", 20 ],
       [ "lettuce", 15 ],

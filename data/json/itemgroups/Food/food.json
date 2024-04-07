@@ -650,6 +650,8 @@
       { "item": "fish_fried", "prob": 10 },
       { "item": "fish_sandwich", "prob": 10 },
       { "item": "sloppyjoe", "prob": 10 },
+      { "item": "sandwich_deluxe", "charges": [ 1, 2 ], "prob": 10 },
+      { "item": "sandwich_deluxe_nocheese", "charges": [ 1, 2 ], "prob": 10 },
       { "item": "sandwich_t", "charges": [ 1, 2 ], "prob": 10 },
       { "item": "junk_burrito", "prob": 10 },
       { "item": "chili", "charges": [ 1, 2 ], "prob": 10 }
@@ -914,6 +916,8 @@
       { "item": "sandwich_pbj", "prob": 30 },
       { "item": "sandwich_pbh", "prob": 30 },
       { "item": "sandwich_pbm", "prob": 30 },
+      { "item": "sandwich_deluxe", "prob": 30 },
+      { "item": "sandwich_deluxe_nocheese", "prob": 30 },
       { "item": "pizza_veggy", "prob": 8 },
       { "item": "pizza_cheese", "prob": 8 },
       { "item": "pizza_meat", "prob": 8 },
