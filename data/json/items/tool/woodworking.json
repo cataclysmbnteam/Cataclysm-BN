@@ -308,7 +308,7 @@
     "symbol": ";",
     "color": "light_red",
     "name": { "str": "copper tomahawk" },
-    "description": "A lightweight one-handed combat hatchet made using basic copper;  slightly better than stone, though not as historically accurate.",
+    "description": "A lightweight one-handed combat hatchet made using basic copper.  Slightly better than stone, though not as historically accurate.",
     "price": 3000,
     "price_postapoc": 600,
     "material": [ "copper", "wood" ],
