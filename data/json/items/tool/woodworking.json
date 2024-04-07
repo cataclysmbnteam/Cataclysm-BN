@@ -237,7 +237,6 @@
     "price_postapoc": "50 cent",
     "bashing": 9,
     "cutting": 15,
-    "to_hit": 0,
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
