@@ -5217,7 +5217,7 @@
     "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 6 ], [ "iron", 15 ], [ "vitB", 20 ] ],
     "fun": 4
   },
-    {
+  {
     "type": "COMESTIBLE",
     "id": "fish_bagel",
     "name": { "str": "fish and spinach bagel" },
@@ -5262,7 +5262,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_cucumber",
-	"copy-from": "sandwich_cheese_grilled",
+    "copy-from": "sandwich_cheese_grilled",
     "name": { "str": "cucumber sandwich", "str_pl": "cucumber sandwiches" },
     "quench": 2,
     "calories": 516,
