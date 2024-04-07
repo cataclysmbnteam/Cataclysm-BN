@@ -296,10 +296,9 @@
     "volume": "1750 ml",
     "weight": "2800 g",
     "looks_like": "hatchet",
-    "bashing": 9,
+    "bashing": 5,
     "cutting": 12,
     "to_hit": 1,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 10 }, { "damage_type": "cut", "amount": 14 } ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ]
   },
@@ -319,10 +318,9 @@
     "volume": "1750 ml",
     "weight": "2600 g",
     "looks_like": "hatchet",
-    "bashing": 10,
-    "cutting": 17,
+    "bashing": 15,
+    "cutting": 26,
     "to_hit": 1,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 10 }, { "damage_type": "cut", "amount": 19 } ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
   }
