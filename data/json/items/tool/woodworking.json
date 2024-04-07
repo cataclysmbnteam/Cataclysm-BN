@@ -152,8 +152,8 @@
     "techniques": [ "WBLOCK_1" ],
     "weight": "907 g",
     "volume": "1 L",
-    "bashing": 17,
-    "cutting": 28,
+    "bashing": 12,
+    "cutting": 18,
     "to_hit": 1,
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 16 ] ]
@@ -291,13 +291,13 @@
     "price_postapoc": 100,
     "material": [ "wood", "stone" ],
     "techniques": [ "WBLOCK_1" ],
-    "volume": "1750 ml",
-    "weight": "2800 g",
+    "volume": "1500 ml",
+    "weight": "1750 g",
     "looks_like": "hatchet",
     "bashing": 5,
     "cutting": 12,
     "to_hit": 1,
-    "flags": [ "DURABLE_MELEE", "SHEATH_AXE" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ]
   },
   {
@@ -313,13 +313,13 @@
     "price_postapoc": 600,
     "material": [ "copper", "wood" ],
     "techniques": [ "WBLOCK_1" ],
-    "volume": "1750 ml",
-    "weight": "2600 g",
+    "volume": "1500 ml",
+    "weight": "1450 g",
     "looks_like": "hatchet",
-    "bashing": 15,
-    "cutting": 26,
+    "bashing": 5,
+    "cutting": 17,
     "to_hit": 1,
-    "flags": [ "DURABLE_MELEE", "SHEATH_AXE", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE", "NONCONDUCTIVE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
   }
 ]
