@@ -299,7 +299,7 @@
     "bashing": 5,
     "cutting": 12,
     "to_hit": 1,
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_AXE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ]
   },
   {
@@ -321,7 +321,7 @@
     "bashing": 15,
     "cutting": 26,
     "to_hit": 1,
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_AXE", "NONCONDUCTIVE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
   }
 ]
