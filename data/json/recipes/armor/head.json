@@ -588,7 +588,7 @@
     "time": "45 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
-	"tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
+    "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 3 ] ],
       [ [ "tac_helmet", 1 ], [ "tac_fullhelmet", 1 ], [ "helmet_army", 1 ], [ "kevlar_plate", 6 ] ],
@@ -620,7 +620,7 @@
     "time": "45 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
-	"tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
+    "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 3 ] ],
       [ [ "helmet_army", 1 ] ],
@@ -652,7 +652,7 @@
     "time": "45 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
-	"tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
+    "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 3 ] ],
       [ [ "helmet_army", 1 ] ],
