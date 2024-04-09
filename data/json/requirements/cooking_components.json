@@ -459,10 +459,7 @@
         [ "offals_cooked", 1, "LIST" ]
       ],
       [
-        [ "veggy_wild", 2 ],
-        [ "veggy", 2 ],
-        [ "rehydrated_veggy", 2 ],
-        [ "dry_veggy", 2 ],
+        [ "veggy_any", 2, "LIST" ],
         [ "dry_beans", 2 ],
         [ "can_beans", 2 ],
         [ "raw_beans", 2 ],
