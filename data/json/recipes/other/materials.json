@@ -345,9 +345,8 @@
     "skills_required": [ "mechanics", 2 ],
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 } ],
-    "using": [ [ "steel_tiny", 1 ] ],
-    "tools": [ [ [ "welder", 50 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ], [ [ "soldering_iron", 10 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "using": [ [ "steel_tiny", 1 ], [ "welding_standard", 5 ] ],
     "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pipe", 2 ] ], [ [ "chain", 1 ] ], [ [ "circuit", 1 ] ] ]
   },
   {
@@ -1121,8 +1120,7 @@
     "reversible": true,
     "//": "sawing it down doesn't teach anything useful",
     "autolearn": true,
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "welder", 50 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "using": [ [ "welding_standard", 5 ] ],
     "components": [ [ [ "steel_lump", 4 ] ] ]
   },
   {

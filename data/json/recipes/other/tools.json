@@ -840,11 +840,32 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "difficulty": 1,
+    "difficulty": 2,
     "time": "20 m",
+    "autolearn": true,
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_fabrication", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "can_drink_unsealed", 2 ] ], [ [ "bottle_plastic", 1 ] ] ]
+    "components": [
+      [ [ "can_medium_unsealed", 1 ], [ "bottle_plastic", 1 ], [ "jar_glass", 1 ] ],
+      [ [ "scrap", 1 ], [ "steel_chunk", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "soldering_ethanol",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "book_learn": [ [ "fun_survival", 2 ], [ "manual_fabrication", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
+      [ [ "can_medium_unsealed", 1 ], [ "bottle_plastic", 1 ], [ "jar_glass", 1 ] ],
+      [ [ "scrap", 1 ], [ "steel_chunk", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -863,7 +884,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 200 ], [ "toolset", 300 ], [ "soldering_iron", 300 ], [ "oxy_torch", 40 ] ] ],
+    "using": [ [ "welding_standard", 20 ] ],
     "components": [
       [ [ "element", 8 ] ],
       [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
@@ -1416,7 +1437,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "toolset", 150 ], [ "soldering_iron", 150 ], [ "oxy_torch", 20 ] ] ],
+    "using": [ [ "welding_standard", 10 ] ],
     "components": [
       [ [ "pilot_light", 1 ] ],
       [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
@@ -1442,7 +1463,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 50 ], [ "toolset", 75 ], [ "soldering_iron", 75 ], [ "oxy_torch", 10 ] ] ],
+    "using": [ [ "welding_standard", 5 ] ],
     "components": [ [ [ "pilot_light", 1 ] ], [ [ "scrap", 4 ] ], [ [ "metal_tank_little", 1 ] ] ]
   },
   {
@@ -1568,7 +1589,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 150 ], [ "toolset", 225 ], [ "soldering_iron", 225 ], [ "oxy_torch", 30 ] ] ],
+    "using": [ [ "welding_standard", 15 ] ],
     "components": [ [ [ "steel_lump", 5 ], [ "steel_chunk", 20 ], [ "scrap", 60 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "pipe", 6 ] ] ]
   },
   {

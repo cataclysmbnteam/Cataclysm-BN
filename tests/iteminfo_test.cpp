@@ -883,7 +883,7 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 
     test_info_contains(
         *item::spawn( "test_hazmat_suit" ), q,
-        "<color_c_white>Repair</color> using grid soldering iron, soldering iron, TEST soldering iron, or extended toolset.\n" );
+        "<color_c_white>Repair</color> using grid soldering iron, alcohol-fueled soldering iron, electric soldering iron, TEST soldering iron, or extended toolset.\n" );
 
     test_info_contains(
         *item::spawn( "test_rock" ), q, "* This item is <color_c_red>not repairable</color>.\n" );

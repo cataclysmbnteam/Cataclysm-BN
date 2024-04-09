@@ -62,7 +62,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "nomex", 8 ] ],
       [ [ "kevlar_plate", 4 ] ],
@@ -96,7 +96,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "kevlar_plate", 4 ] ],
@@ -116,7 +116,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "fabric_standard", 4, "LIST" ] ],
       [ [ "fabric_hides_proper", 4, "LIST" ] ],
@@ -137,7 +137,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "rag", 4 ] ],
       [ [ "leather", 4 ] ],
@@ -185,7 +185,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "rag", 8 ] ],
       [ [ "kevlar_plate", 4 ] ],
@@ -243,7 +243,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "fabric_hides_proper", 8, "LIST" ] ],
       [ [ "kevlar_plate", 4 ] ],
@@ -286,7 +286,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "fur", 12 ] ],
       [ [ "kevlar_plate", 4 ] ],
@@ -518,7 +518,7 @@
     "time": "30 m",
     "book_learn": [ [ "mag_swimming", 3 ], [ "manual_swimming", 2 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "duct_tape", 80 ], [ "medical_tape", 80 ] ], [ [ "superglue", 1 ] ] ]
   },
   {
@@ -533,7 +533,7 @@
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
     "using": [ [ "sewing_standard", 6 ] ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
+    "tools": [ [ [ "soldering_standard", 20, "LIST" ], [ "surface_heat", 20, "LIST" ] ] ],
     "components": [ [ [ "rag", 2 ], [ "socks", 1 ], [ "socks_wool", 1 ] ], [ [ "element", 2 ] ], [ [ "cable", 4 ] ] ]
   },
   {
@@ -546,7 +546,7 @@
     "time": "2 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "soldering_iron", 5 ], [ "welder", 5 ], [ "hotplate", 5 ], [ "toolset", 5 ] ] ],
+    "tools": [ [ [ "soldering_standard", 5, "LIST" ], [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "neoprene", 2 ] ], [ [ "rag", 2 ] ] ]
   },
   {
