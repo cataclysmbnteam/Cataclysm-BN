@@ -236,7 +236,7 @@
     "time": "15 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "sewing_standard", 25 ] ],
-    "tools": [ [ [ "soldering_iron", 15 ], [ "welder", 15 ], [ "hotplate", 15 ], [ "toolset", 15 ] ] ],
+    "tools": [ [ [ "soldering_standard", 15, "LIST" ], [ "surface_heat", 15, "LIST" ] ] ],
     "components": [ [ [ "neoprene", 6 ] ], [ [ "plastic_chunk", 8 ] ] ]
   },
   {
@@ -374,7 +374,7 @@
     "time": "60 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
-    "tools": [ [ [ "welder", 10 ], [ "soldering_iron", 15 ], [ "toolset", 15 ] ] ],
+    "tools": [ [ [ "soldering_standard", 15, "LIST" ], [ "surface_heat", 15, "LIST" ] ] ],
     "components": [
       [ [ "rag", 15 ] ],
       [ [ "bag_plastic", 4 ] ],

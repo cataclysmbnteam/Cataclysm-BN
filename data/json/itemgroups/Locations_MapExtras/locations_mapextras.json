@@ -170,6 +170,7 @@
       [ "gasoline_lantern", 40 ],
       [ "oil_lamp", 40 ],
       [ "popcan_stove", 10 ],
+      [ "soldering_ethanol", 5 ],
       [ "denat_alcohol", 10 ],
       [ "pur_tablets", 10 ],
       [ "water_clean", 50 ],

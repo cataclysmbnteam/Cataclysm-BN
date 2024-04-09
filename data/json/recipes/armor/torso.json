@@ -503,7 +503,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
-    "tools": [ [ [ "welder", 18 ], [ "soldering_iron", 27 ], [ "toolset", 27 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "rag", 15 ] ],
       [ [ "coat_rain", 1 ] ],
