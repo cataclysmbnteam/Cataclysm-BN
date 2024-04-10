@@ -4420,7 +4420,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_xl_wind_roof1",
+    "id": "constr_xl_wind_turbine_roof1",
     "group": "install_wind_turbine",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
@@ -4430,7 +4430,7 @@
     "components": [
       [ [ "steel_chunk", 5 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "wind_turbine", 1 ] ],
+      [ [ "xl_wind_turbine", 1 ] ],
       [ [ "frame", 2 ], [ "hdframe", 1 ] ]
     ],
     "pre_terrain": "t_flat_roof",
@@ -4438,7 +4438,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_xl_wind_roof2",
+    "id": "constr_xl_wind_turbine_roof2",
     "group": "install_wind_turbine",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
@@ -4448,7 +4448,7 @@
     "components": [
       [ [ "steel_chunk", 5 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "wind_turbine", 1 ] ],
+      [ [ "xl_wind_turbine", 1 ] ],
       [ [ "frame", 2 ], [ "hdframe", 1 ] ]
     ],
     "pre_terrain": "t_tar_flat_roof",
@@ -4456,7 +4456,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_xl_wind_roof3",
+    "id": "constr_xl_wind_turbine_roof3",
     "group": "install_wind_turbine",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
@@ -4466,7 +4466,7 @@
     "components": [
       [ [ "steel_chunk", 5 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "wind_turbine", 1 ] ],
+      [ [ "xl_wind_turbine", 1 ] ],
       [ [ "frame", 2 ], [ "hdframe", 1 ] ]
     ],
     "pre_terrain": "t_shingle_flat_roof",
@@ -4474,7 +4474,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_xl_wind_roof4",
+    "id": "constr_xl_wind_turbine_roof4",
     "group": "install_wind_turbine",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
@@ -4484,7 +4484,7 @@
     "components": [
       [ [ "steel_chunk", 5 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "wind_turbine", 1 ] ],
+      [ [ "xl_wind_turbine", 1 ] ],
       [ [ "frame", 2 ], [ "hdframe", 1 ] ]
     ],
     "pre_terrain": "t_metal_flat_roof",
@@ -4492,7 +4492,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_xl_wind_roof5",
+    "id": "constr_xl_wind_turbine_roof5",
     "group": "install_wind_turbine",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
@@ -4502,7 +4502,7 @@
     "components": [
       [ [ "steel_chunk", 5 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "wind_turbine", 1 ] ],
+      [ [ "xl_wind_turbine", 1 ] ],
       [ [ "frame", 2 ], [ "hdframe", 1 ] ]
     ],
     "pre_terrain": "t_tile_flat_roof",
