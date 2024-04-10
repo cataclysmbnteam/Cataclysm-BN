@@ -39,7 +39,6 @@
       "L": "f_table",
       "O": "f_oven",
       "P": "f_punching_bag",
-      "p": "f_solar_unit",
       "r": "f_rack",
       "R": "f_rack",
       "s": "f_shower",
@@ -92,6 +91,7 @@
     "terrain": {
       " ": [ [ "t_region_groundcover", 60 ], [ "t_region_shrub", 2 ], "t_region_tree" ],
       "_": [ "t_region_groundcover", [ "t_region_groundcover_barren", 9 ] ],
+      "p": [ "t_region_groundcover", [ "f_solar_unit_v2" ] ],
       "#": "t_rock",
       "$": [ "t_region_tree_fruit", "t_region_tree_nut", "t_region_shrub_fruit", "t_region_shrub" ],
       "S": [
