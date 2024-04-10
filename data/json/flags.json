@@ -2148,5 +2148,10 @@
     "context": [ "GUNMOD" ],
     "//": "Implied by having a reach attack mode on the gunmod, but can be explicit for non-reach bayonets.",
     "info": "When attached to a gun, this item <good>contributes to its melee damage</good>."
+  },
+  {
+    "id": "ROOF",
+    "type": "json_flag",
+    "context": [  ]
   }
 ]
