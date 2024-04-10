@@ -22,8 +22,8 @@
     "skills_required": [ "gun", 1 ],
     "time": "1 h 20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_any", 8, "LIST" ], [ "fabric_standard", 8, "LIST" ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "fabric_standard", 8, "LIST" ] ] ]
   },
   {
     "result": "stone_pouch",
@@ -48,12 +48,8 @@
     "skills_required": [ "gun", 1 ],
     "time": "25 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "fabric_hides_any", 5, "LIST" ], [ "fabric_standard", 5, "LIST" ] ],
-      [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ],
-      [ [ "filament", 20, "LIST" ] ]
-    ]
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "fabric_hides_any", 15, "LIST" ] ] ]
   },
   {
     "result": "axe_ring",
@@ -307,8 +303,8 @@
     "skills_required": [ "gun", 1 ],
     "time": "1 h 18 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fabric_standard", 4, "LIST" ], [ "fabric_hides_any", 4, "LIST" ] ], [ [ "filament", 5, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 5 ] ],
+    "components": [ [ [ "fabric_standard", 4, "LIST" ] ] ]
   },
   {
     "result": "tacvest",
@@ -322,12 +318,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 25 ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
-    "components": [
-      [ [ "rag", 20 ] ],
-      [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ],
-      [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ],
-      [ [ "plastic_chunk", 2 ] ]
-    ]
+    "components": [ [ [ "fabric_standard", 40, "LIST" ] ], [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "result": "duffelbag",
@@ -481,8 +472,8 @@
     "skills_required": [ "survival", 1 ],
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fabric_standard", 6, "LIST" ], [ "fabric_hides_any", 6, "LIST" ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "fabric_standard", 6, "LIST" ] ] ]
   },
   {
     "result": "legpouch",
@@ -492,10 +483,10 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
-    "time": "1 h 8 m",
+    "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fabric_standard", 3, "LIST" ], [ "fabric_hides_any", 3, "LIST" ] ], [ [ "filament", 5, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 8 ] ],
+    "components": [ [ [ "fabric_standard", 6, "LIST" ] ] ]
   },
   {
     "result": "legpouch_large",
@@ -505,14 +496,10 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
-    "time": "1 h 16 m",
+    "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "fabric_standard", 6, "LIST" ], [ "fabric_hides_any", 6, "LIST" ] ],
-      [ [ "chestpouch", 2 ] ],
-      [ [ "filament", 8, "LIST" ] ]
-    ]
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "fabric_standard", 13, "LIST" ] ] ]
   },
   {
     "result": "legrig",
@@ -649,8 +636,8 @@
     "skill_used": "tailor",
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 6 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "fabric_standard", 8, "LIST" ] ] ]
   },
   {
     "result": "scabbard",
