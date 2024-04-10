@@ -4333,10 +4333,75 @@
     "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
     "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "wind_turbine", 1 ] ] ],
     "pre_note": "Will only work if constructed near a building that has an electric grid with a mounted battery.",
     "pre_terrain": "t_pit_shallow",
+    "post_furniture": "f_turbine_unit"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wind_turbine_roof1",
+    "group": "install_wind_turbine",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
+    "time": "70 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "wind_turbine", 1 ] ], [ [ "frame", 1 ] ] ],
+    "pre_terrain": "t_flat_roof",
+    "post_furniture": "f_turbine_unit"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wind_turbine_roof2",
+    "group": "install_wind_turbine",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
+    "time": "70 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "wind_turbine", 1 ] ], [ [ "frame", 1 ] ] ],
+    "pre_terrain": "t_tar_flat_roof",
+    "post_furniture": "f_turbine_unit"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wind_turbine_roof3",
+    "group": "install_wind_turbine",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
+    "time": "70 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "wind_turbine", 1 ] ], [ [ "frame", 1 ] ] ],
+    "pre_terrain": "t_shingle_flat_roof",
+    "post_furniture": "f_turbine_unit"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wind_turbine_roof4",
+    "group": "install_wind_turbine",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
+    "time": "70 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "wind_turbine", 1 ] ], [ [ "frame", 1 ] ] ],
+    "pre_terrain": "t_metal_flat_roof",
+    "post_furniture": "f_turbine_unit"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wind_turbine_roof5",
+    "group": "install_wind_turbine",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
+    "time": "70 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "wind_turbine", 1 ] ], [ [ "frame", 1 ] ] ],
+    "pre_terrain": "t_tile_flat_roof",
     "post_furniture": "f_turbine_unit"
   },
   {
@@ -4351,6 +4416,96 @@
     "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "xl_wind_turbine", 1 ] ] ],
     "pre_note": "Will only work if constructed near a building that has an electric grid with a mounted battery.",
     "pre_terrain": "t_pit_shallow",
+    "post_furniture": "f_xl_turbine_unit"
+  },
+  {
+    "type": "construction",
+    "id": "constr_xl_wind_roof1",
+    "group": "install_wind_turbine",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
+    "time": "70 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [
+      [ [ "steel_chunk", 5 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "wind_turbine", 1 ] ],
+      [ [ "frame", 2 ], [ "hdframe", 1 ] ]
+    ],
+    "pre_terrain": "t_flat_roof",
+    "post_furniture": "f_xl_turbine_unit"
+  },
+  {
+    "type": "construction",
+    "id": "constr_xl_wind_roof2",
+    "group": "install_wind_turbine",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
+    "time": "70 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [
+      [ [ "steel_chunk", 5 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "wind_turbine", 1 ] ],
+      [ [ "frame", 2 ], [ "hdframe", 1 ] ]
+    ],
+    "pre_terrain": "t_tar_flat_roof",
+    "post_furniture": "f_xl_turbine_unit"
+  },
+  {
+    "type": "construction",
+    "id": "constr_xl_wind_roof3",
+    "group": "install_wind_turbine",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
+    "time": "70 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [
+      [ [ "steel_chunk", 5 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "wind_turbine", 1 ] ],
+      [ [ "frame", 2 ], [ "hdframe", 1 ] ]
+    ],
+    "pre_terrain": "t_shingle_flat_roof",
+    "post_furniture": "f_xl_turbine_unit"
+  },
+  {
+    "type": "construction",
+    "id": "constr_xl_wind_roof4",
+    "group": "install_wind_turbine",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
+    "time": "70 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [
+      [ [ "steel_chunk", 5 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "wind_turbine", 1 ] ],
+      [ [ "frame", 2 ], [ "hdframe", 1 ] ]
+    ],
+    "pre_terrain": "t_metal_flat_roof",
+    "post_furniture": "f_xl_turbine_unit"
+  },
+  {
+    "type": "construction",
+    "id": "constr_xl_wind_roof5",
+    "group": "install_wind_turbine",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
+    "time": "70 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [
+      [ [ "steel_chunk", 5 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "wind_turbine", 1 ] ],
+      [ [ "frame", 2 ], [ "hdframe", 1 ] ]
+    ],
+    "pre_terrain": "t_tile_flat_roof",
     "post_furniture": "f_xl_turbine_unit"
   },
   {
