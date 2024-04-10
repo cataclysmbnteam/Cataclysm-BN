@@ -575,6 +575,18 @@ std::optional<construction_id> construction_menu( const bool blueprint )
                 add_folded( current_con->requirements->get_folded_tools_list( available_window_width, color_stage,
                             total_inv ) );
 
+                const auto get_folded_flags_list = [&]( const auto & flags ) ->
+                std::vector<std::string> {
+                    return foldstring(
+                        colorize( _( "Terrain needs: " ), color_stage ) + enumerate_as_string( flags.begin(), flags.end(),
+                    []( const auto & flag ) -> std::string { return colorize( flag, color_data ); },
+                    enumeration_conjunction::and_ ), available_window_width );
+                };
+
+                if( !current_con->pre_flags.empty() ) {
+                    add_folded( get_folded_flags_list( current_con->pre_flags ) );
+                }
+
                 add_folded( current_con->requirements->get_folded_components_list( available_window_width,
                             color_stage, total_inv, is_crafting_component ) );
 

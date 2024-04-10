@@ -1805,6 +1805,7 @@ std::string map::features( const tripoint &p )
     add_if( has_flag( "UNSTABLE", p ), _( "Unstable." ) );
     add_if( has_flag( "SHARP", p ), _( "Sharp." ) );
     add_if( has_flag( "FLAT", p ), _( "Flat." ) );
+    add_if( has_flag( "ROOF", p ), _( "Roof." ) );
     add_if( has_flag( "EASY_DECONSTRUCT", p ), _( "Simple." ) );
     add_if( has_flag( "MOUNTABLE", p ), _( "Mountable." ) );
     return result;
