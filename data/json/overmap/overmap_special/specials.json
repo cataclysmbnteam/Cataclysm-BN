@@ -6756,7 +6756,7 @@
     "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "field" ],
     "city_distance": [ 8, 40 ],
-    "occurrences": [ 11, 29 ],
+    "occurrences": [ 0, 20 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   }
 ]
