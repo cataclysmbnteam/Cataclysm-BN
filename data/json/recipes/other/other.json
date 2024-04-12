@@ -71,8 +71,8 @@
     "difficulty": 2,
     "time": "50 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "stick", 10 ], [ "2x4", 5 ] ], [ [ "leather", 20 ] ], [ [ "filament", 40, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 40 ] ],
+    "components": [ [ [ "stick", 10 ], [ "2x4", 5 ] ], [ [ "leather", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -84,12 +84,11 @@
     "skills_required": [ "tailor", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 50 ] ],
     "components": [
       [ [ "stick", 3 ], [ "2x4", 2 ] ],
       [ [ "leather", 4 ] ],
-      [ [ "damaged_shelter_kit", 1 ] ],
-      [ [ "filament", 5, "LIST" ] ]
+      [ [ "damaged_shelter_kit", 1 ] ]
     ]
   },
   {

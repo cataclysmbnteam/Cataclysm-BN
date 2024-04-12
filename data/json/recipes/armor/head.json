@@ -439,8 +439,8 @@
     "time": "2 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 6 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 24 ] ],
+    "components": [ [ [ "acidchitin_piece", 6 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
     "result": "helmet_conical",
