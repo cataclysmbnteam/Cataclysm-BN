@@ -61,9 +61,8 @@
     "difficulty": 4,
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ] ],
+    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "using": [ [ "sewing_standard", 10 ] ],
     "components": [ [ [ "leather", 5 ] ], [ [ "scrap", 3 ], [ "sheet_metal_small", 1 ] ], [ [ "nail", 4 ] ] ]
   },
   {
