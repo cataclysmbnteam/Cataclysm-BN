@@ -10,7 +10,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ "leather", 6 ] ]
+    "components": [ [ [ "leather", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -23,7 +23,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ "leather", 14 ] ]
+    "components": [ [ [ "leather", 14 ] ] ]
   },
   {
     "type": "recipe",
@@ -36,7 +36,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ "leather", 24 ] ]
+    "components": [ [ [ "leather", 24 ] ] ]
   },
   {
     "type": "recipe",
