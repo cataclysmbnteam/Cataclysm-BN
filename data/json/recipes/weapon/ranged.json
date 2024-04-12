@@ -61,8 +61,8 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "filament", 20, "LIST" ] ], [ [ "fabric_hides_proper", 1, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "fabric_hides_proper", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",

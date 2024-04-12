@@ -46,8 +46,8 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "acidchitin_piece", 4 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 16 ] ],
+    "components": [ [ [ "acidchitin_piece", 4 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
     "result": "armguard_hard",

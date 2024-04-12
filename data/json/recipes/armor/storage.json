@@ -9,8 +9,9 @@
     "skills_required": [ "gun", 1 ],
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 9 ] ], [ [ "scrap", 3 ], [ "sheet_metal_small", 1 ] ], [ [ "filament", 20, "LIST" ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "leather", 9 ] ], [ [ "scrap", 3 ], [ "sheet_metal_small", 1 ] ] ]
   },
   {
     "result": "ammo_satchel",
@@ -35,8 +36,8 @@
     "skills_required": [ [ "throw", 1 ] ],
     "time": "1 h 20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_any", 12, "LIST" ], [ "fabric_standard", 12, "LIST" ] ], [ [ "filament", 20, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "fabric_hides_any", 12, "LIST" ], [ "fabric_standard", 12, "LIST" ] ] ]
   },
   {
     "result": "chestrig",
@@ -60,8 +61,8 @@
     "difficulty": 4,
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "leather", 5 ] ], [ [ "scrap", 3 ], [ "sheet_metal_small", 1 ] ], [ [ "nail", 4 ] ] ]
   },
   {
@@ -74,8 +75,8 @@
     "skills_required": [ "gun", 1 ],
     "time": "18 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 6 ] ], [ [ "filament", 30, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "leather", 7 ] ] ]
   },
   {
     "result": "backpack",
@@ -178,8 +179,8 @@
     "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
     "time": "1 h 20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "filament", 8, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 8 ] ],
+    "components": [ [ [ "rag", 4 ] ] ]
   },
   {
     "result": "bholster",
@@ -219,8 +220,8 @@
     "skills_required": [ "melee", 1 ],
     "time": "1 h 5 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 3 ] ], [ [ "filament", 5, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 5 ] ],
+    "components": [ [ [ "leather", 3 ] ] ]
   },
   {
     "result": "bootstrap",
@@ -232,8 +233,8 @@
     "skills_required": [ "pistol", 1 ],
     "time": "1 h 15 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 3 ] ], [ [ "filament", 5, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 5 ] ],
+    "components": [ [ [ "leather", 3 ] ] ]
   },
   {
     "result": "wristsheath",
@@ -245,8 +246,8 @@
     "skills_required": [ "melee", 1 ],
     "time": "50 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 2 ] ], [ [ "filament", 3, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 3 ] ],
+    "components": [ [ [ "leather", 2 ] ] ]
   },
   {
     "result": "wristholster",
@@ -258,8 +259,8 @@
     "skills_required": [ "pistol", 1 ],
     "time": "50 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 2 ] ], [ [ "filament", 3, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 3 ] ],
+    "components": [ [ [ "leather", 2 ] ] ]
   },
   {
     "result": "bow_sling",
@@ -271,8 +272,7 @@
     "skills_required": [ "archery", 1 ],
     "time": "18 m",
     "autolearn": true,
-    "using": [ [ "filament", 40 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 40 ] ],
     "components": [
       [ [ "fabric_standard", 10, "LIST" ], [ "fabric_hides_any", 10, "LIST" ] ],
       [ [ "plastic_chunk", 2 ], [ "scrap", 1 ], [ "sheet_metal_small", 1 ] ],
@@ -343,8 +343,8 @@
     "skills_required": [ [ "gun", 1 ] ],
     "time": "1 h 20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 6 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "leather", 6 ] ] ]
   },
   {
     "result": "grenade_pouch",
@@ -356,9 +356,9 @@
     "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
     "time": "1 h 20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 10 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "components": [ [ [ "rag", 4 ] ], [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "result": "hide_bag",
@@ -394,8 +394,8 @@
     "skills_required": [ "gun", 1 ],
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 6 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "leather", 6 ] ] ]
   },
   {
     "result": "shoulder_holster",
@@ -407,8 +407,8 @@
     "skills_required": [ "gun", 1 ],
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "holster", 1 ] ], [ [ "shoulder_strap", 1 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "holster", 1 ] ], [ [ "shoulder_strap", 1 ] ] ]
   },
   {
     "result": "jerrypack",
@@ -459,8 +459,8 @@
     "skills_required": [ "survival", 1 ],
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
     "result": "ammo_pouch",
@@ -663,8 +663,8 @@
     "skills_required": [ "melee", 1 ],
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 6 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "leather", 6 ] ] ]
   },
   {
     "result": "sholster",
@@ -676,8 +676,8 @@
     "skills_required": [ "gun", 1 ],
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 6 ] ], [ [ "filament", 20, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "leather", 6 ] ] ]
   },
   {
     "result": "spearsling",
@@ -689,11 +689,8 @@
     "skills_required": [ "melee", 1 ],
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "felt_patch", 7 ], [ "fabric_standard", 7, "LIST" ], [ "fabric_hides_any", 7, "LIST" ] ],
-      [ [ "filament", 20, "LIST" ] ]
-    ]
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "felt_patch", 7 ], [ "fabric_standard", 7, "LIST" ], [ "fabric_hides_any", 7, "LIST" ] ] ]
   },
   {
     "result": "straw_basket",
@@ -1002,7 +999,6 @@
     "skills_required": [ "fabrication", 2 ],
     "time": "45 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "using": [ [ "sewing_standard", 50 ] ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "rag", 12 ] ], [ [ "plastic_chunk", 4 ] ] ]
@@ -1017,7 +1013,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fabric_standard", 3, "LIST" ], [ "fabric_hides_any", 3, "LIST" ] ], [ [ "filament", 5, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 5 ] ],
+    "components": [ [ [ "fabric_standard", 3, "LIST" ], [ "fabric_hides_any", 3, "LIST" ] ] ]
   }
 ]

@@ -90,8 +90,7 @@
     "time": "3 h 20 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "cordage", 2 ] ],
-    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 150 ] ],
     "components": [ [ [ "acidchitin_piece", 36 ] ], [ [ "fabric_hides_proper", 36, "LIST" ] ] ]
   },
   {

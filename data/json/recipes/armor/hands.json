@@ -21,8 +21,8 @@
     "time": "1 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 3 ] ], [ [ "fabric_hides_proper", 3, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "acidchitin_piece", 3 ] ], [ [ "fabric_hides_proper", 3, "LIST" ] ] ]
   },
   {
     "result": "gauntlets_larmor",
