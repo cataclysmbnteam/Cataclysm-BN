@@ -3348,5 +3348,25 @@
     "type": "recipe",
     "result": "sandwich_cucumber",
     "obsolete": true
+  },
+  {
+    "result": "beltfeed",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "aux_flamer",
+    "obsolete": true
+  },
+  {
+    "result": "makeshift_grenade",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "barrel_big",
+    "obsolete": true
   }
 ]
