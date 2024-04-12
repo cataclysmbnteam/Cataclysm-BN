@@ -2702,7 +2702,7 @@
     "type": "construction",
     "id": "constr_mine_downstair_dirt",
     "copy-from": "constr_mine_downstair",
-    "pre_terrain": "t_dirt"	
+    "pre_terrain": "t_dirt"
   },
   {
     "type": "construction",
