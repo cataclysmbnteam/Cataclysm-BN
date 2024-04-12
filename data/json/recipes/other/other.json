@@ -85,11 +85,7 @@
     "time": "20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ] ],
-    "components": [
-      [ [ "stick", 3 ], [ "2x4", 2 ] ],
-      [ [ "leather", 4 ] ],
-      [ [ "damaged_shelter_kit", 1 ] ]
-    ]
+    "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "leather", 4 ] ], [ [ "damaged_shelter_kit", 1 ] ] ]
   },
   {
     "type": "recipe",
