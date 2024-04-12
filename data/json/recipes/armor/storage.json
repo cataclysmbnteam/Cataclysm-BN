@@ -691,9 +691,7 @@
     "time": "15 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 15 ] ],
-    "components": [
-      [ [ "felt_patch", 7 ], [ "fabric_standard", 7, "LIST" ], [ "fabric_hides_any", 7, "LIST" ] ] ]
-    ]
+    "components": [ [ [ "felt_patch", 7 ], [ "fabric_standard", 7, "LIST" ], [ "fabric_hides_any", 7, "LIST" ] ] ]
   },
   {
     "result": "straw_basket",
