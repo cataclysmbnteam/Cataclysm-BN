@@ -305,11 +305,11 @@
     "melee_cut": 2,
     "dodge": 8,
     "//": "Their fur keeps them warm",
-    "armor_cold": 2,	
+    "armor_cold": 2,
     "vision_night": 20,
     "special_attacks": [ [ "scratch", 10 ] ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
-    "placate_triggers": [ "MEAT",  "PLAYER_WEAK" ],
+    "placate_triggers": [ "MEAT", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
     "harvest": "mammal_tiny",
     "reproduction": { "baby_monster": "mon_cat_kitten", "baby_count": 4, "baby_timer": 60 },
@@ -343,7 +343,7 @@
     "type": "MONSTER",
     "copy-from": "mon_cat_kitten",
     "name": "longhair kitten",
-    "armor_cold": 2,	
+    "armor_cold": 2,
     "description": "Barely more than a ball of fluff with eyes, this kitten looks like a longhair breed.",
     "upgrades": { "age_grow": 120, "into": "mon_cat_longhair" }
   },
@@ -425,7 +425,7 @@
     "copy-from": "mon_cat",
     "name": "Devon Rex cat",
     "volume": "3400 ml",
-    "weight": "3400 g",	
+    "weight": "3400 g",
     "description": "An unusual-looking cat with strikingly large eyes and ears, sporting a soft curly coat of fur.",
     "reproduction": { "baby_monster": "mon_cat_devon_rex_kitten", "baby_count": 4, "baby_timer": 60 }
   },
@@ -444,7 +444,7 @@
     "name": "Sphynx cat",
     "description": "The Sphynx cat has practically no fur on its body, exposing its curiously wrinkled skin.",
     "//": "No fur, no cold protection",
-    "armor_cold": 0,	
+    "armor_cold": 0,
     "reproduction": { "baby_monster": "mon_cat_sphynx_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
@@ -459,7 +459,8 @@
     "id": "mon_cat_tabby",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": "tabby cat","description": "Marked with the characteristic 'M' on its forehead and decorated with swirling stripes, the tabby's markings provide excellent camouflage.",
+    "name": "tabby cat",
+    "description": "Marked with the characteristic 'M' on its forehead and decorated with swirling stripes, the tabby's markings provide excellent camouflage.",
     "reproduction": { "baby_monster": "mon_cat_tabby_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
