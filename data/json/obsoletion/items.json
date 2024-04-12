@@ -14,11 +14,6 @@
     "volume": "5 L"
   },
   {
-    "result": "makeshift_grenade",
-    "type": "recipe",
-    "obsolete": true
-  },
-  {
     "id": "makeshift_grenade",
     "copy-from": "grenade",
     "type": "TOOL",
@@ -78,19 +73,6 @@
     "damage_modifier": { "damage_type": "bullet", "amount": 1 },
     "dispersion_modifier": -90,
     "min_skills": [ [ "weapon", 4 ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "barrel_big",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 6,
-    "time": 30000,
-    "autolearn": false,
-    "tools": [ [ [ "large_repairkit", 100 ], [ "small_repairkit", 300 ] ] ],
-    "components": [ [ [ "pipe", 2 ] ] ]
   },
   {
     "id": "barrel_rifled",
@@ -330,19 +312,6 @@
     "magazine_adaptor": [ [ "223", [ "belt223" ] ], [ "308", [ "belt308" ] ], [ "50", [ "belt50" ] ] ],
     "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
-  },
-  {
-    "result": "beltfeed",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "skills_required": [ "rifle", 2 ],
-    "time": 200000,
-    "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 4 ] ] ]
   },
   {
     "id": "tuned_mechanism",
@@ -1749,11 +1718,6 @@
     "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ],
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON_FOULING" ]
-  },
-  {
-    "type": "recipe",
-    "result": "aux_flamer",
-    "obsolete": true
   },
   {
     "id": "tool_rdx_sand_bomb",
