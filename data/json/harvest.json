@@ -233,7 +233,7 @@
       { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
-  },  
+  },
   {
     "id": "mammal_leather",
     "//": "drops regular stomach",
@@ -271,7 +271,7 @@
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
-  },  
+  },
   {
     "id": "mammal_large_leather",
     "//": "drops large stomach",
@@ -328,7 +328,7 @@
       { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
-  },  
+  },
   {
     "id": "mutant_mammal_large_leather",
     "//": "drops large stomach",
@@ -417,7 +417,7 @@
       { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
-  },  
+  },
   {
     "id": "animal_noskin",
     "//": "for those vertebrates that don't have something you can skin off of them",
