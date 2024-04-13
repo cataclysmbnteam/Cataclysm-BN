@@ -72,7 +72,7 @@
       ],
       "draw_cost": 35
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY", "COMPACT" ]
   },
   {
     "id": "ammo_satchel",
