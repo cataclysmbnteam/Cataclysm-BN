@@ -17,7 +17,7 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 10,
-    "encumbrance": 5,
+    "max_encumbrance": 3,
     "material_thickness": 1,
     "use_action": {
       "type": "bandolier",
