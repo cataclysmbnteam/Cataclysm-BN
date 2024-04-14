@@ -70,18 +70,8 @@
     "id": "gin_mash",
     "name": { "str": "gin mash", "str_pl": "gin mashes" },
     "description": "Gin mash, after the junipers have had time to add flavor, ready to be distilled or drunk as is.",
-    "copy-from": "brew_base",
-    "color": "yellow",
-    "addiction_type": "alcohol",
-    "addiction_potential": 1,
-    "use_action": "ALCOHOL_WEAK",
-    "stim": -2,
-    "container": "jug_plastic",
-    "calories": 26,
-    "quench": 2,
-    "healthy": -2,
-    "fun": 2,
-    "material": [ "water", "alcohol" ]
+    "copy-from": "wash_whiskey",
+    "color": "yellow"
   },
   {
     "type": "COMESTIBLE",
@@ -99,17 +89,9 @@
     "id": "wash_vodka",
     "name": { "str": "vodka wash", "str_pl": "vodka washes" },
     "description": "Fermented, but not distilled vodka.  No longer tastes sweet.",
-    "copy-from": "brew_base",
+    "copy-from": "wash_whiskey",
     "color": "light_cyan",
-    "addiction_type": "alcohol",
-    "addiction_potential": 1,
-    "use_action": "ALCOHOL_WEAK",
-    "stim": -2,
-    "container": "jug_plastic",
-    "calories": 9,
-    "quench": 2,
-    "healthy": -2,
-    "fun": 2
+    "calories": 9
   },
   {
     "type": "COMESTIBLE",
@@ -126,19 +108,8 @@
     "id": "wash_rum",
     "name": { "str": "rum wash", "str_pl": "rum washes" },
     "description": "Fermented, but not distilled rum.  No longer tastes sweet.",
-    "copy-from": "brew_base",
-    "weight": "50 g",
-    "color": "light_cyan",
-    "addiction_type": "alcohol",
-    "addiction_potential": 1,
-    "use_action": "ALCOHOL_WEAK",
-    "stim": -2,
-    "container": "jug_plastic",
-    "calories": 26,
-    "quench": 2,
-    "healthy": -2,
-    "fun": 2,
-    "material": [ "water", "alcohol" ]
+    "copy-from": "wash_whiskey",
+    "color": "light_cyan"
   },
   {
     "type": "COMESTIBLE",
@@ -152,19 +123,6 @@
     "fun": -5,
     "material": [ "fruit", "water" ],
     "brewable": { "time": "12 hours", "results": [ "fruit_wine", "yeast" ] }
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "brew_mead",
-    "name": "spiced mead must",
-    "description": "Unfermented spiced mead.  Diluted honey and yeast.",
-    "copy-from": "brew_base",
-    "color": "yellow",
-    "calories": 35,
-    "quench": 6,
-    "price": "0 cent",
-    "material": [ "honey", "water" ],
-    "brewable": { "time": "5 days", "results": [ "mead", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -182,10 +140,7 @@
     "id": "brew_burdock_wine",
     "name": "burdock wine must",
     "description": "Unfermented burdock wine.  A sticky mixture of water, sugar, yeast, and burdock roots.",
-    "copy-from": "brew_base",
-    "color": "yellow",
-    "calories": 35,
-    "quench": 6,
+    "copy-from": "brew_dandelion_wine",
     "brewable": { "time": "1 day 12 hours 40 minutes", "results": [ "burdock_wine", "yeast" ] }
   },
   {
@@ -193,9 +148,18 @@
     "id": "brew_pine_wine",
     "name": "pine wine must",
     "description": "Unfermented pine wine.  A sticky mixture of water, sugar, yeast, and pine resins.",
-    "copy-from": "brew_base",
+    "copy-from": "brew_dandelion_wine",
     "color": "green",
     "brewable": { "time": "1 day 16 hours 50 minutes", "results": [ "pine_wine", "yeast" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "brew_mead",
+    "name": "spiced mead must",
+    "description": "Unfermented spiced mead.  Diluted honey and yeast.",
+    "copy-from": "brew_dandelion_wine",
+    "material": [ "honey", "water" ],
+    "brewable": { "time": "5 days", "results": [ "mead", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -228,18 +192,10 @@
     "id": "wash_moonshine",
     "name": { "str": "moonshine wash", "str_pl": "moonshine washes" },
     "description": "Fermented, but not distilled moonshine.  Contains all the contaminants you don't want in your moonshine.",
-    "copy-from": "brew_base",
-    "weight": "50 g",
-    "addiction_type": "alcohol",
-    "addiction_potential": 1,
-    "use_action": "ALCOHOL_WEAK",
-    "stim": -3,
-    "container": "jug_plastic",
-    "calories": 33,
+    "copy-from": "wash_whiskey",
     "quench": -2,
     "healthy": -10,
-    "fun": -20,
-    "material": [ "water", "alcohol" ]
+    "fun": -20
   },
   {
     "type": "COMESTIBLE",
@@ -261,8 +217,6 @@
     "copy-from": "brew_base",
     "weight": "46 g",
     "color": "light_red",
-    "symbol": "~",
-    "calories": 17,
     "quench": 6,
     "fun": -5,
     "brewable": { "time": "12 hours", "results": [ "sake", "yeast" ] }
