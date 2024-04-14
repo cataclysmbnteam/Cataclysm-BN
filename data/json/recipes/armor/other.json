@@ -549,5 +549,16 @@
     "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "shield_wooden_large", 1 ] ] ]
+  },
+  {
+    "result": "american_flag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": "80 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
+    "components": [ [ [ "rag", 40 ] ] ]
   }
 ]
