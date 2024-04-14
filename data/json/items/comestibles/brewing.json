@@ -7,7 +7,7 @@
     "weight": "33 g",
     "color": "white",
     "container": "bottle_glass",
-    "flags": [ "EATEN_COLD", "MYCUS_OK", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_COLD", "MYCUS_OK", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "symbol": "~",
     "calories": 25,
     "quench": -5,
@@ -28,7 +28,7 @@
     "weight": "33 g",
     "color": "brown",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "symbol": "~",
     "calories": 17,
     "quench": 4,
@@ -63,7 +63,7 @@
     "price_postapoc": "10 cent",
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "DRINK"
   },
   {
@@ -74,7 +74,7 @@
     "weight": "33 g",
     "color": "brown",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "symbol": "~",
     "calories": 17,
     "quench": 4,
@@ -109,7 +109,7 @@
     "price_postapoc": "10 cent",
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "DRINK"
   },
   {
@@ -130,7 +130,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "brewable": { "time": "6 hours", "results": [ "wash_vodka", "yeast" ] }
   },
   {
@@ -155,7 +155,7 @@
     "price_postapoc": "10 cent",
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "DRINK"
   },
   {
@@ -166,7 +166,7 @@
     "weight": "33 g",
     "color": "light_cyan",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "symbol": "~",
     "calories": 17,
     "quench": 4,
@@ -201,7 +201,7 @@
     "price_postapoc": "10 cent",
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "DRINK"
   },
   {
@@ -212,7 +212,7 @@
     "weight": "46 g",
     "color": "light_red",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "symbol": "~",
     "calories": 17,
     "quench": 6,
@@ -234,7 +234,7 @@
     "weight": "38 g",
     "color": "yellow",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "symbol": "~",
     "calories": 35,
     "quench": 6,
@@ -267,7 +267,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "brewable": { "time": "1 day 12 hours 40 minutes", "results": [ "dandelion_wine", "yeast" ] }
   },
   {
@@ -288,7 +288,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "brewable": { "time": "1 day 12 hours 40 minutes", "results": [ "burdock_wine", "yeast" ] }
   },
   {
@@ -309,7 +309,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "brewable": { "time": "1 day 16 hours 50 minutes", "results": [ "pine_wine", "yeast" ] }
   },
   {
@@ -320,7 +320,6 @@
     "weight": "249 g",
     "color": "brown",
     "container": "jug_plastic",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "symbol": "~",
     "calories": 35,
     "quench": 4,
@@ -329,7 +328,7 @@
     "volume": "250 ml",
     "price_postapoc": "10 cent",
     "phase": "liquid",
-    "comestible_type": "DRINK",
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "brewable": { "time": "9 hours", "results": [ "hb_beer", "yeast" ] }
   },
   {
@@ -340,7 +339,6 @@
     "weight": "50 g",
     "color": "brown",
     "container": "jug_plastic",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "symbol": "~",
     "calories": 104,
     "quench": 2,
@@ -350,7 +348,7 @@
     "price_postapoc": "10 cent",
     "charges": 7,
     "phase": "liquid",
-    "comestible_type": "DRINK",
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "brewable": { "time": "6 hours", "results": [ "wash_moonshine", "yeast" ] }
   },
   {
@@ -375,7 +373,7 @@
     "price_postapoc": "10 cent",
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "DRINK"
   },
   {
@@ -396,7 +394,7 @@
     "charges": 16,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "brewable": { "time": "7 hours", "results": [ "vinegar" ] }
   },
   {
@@ -407,7 +405,7 @@
     "weight": "46 g",
     "color": "light_red",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "symbol": "~",
     "calories": 17,
     "quench": 6,
