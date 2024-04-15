@@ -96,8 +96,6 @@
       { "monster": "mon_cat_black_kitten", "freq": 5, "cost_multiplier": 0 },
       { "monster": "mon_cat_void", "freq": 10, "cost_multiplier": 0 },
       { "monster": "mon_cat_void_kitten", "freq": 1, "cost_multiplier": 0 },
-      { "monster": "mon_cat_liquid", "freq": 10, "cost_multiplier": 0 },
-      { "monster": "mon_cat_liquid_kitten", "freq": 1, "cost_multiplier": 0 },
       { "monster": "mon_cat_mutant_prism", "freq": 10, "cost_multiplier": 0 },
       { "monster": "mon_cat_mutant_kitten_prism", "freq": 1, "cost_multiplier": 0 }
     ]
