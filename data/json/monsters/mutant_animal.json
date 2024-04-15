@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str": "iridescent cat" },
     "description": "As it moves, this cat's colors shift unnaturally in the light.  You can't make out the breed, but its fur pattern seems to change with every step.",
-    "copy-from": "mon_cat",    
+    "copy-from": "mon_cat",
     "luminance": 5,
     "//": "Higher dodge due to the constantly changing fur pattern",
     "dodge": 9,
