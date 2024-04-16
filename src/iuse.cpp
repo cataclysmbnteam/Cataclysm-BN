@@ -1978,6 +1978,13 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
         }
     }
 
+    // Whatever we sprayed, if present extinguish it too.
+    if( Creature *target = g->critter_at( dest, true ) ) {
+        if( target->has_effect( effect_onfire ) ) {
+            target->remove_effect( effect_onfire );
+        }
+    }
+
     // Slightly reduce the strength of fire immediately behind the target tile.
     if( g->m.passable( dest ) ) {
         dest.x += ( dest.x - p->posx() );
