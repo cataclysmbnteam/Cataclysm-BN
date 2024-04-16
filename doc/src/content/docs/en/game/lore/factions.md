@@ -24,6 +24,87 @@ now. While not everyone can purchase and own a firearm, and firearm ownership is
 tracked, it is also actively encouraged by the government to fight off any potential invaders, and
 higher caliber firearms and explosives are actually available on the civilian market.
 
+### Old Guard (U.S Reclamation Initiative)
+
+#### Origin (Who are they?)
+
+The US Reclamation Initiative (the Old Guard to most survivors), are what remains of the United
+State's government. An amalgamation of various departments of the United States prior to the
+Cataclysm (including the NRO, Coast Guard, NOAA, Homeland Security, the Defense Department and the
+CIA), they were formed when the Cataclysm struck and forced the government to retreat out onto sea.
+In the brief time since the Cataclysm they've shifted to sea platforms and micro-islands, with a main
+base on the Kennedy Space Centre.
+
+#### Goal
+
+As the Reclamation Initiative their overarching goal is to reclaim territory and restore the rule
+of government to the rest of the United States. To this end, they seek to re-establish contact with
+any remaining governmental institutions, reclaim military installations and re-establish law and
+order within their spheres of influence.
+
+Beyond that however, they have an internal split on what should be done after the reclamation is
+complete. One faction believes that there is a need for retaliation against the Nethereum and its
+inhabitants in response to the Cataclysm, another faction believes that it would be best if they
+focused their efforts more on fortifying against external intrusion.
+
+#### Capabilities
+
+Large number of trained, battle tested military personnel from the leadup to the Cataclysm, but
+administration is equal parts bureaucrats and military. _Not_ fully military group, remember that
+this is essentially what remains of the _government_, not just the military.
+
+Immediate strengths are combat ability and equipment, they should have a military industrial complex
+of decent scale capable of building, repairing and maintaining most of their less advanced equipment
+and some of their more high tech equipment. (They can build ballistic guns, laser rifles and maintain
+but not build new F35s) Less immediate strengths should be simple bureacracy and logistics, they
+should in theory be more able to direct and coordinate projects over a large area.
+
+In terms of equipment, they'll have small groups of elites with very high tech equipment (think power
+armour, mechs, railguns and Rivtech equipment, kind of the Enclave basically...) while most of their
+rank and file are kitted like the zombie soldiers we currently have in game. (Though less dead and
+better maintained). They may also have paratrooperes in use  for reclaiming some of their outposts.
+
+They'll have ships obviously, but also some helicopters, and limited bomber and fighter capability.
+So that'll be fun if we ever manage to code it, their fighters will probably be sortieing every now
+and then to clear the skies, the monsters that the Nether creates in the air are no real match for
+a missile, the larger concern for them is that the Nether might overwhelm their stockpile or come
+up with something new.
+
+#### Needs
+
+Raw material. They've largely made do with the materials they can scrounge up from their own ships,
+as well as the various smaller islands that they've settled on, but this won't be enough for them
+to grow and expand as a faction. Essentially they'll be looking to reopen, staff and run farms,
+factories, mines, etc. They don't have the manpower and technical knowledge to run these, so their
+secondary goal here would be to shelter existing factions (or small survivor groups) with both in
+exchange for some of the materials, or simply bartering with them for it.
+
+Manpower. The Cataclysm, and it's leadup, have left their forces stretched thinner than they would
+prefer. If they want to achieve their goal of reclaiming the U.S they'll want to engage in a
+recruitment drive to bolster their numbers. This may include more than simply military personnel,
+as they will need officials and bureaucrats as well as workers for raw materials as above.
+
+Technology. Some of the high tech equipment they use is not replicable because they don't know how
+(their engineers know how to maintain it but not necessarily how to build it from scratch).
+Expeditions into DARPA labs, factories, etc will be helpful to them not only to regain their original
+technological standards but also prepare them for combat against extraterrestrial/extradimensional
+factions.
+
+#### Player Interactions
+
+Their ambitions mean that it is all too likely that they will be stretched thin and weak while trying
+to fulfil any of their 3 needs, as their priorities are much more likely to be focused on expansion.
+Player may be recruited to help support them in defending locations, claiming locations, or otherwise
+aid them in their quest to regain control over the New England region.
+
+Their focus will primarily be on military based locations, they won't care as much about portal labs,
+more on munition factories, DARPA labs, etc. Anything that will enhance their ability to project force.
+This can also include communication arrays, so radio towers, satellite arrays, etc (though they will
+likely find satellite arrays a _bit_ less useful than they'd like)
+
+They'll likely work very closely with Hub01, and be the one in charge of organizing/outfitting you for
+the push into the finale lab (assuming you don't just do it without talking to them)
+
 ### Evac Shelters
 
 The evac shelters were built as part of a government program to help improve both the morale of the
