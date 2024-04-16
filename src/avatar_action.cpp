@@ -92,8 +92,6 @@ static const std::string flag_LADDER( "LADDER" );
 
 #define dbg(x) DebugLog((x), DC::SDL)
 
-bool can_fire_turret( avatar &you, const map &m, const turret_data &turret );
-
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
@@ -696,12 +694,26 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
     return false;
 }
 
-/**
- * Checks if the turret is valid and if the player meets certain conditions for manually firing it.
- * @param turret Turret to check.
- * @return True if all conditions are true, otherwise false.
- */
-bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
+bool avatar_action::will_fire_turret( avatar &you )
+{
+    if( you.has_trait( trait_BRAWLER ) ) {
+        add_msg( m_bad, _( "You refuse to use this ranged weapon" ) );
+        return false;
+    }
+
+    if( you.has_effect( effect_relax_gas ) ) {
+        if( one_in( 5 ) ) {
+            add_msg( m_good, _( "Your eyes steel, and you aim your weapon!" ) );
+        } else {
+            you.moves -= rng( 2, 5 ) * 10;
+            add_msg( m_bad, _( "You are too pacified to aim the turret…" ) );
+            return false;
+        }
+    }
+    return true;
+}
+
+bool avatar_action::can_fire_turret( avatar &you, const map &m, const turret_data &turret )
 {
     const item &weapon = turret.base();
     if( !weapon.is_gun() ) {
@@ -709,8 +721,7 @@ bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
         return false;
     }
 
-    if( you.has_trait( trait_BRAWLER ) ) {
-        add_msg( m_bad, _( "You refuse to use the %s." ), turret.name() );
+    if( !will_fire_turret( you ) ) {
         return false;
     }
 
@@ -729,16 +740,6 @@ bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
         default:
             debugmsg( "Unknown turret status" );
             return false;
-    }
-
-    if( you.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
-            add_msg( m_good, _( "Your eyes steel, and you aim your weapon!" ) );
-        } else {
-            you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You are too pacified to aim the turret…" ) );
-            return false;
-        }
     }
 
     std::vector<std::string> messages;
