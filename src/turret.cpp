@@ -423,7 +423,6 @@ std::vector<vehicle_part *> vehicle::find_all_ready_turrets( turret_filter_types
     for( vehicle_part *t : turrets() ) {
         if( ( t->enabled && filter != turret_filter_types::MANUAL ) || ( !t->enabled &&
                 filter != turret_filter_types::AUTOMATIC ) ) {
-            turret_data &td = turret_query( *t );
             if( turret_query( *t ).query() == turret_data::status::ready ) {
                 res.push_back( t );
             }
