@@ -10,7 +10,7 @@
       ".": "t_metal_floor",
       "A": "t_metal_floor",
       "#": "t_metal_pontoon_dp",
-      "±": "t_ladder_up_down",	  
+      "±": "t_ladder_up_down",
       ">": "t_ladder_down",
       "<": "t_ladder_up",
       "|": "t_wall_bulkhead",

@@ -430,7 +430,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_open_air_rooved", "I": "t_wall_metal", "±": "t_ladder_up_down"  }
+      "terrain": { ".": "t_open_air_rooved", "I": "t_wall_metal", "±": "t_ladder_up_down" }
     }
   },
   {
@@ -467,7 +467,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_open_air_rooved", "I": "t_wall_metal", "±": "t_ladder_up_down"  }
+      "terrain": { ".": "t_open_air_rooved", "I": "t_wall_metal", "±": "t_ladder_up_down" }
     }
   },
   {

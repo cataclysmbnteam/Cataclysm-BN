@@ -188,7 +188,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "X": "t_concrete_wall",",": "t_floor", "±": "t_ladder_up_down" }
+      "terrain": { "X": "t_concrete_wall", ",": "t_floor", "±": "t_ladder_up_down" }
     }
   },
   {
@@ -223,7 +223,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "X": "t_concrete_wall", ",": "t_floor", "±": "t_ladder_up_down"}
+      "terrain": { "X": "t_concrete_wall", ",": "t_floor", "±": "t_ladder_up_down" }
     }
   },
   {
@@ -258,13 +258,7 @@
         "........................",
         "........................"
       ],
-      "terrain": {
-        ".": "t_open_air",
-        "X": "t_wall_log",
-        "G": "t_wall_glass",
-        "D": "t_door_locked_interior",
-		"±": "t_ladder_up_down"
-      },
+      "terrain": { ".": "t_open_air", "X": "t_wall_log", "G": "t_wall_glass", "D": "t_door_locked_interior", "±": "t_ladder_up_down" },
       "furniture": {
         "S": "f_sink",
         "B": "f_sofa",

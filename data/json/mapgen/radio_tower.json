@@ -133,13 +133,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": {
-        "R": "t_radio_tower",
-        "a": "t_railing",
-        ",": "t_metal_floor_no_roof",
-	  "±": "t_ladder_up_down",
-        "&": "t_flat_roof"
-      }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "±": "t_ladder_up_down", "&": "t_flat_roof" }
     }
   },
   {
@@ -175,8 +169,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", 
-	  "±": "t_ladder_up_down"  }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "±": "t_ladder_up_down" }
     }
   },
   {
@@ -212,8 +205,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof",
-	  "±": "t_ladder_up_down"  }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "±": "t_ladder_up_down" }
     }
   },
   {
@@ -249,8 +241,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof",
-	  "±": "t_ladder_up_down"  }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "±": "t_ladder_up_down" }
     }
   },
   {
