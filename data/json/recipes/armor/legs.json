@@ -526,7 +526,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
-    "time": "30 m",
+    "time": "5 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "pants_cargo", 1 ] ] ]
@@ -550,7 +550,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
-    "time": "20 m",
+    "time": "5 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
     "flags": [ "NO_RESIZE" ],
