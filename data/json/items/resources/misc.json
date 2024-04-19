@@ -105,8 +105,8 @@
     "id": "down_mattress",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "cushiony mattress", "str_pl": "cushiony mattresses" },
-    "description": "This is a single, or twin, sized mattress filled with down feathers or wool.",
+    "name": { "str": "down mattress", "str_pl": "down mattresses" },
+    "description": "This is a single, or twin, sized down filled mattress.",
     "weight": "6 kg",
     "volume": "300000 ml",
     "price": "10 USD",
@@ -217,5 +217,14 @@
     "to_hit": -5,
     "flags": [ "TRADER_AVOID" ],
     "bashing": 15
+  },
+  {
+    "type": "GENERIC",
+    "id": "wool_mattress",
+    "copy-from": "down_mattress",
+    "looks_like": "down_mattress",
+    "name": { "str": "wool mattress" },
+    "description": "A mattress made of wool.  It is quite soft and comfortable.",
+    "material": [ "wool" ]
   }
 ]
