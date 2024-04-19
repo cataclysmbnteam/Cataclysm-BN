@@ -3152,5 +3152,14 @@
     "name": { "str": "broken longrange milspec turret" },
     "weight": "50 kg",
     "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "wool_pillow",
+    "copy-from": "pillow",
+    "looks_like": "pillow",
+    "name": { "str": "wool pillow" },
+    "description": "A pillow to rest your head on when sleeping.  This one is made entirely of fluffy wool!",
+    "material": [ "wool" ]
   }
 ]

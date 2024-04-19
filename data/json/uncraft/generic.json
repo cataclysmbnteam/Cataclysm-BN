@@ -4483,5 +4483,12 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_scrap", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "wool_pillow",
+    "type": "uncraft",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "felt_patch", 4 ] ], [ [ "yarn", 130 ] ] ]
   }
 ]
