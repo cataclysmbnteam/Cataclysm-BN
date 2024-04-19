@@ -71,6 +71,20 @@ void unload( avatar &you );
  */
 bool can_fire_weapon( avatar &you, const map &m, const item &weapon );
 
+/**
+ * Checks if the player meets certain conditions for firing it.
+ * Only call outside of can_fire_turret if using turret from vehicle controls.
+ * As can_fire_turret also checks things like "do you have two hands to fire the M2HB?"
+ */
+bool will_fire_turret( avatar &you );
+
+/**
+ * Checks if the turret is valid and if the player meets certain conditions for manually firing it.
+ * @param turret Turret to check.
+ * @return True if all conditions are true, otherwise false.
+ */
+bool can_fire_turret( avatar &you, const map &m, const turret_data &turret );
+
 /** Checks if the wielded weapon is a gun and can be fired then starts interactive aiming */
 void fire_wielded_weapon( avatar &you );
 
