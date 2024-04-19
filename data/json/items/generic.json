@@ -2376,7 +2376,7 @@
     "symbol": "o",
     "color": "brown",
     "name": { "str": "teddy bear" },
-    "description": "A mass-produced plush teddy bear.  It is wearing a little red tshirt but no pants.",
+    "description": "A cuddly plush teddy bear.  It is wearing a little red tshirt but no pants.",
     "price": "2 USD",
     "price_postapoc": "10 cent",
     "material": [ "cotton" ],
@@ -3152,5 +3152,14 @@
     "name": { "str": "broken longrange milspec turret" },
     "weight": "50 kg",
     "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "wool_pillow",
+    "copy-from": "pillow",
+    "looks_like": "pillow",
+    "name": { "str": "wool pillow" },
+    "description": "A pillow to rest your head on when sleeping.  This one is made entirely of fluffy wool!",
+    "material": [ "wool" ]
   }
 ]
