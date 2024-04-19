@@ -536,7 +536,7 @@
   },
   {
     "type": "recipe",
-    "result": "stuffed_animal",
+    "result": "teddy_bear",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "tailor",
