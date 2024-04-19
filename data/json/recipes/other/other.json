@@ -35,7 +35,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 1160 ] ] ]
+    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 1160 ], [ "yarn", 650 ] ] ]
   },
   {
     "type": "recipe",
@@ -47,7 +47,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
+    "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ], [ "yarn", 130 ] ] ]
   },
   {
     "type": "recipe",
@@ -59,7 +59,7 @@
     "difficulty": 2,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ], [ "drawing_tool", 20 ] ],
-    "components": [ [ [ "sheet", 1 ] ], [ [ "cotton_ball", 20 ] ] ]
+    "components": [ [ [ "sheet", 1 ] ], [ [ "cotton_ball", 20 ], [ "yarn", 330 ] ] ]
   },
   {
     "type": "recipe",
@@ -533,5 +533,18 @@
     "autolearn": true,
     "reversible": true,
     "components": [ [ [ "withered", 12 ], [ "straw_pile", 12 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "stuffed_animal",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "15 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ], [ "yarn", 130 ] ] ]
   }
 ]

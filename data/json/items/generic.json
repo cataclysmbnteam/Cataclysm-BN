@@ -3152,5 +3152,12 @@
     "name": { "str": "broken longrange milspec turret" },
     "weight": "50 kg",
     "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "stuffed_animal",
+    "copy-from": "teddy_bear",
+    "name": { "str": "stuffed animal" },
+    "description": "A homemade stuffed animal.  You're not sure what animal it's supposed to be, but it was clearly made with love."
   }
 ]

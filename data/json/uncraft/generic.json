@@ -1690,7 +1690,7 @@
     "type": "uncraft",
     "time": "6 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "yarn", 50 ] ] ]
+    "components": [ [ [ "yarn", 80 ] ] ]
   },
   {
     "result": "file",
