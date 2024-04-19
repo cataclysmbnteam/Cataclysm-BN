@@ -3462,7 +3462,14 @@
     "time": "15 m",
     "pre_special": "check_empty",
     "components": [
-      [ [ "pillow", 19 ], [ "down_pillow", 19 ], [ "wool_pillow", 19 ], [ "mattress", 4 ], [ "down_mattress", 4 ], [ "wool_mattress", 4 ] ],
+      [
+        [ "pillow", 19 ],
+        [ "down_pillow", 19 ],
+        [ "wool_pillow", 19 ],
+        [ "mattress", 4 ],
+        [ "down_mattress", 4 ],
+        [ "wool_mattress", 4 ]
+      ],
       [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ]
     ],
     "pre_terrain": "t_floor",

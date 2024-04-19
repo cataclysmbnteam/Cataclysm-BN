@@ -247,10 +247,7 @@
       "str_max": 30,
       "sound": "rrrrip!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "felt_patch", "count": [ 40, 55 ] },
-        { "item": "yarn", "count": [ 500, 650 ] }
-      ]
+      "items": [ { "item": "felt_patch", "count": [ 40, 55 ] }, { "item": "yarn", "count": [ 500, 650 ] } ]
     }
   }
 ]
