@@ -1680,6 +1680,6 @@
     "techniques": "tec_heatblade",
     "use_action": "HOTPLATE",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE", "LEAK_DAM", "RADIOACTIVE" ]
     }
 ]
