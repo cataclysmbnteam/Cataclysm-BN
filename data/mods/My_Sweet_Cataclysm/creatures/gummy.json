@@ -3,7 +3,7 @@
     "id": "mon_gummy_cub",
     "type": "MONSTER",
     "name": { "str": "gummy cub" },
-    "description": "A cute bear cub made of sugary gelatin. You wonder if it will grow big one day.",
+    "description": "A cute bear cub made of sugary gelatin.  You wonder if it will grow big one day.",
     "default_faction": "gummy_bears",
     "bodytype": "bear",
     "species": [ "GUMMY" ],
