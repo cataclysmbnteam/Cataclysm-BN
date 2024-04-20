@@ -823,7 +823,7 @@
     "time": "45 m",
     "reversible": true,
     "autolearn": [ [ "electronics", 8 ] ],
-    "book_learn": [ [ "recipe_caseless", 8 ], [ "textbook_atomic_lab", 9 ] ],
+    "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 6 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "soldering_standard", 10 ] ],
     "components": [
