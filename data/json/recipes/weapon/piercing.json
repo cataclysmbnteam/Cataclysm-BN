@@ -832,7 +832,15 @@
       [ [ "element", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "plut_cell", 1 ] ],
-      [ [ "dagger_medieval", 1 ], [ "tanto", 1 ], [ "kukri", 1 ], [ "knife_trench", 1 ], [ "knife_combat", 1 ], [ "knife_combat_mod", 1 ], [ "knife_hunting", 1 ] ]
+      [
+        [ "dagger_medieval", 1 ],
+        [ "tanto", 1 ],
+        [ "kukri", 1 ],
+        [ "knife_trench", 1 ],
+        [ "knife_combat", 1 ],
+        [ "knife_combat_mod", 1 ],
+        [ "knife_hunting", 1 ]
+      ]
     ]
   }
 ]
