@@ -291,6 +291,7 @@
       [ "knife_rm42", 1 ],
       [ "kukri", 2 ],
       [ "knife_hunting", 8 ],
+      [ "knife_heat", 4 ],
       [ "knife_rambo", 16 ],
       [ "throwing_knife", 7 ],
       [ "throwing_axe", 4 ],

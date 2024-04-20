@@ -9,6 +9,7 @@
         [ "char_smoker", 1 ],
         [ "toolset", 1 ],
         [ "afs_atompot", -1 ],
+        [ "knife_heat", -1 ],
         [ "fire", -1 ]
       ]
     ]

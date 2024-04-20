@@ -159,6 +159,14 @@
   },
   {
     "type": "technique",
+    "id": "tec_heatblade",
+    "name": "thermal stab",
+    "messages": [ "You stab %s, melting their flesh", "<npcname> stabs %s, melting their flesh" ],
+    "melee_allowed": true,
+    "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 4.0 } ]
+  },
+  {
+    "type": "technique",
     "id": "tec_counter",
     "name": "Counterattack",
     "unarmed_allowed": true,

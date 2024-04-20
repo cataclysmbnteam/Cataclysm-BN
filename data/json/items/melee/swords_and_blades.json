@@ -1666,5 +1666,20 @@
     "cutting": 16,
     "material": [ "bronze" ],
     "color": "yellow"
-  }
+  },
+  {
+    "type": "TOOL",
+    "id": "knife_heat",
+    "copy-from": "knife_combat",
+    "name": { "str": "thermoblade" },
+    "description": "This is a knife or dagger with an aftermarket modification to heat the blade.  The makeshift atomic battery means it will effectively never run out of power, but it can irradiate the wielder when damaged.",
+    "weight": "588 g",
+    "price_postapoc": "1550 cent",
+    "bashing": 3,
+    "cutting": 23,
+    "techniques": "tec_heatblade",
+    "use_action": "HOTPLATE",
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "LEAK_DAM", "RADIOACTIVE" ]
+    }
 ]
