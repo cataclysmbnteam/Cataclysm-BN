@@ -32,7 +32,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "reproduction": { "baby_egg": "gum", "baby_count": 10, "baby_timer": 5 }
   },
-  
   {
     "id": "mon_gum_spider_wolf",
     "type": "MONSTER",

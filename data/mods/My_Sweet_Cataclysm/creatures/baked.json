@@ -1,5 +1,5 @@
 [
-   {
+  {
     "id": "mon_small_cracker",
     "type": "MONSTER",
     "name": { "str": "cracker kid" },
@@ -31,7 +31,6 @@
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
   },
-  
   {
     "id": "mon_cracker",
     "type": "MONSTER",
@@ -64,7 +63,6 @@
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
   },
-  
   {
     "id": "mon_cookie",
     "type": "MONSTER",
