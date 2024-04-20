@@ -1678,5 +1678,5 @@
     "use_action": "HOTPLATE",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE", "LEAK_DAM", "RADIOACTIVE", "FLAMING" ]
-    }
+  }
 ]
