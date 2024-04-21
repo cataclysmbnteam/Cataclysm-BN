@@ -1450,6 +1450,7 @@
       { "item": "knife_rm42", "prob": 2 },
       { "item": "kukri", "prob": 2 },
       { "item": "knife_hunting", "prob": 4 },
+      { "item": "knife_heat", "prob": 2 },
       { "item": "knife_rambo", "prob": 20 },
       { "item": "tanto", "prob": 3 },
       { "item": "throwing_knife", "prob": 7 },

@@ -812,5 +812,35 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 4 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "fabric_hides_any", 2, "LIST" ] ], [ [ "scrap_bronze", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "knife_heat",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "45 m",
+    "reversible": true,
+    "autolearn": [ [ "electronics", 8 ] ],
+    "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 6 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "element", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [
+        [ "dagger_medieval", 1 ],
+        [ "tanto", 1 ],
+        [ "kukri", 1 ],
+        [ "knife_trench", 1 ],
+        [ "knife_combat", 1 ],
+        [ "knife_combat_mod", 1 ],
+        [ "knife_hunting", 1 ]
+      ]
+    ]
   }
 ]
