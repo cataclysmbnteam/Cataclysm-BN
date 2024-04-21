@@ -1956,8 +1956,7 @@
     "type": "keybinding",
     "name": "Commit Suicide",
     "category": "DEFAULTMODE",
-    "id": "SUICIDE",
-    "bindings": [ { "input_method": "keyboard", "key": "Q" } ]
+    "id": "SUICIDE"
   },
   {
     "type": "keybinding",
@@ -2050,7 +2049,8 @@
     "type": "keybinding",
     "name": "Debug Menu",
     "category": "DEFAULTMODE",
-    "id": "debug"
+    "id": "debug",
+    "bindings": [ { "input_method": "keyboard", "key": "`" } ]
   },
   {
     "type": "keybinding",
@@ -2333,13 +2333,15 @@
     "type": "keybinding",
     "id": "cast_spell",
     "name": "Spellcasting",
-    "category": "DEFAULTMODE"
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard", "key": "]" } ]
   },
   {
     "type": "keybinding",
     "id": "diary",
     "name": "Open Diary",
-    "category": "DEFAULTMODE"
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard", "key": "HOME" } ]
   },
   {
     "type": "keybinding",
