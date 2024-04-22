@@ -878,7 +878,14 @@ bool requirement_data::check_enough_materials( const item_comp &comp, const inve
     }
     const int cnt = std::abs( comp.count ) * batch;
     const tool_comp *tq = find_by_type( tools, comp.type );
-    if( tq != nullptr && tq->available == available_status::a_true ) {
+    // First check is that the use case is the same (soldering iron charges
+    // being used in tools but the item itself being used as a component)
+    // If it isn't count_by_charges() any loaded versions are not considered
+    // valid components
+    // Second check is just that the tool has been considered valid,
+    // so must be offset when you count how much is available.
+    if( tq != nullptr && comp.type->count_by_charges() == tq->by_charges() &&
+        tq->available == available_status::a_true ) {
         // The very same item type is also needed as tool!
         // Use charges of it, or use it by count?
         const int tc = tq->by_charges() ? 1 : std::abs( tq->count );
