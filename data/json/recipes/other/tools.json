@@ -1763,7 +1763,6 @@
     "time": "4 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 5 ] ],
       [ [ "nail", 11 ] ],
@@ -1786,7 +1785,6 @@
     "time": "4 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 5 ] ],
       [ [ "nail", 11 ] ],
