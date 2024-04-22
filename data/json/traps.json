@@ -737,6 +737,6 @@
     "action": "none",
     "drops": [ "tarp_raincatcher" ],
     "benign": true,
-    "funnel_radius": 342
+    "funnel_radius": 360
   }
 ]
