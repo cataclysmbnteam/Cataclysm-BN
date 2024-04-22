@@ -4841,7 +4841,7 @@
     "category": "WORKSHOP",
     "time": "5 m",
     "required_skills": [ [ "electronics", 1 ] ],
-    "components": [ [ [ "soldering_iron", 1 ] ]],
+    "components": [ [ [ "soldering_iron", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_furniture": "f_gridhookup",
     "post_furniture": "f_gridsolderingiron"
