@@ -98,6 +98,7 @@
     "copy-from": "sandwich_deluxe",
     "name": { "str": "sauce sandwich", "str_pl": "sauce sandwiches" },
     "description": "A simple sauce sandwich.  Not very filling but beats eating just the bread.",
+    "material": [ "veggy", "wheat" ],
     "price": "2 USD",
     "price_postapoc": "2 USD",
     "fun": 2
