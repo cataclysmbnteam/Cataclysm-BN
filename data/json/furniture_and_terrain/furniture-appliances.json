@@ -1703,7 +1703,7 @@
     "crafting_pseudo_item": "fake_gridsolderingiron",
     "examine_action": "use_furn_fake_item",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "ter_set": "f_gridhookup", "items": [ { "item": "soldering_iron", "count": 1 } ] },
+    "deconstruct": { "furn_set": "f_gridhookup", "items": [ { "item": "soldering_iron", "count": 1 } ] },
     "bash": {
       "str_min": 2,
       "str_max": 10,

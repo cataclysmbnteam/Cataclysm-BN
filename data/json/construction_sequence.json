@@ -182,7 +182,13 @@
   {
     "type": "construction_sequence",
     "id": "f_gridsolderingiron",
-    "post_terrain": "f_gridsolderingiron",
-    "elems": [ "constr_gridhookup", "constr_gridsolderingiron" ]
+    "post_furniture": "f_gridsolderingiron",
+    "elems": [ "constr_gridsolderingiron" ]
+  },
+  {
+    "type": "construction_sequence",
+    "id": "f_gridhookup",
+    "post_furniture": "f_gridhookup",
+    "elems": [ "constr_gridhookup" ]
   }
 ]
