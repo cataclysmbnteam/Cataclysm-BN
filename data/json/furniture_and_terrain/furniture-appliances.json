@@ -1703,14 +1703,31 @@
     "crafting_pseudo_item": "fake_gridsolderingiron",
     "examine_action": "use_furn_fake_item",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
+    "deconstruct": { "ter_set": "f_gridhookup", "items": [ { "item": "soldering_iron", "count": 1 } ] },
+    "bash": {
+      "str_min": 2,
+      "str_max": 10,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "soldering_iron", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 1, 4 ] }
       ]
-    },
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gridhookup",
+    "looks_like": "power_supply",
+    "name": "junction box",
+    "symbol": "=",
+    "description": "A junction box ready to have complex electronics installed.",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "solder_wire", "count": 20 }, { "item": "cable", "count": 5 }, { "item": "power_supply", "count": 1 } ] },
     "bash": {
       "str_min": 2,
       "str_max": 10,

@@ -178,5 +178,11 @@
     "id": "f_birdbath",
     "post_furniture": "f_birdbath",
     "elems": [  ]
+  },
+  {
+    "type": "construction_sequence",
+    "id": "f_gridsolderingiron",
+    "post_terrain": "f_gridsolderingiron",
+    "elems": [ "constr_gridhookup", "constr_gridsolderingiron" ]
   }
 ]

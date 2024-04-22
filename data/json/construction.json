@@ -4872,12 +4872,24 @@
     "group": "place_soldering_iron",
     "category": "WORKSHOP",
     "required_skills": [ [ "electronics", 1 ] ],
-    "time": "30 m",
+    "time": "5 m",
+    "components": [ [ [ "soldering_iron", 1 ] ]],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_terrain": "f_gridhookup",
+    "post_furniture": "f_gridsolderingiron"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridhookup",
+    "group": "place_soldering_iron",
+    "category": "WORKSHOP",
+    "time": "20 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
-    "components": [ [ [ "soldering_iron", 1 ] ], [ [ "solder_wire", 20 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_furniture": "f_gridsolderingiron"
+    "post_furniture": "f_gridhookup"
   },
   {
     "type": "construction",
