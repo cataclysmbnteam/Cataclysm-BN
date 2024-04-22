@@ -1727,7 +1727,9 @@
     "move_cost_mod": 1,
     "coverage": 10,
     "required_str": -1,
-    "deconstruct": { "items": [ { "item": "solder_wire", "count": 20 }, { "item": "cable", "count": 5 }, { "item": "power_supply", "count": 1 } ] },
+    "deconstruct": {
+      "items": [ { "item": "solder_wire", "count": 20 }, { "item": "cable", "count": 5 }, { "item": "power_supply", "count": 1 } ]
+    },
     "bash": {
       "str_min": 2,
       "str_max": 10,
