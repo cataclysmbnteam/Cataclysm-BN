@@ -2051,13 +2051,14 @@
     "name": "Debug Menu",
     "category": "DEFAULTMODE",
     "id": "debug",
-    "bindings": [ { "input_method": "keyboard", "key": "`" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "F11" } ]
   },
   {
     "type": "keybinding",
     "name": "Lua Console",
     "category": "DEFAULTMODE",
-    "id": "lua_console"
+    "id": "lua_console",
+    "bindings": [ { "input_method": "keyboard", "key": "`" } ]
   },
   {
     "type": "keybinding",
