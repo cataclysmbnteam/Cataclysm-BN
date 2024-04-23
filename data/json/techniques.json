@@ -659,23 +659,6 @@
   },
   {
     "type": "technique",
-    "id": "tec_eskrima_fan",
-    "name": "Fan Strike",
-    "messages": [ "You fan strike %s", "<npcname> fan strikes %s" ],
-    "skill_requirements": [ { "name": "melee", "level": 2 } ],
-    "melee_allowed": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_eskrima_snap",
-    "name": "Snap Strike",
-    "messages": [ "You snap out at %s", "<npcname> snaps quickly at %s" ],
-    "melee_allowed": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
-  },
-  {
-    "type": "technique",
     "id": "tec_eskrima_combination",
     "name": "Combination Strike",
     "messages": [ "You combination strike %s", "<npcname> combination strikes %s" ],
