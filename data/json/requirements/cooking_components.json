@@ -560,7 +560,7 @@
     "//": "cooked nuts ready to be eaten",
     "components": [
       [
-        [ "acorns_cooked", 1 ],
+        [ "acorns_cooked", 1 ],   [ "acorn_roasted", 1 ],
         [ "almond_roasted", 1 ],
         [ "walnut_roasted", 1 ],
         [ "peanut_roasted", 1 ],
@@ -580,7 +580,7 @@
         [ "almond", 1 ],
         [ "walnut", 1 ],
         [ "peanut", 1 ],
-        [ "seasoning_salt", 1 ],
+        [ "beech_nuts", 1 ],
         [ "pepper", 2 ],
         [ "chem_saltpetre", 1 ]
       ]
