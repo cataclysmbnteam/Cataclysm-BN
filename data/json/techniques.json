@@ -95,9 +95,7 @@
     "name": "Rapid Strike",
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.75 }
-    ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ],
     "messages": [ "You quickly strike %s", "<npcname> quickly strikes %s" ],
     "description": "75% movecost"
   },
@@ -682,9 +680,7 @@
     "melee_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.6 }
-    ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.6 } ]
   },
   {
     "type": "technique",
@@ -944,9 +940,7 @@
     "messages": [ "You quickly strike %s with the back of your fist", "<npcname> quickly strikes %s with the back of their fist" ],
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.75 }
-    ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
   },
   {
     "type": "technique",
@@ -1055,9 +1049,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.75 }
-    ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
   },
   {
     "type": "technique",
@@ -1155,9 +1147,7 @@
     "name": "Leopard Swipe",
     "messages": [ "You quickly swipe at %s", "<npcname> quickly swipes at %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.75 }
-    ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
   },
   {
     "type": "technique",
@@ -1541,9 +1531,7 @@
     "name": "Snake Snap",
     "messages": [ "You swiftly jab %s", "<npcname> swiftly jabs %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.75 }
-    ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
   },
   {
     "type": "technique",
