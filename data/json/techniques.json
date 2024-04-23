@@ -96,13 +96,10 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.66 },
-      { "stat": "damage", "type": "cut", "scale": 0.66 },
-      { "stat": "damage", "type": "stab", "scale": 0.66 }
+      { "stat": "movecost", "scale": 0.75 }
     ],
     "messages": [ "You quickly strike %s", "<npcname> quickly strikes %s" ],
-    "description": "50% moves, 66% damage"
+    "description": "75% movecost"
   },
   {
     "type": "technique",
@@ -699,15 +696,11 @@
     "name": "Puño Strike",
     "messages": [ "You deliver a puño to %s", "<npcname> haftstrikes %s" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
-    "weapon_damage_requirements": [ { "type": "bash", "min": 8 } ],
     "melee_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.6 },
-      { "stat": "damage", "type": "bash", "scale": 0.7 },
-      { "stat": "damage", "type": "cut", "scale": 0 },
-      { "stat": "damage", "type": "stab", "scale": 0 }
+      { "stat": "movecost", "scale": 0.6 }
     ]
   },
   {
@@ -969,10 +962,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.66 },
-      { "stat": "damage", "type": "cut", "scale": 0.66 },
-      { "stat": "damage", "type": "stab", "scale": 0.66 }
+      { "stat": "movecost", "scale": 0.75 }
     ]
   },
   {
@@ -1083,10 +1073,7 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.66 },
-      { "stat": "damage", "type": "cut", "scale": 0.66 },
-      { "stat": "damage", "type": "stab", "scale": 0.66 }
+      { "stat": "movecost", "scale": 0.75 }
     ]
   },
   {
@@ -1186,10 +1173,7 @@
     "messages": [ "You quickly swipe at %s", "<npcname> quickly swipes at %s" ],
     "unarmed_allowed": true,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.66 },
-      { "stat": "damage", "type": "cut", "scale": 0.66 },
-      { "stat": "damage", "type": "stab", "scale": 0.66 }
+      { "stat": "movecost", "scale": 0.75 }
     ]
   },
   {
@@ -1216,9 +1200,7 @@
     "dodge_counter": true,
     "down_dur": 1,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0 },
-      { "stat": "damage", "type": "cut", "scale": 0 },
-      { "stat": "damage", "type": "stab", "scale": 0 }
+      { "stat": "movecost", "scale": 0 }
     ]
   },
   {
@@ -1575,10 +1557,7 @@
     "messages": [ "You swiftly jab %s", "<npcname> swiftly jabs %s" ],
     "unarmed_allowed": true,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.66 },
-      { "stat": "damage", "type": "cut", "scale": 0.66 },
-      { "stat": "damage", "type": "stab", "scale": 0.66 }
+      { "stat": "movecost", "scale": 0.75 }
     ]
   },
   {
@@ -1640,12 +1619,7 @@
     "messages": [ "You shove %s back", "<npcname> shoves %s back" ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
-    "knockback_dist": 1,
-    "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 0.5 },
-      { "stat": "damage", "type": "cut", "scale": 0.5 },
-      { "stat": "damage", "type": "stab", "scale": 0.5 }
-    ]
+    "knockback_dist": 1
   },
   {
     "type": "technique",
@@ -1654,12 +1628,7 @@
     "messages": [ "You deftly trip %s", "<npcname> deftly trips %s" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
-    "down_dur": 1,
-    "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 0.5 },
-      { "stat": "damage", "type": "cut", "scale": 0.5 },
-      { "stat": "damage", "type": "stab", "scale": 0.5 }
-    ]
+    "down_dur": 1
   },
   {
     "type": "technique",
@@ -1669,12 +1638,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "weighting": 2,
-    "take_weapon": true,
-    "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 0.5 },
-      { "stat": "damage", "type": "cut", "scale": 0.5 },
-      { "stat": "damage", "type": "stab", "scale": 0.5 }
-    ]
+    "take_weapon": true
   },
   {
     "type": "technique",
