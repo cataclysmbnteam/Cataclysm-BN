@@ -569,13 +569,8 @@
 [ "hickory_nut_roasted", 1 ],
         [ "pecan_roasted", 1 ],
         [ "pine_nuts", 1 ],
-        [ "pistachio_roasted", 1 ],
-        [ "hazelnut_roasted", 1 ],
-        [ "hazelnut_roasted", 1 ],
-        [ "hazelnut_roasted", 1 ],
-        [ "hazelnut_roasted", 1 ],
-        [ "hazelnut_roasted", 1 ],
-        
+        [ "pistachio_roasted", 1 ]
+
       ]
     ]
   },
@@ -592,12 +587,7 @@
         [ "beech_nuts", 1 ],
       [ "cashews", 1 ],
         [ "pecan", 1 ],
-        [ "pistachio", 1 ],
-        [ "cashews", 1 ],
-        [ "cashews", 1 ],
-        [ "cashews", 1 ],
-        [ "cashews", 1 ],
-        [ "cashews", 1 ],
+        [ "pistachio", 1 ]
       ]
     ]
   },
