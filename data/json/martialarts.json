@@ -389,8 +389,6 @@
     ],
     "techniques": [
       "tec_eskrima_round",
-      "tec_eskrima_fan",
-      "tec_eskrima_snap",
       "tec_eskrima_puno",
       "tec_eskrima_low",
       "tec_eskrima_combination"

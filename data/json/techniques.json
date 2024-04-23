@@ -1592,7 +1592,12 @@
     "messages": [ "You shove %s back", "<npcname> shoves %s back" ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
-    "knockback_dist": 1
+    "knockback_dist": 1,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 0.5 },
+      { "stat": "damage", "type": "cut", "scale": 0.5 },
+      { "stat": "damage", "type": "stab", "scale": 0.5 }
+    ]
   },
   {
     "type": "technique",
@@ -1611,7 +1616,12 @@
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "weighting": 2,
-    "take_weapon": true
+    "take_weapon": true,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 0.5 },
+      { "stat": "damage", "type": "cut", "scale": 0.5 },
+      { "stat": "damage", "type": "stab", "scale": 0.5 }
+    ]
   },
   {
     "type": "technique",
