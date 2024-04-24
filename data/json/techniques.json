@@ -696,8 +696,12 @@
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "crit_tec": true,
+    "weapon_damage_requirements": [ { "type": "bash", "min": 8 } ],
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.6 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.6 },
+    { "stat": "damage", "type": "cut", "scale": 0 },
+    { "stat": "damage", "type": "stab", "scale": 0 } 
+    ]
   },
   {
     "type": "technique",
@@ -1623,7 +1627,12 @@
     "messages": [ "You deftly trip %s", "<npcname> deftly trips %s" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
-    "down_dur": 1
+    "down_dur": 1,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 0.5 },
+      { "stat": "damage", "type": "cut", "scale": 0.5 },
+      { "stat": "damage", "type": "stab", "scale": 0.5 }
+    ]
   },
   {
     "type": "technique",
