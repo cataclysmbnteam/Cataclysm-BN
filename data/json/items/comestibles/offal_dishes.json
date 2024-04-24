@@ -353,9 +353,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "artificial sausage casing" },
     "description": "Sausage casings made from plastic.  Ready to be used for forming meat products.",
-    "color": "red",
-    "material": "plastic",
-    "charges": 60
+    "material": "plastic"
   },
   {
     "type": "COMESTIBLE",
