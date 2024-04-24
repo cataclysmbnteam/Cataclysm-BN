@@ -448,7 +448,7 @@
         [ "seasoning_salt", 4 ],
         [ "pepper", 4 ]
       ],
-      [ [ "sausage_casings", 1 ], [ "stomach", 1 ], [ "stomach_large", 1 ] ]
+      [ [ "sausage_casings", 1 ], [ "sausage_casings_plastic", 1 ], [ "stomach", 1 ], [ "stomach_large", 1 ] ]
     ]
   },
   {
@@ -1545,7 +1545,8 @@
     "tools": [ [ [ "char_smoker", 5 ] ] ],
     "components": [
       [ [ "offals_cooked", 2, "LIST" ], [ "meat_red_cooked", 1, "LIST" ], [ "meat_nofish_raw", 1, "LIST" ] ],
-      [ [ "sausage_casings", 1 ], [ "stomach", 1 ], [ "hstomach", 1 ] ],
+      [ [ "sausage_casings", 1 ],      
+    [ "sausage_casings_plastic", 1 ], [ "stomach", 1 ], [ "hstomach", 1 ] ],
       [
         [ "salt_water", 2 ],
         [ "saline", 4 ],
@@ -1576,7 +1577,7 @@
     "components": [
       [ [ "offals_cooked", 4, "LIST" ], [ "meat_red_cooked", 2, "LIST" ], [ "meat_nofish_raw", 2, "LIST" ] ],
       [
-        [ "sausage_casings", 2 ],
+        [ "sausage_casings", 2 ], [ "sausage_casings_plastic", 2 ],
         [ "stomach", 2 ],
         [ "stomach_large", 1 ],
         [ "hstomach", 2 ],
@@ -1625,7 +1626,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "components": [
       [ [ "offals_cooked", 2, "LIST" ], [ "meat_red_cooked", 1, "LIST" ], [ "meat_nofish_raw", 1, "LIST" ] ],
-      [ [ "sausage_casings", 1 ], [ "stomach", 1 ], [ "hstomach", 1 ] ],
+      [ [ "sausage_casings", 1 ],  [ "sausage_casings_plastic", 1 ],[ "stomach", 1 ], [ "hstomach", 1 ] ],
       [
         [ "salt_water", 2 ],
         [ "saline", 4 ],
@@ -1655,7 +1656,7 @@
     "components": [
       [ [ "offals_cooked", 4, "LIST" ], [ "meat_red_cooked", 2, "LIST" ], [ "meat_nofish_raw", 2, "LIST" ] ],
       [
-        [ "sausage_casings", 2 ],
+        [ "sausage_casings", 2 ],  [ "sausage_casings_plastic", 2 ],
         [ "stomach", 2 ],
         [ "stomach_large", 1 ],
         [ "hstomach", 2 ],
@@ -2562,11 +2563,47 @@
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
     "tools": [ [ [ "funnel", -1 ] ] ],
     "components": [
-      [ [ "stomach", 1 ], [ "stomach_large", 1 ], [ "bag_plastic", 1 ] ],
+      [ [ "stomach", 1 ], [ "stomach_large", 1 ] ],
       [ [ "salt", 20 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ]
   },
+ {
+    "type": "recipe",
+    "result": "sausage_casings_plastic",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+"skills_required": [
+    "fabrication",
+    2],
+    "difficulty": 3,
+    "time": "30 m",
+    "batch_time_factors": [ 80, 5 ],
+    "charges": 20,
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 2 ]  ],
+    "book_learn": [ [ "survival_book", 3 ], [ "family_cookbook", 3 ], [ "offalcooking", 2 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
+ "tools": [
+    [
+      [
+        "mold_plastic",
+        -1
+      ]
+    ],
+    [
+      [
+        "surface_heat",
+        5,
+        "LIST"
+      ]
+    ]
+  ],
+    "components": [
+      [  [ "bag_plastic", 1 ] ]
+    ]
+  },
+
   {
     "type": "recipe",
     "result": "mutant_tallow",
