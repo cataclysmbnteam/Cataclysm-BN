@@ -342,9 +342,19 @@
     "copy-from": "spice",
     "type": "COMESTIBLE",
     "name": { "str": "sausage casing" },
-    "description": "Sausage casings made from animal intestines or plastic.  Ready to be used for forming meat products.",
+    "description": "Sausage casings made from animal intestines.  Ready to be used for forming meat products.",
     "color": "red",
     "material": "flesh",
+    "charges": 60
+  },
+  {
+    "id": "sausage_casings_plastic",
+    "copy-from": "sausage_casings",
+    "type": "COMESTIBLE",
+    "name": { "str": "artificial sausage casing" },
+    "description": "Sausage casings made from plastic.  Ready to be used for forming meat products.",
+    "color": "red",
+    "material": "plastic",
     "charges": 60
   },
   {
@@ -371,4 +381,5 @@
     "price_postapoc": "50 cent",
     "flags": [ "EATEN_HOT" ]
   }
-]
+    ]
+  
