@@ -185,7 +185,7 @@
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
-        [ "sweet_fruit_like", 1, "LIST" ],
+        [ "sweet_fruit_like", 1, "LIST" ], [ "nuts_tasty", 1, "LIST" ],
         [ "choco_coffee_beans", 5 ],
         [ "chocolate_any", 1, "LIST" ],
         [ "jam_fruit", 1 ]
