@@ -2562,7 +2562,7 @@
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
     "tools": [ [ [ "funnel", -1 ] ] ],
     "components": [
-      [ [ "stomach", 1 ], [ "stomach_large", 1 ] , [ "bag_plastic", 1 ]],
+      [ [ "stomach", 1 ], [ "stomach_large", 1 ], [ "bag_plastic", 1 ] ],
       [ [ "salt", 20 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ]
