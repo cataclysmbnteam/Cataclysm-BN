@@ -685,6 +685,7 @@
         [ "mushroom_cooked", 1 ],
         [ "dry_mushroom", 1 ],
         [ "morel_cooked", 1 ],
+        [ "nuts_tasty", 1, "LIST" ],
         [ "sweet_fruit_like", 1, "LIST" ]
       ]
     ]

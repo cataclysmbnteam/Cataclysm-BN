@@ -460,20 +460,12 @@
       ],
       [
         [ "veggy_any", 2, "LIST" ],
-        [ "dry_beans", 2 ],
-        [ "can_beans", 2 ],
-        [ "raw_beans", 2 ],
-        [ "beans_cooked", 2 ],
-        [ "dry_lentils", 2 ],
-        [ "raw_lentils", 2 ],
+        [ "nuts_tasty", 2, "LIST" ],
         [ "dry_rice", 2 ],
-        [ "dandelion_cooked", 2 ],
-        [ "burdock_cooked", 2 ],
         [ "mushroom", 2 ],
         [ "dry_mushroom", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "morel_cooked", 2 ],
-        [ "acorns_cooked", 2 ],
         [ "chili_pepper_roasted", 2 ]
       ]
     ]
@@ -556,6 +548,42 @@
         [ "seasoning_salt", 1 ],
         [ "pepper", 2 ],
         [ "chem_saltpetre", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "nuts_cooked",
+    "type": "requirement",
+    "//": "cooked nuts ready to be eaten",
+    "components": [
+      [
+        [ "acorns_cooked", 1 ],
+        [ "acorn_roasted", 1 ],
+        [ "almond_roasted", 1 ],
+        [ "walnut_roasted", 1 ],
+        [ "chestnut_roasted", 1 ],
+        [ "hazelnut_roasted", 1 ],
+        [ "hickory_nut_roasted", 1 ],
+        [ "pecan_roasted", 1 ],
+        [ "pine_nuts", 1 ],
+        [ "pistachio_roasted", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "nuts_tasty",
+    "type": "requirement",
+    "//": "nuts that taste good enough to be eaten as is, either processed or raw.",
+    "components": [
+      [
+        [ "nuts_cooked", 1, "LIST" ],
+        [ "almond", 1 ],
+        [ "walnut", 1 ],
+        [ "peanut", 1 ],
+        [ "beech_nuts", 1 ],
+        [ "cashews", 1 ],
+        [ "pecan", 1 ],
+        [ "pistachio", 1 ]
       ]
     ]
   },
@@ -711,6 +739,8 @@
         [ "irradiated_pumpkin", 1 ],
         [ "raw_dandelion", 1 ],
         [ "raw_burdock", 1 ],
+        [ "raw_beans", 1 ],
+        [ "raw_lentils", 1 ],
         [ "rhubarb", 1 ],
         [ "irradiated_rhubarb", 1 ],
         [ "sugar_beet", 1 ],
@@ -739,6 +769,10 @@
         [ "veggy_canned", 1 ],
         [ "veggy_salted", 1 ],
         [ "dry_veggy", 1 ],
+        [ "dry_beans", 1 ],
+        [ "can_beans", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "dry_lentils", 1 ],
         [ "chili_pepper_roasted", 1 ]
       ]
     ]
