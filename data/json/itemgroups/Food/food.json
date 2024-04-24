@@ -216,7 +216,7 @@
         "charges-max": 9
       },
       { "item": "sausage_casings", "prob": 5, "charges": [ 10, 50 ] },
- { "item": "sausage_casings_plastic", "prob": 5, "charges": [ 10, 50 ] },
+      { "item": "sausage_casings_plastic", "prob": 5, "charges": [ 10, 50 ] },
       { "item": "dry_meat", "prob": 10 },
       { "item": "dry_fish", "prob": 10 },
       { "item": "dry_veggy", "prob": 10 },
@@ -871,7 +871,8 @@
     "entries": [
       { "item": "beer", "prob": 15 },
       { "item": "meat", "prob": 65 },
-      { "item": "sausage_casings", "prob": 5, "charges": [ 10, 50 ] }, { "item": "sausage_casings_plastic", "prob": 5, "charges": [ 10, 50 ] },
+      { "item": "sausage_casings", "prob": 5, "charges": [ 10, 50 ] },
+      { "item": "sausage_casings_plastic", "prob": 5, "charges": [ 10, 50 ] },
       { "item": "glazed_tenderloin", "prob": 55 },
       { "item": "fish", "prob": 10 },
       { "item": "fish_smoked", "prob": 5 },
