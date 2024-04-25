@@ -178,7 +178,7 @@
     "color": "light_gray",
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1", "IMPALE" ],
-    "to_hit": -1,
+    "to_hit": 1,
     "bashing": 6,
     "cutting": 25,
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "STAB" ],
