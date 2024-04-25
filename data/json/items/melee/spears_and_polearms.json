@@ -197,7 +197,6 @@
     "color": "light_red",
     "material": [ "copper", "wood" ],
     "techniques": [ "WBLOCK_1", "IMPALE" ],
-    "to_hit": 1,
     "cutting": 20,
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ],
     "qualities": [ [ "COOK", 1 ] ]
@@ -213,7 +212,6 @@
     "price": "160 USD",
     "price_postapoc": "55 USD",
     "material": [ "steel", "wood" ],
-    "to_hit": 1,
     "cutting": 30,
     "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ]
   },
