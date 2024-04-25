@@ -3029,5 +3029,15 @@
       "need_worn": true
     },
     "delete": { "flags": [ "DEAF" ] }
+  },
+  {
+    "id": "mask_halfsurvivor",
+    "type": "ARMOR",
+    "name": { "str": "survivor half-mask" },
+    "copy-from": "mask_lsurvivor",
+    "looks_like": "mask_filter",
+    "covers": [ "mouth" ],
+    "flags": [ "VARSIZE", "STURDY", "SLEEP_IGNORE" ],
+    "delete": { "qualities": [ [ "GLARE", 1 ] ] }
   }
 ]
