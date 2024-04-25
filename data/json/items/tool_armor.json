@@ -3036,6 +3036,7 @@
     "name": { "str": "survivor half-mask" },
     "copy-from": "mask_lsurvivor",
     "looks_like": "mask_filter",
+    "covers": [ "mouth" ],
     "flags": [ "VARSIZE", "STURDY", "SLEEP_IGNORE" ],
     "delete": { "qualities": [ [ "GLARE", 1 ] ] }
   }
