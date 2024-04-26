@@ -182,6 +182,7 @@
     "skills_required": [ "bashing", 1 ],
     "difficulty": 2,
     "time": "20 m",
+    "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 1 ], [ "textbook_weapeast", 7 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
@@ -315,6 +316,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "18 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
@@ -389,6 +391,7 @@
     "skills_required": [ "bashing", 2 ],
     "difficulty": 3,
     "time": "32 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 5, "LIST" ] ] ]
