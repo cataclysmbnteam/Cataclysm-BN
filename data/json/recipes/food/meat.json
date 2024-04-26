@@ -2579,7 +2579,7 @@
     "autolearn": [ [ "cooking", 5 ], [ "fabrication", 2 ] ],
     "book_learn": [ [ "survival_book", 3 ], [ "family_cookbook", 3 ], [ "offalcooking", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "bag_plastic", 1 ] ] ]
   },
   {
