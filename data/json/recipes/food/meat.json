@@ -422,7 +422,8 @@
         [ "wild_herbs", 4 ],
         [ "seasoning_salt", 4 ],
         [ "pepper", 4 ]
-      ]
+      ],
+      [ [ "sausage_casings", 1 ], [ "sausage_casings_plastic", 1 ], [ "stomach", 1 ], [ "stomach_large", 1 ] ]
     ]
   },
   {
@@ -473,7 +474,8 @@
         [ "wild_herbs", 4 ],
         [ "seasoning_salt", 4 ],
         [ "pepper", 4 ]
-      ]
+      ],
+      [ [ "sausage_casings", 1 ], [ "sausage_casings_plastic", 1 ], [ "stomach", 1 ], [ "stomach_large", 1 ] ]
     ]
   },
   {
