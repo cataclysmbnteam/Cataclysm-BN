@@ -3212,13 +3212,13 @@ bool find_auto_consume( player &p, const consume_type type )
         {
             return false;
         }
-        /* not quenching enough   */
-        if( type == consume_type::DRINK && comest.get_comestible()->quench < 15 )
+        /* not quenching enough or won't sate auto-eat   */
+        if( ( type == consume_type::DRINK && comest.get_comestible()->quench < 15 ) || ( type == consume_type::FOOD && p.compute_effective_nutrients( comest ).kcal < 1 ) )
         {
             return false;
         }
         /* Unsafe to drink or eat */
-        if( comest.has_flag( flag_UNSAFE_CONSUME ) )
+        if( comest.has_flag( flag_UNSAFE_CONSUME ) || comest.get_comestible()->parasites > 0 )
         {
             return false;
         }
