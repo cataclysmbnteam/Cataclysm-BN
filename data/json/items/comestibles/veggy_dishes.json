@@ -914,6 +914,7 @@
     "id": "veggy_sausage_cooked",
     "name": "cooked veggy sausage",
     "copy-from": "veggy_sausage",
+    "looks_like": "sausage_cooked",
     "spoils_in": "2 days",
     "price_postapoc": "2 USD",
     "description": "A plant based sausage that has been cooked.",
