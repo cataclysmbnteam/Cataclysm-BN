@@ -306,6 +306,8 @@
         [ "meat_red_cooked", 1, "LIST" ],
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],
+        [ "veggy_sausage", 1 ],
+        [ "veggy_sausage_cooked", 1 ],
         [ "bratwurst_sausage", 1 ],
         [ "sweet_sausage", 1 ],
         [ "sausage_wasteland", 1 ],
@@ -773,7 +775,9 @@
         [ "can_beans", 1 ],
         [ "beans_cooked", 1 ],
         [ "dry_lentils", 1 ],
-        [ "chili_pepper_roasted", 1 ]
+        [ "chili_pepper_roasted", 1 ],
+        [ "veggy_sausage", 1 ],
+        [ "veggy_sausage_cooked", 1 ]
       ]
     ]
   },
