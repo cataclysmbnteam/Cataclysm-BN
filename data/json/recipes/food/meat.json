@@ -1285,12 +1285,8 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [
-        [ "sausage", 1 ],
-        [ "sausage_cooked", 1 ],
-        [ "bratwurst_sausage", 1 ],
-        [ "meat_red", 1, "LIST" ],
-        [ "dry_meat", 1 ],
-        [ "can_chicken", 1 ]
+      [ "meat_sausage_cooked", 1, "LIST" ],
+      [ "meat_sausage_raw", 1, "LIST" ]
       ],
       [ [ "edible_tallow_lard", 1, "LIST" ] ],
       [ [ "flour", 1 ], [ "cornmeal", 1 ] ],
@@ -1310,7 +1306,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "sausage", 1 ], [ "sausage_cooked", 1 ], [ "bratwurst_sausage", 2 ] ],
+      [ [ "sausage", 1 ], [ "sausage_cooked", 1 ], [ "veggy_sausage", 1 ], [ "veggy_sausage_cooked", 1 ],  [ "bratwurst_sausage", 2 ] ],
       [ [ "curry_powder", 10 ], [ "chilly-p", 10 ] ],
       [ [ "ketchup", 2 ] ]
     ]
