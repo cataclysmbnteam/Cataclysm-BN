@@ -138,7 +138,7 @@
     "type": "GENERIC",
     "name": { "str": "jamadhar" },
     "copy-from": "knuckle_katar",
-    "description": "A steel brace with two thinner, pointed blades at the end, designed to primarely stab victims when used to punch.",
+    "description": "A steel brace with two thinner, pointed blades at the end, designed primarily to stab victims when used to punch.",
     "material": [ "steel" ],
     "volume": "600 ml",
     "cutting": 18,
