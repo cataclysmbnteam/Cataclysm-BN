@@ -411,10 +411,10 @@
         [ "burdock_cooked", 1 ],
         [ "chili_pepper_roasted", 1 ],
         [ "spinach", 1 ],
-        [ "grape_leaves", 1 ]      ]
+        [ "grape_leaves", 1 ]
+      ]
     ]
   },
-
   {
     "id": "human_meat",
     "type": "requirement",
