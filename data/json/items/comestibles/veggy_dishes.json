@@ -897,5 +897,26 @@
     "fun": 5,
     "healthy": 1,
     "vitamins": [ [ "vitC", 32 ], [ "vitA", 40 ], [ "calcium", 4 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "veggy_sausage",
+    "name": "smoked veggy sausage",
+    "copy-from": "sausage",
+    "healthy": 1,
+    "material": "veggy",
+    "description": "A plant based sausage that has been cured and smoked for long term storage.",
+    "flags": [ "EATEN_HOT", "SMOKED" ],
+    "fun": 5
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "veggy_sausage_cooked",
+    "name": "cooked veggy sausage",
+    "copy-from": "veggy_sausage",
+    "spoils_in": "2 days",
+    "price_postapoc": "2 USD",
+    "description": "A plant based sausage that has been cooked.",
+    "flags": [ "EATEN_HOT" ]
   }
 ]
