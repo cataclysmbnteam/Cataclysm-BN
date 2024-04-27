@@ -529,7 +529,7 @@
       { "item": "sandwich_pbj", "prob": 30 },
       { "item": "sandwich_pbh", "prob": 30 },
       { "item": "sandwich_pbm", "prob": 30 },
-      { "item": "frozen_dinner", "prob": 50 }
+      { "item": "frozen_dinner", "prob": 50 },
       { "item": "junk_burrito", "prob": 60 },
       { "item": "dried_salad", "prob": 6 },
       { "item": "pizza_veggy", "prob": 8 },
