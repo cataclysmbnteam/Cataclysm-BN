@@ -123,6 +123,9 @@ inline void proc_weather_sum( const weather_type_id wtype, weather_sum &data,
             case precip_class::light:
                 amount = 4 * to_turns<int>( tick_size );
                 break;
+            case precip_class::medium:
+                amount = 6 * to_turns<int>( tick_size );
+                break;
             case precip_class::heavy:
                 amount = 8 * to_turns<int>( tick_size );
                 break;
@@ -520,8 +523,9 @@ double precip_mm_per_hour( precip_class const p )
 {
     return
         p == precip_class::very_light ? 0.5 :
-        p == precip_class::light ? 1.5 :
-        p == precip_class::heavy ? 3   :
+        p == precip_class::light ? 1 :
+        p == precip_class::medium ? 2 :
+        p == precip_class::heavy ? 4 :
         0;
 }
 
@@ -539,6 +543,9 @@ void handle_weather_effects( const weather_type_id &w )
         } else if( w->precip == precip_class::light ) {
             wetness = 30;
             decay_time = 15_turns;
+        } else if( w->precip == precip_class::medium ) {
+            wetness = 45;
+            decay_time = 30_turns;
         } else if( w->precip == precip_class::heavy ) {
             decay_time = 45_turns;
             wetness = 60;
