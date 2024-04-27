@@ -198,7 +198,8 @@
       { "item": "coin_quarter", "prob": 1 },
       { "item": "bronze_medal", "prob": 1 },
       { "item": "silver_medal", "prob": 1 },
-      { "item": "gold_medal", "prob": 1 }
+      { "item": "gold_medal", "prob": 1 },
+      { "item": "clay_fish_trap", "prob": 1 }
     ]
   },
   {
