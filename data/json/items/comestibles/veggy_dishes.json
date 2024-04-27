@@ -903,6 +903,7 @@
     "id": "veggy_sausage",
     "name": "smoked veggy sausage",
     "copy-from": "sausage",
+    "calories": 50,
     "healthy": 1,
     "material": "veggy",
     "description": "A plant based sausage that has been cured and smoked for long term storage.",
