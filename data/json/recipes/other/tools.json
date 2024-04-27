@@ -1762,6 +1762,19 @@
   },
   {
     "type": "recipe",
+    "result": "clay_fish_trap",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "20 m",
+    "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 2 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
+    "reversible": true,
+    "components": [ [ [ "clay_canister", 5 ] ], [ [ "cordage", 2, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "toolbox",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
