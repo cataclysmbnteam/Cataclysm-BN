@@ -134,6 +134,37 @@
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
   {
+    "id": "jamadhar",
+    "type": "GENERIC",
+    "name": { "str": "jamadhar" },
+    "copy-from": "knuckle_katar",
+    "description": "A steel brace with two thinner, pointed blades at the end, designed primarily to stab victims when used to punch.",
+    "material": [ "steel" ],
+    "volume": "600 ml",
+    "cutting": 18,
+    "price": "500 USD",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE", "STAB" ]
+  },
+  {
+    "id": "impact_knuckle",
+    "type": "GENERIC",
+    "category": "weapons",
+    "weapon_category": [ "FIST_WEAPONS" ],
+    "looks_like": "knuckle_steel",
+    "symbol": "]",
+    "color": "dark_gray",
+    "name": { "str": "pair of impact knuckles", "str_pl": "pairs of impact knuckles" },
+    "description": "A pair of sturdy steel bracings, inlaid with padding material, which are then covered by hardened steel plates.  Can be used to safely deliver punches full force without the risk of harming ones hands.",
+    "material": [ "steel" ],
+    "volume": "550 ml",
+    "weight": "750g",
+    "bashing": 18,
+    "price": "500 USD",
+    "qualities": [ [ "HAMMER", 2 ] ],
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
+  },
+  {
     "type": "GENERIC",
     "id": "spiked_boxing",
     "category": "weapons",
