@@ -158,7 +158,7 @@
     "material": [ "steel" ],
     "volume": "550 ml",
 	"weight": "750g",
-    "bashing": 16,
+    "bashing": 18,
     "price": "500 USD",
 	"qualities": [ [ "HAMMER", 2 ] ],
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
