@@ -2551,7 +2551,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 10 ] ] ],
     "components": [
-      [ [ "flour", 4 ] ],
+      [ [ "flour", 5 ] ],
       [ [ "yeast", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
@@ -2608,7 +2608,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 4 ] ],
+      [ [ "flour", 5 ] ],
       [ [ "yeast", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
