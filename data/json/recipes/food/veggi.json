@@ -1401,12 +1401,7 @@
     "time": "3 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "bread_sandwich", 2, "LIST" ] ],
-      [
-        [ "veggy_sandwich", 1, "LIST" ]
-      ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "veggy_sandwich", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
