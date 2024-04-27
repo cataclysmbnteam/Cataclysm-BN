@@ -2161,7 +2161,7 @@
       [ [ "beverage_sweetener", 6, "LIST" ] ]
     ]
   },
-    {
+  {
     "type": "recipe",
     "result": "sausage_casings_plastic",
     "category": "CC_FOOD",
