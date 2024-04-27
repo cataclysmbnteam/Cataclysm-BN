@@ -1309,12 +1309,12 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
-    "difficulty": 7,
+    "difficulty": 4,
     "time": "4 h",
-    "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 6 ] ],
+    "autolearn": [ [ "tailor", 7 ] ],
+    "book_learn": [ [ "textbook_tailor", 4 ] ],
     "using": [ [ "sewing_standard", 48 ] ],
-    "components": [ [ [ "rag", 24 ] ] ]
+    "components": [ [ [ "rag", 140 ] ] ]
   },
   {
     "result": "maid_dress",
