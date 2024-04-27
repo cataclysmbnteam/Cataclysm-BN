@@ -1767,14 +1767,11 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
     "difficulty": 3,
-"autolearn": true,
+    "autolearn": true,
     "time": "10 m",
     "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 2 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "clay_canister", 10 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ]
-    ]
+    "components": [ [ [ "clay_canister", 10 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ] ]
   },
   {
     "type": "recipe",
