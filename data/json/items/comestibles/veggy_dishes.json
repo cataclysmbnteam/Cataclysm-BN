@@ -907,7 +907,7 @@
     "healthy": 1,
     "material": "veggy",
     "description": "A plant based sausage that has been cured and smoked for long term storage.",
-    "fun": 5
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
