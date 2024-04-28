@@ -31,7 +31,7 @@
     "weight": "300 g",
     "bashing": 9,
     "price_postapoc": "250 cent",
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "knuckle_brass",
@@ -201,6 +201,6 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "UNARMED_WEAPON" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "UNARMED_WEAPON", "SHEATH_KNIFE" ]
   }
 ]
