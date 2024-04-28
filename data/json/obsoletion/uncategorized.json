@@ -261,61 +261,6 @@
     "time": 1
   },
   {
-    "type": "recipe",
-    "result": "pneumatic_shotgun",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "mininuke_launcher",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "coilgun",
-    "obsolete": true
-  },
-  {
-    "result": "nailrifle",
-    "type": "recipe",
-    "obsolete": true
-  },
-  {
-    "result": "nailmag",
-    "type": "recipe",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "mininuke_mod",
-    "obsolete": true
-  },
-  {
-    "id": "mounted_mininuke_launcher",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted mininuke launcher" },
-    "item": "mininuke_launcher",
-    "color": "green",
-    "broken_color": "green",
-    "breaks_into": [ { "item": "scrap", "count": 27 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
-  },
-  {
-    "id": "mounted_coilgun",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted coilgun" },
-    "item": "coilgun",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
-  },
-  {
     "type": "terrain",
     "id": "t_centrifuge",
     "name": "broken centrifuge",
