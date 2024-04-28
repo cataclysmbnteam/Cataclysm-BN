@@ -287,8 +287,7 @@
     "components": [ [ [ "rag", 25 ] ], [ [ "faux_fur", 20 ] ] ]
   },
   {
-    "result": "
-_leather",
+    "result": "duster_leather",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
