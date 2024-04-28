@@ -86,5 +86,13 @@
     "name": { "str": "Genderfluid pride flag" },
     "description": "A genderfluid pride flag.  The pink represents feminimity, the white represents lack of gender, the purple represents androgyny, the black represents all other genders, and the blue represents masculinity.",
     "color": "blue"
+  },
+  {
+    "id": "autism_flag",
+    "type": "ARMOR",
+    "copy-from": "american_flag",
+    "name": { "str": "Autism pride flag" },
+    "description": "The autistic pride flag.  Gold middle band refers to the elemental symbol of gold (AU) which is used in the autistic community.  The gradient refers to the Pride Movement.  Red originated as a protest to the `light it up blue` campaign, which was denounced by the autistic community.  In color theory, green is the complimentary color to red.  The infinity sign is a symbol long used in the wider autistic and wider neurodiverse community.",
+    "color": "white"
   }
 ]

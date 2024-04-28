@@ -352,6 +352,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
     "time": "5 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock", 1 ] ], [ [ "filament", 100, "LIST" ], [ "cordage_short", 2, "LIST" ] ] ]
@@ -363,6 +364,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
     "time": "5 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
@@ -415,6 +417,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
     "time": "1 h",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
@@ -444,6 +447,7 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 2,
     "time": "1 h",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
@@ -480,6 +484,7 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 3,
     "time": "1 h",
+    "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -498,6 +503,7 @@
     "skills_required": [ "survival", 2 ],
     "difficulty": 2,
     "time": "1 h",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "components": [
@@ -639,6 +645,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "mechanics",
     "time": "10 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
@@ -1755,11 +1762,23 @@
   },
   {
     "type": "recipe",
+    "result": "clay_fish_trap",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "20 m",
+    "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 2 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
+    "reversible": true,
+    "components": [ [ [ "clay_canister", 5 ] ], [ [ "cordage", 2, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "toolbox",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 3 ],
     "difficulty": 2,
     "time": "4 m",
     "reversible": true,
@@ -1782,7 +1801,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 3 ],
     "difficulty": 2,
     "time": "4 m",
     "reversible": true,
