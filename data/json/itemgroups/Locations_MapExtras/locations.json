@@ -961,6 +961,7 @@
       [ "copper_knife", 10 ],
       [ "copper_ax", 10 ],
       [ "bone_flute", 10 ],
+      [ "wood_flute", 10 ],
       [ "spear_stone", 50 ],
       [ "hand_axe", 50 ]
     ]

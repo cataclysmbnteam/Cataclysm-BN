@@ -865,6 +865,7 @@
           { "item": "bagpipes", "prob": 25 },
           { "item": "banjo", "prob": 60 },
           { "item": "bone_flute", "prob": 20 },
+          { "item": "wood_flute", "prob": 50 },
           { "item": "clarinet", "prob": 50 },
           { "item": "flute", "prob": 50 },
           { "item": "harmonica_holder", "prob": 70 },
