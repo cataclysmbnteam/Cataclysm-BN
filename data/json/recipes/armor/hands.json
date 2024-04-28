@@ -173,7 +173,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "gloves_fingerless", 1 ] ], [ [ "scrap"2 ], [ "sheet_metal_small", 1 ] ] ]
+    "components": [ [ [ "gloves_fingerless", 1 ] ], [ [ "scrap", 2 ], [ "sheet_metal_small", 1 ] ] ]
   },
   {
     "result": "gloves_fsurvivor",
