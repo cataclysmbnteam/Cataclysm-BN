@@ -14,10 +14,12 @@
     "material": [ "plastic", "steel" ],
     "color": "yellow",
     "ammo": "nail",
+    "range": 1,
     "dispersion": 800,
     "loudness": 5,
     "clip_size": 20,
     "reload": 50,
+    "ranged_damage": { "damage_type": "stab", "amount": 1 },
     "valid_mod_locations": [ [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
@@ -38,10 +40,10 @@
     "ammo": "nail",
     "skill": "rifle",
     "range": 12,
-    "ranged_damage": { "damage_type": "stab", "amount": 6, "armor_penetration": 20 },
+    "ranged_damage": { "damage_type": "stab", "amount": 8, "armor_penetration": 20 },
     "dispersion": 180,
     "durability": 5,
-    "ups_charges": 8,
+    "ups_charges": 10,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
