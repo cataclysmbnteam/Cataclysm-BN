@@ -99,7 +99,7 @@
     "bashing": 8,
     "price_postapoc": "50 cent",
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "UNARMED_WEAPON" ]
+    "flags": [ "UNARMED_WEAPON", "BELT_CLIP" ]
   },
   {
     "id": "punch_dagger",
