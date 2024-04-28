@@ -990,7 +990,7 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
+    
     "time": "1 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
