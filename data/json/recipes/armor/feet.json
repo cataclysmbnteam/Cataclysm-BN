@@ -77,7 +77,6 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 2,
-    "skills_required": [ "survival", 1 ],
     "time": "40 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ] ],
