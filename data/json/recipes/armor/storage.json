@@ -982,5 +982,17 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 5 ] ],
     "components": [ [ [ "fabric_standard", 3, "LIST" ], [ "fabric_hides_any", 3, "LIST" ] ] ]
+  },
+  {
+    "result": "bandolier_grenade",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "1 h 20 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "leather", 8 ] ] ]
   }
 ]
