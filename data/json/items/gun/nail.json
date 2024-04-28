@@ -38,7 +38,6 @@
     "bashing": 10,
     "material": [ "copper", "steel" ],
     "ammo": "nail",
-    
     "range": 12,
     "ranged_damage": { "damage_type": "stab", "amount": 8, "armor_penetration": 20 },
     "dispersion": 180,
