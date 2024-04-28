@@ -29,9 +29,9 @@
     "material": [ "leather", "steel" ],
     "volume": "100 ml",
     "weight": "300 g",
-    "bashing": 2,
+    "bashing": 9,
     "price_postapoc": "250 cent",
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "knuckle_brass",
@@ -44,7 +44,7 @@
     "description": "A metal weapon made of brass, designed to be gripped in the palm and cause punches to do extra damage.  A good, quick weapon - but you have to get within punching range to use it.",
     "material": "brass",
     "weight": "320 g",
-    "bashing": 3,
+    "bashing": 9,
     "price_postapoc": "250 cent",
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
   },
@@ -96,10 +96,10 @@
     "material": "steel",
     "volume": "250 ml",
     "weight": "430 g",
-    "bashing": 3,
+    "bashing": 8,
     "price_postapoc": "50 cent",
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "UNARMED_WEAPON" ]
+    "flags": [ "UNARMED_WEAPON", "BELT_CLIP" ]
   },
   {
     "id": "punch_dagger",
@@ -201,6 +201,6 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "UNARMED_WEAPON" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "UNARMED_WEAPON", "SHEATH_KNIFE" ]
   }
 ]
