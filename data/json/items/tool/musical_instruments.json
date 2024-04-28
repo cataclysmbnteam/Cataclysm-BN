@@ -66,6 +66,7 @@
     "type": "TOOL",
     "name": { "str": "wooden flute" },
     "copy-from": "bone_flute",
+    "description": "A simple flute carved from wood with five finger holes.",
     "material": [ "wood" ],
     "color": "brown",
     "use_action": {
