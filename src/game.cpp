@@ -3115,6 +3115,20 @@ void game::draw()
     wnoutrefresh( w_terrain );
 
     draw_panels( true );
+
+
+    // This breaks stuff in the SDL port, see
+    // https://github.com/cataclysmbnteam/Cataclysm-BN/issues/4533
+#if !defined(TILES)
+
+// Ensure that the cursor lands on the character when everything is drawn.
+// This allows screen readers to describe the area around the player, making it
+// much easier to play with them
+// (e.g. for blind players)
+    wmove(w_terrain, -u.view_offset.xy() + point{ POSX, POSY });
+    wnoutrefresh(w_terrain);
+#endif
+
 }
 
 void game::draw_panels( bool force_draw )
@@ -3264,8 +3278,6 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_veh_dir_indicator( false );
         draw_veh_dir_indicator( true );
     }
-    // Place the cursor over the player as is expected by screen readers.
-    wmove( w_terrain, -center.xy() + g->u.pos().xy() + point( POSX, POSY ) );
 }
 
 std::optional<tripoint> game::get_veh_dir_indicator_location( bool next ) const
