@@ -857,7 +857,7 @@
     "difficulty": 3,
     "time": "1 h 30 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "tailor_portfolio", 2 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "sewing_standard", 38 ] ],
     "components": [ [ [ "rag", 10 ] ], [ [ "faux_fur", 10 ] ] ]
   },
