@@ -287,7 +287,8 @@
     "components": [ [ [ "rag", 25 ] ], [ [ "faux_fur", 20 ] ] ]
   },
   {
-    "result": "duster_leather",
+    "result": "
+_leather",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
@@ -678,7 +679,7 @@
     "difficulty": 3,
     "time": "1 h 30 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "tailor_portfolio", 2 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "sewing_standard", 50 ] ],
     "components": [ [ [ "rag", 20 ] ], [ [ "faux_fur", 12 ] ] ]
   },
