@@ -419,7 +419,7 @@
     "difficulty": 3,
     "time": "40 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
