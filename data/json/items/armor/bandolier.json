@@ -266,7 +266,7 @@
   {
     "id": "bandolier_grenade",
     "type": "ARMOR",
-    "name": { "str": "grenade bandolier" },
+    "name": { "str": "grenade ammo bandolier" },
     "description": "A leather bandolier for keeping cartridge grenades close to hand.",
     "weight": "140 g",
     "volume": "250 ml",
