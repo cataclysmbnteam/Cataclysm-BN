@@ -81,7 +81,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "50 m",
-    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 20 ] ] ]
@@ -95,6 +95,7 @@
     "difficulty": 3,
     "time": "50 m",
     "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "leather", 20 ] ], [ [ "scrap", 6 ], [ "sheet_metal_small", 2 ] ] ]
   },

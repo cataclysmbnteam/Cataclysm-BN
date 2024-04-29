@@ -58,6 +58,7 @@
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 1 ], [ "manual_tailor", 1 ], [ "tailor_portfolio", 1 ] ],
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "fur", 3 ] ] ]
   },
@@ -167,7 +168,7 @@
     "difficulty": 4,
     "time": "1 h 40 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ] ],
+    "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ], [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 11 ] ], [ [ "fur", 12 ] ] ]
   },
@@ -269,7 +270,7 @@
     "difficulty": 3,
     "time": "1 h 30 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
     "using": [ [ "sewing_standard", 60 ] ],
     "components": [ [ [ "fur", 40 ] ] ]
   },
@@ -665,7 +666,7 @@
     "difficulty": 3,
     "time": "1 h 30 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
     "using": [ [ "sewing_standard", 50 ] ],
     "components": [ [ [ "fur", 34 ] ] ]
   },
@@ -844,7 +845,7 @@
     "difficulty": 3,
     "time": "1 h 30 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
     "using": [ [ "sewing_standard", 38 ] ],
     "components": [ [ [ "fur", 28 ] ] ]
   },
@@ -1041,7 +1042,7 @@
     "difficulty": 3,
     "time": "1 h 30 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
     "using": [ [ "sewing_standard", 45 ] ],
     "components": [ [ [ "fur", 30 ] ] ]
   },
