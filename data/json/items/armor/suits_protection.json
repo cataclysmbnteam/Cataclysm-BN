@@ -612,7 +612,7 @@
     "id": "salsurvivor_suit",
     "copy-from": "lsurvivor_suit",
     "type": "ARMOR",
-    "name": {"str": "light superalloy survivor suit" },
+    "name": { "str": "light superalloy survivor suit" },
     "description": "A lightweight, hand-built combination armor made from a bulletproof vest and a jumpsuit, all reinforced with superalloy.  It's fairly protective, but less so than a thicker, more comprehensive suit.",
     "material": [ "kevlar", "superalloy", "cotton" ],
     "color": "light_cyan",
