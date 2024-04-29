@@ -299,7 +299,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 25 ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "fabric_standard", 40, "LIST" ] ], [ [ "plastic_chunk", 2 ] ] ]
+    "components": [ [ [ "fabric_standard", 25, "LIST" ] ], [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "result": "duffelbag",
