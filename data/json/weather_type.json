@@ -241,8 +241,7 @@
     "animation": { "factor": 0.01, "color": "c_white", "glyph": ".", "tile": "weather_snowflake" },
     "sound_category": "flurries",
     "sun_intensity": "light",
-    "requirements": {  "temperature_max": 33,"required_weathers": [ 
- "drizzle", "light_drizzle" ] }
+    "requirements": { "temperature_max": 33, "required_weathers": [ "drizzle", "light_drizzle" ] }
   },
   {
     "id": "snowing",
