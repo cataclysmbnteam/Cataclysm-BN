@@ -77,7 +77,10 @@
       { "item": "survivormap", "prob": 50 },
       { "item": "survnote", "prob": 10 },
       { "item": "tool_rdx_charge", "prob": 10 },
-      { "item": "v29", "prob": 10 }
+      { "item": "v29", "prob": 10 },
+      { "item": "bot_mininuke_hack", "prob": 10 },
+      { "item": "mininuke", "prob": 10 },
+      { "item": "mininuke_launcher", "prob": 0 }
     ]
   },
   {

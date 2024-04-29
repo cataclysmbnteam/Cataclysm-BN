@@ -25,6 +25,7 @@
       "capacity": 60,
       "ammo": [
         "pebble",
+        "nail",
         "700nx",
         "50",
         "4570",
@@ -576,6 +577,7 @@
       "capacity": 30,
       "ammo": [
         "pebble",
+        "nail",
         "700nx",
         "50",
         "4570",
