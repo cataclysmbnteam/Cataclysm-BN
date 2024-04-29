@@ -168,7 +168,13 @@
     "difficulty": 4,
     "time": "1 h 40 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ], [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
+    "book_learn": [
+      [ "textbook_survival", 1 ],
+      [ "trappers_companion", 3 ],
+      [ "survival_book", 2 ],
+      [ "textbook_tailor", 3 ],
+      [ "tailor_portfolio", 3 ]
+    ],
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 11 ] ], [ [ "fur", 12 ] ] ]
   },

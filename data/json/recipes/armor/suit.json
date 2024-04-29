@@ -102,7 +102,7 @@
     "difficulty": 4,
     "time": "1 h 30 m",
     "autolearn": true,
-   "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "sewing_standard", 68 ] ],
     "components": [ [ [ "fur", 48 ] ] ]
   },
@@ -400,7 +400,13 @@
     "time": "25 m",
     "reversible": true,
     "autolearn": true,
-    "book_learn": [ [ "textbook_survival", 1 ], [ "survival_book", 1 ], [ "textbook_tailor", 1 ], [ "manual_tailor", 1 ], [ "tailor_portfolio", 1 ] ],
+    "book_learn": [
+      [ "textbook_survival", 1 ],
+      [ "survival_book", 1 ],
+      [ "textbook_tailor", 1 ],
+      [ "manual_tailor", 1 ],
+      [ "tailor_portfolio", 1 ]
+    ],
     "using": [ [ "sewing_standard", 18 ] ],
     "components": [ [ [ "fur", 15 ] ] ]
   },
