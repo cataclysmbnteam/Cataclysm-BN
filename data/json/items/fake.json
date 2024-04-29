@@ -72,7 +72,7 @@
     "type": "TOOL",
     "name": { "str": "bionic razor" },
     "cutting": 18,
-    "qualities": [ [ "BUTCHER", 30 ], [ "CUT", 1 ], [ "CUT_FINE", 3 ] ]
+    "qualities": [ [ "BUTCHER", 15 ], [ "CUT", 1 ], [ "CUT_FINE", 2 ] ]
   },
   {
     "id": "clairvoyance_plus_rod",
