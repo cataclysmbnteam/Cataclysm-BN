@@ -584,7 +584,7 @@
     "price_postapoc": "70 USD",
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar", "steel", "leather" ],
+    "material": [ "kevlar", "steel" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "dark_gray",
@@ -593,7 +593,7 @@
     "encumbrance": 35,
     "storage": "6 L",
     "warmth": 15,
-    "material_thickness": 6,
+    "material_thickness": 8,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
@@ -606,6 +606,17 @@
     "material": [ "kevlar", "superalloy" ],
     "color": "light_cyan",
     "encumbrance": 30,
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "salsurvivor_suit",
+    "copy-from": "lsurvivor_suit",
+    "type": "ARMOR",
+    "name": {"str": "light superalloy survivor suit" },
+    "description": "A lightweight, hand-built combination armor made from a bulletproof vest and a jumpsuit, all reinforced with superalloy.  It's fairly protective, but less so than a thicker, more comprehensive suit.",
+    "material": [ "kevlar", "superalloy", "cotton" ],
+    "color": "light_cyan",
+    "encumbrance": 22,
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },
   {
@@ -625,8 +636,8 @@
     "coverage": 100,
     "encumbrance": 15,
     "storage": "7500 ml",
-    "warmth": 15,
-    "material_thickness": 4,
+    "warmth": 10,
+    "material_thickness": 6,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
@@ -738,7 +749,7 @@
     "encumbrance": 25,
     "storage": "7 L",
     "warmth": 15,
-    "material_thickness": 4,
+    "material_thickness": 7,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
@@ -814,7 +825,7 @@
     "encumbrance": 37,
     "storage": "6 L",
     "warmth": 75,
-    "material_thickness": 5,
+    "material_thickness": 8,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
