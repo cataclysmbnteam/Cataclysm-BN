@@ -71,7 +71,8 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic razor" },
-    "qualities": [ [ "BUTCHER", 8 ] ]
+    "cutting": 18,
+    "qualities": [ [ "BUTCHER", 30 ], [ "CUT", 1 ], [ "CUT_FINE", 3 ] ]
   },
   {
     "id": "clairvoyance_plus_rod",
