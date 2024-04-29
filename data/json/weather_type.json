@@ -19,7 +19,7 @@
   {
     "id": "clear",
     "type": "weather_type",
-    "name": "Clear",
+    "name": "Fair",
     "color": "c_cyan",
     "map_color": "c_yellow_white",
     "glyph": " ",
@@ -49,7 +49,7 @@
     "rains": false,
     "acidic": false,
     "sun_intensity": "high",
-    "requirements": { "pressure_min": 1020, "humidity_max": 70, "time": "day" }
+    "requirements": { "pressure_min": 1030, "humidity_max": 40, "time": "day", "humidity_and_pressure": false }
   },
   {
     "id": "cloudy",
@@ -67,7 +67,7 @@
     "rains": false,
     "acidic": false,
     "sun_intensity": "light",
-    "requirements": { "pressure_max": 1010, "humidity_min": 40 }
+    "requirements": { "pressure_max": 1010, "humidity_min": 60, "humidity_and_pressure": false }
   },
   {
     "id": "light_drizzle",
@@ -241,7 +241,8 @@
     "animation": { "factor": 0.01, "color": "c_white", "glyph": ".", "tile": "weather_snowflake" },
     "sound_category": "flurries",
     "sun_intensity": "light",
-    "requirements": { "temperature_max": 33, "required_weathers": [ "drizzle" ] }
+    "requirements": {  "temperature_max": 33,"required_weathers": [ 
+ "drizzle", "light_drizzle" ] }
   },
   {
     "id": "snowing",
