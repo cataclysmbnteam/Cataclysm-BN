@@ -2227,7 +2227,7 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
-    add( "FOV_3D", debug, translate_marker( "Experimental 3D field of vision" ),
+    add( "FOV_3D", debug, translate_marker( "3D field of vision" ),
          translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level." ),
          true
        );
