@@ -2174,6 +2174,7 @@
     "charges": 20,
     "autolearn": [ [ "cooking", 5 ], [ "fabrication", 2 ] ],
     "book_learn": [ [ "survival_book", 3 ], [ "family_cookbook", 3 ], [ "offalcooking", 2 ], [ "cookbook_foodfashions", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "bag_plastic", 1 ] ] ]
   }
