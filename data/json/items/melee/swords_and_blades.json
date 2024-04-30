@@ -1253,6 +1253,7 @@
     "name": { "str": "electrified saber (on)", "str_pl": "electrified sabers (on)" },
     "description": "The modifications made to this fencing saber may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  It is currently turned on.",
     "revert_to": "shock_sabre",
+    "revert_msg": "The %s's batteries run dry.",
     "use_action": { "type": "transform", "msg": "You press a button and the foil crackles with electricity.", "target": "shock_sabre" },
     "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
     "power_draw": 5000000,
