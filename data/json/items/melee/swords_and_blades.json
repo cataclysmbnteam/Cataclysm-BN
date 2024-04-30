@@ -1115,10 +1115,10 @@
       "type": "transform",
       "msg": "You press a button and the foil crackles with electricity.",
       "active": true,
-        "need_charges": 1,
-        "need_charges_msg": "The %s's batteries are dead." ,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
       "target": "shock_foil_on"
-      },
+    },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
@@ -1136,11 +1136,7 @@
     "name": { "str": "electrified foil (on)", "str_pl": "electrified foils (on)" },
     "description": "The modifications made to this fencing foil may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  It is currently turned on.",
     "revert_to": "shock_foil",
-    "use_action": {
-      "type": "transform",
-      "msg": "You press a button and the foil turns off.",
-      "target": "shock_foil"
-      },
+    "use_action": { "type": "transform", "msg": "You press a button and the foil turns off.", "target": "shock_foil" },
     "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
     "power_draw": 5000000,
     "magazine_well": "500 ml"
@@ -1177,10 +1173,10 @@
       "type": "transform",
       "msg": "You press a button and the epee crackles with electricity.",
       "active": true,
-        "need_charges": 1,
-        "need_charges_msg": "The %s's batteries are dead." ,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
       "target": "shock_epee_on"
-      },
+    },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
@@ -1198,11 +1194,7 @@
     "name": { "str": "electrified epee (on)", "str_pl": "electrified epees (on)" },
     "description": "The modifications made to this fencing épée may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  It is currently turned on.",
     "revert_to": "shock_epee",
-    "use_action": {
-      "type": "transform",
-      "msg": "You press a button and the epee turns off.",
-      "target": "shock_epee"
-      },
+    "use_action": { "type": "transform", "msg": "You press a button and the epee turns off.", "target": "shock_epee" },
     "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
     "power_draw": 5000000,
     "magazine_well": "500 ml"
@@ -1238,10 +1230,10 @@
       "type": "transform",
       "msg": "You press a button and the sabre crackles with electricity.",
       "active": true,
-        "need_charges": 1,
-        "need_charges_msg": "The %s's batteries are dead." ,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
       "target": "shock_sabre_on"
-      },
+    },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
@@ -1259,11 +1251,7 @@
     "name": { "str": "electrified saber (on)", "str_pl": "electrified sabers (on)" },
     "description": "The modifications made to this fencing saber may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  It is currently turned on.",
     "revert_to": "shock_sabre",
-    "use_action": {
-      "type": "transform",
-      "msg": "You press a button and the foil crackles with electricity.",
-      "target": "shock_sabre"
-      },
+    "use_action": { "type": "transform", "msg": "You press a button and the foil crackles with electricity.", "target": "shock_sabre" },
     "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
     "power_draw": 5000000,
     "magazine_well": "500 ml"
@@ -1369,10 +1357,10 @@
       "type": "transform",
       "msg": "You press a button and the rapier crackles with electricity.",
       "active": true,
-        "need_charges": 1,
-        "need_charges_msg": "The %s's batteries are dead." ,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
       "target": "shock_rapier_on"
-      },
+    },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
@@ -1390,11 +1378,7 @@
     "name": { "str": "electrified rapier (on)", "str_pl": "electrified rapiers (on)" },
     "description": "The modifications made to this rapier may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  It is currently turned on.",
     "revert_to": "shock_rapier_off",
-    "use_action": {
-      "type": "transform",
-      "msg": "You press a button and the rapier turns off.",
-      "target": "shock_foil_on"
-      },
+    "use_action": { "type": "transform", "msg": "You press a button and the rapier turns off.", "target": "shock_foil_on" },
     "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
     "power_draw": 5000000,
     "magazine_well": "500 ml"

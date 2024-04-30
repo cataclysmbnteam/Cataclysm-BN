@@ -756,10 +756,10 @@
       "type": "transform",
       "msg": "You press a button and the staff crackles with electricity.",
       "active": true,
-        "need_charges": 1,
-        "need_charges_msg": "The %s's batteries are dead." ,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
       "target": "shock_staff_on"
-      },
+    },
     "magazines": [
       [
         "battery",
@@ -779,10 +779,10 @@
       "type": "transform",
       "msg": "You press a button and the staff turns off.",
       "active": true,
-        "need_charges": 1,
-        "need_charges_msg": "The %s's batteries are dead." ,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
       "target": "shock_staff"
-      },
+    },
     "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
     "power_draw": 5000000,
     "magazine_well": "500 ml"
@@ -895,10 +895,10 @@
       "type": "transform",
       "msg": "You press a button and the tonfa crackles with electricity.",
       "active": true,
-        "need_charges": 1,
-        "need_charges_msg": "The %s's batteries are dead." ,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
       "target": "shocktonfa_on"
-      },
+    },
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
     "magazines": [
       [
@@ -919,10 +919,10 @@
       "type": "transform",
       "msg": "You press a button and the tonfa turns off.",
       "active": true,
-        "need_charges": 1,
-        "need_charges_msg": "The %s's batteries are dead." ,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
       "target": "shocktonfa_off"
-      },
+    },
     "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
     "power_draw": 5000000,
     "magazine_well": "500 ml"
