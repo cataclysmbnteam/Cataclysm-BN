@@ -1212,7 +1212,7 @@
     "result": "coilgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "electronics",
+    "skill_used": "fabrication",
     "skills_required": [ [ "mechanics", 5 ], [ "electronics", 4 ] ],
     "difficulty": 4,
     "time": "25 m",
