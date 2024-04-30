@@ -239,6 +239,8 @@
       [
         [ "offal", 1 ],
         [ "mutant_offal", 1 ],
+        [ "mutant_bug_organs", 1 ],
+        [ "mutant_bug_lungs", 1 ],
         [ "sweetbread", 1 ],
         [ "liver", 1 ],
         [ "lung", 1 ],
