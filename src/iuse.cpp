@@ -4060,7 +4060,7 @@ int iuse::tazer2( player *p, item *it, bool b, const tripoint &pos )
     return 0;
 }
 
-int iuse::shocktonfa_off( player *p, item *it, bool t, const tripoint &pos )
+int iuse::shocktonfa_off( player *p, item *it )
 {
     int choice = uilist( _( "tactical tonfa" ), {
         _( "Turn on" )
@@ -4082,7 +4082,7 @@ int iuse::shocktonfa_off( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
-int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
+int iuse::shocktonfa_on( player *p, item *it )
 {
     if( t ) { // Effects while simply on
 
