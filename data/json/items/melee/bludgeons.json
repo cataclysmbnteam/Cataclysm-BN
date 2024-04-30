@@ -744,22 +744,41 @@
     "id": "shock_staff",
     "type": "TOOL",
     "copy-from": "i_staff",
-    "name": { "str": "powered quarterstaff", "str_pl": "powered quarterstaves" },
-    "description": "This is an ironshod quarterstaff that has a high-voltage stun gun built into the handle.  The stun gun is wired to the metal caps at either end of the staff, allowing you to zap a dangerous opponent should beating them senseless with it prove too hazardous.",
+    "name": { "str": "powered quarterstaff (off)", "str_pl": "powered quarterstaves (off)" },
+    "description": "This is an ironshod quarterstaff that has a high-voltage stun gun built into the handle.  The stun gun is wired to the metal caps at either end of the staff, allowing you to zap a dangerous opponent with each strike.  It is currently off.",
     "weight": "2650 g",
     "volume": "3250 ml",
     "price": "80 USD",
     "price_postapoc": "45 USD",
     "bashing": 29,
     "ammo": "battery",
-    "charges_per_use": 100,
-    "use_action": "TAZER",
+    "use_action": {
+      "type": "transform",
+      "msg": "You press a button and the staff crackles with electricity.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
+      "target": "shock_staff_on"
+    },
     "magazines": [
       [
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
+    "magazine_well": "500 ml"
+  },
+  {
+    "id": "shock_staff_on",
+    "copy-from": "shock_staff",
+    "type": "TOOL",
+    "name": { "str": "powered quarterstaff (on)", "str_pl": "powered quarterstaves (on)" },
+    "description": "This is an ironshod quarterstaff that has a high-voltage stun gun built into the handle.  The stun gun is wired to the metal caps at either end of the staff, allowing you to zap a dangerous opponent with each strike.  It is currently on.",
+    "revert_to": "shock_staff",
+    "revert_msg": "The %s's batteries run dry.",
+    "use_action": { "type": "transform", "msg": "You press a button and the staff turns off.", "target": "shock_staff" },
+    "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
+    "power_draw": 5000000,
     "magazine_well": "500 ml"
   },
   {
@@ -859,15 +878,21 @@
     "type": "TOOL",
     "copy-from": "tonfa",
     "name": { "str": "tactical tonfa (off)", "str_pl": "tactical tonfas (off)" },
-    "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the tonfa, and by extension to anyone unfortunate enough to be in contact with them.  It also has a nifty flashlight, which is off at the moment.",
+    "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a battery compartment.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the tonfa, and by extension to anyone unfortunate enough to be in contact with them.  It's currently turned off.",
     "weight": "726 g",
     "volume": "2250 ml",
     "price": "170 USD",
     "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
     "ammo": "battery",
-    "charges_per_use": 1,
-    "use_action": "SHOCKTONFA_OFF",
+    "use_action": {
+      "type": "transform",
+      "msg": "You press a button and the tonfa crackles with electricity.",
+      "need_charges": 1,
+      "active": true,
+      "need_charges_msg": "The %s's batteries are dead.",
+      "target": "shocktonfa_on"
+    },
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
     "magazines": [
       [
@@ -882,10 +907,12 @@
     "copy-from": "shocktonfa_off",
     "type": "TOOL",
     "name": { "str": "tactical tonfa (on)", "str_pl": "tactical tonfas (on)" },
-    "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the tonfa, and by extension to anyone unfortunate enough to be in contact with them.  It also has a nifty flashlight, which is currently active.",
+    "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a battery compartment.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the tonfa, and by extension to anyone unfortunate enough to be in contact with them.  It's currently turned on.",
     "revert_to": "shocktonfa_off",
-    "use_action": "SHOCKTONFA_ON",
-    "extend": { "flags": [ "LIGHT_20", "TRADER_AVOID" ] },
+    "revert_msg": "The %s's batteries run dry.",
+    "use_action": { "type": "transform", "msg": "You press a button and the tonfa turns off.", "target": "shocktonfa_off" },
+    "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
+    "power_draw": 5000000,
     "magazine_well": "500 ml"
   },
   {
