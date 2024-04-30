@@ -913,6 +913,7 @@
     "name": { "str": "tactical tonfa (on)", "str_pl": "tactical tonfas (on)" },
     "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a battery compartment.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the tonfa, and by extension to anyone unfortunate enough to be in contact with them.  It's currently turned on.",
     "revert_to": "shocktonfa_off",
+    "revert_msg": "The %s's batteries run dry.",
     "use_action": { "type": "transform", "msg": "You press a button and the tonfa turns off.", "target": "shocktonfa_off" },
     "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
     "power_draw": 5000000,
