@@ -270,8 +270,6 @@ static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
 static const itype_id itype_rmi2_corpse( "rmi2_corpse" );
-static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
-static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_smart_phone( "smart_phone" );
 static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
@@ -4057,54 +4055,6 @@ int iuse::tazer2( player *p, item *it, bool b, const tripoint &pos )
         p->add_msg_if_player( m_info, _( "Insufficient power" ) );
     }
 
-    return 0;
-}
-
-int iuse::shocktonfa_off( player *p, item *it )
-{
-    int choice = uilist( _( "tactical tonfa" ), {
-        _( "Turn on" )
-    } );
-
-    switch( choice ) {
-        case 0: {
-            if( !it->units_sufficient( *p ) ) {
-                p->add_msg_if_player( m_info, _( "The batteries are dead." ) );
-                return 0;
-            } else {
-                p->add_msg_if_player( _( "You turn the tazer on." ) );
-                it->convert( itype_shocktonfa_on );
-                it->active = true;
-                return it->type->charges_to_use();
-            }
-        }
-    }
-    return 0;
-}
-
-int iuse::shocktonfa_on( player *p, item *it )
-{
-    if( t ) { // Effects while simply on
-
-    } else {
-        if( !it->units_sufficient( *p ) ) {
-            p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
-            it->convert( itype_shocktonfa_off );
-            it->active = false;
-        } else {
-            int choice = uilist( _( "tactical tonfa" ), {
-                _( "Turn off" )
-            } );
-
-            switch( choice ) {
-                case 0: {
-                    p->add_msg_if_player( _( "You turn off the tazer." ) );
-                    it->convert( itype_shocktonfa_off );
-                    it->active = false;
-                }
-            }
-        }
-    }
     return 0;
 }
 
