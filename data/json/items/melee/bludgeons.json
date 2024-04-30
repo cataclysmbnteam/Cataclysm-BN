@@ -752,7 +752,14 @@
     "price_postapoc": "45 USD",
     "bashing": 29,
     "ammo": "battery",
-    "use_action": "SHOCKSTAFF_OFF",
+    "use_action": {
+      "type": "transform",
+      "msg": "You press a button and the staff crackles with electricity.",
+      "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The %s's batteries are dead." ,
+      "target": "shock_staff_on"
+      },
     "magazines": [
       [
         "battery",
@@ -768,7 +775,14 @@
     "name": { "str": "powered quarterstaff (on)", "str_pl": "powered quarterstaves (on)" },
     "description": "This is an ironshod quarterstaff that has a high-voltage stun gun built into the handle.  The stun gun is wired to the metal caps at either end of the staff, allowing you to zap a dangerous opponent with each strike.  It is currently off.",
     "revert_to": "shock_staff",
-    "use_action": "SHOCKSTAFF_ON",
+    "use_action": {
+      "type": "transform",
+      "msg": "You press a button and the staff turns off.",
+      "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The %s's batteries are dead." ,
+      "target": "shock_staff"
+      },
     "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
     "power_draw": 5000000,
     "magazine_well": "500 ml"
@@ -877,7 +891,14 @@
     "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
     "ammo": "battery",
-    "use_action": "SHOCKTONFA_OFF",
+    "use_action": {
+      "type": "transform",
+      "msg": "You press a button and the tonfa crackles with electricity.",
+      "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The %s's batteries are dead." ,
+      "target": "shocktonfa_on"
+      },
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
     "magazines": [
       [
@@ -894,7 +915,14 @@
     "name": { "str": "tactical tonfa (on)", "str_pl": "tactical tonfas (on)" },
     "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the tonfa, and by extension to anyone unfortunate enough to be in contact with them.",
     "revert_to": "shocktonfa_off",
-    "use_action": "SHOCKTONFA_ON",
+    "use_action": {
+      "type": "transform",
+      "msg": "You press a button and the tonfa turns off.",
+      "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The %s's batteries are dead." ,
+      "target": "shocktonfa_off"
+      },
     "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
     "power_draw": 5000000,
     "magazine_well": "500 ml"
