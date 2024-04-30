@@ -776,11 +776,7 @@
     "description": "This is an ironshod quarterstaff that has a high-voltage stun gun built into the handle.  The stun gun is wired to the metal caps at either end of the staff, allowing you to zap a dangerous opponent with each strike.  It is currently on.",
     "revert_to": "shock_staff",
     "revert_msg": "The %s's batteries run dry.",
-    "use_action": {
-      "type": "transform",
-      "msg": "You press a button and the staff turns off.",
-      "target": "shock_staff"
-    },
+    "use_action": { "type": "transform", "msg": "You press a button and the staff turns off.", "target": "shock_staff" },
     "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
     "power_draw": 5000000,
     "magazine_well": "500 ml"
