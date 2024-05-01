@@ -584,7 +584,7 @@
     "type": "ARMOR",
     "name": { "str": "tricorne" },
     "description": "A classic design, the \"tricorne\", or three-cornered hat, simply pins a large and floppy brim out of the way, though this example adds well-embroidered designs and is oiled against water.  Whether you're the \"guvnah\" of a settlement, or the captain of a post-apocalyptic crew, this is the hat for you.",
-    "weight": "490 g",
+    "weight": "500 g",
     "volume": "2 L",
     "price": "25 USD",
     "price_postapoc": "750 cent",
