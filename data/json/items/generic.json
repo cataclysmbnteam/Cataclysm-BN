@@ -2380,7 +2380,7 @@
     "price": "2 USD",
     "price_postapoc": "10 cent",
     "material": [ "cotton" ],
-    "weight": "444 g",
+    "weight": "400 g",
     "volume": "850 ml",
     "flags": [ "SLEEP_AID" ]
   },
@@ -2520,7 +2520,7 @@
     "price": "20 USD",
     "price_postapoc": "50 cent",
     "material": "veggy",
-    "weight": "420 g",
+    "weight": "400 g",
     "volume": "1 L"
   },
   {
@@ -2863,7 +2863,7 @@
     "type": "GENERIC",
     "name": { "str": "refrigerant tank" },
     "description": "A small tank containing some sort of refrigerant often used in devices such as freezers.  Hermetically sealed to prevent evaporation - cannot be opened without prior connection to compatible valve.",
-    "weight": "410 g",
+    "weight": "400 g",
     "volume": "1 L",
     "price": "30 USD",
     "price_postapoc": "50 cent",

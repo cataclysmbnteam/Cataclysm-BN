@@ -86,7 +86,7 @@
     "category": "container",
     "name": { "str": "canvas sack" },
     "description": "A large and sturdy canvas sack.  Smells faintly of earth and hard work.",
-    "weight": "415 g",
+    "weight": "400 g",
     "volume": "1 L",
     "price": "0 cent",
     "price_postapoc": "10 cent",

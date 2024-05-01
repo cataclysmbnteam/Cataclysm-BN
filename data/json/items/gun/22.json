@@ -118,7 +118,7 @@
     "copy-from": "ruger_lcr_38",
     "type": "GUN",
     "name": { "str_sp": "Ruger LCR .22" },
-    "weight": "420 g",
+    "weight": "400 g",
     "ammo": "22",
     "clip_size": 8,
     "magazines": [ [ "22", [ "22_speedloader8" ] ] ]
