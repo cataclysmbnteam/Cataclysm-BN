@@ -292,7 +292,7 @@
     "type": "GUN",
     "weapon_category": [ "RIFLES", "MAGNETIC" ],
     "name": { "str": "magnetic rifle" },
-    "looks_like": "laser_rifle",
+    "looks_like": "hk_g80",
     "//": "No conventional faults because it uses non-conventional systems.",
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "valid_mod_locations": [

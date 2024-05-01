@@ -25,7 +25,6 @@
   {
     "id": "coilgun",
     "copy-from": "rifle_magnetic",
-    "looks_like": "hk_g80",
     "type": "GUN",
     "name": { "str": "coilgun" },
     "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
