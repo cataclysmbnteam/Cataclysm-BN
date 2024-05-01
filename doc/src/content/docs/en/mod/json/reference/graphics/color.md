@@ -53,7 +53,7 @@ Color code is short string which defines color and can be used, for example, in 
 
 ## Possible colors
 
-|                      Color (image)                       |  Color name (dda)   | Color name (curses) | Default R,G,B values | Color code |                         Notes                          |
+|                      Color (image)                       |  Color name (cataclysm)   | Color name (curses) | Default R,G,B values | Color code |                         Notes                          |
 | :------------------------------------------------------: | :-----------------: | :-----------------: | :------------------: | :--------: | :----------------------------------------------------: |
 | ![#000000](https://placehold.it/20/000000/000000?text=+) |       `black`       |       `BLACK`       |       `0,0,0`        |            |                                                        |
 | ![#ff0000](https://placehold.it/20/ff0000/000000?text=+) |        `red`        |        `RED`        |      `255,0,0`       |    `R`     |                                                        |
