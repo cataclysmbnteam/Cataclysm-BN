@@ -58,7 +58,7 @@
   {
     "id": "nailrifle",
     "copy-from": "nailgun",
-    "extend": { "weapon_category": [ "RIFLES" ] },
+    "weapon_category": [ "RIFLES", "PNEUMATIC" ],
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "nail rifle" },
