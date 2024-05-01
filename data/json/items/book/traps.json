@@ -4,7 +4,7 @@
     "type": "BOOK",
     "name": { "str": "How to Trap Anything", "str_pl": "copies of How to Trap Anything" },
     "description": "A worn manual that describes how to set and disarm a wide variety of traps.",
-    "weight": "454 g",
+    "weight": "500 g",
     "volume": "500 ml",
     "price": "24 USD",
     "price_postapoc": "750 cent",

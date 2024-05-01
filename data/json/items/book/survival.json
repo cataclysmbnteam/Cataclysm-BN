@@ -79,7 +79,7 @@
     "type": "BOOK",
     "name": { "str": "Pitching a Tent", "str_pl": "copies of Pitching a Tent" },
     "description": "A guide detailing the basics of woodsmanship and outdoor survival.",
-    "weight": "454 g",
+    "weight": "500 g",
     "volume": "750 ml",
     "price": "29 USD",
     "price_postapoc": "750 cent",

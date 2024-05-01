@@ -95,7 +95,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "fencing pants" },
     "description": "A pair of reinforced pants used by fencers to prevent injuries.",
-    "weight": "450 g",
+    "weight": "500 g",
     "volume": "2 L",
     "price": "25 USD",
     "price_postapoc": "5 USD",

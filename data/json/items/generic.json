@@ -1925,7 +1925,7 @@
     "id": "sunflower",
     "name": { "str": "sunflower" },
     "description": "The top of a sunflower, with yellow pedals and some seeds that have yet to be eaten by animals.",
-    "weight": "450 g",
+    "weight": "500 g",
     "to_hit": -2,
     "color": "yellow",
     "symbol": ",",

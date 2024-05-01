@@ -44,7 +44,7 @@
     "type": "BOOK",
     "name": { "str": "How to Browse the Web", "str_pl": "copies of How to Browse the Web" },
     "description": "Very beginner-level information about computers.",
-    "weight": "454 g",
+    "weight": "500 g",
     "volume": "750 ml",
     "price": "17 USD",
     "price_postapoc": "50 cent",

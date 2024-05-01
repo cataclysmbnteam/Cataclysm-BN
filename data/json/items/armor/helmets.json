@@ -147,7 +147,7 @@
     "type": "ARMOR",
     "name": { "str": "baseball helmet" },
     "description": "A hard plastic helmet that covers the head and ears.  Designed to protect against a baseball to the head.",
-    "weight": "453 g",
+    "weight": "500 g",
     "volume": "1750 ml",
     "price": "31 USD",
     "price_postapoc": "250 cent",
