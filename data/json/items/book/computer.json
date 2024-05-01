@@ -79,7 +79,7 @@
     "name": { "str": "Computer Science 101", "str_pl": "copies of Computer Science 101" },
     "//": "College-level textbooks are Cheap at $60.",
     "description": "An entry-level textbook about computers.",
-    "weight": "462 g",
+    "weight": "500 g",
     "volume": "750 ml",
     "price": "55 USD",
     "price_postapoc": "50 cent",

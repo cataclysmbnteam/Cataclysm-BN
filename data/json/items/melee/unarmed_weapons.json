@@ -171,7 +171,7 @@
     "weapon_category": [ "FIST_WEAPONS" ],
     "name": { "str": "spiked boxing gloves" },
     "description": "Boxing gloves with nails driven through the inside.  Not exactly ring-legal, but there are no more referees.",
-    "weight": "464 g",
+    "weight": "500 g",
     "volume": "1 L",
     "price": "45 USD",
     "price_postapoc": "450 cent",

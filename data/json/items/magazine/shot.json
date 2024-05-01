@@ -23,7 +23,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Saiga-12 drum magazine" },
     "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 30 rounds.",
-    "weight": "460 g",
+    "weight": "500 g",
     "volume": "1 L",
     "price": "110 USD",
     "price_postapoc": "5 USD",

@@ -5,7 +5,7 @@
     "category": "tools",
     "name": { "str": "compressed air horn" },
     "description": "This is a small can of compressed air attached to a plastic horn.  Pressing the button on top causes it to emit a loud honking sound.",
-    "weight": "467 g",
+    "weight": "500 g",
     "volume": "250 ml",
     "price": "5 USD",
     "price_postapoc": "50 cent",
