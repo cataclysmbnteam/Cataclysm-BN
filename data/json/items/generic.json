@@ -1460,7 +1460,7 @@
     "price": "140 USD",
     "price_postapoc": "10 cent",
     "material": [ "aluminum", "plastic" ],
-    "weight": "480 g",
+    "weight": "500 g",
     "volume": "250 ml",
     "to_hit": -1
   },
@@ -2789,7 +2789,7 @@
     "category": "other",
     "name": { "str": "clay flower pot" },
     "description": "A nice looking clay pot used for planting.",
-    "weight": "480 g",
+    "weight": "500 g",
     "volume": "2500 ml",
     "price": "6 USD",
     "price_postapoc": "10 cent",

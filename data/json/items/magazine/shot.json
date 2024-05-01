@@ -98,7 +98,7 @@
     "type": "MAGAZINE",
     "name": { "str": "shotgun 6-round tube speedloader" },
     "description": "A plastic tube with a sliding handle that can be used to quickly load 6 rounds into a shotgun's tube in a much shorter period of time than by hand.  It needs to interface with a chute to be used with any speed.",
-    "weight": "480 g",
+    "weight": "500 g",
     "volume": "500 ml",
     "price": "32 USD",
     "price_postapoc": "50 cent",

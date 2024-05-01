@@ -177,7 +177,7 @@
     "category": "tools",
     "name": { "str": "clay pot" },
     "description": "A crude clay pot with lid used for cooking.",
-    "weight": "480 g",
+    "weight": "500 g",
     "volume": "2 L",
     "price": "25 USD",
     "price_postapoc": "10 cent",

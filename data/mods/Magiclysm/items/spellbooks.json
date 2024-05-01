@@ -248,7 +248,7 @@
     "name": { "str": "The Tome of the Hollow Earth", "str_pl": "copies of The Tome of the Hollow Earth" },
     "//": "4 earthshaper spells",
     "description": "This large dusty spellbook seems perpetually, well, dusty.  It contains the power of the earth.",
-    "weight": "483 g",
+    "weight": "500 g",
     "volume": "825 ml",
     "symbol": "?",
     "color": "brown",

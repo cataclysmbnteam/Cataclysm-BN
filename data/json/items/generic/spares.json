@@ -64,7 +64,7 @@
     "name": { "str": "makeshift air filter" },
     "description": "An improvised air filter useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "plastic", "paper" ],
-    "weight": "480 g",
+    "weight": "500 g",
     "volume": "750 ml",
     "price": "2 USD",
     "price_postapoc": "50 cent"
@@ -76,7 +76,7 @@
     "name": { "str": "automotive filter" },
     "description": "A steel can containing filter paper designed for automotive use.",
     "material": [ "steel", "paper" ],
-    "weight": "480 g",
+    "weight": "500 g",
     "volume": "500 ml",
     "price": "19 USD",
     "price_postapoc": "250 cent"
