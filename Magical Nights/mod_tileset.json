@@ -548,7 +548,7 @@
           { "id": "mflask_hip_whiskey", "fg": 700, "rotates": false },
           { "id": "overlay_wielded_mflask_hip_whiskey", "fg": 701, "rotates": false },
           { "id": "overlay_worn_mflask_hip_whiskey", "fg": 702, "rotates": false },
-         { "id": "mkey_opening", "fg": 703, "rotates": false },
+          { "id": "mkey_opening", "fg": 703, "rotates": false },
           { "id": "overlay_wielded_mkey_opening", "fg": 703, "rotates": false },
           { "id": "mspider_box", "fg": 704, "rotates": false },
           { "id": "overlay_wielded_mspider_box", "fg": 704, "rotates": false },
@@ -1331,7 +1331,13 @@
           { "id": "broken_plasticgolem", "fg": 1378, "rotates": false },
           { "id": "overlay_wielded_broken_plasticgolem", "fg": 1378, "rotates": false },
           { "id": "broken_stonegolem", "fg": 1379, "rotates": false },
-          { "id": "overlay_wielded_broken_stonegolem", "fg": 1379, "rotates": false }
+          { "id": "overlay_wielded_broken_stonegolem", "fg": 1379, "rotates": false },
+          { "id": "broken_resingolem_fresh", "fg": 1380, "rotates": false },
+          { "id": "overlay_wielded_broken_resingolem_fresh", "fg": 1380, "rotates": false },
+          { "id": "broken_resingolem_half", "fg": 1381, "rotates": false },
+          { "id": "overlay_wielded_broken_resingolem_half", "fg": 1381, "rotates": false },
+          { "id": "broken_resingolem_cured", "fg": 1382, "rotates": false },
+          { "id": "overlay_wielded_broken_resingolem_cured", "fg": 1382, "rotates": false }
         ],
         "//": "range 1281 to 1536",
         "sprite_width": 32,
@@ -1424,9 +1430,12 @@
           { "id": "t_tree_burnt_season_autumn", "fg": 1604, "bg": 1553, "rotates": false },
           { "id": "t_tree_burnt_season_spring", "fg": 1605, "bg": 1553, "rotates": false },
           { "id": "t_tree_burnt_season_summer", "fg": 1606, "bg": 1553, "rotates": false },
-          { "id": "t_tree_burnt_season_winter", "fg": 1607, "bg": 1557, "rotates": false }
+          { "id": "t_tree_burnt_season_winter", "fg": 1607, "bg": 1557, "rotates": false },
+          { "id": "mon_resingolem_fresh", "fg": 1608, "rotates": false },
+          { "id": "mon_resingolem_half", "fg": 1609, "rotates": false },
+          { "id": "mon_resingolem_cured", "fg": 1610, "rotates": false }
         ],
-        "//": "range 1553 to 1616",
+        "//": "range 1553 to 1680",
         "sprite_width": 64,
         "sprite_height": 80,
         "sprite_offset_x": -16,
@@ -1435,11 +1444,11 @@
       {
         "file": "MagicalNights_huge.png",
         "tiles": [
-          { "id": "f_orrery", "fg": 1617, "rotates": false },
-          { "id": "mon_dragon_black_adult", "fg": 1618, "rotates": false },
-          { "id": "corpse_mon_dragon_black_adult", "fg": 1619, "rotates": false }
+          { "id": "f_orrery", "fg": 1681, "rotates": false },
+          { "id": "mon_dragon_black_adult", "fg": 1682, "rotates": false },
+          { "id": "corpse_mon_dragon_black_adult", "fg": 1683, "rotates": false }
         ],
-        "//": "range 1617 to 1632",
+        "//": "range 1681 to 1696",
         "sprite_width": 160,
         "sprite_height": 128,
         "sprite_offset_x": -48,

@@ -10,6 +10,8 @@
     "name": "GROUP_FOREST",
     "default": "mon_null",
     "is_animal": true,
+    "override": false,
+    "auto_total": true,
     "monsters": [
       { "monster": "mon_owlbear", "freq": 7, "cost_multiplier": 10 },
       { "monster": "mon_wisp", "freq": 3, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
@@ -25,6 +27,8 @@
     "name": "GROUP_SWAMP",
     "default": "mon_null",
     "is_animal": true,
+    "override": false,
+    "auto_total": true,
     "monsters": [
       { "monster": "mon_black_pudding", "freq": 14, "cost_multiplier": 1, "pack_size": [ 4, 6 ] },
       { "monster": "mon_stirge", "freq": 7, "cost_multiplier": 1, "pack_size": [ 2, 8 ] },
@@ -42,6 +46,8 @@
     "name": "GROUP_CAVE",
     "default": "mon_null",
     "is_animal": true,
+    "override": false,
+    "auto_total": true,
     "monsters": [
       { "monster": "mon_owlbear", "freq": 100, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_shrieker", "freq": 10, "cost_multiplier": 1 },
@@ -53,6 +59,8 @@
     "name": "GROUP_WORM",
     "default": "mon_worm",
     "is_animal": true,
+    "override": false,
+    "auto_total": true,
     "monsters": [ { "monster": "mon_bulette", "freq": 5, "cost_multiplier": 40 } ]
   },
   {
@@ -113,6 +121,7 @@
     "//": "Cheap golems used to defend the average wizard's tower.",
     "monsters": [
       { "monster": "mon_plasticgolem", "freq": 60, "cost_multiplier": 1 },
+      { "monster": "mon_resingolem_fresh", "freq": 30, "cost_multiplier": 1 },
       { "monster": "mon_claygolem", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_stonegolem", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_irongolem", "freq": 5, "cost_multiplier": 1 }

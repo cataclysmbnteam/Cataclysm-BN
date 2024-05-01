@@ -23,7 +23,7 @@
         ",#fx|st|            4w,,.;wH     + |u   t|  U#....!!!!#0    #   mw!!!!........wdA  99    w............!!!!!!!!!!!!......",
         ",########         &F##,,.;##H   A| |u    | U##....!!!!##0   #  0##!!!!........## O      ##............!!!!!!!!!!!!......",
         ",#UUU&  +    |67| ||#,,,.;;#HHHbb| |u CsC|cc#......!!!!##0  # <##!!!!..........##     >##..............!!!!!!!!!!.......",
-        ",#      #    ||||   #,,,.;;##|||||+||+|||||##......!!!!!##0 M ##!!!!!...........##    ##................!!!!!!!!........",
+        ",#      #    ||||   #,,,.;;##|||||+||+|||||##......!!!!!##0 M ##!!!!!...........## $  ##................!!!!!!!!........",
         ",#      #   ||HHHH  w,,,.;;;#E +         Adw;.......!!!!!######!!!!!.............#wwww#..................!!!!!!.........",
         ",#      #   +       #,,,.;;;##E|b        d##;.......!!!!!!!!!!!!!!!!....................................................",
         ",#      #||+|b     b#,,,.;;;;###b  BB   #w#;;........!!!!!!!!!!!!!!.....................................................",
@@ -32,7 +32,8 @@
         ",*______## Y|H    A##,,,........;;;;;;;;;;;;;...........................................................................",
         ",*______*#=##ww#ww##,,,,.........;;;;;;;;;;;............................................................................"
       ],
-      "palettes": [ "wizardtower1_palette" ]
+      "palettes": [ "wizardtower1_palette" ],
+      "terrain": { ",": [ [ "t_region_groundcover_forest", 5 ], "t_region_shrub", "t_region_tree" ] }
     }
   },
   {
@@ -69,16 +70,13 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,................................................................................................"
       ],
       "palettes": [ "wizardtower1_palette" ],
-      "terrain": {
-        ",": [ [ "t_region_groundcover_urban", 50 ], [ "t_region_groundcover_forest", 5 ], "t_region_shrub", "t_region_tree" ]
-      }
+      "terrain": { ",": [ [ "t_region_groundcover_forest", 5 ], "t_region_shrub", "t_region_tree" ] }
     }
   },
   {
     "type": "palette",
     "id": "wizardtower1_palette",
     "terrain": {
-      ",": "t_region_groundcover_urban",
       ".": "t_open_air",
       "*": "t_region_shrub_decorative",
       "_": "t_pavement",
@@ -158,7 +156,7 @@
       "f": [ { "item": "SUS_fridge", "chance": 95 }, { "item": "potions_common", "chance": 5, "repeat": [ 1, 3 ] } ],
       "i": [ { "item": "SUS_office_filing_cabinet", "chance": 30 }, { "item": "office", "chance": 50, "repeat": [ 1, 4 ] } ],
       "I": { "item": "SUS_dishwasher", "chance": 50 },
-      "m": { "item": "magic_tools_and_loot", "chance": 25 },
+      "m": { "item": "magic_tools_and_loot", "chance": 30 },
       "o": { "item": "SUS_oven", "chance": 70 },
       "r": { "item": "a_television", "chance": 100 },
       "R": { "item": "shoes", "chance": 20, "repeat": [ 1, 4 ] },
@@ -166,7 +164,7 @@
       "V": [
         { "item": "tools_general", "chance": 60, "repeat": [ 1, 3 ] },
         { "item": "mischw", "chance": 10 },
-        { "item": "magic_tools_and_loot", "chance": 5 }
+        { "item": "magic_tools_and_loot", "chance": 10 }
       ],
       "Y": [ { "item": "coat_rack", "chance": 70 }, { "item": "magic_shop_clothes", "chance": 30 } ],
       "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
@@ -179,10 +177,11 @@
       "8": [ { "item": "homebooks", "chance": 45, "repeat": [ 1, 5 ] }, { "item": "spellbook_loot_1", "chance": 5 } ],
       "9": [
         { "item": "homebooks", "chance": 45, "repeat": [ 1, 5 ] },
-        { "item": "spellbook_loot_1", "chance": 15 },
-        { "item": "spellbook_loot_2", "chance": 1 }
+        { "item": "spellbook_loot_1", "chance": 20 },
+        { "item": "spellbook_loot_2", "chance": 5 }
       ]
     },
-    "monsters": { "0": { "monster": "GROUP_TOWER_GOLEM" } }
+    "monsters": { "0": { "monster": "GROUP_TOWER_GOLEM" } },
+    "monster": { "$": { "monster": "mon_resingolem_half", "chance": 100 } }
   }
 ]
