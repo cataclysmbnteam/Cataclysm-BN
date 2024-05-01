@@ -513,7 +513,7 @@
     "type": "ARMOR",
     "name": { "str": "nomad cowl" },
     "description": "A makeshift cowl with protection for the eyes from rain and sun, designed for long travels.",
-    "weight": "470 g",
+    "weight": "500 g",
     "volume": "2500 ml",
     "price": "250 USD",
     "price_postapoc": "250 cent",
