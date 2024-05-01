@@ -3,5 +3,10 @@
     "type": "recipe",
     "result": "flu_shot",
     "obsolete": true
+  },
+  {
+    "id": "armor_stonefist",
+    "type": "MIGRATION",
+    "replace": "stonefist"
   }
 ]

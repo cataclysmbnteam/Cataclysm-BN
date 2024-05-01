@@ -66,7 +66,7 @@
     "encumbrance": 1,
     "warmth": 0,
     "material_thickness": 1,
-    "flags": [ "BELTED" ],
+    "flags": [ "SKINTIGHT", "ONLY_ONE", "COMPACT" ],
     "qualities": [ [ "MANA_FOCUS", 1 ] ]
   },
   {

@@ -13,16 +13,8 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "armor_data": {
-      "covers": [ "hands", "arms" ],
-      "coverage": 100,
-      "encumbrance": 0,
-      "warmth": 20,
-      "material_thickness": 4,
-      "environmental_protection": 10
-    },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS", "POWERARMOR_COMPATIBLE" ],
+    "flags": [ "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
     "techniques": [ "WBLOCK_3" ]
   },
   {
@@ -39,30 +31,6 @@
     "flags": [ "TRADER_AVOID", "FIRESTARTER", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
   },
   {
-    "id": "armor_stonefist",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "pair of magical armored stone gauntlets", "str_pl": "pairs of magical armored stone gauntlets" },
-    "description": "A magical flexible stonelike substance for protection and attack.",
-    "weight": "1 g",
-    "volume": "250 ml",
-    "price": "1 cent",
-    "to_hit": 2,
-    "bashing": 20,
-    "material": [ "superalloy" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "hands", "arms" ],
-    "coverage": 100,
-    "encumbrance": 0,
-    "warmth": 20,
-    "material_thickness": 4,
-    "environmental_protection": 10,
-    "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS", "POWERARMOR_COMPATIBLE" ],
-    "techniques": [ "WBLOCK_3" ]
-  },
-  {
     "id": "magic_lamp",
     "type": "ARMOR",
     "category": "tools",
@@ -76,7 +44,33 @@
     "bashing": 1,
     "symbol": ",",
     "color": "light_green",
-    "flags": [ "LIGHT_30", "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "LIGHT_30", "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You dim your spell until it's dark.",
+      "target": "magic_lamp_off"
+    }
+  },
+  {
+    "id": "magic_lamp_off",
+    "type": "ARMOR",
+    "category": "tools",
+    "name": "magic lamp",
+    "description": "a magical aura that you know can be brightened into a powerful light.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "material": "paper",
+    "price": "1 cent",
+    "to_hit": -2,
+    "bashing": 1,
+    "symbol": ",",
+    "color": "light_green",
+    "flags": [ "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You return your spell to full brightness.",
+      "target": "magic_lamp"
+    }
   },
   {
     "id": "magic_light",
@@ -90,7 +84,31 @@
     "price": "0 cent",
     "symbol": ",",
     "color": "light_green",
-    "flags": [ "LIGHT_10", "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "LIGHT_10", "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You dim your spell until it's dark.",
+      "target": "magic_light_off"
+    }
+  },
+  {
+    "id": "magic_light_off",
+    "type": "ARMOR",
+    "category": "tools",
+    "name": "magic light (dimmed)",
+    "description": "A magical aura which you know can be brightened for reading light.",
+    "weight": "0 kg",
+    "volume": "0 ml",
+    "material": "paper",
+    "price": "0 cent",
+    "symbol": ",",
+    "color": "light_green",
+    "flags": [ "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You return your spell to full brightness.",
+      "target": "magic_light"
+    }
   },
   {
     "id": "shield_ice",
