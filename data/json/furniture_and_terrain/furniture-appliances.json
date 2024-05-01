@@ -830,7 +830,7 @@
     "color": "yellow",
     "move_cost_mod": -1,
     "required_str": -1,
-    "active": [ "steady_consumer", { "power": -20, "consume_every": "300 s" } ],
+    "active": [ "steady_consumer", { "power": -1, "consume_every": "100 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -864,8 +864,9 @@
     "symbol": "#",
     "color": "yellow",
     "move_cost_mod": -1,
+    "coverage": 30,
     "required_str": -1,
-    "active": [ "steady_consumer", { "power": -50, "consume_every": "300 s" } ],
+    "active": [ "steady_consumer", { "power": -1, "consume_every": "34 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -876,8 +877,8 @@
       ]
     },
     "bash": {
-      "str_min": 10,
-      "str_max": 20,
+      "str_min": 16,
+      "str_max": 40,
       "sound": "whack!",
       "sound_fail": "clang!",
       "items": [
@@ -887,7 +888,82 @@
         { "item": "cable", "charges": [ 10, 15 ] },
         { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "pipe", "count": [ 0, 3 ] }
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_water_wheel_unit",
+    "looks_like": "f_water_mill",
+    "name": "mounted water wheel",
+    "description": "A mounted water wheel connected to building's electric grid.",
+    "symbol": "#",
+    "color": "yellow",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": -1,
+    "active": [ "steady_consumer", { "power": -1, "consume_every": "13 s" } ],
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "plastic_chunk", "count": 2 },
+        { "item": "steel_chunk", "count": 5 },
+        { "item": "water_wheel", "count": 1 }
       ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "2x4", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "pipe", "count": [ 0, 3 ] }
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 10, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_xl_water_wheel_unit",
+    "copy-from": "f_water_wheel_unit",
+    "name": "mounted large water wheel",
+    "description": "A large mounted water wheel connected to building's electric grid.",
+    "symbol": "#",
+    "color": "yellow",
+    "coverage": 60,
+    "active": [ "steady_consumer", { "power": -1, "consume_every": "6 s" } ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "plastic_chunk", "count": 2 },
+        { "item": "steel_chunk", "count": 5 },
+        { "item": "xl_water_wheel", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "2x4", "count": [ 1, 30 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "pipe", "count": [ 0, 3 ] }
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "50%" }
     }
   },
   {
