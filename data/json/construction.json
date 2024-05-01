@@ -4409,8 +4409,8 @@
   },
   {
     "type": "construction",
-    "id": "constr_xl_wind_turbine",
-    "group": "install_xl_wind_turbine",
+    "id": "constr_xl_water_wheel",
+    "group": "install_xl_water_wheel",
     "category": "WORKSHOP",
     "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
     "time": "45 m",
