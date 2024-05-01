@@ -25,7 +25,6 @@
   {
     "id": "coilgun",
     "copy-from": "rifle_magnetic",
-    "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "coilgun" },
     "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
@@ -40,6 +39,7 @@
     "ammo": "nail",
     "range": 12,
     "ranged_damage": { "damage_type": "stab", "amount": 8, "armor_penetration": 20 },
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "dispersion": 180,
     "durability": 5,
     "ups_charges": 10,
@@ -57,7 +57,7 @@
   {
     "id": "nailrifle",
     "copy-from": "nailgun",
-    "extend": { "weapon_category": [ "RIFLES" ] },
+    "weapon_category": [ "RIFLES", "PNEUMATIC" ],
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "nail rifle" },
