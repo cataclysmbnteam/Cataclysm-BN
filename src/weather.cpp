@@ -1183,7 +1183,7 @@ bool is_in_sunlight( const map &m, const tripoint &p, const weather_type_id &wea
 {
     // TODO: Remove that game reference and include light in weather data
     return m.is_outside( p ) && g->light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
-           weather->sun_intensity >= sun_intensity_type::normal;
+           weather->sun_intensity >= sun_intensity_type::light;
 }
 
 } // namespace weather
