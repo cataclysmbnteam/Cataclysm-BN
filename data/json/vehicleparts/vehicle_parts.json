@@ -2937,6 +2937,29 @@
   },
   {
     "type": "vehicle_part",
+    "id": "tarp_raincatcher_part",
+    "name": { "str": "tarp raincatcher" },
+    "symbol": "V",
+    "looks_like": "makeshift_funnel",
+    "color": "blue",
+    "broken_symbol": "*",
+    "broken_color": "light_gray",
+    "damage_modifier": 5,
+    "durability": 80,
+    "description": "An improvised raincatcher made using a tarpaulin, to collect rainwater into the tank beneath it.",
+    "size": "90 L",
+    "item": "tarp_raincatcher",
+    "location": "on_roof",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ], [ "vehicle_repair_small_wood", 4 ] ] }
+    },
+    "flags": [ "FUNNEL" ],
+    "breaks_into": [ { "item": "splinter", "count": [ 5, 10 ] } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "vehicle_scoop",
     "name": { "str": "scoop" },
     "symbol": "R",

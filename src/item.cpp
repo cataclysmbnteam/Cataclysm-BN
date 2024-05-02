@@ -9420,6 +9420,9 @@ detached_ptr<item> item::process_extinguish( detached_ptr<item> &&self, player *
         case precip_class::light:
             precipitation = one_in( 50 );
             break;
+        case precip_class::medium:
+            precipitation = one_in( 25 );
+            break;
         case precip_class::heavy:
             precipitation = one_in( 10 );
             break;

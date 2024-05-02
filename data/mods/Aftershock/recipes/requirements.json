@@ -27,7 +27,8 @@
         [ "coffeemaker", 1 ],
         [ "atomic_coffeepot", -1 ],
         [ "afs_atompot", -1 ],
-        [ "fire", -1 ]
+        [ "fire", -1 ],
+        [ "knife_heat", -1 ]
       ]
     ]
   }

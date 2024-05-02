@@ -1904,6 +1904,16 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
+    if( primary_weapon().has_flag( flag_SHOCKING ) ) {
+        d.add_damage( DT_ELECTRIC, rng( 1, 8 ) );
+
+        if( is_player() ) {
+            dump += string_format( _( "You shock %s." ), target ) + "\n";
+        } else {
+            add_msg_player_or_npc( _( "<npcname> shocks %s." ), target );
+        }
+    }
+
     //Hurting the wielder from poorly-chosen weapons
     if( weap.has_flag( flag_HURT_WHEN_WIELDED ) && x_in_y( 2, 3 ) ) {
         add_msg_if_player( m_bad, _( "The %s cuts your hand!" ), weap.tname() );

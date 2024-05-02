@@ -122,7 +122,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
-    "skills_required": [ "bashing", 1 ],
+    "skills_required": [ "unarmed", 1 ],
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,

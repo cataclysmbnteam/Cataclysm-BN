@@ -95,6 +95,12 @@
     "entries": [ { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.5 } ]
   },
   {
+    "id": "mutant_animal_tiny",
+    "//": "mutant animals so tiny they don't drop chunks of meat",
+    "type": "harvest",
+    "entries": [ { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.5 } ]
+  },
+  {
     "id": "mammal_small_fur",
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
