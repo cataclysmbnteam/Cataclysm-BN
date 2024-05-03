@@ -1423,8 +1423,8 @@
   {
     "type": "recipe",
     "result": "homebuilt_gyrocopter_rotor",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "skills_required": [ "mechanics", 5 ],
     "difficulty": 7,
