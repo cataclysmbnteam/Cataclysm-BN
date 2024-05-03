@@ -67,7 +67,7 @@
     "rains": false,
     "acidic": false,
     "sun_intensity": "light",
-    "requirements": { "pressure_max": 1010, "humidity_min": 60, "humidity_and_pressure": false }
+    "requirements": { "pressure_max": 1010, "humidity_min": 65, "humidity_and_pressure": false }
   },
   {
     "id": "light_drizzle",
