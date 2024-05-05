@@ -104,9 +104,9 @@
     "valid_targets": [ "ally", "self" ],
     "flags": [ "CONCENTRATE", "SILENT", "SOMATIC", "NO_HANDS", "NO_EXPLOSION_VFX" ],
     "max_level": 15,
-    "min_duration": 9500,
-    "max_duration": 22500,
-    "duration_increment": 1000,
+    "min_duration": 96000,
+    "max_duration": 276000,
+    "duration_increment": 6000,
     "min_range": 9,
     "max_range": 38,
     "range_increment": 1
@@ -128,9 +128,9 @@
     "max_level": 30,
     "base_casting_time": 150,
     "base_energy_cost": 100,
-    "min_duration": 40000,
-    "max_duration": 105000,
-    "duration_increment": 2000
+    "min_duration": 400000,
+    "max_duration": 1000000,
+    "duration_increment": 20000
   },
   {
     "id": "create_rune_stormshaper",

@@ -44,6 +44,7 @@
     "melee_cut": 10,
     "dodge": 6,
     "luminance": 16,
+    "path_settings": { "max_dist": 10 },
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
@@ -53,5 +54,29 @@
     "harvest": "exempt",
     "death_function": [ "MELT" ],
     "flags": [ "SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "PRIORITIZE_TARGETS", "NO_BREATHE", "NOGIB" ]
+  },
+  {
+    "id": "mon_summoned_zombie",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie",
+    "name": "Summoned Zombie",
+    "description": "A summoned zombie.  Slightly more intelligent than its wild cousins.",
+    "path_settings": { "max_dist": 10 }
+  },
+  {
+    "id": "mon_summoned_skeleton",
+    "type": "MONSTER",
+    "copy-from": "mon_skeleton",
+    "name": "Summoned Skeleton",
+    "description": "A summoned skeleton.  Slightly more intelligent than its wild cousins.  Seems like it somehow enjoys puns.",
+    "path_settings": { "max_dist": 10 }
+  },
+  {
+    "id": "mon_summoned_zougar",
+    "type": "MONSTER",
+    "copy-from": "mon_zougar",
+    "name": "Summoned Decayed Pouncer",
+    "description": "A summoned zombie cougar.  Slightly more intelligent than its wild cousins.",
+    "path_settings": { "max_dist": 10 }
   }
 ]

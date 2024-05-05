@@ -51,9 +51,9 @@
     "energy_source": "MANA",
     "difficulty": 6,
     "max_level": 30,
-    "min_duration": 130000,
-    "max_duration": 1530000,
-    "duration_increment": 2000
+    "min_duration": 1300000,
+    "max_duration": 1900000,
+    "duration_increment": 20000
   },
   {
     "id": "megablast",
@@ -174,9 +174,9 @@
     "max_level": 22,
     "base_casting_time": 200,
     "base_energy_cost": 400,
-    "min_duration": 70500,
-    "max_duration": 184500,
-    "duration_increment": 4500
+    "min_duration": 705000,
+    "max_duration": 1695000,
+    "duration_increment": 45000
   },
   {
     "id": "protection_aura",
@@ -194,9 +194,9 @@
     "flags": [ "CONCENTRATE", "VERBAL", "NO_LEGS", "NO_EXPLOSION_VFX" ],
     "base_casting_time": 350,
     "base_energy_cost": 375,
-    "min_duration": 55000,
-    "max_duration": 120000,
-    "duration_increment": 3000
+    "min_duration": 550000,
+    "max_duration": 1450000,
+    "duration_increment": 30000
   },
   {
     "id": "translocate_self",
@@ -231,9 +231,9 @@
     "max_level": 22,
     "base_casting_time": 200,
     "base_energy_cost": 150,
-    "min_duration": 286400,
-    "max_duration": 742400,
-    "duration_increment": 18400,
+    "min_duration": 2864000,
+    "max_duration": 6912000,
+    "duration_increment": 184000,
     "learn_spells": { "acid_resistance_greater": 15 }
   },
   {
@@ -255,6 +255,6 @@
     "max_level": 1,
     "base_casting_time": 200,
     "base_energy_cost": 250,
-    "min_duration": 180000
+    "min_duration": 1800000
   }
 ]

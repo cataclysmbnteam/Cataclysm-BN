@@ -42,9 +42,9 @@
     "effect_str": "longsword",
     "base_casting_time": 350,
     "base_energy_cost": 375,
-    "min_duration": 48000,
-    "max_duration": 58500,
-    "duration_increment": 300,
+    "min_duration": 480000,
+    "max_duration": 660000,
+    "duration_increment": 6000,
     "difficulty": 5,
     "max_level": 30,
     "spell_class": "ANIMIST",
@@ -69,9 +69,9 @@
     "max_level": 30,
     "base_casting_time": 350,
     "base_energy_cost": 375,
-    "min_duration": 48000,
-    "max_duration": 58500,
-    "duration_increment": 300
+    "min_duration": 480000,
+    "max_duration": 660000,
+    "duration_increment": 6000
   },
   {
     "id": "smite",
@@ -149,7 +149,7 @@
     "difficulty": 2,
     "spell_class": "ANIMIST",
     "effect": "summon",
-    "effect_str": "mon_zombie",
+    "effect_str": "mon_summoned_zombie",
     "energy_source": "HP",
     "base_energy_cost": 6,
     "//2": "one minute",
@@ -159,8 +159,8 @@
     "min_aoe": 2,
     "max_aoe": 2,
     "flags": [ "SOMATIC", "NO_HANDS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
-    "min_duration": 120000,
-    "max_duration": 315000,
+    "min_duration": 240000,
+    "max_duration": 420000,
     "duration_increment": 4000
   },
   {
@@ -177,7 +177,7 @@
     "difficulty": 5,
     "spell_class": "ANIMIST",
     "effect": "summon",
-    "effect_str": "mon_skeleton",
+    "effect_str": "mon_summoned_skeleton",
     "energy_source": "HP",
     "base_energy_cost": 14,
     "//2": "one minute",
@@ -187,8 +187,8 @@
     "min_aoe": 2,
     "max_aoe": 2,
     "flags": [ "SOMATIC", "NO_HANDS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
-    "min_duration": 120000,
-    "max_duration": 315000,
+    "min_duration": 240000,
+    "max_duration": 420000,
     "duration_increment": 4000
   },
   {
@@ -205,7 +205,7 @@
     "difficulty": 12,
     "spell_class": "ANIMIST",
     "effect": "summon",
-    "effect_str": "mon_zougar",
+    "effect_str": "mon_summoned_zougar",
     "energy_source": "HP",
     "base_energy_cost": 30,
     "//2": "one minute",
@@ -215,8 +215,8 @@
     "min_aoe": 2,
     "max_aoe": 2,
     "flags": [ "SOMATIC", "NO_HANDS", "CONCENTRATE", "NO_EXPLOSION_VFX" ],
-    "min_duration": 120000,
-    "max_duration": 315000,
+    "min_duration": 240000,
+    "max_duration": 420000,
     "duration_increment": 4000
   },
   {
@@ -285,9 +285,9 @@
     "min_range": 6,
     "max_range": 14,
     "range_increment": 0.16,
-    "min_duration": 45960,
-    "max_duration": 129960,
-    "duration_increment": 2160
+    "min_duration": 50000,
+    "max_duration": 129550,
+    "duration_increment": 2150
   },
   {
     "id": "summon_decaying_boneclub",
