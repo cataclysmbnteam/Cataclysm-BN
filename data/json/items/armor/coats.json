@@ -411,7 +411,7 @@
     "color": "green",
     "covers": [ "torso", "arms" ],
     "coverage": 95,
-    "encumbrance": 15,
+    "encumbrance": 12,
     "storage": "3500 ml",
     "warmth": 20,
     "material_thickness": 2,
