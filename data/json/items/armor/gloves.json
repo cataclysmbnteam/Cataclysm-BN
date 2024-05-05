@@ -967,7 +967,7 @@
     "color": "white",
     "covers": [ "hands" ],
     "coverage": 100,
-    "encumbrance": 20,
+    "encumbrance": 14,
     "warmth": 50,
     "material_thickness": 4,
     "valid_mods": [ "resized_large" ]
