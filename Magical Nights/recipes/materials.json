@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "result": "cured_hide",
-    "id_suffix": "scraped",
+    "id_suffix": "scraped_owlbear",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
