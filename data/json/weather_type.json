@@ -49,7 +49,7 @@
     "rains": false,
     "acidic": false,
     "sun_intensity": "high",
-    "requirements": { "pressure_min": 1035, "humidity_max": 40, "time": "day", "humidity_and_pressure": false }
+    "requirements": { "pressure_min": 1035, "humidity_max": 45, "time": "day", "humidity_and_pressure": false }
   },
   {
     "id": "cloudy",
