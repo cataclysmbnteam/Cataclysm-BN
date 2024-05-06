@@ -2356,26 +2356,6 @@
     "obsolete": true
   },
   {
-    "type": "recipe",
-    "result": "shotcanister_scrap",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_flechette",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_bearing",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_pebble",
-    "obsolete": true
-  },
-  {
     "result": "ballistic_vest_esapi",
     "type": "recipe",
     "obsolete": true
