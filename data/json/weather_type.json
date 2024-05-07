@@ -49,7 +49,7 @@
     "rains": false,
     "acidic": false,
     "sun_intensity": "high",
-    "requirements": { "pressure_min": 1035, "humidity_max": 45, "time": "day", "humidity_and_pressure": false }
+    "requirements": { "pressure_min": 1035, "humidity_max": 40, "time": "day", "humidity_and_pressure": false }
   },
   {
     "id": "cloudy",
@@ -143,7 +143,7 @@
     "id": "heavy_rain",
     "type": "weather_type",
     "name": "Heavy Rain",
-    "color": "c_dark_gray",
+    "color": "h_blue",
     "map_color": "i_blue",
     "glyph": "%",
     "ranged_penalty": 4,
@@ -158,11 +158,10 @@
     "sound_category": "rainy",
     "sun_intensity": "none",
     "requirements": {
-      "pressure_max": 994,
-      "humidity_min": 97,
+      "pressure_max": 993,
+      "humidity_min": 98,
       "humidity_and_pressure": false,
-      "required_weathers": [ "cloudy", "light_drizzle", "drizzle", "rain" ]
-    }
+      "required_weathers": [ "cloudy", "light_drizzle", "drizzle", "rain" ] }
   },
   {
     "id": "thunder",
@@ -249,6 +248,26 @@
     "requirements": { "acidic": true, "required_weathers": [ "rain" ] }
   },
   {
+    "id": "light_flurries",
+    "type": "weather_type",
+    "name": "Light Snowfall",
+    "color": "c_white",
+    "map_color": "h_light_blue",
+    "glyph": ".",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.01,
+    "light_modifier": -10,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "very_light",
+    "rains": false,
+    "acidic": false,
+    "animation": { "factor": 0.01, "color": "c_white", "glyph": ".", "tile": "weather_snowflake" },
+    "sound_category": "flurries",
+    "sun_intensity": "light",
+    "requirements": { "temperature_max": 33, "required_weathers": [ "light_drizzle" ] }
+  },
+  {
     "id": "flurries",
     "type": "weather_type",
     "name": "Flurries",
@@ -266,7 +285,7 @@
     "animation": { "factor": 0.01, "color": "c_white", "glyph": ".", "tile": "weather_snowflake" },
     "sound_category": "flurries",
     "sun_intensity": "light",
-    "requirements": { "temperature_max": 33, "required_weathers": [ "drizzle", "light_drizzle" ] }
+    "requirements": { "temperature_max": 33, "required_weathers": [ "drizzle" ] }
   },
   {
     "id": "snowing",
@@ -308,6 +327,6 @@
     "animation": { "factor": 0.04, "color": "c_white", "glyph": "*", "tile": "weather_snowflake" },
     "sound_category": "snowstorm",
     "sun_intensity": "none",
-    "requirements": { "temperature_max": 33, "required_weathers": [ "thunder", "lightning", "heavy_rain" ] }
+    "requirements": { "temperature_max": 33,  "required_weathers": [ "thunder", "lightning", "heavy_rain" ] }
   }
 ]
