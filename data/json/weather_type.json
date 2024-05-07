@@ -49,7 +49,13 @@
     "rains": false,
     "acidic": false,
     "sun_intensity": "high",
-    "requirements": { "pressure_min": 1025, "humidity_max": 43, "time": "day", "humidity_and_pressure": false, "required_weathers": [ "clear" ] }
+    "requirements": {
+      "pressure_min": 1025,
+      "humidity_max": 43,
+      "time": "day",
+      "humidity_and_pressure": false,
+      "required_weathers": [ "clear" ]
+    }
   },
   {
     "id": "cloudy",
@@ -161,7 +167,8 @@
       "pressure_max": 993,
       "humidity_min": 98,
       "humidity_and_pressure": false,
-      "required_weathers": [ "cloudy", "light_drizzle", "drizzle", "rain" ] }
+      "required_weathers": [ "cloudy", "light_drizzle", "drizzle", "rain" ]
+    }
   },
   {
     "id": "thunder",
@@ -327,6 +334,6 @@
     "animation": { "factor": 0.04, "color": "c_white", "glyph": "*", "tile": "weather_snowflake" },
     "sound_category": "snowstorm",
     "sun_intensity": "none",
-    "requirements": { "temperature_max": 33,  "required_weathers": [ "thunder", "lightning", "heavy_rain" ] }
+    "requirements": { "temperature_max": 33, "required_weathers": [ "thunder", "lightning", "heavy_rain" ] }
   }
 ]
