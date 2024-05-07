@@ -952,27 +952,13 @@
     "id": "condiment_lite",
     "type": "requirement",
     "//": " condiments that go well with sausage or boiled egg",
-    "components": [
-      [
-        [ "mayonnaise", 1 ],
-        [ "mustard", 1 ],
-        [ "ketchup", 1 ],
-        [ "horseradish", 1 ]
-      ]
-    ]
+    "components": [ [ [ "mayonnaise", 1 ], [ "mustard", 1 ], [ "ketchup", 1 ], [ "horseradish", 1 ] ] ]
   },
   {
     "id": "condiment",
     "type": "requirement",
     "//": " Should be about a teaspoon, or smallest serving",
-    "components": [
-      [
-        [ "condiment_lite", 1, "LIST" ],
-        [ "soysauce", 1 ],
-        [ "sauerkraut", 1 ],
-        [ "butter", 1 ]
-      ]
-    ]
+    "components": [ [ [ "condiment_lite", 1, "LIST" ], [ "soysauce", 1 ], [ "sauerkraut", 1 ], [ "butter", 1 ] ] ]
   },
   {
     "id": "bread_sandwich",
