@@ -967,7 +967,7 @@
     "//": " Should be about a teaspoon, or smallest serving",
     "components": [
       [
-        [ "condiment_light", 1, "LIST" ],
+        [ "condiment_lite", 1, "LIST" ],
         [ "soysauce", 1 ],
         [ "sauerkraut", 1 ],
         [ "butter", 1 ]
