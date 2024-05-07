@@ -2562,7 +2562,7 @@
     "autolearn": [ [ "cooking", 5 ] ],
     "//": "Charcuterie: The Craft of Salting, Smoking, and Curing would be a good book for someone to use for further meat products recipes.",
     "book_learn": [ [ "survival_book", 3 ], [ "family_cookbook", 3 ], [ "offalcooking", 2 ] ],
-    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "funnel", -1 ] ] ],
     "components": [ [ [ "stomach", 1 ], [ "stomach_large", 1 ] ], [ [ "salt", 20 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   },
@@ -2717,5 +2717,25 @@
         [ "stomach", 1 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_offal",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "1 s",
+    "autolearn": true,
+    "components": [ [ [ "mutant_bug_organs", 1 ], [ "mutant_bug_lungs", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sausage_condiment",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "15 s",
+    "autolearn": true,
+    "components": [ [ [ "sausage_cooked", 1, "LIST" ] ], [ [ "condiment_lite", 1, "LIST" ] ] ]
   }
 ]

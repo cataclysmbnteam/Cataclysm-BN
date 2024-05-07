@@ -684,6 +684,16 @@
   },
   {
     "type": "recipe",
+    "result": "boiled_egg_condiment",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": "15 s",
+    "autolearn": true,
+    "components": [ [ [ "boiled_egg", 1 ] ], [ [ "condiment_lite", 1, "LIST" ], [ "salt", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "deluxe_eggs",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2174,7 +2184,7 @@
     "charges": 20,
     "autolearn": [ [ "cooking", 5 ], [ "fabrication", 2 ] ],
     "book_learn": [ [ "survival_book", 3 ], [ "family_cookbook", 3 ], [ "offalcooking", 2 ], [ "cookbook_foodfashions", 3 ] ],
-    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "bag_plastic", 1 ] ] ]
   }

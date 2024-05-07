@@ -623,7 +623,7 @@
     "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 3 ] ],
-      [ [ "helmet_army", 1 ] ],
+      [ [ "tac_helmet", 1 ], [ "tac_fullhelmet", 1 ], [ "helmet_army", 1 ] ],
       [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
       [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
       [ [ "duct_tape", 75 ] ],
@@ -655,7 +655,7 @@
     "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 3 ] ],
-      [ [ "helmet_army", 1 ] ],
+      [ [ "tac_helmet", 1 ], [ "tac_fullhelmet", 1 ], [ "helmet_army", 1 ] ],
       [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
       [ [ "alloy_sheet", 4 ] ],
       [ [ "duct_tape", 75 ] ],
@@ -1349,7 +1349,7 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "skills_required": [ "tailor", 2 ],
-    "time": "1 h 20 m",
+    "time": "45 m",
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
     "using": [ [ "sewing_standard", 8 ], [ "soldering_standard", 20 ] ],

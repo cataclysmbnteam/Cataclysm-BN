@@ -128,8 +128,6 @@ int pick_lock( player *, item *, bool, const tripoint & );
 int portal( player *, item *, bool, const tripoint & );
 int tazer( player *, item *, bool, const tripoint & );
 int tazer2( player *, item *, bool, const tripoint & );
-int shocktonfa_off( player *, item *, bool, const tripoint & );
-int shocktonfa_on( player *, item *, bool, const tripoint & );
 int mp3( player *, item *, bool, const tripoint & );
 int mp3_on( player *, item *, bool, const tripoint & );
 int rpgdie( player *, item *, bool, const tripoint & );
