@@ -65,8 +65,10 @@
     "id": "sausage_condiment",
     "name": "sausage with condiment",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "cooked Mannwurst with condiment" },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s with condiment" } }
+      { "type": "COMPONENT_ID", "condition": "ketchup", "name": "sausage with ketchup" },
+      { "type": "COMPONENT_ID", "condition": "mayonnaise", "name": "sausage with mayonnaise" },
+      { "type": "COMPONENT_ID", "condition": "mustard", "name": "sausage with mustard" },
+      { "type": "COMPONENT_ID", "condition": "horseradish", "name": "sausage with horseradish" }
     ],
     "copy-from": "sausage_cooked",
     "fun": 8,
