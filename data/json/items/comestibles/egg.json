@@ -344,7 +344,18 @@
     "price_postapoc": "50 cent",
     "material": "egg",
     "fun": 2,
+    "spoils_in": "10 days",
     "delete": { "flags": [ "RAW" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "boiled_egg_condiment",
+    "name": { "str": "boiled egg with condiment" },
+    "copy-from": "boiled_egg",
+    "quench": 0,
+    "description": "A hard-boiled egg can be bland, just plaster it with some condiments and all will be better!",
+    "spoils_in": "2 days",
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
