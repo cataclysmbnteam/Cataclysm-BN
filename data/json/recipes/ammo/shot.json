@@ -735,7 +735,7 @@
     "charges": 1,
     "reversible": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "paper", 2 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -750,7 +750,7 @@
     "charges": 1,
     "reversible": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "components": [ [ [ "combatnail", 10 ] ], [ [ "paper", 2 ] ] ]
+    "components": [ [ [ "combatnail", 10 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -765,7 +765,7 @@
     "charges": 1,
     "reversible": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "components": [ [ [ "bearing", 10 ] ], [ [ "paper", 2 ] ] ]
+    "components": [ [ [ "bearing", 10 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -780,6 +780,6 @@
     "charges": 1,
     "reversible": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "components": [ [ [ "pebble", 10 ] ], [ [ "paper", 2 ] ] ]
+    "components": [ [ [ "pebble", 10 ] ], [ [ "paper", 1 ] ] ]
   }
 ]
