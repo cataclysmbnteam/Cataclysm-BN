@@ -68,7 +68,7 @@
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "cooked Mannwurst with condiment" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s with condiment" } }
     ],
-    "copy-from": "sausage",
+    "copy-from": "sausage_cooked",
     "fun": 8,
     "description": "If bland sausage isn't enough, just put some condiments on it.  Kids do it, why not you?"
   },
