@@ -1030,10 +1030,12 @@
         "light_drizzle",
         "drizzle",
         "rain",
+        "heavy_rain",
         "thunder",
         "lightning",
         "acid_drizzle",
         "acid_rain",
+        "light_flurries",
         "flurries",
         "snowing",
         "snowstorm"
