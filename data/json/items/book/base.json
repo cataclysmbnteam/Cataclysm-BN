@@ -1,5 +1,5 @@
-[  
- {
+[
+  {
     "abstract": "base_book",
     "type": "BOOK",
     "name": { "str": "base book abstract" },
