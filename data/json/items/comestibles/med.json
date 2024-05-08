@@ -473,7 +473,7 @@
     "symbol": "*",
     "color": "white",
     "container": "bag_plastic",
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "TINDER" ],
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 0.9, "move_cost": 300 }
   },
   {
