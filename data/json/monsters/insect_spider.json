@@ -1245,7 +1245,7 @@
         "id": "sting",
         "cooldown": 5,
         "move_cost": 200,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 20 } ],
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 30 } ],
         "min_mul": 1,
         "max_mul": 3,
         "effects": [ { "id": "venom_weaken", "duration": 600 }, { "id": "downed", "duration": 1, "chance": 50 } ]
