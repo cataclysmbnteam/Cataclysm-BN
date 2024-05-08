@@ -677,6 +677,7 @@
       "_": [ "t_region_groundcover", [ "t_region_groundcover_barren", 9 ] ],
       "#": "t_rock",
       "$": [ "t_region_tree_fruit", "t_region_tree_nut", "t_region_shrub_fruit", "t_region_shrub" ],
+      "p": "t_region_groundcover",
       "S": [
         [ "t_region_groundcover", 5 ],
         "t_region_tree_fruit",
@@ -693,6 +694,7 @@
       "(": "t_slope_down",
       "T": [ "t_region_tree_fruit", "t_region_tree_nut" ]
     },
+    "furniture": { "p": "f_solar_unit_v2" },
     "items": { " ": [ { "item": "forest", "chance": 1 }, { "item": "field", "chance": 2 } ] }
   },
   {
@@ -712,8 +714,7 @@
       ":": "t_secretdoor_metal_c",
       ";": "t_secretdoor_metal_o",
       "~": "t_water_pump",
-      "t": "t_thconc_floor",
-      "G": "t_generator_broken"
+      "t": "t_thconc_floor"
     },
     "furniture": {
       "A": "f_air_filter",
@@ -728,6 +729,8 @@
       "E": "f_exercise",
       "F": "f_fridge",
       "f": "f_sofa",
+      "G": "f_battery",
+      "I": "f_floor_lamp",
       "h": "f_chair",
       "H": "f_water_heater",
       "K": "f_sink",
