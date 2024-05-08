@@ -32,7 +32,14 @@
         "........................",
         "........................"
       ],
-      "terrain": { ".": "t_region_groundcover_urban", "O": "t_concrete", "X": "t_pavement", "+": "t_sidewalk", "b": "t_region_soil", "c": "t_region_soil" },
+      "terrain": {
+        ".": "t_region_groundcover_urban",
+        "O": "t_concrete",
+        "X": "t_pavement",
+        "+": "t_sidewalk",
+        "b": "t_region_soil",
+        "c": "t_region_soil"
+      },
       "furniture": { "b": "f_bench", "c": "f_trashcan" },
       "items": { "c": { "item": "oa_custom_trash", "chance": 30 }, "b": { "item": "oa_discarded_news", "chance": 5 } },
       "item": { "X": { "item": "rock", "chance": 20 }, "O": { "item": "rock", "chance": 20 } }
