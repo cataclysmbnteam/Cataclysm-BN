@@ -899,7 +899,7 @@ void avatar_action::eat( avatar &you, item *loc )
         loc->attempt_detach( [&you]( detached_ptr<item> &&it ) {
             return you.consume_item( std::move( it ) );
         } );
-        if( loc->is_food_container() || !you.can_consume_as_is( *loc ) ) {
+        if( !loc->is_food_container() && !you.can_consume_as_is( *loc ) ) {
             add_msg( _( "You leave the empty %s." ), loc->tname() );
         }
     }
