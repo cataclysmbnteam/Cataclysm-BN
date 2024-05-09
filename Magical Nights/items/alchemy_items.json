@@ -66,7 +66,7 @@
     "encumbrance": 1,
     "warmth": 0,
     "material_thickness": 1,
-    "flags": [ "SKINTIGHT", "ONLY_ONE", "COMPACT" ],
+    "flags": [ "SKINTIGHT", "ONLY_ONE", "COMPACT", "POWERARMOR_COMPATIBLE" ],
     "qualities": [ [ "MANA_FOCUS", 1 ] ]
   },
   {

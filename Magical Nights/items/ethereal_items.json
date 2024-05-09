@@ -27,8 +27,35 @@
     "price": 0,
     "symbol": ",",
     "color": "yellow",
-    "use_action": [ { "type": "firestarter", "moves": 20 } ],
+    "use_action": [ 
+      { 
+        "type": "firestarter", "moves": 20 
+      },
+      {
+        "type": "transform",
+        "msg": "You dim the flame.",
+        "target": "finger_firelighter_off"
+      } 
+  ],
     "flags": [ "TRADER_AVOID", "FIRESTARTER", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
+  },
+  {
+    "id": "finger_firelighter_off",
+    "copy-from": "finger_firelighter",
+    "type": "TOOL",
+    "name": "finger firelighter (dimmed)",
+    "description": "This is a small flame you can hold in your hand.  With a thought, you can cause it to light something on fire, though it is currently dimmed.",
+    "use_action": [ 
+      { 
+        "type": "firestarter", "moves": 20 
+      },
+      {
+        "type": "transform",
+        "msg": "You brighten the flame.",
+        "target": "finger_firelighter"
+      } 
+  ],
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "FLAMING", "WATER_EXTINGUISH" ]
   },
   {
     "id": "magic_lamp",
@@ -51,7 +78,7 @@
     "id": "magic_lamp_off",
     "type": "ARMOR",
     "category": "tools",
-    "name": "magic lamp",
+    "name": "magic lamp (dimmed)",
     "description": "a magical aura that you know can be brightened into a powerful light.",
     "weight": "1 g",
     "volume": "250 ml",
