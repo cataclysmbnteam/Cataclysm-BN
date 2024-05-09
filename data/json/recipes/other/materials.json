@@ -1198,6 +1198,18 @@
   {
     "result": "steel_chunk",
     "type": "recipe",
+    "id_suffix": "hammering",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "steel_chunk",
+    "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
