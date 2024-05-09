@@ -38,18 +38,14 @@
     "description": "a magical light source that will light up a small area.",
     "weight": "1 g",
     "volume": "250 ml",
-    "material": "paper",
+    "material": "water",
     "price": "1 cent",
     "to_hit": -2,
     "bashing": 1,
     "symbol": ",",
     "color": "light_green",
     "flags": [ "LIGHT_30", "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ],
-    "use_action": {
-      "type": "transform",
-      "msg": "You dim your spell until it's dark.",
-      "target": "magic_lamp_off"
-    }
+    "use_action": { "type": "transform", "msg": "You dim your spell until it's dark.", "target": "magic_lamp_off" }
   },
   {
     "id": "magic_lamp_off",
@@ -59,18 +55,14 @@
     "description": "a magical aura that you know can be brightened into a powerful light.",
     "weight": "1 g",
     "volume": "250 ml",
-    "material": "paper",
+    "material": "water",
     "price": "1 cent",
     "to_hit": -2,
     "bashing": 1,
     "symbol": ",",
     "color": "light_green",
     "flags": [ "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ],
-    "use_action": {
-      "type": "transform",
-      "msg": "You return your spell to full brightness.",
-      "target": "magic_lamp"
-    }
+    "use_action": { "type": "transform", "msg": "You return your spell to full brightness.", "target": "magic_lamp" }
   },
   {
     "id": "magic_light",
@@ -80,16 +72,12 @@
     "description": "A small magical light that you can read by.",
     "weight": "0 kg",
     "volume": "0 ml",
-    "material": "paper",
+    "material": "water",
     "price": "0 cent",
     "symbol": ",",
     "color": "light_green",
     "flags": [ "LIGHT_10", "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ],
-    "use_action": {
-      "type": "transform",
-      "msg": "You dim your spell until it's dark.",
-      "target": "magic_light_off"
-    }
+    "use_action": { "type": "transform", "msg": "You dim your spell until it's dark.", "target": "magic_light_off" }
   },
   {
     "id": "magic_light_off",
@@ -99,16 +87,12 @@
     "description": "A magical aura which you know can be brightened for reading light.",
     "weight": "0 kg",
     "volume": "0 ml",
-    "material": "paper",
+    "material": "water",
     "price": "0 cent",
     "symbol": ",",
     "color": "light_green",
     "flags": [ "AURA", "SEMITANGIBLE", "POWERARMOR_COMPATIBLE" ],
-    "use_action": {
-      "type": "transform",
-      "msg": "You return your spell to full brightness.",
-      "target": "magic_light"
-    }
+    "use_action": { "type": "transform", "msg": "You return your spell to full brightness.", "target": "magic_light" }
   },
   {
     "id": "shield_ice",
@@ -385,6 +369,7 @@
     "description": "An all-encompassing, invisible layer of magic distorts light around your body.  Allows you to dodge two extra attacks in a given turn.",
     "weight": "1g",
     "volume": "1ml",
+    "material": "water",
     "price": "3646 cent",
     "symbol": "o",
     "color": "white",
@@ -408,6 +393,7 @@
     "description": "An all-encompassing, invisible layer of protection against acid.",
     "weight": "1g",
     "volume": "1ml",
+    "material": "water",
     "price": "3646 cent",
     "symbol": "o",
     "color": "green",
@@ -433,6 +419,7 @@
     "description": "An all-encompassing, invisible layer of protection against acid.",
     "weight": "1g",
     "volume": "1ml",
+    "material": "water",
     "price": "3646 cent",
     "symbol": "o",
     "color": "green",
@@ -523,6 +510,7 @@
     "description": "An all-encompassing, invisible layer of magical aura that protects you from the environment.",
     "weight": "1 g",
     "volume": "1 ml",
+    "material": "water",
     "symbol": "o",
     "color": "blue",
     "environmental_protection": 15,
