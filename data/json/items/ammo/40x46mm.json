@@ -2,6 +2,7 @@
   {
     "abstract": "40x46mm_grenade",
     "type": "AMMO",
+    "looks_like": "84x246mm_he",
     "name": { "str": "40x46mm grenade" },
     "volume": "250 ml",
     "price": "100 USD",
