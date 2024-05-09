@@ -609,6 +609,17 @@
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },
   {
+    "id": "salsurvivor_suit",
+    "copy-from": "lsurvivor_suit",
+    "type": "ARMOR",
+    "name": { "str": "light superalloy survivor suit" },
+    "description": "A lightweight, hand-built combination armor made from a bulletproof vest and a jumpsuit, all reinforced with superalloy.  It's fairly protective, but less so than a thicker, more comprehensive suit.",
+    "material": [ "kevlar", "superalloy", "cotton" ],
+    "color": "light_cyan",
+    "encumbrance": 20,
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
     "id": "lsurvivor_suit",
     "type": "ARMOR",
     "name": { "str": "light survivor suit" },
@@ -625,7 +636,7 @@
     "coverage": 100,
     "encumbrance": 15,
     "storage": "7500 ml",
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
