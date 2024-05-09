@@ -77,10 +77,9 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 2,
-    "skills_required": [ "survival", 1 ],
     "time": "40 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_survival", 1 ] ],
+    "book_learn": [ [ "textbook_tailor", 1 ], [ "manual_tailor", 1 ], [ "tailor_portfolio", 1 ], [ "textbook_survival", 1 ] ],
     "using": [ [ "sewing_standard", 13 ] ],
     "components": [ [ [ "leather", 7 ] ], [ [ "fur", 7 ] ] ]
   },
@@ -398,7 +397,13 @@
     "difficulty": 1,
     "time": "30 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_survival", 0 ], [ "pocket_survival", 0 ] ],
+    "book_learn": [
+      [ "textbook_survival", 0 ],
+      [ "pocket_survival", 0 ],
+      [ "textbook_tailor", 0 ],
+      [ "manual_tailor", 0 ],
+      [ "tailor_portfolio", 0 ]
+    ],
     "using": [ [ "sewing_standard", 5 ] ],
     "components": [ [ [ "fur", 2 ] ] ]
   },

@@ -5,7 +5,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
-    "time": "80 m",
+    "time": "50 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 35 ] ] ]
@@ -100,7 +100,7 @@
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": "85 m",
+    "time": "60 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ]
@@ -113,7 +113,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "skills_required": [ "survival", 1 ],
-    "time": "80 m",
+    "time": "70 m",
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
@@ -188,7 +188,8 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "60 m",
-    "book_learn": [ [ "textbook_fabrication", 4 ], [ "welding_book", 4 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "WELD", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 20 ] ] ]
@@ -311,8 +312,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
-    "difficulty": 4,
-    "skills_required": [ "survival", 1 ],
+    "difficulty": 3,
     "time": "75 m",
     "reversible": true,
     "autolearn": true,
@@ -325,13 +325,11 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
-    "difficulty": 5,
-    "skills_required": [ "survival", 1 ],
+    "difficulty": 4,
     "time": "75 m",
     "reversible": true,
-    "decomp_learn": 4,
     "autolearn": true,
-    "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ], [ "pocket_survival", 1 ] ],
+    "book_learn": [ [ "textbook_survival", 2 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ], [ "pocket_survival", 2 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "rag", 10 ] ], [ [ "fur", 20 ] ] ]
   },
@@ -378,7 +376,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
-    "time": "6 m",
+    "time": "10 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 7 ] ],
     "components": [ [ [ "rag", 5 ] ] ]
@@ -556,9 +554,9 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
-    "time": "80 m",
+    "time": "50 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
-    "components": [ [ [ "rag", 40 ] ] ]
+    "using": [ [ "sewing_standard", 15 ], [ "drawing_tool", 20 ] ],
+    "components": [ [ [ "rag", 30 ] ] ]
   }
 ]
