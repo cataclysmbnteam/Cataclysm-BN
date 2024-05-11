@@ -379,7 +379,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
         }
 
         const input_event ev = ctxt->get_raw_input();
-        ch = ev.type == input_event_t::CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
+        ch = ev.type == input_event_t::keyboard ? ev.get_first_input() : 0;
 
         if( ch == KEY_ESCAPE ) {
             return { false, _utext.str() };
