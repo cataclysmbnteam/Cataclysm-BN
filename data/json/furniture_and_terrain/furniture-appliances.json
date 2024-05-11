@@ -824,7 +824,7 @@
   {
     "type": "furniture",
     "id": "f_turbine_unit",
-    "looks_like": "f_wind_mill",
+    "looks_like": "f_wind_mill_active",
     "name": "mounted wind turbine",
     "description": "A mounted wind turbine connected to building's electric grid.",
     "symbol": "#",
@@ -859,7 +859,7 @@
   {
     "type": "furniture",
     "id": "f_xl_turbine_unit",
-    "looks_like": "f_wind_mill",
+    "looks_like": "f_turbine_unit",
     "name": "mounted wind turbine",
     "description": "A large mounted wind turbine connected to building's electric grid.",
     "symbol": "#",
