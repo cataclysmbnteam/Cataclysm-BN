@@ -34,7 +34,7 @@
       ],
       "items": {
         "w": { "item": "casings", "chance": 60, "repeat": 4 },
-        "%": { "item": "casings", "chance": 100, "repeat": 200 },
+        "%": { "item": "casings", "chance": 66, "repeat": 150 },
         "#": { "item": "casings", "chance": 40 },
         "c": { "item": "ear_protection", "chance": 10 },
         "d": { "item": "ear_protection", "chance": 80 }
