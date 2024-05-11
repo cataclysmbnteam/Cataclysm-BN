@@ -7401,7 +7401,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     ui.on_redraw( [&]( const ui_adaptor & ) {
         reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
 
-        
+
         if( ground_items.empty() ) {
             wnoutrefresh( w_items_border );
             mvwprintz( w_items, point( 2, 10 ), c_white, _( "You don't see any items around you!" ) );
@@ -7451,14 +7451,12 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                         }
 
                         nc_color col = c_light_green;
-                        if (iNum != iActive) {
-                            if (high) {
+                        if( iNum != iActive ) {
+                            if( high ) {
                                 col = c_yellow;
-                            }
-                            else if (low) {
+                            } else if( low ) {
                                 col = c_red;
-                            }
-                            else {
+                            } else {
                                 col = iter->example->color_in_inventory();
                             }
                         }
