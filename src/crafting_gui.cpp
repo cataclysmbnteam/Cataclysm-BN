@@ -144,7 +144,7 @@ struct availability {
         auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
         const deduped_requirement_data &req = r->deduped_requirements();
         could_craft_if_knew = req.can_make_with_inventory(
-                        inv, all_items_filter, batch_size, cost_adjustment::start_only );
+                                  inv, all_items_filter, batch_size, cost_adjustment::start_only );
         can_craft = known && could_craft_if_knew;
         can_craft_non_rotten = req.can_make_with_inventory(
                                    inv, no_rotten_filter, batch_size, cost_adjustment::start_only );
@@ -167,17 +167,17 @@ struct availability {
     bool has_all_skills;
     bool known;
 
-        nc_color selected_color() const {
-            return can_craft
-                   ? ( can_craft_non_rotten && has_all_skills ? h_white : h_brown )
-                   : ( could_craft_if_knew && has_all_skills ? h_yellow : h_dark_gray );
-        }
+    nc_color selected_color() const {
+        return can_craft
+               ? ( can_craft_non_rotten && has_all_skills ? h_white : h_brown )
+               : ( could_craft_if_knew && has_all_skills ? h_yellow : h_dark_gray );
+    }
 
-        nc_color color( bool ignore_missing_skills = false ) const {
-            return can_craft
-                   ? ( can_craft_non_rotten && has_all_skills || ignore_missing_skills ? c_white : c_brown )
-                   : ( could_craft_if_knew && has_all_skills || ignore_missing_skills ? c_yellow : c_dark_gray );
-        }
+    nc_color color( bool ignore_missing_skills = false ) const {
+        return can_craft
+               ? ( can_craft_non_rotten && has_all_skills || ignore_missing_skills ? c_white : c_brown )
+               : ( could_craft_if_knew && has_all_skills || ignore_missing_skills ? c_yellow : c_dark_gray );
+    }
 
 };
 } // namespace
@@ -278,8 +278,8 @@ static std::vector<std::string> recipe_info(
     if( !u.knows_recipe( &recp ) ) {
         oss << _( "Recipe not memorized yet\n" );
         const std::set<itype_id> books_with_recipe = show_unavailable
-                                                     ? crafting::get_books_for_recipe( &recp )
-                                                     : crafting::get_books_for_recipe( u, crafting_inv, &recp );
+                ? crafting::get_books_for_recipe( &recp )
+                : crafting::get_books_for_recipe( u, crafting_inv, &recp );
         const std::string enumerated_books =
             enumerate_as_string( books_with_recipe.begin(), books_with_recipe.end(),
         []( const itype_id & type_id ) {
@@ -366,7 +366,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
     int dataHalfLines = 0;
     int dataHeight = 0;
     int item_info_width = 0;
-    
+
     input_context ctxt( "CRAFTING" );
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
@@ -403,7 +403,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) :
                 FULL_SCREEN_WIDTH;
         const int wStart = ( TERMX - width ) / 2;
-        
+
         // Keybinding tips
         static const translation inline_fmt = to_translation(
                 //~ %1$s: action description text before key,
@@ -932,7 +932,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Regenerate keybinding tips
             ui.mark_resize();
-        
+
         } else if( action == "TOGGLE_UNAVAILABLE" ) {
             show_unavailable = !show_unavailable;
 

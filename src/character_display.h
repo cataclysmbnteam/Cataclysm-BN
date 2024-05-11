@@ -20,7 +20,8 @@ namespace character_display
 /**
  * Formats and prints encumbrance info to specified window
  */
-void print_encumbrance( ui_adaptor &ui, const catacurses::window &win, const Character &ch, int line = -1,
+void print_encumbrance( ui_adaptor &ui, const catacurses::window &win, const Character &ch,
+                        int line = -1,
                         const item *selected_clothing = nullptr );
 
 /**

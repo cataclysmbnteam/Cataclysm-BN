@@ -145,7 +145,7 @@ class ui_adaptor
         void on_redraw( const redraw_callback_t &fun );
         /* See `on_redraw`. */
         void on_screen_resize( const screen_resize_callback_t &fun );
-        
+
         /**
          * Automatically set the termianl cursor to a window position after
          * drawing is done. The cursor position of the last drawn UI takes

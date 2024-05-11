@@ -2209,7 +2209,7 @@
     "name": "Open Wiki",
     "category": "DEFAULTMODE",
     "id": "open_wiki",
-    "bindings": [ { "input_method": "keyboard_any", "key": "w" }, { "input_method":  "keyboard_code", "key": "w" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" }, { "input_method": "keyboard_code", "key": "w" } ]
   },
   {
     "type": "keybinding",
@@ -3344,7 +3344,7 @@
     "id": "MANAGER",
     "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
     "name": "Open manager",
-    "bindings": [ { "input_method": "keyboard_char", "key": "M" }, { "input_method": "keyboard_code", "key": "m", "mod":  [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "M" }, { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
