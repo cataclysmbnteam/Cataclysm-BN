@@ -26,7 +26,13 @@
     "//": "Common tools for cleaning up around the house or in a business setting.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "broom", 25 ], [ "mop", 25 ], [ "bucket", 25 ], { "group": "tools_cleaning_small", "prob": 25 } ]
+    "items": [
+      [ "broom", 25 ],
+      [ "mop", 25 ],
+      [ "bucket", 10 ],
+      { "item": "bag_plastic", "prob": 15, "count": [ 1, 5 ] },
+      { "group": "tools_cleaning_small", "prob": 25 }
+    ]
   },
   {
     "id": "tools_cleaning_small",
