@@ -230,7 +230,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
     } );
     ui.mark_resize();
 
-    input_context ctxt( "MUTATIONS" );
+    input_context ctxt( "MUTATIONS", keyboard_mode::keychar );
     ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "TOGGLE_EXAMINE" );
@@ -354,7 +354,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
         bool handled = false;
         const std::string action = ctxt.handle_input();
         const input_event evt = ctxt.get_raw_input();
-        if( evt.type == CATA_INPUT_KEYBOARD && !evt.sequence.empty() ) {
+        if( evt.type == input_event_t::keyboard_char && !evt.sequence.empty() ) {
             const int ch = evt.get_first_input();
             if( ch == ' ' ) { //skip if space is pressed (space is used as an empty hotkey)
                 continue;
@@ -367,6 +367,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                         query_popup pop;
                         pop.message( _( "%s; enter new letter." ),
                                      mutation_branch::get_name( *mut_id ) )
+                        .preferred_keyboard_mode( keyboard_mode::keychar )
                         .context( "POPUP_WAIT" )
                         .allow_cancel( true )
                         .allow_anykey( true );
@@ -375,7 +376,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                         while( !pop_exit ) {
                             const query_popup::result ret = pop.query();
                             bool pop_handled = false;
-                            if( ret.evt.type == CATA_INPUT_KEYBOARD && !ret.evt.sequence.empty() ) {
+                            if( ret.evt.type == input_event_t::keyboard_char && !ret.evt.sequence.empty() ) {
                                 const int newch = ret.evt.get_first_input();
                                 if( mutation_chars.valid( newch ) ) {
                                     const std::optional<trait_id> other_mut_id = trait_by_invlet( who.my_mutations, newch );
@@ -392,7 +393,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                                 if( ret.action == "QUIT" ) {
                                     pop_exit = true;
                                 } else if( ret.action != "HELP_KEYBINDINGS" &&
-                                           ret.evt.type == CATA_INPUT_KEYBOARD ) {
+                                           ret.evt.type == input_event_t::keyboard_char ) {
                                     popup( _( "Invalid mutation letter.  Only those characters are valid:\n\n%s" ),
                                            mutation_chars.get_allowed_chars() );
                                 }
@@ -539,7 +540,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                             while( !pop_exit ) {
                                 const query_popup::result ret = pop.query();
                                 bool pop_handled = false;
-                                if( ret.evt.type == CATA_INPUT_KEYBOARD && !ret.evt.sequence.empty() ) {
+                                if( ret.evt.type == input_event_t::keyboard_char && !ret.evt.sequence.empty() ) {
                                     const int newch = ret.evt.get_first_input();
                                     if( mutation_chars.valid( newch ) ) {
                                         const std::optional<trait_id> other_mut_id = trait_by_invlet( who.my_mutations, newch );
@@ -560,7 +561,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                                     if( ret.action == "QUIT" ) {
                                         pop_exit = true;
                                     } else if( ret.action != "HELP_KEYBINDINGS" &&
-                                               ret.evt.type == CATA_INPUT_KEYBOARD ) {
+                                               ret.evt.type == input_event_t::keyboard_char ) {
                                         popup( _( "Invalid mutation letter.  Only those characters are valid:\n\n%s" ),
                                                mutation_chars.get_allowed_chars() );
                                     }

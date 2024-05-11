@@ -703,6 +703,7 @@ bool query_yn( const std::string &text )
                             : input_context::allow_all_keys;
 
     return query_popup()
+            .preferred_keyboard_mode( keyboard_mode::keychar )
            .context( "YESNO" )
            .message( force_uc ?
                      pgettext( "query_yn", "%s (Case Sensitive)" ) :
@@ -764,6 +765,7 @@ std::vector<std::string> get_hotkeys( const std::string &s )
 int popup( const std::string &text, PopupFlags flags )
 {
     query_popup pop;
+    pop.preferred_keyboard_mode( keyboard_mode::keychar );
     pop.message( "%s", text );
     if( flags & PF_GET_KEY ) {
         pop.allow_anykey( true );
@@ -779,7 +781,7 @@ int popup( const std::string &text, PopupFlags flags )
 
     pop.context( "POPUP_WAIT" );
     const auto &res = pop.query();
-    if( res.evt.type == CATA_INPUT_KEYBOARD ) {
+    if( res.evt.type == input_event_t::keyboard_char ) {
         return res.evt.get_first_input();
     } else {
         return UNKNOWN_UNICODE;
@@ -1027,7 +1029,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
         redraw();
     } );
 
-    input_context ctxt;
+    input_context ctxt( "default", keyboard_mode::keychar );
     if( data.handle_scrolling ) {
         ctxt.register_action( "PAGE_UP" );
         ctxt.register_action( "PAGE_DOWN" );

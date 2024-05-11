@@ -100,15 +100,15 @@ static float critter_blast_percentage( Creature *c, float range, float distance 
     const float radius_reduction = distance > range ? 0.0f : distance > range / 2 ? 0.5f : 1.0f;
 
     switch( c->get_size() ) {
-        case( m_size::MS_TINY ):
+        case( creature_size::tiny ):
             return 0.5 * radius_reduction;
-        case( m_size::MS_SMALL ):
+        case( creature_size::small ):
             return 0.8 * radius_reduction;
-        case( m_size::MS_MEDIUM ):
+        case( creature_size::medium ):
             return 1.0 * radius_reduction;
-        case( m_size::MS_LARGE ):
+        case( creature_size::large ):
             return 1.5 * radius_reduction;
-        case( m_size::MS_HUGE ):
+        case( creature_size::huge ):
             return 2.0 * radius_reduction;
         default:
             return 1.0 * radius_reduction;
@@ -1685,10 +1685,10 @@ void emp_blast( const tripoint &p )
             int deact_chance = 0;
             const auto mon_item_id = critter.type->revert_to_itype;
             switch( critter.get_size() ) {
-                case MS_TINY:
+                case creature_size::tiny:
                     deact_chance = 6;
                     break;
-                case MS_SMALL:
+                case creature_size::small:
                     deact_chance = 3;
                     break;
                 default:

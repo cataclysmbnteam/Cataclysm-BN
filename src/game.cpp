@@ -1719,6 +1719,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
                             : input_context::allow_all_keys;
 
     const auto &action = query_popup()
+                         .preferred_keyboard_mode( keyboard_mode::keychar )
                          .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
                          .message( force_uc ?
                                    pgettext( "cancel_activity_or_ignore_query",
@@ -2034,7 +2035,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
         last_mouse_edge_scroll = now;
     }
     const input_event event = ctxt.get_raw_input();
-    if( event.type == CATA_INPUT_MOUSE ) {
+    if( event.type == input_event_t::mouse ) {
         const point threshold( projected_window_width() / 100, projected_window_height() / 100 );
         if( event.mouse_pos.x <= threshold.x ) {
             ret.first.x -= speed;
@@ -2059,7 +2060,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
             }
         }
         ret.second = ret.first;
-    } else if( event.type == CATA_INPUT_TIMEOUT ) {
+    } else if( event.type == input_event_t::timeout ) {
         ret.first = ret.second;
     }
 #endif
@@ -2086,7 +2087,7 @@ tripoint game::mouse_edge_scrolling_overmap( input_context &ctxt )
 
 input_context get_default_mode_input_context()
 {
-    input_context ctxt( "DEFAULTMODE" );
+    input_context ctxt( "DEFAULTMODE", keyboard_mode::keychar );
     // Because those keys move the character, they don't pan, as their original name says
     ctxt.set_iso( true );
     ctxt.register_action( "UP", to_translation( "Move North" ) );
@@ -5063,13 +5064,13 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         if( can_see ) {
             add_msg( _( "The %1$s hits the %2$s." ), door_name, critter.name() );
         }
-        if( critter.type->size <= MS_SMALL ) {
+        if( critter.type->size <= creature_size::small ) {
             critter.die_in_explosion( nullptr );
         } else {
             critter.apply_damage( nullptr, bodypart_id( "torso" ), bash_dmg );
             critter.check_dead_state();
         }
-        if( !critter.is_dead() && critter.type->size >= MS_HUGE ) {
+        if( !critter.is_dead() && critter.type->size >= creature_size::huge ) {
             // big critters simply prevent the gate from closing
             // TODO: perhaps damage/destroy the gate
             // if the critter was really big?
@@ -7400,6 +7401,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     ui.on_redraw( [&]( const ui_adaptor & ) {
         reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
 
+        
         if( ground_items.empty() ) {
             wnoutrefresh( w_items_border );
             mvwprintz( w_items, point( 2, 10 ), c_white, _( "You don't see any items around you!" ) );
@@ -7449,12 +7451,14 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                         }
 
                         nc_color col = c_light_green;
-                        if( iNum != iActive ) {
-                            if( high ) {
+                        if (iNum != iActive) {
+                            if (high) {
                                 col = c_yellow;
-                            } else if( low ) {
+                            }
+                            else if (low) {
                                 col = c_red;
-                            } else {
+                            }
+                            else {
                                 col = iter->example->color_in_inventory();
                             }
                         }
@@ -8742,13 +8746,13 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
 {
     if( m.has_flag_ter( TFLAG_SMALL_PASSAGE, dest_loc ) ) {
-        if( u.get_size() > MS_MEDIUM ) {
+        if( u.get_size() > creature_size::medium ) {
             add_msg( m_warning, _( "You can't fit there." ) );
             return false; // character too large to fit through a tight passage
         }
         if( u.is_mounted() ) {
             monster *mount = u.mounted_creature.get();
-            if( mount->get_size() > MS_MEDIUM ) {
+            if( mount->get_size() > creature_size::medium ) {
                 add_msg( m_warning, _( "Your mount can't fit there." ) );
                 return false; // char's mount is too large for tight passages
             }
@@ -8996,18 +9000,18 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
             if( u.is_mounted() ) {
                 auto mons = u.mounted_creature.get();
                 switch( mons->get_size() ) {
-                    case MS_TINY:
+                    case creature_size::tiny:
                         volume = 0; // No sound for the tinies
                         break;
-                    case MS_SMALL:
+                    case creature_size::small:
                         volume /= 3;
                         break;
-                    case MS_MEDIUM:
+                    case creature_size::medium:
                         break;
-                    case MS_LARGE:
+                    case creature_size::large:
                         volume *= 1.5;
                         break;
-                    case MS_HUGE:
+                    case creature_size::huge:
                         volume *= 2;
                         break;
                     default:
@@ -10701,12 +10705,12 @@ void game::vertical_notes( int z_before, int z_after )
         }
         const oter_id &ter = overmap_buffer.ter( cursp_before );
         const oter_id &ter2 = overmap_buffer.ter( cursp_after );
-        if( z_after > z_before && ter->has_flag( known_up ) &&
-            !ter2->has_flag( known_down ) ) {
+        if( z_after > z_before && ter->has_flag( oter_flags::known_up ) &&
+            !ter2->has_flag( oter_flags::known_down ) ) {
             overmap_buffer.set_seen( cursp_after, true );
             overmap_buffer.add_note( cursp_after, string_format( ">:W;%s", _( "AUTO: goes down" ) ) );
-        } else if( z_after < z_before && ter->has_flag( known_down ) &&
-                   !ter2->has_flag( known_up ) ) {
+        } else if( z_after < z_before && ter->has_flag( oter_flags::known_down ) &&
+                   !ter2->has_flag( oter_flags::known_up ) ) {
             overmap_buffer.set_seen( cursp_after, true );
             overmap_buffer.add_note( cursp_after, string_format( "<:W;%s", _( "AUTO: goes up" ) ) );
         }

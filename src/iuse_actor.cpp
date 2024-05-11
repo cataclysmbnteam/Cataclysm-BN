@@ -3261,7 +3261,7 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
     }
 
     const bool resizing_matters = fix.get_sizing( pl ) != item::sizing::ignore;
-    const bool small = pl.get_size() == MS_TINY;
+    const bool small = pl.get_size() == creature_size::tiny;
     const bool can_resize = small != fix.has_flag( flag_UNDERSIZE );
     if( can_be_refitted && resizing_matters && can_resize ) {
         return true;
@@ -3344,7 +3344,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
     }
 
     Character &player_character = get_player_character();
-    const bool smol = player_character.get_size() == MS_TINY;
+    const bool smol = player_character.get_size() == creature_size::tiny;
 
     const bool is_undersized = fix.has_flag( flag_UNDERSIZE );
     const bool is_oversized = fix.has_flag( flag_OVERSIZE );
