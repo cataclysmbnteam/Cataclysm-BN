@@ -293,13 +293,13 @@ void input_manager::save()
                 for( const auto &event : events ) {
                     jsout.start_object();
                     switch( event.type ) {
-                    case input_event_t::keyboard:
+                        case input_event_t::keyboard:
                             jsout.member( "input_method", "keyboard" );
                             break;
-                    case input_event_t::gamepad:
+                        case input_event_t::gamepad:
                             jsout.member( "input_method", "gamepad" );
                             break;
-                    case input_event_t::mouse:
+                        case input_event_t::mouse:
                             jsout.member( "input_method", "mouse" );
                             break;
                         default:
@@ -1308,13 +1308,13 @@ void input_manager::wait_for_any_key()
     while( true ) {
         const input_event evt = inp_mngr.get_input_event();
         switch( evt.type ) {
-        case input_event_t::keyboard:
+            case input_event_t::keyboard:
                 if( !evt.sequence.empty() ) {
                     return;
                 }
                 break;
             // errors are accepted as well to avoid an infinite loop
-        case input_event_t::error:
+            case input_event_t::error:
                 return;
             default:
                 break;
