@@ -668,7 +668,7 @@ void Character::reach_attack( const tripoint &p )
     map &here = get_map();
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
-    int target_size = critter != nullptr ? ( critter->get_size() + 1 ) : 2;
+    const int target_size = critter != nullptr ? static_cast<int>( critter->get_size() + 1 ) : 2;
     // Reset last target pos
     as_player()->last_target_pos = std::nullopt;
     // Max out recoil
@@ -1039,7 +1039,7 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             if( has_bionic( bionic_id( "bio_razors" ) ) ) {
-                per_hand += 2;
+                per_hand += 9;
             }
 
             for( const trait_id &mut : get_mutations() ) {
@@ -1121,10 +1121,6 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
                 }
 
                 per_hand += stab_bonus + unarmed_bonus;
-            }
-
-            if( has_bionic( bionic_id( "bio_razors" ) ) ) {
-                per_hand += 2;
             }
 
             stab_dam += per_hand; // First hand

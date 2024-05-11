@@ -254,7 +254,7 @@ void game::item_action_menu()
     uilist kmenu;
     kmenu.text = _( "Execute which action?" );
     kmenu.input_category = "ITEM_ACTIONS";
-    input_context ctxt( "ITEM_ACTIONS" );
+    input_context ctxt( "ITEM_ACTIONS", keyboard_mode::keychar );
     for( const auto &id : item_actions ) {
         ctxt.register_action( id.first, id.second.name );
         kmenu.additional_actions.emplace_back( id.first, id.second.name );

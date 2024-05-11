@@ -30,7 +30,6 @@
 #include "fstream_utils.h"
 #include "game.h"
 #include "game_constants.h"
-#include "ime.h"
 #include "input.h"
 #include "int_id.h"
 #include "inventory.h"
@@ -147,7 +146,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
         return styles.front();
     }
 
-    input_context ctxt( "MELEE_STYLE_PICKER" );
+    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keychar );
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uilist menu;
@@ -2680,8 +2679,6 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         wnoutrefresh( w_profession );
     } );
 
-    // do not switch IME mode now, but restore previous mode on return
-    ime_sentry sentry( ime_sentry::keep );
 
     int min_allowed_age = 16;
     int max_allowed_age = 55;

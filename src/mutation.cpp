@@ -238,7 +238,7 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
 
 void Character::recalculate_size()
 {
-    size_class = MS_MEDIUM;
+    size_class = creature_size::medium;
     // Only one size-changing mutation is expected, so it will only use the first one it finds.
     for( const mutation_branch *mut : cached_mutations ) {
         if( mut->body_size ) {

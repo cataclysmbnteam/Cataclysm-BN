@@ -794,7 +794,7 @@ void cata::detail::reg_enums( sol::state &lua )
     reg_enum<mf_attitude>( lua );
     reg_enum<m_flag>( lua );
     reg_enum<monster_attitude>( lua );
-    reg_enum<m_size>( lua );
+    reg_enum<creature_size>( lua );
     reg_enum<npc_attitude>( lua );
     reg_enum<npc_need>( lua );
     reg_enum<sfx::channel>( lua );

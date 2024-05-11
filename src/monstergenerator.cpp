@@ -265,18 +265,18 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
-static m_size volume_to_size( const units::volume &vol )
+static creature_size volume_to_size( const units::volume &vol )
 {
     if( vol <= 7500_ml ) {
-        return MS_TINY;
+        return creature_size::tiny;
     } else if( vol <= 46250_ml ) {
-        return MS_SMALL;
+        return creature_size::small;
     } else if( vol <= 77500_ml ) {
-        return MS_MEDIUM;
+        return creature_size::medium;
     } else if( vol <= 483750_ml ) {
-        return MS_LARGE;
+        return creature_size::large;
     }
-    return MS_HUGE;
+    return creature_size::huge;
 }
 
 struct monster_adjustment {
@@ -355,9 +355,11 @@ void MonsterGenerator::finalize_mtypes()
         set_species_ids( mon );
         mon.size = volume_to_size( mon.volume );
 
-        // adjust for worldgen difficulty parameters
-        mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
-        mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        if( !mon.has_flag( MF_RIDEABLE_MECH ) ) {
+            // adjust for worldgen difficulty parameters
+            mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
+            mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        }
 
         for( monster_adjustment adj : adjustments ) {
             adj.apply( mon );
