@@ -93,7 +93,7 @@
     "animation": { "factor": 0.01, "color": "c_light_blue", "glyph": ",", "tile": "weather_rain_drop" },
     "sound_category": "drizzle",
     "sun_intensity": "light",
-    "requirements": { "pressure_max": 1004, "humidity_min": 86, "humidity_and_pressure": false, "required_weathers": [ "cloudy" ] }
+    "requirements": { "pressure_max": 1004, "humidity_min": 80, "humidity_and_pressure": false, "required_weathers": [ "cloudy" ] }
   },
   {
     "id": "drizzle",
@@ -115,7 +115,7 @@
     "sun_intensity": "light",
     "requirements": {
       "pressure_max": 1002,
-      "humidity_min": 88,
+      "humidity_min": 82,
       "humidity_and_pressure": false,
       "required_weathers": [ "cloudy", "light_drizzle" ]
     }
