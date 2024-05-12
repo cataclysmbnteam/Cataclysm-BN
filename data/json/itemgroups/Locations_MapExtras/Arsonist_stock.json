@@ -22,27 +22,6 @@
     ]
   },
   {
-    "type": "item_group",
-    "id": "NC_ARSONIST_carry_misc",
-    "//": "Baseline starting inventory for starter and dynamic NPCs that spawn as a generic arsonist",
-    "subtype": "collection",
-    "items": [
-      { "item": "molotov", "count": [ 1, 4 ] },
-      { "item": "improvised_pipebomb", "prob": 50, "count": [ 1, 2 ] },
-      { "group": "NC_ARSONIST_STOCK_crafting_supplies", "prob": 75, "count": [ 1, 2 ] },
-      { "group": "NC_ARSONIST_STOCK_scrap", "count": [ 1, 2 ] },
-      { "group": "NC_ARSONIST_STOCK_books", "prob": 25 },
-      {
-        "distribution": [
-          { "item": "lighter", "prob": 25 },
-          { "item": "ref_lighter", "prob": 25 },
-          { "item": "electric_lighter", "prob": 25 },
-          { "item": "matches", "prob": 25 }
-        ]
-      }
-    ]
-  },
-  {
     "id": "NC_ARSONIST_STOCK_crafting_supplies",
     "type": "item_group",
     "subtype": "distribution",
