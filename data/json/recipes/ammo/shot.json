@@ -358,8 +358,8 @@
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_shotgun", 1 ] ],
     "charges": 1,
-    "using": [ [ "shot_forming", 1 ], [ "ammo_shot", 1 ] ],
-    "components": [ [ [ "gunpowder", 3 ] ], [ [ "scrap", 1 ], [ "bismuth", 30 ] ] ]
+    "using": [ [ "shot_forming", 1 ], [ "ammo_bullet_birdshot", 10 ], [ "ammo_shot", 1 ] ],
+    "components": [ [ [ "gunpowder", 3 ] ] ]
   },
   {
     "result": "shot_dragon",
@@ -437,8 +437,8 @@
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_shotgun", 1 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "shot_forming", 1 ], [ "ammo_shot", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "scrap", 1 ], [ "bismuth", 30 ] ] ]
+    "using": [ [ "shot_forming", 1 ], [ "ammo_bullet_birdshot", 10 ], [ "ammo_shot", 1 ] ],
+    "components": [ [ [ "chem_black_powder", 3 ] ] ]
   },
   {
     "result": "bp_shot_dragon",
@@ -640,12 +640,8 @@
     "charges": 1,
     "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "chem_black_powder", 5 ] ],
-      [ [ "shotgun_primer", 1 ] ],
-      [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ],
-      [ [ "scrap", 1 ], [ "bismuth", 24 ] ]
-    ]
+    "using": [ [ "ammo_bullet_birdshot", 8 ] ],
+    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },
   {
     "type": "recipe",
