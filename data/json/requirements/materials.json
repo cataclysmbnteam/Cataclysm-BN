@@ -15,7 +15,7 @@
     "id": "ammo_bullet_birdshot",
     "type": "requirement",
     "//": "Materials used when forming bullets for birdshot",
-    "components": [ [ [ "lead", 1 ], [ "bismuth", 3 ], [ "bb", 2 ] ] ]
+    "components": [ [ [ "bb", 2 ], [ "lead", 1 ], [ "bismuth", 3 ] ] ]
   },
   {
     "id": "chem_lye",
