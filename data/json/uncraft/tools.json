@@ -36,5 +36,13 @@
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "scrap_copper", 12 ] ], [ [ "tin", 20 ] ] ]
+  },
+  {
+    "result": "shavingkit",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "components": [ [ [ "razor_shaving", 1 ] ], [ [ "razor_blade", 2 ] ], [ [ "hairbrush", 1 ] ], [ [ "bottle_plastic_small", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
