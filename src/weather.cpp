@@ -574,15 +574,6 @@ static std::string to_string( const weekdays &d )
     return _( weekday_names[ static_cast<int>( d ) ] );
 }
 
-static std::string print_time_just_hour( const time_point &p )
-{
-    const int hour = to_hours<int>( time_past_midnight( p ) );
-    int hour_param = hour % 12;
-    if( hour_param == 0 ) {
-        hour_param = 12;
-    }
-    return string_format( hour < 12 ? _( "%d AM" ) : _( "%d PM" ), hour_param );
-}
 
 constexpr int NUM_FORECAST_PERIODS = 6;
 

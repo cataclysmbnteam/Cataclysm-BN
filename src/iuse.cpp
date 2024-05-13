@@ -9027,7 +9027,6 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         std::string message = string_format( "", message );
         const auto tref = overmap_buffer.find_radio_station( it->frequency );
         if( tref ) {
-            const auto selected_tower = tref.tower;
             {
                 message = weather_forecast( tref.abs_sm_pos );
             }
