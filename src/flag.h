@@ -352,6 +352,7 @@ extern const flag_id flag_wooled;
 extern const flag_id flag_MUTE;
 extern const flag_id flag_NOT_FOOTWEAR;
 extern const flag_id flag_WEATHER_FORECAST;
+extern const flag_id flag_WINDMETER;
 
 /**
  * Flags: json entity with "type": "json_flag", defined in flags.json, vp_flags.json

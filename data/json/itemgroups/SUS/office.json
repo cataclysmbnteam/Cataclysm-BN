@@ -43,20 +43,10 @@
     "//2": "This group is for a typical janitors closet with cleaning chemicals and tools.",
     "subtype": "collection",
     "entries": [
-      { "item": "bleach", "prob": 90, "charges-min": 20 },
-      { "item": "ammonia", "prob": 75, "charges-min": 20 },
-      { "item": "broom", "prob": 95 },
-      { "item": "mop", "prob": 95 },
-      { "item": "sponge", "prob": 90 },
-      { "item": "rag", "count": [ 1, 6 ] },
-      { "item": "towel", "count": [ 1, 2 ], "prob": 80 },
-      { "item": "brush", "prob": 95 },
-      { "item": "bucket", "prob": 90 },
-      { "item": "boots_rubber", "prob": 90 },
-      { "item": "gloves_rubber", "prob": 90 },
+      { "group": "supplies_household_cleaning", "count": [ 2, 4 ], "prob": 75 },
+      { "group": "tools_cleaning_common", "count": [ 2, 6 ], "prob": 75 },
+      { "group": "clothing_cleaning", "count": [ 1, 3 ], "prob": 75 },
       { "item": "chem_hydrogen_peroxide", "prob": 40, "charges-min": 4 },
-      { "item": "soap", "count": [ 1, 2 ], "prob": 70 },
-      { "item": "detergent", "count": [ 1, 2 ], "prob": 80 },
       { "item": "paper", "charges": [ 50, 100 ], "prob": 90 }
     ]
   }

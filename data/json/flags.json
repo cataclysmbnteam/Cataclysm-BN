@@ -2164,5 +2164,10 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "It can show the automated weather forcast."
+    },
+    {
+    "id": "WINDMETER",
+    "type": "json_flag",
+    "context": [  ]
   }
 ]

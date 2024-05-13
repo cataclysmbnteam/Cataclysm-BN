@@ -299,7 +299,7 @@
     "ammo": "battery",
     "charges_per_use": 5,
     "use_action": "WEATHER_TOOL",
-    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER" ],
+    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "WINDMETER" ],
     "magazines": [
       [
         "battery",
