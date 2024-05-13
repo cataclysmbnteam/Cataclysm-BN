@@ -291,7 +291,7 @@
       "wasp_tower_even_2",
       "wasp_tower_top"
     ],
-    "name": "wasp radio tower",
+    "name": "wasp-infested radio tower",
     "sym": "X",
     "color": "yellow",
     "see_cost": 2,
