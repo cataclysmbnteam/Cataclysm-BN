@@ -41,7 +41,7 @@
         "|": "t_chainfence_v",
         "6": "t_radio_controls",
         "_": "t_pavement",
-        "<": "t_stairs_up"
+        "<": "t_ladder_up"
       }
     }
   },
@@ -89,7 +89,7 @@
         "_": "t_pavement",
         "+": "t_door_c",
         "4": "t_gutter_downspout",
-        "<": "t_stairs_up",
+        "<": "t_ladder_up",
         "w": "t_window"
       },
       "furniture": { "C": "f_counter", "r": "f_rack", "h": "f_chair", "l": "f_locker" },
@@ -118,12 +118,12 @@
         "          Raaa,R        ",
         "                        ",
         "                        ",
-        "         ..........-    ",
-        "         ..........5    ",
-        "         ..........-    ",
-        "         .......&..-    ",
-        "          R   .....-    ",
-        "              .....-    ",
+        "         -----------    ",
+        "         -.........5    ",
+        "         -.........-    ",
+        "         ------.&..-    ",
+        "          R   -....-    ",
+        "              ------    ",
         "                        ",
         "                        ",
         "                        ",
@@ -277,7 +277,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", ">": "t_stairs_down" },
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", ">": "t_ladder_down" },
       "place_nested": [
         {
           "chunks": [

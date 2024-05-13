@@ -185,7 +185,7 @@
     "ammo_type": "components",
     "stack_size": 200,
     "count": 30,
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [ "UNRECOVERABLE", "TINDER" ]
   },
   {
     "type": "AMMO",
@@ -397,7 +397,7 @@
     "color": "brown",
     "description": "Feathers from a bird.  Useful for fletching arrows.",
     "material": "cotton",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [ "NO_SALVAGE", "TINDER" ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -415,7 +415,7 @@
     "color": "brown",
     "description": "Fluffy down feathers from a bird.  Useful for making cozy bedclothes.",
     "material": "cotton",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [ "NO_SALVAGE", "TINDER" ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -696,7 +696,8 @@
     "ammo_type": "charcoal",
     "count": 50,
     "stack_size": 10,
-    "fuel": { "energy": 1.6 }
+    "fuel": { "energy": 1.6 },
+    "flags": [ "TINDER" ]
   },
   {
     "type": "AMMO",
@@ -734,7 +735,8 @@
     "ammo_type": "charcoal",
     "count": 250,
     "stack_size": 10,
-    "fuel": { "energy": 30 }
+    "fuel": { "energy": 30 },
+    "flags": [ "TINDER" ]
   },
   {
     "type": "AMMO",

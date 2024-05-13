@@ -182,7 +182,7 @@
     "weight": "20 g",
     "volume": "250 ml",
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID", "NO_SALVAGE" ]
+    "flags": [ "TRADER_AVOID", "NO_SALVAGE", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -1891,7 +1891,7 @@
     "weight": "220 g",
     "volume": "500 ml",
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -2293,7 +2293,7 @@
     "category": "spare_parts",
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
     "material": [ "dry_plant" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "TINDER" ],
     "weight": "20 g",
     "volume": "250 ml",
     "to_hit": -2
@@ -2444,7 +2444,7 @@
     "weight": "1 g",
     "description": "A true gentleman always finishes his cigars.",
     "category": "other",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -2476,7 +2476,7 @@
     "description": "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far…",
     "category": "other",
     "weight": "1 g",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -2508,7 +2508,7 @@
     "description": "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
     "category": "other",
     "weight": "1 g",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "TINDER" ]
   },
   {
     "type": "GENERIC",

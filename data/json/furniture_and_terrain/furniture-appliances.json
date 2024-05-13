@@ -174,6 +174,7 @@
     "symbol": "T",
     "color": "light_gray",
     "name": "abstract floor lamp",
+    "looks_like": "f_rack_coat",
     "description": "Abstract furniture.  If you see this, something went wrong.",
     "move_cost_mod": 2,
     "required_str": 1,
@@ -823,7 +824,7 @@
   {
     "type": "furniture",
     "id": "f_turbine_unit",
-    "looks_like": "f_wind_mill",
+    "looks_like": "f_wind_mill_active",
     "name": "mounted wind turbine",
     "description": "A mounted wind turbine connected to building's electric grid.",
     "symbol": "#",
@@ -858,7 +859,7 @@
   {
     "type": "furniture",
     "id": "f_xl_turbine_unit",
-    "looks_like": "f_wind_mill",
+    "looks_like": "f_turbine_unit",
     "name": "mounted wind turbine",
     "description": "A large mounted wind turbine connected to building's electric grid.",
     "symbol": "#",

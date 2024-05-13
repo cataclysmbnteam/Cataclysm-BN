@@ -60,5 +60,10 @@
       [ "alloy_plate", 10 ],
       [ "robot_controls", 3 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_pap_chess_pieces",
+    "items": [ [ "rock", 60 ] ]
   }
 ]

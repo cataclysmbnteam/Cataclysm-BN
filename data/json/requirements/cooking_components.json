@@ -300,24 +300,34 @@
     "components": [ [ [ "meat_red", 1, "LIST" ], [ "offals_raw", 2, "LIST" ], [ "meat_salted", 1 ] ] ]
   },
   {
+    "id": "sausage_cooked",
+    "type": "requirement",
+    "//": "sausages for food stuff should be the same volume",
+    "components": [
+      [
+        [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "veggy_sausage", 1 ],
+        [ "veggy_sausage_cooked", 1 ],
+        [ "bratwurst_sausage", 5 ],
+        [ "sweet_sausage", 1 ],
+        [ "sausage_wasteland", 1 ],
+        [ "sausage_wasteland_cooked", 1 ],
+        [ "hotdogs_campfire", 4 ]
+      ]
+    ]
+  },
+  {
     "id": "meat_sausage_cooked",
     "type": "requirement",
     "//": "sausages, spam and cooked meat for food stuff",
     "components": [
       [
         [ "meat_red_cooked", 1, "LIST" ],
-        [ "sausage", 1 ],
-        [ "sausage_cooked", 1 ],
-        [ "veggy_sausage", 1 ],
-        [ "veggy_sausage_cooked", 1 ],
-        [ "bratwurst_sausage", 1 ],
-        [ "sweet_sausage", 1 ],
-        [ "sausage_wasteland", 1 ],
-        [ "sausage_wasteland_cooked", 1 ],
-        [ "hotdogs_campfire", 2 ],
-        [ "bologna", 5 ],
-        [ "can_spam", 2 ],
-        [ "fried_spam", 2 ]
+        [ "sausage_cooked", 1, "LIST" ],
+        [ "bologna", 4 ],
+        [ "can_spam", 3 ],
+        [ "fried_spam", 3 ]
       ]
     ]
   },
@@ -939,20 +949,16 @@
     "components": [ [ [ "sugar", 3 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ], [ "beet_syrup", 2 ] ] ]
   },
   {
+    "id": "condiment_lite",
+    "type": "requirement",
+    "//": " condiments that go well with sausage or boiled egg",
+    "components": [ [ [ "mayonnaise", 1 ], [ "mustard", 1 ], [ "ketchup", 1 ], [ "horseradish", 1 ] ] ]
+  },
+  {
     "id": "condiment",
     "type": "requirement",
     "//": " Should be about a teaspoon, or smallest serving",
-    "components": [
-      [
-        [ "mayonnaise", 1 ],
-        [ "mustard", 1 ],
-        [ "soysauce", 1 ],
-        [ "ketchup", 1 ],
-        [ "horseradish", 1 ],
-        [ "sauerkraut", 1 ],
-        [ "butter", 1 ]
-      ]
-    ]
+    "components": [ [ [ "condiment_lite", 1, "LIST" ], [ "soysauce", 1 ], [ "sauerkraut", 1 ], [ "butter", 1 ] ] ]
   },
   {
     "id": "bread_sandwich",

@@ -344,7 +344,25 @@
     "price_postapoc": "50 cent",
     "material": "egg",
     "fun": 2,
+    "spoils_in": "10 days",
     "delete": { "flags": [ "RAW" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "boiled_egg_condiment",
+    "name": { "str": "boiled egg with condiment" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "ketchup", "name": "boiled egg with ketchup" },
+      { "type": "COMPONENT_ID", "condition": "mayonnaise", "name": "boiled egg with mayonnaise" },
+      { "type": "COMPONENT_ID", "condition": "mustard", "name": "boiled egg with mustard" },
+      { "type": "COMPONENT_ID", "condition": "horseradish", "name": "boiled egg with horseradish" },
+      { "type": "COMPONENT_ID", "condition": "salt", "name": "salted boiled egg" }
+    ],
+    "copy-from": "boiled_egg",
+    "quench": 0,
+    "description": "A hard-boiled egg can be bland, just plaster it with some condiments and all will be better!",
+    "spoils_in": "2 days",
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",

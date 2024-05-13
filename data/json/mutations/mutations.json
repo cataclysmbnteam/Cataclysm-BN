@@ -1645,7 +1645,7 @@
     "types": [ "SKIN" ],
     "category": [ "CHIMERA", "RAPTOR", "LIZARD" ],
     "prereqs": [ "SKIN_ROUGH" ],
-    "changes_to": [ "THICK_SCALES", "SLEEK_SCALES" ],
+    "changes_to": [ "THICK_SCALES", "SLEEK_SCALES", "PATCHSKIN1" ],
     "movecost_swim_modifier": 0.9,
     "wet_protection": [
       { "part": "head", "ignored": 3 },
@@ -1771,7 +1771,7 @@
     "category": [ "CHIMERA", "SPIDER", "MOUSE" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
-    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR" ]
+    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR", "PATCHSKIN1" ]
   },
   {
     "type": "mutation",
@@ -1872,7 +1872,7 @@
     "armor": [ { "parts": "ALL", "physical": 2 } ],
     "category": [ "CHIMERA" ],
     "types": [ "SKIN" ],
-    "prereqs": [ "SKIN_ROUGH" ],
+    "prereqs": [ "LIGHTFUR", "SCALES" ],
     "changes_to": [ "PATCHSKIN2" ]
   },
   {
