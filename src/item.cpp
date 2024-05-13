@@ -2074,21 +2074,33 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         bool has_dmg_multiplier = ammo.damage.damage_units.front().damage_multiplier != 1.0;
         bool display_dmg_multiplier = parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL );
         bool didnt_print_dmg = false;
+
+        // TODO: Deduplicate with damage display
+        bool has_flat_arpen = get_ranged_pierce( ammo ) != 0;
+        bool display_flat_arpen = parts->test( iteminfo_parts::AMMO_DAMAGE_AP );
+        bool has_armor_mult = get_ranged_armor_mult( ammo ) != 1.0;
+        bool display_armor_mult = parts->test( iteminfo_parts::AMMO_DAMAGE_AP_PROPORTIONAL );
+
+        iteminfo::flags f = ( has_flat_arpen ||
+                              has_armor_mult ) ? iteminfo::no_newline : iteminfo::no_flags;
+        iteminfo::flags fd = ( has_flat_arpen ||
+                               has_armor_mult ) ? iteminfo::no_newline | iteminfo::is_decimal : iteminfo::is_decimal;
+
         if( has_flat_dmg && has_dmg_multiplier
             && has_dmg_multiplier && display_dmg_multiplier ) {
             info.emplace_back( "AMMO", _( "Damage: " ), "",
                                iteminfo::no_newline, ammo.damage.total_damage() );
             info.emplace_back( "AMMO", "/", "",
-                               iteminfo::no_newline | iteminfo::is_decimal,
+                               fd,
                                ammo.damage.damage_units.front().damage_multiplier );
             // Messy ifs...
-        } else if( display_dmg_multiplier && ( has_dmg_multiplier || !has_flat_dmg ) ) {
+        } else if( display_dmg_multiplier && has_dmg_multiplier ) {
             info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
-                               iteminfo::no_newline | iteminfo::is_decimal,
+                               fd,
                                ammo.damage.damage_units.front().damage_multiplier );
-        } else if( display_flat_dmg ) {
+        } else if( display_flat_dmg && has_flat_dmg ) {
             info.emplace_back( "AMMO", _( "Damage: " ), "",
-                               iteminfo::no_newline, ammo.damage.total_damage() );
+                               f, ammo.damage.total_damage() );
         } else {
             didnt_print_dmg = true;
         }
@@ -2097,11 +2109,6 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         static const std::string no_space;
         const std::string &maybe_space = didnt_print_dmg ? no_space : space;
 
-        // TODO: Deduplicate with damage display
-        bool has_flat_arpen = get_ranged_pierce( ammo ) != 0;
-        bool display_flat_arpen = parts->test( iteminfo_parts::AMMO_DAMAGE_AP );
-        bool has_armor_mult = get_ranged_armor_mult( ammo ) != 1.0;
-        bool display_armor_mult = parts->test( iteminfo_parts::AMMO_DAMAGE_AP_PROPORTIONAL );
         if( has_flat_arpen && display_flat_arpen
             && has_armor_mult && display_armor_mult ) {
             info.emplace_back( "AMMO", maybe_space + _( "Armor-pierce: " ), "",
@@ -2112,19 +2119,19 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         } else if( has_armor_mult && display_armor_mult ) {
             info.emplace_back( "AMMO", maybe_space + _( "Armor multiplier: " ), "",
                                iteminfo::is_decimal | iteminfo::lower_is_better, get_ranged_armor_mult( ammo ) );
-        } else if( display_flat_arpen ) {
+        } else if( display_flat_arpen && has_flat_arpen ) {
             info.emplace_back( "AMMO", maybe_space + _( "Armor-pierce: " ), get_ranged_pierce( ammo ) );
         }
-        if( parts->test( iteminfo_parts::AMMO_DAMAGE_RANGE ) ) {
+        if( parts->test( iteminfo_parts::AMMO_DAMAGE_RANGE ) && ammo.range != 0 ) {
             info.emplace_back( "AMMO", _( "Range: " ), "", iteminfo::no_newline, ammo.shape
                                ? static_cast<int>( ammo.shape->get_range() )
                                : ammo.range );
         }
-        if( parts->test( iteminfo_parts::AMMO_DAMAGE_DISPERSION ) ) {
+        if( parts->test( iteminfo_parts::AMMO_DAMAGE_DISPERSION ) && ammo.dispersion != 0 ) {
             info.emplace_back( "AMMO", space + _( "Dispersion: " ), "",
                                iteminfo::lower_is_better, ammo.dispersion );
         }
-        if( parts->test( iteminfo_parts::AMMO_DAMAGE_RECOIL ) ) {
+        if( parts->test( iteminfo_parts::AMMO_DAMAGE_RECOIL ) && ammo.recoil != 0 ) {
             info.emplace_back( "AMMO", _( "Recoil: " ), "",
                                iteminfo::lower_is_better | iteminfo::no_newline, ammo.recoil );
         }
@@ -2260,46 +2267,50 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
     info.back().bNewLine = true;
 
-    if( parts->test( iteminfo_parts::GUN_DAMAGEMULT ) ) {
-        info.emplace_back( "GUN", _( "Damage multiplier: " ), "",
-                           iteminfo::no_newline | iteminfo::is_decimal,
-                           gun_du.damage_multiplier );
-    }
-
-    if( mod->ammo_required() ) {
-        if( parts->test( iteminfo_parts::GUN_DAMAGEMULT_AMMO ) ) {
-            info.emplace_back( "GUN", "ammo_mult", "*",
-                               iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal,
-                               ammo_du.damage_multiplier );
+    if( gun_du.damage_multiplier != 1.0 || ammo_du.damage_multiplier != 1.0 ) {
+        if( parts->test( iteminfo_parts::GUN_DAMAGEMULT ) ) {
+            info.emplace_back( "GUN", _( "Damage multiplier: " ), "",
+                               iteminfo::no_newline | iteminfo::is_decimal,
+                               gun_du.damage_multiplier );
         }
 
-        if( parts->test( iteminfo_parts::GUN_DAMAGEMULT_TOTAL ) ) {
-            info.emplace_back( "GUN", "sum_of_damage", _( " = <num>" ),
-                               iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal,
-                               gun_du.damage_multiplier * ammo_du.damage_multiplier );
-        }
-    }
-    info.back().bNewLine = true;
+        if( mod->ammo_required() ) {
+            if( parts->test( iteminfo_parts::GUN_DAMAGEMULT_AMMO ) ) {
+                info.emplace_back( "GUN", "ammo_mult", "*",
+                                   iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal,
+                                   ammo_du.damage_multiplier );
+            }
 
-    if( parts->test( iteminfo_parts::GUN_ARMORMULT ) ) {
-        info.emplace_back( "GUN", _( "Armor multiplier: " ), "",
-                           iteminfo::no_newline | iteminfo::lower_is_better | iteminfo::is_decimal,
-                           gun_du.res_mult );
-    }
-    if( mod->ammo_required() ) {
-        if( parts->test( iteminfo_parts::GUN_ARMORMULT_LOADEDAMMO ) ) {
-            info.emplace_back( "GUN", "ammo_armor_mult", _( "*<num>" ),
-                               iteminfo::no_newline | iteminfo::no_name |
-                               iteminfo::lower_is_better | iteminfo::is_decimal,
-                               ammo_du.res_mult );
+            if( parts->test( iteminfo_parts::GUN_DAMAGEMULT_TOTAL ) ) {
+                info.emplace_back( "GUN", "sum_of_damage", _( " = <num>" ),
+                                   iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal,
+                                   gun_du.damage_multiplier * ammo_du.damage_multiplier );
+            }
         }
-        if( parts->test( iteminfo_parts::GUN_ARMORMULT_TOTAL ) ) {
-            info.emplace_back( "GUN", "final_armor_mult", _( " = <num>" ),
-                               iteminfo::no_name | iteminfo::lower_is_better | iteminfo::is_decimal,
-                               gun_du.res_mult * ammo_du.res_mult );
-        }
+        info.back().bNewLine = true;
     }
-    info.back().bNewLine = true;
+
+    if( gun_du.res_mult != 1.0 || ammo_du.res_mult != 1.0 ) {
+        if( parts->test( iteminfo_parts::GUN_ARMORMULT ) ) {
+            info.emplace_back( "GUN", _( "Armor multiplier: " ), "",
+                               iteminfo::no_newline | iteminfo::lower_is_better | iteminfo::is_decimal,
+                               gun_du.res_mult );
+        }
+        if( mod->ammo_required() ) {
+            if( parts->test( iteminfo_parts::GUN_ARMORMULT_LOADEDAMMO ) ) {
+                info.emplace_back( "GUN", "ammo_armor_mult", _( "*<num>" ),
+                                   iteminfo::no_newline | iteminfo::no_name |
+                                   iteminfo::lower_is_better | iteminfo::is_decimal,
+                                   ammo_du.res_mult );
+            }
+            if( parts->test( iteminfo_parts::GUN_ARMORMULT_TOTAL ) ) {
+                info.emplace_back( "GUN", "final_armor_mult", _( " = <num>" ),
+                                   iteminfo::no_name | iteminfo::lower_is_better | iteminfo::is_decimal,
+                                   gun_du.res_mult * ammo_du.res_mult );
+            }
+        }
+        info.back().bNewLine = true;
+    }
 
     if( parts->test( iteminfo_parts::GUN_DISPERSION ) ) {
         info.emplace_back( "GUN", _( "Dispersion: " ), "",
@@ -2570,6 +2581,10 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( mod.handling != 0 && parts->test( iteminfo_parts::GUNMOD_HANDLING ) ) {
         info.emplace_back( "GUNMOD", _( "Handling modifier: " ), "",
                            iteminfo::show_plus, mod.handling );
+    }
+    if( mod.range != 0 && parts->test( iteminfo_parts::GUNMOD_RANGE ) ) {
+        info.emplace_back( "GUNMOD", _( "Range modifier: " ), "",
+                           iteminfo::show_plus, mod.range );
     }
     if( !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
         for( const ammotype &at : type->mod->ammo_modifier ) {
