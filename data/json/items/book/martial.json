@@ -2,6 +2,7 @@
   {
     "id": "manual_aikido",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Spirit of Aikido" },
     "price_postapoc": "20 USD",
@@ -27,6 +28,7 @@
   {
     "id": "manual_boxing",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "Practical Pugilism" },
     "price_postapoc": "20 USD",
@@ -36,6 +38,7 @@
   {
     "id": "manual_capoeira",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "Capoeira 100" },
     "price_postapoc": "20 USD",
@@ -45,6 +48,7 @@
   {
     "id": "manual_centipede",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Centipede Lu Feng" },
     "price_postapoc": "20 USD",
@@ -54,6 +58,7 @@
   {
     "id": "manual_crane",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Red Crane" },
     "price_postapoc": "20 USD",
@@ -63,6 +68,7 @@
   {
     "id": "manual_dragon",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Jade Dragon" },
     "price_postapoc": "20 USD",
@@ -72,6 +78,7 @@
   {
     "id": "manual_eskrima",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "Practical Eskrima" },
     "price_postapoc": "30 USD",
@@ -81,6 +88,7 @@
   {
     "id": "manual_fencing",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Modern Swordsman" },
     "price_postapoc": "30 USD",
@@ -90,6 +98,7 @@
   {
     "id": "manual_judo",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "Kodokan Judo" },
     "price_postapoc": "20 USD",
@@ -99,6 +108,7 @@
   {
     "id": "manual_karate",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Shotokan Karate Handbook" },
     "price_postapoc": "20 USD",
@@ -118,6 +128,7 @@
   {
     "id": "manual_krav_maga",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "Complete Krav Maga" },
     "price_postapoc": "20 USD",
@@ -127,6 +138,7 @@
   {
     "id": "manual_leopard",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Deaf Leopard" },
     "price_postapoc": "20 USD",
@@ -136,6 +148,7 @@
   {
     "id": "manual_lizard",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Lizard Kuo Chui" },
     "price_postapoc": "20 USD",
@@ -145,6 +158,7 @@
   {
     "id": "manual_muay_thai",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "Ultimate Muay Thai" },
     "price_postapoc": "20 USD",
@@ -154,6 +168,7 @@
   {
     "id": "manual_ninjutsu",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "Essence of Ninjutsu" },
     "price_postapoc": "30 USD",
@@ -163,6 +178,7 @@
   {
     "id": "manual_niten",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Book of Five Rings" },
     "price_postapoc": "30 USD",
@@ -172,6 +188,7 @@
   {
     "id": "manual_pankration",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Modern Pankratiast" },
     "price_postapoc": "20 USD",
@@ -181,6 +198,7 @@
   {
     "id": "manual_scorpion",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Scorpion Sun Chien" },
     "price_postapoc": "20 USD",
@@ -190,6 +208,7 @@
   {
     "id": "manual_silat",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Indonesian Warrior" },
     "price_postapoc": "30 USD",
@@ -199,6 +218,7 @@
   {
     "id": "manual_snake",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Black Snake" },
     "price_postapoc": "20 USD",
@@ -208,6 +228,7 @@
   {
     "id": "manual_taekwondo",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "Official Taekwondo Training Manual" },
     "price_postapoc": "20 USD",
@@ -217,6 +238,7 @@
   {
     "id": "manual_tai_chi",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "Becoming One with the Tao" },
     "price_postapoc": "20 USD",
@@ -226,6 +248,7 @@
   {
     "id": "manual_tiger",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The White Tiger" },
     "price_postapoc": "20 USD",
@@ -235,6 +258,7 @@
   {
     "id": "manual_toad",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Toad Lo Mang" },
     "price_postapoc": "20 USD",
@@ -244,6 +268,7 @@
   {
     "id": "manual_venom_snake",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Viper Wei Pai" },
     "price_postapoc": "20 USD",
@@ -253,6 +278,7 @@
   {
     "id": "manual_zui_quan",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "Zui Quan and You" },
     "price_postapoc": "20 USD",
@@ -262,6 +288,7 @@
   {
     "id": "manual_sojutsu",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "The Way of the Spear" },
     "price_postapoc": "30 USD",
@@ -271,6 +298,7 @@
   {
     "id": "manual_wingchun",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "Beautiful Springtime" },
     "price_postapoc": "20 USD",
@@ -280,6 +308,7 @@
   {
     "id": "manual_medievalpole",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "Fior Di Battaglia" },
     "price_postapoc": "30 USD",
@@ -289,6 +318,7 @@
   {
     "id": "manual_swordsmanship",
     "copy-from": "book_martial",
+    "looks_like": "base_book",
     "type": "GENERIC",
     "name": { "str_sp": "Historic European Swordfighting" },
     "price_postapoc": "30 USD",

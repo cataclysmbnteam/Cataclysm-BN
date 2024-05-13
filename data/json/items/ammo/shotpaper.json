@@ -2,6 +2,7 @@
   {
     "abstract": "shot_paper_abstract",
     "type": "AMMO",
+    "looks_like": "flintlock_ammo",
     "name": { "str": "buckshot paper cartridge" },
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of 00 buckshot.",
     "weight": "26 g",

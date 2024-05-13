@@ -2727,5 +2727,15 @@
     "time": "1 s",
     "autolearn": true,
     "components": [ [ [ "mutant_bug_organs", 1 ], [ "mutant_bug_lungs", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sausage_condiment",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "15 s",
+    "autolearn": true,
+    "components": [ [ [ "sausage_cooked", 1, "LIST" ] ], [ [ "condiment_lite", 1, "LIST" ] ] ]
   }
 ]

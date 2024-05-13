@@ -68,7 +68,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
-    "time": "16 m",
+    "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "gloves_leather", 1 ] ] ]
@@ -94,7 +94,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
-    "time": "16 m",
+    "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "gloves_light", 1 ] ] ]
@@ -107,7 +107,7 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": "8 m",
+    "time": "15 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 4 ] ],
     "components": [ [ [ "rag", 4 ] ] ]
@@ -119,7 +119,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
-    "time": "16 m",
+    "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "gloves_wool", 1 ] ] ]
@@ -132,7 +132,7 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": "1 h 15 m",
+    "time": "45 m",
     "autolearn": true,
     "using": [ [ "tailoring_wool_knitting", 140 ] ]
   },
@@ -142,7 +142,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
-    "time": "16 m",
+    "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "gloves_fur", 1 ] ] ]
@@ -155,10 +155,15 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "survival", 1 ],
     "time": "16 m",
     "autolearn": true,
-    "book_learn": [ [ "manual_tailor", 2 ], [ "textbook_survival", 2 ], [ "pocket_survival", 2 ] ],
+    "book_learn": [
+      [ "manual_tailor", 2 ],
+      [ "textbook_survival", 2 ],
+      [ "pocket_survival", 2 ],
+      [ "textbook_tailor", 2 ],
+      [ "tailor_portfolio", 2 ]
+    ],
     "using": [ [ "sewing_standard", 6 ] ],
     "components": [ [ [ "fur", 4 ] ] ]
   },
@@ -203,10 +208,15 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 2,
-    "skills_required": [ "survival", 1 ],
     "time": "16 m",
     "autolearn": true,
-    "book_learn": [ [ "manual_tailor", 1 ], [ "textbook_survival", 1 ], [ "pocket_survival", 1 ] ],
+    "book_learn": [
+      [ "manual_tailor", 1 ],
+      [ "textbook_survival", 1 ],
+      [ "pocket_survival", 1 ],
+      [ "textbook_tailor", 1 ],
+      [ "tailor_portfolio", 1 ]
+    ],
     "using": [ [ "sewing_standard", 6 ] ],
     "components": [ [ [ "fur", 4 ] ] ]
   },
@@ -294,7 +304,7 @@
     "autolearn": true,
     "book_learn": [ [ "manual_tailor", 1 ], [ "mag_tailor", 0 ], [ "textbook_survival", 1 ], [ "pocket_survival", 1 ] ],
     "using": [ [ "sewing_standard", 6 ] ],
-    "components": [ [ [ "leather", 2 ] ] ]
+    "components": [ [ [ "leather", 4 ] ] ]
   },
   {
     "result": "gloves_light",
@@ -316,7 +326,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "10 m",
-    "autolearn": [ [ "tailor", 5 ] ],
+    "autolearn": [ [ "tailor", 4 ] ],
     "book_learn": [ [ "manual_tailor", 1 ], [ "mag_tailor", 0 ], [ "textbook_survival", 2 ], [ "pocket_survival", 2 ] ],
     "using": [ [ "sewing_standard", 2 ] ],
     "components": [ [ [ "rag", 2 ] ] ]

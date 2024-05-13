@@ -589,6 +589,7 @@
     "name": { "str": "Krav Maga" },
     "description": "Originating in Israel, Krav Maga is based on taking down an enemy quickly and effectively.  It focuses on applicable attacks rather than showy or complex moves.  Popular among police and armed forces everywhere.",
     "initiate": [ "You assume a practical combat stance.", "%s assumes a practical combat stance." ],
+    "primary_skill": "melee",
     "learn_difficulty": 6,
     "arm_block": 2,
     "leg_block": 4,

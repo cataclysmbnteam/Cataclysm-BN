@@ -291,9 +291,9 @@
       "wasp_tower_even_2",
       "wasp_tower_top"
     ],
-    "name": "radio tower",
+    "name": "wasp-infested radio tower",
     "sym": "X",
-    "color": "light_gray",
+    "color": "yellow",
     "see_cost": 2,
     "mondensity": 2,
     "spawns": { "group": "GROUP_WASP_GUARD", "population": [ 3, 8 ], "chance": 100 }

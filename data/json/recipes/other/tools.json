@@ -2201,7 +2201,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "razor_blade", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "razor_blade", 1 ] ], [ [ "plastic_chunk", 1 ], [ "bone_sturdy", 1, "LIST" ], [ "splinter", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2809,10 +2809,10 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "skills_required": [ "survival", 2 ],
-    "difficulty": 4,
+    "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {

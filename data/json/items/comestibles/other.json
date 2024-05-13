@@ -65,7 +65,7 @@
     "price": "15 USD",
     "price_postapoc": "10 cent",
     "volume": "250 ml",
-    "fun": -5
+    "fun": -15
   },
   {
     "type": "COMESTIBLE",
@@ -631,7 +631,7 @@
     "symbol": ";",
     "healthy": 2,
     "quench": 2,
-    "calories": 450,
+    "calories": 350,
     "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
     "fun": -15,
     "color": "brown",
@@ -655,7 +655,7 @@
     "symbol": ";",
     "healthy": 2,
     "quench": 2,
-    "calories": 800,
+    "calories": 600,
     "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
     "fun": -15,
     "color": "brown",
