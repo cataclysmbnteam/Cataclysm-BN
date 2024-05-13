@@ -324,7 +324,7 @@
       "THERMOMETER",
       "BAROMETER",
       "HYGROMETER",
-	  "WINDMETER",
+      "WINDMETER",
       "USE_UPS",
       "NO_UNLOAD",
       "NO_RELOAD",
