@@ -1025,7 +1025,7 @@
       "base_pressure": 1016,
       "base_acid": 0,
       "base_wind": 10,
-      "base_wind_distrib_peaks": 150,
+      "base_wind_distrib_peaks": 100,
       "base_wind_season_variation": 30,
       "weather_types": [
         "clear",
