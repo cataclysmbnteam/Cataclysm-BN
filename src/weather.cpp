@@ -634,7 +634,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
                           //~ %1$s: time of day, %2$s: hour of day, %3$s: city name, %4$s: weather name, %5$s: temperature value
                           _( "for %1$s:\nCurrently %2$s, %3$s.\nLater " ),
                           city_name,
-						  print_temperature( get_weather().temperature ), get_weather().weather_id->name
+                          print_temperature( get_weather().temperature ), get_weather().weather_id->name
                       );
 
     //weather_report += ", the dewpoint ???, and the relative humidity ???.  ";
@@ -712,10 +712,10 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
             }
         }
         weather_report += string_format(
-            //~ %1 is day or night of week (e.g. "Monday", or "Friday Night"),
-            //~ %2 is weather type, %3 and %4 are temperatures.
-            _("%1$s, between %3$s and %4$s, %2$s.\n"),
-            day, period.type->name,
+                              //~ %1 is day or night of week (e.g. "Monday", or "Friday Night"),
+                              //~ %2 is weather type, %3 and %4 are temperatures.
+                              _( "%1$s, between %3$s and %4$s, %2$s.\n" ),
+                              day, period.type->name,
                               print_temperature( period.temp_high ),
                               print_temperature( period.temp_low )
                           );
