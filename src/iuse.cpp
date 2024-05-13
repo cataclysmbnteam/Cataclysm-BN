@@ -9033,14 +9033,14 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         /* windpower defined in internal velocity units (=.01 mph) */
         const double windpower = 100 * get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
                                  p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
-		std::string dirstring = get_dirstring( weather.winddirection );
+        std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind: %.1f %2$s from the %3$s.\nFeels like: %4$s." ),
                               convert_velocity( windpower, VU_VEHICLE ),
                               velocity_units( VU_VEHICLE ), dirstring, print_temperature(
-                get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
-                                     weatherPoint.humidity,
-                                     windpower / 100 ) +
-                units::to_fahrenheit( player_local_temp ) ) );
+                                  get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
+                                          weatherPoint.humidity,
+                                          windpower / 100 ) +
+                                  units::to_fahrenheit( player_local_temp ) ) );
     }
 
     return 0;
