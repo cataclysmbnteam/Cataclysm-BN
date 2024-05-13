@@ -2158,5 +2158,10 @@
     "id": "ROOF",
     "type": "json_flag",
     "context": [  ]
+  },
+    {
+    "id": "WINDMETER",
+    "type": "json_flag",
+    "context": [  ]
   }
 ]
