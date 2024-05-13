@@ -9029,7 +9029,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         if( tref ) {
             const auto selected_tower = tref.tower;
             {message = weather_forecast( tref.abs_sm_pos );}
-		p->add_msg_if_player( m_neutral, _( "Automatic weather report: %s" ), message );
+		p->add_msg_if_player( m_neutral, _( "Automatic weather report %s" ), message );
     }
 	}
     if( it->typeId() == itype_weather_reader ) {
