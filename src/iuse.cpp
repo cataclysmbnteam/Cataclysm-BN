@@ -9024,7 +9024,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
     }
 
-    if( it->typeId() == itype_weather_reader ) {
+    if( it->has_flag( flag_WINDMETER ) ) {
         int vehwindspeed = 0;
         if( optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph

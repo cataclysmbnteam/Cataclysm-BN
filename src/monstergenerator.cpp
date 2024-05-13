@@ -355,9 +355,11 @@ void MonsterGenerator::finalize_mtypes()
         set_species_ids( mon );
         mon.size = volume_to_size( mon.volume );
 
-        // adjust for worldgen difficulty parameters
-        mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
-        mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        if( !mon.has_flag( MF_RIDEABLE_MECH ) ) {
+            // adjust for worldgen difficulty parameters
+            mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
+            mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        }
 
         for( monster_adjustment adj : adjustments ) {
             adj.apply( mon );
