@@ -9023,6 +9023,10 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
                                   print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
         }
     }
+	if( it->has_flag( flag_WEATHER_FORECAST ) ) {
+        message = weather_forecast( tref.abs_sm_pos );
+		message = string_format( ": %s", message );
+    }
 
     if( it->typeId() == itype_weather_reader ) {
         int vehwindspeed = 0;
