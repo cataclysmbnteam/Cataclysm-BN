@@ -314,7 +314,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     return true;
 }
 
-float Character::get_hit_weapon( const item &weap ) const
+float Character::get_hit_weapon( const item &weap, const attack_statblock &attack ) const
 {
     /** @EFFECT_UNARMED improves hit chance for unarmed weapons */
     /** @EFFECT_BASHING improves hit chance for bashing weapons */
@@ -328,19 +328,13 @@ float Character::get_hit_weapon( const item &weap ) const
     }
 
     /** @EFFECT_MELEE improves hit chance for all items (including non-weapons) */
-    return ( skill / 3.0f ) + ( get_skill_level( skill_melee ) / 2.0f ) + weap.type->m_to_hit;
+    return ( skill / 3.0f ) + ( get_skill_level( skill_melee ) / 2.0f ) + attack.to_hit;
 }
 
-float Character::get_melee_hit_base() const
-{
-    // Character::get_hit_base includes stat calculations already
-    return Character::get_hit_base() + get_hit_weapon( used_weapon() ) + mabuff_tohit_bonus();
-}
-
-float Character::hit_roll() const
+float Character::get_melee_hit( const item &weapon, const attack_statblock &attack ) const
 {
     // Dexterity, skills, weapon and martial arts
-    float hit = get_melee_hit_base();
+    float hit = Character::get_hit_base() + get_hit_weapon( weapon, attack ) + mabuff_tohit_bonus();
 
     // Farsightedness makes us hit worse
     if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
@@ -355,7 +349,12 @@ float Character::hit_roll() const
 
     hit *= std::max( 0.25f, 1.0f - encumb( bp_torso ) / 100.0f );
 
-    return melee::melee_hit_range( hit );
+    return hit;
+}
+
+float Character::hit_roll() const
+{
+    return melee::melee_hit_range( get_melee_hit( used_weapon() ) );
 }
 
 void Character::add_miss_reason( const std::string &reason, const unsigned int weight )
@@ -391,12 +390,12 @@ std::string Character::get_miss_reason()
     return *reason;
 }
 
-void Character::roll_all_damage( bool crit, damage_instance &di, bool average,
-                                 const item &weap ) const
+void melee::roll_all_damage( const Character &c, bool crit, damage_instance &di, bool average,
+                             const item &weap )
 {
-    roll_bash_damage( crit, di, average, weap );
-    roll_cut_damage( crit, di, average, weap );
-    roll_stab_damage( crit, di, average, weap );
+    roll_bash_damage( c, crit, di, average, weap );
+    roll_cut_damage( c, crit, di, average, weap );
+    roll_stab_damage( c, crit, di, average, weap );
 }
 
 static void melee_train( Character &p, int lo, int hi, const item &weap )
@@ -517,7 +516,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
             melee::melee_stats.actual_crit_count += 1;
         }
         damage_instance d;
-        roll_all_damage( critical_hit, d, false, cur_weapon );
+        melee::roll_all_damage( *this, critical_hit, d, false, cur_weapon );
 
         const bool has_force_technique = force_technique;
 
@@ -909,28 +908,28 @@ float Character::bonus_damage( bool random ) const
     return get_str() * 0.75f;
 }
 
-void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
-                                  const item &weap ) const
+void melee::roll_bash_damage( const Character &c, bool crit, damage_instance &di, bool average,
+                              const item &weap )
 {
     float bash_dam = 0.0f;
 
     const bool unarmed = weap.is_unarmed_weapon();
-    int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
-    if( has_active_bionic( bio_cqb ) ) {
+    int skill = c.get_skill_level( unarmed ? skill_unarmed : skill_bashing );
+    if( c.has_active_bionic( bio_cqb ) ) {
         skill = BIO_CQB_LEVEL;
     }
 
-    const int stat = get_str();
+    const int stat = c.get_str();
     /** @EFFECT_STR increases bashing damage */
-    float stat_bonus = bonus_damage( !average );
-    stat_bonus += mabuff_damage_bonus( DT_BASH );
+    float stat_bonus = c.bonus_damage( !average );
+    stat_bonus += c.mabuff_damage_bonus( DT_BASH );
 
     // Drunken Master damage bonuses
-    if( has_trait( trait_DRUNKEN ) && has_effect( effect_drunk ) ) {
+    if( c.has_trait( trait_DRUNKEN ) && c.has_effect( effect_drunk ) ) {
         // Remember, a single drink gives 600 levels of "drunk"
         int mindrunk = 0;
         int maxdrunk = 0;
-        const time_duration drunk_dur = get_effect_dur( effect_drunk );
+        const time_duration drunk_dur = c.get_effect_dur( effect_drunk );
         if( unarmed ) {
             mindrunk = drunk_dur / 1_hours;
             maxdrunk = drunk_dur / 25_minutes;
@@ -943,20 +942,20 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     }
 
     if( unarmed ) {
-        const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
-        const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
+        const bool left_empty = !c.natural_attack_restricted_on( bodypart_id( "hand_l" ) );
+        const bool right_empty = !c.natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
-            for( const trait_id &mut : get_mutations() ) {
+            for( const trait_id &mut : c.get_mutations() ) {
                 if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&
-                    !has_active_mutation( mut ) ) {
+                    !c.has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int bash_bonus = mut->bash_dmg_bonus;
                 if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && bash_bonus > 0 ) {
-                    unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                    unarmed_bonus += std::min( c.get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += bash_bonus + unarmed_bonus;
                 const std::pair<int, int> rand_bash = mut->rand_bash_bonus;
@@ -1004,10 +1003,10 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     weap_dam = average ? ( bash_min + weap_dam ) * 0.5f : rng_float( bash_min, weap_dam );
 
     bash_dam += weap_dam;
-    bash_mul *= mabuff_damage_mult( DT_BASH );
+    bash_mul *= c.mabuff_damage_mult( DT_BASH );
 
     float armor_mult = 1.0f;
-    int arpen = mabuff_arpen_bonus( DT_BASH );
+    int arpen = c.mabuff_arpen_bonus( DT_BASH );
 
     // Finally, extra critical effects
     if( crit ) {
@@ -1019,38 +1018,38 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     di.add_damage( DT_BASH, bash_dam, arpen, armor_mult, bash_mul );
 }
 
-void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
-                                 const item &weap ) const
+void melee::roll_cut_damage( const Character &c, bool crit, damage_instance &di, bool average,
+                             const item &weap )
 {
-    float cut_dam = mabuff_damage_bonus( DT_CUT ) + weap.damage_melee( DT_CUT );
+    float cut_dam = c.mabuff_damage_bonus( DT_CUT ) + weap.damage_melee( DT_CUT );
     float cut_mul = 1.0f;
 
-    int cutting_skill = get_skill_level( skill_cutting );
+    int cutting_skill = c.get_skill_level( skill_cutting );
 
-    if( has_active_bionic( bio_cqb ) ) {
+    if( c.has_active_bionic( bio_cqb ) ) {
         cutting_skill = BIO_CQB_LEVEL;
     }
 
     if( weap.is_unarmed_weapon() ) {
         // TODO: 1-handed weapons that aren't unarmed attacks
-        const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
-        const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
+        const bool left_empty = !c.natural_attack_restricted_on( bodypart_id( "hand_l" ) );
+        const bool right_empty = !c.natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
-            if( has_bionic( bionic_id( "bio_razors" ) ) ) {
+            if( c.has_bionic( bionic_id( "bio_razors" ) ) ) {
                 per_hand += 2;
             }
 
-            for( const trait_id &mut : get_mutations() ) {
+            for( const trait_id &mut : c.get_mutations() ) {
                 if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&
-                    !has_active_mutation( mut ) ) {
+                    !c.has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int cut_bonus = mut->cut_dmg_bonus;
                 if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && cut_bonus > 0 ) {
-                    unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                    unarmed_bonus += std::min( c.get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += cut_bonus + unarmed_bonus;
                 const std::pair<int, int> rand_cut = mut->rand_cut_bonus;
@@ -1082,9 +1081,9 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
         cut_mul *= 0.96 + 0.04 * cutting_skill;
     }
 
-    arpen += mabuff_arpen_bonus( DT_CUT );
+    arpen += c.mabuff_arpen_bonus( DT_CUT );
 
-    cut_mul *= mabuff_damage_mult( DT_CUT );
+    cut_mul *= c.mabuff_damage_mult( DT_CUT );
     if( crit ) {
         cut_mul *= 1.25f;
         arpen += 5;
@@ -1094,26 +1093,26 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
     di.add_damage( DT_CUT, cut_dam, arpen, armor_mult, cut_mul );
 }
 
-void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average*/,
-                                  const item &weap ) const
+void melee::roll_stab_damage( const Character &c, bool crit, damage_instance &di, bool /*average*/,
+                              const item &weap )
 {
-    float stab_dam = mabuff_damage_bonus( DT_STAB ) + weap.damage_melee( DT_STAB );
+    float stab_dam = c.mabuff_damage_bonus( DT_STAB ) + weap.damage_melee( DT_STAB );
 
-    int unarmed_skill = get_skill_level( skill_unarmed );
-    int stabbing_skill = get_skill_level( skill_stabbing );
+    int unarmed_skill = c.get_skill_level( skill_unarmed );
+    int stabbing_skill = c.get_skill_level( skill_stabbing );
 
-    if( has_active_bionic( bio_cqb ) ) {
+    if( c.has_active_bionic( bio_cqb ) ) {
         stabbing_skill = BIO_CQB_LEVEL;
     }
 
     if( weap.is_unarmed_weapon() ) {
-        const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
-        const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
+        const bool left_empty = !c.natural_attack_restricted_on( bodypart_id( "hand_l" ) );
+        const bool right_empty = !c.natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
 
-            for( const trait_id &mut : get_mutations() ) {
+            for( const trait_id &mut : c.get_mutations() ) {
                 int stab_bonus = mut->pierce_dmg_bonus;
                 int unarmed_bonus = 0;
                 if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && stab_bonus > 0 ) {
@@ -1123,7 +1122,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
                 per_hand += stab_bonus + unarmed_bonus;
             }
 
-            if( has_bionic( bionic_id( "bio_razors" ) ) ) {
+            if( c.has_bionic( bionic_id( "bio_razors" ) ) ) {
                 per_hand += 2;
             }
 
@@ -1147,8 +1146,8 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
     } else {
         stab_mul = 0.86 + 0.06 * stabbing_skill;
     }
-    int arpen = mabuff_arpen_bonus( DT_STAB );
-    stab_mul *= mabuff_damage_mult( DT_STAB );
+    int arpen = c.mabuff_arpen_bonus( DT_STAB );
+    stab_mul *= c.mabuff_damage_mult( DT_STAB );
     float armor_mult = 1.0f;
 
     if( crit ) {
@@ -2494,7 +2493,13 @@ void avatar_funcs::try_steal_from_npc( avatar &you, npc &target )
  */
 float melee::melee_hit_range( float accuracy )
 {
-    return normal_roll( accuracy * 5, 25.0f );
+    return normal_roll( accuracy * accuracy_roll_stddev, accuracy_roll_stddev * accuracy_roll_stddev );
+}
+
+float melee::hit_chance( float accuracy )
+{
+    return 0.5 * ( 1 + erf( -( accuracy * accuracy_roll_stddev ) / ( accuracy_roll_stddev *
+                            M_SQRT2 ) ) );
 }
 
 melee_statistic_data melee::get_stats()
@@ -2505,6 +2510,23 @@ melee_statistic_data melee::get_stats()
 void melee::clear_stats()
 {
     melee_stats = melee_statistic_data{};
+}
+
+namespace melee
+{
+double expected_damage( const Character &c, const item &weapon, const attack_statblock &attack,
+                        const monster &target );
+}
+double melee::expected_damage( const Character &c, const item &weapon,
+                               const attack_statblock &attack, const monster &target )
+{
+    float to_hit = c.get_melee_hit( weapon, attack );
+    // TODO: Size bonus?
+    float hit_chance = to_hit - target.get_dodge();
+
+    float reduced_damage = 0;
+
+    return hit_chance * reduced_damage;
 }
 
 namespace melee

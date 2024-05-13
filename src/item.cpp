@@ -69,6 +69,7 @@
 #include "map.h"
 #include "martialarts.h"
 #include "material.h"
+#include "melee.h"
 #include "messages.h"
 #include "mod_manager.h"
 #include "monster.h"
@@ -1452,7 +1453,8 @@ static const double hits_by_accuracy[41] = {
 double item::effective_dps( const player &guy, const monster &mon ) const
 {
     const float mon_dodge = mon.get_dodge();
-    float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
+    // TODO: Handle multiple attacks
+    float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this, melee::default_attack(*this));
     base_hit *= std::max( 0.25f, 1.0f - guy.encumb( bp_torso ) / 100.0f );
     float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0;
     constexpr double hit_trials = 10000.0;
@@ -1488,7 +1490,7 @@ double item::effective_dps( const player &guy, const monster &mon ) const
         monster temp_mon( mon );
         double subtotal_damage = 0;
         damage_instance base_damage;
-        guy.roll_all_damage( crit, base_damage, true, *this );
+        melee::roll_all_damage( guy, crit, base_damage, true, *this );
         damage_instance dealt_damage = base_damage;
         temp_mon.absorb_hit( bodypart_id( "torso" ), dealt_damage );
         dealt_damage_instance dealt_dams;
@@ -1507,7 +1509,7 @@ double item::effective_dps( const player &guy, const monster &mon ) const
         if( has_technique( rapid_strike ) ) {
             monster temp_rs_mon( mon );
             damage_instance rs_base_damage;
-            guy.roll_all_damage( crit, rs_base_damage, true, *this );
+            melee::roll_all_damage( guy, crit, rs_base_damage, true, *this );
             damage_instance dealt_rs_damage = rs_base_damage;
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
@@ -3492,9 +3494,9 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     if( ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) || debug_mode ) {
         damage_instance non_crit;
-        you.roll_all_damage( false, non_crit, true, *this );
+        melee::roll_all_damage( you, false, non_crit, true, *this );
         damage_instance crit;
-        you.roll_all_damage( true, crit, true, *this );
+        melee::roll_all_damage( you, true, crit, true, *this );
         int attack_cost = you.attack_cost( *this );
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
@@ -5278,6 +5280,94 @@ int item::damage_melee( damage_type dt ) const
     }
 
     return std::max( res, 0 );
+}
+
+std::map<std::string, attack_statblock> item::get_attacks() const
+{
+    if( is_null() ) {
+        return {{"DEFAULT", attack_statblock{}}};
+    }
+
+    std::map<std::string, attack_statblock> result;
+
+    // TODO: Cache
+    for( const auto &attack : type->attacks ) {
+        attack_statblock modified_attack = attack.second;
+        for( damage_unit &du : modified_attack.damage.damage_units ) {
+            // effectiveness is reduced by 10% per damage level
+            du.amount -= du.amount * std::max( damage_level( 4 ), 0 ) * 0.1;
+            // apply type specific flags
+            switch( du.type ) {
+                case DT_BASH:
+                    if( has_flag( flag_REDUCED_BASHING ) ) {
+                        du.amount *= 0.5;
+                    }
+                    break;
+
+                case DT_CUT:
+                case DT_STAB:
+                    if( has_flag( flag_DIAMOND ) ) {
+                        du.amount *= 1.3;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            switch( du.type ) {
+                case DT_BASH:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_BASH,
+                                 true );
+                    break;
+                case DT_CUT:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_CUT,
+                                 true );
+                    break;
+                case DT_STAB:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_STAB,
+                                 true );
+                    break;
+                default:
+                    break;
+            }
+        }
+        result[attack.first] = modified_attack;
+
+    }
+
+    // consider any melee gunmods
+    if( is_gun() ) {
+        // TODO: Multiple bayonets with multiple attacks each - add all attacks, resolve id conflicts
+        const std::vector<const item *> &mods = gunmods();
+        float best_damage = 0.0f;
+        const attack_statblock *best = nullptr;
+        for( const item *gunmod_ptr : mods ) {
+            const item &gunmod = *gunmod_ptr;
+            if( gunmod.has_flag( flag_MELEE_GUNMOD ) ) {
+                // TODO: Handle multiple attacks here - add all of them as separate attacks
+                assert( !gunmod.type->attacks.empty() );
+                const attack_statblock &first_attack = gunmod.type->attacks.begin()->second;
+                float damage_sum = std::accumulate( first_attack.damage.begin(), first_attack.damage.end(),
+                                                    0.0f, []( float amount_sum,
+                const damage_unit & du ) {
+                    // Ignore multipliers for now because it's a temporary hack
+                    return amount_sum + du.amount;
+                } );
+                if( damage_sum > best_damage ) {
+                    best = &first_attack;
+                    best_damage = damage_sum;
+                }
+            }
+        }
+        if( best_damage > 0.0f ) {
+            attack_statblock gunmod_attack = *best;
+            gunmod_attack.to_hit = type->m_to_hit;
+            result["BAYONET"] = gunmod_attack;
+        }
+    }
+
+    return result;
 }
 
 damage_instance item::base_damage_melee() const
