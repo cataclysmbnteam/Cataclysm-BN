@@ -897,7 +897,7 @@
   {
     "type": "furniture",
     "id": "f_water_wheel_unit",
-    "looks_like": "f_water_mill",
+    "looks_like": "f_water_mill_active",
     "name": "mounted water wheel",
     "description": "A mounted water wheel connected to building's electric grid.",
     "symbol": "#",
