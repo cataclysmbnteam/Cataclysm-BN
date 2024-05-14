@@ -831,7 +831,7 @@
     "color": "yellow",
     "move_cost_mod": -1,
     "required_str": -1,
-    "//": "10 watts, all of these below are staggered across 5 minutes to avoid lag.  Todo: conver to not rely on steady_consumer hacks",
+    "//": "10 watts, all of these below are staggered across 5 minutes to avoid lag.  Todo: convert to not rely on steady_consumer hacks",
     "active": [ "steady_consumer", { "power": -3, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
