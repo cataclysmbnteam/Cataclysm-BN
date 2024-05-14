@@ -319,6 +319,8 @@ const flag_id flag_TRADER_KEEP_EQUIPPED( "TRADER_KEEP_EQUIPPED" );
 const flag_id flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
 const flag_id flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 const flag_id flag_UNBREAKABLE_MELEE( "UNBREAKABLE_MELEE" );
+const flag_id flag_UNCRAFT_CONVERT_TO_CUTTING( "UNCRAFT_CONVERT_TO_CUTTING" );
+const flag_id flag_UNCRAFT_CONVERT_TO_PULLING_2( "UNCRAFT_CONVERT_TO_PULLING_2" );
 const flag_id flag_UNDERSIZE( "UNDERSIZE" );
 const flag_id flag_UNDERWATER_GUN( "UNDERWATER_GUN" );
 const flag_id flag_UNRECOVERABLE( "UNRECOVERABLE" );

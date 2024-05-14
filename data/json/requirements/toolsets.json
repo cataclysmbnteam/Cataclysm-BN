@@ -6,10 +6,16 @@
     "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
   },
   {
+    "id": "bullet_forming_rifle",
+    "type": "requirement",
+    "//": "Forming of rifle bullets from raw materials, this variant uses a flag that ensures that reversing the recipe will require a proper bullet pullet, and not just pliers.",
+    "tools": [ [ [ "press", -1, "UNCRAFT_CONVERT_TO_PULLING_2" ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+  },
+  {
     "id": "shot_forming",
     "type": "requirement",
-    "//": "Forming of shot from raw materials, allows use of makeshift press",
-    "tools": [ [ [ "press", -1 ], [ "press_dowel", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+    "//": "Forming of shot from raw materials, allows use of makeshift press, flag ensures reversing the recipe will replace pulling quality with cutting",
+    "tools": [ [ [ "press", -1, "UNCRAFT_CONVERT_TO_CUTTING" ], [ "press_dowel", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
   },
   {
     "id": "earthenware_firing",

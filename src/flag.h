@@ -323,6 +323,8 @@ extern const flag_id flag_TRADER_KEEP_EQUIPPED;
 extern const flag_id flag_TWO_WAY_RADIO;
 extern const flag_id flag_UNARMED_WEAPON;
 extern const flag_id flag_UNBREAKABLE_MELEE;
+extern const flag_id flag_UNCRAFT_CONVERT_TO_CUTTING;
+extern const flag_id flag_UNCRAFT_CONVERT_TO_PULLING_2;
 extern const flag_id flag_UNDERSIZE;
 extern const flag_id flag_UNDERWATER_GUN;
 extern const flag_id flag_UNRECOVERABLE;
