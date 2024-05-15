@@ -120,7 +120,8 @@ static std::pair<int, int> subindex_around_cursor(
     return std::make_pair( slice_start, slice_start + available_space );
 }
 
-void character_display::print_encumbrance( ui_adaptor &ui, const catacurses::window &win, const Character &ch,
+void character_display::print_encumbrance( ui_adaptor &ui, const catacurses::window &win,
+        const Character &ch,
         const int line, const item *selected_clothing )
 {
     // bool represents whether the part has been combined with its other half
@@ -183,7 +184,7 @@ void character_display::print_encumbrance( ui_adaptor &ui, const catacurses::win
                    temperature_print_rescaling( ch.temp_conv[bp] ) );
     }
 
-     if( do_draw_scrollbar ) {
+    if( do_draw_scrollbar ) {
         draw_scrollbar( win, firstline, height, bps.size(), point( width, 1 ), c_white, true );
     }
 }
@@ -586,7 +587,8 @@ static void draw_traits_info( const catacurses::window &w_info, const unsigned i
     if( line < traitslist.size() ) {
         const auto &mdata = traitslist[line].obj();
         const std::string desc =
-            string_format( "%s: %s", colorize( mdata.name(), mdata.get_display_color() ), traitslist[line]->desc() );
+            string_format( "%s: %s", colorize( mdata.name(), mdata.get_display_color() ),
+                           traitslist[line]->desc() );
         draw_x_info( w_info, desc, info_line );
     }
     wnoutrefresh( w_info );
@@ -637,7 +639,7 @@ static void draw_bionics_info( const catacurses::window &w_info, const unsigned 
 {
     werase( w_info );
     if( line < bionicslist.size() ) {
-        draw_x_info( w_info, bionicslist[line].info().description.translated(), info_line);
+        draw_x_info( w_info, bionicslist[line].info().description.translated(), info_line );
     }
     wnoutrefresh( w_info );
 }
@@ -1367,7 +1369,7 @@ void character_display::disp_info( Character &ch )
         ui_tip.disable_cursor();
         draw_tip( w_tip, ch, race, ctxt );
     } );
-    
+
     // STATS
     catacurses::window w_stats;
     catacurses::window w_stats_border;
@@ -1464,7 +1466,7 @@ void character_display::disp_info( Character &ch )
         ui_encumb.disable_cursor();
         draw_encumbrance_tab( ui_encumb, w_encumb, ch, line, curtab );
     } );
-    
+
     // EFFECTS
     unsigned effect_win_size_y;
     catacurses::window w_effects;

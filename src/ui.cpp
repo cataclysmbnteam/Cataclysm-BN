@@ -687,7 +687,7 @@ void uilist::show( ui_adaptor &ui )
 
     const int pad_size = std::max( 0, w_width - 2 - pad_left - pad_right );
     const std::string padspaces = std::string( pad_size, ' ' );
-    
+
     for( uilist_entry &entry : entries ) {
         entry.drawn_rect = std::nullopt;
     }
@@ -901,7 +901,7 @@ void uilist::query( bool loop, int timeout )
     ret = UILIST_WAIT_INPUT;
 
     input_context ctxt = create_main_input_context();
-    
+
     hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();

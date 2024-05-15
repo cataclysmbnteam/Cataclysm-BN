@@ -239,7 +239,8 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
     _position = ret.length();
 }
 
-void string_input_popup::draw( ui_adaptor *const ui, const utf8_wrapper &ret, const utf8_wrapper &edit ) const
+void string_input_popup::draw( ui_adaptor *const ui, const utf8_wrapper &ret,
+                               const utf8_wrapper &edit ) const
 {
     if( !custom_window ) {
         werase( w_full );
@@ -258,7 +259,8 @@ void string_input_popup::draw( ui_adaptor *const ui, const utf8_wrapper &ret, co
     const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
     int start_x_edit = _startx;
     // Clear the line
-    mvwprintw( w_title_and_entry, point( _startx, _starty ), std::string( std::max( 0, scrmax ), ' ' ) );
+    mvwprintw( w_title_and_entry, point( _startx, _starty ), std::string( std::max( 0, scrmax ),
+               ' ' ) );
     // Print the whole input string in default color
     mvwprintz( w_title_and_entry, point( _startx, _starty ), _string_color, "%s", ds.c_str() );
     size_t sx = ds.display_width();
@@ -303,7 +305,8 @@ void string_input_popup::draw( ui_adaptor *const ui, const utf8_wrapper &ret, co
             }
         }
         if( l > 0 ) {
-            mvwprintz( w_title_and_entry, point( _startx + sx, _starty ), _underscore_color, std::string( l, '_' ) );
+            mvwprintz( w_title_and_entry, point( _startx + sx, _starty ), _underscore_color, std::string( l,
+                       '_' ) );
         }
     }
     if( !edit.empty() ) {
@@ -492,8 +495,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( action == "TEXT.HOME" ) {
             if( edit.empty() ) {
                 if( edit.empty() ) {
-                _position = 0;
-            }
+                    _position = 0;
+                }
             }
         } else if( action == "TEXT.END" ) {
             if( edit.empty() ) {
@@ -555,8 +558,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                         if( _only_digits ? ch == '-' || isdigit( ch ) : mk_wcwidth( ch ) >= 0 ) {
                             const int newwidth = mk_wcwidth( ch );
                             if( _max_length <= 0 || width + newwidth <= _max_length ) {
-                            insertion.append( utf8_wrapper( utf32_to_utf8( ch ) ) );
-                            width += newwidth;
+                                insertion.append( utf8_wrapper( utf32_to_utf8( ch ) ) );
+                                width += newwidth;
                             } else {
                                 break;
                             }
