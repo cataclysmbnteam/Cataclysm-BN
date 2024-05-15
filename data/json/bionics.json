@@ -830,7 +830,7 @@
     "id": "bio_razors",
     "type": "bionic",
     "name": { "str": "Fingertip Razors" },
-    "description": "You possess razor-sharp claws underneath your fingernails that do a small amount of unarmed slashing damage whenever your fingertips are uncovered.",
+    "description": "You possess razor-sharp claws underneath your fingernails that do a fair amount of unarmed slashing damage whenever your fingertips are uncovered, and which you can use with some precision to cut and butcher..",
     "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ] ],
     "fake_item": "fake_razor",
     "flags": [ "BIONIC_NPC_USABLE" ]

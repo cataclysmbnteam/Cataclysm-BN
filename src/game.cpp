@@ -7460,8 +7460,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                             col = c_yellow;
                         } else if( low ) {
                             col = c_red;
-                        }
-                        else {
+                        } else {
                             col = iter->example->color_in_inventory();
                         }
                         trim_and_print( w_items, point( 1, iNum - iStartPos ), width - 9, col, sText );

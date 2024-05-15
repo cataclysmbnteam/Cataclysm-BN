@@ -680,7 +680,6 @@ void trading_window::update_npc_owed( npc &np )
 // cost is positive when the player owes the NPC money for a service to be performed
 bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 {
-    np.shop_restock();
     // Only allow actual shopkeepers to refresh their inventory like this
     if( np.mission == NPC_MISSION_SHOPKEEP ) {
         np.shop_restock();

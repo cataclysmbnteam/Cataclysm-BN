@@ -712,9 +712,8 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
             "test_rock", q,
             "--\n"
             "<color_c_white>Ammunition type</color>: rocks\n"
-            "Damage: <color_c_yellow>7</color>  Armor-pierce: <color_c_yellow>0</color>\n"
-            "Range: <color_c_yellow>10</color>  Dispersion: <color_c_yellow>14</color>\n"
-            "Recoil: <color_c_yellow>0</color>" );
+            "Damage: <color_c_yellow>7</color>\n"
+            "Range: <color_c_yellow>10</color>  Dispersion: <color_c_yellow>14</color>\n" );
     }
 }
 
