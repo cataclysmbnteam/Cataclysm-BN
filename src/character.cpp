@@ -11569,7 +11569,8 @@ void Character::knock_back_to( const tripoint &to )
 
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
-        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH, static_cast<float>( critter->type->size ) ) );
+        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH,
+                     static_cast<float>( critter->type->size ) ) );
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if( ( str_max - 6 ) / 4 > critter->type->size ) {
@@ -11588,7 +11589,8 @@ void Character::knock_back_to( const tripoint &to )
     }
 
     if( npc *const np = g->critter_at<npc>( to ) ) {
-        deal_damage( np, bodypart_id( "torso" ), damage_instance( DT_BASH, static_cast<float>( np->get_size() + 1 ) ) );
+        deal_damage( np, bodypart_id( "torso" ), damage_instance( DT_BASH,
+                     static_cast<float>( np->get_size() + 1 ) ) );
         add_effect( effect_stunned, 1_turns );
         np->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
