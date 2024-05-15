@@ -148,8 +148,7 @@
         { "class": "guard", "x": 60, "y": 9 },
         { "class": "guard", "x": 54, "y": 20 },
         { "class": "guard", "x": 63, "y": 15 }
-      ],
-      "place_monsters": [ { "monster": "GROUP_REFUGEE_CENTER_BACK_ROOM", "x": [ 74, 87 ], "y": [ 4, 20 ], "density": 0.6 } ]
+      ]
     }
   },
   {

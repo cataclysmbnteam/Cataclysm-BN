@@ -395,12 +395,12 @@ std::pair<bool, std::string> string_editor_window::query_string()
         const input_event ev = ctxt->get_raw_input();
         ch = ev.type == input_event_t::keyboard_char ? ev.get_first_input() : 0;
 
-        if( action == "TEXT.QUIT") {
+        if( action == "TEXT.QUIT" ) {
             return { false, _utext.str() };
-        } else if( action == "TEXT.CONFIRM") {
+        } else if( action == "TEXT.CONFIRM" ) {
             // ctrl-s: confirm
             return { true, _utext.str() };
-        } else if( action == "TEXT.UP") {
+        } else if( action == "TEXT.UP" ) {
             if( edit.empty() ) {
                 cursor_updown( -1 );
                 reposition = true;
@@ -410,13 +410,13 @@ std::pair<bool, std::string> string_editor_window::query_string()
                 cursor_updown( 1 );
                 reposition = true;
             }
-        } else if( action == "TEXT.RIGHT") {
+        } else if( action == "TEXT.RIGHT" ) {
             if( edit.empty() ) {
                 cursor_leftright( 1 );
                 _cursor_desired_x = -1;
                 reposition = true;
             }
-        } else if( action == "TEXT.LEFT") {
+        } else if( action == "TEXT.LEFT" ) {
             if( edit.empty() ) {
                 cursor_leftright( -1 );
                 _cursor_desired_x = -1;

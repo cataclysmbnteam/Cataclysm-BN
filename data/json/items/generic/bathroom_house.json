@@ -18,15 +18,16 @@
     "id": "razor_shaving",
     "name": { "str": "shaving razor" },
     "type": "GENERIC",
-    "description": "A razor blade on a comfortable handle.  Much easier to shave with than a loose razor.",
+    "description": "A razor blade on a comfortable handle.  Much easier to shave with than a loose razor.  Could also be used for some basic fine cutting tasks.",
     "symbol": "t",
     "copy-from": "base_toiletries",
     "price": "8 USD",
     "price_postapoc": "5 USD",
-    "//": "the end of the world doesn't mean everyone is okay with having ZZ Top beards.  disposable razors are a hot commodity.  The razor also loses the Cutting 1 quality.  Don't ask how we confirmed this.",
+    "//": "the end of the world doesn't mean everyone is okay with having ZZ Top beards.  disposable razors are a hot commodity.",
     "weight": "110 g",
     "material": [ "plastic", "steel" ],
-    "cutting": 2
+    "cutting": 2,
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ] ]
   },
   {
     "id": "hairbrush",

@@ -2074,7 +2074,7 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         bool has_dmg_multiplier = ammo.damage.damage_units.front().damage_multiplier != 1.0;
         bool display_dmg_multiplier = parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL );
         bool didnt_print_dmg = false;
-        
+
         // TODO: Deduplicate with damage display
         bool has_flat_arpen = get_ranged_pierce( ammo ) != 0;
         bool display_flat_arpen = parts->test( iteminfo_parts::AMMO_DAMAGE_AP );
