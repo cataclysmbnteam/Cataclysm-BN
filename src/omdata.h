@@ -84,7 +84,7 @@ struct overmap_static_spawns : public overmap_spawns {
 };
 
 //terrain flags enum! this is for tracking the indices of each flag.
-enum class oter_flags: int {
+enum class oter_flags : int {
     known_down = 0,
     known_up,
     no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
@@ -160,7 +160,7 @@ struct oter_type_t {
         }
 
         void set_flag( oter_flags flag, bool value = true ) {
-            flags.set(flag, value );
+            flags.set( flag, value );
         }
 
         void load( const JsonObject &jo, const std::string &src );
