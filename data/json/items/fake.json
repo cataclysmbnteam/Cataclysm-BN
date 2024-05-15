@@ -71,7 +71,8 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic razor" },
-    "qualities": [ [ "BUTCHER", 8 ] ]
+    "//": "Bonus unarmed damage for having Fingertip Razors installed is applied in melee.cpp, see function Character::roll_cut_damage",
+    "qualities": [ [ "BUTCHER", 15 ], [ "CUT", 1 ], [ "CUT_FINE", 2 ] ]
   },
   {
     "id": "clairvoyance_plus_rod",
