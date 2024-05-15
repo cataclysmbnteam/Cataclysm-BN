@@ -58,8 +58,8 @@ const auto expected_larger = Expected
 };
 
 
-void calculate_bodypart_distribution( const enum m_size attacker_size,
-                                      const enum m_size defender_size,
+void calculate_bodypart_distribution( const enum creature_size attacker_size,
+                                      const enum creature_size defender_size,
                                       const int hit_roll, const Weights &expected )
 {
     INFO( "hit roll = " << hit_roll );
