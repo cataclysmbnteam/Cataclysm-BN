@@ -4913,7 +4913,6 @@
     "id": "CHAOTIC",
     "name": { "str": "Genetic Chaos" },
     "points": -4,
-    "purifiable": false,
     "description": "Your body alters itself rapidly, and without your intervention or conscious control.",
     "prereqs": [ "UNSTABLE", "MUT_JUNKIE" ],
     "category": [ "CHIMERA" ]
