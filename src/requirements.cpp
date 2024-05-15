@@ -43,7 +43,6 @@ static const itype_id itype_forge( "forge" );
 static const itype_id itype_mold_plastic( "mold_plastic" );
 static const itype_id itype_oxy_torch( "oxy_torch" );
 static const itype_id itype_press( "press" );
-static const itype_id itype_press_dowel( "press_dowel" );
 static const itype_id itype_sewing_kit( "sewing_kit" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_welder( "welder" );
@@ -1044,13 +1043,15 @@ requirement_data requirement_data::disassembly_requirements() const
                 replaced = true;
                 break;
             }
-            //This ensures that you don't need a hand press to break down reloaded ammo.
+            // This ensures that you don't need a hand press to break down reloaded ammo.
             if( type == itype_press ) {
                 replaced = true;
                 remove_fire = true;
-                if( type->has_flag( STATIC( flag_id( "UNCRAFT_CONVERT_TO_CUTTING" ) ) ) {
+                // Shotshells, can be pried open with just a knife
+                if( type->has_flag( STATIC( flag_id( "UNCRAFT_CONVERT_TO_CUTTING" ) ) ) ) {
                     new_qualities.emplace_back( quality_id( "CUT" ), 1, 1 );
-                } else if( type->has_flag( STATIC( flag_id( "UNCRAFT_CONVERT_TO_PULLING_2" ) ) ) {
+                // Proper rifle rounds, use a puller
+                } else if( type->has_flag( STATIC( flag_id( "UNCRAFT_CONVERT_TO_PULLING_2" ) ) ) ) {
                     new_qualities.emplace_back( quality_id( "PULL" ), 1, 2 );
                 } else {
                     new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );

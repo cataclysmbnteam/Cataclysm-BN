@@ -328,6 +328,7 @@
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "charges": 1,
+    "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
     "components": [ [ [ "gunpowder", 6 ] ] ]
   },
