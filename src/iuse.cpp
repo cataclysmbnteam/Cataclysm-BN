@@ -9023,8 +9023,17 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
                                   print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
         }
     }
-
-    if( it->typeId() == itype_weather_reader ) {
+    if( it->has_flag( flag_WEATHER_FORECAST ) ) {
+        std::string message = string_format( "", message );
+        const auto tref = overmap_buffer.find_radio_station( it->frequency );
+        if( tref ) {
+            {
+                message = weather_forecast( tref.abs_sm_pos );
+            }
+            p->add_msg_if_player( m_neutral, _( "Automatic weather report %s" ), message );
+        }
+    }
+    if( it->has_flag( flag_WINDMETER ) ) {
         int vehwindspeed = 0;
         if( optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
