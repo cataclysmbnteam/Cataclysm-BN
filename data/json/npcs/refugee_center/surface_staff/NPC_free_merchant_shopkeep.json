@@ -502,7 +502,8 @@
       "assign_mission_target": { "om_terrain": "evac_center_9", "reveal_radius": 1 },
       "update_mapgen": {
         "om_terrain": "evac_center_9",
-        "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
+        "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "x": 10, "y": 10, "target": true } ],
+        "place_monsters": [ { "monster": "GROUP_REFUGEE_CENTER_BACK_ROOM", "x": [ 2, 15 ], "y": [ 4, 20 ], "density": 0.6 } ]
       }
     },
     "end": {

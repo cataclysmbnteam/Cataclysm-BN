@@ -22,6 +22,26 @@
     ]
   },
   {
+    "id": "tools_cleaning_common",
+    "//": "Common tools for cleaning up around the house or in a business setting.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "broom", 25 ],
+      [ "mop", 25 ],
+      [ "bucket", 10 ],
+      { "item": "bag_plastic", "prob": 15, "count": [ 1, 5 ] },
+      { "group": "tools_cleaning_small", "prob": 25 }
+    ]
+  },
+  {
+    "id": "tools_cleaning_small",
+    "//": "Cleaning tools that specifically could fit under a kitchen sink or in a bathroom cabinet.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "towel", 25 ], [ "rag", 25 ], [ "brush", 25 ], [ "sponge", 25 ] ]
+  },
+  {
     "id": "tools_construction",
     "type": "item_group",
     "//": "Industrial machinery used for construction",
