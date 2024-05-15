@@ -973,7 +973,7 @@ static void draw_info_window( const catacurses::window &w_info, const Character 
             draw_stats_info( w_info, you, line );
             break;
         case player_display_tab::encumbrance:
-            draw_encumbrance_info( w_info, you, info_line );
+            draw_encumbrance_info( w_info, you, line, info_line );
             break;
         case player_display_tab::skills:
             draw_skills_info( w_info, line, skillslist, info_line );
@@ -1391,7 +1391,7 @@ void character_display::disp_info( Character &ch )
         borders.draw_border( w_stats_border );
         wnoutrefresh( w_stats_border );
         ui_stats.disable_cursor();
-        draw_stats_tab( ui_stats, w_stats, ch, line, curtab, ctxt );
+        draw_stats_tab( ui_stats, w_stats, ch, line, curtab );
     } );
 
     // TRAITS & BIONICS

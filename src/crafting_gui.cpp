@@ -175,8 +175,8 @@ struct availability {
 
         nc_color color( bool ignore_missing_skills = false ) const {
             return can_craft
-                   ? ( can_craft_non_rotten && has_all_skills || ignore_missing_skills ? c_white : c_brown )
-                   : ( could_craft_if_knew && has_all_skills || ignore_missing_skills ? c_yellow : c_dark_gray );
+                   ? ( ( can_craft_non_rotten && has_all_skills ) || ignore_missing_skills ? c_white : c_brown )
+                   : ( ( could_craft_if_knew && has_all_skills ) || ignore_missing_skills ? c_yellow : c_dark_gray );
         }
 
 };
@@ -266,6 +266,7 @@ static std::vector<std::string> recipe_info(
 
     std::vector<std::string> result = foldstring( oss.str(), fold_width );
 
+    bool show_unavailable = false;
     const requirement_data &req = recp.simple_requirements();
     const std::vector<std::string> tools = req.get_folded_tools_list(
             fold_width, color, crafting_inv, batch_size );
