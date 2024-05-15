@@ -256,7 +256,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_intermediate", 2 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -276,13 +276,14 @@
     "result": "wire_mesh",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
+    "byproducts": [ [ "scrap", 3 ] ],
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "surface_heat", 2, "LIST" ], [ "forge", 2 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "wire", 6 ] ] ]
+    "components": [ [ [ "wire", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1343,6 +1344,7 @@
     "type": "recipe",
     "category": "CC_OTHER",
     "id_suffix": "debarbing barbed wire",
+    "byproducts": [ [ "scrap", 3 ] ],
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "autolearn": true,

@@ -44,6 +44,22 @@
     ]
   },
   {
+    "id": "supplies_household_cleaning",
+    "//": "General purpose cleaning solvents, detergents, and the like for around the kitchen, bathroom, and the like.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "soap", "prob": 25, "charges-min": 1 },
+      { "item": "detergent", "prob": 25, "charges-min": 1 },
+      { "item": "bleach", "prob": 15, "charges-min": 1 },
+      { "item": "ammonia", "prob": 15, "charges-min": 1 },
+      { "item": "vinegar", "prob": 5, "charges-min": 1 },
+      { "item": "lye", "prob": 5, "charges-min": 1 },
+      { "item": "lye_powder", "prob": 5, "charges-min": 1 },
+      { "item": "oxy_powder", "prob": 5, "charges-min": 1 }
+    ]
+  },
+  {
     "id": "paint",
     "type": "item_group",
     "items": [
