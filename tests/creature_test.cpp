@@ -126,7 +126,6 @@ TEST_CASE( "Check distribution of attacks to body parts for smaller attacker." )
 }
 
 TEST_CASE( "Check distribution of attacks to body parts for larger attacker." )
-
 {
     rng_set_engine_seed( 4242424242 );
 
