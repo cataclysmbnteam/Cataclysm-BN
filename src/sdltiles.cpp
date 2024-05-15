@@ -3099,13 +3099,13 @@ static void CheckMessages()
                     } else {
                         last_input = input_event( lc, input_event_t::keyboard_char );
 #if defined(__ANDROID__)
-                        if( !android_is_hardware_keyboard_available() ) {
+                    if( !android_is_hardware_keyboard_available() ) {
                             if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                                     SDL_StopTextInput();
                                 }
 
-                                // add a quick shortcut
+                            // add a quick shortcut
                                 if( !last_input.text.empty() ||
                                     !inp_mngr.get_keyname( lc, input_event_t::keyboard_char ).empty() ) {
                                     qsl.remove( last_input );

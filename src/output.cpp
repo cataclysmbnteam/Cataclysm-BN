@@ -703,7 +703,7 @@ bool query_yn( const std::string &text )
                             : input_context::allow_all_keys;
 
     return query_popup()
-           .preferred_keyboard_mode( keyboard_mode::keychar )
+            .preferred_keyboard_mode( keyboard_mode::keychar )
            .context( "YESNO" )
            .message( force_uc ?
                      pgettext( "query_yn", "%s (Case Sensitive)" ) :

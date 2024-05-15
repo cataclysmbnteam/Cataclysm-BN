@@ -159,8 +159,7 @@ void query_popup::init() const
     folded_msg = foldstring( text, max_line_width );
 
     // Fold query buttons
-    const auto &folded_query = fold_query( category, pref_kbd_mode, options, max_line_width,
-                                           horz_padding );
+    const auto &folded_query = fold_query( category, pref_kbd_mode, options, max_line_width, horz_padding );
 
     // Calculate size of message part
     int msg_width = 0;

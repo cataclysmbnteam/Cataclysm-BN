@@ -7440,8 +7440,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     monster &z = *mon;
 
                     // shoot past small monsters and hallucinations
-                    if( trajectory_point != aim_point && ( z.type->size <= creature_size::small ||
-                                                           z.is_hallucination() ||
+                    if( trajectory_point != aim_point && ( z.type->size <= creature_size::small || z.is_hallucination() ||
                                                            z.type->in_species( HALLUCINATION ) ) ) {
                         continue;
                     }
