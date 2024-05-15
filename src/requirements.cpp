@@ -1050,7 +1050,7 @@ requirement_data requirement_data::disassembly_requirements() const
                 // Shotshells, can be pried open with just a knife
                 if( type->has_flag( STATIC( flag_id( "UNCRAFT_CONVERT_TO_CUTTING" ) ) ) ) {
                     new_qualities.emplace_back( quality_id( "CUT" ), 1, 1 );
-                // Proper rifle rounds, use a puller
+                    // Proper rifle rounds, use a puller
                 } else if( type->has_flag( STATIC( flag_id( "UNCRAFT_CONVERT_TO_PULLING_2" ) ) ) ) {
                     new_qualities.emplace_back( quality_id( "PULL" ), 1, 2 );
                 } else {

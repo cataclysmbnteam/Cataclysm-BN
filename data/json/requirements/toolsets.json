@@ -15,7 +15,10 @@
     "id": "shot_forming",
     "type": "requirement",
     "//": "Forming of shot from raw materials, allows use of makeshift press, flag ensures reversing the recipe will replace pulling quality with cutting",
-    "tools": [ [ [ "press", -1, "UNCRAFT_CONVERT_TO_CUTTING" ], [ "press_dowel", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+    "tools": [
+      [ [ "press", -1, "UNCRAFT_CONVERT_TO_CUTTING" ], [ "press_dowel", -1 ] ],
+      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
+    ]
   },
   {
     "id": "earthenware_firing",
