@@ -139,7 +139,7 @@
       { "group": "surgery", "prob": 80 },
       { "group": "drugs_emergency", "prob": 40 },
       { "group": "softdrugs", "prob": 20 },
-      { "group": "bionics_common", "prob": 20 },
+      { "group": "bionics_common", "prob": 10 },
       { "group": "harddrugs", "prob": 5 }
     ]
   },
