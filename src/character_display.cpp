@@ -1279,10 +1279,10 @@ void character_display::disp_info( Character &ch )
         }
     }
 
-    const unsigned int trait_win_size_y_max = 1 + static_cast<unsigned>( traitslist.size() );
 
     std::vector<trait_id> traitslist = ch.get_mutations( false );
     std::sort( traitslist.begin(), traitslist.end(), trait_display_sort );
+    const unsigned int trait_win_size_y_max = 1 + static_cast<unsigned>( traitslist.size() );
 
     std::vector<bionic> bionicslist = *ch.my_bionics;
     const unsigned int bionics_win_size_y_max = 2 + bionicslist.size();
