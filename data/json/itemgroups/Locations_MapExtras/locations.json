@@ -139,7 +139,7 @@
       { "group": "surgery", "prob": 80 },
       { "group": "drugs_emergency", "prob": 40 },
       { "group": "softdrugs", "prob": 20 },
-      { "group": "bionics_common", "prob": 5 },
+      { "group": "bionics_common", "prob": 10 },
       { "group": "harddrugs", "prob": 5 }
     ]
   },
@@ -188,7 +188,8 @@
       [ "jar_glass", 20 ],
       [ "fan", 5 ],
       [ "cleansuit", 10 ],
-      [ "pouch_autoclave", 15 ],
+      [ "pouch_autoclave", 20 ],
+      { "group": "bionics_common", "prob": 20 },
       [ "oxy_powder", 2 ],
       [ "hazmat_suit", 5 ],
       [ "fungicide", 10 ],
