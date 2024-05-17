@@ -8999,8 +8999,6 @@
         { "id": "overlay_wielded_feral_human_thrown_rock", "fg": 9304, "rotates": false },
         { "id": "overlay_wielded_v29_turret", "fg": 9304, "rotates": false },
         { "id": "v29_turret", "fg": 9304, "rotates": false },
-        { "id": "coilgun", "fg": 4733, "bg": 9172, "rotates": false },
-        { "id": "overlay_wielded_coilgun", "fg": 4734, "rotates": false },
         { "id": "nailgun", "fg": 4735, "bg": 9172, "rotates": false },
         { "id": "overlay_wielded_nailgun", "fg": 4736, "rotates": false },
         { "id": "paintballgun", "fg": 4737, "rotates": false },

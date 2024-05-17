@@ -2356,26 +2356,6 @@
     "obsolete": true
   },
   {
-    "type": "recipe",
-    "result": "shotcanister_scrap",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_flechette",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_bearing",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_pebble",
-    "obsolete": true
-  },
-  {
     "result": "ballistic_vest_esapi",
     "type": "recipe",
     "obsolete": true
@@ -3274,6 +3254,99 @@
     "type": "recipe",
     "result": "deluxe_eggs",
     "id_suffix": "from_powder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "soup_lobster",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_roll",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_canned",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_cooked",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_smoked",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_salted",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_salted",
+    "id_suffix": "vacuum_packed",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_pickled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_pickled",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rehydrated_lobster",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fish_bagel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sandwich_cucumber",
+    "obsolete": true
+  },
+  {
+    "result": "beltfeed",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "aux_flamer",
+    "obsolete": true
+  },
+  {
+    "result": "makeshift_grenade",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "barrel_big",
     "obsolete": true
   }
 ]

@@ -9,7 +9,7 @@
     "color": "red",
     "parasites": 32,
     "vitamins": [  ],
-    "flags": [ "RAW" ]
+    "flags": [ "RAW", "UNSAFE_CONSUME" ]
   },
   {
     "id": "fish",
@@ -23,7 +23,7 @@
     "price": "5 USD",
     "price_postapoc": "50 cent",
     "spoils_in": "1 day",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "extend": { "flags": [ "SMOKABLE" ] },
     "smoking_result": "fish_smoked",
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ], [ "vitB", 154 ] ],
     "calories": 260
@@ -46,115 +46,6 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "cooked seasoned fish" },
     "description": "Freshly cooked fish with seasoning.  Very nutritious.",
-    "fun": 2
-  },
-  {
-    "id": "lobster",
-    "copy-from": "flesh",
-    "type": "COMESTIBLE",
-    "name": { "str": "chunk of lobster meat", "str_pl": "chunks of lobster meat" },
-    "description": "A chunk of uncooked lobster meat.",
-    "//": "Nutrition information based on whitefish",
-    "weight": "148 g",
-    "volume": "250 ml",
-    "price": "5 USD",
-    "price_postapoc": "50 cent",
-    "spoils_in": "1 day",
-    "flags": [ "SMOKABLE", "RAW" ],
-    "smoking_result": "lobster_smoked",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ] ],
-    "calories": 250
-  },
-  {
-    "id": "lobster_cooked",
-    "copy-from": "lobster",
-    "type": "COMESTIBLE",
-    "name": { "str_sp": "cooked lobster" },
-    "description": "A chunk of delicious cooked lobster meat.",
-    "proportional": { "price": 1.5 },
-    "spoils_in": "2 days",
-    "price_postapoc": "1 USD",
-    "parasites": 0,
-    "flags": [ "EATEN_HOT" ]
-  },
-  {
-    "id": "lobster_smoked",
-    "copy-from": "lobster_cooked",
-    "type": "COMESTIBLE",
-    "name": { "str_sp": "smoked lobster" },
-    "description": "Tasty lobster that has been heavily smoked for long term preservation.  It could be further smoked to dehydrate it completely.",
-    "color": "brown",
-    "price_postapoc": "2 USD",
-    "fun": 8,
-    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
-    "smoking_result": "dry_lobster"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "dry_lobster",
-    "name": { "str_sp": "dehydrated lobster" },
-    "copy-from": "lobster_cooked",
-    "primary_material": "cured_meat",
-    "weight": "85 g",
-    "color": "pink",
-    "spoils_in": "0 days",
-    "quench": -3,
-    "description": "Dehydrated lobster flakes.  With proper storage, this dried food will remain edible for an incredibly long time.",
-    "price": "5 USD",
-    "price_postapoc": "250 cent",
-    "volume": "125 ml"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "rehydrated_lobster",
-    "name": { "str_sp": "rehydrated lobster" },
-    "copy-from": "lobster_cooked",
-    "color": "pink",
-    "description": "Reconstituted lobster flakes, which are much more enjoyable to eat now that they have been rehydrated.",
-    "price": "5 USD",
-    "fun": 2
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "lobster_pickled",
-    "name": { "str_sp": "pickled lobster" },
-    "copy-from": "lobster_cooked",
-    "color": "pink",
-    "spoils_in": "4 days",
-    "container": "jar_glass_sealed",
-    "quench": -1,
-    "healthy": 1,
-    "description": "This is a serving of crisply brined and canned lobster.  Tasty and nutritious.",
-    "material": "flesh",
-    "fun": 7
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "lobster_salted",
-    "name": "salted lobster slice",
-    "copy-from": "lobster_cooked",
-    "color": "pink",
-    "container": "plastic_bag_vac",
-    "quench": -5,
-    "description": "lobster slices cured in brine.  Salty but tasty in a pinch.",
-    "price": "5 USD",
-    "price_postapoc": "3 USD",
-    "material": "flesh",
-    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "primary_material": "cured_meat",
-    "fun": 2
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "lobster_canned",
-    "name": { "str_sp": "canned lobster" },
-    "copy-from": "lobster_cooked",
-    "color": "pink",
-    "container": "can_food",
-    "healthy": 1,
-    "description": "Low-sodium preserved lobster.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked lobster.",
-    "price": "250 cent",
-    "price_postapoc": "250 cent",
     "fun": 2
   },
   {
@@ -269,7 +160,7 @@
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 26 ], [ "vitB", 389 ], [ "mutant_toxin", 25 ] ],
-    "flags": [ "SMOKABLE", "BAD_TASTE", "RAW" ]
+    "extend": { "flags": [ "SMOKABLE", "BAD_TASTE" ] }
   },
   {
     "id": "mutant_meat_scrap",
@@ -343,12 +234,12 @@
     "copy-from": "meat_scrap",
     "type": "COMESTIBLE",
     "name": { "str": "cooked scrap of meat", "str_pl": "cooked scraps of meat" },
-    "description": "This is a tiny scrap of cooked mutant meat.  It is small enough that it's hard to tell how disgusting it is.",
+    "description": "This is a tiny scrap of cooked meat.  Tasty, if not exactly filling.",
     "spoils_in": "2 days",
     "parasites": 0,
     "fun": 0,
     "healthy": 0,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "calories": 51
   },
   {
@@ -356,7 +247,7 @@
     "copy-from": "meat_scrap_cooked",
     "type": "COMESTIBLE",
     "name": { "str": "cooked scrap of seasoned meat", "str_pl": "cooked scraps of seasoned meat" },
-    "description": "This is a tiny scrap of cooked mutant meat with added seasoning.",
+    "description": "This is a tiny scrap of cooked meat with added seasoning.",
     "fun": 1
   },
   {
@@ -411,6 +302,7 @@
     "description": "Offal is uncooked internal organs and entrails.  It's filled with essential vitamins, but most people consider it a bit gross unless very carefully prepared.",
     "proportional": { "parasites": 2 },
     "price_postapoc": "25 cent",
+    "calories": 100,
     "delete": { "flags": [ "SMOKABLE" ] },
     "relative": { "vitamins": [ [ "vitA", 5 ], [ "iron", 4 ] ], "fun": -5 }
   },
@@ -429,7 +321,7 @@
     "spoils_in": "2 days",
     "quench": -1,
     "fun": -1,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "UNSAFE_CONSUME" ] }
   },
   {
     "id": "offal_canned",
@@ -445,7 +337,7 @@
     "healthy": 1,
     "container": "can_food",
     "fun": -2,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "UNSAFE_CONSUME" ] }
   },
   {
     "id": "mutant_offal",
@@ -523,7 +415,7 @@
     "fun": 4,
     "calories": 348,
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ],
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "UNSAFE_CONSUME" ] }
   },
   {
     "id": "salted_fish",
@@ -540,7 +432,7 @@
     "quench": -5,
     "fun": 4,
     "proportional": { "price": 2, "volume": 0.345, "weight": 0.345 },
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "UNSAFE_CONSUME" ] }
   },
   {
     "id": "meat_smoked",
@@ -715,7 +607,8 @@
     "volume": "250 ml",
     "parasites": 32,
     "stack_size": 1,
-    "fun": -20
+    "fun": -20,
+    "flags": [ "RAW", "UNSAFE_CONSUME" ]
   },
   {
     "type": "COMESTIBLE",

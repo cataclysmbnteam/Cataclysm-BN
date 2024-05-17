@@ -63,7 +63,7 @@
     "calories": 106,
     "spoils_in": "6 days 16 hours",
     "charges": 16,
-    "fun": -1,
+    "fun": -7,
     "phase": "liquid"
   },
   {
@@ -83,7 +83,7 @@
     "calories": 21,
     "spoils_in": "15 days",
     "charges": 16,
-    "fun": -1,
+    "fun": -6,
     "phase": "liquid"
   },
   {
@@ -100,7 +100,7 @@
     "volume": "250 ml",
     "comestible_type": "DRINK",
     "container": "condiment_bottle_unsealed",
-    "fun": -1,
+    "fun": -8,
     "calories": 10,
     "spoils_in": "15 days",
     "charges": 48,

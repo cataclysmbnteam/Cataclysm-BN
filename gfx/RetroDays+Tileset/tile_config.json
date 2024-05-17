@@ -21,7 +21,7 @@
         { "id": [ "highlight", "line_target", "line_trail", "cursor" ], "fg": 12 },
         { "id": "highlight_item", "fg": 13, "rotates": false },
         { "id": "unknown", "fg": 14, "rotates": false },
-        { "id": ["footstep", "footstep_above", "footstep_below"], "fg": 15, "rotates": false },
+        { "id": [ "footstep", "footstep_above", "footstep_below" ], "fg": 15, "rotates": false },
         { "id": "infrared_creature", "fg": 16, "rotates": false },
         {
           "id": "explosion",
@@ -7959,7 +7959,11 @@
           ]
         },
         { "id": "fd_tindalos_rift", "fg": 3083, "rotates": false },
-        { "id": [ "voltmeter", "balance_small", "melting_point", "spectrophotometer", "ph_meter", "vortex" ], "fg": 3084, "rotates": false },
+        {
+          "id": [ "voltmeter", "balance_small", "melting_point", "spectrophotometer", "ph_meter", "vortex" ],
+          "fg": 3084,
+          "rotates": false
+        },
         { "id": "beaker", "fg": 3085, "rotates": false },
         { "id": "gelbox", "fg": 3086, "rotates": false },
         { "id": [ "survival_kit", "survival_kit_box", "cuvettes" ], "fg": 3087, "rotates": false },

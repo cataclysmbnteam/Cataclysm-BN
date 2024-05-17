@@ -74,6 +74,7 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
@@ -1574,6 +1575,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         return is_immune_damage( DT_HEAT ) ||
                made_of( LIQUID ) ||
                has_flag( MF_FIREY );
+    }
+
+    if( effect == effect_corroding ) {
+        return is_immune_damage( DT_ACID );
     }
 
     if( effect == effect_bleed ) {

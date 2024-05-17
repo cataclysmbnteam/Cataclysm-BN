@@ -38,7 +38,10 @@
           { "id": "overlay_worn_gay_flag", "fg": 20 },
           { "id": "genderfluid_flag", "fg": 21 },
           { "id": "overlay_wielded_genderfluid_flag", "fg": 21 },
-          { "id": "overlay_worn_genderfluid_flag", "fg": 22 }
+          { "id": "overlay_worn_genderfluid_flag", "fg": 22 },
+          { "id": "autism_flag", "fg": 23 },
+          { "id": "overlay_wielded_autism_flag", "fg": 24 },
+          { "id": "overlay_worn_autism_flag", "fg": 24 }
         ],
         "//": "current max id: 120",
         "sprite_width": 32,

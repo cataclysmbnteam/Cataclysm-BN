@@ -1233,6 +1233,12 @@ void options_manager::add_options_general()
          "", 30
        );
 
+    add( "DEF_CHAR_GENDER", general, translate_marker( "Default character gender" ),
+    translate_marker( "Set a default character gender that will be used on character creation." ), {
+        { "male", to_translation( "Male" )},
+        { "female", to_translation( "Female" )},
+    }, "male" );
+
     add_empty_line();
 
     add_option_group( general, Group( "comestible_merging",
@@ -1436,6 +1442,14 @@ void options_manager::add_options_general()
        );
 
     get_option( "AUTO_NOTES_MAP_EXTRAS" ).setPrerequisite( "AUTO_NOTES" );
+
+    add( "AUTO_NOTES_DROPPED_FAVORITES", "general",
+         translate_marker( "Auto notes (dropped favorites)" ),
+         translate_marker( "If true, automatically sets notes when player drops favorited items." ),
+         true
+       );
+
+    get_option( "AUTO_NOTES_DROPPED_FAVORITES" ).setPrerequisite( "AUTO_NOTES" );
 
     add_empty_line();
 
@@ -2093,7 +2107,7 @@ void options_manager::add_options_graphics()
 #if defined(SDL_HINT_RENDER_VSYNC)
     add( "VSYNC", graphics, translate_marker( "Use VSync" ),
          translate_marker( "Enable vertical synchronization to prevent screen tearing.  VSync can slow the game down a lot.  Requires restart." ),
-         false, COPT_CURSES_HIDE
+         true, COPT_CURSES_HIDE
        );
 #endif
 
@@ -2221,9 +2235,9 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
-    add( "FOV_3D", debug, translate_marker( "Experimental 3D field of vision" ),
-         translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
-         false
+    add( "FOV_3D", debug, translate_marker( "3D field of vision" ),
+         translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level." ),
+         true
        );
 
     add( "FOV_3D_Z_RANGE", debug, translate_marker( "Vertical range of 3D field of vision" ),

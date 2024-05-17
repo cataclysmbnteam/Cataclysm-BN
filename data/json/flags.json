@@ -1827,6 +1827,11 @@
     "context": [  ]
   },
   {
+    "id": "SHOCKING",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "SLEEP_IGNORE",
     "type": "json_flag",
     "context": [  ]
@@ -2148,5 +2153,21 @@
     "context": [ "GUNMOD" ],
     "//": "Implied by having a reach attack mode on the gunmod, but can be explicit for non-reach bayonets.",
     "info": "When attached to a gun, this item <good>contributes to its melee damage</good>."
+  },
+  {
+    "id": "ROOF",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "WEATHER_FORECAST",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "It can show the automated weather forcast."
+  },
+  {
+    "id": "WINDMETER",
+    "type": "json_flag",
+    "context": [  ]
   }
 ]

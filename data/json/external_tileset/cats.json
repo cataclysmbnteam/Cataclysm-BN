@@ -1,0 +1,23 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "external_tileset/cats.png",
+        "tiles": [
+          { "id": "mon_cat_black", "fg": 0 },
+          { "id": "corpse_mon_cat_black", "fg": 1 },
+          { "id": "mon_cat_black_kitten", "fg": 2 },
+          { "id": "corpse_mon_cat_black_kitten", "fg": 3 },
+          { "id": "mon_cat_void", "fg": 4 },
+          { "id": "corpse_mon_cat_void", "fg": 5 },
+          { "id": "mon_cat_void_kitten", "fg": 6 },
+          { "id": "corpse_mon_cat_void_kitten", "fg": 7 }
+        ],
+        "sprite_width": 32,
+        "sprite_height": 32
+      }
+    ]
+  }
+]

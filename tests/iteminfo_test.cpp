@@ -712,9 +712,8 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
             "test_rock", q,
             "--\n"
             "<color_c_white>Ammunition type</color>: rocks\n"
-            "Damage: <color_c_yellow>7</color>  Armor-pierce: <color_c_yellow>0</color>\n"
-            "Range: <color_c_yellow>10</color>  Dispersion: <color_c_yellow>14</color>\n"
-            "Recoil: <color_c_yellow>0</color>" );
+            "Damage: <color_c_yellow>7</color>\n"
+            "Range: <color_c_yellow>10</color>  Dispersion: <color_c_yellow>14</color>\n" );
     }
 }
 
@@ -741,9 +740,9 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
             "--\n"
             "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
             "<color_c_white>Calories (kcal)</color>: <color_c_yellow>282</color>-"
-            "<color_c_yellow>469</color>  Quench: <color_c_yellow>0</color>\n"
-            "Vitamins (RDA): Calcium (7-28%), Iron (0-83%), "
-            "Vitamin A (3-11%), Vitamin B12 (2-6%), and Vitamin C (1-85%)\n" );
+            "<color_c_yellow>644</color>  Quench: <color_c_yellow>0</color>\n"
+            "Vitamins (RDA): Calcium (7-35%), Iron (0-98%), "
+            "Vitamin A (3-11%), Vitamin B12 (2-6%), and Vitamin C (1-85%)\n");
     }
 }
 
@@ -883,7 +882,7 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 
     test_info_contains(
         *item::spawn( "test_hazmat_suit" ), q,
-        "<color_c_white>Repair</color> using grid soldering iron, soldering iron, TEST soldering iron, or extended toolset.\n" );
+        "<color_c_white>Repair</color> using grid soldering iron, alcohol-fueled soldering iron, electric soldering iron, TEST soldering iron, or extended toolset.\n" );
 
     test_info_contains(
         *item::spawn( "test_rock" ), q, "* This item is <color_c_red>not repairable</color>.\n" );

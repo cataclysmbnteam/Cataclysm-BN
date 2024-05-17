@@ -254,5 +254,11 @@ std::string map_data_common_t::extended_description() const
         }
     }
 
+    if( !flags.empty() ) {
+        ss << _( "Flags: " ) << enumerate_as_string( flags.begin(), flags.end(), []( const auto & it ) {
+            return it;
+        } ) << '\n';
+    }
+
     return replace_colors( ss.str() );
 }

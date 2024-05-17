@@ -52,7 +52,7 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 - [with makefile](doc/src/content/docs/en/dev/guides/building/makefile.md): supports Linux, macOS,
   and BSD.
 - [with MSYS2](doc/src/content/docs/en/dev/guides/building/msys.md)
-- [with vcpkjg](doc/src/content/docs/en/dev/guides/building/vs_vcpkg.md)
+- [with vcpkg](doc/src/content/docs/en/dev/guides/building/vs_vcpkg.md)
 - [with cmake](doc/src/content/docs/en/dev/guides/building/cmake.md)
 - [which compilers we support](doc/src/content/docs/en/dev/reference/compiler_support.md)
 

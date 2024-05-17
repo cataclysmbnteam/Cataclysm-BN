@@ -279,6 +279,7 @@ const flag_id flag_ROLLER_ONE( "ROLLER_ONE" );
 const flag_id flag_ROLLER_QUAD( "ROLLER_QUAD" );
 const flag_id flag_SAFECRACK( "SAFECRACK" );
 const flag_id flag_SEMITANGIBLE( "SEMITANGIBLE" );
+const flag_id flag_SHOCKING( "SHOCKING" );
 const flag_id flag_SILENT( "SILENT" );
 const flag_id flag_SKINNED( "SKINNED" );
 const flag_id flag_SKINTIGHT( "SKINTIGHT" );
@@ -346,6 +347,8 @@ const flag_id flag_ZOOM( "ZOOM" );
 const flag_id flag_wooled( "wooled" );
 const flag_id flag_MUTE( "MUTE" );
 const flag_id flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
+const flag_id flag_WEATHER_FORECAST( "WEATHER_FORECAST" );
+const flag_id flag_WINDMETER( "WINDMETER" );
 
 namespace
 {

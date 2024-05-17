@@ -28,7 +28,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie_maybe_mil_bionics",
-    "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 } ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_soldier_death_drops",
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" },

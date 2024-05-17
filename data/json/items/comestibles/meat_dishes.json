@@ -62,6 +62,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "sausage_condiment",
+    "name": "sausage with condiment",
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "ketchup", "name": "sausage with ketchup" },
+      { "type": "COMPONENT_ID", "condition": "mayonnaise", "name": "sausage with mayonnaise" },
+      { "type": "COMPONENT_ID", "condition": "mustard", "name": "sausage with mustard" },
+      { "type": "COMPONENT_ID", "condition": "horseradish", "name": "sausage with horseradish" }
+    ],
+    "copy-from": "sausage_cooked",
+    "fun": 8,
+    "description": "If bland sausage isn't enough, just put some condiments on it.  Kids do it, why not you?"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "potted_meat",
     "looks_like": "meat_cooked",
     "name": { "str_sp": "potted meat" },
