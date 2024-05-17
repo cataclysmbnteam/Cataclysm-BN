@@ -334,7 +334,7 @@
       "sloc_bastion_fort"
     ],
     "start_name": "Outside Town",
-    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],	
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "WIN_START", "LONE_START" ],
     "add_professions": true,
     "professions": [

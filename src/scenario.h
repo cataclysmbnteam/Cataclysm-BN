@@ -115,7 +115,7 @@ class scenario
 
         const std::vector<mission_type_id> &missions() const;
 
-        const std::vector<std::pair<mongroup_id, float>>& surround_groups() const;
+        const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 };
 
 struct scen_blacklist {

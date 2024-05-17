@@ -95,8 +95,8 @@ void scenario::load( const JsonObject &jo, const std::string & )
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
     }
 
-    for (JsonArray ja : jo.get_array("surround_groups")) {
-        _surround_groups.emplace_back(mongroup_id(ja.get_string(0)), ja.get_float(1));
+    for( JsonArray ja : jo.get_array( "surround_groups" ) ) {
+        _surround_groups.emplace_back( mongroup_id( ja.get_string( 0 ) ), ja.get_float( 1 ) );
     }
 }
 
@@ -466,7 +466,7 @@ const std::vector<mission_type_id> &scenario::missions() const
 {
     return _missions;
 }
-const std::vector<std::pair<mongroup_id, float>>& scenario::surround_groups() const
+const std::vector<std::pair<mongroup_id, float>> &scenario::surround_groups() const
 {
     return _surround_groups;
 }
