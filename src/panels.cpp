@@ -1580,7 +1580,6 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     werase( w );
 
     draw_minimap( u, w );
-    draw_rectangle( w, c_light_gray, point_zero, point( 6, 6 ) );
 
     // print limb health
     for( int i = 0; i < num_hp_parts; i++ ) {
