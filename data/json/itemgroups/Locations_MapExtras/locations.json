@@ -189,7 +189,7 @@
       [ "fan", 5 ],
       [ "cleansuit", 10 ],
       [ "pouch_autoclave", 20 ],
-      [ "bionics_common", 20 ],
+      { "group": "bionics_common", "prob": 20 },
       [ "oxy_powder", 2 ],
       [ "hazmat_suit", 5 ],
       [ "fungicide", 10 ],
