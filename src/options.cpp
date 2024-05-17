@@ -1443,6 +1443,14 @@ void options_manager::add_options_general()
 
     get_option( "AUTO_NOTES_MAP_EXTRAS" ).setPrerequisite( "AUTO_NOTES" );
 
+    add( "AUTO_NOTES_DROPPED_FAVORITES", "general",
+         translate_marker( "Auto notes (dropped favorites)" ),
+         translate_marker( "If true, automatically sets notes when player drops favorited items." ),
+         true
+       );
+
+    get_option( "AUTO_NOTES_DROPPED_FAVORITES" ).setPrerequisite( "AUTO_NOTES" );
+
     add_empty_line();
 
     add( "CIRCLEDIST", general, translate_marker( "Circular distances" ),

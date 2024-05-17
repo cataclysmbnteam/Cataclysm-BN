@@ -53,6 +53,8 @@
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
+#include "options.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
 #include "pickup_token.h"
 #include "player.h"
@@ -390,6 +392,17 @@ void drop_on_map( Character &c, item_drop_reason reason,
                 );
                 break;
         }
+
+
+        if( get_option<bool>( "AUTO_NOTES_DROPPED_FAVORITES" ) && it->is_favorite ) {
+            const tripoint_abs_omt your_pos = c.global_omt_location();
+            if( !overmap_buffer.has_note( your_pos ) ) {
+                overmap_buffer.add_note( your_pos, it->display_name() );
+            } else {
+                overmap_buffer.add_note( your_pos, overmap_buffer.note( your_pos ) + "; " + it->display_name() );
+            }
+        }
+
     } else {
         switch( reason ) {
             case item_drop_reason::deliberate:
