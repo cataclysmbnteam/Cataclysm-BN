@@ -314,7 +314,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
 {
     const tripoint_abs_omt curs = u.global_omt_location();
-    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, 5, 5 );
+    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, 7, 7 );
 }
 
 static void decorate_panel( const std::string &name, const catacurses::window &w )
