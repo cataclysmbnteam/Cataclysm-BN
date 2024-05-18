@@ -87,13 +87,15 @@ Example for mods:
 
 (optional, array with group and density number)
 
-This replaces the `SUR_START` flag for scenarios, specifies groups of monsters which spawn in the area surrounding the scenario's staritng location.
+This replaces the `SUR_START` flag for scenarios, specifies groups of monsters which spawn in the
+area surrounding the scenario's staritng location.
 
 ```json
-    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+"surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
 ```
 
-The string defines the ID of which monstergroup will be spawned in the surrounding area, while the number is the density of spawns. 70.0 replicates the value of the original `SUR_START` behavior.
+The string defines the ID of which monstergroup will be spawned in the surrounding area, while the
+number is the density of spawns. 70.0 replicates the value of the original `SUR_START` behavior.
 
 ## `flags`
 

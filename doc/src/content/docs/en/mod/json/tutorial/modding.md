@@ -126,8 +126,8 @@ Below you will find the JSON definition for the game's built-in `Large Building`
       "hospital_9"
     ],
     "start_name": "In Large Building",
-    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
-    "flags": [ "CITY_START", "LONE_START" ]
+    "surround_groups": [["GROUP_BLACK_ROAD", 70.0]],
+    "flags": ["CITY_START", "LONE_START"]
   }
 ]
 ```
