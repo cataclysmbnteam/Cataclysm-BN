@@ -10,6 +10,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "acid_anthill",
+    "copy-from": "anthill",
+    "name": "sulfurous anthill",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "ants_food",
     "name": "ant food storage",
     "sym": "O",
