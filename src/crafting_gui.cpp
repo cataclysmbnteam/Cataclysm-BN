@@ -137,7 +137,7 @@ void reset_recipe_categories()
 namespace
 {
 struct availability {
-    explicit availability( const recipe *r, Character &u, int batch_size, bool known ) {
+    explicit availability( const recipe *r, int batch_size, bool known ) {
         this->known = known;
         const inventory &inv = get_avatar().crafting_inventory();
         auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
@@ -152,9 +152,9 @@ struct availability {
         apparently_craftable = simple_req.can_make_with_inventory(
                                    inv, all_items_filter, batch_size, cost_adjustment::start_only );
         has_all_skills = r->skill_used.is_null() ||
-                         u.get_skill_level( r->skill_used ) >= r->difficulty;
+                         get_player_character().get_skill_level( r->skill_used ) >= r->difficulty;
         for( const std::pair<const skill_id, int> &e : r->required_skills ) {
-            if( u.get_skill_level( e.first ) < e.second ) {
+            if( get_player_character().get_skill_level (e.first ) < e.second) {
                 has_all_skills = false;
                 break;
             }

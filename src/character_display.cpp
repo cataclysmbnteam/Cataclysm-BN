@@ -540,7 +540,7 @@ static void draw_encumbrance_info( const catacurses::window &w_info,
         combined_here = bps[line].second;
     }
     const std::string s = get_encumbrance_description( you, bp, combined_here );
-    const std::string desc = join( s, "\n" );
+    const std::string desc = s + "\n";
     draw_x_info( w_info, desc, info_line );
     wnoutrefresh( w_info );
 }
