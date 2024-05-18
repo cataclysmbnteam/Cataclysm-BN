@@ -90,27 +90,6 @@ window_panel::window_panel( std::function<void( avatar &, const catacurses::wind
 // panels prettify and helper functions
 // ====================================
 
-static void draw_rectangle( const catacurses::window &w, nc_color, point top_left,
-                            point bottom_right )
-{
-    // corners
-    mvwaddch( w, top_left, LINE_OXXO );
-    mvwaddch( w, point( top_left.x, bottom_right.y ), LINE_XXOO );
-    mvwaddch( w, point( bottom_right.x, top_left.y ), LINE_OOXX );
-    mvwaddch( w, bottom_right, LINE_XOOX );
-
-    for( int i = 1; i < bottom_right.x; i++ ) {
-        mvwaddch( w, point( i, top_left.y ), LINE_OXOX );
-        mvwaddch( w, point( i, bottom_right.y ), LINE_OXOX );
-    }
-
-    for( int i = 1; i < bottom_right.y; i++ ) {
-        mvwaddch( w, point( top_left.x, i ), LINE_XOXO );
-        mvwaddch( w, point( bottom_right.x, i ), LINE_XOXO );
-    }
-}
-
-
 static std::pair<nc_color, std::string> str_string( const avatar &p )
 {
     const nc_color clr = color_compare_base( p.get_str_base(), p.get_str() );
