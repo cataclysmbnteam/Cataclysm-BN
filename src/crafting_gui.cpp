@@ -154,7 +154,7 @@ struct availability {
         has_all_skills = r->skill_used.is_null() ||
                          get_player_character().get_skill_level( r->skill_used ) >= r->difficulty;
         for( const std::pair<const skill_id, int> &e : r->required_skills ) {
-            if( get_player_character().get_skill_level (e.first ) < e.second) {
+            if( get_player_character().get_skill_level( e.first ) < e.second ) {
                 has_all_skills = false;
                 break;
             }
