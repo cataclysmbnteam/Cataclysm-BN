@@ -14,5 +14,5 @@ cursor position. You can call `ui_adaptor::set_cursor` and similar methods at an
 position in a redrawing callback, and the last cursor position of the topmost UI
 set via the call will be used as the final cursor position. You can also call
 `ui_adaptor::disable_cursor` to prevent a UI's cursor from being used as the final
-cursor position.
+cursor position 
 
