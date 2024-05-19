@@ -29,7 +29,7 @@
       "underground_sub_station": "underground_sub_station_north",
       "sewer_sub_station": "sewer_sub_station_north",
       "anthill": "anthill_north",
-      "acid_anthill": "anthill_north",
+      "acid_anthill": "acid_anthill_north",
       "ants_food": "ants_food_north",
       "ants_larvae": "ants_larvae_north",
       "ants_larvae_acid": "acid_ants_larvae_north",
