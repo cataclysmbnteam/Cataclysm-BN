@@ -58,8 +58,9 @@
       "palettes": [ "lumberyard" ],
       "faction_owner": [
         { "id": "wasteland_scavengers", "x": [ 1, 23 ], "y": [ 1, 23 ] },
-        { "id": "wasteland_scavengers", "x": [ 24, 47 ], "y": [ 24, 47 ] },
-        { "id": "wasteland_scavengers", "x": [ 48, 71 ], "y": [ 48, 71 ] }
+        { "id": "wasteland_scavengers", "x": [ 1, 23 ], "y": [ 24, 47 ] },
+        { "id": "wasteland_scavengers", "x": [ 24, 47 ], "y": [ 1, 23 ] },
+        { "id": "wasteland_scavengers", "x": [ 24, 47 ], "y": [ 24, 47 ] }
       ],
       "terrain": { "o": "t_concrete" },
       "gaspumps": { "G": { "fuel": "gasoline", "amount": [ 50000, 268750 ] } },
@@ -253,6 +254,41 @@
       ],
       "terrain": { "v": "t_wall_wood", "!": "t_door_c", ".": "t_floor", "b": "t_floor", "0": "t_window" },
       "furniture": { "b": "f_makeshift_bed" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "occupied_lum_hotel_roof_1_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "             .........  ",
+        "             .........  ",
+        "             .........  ",
+        "             .........  ",
+        "             .........  ",
+        "             .........  ",
+        "             .........  ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_flat_roof" }
     }
   }
 ]
