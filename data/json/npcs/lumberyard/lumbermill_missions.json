@@ -117,7 +117,13 @@
     },
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "end": {
-      "update_mapgen": { "om_terrain": "lumbermill_1_1_ocu", "place_nested": [ { "chunks": [ "occupied_lum_hotel_1_1" ], "x": 0, "y": 0 } ] }
+      "update_mapgen": [
+        { "om_terrain": "lumbermill_1_1_ocu", "place_nested": [ { "chunks": [ "occupied_lum_hotel_1_1" ], "x": 0, "y": 0 } ] },
+        {
+          "om_terrain": "lumbermill_1_1_roof",
+          "place_nested": [ { "chunks": [ "occupied_lum_hotel_roof_1_1" ], "x": 0, "y": 0 } ]
+        }
+      ]
     },
     "followup": "MISSION_LUMBERMILL_SET_TRADE_ROUTE",
     "has_generic_rewards": true,
