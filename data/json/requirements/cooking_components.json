@@ -846,7 +846,8 @@
         [ "dry_lentils", 1 ],
         [ "chili_pepper_roasted", 1 ],
         [ "veggy_sausage", 1 ],
-        [ "veggy_sausage_cooked", 1 ]
+        [ "veggy_sausage_cooked", 1 ],
+        [ "cooked_cattail_stalk", 1 ]
       ]
     ]
   },
