@@ -1105,7 +1105,7 @@ std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step(
         auto new_path = compute_path( data.max_speed_tps );
         while( !new_path && data.max_speed_tps > MIN_SPEED_TPS ) {
             // high speed didn't work, try a lower speed
-            data.max_speed_tps /= 1.3;
+            data.max_speed_tps /= 2;
             new_path = compute_path( data.max_speed_tps );
         }
         if( !new_path ) {
