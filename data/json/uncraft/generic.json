@@ -1450,10 +1450,34 @@
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
   },
   {
+    "result": "ceramic_mug",
+    "type": "uncraft",
+    "time": "1 m",
+    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+  },
+  {
     "result": "ceramic_plate",
     "type": "uncraft",
     "time": "1 m",
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
+  },
+  {
+    "result": "casserole",
+    "type": "uncraft",
+    "time": "1 m",
+    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+  },
+  {
+    "result": "ceramic_armor",
+    "type": "uncraft",
+    "time": "1 m",
+    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+  },
+  {
+    "result": "crucible",
+    "type": "uncraft",
+    "time": "1 m",
+    "components": [ [ [ "ceramic_shard", 2 ] ] ]
   },
   {
     "result": "bowl_pewter",
