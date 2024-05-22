@@ -2268,7 +2268,7 @@ void options_manager::add_options_debug()
     get_option( "MADE_OF_EXPLODIUM" ).setPrerequisite( "OLD_EXPLOSIONS", "false" );
 
     add_empty_line();
-		 
+
     add( "MAX_AUTODRIVE_SPEED", debug, translate_marker( "Maximum auto-drive speed" ),
          translate_marker( "Set the maximum speed for the auto-drive feature.  In tiles/s.  Default is 9 (36 mph or 57 km/h)." ),
          1, 100, 9 );

@@ -800,7 +800,7 @@ void vehicle::autodrive_controller::compute_goal_zone()
 
 void vehicle::autodrive_controller::precompute_data()
 {
-	const int MAX_SPEED_TPS = get_option<int>( "MAX_AUTODRIVE_SPEED" );
+    const int MAX_SPEED_TPS = get_option<int>( "MAX_AUTODRIVE_SPEED" );
     const tripoint_abs_omt current_omt = driven_veh.global_omt_location();
     const tripoint_abs_omt next_omt = driver.omt_path.back();
     const tripoint_abs_omt next_next_omt = driver.omt_path.size() >= 2 ?
