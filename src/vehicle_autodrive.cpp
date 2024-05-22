@@ -855,7 +855,7 @@ scored_address vehicle::autodrive_controller::compute_node_score( const node_add
     // TODO: tweak this
     constexpr int cost_mult = 1;
     constexpr int forward_dist_mult = 10;
-    constexpr int side_dist_mult = 8;
+    constexpr int side_dist_mult = 16;
     constexpr int angle_mult = 2;
     constexpr int nearness_penalty = 15;
     scored_address ret{ addr, 0 };
@@ -889,7 +889,7 @@ void vehicle::autodrive_controller::compute_next_nodes( const node_address &addr
         std::vector<std::pair<node_address, navigation_node>> &next_nodes )
 const
 {
-    constexpr int move_cost = 10;
+    constexpr int move_cost = 0;
     constexpr int steering_cost = 1;
     const int sign = target_speed_tps > 0 ? 1 : -1;
     const int target_speed = target_speed_tps * VMIPH_PER_TPS;
