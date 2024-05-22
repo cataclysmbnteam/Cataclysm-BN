@@ -2266,6 +2266,12 @@ void options_manager::add_options_debug()
          false );
 
     get_option( "MADE_OF_EXPLODIUM" ).setPrerequisite( "OLD_EXPLOSIONS", "false" );
+	
+	add_empty_line();
+	
+    add( "MAX_AUTODRIVE_SPEED", debug, translate_marker( "Maximum auto-drive speed" ),
+         translate_marker( "Set the maximum speed for the auto-drive feature.  One step is 4 mph or 6,36 km/h.  Default is 9 (36 mph or 57 km/h)." ),
+         1, 100, 9 );
 }
 
 void options_manager::add_options_world_default()

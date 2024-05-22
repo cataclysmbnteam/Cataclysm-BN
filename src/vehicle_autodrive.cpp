@@ -28,6 +28,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "options.h"
 #include "point.h"
 #include "tileray.h"
 #include "translations.h"
@@ -138,7 +139,7 @@ static constexpr int TURNING_INCREMENT = 15;
 static constexpr int NUM_ORIENTATIONS = 360 / TURNING_INCREMENT;
 // min and max speed in tiles/s
 static constexpr int MIN_SPEED_TPS = 1;
-static constexpr int MAX_SPEED_TPS = 10;
+const int MAX_SPEED_TPS = get_option<int>( "MAX_AUTODRIVE_SPEED" );
 static constexpr int VMIPH_PER_TPS = static_cast<int>( vehicles::vmiph_per_tile );
 
 /**
