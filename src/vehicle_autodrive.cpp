@@ -273,7 +273,7 @@ struct auto_navigation_data {
     bool land_ok;
     bool water_ok;
     bool air_ok;
-	// the minimum speed to consider driving at, in tiles/s
+    // the minimum speed to consider driving at, in tiles/s
     // the maximum speed to consider driving at, in tiles/s
     int max_speed_tps;
     // max acceleration
@@ -1089,14 +1089,14 @@ collision_check_result vehicle::autodrive_controller::check_collision_zone( orie
 
 void vehicle::autodrive_controller::reduce_speed()
 {
-	const int MIN_SPEED_TPS = get_option<int>( "MIN_AUTODRIVE_SPEED" );
+    const int MIN_SPEED_TPS = get_option<int>( "MIN_AUTODRIVE_SPEED" );
     data.max_speed_tps = MIN_SPEED_TPS;
 }
 
 std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step()
 {
     precompute_data();
-	const int MIN_SPEED_TPS = get_option<int>( "MIN_AUTODRIVE_SPEED" );
+    const int MIN_SPEED_TPS = get_option<int>( "MIN_AUTODRIVE_SPEED" );
     const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
     while( !data.path.empty() && data.path.back().pos != veh_pos ) {
         data.path.pop_back();
