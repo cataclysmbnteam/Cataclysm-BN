@@ -2269,6 +2269,10 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
+    add( "MIN_AUTODRIVE_SPEED", debug, translate_marker( "Minimum auto-drive speed" ),
+         translate_marker( "Set the minimum speed for the auto-drive feature.  In tiles/s.  Default is 1 (4 mph or 6 km/h)." ),
+         1, 100, 1 );
+
     add( "MAX_AUTODRIVE_SPEED", debug, translate_marker( "Maximum auto-drive speed" ),
          translate_marker( "Set the maximum speed for the auto-drive feature.  In tiles/s.  Default is 9 (36 mph or 57 km/h)." ),
          1, 100, 9 );
