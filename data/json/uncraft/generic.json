@@ -1540,6 +1540,20 @@
     "components": [ [ [ "ceramic_shard", 4 ] ] ]
   },
   {
+    "result": "brick",
+    "type": "uncraft",
+    "time": "3 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CHISEL", "level": 1 } ],
+    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+  },
+  {
+    "result": "fire_brick",
+    "type": "uncraft",
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 1 } ],
+    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+  },
+  {
     "result": "bowl_pewter",
     "type": "uncraft",
     "time": "30 s",
