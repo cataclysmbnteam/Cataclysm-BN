@@ -137,8 +137,8 @@ static constexpr int NAV_VIEW_SIZE_Y = NAV_MAP_SIZE_Y + 2 * NAV_VIEW_PADDING;
 static constexpr int TURNING_INCREMENT = 15;
 static constexpr int NUM_ORIENTATIONS = 360 / TURNING_INCREMENT;
 // min and max speed in tiles/s
-static constexpr int MIN_SPEED_TPS = 2;
-static constexpr int MAX_SPEED_TPS = 5;
+static constexpr int MIN_SPEED_TPS = 1;
+static constexpr int MAX_SPEED_TPS = 10;
 static constexpr int VMIPH_PER_TPS = static_cast<int>( vehicles::vmiph_per_tile );
 
 /**
@@ -1094,7 +1094,6 @@ std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step(
 {
     precompute_data();
     const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
-    const bool had_cached_path = !data.path.empty();
     while( !data.path.empty() && data.path.back().pos != veh_pos ) {
         data.path.pop_back();
     }
@@ -1102,10 +1101,6 @@ std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step(
         data.path.clear();
     }
     if( data.path.empty() ) {
-        // if we're just starting out or we've gone off-course use the lowest speed
-        if( had_cached_path || driven_veh.velocity == 0 ) {
-            data.max_speed_tps = MIN_SPEED_TPS;
-        }
         auto new_path = compute_path( data.max_speed_tps );
         while( !new_path && data.max_speed_tps > MIN_SPEED_TPS ) {
             // high speed didn't work, try a lower speed
