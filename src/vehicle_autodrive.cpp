@@ -1094,7 +1094,6 @@ std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step(
 {
     precompute_data();
     const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
-    const bool had_cached_path = !data.path.empty();
     while( !data.path.empty() && data.path.back().pos != veh_pos ) {
         data.path.pop_back();
     }
