@@ -138,7 +138,7 @@ static constexpr int NAV_VIEW_SIZE_Y = NAV_MAP_SIZE_Y + 2 * NAV_VIEW_PADDING;
 static constexpr int TURNING_INCREMENT = 15;
 static constexpr int NUM_ORIENTATIONS = 360 / TURNING_INCREMENT;
 // min and max speed in tiles/s
-static constexpr int MIN_SPEED_TPS = 1;
+const int MIN_SPEED_TPS = get_option<int>( "MIN_AUTODRIVE_SPEED" );
 const int MAX_SPEED_TPS = get_option<int>( "MAX_AUTODRIVE_SPEED" );
 static constexpr int VMIPH_PER_TPS = static_cast<int>( vehicles::vmiph_per_tile );
 
