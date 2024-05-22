@@ -1772,6 +1772,12 @@
     "components": [ [ [ "glass_shard", 1 ] ] ]
   },
   {
+    "result": "wine_glass",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+  },
+  {
     "result": "glass_bowl",
     "type": "uncraft",
     "time": "30 s",
@@ -1803,6 +1809,30 @@
   },
   {
     "result": "flask_glass",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+  },
+  {
+    "result": "beaker",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+  },
+  {
+    "result": "glass_tube_small",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+  },
+  {
+    "result": "gradcylinder",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+  },
+  {
+    "result": "crackpipe",
     "type": "uncraft",
     "time": "30 s",
     "components": [ [ [ "glass_shard", 1 ] ] ]
