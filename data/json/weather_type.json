@@ -51,7 +51,7 @@
     "sun_intensity": "high",
     "requirements": {
       "pressure_min": 1025,
-      "humidity_max": 50,
+      "humidity_max": 63,
       "time": "day",
       "humidity_and_pressure": false,
       "required_weathers": [ "clear" ]
@@ -73,7 +73,7 @@
     "rains": false,
     "acidic": false,
     "sun_intensity": "light",
-    "requirements": { "pressure_max": 1010, "humidity_min": 70, "humidity_and_pressure": false }
+    "requirements": { "pressure_max": 1010, "humidity_min": 73, "humidity_and_pressure": false }
   },
   {
     "id": "light_drizzle",
