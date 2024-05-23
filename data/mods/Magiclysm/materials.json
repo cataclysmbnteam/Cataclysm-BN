@@ -101,7 +101,7 @@
     "fire_resist": 20,
     "elec_resist": 20,
     "chip_resist": 15,
-    "dmg_adj": ["scratched", "cut", "shredded", "tattered"],
+    "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "sliced"
   }
