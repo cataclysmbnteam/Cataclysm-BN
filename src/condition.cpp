@@ -393,7 +393,7 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
         const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
         const std::string &omt_str = omt_ref.id().c_str();
 
-      
+
     };
 }
 
