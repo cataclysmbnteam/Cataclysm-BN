@@ -1922,7 +1922,8 @@
     "type": "keybinding",
     "name": "Toggle Auto Travel Mode",
     "category": "DEFAULTMODE",
-    "id": "auto_travel_mode"
+    "id": "auto_travel_mode",
+    "bindings": [ { "input_method": "keyboard", "key": "," } ]
   },
   {
     "type": "keybinding",
@@ -1956,8 +1957,7 @@
     "type": "keybinding",
     "name": "Commit Suicide",
     "category": "DEFAULTMODE",
-    "id": "SUICIDE",
-    "bindings": [ { "input_method": "keyboard", "key": "Q" } ]
+    "id": "SUICIDE"
   },
   {
     "type": "keybinding",
@@ -2050,13 +2050,15 @@
     "type": "keybinding",
     "name": "Debug Menu",
     "category": "DEFAULTMODE",
-    "id": "debug"
+    "id": "debug",
+    "bindings": [ { "input_method": "keyboard", "key": "F11" } ]
   },
   {
     "type": "keybinding",
     "name": "Lua Console",
     "category": "DEFAULTMODE",
-    "id": "lua_console"
+    "id": "lua_console",
+    "bindings": [ { "input_method": "keyboard", "key": "`" } ]
   },
   {
     "type": "keybinding",
@@ -2333,13 +2335,15 @@
     "type": "keybinding",
     "id": "cast_spell",
     "name": "Spellcasting",
-    "category": "DEFAULTMODE"
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard", "key": "]" } ]
   },
   {
     "type": "keybinding",
     "id": "diary",
     "name": "Open Diary",
-    "category": "DEFAULTMODE"
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard", "key": "HOME" } ]
   },
   {
     "type": "keybinding",

@@ -660,7 +660,7 @@ int character_display::display_empty_handed_base_damage( const Character &you )
         // Mutation and bionic bonuses double if both hands are free
         int per_hand = 0;
         if( you.has_bionic( bionic_id( "bio_razors" ) ) ) {
-            per_hand += 4;
+            per_hand += 9;
         }
         for( const trait_id &mut : you.get_mutations() ) {
             if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&

@@ -86,7 +86,7 @@
     "id": "wheel_armor",
     "category": "veh_parts",
     "name": { "str": "armored wheel" },
-    "description": "A wide military grade wheel.",
+    "description": "A wide military grade wheel.  Performs well off-road.",
     "weight": "24500 g",
     "volume": "17500 ml",
     "price": "340 USD",

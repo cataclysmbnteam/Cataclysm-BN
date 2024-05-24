@@ -80,6 +80,7 @@ static const itype_id itype_underbrush( "underbrush" );
 
 static const skill_id skill_swimming( "swimming" );
 
+static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
@@ -90,8 +91,6 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 static const std::string flag_LADDER( "LADDER" );
 
 #define dbg(x) DebugLog((x), DC::SDL)
-
-bool can_fire_turret( avatar &you, const map &m, const turret_data &turret );
 
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
@@ -663,6 +662,11 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
         return false;
     }
 
+    if( you.has_trait( trait_BRAWLER ) ) {
+        add_msg( m_good, _( "You refuse to use this ranged weapon." ) );
+        return false;
+    }
+
     if( you.has_effect( effect_relax_gas ) ) {
         if( one_in( 5 ) ) {
             add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
@@ -690,16 +694,34 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
     return false;
 }
 
-/**
- * Checks if the turret is valid and if the player meets certain conditions for manually firing it.
- * @param turret Turret to check.
- * @return True if all conditions are true, otherwise false.
- */
-bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
+bool avatar_action::will_fire_turret( avatar &you )
+{
+    if( you.has_trait( trait_BRAWLER ) ) {
+        add_msg( m_bad, _( "You refuse to use this ranged weapon" ) );
+        return false;
+    }
+
+    if( you.has_effect( effect_relax_gas ) ) {
+        if( one_in( 5 ) ) {
+            add_msg( m_good, _( "Your eyes steel, and you aim your weapon!" ) );
+        } else {
+            you.moves -= rng( 2, 5 ) * 10;
+            add_msg( m_bad, _( "You are too pacified to aim the turret…" ) );
+            return false;
+        }
+    }
+    return true;
+}
+
+bool avatar_action::can_fire_turret( avatar &you, const map &m, const turret_data &turret )
 {
     const item &weapon = turret.base();
     if( !weapon.is_gun() ) {
         debugmsg( "Expected turret base to be a gun." );
+        return false;
+    }
+
+    if( !will_fire_turret( you ) ) {
         return false;
     }
 
@@ -718,16 +740,6 @@ bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
         default:
             debugmsg( "Unknown turret status" );
             return false;
-    }
-
-    if( you.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
-            add_msg( m_good, _( "Your eyes steel, and you aim your weapon!" ) );
-        } else {
-            you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You are too pacified to aim the turret…" ) );
-            return false;
-        }
     }
 
     std::vector<std::string> messages;
@@ -887,7 +899,7 @@ void avatar_action::eat( avatar &you, item *loc )
         loc->attempt_detach( [&you]( detached_ptr<item> &&it ) {
             return you.consume_item( std::move( it ) );
         } );
-        if( loc->is_food_container() || !you.can_consume_as_is( *loc ) ) {
+        if( !loc->is_food_container() && !you.can_consume_as_is( *loc ) ) {
             add_msg( _( "You leave the empty %s." ), loc->tname() );
         }
     }

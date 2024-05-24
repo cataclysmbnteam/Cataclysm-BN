@@ -173,6 +173,7 @@ enum debug_menu_index {
     DEBUG_SAVE_SCREENSHOT,
     DEBUG_BUG_REPORT,
     DEBUG_GAME_REPORT,
+    DEBUG_JOIN_DISCORD,
     DEBUG_DISPLAY_SCENTS_LOCAL,
     DEBUG_DISPLAY_SCENTS_TYPE_LOCAL,
     DEBUG_DISPLAY_TEMP,
@@ -211,6 +212,7 @@ static int info_uilist( bool display_all_entries = true )
         { uilist_entry( DEBUG_SAVE_SCREENSHOT, true, 'H', _( "Take screenshot" ) ) },
         { uilist_entry( DEBUG_BUG_REPORT, true, 'U', _( "Submit a bug report on github" ) ) },
         { uilist_entry( DEBUG_GAME_REPORT, true, 'r', _( "Generate game report" ) ) },
+        { uilist_entry( DEBUG_JOIN_DISCORD, true, 'J', _( "Join the Discord" ) ) },
     };
 
     if( display_all_entries ) {
@@ -563,7 +565,7 @@ void character_edit_menu( Character &c )
 
     enum edit_character {
         pick, desc, skills, stats, items, delete_items, item_worn,
-        hp, stamina, morale, pain, needs, healthy, status, mission_add, mission_edit,
+        hp, stamina, morale, clear_morale, pain, needs, healthy, status, mission_add, mission_edit,
         tele, mutate, bionics, npc_class, attitude, opinion, effects,
         learn_ma, unlock_recipes, learn_spells, level_spells
     };
@@ -580,6 +582,7 @@ void character_edit_menu( Character &c )
             uilist_entry( edit_character::hp, true, 'h',  _( "Set [h]it points" ) ),
             uilist_entry( edit_character::stamina, true, 'S',  _( "Set [S]tamina" ) ),
             uilist_entry( edit_character::morale, true, 'o',  _( "Set m[o]rale" ) ),
+            uilist_entry( edit_character::clear_morale, true, 'O',  _( "Clear all m[O]rale effects" ) ),
             uilist_entry( edit_character::pain, true, 'P',  _( "Cause [P]ain" ) ),
             uilist_entry( edit_character::healthy, true, 'a',  _( "Set he[a]lth" ) ),
             uilist_entry( edit_character::needs, true, 'n',  _( "Set [n]eeds" ) ),
@@ -770,6 +773,9 @@ void character_edit_menu( Character &c )
             }
         }
         break;
+        case edit_character::clear_morale:
+            p.clear_morale();
+            break;
         case edit_character::opinion: {
             if( np == nullptr ) {
                 // HACK: For some reason, tidy is not satisfied with simple assert(np)
@@ -2112,6 +2118,12 @@ void debug()
             popup( popup_msg );
         }
         break;
+
+        case DEBUG_JOIN_DISCORD: {
+            open_url( "https://discord.gg/XW7XhXuZ89" );
+            popup( _( "Opened a link to join Bright Nights Discord." ) );
+            break;
+        }
 
         case DEBUG_VEHICLE_BATTERY_CHARGE: {
             optional_vpart_position v_part_pos = g->m.veh_at( u.pos() );

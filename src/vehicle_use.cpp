@@ -89,6 +89,7 @@ static const fault_id fault_pump( "fault_engine_pump_fuel" );
 static const fault_id fault_starter( "fault_engine_starter" );
 
 static const skill_id skill_mechanics( "mechanics" );
+
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
 enum change_types : int {
@@ -839,15 +840,19 @@ void vehicle::use_controls( const tripoint &pos )
         actions.emplace_back( [&] { turrets_set_mode(); refresh(); } );
 
         // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
-        options.emplace_back( _( "Aim turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
-        actions.emplace_back( [&] { turrets_aim_and_fire_all_manual( true ); refresh(); } );
+        options.emplace_back( _( "Aim manual turrets" ), keybind( "TURRET_MANUAL_AIM" ) );
+        actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::MANUAL, true ); refresh(); } );
 
         // This lets us manually override and set the target for the automatic turrets instead.
         options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
-        actions.emplace_back( [&] { turrets_override_automatic_aim(); refresh(); } );
+        actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::AUTOMATIC, true ); refresh(); } );
+
+        // This lets us manually override and set the target for all turrets.
+        options.emplace_back( _( "Aim all turrets" ), keybind( "TURRET_ALL_OVERRIDE" ) );
+        actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::BOTH, true ); refresh(); } );
 
         options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
-        actions.emplace_back( [&] { turrets_aim_and_fire_single(); refresh(); } );
+        actions.emplace_back( [&] { turrets_aim_and_fire_single( you ); refresh(); } );
     }
 
     uilist menu;

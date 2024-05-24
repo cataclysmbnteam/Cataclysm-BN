@@ -1655,11 +1655,6 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( idescription != item_vars.end() ) {
             info.emplace_back( "DESCRIPTION", idescription->second );
         } else {
-            if( has_flag( flag_MAGIC_FOCUS ) ) {
-                info.emplace_back( "DESCRIPTION",
-                                   _( "This item is a <info>magical focus</info>.  "
-                                      "You can cast spells with it in your hand." ) );
-            }
             if( is_craft() ) {
                 const std::string desc = _( "This is an in progress %s.  "
                                             "It is %d percent complete." );
@@ -1670,6 +1665,27 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             } else {
                 info.emplace_back( "DESCRIPTION", type->description.translated() );
             }
+        }
+        std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
+        std::map<std::string, std::string>::const_iterator item_note_tool =
+            item_vars.find( "item_note_tool" );
+
+        if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
+            std::string ntext;
+            const inscribe_actor *use_actor = nullptr;
+            if( item_note_tool != item_vars.end() ) {
+                const use_function *use_func = itype_id( item_note_tool->second )->get_use( "inscribe" );
+                use_actor = dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() );
+            }
+            if( use_actor ) {
+                //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
+                ntext = string_format( pgettext( "carving", "<info>%1$s on the %2$s is:</info> %3$s" ),
+                                       use_actor->gerund, tname(), item_note->second );
+            } else {
+                //~ %1$s: inscription text
+                ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second );
+            }
+            info.emplace_back( "DESCRIPTION", ntext );
         }
         insert_separation_line( info );
     }
@@ -1738,10 +1754,15 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                active );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
-            const std::string tags_listed = enumerate_as_string( item_tags, []( const flag_id & f ) {
-                return f.str();
-            }, enumeration_conjunction::none );
+
+            static const auto f = []( const flag_id & f ) -> std::string { return f.str(); };
+            const std::string itype_tags_listed = enumerate_as_string( type->item_tags, f,
+                                                  enumeration_conjunction::none );
+            info.emplace_back( "BASE", string_format( _( "itype tags: %s" ), itype_tags_listed ) );
+
+            const std::string tags_listed = enumerate_as_string( item_tags, f, enumeration_conjunction::none );
             info.emplace_back( "BASE", string_format( _( "tags: %s" ), tags_listed ) );
+
             for( auto const &imap : item_vars ) {
                 info.emplace_back( "BASE",
                                    string_format( _( "item var: %s, %s" ), imap.first,
@@ -2053,21 +2074,33 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         bool has_dmg_multiplier = ammo.damage.damage_units.front().damage_multiplier != 1.0;
         bool display_dmg_multiplier = parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL );
         bool didnt_print_dmg = false;
+
+        // TODO: Deduplicate with damage display
+        bool has_flat_arpen = get_ranged_pierce( ammo ) != 0;
+        bool display_flat_arpen = parts->test( iteminfo_parts::AMMO_DAMAGE_AP );
+        bool has_armor_mult = get_ranged_armor_mult( ammo ) != 1.0;
+        bool display_armor_mult = parts->test( iteminfo_parts::AMMO_DAMAGE_AP_PROPORTIONAL );
+
+        iteminfo::flags f = ( has_flat_arpen ||
+                              has_armor_mult ) ? iteminfo::no_newline : iteminfo::no_flags;
+        iteminfo::flags fd = ( has_flat_arpen ||
+                               has_armor_mult ) ? iteminfo::no_newline | iteminfo::is_decimal : iteminfo::is_decimal;
+
         if( has_flat_dmg && has_dmg_multiplier
             && has_dmg_multiplier && display_dmg_multiplier ) {
             info.emplace_back( "AMMO", _( "Damage: " ), "",
                                iteminfo::no_newline, ammo.damage.total_damage() );
             info.emplace_back( "AMMO", "/", "",
-                               iteminfo::no_newline | iteminfo::is_decimal,
+                               fd,
                                ammo.damage.damage_units.front().damage_multiplier );
             // Messy ifs...
-        } else if( display_dmg_multiplier && ( has_dmg_multiplier || !has_flat_dmg ) ) {
+        } else if( display_dmg_multiplier && has_dmg_multiplier ) {
             info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
-                               iteminfo::no_newline | iteminfo::is_decimal,
+                               fd,
                                ammo.damage.damage_units.front().damage_multiplier );
-        } else if( display_flat_dmg ) {
+        } else if( display_flat_dmg && has_flat_dmg ) {
             info.emplace_back( "AMMO", _( "Damage: " ), "",
-                               iteminfo::no_newline, ammo.damage.total_damage() );
+                               f, ammo.damage.total_damage() );
         } else {
             didnt_print_dmg = true;
         }
@@ -2076,11 +2109,6 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         static const std::string no_space;
         const std::string &maybe_space = didnt_print_dmg ? no_space : space;
 
-        // TODO: Deduplicate with damage display
-        bool has_flat_arpen = get_ranged_pierce( ammo ) != 0;
-        bool display_flat_arpen = parts->test( iteminfo_parts::AMMO_DAMAGE_AP );
-        bool has_armor_mult = get_ranged_armor_mult( ammo ) != 1.0;
-        bool display_armor_mult = parts->test( iteminfo_parts::AMMO_DAMAGE_AP_PROPORTIONAL );
         if( has_flat_arpen && display_flat_arpen
             && has_armor_mult && display_armor_mult ) {
             info.emplace_back( "AMMO", maybe_space + _( "Armor-pierce: " ), "",
@@ -2091,19 +2119,19 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         } else if( has_armor_mult && display_armor_mult ) {
             info.emplace_back( "AMMO", maybe_space + _( "Armor multiplier: " ), "",
                                iteminfo::is_decimal | iteminfo::lower_is_better, get_ranged_armor_mult( ammo ) );
-        } else if( display_flat_arpen ) {
+        } else if( display_flat_arpen && has_flat_arpen ) {
             info.emplace_back( "AMMO", maybe_space + _( "Armor-pierce: " ), get_ranged_pierce( ammo ) );
         }
-        if( parts->test( iteminfo_parts::AMMO_DAMAGE_RANGE ) ) {
+        if( parts->test( iteminfo_parts::AMMO_DAMAGE_RANGE ) && ammo.range != 0 ) {
             info.emplace_back( "AMMO", _( "Range: " ), "", iteminfo::no_newline, ammo.shape
                                ? static_cast<int>( ammo.shape->get_range() )
                                : ammo.range );
         }
-        if( parts->test( iteminfo_parts::AMMO_DAMAGE_DISPERSION ) ) {
+        if( parts->test( iteminfo_parts::AMMO_DAMAGE_DISPERSION ) && ammo.dispersion != 0 ) {
             info.emplace_back( "AMMO", space + _( "Dispersion: " ), "",
                                iteminfo::lower_is_better, ammo.dispersion );
         }
-        if( parts->test( iteminfo_parts::AMMO_DAMAGE_RECOIL ) ) {
+        if( parts->test( iteminfo_parts::AMMO_DAMAGE_RECOIL ) && ammo.recoil != 0 ) {
             info.emplace_back( "AMMO", _( "Recoil: " ), "",
                                iteminfo::lower_is_better | iteminfo::no_newline, ammo.recoil );
         }
@@ -2239,46 +2267,50 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
     info.back().bNewLine = true;
 
-    if( parts->test( iteminfo_parts::GUN_DAMAGEMULT ) ) {
-        info.emplace_back( "GUN", _( "Damage multiplier: " ), "",
-                           iteminfo::no_newline | iteminfo::is_decimal,
-                           gun_du.damage_multiplier );
-    }
-
-    if( mod->ammo_required() ) {
-        if( parts->test( iteminfo_parts::GUN_DAMAGEMULT_AMMO ) ) {
-            info.emplace_back( "GUN", "ammo_mult", "*",
-                               iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal,
-                               ammo_du.damage_multiplier );
+    if( gun_du.damage_multiplier != 1.0 || ammo_du.damage_multiplier != 1.0 ) {
+        if( parts->test( iteminfo_parts::GUN_DAMAGEMULT ) ) {
+            info.emplace_back( "GUN", _( "Damage multiplier: " ), "",
+                               iteminfo::no_newline | iteminfo::is_decimal,
+                               gun_du.damage_multiplier );
         }
 
-        if( parts->test( iteminfo_parts::GUN_DAMAGEMULT_TOTAL ) ) {
-            info.emplace_back( "GUN", "sum_of_damage", _( " = <num>" ),
-                               iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal,
-                               gun_du.damage_multiplier * ammo_du.damage_multiplier );
-        }
-    }
-    info.back().bNewLine = true;
+        if( mod->ammo_required() ) {
+            if( parts->test( iteminfo_parts::GUN_DAMAGEMULT_AMMO ) ) {
+                info.emplace_back( "GUN", "ammo_mult", "*",
+                                   iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal,
+                                   ammo_du.damage_multiplier );
+            }
 
-    if( parts->test( iteminfo_parts::GUN_ARMORMULT ) ) {
-        info.emplace_back( "GUN", _( "Armor multiplier: " ), "",
-                           iteminfo::no_newline | iteminfo::lower_is_better | iteminfo::is_decimal,
-                           gun_du.res_mult );
-    }
-    if( mod->ammo_required() ) {
-        if( parts->test( iteminfo_parts::GUN_ARMORMULT_LOADEDAMMO ) ) {
-            info.emplace_back( "GUN", "ammo_armor_mult", _( "*<num>" ),
-                               iteminfo::no_newline | iteminfo::no_name |
-                               iteminfo::lower_is_better | iteminfo::is_decimal,
-                               ammo_du.res_mult );
+            if( parts->test( iteminfo_parts::GUN_DAMAGEMULT_TOTAL ) ) {
+                info.emplace_back( "GUN", "sum_of_damage", _( " = <num>" ),
+                                   iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal,
+                                   gun_du.damage_multiplier * ammo_du.damage_multiplier );
+            }
         }
-        if( parts->test( iteminfo_parts::GUN_ARMORMULT_TOTAL ) ) {
-            info.emplace_back( "GUN", "final_armor_mult", _( " = <num>" ),
-                               iteminfo::no_name | iteminfo::lower_is_better | iteminfo::is_decimal,
-                               gun_du.res_mult * ammo_du.res_mult );
-        }
+        info.back().bNewLine = true;
     }
-    info.back().bNewLine = true;
+
+    if( gun_du.res_mult != 1.0 || ammo_du.res_mult != 1.0 ) {
+        if( parts->test( iteminfo_parts::GUN_ARMORMULT ) ) {
+            info.emplace_back( "GUN", _( "Armor multiplier: " ), "",
+                               iteminfo::no_newline | iteminfo::lower_is_better | iteminfo::is_decimal,
+                               gun_du.res_mult );
+        }
+        if( mod->ammo_required() ) {
+            if( parts->test( iteminfo_parts::GUN_ARMORMULT_LOADEDAMMO ) ) {
+                info.emplace_back( "GUN", "ammo_armor_mult", _( "*<num>" ),
+                                   iteminfo::no_newline | iteminfo::no_name |
+                                   iteminfo::lower_is_better | iteminfo::is_decimal,
+                                   ammo_du.res_mult );
+            }
+            if( parts->test( iteminfo_parts::GUN_ARMORMULT_TOTAL ) ) {
+                info.emplace_back( "GUN", "final_armor_mult", _( " = <num>" ),
+                                   iteminfo::no_name | iteminfo::lower_is_better | iteminfo::is_decimal,
+                                   gun_du.res_mult * ammo_du.res_mult );
+            }
+        }
+        info.back().bNewLine = true;
+    }
 
     if( parts->test( iteminfo_parts::GUN_DISPERSION ) ) {
         info.emplace_back( "GUN", _( "Dispersion: " ), "",
@@ -2549,6 +2581,10 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( mod.handling != 0 && parts->test( iteminfo_parts::GUNMOD_HANDLING ) ) {
         info.emplace_back( "GUNMOD", _( "Handling modifier: " ), "",
                            iteminfo::show_plus, mod.handling );
+    }
+    if( mod.range != 0 && parts->test( iteminfo_parts::GUNMOD_RANGE ) ) {
+        info.emplace_back( "GUNMOD", _( "Range modifier: " ), "",
+                           iteminfo::show_plus, mod.range );
     }
     if( !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
         for( const ammotype &at : type->mod->ammo_modifier ) {
@@ -3877,29 +3913,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
                                                   time.c_str() ) );
             }
         }
-    }
-
-    std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
-    std::map<std::string, std::string>::const_iterator item_note_tool =
-        item_vars.find( "item_note_tool" );
-
-    if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
-        insert_separation_line( info );
-        std::string ntext;
-        const inscribe_actor *use_actor = nullptr;
-        if( item_note_tool != item_vars.end() ) {
-            const use_function *use_func = itype_id( item_note_tool->second )->get_use( "inscribe" );
-            use_actor = dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() );
-        }
-        if( use_actor ) {
-            //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
-            ntext = string_format( pgettext( "carving", "%1$s on the %2$s is: %3$s" ),
-                                   use_actor->gerund, tname(), item_note->second );
-        } else {
-            //~ %1$s: inscription text
-            ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second );
-        }
-        info.emplace_back( "DESCRIPTION", ntext );
     }
 
     if( this->get_var( "die_num_sides", 0 ) != 0 ) {
@@ -9421,6 +9434,9 @@ detached_ptr<item> item::process_extinguish( detached_ptr<item> &&self, player *
             break;
         case precip_class::light:
             precipitation = one_in( 50 );
+            break;
+        case precip_class::medium:
+            precipitation = one_in( 25 );
             break;
         case precip_class::heavy:
             precipitation = one_in( 10 );

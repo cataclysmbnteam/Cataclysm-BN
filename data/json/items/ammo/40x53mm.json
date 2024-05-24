@@ -2,6 +2,7 @@
   {
     "abstract": "40x53mm_grenade",
     "type": "AMMO",
+    "looks_like": "84x246mm_he",
     "name": { "str": "40x53mm grenade" },
     "price": "100 USD",
     "price_postapoc": "60 USD",

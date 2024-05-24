@@ -14,7 +14,7 @@
     "color": "blue",
     "to_hit": -1,
     "ammo_type": "thrown",
-    "flags": [ "NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
+    "flags": [ "NO_DAMAGE", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
   },
   {
     "type": "GENERIC",
@@ -63,7 +63,7 @@
     "color": "white",
     "to_hit": -2,
     "ammo_type": "thrown",
-    "flags": [ "NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
+    "flags": [ "NO_DAMAGE", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
   },
   {
     "type": "GENERIC",

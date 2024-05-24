@@ -26,7 +26,7 @@
     "difficulty": 5,
     "time": "1 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "lead", 10 ] ] ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "bb", 20 ] ] ],
     "charges": 1
   },
   {

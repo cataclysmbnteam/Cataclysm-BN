@@ -1,0 +1,27 @@
+[
+  {
+    "id": "pride_flag_itemgroup",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "trans_flag", "prob": 25 },
+      { "item": "rainbow_flag", "prob": 35 },
+      { "item": "aromantic_flag", "prob": 25 },
+      { "item": "asexual_flag", "prob": 25 },
+      { "item": "bisexual_flag", "prob": 25 },
+      { "item": "intersex_flag", "prob": 25 },
+      { "item": "lesbian_flag", "prob": 25 },
+      { "item": "enby_flag", "prob": 25 },
+      { "item": "pansexual_flag", "prob": 25 },
+      { "item": "gay_flag", "prob": 25 },
+      { "item": "genderfluid_flag", "prob": 25 },
+      { "item": "autism_flag", "prob": 25 }
+    ]
+  },
+  {
+    "id": "accesories_personal_unisex",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "pride_flag_itemgroup", "prob": 10 } ]
+  }
+]

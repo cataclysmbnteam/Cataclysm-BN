@@ -332,6 +332,11 @@
     "//": "Can't crit. Can still graze."
   },
   {
+    "id": "NO_DAMAGE",
+    "type": "ammo_effect",
+    "//": "Does not actually deal damage; meant for ammo that applies effects."
+  },
+  {
     "id": "NO_DAMAGE_SCALING",
     "type": "ammo_effect",
     "//": "Can't crit or graze, all hits have 100% damage modifier from accuracy."

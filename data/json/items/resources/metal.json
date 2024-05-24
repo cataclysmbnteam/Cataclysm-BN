@@ -28,7 +28,7 @@
     "volume": "250 ml",
     "price": "5 USD",
     "price_postapoc": "10 cent",
-    "count": 2,
+    "count": 1,
     "stack_size": 10,
     "//": "Density 7.60g/cm³ ~ 1.9kg/250ml @ 50g/unit ~ stack 40 but fragments stacks poorly so only 25% of this",
     "material": "steel",

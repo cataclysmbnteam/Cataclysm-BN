@@ -56,7 +56,7 @@
   },
   {
     "id": "sks",
-    "copy-from": "rifle_manual",
+    "copy-from": "rifle_semi",
     "type": "GUN",
     "name": { "str": "SKS" },
     "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK47.  However, due to its superb accuracy, low recoil and deployable integrated bayonet, this gun maintains immense popularity.",

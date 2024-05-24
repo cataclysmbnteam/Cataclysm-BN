@@ -270,8 +270,6 @@ static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
 static const itype_id itype_rmi2_corpse( "rmi2_corpse" );
-static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
-static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_smart_phone( "smart_phone" );
 static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
@@ -1975,6 +1973,13 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
             }
             critter.apply_damage( p, bodypart_id( "torso" ), rng( 20, 60 ) );
             critter.set_speed_base( critter.get_speed_base() / 2 );
+        }
+    }
+
+    // Whatever we sprayed, if present extinguish it too.
+    if( Creature *target = g->critter_at( dest, true ) ) {
+        if( target->has_effect( effect_onfire ) ) {
+            target->remove_effect( effect_onfire );
         }
     }
 
@@ -4053,60 +4058,6 @@ int iuse::tazer2( player *p, item *it, bool b, const tripoint &pos )
     return 0;
 }
 
-int iuse::shocktonfa_off( player *p, item *it, bool t, const tripoint &pos )
-{
-    int choice = uilist( _( "tactical tonfa" ), {
-        _( "Zap something" ), _( "Turn on light" )
-    } );
-
-    switch( choice ) {
-        case 0: {
-            return iuse::tazer2( p, it, t, pos );
-        }
-        case 1: {
-            if( !it->units_sufficient( *p ) ) {
-                p->add_msg_if_player( m_info, _( "The batteries are dead." ) );
-                return 0;
-            } else {
-                p->add_msg_if_player( _( "You turn the light on." ) );
-                it->convert( itype_shocktonfa_on );
-                it->active = true;
-                return it->type->charges_to_use();
-            }
-        }
-    }
-    return 0;
-}
-
-int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
-{
-    if( t ) { // Effects while simply on
-
-    } else {
-        if( !it->units_sufficient( *p ) ) {
-            p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
-            it->convert( itype_shocktonfa_off );
-            it->active = false;
-        } else {
-            int choice = uilist( _( "tactical tonfa" ), {
-                _( "Zap something" ), _( "Turn off light" )
-            } );
-
-            switch( choice ) {
-                case 0: {
-                    return iuse::tazer2( p, it, t, pos );
-                }
-                case 1: {
-                    p->add_msg_if_player( _( "You turn off the light." ) );
-                    it->convert( itype_shocktonfa_off );
-                    it->active = false;
-                }
-            }
-        }
-    }
-    return 0;
-}
-
 int iuse::mp3( player *p, item *it, bool, const tripoint & )
 {
     // TODO: avoid item id hardcoding to make this function usable for pure json-defined devices.
@@ -4172,7 +4123,7 @@ void iuse::play_music( player &p, const tripoint &source, const int volume, cons
     // the other characters around should be able to profit as well.
     const bool do_effects = p.can_hear( source, volume );
     std::string sound = "music";
-    if( calendar::once_every( 5_minutes ) ) {
+    if( calendar::once_every( 1_hours ) ) {
         // Every 5 minutes, describe the music
         const std::string music = get_music_description();
         if( !music.empty() ) {
@@ -9072,8 +9023,17 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
                                   print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
         }
     }
-
-    if( it->typeId() == itype_weather_reader ) {
+    if( it->has_flag( flag_WEATHER_FORECAST ) ) {
+        std::string message = string_format( "", message );
+        const auto tref = overmap_buffer.find_radio_station( it->frequency );
+        if( tref ) {
+            {
+                message = weather_forecast( tref.abs_sm_pos );
+            }
+            p->add_msg_if_player( m_neutral, _( "Automatic weather report %s" ), message );
+        }
+    }
+    if( it->has_flag( flag_WINDMETER ) ) {
         int vehwindspeed = 0;
         if( optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
@@ -9082,19 +9042,14 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         /* windpower defined in internal velocity units (=.01 mph) */
         const double windpower = 100 * get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
                                  p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
-
-        p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
-                              convert_velocity( windpower, VU_WIND ),
-                              velocity_units( VU_WIND ) );
-        p->add_msg_if_player(
-            m_neutral, _( "Feels Like: %s." ),
-            print_temperature(
-                get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
-                                     weatherPoint.humidity,
-                                     windpower / 100 ) +
-                units::to_fahrenheit( player_local_temp ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
-        p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
+        p->add_msg_if_player( m_neutral, _( "Wind: %.1f %2$s from the %3$s.\nFeels like: %4$s." ),
+                              convert_velocity( windpower, VU_VEHICLE ),
+                              velocity_units( VU_VEHICLE ), dirstring, print_temperature(
+                                  get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
+                                          weatherPoint.humidity,
+                                          windpower / 100 ) +
+                                  units::to_fahrenheit( player_local_temp ) ) );
     }
 
     return 0;

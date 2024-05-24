@@ -201,6 +201,7 @@ extern const flag_id flag_NONCONDUCTIVE;
 extern const flag_id flag_NON_FOULING;
 extern const flag_id flag_NO_BLOAT;
 extern const flag_id flag_NO_CVD;
+extern const flag_id flag_NO_DAMAGE;
 extern const flag_id flag_NO_DISPLAY;
 extern const flag_id flag_NO_DROP;
 extern const flag_id flag_NO_INGEST;
@@ -282,6 +283,7 @@ extern const flag_id flag_ROLLER_ONE;
 extern const flag_id flag_ROLLER_QUAD;
 extern const flag_id flag_SAFECRACK;
 extern const flag_id flag_SEMITANGIBLE;
+extern const flag_id flag_SHOCKING;
 extern const flag_id flag_SILENT;
 extern const flag_id flag_SKINNED;
 extern const flag_id flag_SKINTIGHT;
@@ -349,6 +351,8 @@ extern const flag_id flag_ZOOM;
 extern const flag_id flag_wooled;
 extern const flag_id flag_MUTE;
 extern const flag_id flag_NOT_FOOTWEAR;
+extern const flag_id flag_WEATHER_FORECAST;
+extern const flag_id flag_WINDMETER;
 
 /**
  * Flags: json entity with "type": "json_flag", defined in flags.json, vp_flags.json

@@ -60,6 +60,7 @@ enum class do_activity_reason : int {
     NEEDS_HARVESTING,       // For farming - tile is harvestable now.
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
+    NEEDS_WARM_WEATHER,     // For farming - need warm weather to plant
     BLOCKING_TILE,           // Something has made it's way onto the tile, so the activity cannot proceed
     NEEDS_CHOPPING,         // There is wood there to be chopped
     NEEDS_TREE_CHOPPING,    // There is a tree there that needs to be chopped

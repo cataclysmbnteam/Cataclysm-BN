@@ -1233,6 +1233,12 @@ void options_manager::add_options_general()
          "", 30
        );
 
+    add( "DEF_CHAR_GENDER", general, translate_marker( "Default character gender" ),
+    translate_marker( "Set a default character gender that will be used on character creation." ), {
+        { "male", to_translation( "Male" )},
+        { "female", to_translation( "Female" )},
+    }, "male" );
+
     add_empty_line();
 
     add_option_group( general, Group( "comestible_merging",
@@ -1436,6 +1442,14 @@ void options_manager::add_options_general()
        );
 
     get_option( "AUTO_NOTES_MAP_EXTRAS" ).setPrerequisite( "AUTO_NOTES" );
+
+    add( "AUTO_NOTES_DROPPED_FAVORITES", "general",
+         translate_marker( "Auto notes (dropped favorites)" ),
+         translate_marker( "If true, automatically sets notes when player drops favorited items." ),
+         true
+       );
+
+    get_option( "AUTO_NOTES_DROPPED_FAVORITES" ).setPrerequisite( "AUTO_NOTES" );
 
     add_empty_line();
 
@@ -2090,6 +2104,13 @@ void options_manager::add_options_graphics()
          false, COPT_CURSES_HIDE
        );
 
+#if defined(SDL_HINT_RENDER_VSYNC)
+    add( "VSYNC", graphics, translate_marker( "Use VSync" ),
+         translate_marker( "Enable vertical synchronization to prevent screen tearing.  VSync can slow the game down a lot.  Requires restart." ),
+         true, COPT_CURSES_HIDE
+       );
+#endif
+
 #if defined(__ANDROID__)
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
 #else
@@ -2214,9 +2235,9 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
-    add( "FOV_3D", debug, translate_marker( "Experimental 3D field of vision" ),
-         translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
-         false
+    add( "FOV_3D", debug, translate_marker( "3D field of vision" ),
+         translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level." ),
+         true
        );
 
     add( "FOV_3D_Z_RANGE", debug, translate_marker( "Vertical range of 3D field of vision" ),
@@ -2245,6 +2266,16 @@ void options_manager::add_options_debug()
          false );
 
     get_option( "MADE_OF_EXPLODIUM" ).setPrerequisite( "OLD_EXPLOSIONS", "false" );
+
+    add_empty_line();
+
+    add( "MIN_AUTODRIVE_SPEED", debug, translate_marker( "Minimum auto-drive speed" ),
+         translate_marker( "Set the minimum speed for the auto-drive feature.  In tiles/s.  Default is 1 (6 km/h or 4 mph)." ),
+         1, 100, 1 );
+
+    add( "MAX_AUTODRIVE_SPEED", debug, translate_marker( "Maximum auto-drive speed" ),
+         translate_marker( "Set the maximum speed for the auto-drive feature.  In tiles/s.  Default is 9 (57 km/h or 36 mph)." ),
+         1, 100, 9 );
 }
 
 void options_manager::add_options_world_default()
@@ -2342,7 +2373,7 @@ void options_manager::add_options_world_default()
 
     add( "INITIAL_DAY", world_default, translate_marker( "Initial day" ),
          translate_marker( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
-         -1, 999, 7
+         -1, 999, 15
        );
 
     add( "SPAWN_DELAY", world_default, translate_marker( "Spawn delay" ),
@@ -2352,7 +2383,7 @@ void options_manager::add_options_world_default()
 
     add( "SEASON_LENGTH", world_default, translate_marker( "Season length" ),
          translate_marker( "Season length, in days." ),
-         14, 127, 14
+         14, 127, 30
        );
 
     add( "CONSTRUCTION_SCALING", world_default, translate_marker( "Construction scaling" ),

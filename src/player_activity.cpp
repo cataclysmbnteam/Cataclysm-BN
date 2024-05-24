@@ -32,6 +32,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "value_ptr.h"
+#include "profile.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_GAME( "ACT_GAME" );
@@ -286,6 +287,7 @@ void player_activity::start_or_resume( Character &who, bool resuming )
 
 void player_activity::do_turn( player &p )
 {
+    ZoneScopedN( "player_activity::do_turn" );
     active = true;
     on_out_of_scope _resolve_on_return( [this]() {
         this->resolve_active();

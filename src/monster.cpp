@@ -63,6 +63,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "weather.h"
+#include "profile.h"
 
 static const ammo_effect_str_id ammo_effect_WHIP( "WHIP" );
 
@@ -73,6 +74,7 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
@@ -1575,6 +1577,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
                has_flag( MF_FIREY );
     }
 
+    if( effect == effect_corroding ) {
+        return is_immune_damage( DT_ACID );
+    }
+
     if( effect == effect_bleed ) {
         return !has_flag( MF_WARM ) ||
                !made_of( material_id( "flesh" ) );
@@ -2432,6 +2438,8 @@ void monster::decrement_summon_timer()
 
 void monster::process_turn()
 {
+    ZoneScoped;
+
     decrement_summon_timer();
     if( !is_hallucination() ) {
         for( const std::pair<const emit_id, time_duration> &e : type->emit_fields ) {
@@ -2721,6 +2729,8 @@ static void process_item_valptr( item *ptr, monster &mon )
 
 void monster::process_items()
 {
+    ZoneScoped;
+
     inv.remove_with( [this]( detached_ptr<item> &&it ) {
         if( it->needs_processing() ) {
             return item::process( std::move( it ), nullptr, pos(), false );

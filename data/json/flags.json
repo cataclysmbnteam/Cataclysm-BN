@@ -990,7 +990,7 @@
     "id": "MAGIC_FOCUS",
     "type": "json_flag",
     "context": [ "item" ],
-    "//": "You can cast spells with this item in your hand."
+    "info": "This item is a <info>magical focus</info>.  You can cast spells with it in your hand."
   },
   {
     "id": "HOSTILE_SUMMON",
@@ -1622,6 +1622,11 @@
     "context": [  ]
   },
   {
+    "id": "NO_DAMAGE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "NO_DISPLAY",
     "type": "json_flag",
     "context": [  ]
@@ -1818,6 +1823,11 @@
   },
   {
     "id": "SAFECRACK",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SHOCKING",
     "type": "json_flag",
     "context": [  ]
   },
@@ -2143,5 +2153,21 @@
     "context": [ "GUNMOD" ],
     "//": "Implied by having a reach attack mode on the gunmod, but can be explicit for non-reach bayonets.",
     "info": "When attached to a gun, this item <good>contributes to its melee damage</good>."
+  },
+  {
+    "id": "ROOF",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "WEATHER_FORECAST",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "It can show the automated weather forcast."
+  },
+  {
+    "id": "WINDMETER",
+    "type": "json_flag",
+    "context": [  ]
   }
 ]

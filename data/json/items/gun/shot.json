@@ -272,7 +272,7 @@
   },
   {
     "id": "pipe_shotgun",
-    "copy-from": "shotgun_base",
+    "copy-from": "shotgun_1shot",
     "type": "GUN",
     "name": { "str": "pipe shotgun" },
     "description": "A home-made shotgun.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
@@ -670,7 +670,7 @@
   },
   {
     "id": "winchester_1897",
-    "copy-from": "shotgun_base",
+    "copy-from": "shotgun_pump",
     "type": "GUN",
     "name": { "str": "M1897 Trench Gun" },
     "description": "The Winchester 1897 was one of the first commercially successful pump action shotguns.  In its 'trench' configuration it has become a heavily romanticized American icon of World War 1.  With its barrel shroud, bayonet lug and 17 inch bayonet, this shotgun is undeniably fearsome in appearance.  There aren't any more trenches to clear, so the next zombie infested town will have to suffice.",

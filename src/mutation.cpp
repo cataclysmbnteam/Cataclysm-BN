@@ -9,7 +9,6 @@
 #include <unordered_set>
 
 #include "avatar_action.h"
-#include "basecamp.h"
 #include "bionics.h"
 #include "character.h"
 #include "color.h"

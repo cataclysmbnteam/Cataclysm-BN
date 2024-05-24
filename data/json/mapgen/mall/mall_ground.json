@@ -1351,7 +1351,8 @@
         { "item": "microwave", "x": 4, "y": 10, "chance": 100 },
         { "item": "toaster", "x": 4, "y": 11, "chance": 100 },
         { "item": "mattress", "x": [ 13, 15 ], "y": 20, "chance": 90, "repeat": [ 2, 6 ] },
-        { "item": "down_mattress", "x": [ 13, 15 ], "y": 22, "chance": 70, "repeat": [ 2, 6 ] }
+        { "item": "down_mattress", "x": [ 13, 15 ], "y": 22, "chance": 70, "repeat": [ 2, 6 ] },
+        { "item": "wool_mattress", "x": [ 13, 15 ], "y": 22, "chance": 70, "repeat": [ 2, 6 ] }
       ],
       "place_vendingmachines": [ { "item_group": "vending_drink", "x": 4, "y": 12 }, { "item_group": "vending_food", "x": 4, "y": 13 } ],
       "items": {

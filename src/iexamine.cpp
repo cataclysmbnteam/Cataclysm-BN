@@ -22,7 +22,6 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "avatar_functions.h"
-#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -72,7 +71,6 @@
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
-#include "mission_companion.h"
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -1493,32 +1491,6 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
     if( !pick_lock( p, examp ) ) {
         add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock…" ),
                  here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
-    }
-}
-
-void iexamine::bulletin_board( player &p, const tripoint &examp )
-{
-    g->validate_camps();
-    map &here = get_map();
-    // TODO: fix point types
-    point_abs_omt omt( ms_to_omt_copy( here.getabs( examp.xy() ) ) );
-    std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
-    if( bcp ) {
-        basecamp *temp_camp = *bcp;
-        temp_camp->validate_bb_pos( here.getabs( examp ) );
-        temp_camp->validate_assignees();
-        temp_camp->validate_sort_points();
-
-        const std::string title = ( "Base Missions" );
-        mission_data mission_key;
-        temp_camp->set_by_radio( false );
-        temp_camp->get_available_missions( mission_key );
-        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(),
-                "FACTION_CAMP", title ) ) {
-            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
-        }
-    } else {
-        p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
     }
 }
 
@@ -6301,7 +6273,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "pit_covered", &iexamine::pit_covered },
             { "slot_machine", &iexamine::slot_machine },
             { "safe", &iexamine::safe },
-            { "bulletin_board", &iexamine::bulletin_board },
             { "fault", &iexamine::fault },
             { "notify", &iexamine::notify },
             { "transform", &iexamine::transform },

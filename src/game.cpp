@@ -43,7 +43,6 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "avatar_functions.h"
-#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -177,6 +176,7 @@
 #include "wcwidth.h"
 #include "weather.h"
 #include "worldfactory.h"
+#include "profile.h"
 
 class computer;
 
@@ -645,12 +645,19 @@ bool game::start_game()
     }
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
-    // Spawn the monsters
-    const bool spawn_near =
-        get_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag( "SUR_START" );
-    // Surrounded start ones
+
+    // Spawn the monsters for `Surrounded` starting scenarios
+    std::vector<std::pair<mongroup_id, float>> surround_groups = get_scenario()->surround_groups();
+    const bool surrounded_start_scenario = !surround_groups.empty();
+    const bool surrounded_start_options = get_option<bool>( "BLACK_ROAD" );
+    if( surrounded_start_options && !surrounded_start_scenario ) {
+        surround_groups.emplace_back( mongroup_id( "GROUP_BLACK_ROAD" ), 70.0f );
+    }
+    const bool spawn_near = surrounded_start_options || surrounded_start_scenario;
     if( spawn_near ) {
-        start_loc.surround_with_monsters( omtstart, mongroup_id( "GROUP_ZOMBIE" ), 70 );
+        for( const std::pair<mongroup_id, float> &sg : surround_groups ) {
+            start_loc.surround_with_monsters( omtstart, sg.first, sg.second );
+        }
     }
 
     m.spawn_monsters( !spawn_near ); // Static monsters
@@ -820,9 +827,6 @@ void game::load_npcs()
             continue;
         }
         if( temp->is_active() ) {
-            continue;
-        }
-        if( temp->has_companion_mission() ) {
             continue;
         }
 
@@ -1347,6 +1351,7 @@ void game::calc_driving_offset( vehicle *veh )
 // Returns true if game is over (death, saved, quit, etc)
 bool game::do_turn()
 {
+    ZoneScoped;
     cleanup_arenas();
     if( is_game_over() ) {
         return cleanup_at_end();
@@ -1506,6 +1511,7 @@ bool game::do_turn()
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
+        ZoneScopedN( "field_emits" );
         for( const tripoint &elem : m.get_furn_field_locations() ) {
             const auto &furn = m.furn( elem ).obj();
             for( const emit_id &e : furn.emissions ) {
@@ -1556,6 +1562,7 @@ bool game::do_turn()
         }
     }
     if( wait_redraw ) {
+        ZoneScopedN( "wait_redraw" );
         if( first_redraw_since_waiting_started ||
             calendar::once_every( std::min( 1_minutes, wait_refresh_rate ) ) ) {
             if( first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
@@ -1648,6 +1655,7 @@ void game::process_voluntary_act_interrupt()
 
 void game::process_activity()
 {
+    ZoneScoped;
     if( !u.activity ) {
         return;
     }
@@ -1949,20 +1957,6 @@ void game::validate_npc_followers()
     // Make sure that serialized player followers sync up with game list
     for( const auto &temp_id : u.follower_ids ) {
         add_npc_follower( temp_id );
-    }
-}
-
-void game::validate_camps()
-{
-    basecamp camp = m.hoist_submap_camp( u.pos() );
-    if( camp.is_valid() ) {
-        overmap_buffer.add_camp( camp );
-        m.remove_submap_camp( u.pos() );
-    } else if( camp.camp_omt_pos() != tripoint_abs_omt() ) {
-        std::string camp_name = _( "Faction Camp" );
-        camp.set_name( camp_name );
-        overmap_buffer.add_camp( camp );
-        m.remove_submap_camp( u.pos() );
     }
 }
 
@@ -2557,6 +2551,7 @@ bool game::load( const save_t &name )
     // Now load up the master game data; factions (and more?)
     load_master();
     u = avatar();
+    u.recalc_hp();
     u.set_save_id( name.decoded_name() );
     u.name = name.decoded_name();
     if( !read_from_file( playerpath + SAVE_EXTENSION, std::bind( &game::unserialize, this, _1 ) ) ) {
@@ -2599,7 +2594,6 @@ bool game::load( const save_t &name )
     reload_npcs();
     validate_npc_followers();
     validate_mounted_npcs();
-    validate_camps();
     validate_linked_vehicles();
     update_map( u );
     for( auto &e : u.inv_dump() ) {
@@ -3846,6 +3840,8 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
 
 void game::mon_info_update( )
 {
+    ZoneScoped;
+
     int newseen = 0;
     const int safe_proxy_dist = get_option<int>( "SAFEMODEPROXIMITY" );
     const int iProxyDist = ( safe_proxy_dist <= 0 ) ? MAX_VIEW_DISTANCE :
@@ -4085,6 +4081,7 @@ void game::cleanup_dead()
 
 void game::monmove()
 {
+    ZoneScoped;
     cleanup_dead();
 
     for( monster &critter : all_monsters() ) {
@@ -4211,6 +4208,7 @@ void game::monmove()
 
 void game::overmap_npc_move()
 {
+    ZoneScoped;
     std::vector<npc *> travelling_npcs;
     static constexpr int move_search_radius = 600;
     for( auto &elem : overmap_buffer.get_npcs_near_player( move_search_radius ) ) {
@@ -10877,6 +10875,8 @@ void game::replace_stair_monsters()
 // TODO: refactor so zombies can follow up and down stairs instead of this mess
 void game::update_stair_monsters()
 {
+    ZoneScoped;
+
     // Search for the stairs closest to the player.
     std::vector<int> stairx;
     std::vector<int> stairy;

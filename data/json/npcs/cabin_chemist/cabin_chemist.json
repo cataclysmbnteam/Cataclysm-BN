@@ -92,7 +92,7 @@
       },
       {
         "text": "[40$]  I'll buy some aspirin.",
-        "effect": [ { "u_buy_item": "aspirin", "container": "bottle_plastic_pill_prescription", "cost": 4000, "count": 20 } ],
+        "effect": [ { "u_buy_item": "aspirin", "container": "bottle_plastic_small", "cost": 4000, "count": 20 } ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
@@ -128,7 +128,7 @@
       {
         "text": "[120$]  I'll buy some antibiotics.",
         "effect": [
-          { "u_buy_item": "antibiotics", "container": "bottle_plastic_pill_prescription", "cost": 12000, "count": 20 },
+          { "u_buy_item": "antibiotics", "container": "bottle_plastic_small", "cost": 12000, "count": 20 },
           { "u_add_effect": "chemist_waiting_for_antibiotics", "duration": "96 h" },
           { "npc_add_effect": "currently_busy", "duration": "96 h" }
         ],
@@ -138,7 +138,7 @@
       {
         "text": "[140$]  I'll buy some antifungal drugs.",
         "effect": [
-          { "u_buy_item": "antifungal", "container": "bottle_plastic_pill_prescription", "cost": 14000, "count": 20 },
+          { "u_buy_item": "antifungal", "container": "bottle_plastic_small", "cost": 14000, "count": 20 },
           { "u_add_effect": "chemist_waiting_for_antifungal", "duration": "96 h" },
           { "npc_add_effect": "currently_busy", "duration": "96 h" }
         ],
@@ -180,7 +180,7 @@
       },
       {
         "text": "[40$]  I'll buy some aspirin.",
-        "effect": [ { "u_buy_item": "aspirin", "container": "bottle_plastic_pill_prescription", "cost": 4000, "count": 20 } ],
+        "effect": [ { "u_buy_item": "aspirin", "container": "bottle_plastic_small", "cost": 4000, "count": 20 } ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
@@ -216,7 +216,7 @@
       {
         "text": "[120$]  I'll buy some antibiotics.",
         "effect": [
-          { "u_buy_item": "antibiotics", "container": "bottle_plastic_pill_prescription", "cost": 12000, "count": 20 },
+          { "u_buy_item": "antibiotics", "container": "bottle_plastic_small", "cost": 12000, "count": 20 },
           { "u_add_effect": "chemist_waiting_for_antibiotics", "duration": "96 h" },
           { "npc_add_effect": "currently_busy", "duration": "96 h" }
         ],
@@ -226,7 +226,7 @@
       {
         "text": "[140$]  I'll buy some antifungal drugs.",
         "effect": [
-          { "u_buy_item": "antifungal", "container": "bottle_plastic_pill_prescription", "cost": 14000, "count": 20 },
+          { "u_buy_item": "antifungal", "container": "bottle_plastic_small", "cost": 14000, "count": 20 },
           { "u_add_effect": "chemist_waiting_for_antifungal", "duration": "96 h" },
           { "npc_add_effect": "currently_busy", "duration": "96 h" }
         ],

@@ -352,6 +352,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
     "time": "5 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock", 1 ] ], [ [ "filament", 100, "LIST" ], [ "cordage_short", 2, "LIST" ] ] ]
@@ -363,6 +364,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
     "time": "5 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
@@ -409,12 +411,25 @@
     "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
+    "result": "wood_flute",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "40 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+  },
+  {
     "type": "recipe",
     "result": "primitive_knife",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
     "time": "1 h",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
@@ -444,6 +459,7 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 2,
     "time": "1 h",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
@@ -480,6 +496,7 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 3,
     "time": "1 h",
+    "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -498,6 +515,7 @@
     "skills_required": [ "survival", 2 ],
     "difficulty": 2,
     "time": "1 h",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "components": [
@@ -639,6 +657,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "mechanics",
     "time": "10 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
@@ -840,11 +859,32 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "difficulty": 1,
+    "difficulty": 2,
     "time": "20 m",
+    "autolearn": true,
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_fabrication", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "can_drink_unsealed", 2 ] ], [ [ "bottle_plastic", 1 ] ] ]
+    "components": [
+      [ [ "can_medium_unsealed", 1 ], [ "bottle_plastic", 1 ], [ "jar_glass", 1 ] ],
+      [ [ "scrap", 1 ], [ "steel_chunk", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "soldering_ethanol",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "book_learn": [ [ "fun_survival", 2 ], [ "manual_fabrication", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
+      [ [ "can_medium_unsealed", 1 ], [ "bottle_plastic", 1 ], [ "jar_glass", 1 ] ],
+      [ [ "scrap", 1 ], [ "steel_chunk", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -863,7 +903,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 200 ], [ "toolset", 300 ], [ "soldering_iron", 300 ], [ "oxy_torch", 40 ] ] ],
+    "using": [ [ "welding_standard", 20 ] ],
     "components": [
       [ [ "element", 8 ] ],
       [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
@@ -893,7 +933,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "using": [ [ "earthenware_firing", 90 ] ],
+    "using": [ [ "glazing", 1 ], [ "earthenware_firing", 70 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
   {
@@ -1416,7 +1456,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "toolset", 150 ], [ "soldering_iron", 150 ], [ "oxy_torch", 20 ] ] ],
+    "using": [ [ "welding_standard", 10 ] ],
     "components": [
       [ [ "pilot_light", 1 ] ],
       [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
@@ -1442,7 +1482,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 50 ], [ "toolset", 75 ], [ "soldering_iron", 75 ], [ "oxy_torch", 10 ] ] ],
+    "using": [ [ "welding_standard", 5 ] ],
     "components": [ [ [ "pilot_light", 1 ] ], [ [ "scrap", 4 ] ], [ [ "metal_tank_little", 1 ] ] ]
   },
   {
@@ -1568,7 +1608,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 150 ], [ "toolset", 225 ], [ "soldering_iron", 225 ], [ "oxy_torch", 30 ] ] ],
+    "using": [ [ "welding_standard", 15 ] ],
     "components": [ [ [ "steel_lump", 5 ], [ "steel_chunk", 20 ], [ "scrap", 60 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "pipe", 6 ] ] ]
   },
   {
@@ -1734,11 +1774,23 @@
   },
   {
     "type": "recipe",
+    "result": "clay_fish_trap",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "20 m",
+    "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 2 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
+    "reversible": true,
+    "components": [ [ [ "clay_canister", 5 ] ], [ [ "cordage", 2, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "toolbox",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 3 ],
     "difficulty": 2,
     "time": "4 m",
     "reversible": true,
@@ -1761,7 +1813,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 3 ],
     "difficulty": 2,
     "time": "4 m",
     "reversible": true,
@@ -1902,7 +1953,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "using": [ [ "earthenware_firing", 90 ] ],
+    "using": [ [ "glazing", 1 ], [ "earthenware_firing", 70 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
   {
@@ -1915,7 +1966,7 @@
     "difficulty": 2,
     "time": "50 m",
     "autolearn": true,
-    "using": [ [ "earthenware_firing", 100 ] ],
+    "using": [ [ "glazing", 1 ], [ "earthenware_firing", 100 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 8 ] ] ]
   },
   {
@@ -1928,7 +1979,7 @@
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "earthenware_firing", 40 ] ],
+    "using": [ [ "glazing", 1 ], [ "earthenware_firing", 50 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 3 ] ] ]
   },
   {
@@ -2150,7 +2201,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "razor_blade", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "razor_blade", 1 ] ], [ [ "plastic_chunk", 1 ], [ "bone_sturdy", 1, "LIST" ], [ "splinter", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2758,10 +2809,10 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "skills_required": [ "survival", 2 ],
-    "difficulty": 4,
+    "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -2775,8 +2826,8 @@
     "skills_required": [ [ "survival", 3 ], [ "tailor", 4 ] ],
     "autolearn": true,
     "time": "1 h",
-    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 2 ] ], [ [ "superglue", 1 ] ], [ [ "filament", 40, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 30 ] ],
+    "components": [ [ [ "leather", 4 ] ], [ [ "superglue", 1 ] ] ]
   },
   {
     "type": "recipe",

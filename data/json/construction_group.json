@@ -1016,6 +1016,16 @@
   },
   {
     "type": "construction_group",
+    "id": "install_wind_turbine",
+    "name": "Install Wind Turbine"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_xl_wind_turbine",
+    "name": "Install Large Wind Turbine"
+  },
+  {
+    "type": "construction_group",
     "id": "install_solar_panel",
     "name": "Install Solar Panel"
   },
@@ -1388,6 +1398,11 @@
     "type": "construction_group",
     "id": "repair_wood_door",
     "name": "Repair Wood Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_door_frame",
+    "name": "Build Door Frame"
   },
   {
     "type": "construction_group",
