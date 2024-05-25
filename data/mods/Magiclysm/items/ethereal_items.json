@@ -87,6 +87,7 @@
     "weight": "0 kg",
     "volume": "0 ml",
     "price": "0 cent",
+    "material": [ "concentrated_mana" ],
     "symbol": ",",
     "color": "light_green",
     "covers": [ "head" ],

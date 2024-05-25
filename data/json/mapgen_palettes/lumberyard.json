@@ -24,7 +24,8 @@
       "v": "t_chainfence_v",
       "V": "t_chaingate_l",
       "x": "t_thconc_floor",
-      ",": "t_thconc_floor"
+      ",": "t_thconc_floor",
+      "^": "t_gutter_downspout"
     },
     "furniture": {
       "'": "f_street_light",
