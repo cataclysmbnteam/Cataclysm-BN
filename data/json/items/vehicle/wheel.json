@@ -374,5 +374,13 @@
     "name": { "str": "banded wooden cart wheel" },
     "description": "A wooden cart wheel with metal bands for durability, hand made.",
     "relative": { "weight": 500 }
+  },
+  {
+    "id": "wheel_mount_light_wood",
+    "type": "GENERIC",
+    "name": { "str": "light wooden wheel mount" },
+    "description": "A piece of wood with holes suitable for a bike or motorbike wheel.",
+    "copy-from": "wheel_mount_light",
+    "material": [ "wood" ]
   }
 ]
