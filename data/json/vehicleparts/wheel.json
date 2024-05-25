@@ -641,7 +641,7 @@
     "type": "vehicle_part",
     "id": "wheel_mount_light_wood",
     "name": { "str": "light wooden wheel mount" },
-     "copy-from": "wheel_mount_light",
+    "copy-from": "wheel_mount_light",
     "durability": 70,
     "description": "A piece of wood with holes suitable for a bike or motorbike wheel.",
     "item": "wheel_mount_light_wood",
