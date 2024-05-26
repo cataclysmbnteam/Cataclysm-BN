@@ -23,7 +23,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "time": "28 m",
     "autolearn": true,
-    "components": [ [ [ "largebroketent", 1 ], [ "broketent", 2 ] ], [ [ "superglue", 2 ], [ "duct_tape", 20 ] ] ]
+    "components": [ [ [ "largebroketent", 1 ], [ "broketent", 2 ] ], [ [ "adhesive", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -37,7 +37,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "time": "32 m",
     "autolearn": true,
-    "components": [ [ [ "largebroketent", 2 ], [ "broketent", 4 ], [ "tent_kit", 3 ] ], [ [ "superglue", 3 ], [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "largebroketent", 2 ], [ "broketent", 4 ], [ "tent_kit", 3 ] ], [ [ "adhesive", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -2824,7 +2824,7 @@
     "autolearn": true,
     "time": "1 h",
     "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "leather", 4 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "leather", 4 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",

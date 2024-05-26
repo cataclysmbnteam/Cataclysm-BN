@@ -477,7 +477,7 @@
     "components": [
       [ [ "fencing_foil_sharpened", 1 ] ],
       [ [ "fabric_hides_any", 1, "LIST" ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "tazer", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -498,7 +498,7 @@
     "components": [
       [ [ "fencing_epee_sharpened", 1 ] ],
       [ [ "fabric_hides_any", 1, "LIST" ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "tazer", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -519,7 +519,7 @@
     "components": [
       [ [ "fencing_sabre_sharpened", 1 ] ],
       [ [ "fabric_hides_any", 1, "LIST" ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "tazer", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -540,7 +540,7 @@
     "components": [
       [ [ "rapier", 1 ] ],
       [ [ "fabric_hides_any", 1, "LIST" ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "tazer", 1 ] ],
       [ [ "cable", 10 ] ]
     ]

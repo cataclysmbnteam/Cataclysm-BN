@@ -290,7 +290,7 @@
     "autolearn": true,
     "using": [ [ "soldering_standard", 40 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "duct_tape", 200 ], [ "superglue", 4 ] ], [ [ "jerrycan", 12 ] ] ]
+    "components": [ [ [ "adhesive", 4, "LIST" ] ], [ [ "jerrycan", 12 ] ] ]
   },
   {
     "type": "recipe",

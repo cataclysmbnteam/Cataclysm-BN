@@ -683,7 +683,7 @@
     "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 5 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "components": [ [ [ "zinc_metal", 500 ] ], [ [ "chem_sulphur", 750 ] ], [ [ "superglue", 2 ] ] ]
+    "components": [ [ [ "zinc_metal", 500 ] ], [ [ "chem_sulphur", 750 ] ], [ [ "superglue", 10 ] ] ]
   },
   {
     "type": "recipe",

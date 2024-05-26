@@ -3,7 +3,7 @@
     "id": "adhesive",
     "type": "requirement",
     "//": "Materials used for joining (typically non-metallic) parts",
-    "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 25 ], [ "superglue", 5 ], [ "bone_glue", 5 ] ] ]
   },
   {
     "id": "nail_glue",
