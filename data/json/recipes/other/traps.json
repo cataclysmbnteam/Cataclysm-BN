@@ -212,7 +212,7 @@
     "book_learn": [ [ "manual_traps_mil", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "superglue", 1 ], [ "bone_glue", 1 ], [ "duct_tape", 75 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [
         [ "scrap", 3 ],
         [ "steel_chunk", 1 ],
