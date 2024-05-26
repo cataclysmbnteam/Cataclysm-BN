@@ -160,7 +160,7 @@
     "components": [
       [ [ "stick", 3 ], [ "2x4", 2 ] ],
       [ [ "bone_sturdy", 3, "LIST" ] ],
-      [ [ "adhesive", 5 ] ],
+      [ [ "adhesive", 5, "LIST" ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
     ]
   },
