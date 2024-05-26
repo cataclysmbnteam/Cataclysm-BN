@@ -18,7 +18,7 @@
     "difficulty": 1,
     "time": "20 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "incendiary", 75 ] ], [["plastic_scrap", 2]] ]
+    "components": [ [ [ "incendiary", 75 ] ], [ [ "plastic_scrap", 2 ] ] ]
   },
   {
     "result": "handflare_dead",
