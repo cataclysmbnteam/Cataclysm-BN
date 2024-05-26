@@ -648,7 +648,12 @@
     "decomp_learn": 4,
     "book_learn": [ [ "recipe_bows", 4 ], [ "textbook_weapeast", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ], [ [ "spring", 1 ] ], [ [ "cordage_superior", 1, "LIST" ] ], [ [ "nail_glue", 20, "LIST" ] ] ]
+    "components": [
+      [ [ "2x4", 4 ], [ "stick", 8 ] ],
+      [ [ "spring", 1 ] ],
+      [ [ "cordage_superior", 1, "LIST" ] ],
+      [ [ "nail_glue", 20, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
