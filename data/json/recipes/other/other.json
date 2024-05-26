@@ -238,7 +238,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 12 ] ], [ [ "sheet_metal", 1 ] ] ]
+    "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail_glue", 12, "LIST" ] ], [ [ "sheet_metal", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -276,7 +276,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ]
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ]
   },
   {
     "result": "fish_bait",

@@ -389,7 +389,7 @@
       [ [ "cordage_superior_short", 1, "LIST" ] ],
       [ [ "spring", 1 ] ],
       [ [ "scrap", 4 ] ],
-      [ [ "nail", 10 ] ],
+      [ [ "nail_glue", 10, "LIST" ] ],
       [ [ "plastic_chunk", 2 ] ]
     ]
   },

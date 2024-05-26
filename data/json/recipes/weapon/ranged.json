@@ -291,7 +291,7 @@
       [ [ "cordage_superior_short", 1, "LIST" ] ],
       [ [ "spring", 1 ] ],
       [ [ "scrap", 4 ] ],
-      [ [ "nail", 10 ] ]
+      [ [ "nail_glue", 10, "LIST" ] ]
     ]
   },
   {
@@ -633,7 +633,7 @@
       [ [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
-      [ [ "nail", 60 ] ]
+      [ [ "nail_glue", 60, "LIST" ] ]
     ]
   },
   {
@@ -648,7 +648,7 @@
     "decomp_learn": 4,
     "book_learn": [ [ "recipe_bows", 4 ], [ "textbook_weapeast", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ], [ [ "spring", 1 ] ], [ [ "cordage_superior", 1, "LIST" ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ], [ [ "spring", 1 ] ], [ [ "cordage_superior", 1, "LIST" ] ], [ [ "nail_glue", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",

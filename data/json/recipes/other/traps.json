@@ -65,7 +65,7 @@
     "time": "30 s",
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "adhesive", 1, "LIST" ], [ "nail", 2 ] ] ]
+    "components": [ [ [ "nail_glue", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -93,7 +93,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 3 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 3 ], [ "stick", 3 ] ], [ [ "nail_glue", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -106,7 +106,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "nailboard", 3 ] ], [ [ "nail", 2 ] ] ]
+    "components": [ [ [ "nailboard", 3 ] ], [ [ "nail_glue", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",

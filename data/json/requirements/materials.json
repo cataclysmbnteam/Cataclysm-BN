@@ -6,6 +6,12 @@
     "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
+    "id": "nail_glue",
+    "type": "requirement",
+    "//": "Materials that connect part together tightly, nails and glue.",
+    "components": [ [ [ "nail", 1 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+  },
+  {
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",

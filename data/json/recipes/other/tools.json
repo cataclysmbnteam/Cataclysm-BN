@@ -9,7 +9,7 @@
     "time": "8 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "nail", 8 ] ], [ [ "2x4", 3 ] ] ]
+    "components": [ [ [ "nail_glue", 8, "LIST" ] ], [ [ "2x4", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -636,7 +636,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 30 ] ] ]
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail_glue", 30, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -697,8 +697,7 @@
     "difficulty": 1,
     "time": "2 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "nail", -1 ], [ "spike", -1 ], [ "sharp_rock", -1 ], [ "rebar", -1 ], [ "spear_rebar", -1 ] ] ],
+    "qualities": [ { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "55gal_drum", 1 ] ] ]
   },
   {
@@ -710,8 +709,7 @@
     "difficulty": 1,
     "time": "2 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "nail", -1 ], [ "spike", -1 ], [ "sharp_rock", -1 ], [ "rebar", -1 ], [ "spear_rebar", -1 ] ] ],
+    "qualities": [ { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "30gal_drum", 1 ] ] ]
   },
   {
@@ -1797,7 +1795,7 @@
     "autolearn": true,
     "components": [
       [ [ "sheet_metal_small", 5 ] ],
-      [ [ "nail", 11 ] ],
+      [ [ "nail_glue", 11, "LIST" ] ],
       [ [ "wire", 1 ] ],
       [ [ "pockknife", 1 ], [ "primitive_knife", 1 ], [ "copper_knife", 1 ] ],
       [ [ "screwdriver_set", 1 ] ],
@@ -1819,7 +1817,7 @@
     "autolearn": true,
     "components": [
       [ [ "sheet_metal_small", 5 ] ],
-      [ [ "nail", 11 ] ],
+      [ [ "nail_glue", 11, "LIST" ] ],
       [ [ "wire", 1 ] ],
       [ [ "pockknife", 1 ], [ "primitive_knife", 1 ], [ "copper_knife", 1 ] ],
       [ [ "screwdriver_set", 1 ] ],
@@ -2120,7 +2118,7 @@
     "components": [
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 12 ], [ "cu_pipe", 12 ], [ "frame", 2 ] ],
-      [ [ "nail", 12 ] ],
+      [ [ "nail_glue", 12, "LIST" ] ],
       [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "spike", 2 ] ]
@@ -2146,7 +2144,7 @@
     "components": [
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 15 ], [ "cu_pipe", 15 ], [ "frame", 2 ] ],
-      [ [ "nail", 12 ] ],
+      [ [ "nail_glue", 12, "LIST" ] ],
       [ [ "wire", 6 ], [ "rope_natural_short", 6, "LIST" ] ],
       [ [ "spike", 4 ] ]
     ]
@@ -2515,7 +2513,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "2x4", 18 ] ],
-      [ [ "nail", 14 ] ],
+      [ [ "nail_glue", 14, "LIST" ] ],
       [ [ "sheet_metal", 1 ] ],
       [ [ "foot_crank", 1 ] ],
       [ [ "sheet_metal_small", 1 ] ]
@@ -2656,8 +2654,7 @@
     "time": "5 m",
     "autolearn": true,
     "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 1 ], [ "cookbook", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "nail", -1 ], [ "spike", -1 ], [ "sharp_rock", -1 ], [ "rebar", -1 ], [ "spear_rebar", -1 ] ] ],
+    "qualities": [ { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {

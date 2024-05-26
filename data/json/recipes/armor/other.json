@@ -402,7 +402,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "nail", 8 ] ],
+      [ [ "nail_glue", 8, "LIST" ] ],
       [ [ "2x4", 4 ], [ "wood_panel", 1 ] ],
       [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "fur", 2 ], [ "leather", 2 ] ]
     ]
@@ -418,7 +418,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "nail", 16 ] ],
+      [ [ "nail_glue", 16, "LIST" ] ],
       [ [ "2x4", 8 ], [ "wood_panel", 2 ] ],
       [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "fur", 2 ], [ "leather", 2 ] ]
     ]

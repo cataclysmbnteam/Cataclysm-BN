@@ -625,7 +625,7 @@
     "using": [ [ "forging_standard", 10 ], [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "2x4", 24 ] ], [ [ "nail", 40 ] ] ]
+    "components": [ [ [ "2x4", 24 ] ], [ [ "nail_glue", 40, "LIST" ] ] ]
   },
   {
     "type": "recipe",
