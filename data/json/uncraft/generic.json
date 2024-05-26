@@ -12,8 +12,8 @@
     "components": [ [ [ "steel_lump", 1 ] ] ]
   },
   {
-    "type": "uncraft",
     "result": "handflare",
+    "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "20 s",
@@ -4220,6 +4220,22 @@
     "skill_used": "fabrication",
     "time": "6 s",
     "components": [ [ [ "plastic_scrap", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "RPG_die",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "pen",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
