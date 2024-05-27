@@ -59,7 +59,7 @@
     "difficulty": 2,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ], [ "drawing_tool", 20 ] ],
-    "components": [ [ [ "sheet", 1 ] ], [ [ "cotton_ball", 20 ] ] ]
+    "components": [ [ [ "sheet", 1 ] ], [ [ "cotton_ball", 20 ], [ "yarn", 330 ] ] ]
   },
   {
     "type": "recipe",
@@ -71,8 +71,8 @@
     "difficulty": 2,
     "time": "50 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "stick", 10 ], [ "2x4", 5 ] ], [ [ "leather", 20 ] ], [ [ "filament", 40, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 40 ] ],
+    "components": [ [ [ "stick", 10 ], [ "2x4", 5 ] ], [ [ "leather", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -84,13 +84,8 @@
     "skills_required": [ "tailor", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "stick", 3 ], [ "2x4", 2 ] ],
-      [ [ "leather", 4 ] ],
-      [ [ "damaged_shelter_kit", 1 ] ],
-      [ [ "filament", 5, "LIST" ] ]
-    ]
+    "using": [ [ "sewing_standard", 50 ] ],
+    "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "leather", 4 ] ], [ [ "damaged_shelter_kit", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -538,5 +533,43 @@
     "autolearn": true,
     "reversible": true,
     "components": [ [ [ "withered", 12 ], [ "straw_pile", 12 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "teddy_bear",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "15 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ], [ "yarn", 130 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wool_mattress",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "240 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "felt_patch", 60 ] ], [ [ "yarn", 650 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wool_pillow",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "felt_patch", 4 ] ], [ [ "yarn", 130 ] ] ]
   }
 ]

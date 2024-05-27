@@ -30,6 +30,13 @@
   },
   {
     "type": "SPECIES",
+    "id": "NECCO",
+    "name": { "str": "necco" },
+    "fear_triggers": [ "HURT" ],
+    "footsteps": "tap."
+  },
+  {
+    "type": "SPECIES",
     "id": "CHEWGUM",
     "name": { "str": "chewing gum" },
     "anger_triggers": [ "FRIEND_DIED" ],

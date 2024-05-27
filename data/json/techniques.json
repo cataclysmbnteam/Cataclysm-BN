@@ -95,14 +95,9 @@
     "name": "Rapid Strike",
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.66 },
-      { "stat": "damage", "type": "cut", "scale": 0.66 },
-      { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ],
     "messages": [ "You quickly strike %s", "<npcname> quickly strikes %s" ],
-    "description": "50% moves, 66% damage"
+    "description": "75% movecost"
   },
   {
     "type": "technique",
@@ -699,13 +694,12 @@
     "name": "Puño Strike",
     "messages": [ "You deliver a puño to %s", "<npcname> haftstrikes %s" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
-    "weapon_damage_requirements": [ { "type": "bash", "min": 8 } ],
     "melee_allowed": true,
     "crit_tec": true,
+    "weapon_damage_requirements": [ { "type": "bash", "min": 8 } ],
     "stun_dur": 1,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 0.6 },
-      { "stat": "damage", "type": "bash", "scale": 0.7 },
       { "stat": "damage", "type": "cut", "scale": 0 },
       { "stat": "damage", "type": "stab", "scale": 0 }
     ]
@@ -968,12 +962,7 @@
     "messages": [ "You quickly strike %s with the back of your fist", "<npcname> quickly strikes %s with the back of their fist" ],
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.66 },
-      { "stat": "damage", "type": "cut", "scale": 0.66 },
-      { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
   },
   {
     "type": "technique",
@@ -1079,22 +1068,17 @@
     "id": "tec_krav_maga_rapid",
     "messages": [ "You jab at %s", "<npcname> jabs at %s" ],
     "name": "Jab",
-    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.66 },
-      { "stat": "damage", "type": "cut", "scale": 0.66 },
-      { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
   },
   {
     "type": "technique",
     "id": "tec_krav_maga_crit",
     "name": "Cheapshot",
     "messages": [ "You hit %s where it hurts", "<npcname> hits %s with a cheapshot" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_tec": true,
@@ -1105,7 +1089,7 @@
     "id": "tec_krav_maga_takedown",
     "name": "Takedown",
     "messages": [ "You force %s to the ground", "<npcname> forces %s to the ground" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_ok": true,
@@ -1115,14 +1099,14 @@
     "type": "technique",
     "id": "tec_krav_maga_disarm",
     "name": "Bone Breaker",
-    "messages": [ "*CRACK!* You brutally maim %s's arm", "*CRACK!* <npcname> brutally maims %s's arm" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "messages": [ "*CRACK!* You brutally maim %s's limb", "*CRACK!* <npcname> brutally maims %s's limb" ],
+    "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "melee_allowed": true,
     "unarmed_allowed": true,
     "weighting": 2,
     "crit_tec": true,
     "downed_target": true,
     "stunned_target": true,
-    "human_target": true,
     "stun_dur": 1,
     "flat_bonuses": [
       { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1 },
@@ -1140,7 +1124,7 @@
     "id": "tec_krav_maga_break",
     "name": "Grab Break",
     "messages": [ "The %s tries to grab you, but you wrestle free!", "The %s tries to grab <npcname>, but they wrestle free!" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
     "defensive": true,
@@ -1151,7 +1135,7 @@
     "id": "tec_krav_maga_counter",
     "name": "Counter",
     "messages": [ "You block and counter %s", "<npcname> blocks and counters %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_ok": true,
@@ -1185,12 +1169,7 @@
     "name": "Leopard Swipe",
     "messages": [ "You quickly swipe at %s", "<npcname> quickly swipes at %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.66 },
-      { "stat": "damage", "type": "cut", "scale": 0.66 },
-      { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
   },
   {
     "type": "technique",
@@ -1574,12 +1553,7 @@
     "name": "Snake Snap",
     "messages": [ "You swiftly jab %s", "<npcname> swiftly jabs %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.5 },
-      { "stat": "damage", "type": "bash", "scale": 0.66 },
-      { "stat": "damage", "type": "cut", "scale": 0.66 },
-      { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
   },
   {
     "type": "technique",

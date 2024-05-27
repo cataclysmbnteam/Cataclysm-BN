@@ -1,0 +1,14 @@
+[
+  {
+    "abstract": "base_book",
+    "type": "BOOK",
+    "name": { "str": "base book abstract" },
+    "description": "The original book.  All other books in the world are based on it.  Copycats.",
+    "bashing": 2,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "story_book",
+    "color": "light_cyan",
+    "flags": [ "TINDER", "FLAMMABLE" ]
+  }
+]

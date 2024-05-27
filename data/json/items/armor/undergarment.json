@@ -227,7 +227,7 @@
     "covers": [ "torso" ],
     "coverage": 45,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE", "FANCY" ]
   },
   {
     "id": "chestwrap",

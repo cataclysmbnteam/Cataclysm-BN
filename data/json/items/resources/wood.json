@@ -173,7 +173,7 @@
     "description": "A hunk of dried plant matter condensed into a puck, then dried.  It burns well.",
     "material": "dry_plant",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "TRADER_AVOID", "FIREWOOD" ],
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ],
     "weight": "240 g",
     "volume": "3000 ml",
     "looks_like": "straw_pile",

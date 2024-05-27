@@ -1039,7 +1039,7 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             if( has_bionic( bionic_id( "bio_razors" ) ) ) {
-                per_hand += 2;
+                per_hand += 9;
             }
 
             for( const trait_id &mut : get_mutations() ) {
@@ -1121,10 +1121,6 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
                 }
 
                 per_hand += stab_bonus + unarmed_bonus;
-            }
-
-            if( has_bionic( bionic_id( "bio_razors" ) ) ) {
-                per_hand += 2;
             }
 
             stab_dam += per_hand; // First hand
@@ -1901,6 +1897,16 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
             dump += string_format( _( "You burn %s." ), target ) + "\n";
         } else {
             add_msg_player_or_npc( _( "<npcname> burns %s." ), target );
+        }
+    }
+
+    if( primary_weapon().has_flag( flag_SHOCKING ) ) {
+        d.add_damage( DT_ELECTRIC, rng( 1, 8 ) );
+
+        if( is_player() ) {
+            dump += string_format( _( "You shock %s." ), target ) + "\n";
+        } else {
+            add_msg_player_or_npc( _( "<npcname> shocks %s." ), target );
         }
     }
 

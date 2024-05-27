@@ -324,6 +324,7 @@
       "THERMOMETER",
       "BAROMETER",
       "HYGROMETER",
+      "WINDMETER",
       "USE_UPS",
       "NO_UNLOAD",
       "NO_RELOAD",
@@ -3029,5 +3030,18 @@
       "need_worn": true
     },
     "delete": { "flags": [ "DEAF" ] }
+  },
+  {
+    "id": "mask_halfsurvivor",
+    "type": "ARMOR",
+    "name": { "str": "survivor half-mask" },
+    "copy-from": "mask_lsurvivor",
+    "description": "A custom-built, reinforced gas mask that covers just the mouth.  Provides excellent protection from smoke.  It must be prepared before use.",
+    "weight": "250 g",
+    "volume": "750 ml",
+    "looks_like": "mask_filter",
+    "covers": [ "mouth" ],
+    "flags": [ "VARSIZE", "STURDY", "SLEEP_IGNORE" ],
+    "delete": { "qualities": [ [ "GLARE", 1 ] ] }
   }
 ]

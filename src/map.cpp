@@ -1805,6 +1805,7 @@ std::string map::features( const tripoint &p )
     add_if( has_flag( "UNSTABLE", p ), _( "Unstable." ) );
     add_if( has_flag( "SHARP", p ), _( "Sharp." ) );
     add_if( has_flag( "FLAT", p ), _( "Flat." ) );
+    add_if( has_flag( "ROOF", p ), _( "Roof." ) );
     add_if( has_flag( "EASY_DECONSTRUCT", p ), _( "Simple." ) );
     add_if( has_flag( "MOUNTABLE", p ), _( "Mountable." ) );
     return result;
@@ -3860,7 +3861,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
             dam -= std::max( ( rng( rfi.reduction.min,
                                     rfi.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0f );
             // Only print if we hit something we can see enemies through, so we know cover did its job
-            if( get_avatar().sees( p ) && rfi.block_unaimed_chance < 100_pct ) {
+            if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
                     add_msg( _( "The shot is stopped by the %s!" ), furnname( p ) );
                 } else {
@@ -3890,7 +3891,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
             dam -= std::max( ( rng( ri.reduction.min,
                                     ri.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0f );
             // Only print if we hit something we can see enemies through, so we know cover did its job
-            if( get_avatar().sees( p ) && ri.block_unaimed_chance < 100_pct ) {
+            if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
                     add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
                 } else {

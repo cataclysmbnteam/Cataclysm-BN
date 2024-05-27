@@ -213,19 +213,16 @@
     "id": "NC_ARSONIST_misc",
     "subtype": "distribution",
     "entries": [
-      { "item": "trenchcoat", "prob": 25 },
-      { "item": "gloves_fingerless", "prob": 30 },
-      { "item": "mask_hockey", "prob": 20 },
-      { "item": "flamethrower_crude", "prob": 20 },
-      { "item": "improvised_pipebomb", "prob": 40 },
-      { "item": "molotov", "prob": 100 },
-      { "item": "ref_lighter", "prob": 30 },
-      { "item": "lighter", "prob": 30 },
-      { "item": "matches", "prob": 30 },
-      { "item": "firecracker_pack", "prob": 50 },
-      { "item": "firecracker", "prob": 30 },
-      { "item": "dynamite", "prob": 50 },
-      { "item": "rebar", "prob": 100 }
+      { "item": "molotov", "prob": 100, "count": [ 1, 4 ] },
+      { "item": "improvised_pipebomb", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "firecracker_pack", "prob": 15 },
+      { "item": "firecracker", "prob": 10 },
+      { "item": "dynamite", "prob": 25 },
+      { "item": "ref_lighter", "prob": 10 },
+      { "item": "lighter", "prob": 15 },
+      { "item": "matches", "prob": 25 },
+      { "group": "NC_ARSONIST_STOCK_crafting_supplies", "prob": 50 },
+      { "group": "NC_ARSONIST_STOCK_scrap", "prob": 100 }
     ]
   }
 ]

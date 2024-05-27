@@ -14,7 +14,8 @@
       { "item": "enby_flag", "prob": 25 },
       { "item": "pansexual_flag", "prob": 25 },
       { "item": "gay_flag", "prob": 25 },
-      { "item": "genderfluid_flag", "prob": 25 }
+      { "item": "genderfluid_flag", "prob": 25 },
+      { "item": "autism_flag", "prob": 25 }
     ]
   },
   {

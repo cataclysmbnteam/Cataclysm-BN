@@ -17,13 +17,15 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 10,
-    "encumbrance": 5,
+    "encumbrance": 1,
+    "max_encumbrance": 3,
     "material_thickness": 1,
     "use_action": {
       "type": "bandolier",
       "capacity": 60,
       "ammo": [
         "pebble",
+        "nail",
         "700nx",
         "50",
         "4570",
@@ -72,7 +74,7 @@
       ],
       "draw_cost": 35
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY", "COMPACT" ]
   },
   {
     "id": "ammo_satchel",
@@ -89,6 +91,7 @@
     "color": "dark_gray",
     "covers": [ "torso" ],
     "coverage": 20,
+    "encumbrance": 1,
     "max_encumbrance": 4,
     "material_thickness": 2,
     "use_action": {
@@ -121,6 +124,8 @@
     "covers": [ "torso" ],
     "coverage": 15,
     "material_thickness": 2,
+    "encumbrance": 1,
+    "max_encumbrance": 5,
     "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",
@@ -149,6 +154,8 @@
     "color": "dark_gray",
     "covers": [ "torso" ],
     "coverage": 15,
+    "encumbrance": 1,
+    "max_encumbrance": 5,
     "material_thickness": 2,
     "use_action": {
       "type": "holster",
@@ -207,6 +214,7 @@
     "color": "dark_gray",
     "covers": [ "foot_either" ],
     "coverage": 5,
+    "encumbrance": 1,
     "max_encumbrance": 2,
     "material_thickness": 2,
     "use_action": {
@@ -235,6 +243,7 @@
     "looks_like": "ammo_satchel",
     "color": "dark_gray",
     "covers": [ "leg_either" ],
+    "encumbrance": 2,
     "max_encumbrance": 4,
     "coverage": 15,
     "material_thickness": 2,
@@ -492,7 +501,8 @@
     "color": "dark_gray",
     "covers": [ "torso" ],
     "coverage": 20,
-    "max_encumbrance": 4,
+    "encumbrance": 2,
+    "max_encumbrance": 5,
     "material_thickness": 2,
     "storage": "3 L",
     "use_action": {
@@ -559,13 +569,15 @@
     "color": "brown",
     "covers": [ "leg_either" ],
     "coverage": 10,
-    "encumbrance": 3,
+    "encumbrance": 2,
+    "max_encumbrance": 3,
     "material_thickness": 1,
     "use_action": {
       "type": "bandolier",
       "capacity": 30,
       "ammo": [
         "pebble",
+        "nail",
         "700nx",
         "50",
         "4570",

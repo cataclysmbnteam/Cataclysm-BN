@@ -983,6 +983,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - `BADVENOM` Attack may **severely** poison the player.
 - `BASHES` Bashes down doors.
 - `BILE_BLOOD` Makes monster bleed bile.
+- `BIOPROOF` Makes monster immune to Bio damage (A damage type mostly used by magic mods)
 - `BIRDFOOD` Becomes friendly / tamed with bird food.
 - `BLEED` Causes the player to bleed.
 - `BONES` May produce bones and sinews when butchered.
@@ -1370,7 +1371,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - `LONE_START` If starting NPC spawn option is switched to "Scenario-based", this scenario won't
   spawn a fellow NPC on game start.
 - `SCEN_ONLY` Profession can be chosen only as part of the appropriate scenario.
-- `SUR_START` Surrounded start, zombies outside the starting location.
 
 #### Season Flags
 

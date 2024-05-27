@@ -234,7 +234,7 @@
     "copy-from": "meat_scrap",
     "type": "COMESTIBLE",
     "name": { "str": "cooked scrap of meat", "str_pl": "cooked scraps of meat" },
-    "description": "This is a tiny scrap of cooked mutant meat.  It is small enough that it's hard to tell how disgusting it is.",
+    "description": "This is a tiny scrap of cooked meat.  Tasty, if not exactly filling.",
     "spoils_in": "2 days",
     "parasites": 0,
     "fun": 0,
@@ -247,7 +247,7 @@
     "copy-from": "meat_scrap_cooked",
     "type": "COMESTIBLE",
     "name": { "str": "cooked scrap of seasoned meat", "str_pl": "cooked scraps of seasoned meat" },
-    "description": "This is a tiny scrap of cooked mutant meat with added seasoning.",
+    "description": "This is a tiny scrap of cooked meat with added seasoning.",
     "fun": 1
   },
   {

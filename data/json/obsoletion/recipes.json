@@ -2356,26 +2356,6 @@
     "obsolete": true
   },
   {
-    "type": "recipe",
-    "result": "shotcanister_scrap",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_flechette",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_bearing",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_pebble",
-    "obsolete": true
-  },
-  {
     "result": "ballistic_vest_esapi",
     "type": "recipe",
     "obsolete": true
@@ -3347,6 +3327,26 @@
   {
     "type": "recipe",
     "result": "sandwich_cucumber",
+    "obsolete": true
+  },
+  {
+    "result": "beltfeed",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "aux_flamer",
+    "obsolete": true
+  },
+  {
+    "result": "makeshift_grenade",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "barrel_big",
     "obsolete": true
   }
 ]

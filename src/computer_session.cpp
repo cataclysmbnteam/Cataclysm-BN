@@ -274,6 +274,7 @@ computer_session::computer_action_functions = {
     { COMPACT_MAPS, &computer_session::action_maps },
     { COMPACT_MISS_DISARM, &computer_session::action_miss_disarm },
     { COMPACT_OPEN, &computer_session::action_open },
+    { COMPACT_OPEN_LOCKER, &computer_session::action_open_locker },
     { COMPACT_OPEN_DISARM, &computer_session::action_open_disarm },
     { COMPACT_PORTAL, &computer_session::action_portal },
     { COMPACT_RADIO_ARCHIVE, &computer_session::action_radio_archive },
@@ -321,6 +322,11 @@ void computer_session::action_open()
 {
     get_map().translate_radius( t_door_metal_locked, t_floor, 25.0, g->u.pos(), true );
     query_any( _( "Doors opened.  Press any key…" ) );
+}
+void computer_session::action_open_locker()
+{
+    get_map().translate_radius( f_secure_locker_l, f_secure_locker_o, 25.0, g->u.pos(), true );
+    query_any( _( "Lockers opened.  Press any key…" ) );
 }
 
 //LOCK AND UNLOCK are used to build more complex buildings

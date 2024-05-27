@@ -139,7 +139,7 @@
       { "group": "surgery", "prob": 80 },
       { "group": "drugs_emergency", "prob": 40 },
       { "group": "softdrugs", "prob": 20 },
-      { "group": "bionics_common", "prob": 5 },
+      { "group": "bionics_common", "prob": 10 },
       { "group": "harddrugs", "prob": 5 }
     ]
   },
@@ -188,7 +188,8 @@
       [ "jar_glass", 20 ],
       [ "fan", 5 ],
       [ "cleansuit", 10 ],
-      [ "pouch_autoclave", 15 ],
+      [ "pouch_autoclave", 20 ],
+      { "group": "bionics_common", "prob": 20 },
       [ "oxy_powder", 2 ],
       [ "hazmat_suit", 5 ],
       [ "fungicide", 10 ],
@@ -249,6 +250,7 @@
       [ "down_blanket", 10 ],
       [ "pillow", 50 ],
       [ "down_pillow", 15 ],
+      [ "wool_pillow", 15 ],
       [ "smoxygen_tank", 10 ],
       [ "antiparasitic", 3 ],
       [ "diazepam", 3 ],
@@ -960,6 +962,7 @@
       [ "copper_knife", 10 ],
       [ "copper_ax", 10 ],
       [ "bone_flute", 10 ],
+      [ "wood_flute", 10 ],
       [ "spear_stone", 50 ],
       [ "hand_axe", 50 ]
     ]
@@ -1449,6 +1452,7 @@
       { "item": "knife_rm42", "prob": 2 },
       { "item": "kukri", "prob": 2 },
       { "item": "knife_hunting", "prob": 4 },
+      { "item": "knife_heat", "prob": 2 },
       { "item": "knife_rambo", "prob": 20 },
       { "item": "tanto", "prob": 3 },
       { "item": "throwing_knife", "prob": 7 },
@@ -2273,6 +2277,7 @@
       [ "down_blanket", 10 ],
       [ "pillow", 20 ],
       [ "down_pillow", 15 ],
+      [ "wool_pillow", 15 ],
       [ "emer_blanket", 20 ],
       [ "flyer", 10 ],
       [ "gasoline_lantern", 5 ],

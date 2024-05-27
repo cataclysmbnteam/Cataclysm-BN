@@ -52,6 +52,8 @@ class scenario
         void load( const JsonObject &jo, const std::string &src );
         bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
 
+        std::vector<std::pair<mongroup_id, float>> _surround_groups;
+
     public:
         //these three aren't meant for external use, but had to be made public regardless
         scenario();
@@ -113,6 +115,7 @@ class scenario
 
         const std::vector<mission_type_id> &missions() const;
 
+        const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 };
 
 struct scen_blacklist {

@@ -41,7 +41,7 @@
         "|": "t_chainfence_v",
         "6": "t_radio_controls",
         "_": "t_pavement",
-        "<": "t_stairs_up"
+        "<": "t_ladder_up"
       },
       "nested": {
         " ": { "chunks": [ [ "null", 50 ], [ "wasp_gibs", 10 ] ] },
@@ -93,7 +93,7 @@
         "_": "t_pavement",
         "+": [ "t_door_c", [ "t_door_b", 3 ], [ "t_door_frame", 3 ] ],
         "4": "t_gutter_downspout",
-        "<": "t_stairs_up",
+        "<": "t_ladder_up",
         "w": [ "t_window", [ "t_window_frame", 3 ], [ "t_window_empty", 3 ] ]
       },
       "furniture": { "C": "f_counter", "r": "f_rack", "h": "f_chair", "l": "f_locker" },
@@ -122,16 +122,16 @@
         "          ,    ,        ",
         "          ,    ,        ",
         "          aaaa ,        ",
-        "          a><a ,        ",
+        "          a±,a ,        ",
         "          Raaa,R        ",
         "                        ",
         "                        ",
-        "         ...........3   ",
-        "         ...........5   ",
-        "         ...........3   ",
-        "         .......&...3   ",
-        "          R   ......3   ",
-        "              ......3   ",
+        "         -----------    ",
+        "         -.........5    ",
+        "         -.........-    ",
+        "         ------.&..-    ",
+        "          R   -....-    ",
+        "              ------    ",
         "                        ",
         "                        ",
         "                        ",
@@ -141,7 +141,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "±": "t_ladder_up_down", "&": "t_flat_roof" }
     }
   },
   {
@@ -158,7 +158,7 @@
         "        :a,,,,,,a#      ",
         "      X  a,,::,,a       ",
         "    XXXXXa,,::,,a       ",
-        "    XX_XXX,<>,XXaX      ",
+        "    XX_XXX,±,,XXaX      ",
         "    X___XXR,,,XRXXXX    ",
         "   XX____XXXXXX___XX    ",
         "  XX______________XX    ",
@@ -194,7 +194,7 @@
         "        XX,,,,,,X#      ",
         "       XXXX,::XXXXX     ",
         "    XXXX_aXXXXXXaXX     ",
-        "    X_   a,<>,,,a XX    ",
+        "    X_   a,±,,,,a XX    ",
         "    X  ..aR,,,,Ra  X    ",
         "   XX xxxxxxxxxxx. XX   ",
         "   XX xOxOxOxOxOx.  X   ",
@@ -229,7 +229,7 @@
         "          ,    ,        ",
         "       XXX,    ,        ",
         "    XXXXXXXXXa XXXX     ",
-        "    XXX   X><XXXX XX    ",
+        "    XXX   X±.XXXX XX    ",
         "    XX    RXXX,R   X    ",
         "   XX  ....X....   XX   ",
         "   X   ..........   X   ",
@@ -265,7 +265,7 @@
         "      XX  XX  XX XXX    ",
         "   XXXX   ,    ,   X    ",
         "   X     #aaaa ,   XX   ",
-        "   X     .a><a ,.   X   ",
+        "   X     .a±.a ,.   X   ",
         "  XX  ....Raaa,R.   XX  ",
         "  X   .....X......   X  ",
         " XX   .X...8...X..   X  ",

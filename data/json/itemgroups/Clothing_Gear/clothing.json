@@ -443,6 +443,22 @@
     ]
   },
   {
+    "id": "clothing_cleaning",
+    "type": "item_group",
+    "//": "wearable utility or protective gear for janitors and household cleaning purposes",
+    "//2": "Not intended to be a set of clothing for NPCs or monsters",
+    "items": [
+      [ "glasses_safety", 25 ],
+      [ "mask_dust", 15 ],
+      [ "mask_filter", 10 ],
+      [ "gloves_rubber", 15 ],
+      [ "gloves_medical", 10 ],
+      [ "boots_rubber", 15 ],
+      [ "fishing_waders", 5 ],
+      [ "knee_pads", 5 ]
+    ]
+  },
+  {
     "id": "clothing_work_boots",
     "type": "item_group",
     "//": "Sturdy boots often worn by technicians and tradesmen.",
