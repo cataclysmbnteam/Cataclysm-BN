@@ -186,7 +186,9 @@
     "description": "A healthy beverage made from chamomile flowers steeped in boiling water.  Can be used to treat insomnia.",
     "price": "1 USD",
     "price_postapoc": "25 cent",
-    "fun": 1
+    "fun": 1,
+    "stim": -3,
+    "fatigue_mod": -20
   },
   {
     "type": "COMESTIBLE",
