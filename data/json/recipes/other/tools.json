@@ -772,7 +772,7 @@
     "decomp_learn": 1,
     "flags": [ "BLIND_EASY" ],
     "components": [
-      [ [ "xacto", 1 ] ],
+      [ [ "scissors", 1 ] ],
       [ [ "saw", 1 ] ],
       [ [ "fabric_standard", 1, "LIST" ], [ "fabric_hides_any", 1, "LIST" ], [ "felt_patch", 1 ] ]
     ]
