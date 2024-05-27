@@ -325,7 +325,7 @@ void computer_session::action_open()
 }
 void computer_session::action_open_locker()
 {
-    get_map().translate_radius( f_secure_locker_l, f_secure_locker_o, 8.0, g->u.pos(), true );
+    get_map().translate_radius( t_secure_locker_l, t_secure_locker_o, 8.0, g->u.pos(), true );
     query_any( _( "Lockers opened.  Press any key…" ) );
 }
 
