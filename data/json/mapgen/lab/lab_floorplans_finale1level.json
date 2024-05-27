@@ -38,7 +38,10 @@
       "terrain": { "?": "t_nanofab", "r": "t_metal_floor", "/": "t_nanofab_body" },
       "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
       "place_nested": [ { "chunks": [ "lab_finale_loot" ], "x": 6, "y": 11 } ],
-      "place_loot": [ { "group": "mech_power_cell_spawn", "x": [ 4, 5 ], "y": [ 3, 5 ] } ],
+      "place_loot": [
+        { "group": "mech_power_cell_spawn", "x": [ 4, 5 ], "y": [ 3, 5 ] },
+        { "item": "id_science", "x": 17, "y": [ 11, 13 ] }
+      ],
       "place_monster": [
         { "monster": "mon_secubot", "x": [ 1, 4 ], "y": [ 20, 22 ], "chance": 90 },
         { "monster": "mon_secubot", "x": [ 19, 20 ], "y": [ 20, 22 ], "chance": 90 },
@@ -96,6 +99,7 @@
         }
       },
       "place_nested": [ { "chunks": [ "lab_finale_loot" ], "x": 4, "y": 1 } ],
+      "place_loot": [ { "item": "id_science", "x": [ 19, 20 ], "y": [ 2, 5 ] } ],
       "place_monster": [
         { "monster": "mon_hound_tindalos", "x": [ 7, 8 ], "y": [ 17, 18 ], "chance": 90 },
         { "monster": "mon_hound_tindalos", "x": [ 16, 17 ], "y": [ 17, 18 ], "chance": 90 },
@@ -152,7 +156,8 @@
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
         }
       },
-      "place_nested": [ { "chunks": [ "lab_finale_loot" ], "x": 4, "y": 13 } ]
+      "place_nested": [ { "chunks": [ "lab_finale_loot" ], "x": 4, "y": 13 } ],
+      "place_loot": [ { "item": "id_science", "x": [ 14, 16 ], "y": 12 } ]
     }
   },
   {
@@ -192,7 +197,8 @@
       "palettes": [ "lab_palette" ],
       "place_nested": [ { "chunks": [ "lab_finale_loot" ], "x": 5, "y": 8 } ],
       "monster": { "?": { "monster": "mon_turret_light" } },
-      "terrain": { "o": "t_cvdbody", "O": "t_cvdmachine" }
+      "terrain": { "o": "t_cvdbody", "O": "t_cvdmachine" },
+      "place_loot": [ { "item": "id_science", "x": [ 8, 10 ], "y": 10 } ]
     }
   },
   {
