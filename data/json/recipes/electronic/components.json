@@ -58,7 +58,7 @@
     "decomp_learn": 3,
     "book_learn": [ [ "radio_book", 3 ], [ "textbook_anarch", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "wire", 6 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 12 ] ] ]
+    "components": [ [ [ "amplifier", 1 ] ], [ [ "wire", 6 ] ], [ [ "2x4", 2 ] ], [ [ "nail_glue", 12, "LIST" ] ] ]
   },
   {
     "type": "recipe",

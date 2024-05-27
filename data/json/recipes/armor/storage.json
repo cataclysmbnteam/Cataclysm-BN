@@ -59,7 +59,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ], [ "sewing_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "scrap", 3 ], [ "sheet_metal_small", 1 ] ], [ [ "nail", 4 ] ] ]
+    "components": [ [ [ "leather", 5 ] ], [ [ "scrap", 3 ], [ "sheet_metal_small", 1 ] ], [ [ "nail_glue", 4, "LIST" ] ] ]
   },
   {
     "result": "back_holster",
@@ -110,7 +110,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_any", 12, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 8 ] ] ]
+    "components": [ [ [ "fabric_hides_any", 12, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail_glue", 8, "LIST" ] ] ]
   },
   {
     "result": "bandolier_pistol",
@@ -274,7 +274,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_any", 15, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 10 ] ] ]
+    "components": [ [ [ "fabric_hides_any", 15, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail_glue", 10, "LIST" ] ] ]
   },
   {
     "result": "chestpouch",
@@ -414,7 +414,7 @@
     "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 20 ] ], [ [ "rope_natural", 1, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 3 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "rope_natural", 1, "LIST" ] ] ]
   },
   {
     "result": "leather_belt",
@@ -622,7 +622,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_any", 10, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 5 ] ] ]
+    "components": [ [ [ "fabric_hides_any", 10, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail_glue", 5, "LIST" ] ] ]
   },
   {
     "result": "sheath",

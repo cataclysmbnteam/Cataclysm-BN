@@ -79,7 +79,7 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
     "using": [ [ "welding_standard", 4 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "glass_sheet", 1 ] ], [ [ "wire", 8 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "glass_sheet", 1 ] ], [ [ "wire", 8 ] ], [ [ "superglue", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -321,7 +321,7 @@
     "using": [ [ "filament", 50 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "superglue", 1 ] ], [ [ "fabric_standard", 6, "LIST" ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "superglue", 5 ] ], [ [ "fabric_standard", 6, "LIST" ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -625,7 +625,7 @@
     "using": [ [ "forging_standard", 10 ], [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "2x4", 24 ] ], [ [ "nail", 40 ] ] ]
+    "components": [ [ [ "2x4", 24 ] ], [ [ "nail_glue", 40, "LIST" ] ] ]
   },
   {
     "type": "recipe",

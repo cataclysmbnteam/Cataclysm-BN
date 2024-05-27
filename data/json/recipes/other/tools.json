@@ -9,7 +9,7 @@
     "time": "8 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "nail", 8 ] ], [ [ "2x4", 3 ] ] ]
+    "components": [ [ [ "nail_glue", 8, "LIST" ] ], [ [ "2x4", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -23,7 +23,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "time": "28 m",
     "autolearn": true,
-    "components": [ [ [ "largebroketent", 1 ], [ "broketent", 2 ] ], [ [ "superglue", 2 ], [ "duct_tape", 20 ] ] ]
+    "components": [ [ [ "largebroketent", 1 ], [ "broketent", 2 ] ], [ [ "adhesive", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -37,7 +37,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "time": "32 m",
     "autolearn": true,
-    "components": [ [ [ "largebroketent", 2 ], [ "broketent", 4 ], [ "tent_kit", 3 ] ], [ [ "superglue", 3 ], [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "largebroketent", 2 ], [ "broketent", 4 ], [ "tent_kit", 3 ] ], [ [ "adhesive", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -636,7 +636,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 30 ] ] ]
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail_glue", 30, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1797,7 +1797,7 @@
     "autolearn": true,
     "components": [
       [ [ "sheet_metal_small", 5 ] ],
-      [ [ "nail", 11 ] ],
+      [ [ "nail_glue", 11, "LIST" ] ],
       [ [ "wire", 1 ] ],
       [ [ "pockknife", 1 ], [ "primitive_knife", 1 ], [ "copper_knife", 1 ] ],
       [ [ "screwdriver_set", 1 ] ],
@@ -1819,7 +1819,7 @@
     "autolearn": true,
     "components": [
       [ [ "sheet_metal_small", 5 ] ],
-      [ [ "nail", 11 ] ],
+      [ [ "nail_glue", 11, "LIST" ] ],
       [ [ "wire", 1 ] ],
       [ [ "pockknife", 1 ], [ "primitive_knife", 1 ], [ "copper_knife", 1 ] ],
       [ [ "screwdriver_set", 1 ] ],
@@ -2120,7 +2120,7 @@
     "components": [
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 12 ], [ "cu_pipe", 12 ], [ "frame", 2 ] ],
-      [ [ "nail", 12 ] ],
+      [ [ "nail_glue", 12, "LIST" ] ],
       [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "spike", 2 ] ]
@@ -2146,7 +2146,7 @@
     "components": [
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 15 ], [ "cu_pipe", 15 ], [ "frame", 2 ] ],
-      [ [ "nail", 12 ] ],
+      [ [ "nail_glue", 12, "LIST" ] ],
       [ [ "wire", 6 ], [ "rope_natural_short", 6, "LIST" ] ],
       [ [ "spike", 4 ] ]
     ]
@@ -2515,7 +2515,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "2x4", 18 ] ],
-      [ [ "nail", 14 ] ],
+      [ [ "nail_glue", 14, "LIST" ] ],
       [ [ "sheet_metal", 1 ] ],
       [ [ "foot_crank", 1 ] ],
       [ [ "sheet_metal_small", 1 ] ]
@@ -2827,7 +2827,7 @@
     "autolearn": true,
     "time": "1 h",
     "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "leather", 4 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "leather", 4 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
