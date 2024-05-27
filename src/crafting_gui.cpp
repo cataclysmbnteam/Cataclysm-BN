@@ -246,7 +246,7 @@ static std::vector<std::string> recipe_info(
                   "for multiple components</color>\n" );
     }
     if( !avail.known ) {
-        oss << _( "color_red>Not known</color>\n" );
+        oss << _( "<color_red>Not known</color>\n" );
     }
 
     if( recp.has_byproducts() ) {
