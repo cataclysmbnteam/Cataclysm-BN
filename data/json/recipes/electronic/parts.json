@@ -80,7 +80,7 @@
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 2 ], [ "alternator_car", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 5 ], [ "frame_wood", 1 ] ],
       [ [ "sheet_metal_small", 3 ] ],
-      [ [ "nail", 20 ] ],
+      [ [ "nail_glue", 20, "LIST" ] ],
       [ [ "pipe", 4 ] ]
     ]
   },
@@ -111,7 +111,7 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "nail", 120 ] ],
+      [ [ "nail_glue", 120, "LIST" ] ],
       [ [ "pipe", 20 ] ]
     ]
   },
@@ -139,7 +139,7 @@
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 20 ], [ "frame_wood", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
-      [ [ "nail", 80 ] ],
+      [ [ "nail_glue", 80, "LIST" ] ],
       [ [ "pipe", 8 ] ],
       [ [ "wheel_wood_b", 2 ] ]
     ]
@@ -176,7 +176,7 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "nail", 240 ] ],
+      [ [ "nail_glue", 240, "LIST" ] ],
       [ [ "pipe", 24 ] ],
       [ [ "wheel_wood_b", 6 ] ]
     ]

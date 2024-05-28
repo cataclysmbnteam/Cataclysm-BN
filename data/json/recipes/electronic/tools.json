@@ -110,7 +110,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "e_scrap", 2 ], [ "glowplug", 1 ] ],
-      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
+      [ [ "copper", 1 ], [ "nail_glue", 1, "LIST" ], [ "wire", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "adhesive", 1, "LIST" ] ],
       [ [ "cable", 5 ] ]
@@ -432,7 +432,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 5 ] ],
-      [ [ "superglue", 1 ] ],
+      [ [ "superglue", 3 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "scrap", 3 ] ],
@@ -453,7 +453,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "superglue", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "cable", 5 ] ], [ [ "motor_micro", 1 ] ] ]
+    "components": [ [ [ "superglue", 3 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "cable", 5 ] ], [ [ "motor_micro", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -585,7 +585,7 @@
       [ [ "scrap", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "motor_micro", 1 ] ],
-      [ [ "superglue", 2 ] ],
+      [ [ "superglue", 6 ] ],
       [ [ "element", 2 ] ],
       [ [ "hose", 1 ] ],
       [ [ "power_supply", 1 ] ]
