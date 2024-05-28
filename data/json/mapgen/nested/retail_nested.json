@@ -1289,8 +1289,7 @@
         "R": "f_counter",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ]
       },
-      "place_nested": [
-        { "chunks": [ "city_block_14x14_restaurant_checkered_floor" ], "x": 0, "y": 7 } ],
+      "place_nested": [ { "chunks": [ "city_block_14x14_restaurant_checkered_floor" ], "x": 0, "y": 7 } ],
       "items": {
         "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
         "l": [ { "item": "restaur_sink", "chance": 30, "repeat": [ 1, 2 ] } ],
