@@ -1,4 +1,4 @@
-#include "action.h"
+ #include "action.h"
 
 #include <algorithm>
 #include <climits>
@@ -927,8 +927,6 @@ action_id handle_main_menu()
 
     register_actions( {
         ACTION_OPEN_WIKI, ACTION_HELP,
-        // The hotkey is reserved for the uilist keybindings menu, should be entries.emplace_back( ACTION_KEYBINDINGS, true, std::nullopt,
-        //                 ctxt.get_action_name( action_ident( ACTION_KEYBINDINGS ) ) ); but it throws an error
         ACTION_KEYBINDINGS, ACTION_OPTIONS, ACTION_AUTOPICKUP, ACTION_AUTONOTES,
         ACTION_SAFEMODE, ACTION_DISTRACTION_MANAGER, ACTION_COLOR, ACTION_WORLD_MODS,
         ACTION_ACTIONMENU, ACTION_QUICKSAVE, ACTION_SAVE, ACTION_DEBUG, ACTION_LUA_CONSOLE,
