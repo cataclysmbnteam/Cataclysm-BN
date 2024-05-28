@@ -628,8 +628,7 @@ static void draw_bionics_info( const catacurses::window &w_info, const unsigned 
 
 static void draw_effects_tab( ui_adaptor &ui, const catacurses::window &w_effects,
                               const unsigned line, const player_display_tab curtab,
-                              const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
-                              const size_t effect_win_size_y )
+                              const std::vector<std::pair<std::string, std::string>> &effect_name_and_text )
 {
     werase( w_effects );
     const bool is_current_tab = curtab == player_display_tab::effects;
@@ -1488,7 +1487,7 @@ void character_display::disp_info( Character &ch )
         borders.draw_border( w_effects_border );
         wnoutrefresh( w_effects_border );
         ui_effects.disable_cursor();
-        draw_effects_tab( ui_effects, w_effects, line, curtab, effect_name_and_text, effect_win_size_y );
+        draw_effects_tab( ui_effects, w_effects, line, curtab, effect_name_and_text );
     } );
 
     // SPEED
