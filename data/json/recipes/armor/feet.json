@@ -523,7 +523,7 @@
     "book_learn": [ [ "mag_swimming", 3 ], [ "manual_swimming", 2 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "duct_tape", 80 ], [ "medical_tape", 80 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "adhesive", 5, "LIST" ] ] ]
   },
   {
     "result": "thermal_socks",

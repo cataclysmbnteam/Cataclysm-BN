@@ -154,7 +154,7 @@
     "batch_time_factors": [ 80, 1 ],
     "autolearn": true,
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "milk", 1 ] ] ]
+    "components": [ [ [ "milk", 1 ], [ "milk_UHT", 1 ], [ "milk_raw", 1 ], [ "milk_evap", 1 ], [ "con_milk", 1 ] ] ]
   },
   {
     "type": "recipe",

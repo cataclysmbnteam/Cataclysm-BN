@@ -160,7 +160,7 @@
     "components": [
       [ [ "stick", 3 ], [ "2x4", 2 ] ],
       [ [ "bone_sturdy", 3, "LIST" ] ],
-      [ [ "superglue", 3 ], [ "bone_glue", 3 ] ],
+      [ [ "adhesive", 5, "LIST" ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
     ]
   },
@@ -179,7 +179,7 @@
     "components": [
       [ [ "stick_long", 1 ], [ "2x4", 3 ] ],
       [ [ "bone_sturdy", 4, "LIST" ] ],
-      [ [ "superglue", 4 ], [ "bone_glue", 4 ] ],
+      [ [ "adhesive", 5, "LIST" ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
     ]
   },
@@ -291,7 +291,7 @@
       [ [ "cordage_superior_short", 1, "LIST" ] ],
       [ [ "spring", 1 ] ],
       [ [ "scrap", 4 ] ],
-      [ [ "nail", 10 ] ]
+      [ [ "nail_glue", 10, "LIST" ] ]
     ]
   },
   {
@@ -633,7 +633,7 @@
       [ [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
-      [ [ "nail", 60 ] ]
+      [ [ "nail_glue", 60, "LIST" ] ]
     ]
   },
   {
@@ -648,7 +648,12 @@
     "decomp_learn": 4,
     "book_learn": [ [ "recipe_bows", 4 ], [ "textbook_weapeast", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ], [ [ "spring", 1 ] ], [ [ "cordage_superior", 1, "LIST" ] ], [ [ "nail", 20 ] ] ]
+    "components": [
+      [ [ "2x4", 4 ], [ "stick", 8 ] ],
+      [ [ "spring", 1 ] ],
+      [ [ "cordage_superior", 1, "LIST" ] ],
+      [ [ "nail_glue", 20, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -978,7 +983,7 @@
     "components": [
       [ [ "hand_pump", 1 ] ],
       [ [ "pipe", 8 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "2x4", 1 ], [ "stick", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
@@ -998,7 +1003,7 @@
     "components": [
       [ [ "hand_pump", 1 ] ],
       [ [ "pipe", 4 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "2x4", 1 ], [ "stick", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
@@ -1018,7 +1023,7 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [
       [ [ "pipe", 3 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "2x4", 1 ], [ "stick", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]

@@ -338,7 +338,15 @@
     "dispersion": 375,
     "durability": 6,
     "reload": 800,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "dampening", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "mechanism", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "dampening", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "mechanism", 1 ]
+    ]
   },
   {
     "id": "compositecrossbow",
@@ -380,7 +388,8 @@
     "loudness": 12,
     "dispersion": 325,
     "durability": 6,
-    "reload": 1000
+    "reload": 1000,
+    "valid_mod_locations": [ [ "sling", 1 ], [ "dampening", 1 ] ]
   },
   {
     "id": "huge_crossbow",
@@ -402,7 +411,7 @@
     "recoil": 30,
     "durability": 6,
     "reload": 6000,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "dampening", 1 ] ]
   },
   {
     "id": "rep_crossbow",
@@ -426,6 +435,6 @@
     "durability": 6,
     "clip_size": 10,
     "reload": 200,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "grip", 1 ], [ "mechanism", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "dampening", 1 ], [ "grip", 1 ], [ "mechanism", 1 ] ]
   }
 ]

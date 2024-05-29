@@ -15,7 +15,7 @@
     "components": [
       [ [ "2x4", 25 ], [ "frame_wood", 4 ] ],
       [ [ "sheet_metal_small", 3 ] ],
-      [ [ "nail", 100 ] ],
+      [ [ "nail_glue", 100, "LIST" ] ],
       [ [ "pipe", 4 ] ],
       [ [ "funnel", 1 ], [ "metal_funnel", 1 ], [ "makeshift_funnel", 1 ] ],
       [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
@@ -46,7 +46,7 @@
       [ [ "2x4", 15 ], [ "frame_wood", 3 ] ],
       [ [ "wood_panel", 6 ], [ "wood_sheet", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
-      [ [ "nail", 100 ] ],
+      [ [ "nail_glue", 100, "LIST" ] ],
       [ [ "pipe", 8 ] ],
       [ [ "wheel_wood_b", 2 ] ],
       [ [ "funnel", 1 ], [ "metal_funnel", 1 ], [ "makeshift_funnel", 1 ] ],
@@ -583,7 +583,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 30 ] ] ]
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nail_glue", 15, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -608,7 +608,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "sheet", 2 ] ], [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "sheet", 2 ] ], [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "nail_glue", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -620,7 +620,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ]
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail_glue", 10, "LIST" ] ] ]
   },
   {
     "result": "cargo_aisle",
@@ -646,7 +646,7 @@
     "time": "40 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "2x4", 2 ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ], [ [ "towel", 3 ] ] ]
+    "components": [ [ [ "nail_glue", 4, "LIST" ] ], [ [ "2x4", 2 ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ], [ [ "towel", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -780,7 +780,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "stick", 2 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 5 ] ], [ [ "stick", 2 ] ], [ [ "nail_glue", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -890,7 +890,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nail_glue", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -916,7 +916,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nail_glue", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -929,7 +929,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 30 ] ], [ [ "scrap", 5 ] ] ]
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nail_glue", 30, "LIST" ] ], [ [ "scrap", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1181,7 +1181,7 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "car_headlight", 1 ] ], [ [ "wire", 2 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "car_headlight", 1 ] ], [ [ "wire", 2 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1194,7 +1194,7 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "wire", 3 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "wire", 3 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1237,7 +1237,7 @@
     "decomp_learn": 1,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ]
+    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail_glue", 8, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1454,7 +1454,7 @@
     "components": [
       [ [ "2x4", 20 ], [ "frame_wood", 4 ], [ "wood_panel", 4 ] ],
       [ [ "sheet_metal_small", 10 ] ],
-      [ [ "nail", 20 ] ],
+      [ [ "nail_glue", 20, "LIST" ] ],
       [ [ "pipe", 5 ] ],
       [ [ "chain", 1 ] ]
     ]
@@ -1485,6 +1485,6 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ] ]
+    "components": [ [ [ "nail_glue", 4, "LIST" ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ] ]
   }
 ]
