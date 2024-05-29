@@ -4366,6 +4366,14 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "sponge",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 4 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "barrette",
     "type": "uncraft",
     "skill_used": "fabrication",
