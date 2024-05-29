@@ -532,6 +532,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "15 m",
+    "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
