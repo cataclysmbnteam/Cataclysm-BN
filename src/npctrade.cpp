@@ -272,7 +272,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
     const nc_color trade_color       = npc_will_accept_trade( np ) ? c_green : c_red;
     const nc_color trade_color_light = npc_will_accept_trade( np ) ? c_light_green : c_light_red;
 
-    input_context ctxt( "NPC_TRADE" );
+    input_context ctxt( "NPC_TRADE", keyboard_mode::keychar );
 
     werase( w_head );
     fold_and_print( w_head, point_zero, getmaxx( w_head ), c_white,
@@ -407,7 +407,7 @@ void trading_window::show_item_data( size_t offset,
         wnoutrefresh( w_tmp );
     } );
 
-    input_context ctxt( "NPC_TRADE" );
+    input_context ctxt( "NPC_TRADE", keyboard_mode::keychar );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -420,7 +420,7 @@ void trading_window::show_item_data( size_t offset,
             exit = true;
         } else if( action == "ANY_INPUT" ) {
             const input_event evt = ctxt.get_raw_input();
-            if( evt.type != CATA_INPUT_KEYBOARD || evt.sequence.empty() ) {
+            if( evt.type != input_event_t::keyboard_char || evt.sequence.empty() ) {
                 continue;
             }
             size_t help = evt.get_first_input();
@@ -490,7 +490,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
         weight_left = 5000_kilogram;
     }
 
-    input_context ctxt( "NPC_TRADE" );
+    input_context ctxt( "NPC_TRADE", keyboard_mode::keychar );
     ctxt.register_action( "SWITCH_LISTS" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
@@ -568,7 +568,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             confirm = false;
         } else if( action == "ANY_INPUT" ) {
             const input_event evt = ctxt.get_raw_input();
-            if( evt.type != CATA_INPUT_KEYBOARD || evt.sequence.empty() ) {
+            if( evt.type != input_event_t::keyboard_char || evt.sequence.empty() ) {
                 continue;
             }
             size_t ch = evt.get_first_input();

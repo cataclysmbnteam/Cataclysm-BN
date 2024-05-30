@@ -61,7 +61,7 @@ std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    const input_event event( ch, CATA_INPUT_KEYBOARD );
+    const input_event event( ch, input_event_t::keyboard_char );
     const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
@@ -926,7 +926,8 @@ action_id handle_main_menu()
     const auto register_actions = make_register_actions( entries, ctxt );
 
     register_actions( {
-        ACTION_OPEN_WIKI, ACTION_HELP, ACTION_KEYBINDINGS, ACTION_OPTIONS, ACTION_AUTOPICKUP, ACTION_AUTONOTES,
+        ACTION_OPEN_WIKI, ACTION_HELP,
+        ACTION_KEYBINDINGS, ACTION_OPTIONS, ACTION_AUTOPICKUP, ACTION_AUTONOTES,
         ACTION_SAFEMODE, ACTION_DISTRACTION_MANAGER, ACTION_COLOR, ACTION_WORLD_MODS,
         ACTION_ACTIONMENU, ACTION_QUICKSAVE, ACTION_SAVE, ACTION_DEBUG, ACTION_LUA_CONSOLE,
         ACTION_LUA_RELOAD
@@ -947,7 +948,7 @@ action_id handle_main_menu()
 
 std::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
 {
-    input_context ctxt( "DEFAULTMODE" );
+    input_context ctxt( "DEFAULTMODE", keyboard_mode::keychar );
     ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "pause" );

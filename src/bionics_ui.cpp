@@ -186,7 +186,7 @@ char get_free_invlet( bionic_collection &bionics )
 static void draw_bionics_titlebar( const catacurses::window &window, Character *p,
                                    bionic_menu_mode mode )
 {
-    input_context ctxt( "BIONICS" );
+    input_context ctxt( "BIONICS", keyboard_mode::keychar );
     static const flag_id json_flag_PERPETUAL( "PERPETUAL" );
 
     werase( window );
@@ -617,7 +617,7 @@ void show_bionics_ui( Character &who )
     bionic_menu_mode menu_mode = ACTIVATING;
     int max_scroll_position = 0;
 
-    input_context ctxt( "BIONICS" );
+    input_context ctxt( "BIONICS", keyboard_mode::keychar );
     ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "TOGGLE_EXAMINE" );

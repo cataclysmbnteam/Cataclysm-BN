@@ -6,7 +6,6 @@
 #include "character.h"
 #include "debug.h"
 #include "game.h"
-#include "ime.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
@@ -1553,7 +1552,6 @@ void inventory_selector::set_filter()
         current_ui->mark_resize();
     }
 
-    ime_sentry sentry;
 
     do {
         ui_manager::redraw();
@@ -1687,7 +1685,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 inventory_selector::inventory_selector( player &u, const inventory_selector_preset &preset )
     : u( u )
     , preset( preset )
-    , ctxt( "INVENTORY" )
+    , ctxt( "INVENTORY", keyboard_mode::keychar )
     , active_column_index( 0 )
     , mode( navigation_mode::ITEM )
     , own_inv_column( preset )
