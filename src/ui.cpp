@@ -199,7 +199,7 @@ void uilist::init()
     callback = nullptr;         // * uilist_callback
     filter.clear();          // filter string. If "", show everything
     fentries.clear();        // fentries is the actual display after filtering, and maps displayed entry number to actual entry number
-    fselected = 0;           // fentries[selected]
+    fselected = 0;           // selected = fentries[fselected]
     filtering = true;        // enable list display filtering via '/' or '.'
     filtering_igncase = true; // ignore case when filtering
     max_entry_len = 0;
@@ -209,6 +209,60 @@ void uilist::init()
     hotkeys = DEFAULT_HOTKEYS;
     input_category = "UILIST";
     additional_actions.clear();
+}
+
+input_context uilist::create_main_input_context() const
+{
+    input_context ctxt( input_category );
+    ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME", to_translation( "Go to first entry" ) );
+    ctxt.register_action( "END", to_translation( "Go to last entry" ) );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    if( allow_cancel ) {
+        ctxt.register_action( "QUIT" );
+    }
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    for( const auto &additional_action : additional_actions ) {
+        ctxt.register_action( additional_action.first, additional_action.second );
+    }
+    return ctxt;
+}
+
+input_context uilist::create_filter_input_context() const
+{
+    input_context ctxt( input_category );
+    // string input popup actions
+    ctxt.register_action( "TEXT.LEFT" );
+    ctxt.register_action( "TEXT.RIGHT" );
+    ctxt.register_action( "TEXT.QUIT" );
+    ctxt.register_action( "TEXT.CONFIRM" );
+    ctxt.register_action( "TEXT.CLEAR" );
+    ctxt.register_action( "TEXT.BACKSPACE" );
+    ctxt.register_action( "TEXT.HOME" );
+    ctxt.register_action( "TEXT.END" );
+    ctxt.register_action( "TEXT.DELETE" );
+#if defined( TILES )
+    ctxt.register_action( "TEXT.PASTE" );
+#endif
+    ctxt.register_action( "TEXT.INPUT_FROM_FILE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "ANY_INPUT" );
+    // uilist actions
+    ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME", to_translation( "Go to first entry" ) );
+    ctxt.register_action( "END", to_translation( "Go to last entry" ) );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    return ctxt;
 }
 
 void uilist::filterlist()
@@ -288,16 +342,9 @@ void uilist::set_filter( const std::string &fstr )
 
 void uilist::inputfilter()
 {
-    input_context ctxt( input_category );
-    ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
-    ctxt.register_action( "ANY_INPUT" );
+    input_context ctxt = create_filter_input_context();
     filter_popup = std::make_unique<string_input_popup>();
     filter_popup->context( ctxt ).text( filter )
-    .ignore_custom_actions( false )
     .max_length( 256 )
     .window( window, point( 4, w_height - 1 ), w_width - 4 );
     ime_sentry sentry;
@@ -607,7 +654,7 @@ void uilist::apply_scrollbar()
 /**
  * Generate and refresh output
  */
-void uilist::show()
+void uilist::show( ui_adaptor &ui )
 {
     if( !started ) {
         setup();
@@ -642,6 +689,10 @@ void uilist::show()
 
     const int pad_size = std::max( 0, w_width - 2 - pad_left - pad_right );
     const std::string padspaces = std::string( pad_size, ' ' );
+
+    for( uilist_entry &entry : entries ) {
+        entry.drawn_rect = std::nullopt;
+    }
 
     for( int fei = vshift, si = 0; si < vmax; fei++, si++ ) {
         if( fei < static_cast<int>( fentries.size() ) ) {
@@ -721,10 +772,13 @@ void uilist::show()
         }
     }
 
+    std::optional<point> cursor_pos;
     if( filter_popup ) {
         mvwprintz( window, point( 2, w_height - 1 ), border_color, "< " );
         mvwprintz( window, point( w_width - 3, w_height - 1 ), border_color, " >" );
         filter_popup->query( /*loop=*/false, /*draw_only=*/true );
+        // Record cursor immediately after filter_popup drawing
+        ui.record_term_cursor();
     } else {
         if( !filter.empty() ) {
             mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
@@ -736,6 +790,11 @@ void uilist::show()
     wnoutrefresh( window );
     if( callback != nullptr ) {
         callback->refresh( this );
+    }
+
+    if( cursor_pos ) {
+        wmove( window, cursor_pos.value() );
+        wnoutrefresh( window );
     }
 }
 
@@ -820,8 +879,8 @@ shared_ptr_fast<ui_adaptor> uilist::create_or_get_ui_adaptor()
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( !current_ui ) {
         ui = current_ui = make_shared_fast<ui_adaptor>();
-        current_ui->on_redraw( [this]( const ui_adaptor & ) {
-            show();
+        current_ui->on_redraw( [this]( ui_adaptor & ui ) {
+            show( ui );
         } );
         current_ui->on_screen_resize( [this]( ui_adaptor & ui ) {
             reposition( ui );
@@ -849,23 +908,7 @@ void uilist::query( bool loop, int timeout )
     }
     ret = UILIST_WAIT_INPUT;
 
-    input_context ctxt( input_category );
-    ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
-    if( allow_cancel ) {
-        ctxt.register_action( "QUIT" );
-    }
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "FILTER" );
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    for( const auto &additional_action : additional_actions ) {
-        ctxt.register_action( additional_action.first, additional_action.second );
-    }
-    hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
+    input_context ctxt = create_main_input_context();
 
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
@@ -889,15 +932,25 @@ void uilist::query( bool loop, int timeout )
             /* nothing */
         } else if( filtering && ret_act == "FILTER" ) {
             inputfilter();
-        } else if( iter != keymap.end() ) {
-            selected = iter->second;
-            if( entries[ selected ].enabled ) {
-                ret = entries[ selected ].retval; // valid
-            } else if( allow_disabled ) {
-                ret = entries[selected].retval; // disabled
-            }
-            if( callback != nullptr ) {
-                callback->select( this );
+        } else if( ret_act == "ANY_INPUT" && iter != keymap.end() ) {
+            // only handle "ANY_INPUT" since "HELP_KEYBINDINGS" is already
+            // handled by the input context and the caller might want to handle
+            // its custom actions
+            const auto it = std::find( fentries.begin(), fentries.end(), iter->second );
+            if( it != fentries.end() ) {
+                const bool enabled = entries[*it].enabled;
+                if( enabled || allow_disabled || hilight_disabled ) {
+                    // Change the selection to display correctly when this function
+                    // is called again.
+                    fselected = std::distance( fentries.begin(), it );
+                    selected = *it;
+                    if( enabled || allow_disabled ) {
+                        ret = entries[selected].retval;
+                    }
+                    if( callback != nullptr ) {
+                        callback->select( this );
+                    }
+                }
             }
         } else if( !fentries.empty() && ret_act == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {

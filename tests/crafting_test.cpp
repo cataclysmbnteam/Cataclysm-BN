@@ -742,7 +742,7 @@ TEST_CASE( "tool selection ui", "[crafting][ui]" )
             REQUIRE( map_inv.size() == 1 );
             CAPTURE( map_inv.find_item( 0 ).display_name() );
             CHECK( result.comp.type == tool_component.type );
-            CHECK( result.use_from == use_from_map );
+            CHECK( result.use_from == usage_from::map );
         }
     }
 
@@ -758,7 +758,7 @@ TEST_CASE( "tool selection ui", "[crafting][ui]" )
                                            DEFAULT_HOTKEYS, cost_adjustment::none );
 
         THEN( "Use from is set to none" ) {
-            CHECK( result.use_from == use_from_none );
+            CHECK( result.use_from == usage_from::none );
         }
     }
 

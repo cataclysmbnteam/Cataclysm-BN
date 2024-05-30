@@ -61,18 +61,18 @@ struct enum_traits<holiday> {
     static constexpr holiday last = holiday::num_holiday;
 };
 
-enum m_size : int {
-    MS_TINY = 0,    // Squirrel
-    MS_SMALL,      // Dog
-    MS_MEDIUM,    // Human
-    MS_LARGE,    // Cow
-    MS_HUGE,    // TAAAANK
-    num_m_size // last
+enum creature_size : int {
+    tiny = 0,    // Squirrel
+    small,      // Dog
+    medium,    // Human
+    large,    // Cow
+    huge,    // TAAAANK
+    num_creature_size // last
 };
 
 template<>
-struct enum_traits<m_size> {
-    static constexpr m_size last = m_size::num_m_size;
+struct enum_traits<creature_size> {
+    static constexpr creature_size last = creature_size::num_creature_size;
 };
 
 enum class temperature_flag : int {
@@ -100,7 +100,7 @@ enum visibility_type {
 };
 
 // Matching rules for comparing a string to an overmap terrain id.
-enum class ot_match_type {
+enum class ot_match_type : int {
     // The provided string must completely match the overmap terrain id, including
     // linear direction suffixes for linear terrain types or rotation suffixes
     // for rotated terrain types.

@@ -105,6 +105,8 @@
 #include "vehicle_part.h"
 #include "vpart_position.h"
 
+enum creature_size : int;
+
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -595,7 +597,7 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
                               inv.has_amount( itype_hd_tow_cable, 1 ) ||
                               inv.has_amount( itype_vine_30, 1 ) ||
                               inv.has_amount( itype_grapnel, 1 );
-        const bool big_corpse = corpse.size >= MS_MEDIUM;
+        const bool big_corpse = corpse.size >= creature_size::medium;
 
         if( big_corpse ) {
             if( has_rope && !has_tree_nearby && !b_rack_present ) {
@@ -635,7 +637,7 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
     }
 
     if( action == QUARTER ) {
-        if( corpse.size == MS_TINY ) {
+        if( corpse.size == creature_size::tiny ) {
             not_this_one( _( "This corpse is too small to quarter without damaging." ),
                           butcherable_rating::too_small );
         }
@@ -721,22 +723,22 @@ static void set_up_butchery_activity( player_activity &act, player &u, const but
     act.index = false;
 }
 
-static int size_factor_in_time_to_cut( m_size size )
+static int size_factor_in_time_to_cut( creature_size size )
 {
     switch( size ) {
         // Time (roughly) in turns to cut up the corpse
-        case MS_TINY:
+        case creature_size::tiny:
             return 150;
-        case MS_SMALL:
+        case creature_size::small:
             return 300;
-        case MS_MEDIUM:
+        case creature_size::medium:
             return 450;
-        case MS_LARGE:
+        case creature_size::large:
             return 600;
-        case MS_HUGE:
+        case creature_size::huge:
             return 1800;
         default:
-            debugmsg( "Invalid m_size value for butchering corpse: %d", static_cast<int>( size ) );
+            debugmsg( "Invalid creature_size value for butchering corpse: %d", static_cast<int>( size ) );
             break;
     }
     return 0;
@@ -950,7 +952,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 roll = roll / 4;
             } else if( entry.type == "bone" ) {
                 roll /= 2;
-            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.type == "skin" ) ) {
+            } else if( corpse_item->get_mtype()->size >= creature_size::medium && ( entry.type == "skin" ) ) {
                 roll /= 2;
             } else if( entry.type == "offal" ) {
                 roll /= 5;
@@ -1094,7 +1096,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     // 20% of the original corpse weight is not an item, but liquid gore
 
     if( action != DISSECT ) {
-        p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
+        p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
+                    0 ) + 4 );
     }
 }
 
@@ -1252,8 +1255,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         extract_or_wreck_cbms( cbms, roll, *p );
         // those lines are for XP gain with dissecting. It depends on the size of the corpse, time to dissect the corpse and the amount of bionics you would gather.
         int time_to_cut = size_factor_in_time_to_cut( corpse->size );
-        int level_cap = std::min<int>( MAX_SKILL, ( corpse->size + ( cbms.size() * 2 + 1 ) ) );
-        int size_mult = corpse->size > MS_MEDIUM ? ( corpse->size * corpse->size ) : 8;
+        int level_cap = std::min<int>( MAX_SKILL,
+                                       ( static_cast<int>( corpse->size ) + ( cbms.size() * 2 + 1 ) ) );
+        int size_mult = corpse->size > creature_size::medium ? ( corpse->size * corpse->size ) : 8;
         int practice_amt = ( size_mult + 1 ) * ( ( time_to_cut / 150 ) + 1 ) *
                            ( cbms.size() * cbms.size() / 2 + 1 );
         p->practice( skill_firstaid, practice_amt, level_cap );
