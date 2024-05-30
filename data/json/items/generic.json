@@ -1657,6 +1657,7 @@
     "material": "aluminum",
     "weight": "14 g",
     "volume": "5 ml",
+    "stackable": true,
     "to_hit": 2
   },
   {

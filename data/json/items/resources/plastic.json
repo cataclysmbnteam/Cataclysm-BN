@@ -74,6 +74,7 @@
     "material": "plastic",
     "symbol": ",",
     "color": "light_blue",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
   }
 ]
