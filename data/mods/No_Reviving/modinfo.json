@@ -2,19 +2,14 @@
   {
     "type": "MOD_INFO",
     "id": "no_reviving_zombies",
-    "name": "Prevent Revivication",
-    "description": "Disables zombie and feral revival.",
+    "name": "Prevent Zombie Revivication",
+    "description": "Disables zombie revival.",
     "category": "rebalance",
     "dependencies": [ "bn" ]
   },
   {
     "type": "monster_adjustment",
     "species": "ZOMBIE",
-    "flag": { "name": "REVIVES", "value": false }
-  },
-  {
-    "type": "monster_adjustment",
-    "species": "HUMAN",
     "flag": { "name": "REVIVES", "value": false }
   },
   {
