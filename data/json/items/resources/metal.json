@@ -318,7 +318,8 @@
     "volume": "25 ml",
     "bashing": 1,
     "to_hit": -2,
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
   },
   {
     "id": "tin",
