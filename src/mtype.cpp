@@ -121,6 +121,9 @@ bool mtype::in_category( const std::string &category ) const
 
 bool mtype::in_species( const species_id &spec ) const
 {
+    if( spec == species_id( "ALL" ) ) {
+        return true;
+    }
     return species.count( spec ) > 0;
 }
 
