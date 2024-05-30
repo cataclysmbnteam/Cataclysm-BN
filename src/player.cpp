@@ -215,7 +215,7 @@ bool character_martial_arts::pick_style( const avatar &you )    // Style selecti
                 bio_cqb ) ? bio_cqb_styles :
             ma_styles;
 
-    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keychar );
+    input_context ctxt( "MELEE_STYLE_PICKER" );
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uilist kmenu;

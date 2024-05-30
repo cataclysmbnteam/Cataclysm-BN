@@ -456,10 +456,10 @@ void Character::process_one_effect( effect &it, bool is_new )
             if( has_trait( trait_FAT ) ) {
                 mod *= 1.5;
             }
-            if( get_size() == creature_size::large ) {
+            if( get_size() == MS_LARGE ) {
                 mod *= 2;
             }
-            if( get_size() == creature_size::huge ) {
+            if( get_size() == MS_HUGE ) {
                 mod *= 3;
             }
         }
@@ -480,10 +480,10 @@ void Character::process_one_effect( effect &it, bool is_new )
             if( has_trait( trait_FAT ) ) {
                 mod *= 1.5;
             }
-            if( get_size() == creature_size::large ) {
+            if( get_size() == MS_LARGE ) {
                 mod *= 2;
             }
-            if( get_size() == creature_size::huge ) {
+            if( get_size() == MS_HUGE ) {
                 mod *= 3;
             }
         }

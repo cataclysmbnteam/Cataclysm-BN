@@ -176,7 +176,6 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
     int second_column = 0;
 
     int scroll_position = 0;
-    int examine_pos = 0;
     int cursor = 0;
     int max_scroll_position = 0;
     int list_height = 0;
@@ -223,7 +222,6 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                                       point( START.x + 1, TITLE_START_Y ) );
 
         recalc_max_scroll_position();
-        examine_pos = 0;
 
         // X-coordinate of the list of active mutations
         second_column = 32 + ( TERMX - FULL_SCREEN_WIDTH ) / 4;
@@ -232,15 +230,13 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
     } );
     ui.mark_resize();
 
-    input_context ctxt( "MUTATIONS", keyboard_mode::keychar );
+    input_context ctxt( "MUTATIONS" );
     ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "TOGGLE_EXAMINE" );
     ctxt.register_action( "REASSIGN" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "SCROLL_TRAIT_INFO_UP" );
-    ctxt.register_action( "SCROLL_TRAIT_INFO_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
@@ -340,23 +336,12 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
 
         draw_scrollbar( wBio, scroll_position, list_height, mutations_count,
                         point( 0, list_start_y ), c_white, true );
+        wnoutrefresh( wBio );
+        show_mutations_titlebar( w_title, menu_mode, ctxt );
 
         if( menu_mode == mutation_menu_mode::examining && examine_id.has_value() ) {
             werase( w_description );
-            std::vector<std::string> desc = foldstring( examine_id.value() ->desc(), WIDTH - 2 );
-            const int winh = catacurses::getmaxy( w_description );
-            const bool do_scroll = desc.size() > static_cast<unsigned>( std::abs( winh ) );
-            const int fline = do_scroll ? examine_pos % ( desc.size() + 1 - winh ) : 0;
-            const int lline = do_scroll ? fline + winh : desc.size();
-            for( int i = fline; i < lline; i++ ) {
-                trim_and_print( w_description, point( 0, i - fline ), WIDTH - 2, c_light_blue, desc[i] );
-            }
-            draw_scrollbar( wBio, fline, winh, desc.size(), point( 0, catacurses::getmaxy( wBio ) - winh - 1 ),
-                            c_white, true );
-        }
-        wnoutrefresh( wBio );
-        show_mutations_titlebar( w_title, menu_mode, ctxt );
-        if( menu_mode == mutation_menu_mode::examining && examine_id.has_value() ) {
+            fold_and_print( w_description, point_zero, WIDTH - 2, c_light_blue, examine_id.value()->desc() );
             wnoutrefresh( w_description );
         }
     } );
@@ -369,7 +354,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
         bool handled = false;
         const std::string action = ctxt.handle_input();
         const input_event evt = ctxt.get_raw_input();
-        if( evt.type == input_event_t::keyboard_char && !evt.sequence.empty() ) {
+        if( evt.type == CATA_INPUT_KEYBOARD && !evt.sequence.empty() ) {
             const int ch = evt.get_first_input();
             if( ch == ' ' ) { //skip if space is pressed (space is used as an empty hotkey)
                 continue;
@@ -382,7 +367,6 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                         query_popup pop;
                         pop.message( _( "%s; enter new letter." ),
                                      mutation_branch::get_name( *mut_id ) )
-                        .preferred_keyboard_mode( keyboard_mode::keychar )
                         .context( "POPUP_WAIT" )
                         .allow_cancel( true )
                         .allow_anykey( true );
@@ -391,7 +375,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                         while( !pop_exit ) {
                             const query_popup::result ret = pop.query();
                             bool pop_handled = false;
-                            if( ret.evt.type == input_event_t::keyboard_char && !ret.evt.sequence.empty() ) {
+                            if( ret.evt.type == CATA_INPUT_KEYBOARD && !ret.evt.sequence.empty() ) {
                                 const int newch = ret.evt.get_first_input();
                                 if( mutation_chars.valid( newch ) ) {
                                     const std::optional<trait_id> other_mut_id = trait_by_invlet( who.my_mutations, newch );
@@ -408,7 +392,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                                 if( ret.action == "QUIT" ) {
                                     pop_exit = true;
                                 } else if( ret.action != "HELP_KEYBINDINGS" &&
-                                           ret.evt.type == input_event_t::keyboard_char ) {
+                                           ret.evt.type == CATA_INPUT_KEYBOARD ) {
                                     popup( _( "Invalid mutation letter.  Only those characters are valid:\n\n%s" ),
                                            mutation_chars.get_allowed_chars() );
                                 }
@@ -490,7 +474,6 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                 if( scroll_position > 0 && cursor - scroll_position < half_list_view_location ) {
                     scroll_position = std::max( cursor - half_list_view_location, 0 );
                 }
-                examine_pos = 0;
 
                 // Draw the description, shabby workaround
                 examine_id = GetTrait( active, passive, cursor, tab_mode );
@@ -519,12 +502,8 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                         std::max( std::min<int>( lim + 1 - list_height,
                                                  cursor - half_list_view_location ), 0 );
                 }
-                examine_pos = 0;
 
                 examine_id = GetTrait( active, passive, cursor, tab_mode );
-            } else if( ( action == "SCROLL_TRAIT_INFO_UP" || action == "SCROLL_TRAIT_INFO_DOWN" ) &&
-                       menu_mode == mutation_menu_mode::examining ) {
-                examine_pos += action == "SCROLL_TRAIT_INFO_UP" ? -1 : 1;
             } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                 if( tab_mode == mutation_tab_mode::active && !passive.empty() ) {
                     tab_mode = mutation_tab_mode::passive;
@@ -535,7 +514,6 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                 }
                 examine_id = GetTrait( active, passive, cursor, tab_mode );
                 scroll_position = 0;
-                examine_pos = 0;
                 cursor = 0;
             } else if( action == "CONFIRM" ) {
                 trait_id mut_id;
@@ -561,7 +539,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                             while( !pop_exit ) {
                                 const query_popup::result ret = pop.query();
                                 bool pop_handled = false;
-                                if( ret.evt.type == input_event_t::keyboard_char && !ret.evt.sequence.empty() ) {
+                                if( ret.evt.type == CATA_INPUT_KEYBOARD && !ret.evt.sequence.empty() ) {
                                     const int newch = ret.evt.get_first_input();
                                     if( mutation_chars.valid( newch ) ) {
                                         const std::optional<trait_id> other_mut_id = trait_by_invlet( who.my_mutations, newch );
@@ -582,7 +560,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                                     if( ret.action == "QUIT" ) {
                                         pop_exit = true;
                                     } else if( ret.action != "HELP_KEYBINDINGS" &&
-                                               ret.evt.type == input_event_t::keyboard_char ) {
+                                               ret.evt.type == CATA_INPUT_KEYBOARD ) {
                                         popup( _( "Invalid mutation letter.  Only those characters are valid:\n\n%s" ),
                                                mutation_chars.get_allowed_chars() );
                                     }
@@ -628,12 +606,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                 }
             } else if( action == "REASSIGN" ) {
                 menu_mode = mutation_menu_mode::reassigning;
-                if( menu_mode == mutation_menu_mode::examining ) {
-                    examine_id = GetTrait( active, passive, cursor, tab_mode );
-                } else {
-                    examine_id = std::nullopt;
-                }
-                examine_pos = 0;
+                examine_id = std::nullopt;
             } else if( action == "TOGGLE_EXAMINE" ) {
                 // switches between activation and examination
                 menu_mode = menu_mode == mutation_menu_mode::activating ?

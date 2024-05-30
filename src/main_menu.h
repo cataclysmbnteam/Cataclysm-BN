@@ -17,7 +17,7 @@ class main_menu
 {
         friend class sound_on_move_uilist_callback;
     public:
-        main_menu() : ctxt( "MAIN_MENU", keyboard_mode::keychar ) { }
+        main_menu() : ctxt( "MAIN_MENU" ) { }
         // Shows the main menu and returns whether a game was started or not
         bool opening_screen();
 

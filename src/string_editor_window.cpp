@@ -11,7 +11,6 @@
 #endif
 
 #include "wcwidth.h"
-#include "ui_manager.h"
 
 static bool is_linebreak( const uint32_t uc )
 {
@@ -194,7 +193,7 @@ point string_editor_window::get_line_and_position( const int position, const boo
     return _folded->codepoint_coordinates( position, zero_x );
 }
 
-void string_editor_window::print_editor( ui_adaptor &ui )
+void string_editor_window::print_editor()
 {
     const point focus = _ime_preview_range ? _ime_preview_range->display_last : _cursor_display;
     const int ftsize = _folded->get_lines().size();
@@ -234,9 +233,7 @@ void string_editor_window::print_editor( ui_adaptor &ui )
                 || is_linebreak( c_cursor ) || mk_wcwidth( c_cursor ) < 1 ) {
                 c_cursor = ' ';
             }
-            const point cursor_pos( _cursor_display.x + 1, y );
-            mvwprintz( _win, cursor_pos, h_white, "%s", utf32_to_utf8( c_cursor ) );
-            ui.set_cursor( _win, cursor_pos );
+            mvwprintz( _win, point( _cursor_display.x + 1, y ), h_white, "%s", utf32_to_utf8( c_cursor ) );
         }
         if( _ime_preview_range && i >= _ime_preview_range->display_first.y
             && i <= _ime_preview_range->display_last.y ) {
@@ -250,11 +247,6 @@ void string_editor_window::print_editor( ui_adaptor &ui )
         }
     }
 
-    if( _ime_preview_range ) {
-        const point cursor_pos = _ime_preview_range->display_last + point( 1, -topoflist );
-        ui.set_cursor( _win, cursor_pos );
-    }
-
     if( ftsize > _max.y ) {
         scrollbar()
         .content_size( ftsize )
@@ -266,25 +258,7 @@ void string_editor_window::print_editor( ui_adaptor &ui )
 
 void string_editor_window::create_context()
 {
-    ctxt = std::make_unique<input_context>( "STRING_EDITOR", keyboard_mode::keychar );
-    ctxt->register_action( "TEXT.QUIT" );
-    ctxt->register_action( "TEXT.CONFIRM" );
-    ctxt->register_action( "TEXT.LEFT" );
-    ctxt->register_action( "TEXT.RIGHT" );
-    ctxt->register_action( "TEXT.UP" );
-    ctxt->register_action( "TEXT.DOWN" );
-    ctxt->register_action( "TEXT.CLEAR" );
-    ctxt->register_action( "TEXT.BACKSPACE" );
-    ctxt->register_action( "TEXT.HOME" );
-    ctxt->register_action( "TEXT.END" );
-    ctxt->register_action( "TEXT.PAGE_UP" );
-    ctxt->register_action( "TEXT.PAGE_DOWN" );
-    ctxt->register_action( "TEXT.DELETE" );
-#if defined(TILES)
-    ctxt->register_action( "TEXT.PASTE" );
-#endif
-    ctxt->register_action( "TEXT.INPUT_FROM_FILE" );
-    ctxt->register_action( "HELP_KEYBINDINGS" );
+    ctxt = std::make_unique<input_context>();
     ctxt->register_action( "ANY_INPUT" );
 }
 
@@ -356,7 +330,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
         ui.position_from_window( _win );
     } );
     ui.mark_resize();
-    ui.on_redraw( [&]( ui_adaptor & ui ) {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         if( refold ) {
             utf8_wrapper text = _utext;
             if( !edit.empty() ) {
@@ -382,7 +356,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
             reposition = false;
         }
         werase( _win );
-        print_editor( ui );
+        print_editor();
         wnoutrefresh( _win );
     } );
 
@@ -400,50 +374,54 @@ std::pair<bool, std::string> string_editor_window::query_string()
 
         const std::string action = ctxt->handle_input();
 
-        const input_event ev = ctxt->get_raw_input();
-        ch = ev.type == input_event_t::keyboard_char ? ev.get_first_input() : 0;
+        if( action != "ANY_INPUT" ) {
+            continue;
+        }
 
-        if( action == "TEXT.QUIT" ) {
+        const input_event ev = ctxt->get_raw_input();
+        ch = ev.type == input_event_t::CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
+
+        if( ch == KEY_ESCAPE ) {
             return { false, _utext.str() };
-        } else if( action == "TEXT.CONFIRM" ) {
+        } else if( ch == 0x13 ) {
             // ctrl-s: confirm
             return { true, _utext.str() };
-        } else if( action == "TEXT.UP" ) {
+        } else if( ch == KEY_UP ) {
             if( edit.empty() ) {
                 cursor_updown( -1 );
                 reposition = true;
             }
-        } else if( action == "TEXT.DOWN" ) {
+        } else if( ch == KEY_DOWN ) {
             if( edit.empty() ) {
                 cursor_updown( 1 );
                 reposition = true;
             }
-        } else if( action == "TEXT.RIGHT" ) {
+        } else if( ch == KEY_RIGHT ) {
             if( edit.empty() ) {
                 cursor_leftright( 1 );
                 _cursor_desired_x = -1;
                 reposition = true;
             }
-        } else if( action == "TEXT.LEFT" ) {
+        } else if( ch == KEY_LEFT ) {
             if( edit.empty() ) {
                 cursor_leftright( -1 );
                 _cursor_desired_x = -1;
                 reposition = true;
             }
-        } else if( action == "TEXT.CLEAR" ) {
+        } else if( ch == 0x15 ) {
             // ctrl-u: delete all the things
             _position = 0;
             _cursor_desired_x = -1;
             _utext.erase( 0 );
             refold = true;
-        } else if( action == "TEXT.BACKSPACE" ) {
+        } else if( ch == KEY_BACKSPACE ) {
             if( _position > 0 && _position <= static_cast<int>( _utext.size() ) ) {
                 _position--;
                 _cursor_desired_x = -1;
                 _utext.erase( _position, 1 );
                 refold = true;
             }
-        } else if( action == "TEXT.HOME" ) {
+        } else if( ch == KEY_HOME ) {
             if( edit.empty()
                 && static_cast<size_t>( _cursor_display.y ) < _folded->get_lines().size() ) {
                 _position = _folded->get_lines()[_cursor_display.y].cpts_start;
@@ -451,7 +429,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
                 _cursor_desired_x = 0;
                 reposition = true;
             }
-        } else if( action == "TEXT.END" ) {
+        } else if( ch == KEY_END ) {
             if( edit.empty()
                 && static_cast<size_t>( _cursor_display.y ) < _folded->get_lines().size() ) {
                 _position = _folded->get_lines()[_cursor_display.y].cpts_end;
@@ -462,27 +440,26 @@ std::pair<bool, std::string> string_editor_window::query_string()
                 _cursor_desired_x = -1;
                 reposition = true;
             }
-        } else if( action == "TEXT.PAGE_UP" ) {
+        } else if( ch == KEY_PPAGE ) {
             if( edit.empty() ) {
                 cursor_updown( -_max.y );
                 reposition = true;
             }
-        } else if( action == "TEXT.PAGE_DOWN" ) {
+        } else if( ch == KEY_NPAGE ) {
             if( edit.empty() ) {
                 cursor_updown( _max.y );
                 reposition = true;
             }
-        } else if( action == "TEXT.DELETE" ) {
+        } else if( ch == KEY_DC ) {
             if( _position < static_cast<int>( _utext.size() ) ) {
                 _cursor_desired_x = -1;
                 _utext.erase( _position, 1 );
                 refold = true;
             }
-        } else if( action == "TEXT.PASTE" || action == "TEXT.INPUT_FROM_FILE"
-                   || !ev.text.empty() || ch == KEY_ENTER || ch == '\n' ) {
-            // paste, input from file, or text input
+        } else if( ch == 0x16 || ch == KEY_F( 2 ) || !ev.text.empty() || ch == KEY_ENTER || ch == '\n' ) {
+            // ctrl-v, f2, or _utext input
             std::string entered;
-            if( action == "TEXT.PASTE" ) {
+            if( ch == 0x16 ) {
 #if defined(TILES)
                 if( edit.empty() ) {
                     char *const clip = SDL_GetClipboardText();
@@ -492,7 +469,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
                     }
                 }
 #endif
-            } else if( action == "TEXT.INPUT_FROM_FILE" ) {
+            } else if( ch == KEY_F( 2 ) ) {
                 if( edit.empty() ) {
                     entered = get_input_string_from_file();
                 }

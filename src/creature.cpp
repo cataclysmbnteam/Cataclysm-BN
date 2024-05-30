@@ -82,12 +82,9 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
-const std::map<std::string, creature_size> Creature::size_map = {
-    {"TINY",   creature_size::tiny},
-    {"SMALL",  creature_size::small},
-    {"MEDIUM", creature_size::medium},
-    {"LARGE",  creature_size::large},
-    {"HUGE",   creature_size::huge}
+const std::map<std::string, m_size> Creature::size_map = {
+    {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
+    {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE}
 };
 
 const std::set<material_id> Creature::cmat_flesh{
@@ -308,18 +305,18 @@ bool Creature::sees( const Creature &critter ) const
             }
             float size_modifier = 1.0;
             switch( ch->get_size() ) {
-                case creature_size::tiny:
+                case MS_TINY:
                     size_modifier = 2.0;
                     break;
-                case creature_size::small:
+                case MS_SMALL:
                     size_modifier = 1.4;
                     break;
-                case creature_size::medium:
+                case MS_MEDIUM:
                     break;
-                case creature_size::large:
+                case MS_LARGE:
                     size_modifier = 0.6;
                     break;
-                case creature_size::huge:
+                case MS_HUGE:
                     size_modifier = 0.15;
                     break;
                 default:
@@ -541,15 +538,15 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
 int Creature::size_melee_penalty() const
 {
     switch( get_size() ) {
-        case creature_size::tiny:
+        case MS_TINY:
             return 30;
-        case creature_size::small:
+        case MS_SMALL:
             return 15;
-        case creature_size::medium:
+        case MS_MEDIUM:
             return 0;
-        case creature_size::large:
+        case MS_LARGE:
             return -10;
-        case creature_size::huge:
+        case MS_HUGE:
             return -20;
         default:
             break;
@@ -729,23 +726,23 @@ dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const da
 namespace
 {
 
-auto get_stun_srength( const projectile &proj, creature_size size ) -> int
+auto get_stun_srength( const projectile &proj, m_size size ) -> int
 {
     const int stun_strength = proj.has_effect( ammo_effect_BEANBAG ) ? 4
                               : proj.has_effect( ammo_effect_LARGE_BEANBAG ) ? 16
                               : 0;
 
     switch( size ) {
-        case creature_size::tiny:
+        case MS_TINY:
             return stun_strength * 4;
-        case creature_size::small:
+        case MS_SMALL:
             return stun_strength * 2;
-        case creature_size::medium:
+        case MS_MEDIUM:
         default:
             return stun_strength;
-        case creature_size::large:
+        case MS_LARGE:
             return stun_strength / 2;
-        case creature_size::huge:
+        case MS_HUGE:
             return stun_strength / 4;
     }
 }
@@ -1956,19 +1953,19 @@ units::mass Creature::weight_capacity() const
 {
     units::mass base_carry = 13_kilogram;
     switch( get_size() ) {
-        case creature_size::tiny:
+        case MS_TINY:
             base_carry /= 4;
             break;
-        case creature_size::small:
+        case MS_SMALL:
             base_carry /= 2;
             break;
-        case creature_size::medium:
+        case MS_MEDIUM:
         default:
             break;
-        case creature_size::large:
+        case MS_LARGE:
             base_carry *= 2;
             break;
-        case creature_size::huge:
+        case MS_HUGE:
             base_carry *= 4;
             break;
     }
@@ -2158,19 +2155,19 @@ void Creature::describe_infrared( std::vector<std::string> &buf ) const
 {
     std::string size_str;
     switch( get_size() ) {
-        case creature_size::tiny:
+        case m_size::MS_TINY:
             size_str = pgettext( "infrared size", "tiny" );
             break;
-        case creature_size::small:
+        case m_size::MS_SMALL:
             size_str = pgettext( "infrared size", "small" );
             break;
-        case creature_size::medium:
+        case m_size::MS_MEDIUM:
             size_str = pgettext( "infrared size", "medium" );
             break;
-        case creature_size::large:
+        case m_size::MS_LARGE:
             size_str = pgettext( "infrared size", "large" );
             break;
-        case creature_size::huge:
+        case m_size::MS_HUGE:
             size_str = pgettext( "infrared size", "huge" );
             break;
         default:
