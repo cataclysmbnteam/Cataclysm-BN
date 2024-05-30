@@ -307,6 +307,8 @@ void monster_adjustment::apply( mtype &mon )
     if( !special.empty() ) {
         if( special == "nightvision" ) {
             mon.vision_night = mon.vision_day;
+        } else if( special == "no_zombify" ) {
+            mon.zombify_into = mtype_id::NULL_ID();
         }
     }
 }
