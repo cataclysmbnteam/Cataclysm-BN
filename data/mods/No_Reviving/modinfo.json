@@ -13,6 +13,11 @@
     "flag": { "name": "REVIVES", "value": false }
   },
   {
+    "type": "monster_adjustment",
+    "species": "HUMAN",
+    "flag": { "name": "REVIVES", "value": false }
+  },
+  {
     "type": "MONSTER_BLACKLIST",
     "monsters": [ "mon_zombie_necro" ]
   }
