@@ -676,9 +676,7 @@ void input_manager::pump_events()
     previously_pressed_key = 0;
 }
 
-// we can probably add support for keycode mode, but wincurse is deprecated
-// so we just ignore the mode argument.
-input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )
+input_event input_manager::get_input_event()
 {
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
@@ -714,17 +712,17 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
     input_event rval;
     if( lastchar == ERR ) {
         if( input_timeout > 0 ) {
-            rval.type = input_event_t::timeout;
+            rval.type = CATA_INPUT_TIMEOUT;
         } else {
-            rval.type = input_event_t::error;
+            rval.type = CATA_INPUT_ERROR;
         }
     } else {
         // == Unicode DELETE
         if( lastchar == 127 ) {
             previously_pressed_key = KEY_BACKSPACE;
-            return input_event( KEY_BACKSPACE, input_event_t::keyboard_char );
+            return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
         }
-        rval.type = input_event_t::keyboard_char;
+        rval.type = CATA_INPUT_KEYBOARD;
         rval.text = utf32_to_utf8( lastchar );
         previously_pressed_key = lastchar;
         // for compatibility only add the first byte, not the code point

@@ -137,12 +137,12 @@ struct pathfinding_settings;
 // The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
 #define UPGRADE_MAX_ITERS 5
 
-static const std::map<creature_size, translation> size_names {
-    { creature_size::tiny, to_translation( "size adj", "tiny" ) },
-    { creature_size::small, to_translation( "size adj", "small" ) },
-    { creature_size::medium, to_translation( "size adj", "medium" ) },
-    { creature_size::large, to_translation( "size adj", "large" ) },
-    { creature_size::huge, to_translation( "size adj", "huge" ) },
+static const std::map<m_size, translation> size_names {
+    { m_size::MS_TINY, to_translation( "size adj", "tiny" ) },
+    { m_size::MS_SMALL, to_translation( "size adj", "small" ) },
+    { m_size::MS_MEDIUM, to_translation( "size adj", "medium" ) },
+    { m_size::MS_LARGE, to_translation( "size adj", "large" ) },
+    { m_size::MS_HUGE, to_translation( "size adj", "huge" ) },
 };
 
 static const std::map<monster_attitude, std::pair<std::string, color_id>> attitude_names {
@@ -2229,16 +2229,16 @@ float monster::stability_roll() const
 {
     int size_bonus = 0;
     switch( type->size ) {
-        case creature_size::tiny:
+        case MS_TINY:
             size_bonus -= 7;
             break;
-        case creature_size::small:
+        case MS_SMALL:
             size_bonus -= 3;
             break;
-        case creature_size::large:
+        case MS_LARGE:
             size_bonus += 5;
             break;
-        case creature_size::huge:
+        case MS_HUGE:
             size_bonus += 10;
             break;
         default:
@@ -2293,15 +2293,15 @@ float monster::fall_damage_mod() const
     }
 
     switch( type->size ) {
-        case creature_size::tiny:
+        case MS_TINY:
             return 0.2f;
-        case creature_size::small:
+        case MS_SMALL:
             return 0.6f;
-        case creature_size::medium:
+        case MS_MEDIUM:
             return 1.0f;
-        case creature_size::large:
+        case MS_LARGE:
             return 1.4f;
-        case creature_size::huge:
+        case MS_HUGE:
             return 2.0f;
         default:
             return 1.0f;
@@ -2987,9 +2987,9 @@ field_type_id monster::gibType() const
     return type->gibType();
 }
 
-creature_size monster::get_size() const
+m_size monster::get_size() const
 {
-    return creature_size( type->size );
+    return m_size( type->size );
 }
 
 units::mass monster::get_weight() const
