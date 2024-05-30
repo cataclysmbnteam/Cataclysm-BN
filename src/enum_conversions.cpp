@@ -25,20 +25,20 @@ std::string io::enum_to_string<Attitude>( Attitude att )
 }
 
 template<>
-std::string io::enum_to_string<creature_size>( creature_size data )
+std::string io::enum_to_string<m_size>( m_size data )
 {
     switch( data ) {
-        case creature_size::tiny:
+        case m_size::MS_TINY:
             return "TINY";
-        case creature_size::small:
+        case m_size::MS_SMALL:
             return "SMALL";
-        case creature_size::medium:
+        case m_size::MS_MEDIUM:
             return "MEDIUM";
-        case creature_size::large:
+        case m_size::MS_LARGE:
             return "LARGE";
-        case creature_size::huge:
+        case m_size::MS_HUGE:
             return "HUGE";
-        case creature_size::num_creature_size:
+        case m_size::num_m_size:
             break;
     }
     debugmsg( "Invalid body_size value: %d", static_cast<int>( data ) );

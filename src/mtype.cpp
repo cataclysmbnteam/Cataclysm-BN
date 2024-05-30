@@ -31,7 +31,7 @@ mtype::mtype()
     name = pl_translation( "human", "humans" );
     sym = " ";
     color = c_white;
-    size = creature_size::medium;
+    size = MS_MEDIUM;
     volume = 62499_ml;
     weight = 81499_gram;
     mat = { material_id( "flesh" ) };

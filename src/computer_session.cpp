@@ -1538,7 +1538,7 @@ computer_session::ynq computer_session::query_ynq( const std::string &text, Args
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case
                             : input_context::allow_all_keys;
-    input_context ctxt( "YESNOQUIT", keyboard_mode::keychar );
+    input_context ctxt( "YESNOQUIT" );
     ctxt.register_action( "YES" );
     ctxt.register_action( "NO" );
     ctxt.register_action( "QUIT" );

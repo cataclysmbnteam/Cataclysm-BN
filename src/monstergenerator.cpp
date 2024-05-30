@@ -265,18 +265,18 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
-static creature_size volume_to_size( const units::volume &vol )
+static m_size volume_to_size( const units::volume &vol )
 {
     if( vol <= 7500_ml ) {
-        return creature_size::tiny;
+        return MS_TINY;
     } else if( vol <= 46250_ml ) {
-        return creature_size::small;
+        return MS_SMALL;
     } else if( vol <= 77500_ml ) {
-        return creature_size::medium;
+        return MS_MEDIUM;
     } else if( vol <= 483750_ml ) {
-        return creature_size::large;
+        return MS_LARGE;
     }
-    return creature_size::huge;
+    return MS_HUGE;
 }
 
 struct monster_adjustment {
