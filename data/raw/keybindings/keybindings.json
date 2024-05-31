@@ -528,7 +528,7 @@
     "id": "CYCLE_MODE",
     "category": "CRAFTING",
     "name": "Cycle display mode",
-    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "m" } ]
   },
   {
     "type": "keybinding",
