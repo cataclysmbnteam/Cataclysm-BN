@@ -3404,9 +3404,7 @@
     "type": "keybinding",
     "id": "TEXT.CLEAR",
     "name": "Clear text",
-    "bindings": [
-      { "input_method": "keyboard", "key": "CTRL+U" }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": "CTRL+U" } ]
   },
   {
     "type": "keybinding",
@@ -3473,10 +3471,7 @@
     "category": "STRING_EDITOR",
     "//": "RETURN is treated as text input, so use a different keybinding",
     "//2": "CTRL+S is not available on curses, so add CTRL+Y as an alternative",
-    "bindings": [
-      { "input_method": "keyboard", "key": "CTRL+S" },
-      { "input_method": "keyboard", "key": "CTRL+Y" }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": "CTRL+S" }, { "input_method": "keyboard", "key": "CTRL+Y" } ]
   },
   {
     "type": "keybinding",
