@@ -272,8 +272,8 @@
     "price": "18 USD",
     "price_postapoc": "1 USD",
     "material": "plastic",
-    "weight": "45 g",
-    "volume": "250 ml",
+    "weight": "4500 mg",
+    "volume": "25 ml",
     "to_hit": -2,
     "flags": [ "UNRECOVERABLE" ],
     "stackable": true
@@ -289,8 +289,8 @@
     "price": "18 USD",
     "price_postapoc": "50 cent",
     "material": "bone",
-    "weight": "45 g",
-    "volume": "250 ml",
+    "weight": "4500 mg",
+    "volume": "25 ml",
     "to_hit": -2,
     "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ],
     "stackable": true

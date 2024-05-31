@@ -482,7 +482,7 @@
       [ "teleporter", 1 ],
       [ "laptop", 4 ],
       [ "plut_cell", 4 ],
-      [ "superglue", 30 ],
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       [ "pliers", 10 ],
       [ "matches", 10 ],
       [ "glasses_safety", 20 ],
