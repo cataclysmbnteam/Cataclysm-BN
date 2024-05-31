@@ -645,7 +645,7 @@ bool game::start_game()
     }
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
-    
+
     // Spawn the monsters for `Surrounded` starting scenarios
     std::vector<std::pair<mongroup_id, float>> surround_groups = get_scenario()->surround_groups();
     const bool surrounded_start_scenario = !surround_groups.empty();

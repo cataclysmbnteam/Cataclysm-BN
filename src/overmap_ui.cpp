@@ -1498,7 +1498,7 @@ static void create_note( const tripoint_abs_omt &curs )
     ui.on_redraw( [&]( const ui_adaptor & ) {
         update_note_preview( new_note, map_around, preview_windows );
     } );
-    
+
     // this implies enable_ime() and ensures that ime mode is always restored on return
     ime_sentry sentry;
 
