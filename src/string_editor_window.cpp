@@ -258,7 +258,7 @@ void string_editor_window::print_editor()
 
 void string_editor_window::create_context()
 {
-    ctxt = std::make_unique<input_context>( "STRING_EDITOR", keyboard_mode::keychar );
+    ctxt = std::make_unique<input_context>( "STRING_EDITOR" );
     ctxt->register_action( "TEXT.QUIT" );
     ctxt->register_action( "TEXT.CONFIRM" );
     ctxt->register_action( "TEXT.LEFT" );
@@ -393,7 +393,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
         const std::string action = ctxt->handle_input();
 
         const input_event ev = ctxt->get_raw_input();
-        ch = ev.type == input_event_t::keyboard_char ? ev.get_first_input() : 0;
+        ch = ev.get_first_input();
 
         if( action == "TEXT.QUIT" ) {
             return { false, _utext.str() };
@@ -471,7 +471,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
                 refold = true;
             }
         } else if( action == "TEXT.PASTE" || action == "TEXT.INPUT_FROM_FILE"
-                   || !ev.text.empty() || ch == KEY_ENTER || ch == '\n' ) {
+                   || !ev.text.empty() || ch == '\n' ) {
             // paste, input from file, or text input
             std::string entered;
             if( action == "TEXT.PASTE" ) {
@@ -488,7 +488,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
                 if( edit.empty() ) {
                     entered = get_input_string_from_file();
                 }
-            } else if( ch == KEY_ENTER || ch == '\n' ) {
+            } else if( ch == '\n' ) {
                 if( edit.empty() ) {
                     entered = "\n";
                 }

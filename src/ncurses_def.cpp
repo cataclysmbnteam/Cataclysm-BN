@@ -277,9 +277,7 @@ void input_manager::pump_events()
     previously_pressed_key = 0;
 }
 
-// there isn't a portable way to get raw key code on curses,
-// ignoring preferred keyboard mode
-input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )
+input_event input_manager::get_input_event()
 {
     int key = ERR;
     input_event rval;
@@ -336,9 +334,9 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
         } else {
             if( key == 127 ) { // == Unicode DELETE
                 previously_pressed_key = KEY_BACKSPACE;
-                return input_event( KEY_BACKSPACE, input_event_t::keyboard_char );
+                return input_event( KEY_BACKSPACE, input_event_t::keyboard );
             }
-            rval.type = input_event_t::keyboard_char;
+            rval.type = input_event_t::keyboard;
             rval.text.append( 1, static_cast<char>( key ) );
             // Read the UTF-8 sequence (if any)
             if( key < 127 ) {
@@ -356,7 +354,7 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
                 // Other control character, etc. - no text at all, return an event
                 // without the text property
                 previously_pressed_key = key;
-                return input_event( key, input_event_t::keyboard_char );
+                return input_event( key, input_event_t::keyboard );
             }
             // Now we have loaded an UTF-8 sequence (possibly several bytes)
             // but we should only return *one* key, so return the code point of it.
@@ -365,7 +363,7 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
                 // Invalid UTF-8 sequence, this should never happen, what now?
                 // Maybe return any error instead?
                 previously_pressed_key = key;
-                return input_event( key, input_event_t::keyboard_char );
+                return input_event( key, input_event_t::keyboard );
             }
             previously_pressed_key = cp;
             // for compatibility only add the first byte, not the code point

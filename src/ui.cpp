@@ -13,6 +13,7 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "game.h"
+#include "ime.h"
 #include "input.h"
 #include "output.h"
 #include "player.h"
@@ -212,7 +213,7 @@ void uilist::init()
 
 input_context uilist::create_main_input_context() const
 {
-    input_context ctxt( input_category, keyboard_mode::keycode );
+    input_context ctxt( input_category );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -236,7 +237,7 @@ input_context uilist::create_main_input_context() const
 
 input_context uilist::create_filter_input_context() const
 {
-    input_context ctxt( input_category, keyboard_mode::keychar );
+    input_context ctxt( input_category );
     // string input popup actions
     ctxt.register_action( "TEXT.LEFT" );
     ctxt.register_action( "TEXT.RIGHT" );
@@ -346,6 +347,7 @@ void uilist::inputfilter()
     filter_popup->context( ctxt ).text( filter )
     .max_length( 256 )
     .window( window, point( 4, w_height - 1 ), w_width - 4 );
+    ime_sentry sentry;
     do {
         ui_manager::redraw();
         filter = filter_popup->query_string( false );
@@ -895,8 +897,6 @@ void uilist::query( bool loop, int timeout )
     ret = UILIST_WAIT_INPUT;
 
     input_context ctxt = create_main_input_context();
-
-    hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 

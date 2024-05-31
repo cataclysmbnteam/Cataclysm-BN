@@ -2484,7 +2484,7 @@ void target_ui::init_window_and_input()
 
     w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
 
-    ctxt = input_context( "TARGET", keyboard_mode::keychar );
+    ctxt = input_context( "TARGET" );
     ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "COORDINATE" );

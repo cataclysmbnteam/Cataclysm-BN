@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "catacharset.h"
+#include "ime.h"
 #include "input.h"
 #include "output.h"
 #include "point.h"
@@ -90,7 +91,7 @@ void string_input_popup::create_window()
 
 void string_input_popup::create_context()
 {
-    ctxt_ptr = std::make_unique<input_context>( "STRING_INPUT", keyboard_mode::keychar );
+    ctxt_ptr = std::make_unique<input_context>( "STRING_INPUT" );
     ctxt = ctxt_ptr.get();
     ctxt->register_action( "TEXT.QUIT" );
     ctxt->register_action( "TEXT.CONFIRM" );
@@ -321,6 +322,10 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         create_context();
     }
 
+    std::optional<ime_sentry> sentry;
+    if( !draw_only && loop ) {
+        sentry.emplace();
+    }
     utf8_wrapper ret( _text );
     utf8_wrapper edit( ctxt->get_edittext() );
     if( _position == -1 ) {
@@ -391,7 +396,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
 
         const std::string action = ctxt->handle_input();
         const input_event ev = ctxt->get_raw_input();
-        ch = ev.type == input_event_t::keyboard_char ? ev.get_first_input() : 0;
+        ch = ev.type == input_event_t::keyboard ? ev.get_first_input() : 0;
         _handled = true;
 
         if( callbacks[ch] ) {

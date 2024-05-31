@@ -26,6 +26,7 @@
 #include "examine_item_menu.h"
 #include "game.h"
 #include "game_constants.h"
+#include "ime.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
@@ -1476,6 +1477,7 @@ void advanced_inventory::display()
                 ui->mark_resize();
             }
 
+            ime_sentry sentry;
 
             do {
                 if( ui ) {

@@ -39,6 +39,7 @@
 #include "game_constants.h"
 #include "game_ui.h"
 #include "hash_utils.h"
+#include "ime.h"
 #include "input.h"
 #include "int_id.h"
 #include "line.h"
@@ -590,7 +591,7 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
         nmenu.additional_actions.emplace_back( "CHANGE_SORT", translation() );
         nmenu.additional_actions.emplace_back( "CLEAR_FILTER", translation() );
         nmenu.additional_actions.emplace_back( "MARK_DANGER", translation() );
-        const input_context ctxt( nmenu.input_category, keyboard_mode::keychar );
+        const input_context ctxt( nmenu.input_category );
         nmenu.text = string_format(
                          _( "<%s> - center on note, <%s> - edit note, <%s> - mark as dangerous, <%s> - delete note, <%s> - close window" ),
                          colorize( "RETURN", c_yellow ),
@@ -1495,6 +1496,9 @@ static void create_note( const tripoint_abs_omt &curs )
         update_note_preview( new_note, map_around, preview_windows );
     } );
 
+    // this implies enable_ime() and ensures that ime mode is always restored on return
+    ime_sentry sentry;
+
     bool esc_pressed = false;
     string_input_popup input_popup;
     input_popup
@@ -1518,6 +1522,8 @@ static void create_note( const tripoint_abs_omt &curs )
         }
         ui.invalidate_ui();
     } while( true );
+
+    disable_ime();
 
     if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
         if( query_yn( _( "Really delete note?" ) ) ) {
@@ -1988,6 +1994,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     std::optional<tripoint> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
     grids_draw_data grids_data;
+
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw( curs, orig, uistate.overmap_show_overlays,

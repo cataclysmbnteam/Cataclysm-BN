@@ -6,6 +6,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
+#include "ime.h"
 #include "input.h"
 #include "json.h"
 #include "output.h"
@@ -463,6 +464,7 @@ class dialog
         bool canceled = false;
         bool errored = false;
 
+        std::optional<ime_sentry> filter_sentry;
 
         bool first_init = true;
 };
@@ -707,6 +709,9 @@ void Messages::dialog::input( const ui_adaptor &ui )
         filter.query( false );
         if( filter.confirmed() || filter.canceled() ) {
             filtering = false;
+            if( filter_sentry ) {
+                disable_ime();
+            }
         }
         if( !filter.canceled() ) {
             const std::string &new_filter_str = filter.text();
@@ -740,6 +745,13 @@ void Messages::dialog::input( const ui_adaptor &ui )
             }
         } else if( action == "FILTER" ) {
             filtering = true;
+            if( filter_sentry ) {
+                enable_ime();
+            } else {
+                // this implies enable_ime() and ensures that the ime mode is always
+                // restored when closing the dialog if at least filtered once
+                filter_sentry.emplace();
+            }
         } else if( action == "RESET_FILTER" ) {
             filter_str.clear();
             filter.text( filter_str );

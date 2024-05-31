@@ -22,6 +22,7 @@
 #include "filesystem.h"
 #include "fstream_utils.h"
 #include "game.h"
+#include "ime.h"
 #include "input.h"
 #include "json.h"
 #include "mod_manager.h"
@@ -1202,6 +1203,8 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
         const std::string old_filter = current_filter;
         fpopup->text( current_filter );
 
+        ime_sentry sentry;
+
         // On next redraw, call resize callback which will configure how popup is rendered
         ui.mark_resize();
 
@@ -1367,7 +1370,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 
     const point namebar_pos( 3 + utf8_width( _( "World Name:" ) ), 1 );
 
-    input_context ctxt( "WORLDGEN_CONFIRM_DIALOG", keyboard_mode::keychar );
+    input_context ctxt( "WORLDGEN_CONFIRM_DIALOG" );
     // dialog actions
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
@@ -1396,6 +1399,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 
         w_confirmation = catacurses::newwin( iContentHeight, iMinScreenWidth - 2,
                                              point( 1 + iOffsetX, iTooltipHeight + 2 ) );
+
         // +1 for end-of-text cursor
         spopup.window( w_confirmation, namebar_pos, namebar_pos.x + max_worldname_len + 1 )
         .context( ctxt );
@@ -1408,6 +1412,9 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
     bool noname = false;
 
     std::string worldname = world->world_name;
+
+    // do not switch IME mode now, but restore previous mode on return
+    ime_sentry sentry( ime_sentry::keep );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_worldgen_tabs( win, 2 );
