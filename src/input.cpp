@@ -232,12 +232,21 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
 
             if( keybinding.has_array( "key" ) ) {
                 for( const std::string line : keybinding.get_array( "key" ) ) {
-                    new_event.sequence.push_back( get_keycode( line ) );
+                    int loaded_keycode = get_keycode( line );
+                    if( loaded_keycode == '\0' ) {
+                        debugmsg( "Invalid keybind %s detected for action %s", line, action_id );
+                    } else {
+                        new_event.sequence.push_back( loaded_keycode );
+                    }
                 }
             } else { // assume string if not array, and throw if not string
-                new_event.sequence.push_back(
-                    get_keycode( keybinding.get_string( "key" ) )
-                );
+                std::string line = keybinding.get_string( "key" );
+                int loaded_keycode = get_keycode( line );
+                if( loaded_keycode == '\0' ) {
+                    debugmsg( "Invalid keybind %s detected for action %s", line, action_id );
+                } else {
+                    new_event.sequence.push_back( loaded_keycode );
+                }
             }
 
             events.push_back( new_event );
