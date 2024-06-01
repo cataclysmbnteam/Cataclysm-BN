@@ -3369,7 +3369,7 @@
     "type": "keybinding",
     "id": "TEXT.CONFIRM",
     "name": "Confirm text input",
-    "bindings": [ { "input_method": "keyboard", "key": "RETURN" }, { "input_method": "keyboard", "key": "KEYPAD_ENTER" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "RETURN" } ]
   },
   {
     "type": "keybinding",
