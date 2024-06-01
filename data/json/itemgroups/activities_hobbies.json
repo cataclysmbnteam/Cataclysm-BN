@@ -184,6 +184,7 @@
       { "group": "tinware", "prob": 10 },
       [ "kukri", 4 ],
       [ "knife_hunting", 18 ],
+      [ "knife_heat", 10 ],
       [ "knife_rambo", 20 ],
       [ "machete", 5 ],
       [ "machete_gimmick", 5 ],

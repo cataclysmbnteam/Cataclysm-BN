@@ -138,7 +138,7 @@ static constexpr int TURNING_INCREMENT = 15;
 static constexpr int NUM_ORIENTATIONS = 360 / TURNING_INCREMENT;
 // min and max speed in tiles/s
 static constexpr int MIN_SPEED_TPS = 1;
-static constexpr int MAX_SPEED_TPS = 3;
+static constexpr int MAX_SPEED_TPS = 10;
 static constexpr int VMIPH_PER_TPS = static_cast<int>( vehicles::vmiph_per_tile );
 
 /**

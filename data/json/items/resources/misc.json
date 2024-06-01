@@ -217,5 +217,14 @@
     "to_hit": -5,
     "flags": [ "TRADER_AVOID" ],
     "bashing": 15
+  },
+  {
+    "type": "GENERIC",
+    "id": "wool_mattress",
+    "copy-from": "down_mattress",
+    "looks_like": "down_mattress",
+    "name": { "str": "wool mattress", "str_pl": "wool mattresses" },
+    "description": "A mattress made of wool.  It is quite soft and comfortable.",
+    "material": [ "wool" ]
   }
 ]

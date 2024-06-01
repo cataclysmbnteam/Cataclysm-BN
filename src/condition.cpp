@@ -42,7 +42,6 @@
 #include "vehicle_part.h"
 #include "vpart_position.h"
 
-class basecamp;
 class recipe;
 
 static const efftype_id effect_currently_busy( "currently_busy" );
@@ -393,20 +392,7 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
         const tripoint_abs_omt omt_pos = actor->global_omt_location();
         const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
-        if( location == "FACTION_CAMP_ANY" ) {
-            std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
-            if( bcp ) {
-                return true;
-            }
-            // legacy check
-            const std::string &omt_str = omt_ref.id().c_str();
-            return omt_str.find( "faction_base_camp" ) != std::string::npos;
-        } else if( location == "FACTION_CAMP_START" ) {
-            return !recipe_group::get_recipes_by_id( "all_faction_base_types",
-                    omt_ref.id().c_str() ).empty();
-        } else {
-            return omt_ref == oter_id( oter_no_dir( oter_id( location ) ) );
-        }
+        return omt_ref == oter_id( oter_no_dir( oter_id( location ) ) );
     };
 }
 
@@ -834,14 +820,6 @@ void conditional_t<T>::set_is_outside()
 }
 
 template<class T>
-void conditional_t<T>::set_u_has_camp()
-{
-    condition = []( const T & ) {
-        return !g->u.camps.empty();
-    };
-}
-
-template<class T>
 void conditional_t<T>::set_has_pickup_list()
 {
     condition = []( const T & d ) {
@@ -1165,8 +1143,6 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_has_stolen_item( is_npc );
     } else if( type == "is_outside" ) {
         set_is_outside();
-    } else if( type == "u_has_camp" ) {
-        set_u_has_camp();
     } else if( type == "has_pickup_list" ) {
         set_has_pickup_list();
     } else if( type == "is_by_radio" ) {

@@ -37,6 +37,7 @@
 #include "units_temperature.h"
 #include "vpart_position.h"
 #include "weather_gen.h"
+#include "profile.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
@@ -121,6 +122,9 @@ inline void proc_weather_sum( const weather_type_id wtype, weather_sum &data,
                 break;
             case precip_class::light:
                 amount = 4 * to_turns<int>( tick_size );
+                break;
+            case precip_class::medium:
+                amount = 6 * to_turns<int>( tick_size );
                 break;
             case precip_class::heavy:
                 amount = 8 * to_turns<int>( tick_size );
@@ -519,13 +523,15 @@ double precip_mm_per_hour( precip_class const p )
 {
     return
         p == precip_class::very_light ? 0.5 :
-        p == precip_class::light ? 1.5 :
-        p == precip_class::heavy ? 3   :
+        p == precip_class::light ? 1 :
+        p == precip_class::medium ? 2 :
+        p == precip_class::heavy ? 4 :
         0;
 }
 
 void handle_weather_effects( const weather_type_id &w )
 {
+    ZoneScoped;
     if( w->rains && w->precip != precip_class::none ) {
         fill_water_collectors( precip_mm_per_hour( w->precip ),
                                w->acidic );
@@ -537,6 +543,9 @@ void handle_weather_effects( const weather_type_id &w )
         } else if( w->precip == precip_class::light ) {
             wetness = 30;
             decay_time = 15_turns;
+        } else if( w->precip == precip_class::medium ) {
+            wetness = 45;
+            decay_time = 30_turns;
         } else if( w->precip == precip_class::heavy ) {
             decay_time = 45_turns;
             wetness = 60;
@@ -1060,6 +1069,8 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
 
 void weather_manager::update_weather()
 {
+    ZoneScoped;
+
     w_point &w = weather_precise;
     winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
     windspeed = windspeed_override ? *windspeed_override : w.windpower;
@@ -1172,7 +1183,7 @@ bool is_in_sunlight( const map &m, const tripoint &p, const weather_type_id &wea
 {
     // TODO: Remove that game reference and include light in weather data
     return m.is_outside( p ) && g->light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
-           weather->sun_intensity >= sun_intensity_type::normal;
+           weather->sun_intensity >= sun_intensity_type::light;
 }
 
 } // namespace weather

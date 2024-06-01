@@ -19,6 +19,7 @@
 #include "effect.h"
 #include "game.h"
 #include "input.h"
+#include "melee.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
@@ -401,7 +402,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                            "gun for ranged combat, and enhances many actions that require finesse." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
                             string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ),
-                                           you.get_melee_hit( you.used_weapon(), melee::default_attack(you.used_weapon()) ) ) );
+                                           you.get_melee_hit( you.used_weapon(), melee::default_attack( you.used_weapon() ) ) ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Ranged penalty: <color_white>%+d</color>" ),
                                            -std::abs( you.ranged_dex_mod() ) ) );
@@ -661,7 +662,7 @@ int character_display::display_empty_handed_base_damage( const Character &you )
         // Mutation and bionic bonuses double if both hands are free
         int per_hand = 0;
         if( you.has_bionic( bionic_id( "bio_razors" ) ) ) {
-            per_hand += 4;
+            per_hand += 9;
         }
         for( const trait_id &mut : you.get_mutations() ) {
             if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&

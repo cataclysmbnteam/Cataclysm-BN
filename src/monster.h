@@ -327,6 +327,7 @@ class monster : public Creature, public location_visitable<monster>
         bool is_immune_effect( const efftype_id & ) const override;
         bool is_immune_damage( damage_type ) const override;
 
+        resistances resists() const;
         void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         bool block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;

@@ -137,9 +137,7 @@ class Creature
         virtual void bleed() const;
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die( Creature *killer ) = 0;
-
-        /** Should always be overwritten by the appropriate player/NPC/monster version. */
-        virtual float hit_roll() const = 0;
+        
         virtual float dodge_roll() = 0;
         virtual float stability_roll() const = 0;
 

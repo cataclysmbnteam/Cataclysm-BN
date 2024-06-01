@@ -47,8 +47,7 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "cordage", 1 ] ],
-    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 64 ] ],
     "components": [ [ [ "acidchitin_piece", 16 ] ], [ [ "fabric_hides_proper", 16, "LIST" ] ] ]
   },
   {
@@ -62,7 +61,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "nomex", 8 ] ],
       [ [ "kevlar_plate", 4 ] ],
@@ -78,10 +77,9 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 2,
-    "skills_required": [ "survival", 1 ],
     "time": "40 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_survival", 1 ] ],
+    "book_learn": [ [ "textbook_tailor", 1 ], [ "manual_tailor", 1 ], [ "tailor_portfolio", 1 ], [ "textbook_survival", 1 ] ],
     "using": [ [ "sewing_standard", 13 ] ],
     "components": [ [ [ "leather", 7 ] ], [ [ "fur", 7 ] ] ]
   },
@@ -96,7 +94,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "kevlar_plate", 4 ] ],
@@ -116,7 +114,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "fabric_standard", 4, "LIST" ] ],
       [ [ "fabric_hides_proper", 4, "LIST" ] ],
@@ -137,7 +135,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "rag", 4 ] ],
       [ [ "leather", 4 ] ],
@@ -185,7 +183,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "rag", 8 ] ],
       [ [ "kevlar_plate", 4 ] ],
@@ -243,7 +241,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "fabric_hides_proper", 8, "LIST" ] ],
       [ [ "kevlar_plate", 4 ] ],
@@ -286,7 +284,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "fur", 12 ] ],
       [ [ "kevlar_plate", 4 ] ],
@@ -399,7 +397,13 @@
     "difficulty": 1,
     "time": "30 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_survival", 0 ], [ "pocket_survival", 0 ] ],
+    "book_learn": [
+      [ "textbook_survival", 0 ],
+      [ "pocket_survival", 0 ],
+      [ "textbook_tailor", 0 ],
+      [ "manual_tailor", 0 ],
+      [ "tailor_portfolio", 0 ]
+    ],
     "using": [ [ "sewing_standard", 5 ] ],
     "components": [ [ [ "fur", 2 ] ] ]
   },
@@ -518,7 +522,7 @@
     "time": "30 m",
     "book_learn": [ [ "mag_swimming", 3 ], [ "manual_swimming", 2 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "duct_tape", 80 ], [ "medical_tape", 80 ] ], [ [ "superglue", 1 ] ] ]
   },
   {
@@ -529,11 +533,11 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "skills_required": [ "tailor", 2 ],
-    "time": "1 h",
+    "time": "20 m",
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
     "using": [ [ "sewing_standard", 6 ] ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
+    "tools": [ [ [ "soldering_standard", 20, "LIST" ], [ "surface_heat", 20, "LIST" ] ] ],
     "components": [ [ [ "rag", 2 ], [ "socks", 1 ], [ "socks_wool", 1 ] ], [ [ "element", 2 ] ], [ [ "cable", 4 ] ] ]
   },
   {
@@ -546,7 +550,7 @@
     "time": "2 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "soldering_iron", 5 ], [ "welder", 5 ], [ "hotplate", 5 ], [ "toolset", 5 ] ] ],
+    "tools": [ [ [ "soldering_standard", 5, "LIST" ], [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "neoprene", 2 ] ], [ [ "rag", 2 ] ] ]
   },
   {

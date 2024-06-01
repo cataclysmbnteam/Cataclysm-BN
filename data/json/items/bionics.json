@@ -745,7 +745,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Fingertip Razors CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of ten double-edged, four centimeter long razor-sharp claws that are implanted underneath the fingernails.  These will deal a small amount of unarmed slashing damage whenever the user's fingertips are uncovered.",
+    "description": "A set of ten double-edged, four centimeter long razor-sharp claws that are implanted underneath the fingernails.  These will deal a fair amount of unarmed slashing damage whenever the user's fingertips are uncovered, and allow the user to somewhat precisely slice things apart.",
     "price": "4500 USD",
     "weight": "5 g",
     "difficulty": 4

@@ -48,7 +48,7 @@
     "max_charges": 50,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "REQUIRES_TINDER" ]
   },
   {
     "id": "fire_drill_large",
@@ -67,7 +67,7 @@
     "max_charges": 500,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "REQUIRES_TINDER" ]
   },
   {
     "id": "flint_steel",
@@ -259,7 +259,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "SLEEP_IGNORE" ]
   },
   {
     "id": "electric_lighter",

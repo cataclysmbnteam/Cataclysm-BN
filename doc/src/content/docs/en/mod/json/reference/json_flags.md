@@ -983,6 +983,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - `BADVENOM` Attack may **severely** poison the player.
 - `BASHES` Bashes down doors.
 - `BILE_BLOOD` Makes monster bleed bile.
+- `BIOPROOF` Makes monster immune to Bio damage (A damage type mostly used by magic mods)
 - `BIRDFOOD` Becomes friendly / tamed with bird food.
 - `BLEED` Causes the player to bleed.
 - `BONES` May produce bones and sinews when butchered.

@@ -286,71 +286,19 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lumbermill_0_0",
+    "id": [ "lumbermill_0_0", "lumbermill_0_1", "lumbermill_1_0", "lumbermill_1_1" ],
     "name": "lumbermill",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "sym": "L",
     "color": "i_green",
-    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 3 ], "chance": 10 },
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] },
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 3 ], "chance": 10 }
   },
   {
     "type": "overmap_terrain",
-    "id": "lumbermill_0_1",
-    "name": "lumbermill",
-    "copy-from": "generic_city_building",
-    "sym": "L",
-    "color": "i_green",
-    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 3 ], "chance": 10 },
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lumbermill_1_0",
-    "name": "lumbermill",
-    "copy-from": "generic_city_building",
-    "sym": "L",
-    "color": "i_green",
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lumbermill_1_1",
-    "name": "lumbermill",
-    "copy-from": "generic_city_building",
-    "sym": "L",
-    "color": "i_green",
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lumbermill_0_0_roof",
+    "id": [ "lumbermill_0_0_roof", "lumbermill_0_1_roof", "lumbermill_1_0_roof", "lumbermill_1_1_roof" ],
     "name": "lumbermill roof",
-    "copy-from": "generic_city_building",
-    "sym": "L",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lumbermill_0_1_roof",
-    "name": "lumbermill roof",
-    "copy-from": "generic_city_building",
-    "sym": "L",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lumbermill_1_0_roof",
-    "name": "lumbermill roof",
-    "copy-from": "generic_city_building",
-    "sym": "L",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lumbermill_1_1_roof",
-    "name": "lumbermill roof",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "sym": "L",
     "color": "i_green"
   },

@@ -280,11 +280,11 @@ TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][prob
         }
 
         GIVEN( "food that must be chewed" ) {
-            item &toastem = *item::spawn_temporary( "toastem" );
-            REQUIRE( toastem.get_comestible()->comesttype == "FOOD" );
+            item &jihelucake = *item::spawn_temporary( "jihelucake" );
+            REQUIRE( jihelucake.get_comestible()->comesttype == "FOOD" );
 
             THEN( "they cannot drink it" ) {
-                expect_cannot_eat( dummy, toastem, expect_reason, edible_rating::inedible_mutation );
+                expect_cannot_eat( dummy, jihelucake, expect_reason, edible_rating::inedible_mutation );
             }
         }
 
@@ -314,7 +314,7 @@ TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
 {
     clear_all_state();
     avatar dummy = prepare_avatar();
-    item &toastem = *item::spawn_temporary( "toastem" );
+    item &jihelucake = *item::spawn_temporary( "jihelucake" );
     const efftype_id effect_nausea( "nausea" );
 
     GIVEN( "character has nausea" ) {
@@ -322,8 +322,9 @@ TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
         REQUIRE( dummy.has_effect( effect_nausea ) );
 
         THEN( "they can eat food, but it nauseates them" ) {
-            expect_can_eat( dummy, toastem );
-            expect_will_eat( dummy, toastem, "You still feel nauseous and will probably puke it all up again.",
+            expect_can_eat( dummy, jihelucake );
+            expect_will_eat( dummy, jihelucake,
+                             "You still feel nauseous and will probably puke it all up again.",
                              edible_rating::nausea );
         }
     }
@@ -353,18 +354,18 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
     avatar dummy = prepare_avatar();
 
     GIVEN( "food just barely rotten" ) {
-        item &toastem_rotten = *item::spawn_temporary( "toastem" );
-        toastem_rotten.set_relative_rot( 1.01 );
-        REQUIRE( toastem_rotten.rotten() );
+        item &jihelucake_rotten = *item::spawn_temporary( "jihelucake" );
+        jihelucake_rotten.set_relative_rot( 1.01 );
+        REQUIRE( jihelucake_rotten.rotten() );
 
         WHEN( "character is normal" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_id( "SAPROPHAGE" ) ) );
             REQUIRE_FALSE( dummy.has_trait( trait_id( "SAPROVORE" ) ) );
 
             THEN( "they can eat it, though they are disgusted by it" ) {
-                expect_can_eat( dummy, toastem_rotten );
+                expect_can_eat( dummy, jihelucake_rotten );
 
-                auto conseq = dummy.will_eat( toastem_rotten, false );
+                auto conseq = dummy.will_eat( jihelucake_rotten, false );
                 CHECK( conseq.value() == edible_rating::rotten );
                 CHECK( conseq.str() == "This is rotten and smells awful!" );
             }
@@ -375,9 +376,9 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
             REQUIRE( dummy.has_trait( trait_id( "SAPROVORE" ) ) );
 
             THEN( "they can eat it, and don't mind that it is rotten" ) {
-                expect_can_eat( dummy, toastem_rotten );
+                expect_can_eat( dummy, jihelucake_rotten );
 
-                auto conseq = dummy.will_eat( toastem_rotten, false );
+                auto conseq = dummy.will_eat( jihelucake_rotten, false );
                 CHECK( conseq.value() == edible_rating::edible );
                 CHECK( conseq.str().empty() );
             }
@@ -388,9 +389,9 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
             REQUIRE( dummy.has_trait( trait_id( "SAPROPHAGE" ) ) );
 
             THEN( "they can eat it, but would prefer it to be more rotten" ) {
-                expect_can_eat( dummy, toastem_rotten );
+                expect_can_eat( dummy, jihelucake_rotten );
 
-                auto conseq = dummy.will_eat( toastem_rotten, false );
+                auto conseq = dummy.will_eat( jihelucake_rotten, false );
                 CHECK( conseq.value() == edible_rating::allergy_weak );
                 CHECK( conseq.str() == "Your stomach won't be happy (not rotten enough)." );
             }

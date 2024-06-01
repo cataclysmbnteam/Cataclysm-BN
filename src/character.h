@@ -648,11 +648,11 @@ class Character : public Creature, public location_visitable<Character>
         /** Everything up to, but excluding, final roll of @ref hit_roll */
         float get_melee_hit( const item &weapon, const attack_statblock &attack ) const;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
-        float hit_roll() const override;
+        float hit_roll( const item &weapon, const attack_statblock &attack ) const;
         /** Returns the chance to critical given a hit roll and target's dodge roll */
         double crit_chance( float roll_hit, float target_dodge, const item &weap ) const;
         /** Returns true if the player scores a critical hit */
-        bool scored_crit( float target_dodge, const item &weap ) const;
+        bool scored_crit( float target_dodge, const item &weap, const attack_statblock &attack ) const;
         /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
         int attack_cost( const item &weap ) const;
         /** Gets melee accuracy component from weapon+skills */
@@ -1656,7 +1656,6 @@ class Character : public Creature, public location_visitable<Character>
         std::set<character_id> follower_ids;
         // Save favorite ammo location
         safe_reference<item> ammo_location;
-        std::set<tripoint_abs_omt> camps;
         /* crafting inventory cached time */
         time_point cached_time;
 

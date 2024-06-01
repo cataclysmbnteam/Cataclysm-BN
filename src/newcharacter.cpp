@@ -408,6 +408,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     prof = profession::generic();
     g->scen = scenario::generic();
+    male = get_option<std::string>( "DEF_CHAR_GENDER" ) == "male";
 
     const bool interactive = type != character_type::NOW &&
                              type != character_type::FULL_RANDOM;
@@ -723,13 +724,13 @@ tab_direction set_points( avatar &, points_left &points )
                                          _( "Multiple pools" ),
                                          _( "Stats, traits and skills have separate point pools.\n"
                                             "Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n"
-                                            "Scenarios and professions affect skill point pool" ) );
+                                            "Scenarios and professions affect skill point pool." ) );
 
     const point_limit_tuple one_pool = std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
                                        _( "Stats, traits and skills share a single point pool." ) );
 
     const point_limit_tuple freeform = std::make_tuple( points_left::FREEFORM, _( "Freeform" ),
-                                       _( "No point limits are enforced" ) );
+                                       _( "No point limits are enforced." ) );
 
     if( point_pool == "multi_pool" ) {
         opts = {{ multi_pool }};

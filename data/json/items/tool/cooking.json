@@ -368,6 +368,24 @@
     }
   },
   {
+    "id": "clay_yeast",
+    "type": "GENERIC",
+    "name": { "str_sp": "sealed yeast culture" },
+    "description": "A sealed clay bowl holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
+    "copy-from": "wild_clay_yeast",
+    "use_action": {
+      "target": "yeast",
+      "msg": "You remove the lid from the bowl and harvest the culture.",
+      "container": "bowl_clay",
+      "target_charges": 10,
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 86400,
+      "not_ready_msg": "The yeast isn't done culturing yet.",
+      "//": "24 hours"
+    }
+  },
+  {
     "id": "jar_3l_glass_yeast",
     "type": "GENERIC",
     "name": { "str_sp": "large sealed yeast culture" },
@@ -398,6 +416,29 @@
       "target": "yeast",
       "msg": "You open the jar and harvest the culture.",
       "container": "jar_glass",
+      "target_charges": 2,
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 259200,
+      "not_ready_msg": "The yeast isn't done culturing yet."
+    }
+  },
+  {
+    "id": "wild_clay_yeast",
+    "type": "GENERIC",
+    "name": { "str_sp": "sealed wild yeast culture" },
+    "description": "Mixture of water, sugar and fruits with some naturally occurring yeast, that will eventually produce a more sizable yeast culture.",
+    "copy-from": "jar_yeast",
+    "looks_like": "bowl_clay",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "material": [ "clay", "powder" ],
+    "symbol": ")",
+    "color": "brown",
+    "use_action": {
+      "target": "yeast",
+      "msg": "You remove the lid from the bowl and harvest the culture.",
+      "container": "bowl_clay",
       "target_charges": 2,
       "moves": 50,
       "type": "delayed_transform",
@@ -782,7 +823,7 @@
     "category": "tools",
     "name": { "str": "soda can stove kit" },
     "//": "Should be 20 but currently recipes do not utilize this value",
-    "description": "This is an ultra-light alcohol-burning stove with simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 500 ml plastic bottle to hold concentrated alcohol fuel.",
+    "description": "This is an ultra-light alcohol-burning stove with simmer ring.  It comes with a 500 ml container to hold concentrated alcohol fuel.",
     "weight": "45 g",
     "volume": "750 ml",
     "price": "250 cent",

@@ -966,10 +966,6 @@ class read_inventory_preset final: public inventory_selector_preset
                 }
 
                 const SkillLevel &skill = p.get_skill_level_object( book.skill );
-                if( !skill.can_train() ) {
-                    return std::string();
-                }
-
                 if( skill.level() < book.req ) {
                     //~ %1$s: book skill name, %3$d: book required skill level, %3$d: book skill level, %4$d: player skill level
                     return string_format( pgettext( "skill", "%1$s from %2$d to %3$d (%4$d)" ), book.skill->name(),
@@ -978,8 +974,10 @@ class read_inventory_preset final: public inventory_selector_preset
                 }
 
                 //~ %1$s: book skill name, %2$d: book skill level, %3$d: player skill level
-                return string_format( pgettext( "skill", "%1$s to %2$d (%3$d)" ), book.skill->name(), book.level,
-                                      skill.level() );
+                const auto result = string_format( pgettext( "skill", "%1$s to %2$d (%3$d)" ),
+                                                   book.skill->name(), book.level, skill.level() );
+
+                return skill.can_train() ? result : colorize( result, c_brown );
             }, _( "TRAINS (CURRENT)" ), unknown );
 
             append_cell( [ this ]( const item * loc ) -> std::string {

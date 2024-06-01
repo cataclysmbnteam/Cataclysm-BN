@@ -42,20 +42,20 @@ float hit_chance( float acc );
 // If average == true, adds expected values of random rolls instead of rolling.
 /** Adds all 3 types of physical damage to instance */
 void roll_all_damage( const Character &c, bool crit, damage_instance &di, bool average,
-                      const item &weap );
+                      const item &weap, const attack_statblock &attack );
 /** Adds player's total bash damage to the damage instance */
 void roll_bash_damage( const Character &c, bool crit, damage_instance &di, bool average,
-                       const item &weap );
+                       const item &weap, const attack_statblock &attack );
 /** Adds player's total cut damage to the damage instance */
 void roll_cut_damage( const Character &c, bool crit, damage_instance &di, bool average,
-                      const item &weap );
+                      const item &weap, const attack_statblock &attack );
 /** Adds player's total stab damage to the damage instance */
 void roll_stab_damage( const Character &c, bool crit, damage_instance &di, bool average,
-                       const item &weap );
+                       const item &weap, const attack_statblock &attack );
 
 // Temporary function that returns any attack from the weapon
 // TODO: Remove
-const attack_statblock &default_attack(const item &it);
+const attack_statblock &default_attack( const item &it );
 
 } // namespace melee
 

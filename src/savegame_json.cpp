@@ -31,7 +31,6 @@
 #include "assign.h"
 #include "auto_pickup.h"
 #include "avatar.h"
-#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -851,16 +850,6 @@ void player::store( JsonOut &json ) const
 
     json.member( "destination_point", destination_point );
     json.member( "ammo_location", ammo_location );
-
-    // TODO: move to Character
-    json.member( "camps" );
-    json.start_array();
-    for( const tripoint_abs_omt &bcpt : camps ) {
-        json.start_object();
-        json.member( "pos", bcpt );
-        json.end_object();
-    }
-    json.end_array();
 }
 
 /**
@@ -926,14 +915,6 @@ void player::load( const JsonObject &data )
         last_target = g->critter_tracker->from_temporary_id( tmptar );
     }
     data.read( "destination_point", destination_point );
-    // TODO: move to Character
-    camps.clear();
-    for( JsonObject bcdata : data.get_array( "camps" ) ) {
-        bcdata.allow_omitted_members();
-        tripoint_abs_omt bcpt;
-        bcdata.read( "pos", bcpt );
-        camps.insert( bcpt );
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1395,21 +1376,6 @@ void npc_favor::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void job_data::serialize( JsonOut &json ) const
-{
-    json.start_object();
-    json.member( "task_priorities", task_priorities );
-    json.end_object();
-}
-void job_data::deserialize( JsonIn &jsin )
-{
-    if( jsin.test_object() ) {
-        JsonObject jo = jsin.get_object();
-        jo.allow_omitted_members();
-        jo.read( "task_priorities", task_priorities );
-    }
-}
-
 /*
  * load npc
  */
@@ -1508,10 +1474,8 @@ void npc::load( const JsonObject &data )
     } else {
         data.read( "pulp_location", pulp_location );
     }
-    data.read( "assigned_camp", assigned_camp );
     data.read( "chair_pos", chair_pos );
     data.read( "wander_pos", wander_pos );
-    data.read( "job", job );
     if( data.read( "mission", misstmp ) ) {
         mission = static_cast<npc_mission>( misstmp );
         static const std::set<npc_mission> legacy_missions = {{
@@ -1681,10 +1645,8 @@ void npc::store( JsonOut &json ) const
     json.member( "guardz", guard_pos.z );
     json.member( "current_activity_id", current_activity_id.str() );
     json.member( "pulp_location", pulp_location );
-    json.member( "assigned_camp", assigned_camp );
     json.member( "chair_pos", chair_pos );
     json.member( "wander_pos", wander_pos );
-    json.member( "job", job );
     // TODO: stringid
     json.member( "mission", mission );
     json.member( "previous_mission", previous_mission );
@@ -3563,112 +3525,6 @@ void pickup::act_item::deserialize( JsonIn &jsin )
     jsin.end_array();
 }
 
-// basecamp
-void basecamp::serialize( JsonOut &json ) const
-{
-    if( omt_pos != tripoint_abs_omt() ) {
-        json.start_object();
-        json.member( "name", name );
-        json.member( "pos", omt_pos );
-        json.member( "bb_pos", bb_pos );
-        json.member( "expansions" );
-        json.start_array();
-        for( const auto &expansion : expansions ) {
-            json.start_object();
-            json.member( "dir", expansion.first );
-            json.member( "type", expansion.second.type );
-            json.member( "provides" );
-            json.start_array();
-            for( const auto &provide : expansion.second.provides ) {
-                json.start_object();
-                json.member( "id", provide.first );
-                json.member( "amount", provide.second );
-                json.end_object();
-            }
-            json.end_array();
-            json.member( "in_progress" );
-            json.start_array();
-            for( const auto &working : expansion.second.in_progress ) {
-                json.start_object();
-                json.member( "id", working.first );
-                json.member( "amount", working.second );
-                json.end_object();
-            }
-            json.end_array();
-            json.member( "pos", expansion.second.pos );
-            json.end_object();
-        }
-        json.end_array();
-        json.member( "fortifications" );
-        json.start_array();
-        for( const auto &fortification : fortifications ) {
-            json.start_object();
-            json.member( "pos", fortification );
-            json.end_object();
-        }
-        json.end_array();
-        json.end_object();
-    } else {
-        return;
-    }
-}
-
-void basecamp::deserialize( JsonIn &jsin )
-{
-    JsonObject data = jsin.get_object();
-    data.allow_omitted_members();
-    data.read( "name", name );
-    data.read( "pos", omt_pos );
-    data.read( "bb_pos", bb_pos );
-    for( JsonObject edata : data.get_array( "expansions" ) ) {
-        edata.allow_omitted_members();
-        expansion_data e;
-        point dir;
-        if( edata.has_string( "dir" ) ) {
-            // old save compatibility
-            const std::string dir_id = edata.get_string( "dir" );
-            dir = base_camps::direction_from_id( dir_id );
-        } else {
-            edata.read( "dir", dir );
-        }
-        edata.read( "type", e.type );
-        if( edata.has_int( "cur_level" ) ) {
-            edata.read( "cur_level", e.cur_level );
-        }
-        if( edata.has_array( "provides" ) ) {
-            e.cur_level = -1;
-            for( JsonObject provide_data : edata.get_array( "provides" ) ) {
-                provide_data.allow_omitted_members();
-                std::string id = provide_data.get_string( "id" );
-                int amount = provide_data.get_int( "amount" );
-                e.provides[ id ] = amount;
-            }
-        }
-        // incase of save corruption, sanity check provides from expansions
-        const std::string &initial_provide = base_camps::faction_encode_abs( e, 0 );
-        if( e.provides.find( initial_provide ) == e.provides.end() ) {
-            e.provides[ initial_provide ] = 1;
-        }
-        for( JsonObject in_progress_data : edata.get_array( "in_progress" ) ) {
-            in_progress_data.allow_omitted_members();
-            std::string id = in_progress_data.get_string( "id" );
-            int amount = in_progress_data.get_int( "amount" );
-            e.in_progress[ id ] = amount;
-        }
-        edata.read( "pos", e.pos );
-        expansions[ dir ] = e;
-        if( dir != base_camps::base_dir ) {
-            directions.push_back( dir );
-        }
-    }
-    for( JsonObject edata : data.get_array( "fortifications" ) ) {
-        edata.allow_omitted_members();
-        tripoint_abs_omt restore_pos;
-        edata.read( "pos", restore_pos );
-        fortifications.push_back( restore_pos );
-    }
-}
-
 void kill_tracker::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -3967,11 +3823,6 @@ void submap::store( JsonOut &jsout ) const
         jsout.end_array();
     }
 
-    // Output base camp if any
-    if( camp ) {
-        jsout.member( "camp", *camp );
-    }
-
     jsout.member( "active_furniture" );
     jsout.start_array();
     for( auto &pr : active_furniture ) {
@@ -4215,9 +4066,6 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
             legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100 );
             jsin.read( *legacy_computer );
         }
-    } else if( member_name == "camp" ) {
-        camp = std::make_unique<basecamp>();
-        jsin.read( *camp );
     } else if( member_name == "active_furniture" ) {
         jsin.start_array();
         while( !jsin.end_array() ) {

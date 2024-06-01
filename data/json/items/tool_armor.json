@@ -1698,7 +1698,7 @@
       [ "SAW_M", 2 ],
       [ "SAW_W", 2 ],
       [ "WRENCH", 2 ],
-      [ "AXE", 1 ],
+      [ "AXE", 2 ],
       [ "SCREW", 1 ],
       [ "HAMMER_FINE", 1 ],
       [ "SAW_M_FINE", 1 ],
@@ -3029,5 +3029,18 @@
       "need_worn": true
     },
     "delete": { "flags": [ "DEAF" ] }
+  },
+  {
+    "id": "mask_halfsurvivor",
+    "type": "ARMOR",
+    "name": { "str": "survivor half-mask" },
+    "copy-from": "mask_lsurvivor",
+    "description": "A custom-built, reinforced gas mask that covers just the mouth.  Provides excellent protection from smoke.  It must be prepared before use.",
+    "weight": "250 g",
+    "volume": "750 ml",
+    "looks_like": "mask_filter",
+    "covers": [ "mouth" ],
+    "flags": [ "VARSIZE", "STURDY", "SLEEP_IGNORE" ],
+    "delete": { "qualities": [ [ "GLARE", 1 ] ] }
   }
 ]

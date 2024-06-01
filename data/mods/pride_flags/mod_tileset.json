@@ -1,0 +1,54 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE", "MshockRealXotto", "MSX++DEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "Pride.png",
+        "tiles": [
+          { "id": "trans_flag", "fg": 1 },
+          { "id": "overlay_wielded_trans_flag", "fg": 1 },
+          { "id": "overlay_worn_trans_flag", "fg": 2 },
+          { "id": "rainbow_flag", "fg": 3 },
+          { "id": "overlay_wielded_rainbow_flag", "fg": 3 },
+          { "id": "overlay_worn_rainbow_flag", "fg": 4 },
+          { "id": "aromantic_flag", "fg": 5 },
+          { "id": "overlay_wielded_aromantic_flag", "fg": 5 },
+          { "id": "overlay_worn_aromantic_flag", "fg": 6 },
+          { "id": "asexual_flag", "fg": 7 },
+          { "id": "overlay_wielded_asexual_flag", "fg": 7 },
+          { "id": "overlay_worn_asexual_flag", "fg": 8 },
+          { "id": "bisexual_flag", "fg": 9 },
+          { "id": "overlay_wielded_bisexual_flag", "fg": 9 },
+          { "id": "overlay_worn_bisexual_flag", "fg": 10 },
+          { "id": "intersex_flag", "fg": 11 },
+          { "id": "overlay_wielded_intersex_flag", "fg": 11 },
+          { "id": "overlay_worn_intersex_flag", "fg": 12 },
+          { "id": "lesbian_flag", "fg": 13 },
+          { "id": "overlay_wielded_lesbian_flag", "fg": 13 },
+          { "id": "overlay_worn_lesbian_flag", "fg": 14 },
+          { "id": "enby_flag", "fg": 15 },
+          { "id": "overlay_wielded_enby_flag", "fg": 15 },
+          { "id": "overlay_worn_enby_flag", "fg": 16 },
+          { "id": "pansexual_flag", "fg": 17 },
+          { "id": "overlay_wielded_pansexual_flag", "fg": 17 },
+          { "id": "overlay_worn_pansexual_flag", "fg": 18 },
+          { "id": "gay_flag", "fg": 19 },
+          { "id": "overlay_wielded_gay_flag", "fg": 19 },
+          { "id": "overlay_worn_gay_flag", "fg": 20 },
+          { "id": "genderfluid_flag", "fg": 21 },
+          { "id": "overlay_wielded_genderfluid_flag", "fg": 21 },
+          { "id": "overlay_worn_genderfluid_flag", "fg": 22 },
+          { "id": "autism_flag", "fg": 23 },
+          { "id": "overlay_wielded_autism_flag", "fg": 24 },
+          { "id": "overlay_worn_autism_flag", "fg": 24 }
+        ],
+        "//": "current max id: 120",
+        "sprite_width": 32,
+        "sprite_height": 32,
+        "sprite_offset_x": 0,
+        "sprite_offset_y": 0
+      }
+    ]
+  }
+]

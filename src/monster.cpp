@@ -63,6 +63,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "weather.h"
+#include "profile.h"
 
 static const ammo_effect_str_id ammo_effect_WHIP( "WHIP" );
 
@@ -73,6 +74,7 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
@@ -1575,6 +1577,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
                has_flag( MF_FIREY );
     }
 
+    if( effect == effect_corroding ) {
+        return is_immune_damage( DT_ACID );
+    }
+
     if( effect == effect_bleed ) {
         return !has_flag( MF_WARM ) ||
                !made_of( material_id( "flesh" ) );
@@ -1647,12 +1653,28 @@ bool monster::block_ranged_hit( Creature *, bodypart_id &, damage_instance & )
 
 void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
+    resistances res = resists();
     for( auto &elem : dam.damage_units ) {
         add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
                  name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
-        elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ) +
-                                 get_worn_armor_val( elem.type ), elem.amount );
+        elem.amount -= std::min( res.get_effective_resist( elem ), elem.amount );
     }
+}
+
+resistances monster::resists() const
+{
+    resistances res;
+    // TODO: Get armor resists once instead of recalculating per-type
+    res.set_resist( DT_BASH, type->armor_bash + armor_bash_bonus + get_worn_armor_val( DT_BASH ) );
+    res.set_resist( DT_CUT, type->armor_cut + armor_cut_bonus + get_worn_armor_val( DT_CUT ) );
+    res.set_resist( DT_STAB, type->armor_stab + get_worn_armor_val( DT_STAB ) );
+    res.set_resist( DT_BULLET, type->armor_bullet + armor_bullet_bonus + get_worn_armor_val(
+                        DT_BULLET ) );
+    res.set_resist( DT_ACID, type->armor_acid + get_worn_armor_val( DT_ACID ) );
+    res.set_resist( DT_HEAT, type->armor_fire + get_worn_armor_val( DT_HEAT ) );
+    res.set_resist( DT_COLD, type->armor_cold + get_worn_armor_val( DT_COLD ) );
+    res.set_resist( DT_ELECTRIC, type->armor_electric + get_worn_armor_val( DT_ELECTRIC ) );
+    return res;
 }
 
 void monster::melee_attack( Creature &target )
@@ -2432,6 +2454,8 @@ void monster::decrement_summon_timer()
 
 void monster::process_turn()
 {
+    ZoneScoped;
+
     decrement_summon_timer();
     if( !is_hallucination() ) {
         for( const std::pair<const emit_id, time_duration> &e : type->emit_fields ) {
@@ -2721,6 +2745,8 @@ static void process_item_valptr( item *ptr, monster &mon )
 
 void monster::process_items()
 {
+    ZoneScoped;
+
     inv.remove_with( [this]( detached_ptr<item> &&it ) {
         if( it->needs_processing() ) {
             return item::process( std::move( it ), nullptr, pos(), false );
