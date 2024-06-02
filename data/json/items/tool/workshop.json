@@ -42,7 +42,6 @@
     "use_action": "DISASSEMBLE",
     "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE" ]
   },
-  
   {
     "id": "clay_pallet_full",
     "type": "GENERIC",
