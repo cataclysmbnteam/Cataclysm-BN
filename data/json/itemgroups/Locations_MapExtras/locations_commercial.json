@@ -100,6 +100,7 @@
     "id": "dollar_kitchen",
     "type": "item_group",
     "items": [
+      [ "trash_can_empty", 10 ],
       [ "cup_plastic", 20 ],
       [ "bowl_plastic", 20 ],
       [ "canteen", 10 ],
