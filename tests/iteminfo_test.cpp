@@ -794,7 +794,7 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
     }
 
     SECTION( "liquid food is stored in a container in a fridge" ) {
-        detached_ptr<item> food_item = item::in_container( itype_id( "glass" ),
+        detached_ptr<item> food_item = item::in_container( itype_id( "can_medium_unsealed" ),
                                        item::spawn( itype_id( "milk" ) ) );
         test_info_equals(
             *food_item, q,
