@@ -72,7 +72,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "pallet of ceramic clay", "str_pl": "pallets of ceramic clay" },
-    "description": "A pallet of ceramic clay which is now ready to be made into pottery.  Disassemble it to retrieve your sheet and frame and crafting supplies.",
+    "description": "A pallet of ceramic clay which is now ready to be made into pottery.  Disassemble it to retrieve your sheet, frame and crafting supplies.",
     "weight": "30000 g",
     "volume": "12500 ml",
     "price": "400 USD",
