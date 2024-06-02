@@ -2313,7 +2313,8 @@
     "price_postapoc": "0 cent",
     "material": [ "dry_plant" ],
     "weight": "80 g",
-    "volume": "500 ml"
+    "volume": "500 ml",
+    "stackable": true
   },
   {
     "type": "GENERIC",
