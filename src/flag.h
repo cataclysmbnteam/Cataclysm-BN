@@ -283,6 +283,7 @@ extern const flag_id flag_ROLLER_ONE;
 extern const flag_id flag_ROLLER_QUAD;
 extern const flag_id flag_SAFECRACK;
 extern const flag_id flag_SEMITANGIBLE;
+extern const flag_id flag_SHATTERS;
 extern const flag_id flag_SHOCKING;
 extern const flag_id flag_SILENT;
 extern const flag_id flag_SKINNED;

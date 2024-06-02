@@ -323,7 +323,8 @@
     "contains": "250 ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "box_cigarette",
@@ -619,7 +620,8 @@
     "contains": "250 ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "clay_hydria",

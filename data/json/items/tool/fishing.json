@@ -25,7 +25,8 @@
     "description": "This is a fish trap made from clay canisters, closely resembling old Japanese squid traps.  It's simple, even primitive, but easy to use.  The principle of action: the fish swims inside for bait, but can't get out.  Not humane, prohibited by law, but there are no cops left to care.",
     "weight": "1 kg",
     "material": "clay",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "fishing_hook_basic",
