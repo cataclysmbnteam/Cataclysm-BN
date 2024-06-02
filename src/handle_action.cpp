@@ -689,7 +689,7 @@ static void smash()
         }
     }
     item &weapon = u.primary_weapon();
-    if( weapon.can_shatter ) &&
+    if( weapon.can_shatter() &&
         !query_yn( _( "Are you sure you want to smash with an item that might shatter?" ) ) ) {
         return;
     }
@@ -794,7 +794,7 @@ static void smash()
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
             const int vol = weapon.volume() / units::legacy_volume_factor;
-            if( weapon.can_shatter &&
+            if( weapon.can_shatter() &&
                 rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), weapon.tname() );
                 weapon.spill_contents( u.pos() );
