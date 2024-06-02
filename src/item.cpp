@@ -3681,7 +3681,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
     if( can_shatter() ) {
         info.emplace_back( "BASE",
                            _( "* This item will potentially <info>shatter</info> if used as a weapon"
-                              "or thrown, instantly <bad>destroying it and spilling any contents</bad>." ) );
+                              " or thrown, instantly <bad>destroying it and spilling any contents</bad>." ) );
     }
 
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
