@@ -660,7 +660,7 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
         }
         // I think field dressed corpses won't have blood??
         if( ( corpse_item.has_flag( flag_FIELD_DRESS ) ||
-               corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) &&
+              corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) &&
             corpse_item.get_mtype()->harvest->has_entry_type( "offal" ) ) {
             not_this_one( _( "Field dressed corpses no longer have blood." ),
                           butcherable_rating::already_bled );
@@ -968,13 +968,13 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         if( corpse_item->has_flag( flag_SKINNED ) && entry.type == "skin" ) {
             roll = 0;
         }
-        
+
         // Check if monster was bled already
-        if( 
-            (corpse_item->has_flag( flag_BLED ) && 
-            corpse_item->has_flag( flag_FIELD_DRESS ) && 
-            corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) && 
-            corpse_item->has_flag( flag_QUARTERED )) && drop->phase == LIQUID ) {
+        if(
+            ( corpse_item->has_flag( flag_BLED ) &&
+              corpse_item->has_flag( flag_FIELD_DRESS ) &&
+              corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) &&
+              corpse_item->has_flag( flag_QUARTERED ) ) && drop->phase == LIQUID ) {
             roll = 0;
         }
 
@@ -1092,7 +1092,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     obj.faults.emplace( flt );
                 }
                 // TODO: smarter NPC liquid handling
-                if( p.is_npc() || action != butcher_type::BLEED) {
+                if( p.is_npc() || action != butcher_type::BLEED ) {
                     drop_on_map( p, item_drop_reason::deliberate, std::move( it ), p.pos() );
                 } else {
                     liquid_handler::handle_all_liquid( std::move( it ), 1 );
