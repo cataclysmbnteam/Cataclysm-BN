@@ -15,7 +15,8 @@
     "category": "spare_parts",
     "price": "60 USD",
     "price_postapoc": "1 USD",
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "stackable": true
   },
   {
     "type": "GENERIC",
