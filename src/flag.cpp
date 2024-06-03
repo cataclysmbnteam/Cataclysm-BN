@@ -38,6 +38,7 @@ const flag_id flag_BIONIC_INSTALLATION_DATA( "BIONIC_INSTALLATION_DATA" );
 const flag_id flag_BIO_IMMUNE( "BIO_IMMUNE" );
 const flag_id flag_BIPOD( "BIPOD" );
 const flag_id flag_BIRD( "BIRD" );
+const flag_id flag_BLED( "BLED" );
 const flag_id flag_BLIND( "BLIND" );
 const flag_id flag_BLOCK_WHILE_WORN( "BLOCK_WHILE_WORN" );
 const flag_id flag_BOMB( "BOMB" );
