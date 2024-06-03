@@ -942,7 +942,7 @@
     "looks_like": "baton",
     "weapon_category": [ "BATONS" ],
     "name": { "str": "extendable quarterstaff (retracted)", "str_pl": "extendable quarterstaves (retracted)" },
-    "description": "A custom-made telescoping steel quarterstaff, capable of shrinking down to the size of a baton for easy storage. Its hollow nature makes it more lightweight but less sturdy than a more traditional staff. It is currently retracted.",
+    "description": "A custom-made telescoping steel quarterstaff, capable of shrinking down to the size of a baton for easy storage.  Its hollow nature makes it more lightweight but less sturdy than a more traditional staff.  It is currently retracted.",
     "weight": "2000 g",
     "volume": "750 ml",
     "price_postapoc": "10 USD",
