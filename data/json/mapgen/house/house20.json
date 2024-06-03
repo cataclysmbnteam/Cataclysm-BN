@@ -200,7 +200,8 @@
         { "chance": 10, "item": "hardware", "x": 10, "y": 7 },
         { "chance": 10, "item": "hardware", "x": 10, "y": 5 },
         { "chance": 10, "item": "hardware", "x": 10, "y": 6 }
-      ]
+      ],
+      "place_vehicles": [ { "vehicle": "os_work_vehicles", "chance": 40, "x": [ 6, 20 ], "y": [ 19, 21 ] } ]
     }
   },
   {
