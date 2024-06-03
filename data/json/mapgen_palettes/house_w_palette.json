@@ -126,6 +126,7 @@
     },
     "terrain": {
       ".": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ],
+      "s̱": "t_region_soil",
       "-": "t_open_air",
       "G": "t_region_groundcover_urban",
       "p": "t_region_groundcover_urban",

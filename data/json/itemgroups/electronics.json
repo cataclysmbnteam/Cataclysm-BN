@@ -5,7 +5,7 @@
     "items": [
       [ "voltmeter", 10 ],
       [ "jumper_cable_heavy", 10 ],
-      [ "superglue", 30 ],
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       [ "electrohack", 3 ],
       [ "processor", 15 ],
       [ "RAM", 22 ],

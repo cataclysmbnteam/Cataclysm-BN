@@ -85,7 +85,7 @@
       [ "flashlight", 25 ],
       [ "thread", 20 ],
       { "group": "ammo_pocket_batteries_full", "prob": 25 },
-      [ "superglue", 25 ],
+      { "item": "superglue", "prob": 25, "charges": [ 5, 10 ] },
       [ "candle", 25 ],
       [ "hammer", 20 ],
       [ "screwdriver", 20 ],
@@ -1042,7 +1042,7 @@
       { "item": "wrench", "prob": 30 },
       { "item": "screwdriver", "prob": 40 },
       { "item": "screwdriver_set", "prob": 20 },
-      { "item": "superglue", "prob": 30 },
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       { "item": "hacksaw", "prob": 17 },
       { "item": "pliers", "prob": 40 },
       { "item": "gloves_leather", "prob": 45 },
@@ -1300,7 +1300,7 @@
       [ "glasses_safety", 10 ],
       [ "solar_cell", 10 ],
       [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
+      { "item": "superglue", "prob": 5, "charges": [ 5, 10 ] },
       [ "polisher", 15 ],
       [ "solar_panel", 15 ]
     ]
@@ -1328,7 +1328,7 @@
       [ "glasses_safety", 10 ],
       [ "solar_cell", 10 ],
       [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
+      { "item": "superglue", "prob": 5, "charges": [ 5, 10 ] },
       [ "polisher", 15 ],
       [ "solar_panel", 15 ]
     ]
@@ -1384,7 +1384,7 @@
       [ "glasses_safety", 10 ],
       [ "solar_cell", 10 ],
       [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
+      { "item": "superglue", "prob": 5, "charges": [ 5, 10 ] },
       [ "polisher", 15 ],
       [ "solar_panel", 15 ],
       [ "spare_tire_carrier", 10 ],
@@ -1414,7 +1414,7 @@
       [ "glasses_safety", 10 ],
       [ "solar_cell", 10 ],
       [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
+      { "item": "superglue", "prob": 5, "charges": [ 5, 10 ] },
       [ "polisher", 15 ],
       [ "solar_panel", 15 ],
       [ "spare_tire_carrier", 10 ],
@@ -1600,7 +1600,7 @@
       [ "receiver", 5 ],
       [ "soldering_iron", 65 ],
       [ "solder_wire", 50 ],
-      [ "superglue", 55 ],
+      { "item": "superglue", "prob": 55, "charges": [ 5, 10 ] },
       [ "screwdriver", 60 ],
       [ "motor_small", 30 ]
     ]

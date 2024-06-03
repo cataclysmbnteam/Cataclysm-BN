@@ -63,7 +63,7 @@
   },
   {
     "id": "plastic_scrap",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "plastic scrap" },
     "description": "This is a tiny piece of plastic.  Useless on its own, but could be melted down if you gather enough.",
@@ -74,6 +74,7 @@
     "material": "plastic",
     "symbol": ",",
     "color": "light_blue",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
   }
 ]

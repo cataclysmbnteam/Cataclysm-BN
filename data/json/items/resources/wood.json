@@ -48,7 +48,8 @@
     "volume": "1250 ml",
     "bashing": 14,
     "to_hit": -1,
-    "category": "spare_parts"
+    "category": "spare_parts",
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -65,7 +66,8 @@
     "looks_like": "stick",
     "bashing": 18,
     "to_hit": -1,
-    "category": "spare_parts"
+    "category": "spare_parts",
+    "stackable": true
   },
   {
     "id": "long_pole",
