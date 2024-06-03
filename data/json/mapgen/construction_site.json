@@ -12,7 +12,7 @@
         "_|||0||||0||#....##|||__",
         "_|...................|d_",
         "_|...................|__",
-        "_#.....w........W....#d_",
+        "_#.....w........w....#d_",
         "_#.....-........-....#d_",
         "__.....-.......T-....#d_",
         "__.....-.......T-....#d_",
@@ -38,13 +38,12 @@
         "0": "t_window_frame",
         "B": "t_grass",
         "T": "t_concrete",
-        "W": "t_wall_log_half",
         "_": "t_grass",
         "b": "t_dirt",
         "c": "t_concrete",
         "d": "t_dirt",
         "t": "t_thconc_floor",
-        "w": "t_wall_half",
+        "w": "t_wall_half_domestic",
         "{": "t_dirt",
         "|": "t_brick_wall"
       },
@@ -98,7 +97,7 @@
         "________________________"
       ],
       "terrain": {
-        "#": "t_wall_half",
+        "#": "t_wall_half_domestic",
         "&": "t_dirt",
         "-": "t_wall",
         ".": "t_concrete",
@@ -308,7 +307,7 @@
         "...._....._____........."
       ],
       "terrain": {
-        "#": "t_wall_half",
+        "#": "t_wall_half_domestic",
         "&": "t_grass",
         "+": "t_door_glass_c",
         "-": "t_wall_glass",

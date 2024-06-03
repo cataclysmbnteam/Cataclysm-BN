@@ -33,7 +33,7 @@
         "________________d__d____"
       ],
       "terrain": {
-        "#": "t_wall_half",
+        "#": "t_wall_half_domestic",
         "+": "t_door_metal_c_peep",
         "-": "t_wall_glass",
         ".": "t_floor",
