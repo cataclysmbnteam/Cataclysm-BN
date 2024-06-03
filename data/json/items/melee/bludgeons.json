@@ -961,7 +961,7 @@
     "looks_like": "i_staff",
     "weapon_category": [ "QUARTERSTAVES" ],
     "name": { "str": "extendable quarterstaff (extended)", "str_pl": "extendable quarterstaves (extended)" },
-    "description": "A custom-made telescoping steel quarterstaff, capable of shrinking down to the size of a baton for easy storage. Its hollow nature makes it more lightweight but less sturdy than a more traditional staff. It is currently extended.",
+    "description": "A custom-made telescoping steel quarterstaff, capable of shrinking down to the size of a baton for easy storage.  Its hollow nature makes it more lightweight but less sturdy than a more traditional staff.  It is currently extended.",
     "volume": "3 L",
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
