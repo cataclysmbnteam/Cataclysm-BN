@@ -1908,5 +1908,11 @@
     "type": "MIGRATION",
     "replace": "welder",
     "flags": [ "resized_large" ]
+  },
+  {
+    "id": "survivor_belt",
+    "type": "MIGRATION",
+    "replace": "survivor_belt_notools",
+    "contents": [ "screwdriver_set", "wrench", "saw", "hacksaw", "hammer" ]
   }
 ]

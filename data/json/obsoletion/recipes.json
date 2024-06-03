@@ -3348,5 +3348,10 @@
     "type": "recipe",
     "result": "barrel_big",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "obsolete": true
   }
 ]
