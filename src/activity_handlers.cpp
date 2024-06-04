@@ -1025,7 +1025,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
 
         // you only get the liquids from skinning
         if( action == BLEED ) {
-            if( drop->phase != LIQUID ) {
+            if(drop == nullptr || drop->phase != LIQUID ) {
                 continue;
             }
             // I'm not sure what this does here lol
