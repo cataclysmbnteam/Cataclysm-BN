@@ -77,7 +77,14 @@
     "move_cost": 0,
     "coverage": 100,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "REDUCE_SCENT", "MINEABLE" ],
-    "bash": { "str_min": 30, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
+    "bash": {
+      "str_min": 30,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "poof!",
+      "ter_set": "t_fungus",
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 180 }
+    }
   },
   {
     "type": "terrain",
@@ -89,7 +96,14 @@
     "move_cost": 0,
     "coverage": 100,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE" ],
-    "bash": { "str_min": 30, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
+    "bash": {
+      "str_min": 30,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "poof!",
+      "ter_set": "t_fungus",
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 180 }
+    }
   },
   {
     "type": "terrain",
@@ -124,7 +138,14 @@
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "FUNGUS", "TREE", "REDUCE_SCENT" ],
-    "bash": { "str_min": 40, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
+    "bash": {
+      "str_min": 40,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "poof!",
+      "ter_set": "t_fungus",
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 180 }
+    }
   },
   {
     "type": "terrain",
@@ -148,6 +169,13 @@
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "FUNGUS", "TREE", "REDUCE_SCENT" ],
     "examine_action": "tree_marloss",
-    "bash": { "str_min": 40, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
+    "bash": {
+      "str_min": 40,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "poof!",
+      "ter_set": "t_fungus",
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 180 }
+    }
   }
 ]
