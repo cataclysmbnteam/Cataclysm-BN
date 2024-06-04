@@ -342,23 +342,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "endochitin",
-    "category": "spare_parts",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": { "str": "strand of endochitin", "str_pl": "strands of endochitin" },
-    "snippet_category": "endochitin_desc",
-    "description": "A piece of an insect's endoskeleton.",
-    "price": 0,
-    "stackable": true,
-    "material": "chitin",
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "89 g",
-    "volume": "300 ml",
-    "bashing": 1
-  },
-  {
-    "type": "GENERIC",
     "id": "mutant_bug_hydrogen_sacs",
     "category": "spare_parts",
     "symbol": "o",
