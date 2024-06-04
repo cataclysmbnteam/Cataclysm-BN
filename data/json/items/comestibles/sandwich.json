@@ -213,6 +213,7 @@
       }
     ],
     "description": "A simple sauce sandwich.  Not very filling but beats eating just the bread.",
+    "calories": 120,
     "material": [ "veggy", "wheat" ],
     "price": "2 USD",
     "price_postapoc": "2 USD",
@@ -252,25 +253,29 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pb",
-    "copy-from": "sandwich_deluxe",
     "name": { "str": "peanut butter sandwich", "str_pl": "peanut butter sandwiches" },
+    "weight": "300 g",
     "calories": 200,
+    "color": "brown",
+    "spoils_in": "1 day 12 hours",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
     "description": "Some peanut butter smothered between two pieces of bread.  Not very filling and will stick to the roof of your mouth like glue.",
-    "price": "250 cent",
-    "price_postapoc": "3 USD",
+    "price": "175 cent",
+    "price_postapoc": "175 cent",
     "material": "wheat",
+    "volume": "500 ml",
     "fun": 3,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ] ],
+    "charges": 4
   },
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pbj",
-    "copy-from": "sandwich_deluxe",
+    "copy-from": "sandwich_pb",
     "name": { "str": "PB&J sandwich", "str_pl": "PB&J sandwiches" },
-    "calories": 200,
     "description": "A delicious peanut butter and jelly sandwich.  It reminds you of the times your mother would make you lunch.",
-    "price": "175 cent",
-    "price_postapoc": "175 cent",
     "material": [ "fruit", "wheat" ],
     "fun": 6,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
@@ -278,12 +283,10 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pbh",
-    "copy-from": "sandwich_deluxe",
+    "copy-from": "sandwich_pb",
     "name": { "str": "PB&H sandwich", "str_pl": "PB&H sandwiches" },
     "calories": 150,
     "description": "Some damned fool put honey on this peanut butter sandwich, who in their right mind- oh wait this is pretty good.",
-    "price": "175 cent",
-    "price_postapoc": "175 cent",
     "material": [ "wheat", "honey" ],
     "fun": 6,
     "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ] ]
@@ -291,12 +294,10 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pbm",
-    "copy-from": "sandwich_deluxe",
+    "copy-from": "sandwich_pb",
     "name": { "str": "PB&M sandwich", "str_pl": "PB&M sandwiches" },
     "calories": 170,
     "description": "Who knew you could mix maple syrup and peanut butter to create yet another different sandwich?",
-    "price": "175 cent",
-    "price_postapoc": "175 cent",
     "material": "wheat",
     "fun": 6,
     "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ] ]
@@ -342,7 +343,15 @@
         "type": "FLAG",
         "condition": "CANNIBALISM",
         "name": { "str": "dairy-free slob deluxe sandwich", "str_pl": "dairy-free slob deluxe sandwiches" }
-      }
+      },
+      { "type": "COMPONENT_ID", "condition": "ketchup", "name": "%s with ketchup" },
+      { "type": "COMPONENT_ID", "condition": "mayonnaise", "name": "%s with mayonnaise" },
+      { "type": "COMPONENT_ID", "condition": "mustard", "name": "%s with mustard" },
+      { "type": "COMPONENT_ID", "condition": "horseradish", "name": "%s with horseradish" },
+      { "type": "COMPONENT_ID", "condition": "butter", "name": "%s with butter" },
+      { "type": "COMPONENT_ID", "condition": "sauerkraut", "name": "%s with sauerkraut" },
+      { "type": "COMPONENT_ID", "condition": "soysauce", "name": "%s with soy sauce" },
+      { "type": "COMPONENT_ID", "condition": "seasoning_salt", "name": "%s with seasoned salt" }
     ],
     "description": "A deluxe sandwich with meat, veggies, and sauce, but no cheese.",
     "price": "2 USD",
