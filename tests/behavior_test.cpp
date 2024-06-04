@@ -173,7 +173,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         test_npc.set_thirst( 100 );
         CHECK( oracle.needs_food_badly() == behavior::status_t::running );
         REQUIRE( npc_needs.tick( &oracle ) == "idle" );
-        detached_ptr<item> det = item::spawn( itype_id( "sandwich_cheese_grilled" ) );
+        detached_ptr<item> det = item::spawn( itype_id( "pelmeni" ) );
         item &food = *det;
         test_npc.i_add( std::move( det ) );
         REQUIRE( oracle.has_food() == behavior::status_t::running );
