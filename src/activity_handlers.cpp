@@ -974,7 +974,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             ( corpse_item->has_flag( flag_BLED ) &&
               corpse_item->has_flag( flag_FIELD_DRESS ) &&
               corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) &&
-              corpse_item->has_flag( flag_QUARTERED ) ) && drop->phase == LIQUID ) {
+              corpse_item->has_flag( flag_QUARTERED ) ) && entry.type == "blood" ) { // TODO clarify if should use blood or liquid
             roll = 0;
         }
 
