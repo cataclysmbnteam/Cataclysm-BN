@@ -47,7 +47,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "pallet of wet ceramic", "str_pl": "pallets of wet ceramic" },
-    "description": "A pallet full of wet ceramic which need to loose excess water slowly to be usable.",
+    "description": "A pallet full of crushed wet ceramic, which needs to dry slowly to be usable.",
     "weight": "35000 g",
     "volume": "12500 ml",
     "price": "1 USD",
