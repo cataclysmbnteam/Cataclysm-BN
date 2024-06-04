@@ -974,7 +974,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             ( corpse_item->has_flag( flag_BLED ) &&
               corpse_item->has_flag( flag_FIELD_DRESS ) &&
               corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) &&
-              corpse_item->has_flag( flag_QUARTERED ) ) && entry.type == "blood" ) { // TODO clarify if should use blood or liquid
+              corpse_item->has_flag( flag_QUARTERED ) ) &&
+            entry.type == "blood" ) { // TODO clarify if should use blood or liquid
             roll = 0;
         }
 
@@ -1025,7 +1026,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
 
         // you only get the liquids from skinning
         if( action == BLEED ) {
-            if(drop == nullptr || drop->phase != LIQUID ) {
+            if( drop == nullptr || drop->phase != LIQUID ) {
                 continue;
             }
             // I'm not sure what this does here lol
