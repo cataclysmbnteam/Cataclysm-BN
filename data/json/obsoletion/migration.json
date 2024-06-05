@@ -1908,5 +1908,10 @@
     "type": "MIGRATION",
     "replace": "welder",
     "flags": [ "resized_large" ]
+  },
+  {
+    "id": "endochitin",
+    "type": "MIGRATION",
+    "replace": "chitin_piece"
   }
 ]
