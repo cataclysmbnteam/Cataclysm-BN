@@ -175,12 +175,7 @@
     "time": "1 h",
     "reversible": true,
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
-    "components": [
-      [ [ "cu_pipe", 3 ] ],
-      [ [ "motor_tiny", 1 ] ],
-      [ [ "sheet_metal_small", 5 ] ],
-      [ [ "steel_tiny", 4, "LIST" ] ]
-    ]
+    "components": [ [ [ "cu_pipe", 3 ] ], [ [ "motor_tiny", 1 ] ], [ [ "sheet_metal_small", 5 ] ], [ [ "steel_tiny", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
