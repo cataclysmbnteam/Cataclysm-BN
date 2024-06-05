@@ -1914,5 +1914,10 @@
     "type": "MIGRATION",
     "replace": "survivor_belt_notools",
     "contents": [ "screwdriver_set", "wrench", "saw", "hacksaw", "hammer" ]
+  },
+  {
+    "id": "endochitin",
+    "type": "MIGRATION",
+    "replace": "chitin_piece"
   }
 ]

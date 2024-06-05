@@ -3731,6 +3731,14 @@
     "components": [ [ [ "adobe_brick", 20 ] ], [ [ "frame_wood_light", 1 ] ] ]
   },
   {
+    "result": "clay_pallet_done",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "30 m",
+    "difficulty": 1,
+    "components": [ [ [ "clay_lump", 10 ] ], [ [ "sheet", 1 ] ], [ [ "frame_wood_light", 1 ] ] ]
+  },
+  {
     "result": "guitar_electric",
     "type": "uncraft",
     "skill_used": "electronics",

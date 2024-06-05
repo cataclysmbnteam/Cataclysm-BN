@@ -352,11 +352,11 @@
     "id": "boiled_egg_condiment",
     "name": { "str": "boiled egg with condiment" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "ketchup", "name": "boiled egg with ketchup" },
-      { "type": "COMPONENT_ID", "condition": "mayonnaise", "name": "boiled egg with mayonnaise" },
-      { "type": "COMPONENT_ID", "condition": "mustard", "name": "boiled egg with mustard" },
-      { "type": "COMPONENT_ID", "condition": "horseradish", "name": "boiled egg with horseradish" },
-      { "type": "COMPONENT_ID", "condition": "salt", "name": "salted boiled egg" }
+      { "type": "COMPONENT_ID", "condition": "ketchup", "name": { "str": "%s with ketchup" } },
+      { "type": "COMPONENT_ID", "condition": "mayonnaise", "name": { "str": "%s with mayonnaise" } },
+      { "type": "COMPONENT_ID", "condition": "mustard", "name": { "str": "%s with mustard" } },
+      { "type": "COMPONENT_ID", "condition": "horseradish", "name": { "str": "%s with horseradish" } },
+      { "type": "COMPONENT_ID", "condition": "salt", "name": { "str": "salted boiled egg" } }
     ],
     "copy-from": "boiled_egg",
     "quench": 0,

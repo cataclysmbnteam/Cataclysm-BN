@@ -750,7 +750,6 @@
     "volume": "3250 ml",
     "price": "80 USD",
     "price_postapoc": "45 USD",
-    "bashing": 29,
     "ammo": "battery",
     "use_action": {
       "type": "transform",
@@ -935,5 +934,39 @@
     "cutting": 23,
     "price": "160 USD",
     "qualities": [ [ "HAMMER", 2 ] ]
+  },
+  {
+    "id": "qstaff_retracted",
+    "type": "GENERIC",
+    "category": "weapons",
+    "looks_like": "baton",
+    "weapon_category": [ "BATONS" ],
+    "name": { "str": "extendable quarterstaff (retracted)", "str_pl": "extendable quarterstaves (retracted)" },
+    "description": "A custom-made telescoping steel quarterstaff, capable of shrinking down to the size of a baton for easy storage.  Its hollow nature makes it more lightweight but less sturdy than a more traditional staff.  It is currently retracted.",
+    "weight": "2000 g",
+    "volume": "750 ml",
+    "price_postapoc": "10 USD",
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": [ "steel" ],
+    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "flags": [ "BELT_CLIP" ],
+    "use_action": { "menu_text": "Expand", "type": "transform", "target": "qstaff_extended", "msg": "You snap open your staff." },
+    "bashing": 14
+  },
+  {
+    "id": "qstaff_extended",
+    "type": "GENERIC",
+    "copy-from": "qstaff_retracted",
+    "looks_like": "i_staff",
+    "weapon_category": [ "QUARTERSTAVES" ],
+    "name": { "str": "extendable quarterstaff (extended)", "str_pl": "extendable quarterstaves (extended)" },
+    "description": "A custom-made telescoping steel quarterstaff, capable of shrinking down to the size of a baton for easy storage.  Its hollow nature makes it more lightweight but less sturdy than a more traditional staff.  It is currently extended.",
+    "volume": "3 L",
+    "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "bashing": 30,
+    "to_hit": 3,
+    "use_action": { "menu_text": "Retract", "type": "transform", "target": "qstaff_retracted", "msg": "You retract your staff." }
   }
 ]
