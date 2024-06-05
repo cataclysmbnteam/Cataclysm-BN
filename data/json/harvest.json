@@ -538,11 +538,10 @@
     "type": "harvest",
     "message": "<arachnid_harvest>",
     "entries": [
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.15 }
     ]
   },
   {
@@ -552,11 +551,10 @@
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "mutant_bug_hydrogen_sacs", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.01 }
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.015 }
     ]
   },
   {
@@ -564,9 +562,8 @@
     "type": "harvest",
     "message": "<acidant_harvest>",
     "entries": [
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "base_num": [ 40, 55 ], "scale_num": [ 0.5, 0.7 ], "max": 80, "type": "flesh" },
-      { "drop": "acidchitin_piece", "base_num": [ 2, 6 ], "scale_num": [ 0.3, 0.6 ], "max": 10, "type": "skin" },
+      { "drop": "acidchitin_piece", "base_num": [ 2, 6 ], "scale_num": [ 0.45, 0.9 ], "max": 15, "type": "skin" },
       { "drop": "mutant_fat", "base_num": [ 5, 8 ], "scale_num": [ 0.6, 0.8 ], "max": 18, "type": "flesh" }
     ]
   },
@@ -575,13 +572,12 @@
     "type": "harvest",
     "message": "<arachnid_harvest>",
     "entries": [
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.15 }
     ]
   },
   {
@@ -592,8 +588,7 @@
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "acidchitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "acidchitin_piece", "type": "bone", "mass_ratio": 0.15 }
     ]
   },
   {
@@ -603,12 +598,11 @@
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.23 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "mutant_bug_hydrogen_sacs", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
       { "drop": "bee_sting", "base_num": [ 0, 1 ], "type": "bone" },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.15 }
     ]
   },
   {
@@ -618,12 +612,11 @@
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.003 },
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "mutant_bug_hydrogen_sacs", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.03 },
       { "drop": "wasp_sting", "base_num": [ 0, 1 ], "type": "bone" },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.15 }
     ]
   },
   {
@@ -633,12 +626,11 @@
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.003 },
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "mutant_bug_hydrogen_sacs", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.03 },
       { "drop": "wasp_sting", "base_num": [ 0, 1 ], "type": "bone" },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.15 },
       { "drop": "egg_wasp", "type": "offal", "base_num": [ 10, 30 ], "scale_num": [ 5, 5 ] }
     ]
   },
@@ -650,10 +642,9 @@
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.15 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.05 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0045 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.025 },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.01 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.015 },
       { "drop": "egg_dragonfly", "type": "offal", "base_num": [ 5, 35 ], "scale_num": [ 0.3, 0.5 ] }
     ]
   },
@@ -665,11 +656,10 @@
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "mutant_bug_hydrogen_sacs", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.01 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.015 },
       { "drop": "egg_firefly", "type": "offal", "base_num": [ 0, 3 ] }
     ]
   },
@@ -677,15 +667,14 @@
     "id": "arachnid_centipede",
     "type": "harvest",
     "message": "<centipede_harvest>",
-    "//": "More legs = more sinew, more endochitin, less rest",
+    "//": "More legs = more sinew, less rest",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.2 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.08 }
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.012 }
     ]
   },
   {
@@ -696,10 +685,9 @@
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.2 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.08 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.012 },
       { "drop": "egg_centipede", "type": "offal", "base_num": [ 3, 10 ], "scale_num": [ 0.5, 1 ], "max": 30 }
     ]
   },
@@ -712,10 +700,9 @@
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.015 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.2 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.2 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.3 },
       { "drop": "egg_centipede", "type": "offal", "base_num": [ 0, 3 ], "scale_num": [ 0.5, 1 ], "max": 10 }
     ]
   },
