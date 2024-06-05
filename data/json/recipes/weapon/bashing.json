@@ -439,5 +439,19 @@
     "book_learn": [ [ "recipe_melee", 4 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 6 ] ],
     "components": [ [ [ "fabric_standard", 5, "LIST" ] ], [ [ "filament", 25, "LIST" ] ] ]
+  },
+  {
+    "result": "qstaff_retracted",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "melee", 1 ],
+    "time": "60 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "pipe", 3 ] ] ]
   }
 ]

@@ -403,7 +403,6 @@
     "entries": [
       { "item": "chitin_piece", "prob": 70 },
       { "item": "acidchitin_piece", "prob": 30 },
-      { "item": "endochitin", "prob": 70 },
       { "item": "mutant_bug_hydrogen_sacs", "prob": 30 },
       { "item": "mutant_bug_lungs", "prob": 10 },
       { "item": "mutant_bug_organs", "prob": 10 },
