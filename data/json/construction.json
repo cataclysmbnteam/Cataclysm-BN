@@ -4882,6 +4882,20 @@
   },
   {
     "type": "construction",
+    "id": "constr_gridairconditioner",
+    "group": "place_ac_unit",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "ac_unit_item", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Must be constructed on an opened window, empty window frame, or similar opening.  Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_flags": "SMALL_PASSAGE",
+    "post_furniture": "f_grid_air_conditioner_off"
+  },
+  {
+    "type": "construction",
     "id": "constr_gridspaceheater",
     "group": "place_small_space_heater",
     "category": "WORKSHOP",

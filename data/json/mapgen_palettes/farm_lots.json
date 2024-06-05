@@ -125,6 +125,7 @@
       ],
       "u": [ { "item": "kitchen_counters", "chance": 30 }, { "item": "restaur_kitchen", "chance": 50, "repeat": [ 2, 4 ] } ],
       "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
-    }
+    },
+    "nested": { "v": { "chunks": [ [ "null", 90 ], [ "house_place_air_conditioner", 10 ] ] } }
   }
 ]
