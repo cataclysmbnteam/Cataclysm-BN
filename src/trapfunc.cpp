@@ -590,7 +590,7 @@ static explosion_data get_basic_explosion_data()
     projectile fragment;
     fragment.range = 6;
     fragment.speed = 1000;
-    fragment.impact.add_damage( DT_CUT, 80, 0, 3.0F );
+    fragment.impact.add_damage( DT_BULLET, 80, 0, 3.0F );
     data.fragment = fragment;
     return data;
 }

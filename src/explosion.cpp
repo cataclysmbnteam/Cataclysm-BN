@@ -1876,7 +1876,7 @@ projectile shrapnel_from_legacy( int power, float blast_radius )
     projectile proj;
     proj.speed = 1000;
     proj.range = range;
-    proj.impact.add_damage( DT_CUT, damage, 0.0f, 3.0f );
+    proj.impact.add_damage( DT_BULLET, damage, 0.0f, 3.0f );
 
     return proj;
 }

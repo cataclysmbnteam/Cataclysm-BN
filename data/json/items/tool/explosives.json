@@ -48,7 +48,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 } },
+    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 }, "range": 5 } },
     "use_action": {
       "target": "can_bomb_act",
       "msg": "You light the fuse on the can bomb.  Throw it before it blows in your face!",
@@ -71,13 +71,13 @@
     "max_charges": 5,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 } },
+    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 }, "range": 5 } },
     "use_action": {
       "type": "explosion",
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
       "sound_msg": "ssss...",
-      "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 } }
+      "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 }, "range": 5 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
   },
@@ -198,7 +198,7 @@
     "explosion": {
       "damage": 70,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
     },
     "use_action": {
       "target": "dynamite_bomb_act",
@@ -232,7 +232,7 @@
     "explosion": {
       "damage": 70,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
     },
     "use_action": {
       "type": "explosion",
@@ -242,7 +242,7 @@
       "explosion": {
         "damage": 70,
         "radius": 6,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
       }
     },
     "flags": [ "TRADER_AVOID", "BOMB" ]
@@ -641,7 +641,7 @@
       "explosion": {
         "damage": 40,
         "radius": 3,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 80, "armor_multiplier": 3 }, "range": 6 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 3 }, "range": 6 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -873,7 +873,7 @@
     "explosion": {
       "damage": 40,
       "radius": 3,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 40, "armor_multiplier": 3 }, "range": 6 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 40, "armor_multiplier": 3 }, "range": 6 }
     },
     "use_action": {
       "target": "improvised_grenade_act",
@@ -904,7 +904,7 @@
       "explosion": {
         "damage": 40,
         "radius": 3,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 40, "armor_multiplier": 3 }, "range": 6 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 40, "armor_multiplier": 3 }, "range": 6 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -1033,7 +1033,7 @@
     "explosion": {
       "damage": 20,
       "radius": 4,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
     },
     "use_action": {
       "target": "improvised_pipebomb_act",
@@ -1068,7 +1068,7 @@
     "explosion": {
       "damage": 20,
       "radius": 4,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
     },
     "use_action": {
       "type": "explosion",
@@ -1078,7 +1078,7 @@
       "explosion": {
         "damage": 20,
         "radius": 4,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
@@ -1214,7 +1214,7 @@
     "explosion": {
       "damage": 250,
       "radius": 12,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3 }, "range": 20 }
     },
     "use_action": {
       "type": "explosion",
@@ -1247,7 +1247,7 @@
     "explosion": {
       "damage": 50,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
     },
     "use_action": {
       "target": "tool_small_improvised_fragmentation_device_act",
@@ -1280,7 +1280,7 @@
     "explosion": {
       "damage": 50,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
     },
     "use_action": {
       "type": "explosion",
@@ -1290,7 +1290,7 @@
       "explosion": {
         "damage": 50,
         "radius": 6,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -1315,7 +1315,7 @@
     "explosion": {
       "damage": 200,
       "radius": 15,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
     },
     "use_action": {
       "target": "tool_improvised_barrel_bomb_act",
@@ -1351,7 +1351,7 @@
     "explosion": {
       "damage": 200,
       "radius": 15,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
     },
     "use_action": {
       "type": "explosion",
@@ -1361,7 +1361,7 @@
       "explosion": {
         "damage": 200,
         "radius": 15,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
