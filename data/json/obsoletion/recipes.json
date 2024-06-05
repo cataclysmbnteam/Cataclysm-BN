@@ -3348,5 +3348,51 @@
     "type": "recipe",
     "result": "barrel_big",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "id_suffix": "canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "id_suffix": "jarred_3l",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "id_suffix": "canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "id_suffix": "jarred_3l",
+    "obsolete": true
   }
 ]

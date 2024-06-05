@@ -2733,5 +2733,32 @@
     "type": "item_group",
     "id": "oa_ig_sb_water",
     "items": [ { "item": "water", "prob": 30, "charges-min": 0, "charges-max": 200, "container-item": "keg" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "os_items",
+    "items": [
+      [ "flashlight", 50 ],
+      [ "heavy_flashlight", 40 ],
+      [ "gloves_work", 30 ],
+      [ "gloves_rubber", 60 ],
+      [ "boots_rubber", 60 ],
+      [ "hat_hard", 60 ],
+      [ "shovel", 40 ],
+      [ "jackhammer", 5 ],
+      [ "elec_jackhammer", 5 ],
+      [ "folding_poncho", 40 ],
+      [ "radio", 40 ],
+      [ "well_pump", 10 ],
+      [ "toolbox", 5 ],
+      [ "wrench", 15 ],
+      [ "bag_canvas", 40 ],
+      [ "jumper_cable", 40 ],
+      [ "jumper_cable_heavy", 20 ],
+      [ "glasses_safety", 30 ],
+      [ "crowbar", 15 ],
+      [ "mask_filter", 30 ],
+      [ "electric_lantern", 30 ]
+    ]
   }
 ]

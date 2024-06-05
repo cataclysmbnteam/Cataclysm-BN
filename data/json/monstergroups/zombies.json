@@ -749,5 +749,14 @@
       { "monster": "mon_zombie_child", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_zombie_crawler", "freq": 10, "cost_multiplier": 1 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_SEWER",
+    "default": "mon_zombie_technician",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "freq": 250, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_electric", "freq": 150, "cost_multiplier": 5 }
+    ]
   }
 ]

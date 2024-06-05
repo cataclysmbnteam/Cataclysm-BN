@@ -864,5 +864,10 @@
     "id": "military_display_vehicles",
     "type": "vehicle_group",
     "vehicles": [ [ "whillys_mb_display", 75 ], [ "cannon_3in", 20 ], [ "gatling_carriage", 5 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "os_work_vehicles",
+    "vehicles": [ [ "wheelbarrow", 60 ], [ "portable_generator", 40 ], [ "oa_work_light", 50 ] ]
   }
 ]
