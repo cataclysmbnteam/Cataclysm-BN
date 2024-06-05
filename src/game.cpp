@@ -10586,7 +10586,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     if( movez > 0 ) {
         if( mp.has_flag( "DEEP_WATER", *stairs ) ) {
             if( !query_yn(
-                    _( "There is a huge blob of water! You may be unable to return back down these stairs.  Continue up?" ) ) ) {
+                    _( "There is a huge blob of water!  You may be unable to return back down these stairs.  Continue up?" ) ) ) {
                 return std::nullopt;
             }
         } else if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
