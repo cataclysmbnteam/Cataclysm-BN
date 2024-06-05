@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "memory_fast.h"
 #include "pimpl.h"
@@ -123,6 +124,8 @@ struct uilist_entry {
         text_color = c;
         return *this;
     }
+
+    std::optional<inclusive_rectangle<point>> drawn_rect;
 };
 
 /**
@@ -236,7 +239,7 @@ class uilist // NOLINT(cata-xy)
         void setup();
         // initialize the window or reposition it after screen size change.
         void reposition( ui_adaptor &ui );
-        void show();
+        void show( ui_adaptor &ui );
         bool scrollby( int scrollby );
         void query( bool loop = true, int timeout = -1 );
 
@@ -368,6 +371,8 @@ class uilist // NOLINT(cata-xy)
     private:
         std::string hotkeys;
         report_color_error _color_error = report_color_error::yes;
+        input_context create_main_input_context() const;
+        input_context create_filter_input_context() const;
 
     public:
         // Iternal states
@@ -411,7 +416,6 @@ class uilist // NOLINT(cata-xy)
         std::string ret_act;
         int ret;
         int keypress;
-
         int selected;
 };
 

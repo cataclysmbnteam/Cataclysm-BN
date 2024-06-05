@@ -13,7 +13,7 @@ enum color_id : int;
 enum damage_type : int;
 enum game_message_type : int;
 enum m_flag : int;
-enum m_size : int;
+enum creature_size : int;
 enum mf_attitude : int;
 enum monster_attitude : int;
 enum npc_attitude : int;
@@ -164,7 +164,7 @@ LUNA_ENUM( game_message_type, "MsgType" )
 LUNA_ENUM( mf_attitude, "MonsterFactionAttitude" )
 LUNA_ENUM( m_flag, "MonsterFlag" )
 LUNA_ENUM( monster_attitude, "MonsterAttitude" )
-LUNA_ENUM( m_size, "MonsterSize" )
+LUNA_ENUM( creature_size, "MonsterSize" )
 LUNA_ENUM( npc_attitude, "NpcAttitude" )
 LUNA_ENUM( npc_need, "NpcNeed" )
 LUNA_ENUM( sfx::channel, "SfxChannel" )
