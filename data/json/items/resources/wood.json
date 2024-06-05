@@ -164,7 +164,8 @@
     "bashing": 8,
     "price": "200 USD",
     "price_postapoc": "10 cent",
-    "flags": [ "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ],
+    "stackable": true
   },
   {
     "type": "GENERIC",

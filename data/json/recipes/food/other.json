@@ -1494,16 +1494,8 @@
         [ "candy3", 1 ],
         [ "maple_candy", 1 ],
         [ "syrup", 1 ],
-        [ "strawberries", 1 ],
-        [ "strawberries_cooked", 1 ],
-        [ "irradiated_strawberries", 1 ],
-        [ "blueberries", 1 ],
-        [ "blueberries_cooked", 1 ],
-        [ "irradiated_blueberries", 1 ],
-        [ "blackberries", 1 ],
-        [ "irradiated_blackberries", 1 ],
-        [ "cherries", 1 ],
-        [ "irradiated_cherries", 1 ]
+        [ "sweet_fruit_like", 1, "LIST" ],
+        [ "jam_fruit", 1 ]
       ],
       [ [ "sugar", 10 ] ],
       [ [ "water_clean", 1 ] ]
@@ -1527,16 +1519,8 @@
         [ "candy3", 2 ],
         [ "maple_candy", 2 ],
         [ "syrup", 2 ],
-        [ "strawberries", 2 ],
-        [ "strawberries_cooked", 2 ],
-        [ "irradiated_strawberries", 2 ],
-        [ "blueberries", 2 ],
-        [ "blueberries_cooked", 2 ],
-        [ "irradiated_blueberries", 2 ],
-        [ "blackberries", 2 ],
-        [ "irradiated_blackberries", 2 ],
-        [ "cherries", 2 ],
-        [ "irradiated_cherries", 2 ]
+        [ "sweet_fruit_like", 2, "LIST" ],
+        [ "jam_fruit", 2 ]
       ],
       [ [ "sugar", 20 ] ],
       [ [ "water_clean", 1 ] ]
