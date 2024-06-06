@@ -789,7 +789,8 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     // destroy a random number of tires, vehicles with more wheels are more likely to survive
     if( destroyTires && !wheelcache.empty() ) {
         int tries = 0;
-        while( valid_wheel_config() && tries < wheelcache.size() ) {
+        int maxtries = wheelcache.size();
+        while( valid_wheel_config() && tries < maxtries ) {
             // keep going until either we've ruined all wheels or made one attempt for every wheel
             set_hp( parts[random_entry( wheelcache )], 0 );
             tries++;
