@@ -211,8 +211,9 @@
     "weapon_category": [ "1H_HOOKED" ],
     "name": { "str": "primitive adze" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "rock", "name": "stone adze" }, 
-      { "type": "COMPONENT_ID", "condition": "ceramic", "name": "ceramic adze" } ],
+      { "type": "COMPONENT_ID", "condition": "rock", "name": "stone adze" },
+      { "type": "COMPONENT_ID", "condition": "ceramic", "name": "ceramic adze" }
+    ],
     "description": "This is a stone or ceramic adze, somewhat useful for smoothing wood objects.",
     "weight": "1300 g",
     "volume": "1 L",
@@ -234,8 +235,9 @@
     "weapon_category": [ "2H_AXES" ],
     "name": { "str": "primtitive axe" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "rock", "name": "stone axe" }, 
-      { "type": "COMPONENT_ID", "condition": "ceramic", "name": "ceramic axe" } ],
+      { "type": "COMPONENT_ID", "condition": "rock", "name": "stone axe" },
+      { "type": "COMPONENT_ID", "condition": "ceramic", "name": "ceramic axe" }
+    ],
     "description": "This is a stone with a narrow edge affixed to a stick.  It can chop wood, but requires much more effort than a modern axe.",
     "weight": "3154 g",
     "volume": "3500 ml",
@@ -294,9 +296,10 @@
     "color": "light_gray",
     "name": { "str": "primitive tomahawk" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "rock", "name": "stone tomahawk" }, 
+      { "type": "COMPONENT_ID", "condition": "rock", "name": "stone tomahawk" },
       { "type": "COMPONENT_ID", "condition": "ceramic", "name": "ceramic tomahawk" },
-      { "type": "COMPONENT_ID", "condition": "bone", "name": "bone tomahawk" } ],
+      { "type": "COMPONENT_ID", "condition": "bone", "name": "bone tomahawk" }
+    ],
     "description": "A lightweight one-handed combat hatchet typically made of stone or bone, originally used by the Algonquian people.  It makes for a half decent tool and weapon.",
     "price_postapoc": 100,
     "material": [ "wood", "stone" ],
