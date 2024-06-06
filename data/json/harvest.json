@@ -97,15 +97,16 @@
     "id": "mammal_tiny",
     "//": "animals so tiny they don't drop chunks of meat",
     "type": "harvest",
-    "entries": [ 
+    "entries": [
       { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.5 } ]
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.5 }
+    ]
   },
   {
     "id": "mutant_animal_tiny",
     "//": "mutant animals so tiny they don't drop chunks of meat",
     "type": "harvest",
-    "entries": [ 
+    "entries": [
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.5 }
     ]
