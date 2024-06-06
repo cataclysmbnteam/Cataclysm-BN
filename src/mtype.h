@@ -315,6 +315,7 @@ struct mtype {
 
         damage_instance melee_damage; // Basic melee attack damage
         harvest_id harvest;
+        harvest_id decay;
         float luminance;           // 0 is default, >0 gives luminance to lightmap
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)

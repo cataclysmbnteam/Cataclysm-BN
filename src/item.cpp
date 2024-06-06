@@ -9911,6 +9911,9 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
         if( comestible && !self ) {
             here.rotten_item_spawn( obj, pos );
         }
+        if( self->is_corpse() ) {
+            here.handle_decayed_corpse( obj, pos );
+        }
     }
     return std::move( self );
 }
@@ -10111,6 +10114,11 @@ std::string item::type_name( unsigned int quantity ) const
     }
 
     return ret_name;
+}
+
+const mtype *item::get_corpse_mon() const
+{
+    return corpse;
 }
 
 std::string item::get_corpse_name()
