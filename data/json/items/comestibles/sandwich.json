@@ -8,11 +8,24 @@
         "type": "COMPONENT_ID",
         "condition": "mutant",
         "name": { "str": "\"deluxe\" sandwich", "str_pl": "\"deluxe\" sandwiches" }
-      }
+      },
+      {
+        "type": "FLAG",
+        "condition": "CANNIBALISM",
+        "name": { "str": "slob deluxe sandwich", "str_pl": "slob deluxe sandwiches" }
+      },
+      { "type": "COMPONENT_ID", "condition": "ketchup", "name": "%s with ketchup" },
+      { "type": "COMPONENT_ID", "condition": "mayonnaise", "name": "%s with mayonnaise" },
+      { "type": "COMPONENT_ID", "condition": "mustard", "name": "%s with mustard" },
+      { "type": "COMPONENT_ID", "condition": "horseradish", "name": "%s with horseradish" },
+      { "type": "COMPONENT_ID", "condition": "butter", "name": "%s with butter" },
+      { "type": "COMPONENT_ID", "condition": "sauerkraut", "name": "%s with sauerkraut" },
+      { "type": "COMPONENT_ID", "condition": "soysauce", "name": "%s with soy sauce" },
+      { "type": "COMPONENT_ID", "condition": "seasoning_salt", "name": "%s with seasoned salt" }
     ],
     "weight": "300 g",
     "healthy": 1,
-    "calories": 700,
+    "calories": 300,
     "color": "brown",
     "spoils_in": "1 day 12 hours",
     "container": "wrapper",
@@ -25,14 +38,15 @@
     "volume": "500 ml",
     "material": [ "flesh", "veggy", "wheat", "milk" ],
     "fun": 12,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ],
+    "charges": 4
   },
   {
     "type": "COMESTIBLE",
     "id": "sandwich_cheese_grilled",
     "copy-from": "sandwich_deluxe",
     "name": { "str": "grilled cheese sandwich", "str_pl": "grilled cheese sandwiches" },
-    "calories": 366,
+    "calories": 160,
     "description": "A delicious grilled cheese sandwich, because everything is better with melted cheese.",
     "price": "550 cent",
     "price_postapoc": "2 USD",
@@ -46,7 +60,7 @@
     "id": "sandwich_cheese",
     "copy-from": "sandwich_deluxe",
     "name": { "str": "cheese sandwich", "str_pl": "cheese sandwiches" },
-    "calories": 366,
+    "calories": 160,
     "description": "A simple cheese sandwich.",
     "price": "5 USD",
     "price_postapoc": "2 USD",
@@ -59,7 +73,35 @@
     "id": "sandwich_jam",
     "copy-from": "sandwich_deluxe",
     "name": { "str": "jam sandwich", "str_pl": "jam sandwiches" },
-    "calories": 262,
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": "apple %s" },
+      { "type": "COMPONENT_ID", "condition": "apricot", "name": "apricot %s" },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": "banana %s" },
+      { "type": "COMPONENT_ID", "condition": "blackberries", "name": "blackberry %s" },
+      { "type": "COMPONENT_ID", "condition": "blueberries", "name": "blueberry %s" },
+      { "type": "COMPONENT_ID", "condition": "cherries", "name": "cherry %s" },
+      { "type": "COMPONENT_ID", "condition": "cranberries", "name": "cranberry %s" },
+      { "type": "COMPONENT_ID", "condition": "grapefruit", "name": "grapefruit %s" },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": "grape %s" },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": "kiwi %s" },
+      { "type": "COMPONENT_ID", "condition": "mango", "name": "mango %s" },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": "melon %s" },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": "orange %s" },
+      { "type": "COMPONENT_ID", "condition": "papaya", "name": "papaya %s" },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": "peach %s" },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": "pear %s" },
+      { "type": "COMPONENT_ID", "condition": "pineapple", "name": "pineapple %s" },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": "plum %s" },
+      { "type": "COMPONENT_ID", "condition": "pomegranate", "name": "pomegranate %s" },
+      { "type": "COMPONENT_ID", "condition": "raspberries", "name": "raspberry %s" },
+      { "type": "COMPONENT_ID", "condition": "rose_hips", "name": "rose_hip %s" },
+      { "type": "COMPONENT_ID", "condition": "strawberries", "name": "strawberry %s" },
+      { "type": "COMPONENT_ID", "condition": "huckleberries", "name": "huckleberry %s" },
+      { "type": "COMPONENT_ID", "condition": "mulberries", "name": "mulberry %s" },
+      { "type": "COMPONENT_ID", "condition": "elderberries", "name": "elderberry %s" },
+      { "type": "COMPONENT_ID", "condition": "watermelon", "name": "watermelon %s" }
+    ],
+    "calories": 150,
     "description": "A delicious jam sandwich.",
     "price": "2 USD",
     "price_postapoc": "2 USD",
@@ -72,7 +114,7 @@
     "id": "sandwich_fairy",
     "copy-from": "sandwich_deluxe",
     "name": { "str_sp": "fairy bread" },
-    "calories": 640,
+    "calories": 200,
     "description": "An 'open-faced sandwich' consisting of sliced white bread, a healthy crust-to-crust slathering of butter, and sprinkles.  Supposedly a staple of birthday parties in Australia.",
     "price": "85 cent",
     "price_postapoc": "3 USD",
@@ -84,7 +126,7 @@
     "id": "sandwich_honey",
     "copy-from": "sandwich_deluxe",
     "name": { "str": "honey sandwich", "str_pl": "honey sandwiches" },
-    "calories": 535,
+    "calories": 200,
     "description": "A delicious honey sandwich.",
     "price": "5 USD",
     "price_postapoc": "3 USD",
@@ -97,7 +139,55 @@
     "id": "sandwich_sauce",
     "copy-from": "sandwich_deluxe",
     "name": { "str": "sauce sandwich", "str_pl": "sauce sandwiches" },
+    "conditional_names": [
+      {
+        "type": "COMPONENT_ID",
+        "condition": "ketchup",
+        "name": { "str": "ketchup sandwich", "str_pl": "ketchup sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mayonnaise",
+        "name": { "str": "mayonnaise sandwich", "str_pl": "mayonnaise sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mustard",
+        "name": { "str": "mustard sandwich", "str_pl": "mustard sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "horseradish",
+        "name": { "str": "horseradish sandwich", "str_pl": "horseradish sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "butter",
+        "name": { "str": "butter sandwich", "str_pl": "butter sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "sauerkraut",
+        "name": { "str": "sauerkraut sandwich", "str_pl": "sauerkraut sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "soysauce",
+        "name": { "str": "soy sauce sandwich", "str_pl": "soy sauce sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "sauce_pesto",
+        "name": { "str": "pesto sandwich", "str_pl": "pesto sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "sauce_red",
+        "name": { "str": "red sauce sandwich", "str_pl": "red sauce sandwiches" }
+      }
+    ],
     "description": "A simple sauce sandwich.  Not very filling but beats eating just the bread.",
+    "calories": 120,
     "material": [ "veggy", "wheat" ],
     "price": "2 USD",
     "price_postapoc": "2 USD",
@@ -108,7 +198,7 @@
     "id": "sandwich_veggy",
     "copy-from": "sandwich_deluxe",
     "name": { "str": "vegetable sandwich", "str_pl": "vegetable sandwiches" },
-    "calories": 502,
+    "calories": 180,
     "description": "Bread and vegetables, that's it.",
     "price": "8 USD",
     "price_postapoc": "250 cent",
@@ -126,7 +216,7 @@
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
     ],
-    "calories": 433,
+    "calories": 200,
     "description": "Bread and meat, that's it.",
     "price": "9 USD",
     "price_postapoc": "250 cent",
@@ -137,25 +227,29 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pb",
-    "copy-from": "sandwich_deluxe",
     "name": { "str": "peanut butter sandwich", "str_pl": "peanut butter sandwiches" },
-    "calories": 658,
+    "weight": "300 g",
+    "calories": 200,
+    "color": "brown",
+    "spoils_in": "1 day 12 hours",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
     "description": "Some peanut butter smothered between two pieces of bread.  Not very filling and will stick to the roof of your mouth like glue.",
-    "price": "250 cent",
-    "price_postapoc": "3 USD",
+    "price": "175 cent",
+    "price_postapoc": "175 cent",
     "material": "wheat",
+    "volume": "500 ml",
     "fun": 3,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ] ],
+    "charges": 4
   },
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pbj",
-    "copy-from": "sandwich_deluxe",
+    "copy-from": "sandwich_pb",
     "name": { "str": "PB&J sandwich", "str_pl": "PB&J sandwiches" },
-    "calories": 378,
     "description": "A delicious peanut butter and jelly sandwich.  It reminds you of the times your mother would make you lunch.",
-    "price": "175 cent",
-    "price_postapoc": "175 cent",
     "material": [ "fruit", "wheat" ],
     "fun": 6,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
@@ -163,12 +257,10 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pbh",
-    "copy-from": "sandwich_deluxe",
+    "copy-from": "sandwich_pb",
     "name": { "str": "PB&H sandwich", "str_pl": "PB&H sandwiches" },
-    "calories": 365,
+    "calories": 150,
     "description": "Some damned fool put honey on this peanut butter sandwich, who in their right mind- oh wait this is pretty good.",
-    "price": "175 cent",
-    "price_postapoc": "175 cent",
     "material": [ "wheat", "honey" ],
     "fun": 6,
     "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ] ]
@@ -176,12 +268,10 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pbm",
-    "copy-from": "sandwich_deluxe",
+    "copy-from": "sandwich_pb",
     "name": { "str": "PB&M sandwich", "str_pl": "PB&M sandwiches" },
-    "calories": 712,
+    "calories": 170,
     "description": "Who knew you could mix maple syrup and peanut butter to create yet another different sandwich?",
-    "price": "175 cent",
-    "price_postapoc": "175 cent",
     "material": "wheat",
     "fun": 6,
     "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ] ]
@@ -191,7 +281,7 @@
     "id": "fish_sandwich",
     "copy-from": "sandwich_deluxe",
     "name": { "str": "fish sandwich", "str_pl": "fish sandwiches" },
-    "calories": 481,
+    "calories": 200,
     "description": "A delicious fish sandwich.",
     "price": "8 USD",
     "price_postapoc": "250 cent",
@@ -217,6 +307,26 @@
     "name": { "str": "dairy-free deluxe sandwich", "str_pl": "dairy-free deluxe sandwiches" },
     "copy-from": "sandwich_deluxe",
     "looks_like": "sandwich_deluxe",
+    "conditional_names": [
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mutant",
+        "name": { "str": "dairy-free \"deluxe\" sandwich", "str_pl": "dairy-free \"deluxe\" sandwiches" }
+      },
+      {
+        "type": "FLAG",
+        "condition": "CANNIBALISM",
+        "name": { "str": "dairy-free slob deluxe sandwich", "str_pl": "dairy-free slob deluxe sandwiches" }
+      },
+      { "type": "COMPONENT_ID", "condition": "ketchup", "name": "%s with ketchup" },
+      { "type": "COMPONENT_ID", "condition": "mayonnaise", "name": "%s with mayonnaise" },
+      { "type": "COMPONENT_ID", "condition": "mustard", "name": "%s with mustard" },
+      { "type": "COMPONENT_ID", "condition": "horseradish", "name": "%s with horseradish" },
+      { "type": "COMPONENT_ID", "condition": "butter", "name": "%s with butter" },
+      { "type": "COMPONENT_ID", "condition": "sauerkraut", "name": "%s with sauerkraut" },
+      { "type": "COMPONENT_ID", "condition": "soysauce", "name": "%s with soy sauce" },
+      { "type": "COMPONENT_ID", "condition": "seasoning_salt", "name": "%s with seasoned salt" }
+    ],
     "description": "A deluxe sandwich with meat, veggies, and sauce, but no cheese.",
     "price": "2 USD",
     "price_postapoc": "2 USD",

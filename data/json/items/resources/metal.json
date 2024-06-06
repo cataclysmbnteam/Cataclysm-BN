@@ -240,7 +240,8 @@
     "material": "steel",
     "symbol": "]",
     "color": "light_cyan",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "stackable": true
   },
   {
     "id": "steel_chunk",
