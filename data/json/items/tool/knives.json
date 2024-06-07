@@ -81,8 +81,16 @@
     "type": "GENERIC",
     "category": "tools",
     "weapon_category": [ "KNIVES" ],
-    "name": { "str": "stone knife", "str_pl": "stone knives" },
-    "description": "This is a sharpened stone set into a hollowed handle.  Not nearly as usable as a proper knife, but it's better than nothing.",
+    "name": { "str": "primitive knife", "str_pl": "primitive knives" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "rock", "name": { "str": "stone knife", "str_pl": "stone knives" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "ceramic",
+        "name": { "str": "ceramic knife", "str_pl": "ceramic knives" }
+      }
+    ],
+    "description": "This is a sharpened stone or shard of ceramic set into a hollowed handle.  Not nearly as usable as a proper knife, but it's better than nothing.",
     "weight": "453 g",
     "volume": "250 ml",
     "price": "0 cent",
