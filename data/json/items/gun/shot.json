@@ -210,7 +210,6 @@
     "ascii_picture": "mossberg590",
     "volume": "2548 ml",
     "looks_like": "mossberg_500",
-    "default_mods": [ "sights_mount", "underbarrel_mount" ],
     "price": "700 USD",
     "barrel_length": "0 ml",
     "clip_size": 9
