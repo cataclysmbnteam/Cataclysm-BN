@@ -128,7 +128,7 @@ class monster : public Creature, public location_visitable<monster>
         void reproduce();
         void refill_udders();
         void spawn( const tripoint &p );
-        m_size get_size() const override;
+        creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
         units::volume get_volume() const;

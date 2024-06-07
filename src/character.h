@@ -369,7 +369,7 @@ class Character : public Creature, public location_visitable<Character>
         void mod_stat( const std::string &stat, float modifier ) override;
 
         /** Get size class of character **/
-        m_size get_size() const override;
+        creature_size get_size() const override;
         /** Recalculate size class of character **/
         void recalculate_size();
 
@@ -2209,7 +2209,7 @@ class Character : public Creature, public location_visitable<Character>
         /**height at character creation*/
         int init_height = 175;
         /** Size class of character. */
-        m_size size_class = MS_MEDIUM;
+        creature_size size_class = creature_size::medium;
 
         trap_map known_traps;
         pimpl<char_encumbrance_data> encumbrance_cache;
