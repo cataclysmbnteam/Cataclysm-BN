@@ -27,7 +27,6 @@
     "vision_day": 50,
     "vision_night": 20,
     "harvest": "zombie_meatslug",
-    "decay": "null",
     "path_settings": { "max_dist": 50 },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
@@ -77,7 +76,6 @@
     "vision_day": 50,
     "vision_night": 20,
     "harvest": "zombie_meatslug",
-    "decay": "null",
     "path_settings": { "max_dist": 50 },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
@@ -128,7 +126,6 @@
     "vision_day": 50,
     "vision_night": 20,
     "harvest": "zombie_meatslug",
-    "decay": "null",
     "path_settings": { "max_dist": 50 },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
@@ -178,7 +175,6 @@
     "vision_day": 50,
     "vision_night": 20,
     "harvest": "zombie_meatslug",
-    "decay": "null",
     "path_settings": { "max_dist": 50 },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
@@ -232,7 +228,6 @@
     "vision_day": 50,
     "vision_night": 25,
     "harvest": "zombie_meatslug",
-    "decay": "null",
     "path_settings": { "max_dist": 50 },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
@@ -285,7 +280,6 @@
     "vision_day": 50,
     "vision_night": 25,
     "harvest": "zombie_meatslug",
-    "decay": "null",
     "path_settings": { "max_dist": 50 },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [

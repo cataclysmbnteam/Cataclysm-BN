@@ -23,7 +23,6 @@
     "dodge": 4,
     "armor_bash": 6,
     "harvest": "arachnid_acid",
-    "decay": "decay_arthopod_acid",
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL" ]
   },
@@ -52,7 +51,6 @@
     "armor_cut": 8,
     "armor_bullet": 6,
     "harvest": "meatslug",
-    "decay": "null",
     "death_function": [ "WORM" ],
     "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS" ]
   },
@@ -79,7 +77,6 @@
     "melee_cut": 0,
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
-    "decay": "null",
     "death_function": [ "NORMAL" ],
     "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
   },
@@ -106,7 +103,6 @@
     "melee_cut": 3,
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
-    "decay": "null",
     "death_function": [ "WORM" ],
     "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
   },
@@ -139,7 +135,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid_tainted",
-    "decay": "decay_arthopod_standard",
     "reproduction": { "baby_egg": "egg_roach_plague", "baby_count": 1, "baby_timer": 7 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "upgrades": { "age_grow": 7, "into": "mon_plague_vector" },
@@ -174,7 +169,6 @@
     "vision_day": 10,
     "vision_night": 3,
     "harvest": "arachnid_tainted",
-    "decay": "decay_arthopod_standard",
     "upgrades": { "age_grow": 7, "into": "mon_skittering_plague" },
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
@@ -209,7 +203,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid_tainted",
-    "decay": "decay_arthopod_standard",
     "reproduction": { "baby_egg": "egg_roach_plague", "baby_count": 3, "baby_timer": 5 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
@@ -245,7 +238,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "reproduction": { "baby_egg": "egg_roach", "baby_count": 4, "baby_timer": 7 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "upgrades": { "age_grow": 7, "into": "mon_pregnant_giant_cockroach" },
@@ -278,7 +270,6 @@
     "vision_day": 10,
     "vision_night": 3,
     "harvest": "mutant_animal_tiny",
-    "decay": "null",
     "upgrades": { "age_grow": 7, "into": "mon_giant_cockroach" },
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
@@ -313,7 +304,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "reproduction": { "baby_egg": "egg_roach", "baby_count": 3, "baby_timer": 7 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "death_function": [ "NORMAL", "PREG_ROACH" ],
@@ -361,7 +351,6 @@
     "vision_day": 10,
     "vision_night": 5,
     "harvest": "arachnid_bee",
-    "decay": "decay_arthopod_bee",
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE", "LOUDMOVES" ]
@@ -447,7 +436,6 @@
     "vision_night": 6,
     "anger_triggers": [ "STALK", "PLAYER_CLOSE" ],
     "harvest": "arachnid_centipede",
-    "decay": "decay_arthopod_centipede",
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 15, "into_group": "GROUP_CENTIPEDE_GIANT" },
     "flags": [ "CLIMBS", "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE" ]
@@ -491,7 +479,6 @@
     "proportional": { "vision_day": 0.5, "vision_night": 0.5 },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "harvest": "arachnid_centipede_mom",
-    "decay": "decay_arthopod_centipede",
     "reproduction": { "baby_monster": "mon_centipede_small", "baby_count": 2, "baby_timer": 10 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "upgrades": { "age_grow": 15, "into_group": "GROUP_CENTIPEDE_MOM" },
@@ -540,8 +527,7 @@
     "vision_day": 12,
     "vision_night": 7,
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
-    "harvest": "arachnid_centipede_mom_mega",
-    "decay": "decay_arthopod_centipede_mega",
+    "harvest": "arachnid_centipede_mega",
     "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "DESTROYS", "PUSH_MON", "PUSH_VEH" ]
   },
   {
@@ -563,7 +549,6 @@
     "vision_day": 15,
     "dodge": 2,
     "harvest": "arachnid_firefly",
-    "decay": "decay_arthopod_flying",
     "reproduction": { "baby_egg": "egg_firefly", "baby_count": 1, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "HURT" ],
@@ -597,7 +582,6 @@
     "vision_day": 25,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
     "death_function": [ "NORMAL" ],
@@ -639,7 +623,6 @@
     "vision_day": 45,
     "vision_night": 5,
     "harvest": "arachnid_flying",
-    "decay": "decay_arthopod_flying",
     "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
     "fear_triggers": [ "HURT" ],
     "death_function": [ "NORMAL" ],
@@ -676,7 +659,6 @@
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "arachnid_dragonfly_mega",
-    "decay": "decay_arthopod_flying",
     "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
     "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_dragonfly", "baby_count": 3, "baby_timer": 1 },
@@ -708,7 +690,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE" ]
@@ -739,7 +720,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
   },
@@ -773,7 +753,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_spider_fungus",
@@ -809,7 +788,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_FIRE" ]
@@ -842,7 +820,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 5, "allow_no_target": true } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
@@ -878,7 +855,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_spider_fungus",
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
@@ -912,7 +888,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_spider_fungus",
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
@@ -945,7 +920,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
@@ -978,7 +952,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_spider_fungus",
@@ -1013,7 +986,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
@@ -1047,7 +1019,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_spider_fungus",
@@ -1069,7 +1040,6 @@
     "weight": "9 kg",
     "hp": 35,
     "harvest": "arachnid_wasp",
-    "decay": "decay_arthopod_wasp",
     "upgrades": { "age_grow": 16, "into": "mon_wasp_pupa" },
     "//": "30 days of development from egg to adult.",
     "flags": [ "IMMOBILE" ]
@@ -1089,7 +1059,6 @@
     "weight": "15 kg",
     "hp": 100,
     "harvest": "arachnid_wasp",
-    "decay": "decay_arthopod_wasp",
     "upgrades": { "age_grow": 10, "into_group": "GROUP_WASP_PUPA" },
     "flags": [ "IMMOBILE" ]
   },
@@ -1139,7 +1108,6 @@
     "vision_day": 15,
     "vision_night": 5,
     "harvest": "arachnid_wasp",
-    "decay": "decay_arthopod_wasp",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_function": [ "NORMAL" ],
@@ -1177,7 +1145,6 @@
     "description": "A mutated wasp queen grown to the size of a person, laying a single white egg in each empty cell it comes across while scurrying around on the paper walls of their home.  It struggles to fit into some of them, but the newer cells seem to be getting larger…",
     "copy-from": "mon_wasp_guard",
     "harvest": "arachnid_wasp_queen",
-    "decay": "decay_arthopod_wasp",
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 2, "baby_timer": 5 },
     "upgrades": { "half_life": 30, "into": "mon_wasp_mega" }
   },
@@ -1230,7 +1197,6 @@
     "vision_day": 17,
     "vision_night": 7,
     "harvest": "arachnid_wasp",
-    "decay": "decay_arthopod_wasp",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_function": [ "NORMAL" ],
@@ -1302,7 +1268,6 @@
     "armor_stab": 18,
     "armor_bullet": 22,
     "harvest": "arachnid_wasp_queen",
-    "decay": "decay_arthopod_wasp",
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 4, "baby_timer": 5 },
     "extend": { "flags": [ "PUSH_MON" ] },
     "delete": { "flags": [ "HARDTOSHOOT" ] }
@@ -1334,7 +1299,6 @@
     "armor_bash": 6,
     "armor_bullet": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "special_attacks": [ [ "DERMATIK", 25 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
@@ -1364,7 +1328,6 @@
     "melee_cut": 1,
     "dodge": 1,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "upgrades": { "age_grow": 21, "into": "mon_dermatik" },
     "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "SMELLS", "POISON", "CAN_DIG", "LARVA" ]
@@ -1398,7 +1361,6 @@
     "vision_day": 6,
     "vision_night": 6,
     "harvest": "incubator_mammal",
-    "decay": "decay_animal_standard",
     "special_attacks": [
       [ "PARROT", 6 ],
       {
@@ -1464,7 +1426,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "upgrades": { "age_grow": 14, "into": "mon_ant_soldier" },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
@@ -1504,7 +1465,6 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
     "harvest": "arachnid_acid",
-    "decay": "decay_arthopod_acid",
     "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -1531,7 +1491,6 @@
     "upgrades": { "age_grow": 3, "into": "mon_ant_acid" },
     "death_function": [ "ACID", "NORMAL" ],
     "harvest": "arachnid_acid",
-    "decay": "decay_arthopod_acid",
     "flags": [ "ACIDPROOF", "LARVA", "POISON", "SMELLS" ]
   },
   {
@@ -1564,7 +1523,6 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "harvest": "acidant_queen",
-    "decay": "decay_arthopod_acid",
     "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "QUEEN", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -1599,7 +1557,6 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
     "harvest": "arachnid_acid",
-    "decay": "decay_arthopod_acid",
     "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -1624,7 +1581,6 @@
     "melee_dice_sides": 3,
     "melee_cut": 0,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "upgrades": { "age_grow": 3, "into": "mon_ant" },
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "LARVA" ]
@@ -1654,7 +1610,6 @@
     "armor_cut": 14,
     "armor_bullet": 11,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "special_attacks": [ [ "ANTQUEEN", 1 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
@@ -1689,7 +1644,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_ant_fungus",
@@ -1722,7 +1676,6 @@
     "armor_bullet": 3,
     "vision_day": 10,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "reproduction": { "baby_egg": "egg_locust", "baby_count": 20, "baby_timer": 10 },
     "baby_flags": [ "AUTUMN" ],
     "anger_triggers": [ "FRIEND_ATTACKED" ],
@@ -1754,7 +1707,6 @@
     "melee_cut": 0,
     "vision_day": 10,
     "harvest": "mutant_animal_tiny",
-    "decay": "null",
     "upgrades": { "age_grow": 10, "into": "mon_locust" },
     "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 4, "allow_no_target": true }, [ "EAT_CROP", 120 ] ],

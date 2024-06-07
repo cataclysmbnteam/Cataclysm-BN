@@ -72,7 +72,6 @@
     "armor_bullet": 4,
     "vision_night": 3,
     "harvest": "zombie",
-    "decay": "decay_zombie_standard",
     "special_attacks": [ [ "BOOMER_GLOW", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "BOOMER_GLOW" ],

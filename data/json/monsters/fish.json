@@ -28,7 +28,6 @@
     "vision_day": 30,
     "vision_night": 20,
     "harvest": "mutant_shellfish",
-    "decay": "decay_shellfish",
     "path_settings": { "max_dist": 50 },
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
@@ -65,7 +64,6 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_tiny",
-    "decay": "null",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
@@ -97,7 +95,6 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "decay": "decay_fish",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
@@ -129,7 +126,6 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "decay": "decay_fish",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
@@ -161,7 +157,6 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_large",
-    "decay": "decay_fish",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
@@ -193,7 +188,6 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_large",
-    "decay": "decay_fish",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
@@ -518,7 +512,6 @@
     "melee_cut": 1,
     "luminance": 0,
     "harvest": "lobster",
-    "decay": "decay_shellfish",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 180 },
     "baby_flags": [ "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
@@ -548,7 +541,6 @@
     "melee_cut": 1,
     "luminance": 0,
     "harvest": "shellfish",
-    "decay": "decay_shellfish",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 21 },
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
@@ -580,7 +572,6 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "decay": "decay_fish",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
@@ -608,7 +599,6 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
-    "decay": "decay_fish",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
@@ -635,7 +625,6 @@
     "armor_cut": 8,
     "armor_bullet": 6,
     "harvest": "shellfish",
-    "decay": "decay_shellfish",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
@@ -669,7 +658,6 @@
     "vision_day": 30,
     "vision_night": 15,
     "harvest": "mutant_shellfish",
-    "decay": "decay_shellfish",
     "path_settings": { "max_dist": 50 },
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -701,7 +689,6 @@
     "dodge": 5,
     "luminance": 0,
     "harvest": "mutant_fish",
-    "decay": "decay_fish",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 1, "baby_timer": 6 },
     "baby_flags": [ "SPRING" ],
     "death_function": [ "NORMAL" ],
@@ -731,7 +718,6 @@
     "dodge": 5,
     "luminance": 0,
     "harvest": "mutant_fish",
-    "decay": "decay_fish",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 150 },
     "baby_flags": [ "AUTUMN" ],
     "death_function": [ "NORMAL" ],
@@ -762,7 +748,6 @@
     "vision_day": 1,
     "vision_night": 30,
     "harvest": "mutant_fish",
-    "decay": "decay_fish",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 19 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "path_settings": { "max_dist": 5 },

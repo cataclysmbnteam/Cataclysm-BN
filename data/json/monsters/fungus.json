@@ -25,7 +25,6 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
-    "decay": "decay_zombie_standard",
     "special_attacks": [ [ "FUNGUS", 100 ], [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "FUNGUS", "NORMAL" ],
@@ -171,7 +170,6 @@
     "melee_cut": 0,
     "armor_bash": 4,
     "harvest": "fungaloid",
-    "decay": "decay_plantlike",
     "special_attacks": [ [ "FUNGUS", 30 ] ],
     "death_function": [ "FUNGUS", "NORMAL" ],
     "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ]
@@ -200,7 +198,6 @@
     "special_attacks": [ [ "FUNGUS_SPROUT", 10 ] ],
     "death_function": [ "FUNGUS", "NORMAL" ],
     "harvest": "fungaloid_mass",
-    "decay": "decay_plantlike",
     "flags": [ "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "QUEEN" ]
   },
   {
@@ -228,7 +225,6 @@
     "special_attacks": [ [ "FUNGUS_BIG_BLOSSOM", 10 ] ],
     "death_function": [ "FUNGUS", "NORMAL" ],
     "harvest": "fungaloid_mass",
-    "decay": "decay_plantlike",
     "flags": [ "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "QUEEN" ]
   },
   {
@@ -260,7 +256,6 @@
     "death_drops": "marloss_yellow_drops",
     "death_function": [ "FUNGUS", "NORMAL" ],
     "harvest": "fungaloid_mass",
-    "decay": "decay_plantlike",
     "flags": [ "NOHEAD", "POISON", "IMMOBILE", "HARDTOSHOOT", "NO_BREATHE", "QUEEN" ]
   },
   {
@@ -289,7 +284,6 @@
     "armor_cut": 4,
     "armor_bullet": 3,
     "harvest": "fungaloid",
-    "decay": "decay_plantlike",
     "special_attacks": [ [ "FUNGUS_GROWTH", 10000 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "POISON", "NO_BREATHE", "NOHEAD" ]
@@ -343,7 +337,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "zombie",
-    "decay": "decay_zombie_standard",
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -410,7 +403,6 @@
     "vision_day": 5,
     "vision_night": 3,
     "harvest": "zombie",
-    "decay": "decay_zombie_standard",
     "emit_fields": [ { "emit_id": "emit_fungal_haze_plume", "delay": "1 s" } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
     "death_function": [ "FUNGUS" ],
@@ -445,7 +437,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "mr_bones",
-    "decay": "decay_zombie_mrbones",
     "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "FUNGUS" ],
@@ -492,7 +483,6 @@
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie",
-    "decay": "decay_zombie_standard",
     "special_attacks": [ [ "scratch", 15 ], [ "FUNGUS", 200 ] ],
     "death_drops": {
       "subtype": "collection",
@@ -533,7 +523,6 @@
     "vision_day": 3,
     "vision_night": 3,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "special_attacks": [ [ "FUNGUS", 200 ] ],
     "death_function": [ "NORMAL", "FUNGUS" ],
     "flags": [ "SEES", "SMELLS", "POISON", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
@@ -567,7 +556,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "decay": "decay_arthopod_standard",
     "special_attacks": [ [ "FUNGAL_TRAIL", 3 ] ],
     "death_function": [ "NORMAL", "FUNGUS" ],
     "flags": [ "SEES", "SMELLS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]

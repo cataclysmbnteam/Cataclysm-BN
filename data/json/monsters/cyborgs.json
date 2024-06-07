@@ -29,7 +29,6 @@
     "special_attacks": [ [ "PARROT", 80 ] ],
     "death_function": [ "NORMAL" ],
     "harvest": "mon_broken_cyborg",
-    "decay": "decay_broken_cyborg",
     "flags": [
       "SEES",
       "HEARS",
@@ -74,7 +73,6 @@
     "special_attacks": [ [ "PARROT", 80 ] ],
     "death_function": [ "NORMAL" ],
     "harvest": "mon_broken_cyborg",
-    "decay": "decay_broken_cyborg",
     "flags": [
       "SEES",
       "HEARS",

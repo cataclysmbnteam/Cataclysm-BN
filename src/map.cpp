@@ -7289,8 +7289,9 @@ void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
     decayed_weight_grams *= rng_float( 0.5, 0.9 );
 
     bool anything_left = false;
-    for( const harvest_entry &entry : dead_monster->decay.obj() ) {
-        detached_ptr<item> harvest = item::spawn( entry.drop, calendar::turn );
+    for( const harvest_entry &entry : dead_monster->harvest.obj() ) {
+    if( entry.type != "bionic" && entry.type != "bionic_group" ) {
+        detached_ptr<item> harvest = item::spawn( entry.drop, it.birthday() );
         const float random_decay_modifier = rng_float( 0.0f, static_cast<float>( MAX_SKILL ) );
         const float min_num = entry.scale_num.first * random_decay_modifier + entry.base_num.first;
         const float max_num = entry.scale_num.second * random_decay_modifier + entry.base_num.second;
@@ -7302,15 +7303,16 @@ void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
             roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
         }
         anything_left = roll > 0;
-        if( g->u.sees( pnt ) ) {
-            if( anything_left ) {
-                add_msg( m_info, _( "The %1$s decays away, leaving something behind." ), it.tname() );
-            } else {
-                add_msg( m_info, _( "The %1$s decays away to nothing." ), it.tname() );
-            }
-        }
         for( int i = 0; i < roll; i++ ) {
             add_item_or_charges( pnt, item::spawn( *harvest ) );
+        }
+    }
+    }
+    if( g->u.sees( pnt ) ) {
+        if( anything_left ) {
+            add_msg( m_info, _( "The %1$s decays away, leaving something behind." ), it.tname() );
+        } else {
+            add_msg( m_info, _( "The %1$s decays away to nothing." ), it.tname() );
         }
     }
 }

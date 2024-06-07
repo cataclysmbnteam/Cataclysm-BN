@@ -68,7 +68,6 @@
     "armor_stab": 30,
     "armor_acid": 8,
     "harvest": "mammal_large_chitin",
-    "decay": "decay_mammal_plus_chitin",
     "delete": { "fear_triggers": [ "SOUND" ] },
     "//": "Doesn't zombify because it shouldn't regain the fur.",
     "zombify_into": "mon_null"
@@ -113,7 +112,6 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "harvest": "mutant_mammal_large_fur",
-    "decay": "decay_animal_standard",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON", "STUMBLES", "KEENNOSE" ]
   },
   {
@@ -141,7 +139,6 @@
     "dodge": 2,
     "armor_cut": 4,
     "harvest": "mutant_mammal_fur",
-    "decay": "decay_animal_standard",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "death_function": [ "NORMAL" ],
@@ -171,7 +168,6 @@
     "melee_cut": 6,
     "dodge": 3,
     "harvest": "bird_large",
-    "decay": "decay_bird_large",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "death_function": [ "NORMAL" ],
@@ -211,7 +207,6 @@
       }
     ],
     "harvest": "mutant_mammal_fur",
-    "decay": "decay_animal_standard",
     "path_settings": { "max_dist": 7 },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "SOUND" ],
@@ -251,7 +246,6 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "harvest": "mutant_mammal_fur",
-    "decay": "decay_animal_standard",
     "flags": [
       "SEES",
       "HEARS",
@@ -294,7 +288,6 @@
     "vision_day": 50,
     "vision_night": 5,
     "harvest": "mutant_mammal_large_fur",
-    "decay": "decay_animal_standard",
     "path_settings": { "max_dist": 10 },
     "special_attacks": [
       {
@@ -334,7 +327,6 @@
     "dodge": 4,
     "vision_night": 15,
     "harvest": "mutant_mammal_large_leather",
-    "decay": "decay_animal_standard",
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
@@ -371,7 +363,6 @@
     "dodge": 3,
     "vision_night": 15,
     "harvest": "mutant_mammal_leather",
-    "decay": "decay_animal_standard",
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
@@ -390,7 +381,6 @@
     "volume": "30000 ml",
     "weight": "30 kg",
     "harvest": "mutant_mammal_small_fur",
-    "decay": "decay_animal_standard",
     "hp": 30,
     "speed": 150,
     "material": [ "flesh" ],

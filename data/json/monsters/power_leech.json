@@ -36,7 +36,6 @@
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "harvest": "flesh_plant_bloom",
-    "decay": "null",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "QUEEN", "HARDTOSHOOT" ]
   },
@@ -75,7 +74,6 @@
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "harvest": "flesh_plant",
-    "decay": "null",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ]
   },
@@ -112,7 +110,6 @@
     "death_drops": {  },
     "death_function": [ "NORMAL" ],
     "harvest": "flesh_plant",
-    "decay": "null",
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ]
   },
   {
@@ -146,7 +143,6 @@
       [ "LEECH_SPAWNER", 35 ]
     ],
     "harvest": "flesh_plant",
-    "decay": "null",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE" ]
   },
@@ -190,7 +186,6 @@
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "harvest": "flesh_plant",
-    "decay": "null",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "HARDTOSHOOT" ]
   },
@@ -232,7 +227,6 @@
       [ "EVOLVE_KILL_STRIKE", 6 ]
     ],
     "harvest": "flesh_plant",
-    "decay": "null",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "HARDTOSHOOT" ]
   }

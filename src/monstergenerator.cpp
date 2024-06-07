@@ -829,8 +829,6 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "harvest", harvest );
 
-    assign( jo, "decay", decay );
-
     const auto death_reader = make_flag_reader( gen.death_map, "monster death function" );
     optional( jo, was_loaded, "death_function", dies, death_reader );
     if( dies.empty() ) {
