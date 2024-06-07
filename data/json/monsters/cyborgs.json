@@ -28,7 +28,7 @@
     "revert_to_itype": "bot_broken_cyborg",
     "special_attacks": [ [ "PARROT", 80 ] ],
     "death_function": [ "NORMAL" ],
-    "harvest": "mon_broken_cyborg",
+    "harvest": "mon_broken_cyborg","decay": "decay_broken_cyborg",
     "flags": [
       "SEES",
       "HEARS",
@@ -72,7 +72,7 @@
     "revert_to_itype": "bot_prototype_cyborg",
     "special_attacks": [ [ "PARROT", 80 ] ],
     "death_function": [ "NORMAL" ],
-    "harvest": "mon_broken_cyborg",
+    "harvest": "mon_broken_cyborg","decay": "decay_broken_cyborg",
     "flags": [
       "SEES",
       "HEARS",

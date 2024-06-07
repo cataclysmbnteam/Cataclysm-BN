@@ -27,7 +27,7 @@
     "armor_acid": 3,
     "vision_day": 30,
     "vision_night": 3,
-    "harvest": "mr_bones",
+    "harvest": "mr_bones","decay": "decay_zombie_mrbones",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": { "half_life": 15, "into": "mon_skeleton_brute" },
     "death_drops": "default_zombie_clothes",
@@ -63,7 +63,7 @@
     "armor_acid": 1,
     "vision_day": 35,
     "vision_night": 3,
-    "harvest": "mr_bones",
+    "harvest": "mr_bones","decay": "decay_zombie_mrbones",
     "special_attacks": [
       [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -103,7 +103,7 @@
     "armor_acid": 3,
     "vision_day": 30,
     "vision_night": 3,
-    "harvest": "CBM_CIV",
+    "harvest": "CBM_CIV","decay": "decay_zombie_standard",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "SHOCKSTORM", 25 ] ],
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
@@ -136,7 +136,7 @@
     "armor_bullet": 36,
     "vision_day": 50,
     "vision_night": 4,
-    "harvest": "mr_bones",
+    "harvest": "mr_bones","decay": "decay_zombie_mrbones",
     "special_attacks": [
       [ "SMASH", 20 ],
       [ "STRETCH_ATTACK", 20 ],

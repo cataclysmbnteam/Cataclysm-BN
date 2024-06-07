@@ -7285,16 +7285,8 @@ void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
         return;
     }
 
-    if( dead_monster->decay.is_null() ) {
-        return;
-    }
     int decayed_weight_grams = to_gram( dead_monster->weight ); // corpse might have stuff in it!
-    decayed_weight_grams += std::round( decayed_weight_grams * rng_float( -0.1, 0.1 ) );
-    bool notify_player = false;
-    if( calendar::once_every( 30_minutes ) ) {
-        //one corpse max in 30 minutes will notify if seen, for *all* the items it left
-        notify_player = true;
-    }
+    decayed_weight_grams *= rng_float( 0.5, 0.9 );
 
     bool anything_left = false;
     for( const harvest_entry &entry : dead_monster->decay.obj() ) {
@@ -7310,11 +7302,15 @@ void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
             roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
         }
         anything_left = roll > 0;
-        for( int i = 0; i < roll; i++ ) {
-            add_item_or_charges( pnt, std::move( harvest ) );
-            if( anything_left && notify_player && g->u.sees( pnt ) ) {
-                add_msg( m_info, _( "You notice a %1$s has rotted away, leaving a %2$s" ), it.tname(), harvest->tname() );
+        if( g->u.sees( pnt ) ) {
+            if ( anything_left ) {
+                add_msg( m_info, _( "The %1$s decays away, leaving something behind." ), it.tname() );
+            } else {
+                add_msg( m_info, _( "The %1$s decays away to nothing." ), it.tname() );
             }
+        }
+        for( int i = 0; i < roll; i++ ) {
+            add_item_or_charges( pnt, item::spawn( *harvest ) );
         }
     }
 }

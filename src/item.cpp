@@ -9911,7 +9911,7 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
         if( comestible && !self ) {
             here.rotten_item_spawn( obj, pos );
         }
-        if( self->is_corpse() ) {
+        if( obj.is_corpse() && !self && !obj.corpse->zombify_into ) {
             here.handle_decayed_corpse( obj, pos );
         }
     }

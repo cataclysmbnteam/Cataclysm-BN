@@ -53,7 +53,7 @@ mtype::mtype()
     dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
     harvest = harvest_id( "human" );
-    decay = harvest_id( "null" );
+    decay = harvest_id( "decay_human" );
     luminance = 0;
     bash_skill = 0;
 
