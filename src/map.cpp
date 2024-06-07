@@ -7303,7 +7303,7 @@ void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
         }
         anything_left = roll > 0;
         if( g->u.sees( pnt ) ) {
-            if ( anything_left ) {
+            if( anything_left ) {
                 add_msg( m_info, _( "The %1$s decays away, leaving something behind." ), it.tname() );
             } else {
                 add_msg( m_info, _( "The %1$s decays away to nothing." ), it.tname() );

@@ -21,7 +21,8 @@
     "melee_cut": 0,
     "dodge": 1,
     "armor_bash": 8,
-    "harvest": "zombie_leather","decay": "decay_zombie_standard",
+    "harvest": "zombie_leather",
+    "decay": "decay_zombie_standard",
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN" ]
@@ -52,7 +53,8 @@
     "armor_cut": 5,
     "armor_bullet": 4,
     "vision_night": 3,
-    "harvest": "zombie","decay": "decay_zombie_standard",
+    "harvest": "zombie",
+    "decay": "decay_zombie_standard",
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "ZOMBIE_FUSE", 80 ] ],
     "death_drops": {
       "subtype": "collection",

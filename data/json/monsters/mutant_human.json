@@ -21,7 +21,8 @@
     "melee_dice_sides": 6,
     "melee_cut": 0,
     "dodge": 3,
-    "harvest": "mutant_human","decay": "decay_human",
+    "harvest": "mutant_human",
+    "decay": "decay_human",
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": {
@@ -57,7 +58,8 @@
     "armor_bullet": 4,
     "vision_day": 25,
     "vision_night": 5,
-    "harvest": "human_fur_maybe_cyborg","decay": "decay_human",
+    "harvest": "human_fur_maybe_cyborg",
+    "decay": "decay_human",
     "special_attacks": [
       [ "PARROT", 80 ],
       {
@@ -152,7 +154,8 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 5,
-    "harvest": "mutant_human","decay": "decay_human",
+    "harvest": "mutant_human",
+    "decay": "decay_human",
     "death_drops": {
       "subtype": "collection",
       "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]

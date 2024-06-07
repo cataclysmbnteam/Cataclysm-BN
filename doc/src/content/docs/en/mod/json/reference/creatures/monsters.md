@@ -322,17 +322,17 @@ remove entries in mods via "add:death_function" and "remove:death_function".
 
 (string, optional)
 
-If this monster's death function leaves a corpse behind, this defines what items will be produced when
-butchering or dissecting its corpse. If none is specified, it will default to `human`.
-Harvest entries, their yields, and mass ratios, are defined in harvest.json
+If this monster's death function leaves a corpse behind, this defines what items will be produced
+when butchering or dissecting its corpse. If none is specified, it will default to `human`. Harvest
+entries, their yields, and mass ratios, are defined in harvest.json
 
 ## "decay"
 
 (string, optional)
 
-As with harvest, this defines a harvest entry for any associated corpse, with a default of `decay_human`.
-Defines what items will be produced when the the monster's corpse rots away.
-Harvest entries, their yields, and mass ratios, are defined in harvest_decay.json
+As with harvest, this defines a harvest entry for any associated corpse, with a default of
+`decay_human`. Defines what items will be produced when the the monster's corpse rots away. Harvest
+entries, their yields, and mass ratios, are defined in harvest_decay.json
 
 ## "emit_field"
 
