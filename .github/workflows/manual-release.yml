@@ -129,6 +129,20 @@ jobs:
             artifact: osx-tiles-x64
             ext: dmg
             content: application/x-apple-diskimage
+          - name: osx-curses-arm
+            os: macos-14
+            mxe: none
+            tiles: 0
+            artifact: osx-curses-arm
+            ext: dmg
+            content: application/x-apple-diskimage
+          - name: osx-tiles-arm
+            os: macos-14
+            mxe: none
+            tiles: 1
+            artifact: osx-tiles-arm
+            ext: dmg
+            content: application/x-apple-diskimage
           - name: Android x64
             os: ubuntu-22.04
             mxe: none
@@ -224,6 +238,8 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
+          python3 -m venv ./venv
+          source ./venv/bin/activate
           pip3 install mac_alias==2.2.0 dmgbuild==1.6.1 biplist
 
       - name: Build CBN (linux)
@@ -249,6 +265,7 @@ jobs:
       - name: Build CBN (osx)
         if: runner.os == 'macOS'
         run: |
+          source ./venv/bin/activate
           make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} LUA=1 RELEASE=1 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=11 PCH=0 dmgdist COMPILER=clang++
           mv CataclysmBN-${{ env.VERSION }}.dmg cbn-${{ matrix.artifact }}-${{ env.VERSION }}.dmg
       - name: Set up JDK 11 (android)

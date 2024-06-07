@@ -10519,7 +10519,8 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     if( going_down_1 && mp.has_flag( TFLAG_GOES_UP, u.pos() + tripoint_below ) ) {
         stairs.emplace( u.pos() + tripoint_below );
     }
-    if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) ) {
+    if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) &&
+        !mp.has_flag( TFLAG_DEEP_WATER, u.pos() + tripoint_below ) ) {
         stairs.emplace( u.pos() + tripoint_above );
     }
     // We did not find stairs directly above or below, so search the map for them
@@ -10527,8 +10528,9 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
         for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
             if( rl_dist( u.pos(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( TFLAG_GOES_UP, dest ) ) ||
-                  ( going_up_1 && ( mp.has_flag( TFLAG_GOES_DOWN, dest ) ||
-                                    mp.ter( dest ) == t_manhole_cover ) ) ||
+                  ( ( going_up_1 && ( mp.has_flag( TFLAG_GOES_DOWN, dest ) &&
+                                      !mp.has_flag( TFLAG_DEEP_WATER, dest ) ) ) ||
+                    mp.ter( dest ) == t_manhole_cover )   ||
                   ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
                 stairs.emplace( dest );
                 best = rl_dist( u.pos(), dest );
@@ -10582,7 +10584,12 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     }
 
     if( movez > 0 ) {
-        if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
+        if( mp.has_flag( "DEEP_WATER", *stairs ) ) {
+            if( !query_yn(
+                    _( "There is a huge blob of water!  You may be unable to return back down these stairs.  Continue up?" ) ) ) {
+                return std::nullopt;
+            }
+        } else if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
             if( !query_yn( _( "You may be unable to return back down these stairs.  Continue up?" ) ) ) {
                 return std::nullopt;
             }
