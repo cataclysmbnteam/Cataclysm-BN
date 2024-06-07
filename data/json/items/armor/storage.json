@@ -654,7 +654,7 @@
     "storage": "4 L",
     "warmth": 8,
     "material_thickness": 2,
-    "properties": [ [ "monster_size_capacity", "SMALL" ] ],
+    "properties": [ [ "creature_size_capacity", "SMALL" ] ],
     "use_action": "CAPTURE_MONSTER_ACT",
     "valid_mods": [ "resized_large" ],
     "flags": [ "BELTED", "WATERPROOF" ]
