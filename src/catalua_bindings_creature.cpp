@@ -201,7 +201,7 @@ void cata::detail::reg_creature( sol::state &lua )
         SET_FX_T( get_hit, float() const );
 
         SET_FX_T( get_speed, int() const );
-        SET_FX_T( get_size, m_size() const );
+        SET_FX_T( get_size, creature_size() const );
         luna::set_fx( ut, "get_hp", []( const Creature & cr,
         sol::optional<const bodypart_id &> bpid ) -> int {
             if( bpid.has_value() )
