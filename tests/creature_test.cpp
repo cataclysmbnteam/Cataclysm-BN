@@ -58,8 +58,8 @@ const auto expected_larger = Expected
 };
 
 
-void calculate_bodypart_distribution( const enum m_size attacker_size,
-                                      const enum m_size defender_size,
+void calculate_bodypart_distribution( const enum creature_size attacker_size,
+                                      const enum creature_size defender_size,
                                       const int hit_roll, const Weights &expected )
 {
     INFO( "hit roll = " << hit_roll );
@@ -105,25 +105,34 @@ TEST_CASE( "Check distribution of attacks to body parts for same sized opponents
 {
     rng_set_engine_seed( 4242424242 );
 
-    calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 0, expected_same.base );
-    calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 1, expected_same.base );
-    calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 100, expected_same.max );
+    calculate_bodypart_distribution( creature_size::small, creature_size::small, 0,
+                                     expected_same.base );
+    calculate_bodypart_distribution( creature_size::small, creature_size::small, 1,
+                                     expected_same.base );
+    calculate_bodypart_distribution( creature_size::small, creature_size::small, 100,
+                                     expected_same.max );
 }
 
 TEST_CASE( "Check distribution of attacks to body parts for smaller attacker." )
 {
     rng_set_engine_seed( 4242424242 );
 
-    calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 0, expected_smaller.base );
-    calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 1, expected_smaller.base );
-    calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 100, expected_smaller.max );
+    calculate_bodypart_distribution( creature_size::small, creature_size::medium, 0,
+                                     expected_smaller.base );
+    calculate_bodypart_distribution( creature_size::small, creature_size::medium, 1,
+                                     expected_smaller.base );
+    calculate_bodypart_distribution( creature_size::small, creature_size::medium, 100,
+                                     expected_smaller.max );
 }
 
 TEST_CASE( "Check distribution of attacks to body parts for larger attacker." )
 {
     rng_set_engine_seed( 4242424242 );
 
-    calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 0, expected_larger.base );
-    calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 1, expected_larger.base );
-    calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 100, expected_larger.max );
+    calculate_bodypart_distribution( creature_size::medium, creature_size::small, 0,
+                                     expected_larger.base );
+    calculate_bodypart_distribution( creature_size::medium, creature_size::small, 1,
+                                     expected_larger.base );
+    calculate_bodypart_distribution( creature_size::medium, creature_size::small, 100,
+                                     expected_larger.max );
 }

@@ -29,6 +29,7 @@
 #include "json.h"
 #include "mod_manager.h"
 #include "output.h"
+#include "player.h"
 #include "point.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -133,35 +134,202 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
-static int print_items( const recipe &r, const catacurses::window &w, point pos,
-                        nc_color col, int batch )
+namespace
 {
-    if( !r.has_byproducts() ) {
-        return 0;
-    }
-
-    const int oldy = pos.y;
-
-    mvwprintz( w, point( pos.x, pos.y++ ), col, _( "Byproducts:" ) );
-    for( const auto &bp : r.byproducts ) {
-        const itype *t = &*bp.first;
-        int amount = bp.second * batch;
-        std::string desc;
-        if( t->count_by_charges() ) {
-            amount *= t->charges_default();
-            desc = string_format( "> %s (%d)", t->nname( 1 ), amount );
-        } else {
-            desc = string_format( "> %d %s", amount,
-                                  t->nname( static_cast<unsigned int>( amount ) ) );
+struct availability {
+    explicit availability( const recipe *r, int batch_size, bool known ) {
+        this->known = known;
+        const inventory &inv = get_avatar().crafting_inventory();
+        auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
+        auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
+        const deduped_requirement_data &req = r->deduped_requirements();
+        could_craft_if_knew = req.can_make_with_inventory(
+                                  inv, all_items_filter, batch_size, cost_adjustment::start_only );
+        can_craft = known && could_craft_if_knew;
+        can_craft_non_rotten = req.can_make_with_inventory(
+                                   inv, no_rotten_filter, batch_size, cost_adjustment::start_only );
+        const requirement_data &simple_req = r->simple_requirements();
+        apparently_craftable = simple_req.can_make_with_inventory(
+                                   inv, all_items_filter, batch_size, cost_adjustment::start_only );
+        has_all_skills = r->skill_used.is_null() ||
+                         get_player_character().get_skill_level( r->skill_used ) >= r->difficulty;
+        for( const std::pair<const skill_id, int> &e : r->required_skills ) {
+            if( get_player_character().get_skill_level( e.first ) < e.second ) {
+                has_all_skills = false;
+                break;
+            }
         }
-        mvwprintz( w, point( pos.x, pos.y++ ), col, desc );
+    }
+    bool can_craft;
+    bool can_craft_non_rotten;
+    bool could_craft_if_knew;
+    bool apparently_craftable;
+    bool has_all_skills;
+    bool known;
+
+    nc_color selected_color() const {
+        return can_craft
+               ? ( can_craft_non_rotten && has_all_skills ? h_white : h_brown )
+               : ( could_craft_if_knew && has_all_skills ? h_yellow : h_dark_gray );
     }
 
-    return pos.y - oldy;
+    nc_color color( bool ignore_missing_skills = false ) const {
+        return can_craft
+               ? ( ( can_craft_non_rotten && has_all_skills ) || ignore_missing_skills ? c_white : c_brown )
+               : ( ( could_craft_if_knew && has_all_skills ) || ignore_missing_skills ? c_yellow : c_dark_gray );
+    }
+
+};
+} // namespace
+
+static std::vector<std::string> recipe_info(
+    const recipe &recp,
+    const availability &avail,
+    player &u,
+    const std::string qry_comps,
+    const int batch_size,
+    const int fold_width,
+    const nc_color &color )
+{
+    std::ostringstream oss;
+
+    oss << string_format( _( "Primary skill: %s\n" ),
+                          recp.primary_skill_string( &u, false ) );
+
+    oss << string_format( _( "Other skills: %s\n" ),
+                          recp.required_skills_string( &u, false, false ) );
+
+
+    const int expected_turns = u.expected_time_to_craft( recp, batch_size )
+                               / to_moves<int>( 1_turns );
+    oss << string_format( _( "Time to complete: <color_cyan>%s</color>\n" ),
+                          to_string( time_duration::from_turns( expected_turns ) ) );
+
+    oss << string_format( _( "Batch time savings: <color_cyan>%s</color>\n" ),
+                          recp.batch_savings_string() );
+
+    const int makes = recp.makes_amount();
+    if( makes > 1 ) {
+        oss << string_format( _( "Recipe makes: <color_cyan>%d</color>\n" ), makes );
+    }
+
+    oss << string_format( _( "Craftable in the dark?  <color_cyan>%s</color>\n" ),
+                          recp.has_flag( flag_BLIND_EASY ) ? _( "Easy" ) :
+                          recp.has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
+                          _( "Impossible" ) );
+
+    std::string nearby_string;
+    const inventory &crafting_inv = u.crafting_inventory();
+    const int nearby_amount = crafting_inv.count_item( recp.result() );
+    if( nearby_amount == 0 ) {
+        nearby_string = "<color_light_gray>0</color>";
+    } else if( nearby_amount > 9000 ) {
+        // at some point you get too many to count at a glance and just know you have a lot
+        nearby_string = _( "<color_red>It's Over 9000!!!</color>" );
+    } else {
+        nearby_string = string_format( "<color_yellow>%d</color>", nearby_amount );
+    }
+    oss << string_format( _( "Nearby: %s\n" ), nearby_string );
+
+    const bool can_craft_this = avail.can_craft;
+    if( can_craft_this && !avail.can_craft_non_rotten ) {
+        oss << _( "<color_red>Will use rotten ingredients</color>\n" );
+    }
+    const bool too_complex = recp.deduped_requirements().is_too_complex();
+    if( can_craft_this && too_complex ) {
+        oss << _( "Due to the complex overlapping requirements, this "
+                  "recipe <color_yellow>may appear to be craftable "
+                  "when it is not</color>.\n" );
+    }
+    if( !can_craft_this && avail.apparently_craftable && avail.known ) {
+        oss << _( "<color_red>Cannot be crafted because the same item is needed "
+                  "for multiple components</color>\n" );
+    }
+    if( !avail.known ) {
+        oss << _( "<color_red>Not known</color>\n" );
+    }
+
+    if( recp.has_byproducts() ) {
+        oss << _( "Byproducts:\n" );
+        for( const std::pair<const itype_id, int> &bp : recp.byproducts ) {
+            const itype *t = &*bp.first;
+            int amount = bp.second * batch_size;
+            if( t->count_by_charges() ) {
+                amount *= t->charges_default();
+                oss << string_format( "> %s (%d)\n", t->nname( 1 ), amount );
+            } else {
+                oss << string_format( "> %d %s\n", amount,
+                                      t->nname( static_cast<unsigned int>( amount ) ) );
+            }
+        }
+    }
+
+    std::vector<std::string> result = foldstring( oss.str(), fold_width );
+
+    bool show_unavailable = false;
+    const requirement_data &req = recp.simple_requirements();
+    const std::vector<std::string> tools = req.get_folded_tools_list(
+            fold_width, color, crafting_inv, batch_size );
+    const std::vector<std::string> comps = req.get_folded_components_list(
+            fold_width, color, crafting_inv, recp.get_component_filter(), batch_size, qry_comps );
+    result.insert( result.end(), tools.begin(), tools.end() );
+    result.insert( result.end(), comps.begin(), comps.end() );
+
+    oss = std::ostringstream();
+    if( !u.knows_recipe( &recp ) ) {
+        oss << _( "Recipe not memorized yet\n" );
+        const std::set<itype_id> books_with_recipe = show_unavailable
+                ? crafting::get_books_for_recipe( &recp )
+                : crafting::get_books_for_recipe( u, crafting_inv, &recp );
+        const std::string enumerated_books =
+            enumerate_as_string( books_with_recipe.begin(), books_with_recipe.end(),
+        []( const itype_id & type_id ) {
+            return colorize( item::nname( type_id ), c_cyan );
+        } );
+        oss << string_format( _( "Written in: %s\n" ), enumerated_books );
+    }
+    std::vector<std::string> tmp = foldstring( oss.str(), fold_width );
+    result.insert( result.end(), tmp.begin(), tmp.end() );
+
+    return result;
 }
 
-const recipe *select_crafting_recipe( int &batch_size )
+const recipe *select_crafting_recipe( int &batch_size_out )
 {
+    struct {
+        const recipe *recp = nullptr;
+        std::string qry_comps;
+        int batch_size;
+        int fold_width;
+        std::vector<std::string> text;
+    } recipe_info_cache;
+    int recipe_info_scroll = 0;
+
+    const auto cached_recipe_info =
+        [&](
+            const recipe & recp,
+            const availability & avail,
+            player & u,
+            const std::string qry_comps,
+            const int batch_size,
+            const int fold_width,
+            const nc_color & color
+    ) -> const std::vector<std::string> & { // *NOPAD*
+        if( recipe_info_cache.recp != &recp
+            || recipe_info_cache.qry_comps != qry_comps
+            || recipe_info_cache.batch_size != batch_size
+            || recipe_info_cache.fold_width != fold_width )
+        {
+            recipe_info_cache.recp = &recp;
+            recipe_info_cache.qry_comps = qry_comps;
+            recipe_info_cache.batch_size = batch_size;
+            recipe_info_cache.fold_width = fold_width;
+            recipe_info_cache.text = recipe_info(
+                recp, avail, u, qry_comps, batch_size, fold_width, color );
+        }
+        return recipe_info_cache.text;
+    };
+
     struct {
         const recipe *last_recipe = nullptr;
         detached_ptr<item> dummy;
@@ -198,12 +366,36 @@ const recipe *select_crafting_recipe( int &batch_size )
     int dataLines = 0;
     int dataHalfLines = 0;
     int dataHeight = 0;
-    int componentPrintHeight = 0;
     int item_info_width = 0;
+
+    input_context ctxt( "CRAFTING" );
+    ctxt.register_cardinal();
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "SCROLL_RECIPE_INFO_UP" );
+    ctxt.register_action( "SCROLL_RECIPE_INFO_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
+    ctxt.register_action( "TOGGLE_FAVORITE" );
+    ctxt.register_action( "HELP_RECIPE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "CYCLE_BATCH" );
+    ctxt.register_action( "RELATED_RECIPES" );
+    ctxt.register_action( "HIDE_SHOW_RECIPE" );
+    ctxt.register_action( "TOGGLE_UNAVAILABLE" );
+
     catacurses::window w_head;
     catacurses::window w_subhead;
     catacurses::window w_data;
     catacurses::window w_iteminfo;
+    std::vector<std::string> keybinding_tips;
+    int keybinding_x = 0;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
@@ -212,11 +404,39 @@ const recipe *select_crafting_recipe( int &batch_size )
         width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) :
                 FULL_SCREEN_WIDTH;
         const int wStart = ( TERMX - width ) / 2;
-        const int tailHeight = isWide ? 3 : 4;
+
+        // Keybinding tips
+        static const translation inline_fmt = to_translation(
+                //~ %1$s: action description text before key,
+                //~ %2$s: key description,
+                //~ %3$s: action description text after key.
+                "keybinding", "%1$s[<color_yellow>%2$s</color>]%3$s" );
+        static const translation separate_fmt = to_translation(
+                //~ %1$s: key description,
+                //~ %2$s: action description.
+                "keybinding", "[<color_yellow>%1$s</color>]%2$s" );
+        std::vector<std::string> act_descs;
+        const auto add_action_desc = [&]( const std::string & act, const std::string & txt ) {
+            act_descs.emplace_back( ctxt.get_desc( act, txt, input_context::allow_all_keys,
+                                                   inline_fmt, separate_fmt ) );
+        };
+        add_action_desc( "CONFIRM", pgettext( "crafting gui", "Craft" ) );
+        add_action_desc( "HELP_RECIPE", pgettext( "crafting gui", "Describe" ) );
+        add_action_desc( "FILTER", pgettext( "crafting gui", "Filter" ) );
+        add_action_desc( "RESET_FILTER", pgettext( "crafting gui", "Reset filter" ) );
+        add_action_desc( "HIDE_SHOW_RECIPE", pgettext( "crafting gui", "Show/hide" ) );
+        add_action_desc( "RELATED_RECIPES", pgettext( "crafting gui", "Related" ) );
+        add_action_desc( "TOGGLE_FAVORITE", pgettext( "crafting gui", "Favorite" ) );
+        add_action_desc( "CYCLE_BATCH", pgettext( "crafting gui", "Batch" ) );
+        add_action_desc( "HELP_KEYBINDINGS", pgettext( "crafting gui", "Keybindings" ) );
+        keybinding_x = isWide ? 5 : 2;
+        keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ),
+                                      width - keybinding_x * 2 );
+
+        const int tailHeight = keybinding_tips.size() + 2;
         dataLines = TERMY - ( headHeight + subHeadHeight ) - tailHeight;
         dataHalfLines = dataLines / 2;
         dataHeight = TERMY - ( headHeight + subHeadHeight );
-        componentPrintHeight = dataHeight - tailHeight - 1;
 
         w_head = catacurses::newwin( headHeight, width, point( wStart, 0 ) );
         w_subhead = catacurses::newwin( subHeadHeight, width, point( wStart, 3 ) );
@@ -224,8 +444,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                                      headHeight + subHeadHeight ) );
 
         if( isWide ) {
-            item_info_width = width - FULL_SCREEN_WIDTH - 2;
-            const int item_info_height = dataHeight - 3;
+            item_info_width = width - FULL_SCREEN_WIDTH - 1;
+            const int item_info_height = dataHeight - tailHeight;
             const point item_info( wStart + width - item_info_width, headHeight + subHeadHeight );
 
             w_iteminfo = catacurses::newwin( item_info_height, item_info_width,
@@ -242,48 +462,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     list_circularizer<std::string> tab( craft_cat_list );
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
     std::vector<const recipe *> current;
-
-    struct availability {
-        availability( const recipe *r, int batch_size, bool known ) {
-            this->known = known;
-            const inventory &inv = get_avatar().crafting_inventory();
-            auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
-            auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
-            const deduped_requirement_data &req = r->deduped_requirements();
-            could_craft_if_knew = req.can_make_with_inventory(
-                                      inv, all_items_filter, batch_size, cost_adjustment::start_only );
-            can_craft = known && could_craft_if_knew;
-            can_craft_non_rotten = req.can_make_with_inventory(
-                                       inv, no_rotten_filter, batch_size, cost_adjustment::start_only );
-            const requirement_data &simple_req = r->simple_requirements();
-            apparently_craftable = simple_req.can_make_with_inventory(
-                                       inv, all_items_filter, batch_size, cost_adjustment::start_only );
-        }
-        bool can_craft;
-        bool can_craft_non_rotten;
-        bool could_craft_if_knew;
-        bool apparently_craftable;
-        bool known;
-
-        nc_color selected_color() const {
-            return can_craft
-                   ? ( can_craft_non_rotten ? h_white : h_brown )
-                   : ( could_craft_if_knew ? h_yellow : h_dark_gray );
-        }
-
-        nc_color color() const {
-            return can_craft
-                   ? ( can_craft_non_rotten ? c_white : c_brown )
-                   : ( could_craft_if_knew ? c_yellow : c_dark_gray );
-        }
-    };
-
     std::vector<availability> available;
-    //preserves component color printout between mode rotations
-    nc_color rotated_color = c_white;
-    int previous_item_line = -1;
-    std::string previous_tab;
-    std::string previous_subtab;
     int line = 0;
     bool recalc = true;
     bool keepline = false;
@@ -294,27 +473,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     size_t num_hidden = 0;
     int num_recipe = 0;
     int batch_line = 0;
-    int display_mode = 0;
     const recipe *chosen = nullptr;
-
-    input_context ctxt( "CRAFTING" );
-    ctxt.register_cardinal();
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "CYCLE_MODE" );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "FILTER" );
-    ctxt.register_action( "RESET_FILTER" );
-    ctxt.register_action( "TOGGLE_FAVORITE" );
-    ctxt.register_action( "HELP_RECIPE" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "CYCLE_BATCH" );
-    ctxt.register_action( "RELATED_RECIPES" );
-    ctxt.register_action( "HIDE_SHOW_RECIPE" );
-    ctxt.register_action( "TOGGLE_UNAVAILABLE" );
 
     const inventory &crafting_inv = u.crafting_inventory();
     const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( u );
@@ -330,7 +489,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     const auto &all_recipes = recipe_subset( {}, all_recipes_flat );
 
     int recipe_scroll_window_min = 0;
-    ui.on_redraw( [&]( const ui_adaptor & ) {
+    ui.on_redraw( [&]( ui_adaptor & ui ) {
         const TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
         draw_recipe_tabs( w_head, tab.cur(), m );
         const auto &shown_recipes = show_unavailable ? all_recipes : available_recipes;
@@ -343,39 +502,12 @@ const recipe *select_crafting_recipe( int &batch_size )
         // Clear the screen of recipe data, and draw it anew
         werase( w_data );
 
-        if( isWide ) {
-            if( !filterstring.empty() ) {
-                fold_and_print( w_data, point( 5, dataLines + 1 ), 0, c_white,
-                                _( "Press [<color_yellow>ENTER</color>] to attempt to craft object.  "
-                                   "D[<color_yellow>e</color>]scribe, [<color_yellow>F</color>]ind, "
-                                   "[<color_red>R</color>]eset, [<color_yellow>m</color>]ode, "
-                                   "[<color_yellow>s</color>]how/hide, Re[<color_yellow>L</color>]ated, "
-                                   "[<color_yellow>*</color>]Favorite, %s, [<color_yellow>u</color>]navailable, "
-                                   "[<color_yellow>?</color>]keybindings" ),
-                                ( batch ) ? _( "<color_red>cancel</color> "
-                                               "[<color_yellow>b</color>]atch" ) : _( "[<color_yellow>b</color>]atch" ) );
-            } else {
-                fold_and_print( w_data, point( 5, dataLines + 1 ), 0, c_white,
-                                _( "Press [<color_yellow>ENTER</color>] to attempt to craft object.  "
-                                   "D[<color_yellow>e</color>]scribe, [<color_yellow>F</color>]ind, "
-                                   "[<color_yellow>m</color>]ode, [<color_yellow>s</color>]how/hide, "
-                                   "Re[<color_yellow>L</color>]ated, [<color_yellow>*</color>]Favorite, "
-                                   "%s, [<color_yellow>u</color>]navailable, "
-                                   "[<color_yellow>?</color>]keybindings" ),
-                                ( batch ) ? _( "<color_red>cancel</color> "
-                                               "[<color_yellow>b</color>]atch" ) : _( "[<color_yellow>b</color>]atch" ) );
-            }
-        } else {
-            if( !filterstring.empty() ) {
-                mvwprintz( w_data, point( 2, dataLines + 2 ), c_white,
-                           _( "[F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [*]Fav, [b]atch." ) );
-            } else {
-                mvwprintz( w_data, point( 2, dataLines + 2 ), c_white,
-                           _( "[F]ind, [m]ode, [s]how/hide, Re[L]ated, [*]Fav, [b]atch." ) );
-            }
-            mvwprintz( w_data, point( 2, dataLines + 1 ), c_white,
-                       _( "Press [ENTER] to attempt to craft object.  D[e]scribe, [?]keybindings," ) );
+        for( size_t i = 0; i < keybinding_tips.size(); ++i ) {
+            nc_color dummy = c_white;
+            print_colored_text( w_data, point( keybinding_x, dataLines + 1 + i ),
+                                dummy, c_white, keybinding_tips[i] );
         }
+
         // Draw borders
         for( int i = 1; i < width - 1; ++i ) { // -
             mvwputch( w_data, point( i, dataHeight - 1 ), BORDER_COLOR, LINE_OXOX );
@@ -387,7 +519,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         mvwputch( w_data, point( 0, dataHeight - 1 ), BORDER_COLOR, LINE_XXOO ); // |_
         mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 
-        std::optional<point> cursor_pos;
+        const int max_recipe_name_width = 27;
         int recmax = current.size();
 
         // Draw recipes with scroll list
@@ -404,187 +536,50 @@ const recipe *select_crafting_recipe( int &batch_size )
             const bool highlight = i == line;
             const nc_color col = highlight ? available[i].selected_color() : available[i].color();
             if( highlight ) {
-                cursor_pos = print_from;
+                ui.set_cursor( w_data, print_from );
             }
-            mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, 27 ) );
+            mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, max_recipe_name_width ) );
         }
 
-        const int count = batch ? line + 1 : 1; // batch size
+        const int batch_size = batch ? line + 1 : 1;
         if( !current.empty() ) {
-            int pane = FULL_SCREEN_WIDTH - 30 - 1;
-            nc_color col = available[line].color();
+            const recipe &recp = *current[line];
 
-            const auto &req = current[line]->simple_requirements();
-
-            draw_can_craft_indicator( w_head, *current[line] );
+            draw_can_craft_indicator( w_head, recp );
             wnoutrefresh( w_head );
 
-            int ypos = 0;
-
-            auto qry = trim( filterstring );
+            const availability &avail = available[line];
+            // border + padding + name + padding
+            const int xpos = 1 + 1 + max_recipe_name_width + 3;
+            const int fold_width = FULL_SCREEN_WIDTH - xpos - 2;
+            const nc_color color = avail.color( true );
+            const std::string qry = trim( filterstring );
             std::string qry_comps;
             if( qry.compare( 0, 2, "c:" ) == 0 ) {
                 qry_comps = qry.substr( 2 );
             }
 
-            std::vector<std::string> component_print_buffer;
-            auto tools = req.get_folded_tools_list( pane, col, crafting_inv, count );
-            auto comps = req.get_folded_components_list( pane, col, crafting_inv,
-                         current[line]->get_component_filter(), count, qry_comps );
-            component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
-            component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
+            const std::vector<std::string> &info = cached_recipe_info(
+                    recp, avail, u, qry_comps, batch_size, fold_width, color );
 
-            if( !u.knows_recipe( current[line] ) ) {
-                component_print_buffer.emplace_back( _( "Recipe not memorized yet" ) );
-                auto books_with_recipe = show_unavailable
-                                         ? crafting::get_books_for_recipe( current[line] )
-                                         : crafting::get_books_for_recipe( u, crafting_inv, current[line] );
-                std::string enumerated_books =
-                    enumerate_as_string( books_with_recipe.begin(), books_with_recipe.end(),
-                []( itype_id type_id ) {
-                    return colorize( item::nname( type_id ), c_cyan );
-                } );
-                const std::string text = string_format( _( "Written in: %s" ), enumerated_books );
-                std::vector<std::string> folded_lines = foldstring( text, pane );
-                component_print_buffer.insert(
-                    component_print_buffer.end(), folded_lines.begin(), folded_lines.end() );
+            const int total_lines = info.size();
+            if( recipe_info_scroll < 0 ) {
+                recipe_info_scroll = 0;
+            } else if( recipe_info_scroll + dataLines > total_lines ) {
+                recipe_info_scroll = std::max( 0, total_lines - dataLines );
+            }
+            for( int i = recipe_info_scroll;
+                 i < std::min( recipe_info_scroll + dataLines, total_lines );
+                 ++i ) {
+                nc_color dummy = color;
+                print_colored_text( w_data, point( xpos, i - recipe_info_scroll ),
+                                    dummy, color, info[i] );
             }
 
-            //handle positioning of component list if it needed to be scrolled
-            int componentPrintOffset = 0;
-            if( display_mode > 1 ) {
-                componentPrintOffset = ( display_mode - 1 ) * componentPrintHeight;
-            }
-            if( component_print_buffer.size() < static_cast<size_t>( componentPrintOffset ) ) {
-                componentPrintOffset = 0;
-                if( previous_tab != tab.cur() || previous_subtab != subtab.cur() || previous_item_line != line ) {
-                    display_mode = 1;
-                } else {
-                    display_mode = 0;
-                }
-            }
-
-            //only used to preserve mode position on components when
-            //moving to another item and the view is already scrolled
-            previous_tab = tab.cur();
-            previous_subtab = subtab.cur();
-            previous_item_line = line;
-            const int xpos = 30;
-
-            if( display_mode == 0 ) {
-                if( display_mod_source ) {
-                    const std::string source = enumerate_as_string( current[line]->src.begin(),
-                    current[line]->src.end(), []( const std::pair<recipe_id, mod_id> &content_source ) {
-                        return string_format( "'%s'", content_source.second->name() );
-                    }, enumeration_conjunction::arrow );
-
-                    const std::string text = string_format( _( "Origin: %s" ), colorize( source, c_light_blue ) );
-                    print_colored_text( w_data, point( xpos, ypos++ ), col, col, text );
-                }
-                if( display_object_ids ) {
-                    const std::string ident = string_format( "[%s]", current[line]->ident() );
-                    const std::string text = string_format( _( "ID: %s" ), colorize( ident, c_light_blue ) );
-                    print_colored_text( w_data, point( xpos, ypos++ ), col, col, text );
-                }
-
-                print_colored_text(
-                    w_data, point( xpos, ypos++ ), col, col,
-                    string_format( _( "Primary skill: %s" ),
-                                   current[line]->primary_skill_string( &u, false ) ) );
-
-                ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
-                                        _( "Other skills: %s" ),
-                                        current[line]->required_skills_string( &u, false, false ) );
-
-                const int expected_turns = u.expected_time_to_craft( *current[line],
-                                           count ) / to_moves<int>( 1_turns );
-                ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
-                                        _( "Time to complete: <color_cyan>%s</color>" ),
-                                        to_string( time_duration::from_turns( expected_turns ) ) );
-
-                ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
-                                        _( "Batch time savings: <color_cyan>%s</color>" ),
-                                        current[line]->batch_savings_string() );
-
-                const int makes = current[line]->makes_amount();
-                if( makes > 1 ) {
-                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
-                                            _( "One batch makes: <color_cyan>%d</color>" ),
-                                            makes );
-                }
-
-                print_colored_text(
-                    w_data, point( xpos, ypos++ ), col, col,
-                    string_format( _( "Dark craftable?  <color_cyan>%s</color>" ),
-                                   current[line]->has_flag( flag_BLIND_EASY ) ? _( "Easy" ) :
-                                   current[line]->has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
-                                   _( "Impossible" ) ) );
-
-                std::string nearby_string;
-                const int nearby_amount = crafting_inv.count_item( current[line]->result() );
-
-                if( nearby_amount == 0 ) {
-                    nearby_string = "<color_light_gray>0</color>";
-                } else if( nearby_amount > 9000 ) {
-                    // at some point you get too many to count at a glance and just know you have a lot
-                    nearby_string = _( "<color_red>It's Over 9000!!!</color>" );
-                } else {
-                    nearby_string = string_format( "<color_yellow>%d</color>", nearby_amount );
-                }
-                ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
-                                        _( "Nearby: %s" ), nearby_string );
-
-                if( available[line].can_craft && !available[line].can_craft_non_rotten ) {
-                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
-                                            _( "<color_red>Will use rotten ingredients</color>" ) );
-                }
-                const bool too_complex = current[line]->deduped_requirements().is_too_complex();
-                if( available[line].can_craft && too_complex ) {
-                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
-                                            _( "Due to the complex overlapping requirements, this "
-                                               "recipe <color_yellow>may appear to be craftable "
-                                               "when it is not</color>." ) );
-                }
-                if( !available[line].can_craft &&
-                    available[line].apparently_craftable &&
-                    available[line].known ) {
-                    ypos += fold_and_print(
-                                w_data, point( xpos, ypos ), pane, col,
-                                _( "<color_red>Cannot be crafted because the same item is needed "
-                                   "for multiple components</color>" ) );
-                }
-                if( !available[line].known ) {
-                    ypos += fold_and_print(
-                                w_data, point( xpos, ypos ), pane, col,
-                                _( "<color_red>Not known</color>" ) );
-                }
-                ypos += print_items( *current[line], w_data, point( xpos, ypos ), col, batch ? line + 1 : 1 );
-            }
-
-            //color needs to be preserved in case part of the previous page was cut off
-            nc_color stored_color = col;
-            if( display_mode > 1 ) {
-                stored_color = rotated_color;
-            } else {
-                rotated_color = col;
-            }
-            int components_printed = 0;
-            for( size_t i = static_cast<size_t>( componentPrintOffset );
-                 i < component_print_buffer.size(); i++ ) {
-                if( ypos >= componentPrintHeight ) {
-                    break;
-                }
-
-                components_printed++;
-                print_colored_text( w_data, point( xpos, ypos++ ), stored_color, col, component_print_buffer[i] );
-            }
-
-            if( ypos >= componentPrintHeight &&
-                component_print_buffer.size() > static_cast<size_t>( components_printed ) ) {
-                mvwprintz( w_data, point( xpos, ypos++ ), col,
-                           _( "v (%s for more)" ),
-                           ctxt.press_x( "CYCLE_MODE" ) );
-                rotated_color = stored_color;
+            if( total_lines > dataLines ) {
+                scrollbar().offset_x( xpos + fold_width + 1 ).content_size( total_lines )
+                .viewport_pos( recipe_info_scroll ).viewport_size( dataLines )
+                .apply( w_data );
             }
         }
 
@@ -592,18 +587,12 @@ const recipe *select_crafting_recipe( int &batch_size )
         wnoutrefresh( w_data );
 
         if( isWide && !current.empty() ) {
-            item_info_data data = item_info_data_from_recipe( current[line], count, item_info_scroll );
+            item_info_data data = item_info_data_from_recipe( current[line], batch_size, item_info_scroll );
             data.without_getch = true;
             data.without_border = true;
             data.scrollbar_left = false;
             data.use_full_win = true;
             draw_item_info( w_iteminfo, data );
-        }
-
-        if( cursor_pos ) {
-            // place the cursor at the selected item name as expected by screen readers
-            wmove( w_data, cursor_pos.value() );
-            wnoutrefresh( w_data );
         }
     } );
 
@@ -616,10 +605,6 @@ const recipe *select_crafting_recipe( int &batch_size )
                 line = 0;
             } else {
                 keepline = false;
-            }
-
-            if( display_mode > 1 ) {
-                display_mode = 1;
             }
 
             show_hidden = false;
@@ -764,11 +749,10 @@ const recipe *select_crafting_recipe( int &batch_size )
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( action == "CYCLE_MODE" ) {
-            display_mode = display_mode + 1;
-            if( display_mode <= 0 ) {
-                display_mode = 0;
-            }
+        if( action == "SCROLL_RECIPE_INFO_UP" ) {
+            recipe_info_scroll -= dataLines;
+        } else if( action == "SCROLL_RECIPE_INFO_DOWN" ) {
+            recipe_info_scroll += dataLines;
         } else if( action == "LEFT" ) {
             std::string start = subtab.cur();
             do {
@@ -809,7 +793,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 // popup is already inside check
             } else {
                 chosen = current[line];
-                batch_size = ( batch ) ? line + 1 : 1;
+                batch_size_out = ( batch ) ? line + 1 : 1;
                 done = true;
             }
         } else if( action == "HELP_RECIPE" ) {
@@ -876,7 +860,6 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             description +=
                 _( "\nUse <color_red>up/down arrow</color> to go through your search history." );
-            description += "\n\n\n";
 
             string_input_popup()
             .title( _( "Search:" ) )
@@ -947,6 +930,10 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             recalc = true;
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            // Regenerate keybinding tips
+            ui.mark_resize();
+
         } else if( action == "TOGGLE_UNAVAILABLE" ) {
             show_unavailable = !show_unavailable;
 

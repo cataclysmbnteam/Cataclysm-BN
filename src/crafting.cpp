@@ -1229,7 +1229,7 @@ bool player::can_continue_craft( item &craft )
         std::vector<comp_selection<item_comp>> item_selections;
         for( const auto &it : continue_reqs.get_components() ) {
             comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter );
-            if( is.use_from == cancel ) {
+            if( is.use_from == usage_from::cancel ) {
                 cancel_activity();
                 add_msg( _( "You stop crafting." ) );
                 return false;
@@ -1285,7 +1285,7 @@ bool player::can_continue_craft( item &craft )
             comp_selection<tool_comp> selection =
                 crafting::select_tool_component( alternatives, batch_size, map_inv, this, true, DEFAULT_HOTKEYS,
                                                  cost_adjustment::continue_only );
-            if( selection.use_from == cancel ) {
+            if( selection.use_from == usage_from::cancel ) {
                 return false;
             }
             new_tool_selections.push_back( selection );
@@ -1349,7 +1349,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
 
             // If map has infinite charges, just use them
             if( map_charges == item::INFINITE_CHARGES ) {
-                selected.use_from = use_from_map;
+                selected.use_from = usage_from::map;
                 selected.comp = component;
                 return selected;
             }
@@ -1401,25 +1401,25 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     /* select 1 component to use */
     if( player_has.size() + map_has.size() + mixed.size() == 1 ) { // Only 1 choice
         if( player_has.size() == 1 ) {
-            selected.use_from = use_from_player;
+            selected.use_from = usage_from::player;
             selected.comp = player_has[0];
         } else if( map_has.size() == 1 ) {
-            selected.use_from = use_from_map;
+            selected.use_from = usage_from::map;
             selected.comp = map_has[0];
         } else {
-            selected.use_from = use_from_both;
+            selected.use_from = usage_from::both;
             selected.comp = mixed[0];
         }
     } else if( is_npc() ) {
         if( !player_has.empty() ) {
-            selected.use_from = use_from_player;
+            selected.use_from = usage_from::player;
             selected.comp = player_has[0];
         } else if( !map_has.empty() ) {
-            selected.use_from = use_from_map;
+            selected.use_from = usage_from::map;
             selected.comp = map_has[0];
         } else {
             debugmsg( "Attempted a recipe with no available components!" );
-            selected.use_from = cancel;
+            selected.use_from = usage_from::cancel;
             return selected;
         }
     } else { // Let the player pick which component they want to use
@@ -1461,12 +1461,12 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         if( cmenu.entries.empty() ) {
             if( player_inv ) {
                 if( has_trait( trait_DEBUG_HS ) ) {
-                    selected.use_from = use_from_player;
+                    selected.use_from = usage_from::player;
                     return selected;
                 }
             }
             debugmsg( "Attempted a recipe with no available components!" );
-            selected.use_from = cancel;
+            selected.use_from = usage_from::cancel;
             return selected;
         }
 
@@ -1478,21 +1478,21 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
 
         if( cmenu.ret < 0 ||
             static_cast<size_t>( cmenu.ret ) >= map_has.size() + player_has.size() + mixed.size() ) {
-            selected.use_from = cancel;
+            selected.use_from = usage_from::cancel;
             return selected;
         }
 
         size_t uselection = static_cast<size_t>( cmenu.ret );
         if( uselection < map_has.size() ) {
-            selected.use_from = usage::use_from_map;
+            selected.use_from = usage_from::map;
             selected.comp = map_has[uselection];
         } else if( uselection < map_has.size() + player_has.size() ) {
             uselection -= map_has.size();
-            selected.use_from = usage::use_from_player;
+            selected.use_from = usage_from::player;
             selected.comp = player_has[uselection];
         } else {
             uselection -= map_has.size() + player_has.size();
-            selected.use_from = usage::use_from_both;
+            selected.use_from = usage_from::both;
             selected.comp = mixed[uselection];
         }
     }
@@ -1557,7 +1557,7 @@ std::vector<detached_ptr<item>> player::consume_items( map &m, const comp_select
     int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : std::abs(
                          selected_comp.count );
     // First try to get everything from the map, than (remaining amount) from player
-    if( is.use_from & use_from_map ) {
+    if( is.use_from & usage_from::map ) {
         if( by_charges ) {
             std::vector<detached_ptr<item>> tmp = m.use_charges( loc, radius, selected_comp.type, real_count,
                                                   filter );
@@ -1576,7 +1576,7 @@ std::vector<detached_ptr<item>> player::consume_items( map &m, const comp_select
                         std::make_move_iterator( tmp.end() ) );
         }
     }
-    if( is.use_from & use_from_player ) {
+    if( is.use_from & usage_from::player ) {
         if( by_charges ) {
             std::vector<detached_ptr<item>> tmp = use_charges( selected_comp.type, real_count, filter );
             ret.insert( ret.end(), std::make_move_iterator( tmp.begin() ),
@@ -1671,28 +1671,28 @@ find_tool_component( const Character *player_with_inv, const std::vector<tool_co
             if( player_with_inv ) {
                 if( player_with_inv->has_charges( type, count ) ) {
                     int total_charges = player_with_inv->charges_of( type );
-                    comp_selection<tool_comp> sel( use_from_player, *it );
+                    comp_selection<tool_comp> sel( usage_from::player, *it );
                     available_tools.emplace_back( sel, total_charges, ideal );
                 }
             }
             if( map_inv.has_charges( type, count ) ) {
                 int total_charges = map_inv.charges_of( type );
-                comp_selection<tool_comp> sel( use_from_map, *it );
+                comp_selection<tool_comp> sel( usage_from::map, *it );
                 available_tools.emplace_back( sel, total_charges, ideal );
             }
         } else if( ( player_with_inv && player_with_inv->has_amount( type, 1 ) )
                    || map_inv.has_tools( type, 1 ) ) {
-            comp_selection<tool_comp> sel( use_from_none, *it );
+            comp_selection<tool_comp> sel( usage_from::none, *it );
             available_tools.emplace_back( sel, 0, 0 );
         }
     }
 
     std::sort( available_tools.begin(), available_tools.end(),
     []( const avail_tool_comp & lhs, const avail_tool_comp & rhs ) {
-        if( lhs.comp.use_from == use_from_none && rhs.comp.use_from != use_from_none ) {
+        if( lhs.comp.use_from == usage_from::none && rhs.comp.use_from != usage_from::none ) {
             return true;
         }
-        if( rhs.comp.use_from == use_from_none ) {
+        if( rhs.comp.use_from == usage_from::none ) {
             return false;
         }
         if( lhs.charges >= lhs.ideal && rhs.charges < rhs.ideal ) {
@@ -1715,9 +1715,9 @@ query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
     if( available_tools.empty() ) {
         // This SHOULD only happen if cooking with a fire,
         // and the fire goes out.
-        return comp_selection<tool_comp>( use_from_none );
+        return comp_selection<tool_comp>( usage_from::none );
     }
-    if( available_tools.front().comp.use_from == use_from_none ) {
+    if( available_tools.front().comp.use_from == usage_from::none ) {
         // Default to using a tool that doesn't require charges
         return available_tools.front().comp;
     }
@@ -1727,7 +1727,7 @@ query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
     if( is_npc ) {
         auto iter = std::find_if( available_tools.begin(), available_tools.end(),
         []( const avail_tool_comp & tool ) {
-            return tool.comp.use_from == use_from_player;
+            return tool.comp.use_from == usage_from::player;
         } );
         if( iter != available_tools.end() ) {
             return iter->comp;
@@ -1741,7 +1741,7 @@ query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
     for( const avail_tool_comp &tool : available_tools ) {
         const itype_id &comp_type = tool.comp.comp.type;
         if( tool.ideal > 1 ) {
-            const char *format = tool.comp.use_from == use_from_map
+            const char *format = tool.comp.use_from == usage_from::map
                                  ? _( "%s (%d/%d charges nearby)" )
                                  : _( "%s (%d/%d charges on person)" );
             std::string str = string_format( format,
@@ -1749,7 +1749,7 @@ query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
                                              tool.charges );
             tmenu.addentry( str );
         } else {
-            std::string str = tool.comp.use_from == use_from_map
+            std::string str = tool.comp.use_from == usage_from::map
                               ? item::nname( comp_type ) + _( " (nearby)" )
                               : item::nname( comp_type );
             tmenu.addentry( str );
@@ -1763,7 +1763,7 @@ query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
     tmenu.query();
 
     if( tmenu.ret < 0 || static_cast<size_t>( tmenu.ret ) >= available_tools.size() ) {
-        return comp_selection<tool_comp>( cancel );
+        return comp_selection<tool_comp>( usage_from::cancel );
     }
 
     return available_tools.at( static_cast<size_t>( tmenu.ret ) ).comp;
@@ -1837,7 +1837,7 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
         if( tool_sel.comp.count > 0 ) {
             const int count = calc_charges( tool_sel.comp.count );
             switch( tool_sel.use_from ) {
-                case use_from_player:
+                case usage_from::player:
                     if( !has_charges( type, count ) ) {
                         add_msg_player_or_npc(
                             _( "You have insufficient %s charges and can't continue crafting" ),
@@ -1847,7 +1847,7 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
                         return false;
                     }
                     break;
-                case use_from_map:
+                case usage_from::map:
                     if( !map_inv.has_charges( type, count ) ) {
                         add_msg_player_or_npc(
                             _( "You have insufficient %s charges and can't continue crafting" ),
@@ -1857,10 +1857,10 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
                         return false;
                     }
                     break;
-                case use_from_both:
-                case use_from_none:
-                case cancel:
-                case num_usages:
+                case usage_from::both:
+                case usage_from::none:
+                case usage_from::cancel:
+                case usage_from::num_usages_from:
                     break;
             }
         } else if( !has_amount( type, 1 ) && !map_inv.has_tools( type, 1 ) ) {
@@ -1896,14 +1896,14 @@ void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int b
     }
 
     int quantity = tool.comp.count * batch;
-    if( tool.use_from & use_from_player ) {
+    if( tool.use_from & usage_from::player ) {
         use_charges( tool.comp.type, quantity );
     }
-    if( tool.use_from & use_from_map ) {
+    if( tool.use_from & usage_from::map ) {
         m.use_charges( origin, radius, tool.comp.type, quantity, return_true<item> );
     }
 
-    // else, use_from_none (or cancel), so we don't use up any tools;
+    // else, usage_from::none (or usage_from::cancel), so we don't use up any tools;
 }
 
 /* This call is in-efficient when doing it for multiple items with the same map inventory.
