@@ -449,6 +449,27 @@
     ]
   },
   {
+    "id": "spares_drivebelts",
+    "type": "item_group",
+    "//": "belts used for the MISSION_GET_DRIVEBELTS quest",
+    "items": [
+      [ "drivebelt", 200 ],
+      [ "drivebelt_makeshift", 100 ]
+    ]
+  },
+  {
+    "id": "blankets",
+    "type": "item_group",
+    "//": "Blankets used for the MISSION_GET_DRIVEBELTS quest",
+    "items": [
+      [ "blanket", 100 ],
+      [ "fur_blanket", 100 ],
+      [ "electric_blanket", 100 ],
+      [ "quilt", 100 ],
+      [ "quilt_patchwork", 100 ]
+    ]
+  },
+  {
     "id": "file_room",
     "type": "item_group",
     "items": [
