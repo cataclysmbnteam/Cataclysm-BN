@@ -1894,6 +1894,12 @@
     "components": [ [ [ "glass_shard", 18 ] ] ]
   },
   {
+    "result": "reinforced_glass_pane",
+    "type": "uncraft",
+    "time": "2 m",
+    "components": [ [ [ "glass_shard", 18 ] ], [ [ "wire", 8 ] ] ]
+  },
+  {
     "result": "bottle_glass",
     "type": "uncraft",
     "time": "30 s",
@@ -4783,5 +4789,23 @@
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "felt_patch", 4 ] ], [ [ "yarn", 130 ] ] ]
+  },
+  {
+    "result": "headlight_reinforced",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "car_headlight", 1 ] ], [ [ "wire", 2 ] ] ]
+  },
+  {
+    "result": "wide_headlight_reinforced",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "wire", 3 ] ] ]
   }
 ]
