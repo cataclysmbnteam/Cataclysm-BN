@@ -139,6 +139,20 @@
     "smoking_result": "meat_smoked"
   },
   {
+    "id": "curdled_blood",
+    "copy-from": "meat_cooked",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of curdled blood", "str_pl": "chunks of curdled_blood" },
+    "description": "A chunk of solid cooked blood.",
+    "weight": "250 g",
+    "price": "2 USD",
+    "price_postapoc": "25 cent",
+    "spoils_in": "3 day",
+    "calories": 206,
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 100 ], [ "vitB", 0 ] ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
+  },
+  {
     "id": "meat_scrap",
     "copy-from": "meat",
     "type": "COMESTIBLE",
