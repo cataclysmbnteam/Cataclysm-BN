@@ -2012,6 +2012,7 @@
     "description": "A window-mounted air conditioner, plugged into the wall.  This one has no power.",
     "examine_action": "transform",
     "transforms_into": "f_grid_air_conditioner_off",
+    "prompt": "Switch of AC unit",
     "message": "You turn the AC off.",
     "active": [
       "charge_watcher",
@@ -2028,6 +2029,7 @@
     "description": "A window-mounted air conditioner, plugged into the wall.  This one is currently turned off.",
     "examine_action": "transform",
     "transforms_into": "f_grid_air_conditioner",
+    "prompt": "Switch on AC unit",
     "message": "You turn the AC on."
   },
   {
@@ -2040,6 +2042,7 @@
     "description": "A window-mounted air conditioner, plugged into the wall.  This one is running and providing cool air.",
     "examine_action": "transform",
     "transforms_into": "f_grid_air_conditioner_off",
+    "prompt": "Switch off AC unit",
     "message": "You turn the AC off.",
     "active": [
       "steady_consumer",
