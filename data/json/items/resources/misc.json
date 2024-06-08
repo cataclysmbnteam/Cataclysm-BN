@@ -199,7 +199,7 @@
     "explosion": {
       "damage": 50,
       "radius": 3,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 }, "range": 5 }
     },
     "explode_in_fire": true
   },
