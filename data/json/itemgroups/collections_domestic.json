@@ -114,6 +114,7 @@
       { "item": "roller_blades", "prob": 20 },
       { "item": "duct_tape", "prob": 100 },
       { "item": "lawnmower", "prob": 25 },
+      { "item": "trash_can_empty", "prob": 25 },
       { "item": "lawn_dart", "prob": 10 },
       { "item": "dehydrator", "prob": 15 },
       { "item": "jar_glass", "prob": 25, "count": [ 1, 12 ] },

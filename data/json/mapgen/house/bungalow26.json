@@ -71,7 +71,7 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
-      "terrain": { "[": "t_wall_half", "_": "t_door_frame", ",": "t_floor" },
+      "terrain": { "[": "t_wall_half_domestic", "_": "t_door_frame", ",": "t_floor" },
       "furniture": { "$": "f_home_furnace" },
       "place_loot": [
         { "item": "nail", "x": 17, "y": 13 },

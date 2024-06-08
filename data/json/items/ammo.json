@@ -320,6 +320,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 40,
+    "flags": [ "SHATTERS" ],
     "effects": [ "NEVER_MISFIRES" ]
   },
   {

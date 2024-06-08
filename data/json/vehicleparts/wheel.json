@@ -215,7 +215,8 @@
       { "item": "steel_lump", "count": [ 2, 3 ] },
       { "item": "steel_chunk", "count": [ 2, 3 ] },
       { "item": "scrap", "count": [ 2, 3 ] },
-      { "item": "chunk_rubber", "count": [ 2, 3 ] }
+      { "item": "chunk_rubber", "count": [ 2, 3 ] },
+      { "item": "kevlar_plate", "prob": 50 }
     ],
     "rolling_resistance": 0.6,
     "wheel_type": "off-road",

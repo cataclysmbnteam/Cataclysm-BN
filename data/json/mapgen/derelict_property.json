@@ -50,7 +50,7 @@
         "r": "t_floor",
         "s": "t_shrub",
         "u": "t_underbrush",
-        "w": "t_wall_half",
+        "w": "t_wall_half_domestic",
         "|": "t_wall"
       },
       "furniture": { "H": "f_armchair", "^": "f_rubble", "c": "f_chair", "d": "f_desk", "m": "f_makeshift_bed", "r": "f_rubble" },
@@ -121,7 +121,7 @@
         "s": "t_sidewalk",
         "t": "t_tree_dead",
         "u": "t_underbrush",
-        "w": "t_wall_log_half",
+        "w": "t_wall_half_domestic",
         "{": "t_floor",
         "|": "t_wall"
       },
@@ -191,7 +191,7 @@
         "C": "t_floor",
         "D": "t_floor",
         "U": "t_underbrush_harvested_spring",
-        "W": "t_wall_half",
+        "W": "t_wall_half_domestic",
         "^": "t_dirt",
         "_": "t_floor",
         "a": "t_door_o",
@@ -201,7 +201,7 @@
         "g": "t_grass_white",
         "r": "t_floor",
         "u": "t_underbrush",
-        "w": "t_wall_log_half",
+        "w": "t_wall_half_domestic",
         "|": "t_wall"
       },
       "furniture": { "C": "f_cupboard", "D": "f_desk", "^": "f_rubble", "c": "f_chair", "f": "f_dandelion", "r": "f_rubble" },
@@ -370,7 +370,7 @@
         "r": "t_grass",
         "s": "t_shrub_blueberry",
         "t": "t_concrete",
-        "w": "t_wall_half",
+        "w": "t_wall_half_domestic",
         "|": "t_wall"
       }
     },
@@ -461,7 +461,7 @@
         "r": "t_grass",
         "s": "t_shrub_blueberry",
         "t": "t_concrete",
-        "w": "t_wall_half",
+        "w": "t_wall_half_domestic",
         "|": "t_wall"
       }
     },
@@ -534,7 +534,7 @@
       "terrain": {
         "#": "t_underbrush",
         "$": "t_fence_wire",
-        "&": "t_wall_log_broken",
+        "&": "t_wall_wood_broken",
         ".": "t_grass",
         "4": "t_tree_pine",
         "D": "t_dirtfloor",
@@ -543,7 +543,7 @@
         "W": "t_wall_half",
         "^": "t_dirt",
         "_": "t_dirt",
-        "a": "t_wall_log_half",
+        "a": "t_wall_half",
         "c": "t_floor",
         "d": "t_grass",
         "f": "t_floor",

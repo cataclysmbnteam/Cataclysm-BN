@@ -636,6 +636,19 @@
     ]
   },
   {
+    "id": "small_utility_vehicles",
+    "type": "vehicle_group",
+    "vehicles": [
+      [ "excavator", 100 ],
+      [ "trencher", 80 ],
+      [ "engine_crane", 60 ],
+      [ "welding_cart", 40 ],
+      [ "oa_work_light", 40 ],
+      [ "wheelbarrow", 30 ],
+      [ "portable_generator", 20 ]
+    ]
+  },
+  {
     "type": "vehicle_group",
     "id": "oa_vg_cd_vehicles",
     "//": "for cs_car_dealership",

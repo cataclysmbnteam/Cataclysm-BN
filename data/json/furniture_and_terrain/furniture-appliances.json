@@ -4,7 +4,7 @@
     "id": "f_air_conditioner",
     "name": "cooling unit",
     "looks_like": "t_machinery_light",
-    "description": "A big, blocky metal device for refrigerating large areas.",
+    "description": "A big, blocky metal device for refrigerating large areas, now just a source of parts to salvage and repurpose.",
     "symbol": "{",
     "bgcolor": "white",
     "move_cost_mod": -1,
@@ -12,16 +12,10 @@
     "required_str": -1,
     "deconstruct": {
       "items": [
-        { "item": "pipe", "count": 1 },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "cu_pipe", "count": [ 2, 5 ] },
-        { "item": "hose", "count": [ 0, 2 ] },
-        { "item": "thermostat", "count": 1 },
-        { "item": "refrigerant_tank", "count": 1 },
-        { "item": "motor_small", "count": 1 }
+        { "item": "ac_unit_item", "count": 1 },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 10 ] }
       ]
     },
     "bash": {
@@ -34,7 +28,7 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
       ],
@@ -831,7 +825,8 @@
     "color": "yellow",
     "move_cost_mod": -1,
     "required_str": -1,
-    "active": [ "steady_consumer", { "power": -20, "consume_every": "300 s" } ],
+    "//": "10 watts, all of these below are staggered across 5 minutes to avoid lag.  Todo: convert to not rely on steady_consumer hacks",
+    "active": [ "steady_consumer", { "power": -3, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -865,8 +860,10 @@
     "symbol": "#",
     "color": "yellow",
     "move_cost_mod": -1,
+    "coverage": 30,
     "required_str": -1,
-    "active": [ "steady_consumer", { "power": -50, "consume_every": "300 s" } ],
+    "//": "30 watts",
+    "active": [ "steady_consumer", { "power": -9, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -877,8 +874,8 @@
       ]
     },
     "bash": {
-      "str_min": 10,
-      "str_max": 20,
+      "str_min": 16,
+      "str_max": 40,
       "sound": "whack!",
       "sound_fail": "clang!",
       "items": [
@@ -888,7 +885,84 @@
         { "item": "cable", "charges": [ 10, 15 ] },
         { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "pipe", "count": [ 0, 3 ] }
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_water_wheel_unit",
+    "looks_like": "f_water_mill_active",
+    "name": "mounted water wheel",
+    "description": "A mounted water wheel connected to building's electric grid.",
+    "symbol": "#",
+    "color": "yellow",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": -1,
+    "//": "80 watts",
+    "active": [ "steady_consumer", { "power": -24, "consume_every": "300 s" } ],
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "plastic_chunk", "count": 2 },
+        { "item": "steel_chunk", "count": 5 },
+        { "item": "water_wheel", "count": 1 }
       ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "2x4", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "pipe", "count": [ 0, 3 ] }
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 10, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_xl_water_wheel_unit",
+    "copy-from": "f_water_wheel_unit",
+    "name": "mounted large water wheel",
+    "description": "A large mounted water wheel connected to building's electric grid.",
+    "symbol": "#",
+    "color": "yellow",
+    "coverage": 60,
+    "//": "30 watts",
+    "active": [ "steady_consumer", { "power": -54, "consume_every": "300 s" } ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "plastic_chunk", "count": 2 },
+        { "item": "steel_chunk", "count": 5 },
+        { "item": "xl_water_wheel", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "2x4", "count": [ 1, 30 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "pipe", "count": [ 0, 3 ] }
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -1971,6 +2045,98 @@
   },
   {
     "type": "furniture",
+    "abstract": "f_grid_air_conditioner_base",
+    "looks_like": "f_air_conditioner",
+    "symbol": "{",
+    "bgcolor": "white",
+    "name": "abstract air conditioner",
+    "description": "Abstract furniture.  If you see this, something went wrong.",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "ac_unit_item", "count": 1 },
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 12 ] },
+        { "item": "cable", "charges": [ 1, 8 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 18 }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_grid_air_conditioner",
+    "copy-from": "f_grid_air_conditioner_base",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "air conditioner (no power)",
+    "description": "A window-mounted air conditioner, plugged into the wall.  This one has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_grid_air_conditioner_off",
+    "prompt": "Switch off AC unit",
+    "message": "You turn the AC off.",
+    "active": [
+      "charge_watcher",
+      { "min_power": 25, "transform": { "id": "f_grid_air_conditioner_on", "msg": "The air conditioner starts up." } }
+    ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_grid_air_conditioner_off",
+    "copy-from": "f_grid_air_conditioner_base",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "air conditioner (off)",
+    "description": "A window-mounted air conditioner, plugged into the wall.  This one is currently turned off.",
+    "examine_action": "transform",
+    "transforms_into": "f_grid_air_conditioner",
+    "prompt": "Switch on AC unit",
+    "message": "You turn the AC on."
+  },
+  {
+    "type": "furniture",
+    "id": "f_grid_air_conditioner_on",
+    "copy-from": "f_grid_air_conditioner_base",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "air conditioner (on)",
+    "description": "A window-mounted air conditioner, plugged into the wall.  This one is running and providing cool air.",
+    "examine_action": "transform",
+    "transforms_into": "f_grid_air_conditioner_off",
+    "prompt": "Switch off AC unit",
+    "message": "You turn the AC off.",
+    "active": [
+      "steady_consumer",
+      {
+        "power": 1,
+        "consume_every": "2 s",
+        "transform": { "id": "f_grid_air_conditioner", "msg": "The AC runs out of power and cools off." }
+      }
+    ],
+    "extend": { "flags": [ "EMITTER" ] },
+    "emissions": [ "emit_cold_air2_ac" ]
+  },
+  {
+    "type": "furniture",
     "abstract": "f_space_heater_base",
     "looks_like": "small_space_heater",
     "symbol": ";",
@@ -2115,7 +2281,7 @@
       "steady_consumer",
       {
         "power": 1,
-        "consume_every": "2 s",
+        "consume_every": "1 s",
         "transform": { "id": "f_space_heater_large", "msg": "The heater runs out of power and cools off." }
       }
     ],

@@ -92,6 +92,7 @@
       "4": [ { "item": "SUS_dishes" }, { "item": "SUS_silverware" }, { "item": "SUS_knife_drawer" } ],
       "5": [ { "item": "SUS_junk_drawer" }, { "item": "SUS_kitchen_sink" } ],
       "6": [ { "item": "SUS_cookware" }, { "item": "SUS_utensils" } ]
-    }
+    },
+    "nested": { "w": { "chunks": [ [ "null", 90 ], [ "house_place_air_conditioner", 10 ] ] } }
   }
 ]

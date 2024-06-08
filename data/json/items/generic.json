@@ -2785,7 +2785,8 @@
     "bashing": 1,
     "material": "clay",
     "symbol": ")",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "plastic_pot_flower",
@@ -2825,7 +2826,7 @@
     "category": "spare_parts",
     "name": { "str": "evaporator coil" },
     "description": "A set of long, snakelike tubes for evaporating refrigerant.",
-    "weight": "20000 g",
+    "weight": "4 kg",
     "volume": "2 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
@@ -2837,9 +2838,9 @@
     "id": "condensor_coil",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "condensor coil" },
+    "name": { "str": "condenser coil" },
     "description": "A compressor and a fan work together to cool down the refrigerant.",
-    "weight": "20000 g",
+    "weight": "4 kg",
     "volume": "2 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",

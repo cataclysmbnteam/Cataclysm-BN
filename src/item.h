@@ -1534,6 +1534,9 @@ class item : public location_visitable<item>, public game_object<item>
         /**Does this item have the specified fault*/
         bool has_fault( const fault_id &fault ) const;
 
+        /**If item made out of glass, or has the SHATTERS flag?*/
+        bool can_shatter() const;
+
         /**
          * @name Item properties
          *

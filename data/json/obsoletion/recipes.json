@@ -3351,6 +3351,11 @@
   },
   {
     "type": "recipe",
+    "result": "survivor_belt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "oj",
     "obsolete": true
   },

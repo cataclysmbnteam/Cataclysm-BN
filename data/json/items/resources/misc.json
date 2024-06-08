@@ -41,7 +41,7 @@
     "name": { "str": "ceramic shard" },
     "description": "A broken ceramic shard.  It is heavy and has a somewhat sharp edge, but it's too irregular to cut properly.",
     "material": "ceramic",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SHATTERS" ],
     "weight": "750 g",
     "volume": "250 ml",
     "bashing": 5,
@@ -199,7 +199,7 @@
     "explosion": {
       "damage": 50,
       "radius": 3,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 }, "range": 5 }
     },
     "explode_in_fire": true
   },

@@ -122,6 +122,7 @@
       "l": { "item": "SUS_fridge", "chance": 30, "repeat": [ 1, 2 ] },
       "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
       "R": { "item": "homebooks", "chance": 30, "repeat": [ 1, 2 ] }
-    }
+    },
+    "nested": { "@": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] } }
   }
 ]

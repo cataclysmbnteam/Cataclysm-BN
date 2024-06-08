@@ -175,8 +175,9 @@ struct availability {
 
     nc_color color( bool ignore_missing_skills = false ) const {
         return can_craft
-               ? ( ( can_craft_non_rotten && has_all_skills ) || ignore_missing_skills ? c_white : c_brown )
-               : ( ( could_craft_if_knew && has_all_skills ) || ignore_missing_skills ? c_yellow : c_dark_gray );
+               ? ( ( can_craft_non_rotten && has_all_skills ) || ignore_missing_skills ? c_white : c_yellow )
+               : ( ( could_craft_if_knew && has_all_skills ) ||
+                   ignore_missing_skills ? c_light_gray : c_dark_gray );
     }
 
 };
