@@ -174,14 +174,8 @@
     "book_learn": [ [ "textbook_mechanics", 5 ] ],
     "time": "1 h",
     "reversible": true,
-    "decomp_learn": [  ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
-    "components": [
-      [ [ "cu_pipe", 3 ] ],
-      [ [ "motor_tiny", 1 ] ],
-      [ [ "sheet_metal_small", 5 ] ],
-      [ [ "scrap", 12 ], [ "steel_chunk", 4 ] ]
-    ]
+    "components": [ [ [ "cu_pipe", 3 ] ], [ [ "motor_tiny", 1 ] ], [ [ "sheet_metal_small", 5 ] ], [ [ "steel_tiny", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -194,9 +188,8 @@
     "book_learn": [ [ "textbook_mechanics", 5 ] ],
     "time": "1 h",
     "reversible": true,
-    "decomp_learn": [  ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 2 } ],
-    "components": [ [ [ "cu_pipe", 4 ] ], [ [ "sheet_metal_small", 8 ] ], [ [ "sheet_metal", 2 ] ] ]
+    "components": [ [ [ "cu_pipe", 6 ] ], [ [ "sheet_metal_small", 6 ] ] ]
   },
   {
     "result": "battery_ups",

@@ -154,6 +154,7 @@
       "4": [ { "item": "SUS_junk_drawer", "chance": 35 }, { "item": "SUS_spice_collection", "chance": 35 } ],
       "5": { "item": "SUS_kitchen_sink", "chance": 35 }
     },
-    "toilets": { "T": {  } }
+    "toilets": { "T": {  } },
+    "nested": { "w": { "chunks": [ [ "null", 90 ], [ "house_place_air_conditioner", 10 ] ] } }
   }
 ]

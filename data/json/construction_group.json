@@ -1006,6 +1006,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_ac_unit",
+    "name": "Place Window-Mounted AC Unit"
+  },
+  {
+    "type": "construction_group",
     "id": "place_small_space_heater",
     "name": "Place Small Space Heater"
   },

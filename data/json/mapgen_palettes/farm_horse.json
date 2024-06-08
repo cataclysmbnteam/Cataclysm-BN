@@ -68,6 +68,7 @@
       "l": { "terrain": "t_dirtfloor", "furniture": "f_locker" },
       "u": { "terrain": "t_dirtfloor", "furniture": "f_counter" }
     },
-    "toilets": { "t": {  } }
+    "toilets": { "t": {  } },
+    "nested": { "v": { "chunks": [ [ "null", 90 ], [ "house_place_air_conditioner", 10 ] ] } }
   }
 ]

@@ -116,7 +116,8 @@
       "2": [ { "item": "SUS_cookware" }, { "item": "SUS_utensils" } ],
       "3": [ { "item": "SUS_junk_drawer" }, { "item": "SUS_kitchen_sink" } ]
     },
-    "item": { "n": { "item": "television", "chance": 70 } }
+    "item": { "n": { "item": "television", "chance": 70 } },
+    "nested": { "w": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] } }
   },
   {
     "type": "palette",

@@ -219,7 +219,10 @@
         { "item": "maps", "chance": 7 }
       ]
     },
-    "nested": { "ɸ": { "chunks": [ "NC_res_personal_items_1X1" ] } }
+    "nested": {
+      "ɸ": { "chunks": [ "NC_res_personal_items_1X1" ] },
+      "o": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] }
+    }
   },
   {
     "type": "palette",

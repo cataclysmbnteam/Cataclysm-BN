@@ -60,6 +60,7 @@
       "p": "t_palisade_gate_o",
       "u": "t_region_shrub",
       "o": "t_floor"
-    }
+    },
+    "nested": { "W": { "chunks": [ [ "null", 90 ], [ "house_place_air_conditioner", 10 ] ] } }
   }
 ]
