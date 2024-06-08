@@ -457,13 +457,12 @@
   {
     "id": "blankets",
     "type": "item_group",
-    "//": "Blankets used for the MISSION_GET_DRIVEBELTS quest",
+    "//": "Blankets used for the MISSION_LUMBERMILL_GET_6_BLANKETS quest",
     "items": [
       [ "blanket", 100 ],
       [ "fur_blanket", 100 ],
       [ "electric_blanket", 100 ],
-      [ "quilt", 100 ],
-      [ "quilt_patchwork", 100 ]
+      [ "down_blanket", 100 ]
     ]
   },
   {
