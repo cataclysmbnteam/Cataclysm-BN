@@ -7288,7 +7288,6 @@ void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
     int decayed_weight_grams = to_gram( dead_monster->weight ); // corpse might have stuff in it!
     decayed_weight_grams *= rng_float( 0.5, 0.9 );
 
-    bool anything_left = false;
     for( const harvest_entry &entry : dead_monster->harvest.obj() ) {
         if( entry.type != "bionic" && entry.type != "bionic_group" ) {
             detached_ptr<item> harvest = item::spawn( entry.drop, it.birthday() );
@@ -7302,7 +7301,6 @@ void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
             } else {
                 roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
             }
-            anything_left = roll > 0;
             for( int i = 0; i < roll; i++ ) {
                 add_item_or_charges( getlocal( pnt ), item::spawn( *harvest ) );
             }
