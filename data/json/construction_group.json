@@ -1031,6 +1031,16 @@
   },
   {
     "type": "construction_group",
+    "id": "install_water_wheel",
+    "name": "Install Water Wheel"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_xl_water_wheel",
+    "name": "Install Large Water Wheel"
+  },
+  {
+    "type": "construction_group",
     "id": "install_solar_panel",
     "name": "Install Solar Panel"
   },
