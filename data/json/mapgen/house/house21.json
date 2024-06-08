@@ -94,7 +94,7 @@
         ".cgg.ggggg.gggg.g.gggg.g"
       ],
       "terrain": {
-        "#": "t_wall_half",
+        "#": "t_wall_half_domestic",
         ".": "t_dirt",
         "0": "t_window_frame",
         "C": "t_concrete",
