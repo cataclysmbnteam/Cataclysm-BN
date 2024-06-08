@@ -7648,9 +7648,9 @@ void map::actualize( const tripoint &grid )
                 for( const auto &it : tmpsub->get_items( { x, y } ) ) {
                     if( it->is_corpse() ) {
                         detached_ptr<item> tmp = item::spawn( it->typeId(), it->birthday() );
-                        tmp = item::process_rot( std::move( tmp ), pnt );
-                        if( !tmp ) {
-                            handle_decayed_corpse( *it, getglobal( pnt ) );
+                        it = item::actualize_rot( std::move( it ), pnt, temperature, get_weather() );
+                        if( !it ) {
+                            handle_decayed_corpse( *tmp, getglobal( pnt ) );
                         }
                     }
                 }
