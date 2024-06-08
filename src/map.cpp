@@ -7273,7 +7273,7 @@ void map::remove_rotten_items( Container &items, const tripoint &pnt, temperatur
     } );
 }
 
-void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
+void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
 {
     if( !it.is_corpse() ) {
         debugmsg( "Tried to decay a non-corpse item %s. Aborted", it.tname() );
@@ -7304,15 +7304,8 @@ void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
             }
             anything_left = roll > 0;
             for( int i = 0; i < roll; i++ ) {
-                add_item_or_charges( pnt, item::spawn( *harvest ) );
+                add_item_or_charges( getlocal( pnt ), item::spawn( *harvest ) );
             }
-        }
-    }
-    if( g->u.sees( pnt ) ) {
-        if( anything_left ) {
-            add_msg( m_info, _( "The %1$s decays away, leaving something behind." ), it.tname() );
-        } else {
-            add_msg( m_info, _( "The %1$s decays away to nothing." ), it.tname() );
         }
     }
 }
@@ -7653,6 +7646,16 @@ void map::actualize( const tripoint &grid )
             // plants contain a seed item which must not be removed under any circumstances
             if( !furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
                 temperature_flag temperature = temperature_flag_at_point( *this, pnt );
+                // Absolutely goofy, but checking for decay must be done early instead of in `remove_rotten_items` to avoid crashes
+                for( const auto &it : tmpsub->get_items( { x, y } ) ) {
+                    if( it->is_corpse() ) {
+                        detached_ptr<item> tmp = item::spawn( it->typeId(), it->birthday() );
+                        tmp = item::process_rot( std::move( tmp ), pnt );
+                        if( !tmp ) {
+                            handle_decayed_corpse( *it, getglobal( pnt ) );
+                        }
+                    }
+                }
                 remove_rotten_items( tmpsub->get_items( { x, y } ), pnt, temperature );
             }
 

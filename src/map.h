@@ -1671,7 +1671,7 @@ class map
         * @param it item that is spawning creatures
         * @param pnt The point on this map where the item is and where bones/etc will be
         */
-        void handle_decayed_corpse( const item &it, const tripoint &pnt );
+        void handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt );
 
         /**
         * Checks to see if the item that is rotting away generates a creature when it does.
