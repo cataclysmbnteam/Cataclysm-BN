@@ -2012,7 +2012,7 @@
     "description": "A window-mounted air conditioner, plugged into the wall.  This one has no power.",
     "examine_action": "transform",
     "transforms_into": "f_grid_air_conditioner_off",
-    "prompt": "Switch of AC unit",
+    "prompt": "Switch off AC unit",
     "message": "You turn the AC off.",
     "active": [
       "charge_watcher",
