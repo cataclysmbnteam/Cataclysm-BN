@@ -3662,7 +3662,7 @@ bash_results map::bash_items( const tripoint &p, const bash_params &params )
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active suppresses Molotovs smashing themselves with their own explosion
-        if( ( *bashed_item )->made_of( material_id( "glass" ) ) && !( *bashed_item )->active &&
+        if( ( *bashed_item )->can_shatter() && !( *bashed_item )->active &&
             one_in( 2 ) ) {
             result.did_bash = true;
             smashed_glass = true;

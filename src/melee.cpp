@@ -1823,7 +1823,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     if( tec != tec_none && !is_dead_state() ) {
         if( get_stamina() < get_stamina_max() / 3 ) {
             add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
-        } else if( primary_weapon().made_of( material_id( "glass" ) ) ) {
+        } else if( primary_weapon().can_shatter() ) {
             add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
             melee_attack( *source, false, &tec );
@@ -1922,8 +1922,8 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     }
 
     const int vol = weap.volume() / 250_ml;
-    // Glass weapons shatter sometimes
-    if( weap.made_of( material_id( "glass" ) ) &&
+    // Glass weapons and stuff with SHATTERS flag can shatter sometimes
+    if( weap.can_shatter() &&
         /** @EFFECT_STR increases chance of breaking glass weapons (NEGATIVE) */
         rng( 0, vol + 8 ) < vol + str_cur ) {
         if( is_player() ) {

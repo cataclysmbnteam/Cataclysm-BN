@@ -3678,6 +3678,12 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
 
     insert_separation_line( info );
 
+    if( can_shatter() ) {
+        info.emplace_back( "BASE",
+                           _( "* This item will potentially <info>shatter</info> if used as a weapon"
+                              " or thrown, instantly <bad>destroying it and spilling any contents</bad>." ) );
+    }
+
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
         if( const islot_armor *armor = find_armor_data() ) {
             if( !type->rigid ) {
@@ -5342,6 +5348,11 @@ int item::reach_range( const Character &guy ) const
     }
 
     return std::max( 1, res );
+}
+
+bool item::can_shatter() const
+{
+    return made_of( material_id( "glass" ) ) || has_flag( flag_SHATTERS );
 }
 
 void item::unset_flags()

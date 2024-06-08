@@ -41,7 +41,7 @@
     "name": { "str": "ceramic shard" },
     "description": "A broken ceramic shard.  It is heavy and has a somewhat sharp edge, but it's too irregular to cut properly.",
     "material": "ceramic",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SHATTERS" ],
     "weight": "750 g",
     "volume": "250 ml",
     "bashing": 5,

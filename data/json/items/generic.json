@@ -2785,7 +2785,8 @@
     "bashing": 1,
     "material": "clay",
     "symbol": ")",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "plastic_pot_flower",
