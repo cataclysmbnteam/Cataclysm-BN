@@ -579,10 +579,9 @@
     "name": { "str_sp": "concentrated blood" },
     "weight": "65 g", 
     "container": "bottle_glass",
-    "comestible_type": "DRINK", 
     "quench": 1, 
     "price_postapoc": "20 cent", 
-    "description": "Blood concentrated by some means. It just looks and feels wrong.",
+    "description": "Blood concentrated by some means.  It just looks and feels wrong.",
     "volume": "62 ml"
   },
   {
@@ -614,10 +613,9 @@
     "name": { "str_sp": "concentrated mutant blood" },
     "weight": "65 g", 
     "container": "bottle_glass",
-    "comestible_type": "DRINK", 
     "quench": 1, 
     "price_postapoc": "20 cent", 
-    "description": "Blood from a mutated creature, concentrated by some means. Despite it being a liquid, some parts are thicker than the other.", 
+    "description": "Blood from a mutated creature, concentrated by some means.  Despite it being a liquid, some parts are thicker than the other.", 
     "volume": "62 ml"
   },
   {
@@ -767,10 +765,9 @@
     "name": { "str_sp": "concentrated tainted blood" },
     "weight": "65 g", 
     "container": "bottle_glass",
-    "comestible_type": "DRINK", 
     "quench": 1, 
     "price_postapoc": "20 cent", 
-    "description": "Poisonous and unhealthy blood, concentrated by some means. You swear you could see it pulsing ever so slightly.", 
+    "description": "Poisonous and unhealthy blood, concentrated by some means.  You swear you could see it pulsing ever so slightly.", 
     "volume": "62 ml"
   },
   {
