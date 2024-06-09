@@ -7272,12 +7272,15 @@ void map::remove_rotten_items( Container &items, const tripoint &pnt, temperatur
             if( obj.is_comestible() ) {
                 rotten_item_spawn( obj, pnt );
             } else if( obj.is_corpse() ) {
+                // Corpses cannot be handled at this stage, as it causes memory errors by adding
+                // items to the Container that haven't been accounted for.
                 corpses_handle.push_back( &obj );
             }
         }
         return std::move( it );
     } );
 
+    // Now that all the removing is done, add items from corpse spawns.
     for( const item *corpse : corpses_handle ) {
         handle_decayed_corpse( *corpse, pnt );
     }

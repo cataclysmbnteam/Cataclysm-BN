@@ -9918,6 +9918,7 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
     if( ( self->is_food() || self->is_corpse() ) ) {
         item &obj = *self;
         self = process_rot( std::move( self ), seals, pos, carrier, flag, weather_generator );
+        // If the item has rotted away, then self becomes a null pointer.
         if( !self ) {
             if( obj.is_comestible() ) {
                 here.rotten_item_spawn( obj, pos );
