@@ -545,9 +545,7 @@
     "id": "edible_blood",
     "type": "requirement",
     "//": "Any type of edible blood.",
-    "components": [
-      [ [ "animal_blood", 1 ], [ "mutant_blood", 1 ], [ "blood", 1 ] ]
-    ]
+    "components": [ [ [ "animal_blood", 1 ], [ "mutant_blood", 1 ], [ "blood", 1 ] ] ]
   },
   {
     "id": "any_blood",
