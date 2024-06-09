@@ -574,6 +574,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "animal_blood",
+    "copy-from": "blood",
+    "name": { "str_sp": "animal blood" },
+    "description": "Blood extracted from a living creature."
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "blood_concentrate",
     "copy-from": "blood",
     "name": { "str_sp": "concentrated blood" },
