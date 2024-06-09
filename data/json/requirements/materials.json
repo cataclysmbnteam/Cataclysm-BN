@@ -87,7 +87,7 @@
     "id": "fabric_standard",
     "type": "requirement",
     "//": "Any valid fabric material, for when the material used shouldn't impact the material of the end product.  Excludes felt patches, since this may still be worn on skin.",
-    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "neoprene", 1 ] ] ]
   },
   {
     "id": "fabric_hides_any",
