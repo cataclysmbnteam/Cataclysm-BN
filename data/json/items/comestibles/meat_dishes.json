@@ -225,7 +225,7 @@
   },
   {
     "id": "sausage_blood",
-    "copy-from": "sausage_raw",
+    "copy-from": "sausage",
     "type": "COMESTIBLE",
     "name": "smoked blutwurst",
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } } ],
