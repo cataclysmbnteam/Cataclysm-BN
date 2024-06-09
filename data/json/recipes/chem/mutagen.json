@@ -243,11 +243,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_creepy", 8 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [
-      [ [ "mutagen", 1 ] ],
-      [ [ "blood_tainted_concentrate", 9 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
-    ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "blood_tainted_concentrate", 9 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -277,11 +273,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 7 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [
-      [ [ "mutagen", 1 ] ],
-      [ [ "animal_blood_concentrate", 9 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
-    ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "animal_blood_concentrate", 9 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -311,11 +303,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 8 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [
-      [ [ "mutagen", 1 ] ],
-      [ [ "animal_blood_concentrate", 9 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
-    ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "animal_blood_concentrate", 9 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -345,11 +333,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 8 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [
-      [ [ "mutagen", 1 ] ],
-      [ [ "animal_blood_concentrate", 3 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
-    ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "animal_blood_concentrate", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -379,11 +363,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 8 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [
-      [ [ "mutagen", 1 ] ],
-      [ [ "animal_blood_concentrate", 9 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
-    ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "animal_blood_concentrate", 9 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -413,11 +393,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 8 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [
-      [ [ "mutagen", 1 ] ],
-      [ [ "animal_blood_concentrate", 9 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
-    ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "animal_blood_concentrate", 9 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -447,11 +423,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 8 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [
-      [ [ "mutagen", 1 ] ],
-      [ [ "animal_blood_concentrate", 9 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
-    ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "animal_blood_concentrate", 9 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -483,7 +455,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-       [ [ "can_chowder", 1 ], [ "can_clams", 1 ], [ "blood_tainted_concentrate", 9 ] ],
+      [ [ "can_chowder", 1 ], [ "can_clams", 1 ], [ "blood_tainted_concentrate", 9 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
@@ -575,11 +547,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_maiar", 8 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [
-      [ [ "mutagen", 1 ] ],
-      [ [ "animal_blood_concentrate", 9 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
-    ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "animal_blood_concentrate", 9 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
