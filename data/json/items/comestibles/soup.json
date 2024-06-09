@@ -104,12 +104,9 @@
     "id": "soup_blood",
     "copy-from": "soup_meat",
     "name": "blood soup",
-    "comestible_type": "DRINK",
-    "symbol": "~",
-    "quench": 8,
     "healthy": 0,
-    "calories": 350,
-    "description": "Soup made of animal blood.  Not something everyone likes, but a delicacy in parts of Germany, also named \"Schwarzsauer\".",
+    "calories": 150,
+    "description": "Soup made of animal blood and vinegar.  Not something everyone likes, but a delicacy in parts of Germany, also named \"Schwarzsauer\".",
     "fun": 1
   },
   {
