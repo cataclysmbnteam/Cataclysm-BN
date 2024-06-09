@@ -593,6 +593,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "animal_blood_concentrate",
+    "copy-from": "blood_concentrate",
+    "name": { "str_sp": "concentrated animal blood" },
+    "description": "Blood extracted from a living creature, concentrated by some means."
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "mutant_blood",
     "copy-from": "mutant_meat",
     "name": { "str_sp": "mutant blood" },
