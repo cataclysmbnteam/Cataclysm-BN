@@ -1344,5 +1344,5 @@
     "calories": 206,
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 100 ], [ "vitB", 0 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
-  },
+  }
 ]
