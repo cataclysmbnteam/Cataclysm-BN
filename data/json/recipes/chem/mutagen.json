@@ -245,7 +245,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "meat_tainted", 3 ], [ "dry_meat_tainted", 3 ], [ "blood_tainted_concentrate", 9 ] ],
+      [ [ "blood_tainted_concentrate", 9 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
@@ -279,7 +279,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "meat", 3 ], [ "animal_blood_concentrate", 9 ] ],
+      [ [ "animal_blood_concentrate", 9 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
@@ -313,7 +313,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "meat", 3 ], [ "animal_blood_concentrate", 9 ] ],
+      [ [ "animal_blood_concentrate", 9 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
@@ -347,7 +347,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "meat", 1 ], [ "animal_blood_concentrate", 3 ] ],
+      [ [ "animal_blood_concentrate", 3 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
@@ -381,7 +381,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "meat", 3 ], [ "animal_blood_concentrate", 9 ] ],
+      [ [ "animal_blood_concentrate", 9 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
@@ -415,7 +415,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "meat", 3 ], [ "animal_blood_concentrate", 9 ] ],
+      [ [ "animal_blood_concentrate", 9 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
@@ -449,7 +449,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "meat", 3 ], [ "animal_blood_concentrate", 9 ] ],
+      [ [ "animal_blood_concentrate", 9 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
@@ -483,13 +483,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [
-        [ "meat_tainted", 3 ],
-        [ "dry_meat_tainted", 3 ],
-        [ "blood_tainted_concentrate", 9 ],
-        [ "can_chowder", 1 ],
-        [ "can_clams", 1 ]
-      ],
+       [ [ "can_chowder", 1 ], [ "can_clams", 1 ], [ "blood_tainted_concentrate", 9 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
@@ -583,7 +577,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "meat", 3 ], [ "animal_blood_concentrate", 9 ] ],
+      [ [ "animal_blood_concentrate", 9 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
