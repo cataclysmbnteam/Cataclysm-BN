@@ -825,6 +825,7 @@
     "//": "a monstrous horror, probably the most destructive entity you will ever see",
     "type": "harvest",
     "entries": [
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
@@ -910,6 +911,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_maybe_military", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
@@ -947,6 +949,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_maybe_tech", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
@@ -972,6 +975,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_maybe_survivalist", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
@@ -988,7 +992,6 @@
       { "drop": "harvest_bionics_zapper", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
-      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
     ]
@@ -1022,6 +1025,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_bionics_sci", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
