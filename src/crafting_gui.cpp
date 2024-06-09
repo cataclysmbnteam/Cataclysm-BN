@@ -432,6 +432,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         add_action_desc( "RELATED_RECIPES", pgettext( "crafting gui", "Related" ) );
         add_action_desc( "TOGGLE_FAVORITE", pgettext( "crafting gui", "Favorite" ) );
         add_action_desc( "CYCLE_BATCH", pgettext( "crafting gui", "Batch" ) );
+        add_action_desc( "TOGGLE_UNAVAILABLE", pgettext( "crafting gui", "Show unavailable" ) );
         add_action_desc( "HELP_KEYBINDINGS", pgettext( "crafting gui", "Keybindings" ) );
         keybinding_x = isWide ? 5 : 2;
         keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ),
