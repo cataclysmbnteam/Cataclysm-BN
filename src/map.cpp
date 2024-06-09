@@ -7263,25 +7263,32 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
 template <typename Container>
 void map::remove_rotten_items( Container &items, const tripoint &pnt, temperature_flag temperature )
 {
-    items.remove_with( [this, &pnt, &temperature]( detached_ptr<item> &&it ) {
+    std::vector<item *> corpses_handle;
+    items.remove_with( [this, &pnt, &temperature, &corpses_handle]( detached_ptr<item> &&it ) {
         item &obj = *it;
         it = item::actualize_rot( std::move( it ), pnt, temperature, get_weather() );
-        if( !it && obj.is_comestible() ) {
-            rotten_item_spawn( obj, pnt );
+        // When !it, that means the item was removed from the world, ie: has rotted.
+        if( !it ) {
+            if( obj.is_comestible() ) {
+                rotten_item_spawn( obj, pnt );
+            } else if( obj.is_corpse() ) {
+                corpses_handle.push_back( &obj );
+            }
         }
         return std::move( it );
     } );
+
+    for( const item *corpse : corpses_handle ) {
+        handle_decayed_corpse( *corpse, pnt );
+    }
+
 }
 
-void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
+void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
 {
-    if( !it.is_corpse() ) {
-        debugmsg( "Tried to decay a non-corpse item %s. Aborted", it.tname() );
-        return;
-    }
     const mtype *dead_monster = it.get_corpse_mon();
     if( !dead_monster ) {
-        debugmsg( "Corpse at tripoint %s has no associated monster?!", pnt.to_string() );
+        debugmsg( "Corpse at tripoint %s has no associated monster?!", getglobal( pnt ).to_string() );
         return;
     }
 
@@ -7302,7 +7309,7 @@ void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
                 roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
             }
             for( int i = 0; i < roll; i++ ) {
-                add_item_or_charges( getlocal( pnt ), item::spawn( *harvest ) );
+                add_item_or_charges( pnt, item::spawn( *harvest ) );
             }
         }
     }
@@ -7644,16 +7651,6 @@ void map::actualize( const tripoint &grid )
             // plants contain a seed item which must not be removed under any circumstances
             if( !furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
                 temperature_flag temperature = temperature_flag_at_point( *this, pnt );
-                // Absolutely goofy, but checking for decay must be done early instead of in `remove_rotten_items` to avoid crashes
-                for( const auto &it : tmpsub->get_items( { x, y } ) ) {
-                    if( it->is_corpse() ) {
-                        detached_ptr<item> tmp = item::spawn( it->typeId(), it->birthday() );
-                        it = item::actualize_rot( std::move( it ), pnt, temperature, get_weather() );
-                        if( !it ) {
-                            handle_decayed_corpse( *tmp, getglobal( pnt ) );
-                        }
-                    }
-                }
                 remove_rotten_items( tmpsub->get_items( { x, y } ), pnt, temperature );
             }
 
