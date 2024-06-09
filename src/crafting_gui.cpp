@@ -187,6 +187,7 @@ static std::vector<std::string> recipe_info(
     const recipe &recp,
     const availability &avail,
     player &u,
+    bool show_unavailable,
     const std::string qry_comps,
     const int batch_size,
     const int fold_width,
@@ -267,7 +268,6 @@ static std::vector<std::string> recipe_info(
 
     std::vector<std::string> result = foldstring( oss.str(), fold_width );
 
-    bool show_unavailable = false;
     const requirement_data &req = recp.simple_requirements();
     const std::vector<std::string> tools = req.get_folded_tools_list(
             fold_width, color, crafting_inv, batch_size );
@@ -279,6 +279,7 @@ static std::vector<std::string> recipe_info(
     oss = std::ostringstream();
     if( !u.knows_recipe( &recp ) ) {
         oss << _( "Recipe not memorized yet\n" );
+        oss << _( "id: " ) << recp.ident() << "\n";
         const std::set<itype_id> books_with_recipe = show_unavailable
                 ? crafting::get_books_for_recipe( &recp )
                 : crafting::get_books_for_recipe( u, crafting_inv, &recp );
@@ -287,6 +288,7 @@ static std::vector<std::string> recipe_info(
         []( const itype_id & type_id ) {
             return colorize( item::nname( type_id ), c_cyan );
         } );
+        oss << _( "book count: " ) << books_with_recipe.size() << "\n";
         oss << string_format( _( "Written in: %s\n" ), enumerated_books );
     }
     std::vector<std::string> tmp = foldstring( oss.str(), fold_width );
@@ -311,6 +313,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             const recipe & recp,
             const availability & avail,
             player & u,
+            bool show_unavailable,
             const std::string qry_comps,
             const int batch_size,
             const int fold_width,
@@ -326,7 +329,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             recipe_info_cache.batch_size = batch_size;
             recipe_info_cache.fold_width = fold_width;
             recipe_info_cache.text = recipe_info(
-                recp, avail, u, qry_comps, batch_size, fold_width, color );
+                recp, avail, u, show_unavailable, qry_comps, batch_size, fold_width, color );
         }
         return recipe_info_cache.text;
     };
@@ -561,7 +564,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             }
 
             const std::vector<std::string> &info = cached_recipe_info(
-                    recp, avail, u, qry_comps, batch_size, fold_width, color );
+                    recp, avail, u, show_unavailable, qry_comps, batch_size, fold_width, color );
 
             const int total_lines = info.size();
             if( recipe_info_scroll < 0 ) {
