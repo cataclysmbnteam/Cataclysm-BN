@@ -94,7 +94,7 @@
     "//": "animals so tiny they don't drop chunks of meat",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.5 }
     ]
   },
@@ -112,7 +112,7 @@
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.28 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -129,7 +129,7 @@
     "//": "drops regular stomach",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -149,7 +149,7 @@
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -223,7 +223,7 @@
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.28 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -256,7 +256,7 @@
     "//": "drops regular stomach",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -293,7 +293,7 @@
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -350,7 +350,7 @@
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.28 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -367,7 +367,7 @@
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -420,7 +420,7 @@
     "//": "for those vertebrates that don't have something you can skin off of them",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -439,7 +439,7 @@
     "//": "for those vertebrates that don't have something you can skin off of them",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -477,7 +477,7 @@
     "//": "no bones or organs",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "fat", "type": "offal", "mass_ratio": 0.1 }
@@ -506,7 +506,7 @@
     "id": "bird_small",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
