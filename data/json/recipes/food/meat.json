@@ -36,7 +36,7 @@
     "batch_time_factors": [ 90, 1 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "blood", 1 ] ], [ [ "salt", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "edible_blood", 1, "LIST" ] ], [ [ "salt", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
