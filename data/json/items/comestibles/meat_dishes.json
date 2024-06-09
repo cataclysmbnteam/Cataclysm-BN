@@ -229,7 +229,7 @@
     "type": "COMESTIBLE",
     "name": "smoked blutwurst",
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } } ],
-    "description": "Traditional blood sausage made from blood, some meat, and various seasonings, encased in natural gut.  Smoky and rich in flavor.",
+    "description": "Traditional blood sausage made from blood, some meat, and various seasonings, encased in natural gut. Smoky and rich in flavor.",
     "parasites": 0,
     "healthy": 0,
     "spoils_in": "0 days",
