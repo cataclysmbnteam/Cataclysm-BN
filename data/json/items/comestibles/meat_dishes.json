@@ -1335,7 +1335,7 @@
     "id": "curdled_blood",
     "copy-from": "meat_cooked",
     "type": "COMESTIBLE",
-    "name": { "str": "chunk of curdled blood", "str_pl": "chunks of curdled_blood" },
+    "name": { "str": "chunk of curdled blood", "str_pl": "chunks of curdled blood" },
     "description": "A chunk of solid cooked blood.",
     "weight": "250 g",
     "price": "2 USD",
