@@ -577,7 +577,8 @@
     "id": "animal_blood",
     "copy-from": "blood",
     "name": { "str_sp": "animal blood" },
-    "description": "Blood extracted from a living creature."
+    "description": "Blood extracted from a living creature.",
+    "material": "flesh"
   },
   {
     "type": "COMESTIBLE",
@@ -596,7 +597,8 @@
     "id": "animal_blood_concentrate",
     "copy-from": "blood_concentrate",
     "name": { "str_sp": "concentrated animal blood" },
-    "description": "Blood extracted from a living creature, concentrated by some means."
+    "description": "Blood extracted from a living creature, concentrated by some means.",
+    "material": "flesh"
   },
   {
     "type": "COMESTIBLE",
@@ -614,7 +616,6 @@
     "calories": 43,
     "description": "Blood extracted from a heavily mutated creature.",
     "price": "0 cent",
-    "material": "hflesh",
     "volume": "250 ml",
     "phase": "liquid",
     "fun": -50,
