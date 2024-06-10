@@ -266,7 +266,8 @@
       { "item": "fish_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "sauce_red", "prob": 4, "charges": 48, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "group": "big_canned_food", "prob": 4 }
+      { "group": "big_canned_food", "prob": 4 },
+      { "group": "foodintincan", "prob": 40 }
     ]
   },
   {
