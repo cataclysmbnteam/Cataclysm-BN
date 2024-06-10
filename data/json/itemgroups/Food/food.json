@@ -50,7 +50,7 @@
       { "item": "dry_beans", "prob": 40 },
       { "item": "dry_lentils", "prob": 30 },
       { "item": "dry_rice", "prob": 40 },
-      { "item": "chem_peptone_broth", "prob": 10 }
+      { "item": "chem_peptone_broth", "prob": 5 }
     ]
   },
   {
