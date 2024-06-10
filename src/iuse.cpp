@@ -4578,18 +4578,23 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     bool drew_blood = false;
     bool acid_blood = false;
     for( auto &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
-        if( map_it->is_corpse() &&
-            query_yn( _( "Draw blood from %s?" ),
-                      colorize( map_it->tname(), map_it->color_in_inventory() ) ) ) {
-            p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it->tname() );
-            drew_blood = true;
-            auto bloodtype( map_it->get_mtype()->bloodType() );
-            if( bloodtype.obj().has_acid ) {
-                acid_blood = true;
-            } else {
-                mt = map_it->get_mtype();
+        if( map_it->is_corpse() ) {
+            if( map_it->has_flag( flag_BLED ) ) {
+                p->add_msg_if_player( m_info, _( "That %s has already been bled dry." ), it->tname() );
+                break;
             }
-            break;
+            if( query_yn( _( "Draw blood from %s?" ),
+                          colorize( map_it->tname(), map_it->color_in_inventory() ) ) ) {
+                p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it->tname() );
+                drew_blood = true;
+                auto bloodtype( map_it->get_mtype()->bloodType() );
+                if( bloodtype.obj().has_acid ) {
+                    acid_blood = true;
+                } else {
+                    mt = map_it->get_mtype();
+                }
+                break;
+            }
         }
     }
 
