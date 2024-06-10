@@ -7312,6 +7312,11 @@ void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
                 roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
             }
             for( int i = 0; i < roll; i++ ) {
+                // This sanity-checks harvest yields that have a default stack amount, e.g. copper wire from cyborgs
+                if( harvest->charges > 1 ) {
+                    harvest->charges = 1;
+                }
+
                 add_item_or_charges( pnt, item::spawn( *harvest ) );
             }
         }
