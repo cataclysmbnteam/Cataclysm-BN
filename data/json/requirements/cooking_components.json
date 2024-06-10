@@ -542,6 +542,24 @@
     ]
   },
   {
+    "id": "edible_blood",
+    "type": "requirement",
+    "//": "Any type of edible blood.",
+    "components": [ [ [ "animal_blood", 1 ], [ "mutant_blood", 1 ], [ "blood", 1 ] ] ]
+  },
+  {
+    "id": "edible_blood_concentrate",
+    "type": "requirement",
+    "//": "Any type of edible concentrated blood.",
+    "components": [ [ [ "animal_blood_concentrate", 1 ], [ "mutant_blood_concentrate", 1 ], [ "blood_concentrate", 1 ] ] ]
+  },
+  {
+    "id": "any_blood",
+    "type": "requirement",
+    "//": "Any type of blood.",
+    "components": [ [ [ "edible_blood", 1, "LIST" ], [ "blood_tainted", 1 ] ] ]
+  },
+  {
     "id": "any_fat",
     "type": "requirement",
     "//": "Any type of raw fat.",

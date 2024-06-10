@@ -1274,7 +1274,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [ [ [ "meat_tainted", 12 ] ], [ [ "hard_liquor_chem", 1, "LIST" ] ] ]
+    "components": [ [ [ "blood_tainted", 12 ] ], [ [ "hard_liquor_chem", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
