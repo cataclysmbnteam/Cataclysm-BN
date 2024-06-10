@@ -774,6 +774,36 @@
   },
   {
     "type": "recipe",
+    "result": "soup_blood",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "charges": 2,
+    "autolearn": true,
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "edible_blood_concentrate", 6, "LIST" ] ],
+      [ [ "vinegar", 2 ] ],
+      [
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "pepper", 4 ],
+        [ "garlic_clove", 2 ],
+        [ "chili_pepper_roasted", 2 ],
+        [ "salt_water", 1 ],
+        [ "salt", 4 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "soup_fish",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -1991,6 +2021,40 @@
   },
   {
     "type": "recipe",
+    "result": "soup_blood",
+    "id_suffix": "jarred",
+    "byproducts": [ [ "water", 10 ] ],
+    "container": "jar_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "time": "30 m",
+    "charges": 2,
+    "book_learn": [ [ "manual_canning", 3 ] ],
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "components": [
+      [ [ "water", 12 ], [ "water_clean", 12 ] ],
+      [ [ "edible_blood_concentrate", 6, "LIST" ] ],
+      [ [ "vinegar", 2 ] ],
+      [
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "pepper", 4 ],
+        [ "garlic_clove", 2 ],
+        [ "chili_pepper_roasted", 2 ],
+        [ "salt_water", 1 ],
+        [ "salt", 4 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "soup_fish",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -2102,6 +2166,44 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
     "using": [ [ "meat_soup_ingredients", 1 ] ],
     "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "soup_blood",
+    "id_suffix": "canned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "24 m",
+    "book_learn": [ [ "manual_sealing", 3 ] ],
+    "contained": true,
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
+    "components": [
+      [ [ "can_medium_unsealed", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "edible_blood_concentrate", 6, "LIST" ] ],
+      [ [ "vinegar", 2 ] ],
+      [
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "pepper", 4 ],
+        [ "garlic_clove", 2 ],
+        [ "chili_pepper_roasted", 2 ],
+        [ "salt_water", 1 ],
+        [ "salt", 4 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
@@ -2218,6 +2320,40 @@
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "using": [ [ "meat_soup_ingredients", 6 ] ],
     "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "soup_blood",
+    "id_suffix": "jarred_3l",
+    "byproducts": [ [ "water", 10 ] ],
+    "container": "jar_3l_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "time": "40 m",
+    "charges": 12,
+    "book_learn": [ [ "manual_canning", 3 ] ],
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "components": [
+      [ [ "water", 22 ], [ "water_clean", 22 ] ],
+      [ [ "edible_blood_concentrate", 36, "LIST" ] ],
+      [ [ "vinegar", 12 ] ],
+      [
+        [ "seasoning_italian", 24 ],
+        [ "wild_herbs", 24 ],
+        [ "seasoning_salt", 24 ],
+        [ "soysauce", 12 ],
+        [ "pepper", 24 ],
+        [ "garlic_clove", 12 ],
+        [ "chili_pepper_roasted", 12 ],
+        [ "salt_water", 6 ],
+        [ "salt", 24 ]
+      ]
+    ]
   },
   {
     "type": "recipe",

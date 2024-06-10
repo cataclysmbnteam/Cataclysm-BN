@@ -1058,6 +1058,7 @@
       { "item": "lettuce", "prob": 20 },
       { "item": "soup_veggy", "prob": 20 },
       { "item": "soup_meat", "prob": 20 },
+      { "item": "soup_blood", "prob": 2 },
       { "item": "soup_tomato", "prob": 20 }
     ]
   },

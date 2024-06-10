@@ -200,6 +200,7 @@
       { "item": "coffee_syrup", "prob": 10 },
       { "item": "soup_veggy", "prob": 15 },
       { "item": "soup_meat", "prob": 15 },
+      { "item": "soup_blood", "prob": 2 },
       { "item": "soup_chicken", "prob": 15 },
       { "item": "soup_mushroom", "prob": 15 },
       { "item": "soup_tomato", "prob": 15 },
