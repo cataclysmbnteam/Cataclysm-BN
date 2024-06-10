@@ -9586,6 +9586,22 @@ int iuse::toggle_heats_food( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+int iuse::toggle_ups_charging( player *p, item *it, bool, const tripoint & )
+{
+    static const flag_id json_flag_USE_UPS( flag_USE_UPS );
+    if( !it->has_flag( json_flag_USE_UPS ) ) {
+        it->item_tags.insert( json_flag_USE_UPS );
+        p->add_msg_if_player(
+            _( "You will recharge the %s using any available Unified Power System." ),
+            it->tname().c_str() );
+    } else {
+        it->item_tags.erase( json_flag_USE_UPS );
+        p->add_msg_if_player( _( "You will no longer recharge the %s via UPS." ), it->tname().c_str() );
+    }
+
+    return 0;
+}
+
 int iuse::report_grid_charge( player *p, item *, bool, const tripoint &pos )
 {
     tripoint_abs_ms pos_abs( get_map().getabs( pos ) );

@@ -325,7 +325,7 @@
       "BAROMETER",
       "HYGROMETER",
       "WINDMETER",
-      "USE_UPS",
+      "RECHARGE",
       "NO_UNLOAD",
       "NO_RELOAD",
       "POWERARMOR_COMPATIBLE"
@@ -336,7 +336,7 @@
     "initial_charges": 80,
     "max_charges": 120,
     "charges_per_use": 1,
-    "use_action": [ "PORTABLE_GAME", "WEATHER_TOOL" ]
+    "use_action": [ "PORTABLE_GAME", "WEATHER_TOOL", "TOGGLE_UPS_CHARGING" ]
   },
   {
     "id": "holo_cloak",

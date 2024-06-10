@@ -896,6 +896,11 @@
   },
   {
     "type": "item_action",
+    "id": "TOGGLE_UPS_CHARGING",
+    "name": { "str": "Enable/disable UPS charging" }
+  },
+  {
+    "type": "item_action",
     "id": "REPORT_GRID_CHARGE",
     "name": { "str": "Check grid charge" }
   },

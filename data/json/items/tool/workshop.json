@@ -296,7 +296,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "electric jackhammer" },
-    "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on a cell compatible with UPS.  Use it to blast a hole in adjacent solid terrain.",
+    "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on a rechargeable cell, optionally compatible with UPS.  Use it to blast a hole in adjacent solid terrain.",
     "weight": "40000 g",
     "volume": "5 L",
     "price": "400 USD",
@@ -311,8 +311,8 @@
     "initial_charges": 5000,
     "max_charges": 10000,
     "charges_per_use": 200,
-    "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+    "use_action": [ "JACKHAMMER", "TOGGLE_UPS_CHARGING" ],
+    "flags": [ "STAB", "DIG_TOOL", "POWERED", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "hacksaw",
