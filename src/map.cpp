@@ -109,8 +109,11 @@ static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
 static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
 
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
+
 static const itype_id itype_autoclave( "autoclave" );
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_chemistry_set( "chemistry_set" );
 static const itype_id itype_dehydrator( "dehydrator" );
 static const itype_id itype_electrolysis_kit( "electrolysis_kit" );
@@ -7318,6 +7321,27 @@ void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
                 }
 
                 add_item_or_charges( pnt, item::spawn( *harvest ) );
+            }
+        }
+    }
+    for( item * const &comp : it.get_components() ) {
+        if( comp->is_bionic() ) {
+            // If CBM, decay successfully at same minimum as dissection
+            // otherwise, yield burnt-out bionic and remove non-sterile if present
+            if( !one_in( 10 ) ) {
+                comp->convert( itype_burnt_out_bionic );
+                if( comp->has_fault( fault_bionic_nonsterile ) ) {
+                    comp->faults.erase( fault_bionic_nonsterile );
+                }
+            }
+            add_item_or_charges( pnt, item::spawn( *comp ) );
+        } else {
+            // Same odds to spawn at all, clearing non-sterile if needed
+            if( one_in( 10 ) ) {
+                if( comp->has_fault( fault_bionic_nonsterile ) ) {
+                    comp->faults.erase( fault_bionic_nonsterile );
+                }
+                add_item_or_charges( pnt, item::spawn( *comp ) );
             }
         }
     }
