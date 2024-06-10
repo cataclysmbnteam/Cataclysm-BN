@@ -152,6 +152,11 @@
     "context": [ "GENERIC" ]
   },
   {
+    "id": "BLED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
     "id": "SKINNED",
     "type": "json_flag",
     "context": [ "GENERIC" ]

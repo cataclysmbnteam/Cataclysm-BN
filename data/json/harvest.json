@@ -80,6 +80,7 @@
     "type": "harvest",
     "message": "You search for any salvageable bionic hardware in what's left of this failed experiment",
     "entries": [
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "harvest_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "cyborg_harvest", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
@@ -92,19 +93,26 @@
     "id": "mammal_tiny",
     "//": "animals so tiny they don't drop chunks of meat",
     "type": "harvest",
-    "entries": [ { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.5 } ]
+    "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.5 }
+    ]
   },
   {
     "id": "mutant_animal_tiny",
     "//": "mutant animals so tiny they don't drop chunks of meat",
     "type": "harvest",
-    "entries": [ { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.5 } ]
+    "entries": [
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.5 }
+    ]
   },
   {
     "id": "mammal_small_fur",
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.28 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -121,6 +129,7 @@
     "//": "drops regular stomach",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -140,6 +149,7 @@
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -213,6 +223,7 @@
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.28 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -229,6 +240,7 @@
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
     "entries": [
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.28 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
@@ -244,6 +256,7 @@
     "//": "drops regular stomach",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -263,6 +276,7 @@
     "//": "drops regular stomach",
     "type": "harvest",
     "entries": [
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
@@ -279,6 +293,7 @@
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -298,6 +313,7 @@
     "//": "drops regular stomach",
     "type": "harvest",
     "entries": [
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
@@ -314,6 +330,7 @@
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -333,6 +350,7 @@
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.28 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -349,6 +367,7 @@
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -384,6 +403,7 @@
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
@@ -400,6 +420,7 @@
     "//": "for those vertebrates that don't have something you can skin off of them",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -418,6 +439,7 @@
     "//": "for those vertebrates that don't have something you can skin off of them",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -436,6 +458,7 @@
     "//": "for those vertebrates that don't have something you can skin off of them",
     "type": "harvest",
     "entries": [
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -454,6 +477,7 @@
     "//": "no bones or organs",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "fat", "type": "offal", "mass_ratio": 0.1 }
@@ -464,6 +488,7 @@
     "//": "no bones or organs",
     "type": "harvest",
     "entries": [
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "mutant_fat", "type": "offal", "mass_ratio": 0.1 }
@@ -481,6 +506,7 @@
     "id": "bird_small",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
@@ -503,6 +529,7 @@
     "type": "harvest",
     "message": "You messily hack apart the hulking mass of fused, rancid flesh, taking note of anything that stands out.",
     "entries": [
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "flesh_golem_heart", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 3, "type": "offal" }
@@ -513,6 +540,7 @@
     "type": "harvest",
     "message": "You messily hack apart the colossal mass of fused, rancid flesh, taking note of anything that stands out.",
     "entries": [
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "jabberwock_heart", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 3, "type": "offal" }
@@ -538,6 +566,7 @@
     "type": "harvest",
     "message": "<arachnid_harvest>",
     "entries": [
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
@@ -714,6 +743,7 @@
     "//": "any zombie that might drop leather. mostly animals.",
     "type": "harvest",
     "entries": [
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
@@ -726,6 +756,7 @@
     "//": "any zombie that might drop leather. mostly animals.",
     "type": "harvest",
     "entries": [
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
@@ -738,6 +769,7 @@
     "//": "no bones or organs",
     "type": "harvest",
     "entries": [
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "offal", "mass_ratio": 0.1 }
@@ -748,6 +780,7 @@
     "//": "your bog standard zombie",
     "type": "harvest",
     "entries": [
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
@@ -759,6 +792,7 @@
     "//": "mix of animal and plant",
     "type": "harvest",
     "entries": [
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
@@ -772,6 +806,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_maybe_military", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
@@ -793,6 +828,7 @@
     "//": "a monstrous horror, probably the most destructive entity you will ever see",
     "type": "harvest",
     "entries": [
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
@@ -805,6 +841,7 @@
     "id": "mutant_human",
     "type": "harvest",
     "entries": [
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "mutant_human_fat", "type": "flesh", "mass_ratio": 0.1 },
@@ -817,6 +854,7 @@
     "id": "gozu",
     "type": "harvest",
     "entries": [
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.18 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
@@ -851,6 +889,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_maybe_military", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
@@ -862,6 +901,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_maybe_military_heavy", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
@@ -873,6 +913,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_maybe_military", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
@@ -886,6 +927,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_maybe_sci", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
@@ -897,6 +939,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_maybe_tech", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
@@ -908,6 +951,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_maybe_tech", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
@@ -921,6 +965,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_maybe_survivalist", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
@@ -932,6 +977,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_maybe_survivalist", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
@@ -946,6 +992,7 @@
     "entries": [
       { "drop": "harvest_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "harvest_bionics_zapper", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -957,6 +1004,7 @@
     "entries": [
       { "drop": "harvest_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "harvest_bionics_common", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -968,6 +1016,7 @@
     "entries": [
       { "drop": "harvest_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "harvest_bionics_sci", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -978,6 +1027,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_bionics_sci", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
@@ -992,6 +1042,7 @@
     "entries": [
       { "drop": "harvest_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "harvest_bionics_tech", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -1004,6 +1055,7 @@
       { "drop": "harvest_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "harvest_bionics_subs", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "harvest_bionics_subs", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -1015,6 +1067,7 @@
     "entries": [
       { "drop": "harvest_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "harvest_bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -1028,6 +1081,7 @@
       { "drop": "harvest_bionics_op2_off", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "harvest_bionics_op2_def", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "harvest_bionics_op2_utl", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -1038,6 +1092,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "harvest_power_storage_civ", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
