@@ -4580,8 +4580,8 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     for( auto &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
         if( map_it->is_corpse() ) {
             if( map_it->has_flag( flag_BLED ) ) {
-                p->add_msg_if_player( m_info, _( "That %s is full!" ), it->tname() );
-                break; // Or should this return to not prompt drawing own blood??
+                p->add_msg_if_player( m_info, _( "That %s has already been bled dry." ), it->tname() );
+                break;
             }
             if( query_yn( _( "Draw blood from %s?" ),
                           colorize( map_it->tname(), map_it->color_in_inventory() ) ) ) {

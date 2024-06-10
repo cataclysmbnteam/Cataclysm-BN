@@ -658,9 +658,8 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
 
     if( action == BLEED ) {
         if( corpse_item.has_flag( flag_BLED ) ) {
-            not_this_one( _( "This is already bled." ), butcherable_rating::already_bled );
+            not_this_one( _( "This has already been bled." ), butcherable_rating::already_bled );
         }
-        // I think field dressed corpses won't have blood??
         if( ( corpse_item.has_flag( flag_FIELD_DRESS ) ||
               corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) &&
             corpse_item.get_mtype()->harvest->has_entry_type( "offal" ) ) {
@@ -890,9 +889,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     if( corpse_item->has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
-    // Corpse loses 20% of weight in blood?? based on 'liquid gore comment below'
     if( corpse_item->has_flag( flag_BLED ) ) {
-        monster_weight = std::round( 0.80 * monster_weight );
+        monster_weight = std::round( 0.90 * monster_weight );
     }
     int practice = 4 + roll_butchery();
 
@@ -973,11 +971,11 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
 
         // Check if monster was bled already
         if(
-            ( corpse_item->has_flag( flag_BLED ) &&
-              corpse_item->has_flag( flag_FIELD_DRESS ) &&
-              corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) &&
+            ( corpse_item->has_flag( flag_BLED ) ||
+              corpse_item->has_flag( flag_FIELD_DRESS ) ||
+              corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) ||
               corpse_item->has_flag( flag_QUARTERED ) ) &&
-            entry.type == "blood" ) { // TODO clarify if should use blood or liquid
+            entry.type == "blood" ) {
             roll = 0;
         }
 
@@ -1026,14 +1024,10 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
         }
 
-        // you only get the liquids from skinning
+        // you only get the liquids from bleeding
         if( action == BLEED ) {
-            if( drop == nullptr || drop->phase != LIQUID ) {
+            if( entry.type != "blood" ) {
                 continue;
-            }
-            // I'm not sure what this does here lol
-            if( corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) ) {
-                roll = rng( 0, roll );
             }
         }
 
@@ -1398,7 +1392,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             break;
 
         case BLEED:
-            // Only one message variant for now??
+            // Only one message variant for now
             p->add_msg_if_player( m_good, _( "You bleed the %s." ), corpse->nname() );
             corpse_item.set_flag( flag_BLED );
             if( !act->targets.empty() ) {
