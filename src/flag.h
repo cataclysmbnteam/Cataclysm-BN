@@ -247,6 +247,7 @@ extern const flag_id flag_PUMP_ACTION;
 extern const flag_id flag_PUMP_RAIL_COMPATIBLE;
 extern const flag_id flag_PYROMANIAC_WEAPON;
 extern const flag_id flag_QUARTERED;
+extern const flag_id flag_BLED;
 extern const flag_id flag_RADIOACTIVE;
 extern const flag_id flag_RADIOCAR;
 extern const flag_id flag_RADIOCARITEM;

@@ -8282,6 +8282,14 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
                                           "(for ex. a table, a leather tarp, etc.).  "
                                           "Yields are plentiful and varied, but it is time consuming." ),
                                        msg_inv, info_on_action( BUTCHER_FULL ).c_str() ) );
+    smenu.addentry_col( BLEED, enough_light, 'l', _( "Bleed corpse" ),
+                        enough_light ? cut_time( BLEED ) : cannot_see,
+                        string_format( "%s  %s%s",
+                                       _( "Bleeding involves severing the carotid arteries and jugular "
+                                          "veins, or the blood vessels from which they arise.  "
+                                          "You need skill and an appropriately sharp and precise knife "
+                                          "to do a good job." ),
+                                       msg_inv, info_on_action( BLEED ).c_str() ) );
     smenu.addentry_col( F_DRESS, enough_light &&
                         has_organs, 'f', _( "Field dress corpse" ),
                         enough_light ? ( has_organs ? cut_time( F_DRESS ) : colorize( _( "has no organs" ),
@@ -8336,6 +8344,9 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
             break;
         case F_DRESS:
             you.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, true );
+            break;
+        case BLEED:
+            you.assign_activity( activity_id( "ACT_BLEED" ), 0, true );
             break;
         case SKIN:
             you.assign_activity( activity_id( "ACT_SKIN" ), 0, true );

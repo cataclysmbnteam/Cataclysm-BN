@@ -1132,18 +1132,6 @@
   },
   {
     "type": "recipe",
-    "result": "blade",
-    "id_suffix": "from steel",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "1 h",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_advanced", 1 ], [ "steel_tiny", 1 ] ]
-  },
-  {
-    "type": "recipe",
     "result": "wrench",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2202,6 +2190,32 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "razor_blade", 1 ] ], [ [ "plastic_chunk", 1 ], [ "bone_sturdy", 1, "LIST" ], [ "splinter", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "xacto",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": [ [ "fabrication", 3 ], [ "mechanics", 3 ] ],
+    "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
+    "using": [ [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "razor_blade", 1 ] ], [ [ "plastic_chunk", 1 ], [ "bone_sturdy", 1, "LIST" ], [ "splinter", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "scalpel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "1 h",
+    "autolearn": [ [ "fabrication", 6 ], [ "firstaid", 3 ] ],
+    "book_learn": [ [ "manual_fabrication", 6 ], [ "textbook_fabrication", 6 ] ],
+    "using": [ [ "blacksmithing_advanced", 1 ], [ "steel_tiny", 1 ] ]
   },
   {
     "type": "recipe",

@@ -224,6 +224,40 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
+    "id": "sausage_blood",
+    "copy-from": "sausage",
+    "type": "COMESTIBLE",
+    "name": "smoked blutwurst",
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } } ],
+    "description": "Traditional blood sausage made from blood, some meat, and various seasonings, encased in natural gut.  Smoky and rich in flavor.",
+    "quench": -7,
+    "fun": 4,
+    "flags": [ "SMOKED" ]
+  },
+  {
+    "id": "sausage_blood_raw",
+    "copy-from": "sausage_raw",
+    "type": "COMESTIBLE",
+    "name": "raw blutwurst",
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } } ],
+    "description": "Traditional blood sausage made from blood, some meat, and various seasonings, ready to be smoked.",
+    "healthy": 0,
+    "quench": -7,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "sausage_blood"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sausage_blood_cooked",
+    "name": "cooked blutwurst",
+    "copy-from": "sausage_blood_raw",
+    "parasites": 0,
+    "spoils_in": "4 days",
+    "fun": 2,
+    "description": "Traditional blood sausage made from blood, some meat, and various seasonings, that has been cooked.",
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
     "type": "COMESTIBLE",
     "id": "cracklins",
     "name": { "str_sp": "cracklins" },
@@ -1330,5 +1364,19 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 7,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 19 ], [ "iron", 12 ] ]
+  },
+  {
+    "id": "curdled_blood",
+    "copy-from": "meat_cooked",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of curdled blood", "str_pl": "chunks of curdled blood" },
+    "description": "A chunk of solid cooked blood.",
+    "weight": "250 g",
+    "price": "2 USD",
+    "price_postapoc": "25 cent",
+    "spoils_in": "3 day",
+    "calories": 206,
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 100 ], [ "vitB", 0 ] ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   }
 ]

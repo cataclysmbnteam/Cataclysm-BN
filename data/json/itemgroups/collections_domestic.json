@@ -498,6 +498,7 @@
       { "item": "broth", "prob": 15 },
       { "item": "soup_veggy", "prob": 15 },
       { "item": "soup_meat", "prob": 15 },
+      { "item": "soup_blood", "prob": 2 },
       { "item": "soup_chicken", "prob": 15 },
       { "item": "soup_mushroom", "prob": 15 },
       { "item": "soup_tomato", "prob": 15 },
@@ -747,6 +748,7 @@
       { "item": "fish_smoked", "prob": 8 },
       { "item": "bologna", "prob": 6 },
       { "item": "sausage", "prob": 6 },
+      { "item": "sausage_blood", "prob": 2 },
       { "item": "bratwurst_sausage", "prob": 5 },
       { "item": "lunchmeat", "prob": 10 },
       { "item": "meat", "prob": 15 }

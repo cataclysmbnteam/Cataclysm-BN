@@ -110,6 +110,7 @@ enum creature_size : int;
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
+static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
@@ -297,6 +298,7 @@ activity_handlers::do_turn_functions = {
     { ACT_BUTCHER_FULL, butcher_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
     { ACT_FIELD_DRESS, butcher_do_turn },
+    { ACT_BLEED, butcher_do_turn }, // unsure bout this one lol
     { ACT_SKIN, butcher_do_turn },
     { ACT_QUARTER, butcher_do_turn },
     { ACT_DISMEMBER, butcher_do_turn },
@@ -328,6 +330,7 @@ activity_handlers::finish_functions = {
     { ACT_BUTCHER_FULL, butcher_finish },
     { ACT_FIELD_DRESS, butcher_finish },
     { ACT_SKIN, butcher_finish },
+    { ACT_BLEED, butcher_finish },
     { ACT_QUARTER, butcher_finish },
     { ACT_DISMEMBER, butcher_finish },
     { ACT_DISSECT, butcher_finish },
@@ -505,6 +508,7 @@ enum class butcherable_rating : int {
     too_damaged,
     already_dressed,
     already_skinned,
+    already_bled,
     already_quartered,
     too_small,
     needs_dressing,
@@ -652,6 +656,21 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
         }
     }
 
+    if( action == BLEED ) {
+        if( corpse_item.has_flag( flag_BLED ) ) {
+            not_this_one( _( "This has already been bled." ), butcherable_rating::already_bled );
+        }
+        if( ( corpse_item.has_flag( flag_FIELD_DRESS ) ||
+              corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) &&
+            corpse_item.get_mtype()->harvest->has_entry_type( "offal" ) ) {
+            not_this_one( _( "Field dressed corpses no longer have blood." ),
+                          butcherable_rating::already_bled );
+        }
+        if( corpse_item.has_flag( flag_QUARTERED ) ) {
+            not_this_one( _( "Quartered corpses no longer have blood." ), butcherable_rating::already_bled );
+        }
+    }
+
     // applies to all butchery actions
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( HUMAN ) &&
                           !corpse.in_species( ZOMBIE ) );
@@ -771,6 +790,7 @@ int butcher_time_to_cut( const Character &who, const inventory &inv, const item 
             break;
         case F_DRESS:
         case SKIN:
+        case BLEED: // Should be same with skinning?? baseless guess
             time_to_cut *= 2;
             break;
         case QUARTER:
@@ -869,6 +889,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     if( corpse_item->has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
+    if( corpse_item->has_flag( flag_BLED ) ) {
+        monster_weight = std::round( 0.90 * monster_weight );
+    }
     int practice = 4 + roll_butchery();
 
     if( mt.harvest.is_null() ) {
@@ -946,6 +969,16 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             roll = 0;
         }
 
+        // Check if monster was bled already
+        if(
+            ( corpse_item->has_flag( flag_BLED ) ||
+              corpse_item->has_flag( flag_FIELD_DRESS ) ||
+              corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) ||
+              corpse_item->has_flag( flag_QUARTERED ) ) &&
+            entry.type == "blood" ) {
+            roll = 0;
+        }
+
         // QUICK BUTCHERY
         if( action == BUTCHER ) {
             if( entry.type == "flesh" ) {
@@ -988,6 +1021,13 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
             if( corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) ) {
                 roll = rng( 0, roll );
+            }
+        }
+
+        // you only get the liquids from bleeding
+        if( action == BLEED ) {
+            if( entry.type != "blood" ) {
+                continue;
             }
         }
 
@@ -1049,7 +1089,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     obj.faults.emplace( flt );
                 }
                 // TODO: smarter NPC liquid handling
-                if( p.is_npc() ) {
+                if( p.is_npc() || action != butcher_type::BLEED ) {
                     drop_on_map( p, item_drop_reason::deliberate, std::move( it ), p.pos() );
                 } else {
                     liquid_handler::handle_all_liquid( std::move( it ), 1 );
@@ -1143,6 +1183,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         action = F_DRESS;
     } else if( act->id() == ACT_QUARTER ) {
         action = QUARTER;
+    } else if( act->id() == ACT_BLEED ) {
+        action = BLEED;
     } else if( act->id() == ACT_DISSECT ) {
         action = DISSECT;
     } else if( act->id() == ACT_SKIN ) {
@@ -1344,6 +1386,15 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
 
             }
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
+            break;
+
+        case BLEED:
+            // Only one message variant for now
+            p->add_msg_if_player( m_good, _( "You bleed the %s." ), corpse->nname() );
+            corpse_item.set_flag( flag_BLED );
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
