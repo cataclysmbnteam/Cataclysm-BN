@@ -301,6 +301,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_floodlight",
+    "name": "Build floodlight"
+  },
+  {
+    "type": "construction_group",
     "id": "rewire_street_light",
     "name": "Rewire Street Light"
   },

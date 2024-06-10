@@ -367,23 +367,47 @@
     "type": "terrain",
     "id": "t_utility_light",
     "name": "utility light",
-    "description": "An industrial flood light set up to illuminate the surroundings.  Smashing it doesn't seem like it'd produce any worthwhile salvage.  Examine it to switch it off.",
+    "description": "An industrial flood light set up to illuminate the surroundings.  It could be salvaged to install elsewhere, but will require grid power once taken down.  Examine it to switch it off.",
     "symbol": ".",
     "color": "white",
-    "move_cost": 2,
+    "coverage": 30,
+    "move_cost": 4,
     "roof": "t_flat_roof",
     "light_emitted": 240,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "INDOORS", "FLAT", "MINEABLE" ],
+    "deconstruct": {
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "cable", "charges": 4 },
+        { "item": "power_supply", "count": 1 },
+        { "item": "amplifier", "count": 2 },
+        { "item": "floodlight", "count": 1 },
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "pipe", "count": 2 }
+      ]
+    },
     "bash": {
-      "sound": "SMASH!",
-      "ter_set": "t_null",
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_floor",
+      "str_min": 20,
+      "str_max": 70,
+      "//": "Some extra wire and scrap metal from smash results matching vehicle floodlights",
+      "items": [
+        { "item": "cable", "charges": [ 2, 7 ] },
+        { "item": "e_scrap", "count": [ 0, 2 ] },
+        { "item": "amplifier", "count": [ 1, 5 ] },
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 10, 20 ] },
+        { "item": "pipe", "count": [ 0, 2 ] }
+      ],
+      "//2": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
     },
     "examine_action": "transform",
     "transforms_into": "t_utility_light_off",
+    "prompt": "Switch off the utility light",
     "message": "You flick the utility light off."
   },
   {
@@ -391,22 +415,15 @@
     "id": "t_utility_light_off",
     "looks_like": "t_utility_light",
     "name": "utility light (off)",
-    "description": "An industrial flood light, which could be turned on to illuminate your surroundings.  Smashing it doesn't seem like it'd produce any worthwhile salvage.  Examine it to switch it back on.",
+    "description": "An industrial flood light, which could be turned on to illuminate your surroundings.  It could also be salvaged if you're willing to provide it more than emergency power.  Examine it to switch it back on.",
     "symbol": ".",
     "color": "white",
-    "move_cost": 2,
+    "move_cost": 4,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "MINEABLE" ],
-    "bash": {
-      "sound": "SMASH!",
-      "ter_set": "t_null",
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
-    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "INDOORS", "FLAT", "MINEABLE" ],
     "examine_action": "transform",
     "transforms_into": "t_utility_light",
+    "prompt": "Switch on the utility light",
     "message": "You flick the utility light on."
   },
   {

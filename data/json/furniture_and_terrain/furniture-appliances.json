@@ -249,6 +249,89 @@
   },
   {
     "type": "furniture",
+    "id": "f_grid_floodlight_off",
+    "symbol": ".",
+    "color": "white",
+    "copy-from": "f_floor_lamp_base",
+    "looks_like": "t_utility_light_off",
+    "name": "grid floodlight (off)",
+    "description": "An industrial flood light, hooked up to draw from a local grid.  Flicking it on will output a nice, bright source of light.",
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": 4 },
+        { "item": "power_supply", "count": 1 },
+        { "item": "amplifier", "count": 2 },
+        { "item": "floodlight", "count": 1 },
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "pipe", "count": 2 }
+      ]
+    },
+    "bash": {
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "str_min": 20,
+      "str_max": 70,
+      "//": "Some extra wire and scrap metal from smash results matching vehicle floodlights",
+      "items": [
+        { "item": "cable", "charges": [ 2, 7 ] },
+        { "item": "e_scrap", "count": [ 0, 2 ] },
+        { "item": "amplifier", "count": [ 1, 5 ] },
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 10, 20 ] },
+        { "item": "pipe", "count": [ 0, 2 ] }
+      ],
+      "//2": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
+    },
+    "examine_action": "transform",
+    "transforms_into": "f_grid_floodlight",
+    "prompt": "Switch on the floodlight.",
+    "message": "You switch on the floodlight."
+  },
+  {
+    "type": "furniture",
+    "id": "f_grid_floodlight",
+    "symbol": ".",
+    "color": "white",
+    "copy-from": "f_grid_floodlight_off",
+    "name": "grid floodlight (no power)",
+    "description": "An industrial flood light, hooked up to draw from a local grid.  It's currently out of power.",
+    "transforms_into": "f_grid_floodlight_off",
+    "prompt": "Switch off the floodlight",
+    "message": "You switch off the floodlight.",
+    "active": [
+      "charge_watcher",
+      { "min_power": 20, "transform": { "id": "f_grid_floodlight_on", "msg": "The utility light shines brightly." } }
+    ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_grid_floodlight_on",
+    "symbol": ".",
+    "color": "white",
+    "copy-from": "f_grid_floodlight_off",
+    "looks_like": "t_utility_light",
+    "name": "grid floodlight (on)",
+    "description": "An industrial flood light, hooked up to draw from a local grid.  It's currently providing plenty of light.",
+    "transforms_into": "f_grid_floodlight_off",
+    "prompt": "Switch off the floodlight",
+    "message": "You switch off the floodlight.",
+    "//": "Increased brightness and power draw over utility lights which don't draw grid power, but far less than vehicle ones",
+    "light_emitted": 400,
+    "active": [
+      "steady_consumer",
+      {
+        "power": 1,
+        "consume_every": "40 s",
+        "transform": { "id": "f_grid_floodlight", "msg": "The utility light flickers and dies." }
+      }
+    ]
+  },
+  {
+    "type": "furniture",
     "id": "f_street_light_rewired_off",
     "copy-from": "f_floor_lamp_base",
     "name": "rewired street light (off)",
