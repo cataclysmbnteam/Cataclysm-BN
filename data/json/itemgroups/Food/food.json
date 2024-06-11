@@ -525,6 +525,7 @@
       { "item": "energy_drink_atomic", "prob": 4 },
       { "group": "softdrinks_canned", "prob": 460 },
       { "item": "milk", "prob": 50 },
+      { "item": "buttermilk", "prob": 10 },
       { "item": "yoghurt", "prob": 40 },
       { "item": "pudding", "prob": 50 },
       { "item": "V8", "prob": 15 },
@@ -560,7 +561,8 @@
       { "item": "pie", "prob": 20 },
       { "item": "pie_veggy", "prob": 18 },
       { "item": "pie_meat", "prob": 18 },
-      { "item": "pie_maple", "prob": 9 }
+      { "item": "pie_maple", "prob": 9 },
+      { "group": "dessert", "prob": 20 }
     ]
   },
   {
@@ -595,7 +597,15 @@
       { "item": "milk", "prob": 30, "charges": [ 8, 15 ] },
       { "item": "pudding", "prob": 5 },
       { "item": "soy_milk", "prob": 3, "charges": [ 8, 15 ] },
-      { "item": "yoghurt", "prob": 5 }
+      { "item": "yoghurt", "prob": 5 },
+      { "item": "eggnog", "prob": 1, "charges": [ 1, 3 ] },
+      { "item": "buttermilk", "prob": 3, "charges": [ 1, 2 ] },
+      { "item": "icecream", "prob": 5, "charges": [ 3, 18 ] },
+      { "item": "icecream_candy", "prob": 3, "charges": [ 3, 18 ] },
+      { "item": "icecream_custard", "prob": 2, "charges": [ 3, 18 ] },
+      { "item": "icecream_sorbet", "prob": 2, "charges": [ 3, 18 ] },
+      { "item": "icecream_gelato", "prob": 2, "charges": [ 3, 18 ] },
+      { "item": "icecream_yogurt", "prob": 2, "charges": [ 3, 18 ] }
     ]
   },
   {
@@ -739,6 +749,7 @@
       { "item": "icecream_custard", "prob": 4 },
       { "item": "icecream_sorbet", "prob": 4 },
       { "item": "icecream_gelato", "prob": 4 },
+      { "item": "icecream_yogurt", "prob": 4 },
       { "item": "pie", "prob": 20 },
       { "item": "pie_veggy", "prob": 15 },
       { "item": "pie_meat", "prob": 15 },
