@@ -540,6 +540,118 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "ammo_pistol_common_full",
+    "//": "Pistol ammo commonly owned by citizens and found in many locations, for vending machines.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "22_cphp", "prob": 50 },
+      { "item": "22_lr", "prob": 100 },
+      { "item": "22_ratshot", "prob": 30 },
+      { "item": "32_acp", "prob": 20 },
+      { "item": "380_FMJ", "prob": 25 },
+      { "item": "380_JHP", "prob": 20 },
+      { "item": "38_fmj", "prob": 25 },
+      { "item": "38_special", "prob": 25 },
+      { "item": "357mag_fmj", "prob": 15 },
+      { "item": "357mag_jhp", "prob": 15 },
+      { "item": "357sig_jhp", "prob": 25 },
+      { "item": "357sig_fmj", "prob": 25 },
+      { "item": "40sw", "prob": 40 },
+      { "item": "40fmj", "prob": 40 },
+      { "item": "45_acp", "prob": 40 },
+      { "item": "45_jhp", "prob": 40 },
+      { "item": "9mm", "prob": 100 },
+      { "item": "9mmfmj", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_rare_full",
+    "//": "Less common pistol ammo including that only used by police/paramilitary forces, for vending machines.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "10mm_fmj", "prob": 15 },
+      { "item": "38_super", "prob": 20 },
+      { "item": "38super_fmj", "prob": 20 },
+      { "item": "44fmj", "prob": 15 },
+      { "item": "44magnum", "prob": 35 },
+      { "item": "45_super", "prob": 30 },
+      { "item": "460_rowland", "prob": 15 },
+      { "item": "460_fmj", "prob": 10 },
+      { "item": "57mm", "prob": 50 },
+      { "item": "380_p", "prob": 10 },
+      { "item": "9mmP", "prob": 30 },
+      { "item": "9mmP2", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_common_full",
+    "//": "Rifle ammo commonly owned by citizens and found in many locations, for vending machines.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "223", "prob": 60 },
+      { "item": "22_cphp", "prob": 50 },
+      { "item": "22_lr", "prob": 100 },
+      { "item": "22_ratshot", "prob": 30 },
+      { "item": "270win_jsp", "prob": 25 },
+      { "item": "3006", "prob": 25 },
+      { "item": "308", "prob": 25 },
+      { "item": "762_54R", "prob": 10 },
+      { "item": "762_m43", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_rare_full",
+    "//": "Less common rifle ammo including that only used by police/paramilitary forces, for vending machines.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "300_winmag", "prob": 40 },
+      { "item": "3006fmj", "prob": 50 },
+      { "item": "556", "prob": 100 },
+      { "item": "762_51", "prob": 50 },
+      { "item": "4570_sp", "prob": 40 },
+      { "item": "4570_pen", "prob": 20 },
+      { "item": "4570_low", "prob": 40 },
+      { "item": "762_m87", "prob": 25 },
+      { "item": "8mm_civilian", "prob": 15 },
+      { "item": "300blk", "prob": 15 },
+      { "item": "300blk_ss", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_shotgun_common_full",
+    "//": "Shotgun ammo commonly owned by citizens and found in many locations, for vending machines.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "shot_00", "prob": 100 },
+      { "item": "shot_bird", "prob": 70 },
+      { "item": "shot_slug", "prob": 70 },
+      { "item": "410shot_000", "prob": 50 },
+      { "item": "shot_paper_00", "prob": 30 },
+      { "item": "shot_paper_bird", "prob": 30 },
+      { "item": "shot_paper_slug", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_shotgun_rare_full",
+    "//": "Less common shotgun ammo including that only used by police/paramilitary forces, for vending machines.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "20x66_beanbag", "prob": 10 },
+      { "item": "20x66_flare", "prob": 10 },
+      { "item": "20x66_shot", "prob": 40 },
+      { "item": "20x66_slug", "prob": 20 },
+      { "item": "shot_dragon", "prob": 10 },
+      { "item": "shot_beanbag", "prob": 20 },
+      { "item": "shot_paper_dragon", "prob": 5 }
+    ]
+  },
+  {
     "id": "ammo_casings",
     "type": "item_group",
     "subtype": "distribution",
