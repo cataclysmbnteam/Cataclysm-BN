@@ -735,6 +735,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `REDUCED_WEIGHT` ... Gunmod flag; reduces the item's base weight by 25%.
 - `REQUIRES_TINDER` ... Requires tinder to be present on the tile this item tries to start a fire
   on.
+- `SHATTERS` ... This item can potentially shatter as if it as made of glass when used as a weapon,
+  thrown, bashed, etc.
 - `SLEEP_AID` ... This item helps in sleeping.
 - `SLEEP_IGNORE` ... This item is not shown as before-sleep warning.
 - `SLOW_WIELD` ... Has an additional time penalty upon wielding. For melee weapons and guns this is
@@ -1371,7 +1373,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - `LONE_START` If starting NPC spawn option is switched to "Scenario-based", this scenario won't
   spawn a fellow NPC on game start.
 - `SCEN_ONLY` Profession can be chosen only as part of the appropriate scenario.
-- `SUR_START` Surrounded start, zombies outside the starting location.
 
 #### Season Flags
 

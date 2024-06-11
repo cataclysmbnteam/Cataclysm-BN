@@ -53,6 +53,8 @@
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
+#include "options.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
 #include "pickup_token.h"
 #include "player.h"
@@ -390,6 +392,17 @@ void drop_on_map( Character &c, item_drop_reason reason,
                 );
                 break;
         }
+
+
+        if( get_option<bool>( "AUTO_NOTES_DROPPED_FAVORITES" ) && it->is_favorite ) {
+            const tripoint_abs_omt your_pos = c.global_omt_location();
+            if( !overmap_buffer.has_note( your_pos ) ) {
+                overmap_buffer.add_note( your_pos, it->display_name() );
+            } else {
+                overmap_buffer.add_note( your_pos, overmap_buffer.note( your_pos ) + "; " + it->display_name() );
+            }
+        }
+
     } else {
         switch( reason ) {
             case item_drop_reason::deliberate:
@@ -1527,7 +1540,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             // make sure nobody else is working on that corpse right now
             if( i->is_corpse() && !i->has_var( "activity_var" ) ) {
                 const mtype corpse = *i->get_mtype();
-                if( corpse.size >= MS_MEDIUM ) {
+                if( corpse.size >= creature_size::medium ) {
                     big_count += 1;
                 } else {
                     small_count += 1;
@@ -2127,7 +2140,7 @@ static bool butcher_corpse_activity( player &p, const tripoint &src_loc,
     for( auto &elem : items ) {
         if( elem->is_corpse() && !elem->has_var( "activity_var" ) ) {
             const mtype corpse = *elem->get_mtype();
-            if( corpse.size >= MS_MEDIUM && reason != do_activity_reason::NEEDS_BIG_BUTCHERING ) {
+            if( corpse.size >= creature_size::medium && reason != do_activity_reason::NEEDS_BIG_BUTCHERING ) {
                 continue;
             }
             elem->set_var( "activity_var", p.name );

@@ -1006,6 +1006,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_ac_unit",
+    "name": "Place Window-Mounted AC Unit"
+  },
+  {
+    "type": "construction_group",
     "id": "place_small_space_heater",
     "name": "Place Small Space Heater"
   },
@@ -1023,6 +1028,16 @@
     "type": "construction_group",
     "id": "install_xl_wind_turbine",
     "name": "Install Large Wind Turbine"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_water_wheel",
+    "name": "Install Water Wheel"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_xl_water_wheel",
+    "name": "Install Large Water Wheel"
   },
   {
     "type": "construction_group",

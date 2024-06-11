@@ -111,6 +111,45 @@
     }
   },
   {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "acid_anthill",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         ------         ",
+        "         -++++-         ",
+        "         -+<<+-         ",
+        "         -+<<+-         ",
+        "         -++++-         ",
+        "         ------         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ [ "t_region_groundcover_barren", 5 ], [ "t_region_groundcover", 3 ], [ "t_region_shrub", 1 ] ],
+        "<": "t_slope_down",
+        "+": "t_dirtmound",
+        "-": [ "t_dirtmound", "t_region_groundcover_barren" ]
+      }
+    }
+  },
+  {
     "//": "slopes up to anthill entrance to be used where appropriate",
     "type": "mapgen",
     "method": "json",

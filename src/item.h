@@ -77,7 +77,6 @@ struct use_function;
 enum art_effect_passive : int;
 enum phase_id : int;
 enum body_part : int;
-enum m_size : int;
 enum class side : int;
 class body_part_set;
 class map;
@@ -1534,6 +1533,9 @@ class item : public location_visitable<item>, public game_object<item>
 
         /**Does this item have the specified fault*/
         bool has_fault( const fault_id &fault ) const;
+
+        /**If item made out of glass, or has the SHATTERS flag?*/
+        bool can_shatter() const;
 
         /**
          * @name Item properties

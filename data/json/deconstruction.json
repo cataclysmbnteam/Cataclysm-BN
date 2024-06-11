@@ -5,9 +5,9 @@
     "subtype": "collection",
     "entries": [
       { "item": "rock", "count": [ 0, 4 ] },
-      { "item": "wood_panel", "count": [ 0, 2 ] },
-      { "item": "nail", "charges": [ 8, 32 ] },
-      { "item": "splinter", "count": [ 0, 4 ] }
+      { "item": "wood_panel", "count": 1 },
+      { "item": "nail", "charges": 30 },
+      { "item": "2x4", "count": 6 }
     ]
   },
   {

@@ -303,6 +303,7 @@
       [ "tomato", 10 ],
       [ "mushroom", 27 ],
       [ "sausage", 25 ],
+      [ "sausage_blood", 7 ],
       [ "pineapple", 20 ]
     ]
   },
@@ -783,6 +784,7 @@
     "entries": [
       { "item": "bologna", "prob": 50 },
       { "item": "sausage", "prob": 50 },
+      { "item": "sausage_blood", "prob": 12 },
       { "item": "bratwurst_sausage", "prob": 35 },
       { "item": "sweet_sausage", "prob": 10 },
       { "item": "hotdogs_frozen", "prob": 50 },
@@ -871,6 +873,7 @@
       [ "sauce_red", 8 ],
       [ "tofu", 8 ],
       [ "sausage", 10 ],
+      [ "sausage_blood", 2 ],
       [ "bratwurst_sausage", 10 ],
       [ "syrup", 10 ],
       [ "sweet_sausage", 2 ],
@@ -885,6 +888,7 @@
       [ "meat_smoked", 5 ],
       [ "bologna", 5 ],
       [ "sausage", 5 ],
+      [ "sausage_blood", 2 ],
       [ "bratwurst_sausage", 5 ],
       [ "lunchmeat", 5 ],
       [ "meat", 10 ]
@@ -1019,6 +1023,7 @@
       { "item": "onion_rings", "prob": 8 },
       { "item": "fchicken", "prob": 8 },
       { "item": "sausage", "prob": 8 },
+      { "item": "sausage_blood", "prob": 2 },
       { "item": "bratwurst_sausage", "prob": 6 },
       { "item": "sweet_sausage", "prob": 2 },
       { "item": "hotdogs_cooked", "prob": 8 },
@@ -1048,6 +1053,7 @@
       { "item": "fries", "prob": 20 },
       { "item": "onion_rings", "prob": 20 },
       { "item": "sausage", "prob": 20 },
+      { "item": "sausage_blood", "prob": 5 },
       { "item": "bratwurst_sausage", "prob": 10 },
       { "item": "sweet_sausage", "prob": 5 },
       { "item": "hotdogs_frozen", "prob": 20 },
@@ -1058,6 +1064,7 @@
       { "item": "lettuce", "prob": 20 },
       { "item": "soup_veggy", "prob": 20 },
       { "item": "soup_meat", "prob": 20 },
+      { "item": "soup_blood", "prob": 2 },
       { "item": "soup_tomato", "prob": 20 }
     ]
   },
@@ -1120,6 +1127,7 @@
       { "item": "lunchmeat", "prob": 15 },
       { "item": "bologna", "prob": 10 },
       { "item": "sausage", "prob": 4 },
+      { "item": "sausage_blood", "prob": 1 },
       { "item": "sweet_sausage", "prob": 2 },
       { "item": "bratwurst_sausage", "prob": 4 },
       { "item": "meat_salted", "prob": 2 },

@@ -2,16 +2,63 @@
   {
     "type": "item_group",
     "id": "NC_ARSONIST_STOCK",
+    "//": "Shopekeeper inventory for the arsonist NPC that spawns at the refugee center",
     "subtype": "collection",
     "items": [
-      { "item": "molotov", "count": 50 },
-      { "item": "improvised_pipebomb", "count": 50 },
-      { "item": "fuse", "count": 20 },
-      { "item": "FMCNote", "count": 3 },
-      { "item": "nail", "count": 5 },
-      { "item": "rebar_rail", "count": 5 },
-      { "item": "textbook_anarch", "count": 1 },
-      { "item": "fertilizer_commercial", "count": 1 }
+      { "item": "FMCNote", "count": [ 5, 10 ] },
+      { "item": "molotov", "count": [ 15, 30 ] },
+      { "item": "improvised_pipebomb", "count": [ 10, 20 ] },
+      { "group": "NC_ARSONIST_STOCK_crafting_supplies", "count": [ 5, 10 ] },
+      { "group": "NC_ARSONIST_STOCK_scrap", "count": [ 5, 10 ] },
+      { "group": "NC_ARSONIST_STOCK_books", "count": [ 1, 2 ] },
+      {
+        "distribution": [
+          { "item": "lighter", "prob": 25 },
+          { "item": "ref_lighter", "prob": 25 },
+          { "item": "electric_lighter", "prob": 25 },
+          { "item": "matches", "prob": 25 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "NC_ARSONIST_STOCK_crafting_supplies",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gasoline", "prob": 15, "container-item": "jar_glass", "charges": [ 250, 500 ] },
+      { "item": "diesel", "prob": 15, "container-item": "jar_glass", "charges": [ 250, 500 ] },
+      { "item": "motor_oil", "prob": 10, "container-item": "jar_glass", "charges": [ 250, 500 ] },
+      { "item": "denat_alcohol", "prob": 10, "container-item": "jar_glass", "charges": [ 250, 500 ] },
+      { "item": "fuse", "prob": 25, "charges": [ 5, 10 ] },
+      { "item": "gunpowder", "prob": 5, "charges": [ 200, 400 ] },
+      { "item": "chem_match_head_powder", "prob": 5, "charges": [ 100, 200 ] },
+      { "item": "fertilizer_commercial", "prob": 10, "charges": [ 30, 60 ] }
+    ]
+  },
+  {
+    "id": "NC_ARSONIST_STOCK_scrap",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pipe", "prob": 25, "charges": [ 2, 4 ] },
+      { "item": "nail", "prob": 25, "charges": [ 25, 50 ] },
+      { "item": "rebar", "prob": 20, "charges": [ 2, 4 ] },
+      { "item": "wire", "prob": 5, "charges": [ 2, 4 ] },
+      { "item": "chain", "prob": 5 },
+      { "item": "scrap", "prob": 10, "charges": [ 5, 10 ] },
+      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 2, 4 ] }
+    ]
+  },
+  {
+    "id": "NC_ARSONIST_STOCK_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "textbook_anarch", "prob": 50 },
+      { "item": "textbook_fireman", "prob": 30 },
+      { "item": "textbook_gaswarfare", "prob": 10 },
+      { "item": "atomic_survival", "prob": 10 }
     ]
   }
 ]

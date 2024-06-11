@@ -253,7 +253,8 @@
         { "chance": 40, "item": "paint", "x": 18, "y": 7 },
         { "chance": 20, "item": "hardware_bulk", "x": 12, "y": 9 },
         { "chance": 20, "item": "hardware_plumbing", "x": 5, "y": 13 }
-      ]
+      ],
+      "place_vehicles": [ { "vehicle": "os_work_vehicles", "chance": 40, "x": [ 6, 14 ], "y": [ 18, 21 ] } ]
     }
   },
   {

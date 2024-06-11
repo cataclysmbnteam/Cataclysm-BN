@@ -108,7 +108,7 @@
         "d": { "item": "office", "chance": 80 },
         "C": { "item": "office", "chance": 20 },
         "S": { "item": "bed", "chance": 60 },
-        "r": { "item": "hospital_medical_items", "chance": 30 },
+        "r": { "item": "hospital_medical_items", "chance": 70 },
         "R": { "item": "hospital_lab", "chance": 70 },
         "l": { "item": "surgery", "chance": 80 },
         "L": { "item": "allclothes", "chance": 90 },

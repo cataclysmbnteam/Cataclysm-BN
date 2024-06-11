@@ -94,7 +94,7 @@
         ".cgg.ggggg.gggg.g.gggg.g"
       ],
       "terrain": {
-        "#": "t_wall_half",
+        "#": "t_wall_half_domestic",
         ".": "t_dirt",
         "0": "t_window_frame",
         "C": "t_concrete",
@@ -269,7 +269,8 @@
         { "chance": 80, "item": "crate_cleaning", "x": 17, "y": 11 },
         { "chance": 35, "item": "toy_box", "x": 6, "y": 13 }
       ],
-      "place_toilets": [ { "x": 19, "y": 15 } ]
+      "place_toilets": [ { "x": 19, "y": 15 } ],
+      "place_vehicles": [ { "vehicle": "os_work_vehicles", "chance": 40, "x": [ 3, 15 ], "y": [ 3, 5 ] } ]
     }
   },
   {

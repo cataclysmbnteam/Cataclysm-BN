@@ -59,6 +59,17 @@
     "obsolete": true
   },
   {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "id_suffix": "form_afs",
+    "obsolete": true
+  },
+  {
+    "result": "afs_survivor_belt",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
     "result": "afs_quilt_patchwork",
     "type": "recipe",
     "obsolete": true

@@ -108,10 +108,10 @@ static void drop_or_embed_projectile( dealt_projectile_attack &attack )
                  !proj.has_effect( ammo_effect_TANGLE );
     // Don't embed in small creatures
     if( embed ) {
-        const m_size critter_size = mon->get_size();
+        const creature_size critter_size = mon->get_size();
         const units::volume vol = drop_item.volume();
-        embed = embed && ( critter_size > MS_TINY || vol < 250_ml );
-        embed = embed && ( critter_size > MS_SMALL || vol < 500_ml );
+        embed = embed && ( critter_size > creature_size::tiny || vol < 250_ml );
+        embed = embed && ( critter_size > creature_size::small || vol < 500_ml );
         // And if we deal enough damage
         // Item volume bumps up the required damage too
         embed = embed &&

@@ -84,7 +84,8 @@
         { "chance": 30, "item": "hardware_trash", "x": 3, "y": [ 3, 4 ] },
         { "chance": 10, "item": "tools_construction", "x": 12, "y": 4 },
         { "chance": 20, "item": "construction_worker", "x": 15, "y": 8 }
-      ]
+      ],
+      "place_vehicles": [ { "vehicle": "os_work_vehicles", "chance": 40, "x": [ 2, 21 ], "y": [ 20, 21 ] } ]
     }
   },
   {
@@ -173,7 +174,8 @@
         { "chance": 30, "item": "hardware_trash", "x": 3, "y": [ 3, 4 ] },
         { "chance": 20, "item": "construction_worker", "x": 15, "y": 8 },
         { "chance": 20, "item": "construction_worker", "x": 6, "y": 3 }
-      ]
+      ],
+      "place_vehicles": [ { "vehicle": "os_work_vehicles", "chance": 40, "x": [ 2, 21 ], "y": [ 20, 21 ] } ]
     }
   }
 ]
