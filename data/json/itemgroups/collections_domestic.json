@@ -229,10 +229,12 @@
       [ "holy_symbol", 5 ],
       [ "pills_sleep", 5 ],
       [ "nyquil", 5 ],
-      { "group": "mansion_guns", "prob": 3 },
       { "group": "harddrugs", "prob": 1 },
       [ "joint", 1 ],
-      [ "hairbrush", 5 ]
+      [ "hairbrush", 5 ],
+      { "group": "ammo_pistol_common", "prob": 5 },
+      { "group": "guns_pistol_common", "prob": 1 },
+      { "group": "mags_pistol_common", "prob": 1 }
     ]
   },
   {
@@ -400,7 +402,16 @@
       { "item": "yukata", "prob": 1 },
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "reading_light", "prob": 9 },
-      { "item": "balloon", "prob": 5 }
+      { "item": "balloon", "prob": 5 },
+      { "group": "ammo_common", "prob": 20 },
+      { "group": "guns_rifle_common", "prob": 2 },
+      { "group": "guns_pistol_common", "prob": 5 },
+      { "group": "guns_smg_common", "prob": 3 },
+      { "group": "guns_shotgun_common", "prob": 3 },
+      { "group": "mags_rifle_common", "prob": 2 },
+      { "group": "mags_pistol_common", "prob": 5 },
+      { "group": "mags_smg_common", "prob": 3 },
+      { "group": "mags_shotgun_common", "prob": 3 }
     ]
   },
   {
@@ -560,7 +571,8 @@
       { "item": "fish_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "sauce_red", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "group": "big_canned_food", "prob": 4 }
+      { "group": "big_canned_food", "prob": 4 },
+      { "group": "ammo_common", "prob": 20 }
     ]
   },
   {
@@ -938,7 +950,16 @@
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "bodypillow", "prob": 2 },
       { "item": "reading_light", "prob": 8 },
-      { "item": "condom", "prob": 50, "count": [ 1, 5 ] }
+      { "item": "condom", "prob": 50, "count": [ 1, 5 ] },
+      { "group": "ammo_common", "prob": 20 },
+      { "group": "guns_rifle_common", "prob": 2 },
+      { "group": "guns_pistol_common", "prob": 5 },
+      { "group": "guns_smg_common", "prob": 3 },
+      { "group": "guns_shotgun_common", "prob": 3 },
+      { "group": "mags_rifle_common", "prob": 2 },
+      { "group": "mags_pistol_common", "prob": 5 },
+      { "group": "mags_smg_common", "prob": 3 },
+      { "group": "mags_shotgun_common", "prob": 3 }
     ]
   },
   {
