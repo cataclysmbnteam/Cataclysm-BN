@@ -73,6 +73,7 @@
         "r": "f_rack",
         "t": "f_table"
       },
+      "items": { "d": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "T": {  } },
       "place_loot": [
         { "group": "gunmod_common", "x": [ 5, 10 ], "y": 10, "chance": 100, "repeat": [ 3, 6 ] },

@@ -74,6 +74,7 @@
         "k": { "terrain": "t_linoleum_white", "furniture": "f_rack" },
         "Q": { "terrain": "t_linoleum_white", "furniture": "f_trashcan" }
       },
+      "items": { "f": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "trash", "x": 14, "y": 4, "chance": 35, "repeat": [ 1, 3 ] },

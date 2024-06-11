@@ -111,6 +111,7 @@
         "|": "t_brick_wall"
       },
       "furniture": { "D": "f_dumpster", "P": "f_mailbox", "{": "f_dumpster" },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 }, "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_item": [
         { "chance": 20, "item": "toolbox", "x": 14, "y": 10 },
         { "chance": 30, "item": "glass_sheet", "x": 5, "y": 18 },
@@ -235,6 +236,7 @@
         "o": "f_oven",
         "{": "f_dumpster"
       },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 }, "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 20, "item": "kitchen_nonfood", "x": 13, "y": 10 },
         { "chance": 10, "item": "bags_trip", "x": 17, "y": 10 },

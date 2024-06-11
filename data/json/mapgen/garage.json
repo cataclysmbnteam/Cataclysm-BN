@@ -74,7 +74,8 @@
         "L": { "item": "clothing_work_set", "chance": 55 },
         "c": { "item": "mechanics", "chance": 60 },
         "S": { "item": "mechanics", "chance": 80, "repeat": [ 1, 6 ] },
-        "x": { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 2 ] }
+        "x": { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 2 ] },
+        "U": { "item": "trash_dumpster", "chance": 80 }
       },
       "place_vehicles": [
         { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
@@ -169,7 +170,8 @@
         "c": { "item": "mechanics", "chance": 50 },
         "r": { "item": "gas_charging_rack", "chance": 25 },
         "S": { "item": "mechanics", "chance": 60, "repeat": [ 1, 6 ] },
-        "x": { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 2 ] }
+        "x": { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 2 ] },
+        "U": { "item": "trash_dumpster", "chance": 80 }
       },
       "place_vehicles": [ { "vehicle": "garage_electric", "x": 16, "y": [ 9, 10 ], "chance": 25, "rotation": 90 } ]
     }
@@ -418,7 +420,8 @@
         "w": { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 2 ] },
         "f": { "item": "office", "chance": 70, "repeat": [ 1, 6 ] },
         "d": { "item": "office", "chance": 70, "repeat": [ 1, 6 ] },
-        "T": { "item": "cleaning", "chance": 70, "repeat": [ 1, 6 ] }
+        "T": { "item": "cleaning", "chance": 70, "repeat": [ 1, 6 ] },
+        "U": { "item": "trash_dumpster", "chance": 80 }
       },
       "place_vehicles": [ { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 95, "rotation": 90 } ]
     }

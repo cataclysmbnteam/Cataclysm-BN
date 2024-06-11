@@ -241,6 +241,7 @@
         "5": "f_bench"
       },
       "items": {
+        "{": { "item": "trash_dumpster", "chance": 80 },
         "I": { "item": "office", "chance": 30 },
         "F": { "item": "office_paper", "chance": 30 },
         "&": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }

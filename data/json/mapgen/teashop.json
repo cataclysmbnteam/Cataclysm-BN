@@ -83,6 +83,7 @@
         "R": "f_rack",
         "{": "f_bookcase"
       },
+      "items": { "&": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "U": {  } },
       "place_signs": [ { "signage": "The Red Dragon Tea Shop", "x": 4, "y": 4 } ],
       "place_items": [

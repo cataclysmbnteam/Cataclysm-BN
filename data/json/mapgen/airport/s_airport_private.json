@@ -117,10 +117,7 @@
         { "group": "tools_mechanic", "chance": 50, "repeat": 4, "x": 81, "y": 8 },
         { "group": "military_helicopter_parts", "chance": 15, "x": 81, "y": 8 }
       ],
-      "items": {
-        "q": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
-        "I": { "item": "office", "chance": 30, "repeat": [ 2, 3 ] }
-      },
+      "items": { "q": { "item": "trash_dumpster", "chance": 80 }, "I": { "item": "office", "chance": 30, "repeat": [ 2, 3 ] } },
       "place_vehicles": [
         { "vehicle": "dealership", "x": 3, "y": 3, "chance": 50, "rotation": 180 },
         { "vehicle": "dealership", "x": 3, "y": 8, "chance": 50, "rotation": 180 },
