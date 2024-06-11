@@ -928,7 +928,12 @@
     "autolearn": [ [ "fabrication", 3 ] ],
     "book_learn": [ [ "manual_fabrication", 1 ], [ "textbook_fabrication", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "sheet", 1 ], [ "water", 10 ], [ "ceramic_shard", 10 ] ], [ [ "frame_wood_light", 1 ] ] ]
+    "components": [
+      [ [ "sheet", 1 ] ],
+      [ [ "water", 10 ], [ "water_clean", 10 ] ],
+      [ [ "ceramic_shard", 10 ] ],
+      [ [ "frame_wood_light", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
