@@ -81,7 +81,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "ammo_pistol_modern_handloads", "prob": 50 },
-      { "group": "ammo_pistol_blackpowder_handloads", "prob": 50] }
+      { "group": "ammo_pistol_blackpowder_handloads", "prob": 50 }
     ]
   },
   {
