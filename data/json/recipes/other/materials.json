@@ -930,7 +930,7 @@
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [
       [ [ "sheet", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 1 ] ],
+      [ [ "water", 10 ], [ "water_clean", 10 ] ],
       [ [ "ceramic_shard", 10 ] ],
       [ [ "frame_wood_light", 1 ] ]
     ]
