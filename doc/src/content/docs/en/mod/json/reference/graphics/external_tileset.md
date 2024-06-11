@@ -39,7 +39,8 @@ Links to relevant pull requests, for content covered below:
 - Alternative sign sprite: [#3670](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3670)
 - New traps: [#3939](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3939)
 - New monster: [#4182](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4182)
-- Furniture form of utility light: [#4780](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4780)
+- Furniture form of utility light:
+  [#4780](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4780)
 
 ## Undead People
 
