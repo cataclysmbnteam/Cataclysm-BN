@@ -80,8 +80,8 @@
     "//": "Reloaded pistol ammo, black powder loads roughly half of the time.",
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_modern_handloads", "prob": 50, "charges": [ 1, 100 ] },
-      { "group": "ammo_pistol_blackpowder_handloads", "prob": 50, "charges": [ 1, 100 ] }
+      { "group": "ammo_pistol_modern_handloads", "prob": 50 },
+      { "group": "ammo_pistol_blackpowder_handloads", "prob": 50] }
     ]
   },
   {
