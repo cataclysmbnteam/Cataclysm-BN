@@ -572,15 +572,7 @@
       { "item": "sauce_red", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "group": "big_canned_food", "prob": 4 },
-      { "group": "ammo_common", "prob": 20 },
-      { "group": "guns_rifle_common", "prob": 2 },
-      { "group": "guns_pistol_common", "prob": 5 },
-      { "group": "guns_smg_common", "prob": 3 },
-      { "group": "guns_shotgun_common", "prob": 3 },
-      { "group": "mags_rifle_common", "prob": 2 },
-      { "group": "mags_pistol_common", "prob": 5 },
-      { "group": "mags_smg_common", "prob": 3 },
-      { "group": "mags_shotgun_common", "prob": 3 }
+      { "group": "ammo_common", "prob": 20 }
     ]
   },
   {
