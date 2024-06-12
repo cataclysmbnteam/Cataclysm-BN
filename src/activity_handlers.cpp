@@ -971,7 +971,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                                             corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) || corpse_item->has_flag( flag_QUARTERED );
         const bool already_harvested = ( corpse_item->has_flag( flag_SKINNED ) && entry.type == "skin" ) ||
                                        ( has_any_field_dressing && entry.type == "offal" ) || ( ( has_any_field_dressing ||
-                                               corpse_item->has_flag( flag_BLED ) || action != BLEED  ) && entry.type == "blood" );
+                                               corpse_item->has_flag( flag_BLED ) || action != BLEED ) && entry.type == "blood" );
         if( already_harvested ) {
             roll = 0;
         }
