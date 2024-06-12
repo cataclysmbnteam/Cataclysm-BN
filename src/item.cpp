@@ -6189,8 +6189,8 @@ static int phys_resist( const item &it, damage_type dt, clothing_mod_type cmt,
         }
 
         // We can have 0 thickness items, so need to check for it to ensure we don't get NaN in calcs
-        int thickness = it.get_thickness();
-        float damaged_resistance = ( 0 != thickness ) ? base_resistance * eff_thickness / thickness : 0.0f;
+        const int thickness = it.get_thickness();
+        const float damaged_resistance = ( thickness == 0 ) ? 0.0f : base_resistance * eff_thickness / thickness;
 
         return std::lround( damaged_resistance + mod );
     }
