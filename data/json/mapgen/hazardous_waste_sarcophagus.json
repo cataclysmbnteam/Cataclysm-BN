@@ -75,7 +75,7 @@
         ".": "t_floor",
         "P": "t_sewage_pipe",
         "S": "t_sewage_pump",
-        "G": "t_grate",
+        "G": "t_grate_indoor",
         "E": "t_elevator",
         "e": "t_elevator_control_off",
         "v": "t_region_groundcover",
