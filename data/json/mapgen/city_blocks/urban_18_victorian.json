@@ -119,7 +119,7 @@
       "items": {
         " ": { "item": "livingroom", "chance": 2 },
         "C": { "item": "kitchen", "chance": 25 },
-        "f": { "item": "fridge", "chance": 70 },
+        "f": { "item": "SUS_fridge", "chance": 70 },
         "o": { "item": "oven", "chance": 30 },
         "r": { "item": "jackets", "chance": 60 },
         "t": { "item": "dining", "chance": 25 },

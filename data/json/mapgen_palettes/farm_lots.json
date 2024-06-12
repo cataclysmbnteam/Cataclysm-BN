@@ -114,7 +114,7 @@
     "toilets": { "t": {  } },
     "items": {
       "k": { "item": "office", "chance": 25 },
-      "f": { "item": "fridge", "chance": 45, "repeat": [ 1, 4 ] },
+      "f": { "item": "SUS_fridge", "chance": 50 },
       "o": { "item": "oven", "chance": 40 },
       "8": { "item": "homebooks", "chance": 45, "repeat": [ 1, 3 ] },
       "r": { "item": "restaur_kitchen", "chance": 45, "repeat": [ 1, 3 ] },
