@@ -143,7 +143,7 @@
         "H": { "item": "livingroom", "chance": 65 },
         "b": { "item": "softdrugs", "chance": 70 },
         "d": [ { "item": "dresser", "chance": 80 }, { "item": "homeguns", "chance": 20 } ],
-        "e": { "item": "fridge", "chance": 65 },
+        "e": { "item": "SUS_fridge", "chance": 70 },
         "h": { "item": "bedroom", "chance": 65 },
         "k": { "item": "bedroom", "chance": 65 },
         "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },

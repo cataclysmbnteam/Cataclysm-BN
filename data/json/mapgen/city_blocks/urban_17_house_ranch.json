@@ -40,7 +40,7 @@
         "L": { "item": "jackets", "chance": 70 },
         "c": { "item": "livingroom", "chance": 25 },
         "d": { "item": "office", "chance": 40 },
-        "f": { "item": "fridge", "chance": 70 },
+        "f": { "item": "SUS_fridge", "chance": 70 },
         "j": { "item": "cannedfood", "chance": 50 },
         "o": { "item": "oven", "chance": 30 },
         "q": { "item": "trash", "chance": 50 },
