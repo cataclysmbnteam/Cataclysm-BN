@@ -14,6 +14,7 @@
         "t": "f_trashcan",
         "{": "f_dumpster"
       },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 10, "item": "kitchen_nonfood", "x": 20, "y": 3 },
         { "chance": 20, "item": "cannedfood", "x": 20, "y": 21 },
@@ -217,6 +218,7 @@
         "{": "f_dumpster",
         "o": "f_oven"
       },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 20, "item": "table_livingroom", "x": 16, "y": 21 },
         { "chance": 20, "item": "table_livingroom", "x": 9, "y": 2 },

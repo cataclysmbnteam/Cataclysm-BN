@@ -87,6 +87,7 @@
         "5": "f_flower_tulip",
         "u": "f_vending_reinforced"
       },
+      "items": { "U": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "sewing_group", "x": [ 8, 8 ], "y": [ 9, 11 ], "chance": 75, "repeat": [ 2, 10 ] },

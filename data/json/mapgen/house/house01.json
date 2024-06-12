@@ -138,6 +138,7 @@
         { "chance": 50, "item": "shovel", "repeat": 1, "x": 3, "y": 18 }
       ],
       "furniture": { "r": "f_rubble_rock", "{": "f_dumpster" },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 5, "item": "construction_worker", "x": 17, "y": 12 },
         { "chance": 5, "item": "construction_worker", "x": 18, "y": 5 },
@@ -231,6 +232,7 @@
         "b": "f_dumpster",
         "{": "f_fridge"
       },
+      "items": { "b": { "item": "trash_dumpster", "chance": 80 } },
       "place_item": [
         { "chance": 40, "item": "2x4", "repeat": 2, "x": 3, "y": 7 },
         { "chance": 40, "item": "2x4", "repeat": 1, "x": 3, "y": 8 }

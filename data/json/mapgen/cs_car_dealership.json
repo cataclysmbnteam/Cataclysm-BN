@@ -74,7 +74,7 @@
       "items": {
         "s": { "item": "oa_discarded_news", "chance": 20 },
         "c": { "item": "oa_custom_trash", "chance": 70 },
-        "#": { "item": "oa_custom_trash", "chance": 60 },
+        "#": { "item": "trash_dumpster", "chance": 80 },
         "d": { "item": "oa_ig_cd_desks", "chance": 70 },
         "L": { "item": "oa_ig_cd_lockers", "chance": 70 },
         "F": { "item": "fridgesnacks", "chance": 60 },
