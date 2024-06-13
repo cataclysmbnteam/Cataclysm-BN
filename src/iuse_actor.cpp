@@ -295,6 +295,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         p.update_bodytemp( get_map(), get_weather() );
         p.on_item_wear( it );
     }
+    p.inv_update_cache_with_item( it );
     it.item_counter = countdown > 0 ? countdown : it.type->countdown_interval;
     it.active = active || it.item_counter;
     // Check for gaining or losing night vision, eye encumbrance effects, clairvoyance from transforming relics, etc.
