@@ -685,7 +685,7 @@
   },
   {
     "type": "recipe",
-    "result": "gatling_mech_laser_rebuilt",
+    "result": "recon_mech_laser_rebuilt",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "electronics",
@@ -695,7 +695,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "gatling_mech_laser_salvaged", 1 ] ], [ [ "battery_ups", 1 ] ], [ [ "cable", 25 ] ] ]
+    "components": [ [ [ "recon_mech_laser_salvaged", 1 ] ], [ [ "battery_ups", 1 ] ], [ [ "cable", 25 ] ] ]
   },
   {
     "type": "recipe",
