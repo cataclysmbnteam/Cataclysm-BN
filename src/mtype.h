@@ -212,8 +212,8 @@ struct pet_food_data {
     std::string feed;
 
     bool was_loaded = false;
-    void load(const JsonObject& jo);
-    void deserialize(JsonIn& jsin);
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct regen_modifier {

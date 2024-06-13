@@ -698,17 +698,17 @@ class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_r
 };
 
 
-void pet_food_data::load(const JsonObject& jo)
+void pet_food_data::load( const JsonObject &jo )
 {
-    mandatory(jo, was_loaded, "food", food);
-    optional(jo, was_loaded, "feed", feed);
-    optional(jo, was_loaded, "pet", pet);
+    mandatory( jo, was_loaded, "food", food );
+    optional( jo, was_loaded, "feed", feed );
+    optional( jo, was_loaded, "pet", pet );
 }
 
-void pet_food_data::deserialize(JsonIn& jsin)
+void pet_food_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    load(data);
+    load( data );
 }
 
 void mtype::load( const JsonObject &jo, const std::string &src )
@@ -816,7 +816,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     // Load pet food data
-    optional(jo, was_loaded, "petfood", petfood);
+    optional( jo, was_loaded, "petfood", petfood );
 
     if( jo.has_array( "scents_tracked" ) ) {
         for( const std::string line : jo.get_array( "scents_tracked" ) ) {

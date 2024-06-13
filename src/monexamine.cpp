@@ -819,7 +819,7 @@ void monexamine::play_with( monster &z )
     std::string pet_name = z.get_name();
     avatar &you = get_avatar();
     you.assign_activity( ACT_PLAY_WITH_PET, rng( 50, 125 ) * 100 );
-    you.activity->str_values.push_back( pet_name);
+    you.activity->str_values.push_back( pet_name );
 }
 
 void monexamine::kill_zslave( monster &z )

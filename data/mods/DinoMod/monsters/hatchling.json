@@ -150,18 +150,7 @@
     "dodge": 1,
     "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "GUILT",
-      "STUMBLES",
-      "NO_BREED",
-      "CANPLAY"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "STUMBLES", "NO_BREED", "CANPLAY" ],
     "harvest": "bird_tiny"
   },
   {
@@ -173,18 +162,7 @@
     "color": "light_green_yellow",
     "upgrades": { "age_grow": 20, "into": "mon_gallimimus_juvenile" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "GUILT",
-      "CANPLAY",
-      "STUMBLES",
-      "NO_BREED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "CANPLAY", "STUMBLES", "NO_BREED" ]
   },
   {
     "id": "mon_struthiomimus_hatchling",
@@ -207,18 +185,7 @@
     "color": "light_green_yellow",
     "upgrades": { "age_grow": 25, "into": "mon_albertonykus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "GUILT",
-      "CANPLAY",
-      "STUMBLES",
-      "NO_BREED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "CANPLAY", "STUMBLES", "NO_BREED" ]
   },
   {
     "id": "mon_nothronychus_hatchling",
@@ -290,18 +257,7 @@
     "default_faction": "eoraptor",
     "upgrades": { "age_grow": 14, "into": "mon_eoraptor" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "GUILT",
-      "CANPLAY",
-      "STUMBLES",
-      "NO_BREED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "CANPLAY", "STUMBLES", "NO_BREED" ]
   },
   {
     "id": "mon_sarahsaurus_hatchling",
@@ -311,18 +267,7 @@
     "weight": "2 kg",
     "volume": "2 L",
     "upgrades": { "age_grow": 40, "into": "mon_sarahsaurus_juvenile" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "GUILT",
-      "CANPLAY",
-      "STUMBLES",
-      "NO_BREED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "CANPLAY", "STUMBLES", "NO_BREED" ]
   },
   {
     "id": "mon_anchisaurus_hatchling",
@@ -682,18 +627,7 @@
     "color": "light_gray",
     "upgrades": { "age_grow": 20, "into": "mon_thescelosaurus_juvenile" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CANPLAY",
-      "STUMBLES",
-      "NO_BREED",
-      "GUILT"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "STUMBLES", "NO_BREED", "GUILT" ]
   },
   {
     "id": "mon_dimorphodon_hatchling",

@@ -23,11 +23,7 @@
     "melee_cut": 1,
     "dodge": 4,
     "harvest": "bird_tiny",
-    "reproduction": {
-      "baby_egg": "egg_chicken",
-      "baby_count": 1,
-      "baby_timer": 2
-    },
+    "reproduction": { "baby_egg": "egg_chicken", "baby_count": 1, "baby_timer": 2 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "death_function": [ "NORMAL" ],
     "petfood": {
@@ -35,7 +31,6 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
@@ -221,10 +216,7 @@
     "dodge": 1,
     "harvest": "bird_tiny",
     "death_function": [ "NORMAL" ],
-    "upgrades": {
-      "age_grow": 14,
-      "into": "mon_chicken"
-    },
+    "upgrades": { "age_grow": 14, "into": "mon_chicken" },
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",

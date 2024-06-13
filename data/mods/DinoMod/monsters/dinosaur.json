@@ -624,16 +624,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "special_attacks": [ [ "EAT_CROP", 30 ], [ "LONGSWIPE", 25 ] ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "PET_MOUNTABLE",
-      "PET_WONT_FOLLOW",
-      "WARM"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "PET_WONT_FOLLOW", "WARM" ],
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
@@ -1403,16 +1394,7 @@
     "reproduction": { "baby_egg": "egg_ankylosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "BASHES",
-      "PET_MOUNTABLE",
-      "PET_WONT_FOLLOW"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "PET_MOUNTABLE", "PET_WONT_FOLLOW" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
@@ -1794,16 +1776,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "special_attacks": [ [ "EAT_CROP", 60 ], [ "LUNGE", 10 ] ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "PET_MOUNTABLE",
-      "PET_WONT_FOLLOW",
-      "HIT_AND_RUN"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "PET_WONT_FOLLOW", "HIT_AND_RUN" ],
     "harvest": "dino_feather_leather",
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
@@ -2231,17 +2204,7 @@
     "reproduction": { "baby_egg": "egg_quetzalcoatlus", "baby_count": 3, "baby_timer": 24 },
     "special_attacks": [ [ "scratch", 10 ] ],
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "FLIES",
-      "HIT_AND_RUN",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "CANPLAY",
-      "PET_MOUNTABLE"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "PET_MOUNTABLE" ],
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ],
     "harvest": "dino_feather_leather"
