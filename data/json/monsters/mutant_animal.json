@@ -44,7 +44,7 @@
       "food": [ "CATFOOD" ],
       "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
       "pet": "The %s sofly purrs as you pet it.  It demands more."
-    },
+    }
   },
   {
     "id": "mon_cat_void_kitten",
@@ -58,7 +58,7 @@
       "food": [ "CATFOOD" ],
       "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
       "pet": "The %s sofly purrs as you pet it.  It demands more."
-    },
+    }
   },
   {
     "id": "mon_cat_void",
@@ -72,7 +72,7 @@
       "food": [ "CATFOOD" ],
       "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
       "pet": "The %s sofly purrs as you pet it.  It demands more."
-    },
+    }
   },
   {
     "id": "mon_bear_armored",
