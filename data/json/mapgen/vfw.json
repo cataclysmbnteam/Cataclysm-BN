@@ -68,6 +68,7 @@
         "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
         "S": "f_statue"
       },
+      "items": { "U": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "B": {  } },
       "place_items": [
         { "item": "vfw_tools", "x": 13, "y": 10, "chance": 15, "repeat": [ 1, 2 ] },
@@ -151,6 +152,7 @@
         "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
         "S": "f_statue"
       },
+      "items": { "U": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "B": {  } },
       "place_items": [
         { "item": "vfw_tools", "x": 13, "y": 10, "chance": 15, "repeat": [ 1, 2 ] },

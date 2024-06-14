@@ -931,7 +931,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     continue;
                 }
                 p.add_msg_if_player( m_bad,
-                                     _( "You notice there are bionics implanted in this corpse, that careful dissection might preserve." ) );
+                                     _( "You notice there are implants in this corpse, that careful dissection might preserve." ) );
                 continue;
             }
             if( action == BUTCHER || action == BUTCHER_FULL || action == DISMEMBER ) {
@@ -953,7 +953,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                         break;
                     case 3:
                         p.add_msg_if_player( m_bad,
-                                             _( "You found some bionics in the body, but harvesting them would require more surgical approach." ) );
+                                             _( "You found some implants in the body, but harvesting them would require more surgical approach." ) );
                         break;
                 }
                 continue;
@@ -965,17 +965,13 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             roll /= 2;
         }
 
-        if( corpse_item->has_flag( flag_SKINNED ) && entry.type == "skin" ) {
-            roll = 0;
-        }
-
-        // Check if monster was bled already
-        if(
-            ( corpse_item->has_flag( flag_BLED ) ||
-              corpse_item->has_flag( flag_FIELD_DRESS ) ||
-              corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) ||
-              corpse_item->has_flag( flag_QUARTERED ) ) &&
-            entry.type == "blood" ) {
+        // Corpses that have been skinned, field dressed, or bleed do not yield that item anymore
+        const bool has_any_field_dressing = corpse_item->has_flag( flag_FIELD_DRESS ) ||
+                                            corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) || corpse_item->has_flag( flag_QUARTERED );
+        const bool already_harvested = ( corpse_item->has_flag( flag_SKINNED ) && entry.type == "skin" ) ||
+                                       ( has_any_field_dressing && entry.type == "offal" ) || ( ( has_any_field_dressing ||
+                                               corpse_item->has_flag( flag_BLED ) ) && entry.type == "blood" );
+        if( already_harvested ) {
             roll = 0;
         }
 
@@ -1031,6 +1027,11 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
         }
 
+        // only bother with the blood if bleeding a corpse
+        if( action != BLEED && entry.type == "blood" ) {
+            roll = 0;
+        }
+
         // field dressing removed innards and bones from meatless limbs
         if( ( action == BUTCHER_FULL || action == BUTCHER ) && corpse_item->has_flag( flag_FIELD_DRESS ) ) {
             if( entry.type == "offal" ) {
@@ -1073,7 +1074,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
 
             if( roll <= 0 ) {
-                p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ) );
+                if( !already_harvested ) {
+                    p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ) );
+                }
                 continue;
             }
             if( drop->phase == LIQUID ) {

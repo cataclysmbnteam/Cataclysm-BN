@@ -3494,7 +3494,9 @@
       {
         "distribution": [
           { "group": "everyday_gear", "prob": 75 },
-          { "group": "ammo_common", "prob": 15 },
+          { "group": "ammo_pistol_common", "prob": 5 },
+          { "group": "guns_pistol_common", "prob": 1 },
+          { "group": "mags_pistol_common", "prob": 1 },
           { "item": "condom", "prob": 10, "count": [ 1, 5 ] }
         ],
         "prob": 20
