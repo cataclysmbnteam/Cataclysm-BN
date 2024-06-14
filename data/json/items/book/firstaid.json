@@ -41,7 +41,7 @@
     "copy-from": "base_book",
     "name": { "str": "The Big Book of First Aid", "str_pl": "copies of The Big Book of First Aid" },
     "description": "It's big and heavy, but full of great information about first aid.",
-    "weight": "454 g",
+    "weight": "500 g",
     "volume": "1250 ml",
     "price": "25 USD",
     "price_postapoc": "1250 cent",

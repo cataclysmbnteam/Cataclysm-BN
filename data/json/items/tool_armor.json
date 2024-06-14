@@ -1270,7 +1270,7 @@
     "category": "clothing",
     "name": { "str": "light survivor mask" },
     "description": "A custom-built, reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
-    "weight": "466 g",
+    "weight": "500 g",
     "volume": "1250 ml",
     "price": "240 USD",
     "price_postapoc": "15 USD",

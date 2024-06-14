@@ -44,7 +44,7 @@
     "price": "10 USD",
     "material": [ "titanium" ],
     "looks_like": "scrap",
-    "weight": "450 g",
+    "weight": "500 g",
     "volume": "100 ml",
     "bashing": 1,
     "to_hit": -2

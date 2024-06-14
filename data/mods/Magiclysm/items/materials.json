@@ -57,7 +57,7 @@
     "id": "dragon_bone",
     "category": "spare_parts",
     "name": { "str": "dragon bone" },
-    "weight": "450 g",
+    "weight": "500 g",
     "color": "white",
     "symbol": "%",
     "description": "A bone from a dragon!  Even on its own, these bones make an excellent material for weapons.  However, something tells you that the bones hide more secrets than just that.",
