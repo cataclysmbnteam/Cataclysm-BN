@@ -681,17 +681,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "PET_MOUNTABLE",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "PET_WONT_FOLLOW",
-      "MILKABLE"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
   {
     "id": "mon_coyote",
@@ -1136,7 +1126,7 @@
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat their head."
-    },    
+    },
     "flags": [
       "ANIMAL",
       "CLIMBS",
@@ -1872,16 +1862,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PET_WONT_FOLLOW",
-      "PET_MOUNTABLE",
-      "PATH_AVOID_DANGER_1",
-      "WARM"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
     "id": "mon_lemming",
@@ -2167,11 +2148,7 @@
     "melee_cut": 4,
     "dodge": 2,
     "harvest": "mammal_large_leather",
-    "reproduction": {
-      "baby_monster": "mon_pig_piglet",
-      "baby_count": 8,
-      "baby_timer": 154
-    },
+    "reproduction": { "baby_monster": "mon_pig_piglet", "baby_count": 8, "baby_timer": 154 },
     "//": "116 days gestation, 3-5 weeks until the piglets get weaned, 10-30 days of maturation",
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "path_settings": { "max_dist": 10 },
@@ -2180,10 +2157,7 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "petfood": {
-      "food": [ "CATTLEFOOD" ],
-      "feed": "The %s seems to like you! It lets you pat its head and seems friendly."
-    },
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
     "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
   },
   {
@@ -2361,17 +2335,7 @@
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "SHEARABLE",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "PET_WONT_FOLLOW",
-      "MILKABLE"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "SHEARABLE", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
   {
     "id": "mon_squirrel",

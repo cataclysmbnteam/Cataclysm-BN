@@ -587,12 +587,7 @@
     "healthy": 2,
     "quench": 1,
     "calories": 170,
-    "vitamins": [
-      [ "vitA", 20 ],
-      [ "vitC", 45 ],
-      [ "calcium", 5 ],
-      [ "iron", 5 ]
-    ],
+    "vitamins": [ [ "vitA", 20 ], [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
     "fun": 5,
     "color": "brown",
     "flags": [ "INEDIBLE", "CATTLE" ],
@@ -615,10 +610,7 @@
     "symbol": ";",
     "healthy": 1,
     "calories": 20,
-    "vitamins": [
-      [ "calcium", 1 ],
-      [ "iron", 7 ]
-    ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
     "fun": 5,
     "color": "brown",
     "flags": [ "INEDIBLE", "BIRD", "NUTRIENT_OVERRIDE" ],
@@ -643,12 +635,7 @@
     "healthy": 2,
     "quench": 2,
     "calories": 350,
-    "vitamins": [
-      [ "vitC", 4 ],
-      [ "iron", 17 ],
-      [ "vitB", 187 ],
-      [ "calcium", 0 ]
-    ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
     "fun": -15,
     "color": "brown",
     "flags": [ "LUPINE" ],
@@ -673,12 +660,7 @@
     "healthy": 2,
     "quench": 2,
     "calories": 600,
-    "vitamins": [
-      [ "vitC", 4 ],
-      [ "iron", 17 ],
-      [ "vitB", 187 ],
-      [ "calcium", 0 ]
-    ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
     "fun": -15,
     "color": "brown",
     "flags": [ "FELINE" ],
