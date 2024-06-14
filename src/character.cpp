@@ -1367,6 +1367,10 @@ void Character::mount_creature( monster &z )
             add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
         }
     }
+    // Unfreeze recently-dismounted horses
+    if( z.has_effect( effect_ai_waiting ) ) {
+        z.remove_effect( effect_ai_waiting );
+    }
     // some rideable mechs have night-vision
     recalc_sight_limits();
     mod_moves( -100 );

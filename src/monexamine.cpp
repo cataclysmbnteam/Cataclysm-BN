@@ -204,7 +204,11 @@ bool monexamine::pet_menu( monster &z )
 
     if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         if( z.has_flag( MF_PET_MOUNTABLE ) && you.can_mount( z ) ) {
-            amenu.addentry( mount, true, 'r', _( "Mount %s" ), pet_name );
+            if( z.has_effect( effect_tied ) ) {
+                amenu.addentry( mount, true, 'r', _( "Untie and mount %s" ), pet_name );
+            } else {
+                amenu.addentry( mount, true, 'r', _( "Mount %s" ), pet_name );
+            }
         } else if( !z.has_flag( MF_PET_MOUNTABLE ) ) {
             amenu.addentry( mount, false, 'r', _( "%s cannot be mounted" ), pet_name );
         } else if( z.get_size() <= you.get_size() ) {
@@ -604,7 +608,7 @@ bool Character::can_mount( const monster &critter ) const
         return false;
     }
     return ( critter.has_flag( MF_PET_MOUNTABLE ) && critter.friendly == -1 &&
-             !critter.has_effect( effect_ai_waiting ) && !critter.has_effect( effect_ridden ) ) &&
+             !critter.has_effect( effect_ridden ) ) &&
            ( ( critter.has_effect( effect_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
              get_skill_level( skill_survival ) >= 4 ) && ( critter.get_size() >= ( get_size() + 1 ) &&
                      get_weight() <= critter.get_weight() * critter.get_mountable_weight_ratio() );
@@ -612,6 +616,9 @@ bool Character::can_mount( const monster &critter ) const
 
 void monexamine::mount_pet( monster &z )
 {
+    if( z.has_effect( effect_tied ) ) {
+        untie_pet( z );
+    }
     get_avatar().mount_creature( z );
 }
 
