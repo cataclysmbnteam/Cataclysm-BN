@@ -377,9 +377,7 @@
       [ "news_regional", 7 ],
       [ "mag_news", 7 ],
       [ "hairpin", 10 ],
-      [ "flyer", 7 ],
-      [ "glock_19", 5 ],
-      [ "9mm", 3 ]
+      [ "flyer", 7 ]
     ]
   },
   {

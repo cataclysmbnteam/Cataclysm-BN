@@ -69,6 +69,7 @@
         "{": "f_locker",
         "S": "f_sink"
       },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 15, "item": "bags", "x": 5, "y": 9 },
         { "chance": 65, "item": "vending_drink_items", "x": 15, "y": 5 },
@@ -256,6 +257,7 @@
         "{": "f_vending_c",
         "S": "f_sink"
       },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 45, "item": "cubical_office", "x": 18, "y": 21 },
         { "chance": 45, "item": "jackets", "x": 18, "y": 20 },

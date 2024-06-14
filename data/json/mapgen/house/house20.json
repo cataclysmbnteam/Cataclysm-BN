@@ -110,6 +110,7 @@
         "|": "t_wall_wood"
       },
       "furniture": { "A": "f_mailbox", "^": "f_rubble", "{": "f_dumpster" },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_item": [
         { "chance": 30, "item": "2x4", "repeat": 3, "x": 21, "y": 4 },
         { "chance": 30, "item": "glass_sheet", "repeat": 2, "x": 19, "y": 5 },
@@ -275,6 +276,7 @@
         "o": "f_oven",
         "{": "f_dumpster"
       },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 80, "item": "crate_parts", "x": 3, "y": 8 },
         { "chance": 20, "item": "shoes", "x": 8, "y": 7 },
