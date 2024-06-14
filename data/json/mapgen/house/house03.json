@@ -113,6 +113,7 @@
         "|": "t_brick_wall"
       },
       "furniture": { "D": "f_dumpster", "P": "f_mailbox", "{": "f_dumpster" },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 }, "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_item": [
         { "chance": 50, "item": "2x4", "repeat": 1, "x": 17, "y": 8 },
         { "chance": 50, "item": "2x4", "repeat": 3, "x": 18, "y": 8 },
@@ -219,6 +220,7 @@
         "t": "f_toilet",
         "{": "f_dumpster"
       },
+      "items": { "a": { "item": "trash_dumpster", "chance": 80 }, "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_item": [ { "chance": 20, "item": "mag_carpentry", "repeat": 1, "x": 5, "y": 3 } ],
       "place_items": [
         { "chance": 10, "item": "power_tools", "x": 14, "y": 6 },

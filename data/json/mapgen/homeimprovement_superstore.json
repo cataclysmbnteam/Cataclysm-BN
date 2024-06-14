@@ -475,6 +475,7 @@
         "t": "f_toilet",
         "x": "f_crate_c"
       },
+      "items": { "X": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [ { "item": "hardware_trash", "x": [ 0, 1 ], "y": [ 10, 11 ], "chance": 100, "repeat": [ 3, 8 ] } ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 0.5 } ]
     }

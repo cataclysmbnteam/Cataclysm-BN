@@ -4,6 +4,8 @@ Leave the headings unless they don't apply to your PR.
 
 NOTE: Please grant permission for repository maintainers to edit your PR.  It is EXTREMELY common for PRs to be held up due to trivial changes being requested and the author being unavailable to make them.  In web UI, you can do it by clicking the "Allow edits and access to secrets by maintainers" checkbox next to "Create Pull Request" button at the bottom of the editor, or by clicking the same checkbox in the sidebar after PR has been created.
 
+NOTE: Please read your emails. Anyone mentioned on Github with an @ will receive an email, any activity on your work will also send emails. This is more reliable than being notified on our Discord, you will always get an email.
+
 CODE STYLE: The game uses automatic code formatting tools to keep code style consistent.  If your PR does not adhere to the style, the autofix.ci app will format the code for you and push the changes as a new commit.  You can also format the code yourself before committing it, it's faster that way and avoids the hurdle of keeping your branch up to date.  See relevant guides for more information: https://docs.cataclysmbn.org/en/contribute/contributing/#code-style
 
 WARNING: If autofix.ci app did the formatting for you, YOU MUST DO EITHER OF THE FOLLOWING:
@@ -59,6 +61,11 @@ Remember to attribute the original author(s): if you've just copied over the cha
 Certain common types of PRs may need additional code or documentation changes that are easy to forget about or may not be obvious if you're a new contributor.  The checklists below should help you track down what else may need to be done.
 
 Please uncomment any relevant checklists, follow their steps and tick the checkboxes once you're done.  If your PR does not fall under these categories, you can ignore these lists.  If you have any questions or advice on how to improve these, feel free to contact us on our Discord server.  
+
+For all Pull Requests:
+- [ ] I wrote the PR title in conventional commit format, see above
+- [ ] I ran the code formatter
+- [ ] I linked any relevant issues using github keyword syntax
 
 If this is a C++ PR that modifies JSON loading or behavior:
 - [ ] Document the changes in the appropriate location in the `doc/` folder.

@@ -114,7 +114,7 @@
       "sealed_item": { "Q": { "item": { "item": "seed_rose" }, "furniture": "f_planter_mature" } },
       "items": {
         "k": { "item": "office", "chance": 30 },
-        "f": { "item": "fridge", "chance": 30 },
+        "f": { "item": "SUS_fridge", "chance": 30 },
         "o": { "item": "oven", "chance": 30 },
         "8": { "item": "ranch_homebooks", "chance": 30 },
         "r": { "item": "restaur_kitchen", "chance": 30 },

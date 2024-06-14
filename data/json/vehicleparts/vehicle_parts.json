@@ -711,6 +711,42 @@
   },
   {
     "type": "vehicle_part",
+    "id": "vp_plut_generator",
+    "name": { "str": "plutonium generator" },
+    "symbol": "O",
+    "color": "light_green",
+    "broken_symbol": "#",
+    "broken_color": "red",
+    "looks_like": "robot_controls",
+    "damage_modifier": 80,
+    "durability": 750,
+    "description": "A nuclear reactor, sealed and configured to provide nearly limitless electrical power from refined nuclear fuel.  It can generate a small but constant source of electricity.",
+    "power": 100,
+    "//": "Here it is a multiplier on power efficiency - 1 unit of plutonium is 100 units of battery",
+    "epower": 333,
+    "fuel_type": "plut_cell",
+    "item": "plut_generator_item",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 8 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_electronics", 2 ] ]
+      }
+    },
+    "flags": [ "REACTOR", "PERPETUAL", "OBSTACLE" ],
+    "breaks_into": [
+      { "item": "scrap", "count": [ 4, 16 ] },
+      { "item": "steel_chunk", "count": [ 1, 6 ] },
+      { "item": "plut_cell", "charges": [ 0, 3 ] },
+      { "item": "lead", "charges": [ 12, 18 ] }
+    ],
+    "damage_reduction": { "all": 75 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "minifridge",
     "name": { "str": "minifridge" },
     "symbol": "H",

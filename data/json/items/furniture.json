@@ -89,7 +89,7 @@
     "type": "TOOL",
     "looks_like": "t_plut_generator",
     "name": "plutonium generator",
-    "description": "A generator used on large ships or submarines, usually as a backup power.",
+    "description": "A generator used on large ships or submarines.  Using a compact nuclear reactor, refined nuclear fuel is sealed within and configured to provide a constant low yield of power when properly installed.  It could be taken apart to reuse the minireactor for more energy-intensive applications, or installed in a local grid to continue providing a small but limitless source of electricity.",
     "weight": "150 kg",
     "volume": "75 L",
     "price": "50000 USD",

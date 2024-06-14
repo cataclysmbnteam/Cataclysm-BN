@@ -405,6 +405,7 @@
         "{": "f_fridge",
         "|": "f_null"
       },
+      "items": { "d": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 80, "repeat": [ 1, 8 ], "item": "coffee_freezer", "x": [ 3, 4 ], "y": 4 },
         { "chance": 70, "repeat": [ 1, 8 ], "item": "coffee_display_2", "x": 7, "y": 13 },
