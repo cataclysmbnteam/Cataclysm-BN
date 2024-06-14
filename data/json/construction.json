@@ -5049,6 +5049,26 @@
   },
   {
     "type": "construction",
+    "id": "constr_grid_floodlight",
+    "group": "build_floodlight",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "fabrication", 3 ], [ "electronics", 1 ] ],
+    "time": "25 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "components": [
+      [ [ "cable", 4 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "floodlight", 1 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "pipe", 2 ] ]
+    ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_grid_floodlight_off"
+  },
+  {
+    "type": "construction",
     "id": "constr_rewire_street_light",
     "group": "rewire_street_light",
     "category": "WORKSHOP",
