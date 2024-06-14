@@ -13,24 +13,30 @@
 #include "active_item_cache.h"
 #include "active_tile_data.h"
 #include "calendar.h"
-#include "colony.h"
 #include "computer.h"
 #include "construction_partial.h"
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"
 #include "type_id.h"
+#include "monster.h"
 #include "point.h"
 #include "poly_serialized.h"
 
 class JsonIn;
 class JsonOut;
-class basecamp;
 class map;
 struct trap;
 struct ter_t;
 struct furn_t;
 class vehicle;
+
+// enum defines the initial disposition of the monster that is to be spawned
+enum class spawn_disposition {
+    SpawnDisp_Default,
+    SpawnDisp_Friendly,
+    SpawnDisp_Pet,
+};
 
 struct spawn_point {
     point pos;
@@ -38,37 +44,51 @@ struct spawn_point {
     mtype_id type;
     int faction_id;
     int mission_id;
-    bool friendly;
+    spawn_disposition disposition;
     std::string name;
     spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, point P = point_zero,
-                 int FAC = -1, int MIS = -1, bool F = false,
+                 int FAC = -1, int MIS = -1, spawn_disposition DISP = spawn_disposition::SpawnDisp_Default,
                  const std::string &N = "NONE" ) :
         pos( P ), count( C ), type( T ), faction_id( FAC ),
-        mission_id( MIS ), friendly( F ), name( N ) {}
+        mission_id( MIS ), disposition( DISP ), name( N ) {}
+
+    // helper function to convert internal disposition into a binary bool value.
+    // This is required to preserve save game compatibility because submaps store/load
+    // their spawn_points using a boolean flag.
+    bool is_friendly( void ) const {
+        return disposition != spawn_disposition::SpawnDisp_Default;
+    }
+
+    // helper function to convert binary bool friendly value to internal disposition.
+    // This is required to preserve save game compatibility because submaps store/load
+    // their spawn_points using a boolean flag.
+    static spawn_disposition friendly_to_spawn_disposition( bool friendly ) {
+        return friendly ? spawn_disposition::SpawnDisp_Friendly
+               : spawn_disposition::SpawnDisp_Default;
+    }
 };
 
 template<int sx, int sy>
 struct maptile_soa {
-    ter_id             ter[sx][sy];  // Terrain on each square
-    furn_id            frn[sx][sy];  // Furniture on each square
-    std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
-    cata::colony<item> itm[sx][sy];  // Items on each square
-    field              fld[sx][sy];  // Field on each square
-    trap_id            trp[sx][sy];  // Trap on each square
-    int                rad[sx][sy];  // Irradiation of each square
+    protected:
+        maptile_soa( tripoint offset );
+    public:
+        ter_id             ter[sx][sy];  // Terrain on each square
+        furn_id            frn[sx][sy];  // Furniture on each square
+        std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
+        location_vector<item> itm[sx][sy]; // Items on each square
+        field              fld[sx][sy];  // Field on each square
+        trap_id            trp[sx][sy];  // Trap on each square
+        int                rad[sx][sy];  // Irradiation of each square
 
-    void swap_soa_tile( point p1, point p2 );
-    void swap_soa_tile( point p, maptile_soa<1, 1> &other );
+        void swap_soa_tile( point p1, point p2 );
 };
 
 class submap : maptile_soa<SEEX, SEEY>
 {
     public:
-        submap();
-        submap( submap && );
+        submap( tripoint offset );
         ~submap();
-
-        submap &operator=( submap && );
 
         trap_id get_trap( point p ) const {
             return trp[p.x][p.y];
@@ -137,11 +157,11 @@ class submap : maptile_soa<SEEX, SEEY>
         void update_lum_rem( point p, const item &i );
 
         // TODO: Replace this as it essentially makes itm public
-        cata::colony<item> &get_items( point p ) {
+        location_vector<item> &get_items( const point &p ) {
             return itm[p.x][p.y];
         }
 
-        const cata::colony<item> &get_items( point p ) const {
+        const location_vector<item> &get_items( const point &p ) const {
             return itm[p.x][p.y];
         }
 
@@ -197,7 +217,7 @@ class submap : maptile_soa<SEEX, SEEY>
         void rotate( int turns );
 
         void store( JsonOut &jsout ) const;
-        void load( JsonIn &jsin, const std::string &member_name, int version );
+        void load( JsonIn &jsin, const std::string &member_name, int version, const tripoint offset );
 
         // If is_uniform is true, this submap is a solid block of terrain
         // Uniform submaps aren't saved/loaded, because regenerating them is faster
@@ -216,9 +236,10 @@ class submap : maptile_soa<SEEX, SEEY>
          * deleted.
          */
         std::vector<std::unique_ptr<vehicle>> vehicles;
-        std::map<tripoint, partial_con> partial_constructions;
-        std::unique_ptr<basecamp> camp;  // only allowing one basecamp per submap
+        std::map<tripoint, std::unique_ptr<partial_con>> partial_constructions;
         std::map<point_sm_ms, cata::poly_serialized<active_tile_data>> active_furniture;
+
+        static void swap( submap &first, submap &second );
 
     private:
         std::map<point, computer> computers;
@@ -307,7 +328,7 @@ struct maptile {
 
         // Assumes there is at least one item
         const item &get_uppermost_item() const {
-            return *std::prev( sm->get_items( pos() ).cend() );
+            return **std::prev( sm->get_items( pos() ).cend() );
         }
 };
 

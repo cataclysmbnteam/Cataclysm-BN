@@ -88,8 +88,7 @@ static void burden_player( player &dummy, float burden_proportion )
 
     // Add a pile of test platinum bits (1g/unit) to reach the desired weight capacity
     if( burden_proportion > 0.0 ) {
-        item pile( "test_platinum_bit", calendar::turn, units );
-        dummy.i_add( pile );
+        dummy.i_add( item::spawn( "test_platinum_bit", calendar::turn, units ) );
     }
 
     // Ensure we are carrying the expected number of grams
@@ -399,7 +398,7 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
     REQUIRE( normal_regen_rate > 0 );
 
     GIVEN( "character has 10 mouth encumbrance" ) {
-        dummy.wear_item( item( "scarf_fur" ) );
+        dummy.wear_item( item::spawn( "scarf_fur" ) );
         REQUIRE( dummy.encumb( bp_mouth ) == 10 );
 
         THEN( "stamina regen is reduced by 10%" ) {
@@ -409,8 +408,8 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
 
     GIVEN( "character has 30 mouth encumbrance" ) {
         // Layering two scarves triples the encumbrance
-        dummy.wear_item( item( "scarf_fur" ) );
-        dummy.wear_item( item( "scarf_fur" ) );
+        dummy.wear_item( item::spawn( "scarf_fur" ) );
+        dummy.wear_item( item::spawn( "scarf_fur" ) );
         REQUIRE( dummy.encumb( bp_mouth ) == 30 );
 
         THEN( "stamina regen is reduced by 30%" ) {
@@ -419,10 +418,10 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
     }
 
     GIVEN( "character has 100+ mouth encumbrance" ) {
-        dummy.wear_item( item( "mask_gas" ) );
-        dummy.wear_item( item( "mask_gas" ) );
-        dummy.wear_item( item( "scarf_fur" ) );
-        dummy.wear_item( item( "scarf_fur" ) );
+        dummy.wear_item( item::spawn( "mask_gas" ) );
+        dummy.wear_item( item::spawn( "mask_gas" ) );
+        dummy.wear_item( item::spawn( "scarf_fur" ) );
+        dummy.wear_item( item::spawn( "scarf_fur" ) );
         REQUIRE( dummy.encumb( bp_mouth ) >= 100 );
 
         THEN( "stamina regen is above 0" ) {

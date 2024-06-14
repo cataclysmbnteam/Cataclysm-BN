@@ -1002,7 +1002,7 @@
         ".........",
         "-+--.hth.",
         "c.C|.hth.",
-        "O.f|.hth.",
+        "O.ḟ|.hth.",
         "S.C|....."
       ],
       "palettes": [ "lab_palette" ],
@@ -1010,7 +1010,7 @@
       "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
       "mapping": {
         "t": { "items": [ { "item": "vending_food_items", "chance": 10 } ] },
-        "f": { "items": [ { "item": "fridge", "chance": 80 } ] },
+        "ḟ": { "items": [ { "item": "fridge", "chance": 80 } ] },
         "C": { "items": [ { "item": "kitchen", "chance": 80 } ] },
         "c": { "items": [ { "item": "kitchen", "chance": 50 } ] },
         "O": { "items": [ { "item": "oven", "chance": 70 } ] }

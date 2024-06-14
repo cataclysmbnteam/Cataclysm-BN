@@ -12,14 +12,14 @@
     "quench": 30,
     "calories": 13,
     "description": "Vegetable stock.  Tasty and fairly nutritious.",
-    "price": 350,
-    "price_postapoc": 25,
+    "price": "350 cent",
+    "price_postapoc": "25 cent",
     "material": "veggy",
     "volume": "500 ml",
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
-    "fun": 1,
+    "fun": 4,
     "vitamins": [ [ "iron", 3 ] ]
   },
   {
@@ -36,15 +36,15 @@
     "quench": 30,
     "calories": 43,
     "description": "A tasty and nutritious broth made from bones.",
-    "price": 350,
-    "price_postapoc": 25,
+    "price": "350 cent",
+    "price_postapoc": "25 cent",
     "material": "bone",
     "primary_material": "water",
     "volume": "500 ml",
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_SALVAGE" ],
-    "fun": 10,
+    "fun": 6,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
@@ -61,15 +61,15 @@
     "healthy": 1,
     "calories": 84,
     "description": "A nutritious and delicious hearty vegetable soup.",
-    "price": 400,
-    "price_postapoc": 25,
+    "price": "4 USD",
+    "price_postapoc": "25 cent",
     "material": "veggy",
     "volume": "500 ml",
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 43 ], [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 5 ] ],
-    "fun": 1
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -89,14 +89,24 @@
     "healthy": 1,
     "calories": 257,
     "description": "A nutritious and delicious hearty meat soup.",
-    "price": 400,
-    "price_postapoc": 100,
+    "price": "4 USD",
+    "price_postapoc": "1 USD",
     "material": "flesh",
     "volume": "500 ml",
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 80 ], [ "vitC", 36 ], [ "calcium", 3 ], [ "iron", 13 ], [ "vitB", 20 ] ],
+    "fun": 4
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "soup_blood",
+    "copy-from": "soup_meat",
+    "name": "blood soup",
+    "healthy": 0,
+    "calories": 150,
+    "description": "Soup made of animal blood and vinegar.  Not something everyone likes, but a delicacy in parts of Germany, also named \"Schwarzsauer\".",
     "fun": 1
   },
   {
@@ -113,15 +123,15 @@
     "healthy": 1,
     "calories": 359,
     "description": "A nutritious and delicious hearty fish soup.",
-    "price": 400,
-    "price_postapoc": 100,
+    "price": "4 USD",
+    "price_postapoc": "1 USD",
     "material": "flesh",
     "volume": "500 ml",
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 12 ], [ "vitC", 28 ], [ "calcium", 4 ], [ "iron", 5 ], [ "vitB", 20 ] ],
-    "fun": 1
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -137,15 +147,15 @@
     "healthy": 1,
     "calories": 209,
     "description": "Spicy, and filled with bits of peppers.  It's pretty good.",
-    "price": 750,
-    "price_postapoc": 75,
+    "price": "750 cent",
+    "price_postapoc": "75 cent",
     "material": "veggy",
     "charges": 2,
     "volume": "500 ml",
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 178 ], [ "vitC", 35 ], [ "calcium", 4 ], [ "iron", 12 ] ],
-    "fun": 5
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -162,15 +172,15 @@
     "healthy": 1,
     "calories": 381,
     "description": "Spicy, and filled with bits of peppers and meat!  It's pretty good.",
-    "price": 750,
-    "price_postapoc": 100,
+    "price": "750 cent",
+    "price_postapoc": "1 USD",
     "material": [ "flesh", "veggy" ],
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 19 ], [ "vitC", 30 ], [ "calcium", 5 ], [ "iron", 28 ], [ "vitB", 24 ] ],
-    "fun": 8
+    "fun": 5
   },
   {
     "type": "COMESTIBLE",
@@ -187,15 +197,15 @@
     "healthy": 1,
     "calories": 304,
     "description": "A nutritious and delicious soup, made of gifts of nature.",
-    "price": 350,
-    "price_postapoc": 100,
+    "price": "350 cent",
+    "price_postapoc": "1 USD",
     "material": [ "flesh", "veggy" ],
     "volume": "500 ml",
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 20 ], [ "vitC", 9 ], [ "iron", 3 ], [ "vitB", 5 ] ],
-    "fun": 1
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -211,8 +221,8 @@
     "healthy": 2,
     "calories": 65,
     "description": "Chicken chunks and noodles swimming in a salty broth.  Rumored to help cure colds.",
-    "price": 580,
-    "price_postapoc": 100,
+    "price": "580 cent",
+    "price_postapoc": "1 USD",
     "material": [ "flesh", "wheat" ],
     "primary_material": "flesh",
     "volume": "500 ml",
@@ -220,7 +230,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 10 ], [ "calcium", 1 ], [ "iron", 9 ], [ "vitB", 8 ] ],
-    "fun": 2
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -236,14 +246,14 @@
     "healthy": 1,
     "calories": 70,
     "description": "A mushy, gray semi-liquid soup made from mushrooms.",
-    "price": 450,
-    "price_postapoc": 100,
+    "price": "450 cent",
+    "price_postapoc": "1 USD",
     "material": "mushroom",
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "fun": 1,
+    "fun": 3,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ]
   },
   {
@@ -260,14 +270,15 @@
     "healthy": 1,
     "calories": 90,
     "description": "It smells of tomatoes.  Not very filling, but it goes well with grilled cheese.",
-    "price": 400,
-    "price_postapoc": 50,
+    "price": "4 USD",
+    "price_postapoc": "50 cent",
     "material": "tomato",
     "volume": "250 ml",
     "phase": "liquid",
+    "charges": 2,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 7 ], [ "vitC", 10 ], [ "calcium", 1 ], [ "iron", 4 ] ],
-    "fun": 2
+    "fun": 3
   },
   {
     "type": "COMESTIBLE",
@@ -283,8 +294,8 @@
     "healthy": 1,
     "calories": 358,
     "description": "A soup with chicken chunks and balls of dough.  Not bad.",
-    "price": 500,
-    "price_postapoc": 100,
+    "price": "5 USD",
+    "price_postapoc": "1 USD",
     "material": [ "flesh", "wheat" ],
     "primary_material": "flesh",
     "volume": "500 ml",
@@ -292,7 +303,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 81 ], [ "vitC", 7 ], [ "calcium", 9 ], [ "iron", 13 ], [ "vitB", 20 ] ],
-    "fun": 3
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -308,14 +319,14 @@
     "healthy": 1,
     "calories": 387,
     "description": "A rich and tasty fish chowder from Scotland, made with preserved fish and creamy milk.",
-    "price": 500,
-    "price_postapoc": 100,
+    "price": "5 USD",
+    "price_postapoc": "1 USD",
     "material": [ "flesh", "milk" ],
     "volume": "500 ml",
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 15 ], [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ], [ "vitB", 8 ] ],
-    "fun": 3
+    "fun": 5
   }
 ]

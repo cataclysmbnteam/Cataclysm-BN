@@ -8,8 +8,8 @@
     "weight": "1502 g",
     "volume": "565 ml",
     "barrel_length": "50 ml",
-    "price": 64100,
-    "price_postapoc": 2500,
+    "price": "641 USD",
+    "price_postapoc": "25 USD",
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "color": "light_gray",
@@ -24,8 +24,8 @@
       [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ]
   },
   {

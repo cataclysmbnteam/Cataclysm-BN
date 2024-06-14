@@ -25,6 +25,7 @@
       { "item": "manual_shotgun", "prob": 30 },
       { "item": "manual_smg", "prob": 10 },
       { "item": "pocket_firearms", "prob": 100 },
+      { "item": "manual_luty", "prob": 45 },
       { "item": "recipe_bullets", "prob": 80 }
     ]
   },
@@ -77,6 +78,7 @@
     "entries": [
       { "group": "book_gunmags", "prob": 100 },
       { "group": "book_martial", "prob": 100 },
+      { "item": "mag_fieldrepair", "prob": 50 },
       { "item": "manual_bashing", "prob": 40 },
       { "item": "manual_knives", "prob": 40 },
       { "item": "manual_launcher", "prob": 20 },
@@ -89,6 +91,7 @@
       { "item": "manual_stabbing", "prob": 40 },
       { "item": "manual_swimming", "prob": 30 },
       { "item": "manual_traps_mil", "prob": 30 },
+      { "item": "manual_luty", "prob": 10 },
       { "item": "pocket_firearms", "prob": 10 },
       { "item": "textbook_firstaid", "prob": 30 }
     ]
@@ -152,6 +155,7 @@
       { "item": "holybook_bible1", "prob": 1 },
       { "item": "holybook_bible2", "prob": 1 },
       { "item": "holybook_bible3", "prob": 1 },
+      { "item": "holybook_bible4", "prob": 1 },
       { "item": "holybook_quran", "prob": 1 },
       { "item": "holybook_hadith", "prob": 1 },
       { "item": "holybook_havamal", "prob": 1 },
@@ -168,7 +172,11 @@
       { "item": "holybook_slack", "prob": 1 },
       { "item": "holybook_kallisti", "prob": 1 },
       { "item": "holybook_scientology", "prob": 1 },
-      { "item": "holybook_satanic", "prob": 1 }
+      { "item": "holybook_satanic", "prob": 1 },
+      { "item": "holybook_taoism", "prob": 1 },
+      { "item": "holybook_confucianism", "prob": 1 },
+      { "item": "holybook_paganism", "prob": 1 },
+      { "item": "holybook_shamanism", "prob": 1 }
     ]
   },
   {
@@ -377,6 +385,7 @@
       { "item": "textbook_gaswarfare", "prob": 5 },
       { "item": "recipe_bullets", "prob": 8 },
       { "item": "pocket_firearms", "prob": 2 },
+      { "item": "manual_luty", "prob": 1 },
       { "item": "textbook_traps", "prob": 4 },
       { "item": "reference_cooking", "prob": 2 },
       { "item": "reference_fabrication1", "prob": 6 },

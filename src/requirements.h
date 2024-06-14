@@ -121,7 +121,7 @@ struct item_comp : public component {
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, cost_adjustment = cost_adjustment::none,
-              std::function<void( int )> visitor = std::function<void( int )>() ) const;
+              const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
@@ -160,7 +160,7 @@ struct quality_requirement {
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int = 0, cost_adjustment = cost_adjustment::none,
-              std::function<void( int )> visitor = std::function<void( int )>() ) const;
+              const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     std::string to_colored_string() const;
     void check_consistency( const std::string &display_name ) const;
@@ -331,7 +331,7 @@ struct requirement_data {
         /** @param filter see @ref can_make_with_inventory */
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
                 const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-                int batch = 1, std::string hilite = "",
+                int batch = 1, const std::string &hilite = "",
                 requirement_display_flags = requirement_display_flags::none ) const;
 
         std::vector<std::string> get_folded_tools_list( int width, nc_color col,
@@ -348,7 +348,7 @@ struct requirement_data {
          * Returned requirement_data is for *all* batches at once.
          */
         static requirement_data continue_requirements( const std::vector<item_comp> &required_comps,
-                const std::list<item> &remaining_comps );
+                const std::vector<item *> &remaining_comps );
 
         /**
          * Merge similar quality/tool/component lists.

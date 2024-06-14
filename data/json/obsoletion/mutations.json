@@ -1,15 +1,6 @@
 [
   {
     "type": "mutation",
-    "id": "ROBUST",
-    "name": { "str": "Robust Genetics" },
-    "points": 0,
-    "description": "Genetics?  Doesn't excuse not eating healthy, though.",
-    "valid": false,
-    "player_display": false
-  },
-  {
-    "type": "mutation",
     "id": "TRUTHTELLER",
     "name": { "str": "Truth Teller" },
     "points": 0,

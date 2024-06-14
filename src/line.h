@@ -13,6 +13,8 @@
 #include "cached_options.h"
 #include "units_angle.h"
 
+template <typename T> struct enum_traits;
+
 /**
  * Calculate base of an isosceles triangle
  * @param distance one of the equal lengths
@@ -66,7 +68,23 @@ enum class direction : unsigned {
     ABOVESOUTHEAST = make_xyz_unit( tripoint_above + tripoint_south_east ),
     SOUTHEAST      = make_xyz_unit( tripoint_south_east ),
     BELOWSOUTHEAST = make_xyz_unit( tripoint_below + tripoint_south_east ),
+
+    last = 27
 };
+
+template<>
+struct enum_traits<direction> {
+    static constexpr direction last = direction::last;
+};
+
+namespace std
+{
+template <> struct hash<direction> {
+    std::size_t operator()( const direction &d ) const {
+        return static_cast<std::size_t>( d );
+    }
+};
+} // namespace std
 
 template< class T >
 constexpr inline direction operator%( const direction &lhs, const T &rhs )
@@ -109,7 +127,8 @@ direction direction_from( const tripoint &p ) noexcept;
 direction direction_from( point p1, point p2 ) noexcept;
 direction direction_from( const tripoint &p, const tripoint &q );
 
-point direction_XY( direction dir );
+tripoint displace( direction dir );
+point displace_XY( direction dir );
 std::string direction_name( direction dir );
 std::string direction_name_short( direction dir );
 

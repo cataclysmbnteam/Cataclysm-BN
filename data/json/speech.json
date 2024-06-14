@@ -3014,5 +3014,35 @@
     "speaker": "mon_feral_human_chainsaw",
     "sound": "vroom!",
     "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
+    "sound": "heavy breathing",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
+    "sound": "labored breathing",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
+    "sound": "a whimper",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_dog" ],
+    "sound": "a rasping growl",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_spider" ],
+    "sound": "a quiet chittering",
+    "volume": 5
   }
 ]

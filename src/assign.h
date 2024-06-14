@@ -14,6 +14,7 @@
 #include "color.h"
 #include "damage.h"
 #include "debug.h"
+#include "flat_set.h"
 #include "json.h"
 #include "units.h"
 #include "units_serde.h"
@@ -151,9 +152,11 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
     return true;
 }
 
-template <typename T>
-typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
+namespace details
+{
+
+template <typename T, typename Set>
+bool assign_set( const JsonObject &jo, const std::string &name, Set &val )
 {
     JsonObject add = jo.get_object( "extend" );
     add.allow_omitted_members();
@@ -161,7 +164,7 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     del.allow_omitted_members();
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
-        val = jo.get_tags<T>( name );
+        val = jo.get_tags<T, Set>( name );
 
         if( add.has_member( name ) || del.has_member( name ) ) {
             // ill-formed to (re)define a value and then extend/delete within same definition
@@ -182,6 +185,90 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
         for( const auto &e : del.get_tags<T>( name ) ) {
             val.erase( e );
         }
+        res = true;
+    }
+
+    return res;
+}
+} // namespace details
+
+
+template <typename T>
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+    const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
+{
+    return details::assign_set<T, std::set<T>>( jo, name, val );
+}
+
+template <typename T>
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+    const JsonObject &jo, const std::string &name, cata::flat_set<T> &val, bool = false )
+{
+    return details::assign_set<T, cata::flat_set<T>>( jo, name, val );
+}
+
+// Map of sets, like in the case of magazines for a gun
+template <typename T1, typename T2>
+typename std::enable_if <
+std::is_constructible<T1, std::string>::value &&
+std::is_constructible<T2, std::string>::value,
+    bool
+    >::type assign(
+        const JsonObject &jo, const std::string &name, std::map<T1, std::set<T2>> &val, bool = false )
+{
+    JsonObject add = jo.get_object( "extend" );
+    add.allow_omitted_members();
+    JsonObject del = jo.get_object( "delete" );
+    del.allow_omitted_members();
+
+    if( jo.has_array( name ) ) {
+        val.clear();
+
+        for( JsonArray jarr : jo.get_array( name ) ) {
+            T1 lhs = T1( jarr.get_string( 0 ) );
+            for( const auto &e : jarr.get_tags( 1 ) ) {
+                val[lhs].insert( T2( e ) );
+            }
+        }
+
+        if( add.has_member( name ) || del.has_member( name ) ) {
+            // ill-formed to (re)define a value and then extend/delete within same definition
+            jo.throw_error( "multiple assignment of value", name );
+        }
+        return true;
+    }
+
+    bool res = false;
+
+    if( add.has_array( name ) ) {
+        JsonArray jarr_out = add.get_array( name );
+        while( jarr_out.has_more() ) {
+            JsonArray jarr = jarr_out.next_array();
+            T1 lhs = T1( jarr.get_string( 0 ) );
+            for( const auto &e : jarr.get_tags( 1 ) ) {
+                val[lhs].insert( T2( e ) );
+            }
+        }
+
+        res = true;
+    }
+
+    if( del.has_array( name ) ) {
+        JsonArray jarr_out = add.get_array( name );
+        while( jarr_out.has_more() ) {
+            JsonArray jarr = jarr_out.next_array();
+            T1 lhs = T1( jarr.get_string( 0 ) );
+            auto iter = val.find( lhs );
+            if( iter != val.end() ) {
+                for( const auto &e : jarr.get_tags<T2>( 1 ) ) {
+                    iter->second.erase( e );
+                }
+            }
+            if( iter->second.empty() ) {
+                val.erase( lhs );
+            }
+        }
+
         res = true;
     }
 
@@ -432,6 +519,11 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
 
     return true;
 }
+
+bool assign( const JsonObject &jo,
+             const std::string &name,
+             resistances &val,
+             bool strict = false );
 
 template<typename T>
 inline bool assign( const JsonObject &jo, const std::string &name, std::optional<T> &val,

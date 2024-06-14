@@ -16,7 +16,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -120,9 +119,7 @@ void edit_json( SAVEOBJ &it )
         }
         if( tmret == 0 ) {
             try {
-                SAVEOBJ tmp;
-                deserialize( tmp, save1 );
-                it = std::move( tmp );
+                deserialize( it, save1 );
             } catch( const std::exception &err ) {
                 popup( "Error on deserialization: %s", err.what() );
             }
@@ -656,7 +653,7 @@ void editmap::draw_main_ui_overlay()
                 }
             }
             // int: count, bool: more than 1 spawn data
-            std::map<tripoint, std::tuple<mtype_id, int, bool, Creature::Attitude>> spawns;
+            std::map<tripoint, std::tuple<mtype_id, int, bool, Attitude>> spawns;
             for( int x = 0; x < 2; x++ ) {
                 for( int y = 0; y < 2; y++ ) {
                     submap *sm = tmpmap.get_submap_at_grid( { x, y, target.z } );
@@ -666,7 +663,7 @@ void editmap::draw_main_ui_overlay()
                             const tripoint spawn_p = sm_origin + sp.pos;
                             const auto spawn_it = spawns.find( spawn_p );
                             if( spawn_it == spawns.end() ) {
-                                const Creature::Attitude att = sp.friendly ? Creature::A_FRIENDLY : Creature::A_ANY;
+                                const Attitude att = sp.is_friendly() ? Attitude::A_FRIENDLY : Attitude::A_ANY;
                                 spawns.emplace( spawn_p, std::make_tuple( sp.type, sp.count, false, att ) );
                             } else {
                                 std::get<2>( spawn_it->second ) = true;
@@ -807,7 +804,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     if( !here.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
         trim_and_print( w_info, point( 1, off ), getmaxx( w_info ), c_light_gray,
                         _( "There is a %s there." ),
-                        target_stack.begin()->tname() );
+                        ( *target_stack.begin() )->tname() );
         off++;
         if( target_stack_size > 1 ) {
             mvwprintw( w_info, point( 1, off ), vgettext( "There is %d other item there as well.",
@@ -1402,8 +1399,8 @@ void editmap::edit_itm()
     auto items = get_map().i_at( target );
     int i = 0;
     for( auto &an_item : items ) {
-        ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname(),
-                         an_item.is_emissive() ? " L" : "" );
+        ilmenu.addentry( i++, true, 0, "%s%s", an_item->tname(),
+                         an_item->is_emissive() ? " L" : "" );
     }
     ilmenu.addentry( items.size(), true, 'a', _( "Add item" ) );
     ilmenu.input_category = "EDIT_ITEMS";
@@ -1429,7 +1426,9 @@ void editmap::edit_itm()
 
         ilmenu.query();
         if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
-            item &it = *items.get_iterator_from_index( ilmenu.ret );
+            auto iter = items.begin();
+            std::advance( iter, ilmenu.ret );
+            item &it = **iter;
             uilist imenu;
             imenu.w_x_setup = offsetX;
             imenu.w_y_setup = [this]( int ) -> int {
@@ -1503,8 +1502,8 @@ void editmap::edit_itm()
             ilmenu.entries.clear();
             i = 0;
             for( auto &an_item : items ) {
-                ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname(),
-                                 an_item.is_emissive() ? " L" : "" );
+                ilmenu.addentry( i++, true, 0, "%s%s", an_item->tname(),
+                                 an_item->is_emissive() ? " L" : "" );
             }
             ilmenu.addentry( items.size(), true, 'a',
                              pgettext( "item manipulation debug menu entry for adding an item on a tile", "Add item" ) );
@@ -1898,8 +1897,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                     submap *destsm = here.get_submap_at_grid( dest_pos );
                     submap *srcsm = tmpmap.get_submap_at_grid( src_pos );
 
-                    std::swap( *destsm, *srcsm );
+                    submap::swap( *destsm,  *srcsm );
 
+                    //TODO!: move this into the submap swap
                     for( auto &veh : destsm->vehicles ) {
                         veh->sm_pos = dest_pos;
                     }
@@ -2049,7 +2049,7 @@ void editmap::mapgen_retarget()
                     for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
                         if( x == target.x - SEEX + 1 || x == target.x + SEEX ||
                             y == target.y - SEEY + 1 || y == target.y + SEEY ) {
-                            target_list.push_back( tripoint( x, y, target.z ) );
+                            target_list.emplace_back( x, y, target.z );
                         }
                     }
                 }
@@ -2115,7 +2115,7 @@ void editmap::edit_mapgen()
             for( int y = target.y - SEEY + 1; y < target.y + SEEY + 1; y++ ) {
                 if( x == target.x - SEEX + 1 || x == target.x + SEEX ||
                     y == target.y - SEEY + 1 || y == target.y + SEEY ) {
-                    target_list.push_back( tripoint( x, y, target.z ) );
+                    target_list.emplace_back( x, y, target.z );
                 }
             }
         }

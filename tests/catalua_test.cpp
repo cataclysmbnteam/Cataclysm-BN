@@ -14,9 +14,13 @@
 #include "mapdata.h"
 #include "options.h"
 #include "point.h"
-#include "stringmaker.h"
 #include "string_formatter.h"
+#include "stringmaker.h"
 #include "type_id.h"
+#include "units_angle.h"
+#include "units_energy.h"
+#include "units_mass.h"
+#include "units_volume.h"
 
 #include <optional>
 #include <string>
@@ -59,15 +63,23 @@ TEST_CASE( "lua_global_functions", "[lua]" )
 
     // Randomize avatar name
     get_avatar().pick_name();
-    std::string expected = get_avatar().name;
+    std::string expected_name = get_avatar().name;
 
     // Run Lua script
     run_lua_test_script( lua, "global_functions_test.lua" );
 
     // Get test output
-    std::string res = test_data["out"];
+    std::string lua_avatar_name = test_data["avatar_name"];
+    std::string lua_creature_avatar_name = test_data["creature_avatar_name"];
+    std::string lua_monster_avatar_name = test_data["monster_avatar_name"];
+    std::string lua_character_avatar_name = test_data["character_avatar_name"];
+    std::string lua_npc_avatar_name = test_data["npc_avatar_name"];
 
-    REQUIRE( res == expected );
+    REQUIRE( lua_avatar_name == expected_name );
+    REQUIRE( lua_creature_avatar_name == expected_name );
+    REQUIRE( lua_monster_avatar_name == "nil" );
+    REQUIRE( lua_character_avatar_name == expected_name );
+    REQUIRE( lua_npc_avatar_name == "nil" );
 }
 
 TEST_CASE( "lua_called_from_cpp", "[lua]" )
@@ -127,9 +139,9 @@ TEST_CASE( "lua_runtime_error", "[lua]" )
 
     const std::string expected =
         "Script runtime error in tests/lua/runtime_error.lua: "
-        "tests/lua/runtime_error.lua:3: attempt to index a nil value (global 'table_with_typo')\n"
+        "tests/lua/runtime_error.lua:2: attempt to index a nil value (global 'table_with_typo')\n"
         "stack traceback:\n"
-        "\ttests/lua/runtime_error.lua:3: in main chunk";
+        "\ttests/lua/runtime_error.lua:2: in main chunk";
 
     REQUIRE_THROWS_MATCHES(
         run_lua_test_script( lua, "runtime_error.lua" ),
@@ -147,10 +159,10 @@ TEST_CASE( "lua_called_error_on_lua_side", "[lua]" )
 
     const std::string expected =
         "Script runtime error in tests/lua/called_error_on_lua_side.lua: "
-        "tests/lua/called_error_on_lua_side.lua:3: Error called on Lua side!\n"
+        "tests/lua/called_error_on_lua_side.lua:2: Error called on Lua side!\n"
         "stack traceback:\n"
         "\t[C]: in function 'base.error'\n"
-        "\ttests/lua/called_error_on_lua_side.lua:3: in main chunk";
+        "\ttests/lua/called_error_on_lua_side.lua:2: in main chunk";
 
     REQUIRE_THROWS_MATCHES(
         run_lua_test_script( lua, "called_error_on_lua_side.lua" ),
@@ -175,10 +187,10 @@ TEST_CASE( "lua_called_error_on_cpp_side", "[lua]" )
 
     const std::string expected =
         "Script runtime error in tests/lua/called_error_on_cpp_side.lua: "
-        "tests/lua/called_error_on_cpp_side.lua:3: Error called on Cpp side!\n"
+        "tests/lua/called_error_on_cpp_side.lua:2: Error called on Cpp side!\n"
         "stack traceback:\n"
         "\t[C]: in function 'base.cpp_call_error'\n"
-        "\ttests/lua/called_error_on_cpp_side.lua:3: in main chunk";
+        "\ttests/lua/called_error_on_cpp_side.lua:2: in main chunk";
 
     REQUIRE_THROWS_MATCHES(
         run_lua_test_script( lua, "called_error_on_cpp_side.lua" ),
@@ -207,7 +219,7 @@ TEST_CASE( "lua_called_cpp_func_throws", "[lua]" )
         "Exception thrown on Cpp side!\n"
         "stack traceback:\n"
         "\t[C]: in function 'base.cpp_throw_exception'\n"
-        "\ttests/lua/called_cpp_func_throws.lua:3: in main chunk";
+        "\ttests/lua/called_cpp_func_throws.lua:2: in main chunk";
 
     REQUIRE_THROWS_MATCHES(
         run_lua_test_script( lua, "called_cpp_func_throws.lua" ),
@@ -720,6 +732,42 @@ TEST_CASE( "catalua_table_serde", "[lua]" )
         t[key2] = "world";
         run_serde_test( lua, t );
     }
+}
+
+TEST_CASE( "lua_units_functions", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+
+    // Test variables
+    const double angle_degrees = 32.0; // Multiple of 2 in case of floating-point error
+    const int energy_kilojoules = 128;
+    const std::int64_t mass_kilograms = 64;
+    const int volume_liters = 16;
+
+    // Create global table for test
+    sol::table test_data = lua.create_table();
+    lua.globals()["test_data"] = test_data;
+
+    // Set global table keys
+    test_data["angle_degrees"] = angle_degrees;
+    test_data["energy_kilojoules"] = energy_kilojoules;
+    test_data["mass_kilograms"] = mass_kilograms;
+    test_data["volume_liters"] = volume_liters;
+
+    // Run Lua script
+    run_lua_test_script( lua, "units_test.lua" );
+
+    // Get test output
+    double lua_angle_arcmins = test_data["angle_arcmins"];
+    int lua_energy_joules = test_data["energy_joules"];
+    std::int64_t lua_mass_grams = test_data["mass_grams"];
+    int lua_volume_milliliters = test_data["volume_milliliters"];
+
+    // Check if match
+    REQUIRE( lua_angle_arcmins == units::to_arcmin( units::from_degrees( angle_degrees ) ) );
+    REQUIRE( lua_energy_joules == units::to_joule( units::from_kilojoule( energy_kilojoules ) ) );
+    REQUIRE( lua_mass_grams == units::to_gram( units::from_kilogram( mass_kilograms ) ) );
+    REQUIRE( lua_volume_milliliters == units::to_milliliter( units::from_liter( volume_liters ) ) );
 }
 
 #endif

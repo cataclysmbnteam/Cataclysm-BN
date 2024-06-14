@@ -1,0 +1,78 @@
+[
+  {
+    "type": "palette",
+    "id": "bastion_fort_palette",
+    "terrain": {
+      " ": "t_region_groundcover",
+      "#": "t_rock_wall",
+      "|": "t_brick_wall",
+      "-": "t_wall_wood",
+      "+": "t_door_c",
+      "_": "t_floor",
+      ".": "t_rock_floor_no_roof",
+      ">": "t_wood_stairs_down",
+      "<": "t_wood_stairs_up",
+      "^": "t_sidewalk_ramp_up_high",
+      "&": "t_floor",
+      "4": "t_gutter_downspout",
+      "B": "t_floor",
+      "C": "t_rock_floor_no_roof",
+      "D": "t_floor",
+      "F": "t_floor",
+      "S": "t_floor",
+      "T": "t_region_tree_shade",
+      "X": "t_door_locked_interior",
+      "W": "t_floor",
+      "b": "t_floor",
+      "c": "t_floor",
+      "e": "t_floor",
+      "g": "t_floor",
+      "h": "t_floor",
+      "l": "t_floor",
+      "n": "t_floor",
+      "t": "t_floor",
+      "s": "t_floor",
+      "r": "t_floor",
+      "v": "t_sidewalk_ramp_up_low",
+      "w": "t_window_no_curtains"
+    },
+    "furniture": {
+      "B": "f_bookcase",
+      "C": "f_crate_c",
+      "D": "f_displaycase",
+      "F": "f_fireplace",
+      "W": "f_wardrobe",
+      "b": "f_bed",
+      "c": "f_counter",
+      "e": "f_table",
+      "g": "f_counter_gate_c",
+      "h": "f_chair",
+      "l": "f_locker",
+      "n": "f_cupboard",
+      "t": "f_trashcan",
+      "s": "f_sink",
+      "r": "f_rack_wood"
+    },
+    "toilets": { "&": {  } },
+    "items": {
+      "B": [
+        { "item": "manuals", "chance": 50, "repeat": 2 },
+        { "item": "book_mag_interests", "chance": 50, "repeat": 2 },
+        { "item": "book_mag_surv", "chance": 50, "repeat": 2 }
+      ],
+      "C": { "item": "fort_crate", "chance": 100 },
+      "D": { "item": "fort_display_case", "chance": 100 },
+      "W": { "item": "fort_historic_wardrobe", "chance": 100 },
+      "b": { "item": "bed", "chance": 50 },
+      "l": [
+        { "item": "bags_unisex", "chance": 50, "repeat": 3 },
+        { "item": "hats_unisex", "chance": 50, "repeat": 3 },
+        { "item": "clothing_outdoor_torso", "chance": 50, "repeat": 3 },
+        { "item": "clothing_outdoor_shoes", "chance": 50, "repeat": 3 }
+      ],
+      "n": { "item": "snacks", "chance": 50, "repeat": 6 },
+      "r": { "item": "fort_powderbarrel", "chance": 100 },
+      "t": { "item": "trash_cart", "chance": 50, "repeat": 5 }
+    }
+  }
+]

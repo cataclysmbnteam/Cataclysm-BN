@@ -24,7 +24,8 @@
         { "item": "splinter", "count": [ 3, 6 ] },
         { "item": "rag", "count": [ 40, 55 ] },
         { "item": "scrap", "count": [ 10, 20 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -36,13 +37,11 @@
     "description": "A wooden bunk bed with mattresses for two people.",
     "color": "magenta",
     "move_cost_mod": 6,
-    "coverage": 40,
+    "coverage": 60,
     "comfort": 5,
     "floor_bedding_warmth": 1000,
     "required_str": -1,
-    "deconstruct": {
-      "items": [ { "item": "mattress", "count": 2 }, { "item": "2x4", "count": 28 }, { "item": "nail", "charges": [ 20, 30 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "mattress", "count": 2 }, { "item": "2x4", "count": 30 }, { "item": "nail", "charges": 30 } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "CAN_SIT" ],
     "bash": {
       "str_min": 12,
@@ -55,7 +54,44 @@
         { "item": "splinter", "count": [ 8, 15 ] },
         { "item": "rag", "count": [ 80, 110 ] },
         { "item": "scrap", "count": [ 20, 40 ] }
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_triple_bunkbed",
+    "name": "triple berth",
+    "symbol": "#",
+    "description": "This bunk bed can hold 3 person at once - perfect solution for places with lack of free space.",
+    "looks_like": "f_bed",
+    "color": "magenta",
+    "move_cost_mod": 8,
+    "coverage": 80,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [
+        { "item": "mattress", "count": 3 },
+        { "item": "pipe", "count": 28 },
+        { "item": "sheet_metal", "count": 3 },
+        { "item": "sheet_metal_small", "count": 12 }
       ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CAN_SIT" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 60,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "pipe", "count": [ 8, 15 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 2 ] },
+        { "item": "rag", "count": [ 120, 160 ] },
+        { "item": "scrap", "count": [ 60, 100 ] }
+      ],
+      "ranged": { "reduction": [ 13, 25 ], "destroy_threshold": 60, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -68,7 +104,7 @@
     "move_cost_mod": 4,
     "coverage": 40,
     "required_str": 5,
-    "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 10 ] } ] },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 10 } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "bash": {
       "str_min": 10,
@@ -79,7 +115,8 @@
         { "item": "2x4", "count": [ 5, 8 ] },
         { "item": "nail", "charges": [ 6, 8 ] },
         { "item": "splinter", "count": [ 3, 6 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -87,10 +124,11 @@
     "id": "f_floor_mattress",
     "name": "mattress",
     "description": "A comfortable mattress has been tossed on the floor for sleeping here.  It's not quite as comfy as a real bed, but it's pretty close.",
+    "looks_like": "f_bed",
     "symbol": "0",
     "color": "magenta",
     "move_cost_mod": 3,
-    "coverage": 40,
+    "coverage": 20,
     "comfort": 4,
     "floor_bedding_warmth": 800,
     "required_str": 7,
@@ -114,7 +152,7 @@
     "symbol": "0",
     "color": "magenta",
     "move_cost_mod": 3,
-    "coverage": 40,
+    "coverage": 20,
     "comfort": 4,
     "floor_bedding_warmth": 800,
     "required_str": 7,
@@ -146,9 +184,7 @@
     "comfort": 4,
     "floor_bedding_warmth": 500,
     "required_str": 10,
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "rag", "count": [ 30, 35 ] }, { "item": "nail", "charges": [ 4, 6 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "rag", "count": 35 }, { "item": "nail", "charges": 6 } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,
@@ -160,7 +196,8 @@
         { "item": "nail", "charges": [ 2, 6 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "rag", "count": [ 20, 30 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -175,7 +212,7 @@
     "comfort": 2,
     "floor_bedding_warmth": 200,
     "required_str": -1,
-    "deconstruct": { "items": [ { "item": "stick", "count": 4 }, { "item": "straw_pile", "count": [ 7, 8 ] } ] },
+    "deconstruct": { "items": [ { "item": "stick", "count": 4 }, { "item": "straw_pile", "count": 8 } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 6,
@@ -186,7 +223,32 @@
         { "item": "stick", "count": [ 2, 3 ] },
         { "item": "straw_pile", "count": [ 7, 8 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_wool_mattress",
+    "name": "wool mattress",
+    "description": "A comfortable wool mattress has been tossed on the floor for sleeping here.  It's not quite as comfy as a real bed, but it's pretty close.",
+    "symbol": "0",
+    "color": "magenta",
+    "move_cost_mod": 3,
+    "coverage": 20,
+    "comfort": 4,
+    "floor_bedding_warmth": 800,
+    "required_str": 7,
+    "deployed_item": "wool_mattress",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "SHORT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
+    "deconstruct": { "items": [ { "item": "wool_mattress", "count": 1 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "rrrrip!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "felt_patch", "count": [ 40, 55 ] }, { "item": "yarn", "count": [ 500, 650 ] } ]
     }
   }
 ]

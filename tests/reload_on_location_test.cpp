@@ -10,7 +10,6 @@
 #include "avatar_action.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "state_helpers.h"
@@ -32,16 +31,15 @@ TEST_CASE( "reload_on_vehicle_cargo", "[magazine] [visitable] [item] [item_locat
     vehicle *veh = here.add_vehicle( car_id, vehicle_center, 0_radians, 0, 0, false );
     REQUIRE( veh != nullptr );
 
-    item ups( ups_id );
     int part_num = veh->part_with_feature( 0, VPFLAG_CARGO, true );
     REQUIRE( part_num >= 0 );
-    auto stack_iter_opt = veh->add_item( part_num, ups );
-    REQUIRE( stack_iter_opt );
+    auto remaining = veh->add_item( part_num, item::spawn( ups_id ) );
+    REQUIRE( !remaining );
 
     vehicle_cursor vc = vehicle_cursor( *veh, static_cast<std::ptrdiff_t>( part_num ) );
 
-    const item *it = nullptr;
-    vc.visit_items( [&it, &ups_id]( const item * e ) {
+    item *it = nullptr;
+    vc.visit_items( [&it, &ups_id]( item * e ) {
         if( e->typeId() == ups_id ) {
             it = e;
             return VisitResponse::ABORT;
@@ -50,8 +48,5 @@ TEST_CASE( "reload_on_vehicle_cargo", "[magazine] [visitable] [item] [item_locat
     } );
     REQUIRE( it != nullptr );
 
-    item_location item_on_vehicle = item_location( vc, const_cast<item *>( it ) );
-    REQUIRE( item_on_vehicle );
-
-    avatar_action::reload( item_on_vehicle, false, false );
+    avatar_action::reload( *it, false, false );
 }

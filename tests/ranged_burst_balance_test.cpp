@@ -2,15 +2,15 @@
 
 #include <vector>
 
+#include "flag.h"
 #include "npc.h"
 #include "item.h"
 #include "ranged.h"
 #include "state_helpers.h"
 
 static constexpr tripoint shooter_pos( 60, 60, 0 );
-static const std::string flag_BIPOD( "BIPOD" );
 
-static void check_burst_penalty( const Character &shooter, item gun, int expected,
+static void check_burst_penalty( const Character &shooter, item &gun, int expected,
                                  bool bipod = false )
 {
     if( gun.ammo_required() && !gun.ammo_sufficient() && !gun.ammo_default().is_null() ) {
@@ -35,16 +35,16 @@ static void check_burst_penalty( const Character &shooter, const std::string &gu
                                  const std::vector<std::string> &mods, int expected, bool bipod = false )
 {
     itype_id gun_id( gun_type );
-    item gun( gun_id );
+    detached_ptr<item> gun = item::spawn( gun_id );
     for( const std::string &mod_type : mods ) {
         CAPTURE( gun_type );
         CAPTURE( mod_type );
         itype_id mod_id( mod_type );
-        item mod( mod_id );
-        REQUIRE( gun.is_gunmod_compatible( mod ).success() );
-        gun.put_in( mod );
+        detached_ptr<item> mod = item::spawn( mod_id );
+        REQUIRE( gun->is_gunmod_compatible( *mod ).success() );
+        gun->put_in( std::move( mod ) );
     }
-    check_burst_penalty( shooter, gun, expected, bipod );
+    check_burst_penalty( shooter, *gun, expected, bipod );
 }
 
 static void check_burst_penalty( const Character &shooter, const std::string &gun_type,
@@ -102,7 +102,7 @@ TEST_CASE( "average_burst_bipod", "[ranged] [balance]" )
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
     check_burst_penalty( shooter, "m249", {}, 40, true );
     check_burst_penalty( shooter, "m240", {}, 90, true );
-    check_burst_penalty( shooter, "m2browning", {"underbarrel_mount", "bipod"}, 160, true );
+    check_burst_penalty( shooter, "m2browning", {"bipod"}, 160, true );
     check_burst_penalty( shooter, "m1918", {"bipod"}, 160, true );
 }
 

@@ -35,6 +35,10 @@ Links to relevant pull requests, for content covered below:
   [#3221](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3221)
 - Rewired street lights: [#3273](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3273)
 - Alternative ear/tail mutation: [#3340](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3340)
+- New trees: [#3626](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3626)
+- Alternative sign sprite: [#3670](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3670)
+- New traps: [#3939](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3939)
+- New monster: [#4182](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4182)
 
 ## Undead People
 
@@ -72,8 +76,12 @@ Ultica are planned for the future.
 - Buckler, including worn and wielded. Item specific to BN.
 - Battle masks, iron and bronze, including worn sprites. Items specific to BN.
 - Bronze arm guards, including worn sprites. Item specific to BN.
+- Cacao pods. Item specific to BN.
+- Override for sign sprite. Removes lettering on the front specific to DDA.
+- Makeshift perimeter alarm. Trap specific to BN.
+- Lepidopterid. New monster specific to BN.
 
-### External_Tileset_DP_Large.png
+### External_Tileset_DP_Tall.png
 
 - Off state for utility light. Ability to switch on and off specific to BN.
 - Alien nerve cluster, furniture added to mi-go locations in BN.
@@ -82,6 +90,8 @@ Ultica are planned for the future.
 - Cherry tree uses summer sprite (plus cherry blossom coloration), summer sprite depicted without
   berries, due to harvest season being moved in BN.
 - Rewired street light, including active state. Furniture specific to BN.
+- Cocoa tree. Terrain specific to BN.
+- Cocoa plant. Terrain specific to BN.
 
 ### alternative_mutation_tileset.png
 

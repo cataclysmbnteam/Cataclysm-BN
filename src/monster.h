@@ -22,6 +22,9 @@
 #include "damage.h"
 #include "effect.h"
 #include "enums.h"
+#include "item.h"
+#include "location_ptr.h"
+#include "location_vector.h"
 #include "pldata.h"
 #include "point.h"
 #include "type_id.h"
@@ -40,6 +43,10 @@ struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
 
+template<typename T>
+class detached_ptr;
+
+
 enum class mon_trigger;
 
 class mon_special_attack
@@ -52,7 +59,7 @@ class mon_special_attack
         // deserialize inline in monster::load due to backwards/forwards compatibility concerns
 };
 
-enum monster_attitude {
+enum monster_attitude : int {
     MATT_NULL = 0,
     MATT_FRIEND,
     MATT_FPASSIVE,
@@ -62,6 +69,11 @@ enum monster_attitude {
     MATT_ATTACK,
     MATT_ZLAVE,
     NUM_MONSTER_ATTITUDES
+};
+
+template<>
+struct enum_traits<monster_attitude> {
+    static constexpr monster_attitude last = monster_attitude::NUM_MONSTER_ATTITUDES;
 };
 
 enum monster_effect_cache_fields {
@@ -81,18 +93,18 @@ enum monster_horde_attraction {
     NUM_MONSTER_HORDE_ATTRACTION
 };
 
-class monster : public Creature, public visitable<monster>
+class monster : public Creature, public location_visitable<monster>
 {
         friend class editmap;
+        friend location_visitable<monster>;
     public:
         monster();
         monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
         monster( const monster & );
-        monster( monster && );
         ~monster() override;
-        monster &operator=( const monster & );
-        monster &operator=( monster && );
+        monster &operator=( const monster & ) = delete;
+        monster &operator=( monster && ) = delete;
 
         bool is_monster() const override {
             return true;
@@ -110,10 +122,13 @@ class monster : public Creature, public visitable<monster>
         int get_upgrade_time() const;
         void allow_upgrade();
         void try_upgrade( bool pin_time );
+        /// Check if monster is ready to reproduce and do so if possible, refreshing baby timer.
         void try_reproduce();
+        /// Immediatly spawn an offspring without mutating baby timer.
+        void reproduce();
         void refill_udders();
         void spawn( const tripoint &p );
-        m_size get_size() const override;
+        creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
         units::volume get_volume() const;
@@ -419,14 +434,26 @@ class monster : public Creature, public visitable<monster>
         void make_friendly();
         /** Makes this monster an ally of the given monster. */
         void make_ally( const monster &z );
+        // makes this monster a pet of the player
+        void make_pet();
+        // check if this monster is a pet of the player
+        bool is_pet() const;
         // Add an item to inventory
-        void add_item( const item &it );
+        void add_item( detached_ptr<item> &&it );
         // check mech power levels and modify it.
         bool use_mech_power( int amt );
         bool check_mech_powered() const;
         int mech_str_addition() const;
 
         void process_items();
+
+        const std::vector<item *> &get_items() const;
+        detached_ptr<item> remove_item( item *it );
+        location_vector<item>::iterator remove_item( location_vector<item>::iterator &it,
+                detached_ptr<item> *result = nullptr );
+        std::vector<detached_ptr<item>> clear_items();
+        void drop_items();
+        void drop_items( const tripoint &p );
 
         /**
          * Makes monster react to heard sound
@@ -453,19 +480,13 @@ class monster : public Creature, public visitable<monster>
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
-        std::vector<item> inv; // Inventory
-        std::vector<item> corpse_components; // Hack to make bionic corpses generate CBMs on death
+
+
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
-        cata::value_ptr<item> tied_item; // item used to tie the monster
-        cata::value_ptr<item> tack_item; // item representing saddle and reins and such
-        cata::value_ptr<item> armor_item; // item of armor the monster may be wearing
-        cata::value_ptr<item> storage_item; // storage item for monster carrying items
-        cata::value_ptr<item> battery_item; // item to power mechs
         units::mass get_carried_weight();
         units::volume get_carried_volume();
-        void move_special_item_to_inv( cata::value_ptr<item> &it );
 
         // DEFINING VALUES
         int friendly;
@@ -516,7 +537,7 @@ class monster : public Creature, public visitable<monster>
          * Only useful for robots and the like, the monster must have at least
          * a non-empty item id as revert_to_itype.
          */
-        item to_item() const;
+        detached_ptr<item> to_item() const;
         /**
          * Initialize values like speed / hp from data of an item.
          * This applies to robotic monsters that are spawned by invoking an item (e.g. turret),
@@ -543,9 +564,36 @@ class monster : public Creature, public visitable<monster>
         void set_summon_time( const time_duration &length );
         // handles removing the monster if the timer runs out
         void decrement_summon_timer();
+
+        item *get_tack_item() const;
+        detached_ptr<item> set_tack_item( detached_ptr<item> &&to );
+        detached_ptr<item> remove_tack_item( );
+
+        item *get_tied_item() const;
+        detached_ptr<item> set_tied_item( detached_ptr<item> &&to );
+        detached_ptr<item> remove_tied_item( );
+
+        item *get_armor_item() const;
+        detached_ptr<item> set_armor_item( detached_ptr<item> &&to );
+        detached_ptr<item> remove_armor_item( );
+
+        item *get_storage_item() const;
+        detached_ptr<item> set_storage_item( detached_ptr<item> &&to );
+        detached_ptr<item> remove_storage_item( );
+
+        item *get_battery_item() const;
+        detached_ptr<item> set_battery_item( detached_ptr<item> &&to );
+        detached_ptr<item> remove_battery_item( );
+
+        void add_corpse_component( detached_ptr<item> &&it );
+        detached_ptr<item> remove_corpse_component( item &it );
+        std::vector<detached_ptr<item>> remove_corpse_components();
+
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
+
+        location_vector<item> corpse_components; // Hack to make bionic corpses generate CBMs on death
 
     private:
         int hp;
@@ -572,6 +620,12 @@ class monster : public Creature, public visitable<monster>
         void nursebot_operate( player *dragged_foe );
 
     protected:
+        location_ptr<item, false> tied_item; // item used to tie the monster
+        location_ptr<item, false> tack_item; // item representing saddle and reins and such
+        location_ptr<item, false> armor_item; // item of armor the monster may be wearing
+        location_ptr<item, false> storage_item; // storage item for monster carrying items
+        location_ptr<item, false> battery_item; // item to power mechs
+        location_vector<item> inv; // Inventory
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
 

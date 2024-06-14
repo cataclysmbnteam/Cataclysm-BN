@@ -74,7 +74,7 @@
       { "item": "rag" },
       { "item": "fur" },
       { "item": "leather" },
-      { "item": "superglue" },
+      { "item": "superglue", "charges": 10 },
       { "item": "string_36" },
       { "item": "chain" },
       { "item": "processor" },

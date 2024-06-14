@@ -13,8 +13,8 @@
     "volume": "250 ml",
     "cutting": 10,
     "flags": [ "STAB" ],
-    "price": 3000,
-    "price_postapoc": 0
+    "price": "30 USD",
+    "price_postapoc": "0 cent"
   },
   {
     "id": "broom",
@@ -30,8 +30,8 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "1250 ml",
     "bashing": 4,
-    "price": 2400,
-    "price_postapoc": 0
+    "price": "24 USD",
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -41,13 +41,14 @@
     "name": { "str": "ceramic shard" },
     "description": "A broken ceramic shard.  It is heavy and has a somewhat sharp edge, but it's too irregular to cut properly.",
     "material": "ceramic",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SHATTERS" ],
     "weight": "750 g",
     "volume": "250 ml",
     "bashing": 5,
     "cutting": 2,
     "to_hit": -1,
-    "qualities": [ [ "BUTCHER", -66 ] ]
+    "qualities": [ [ "BUTCHER", -66 ] ],
+    "stackable": true
   },
   {
     "id": "fighter_sting",
@@ -63,8 +64,8 @@
     "volume": "250 ml",
     "cutting": 8,
     "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "price": 500,
-    "price_postapoc": 0
+    "price": "5 USD",
+    "price_postapoc": "0 cent"
   },
   {
     "id": "incendiary",
@@ -74,8 +75,8 @@
     "description": "Material from an incendiary round, useful in constructing incendiary ammunition.",
     "weight": "2 g",
     "volume": "500 ml",
-    "price": 10000,
-    "price_postapoc": 100,
+    "price": "100 USD",
+    "price_postapoc": "1 USD",
     "container": "bag_plastic",
     "material": [ "powder" ],
     "symbol": "=",
@@ -92,8 +93,8 @@
     "description": "This is a single, or twin, sized mattress.",
     "weight": "20000 g",
     "volume": "300000 ml",
-    "price": 1000,
-    "price_postapoc": 500,
+    "price": "10 USD",
+    "price_postapoc": "5 USD",
     "material": [ "cotton", "steel" ],
     "symbol": "0",
     "color": "white",
@@ -108,8 +109,8 @@
     "description": "This is a single, or twin, sized down filled mattress.",
     "weight": "6 kg",
     "volume": "300000 ml",
-    "price": 1000,
-    "price_postapoc": 750,
+    "price": "10 USD",
+    "price_postapoc": "750 cent",
     "material": [ "cotton" ],
     "symbol": "0",
     "color": "white",
@@ -123,8 +124,8 @@
     "description": "A piece of fuse, long enough to give you enough time to get away from most explosions.",
     "weight": "6 g",
     "volume": "80 ml",
-    "price": 500,
-    "price_postapoc": 500,
+    "price": "5 USD",
+    "price_postapoc": "5 USD",
     "container": "bag_plastic",
     "material": [ "cotton" ],
     "symbol": ",",
@@ -156,8 +157,8 @@
     "name": { "str": "grenade launcher buttstock" },
     "category": "spare_parts",
     "description": "A collapsible buttstock designed for the M320 grenade launcher.  When combined with this stock, the M320 can be used as a standalone weapon",
-    "price": 10000,
-    "price_postapoc": 250,
+    "price": "100 USD",
+    "price_postapoc": "250 cent",
     "material": [ "plastic", "steel" ],
     "weight": "600 g",
     "volume": "250 ml",
@@ -177,7 +178,53 @@
     "volume": "250 ml",
     "cutting": 8,
     "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "price": 1000,
-    "price_postapoc": 0
+    "price": "10 USD",
+    "price_postapoc": "0 cent"
+  },
+  {
+    "type": "TOOL",
+    "category": "spare_parts",
+    "id": "cannonball_explosive",
+    "name": { "str": "unpacked cannon shell" },
+    "description": "A metal case tightly packed with gunpowder and an impact fuse.  With some gunpowder, wadding, and a fuse, it could be prepared to load into a cannon.",
+    "symbol": "o",
+    "color": "dark_gray",
+    "looks_like": "cannonball_4lb",
+    "weight": "4275 g",
+    "volume": "700 ml",
+    "material": [ "iron", "powder" ],
+    "to_hit": -6,
+    "flags": [ "TRADER_AVOID" ],
+    "bashing": 18,
+    "explosion": {
+      "damage": 50,
+      "radius": 3,
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 }, "range": 5 }
+    },
+    "explode_in_fire": true
+  },
+  {
+    "type": "GENERIC",
+    "id": "cannonball_4lb",
+    "category": "spare_parts",
+    "symbol": "o",
+    "color": "dark_gray",
+    "name": { "str": "cannonball" },
+    "description": "A four-pound, cast-iron cannonball.  With some gunpowder, wadding, and a fuse, it could be prepared to load into a cannon.",
+    "material": [ "iron" ],
+    "weight": "1800 g",
+    "volume": "200 ml",
+    "to_hit": -5,
+    "flags": [ "TRADER_AVOID" ],
+    "bashing": 15
+  },
+  {
+    "type": "GENERIC",
+    "id": "wool_mattress",
+    "copy-from": "down_mattress",
+    "looks_like": "down_mattress",
+    "name": { "str": "wool mattress", "str_pl": "wool mattresses" },
+    "description": "A mattress made of wool.  It is quite soft and comfortable.",
+    "material": [ "wool" ]
   }
 ]

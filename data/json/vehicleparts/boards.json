@@ -12,7 +12,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 3 ] ]
+      }
     },
     "damage_reduction": { "all": 28 }
   },
@@ -25,12 +29,12 @@
     "broken_color": "dark_gray",
     "durability": 15,
     "description": "A cloth wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
-    "folded_volume": 15,
+    "folded_volume": "3750 ml",
     "breaks_into": "ig_vp_cloth",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "sewing_standard", 2 ], [ "fabric_standard", 1 ] ] }
     },
     "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "FULL_BOARD", "NO_ROOF_NEEDED" ]
   },
@@ -66,11 +70,11 @@
     "broken_color": "light_gray",
     "durability": 80,
     "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
-    "size": 250,
+    "size": "62500 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "NO_ROOF_NEEDED", "LOCKABLE_CARGO" ],
     "damage_reduction": { "all": 28 }
@@ -100,7 +104,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "OPAQUE", "OBSTACLE", "FULL_BOARD", "NO_ROOF_NEEDED" ],
     "damage_reduction": { "all": 75, "cut": 80, "stab": 80 }
@@ -130,7 +134,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
     "flags": [ "OPAQUE", "OBSTACLE", "FULL_BOARD", "NO_ROOF_NEEDED" ],
     "damage_reduction": { "all": 16, "cut": 8, "stab": 8 }
@@ -159,7 +163,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 4 ] ]
+      }
     },
     "flags": [ "OBSTACLE", "HALF_BOARD", "NO_ROOF_NEEDED" ],
     "damage_reduction": { "all": 8 }

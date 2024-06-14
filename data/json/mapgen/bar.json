@@ -76,6 +76,7 @@
         "q": "f_stool",
         "{": "f_rack"
       },
+      "items": { "d": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "pool_table", "x": [ 5, 8 ], "y": [ 17, 18 ], "chance": 50, "repeat": [ 2, 3 ] },
@@ -247,7 +248,7 @@
       "toilets": { "t": {  } },
       "items": {
         "o": { "item": "novels", "chance": 20 },
-        "d": { "item": "bar_trash", "chance": 35 },
+        "d": { "item": "trash_dumpster", "chance": 80 },
         "#": { "item": "bar_table", "chance": 35, "repeat": [ 2, 3 ] },
         "c": { "item": "bar_alcohol", "chance": 50, "repeat": [ 2, 3 ] },
         "u": { "item": "bar_alcohol", "chance": 50, "repeat": [ 2, 3 ] },

@@ -7,6 +7,12 @@
   },
   {
     "type": "weapon_category",
+    "id": "STILETTOS",
+    "name": "Stilettos",
+    "//": "Short, tapering 'blade' fixed onto a handle, has no cutting edge"
+  },
+  {
+    "type": "weapon_category",
     "id": "KNIVES",
     "name": "Knives",
     "//": "Short blade fixed onto a handle, for cutting or as weapon."
@@ -124,6 +130,12 @@
     "id": "WHIPS",
     "name": "Whips",
     "//": "Flexible tool used to strike at range."
+  },
+  {
+    "type": "weapon_category",
+    "id": "1H_HOOKED",
+    "name": "One-handed Hooking",
+    "//": "One handed weapon with hooking capability that doesn't fall under traditional classification (ie: not a hammer or an axe)."
   },
   {
     "type": "weapon_category",

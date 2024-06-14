@@ -110,6 +110,34 @@
     ]
   },
   {
+    "id": "clothing_military_distribution",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Assorted basic clothing for military stockpiles.  Excludes underwear, armor and storage items",
+    "items": [
+      { "item": "helmet_liner", "prob": 5 },
+      { "item": "balclava", "prob": 5 },
+      { "item": "hood_rain", "prob": 5 },
+      { "item": "beret", "prob": 3 },
+      { "item": "beret_wool", "prob": 2 },
+      { "item": "jacket_army", "prob": 5 },
+      { "item": "winter_jacket_army", "prob": 5 },
+      { "item": "coat_rain", "prob": 3 },
+      { "item": "folding_poncho", "prob": 2 },
+      { "item": "webbing_belt", "prob": 5 },
+      { "item": "gloves_liner", "prob": 3 },
+      { "item": "gloves_liner_wool", "prob": 2 },
+      { "item": "winter_gloves_army", "prob": 5 },
+      { "item": "gloves_tactical", "prob": 10 },
+      { "item": "pants_army", "prob": 5 },
+      { "item": "winter_pants_army", "prob": 5 },
+      { "item": "knee_pads", "prob": 5 },
+      { "item": "elbow_pads", "prob": 5 },
+      { "item": "boots", "prob": 10 },
+      { "item": "boots_combat", "prob": 10 }
+    ]
+  },
+  {
     "id": "clothing_military_winter",
     "type": "item_group",
     "subtype": "collection",
@@ -140,7 +168,16 @@
       { "item": "knee_pads", "prob": 85 },
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
-      { "item": "modularvestceramic", "prob": 90 },
+      {
+        "distribution": [
+          { "item": "modularvestceramic", "prob": 50 },
+          { "item": "modularvest", "prob": 25 },
+          { "item": "modularveststeel", "prob": 10 },
+          { "item": "modularvesthard", "prob": 10 },
+          { "item": "modularvestsuper", "prob": 5 }
+        ],
+        "prob": 90
+      },
       { "item": "molle_pack", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
@@ -172,7 +209,16 @@
         ],
         "prob": 80
       },
-      { "item": "modularvestceramic", "prob": 90 },
+      {
+        "distribution": [
+          { "item": "modularvestceramic", "prob": 50 },
+          { "item": "modularvest", "prob": 25 },
+          { "item": "modularveststeel", "prob": 10 },
+          { "item": "modularvesthard", "prob": 10 },
+          { "item": "modularvestsuper", "prob": 5 }
+        ],
+        "prob": 90
+      },
       { "item": "molle_pack", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
@@ -213,10 +259,33 @@
     ]
   },
   {
+    "id": "clothing_military_pilot_distribution",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "chestrig", "prob": 40 },
+      { "item": "helmet_army" },
+      { "item": "jacket_army", "prob": 80 },
+      { "item": "nomex_gloves" },
+      { "item": "webbing_belt" },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "item": "boots_combat" },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      },
+      { "group": "clothing_watch", "prob": 85 },
+      { "item": "goggles_ir", "prob": 10, "charges": [ 0, 100 ] }
+    ]
+  },
+  {
     "id": "clothing_soldier_shirt",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "tshirt" } ]
+    "entries": [ { "item": "tshirt", "prob": 75 }, { "item": "army_top", "prob": 15 }, { "item": "tank_top", "prob": 10 } ]
   },
   {
     "id": "clothing_outdoor_pants",
@@ -314,7 +383,14 @@
     "type": "item_group",
     "//": "Tactical gear that can be strapped to the legs",
     "subtype": "distribution",
-    "entries": [ { "item": "legpouch_large", "prob": 100 }, { "item": "legrig", "prob": 100 } ]
+    "entries": [
+      { "item": "legpouch", "prob": 25 },
+      { "item": "legpouch_large", "prob": 75 },
+      { "item": "legrig", "prob": 50 },
+      { "item": "dump_pouch", "prob": 50 },
+      { "item": "grenade_pouch", "prob": 25 },
+      { "item": "grenadebandolier", "prob": 25 }
+    ]
   },
   {
     "id": "clothing_tactical_torso",
@@ -329,7 +405,26 @@
       { "item": "backpack_tactical_large", "prob": 20 },
       { "item": "tacvest", "prob": 160 },
       { "item": "molle_pack", "prob": 100 },
-      { "item": "rucksack", "prob": 80 }
+      { "item": "rucksack", "prob": 80 },
+      { "item": "duffelbag", "prob": 20 },
+      { "item": "bigback", "prob": 10 }
+    ]
+  },
+  {
+    "id": "military_ballistic_armor",
+    "type": "item_group",
+    "//": "All ballistic armor items one might see in a military stockpile",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "kevlar", "prob": 5 },
+      { "item": "modularvest", "prob": 10 },
+      { "item": "modularvestceramic", "prob": 20 },
+      { "item": "modularvesthard", "prob": 5 },
+      { "item": "helmet_army", "prob": 30 },
+      { "item": "tac_helmet", "prob": 10 },
+      { "item": "glasses_bal", "prob": 10 },
+      { "item": "mask_bal", "prob": 5 },
+      { "item": "shield_ballistic", "prob": 5 }
     ]
   },
   {
@@ -345,6 +440,22 @@
       { "item": "pocketwatch", "prob": 30 },
       { "item": "diving_watch", "prob": 20 },
       { "item": "game_watch", "prob": 20 }
+    ]
+  },
+  {
+    "id": "clothing_cleaning",
+    "type": "item_group",
+    "//": "wearable utility or protective gear for janitors and household cleaning purposes",
+    "//2": "Not intended to be a set of clothing for NPCs or monsters",
+    "items": [
+      [ "glasses_safety", 25 ],
+      [ "mask_dust", 15 ],
+      [ "mask_filter", 10 ],
+      [ "gloves_rubber", 15 ],
+      [ "gloves_medical", 10 ],
+      [ "boots_rubber", 15 ],
+      [ "fishing_waders", 5 ],
+      [ "knee_pads", 5 ]
     ]
   },
   {
@@ -1149,6 +1260,7 @@
       [ "photo_album", 10 ],
       [ "lighter", 60 ],
       [ "ref_lighter", 2 ],
+      [ "electric_lighter", 2 ],
       [ "sewing_kit", 30 ],
       [ "thread", 40 ],
       [ "flashlight", 40 ],
@@ -1837,105 +1949,81 @@
     "type": "item_group",
     "id": "mil_armor",
     "items": [
-      [ "pants_army", 10 ],
-      [ "jacket_army", 10 ],
-      [ "winter_pants_army", 30 ],
-      [ "winter_jacket_army", 30 ],
-      [ "winter_gloves_army", 30 ],
-      [ "army_top", 30 ],
-      [ "kevlar", 10 ],
-      [ "modularvest", 25 ],
-      [ "modularvestceramic", 30 ],
-      [ "vest", 15 ],
-      [ "mask_gas", 10 ],
-      [ "goggles_nv", 1 ],
-      [ "goggles_ir", 1 ],
-      [ "optical_cloak", 1 ],
-      [ "holo_cloak", 1 ],
-      [ "backpack", 32 ],
-      [ "adv_UPS_off", 10 ],
-      [ "tacvest", 10 ],
-      [ "molle_pack", 8 ],
-      [ "duffelbag", 15 ],
-      [ "dump_pouch", 20 ],
-      [ "legrig", 10 ],
-      [ "under_armor", 20 ],
-      [ "boots", 70 ],
-      [ "boots_combat", 70 ],
-      [ "gloves_tactical", 30 ],
-      [ "glasses_bal", 40 ],
+      { "group": "clothing_military_distribution", "prob": 500 },
+      { "group": "clothing_tactical_torso", "prob": 75 },
+      { "group": "clothing_tactical_leg", "prob": 50 },
+      { "group": "military_ballistic_armor", "prob": 200 },
+      { "group": "pwr_armor", "prob": 10 },
+      { "group": "pwr_armor_acc", "prob": 10 },
+      { "group": "mil_armor_electronics", "prob": 20 },
       [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
-      [ "power_armor_helmet_basic", 3 ],
-      [ "power_armor_basic", 3 ],
-      [ "power_armor_frame", 4 ],
-      [ "power_armor_back_holster", 1 ],
-      [ "power_armor_holster", 1 ],
-      [ "power_armor_chest_rig", 1 ],
-      [ "power_armor_bscabbard", 1 ],
-      [ "power_armor_scabbard", 1 ],
-      [ "power_armor_sheath", 1 ],
-      [ "helmet_army", 40 ],
-      [ "helmet_liner", 10 ],
-      [ "beret", 50 ],
-      [ "beret_wool", 40 ],
-      [ "elbow_pads", 50 ],
-      [ "knee_pads", 50 ],
+      [ "mask_gas", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_armor_electronics",
+    "items": [
+      { "item": "radio", "prob": 5, "charges": [ 0, 300 ] },
+      { "item": "two_way_radio", "prob": 20, "charges": [ 0, 300 ] },
+      { "item": "adv_UPS_off", "prob": 20, "charges": [ 0, 2000 ] },
+      { "group": "used_UPS", "prob": 5 },
+      { "item": "goggles_nv", "prob": 20, "charges": [ 0, 150 ] },
+      { "item": "goggles_ir", "prob": 20, "charges": [ 0, 150 ] },
       [ "solarpack", 5 ],
-      [ "shield_ballistic", 3 ]
+      [ "optical_cloak", 3 ],
+      [ "holo_cloak", 2 ]
     ]
   },
   {
     "type": "item_group",
     "id": "pwr_armor",
-    "items": [
-      [ "power_armor_helmet_basic", 10 ],
-      [ "power_armor_basic", 10 ],
-      [ "power_armor_heavy", 5 ],
-      [ "power_armor_helmet_heavy", 5 ],
-      [ "power_armor_light", 15 ],
-      [ "power_armor_helmet_light", 15 ]
+    "subtype": "distribution",
+    "entries": [
+      { "collection": [ { "item": "power_armor_basic" }, { "item": "power_armor_helmet_basic", "prob": 75 } ], "prob": 40 },
+      { "item": "power_armor_helmet_basic", "prob": 10 },
+      {
+        "collection": [ { "item": "power_armor_light" }, { "item": "power_armor_helmet_light", "prob": 75 } ],
+        "prob": 20
+      },
+      { "item": "power_armor_helmet_light", "prob": 5 },
+      {
+        "collection": [ { "item": "power_armor_heavy" }, { "item": "power_armor_helmet_heavy", "prob": 75 } ],
+        "prob": 20
+      },
+      { "item": "power_armor_helmet_heavy", "prob": 5 }
     ]
   },
   {
     "type": "item_group",
     "id": "pwr_armor_acc",
     "items": [
-      [ "power_armor_frame", 1 ],
-      [ "power_armor_back_holster", 1 ],
-      [ "power_armor_holster", 1 ],
-      [ "power_armor_chest_rig", 1 ],
-      [ "power_armor_bscabbard", 1 ],
-      [ "power_armor_scabbard", 1 ],
-      [ "power_armor_sheath", 1 ]
+      [ "power_armor_frame", 25 ],
+      [ "power_armor_chest_rig", 25 ],
+      [ "power_armor_back_holster", 10 ],
+      [ "power_armor_holster", 10 ],
+      [ "power_armor_bscabbard", 10 ],
+      [ "power_armor_scabbard", 10 ],
+      [ "power_armor_sheath", 10 ]
     ]
   },
   {
     "type": "item_group",
     "id": "mil_accessories",
     "items": [
+      { "group": "mil_armor_electronics", "prob": 40 },
+      { "group": "pwr_armor_acc", "prob": 10 },
       [ "mask_gas", 10 ],
       [ "duffelbag", 15 ],
-      [ "goggles_nv", 1 ],
-      [ "goggles_ir", 1 ],
-      [ "optical_cloak", 1 ],
-      [ "holo_cloak", 1 ],
       [ "mess_kit", 9 ],
       [ "mil_mess_kit", 1 ],
       [ "backpack", 32 ],
       [ "briefcase", 10 ],
-      { "item": "adv_UPS_off", "prob": 10, "charges": [ 0, 2000 ] },
       [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
-      [ "power_armor_frame", 4 ],
-      [ "power_armor_back_holster", 1 ],
-      [ "power_armor_holster", 1 ],
-      [ "power_armor_chest_rig", 1 ],
-      [ "power_armor_bscabbard", 1 ],
-      [ "power_armor_scabbard", 1 ],
-      [ "power_armor_sheath", 1 ],
       [ "elbow_pads", 40 ],
       [ "knee_pads", 40 ],
       [ "mask_bal", 5 ],
@@ -1949,7 +2037,6 @@
       [ "holster", 15 ],
       [ "sholster", 10 ],
       [ "bandolier_shotgun", 8 ],
-      [ "solarpack", 5 ],
       [ "chem_hexamine", 3 ],
       [ "esbit_stove", 6 ],
       [ "mess_tin", 4 ],
@@ -1960,16 +2047,15 @@
     "type": "item_group",
     "id": "mil_armor_torso",
     "items": [
+      { "group": "clothing_tactical_torso", "prob": 20 },
+      { "group": "clothing_soldier_shirt", "prob": 30 },
       [ "kevlar", 10 ],
       [ "modularvest", 25 ],
       [ "modularvestceramic", 30 ],
       [ "winter_jacket_army", 30 ],
       [ "vest", 15 ],
-      [ "tacvest", 10 ],
-      [ "molle_pack", 8 ],
       [ "under_armor", 20 ],
       [ "power_armor_basic", 5 ],
-      [ "army_top", 30 ],
       [ "elbow_pads", 20 ]
     ]
   },
@@ -3346,7 +3432,8 @@
       { "item": "wristholster", "prob": 1 },
       { "item": "bow_sling", "prob": 5 },
       { "item": "bscabbard", "prob": 5 },
-      { "item": "holster", "prob": 20 },
+      { "item": "holster", "prob": 15 },
+      { "item": "shoulder_holster", "prob": 5 },
       { "item": "scabbard", "prob": 10 },
       { "item": "sheath", "prob": 25 },
       { "item": "sholster", "prob": 5 }
@@ -3407,11 +3494,63 @@
       {
         "distribution": [
           { "group": "everyday_gear", "prob": 75 },
-          { "group": "ammo_common", "prob": 15 },
+          { "group": "ammo_pistol_common", "prob": 5 },
+          { "group": "guns_pistol_common", "prob": 1 },
+          { "group": "mags_pistol_common", "prob": 1 },
           { "item": "condom", "prob": 10, "count": [ 1, 5 ] }
         ],
         "prob": 20
       }
+    ]
+  },
+  {
+    "id": "accesories_personal_unisex_kids",
+    "type": "item_group",
+    "//": "unisex personal accessories but minus things that'd be odd for a child to have on them",
+    "subtype": "distribution",
+    "items": [
+      { "group": "clothing_glasses", "prob": 10 },
+      { "group": "clothing_watch", "prob": 10 },
+      {
+        "distribution": [
+          { "group": "accessory_bracelet", "prob": 20 },
+          { "group": "accessory_earring", "prob": 20 },
+          { "group": "accessory_necklace", "prob": 20 },
+          { "group": "tiaras_silver", "prob": 2 },
+          { "group": "tiaras_gold", "prob": 2 },
+          { "group": "tiaras_platinum", "prob": 1 },
+          { "item": "copper_ring", "prob": 10 },
+          { "group": "rings_silver", "prob": 5 },
+          { "group": "rings_gold", "prob": 5 },
+          { "item": "barrette", "prob": 5 },
+          { "item": "badge_foodkid", "prob": 5 }
+        ],
+        "prob": 25
+      },
+      { "group": "accessory_sportsgear", "prob": 25 },
+      {
+        "distribution": [
+          { "group": "accessory_cat", "prob": 20 },
+          { "item": "folding_poncho", "prob": 10 },
+          { "item": "american_flag", "prob": 10 },
+          { "item": "leather_belt", "prob": 10 },
+          { "item": "wearable_light", "prob": 15 },
+          { "item": "binoculars", "prob": 5 },
+          { "item": "whistle", "prob": 5 },
+          { "item": "flute", "prob": 3 },
+          { "item": "clarinet", "prob": 2 },
+          { "item": "harmonica_holder", "prob": 5 },
+          { "item": "saxophone", "prob": 2 },
+          { "item": "trumpet", "prob": 2 },
+          { "item": "tuba", "prob": 1 },
+          { "item": "violin", "prob": 5 },
+          { "item": "ukulele", "prob": 3 },
+          { "item": "acoustic_guitar", "prob": 1 },
+          { "item": "guitar_electric", "prob": 1 }
+        ],
+        "prob": 10
+      },
+      { "group": "child_items", "prob": 20 }
     ]
   },
   {

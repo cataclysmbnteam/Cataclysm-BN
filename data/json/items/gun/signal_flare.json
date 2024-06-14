@@ -8,8 +8,8 @@
     "weight": "213 g",
     "volume": "500 ml",
     "ascii_picture": "flaregunb",
-    "price": 5000,
-    "price_postapoc": 500,
+    "price": "50 USD",
+    "price_postapoc": "5 USD",
     "material": [ "plastic", "steel" ],
     "color": "light_red",
     "ammo": "signal_flare",
@@ -17,14 +17,7 @@
     "durability": 7,
     "loudness": 40,
     "clip_size": 1,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "stock", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "extend": { "flags": [ "WATERPROOF_GUN", "PYROMANIAC_WEAPON" ] },
     "faults": [  ]
   }

@@ -10,7 +10,8 @@
         "X": "f_gunsafe_ml",
         "c": "f_counter",
         "d": "f_desk",
-        "s": "f_sign"
+        "s": "f_sign",
+        "%": "f_trashcan"
       },
       "place_items": [
         { "chance": 10, "item": "ammo_pistol_common", "x": 6, "y": 9 },
@@ -32,9 +33,9 @@
         { "chance": 25, "item": "office", "x": [ 3, 4 ], "y": 4 }
       ],
       "items": {
-        "w": { "item": "casings", "chance": 60, "repeat": 7 },
-        "a": { "item": "casings", "chance": 50, "repeat": 5 },
-        "#": { "item": "casings", "chance": 40, "repeat": 3 },
+        "w": { "item": "casings", "chance": 60, "repeat": 4 },
+        "%": { "item": "casings", "chance": 66, "repeat": 150 },
+        "#": { "item": "casings", "chance": 40 },
         "c": { "item": "ear_protection", "chance": 10 },
         "d": { "item": "ear_protection", "chance": 80 }
       },
@@ -45,8 +46,8 @@
         "_zW&Cf+zzzzzzzz_________",
         "_z-ddXWzzzszzsz_________",
         "_z--W--zzzzzzzz_________",
-        "_aaaaaaaaaaaaaaaaaaaaaa_",
-        "_wwwwwwwwwwwwwwwwwwwwww_",
+        "_zzzzzzzzzzzzzzzzzzzzzz_",
+        "_======%========%======_",
         "_|ww|ww|ww|ww|ww|ww|ww|_",
         "_|cc|cc|cc|cc|cc|cc|cc|_",
         "_######################_",
@@ -77,12 +78,13 @@
         "W": "t_window",
         "X": "t_floor",
         "_": [ [ "t_grass", 20 ], [ "t_underbrush", 3 ], [ "t_dirt", 3 ], "t_tree", "t_tree_pine", "t_tree_young", "t_tree_maple" ],
-        "a": [ [ "t_grass", 5 ], "t_dirt" ],
         "c": "t_thconc_floor",
         "d": "t_floor",
         "f": "t_floor",
         "s": "t_grass",
         "w": "t_thconc_floor",
+        "%": "t_thconc_floor",
+        "=": "t_thconc_floor",
         "|": "t_wall_wood"
       },
       "place_signs": [

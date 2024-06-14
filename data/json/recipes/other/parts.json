@@ -21,7 +21,11 @@
     "time": "7 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "plastic_chunk", 1 ], [ "chunk_rubber", 1 ], [ "wood_structural_small", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -95,6 +99,7 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 3,
+    "skills_required": [ "mechanics", 1 ],
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_intermediate", 1 ], [ "steel_tiny", 1 ] ],
@@ -190,7 +195,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 36 ] ] ]
+    "components": [ [ [ "2x4", 8 ] ], [ [ "nail_glue", 36, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -213,6 +218,7 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 3,
+    "skills_required": [ "mechanics", 3 ],
     "time": "15 m",
     "reversible": true,
     "autolearn": true,

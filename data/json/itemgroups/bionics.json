@@ -70,14 +70,13 @@
       [ "bio_teleport", 10 ],
       [ "bio_probability_travel", 10 ],
       [ "bio_laser", 10 ],
-      [ "bio_emp", 10 ],
       [ "bio_emp_armgun", 10 ],
       [ "bio_railgun", 10 ],
       [ "bio_flashbang", 10 ],
       [ "bio_chain_lightning", 10 ],
       [ "bio_power_armor_interface", 10 ],
       [ "bio_adrenaline", 10 ],
-      [ "bio_watch", 10 ],
+      [ "bio_infolink", 10 ],
       [ "bio_leukocyte", 10 ],
       [ "bio_speed", 5 ],
       [ "bio_faraday", 10 ],
@@ -96,7 +95,8 @@
       [ "afs_bio_linguistic_coprocessor", 10 ],
       [ "afs_bio_dopamine_stimulators", 10 ],
       [ "bio_blaster", 5 ],
-      [ "bio_reactor", 10 ]
+      [ "bio_reactor", 10 ],
+      [ "bio_electrosense", 10 ]
     ]
   },
   {
@@ -106,19 +106,47 @@
     "items": [
       [ "bio_tools", 10 ],
       [ "bio_flashlight", 10 ],
-      [ "bio_fuel_cell_gasoline", 10 ],
       [ "bio_tattoo_led", 10 ],
+      [ "bio_fuel_cell_gasoline", 10 ],
       [ "bio_lighter", 10 ],
       [ "bio_magnet", 10 ],
       [ "bio_alarm", 10 ],
       [ "bio_batteries", 10 ],
       [ "bio_metabolics", 10 ],
       [ "bio_ethanol", 10 ],
-      [ "bio_watch", 10 ],
+      [ "bio_infolink", 10 ],
       [ "bio_torsionratchet", 10 ],
       [ "bio_cable", 10 ],
       [ "bn_bio_solar", 10 ],
       [ "afs_bio_linguistic_coprocessor", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_survivalist",
+    "//": "CBMs for police and prepper types, leaning towards combat and survival bionics but still generally civilian-grade.",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_batteries", 10 ],
+      [ "bn_bio_solar", 10 ],
+      [ "bio_cable", 5 ],
+      [ "bio_climate", 10 ],
+      [ "bio_ears", 5 ],
+      [ "bio_ethanol", 15 ],
+      [ "bio_evap", 10 ],
+      [ "bio_faraday", 5 ],
+      [ "bio_flashlight", 15 ],
+      [ "bio_fuel_cell_gasoline", 10 ],
+      [ "bio_geiger", 5 ],
+      [ "bio_lighter", 15 ],
+      [ "bio_metabolics", 10 ],
+      [ "bio_recycler", 15 ],
+      [ "bio_shock_absorber", 5 ],
+      [ "bio_soporific", 15 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_tools", 10 ],
+      [ "bio_torsionratchet", 15 ],
+      [ "bio_weight", 5 ]
     ]
   },
   {
@@ -165,7 +193,6 @@
       [ "bio_ods", 10 ],
       [ "bio_uncanny_dodge", 10 ],
       [ "bio_laser", 10 ],
-      [ "bio_emp", 10 ],
       [ "bio_emp_armgun", 10 ],
       [ "bio_railgun", 10 ],
       [ "bio_flashbang", 10 ],
@@ -178,15 +205,41 @@
       [ "bio_blade", 2 ],
       [ "bio_speed", 2 ],
       [ "bio_adrenaline", 10 ],
-      [ "bio_watch", 10 ],
+      [ "bio_infolink", 20 ],
       [ "bio_power_armor_interface_mkII", 5 ],
-      [ "bio_meteorologist", 10 ],
       [ "bio_cable", 10 ],
       [ "bio_weight", 10 ],
       [ "bio_jointservo", 10 ],
       [ "bio_shotgun", 10 ],
       [ "bio_blaster", 5 ],
-      [ "afs_bio_dopamine_stimulators", 10 ]
+      [ "afs_bio_dopamine_stimulators", 10 ],
+      [ "bio_electrosense", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_heavy_mil",
+    "subtype": "distribution",
+    "//": "Bionics for power armor use, engineering roles, and other specialist soldiers that aren't commandos.",
+    "items": [
+      [ "bio_batteries", 10 ],
+      [ "bio_blood_anal", 5 ],
+      [ "bio_cable", 10 ],
+      [ "bio_cqb", 5 ],
+      [ "bio_ethanol", 10 ],
+      [ "bio_fuel_cell_gasoline", 10 ],
+      [ "bio_geiger", 5 ],
+      [ "bio_ground_sonar", 5 ],
+      [ "bio_heatsink", 10 ],
+      [ "bio_hydraulics", 10 ],
+      [ "bio_jointservo", 10 ],
+      [ "bio_power_armor_interface", 15 ],
+      [ "bio_power_armor_interface_mkII", 15 ],
+      [ "bio_reactor", 10 ],
+      [ "bio_shock_absorber", 5 ],
+      [ "bio_targeting", 10 ],
+      [ "bio_ups", 15 ],
+      [ "bio_weight", 15 ]
     ]
   },
   {
@@ -232,7 +285,6 @@
       [ "bio_ods", 10 ],
       [ "bio_uncanny_dodge", 10 ],
       [ "bio_laser", 15 ],
-      [ "bio_emp", 10 ],
       [ "bio_emp_armgun", 10 ],
       [ "bio_railgun", 10 ],
       [ "bio_flashbang", 15 ],
@@ -245,15 +297,15 @@
       [ "bio_blade", 5 ],
       [ "bio_speed", 5 ],
       [ "bio_adrenaline", 15 ],
-      [ "bio_watch", 10 ],
+      [ "bio_infolink", 20 ],
       [ "bio_power_armor_interface_mkII", 5 ],
-      [ "bio_meteorologist", 10 ],
       [ "bio_cable", 10 ],
       [ "bio_jointservo", 20 ],
       [ "bio_shotgun", 10 ],
       [ "bn_bio_solar", 15 ],
       [ "afs_bio_missiles", 10 ],
-      [ "afs_bio_dopamine_stimulators", 10 ]
+      [ "afs_bio_dopamine_stimulators", 10 ],
+      [ "bio_electrosense", 10 ]
     ]
   },
   {
@@ -266,7 +318,6 @@
       [ "bio_chain_lightning", 10 ],
       [ "bio_claws", 10 ],
       [ "bio_cqb", 10 ],
-      [ "bio_emp", 10 ],
       [ "bio_emp_armgun", 10 ],
       [ "bio_flashbang", 10 ],
       [ "bio_heat_absorb", 10 ],
@@ -318,7 +369,8 @@
       [ "bio_night_vision", 10 ],
       [ "bio_speed", 10 ],
       [ "bio_ups", 10 ],
-      [ "bio_weight", 10 ]
+      [ "bio_weight", 10 ],
+      [ "bio_electrosense", 10 ]
     ]
   },
   {
@@ -332,11 +384,56 @@
       [ "bio_memory", 20 ],
       [ "bio_sunglasses", 20 ],
       [ "bio_heatsink", 20 ],
-      [ "bio_watch", 20 ],
+      [ "bio_infolink", 20 ],
       [ "bio_faraday", 20 ],
       [ "bio_weight", 20 ],
       [ "bio_shock_absorber", 20 ],
-      [ "bio_soporific", 20 ]
+      [ "bio_soporific", 20 ],
+      [ "bio_electrosense", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_sci",
+    "subtype": "distribution",
+    "//": "High-tech bionics, handy for the harried researcher.  They get access to classified toys too, but only stuff a scientist would have use for.",
+    "items": [
+      [ "bio_batteries", 30 ],
+      [ "bio_metabolics", 5 ],
+      [ "bio_ethanol", 5 ],
+      [ "bio_ups", 10 ],
+      [ "bio_torsionratchet", 30 ],
+      [ "bio_tools", 10 ],
+      [ "bio_flashlight", 30 ],
+      [ "bio_lighter", 25 ],
+      [ "bio_magnet", 20 ],
+      [ "bio_memory", 15 ],
+      [ "bio_ears", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_eye_optic", 10 ],
+      [ "bio_eye_enhancer", 5 ],
+      [ "bio_dex_enhancer", 5 ],
+      [ "bio_int_enhancer", 10 ],
+      [ "bio_night_vision", 1 ],
+      [ "bio_infrared", 2 ],
+      [ "bio_synaptic_regen", 12 ],
+      [ "bio_gills", 5 ],
+      [ "bio_climate", 2 ],
+      [ "bio_heatsink", 2 ],
+      [ "bio_blood_filter", 10 ],
+      [ "bio_fingerhack", 2 ],
+      [ "bio_lockpick", 2 ],
+      [ "bio_surgical_razor", 8 ],
+      [ "bio_nanobots", 15 ],
+      [ "bio_blood_anal", 10 ],
+      [ "bio_geiger", 15 ],
+      [ "bio_radscrubber", 10 ],
+      [ "bio_infolink", 40 ],
+      [ "bio_leukocyte", 15 ],
+      [ "bio_syringe", 2 ],
+      [ "bio_jointservo", 10 ],
+      [ "bio_soporific", 2 ],
+      [ "bio_electrosense", 8 ]
     ]
   },
   {
@@ -353,7 +450,7 @@
       [ "bio_str_enhancer", 12 ],
       [ "bio_infrared", 25 ],
       [ "bio_targeting", 20 ],
-      [ "bio_emp", 20 ],
+      [ "bio_emp_armgun", 20 ],
       [ "bio_chain_lightning", 15 ],
       [ "bio_adrenaline", 20 ],
       [ "bio_ods", 10 ],
@@ -375,8 +472,23 @@
       [ "bio_evap", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_geiger", 10 ],
-      [ "bio_meteorologist", 10 ],
+      [ "bio_infolink", 10 ],
       [ "bio_purifier", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_broken_cyborg",
+    "subtype": "distribution",
+    "//": "Non-faulty bionics harvestable from prototype/broken cyborgs.",
+    "items": [
+      [ "bio_armor_head", 2 ],
+      [ "bio_armor_torso", 2 ],
+      [ "bio_armor_arms", 2 ],
+      [ "bio_armor_legs", 2 ],
+      [ "bio_armor_eyes", 2 ],
+      [ "bio_razors", 2 ],
+      [ "bio_torsionratchet", 1 ]
     ]
   },
   {
@@ -436,5 +548,10 @@
     "id": "bionic_power_storage_mil",
     "//": "Military and super-science power storage bionics, includes all current variants.",
     "items": [ [ "bio_power_storage", 50 ], [ "bio_power_storage_mkII", 50 ] ]
+  },
+  {
+    "id": "afs_bionics_power",
+    "type": "item_group",
+    "items": [ [ "bio_power_storage_mkII", 1 ], [ "bio_power_storage", 14 ] ]
   }
 ]

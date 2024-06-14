@@ -8,7 +8,8 @@
     "type": "effect_type",
     "id": "hit_by_player",
     "name": [ "Hit By Player" ],
-    "desc": [ "AI tag for when monsters are hit by player.  This is a bug if you have it." ]
+    "desc": [ "AI tag for when monsters are hit by player.  This is a bug if you have it." ],
+    "max_duration": "10 m"
   },
   {
     "type": "effect_type",
@@ -277,6 +278,15 @@
     "desc": [ "AI tag used for monsters pushing each other.  This is a bug if you have it." ]
   },
   {
+    "type": "effect_type",
+    "id": "mon_mitosis",
+    "name": [ "Recently Split" ],
+    "desc": [
+      "AI tag for ABSORBS_SPLITS monsters having recently divided, forcing a cooldown between splits.  This is a bug if you have it."
+    ],
+    "max_duration": "1 m"
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",
@@ -493,6 +503,70 @@
     "blood_analysis_description": "Poison"
   },
   {
+    "id": "venom_dmg",
+    "type": "effect_type",
+    "name": [ "Poisoned Wound" ],
+    "desc": [ "The wound swells visibly and burns like hell." ],
+    "apply_message": "Ow, that stings!",
+    "remove_message": "The burning pain subsides, but the damage is done.",
+    "rating": "bad",
+    "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "antitoxin" ],
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "max_intensity": 125,
+    "max_effective_intensity": 100,
+    "int_dur_factor": 18,
+    "max_duration": 2250,
+    "//": "30 m to max, 7,5 m overhead, dmg chance scales from 1/13 to 1/3, Pain from 1/20 to 1/5",
+    "base_mods": {
+      "pain_amount": [ 5, 2 ],
+      "pain_min": [ 0, -4 ],
+      "pain_chance": [ 20, 100 ],
+      "pain_max_val": [ 60, 20 ],
+      "hurt_amount": [ 5, 0 ],
+      "hurt_min": [ 2, 1 ],
+      "hurt_chance": [ 13, 100 ],
+      "hurt_tick": [ 30 ]
+    },
+    "scaling_mods": { "pain_min": [ 0.05, 0.01 ], "pain_chance": [ -0.15, -0.8 ], "hurt_chance": [ -0.11, -0.81 ] }
+  },
+  {
+    "id": "venom_weaken",
+    "type": "effect_type",
+    "name": [ "Weakening Poison" ],
+    "desc": [ "You feel feeble." ],
+    "apply_message": "The sting itself barely hurt, but suddenly you feel exhausted.",
+    "remove_message": "The weight on your chest lessens.",
+    "rating": "bad",
+    "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "antitoxin" ],
+    "max_intensity": 125,
+    "max_effective_intensity": 100,
+    "max_duration": 18000,
+    "int_dur_factor": 144,
+    "dur_add_perc": 500,
+    "//": "4h to max, 1h overhead; Str/Dex to -6/3; Stam chance 0,25-0,5 / 0,1-0,2; Vomit ~1 per max duration",
+    "base_mods": {
+      "str_mod": [ -2, 0 ],
+      "dex_mod": [ -2, 0 ],
+      "stamina_amount": [ -2000, -1000 ],
+      "stamina_min": [ -5 ],
+      "stamina_chance": [ 4.5, 10 ],
+      "speed_mod": [ -10, 0 ],
+      "vomit_chance": [ 15, 150 ],
+      "vomit_tick": [ 1200 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -0.05, -0.04 ],
+      "dex_mod": [ -0.05, -0.04 ],
+      "stamina_min": [ -0.351, -0.151 ],
+      "stamina_chance": [ -0.021, -0.051 ],
+      "speed_mod": [ -0.31, -0.21 ]
+    }
+  },
+  {
     "type": "effect_type",
     "id": "foodpoison",
     "name": [ "Food Poisoning" ],
@@ -511,6 +585,31 @@
       "pain_chance": [ 300, 900 ],
       "vomit_chance": [ 600, 1200 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "tpollen",
+    "name": [ "Pollen Inhalation" ],
+    "desc": [ "The pollen makes it hard to breathe!" ],
+    "miss_messages": [ [ "Your head is swimming from the pollen in the air.", 1 ] ],
+    "rating": "bad",
+    "harmful_cough": true,
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "base_mods": {
+      "per_mod": [ -2, -1 ],
+      "dex_mod": [ -1, -1 ],
+      "str_mod": [ -2, 0 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 150, 900 ],
+      "hurt_min": [ 2 ],
+      "hurt_chance": [ 450, 2700 ],
+      "speed_mod": [ -10 ],
+      "cough_chance": [ 10 ]
+    },
+    "show_in_info": true,
+    "blood_analysis_description": "Unknown Organic Toxin"
   },
   {
     "type": "effect_type",
@@ -1175,8 +1274,10 @@
       "tapeworm",
       "blind",
       "poison",
-      "stung",
       "badpoison",
+      "venom_dmg",
+      "venom_weaken",
+      "stung",
       "foodpoison",
       "paralyzepoison",
       "infected",
@@ -1237,7 +1338,7 @@
     "rating": "good",
     "max_intensity": 2,
     "int_dur_factor": "50 s",
-    "removes_effects": [ "infected", "bite", "bleed", "fungus", "dermatik", "winded" ],
+    "removes_effects": [ "infected", "bite", "bleed", "fungus", "dermatik", "winded", "poison", "badpoison", "venom_dmg", "venom_weaken" ],
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -2 ], "per_mod": [ -2 ], "int_mod": [ -1 ] },
     "scaling_mods": { "str_mod": [ 2 ], "dex_mod": [ 3 ], "per_mod": [ 3 ], "int_mod": [ 1 ] },
     "blood_analysis_description": "Healing Medication"
@@ -1268,15 +1369,26 @@
   {
     "type": "effect_type",
     "id": "adrenaline",
-    "name": [ "Adrenaline Comedown", "Adrenaline Rush" ],
-    "desc": [ "You feel completely drained.", "You feel the rush of adrenaline in your body!" ],
+    "name": [ "Adrenaline Rush" ],
+    "desc": [ "You feel the rush of adrenaline in your body!" ],
     "apply_message": "You feel a surge of adrenaline!",
     "rating": "good",
+    "removes_effects": [ "winded" ],
+    "max_duration": "5 m",
+    "base_mods": { "speed_mod": [ 20 ], "str_mod": [ 2 ], "dex_mod": [ 2 ], "int_mod": [ -8 ], "per_mod": [ 1 ], "stamina_min": [ 2 ] },
+    "blood_analysis_description": "Adrenaline Spike",
+    "effects_on_remove": [ { "allow_on_remove": true, "effect_type": "adrenaline_comedown", "duration": "1 m" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "adrenaline_comedown",
+    "name": [ "Adrenaline Comedown" ],
+    "desc": [ "You feel completely drained." ],
+    "apply_message": "Your adrenaline rush wears off.  You feel AWFUL!",
+    "rating": "bad",
     "decay_messages": [ [ "Your adrenaline rush wears off.  You feel AWFUL!", "bad" ] ],
     "miss_messages": [ [ "Your comedown throws you off.", 1 ] ],
-    "max_intensity": 2,
-    "int_dur_factor": "150 s",
-    "removes_effects": [ "winded" ],
+    "max_duration": "5 m",
     "base_mods": {
       "speed_mod": [ -10 ],
       "str_mod": [ -2 ],
@@ -1284,9 +1396,7 @@
       "int_mod": [ -1 ],
       "per_mod": [ -1 ],
       "stamina_min": [ -2 ]
-    },
-    "scaling_mods": { "speed_mod": [ 30 ], "str_mod": [ 4 ], "dex_mod": [ 4 ], "int_mod": [ -7 ], "per_mod": [ 2 ], "stamina_min": [ 4 ] },
-    "blood_analysis_description": "Adrenaline Spike"
+    }
   },
   {
     "type": "effect_type",

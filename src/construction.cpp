@@ -13,7 +13,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "character_functions.h"
-#include "colony.h"
 #include "color.h"
 #include "consistency_report.h"
 #include "construction_category.h"
@@ -111,6 +110,8 @@ bool check_down_OK( const tripoint & ); // tile is above OVERMAP_DEPTH
 bool check_no_trap( const tripoint & );
 bool check_ramp_low( const tripoint & );
 bool check_ramp_high( const tripoint & );
+bool check_empty_ramp_low( const tripoint & );
+bool check_empty_ramp_high( const tripoint & );
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint & ) {}
@@ -574,6 +575,18 @@ std::optional<construction_id> construction_menu( const bool blueprint )
                 add_folded( current_con->requirements->get_folded_tools_list( available_window_width, color_stage,
                             total_inv ) );
 
+                const auto get_folded_flags_list = [&]( const auto & flags ) ->
+                std::vector<std::string> {
+                    return foldstring(
+                        colorize( _( "Terrain needs: " ), color_stage ) + enumerate_as_string( flags.begin(), flags.end(),
+                    []( const auto & flag ) -> std::string { return colorize( flag, color_data ); },
+                    enumeration_conjunction::and_ ), available_window_width );
+                };
+
+                if( !current_con->pre_flags.empty() ) {
+                    add_folded( get_folded_flags_list( current_con->pre_flags ) );
+                }
+
                 add_folded( current_con->requirements->get_folded_components_list( available_window_width,
                             color_stage, total_inv, is_crafting_component ) );
 
@@ -594,7 +607,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
                 }
                 current_buffer_location += construct_buffers[i].size();
                 if( i < construct_buffers.size() - 1 ) {
-                    full_construct_buffer.push_back( std::string() );
+                    full_construct_buffer.emplace_back( );
                     current_buffer_location++;
                 }
             }
@@ -630,7 +643,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
     } );
     ui.mark_resize();
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
+    ui.on_redraw( [&]( ui_adaptor & ui ) {
         draw_grid( w_con, w_list_width + w_list_x0 );
 
         // Erase existing tab selection & list of constructions
@@ -642,7 +655,6 @@ std::optional<construction_id> construction_menu( const bool blueprint )
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
-        std::optional<point> cursor_pos;
         for( size_t i = 0; static_cast<int>( i ) < w_list_height &&
              ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
@@ -650,7 +662,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
             bool highlight = ( current == select );
             const point print_from( 0, i );
             if( highlight ) {
-                cursor_pos = print_from;
+                ui.set_cursor( w_list, print_from );
             }
             const std::string group_name = is_favorite( group ) ? "* " + group->name() : group->name();
             trim_and_print( w_list, print_from, w_list_width,
@@ -708,10 +720,6 @@ std::optional<construction_id> construction_menu( const bool blueprint )
         draw_scrollbar( w_con, select, w_list_height, constructs.size(), point( 0, 3 ) );
         wnoutrefresh( w_con );
 
-        // place the cursor at the selected construction name as expected by screen readers
-        if( cursor_pos ) {
-            wmove( w_list, cursor_pos.value() );
-        }
         wnoutrefresh( w_list );
     } );
 
@@ -1044,12 +1052,12 @@ void place_construction( const construction_group_str_id &group )
                  _( "There is already an unfinished construction there, examine it to continue working on it" ) );
         return;
     }
-    std::list<item> used;
+    std::vector<detached_ptr<item>> used;
     const construction &con = *valid.find( pnt )->second;
     // create the partial construction struct
-    partial_con pc;
-    pc.id = con.id;
-    pc.counter = 0;
+    std::unique_ptr<partial_con> pc = std::make_unique<partial_con>( here.getabs( pnt ) );
+    pc->id = con.id;
+    pc->counter = 0;
     // Set the trap that has the examine function
     // Special handling for constructions that take place on existing traps.
     // Basically just don't add the unfinished construction trap.
@@ -1059,16 +1067,19 @@ void place_construction( const construction_group_str_id &group )
     }
     // Use up the components
     for( const auto &it : con.requirements->get_components() ) {
-        std::list<item> tmp = g->u.consume_items( it, 1, is_crafting_component );
-        used.splice( used.end(), tmp );
+        std::vector<detached_ptr<item>> tmp = g->u.consume_items( it, 1, is_crafting_component );
+        used.insert( used.end(), std::make_move_iterator( tmp.begin() ),
+                     std::make_move_iterator( tmp.end() ) );
     }
-    pc.components = used;
-    here.partial_con_set( pnt, pc );
+    for( detached_ptr<item> &it : used ) {
+        pc->components.push_back( std::move( it ) );
+    }
+    here.partial_con_set( pnt, std::move( pc ) );
     for( const auto &it : con.requirements->get_tools() ) {
         g->u.consume_tools( it );
     }
     g->u.assign_activity( ACT_BUILD );
-    g->u.activity.placement = here.getabs( pnt );
+    g->u.activity->placement = here.getabs( pnt );
 }
 
 void complete_construction( Character &ch )
@@ -1078,7 +1089,7 @@ void complete_construction( Character &ch )
         return;
     }
     map &here = get_map();
-    const tripoint terp = here.getlocal( ch.activity.placement );
+    const tripoint terp = here.getlocal( ch.activity->placement );
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
@@ -1136,8 +1147,9 @@ void complete_construction( Character &ch )
             tripoint dump_spot = random_entry( dump_spots );
             map_stack items = here.i_at( terp );
             for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-                here.add_item_or_charges( dump_spot, *it );
-                it = items.erase( it );
+                detached_ptr<item> dumped;
+                it = items.erase( it, &dumped );
+                here.add_item_or_charges( dump_spot, std::move( dumped ) );
             }
         } else {
             debugmsg( "No space to displace items from construction finishing" );
@@ -1164,19 +1176,21 @@ void complete_construction( Character &ch )
 
     // Spawn byproducts
     if( built.byproduct_item_group ) {
-        here.spawn_items( ch.pos(), item_group::items_from( built.byproduct_item_group, calendar::turn ) );
+        std::vector<detached_ptr<item>> items_list = item_group::items_from( built.byproduct_item_group,
+                                     calendar::turn );
+        here.spawn_items( ch.pos(), std::move( items_list ) );
     }
 
     add_msg( m_info, _( "%s finished construction: %s." ), ch.disp_name(), built.group->name() );
     // clear the activity
-    ch.activity.set_to_null();
+    ch.activity->set_to_null();
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
     built.post_special( terp );
     // npcs will automatically resume backlog, players wont.
     if( ch.is_avatar() && !ch.backlog.empty() &&
-        ch.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
+        ch.backlog.front()->id() == ACT_MULTIPLE_CONSTRUCTION ) {
         ch.backlog.clear();
         ch.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
     }
@@ -1271,6 +1285,16 @@ bool construct::check_ramp_low( const tripoint &p )
     return check_up_OK( p ) && check_up_OK( p + tripoint_above );
 }
 
+bool construct::check_empty_ramp_high( const tripoint &p )
+{
+    return check_empty( p ) && check_ramp_high( p );
+}
+
+bool construct::check_empty_ramp_low( const tripoint &p )
+{
+    return check_empty( p ) && check_ramp_low( p );
+}
+
 void construct::done_trunk_plank( const tripoint &/*p*/ )
 {
     int num_logs = rng( 2, 3 );
@@ -1283,10 +1307,10 @@ void construct::done_grave( const tripoint &p )
 {
     map &here = get_map();
     map_stack its = here.i_at( p );
-    for( item it : its ) {
-        if( it.is_corpse() ) {
-            if( it.get_corpse_name().empty() ) {
-                if( it.get_mtype()->has_flag( MF_HUMAN ) ) {
+    for( item * const &it : its ) {
+        if( it->is_corpse() ) {
+            if( it->get_corpse_name().empty() ) {
+                if( it->get_mtype()->has_flag( MF_HUMAN ) ) {
                     if( g->u.has_trait( trait_SPIRITUAL ) ) {
                         g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
                         add_msg( m_good,
@@ -1300,15 +1324,15 @@ void construct::done_grave( const tripoint &p )
                     g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
                     add_msg( m_good,
                              _( "You feel sadness, but also relief after providing last rites for %s, whose name you will keep in your memory." ),
-                             it.get_corpse_name() );
+                             it->get_corpse_name() );
                 } else {
                     add_msg( m_neutral,
                              _( "You bury remains of %s, who joined uncounted masses perished in the Cataclysm." ),
-                             it.get_corpse_name() );
+                             it->get_corpse_name() );
                 }
             }
             g->events().send<event_type::buries_corpse>(
-                g->u.getID(), it.get_mtype()->id, it.get_corpse_name() );
+                g->u.getID(), it->get_mtype()->id, it->get_corpse_name() );
         }
     }
     if( g->u.has_quality( qual_CUT ) ) {
@@ -1391,7 +1415,9 @@ void construct::done_deconstruct( const tripoint &p )
             here.furn_set( p, f.deconstruct.furn_set );
         }
         add_msg( _( "The %s is disassembled." ), f.name() );
-        here.spawn_items( p, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
+        std::vector<detached_ptr<item>> items_list = item_group::items_from( f.deconstruct.drop_group,
+                                     calendar::turn );
+        here.spawn_items( p, std::move( items_list ) );
         // HACK: Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
@@ -1424,16 +1450,17 @@ void construct::done_deconstruct( const tripoint &p )
         }
         here.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
-        here.spawn_items( p, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
+        std::vector<detached_ptr<item>> items_list = item_group::items_from( t.deconstruct.drop_group,
+                                     calendar::turn );
+        here.spawn_items( p, std::move( items_list ) );
     }
 }
 
 static void unroll_digging( const int numer_of_2x4s )
 {
     // refund components!
-    item rope( "rope_30" );
     map &here = get_map();
-    here.add_item_or_charges( g->u.pos(), rope );
+    here.add_item_or_charges( g->u.pos(), item::spawn( "rope_30" ) );
     // presuming 2x4 to conserve lumber.
     here.spawn_item( g->u.pos(), itype_2x4, numer_of_2x4s );
 }
@@ -1650,7 +1677,9 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
             { "check_down_OK", construct::check_down_OK },
             { "check_no_trap", construct::check_no_trap },
             { "check_ramp_low", construct::check_ramp_low },
-            { "check_ramp_high", construct::check_ramp_high }
+            { "check_ramp_high", construct::check_ramp_high },
+            { "check_empty_ramp_low", construct::check_empty_ramp_low },
+            { "check_empty_ramp_high", construct::check_empty_ramp_high }
         }
     };
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = { {
@@ -1765,7 +1794,7 @@ void construction::finalize()
             if( !vp.has_flag( flag_INITIAL_PART ) ) {
                 continue;
             }
-            frame_items.push_back( item_comp( vp.item, 1 ) );
+            frame_items.emplace_back( vp.item, 1 );
         }
 
         if( frame_items.empty() ) {

@@ -19,6 +19,7 @@
 #include "units.h"
 #include "cached_options.h"
 #include "enums.h"
+#include "memory_fast.h"
 
 enum game_message_type : int;
 class nc_color;
@@ -54,19 +55,131 @@ struct trap;
 
 template<typename T> struct enum_traits;
 
-enum m_size : int {
-    MS_TINY = 0,    // Squirrel
-    MS_SMALL,      // Dog
-    MS_MEDIUM,    // Human
-    MS_LARGE,    // Cow
-    MS_HUGE,    // TAAAANK
-    num_m_size // last
-};
+using I = std::underlying_type_t<creature_size>;
+constexpr I operator+( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) + static_cast<I>( rhs );
+}
 
-template<>
-struct enum_traits<m_size> {
-    static constexpr m_size last = m_size::num_m_size;
-};
+constexpr I operator+( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) + rhs;
+}
+
+constexpr I operator+( const I lhs, const creature_size rhs )
+{
+    return lhs + static_cast<I>( rhs );
+}
+
+constexpr I operator-( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) - static_cast<I>( rhs );
+}
+
+constexpr I operator-( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) - rhs;
+}
+
+constexpr I operator-( const I lhs, const creature_size rhs )
+{
+    return lhs - static_cast<I>( rhs );
+}
+
+constexpr I operator*( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) * static_cast<I>( rhs );
+}
+
+constexpr I operator*( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) * rhs;
+}
+
+constexpr I operator*( const I lhs, const creature_size rhs )
+{
+    return lhs * static_cast<I>( rhs );
+}
+
+constexpr I operator/( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) / static_cast<I>( rhs );
+}
+
+constexpr I operator/( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) / rhs;
+}
+
+constexpr bool operator<=( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) <= static_cast<I>( rhs );
+}
+
+constexpr bool operator<=( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) <= rhs;
+}
+
+constexpr bool operator<=( const I lhs, const creature_size rhs )
+{
+    return lhs <= static_cast<I>( rhs );
+}
+
+constexpr bool operator<( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) < static_cast<I>( rhs );
+}
+
+constexpr bool operator<( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) < rhs;
+}
+
+constexpr bool operator<( const I lhs, const creature_size rhs )
+{
+    return lhs < static_cast<I>( rhs );
+}
+
+constexpr bool operator>=( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) >= static_cast<I>( rhs );
+}
+
+constexpr bool operator>=( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) >= rhs;
+}
+
+constexpr bool operator>=( const I lhs, const creature_size rhs )
+{
+    return lhs >= static_cast<I>( rhs );
+}
+
+constexpr bool operator>( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) > static_cast<I>( rhs );
+}
+
+constexpr bool operator>( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) > rhs;
+}
+
+constexpr bool operator>( const I lhs, const creature_size rhs )
+{
+    return lhs > static_cast<I>( rhs );
+}
+
+constexpr bool operator==( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) == rhs;
+}
+
+constexpr bool operator==( const I lhs, const creature_size rhs )
+{
+    return lhs == static_cast<I>( rhs );
+}
 
 enum FacingDirection {
     FD_NONE = 0,
@@ -79,7 +192,7 @@ class Creature
     public:
         virtual ~Creature();
 
-        static const std::map<std::string, m_size> size_map;
+        static const std::map<std::string, creature_size> size_map;
 
         // Like disp_name, but without any "the"
         virtual std::string get_name() const = 0;
@@ -155,20 +268,6 @@ class Creature
         virtual float hit_roll() const = 0;
         virtual float dodge_roll() = 0;
         virtual float stability_roll() const = 0;
-
-        /**
-         * Simplified attitude towards any creature:
-         * hostile - hate, want to kill, etc.
-         * neutral - anything between.
-         * friendly - avoid harming it, maybe even help.
-         * any - any of the above, used in safemode_ui
-         */
-        enum Attitude : int {
-            A_HOSTILE,
-            A_NEUTRAL,
-            A_FRIENDLY,
-            A_ANY
-        };
 
         /**
          * Simplified attitude string for unlocalized needs.
@@ -356,6 +455,8 @@ class Creature
 
         virtual void setpos( const tripoint &pos ) = 0;
 
+        bool is_loaded() const;
+
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects( bool attacking ) = 0;
 
@@ -389,7 +490,7 @@ class Creature
         bool has_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         bool has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const;
         /** Check if creature has any effect with the given flag. */
-        bool has_effect_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+        bool has_effect_with_flag( const flag_id &flag, body_part bp = num_bp ) const;
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
@@ -471,7 +572,7 @@ class Creature
         virtual float get_hit() const;
 
         virtual int get_speed() const;
-        virtual m_size get_size() const = 0;
+        virtual creature_size get_size() const = 0;
         virtual int get_hp( const bodypart_id &bp ) const;
         virtual int get_hp() const;
         virtual int get_hp_max( const bodypart_id &bp ) const;
@@ -512,6 +613,7 @@ class Creature
          */
         std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
 
+        std::map<bodypart_str_id, bodypart> &get_body();
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
         bodypart &get_part( const bodypart_id &id );
@@ -809,8 +911,8 @@ class Creature
         effects_map get_all_effects() const;
 
     protected:
-        Creature *killer = nullptr; // whoever killed us. this should be NULL unless we are dead
-        void set_killer( Creature *killer );
+        weak_ptr_fast<Creature> killer; // whoever killed us. this should be NULL unless we are dead
+        void set_killer( Creature *nkiller );
 
         /**
          * Processes one effect on the Creature.
@@ -842,9 +944,9 @@ class Creature
 
         bool fake = false;
         Creature();
-        Creature( const Creature & ) = default;
+        Creature( const Creature & );
         Creature( Creature && ) = default;
-        Creature &operator=( const Creature & ) = default;
+        Creature &operator=( const Creature & ) = delete;
         Creature &operator=( Creature && ) = default;
 
     protected:

@@ -14,13 +14,12 @@
     "addiction_potential": 5,
     "calories": 26,
     "description": "A very concentrated form of mana potion.  You aren't quite sure of the effects this will have…",
-    "price": 1000,
+    "price": "10 USD",
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
     "use_action": { "type": "mutagen_iv", "mutation_category": "MANATOUCHED" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
-    "freezing_point": -22,
     "fun": -15
   }
 ]

@@ -112,8 +112,8 @@
     "healthy": 1,
     "calories": 95,
     "description": "An irradiated cucumber will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 320,
-    "price_postapoc": 100,
+    "price": "320 cent",
+    "price_postapoc": "1 USD",
     "material": "veggy",
     "flags": [ "SMOKABLE" ],
     "volume": "250 ml"
@@ -130,8 +130,8 @@
     "quench": 3,
     "calories": 43,
     "description": "An irradiated cluster of celery will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 220,
-    "price_postapoc": 50,
+    "price": "220 cent",
+    "price_postapoc": "50 cent",
     "material": "veggy",
     "volume": "250 ml"
   },

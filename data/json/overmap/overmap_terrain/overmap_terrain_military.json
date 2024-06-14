@@ -112,12 +112,19 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "bunker_roof",
+    "copy-from": "bunker",
+    "name": "military bunker roof",
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "bunker_basement",
     "name": "military bunker",
     "sym": "B",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "NO_ROTATE", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+    "flags": [ "KNOWN_UP", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -131,6 +138,19 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "outpost_1",
+    "copy-from": "outpost",
+    "looks_like": "outpost"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "outpost_roof", "outpost_1_roof" ],
+    "copy-from": "outpost",
+    "name": "military outpost roof",
+    "looks_like": "outpost"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "silo", "silo_1", "silo_2", "silo_3", "silo_4", "silo_finale" ],
     "name": "missile silo",
     "sym": "0",
@@ -140,7 +160,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "ws_fire_lookout_tower_base", "ws_fire_lookout_tower_f1", "ws_fire_lookout_tower_f2", "ws_fire_lookout_tower_f3" ],
+    "id": [
+      "ws_fire_lookout_tower_base",
+      "ws_fire_lookout_tower_f1",
+      "ws_fire_lookout_tower_f2",
+      "ws_fire_lookout_tower_f3",
+      "ws_fire_lookout_tower_f4",
+      "ws_fire_lookout_tower_f5"
+    ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "fire lookout tower",
     "sym": "T",
@@ -304,7 +331,11 @@
       "mil_base_tunnels_f",
       "mil_base_tunnels_g",
       "mil_base_tunnels_h",
-      "mil_base_tunnels_i"
+      "mil_base_tunnels_i",
+      "mil_base_tunnels_j",
+      "mil_base_tunnels_l",
+      "mil_base_tunnels_m",
+      "mil_base_tunnels_n"
     ],
     "copy-from": "generic_military_base",
     "name": "military base - tunnel"

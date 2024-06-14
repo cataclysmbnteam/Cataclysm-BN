@@ -12,7 +12,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER" ],
     "examine_action": "autodoc",
-    "surgery_skill_multiplier": 1.0,
+    "surgery_skill_multiplier": 1,
     "deconstruct": {
       "items": [
         { "item": "autodoc", "count": 1 },
@@ -22,7 +22,7 @@
       ]
     },
     "bash": {
-      "str_min": 8,
+      "str_min": 16,
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",
@@ -37,7 +37,9 @@
         { "item": "amplifier", "prob": 25 },
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
         { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
-      ]
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -65,7 +67,9 @@
         { "item": "nail", "charges": [ 3, 8 ] },
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "rag", "count": [ 20, 30 ] }
-      ]
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 10, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -104,7 +108,8 @@
         { "item": "hose", "count": [ 0, 2 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -149,7 +154,8 @@
         { "item": "cu_pipe", "count": [ 2, 4 ] },
         { "item": "scrap_copper", "count": [ 1, 2 ] },
         { "item": "motor_tiny", "prob": 25 }
-      ]
+      ],
+      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -188,10 +194,11 @@
         { "item": "pipe", "count": 1 },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "cu_pipe", "count": 1 }
-      ]
+      ],
+      "ranged": { "reduction": [ 18, 35 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.15, "mass": 300000, "volume": "100L" }
+    "workbench": { "multiplier": 1.15, "mass": "300 kg", "volume": "100L" }
   },
   {
     "type": "furniture",
@@ -237,7 +244,8 @@
         { "item": "pipe", "count": 1 },
         { "item": "glass_shard", "count": [ 3, 6 ] },
         { "item": "cable", "charges": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 13, 25 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -276,7 +284,8 @@
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 13, 25 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -379,7 +388,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -424,7 +434,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 11, 22 ], "destroy_threshold": 70, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -465,7 +476,8 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 12, 24 ], "destroy_threshold": 70, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -505,7 +517,8 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 19, 38 ], "destroy_threshold": 70, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -516,6 +529,7 @@
     "symbol": "I",
     "bgcolor": "white",
     "move_cost_mod": -1,
+    "coverage": 90,
     "required_str": -1,
     "looks_like": "t_machinery_electronic",
     "deconstruct": {
@@ -544,7 +558,8 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 18, 35 ], "destroy_threshold": 70, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -585,7 +600,8 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -626,7 +642,8 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -661,7 +678,8 @@
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 5, 10 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -707,7 +725,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -751,7 +770,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -795,7 +815,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -888,7 +909,7 @@
       ]
     },
     "bash": {
-      "str_min": 3,
+      "str_min": 12,
       "str_max": 45,
       "sound": "crunch!",
       "sound_fail": "whack!",
@@ -899,7 +920,9 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] }
-      ]
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 12, "block_unaimed_chance": "25%" }
     }
   }
 ]

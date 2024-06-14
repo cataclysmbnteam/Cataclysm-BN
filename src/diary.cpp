@@ -6,6 +6,7 @@
 #include <fstream>
 #include <algorithm>
 #include <string_view>
+#include <utility>
 
 #include "avatar.h"
 #include "bionics.h"
@@ -25,6 +26,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "type_id.h"
+#include "overmap_ui.h"
 #include "units.h"
 
 diary_page::diary_page() = default;
@@ -32,6 +34,7 @@ diary_page::diary_page() = default;
 std::vector<std::string> diary::get_pages_list()
 {
     std::vector<std::string> result;
+    result.reserve( pages.size() );
     for( std::unique_ptr<diary_page> &n : pages ) {
         result.push_back( to_string( n->turn ) );
     }
@@ -64,7 +67,7 @@ diary_page *diary::get_page_ptr( int offset )
     return nullptr;
 }
 
-void diary::add_to_change_list( std::string entry, std::string desc )
+void diary::add_to_change_list( const std::string &entry, const std::string &desc )
 {
     if( !desc.empty() ) {
         desc_map[change_list.size() + get_head_text().size()] = desc;
@@ -177,7 +180,7 @@ void diary::mission_changes()
         return;
     }
     if( prev_page == nullptr ) {
-        auto add_missions = [&]( const std::string name, const std::vector<int> *missions ) {
+        auto add_missions = [&]( const std::string & name, const std::vector<int> *missions ) {
             if( !missions->empty() ) {
                 bool flag = true;
 
@@ -201,7 +204,7 @@ void diary::mission_changes()
         add_missions( _( "Failed missions:" ), &curr_page->mission_failed );
 
     } else {
-        auto add_missions = [&]( const std::string name, const std::vector<int> *missions,
+        auto add_missions = [&]( const std::string & name, const std::vector<int> *missions,
         const std::vector<int> *prev_missions ) {
             bool flag = true;
             for( const int uid : *missions ) {
@@ -657,10 +660,21 @@ std::vector<std::string> diary::get_head_text()
         std::string year_and_season_text = complete_time_text.substr( 0,
                                            complete_time_text.find_last_of( ',' ) + 1 );
 
+        std::string overmap_position_text = ( !get_page_ptr()->overmap_position_str.empty() ) ?
+                                            string_format(
+                                                //~ %1$s is the player's position on the overmap when writing the page
+                                                _( "Location: %1$s" ),
+                                                get_page_ptr()->overmap_position_str ) : "";
+
         head_text.insert( head_text.end(), year_and_season_text );
         head_text.insert( head_text.end(), day_and_time_text );
         head_text.insert( head_text.end(), time_diff_text );
+        head_text.insert( head_text.end(), overmap_position_text );
+
         if( !time_diff_text.empty() ) {
+            head_text.insert( head_text.end(), { "" } );
+        }
+        if( !overmap_position_text.empty() ) {
             head_text.insert( head_text.end(), { "" } );
         }
 
@@ -684,7 +698,7 @@ diary::diary()
 }
 void diary::set_page_text( std::string text )
 {
-    get_page_ptr()->m_text = text;
+    get_page_ptr()->m_text = std::move( text );
 }
 
 void diary::new_page()
@@ -695,6 +709,8 @@ void diary::new_page()
     page->kills = g->get_kill_tracker().kills;
     page->npc_kills = g->get_kill_tracker().npc_kills;
     avatar *u = &get_avatar();
+
+    page->overmap_position_str = overmap_ui::fmt_omt_coords( u->global_omt_location() );
     page->mission_completed = mission::to_uid_vector( u->get_completed_missions() );
     page->mission_active = mission::to_uid_vector( u->get_active_missions() );
     page->mission_failed = mission::to_uid_vector( u->get_failed_missions() );
@@ -784,6 +800,7 @@ void diary::serialize( JsonOut &jsout )
         jsout.start_object();
         jsout.member( "text", n->m_text );
         jsout.member( "turn", n->turn );
+        jsout.member( "overmap_position_str", n->overmap_position_str );
         jsout.member( "completed", n->mission_completed );
         jsout.member( "active", n->mission_active );
         jsout.member( "failed", n->mission_failed );
@@ -835,6 +852,7 @@ void diary::deserialize( JsonIn &jsin )
             std::unique_ptr<diary_page> page( new diary_page() );
             page->m_text = elem.get_string( "text" );
             elem.read( "turn", page->turn );
+            elem.read( "overmap_position_str", page->overmap_position_str );
             elem.read( "active", page->mission_active );
             elem.read( "completed", page->mission_completed );
             elem.read( "failed", page->mission_failed );

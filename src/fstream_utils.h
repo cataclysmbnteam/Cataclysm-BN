@@ -7,6 +7,8 @@
 #include <memory>
 #include <functional>
 
+#include "cata_arena.h"
+
 #if defined (_WIN32) && !defined (_MSC_VER)
 namespace __gnu_cxx
 {
@@ -31,10 +33,10 @@ struct cata_ofstream {
     public:
         cata_ofstream();
         cata_ofstream( const cata_ofstream & ) = delete;
-        cata_ofstream( cata_ofstream &&x );
+        cata_ofstream( cata_ofstream &&x ) noexcept;
         ~cata_ofstream();
         cata_ofstream &operator=( const cata_ofstream & ) = delete;
-        cata_ofstream &operator=( cata_ofstream && );
+        cata_ofstream &operator=( cata_ofstream && ) noexcept;
 
         inline cata_ofstream &mode( cata_ios_mode m ) {
             _mode = m;
@@ -69,10 +71,10 @@ struct cata_ifstream {
     public:
         cata_ifstream();
         cata_ifstream( const cata_ifstream & ) = delete;
-        cata_ifstream( cata_ifstream &&x );
+        cata_ifstream( cata_ifstream &&x ) noexcept;
         ~cata_ifstream();
         cata_ifstream &operator=( const cata_ifstream & ) = delete;
-        cata_ifstream &operator=( cata_ifstream && );
+        cata_ifstream &operator=( cata_ifstream && ) noexcept;
 
         inline cata_ifstream &mode( cata_ios_mode m ) {
             _mode = m;
@@ -219,6 +221,14 @@ inline void deserialize( T &obj, const std::string &data )
 {
     deserialize_wrapper( [&obj]( JsonIn & jsin ) {
         obj.deserialize( jsin );
+    }, data );
+}
+
+template<typename T>
+inline void deserialize( T *&obj, const std::string &data )
+{
+    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
+        obj = T::_spawn( jsin );
     }, data );
 }
 /**@}*/

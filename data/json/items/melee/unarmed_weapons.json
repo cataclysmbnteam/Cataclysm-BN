@@ -13,8 +13,8 @@
     "bashing": 2,
     "cutting": 15,
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ],
-    "price": 20000,
-    "price_postapoc": 250,
+    "price": "200 USD",
+    "price_postapoc": "250 cent",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
   },
   {
@@ -29,9 +29,9 @@
     "material": [ "leather", "steel" ],
     "volume": "100 ml",
     "weight": "300 g",
-    "bashing": 2,
-    "price_postapoc": 250,
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "bashing": 9,
+    "price_postapoc": "250 cent",
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "knuckle_brass",
@@ -44,8 +44,8 @@
     "description": "A metal weapon made of brass, designed to be gripped in the palm and cause punches to do extra damage.  A good, quick weapon - but you have to get within punching range to use it.",
     "material": "brass",
     "weight": "320 g",
-    "bashing": 3,
-    "price_postapoc": 250,
+    "bashing": 9,
+    "price_postapoc": "250 cent",
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
   },
   {
@@ -62,7 +62,7 @@
     "weight": "1150 g",
     "bashing": 3,
     "cutting": 14,
-    "price_postapoc": 500,
+    "price_postapoc": "5 USD",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "UNARMED_WEAPON" ],
     "techniques": [ "WBLOCK_1" ]
@@ -81,7 +81,7 @@
     "weight": "430 g",
     "bashing": 3,
     "cutting": 4,
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "flags": [ "UNARMED_WEAPON" ]
   },
   {
@@ -96,10 +96,10 @@
     "material": "steel",
     "volume": "250 ml",
     "weight": "430 g",
-    "bashing": 3,
-    "price_postapoc": 50,
+    "bashing": 8,
+    "price_postapoc": "50 cent",
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "UNARMED_WEAPON" ]
+    "flags": [ "UNARMED_WEAPON", "BELT_CLIP" ]
   },
   {
     "id": "punch_dagger",
@@ -109,7 +109,7 @@
     "name": { "str": "punch dagger" },
     "description": "A short and sharp double-edged dagger made to be gripped in the palm, with the blade protruding between the fingers.",
     "weight": "168 g",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "color": "dark_gray",
     "symbol": "{",
     "material": [ "steel" ],
@@ -117,7 +117,7 @@
     "bashing": 2,
     "cutting": 14,
     "flags": [ "STAB", "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE" ],
-    "price": 10000,
+    "price": "100 USD",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
   },
   {
@@ -132,6 +132,37 @@
     "price": "500 USD",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE" ]
+  },
+  {
+    "id": "jamadhar",
+    "type": "GENERIC",
+    "name": { "str": "jamadhar" },
+    "copy-from": "knuckle_katar",
+    "description": "A steel brace with two thinner, pointed blades at the end, designed primarily to stab victims when used to punch.",
+    "material": [ "steel" ],
+    "volume": "600 ml",
+    "cutting": 18,
+    "price": "500 USD",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE", "STAB" ]
+  },
+  {
+    "id": "impact_knuckle",
+    "type": "GENERIC",
+    "category": "weapons",
+    "weapon_category": [ "FIST_WEAPONS" ],
+    "looks_like": "knuckle_steel",
+    "symbol": "]",
+    "color": "dark_gray",
+    "name": { "str": "pair of impact knuckles", "str_pl": "pairs of impact knuckles" },
+    "description": "A pair of sturdy steel bracings, inlaid with padding material, which are then covered by hardened steel plates.  Can be used to safely deliver punches full force without the risk of harming ones hands.",
+    "material": [ "steel" ],
+    "volume": "550 ml",
+    "weight": "750g",
+    "bashing": 18,
+    "price": "500 USD",
+    "qualities": [ [ "HAMMER", 2 ] ],
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
   },
   {
     "type": "GENERIC",
@@ -157,7 +188,7 @@
     "type": "GENERIC",
     "name": "sai",
     "description": "A pointed metal baton with two curved prongs projecting from the handle.  It's primarily used for disarming opponents, but can also make your punches puncture your foes.",
-    "weight": 775,
+    "weight": "775 g",
     "volume": "750 ml",
     "price": "220 USD",
     "price_postapoc": "4 USD",
@@ -170,6 +201,6 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "UNARMED_WEAPON" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "UNARMED_WEAPON", "SHEATH_KNIFE" ]
   }
 ]

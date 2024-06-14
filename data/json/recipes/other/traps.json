@@ -22,7 +22,7 @@
     "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "glass_shard", 4 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "glass_shard", 4 ] ], [ [ "superglue", 4 ], [ "bone_glue", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -65,7 +65,23 @@
     "time": "30 s",
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "nail_glue", 2, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "can_alarm_trap",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TRAPS",
+    "skill_used": "traps",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "components": [
+      [ [ "tripwire", 1 ] ],
+      [ [ "can_drink_unsealed", 4 ], [ "can_food_unsealed", 4 ] ],
+      [ [ "bb", 12 ], [ "pebble", 4 ], [ "pebble_clay", 4 ], [ "marble", 4 ], [ "bearing", 4 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -77,7 +93,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 3 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 3 ], [ "stick", 3 ] ], [ [ "nail_glue", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -90,7 +106,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "nailboard", 3 ] ], [ [ "nail", 2 ] ] ]
+    "components": [ [ [ "nailboard", 3 ] ], [ [ "nail_glue", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -121,12 +137,11 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "crossbow", 1 ] ], [ [ "bolt_steel", 1 ], [ "bolt_wood", 4 ] ] ]
+    "components": [ [ [ "tripwire", 1 ] ], [ [ "crossbow", 1 ] ], [ [ "bolt_steel", 1 ], [ "bolt_wood", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "shotgun_trap",
+    "result": "shotgun_trap_single",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
     "skill_used": "traps",
@@ -136,8 +151,21 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "shotgun_d", 1 ] ], [ [ "shot_00", 2 ], [ "shot_slug", 2 ], [ "shot_flechette", 2 ] ] ]
+    "components": [ [ [ "tripwire", 1 ] ], [ [ "shotgun_s", 1 ] ], [ [ "shot_00", 1 ], [ "shot_slug", 1 ], [ "shot_flechette", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "shotgun_trap",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TRAPS",
+    "skill_used": "traps",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "time": "5 m",
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": true,
+    "components": [ [ [ "tripwire", 1 ] ], [ [ "shotgun_d", 1 ] ], [ [ "shot_00", 2 ], [ "shot_slug", 2 ], [ "shot_flechette", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -152,7 +180,7 @@
     "decomp_learn": 3,
     "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_traps", 3 ], [ "howto_traps", 3 ], [ "book_icef", 4 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "motor", 1 ] ], [ [ "blade", 2 ] ], [ [ "cordage", 1, "LIST" ] ] ]
+    "components": [ [ [ "motor", 1 ] ], [ [ "blade", 2 ] ], [ [ "tripwire", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -164,9 +192,9 @@
     "difficulty": 3,
     "time": "5 m",
     "book_learn": [ [ "manual_traps_mil", 3 ] ],
-    "using": [ [ "cordage_short", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
+      [ [ "tripwire", 1 ] ],
       [ [ "grenade", 1 ] ],
       [ [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ]
     ]
@@ -184,7 +212,7 @@
     "book_learn": [ [ "manual_traps_mil", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [
         [ "scrap", 3 ],
         [ "steel_chunk", 1 ],
@@ -192,20 +220,25 @@
         [ "clay_canister", 1 ],
         [ "can_food_unsealed", 1 ]
       ],
-      [ [ "bb", 200 ], [ "nail", 100 ] ],
       [
-        [ "gunpowder", 72 ],
-        [ "chem_black_powder", 72 ],
-        [ "shot_bird", 24 ],
-        [ "shot_00", 12 ],
-        [ "shot_slug", 12 ],
-        [ "shot_flechette", 12 ],
-        [ "shot_he", 3 ],
-        [ "gasoline", 600 ],
-        [ "diesel", 600 ],
-        [ "biodiesel", 600 ],
-        [ "grenade", 1 ]
-      ]
+        [ "scrap", 10 ],
+        [ "nail", 100 ],
+        [ "bb", 200 ],
+        [ "solder_wire", 100 ],
+        [ "platinum_small", 40 ],
+        [ "gold_small", 40 ],
+        [ "bearing", 50 ],
+        [ "lead", 70 ],
+        [ "silver_small", 70 ],
+        [ "bismuth", 70 ],
+        [ "shrapnel", 40 ]
+      ],
+      [
+        [ "volatile_explosive", 75, "LIST" ],
+        [ "stable_explosive", 75, "LIST" ],
+        [ "military_explosive", 75, "LIST" ]
+      ],
+      [ [ "delay_fuze", 1 ], [ "impact_fuze", 1 ], [ "fuse", 1 ] ]
     ]
   },
   {

@@ -25,11 +25,15 @@
     "power": 800,
     "energy_consumption": 1000,
     "damage_modifier": 80,
-    "folded_volume": 1,
+    "folded_volume": "250 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
+      }
     },
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "cable", "charges": [ 1, 3 ] } ],
     "extend": { "flags": [ "FOLDABLE" ] }
@@ -44,11 +48,15 @@
     "power": 7040,
     "energy_consumption": 8000,
     "damage_modifier": 80,
-    "folded_volume": 1,
+    "folded_volume": "250 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
+      }
     },
     "breaks_into": [
       { "item": "scrap", "count": [ 1, 4 ] },
@@ -68,11 +76,15 @@
     "power": 36000,
     "energy_consumption": 40000,
     "damage_modifier": 80,
-    "folded_volume": 6,
+    "folded_volume": "1500 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_electronics", 5 ] ]
+      }
     },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
@@ -97,7 +109,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_electronics", 5 ] ]
+      }
     },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 5, 10 ] },
@@ -123,7 +139,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_electronics", 5 ] ]
+      }
     },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 10, 15 ] },
@@ -150,7 +170,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 6 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_electronics", 5 ] ]
+      }
     },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 15, 20 ] },

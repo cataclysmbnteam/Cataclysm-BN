@@ -450,17 +450,6 @@ int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) cons
 
 void enchantment::activate_passive( Character &guy ) const
 {
-    guy.mod_str_bonus( calc_bonus( enchant_vals::mod::STRENGTH, guy.get_str_base(), true ) );
-    guy.mod_dex_bonus( calc_bonus( enchant_vals::mod::DEXTERITY, guy.get_dex_base(), true ) );
-    guy.mod_per_bonus( calc_bonus( enchant_vals::mod::PERCEPTION, guy.get_per_base(), true ) );
-    guy.mod_int_bonus( calc_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base(), true ) );
-
-    guy.mod_num_dodges_bonus( calc_bonus(
-                                  enchant_vals::mod::BONUS_DODGE,
-                                  guy.get_num_dodges_base(),
-                                  true
-                              ) );
-
     if( emitter ) {
         get_map().emit_field( guy.pos(), *emitter );
     }
@@ -547,7 +536,7 @@ bool is_set_value( const trait_id &mut, float val )
 }
 
 template <float mutation_branch::*First, float mutation_branch::* ...Rest,
-          typename std::enable_if<( sizeof...( Rest ) > 0 ), bool>::type NonEmpty = false >
+          std::enable_if_t<( sizeof...( Rest ) > 0 ), bool>NonEmpty = false >
                   bool is_set_value( const trait_id &mut, float val )
 {
     return ( *mut ).*First == val && is_set_value<Rest...>( mut, val );

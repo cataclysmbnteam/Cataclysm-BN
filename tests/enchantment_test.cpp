@@ -21,22 +21,25 @@ static void advance_turn( Character &guy )
 
 static item &give_item( Character &guy, const std::string &item_id )
 {
-    item &ret = guy.i_add( item( item_id ) );
+    detached_ptr<item> det = item::spawn( item_id );
+    item &ret = *det;
+    guy.i_add( std::move( det ) );
     guy.recalculate_enchantment_cache();
     return ret;
 }
 
 static item &wear_item( Character &guy, const std::string &item_id )
 {
-    item &ret = guy.i_add( item( item_id ) );
-    guy.wear_item( ret, false );
+    detached_ptr<item> det = item::spawn( item_id );
+    item &ret = *det;
+    guy.wear_item( std::move( det ), false );
     guy.recalculate_enchantment_cache();
     return ret;
 }
 
 static void clear_items( Character &guy )
 {
-    guy.inv.clear();
+    guy.inv_clear();
     guy.recalculate_enchantment_cache();
 }
 
@@ -352,10 +355,10 @@ TEST_CASE( "Enchantments modify attack cost", "[magic][enchantment][melee]" )
     clear_character( *guy.as_player(), true );
 
     SECTION( "normal sword" ) {
-        tests_attack_cost( guy, item( "test_normal_sword" ), 101, 92, 74 );
+        tests_attack_cost( guy, *item::spawn_temporary( "test_normal_sword" ), 101, 92, 74 );
     }
     SECTION( "normal sword + ITEM_ATTACK_COST" ) {
-        tests_attack_cost( guy, item( "test_relic_sword" ), 86, 78, 63 );
+        tests_attack_cost( guy, *item::spawn_temporary( "test_relic_sword" ), 86, 78, 63 );
     }
 }
 

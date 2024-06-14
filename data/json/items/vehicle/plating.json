@@ -13,9 +13,10 @@
     "volume": "1 L",
     "bashing": 5,
     "category": "spare_parts",
-    "price": 6000,
-    "price_postapoc": 100,
-    "qualities": [ [ "COOK", 1 ] ]
+    "price": "60 USD",
+    "price_postapoc": "1 USD",
+    "qualities": [ [ "COOK", 1 ] ],
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -30,8 +31,8 @@
     "volume": "1250 ml",
     "bashing": 5,
     "category": "veh_parts",
-    "price": 7500,
-    "price_postapoc": 250
+    "price": "75 USD",
+    "price_postapoc": "250 cent"
   },
   {
     "type": "GENERIC",
@@ -46,8 +47,8 @@
     "volume": "3 L",
     "bashing": 10,
     "category": "veh_parts",
-    "price": 12000,
-    "price_postapoc": 100
+    "price": "120 USD",
+    "price_postapoc": "1 USD"
   },
   {
     "type": "GENERIC",
@@ -62,8 +63,8 @@
     "volume": "3 L",
     "bashing": 6,
     "category": "veh_parts",
-    "price": 12000,
-    "price_postapoc": 250,
+    "price": "120 USD",
+    "price_postapoc": "250 cent",
     "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
   },
   {
@@ -79,8 +80,8 @@
     "volume": "3 L",
     "bashing": 6,
     "category": "veh_parts",
-    "price": 18500,
-    "price_postapoc": 500,
+    "price": "185 USD",
+    "price_postapoc": "5 USD",
     "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
   },
   {
@@ -95,8 +96,8 @@
     "material": [ "superalloy" ],
     "volume": "500 ml",
     "category": "veh_parts",
-    "price": 8500,
-    "price_postapoc": 500,
+    "price": "85 USD",
+    "price_postapoc": "5 USD",
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -114,8 +115,8 @@
     "cutting": 3,
     "flags": [ "STAB" ],
     "category": "veh_parts",
-    "price": 18500,
-    "price_postapoc": 250,
+    "price": "185 USD",
+    "price_postapoc": "250 cent",
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -131,8 +132,8 @@
     "volume": "3 L",
     "bashing": 6,
     "category": "veh_parts",
-    "price": 16000,
-    "price_postapoc": 500,
+    "price": "160 USD",
+    "price_postapoc": "5 USD",
     "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
   },
   {
@@ -148,8 +149,8 @@
     "volume": "3 L",
     "bashing": 8,
     "category": "veh_parts",
-    "price": 16000,
-    "price_postapoc": 750,
+    "price": "160 USD",
+    "price_postapoc": "750 cent",
     "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
   },
   {
@@ -159,8 +160,8 @@
     "color": "yellow",
     "name": { "str": "chitin armor kit" },
     "description": "Light chitin plating made for a vehicle.",
-    "price": 1200,
-    "price_postapoc": 250,
+    "price": "12 USD",
+    "price_postapoc": "250 cent",
     "material": [ "chitin" ],
     "weight": "2000 g",
     "volume": "5500 ml",
@@ -184,8 +185,8 @@
     "color": "white",
     "name": { "str": "bone armor kit" },
     "description": "Bone plating made for a vehicle.",
-    "price": 1200,
-    "price_postapoc": 100,
+    "price": "12 USD",
+    "price_postapoc": "1 USD",
     "material": [ "bone" ],
     "weight": "4000 g",
     "volume": "9500 ml",

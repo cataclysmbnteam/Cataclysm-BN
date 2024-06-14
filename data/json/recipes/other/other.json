@@ -59,7 +59,7 @@
     "difficulty": 2,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ], [ "drawing_tool", 20 ] ],
-    "components": [ [ [ "sheet", 1 ] ], [ [ "cotton_ball", 20 ] ] ]
+    "components": [ [ [ "sheet", 1 ] ], [ [ "cotton_ball", 20 ], [ "yarn", 330 ] ] ]
   },
   {
     "type": "recipe",
@@ -71,8 +71,8 @@
     "difficulty": 2,
     "time": "50 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "stick", 10 ], [ "2x4", 5 ] ], [ [ "leather", 20 ] ], [ [ "filament", 40, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 40 ] ],
+    "components": [ [ [ "stick", 10 ], [ "2x4", 5 ] ], [ [ "leather", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -84,13 +84,8 @@
     "skills_required": [ "tailor", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "stick", 3 ], [ "2x4", 2 ] ],
-      [ [ "leather", 4 ] ],
-      [ [ "damaged_shelter_kit", 1 ] ],
-      [ [ "filament", 5, "LIST" ] ]
-    ]
+    "using": [ [ "sewing_standard", 50 ] ],
+    "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "leather", 4 ] ], [ [ "damaged_shelter_kit", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -166,10 +161,9 @@
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "soldering_iron", 150 ] ] ],
+    "using": [ [ "welding_standard", 10 ] ],
     "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ] ]
   },
   {
@@ -182,7 +176,7 @@
     "difficulty": 2,
     "time": "35 m",
     "autolearn": true,
-    "using": [ [ "earthenware_firing", 75 ] ],
+    "using": [ [ "glazing", 1 ], [ "earthenware_firing", 60 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ] ]
   },
   {
@@ -244,7 +238,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 12 ] ], [ [ "sheet_metal", 1 ] ] ]
+    "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail_glue", 12, "LIST" ] ], [ [ "sheet_metal", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -282,7 +276,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ]
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ]
   },
   {
     "result": "fish_bait",
@@ -295,7 +289,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [
-        [ "meat_red_raw", 1, "LIST" ],
+        [ "meat_red", 1, "LIST" ],
         [ "fish", 1 ],
         [ "corn", 1 ],
         [ "irradiated_corn", 1 ],
@@ -362,6 +356,31 @@
   },
   {
     "type": "recipe",
+    "result": "ac_unit_item",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 5,
+    "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "sheet_metal_small", 10 ] ],
+      [ [ "steel_chunk", 2 ] ],
+      [ [ "cable", 5 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "condensor_coil", 1 ] ],
+      [ [ "evaporator_coil", 1 ] ],
+      [ [ "refrigerant_tank", 1 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "motor_tiny", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "fridge",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -370,6 +389,8 @@
     "time": "40 m",
     "reversible": true,
     "decomp_learn": 5,
+    "autolearn": false,
+    "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -415,6 +436,8 @@
     "time": "40 m",
     "reversible": true,
     "decomp_learn": 5,
+    "autolearn": false,
+    "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -473,6 +496,28 @@
     ]
   },
   {
+    "type": "uncraft",
+    "result": "plut_generator_item",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "60 m",
+    "using": [ [ "welding_standard", 8 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "minireactor", 1 ] ],
+      [ [ "RAM", 8 ] ],
+      [ [ "cable", 16 ] ],
+      [ [ "small_lcd_screen", 4 ] ],
+      [ [ "large_lcd_screen", 1 ] ],
+      [ [ "e_scrap", 24 ] ],
+      [ [ "circuit", 10 ] ],
+      [ [ "power_supply", 8 ] ],
+      [ [ "amplifier", 6 ] ],
+      [ [ "plut_cell", 8 ] ],
+      [ [ "scrap", 16 ] ]
+    ]
+  },
+  {
     "result": "sarcophagus_access_code",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -502,5 +547,54 @@
     "using": [ [ "welding_standard", 6 ], [ "sewing_standard", 12 ] ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "components": [ [ [ "material_aluminium_ingot", 20 ] ], [ [ "sheet", 1 ] ] ]
+  },
+  {
+    "result": "fuel_briquette",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "withered", 12 ], [ "straw_pile", 12 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "teddy_bear",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "15 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ], [ "yarn", 130 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wool_mattress",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "240 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "felt_patch", 60 ] ], [ [ "yarn", 650 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wool_pillow",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "felt_patch", 4 ] ], [ [ "yarn", 130 ] ] ]
   }
 ]

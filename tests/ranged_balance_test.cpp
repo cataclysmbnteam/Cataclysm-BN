@@ -18,7 +18,6 @@
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_location.h"
 #include "json.h"
 #include "map_helpers.h"
 #include "npc.h"
@@ -65,13 +64,13 @@ std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
 std::ostream &operator<<( std::ostream &stream, const dispersion_sources &sources )
 {
     if( !sources.normal_sources.empty() ) {
-        stream << "Normal: " << sources.normal_sources << std::endl;
+        stream << "Normal: " << sources.normal_sources << '\n';
     }
     if( !sources.linear_sources.empty() ) {
-        stream << "Linear: " << sources.linear_sources << std::endl;
+        stream << "Linear: " << sources.linear_sources << '\n';
     }
     if( !sources.multipliers.empty() ) {
-        stream << "Mult: " << sources.multipliers << std::endl;
+        stream << "Mult: " << sources.multipliers << '\n';
     }
     return stream;
 }
@@ -80,9 +79,9 @@ static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel
 {
     CHECK( !shooter.in_vehicle );
     shooter.worn.clear();
-    shooter.inv.clear();
+    shooter.inv_clear();
     for( const std::string &article : apparel ) {
-        shooter.wear_item( item( article ) );
+        shooter.wear_item( item::spawn( article ) );
     }
 }
 
@@ -226,7 +225,7 @@ static void assert_encumbrance( npc &shooter, int encumbrance )
 
 static constexpr tripoint shooter_pos( 60, 60, 0 );
 
-TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
+TEST_CASE( "unskilled_shooter_accuracy", "[ranged][balance][slow][!mayfail]" )
 {
     clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
@@ -261,7 +260,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     SECTION( "an unskilled shooter with an inaccurate rifle" ) {
         arm_character( shooter, "m1918" );
         test_shooting_scenario( shooter, 5, 9, 25 );
-        test_fast_shooting( shooter, 80, 0.2 );
+        test_fast_shooting( shooter, 50, 0.2 );
     }
 }
 
@@ -290,7 +289,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "a skilled shooter with an accurate shotgun" ) {
         arm_character( shooter, "ksg", { "red_dot_sight" } );
         test_shooting_scenario( shooter, 9, 15, 33 );
-        test_fast_shooting( shooter, 50, 0.45 );
+        test_fast_shooting( shooter, 75, 0.45 );
     }
     SECTION( "a skilled shooter with an accurate smg" ) {
         arm_character( shooter, "hk_mp5", { "tele_sight" } );
@@ -300,7 +299,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "a skilled shooter with an accurate rifle" ) {
         arm_character( shooter, "ar15", { "tele_sight" } );
         test_shooting_scenario( shooter, 10, 22, 48 );
-        test_fast_shooting( shooter, 85, 0.3 );
+        test_fast_shooting( shooter, 50, 0.3 );
     }
 }
 
@@ -324,22 +323,22 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "an expert archer with an excellent crossbow" ) {
         arm_character( shooter, "compcrossbow", { "holo_sight" }, "bolt_cf" );
         test_shooting_scenario( shooter, 12, 20, 100 );
-        test_fast_shooting( shooter, 50, 0.4 );
+        test_fast_shooting( shooter, 30, 0.4 );
     }
     SECTION( "an expert shooter with an excellent shotgun" ) {
         arm_character( shooter, "m1014", { "holo_sight" } );
         test_shooting_scenario( shooter, 18, 24, 124 );
-        test_fast_shooting( shooter, 60, 0.5 );
+        test_fast_shooting( shooter, 30, 0.5 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
         arm_character( shooter, "ppsh", { "holo_sight" } );
         test_shooting_scenario( shooter, 20, 30, 190 );
-        test_fast_shooting( shooter, 60, 0.5 );
+        test_fast_shooting( shooter, 30, 0.5 );
     }
     SECTION( "an expert shooter with an excellent rifle" ) {
         arm_character( shooter, "browning_blr", { "rifle_scope" } );
         test_shooting_scenario( shooter, 25, 60, 900 );
-        test_fast_shooting( shooter, 100, 0.4 );
+        test_fast_shooting( shooter, 35, 0.4 );
     }
 }
 

@@ -38,14 +38,7 @@ static std::string memorialdir_value;
 
 void PATH_INFO::init_base_path( std::string path )
 {
-    if( !path.empty() ) {
-        const char ch = path.back();
-        if( ch != '/' && ch != '\\' ) {
-            path.push_back( '/' );
-        }
-    }
-
-    base_path_value = path;
+    base_path_value = as_norm_dir( path );
 }
 
 void PATH_INFO::init_user_dir( std::string dir )
@@ -72,7 +65,7 @@ void PATH_INFO::init_user_dir( std::string dir )
 #endif
     }
 
-    user_dir_value = dir;
+    user_dir_value = as_norm_dir( dir );
 }
 
 void PATH_INFO::set_standard_filenames()

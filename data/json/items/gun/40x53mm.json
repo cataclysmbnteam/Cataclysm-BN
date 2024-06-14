@@ -8,8 +8,8 @@
     "weight": "35200 g",
     "volume": "4 L",
     "barrel_length": "500 ml",
-    "price": 1650000,
-    "price_postapoc": 5000,
+    "price": "16500 USD",
+    "price_postapoc": "50 USD",
     "to_hit": -1,
     "bashing": 14,
     "material": "steel",
@@ -24,8 +24,8 @@
       [ "brass catcher", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "modes": [ [ "DEFAULT", "semi", 1, "NPC_AVOID" ], [ "AUTO", "auto", 2, "NPC_AVOID" ] ],
     "magazines": [ [ "40x53mm", [ "belt40mm" ] ] ],

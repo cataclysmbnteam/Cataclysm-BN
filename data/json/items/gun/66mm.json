@@ -6,8 +6,8 @@
     "color": "dark_gray",
     "name": { "str_sp": "M202A1 FLASH" },
     "description": "An American rocket launcher designed in the 1970s to replace WW2 era flamethrowers still in use in Vietnam.  It has four barrels sharing the 66mm caliber of the M72 LAW.",
-    "price": 2900000,
-    "price_postapoc": 4000,
+    "price": "29 kUSD",
+    "price_postapoc": "40 USD",
     "material": "steel",
     "ammo": "m235",
     "weight": "5220 g",
@@ -30,26 +30,19 @@
     "color": "green",
     "name": { "str_sp": "M72 LAW" },
     "description": "A disposable light anti-tank rocket launcher.  Once fired, it cannot be reloaded and must be disposed of.",
-    "price": 200000,
+    "price": "2 kUSD",
     "//": "A tube with a lever.  Unsurprisingly, dirt cheap (at least for a rocket launcher).",
     "material": "aluminum",
     "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD", "BACKBLAST", "TRADER_AVOID" ] },
     "ammo": "66mm",
     "weight": "700 g",
     "volume": "2500 ml",
-    "price_postapoc": 3500,
+    "price_postapoc": "35 USD",
     "bashing": 6,
     "dispersion": 300,
     "durability": 9,
     "clip_size": 1,
     "reload": 150,
-    "valid_mod_locations": [
-      [ "accessories", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ]
+    "valid_mod_locations": [ [ "accessories", 1 ], [ "sling", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
   }
 ]

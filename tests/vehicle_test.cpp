@@ -79,8 +79,9 @@ TEST_CASE( "add_item_to_broken_vehicle_part" )
     //Now it must be broken
     REQUIRE( cargo_part->is_broken() );
     //Now part is really broken, adding an item should fail
-    const item itm2 = item( "jeans" );
-    REQUIRE( !veh_ptr->add_item( *cargo_part, itm2 ) );
+    detached_ptr<item> itm2 = item::spawn( "jeans" );
+    itm2 = veh_ptr->add_item( *cargo_part, std::move( itm2 ) );
+    CHECK( itm2 );
 }
 
 TEST_CASE( "damage_vehicle_oob" )
@@ -98,8 +99,7 @@ TEST_CASE( "damage_vehicle_oob" )
     REQUIRE( !cargo_parts.empty( ) );
     vehicle_part *cargo_part = cargo_parts.front();
     REQUIRE( cargo_part != nullptr );
-    const item itm = item( "jeans" );
-    REQUIRE( veh_ptr->add_item( *cargo_part, itm ) );
+    REQUIRE( !veh_ptr->add_item( *cargo_part, item::spawn( "jeans" ) ) );
 
     //Shift the vehicle half off the map
     g->place_player( test_origin + tripoint_east * SEEX );

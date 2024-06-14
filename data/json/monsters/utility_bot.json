@@ -7,8 +7,8 @@
     "default_faction": "cop_bot",
     "species": [ "ROBOT" ],
     "diff": 2,
-    "volume": "30000 ml",
-    "weight": "40750 g",
+    "weight": "9400 g",
+    "volume": "20 L",
     "hp": 20,
     "speed": 120,
     "material": [ "steel" ],
@@ -189,7 +189,7 @@
     "revert_to_itype": "bot_molebot",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "molebot", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "HEARS", "GOODHEARING", "DIGS", "NO_BREATHE", "ELECTRONIC", "COLDPROOF", "PATH_AVOID_DANGER_1", "BIOPROOF" ]
+    "flags": [ "HEARS", "GOODHEARING", "CAN_DIG", "NO_BREATHE", "ELECTRONIC", "COLDPROOF", "PATH_AVOID_DANGER_1", "BIOPROOF" ]
   },
   {
     "//": "nurse_bot and nurse_bot_defective look very similar, part of the trick is figuring out which one is the good one.  So the sprites should probably look pretty similar to not give it away immediately",

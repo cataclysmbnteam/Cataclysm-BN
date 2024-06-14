@@ -4,6 +4,7 @@
 
 #include "debug.h"
 #include "item.h"
+#include "make_static.h"
 #include "player.h"
 #include "ret_val.h"
 #include "translations.h"
@@ -143,14 +144,9 @@ bool itype::has_use() const
     return !use_methods.empty();
 }
 
-bool itype::has_flag( const std::string &flag ) const
+bool itype::has_flag( const flag_id &flag ) const
 {
     return item_tags.count( flag );
-}
-
-bool itype::has_flag( const flag_str_id &flag ) const
-{
-    return item_tags.count( flag.str() );
 }
 
 const itype::FlagsSetType &itype::get_flags() const
@@ -205,7 +201,8 @@ int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &
     // then a second time with draw explosion
     // the player responsible of the explosion is the one that activated the object
     if( iuse_name == "transform" ) {
-        it.activated_by = p.get_safe_reference();
+        //TODO!: put this back to a safe reference once players are added
+        it.activated_by = &p;
     }
 
     return use->call( p, it, false, pos );
@@ -222,8 +219,13 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( has_flag( "CAN_HAVE_CHARGES" ) ) {
+    if( has_flag( STATIC( flag_id( "CAN_HAVE_CHARGES" ) ) ) ) {
         return true;
     }
     return false;
+}
+
+bool itype::is_seed() const
+{
+    return !!seed;
 }

@@ -7,9 +7,9 @@
     "weight": "3401 g",
     "volume": "3 L",
     "//": "sci-fantasy extradimensional gadget = pricey",
-    "price": 1000000000,
+    "price": "10000 kUSD",
     "//2": "because nobody would have that amount after the world ends, it's worth $1000 in barter",
-    "price_postapoc": 100000,
+    "price_postapoc": "1 kUSD",
     "material": [ "glass", "superalloy", "platinum" ],
     "symbol": "[",
     "color": "cyan",
@@ -20,6 +20,7 @@
     "storage": "100 L",
     "warmth": 5,
     "material_thickness": 2,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "BELTED", "ONLY_ONE", "LEAK_DAM" ]
   },
   {
@@ -29,7 +30,7 @@
     "description": "A lightweight armor vest made of pieces of titanium sewn together, with cloth padding for comfort.  Brittle against blunt force, but highly resistant to cuts and corrosion.",
     "weight": "939 g",
     "volume": "500 ml",
-    "price": 1000,
+    "price": "10 USD",
     "to_hit": -3,
     "material": [ "titanium", "cotton" ],
     "symbol": "[",
@@ -38,7 +39,8 @@
     "covers": [ "torso" ],
     "coverage": 80,
     "encumbrance": 4,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "valid_mods": [ "resized_large" ]
   },
   {
     "id": "afs_holo_cloak_mk2",
@@ -59,7 +61,7 @@
     "copy-from": "jedi_cloak",
     "name": { "str": "sentinel-lx cloak" },
     "description": "The vantablack cloak of sentinel-lx hangs around ones shoulders as a solid, unnatural shadow.  Made from woven graphene, its lightweight and resistant, but cannot be repaired",
-    "price": 1500000,
+    "price": "15 kUSD",
     "material": [ "graphene_weave" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -70,52 +72,6 @@
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
-  },
-  {
-    "id": "xl_jeans",
-    "type": "ARMOR",
-    "name": { "str": "XL jeans", "str_pl": "pairs of XL jeans" },
-    "description": "A pair of XL blue jeans with two deep pockets.",
-    "weight": "900 g",
-    "volume": "3 L",
-    "copy-from": "jeans",
-    "storage": "750 ml",
-    "material_thickness": 4,
-    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
-  },
-  {
-    "id": "xl_technician_pants_gray",
-    "repairs_like": "jeans",
-    "type": "ARMOR",
-    "name": { "str": "XL work pants", "str_pl": "pairs of XL work pants" },
-    "description": "A pair of gray work pants.",
-    "copy-from": "technician_pants_gray",
-    "weight": "770 g",
-    "volume": "3 L",
-    "storage": "1700 ml",
-    "material_thickness": 2,
-    "snippet_category": [
-      { "id": "xl_technician_pants_blue", "text": "A pair of XL blue work pants." },
-      { "id": "xl_technician_pants_gray", "text": "A pair of XL gray work pants." },
-      { "id": "xl_technician_pants_lightblue", "text": "A pair of XL light-blue work pants." }
-    ],
-    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
-  },
-  {
-    "id": "xl_technician_shirt_gray",
-    "repairs_like": "tshirt",
-    "type": "ARMOR",
-    "name": { "str": "XL work t-shirt" },
-    "description": "A gray XL work t-shirt with a small front pocket.",
-    "weight": "84 g",
-    "volume": "350 ml",
-    "copy-from": "technician_shirt_gray",
-    "snippet_category": [
-      { "id": "xl_technician_shirt_blue", "text": "An XL blue work t-shirt with a small front pocket." },
-      { "id": "xl_technician_shirt_gray", "text": "An XL gray work t-shirt with a small front pocket." },
-      { "id": "xl_technician_shirt_lightblue", "text": "An XL light-blue work t-shirt with a small front pocket." }
-    ],
-    "flags": [ "VARSIZE", "OVERSIZE" ]
   },
   {
     "id": "q_solarpack",
@@ -135,6 +91,7 @@
     "encumbrance": 12,
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
+    "valid_mods": [ "resized_large" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
   },
   {
@@ -157,6 +114,7 @@
     "material_thickness": 1,
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.3,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
   },
   {
@@ -169,7 +127,7 @@
     "description": "An extra large suit of black bulletproof armor with lots of pockets.  The word SWAT is emblazoned across the back.  Specifically designed for Uplifted officers such as Mastodons.",
     "weight": "10 kg",
     "volume": "20 L",
-    "price": 585000,
+    "price": "5850 USD",
     "to_hit": -3,
     "bashing": 6,
     "material": [ "kevlar", "cotton" ],
@@ -195,7 +153,7 @@
     "description": "Oversized ballistic armor without any armor inserts.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
     "weight": "4 kg",
     "volume": "7 L",
-    "price": 160000,
+    "price": "1600 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "color": "light_gray",
@@ -214,7 +172,7 @@
     "description": "Oversized ballistic armor with ESAPI ceramic armor plates.",
     "weight": "12 kg",
     "volume": "9 L",
-    "price": 280000,
+    "price": "2800 USD",
     "material": [ "nylon", "ceramic" ],
     "symbol": "[",
     "color": "light_gray",
@@ -226,53 +184,6 @@
     "flags": [ "OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY", "NO_REPAIR" ]
   },
   {
-    "id": "xlboots_combat",
-    "repairs_like": "boots_survivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str_sp": "pair of XL combat boots" },
-    "description": "Modern oversized reinforced tactical combat boots.  Very durable.",
-    "weight": "1460 g",
-    "volume": "5 L",
-    "price": 7000,
-    "price_postapoc": 14000,
-    "to_hit": -1,
-    "bashing": 1,
-    "material": [ "kevlar", "leather" ],
-    "symbol": "[",
-    "looks_like": "boots",
-    "color": "dark_gray",
-    "covers": [ "feet" ],
-    "coverage": 100,
-    "encumbrance": 25,
-    "warmth": 25,
-    "material_thickness": 5,
-    "environmental_protection": 2,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
-  },
-  {
-    "id": "xlgloves_tactical",
-    "repairs_like": "gloves_survivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str_sp": "pair of XL tactical gloves" },
-    "description": "A pair of oversized reinforced Kevlar tactical gloves.  Commonly used by police and military units.",
-    "weight": "1 kg",
-    "volume": "750 ml",
-    "price": 5200,
-    "to_hit": 2,
-    "material": [ "kevlar", "leather" ],
-    "symbol": "[",
-    "looks_like": "fire_gauntlets",
-    "color": "dark_gray",
-    "covers": [ "hands" ],
-    "coverage": 100,
-    "encumbrance": 13,
-    "warmth": 20,
-    "material_thickness": 5,
-    "flags": [ "OVERSIZE", "VARSIZE", "STURDY" ]
-  },
-  {
     "id": "tripaw_xlgloves_tactical",
     "repairs_like": "gloves_survivor",
     "type": "ARMOR",
@@ -281,7 +192,7 @@
     "description": "A pair of reinforced Kevlar tactical gloves, specifically designed to accomodate three fingered Killophants.  Thinner than regular oversized tactical gloves.",
     "weight": "320 g",
     "volume": "750 ml",
-    "price": 5200,
+    "price": "52 USD",
     "to_hit": 2,
     "material": [ "kevlar", "leather" ],
     "symbol": "[",
@@ -293,26 +204,6 @@
     "warmth": 20,
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "VARSIZE", "STURDY" ]
-  },
-  {
-    "id": "xlleather_belt",
-    "type": "ARMOR",
-    "name": { "str": "XL leather belt" },
-    "description": "An XL leather belt.  Useful for making your pair of pants fit if you need really big pants.",
-    "weight": "150 g",
-    "volume": "350 ml",
-    "copy-from": "leather_belt",
-    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
-  },
-  {
-    "id": "xlpolice_belt",
-    "type": "ARMOR",
-    "name": { "str": "XL police duty belt" },
-    "description": "An XL black leather belt used by extremely large uplifted police officers.  It has several pouches and a holder for a baton.",
-    "weight": "450 g",
-    "volume": "2500 ml",
-    "copy-from": "police_belt",
-    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "xltac_fullhelmet",
@@ -327,16 +218,6 @@
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "OVERSIZE" ]
   },
   {
-    "type": "ARMOR",
-    "id": "xllegpouch_large",
-    "name": { "str": "XL leg ammo pouch", "str_pl": "XL leg ammo pouches" },
-    "description": "An XL fabric ammo pouch that can be strapped to your leg and capable of holding two magazine close at hand.",
-    "weight": "120 g",
-    "volume": "250 ml",
-    "copy-from": "legpouch_large",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
-  },
-  {
     "id": "afs_herc_rig",
     "type": "ARMOR",
     "name": { "str": "HERC rig" },
@@ -344,8 +225,8 @@
     "weight": "600 g",
     "volume": "10 L",
     "looks_like": "tacvest",
-    "price": 7400,
-    "price_postapoc": 5000,
+    "price": "74 USD",
+    "price_postapoc": "50 USD",
     "material": [ "steel", "plastic" ],
     "symbol": "[",
     "color": "dark_gray",

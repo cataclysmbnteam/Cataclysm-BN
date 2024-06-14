@@ -10,7 +10,7 @@
     "broken_color": "red",
     "durability": 120,
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
-    "folded_volume": 25,
+    "folded_volume": "10 L",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 9 ] },
       { "item": "steel_chunk", "count": [ 6, 9 ] },
@@ -19,7 +19,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "600 s", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "600 s",
+        "using": [ [ "soldering_standard", 5 ], [ "vehicle_repair_electronics", 1 ], [ "plastics", 1 ] ]
+      }
     },
     "flags": [ "FOLDABLE" ]
   },
@@ -30,7 +34,7 @@
     "name": { "str": "motorbike battery" },
     "item": "battery_motorbike",
     "durability": 100,
-    "folded_volume": 5,
+    "folded_volume": "4 L",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
@@ -44,7 +48,7 @@
     "name": { "str": "motorbike battery, small" },
     "item": "battery_motorbike_small",
     "durability": 30,
-    "folded_volume": 3,
+    "folded_volume": "2 L",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
@@ -55,14 +59,14 @@
     "id": "large_storage_battery",
     "copy-from": "storage_battery",
     "type": "vehicle_part",
-    "name": { "str": "large storage battery" },
+    "name": { "str": "very large storage battery" },
     "item": "large_storage_battery",
     "durability": 600,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 10, 20 ] },
       { "item": "steel_chunk", "count": [ 5, 10 ] },
       { "item": "scrap", "count": [ 5, 10 ] },
-      { "item": "storage_battery", "count": [ 0, 1 ] }
+      { "item": "small_storage_battery", "count": [ 40, 160 ] }
     ],
     "requirements": {
       "repair": {
@@ -76,7 +80,7 @@
     "id": "large_storage_battery_removable",
     "copy-from": "large_storage_battery",
     "type": "vehicle_part",
-    "name": { "str": "swappable large storage battery" },
+    "name": { "str": "swappable very large storage battery" },
     "item": "large_storage_battery",
     "location": "on_battery_mount",
     "requirements": {
@@ -99,8 +103,8 @@
     "item": "medium_storage_battery",
     "difficulty": 1,
     "durability": 250,
-    "folded_volume": 10,
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "small_storage_battery", "count": [ 0, 7 ] } ],
+    "folded_volume": "2500 ml",
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "small_storage_battery", "count": [ 4, 16 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" },
@@ -120,7 +124,7 @@
     "item": "small_storage_battery",
     "difficulty": 1,
     "durability": 100,
-    "folded_volume": 2,
+    "folded_volume": "500 ml",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [  ] },
@@ -132,7 +136,7 @@
   {
     "id": "storage_battery",
     "type": "vehicle_part",
-    "name": { "str": "storage battery" },
+    "name": { "str": "large storage battery" },
     "item": "storage_battery",
     "location": "fuel_source",
     "fuel_type": "battery",
@@ -146,7 +150,7 @@
       { "item": "steel_lump", "count": [ 5, 10 ] },
       { "item": "steel_chunk", "count": [ 5, 10 ] },
       { "item": "scrap", "count": [ 5, 10 ] },
-      { "item": "medium_storage_battery", "count": [ 1, 2 ] }
+      { "item": "small_storage_battery", "count": [ 20, 80 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "600 s", "using": [ [ "welding_standard", 5 ] ] },
@@ -162,7 +166,7 @@
     "id": "storage_battery_removable",
     "copy-from": "storage_battery",
     "type": "vehicle_part",
-    "name": { "str": "swappable storage battery" },
+    "name": { "str": "swappable large storage battery" },
     "item": "storage_battery",
     "location": "on_battery_mount",
     "requirements": {

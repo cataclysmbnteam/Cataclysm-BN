@@ -22,6 +22,26 @@
     ]
   },
   {
+    "id": "tools_cleaning_common",
+    "//": "Common tools for cleaning up around the house or in a business setting.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "broom", 25 ],
+      [ "mop", 25 ],
+      [ "bucket", 10 ],
+      { "item": "bag_plastic", "prob": 15, "count": [ 1, 5 ] },
+      { "group": "tools_cleaning_small", "prob": 25 }
+    ]
+  },
+  {
+    "id": "tools_cleaning_small",
+    "//": "Cleaning tools that specifically could fit under a kitchen sink or in a bathroom cabinet.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "towel", 25 ], [ "rag", 25 ], [ "brush", 25 ], [ "sponge", 25 ] ]
+  },
+  {
     "id": "tools_construction",
     "type": "item_group",
     "//": "Industrial machinery used for construction",
@@ -44,7 +64,8 @@
     "//": "Common household tools",
     "items": [
       [ "hacksaw", 50 ],
-      [ "hammer", 80 ],
+      [ "hammer", 70 ],
+      [ "hammer_bronze", 10 ],
       [ "misc_repairkit", 25 ],
       [ "pliers", 60 ],
       [ "saw", 60 ],
@@ -120,6 +141,7 @@
       [ "heavy_flashlight", 15 ],
       [ "knife_folding", 25 ],
       [ "knife_hunting", 10 ],
+      [ "knife_heat", 10 ],
       [ "knife_rambo", 10 ],
       [ "knife_swissarmy", 10 ],
       [ "mess_kit", 20 ],
@@ -127,6 +149,7 @@
       [ "pockknife", 30 ],
       [ "pur_tablets", 10 ],
       [ "ref_lighter", 20 ],
+      [ "electric_lighter", 20 ],
       [ "rope_30", 20 ],
       [ "flint_steel", 10 ],
       [ "tinderbox", 10 ],
@@ -235,6 +258,7 @@
     "//": "Equipment of any size commonly used by engineers and mechanics",
     "ammo": 100,
     "items": [
+      [ "hammer_bronze", 5 ],
       { "group": "charged_UPS", "prob": 5 },
       [ "jack", 80 ],
       [ "jack_small", 80 ],
@@ -324,6 +348,7 @@
       [ "hatchet", 10 ],
       [ "knife_hunting", 10 ],
       [ "knife_rambo", 10 ],
+      [ "knife_heat", 10 ],
       [ "knife_swissarmy", 5 ],
       [ "knife_trench", 10 ],
       [ "mess_kit", 20 ],
@@ -332,6 +357,7 @@
       [ "knife_folding", 30 ],
       [ "pur_tablets", 10 ],
       [ "ref_lighter", 20 ],
+      [ "electric_lighter", 20 ],
       [ "signal_flare", 20 ],
       [ "sm_extinguisher", 20 ],
       [ "whistle", 20 ],
@@ -421,6 +447,26 @@
     ]
   },
   {
+    "id": "fireman_cabinet",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "items": [
+      { "item": "extinguisher", "prob": 35 },
+      { "item": "sm_extinguisher", "prob": 35 },
+      {
+        "collection": [
+          { "item": "hose" },
+          { "item": "sm_extinguisher" },
+          { "item": "fire_ax", "prob": 50 },
+          { "item": "crash_axe", "prob": 80 },
+          { "item": "throw_extinguisher", "prob": 30, "count": [ 3, 5 ] }
+        ],
+        "prob": 30
+      }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "tools_robotics",
     "//": "tools and equipment you might find on robotics laboratories.",
@@ -436,7 +482,7 @@
       [ "teleporter", 1 ],
       [ "laptop", 4 ],
       [ "plut_cell", 4 ],
-      [ "superglue", 30 ],
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       [ "pliers", 10 ],
       [ "matches", 10 ],
       [ "glasses_safety", 20 ],

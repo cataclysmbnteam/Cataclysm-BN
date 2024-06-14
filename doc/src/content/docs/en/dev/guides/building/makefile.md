@@ -1,9 +1,5 @@
 ---
 title: Makefile
-sidebar:
-  badge:
-    text: Recommended
-    variant: success
 ---
 
 To build Cataclysm from source you will need at least a C++ compiler, some basic developer tools,
@@ -388,7 +384,7 @@ builds the SDL version with all features enabled, including tiles, sound and loc
 - SDL2_image (tested with 2.0.3)
 
 The Gradle build process automatically installs dependencies from
-[deps.zip](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/android/app/deps.zip).
+[deps.zip](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/android/app/deps.zip).
 
 ### Setup
 

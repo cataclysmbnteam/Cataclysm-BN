@@ -8,6 +8,7 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
+    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "filament", 140, "LIST" ] ] ]
   },
@@ -46,8 +47,7 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "cordage", 1 ] ],
-    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 64 ] ],
     "components": [ [ [ "acidchitin_piece", 16 ] ], [ [ "fabric_hides_proper", 16, "LIST" ] ] ]
   },
   {
@@ -61,7 +61,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "nomex", 8 ] ],
       [ [ "kevlar_plate", 4 ] ],
@@ -77,10 +77,9 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 2,
-    "skills_required": [ "survival", 1 ],
     "time": "40 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_survival", 1 ] ],
+    "book_learn": [ [ "textbook_tailor", 1 ], [ "manual_tailor", 1 ], [ "tailor_portfolio", 1 ], [ "textbook_survival", 1 ] ],
     "using": [ [ "sewing_standard", 13 ] ],
     "components": [ [ [ "leather", 7 ] ], [ [ "fur", 7 ] ] ]
   },
@@ -95,7 +94,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "kevlar_plate", 4 ] ],
@@ -115,11 +114,11 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "fabric_standard", 4, "LIST" ] ],
       [ [ "fabric_hides_proper", 4, "LIST" ] ],
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
+      [ [ "steel_standard", 1, "LIST" ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
@@ -136,11 +135,11 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "rag", 4 ] ],
       [ [ "leather", 4 ] ],
-      [ [ "alloy_sheet", 3 ] ],
+      [ [ "alloy_sheet", 1 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
@@ -184,7 +183,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "rag", 8 ] ],
       [ [ "kevlar_plate", 4 ] ],
@@ -203,6 +202,18 @@
     "book_learn": [ [ "textbook_armwest", 4 ] ],
     "using": [ [ "blacksmithing_advanced", 32 ], [ "steel_standard", 8 ] ],
     "components": [ [ [ "fabric_hides_proper", 16, "LIST" ] ] ]
+  },
+  {
+    "result": "boots_plate_superalloy",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "8 h",
+    "book_learn": [ [ "textbook_armwest", 6 ] ],
+    "using": [ [ "blacksmithing_advanced", 32 ] ],
+    "components": [ [ [ "alloy_sheet", 8 ] ], [ [ "fabric_hides_proper", 16, "LIST" ] ] ]
   },
   {
     "result": "boots_scrap",
@@ -230,7 +241,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "fabric_hides_proper", 8, "LIST" ] ],
       [ [ "kevlar_plate", 4 ] ],
@@ -273,32 +284,12 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
+    "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "fur", 12 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
-    ]
-  },
-  {
-    "result": "boots_xlsurvivor",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
-    "skill_used": "tailor",
-    "difficulty": 6,
-    "skills_required": [ "fabrication", 4 ],
-    "time": "3 h",
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 160 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
-    "components": [
-      [ [ "fabric_hides_proper", 24, "LIST" ] ],
-      [ [ "fabric_standard", 6, "LIST" ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "boots_combat", 2 ], [ "kevlar_plate", 10 ] ],
-      [ [ "duct_tape", 200 ] ]
     ]
   },
   {
@@ -406,7 +397,13 @@
     "difficulty": 1,
     "time": "30 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_survival", 0 ], [ "pocket_survival", 0 ] ],
+    "book_learn": [
+      [ "textbook_survival", 0 ],
+      [ "pocket_survival", 0 ],
+      [ "textbook_tailor", 0 ],
+      [ "manual_tailor", 0 ],
+      [ "tailor_portfolio", 0 ]
+    ],
     "using": [ [ "sewing_standard", 5 ] ],
     "components": [ [ [ "fur", 2 ] ] ]
   },
@@ -465,7 +462,6 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "1 h",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "tailoring_wool_knitting", 80 ] ]
   },
@@ -500,9 +496,8 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "90 m",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_wool_knitting", 320 ] ]
+    "using": [ [ "tailoring_wool_knitting", 120 ] ]
   },
   {
     "result": "straw_sandals",
@@ -527,8 +522,8 @@
     "time": "30 m",
     "book_learn": [ [ "mag_swimming", 3 ], [ "manual_swimming", 2 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
-    "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "duct_tape", 80 ], [ "medical_tape", 80 ] ], [ [ "superglue", 1 ] ] ]
+    "tools": [ [ [ "soldering_standard", 60, "LIST" ], [ "surface_heat", 60, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "adhesive", 5, "LIST" ] ] ]
   },
   {
     "result": "thermal_socks",
@@ -538,10 +533,11 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "skills_required": [ "tailor", 2 ],
-    "time": "1 h",
+    "time": "20 m",
+    "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
     "using": [ [ "sewing_standard", 6 ] ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
+    "tools": [ [ [ "soldering_standard", 20, "LIST" ], [ "surface_heat", 20, "LIST" ] ] ],
     "components": [ [ [ "rag", 2 ], [ "socks", 1 ], [ "socks_wool", 1 ] ], [ [ "element", 2 ] ], [ [ "cable", 4 ] ] ]
   },
   {
@@ -554,7 +550,7 @@
     "time": "2 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "soldering_iron", 5 ], [ "welder", 5 ], [ "hotplate", 5 ], [ "toolset", 5 ] ] ],
+    "tools": [ [ [ "soldering_standard", 5, "LIST" ], [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "neoprene", 2 ] ], [ [ "rag", 2 ] ] ]
   },
   {
@@ -563,11 +559,12 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "20 m",
-    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 2 ] ],
-    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ]
+    "difficulty": 4,
+    "skills_required": [ [ "tailor", 2 ] ],
+    "time": "10 m",
+    "autolearn": [ [ "fabrication", 6 ], [ "tailor", 4 ] ],
+    "book_learn": [ [ "textbook_armwest", 3 ], [ "textbook_fabrication", 3 ], [ "recipe_melee", 3 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ]
   },
   {
     "result": "heels",
@@ -581,5 +578,30 @@
     "book_learn": [ [ "manual_tailor", 2 ] ],
     "using": [ [ "sewing_standard", 4 ] ],
     "components": [ [ [ "leather", 4 ] ] ]
+  },
+  {
+    "result": "sandal_armor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 2 ] ],
+    "using": [ [ "sewing_standard", 8 ] ],
+    "components": [ [ [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "socks_thick",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 5 ] ],
+    "components": [ [ [ "rag", 4 ] ] ]
   }
 ]

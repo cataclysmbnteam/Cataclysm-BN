@@ -58,7 +58,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": "7 h 40 m",
+    "time": "60 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_advanced", 24 ], [ "steel_standard", 6 ] ],
     "components": [ [ [ "stick_long", 1 ] ] ]
@@ -122,7 +122,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
-    "skills_required": [ "bashing", 1 ],
+    "skills_required": [ "unarmed", 1 ],
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
@@ -623,5 +623,60 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_weapeast", 3 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tomahawk_primitive",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "survival", 3 ],
+    "time": "1 h",
+    "reversible": true,
+    "autolearn": true,
+    "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ], [ "bone_sturdy", 1, "LIST" ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [
+        [ "cordage_short", 2, "LIST" ],
+        [ "filament", 100, "LIST" ],
+        [ "rag", 1 ],
+        [ "leather", 1 ],
+        [ "fur", 1 ],
+        [ "faux_fur", 1 ],
+        [ "felt_patch", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "tomahawk_copper",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "survival", 3 ],
+    "time": "1 h",
+    "reversible": true,
+    "autolearn": true,
+    "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "copper_scrap_equivalent", 25, "LIST" ] ],
+      [
+        [ "cordage_short", 2, "LIST" ],
+        [ "filament", 100, "LIST" ],
+        [ "rag", 1 ],
+        [ "leather", 1 ],
+        [ "fur", 1 ],
+        [ "faux_fur", 1 ],
+        [ "felt_patch", 1 ]
+      ]
+    ]
   }
 ]

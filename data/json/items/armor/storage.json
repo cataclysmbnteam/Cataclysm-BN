@@ -6,8 +6,8 @@
     "description": "A small backpack.  Good storage for a little encumbrance.",
     "weight": "633 g",
     "volume": "2 L",
-    "price": 3900,
-    "price_postapoc": 500,
+    "price": "39 USD",
+    "price_postapoc": "5 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -20,6 +20,7 @@
     "storage": "15 L",
     "warmth": 6,
     "material_thickness": 2,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "BELTED" ]
   },
   {
@@ -29,8 +30,8 @@
     "description": "A large sized hiking backpack with plenty of storage space.",
     "weight": "2291 g",
     "volume": "14 L",
-    "price": 10000,
-    "price_postapoc": 1000,
+    "price": "100 USD",
+    "price_postapoc": "10 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -63,8 +64,8 @@
     "description": "A huge fabric backpack made mostly as a joke before the Cataclysm.  Now, it's still rather silly, but it can store a lot of stuff.",
     "weight": "1200 g",
     "volume": "8750 ml",
-    "price": 4500,
-    "price_postapoc": 750,
+    "price": "45 USD",
+    "price_postapoc": "750 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -77,6 +78,7 @@
     "storage": "45 L",
     "warmth": 5,
     "material_thickness": 2,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "BELTED" ]
   },
   {
@@ -86,8 +88,8 @@
     "description": "A small leather backpack.  Good storage for a little encumbrance.",
     "weight": "818 g",
     "volume": "2 L",
-    "price": 11900,
-    "price_postapoc": 500,
+    "price": "119 USD",
+    "price_postapoc": "5 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -100,6 +102,7 @@
     "storage": "15 L",
     "warmth": 9,
     "material_thickness": 3,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -109,8 +112,8 @@
     "description": "A large tactical multi-compartment backpack that has great lower back support.",
     "weight": "2291 g",
     "volume": "15 L",
-    "price": 9000,
-    "price_postapoc": 1250,
+    "price": "90 USD",
+    "price_postapoc": "1250 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -132,8 +135,8 @@
     "description": "A plastic basket meant for storing and hauling clothing.",
     "weight": "680 g",
     "volume": "25 L",
-    "price": 75,
-    "price_postapoc": 10,
+    "price": "75 cent",
+    "price_postapoc": "10 cent",
     "to_hit": -2,
     "bashing": 1,
     "material": [ "plastic" ],
@@ -145,7 +148,7 @@
     "encumbrance": 50,
     "storage": "25 L",
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE" ]
+    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bigback",
@@ -154,8 +157,8 @@
     "description": "Also known as a \"bigpack\", this rucksack is prized by pack rats but may lead to a bad back.",
     "weight": "3539 g",
     "volume": "21 L",
-    "price": 20000,
-    "price_postapoc": 2500,
+    "price": "200 USD",
+    "price_postapoc": "25 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "rucksack",
@@ -177,8 +180,8 @@
     "description": "You're ready for a trip down some train tracks.  Also known as a hobo stick.",
     "weight": "980 g",
     "volume": "3 L",
-    "price": 80,
-    "price_postapoc": 10,
+    "price": "80 cent",
+    "price_postapoc": "10 cent",
     "to_hit": -2,
     "bashing": 4,
     "material": [ "cotton", "wood" ],
@@ -190,7 +193,7 @@
     "encumbrance": 40,
     "storage": "5 L",
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "boxpack",
@@ -204,7 +207,7 @@
     "looks_like": "jerrypack",
     "material": [ "wood", "cotton" ],
     "volume": "15 L",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "storage": "15 L",
     "covers": [ "torso" ],
     "coverage": 20,
@@ -212,7 +215,7 @@
     "warmth": 5,
     "bashing": 16,
     "cutting": 4,
-    "price": 3500,
+    "price": "35 USD",
     "flags": [ "BELTED", "OVERSIZE", "NO_REPAIR" ]
   },
   {
@@ -223,8 +226,8 @@
     "description": "Useful for carrying money, documents, or smuggled goods.",
     "weight": "1700 g",
     "volume": "15 L",
-    "price": 24000,
-    "price_postapoc": 50,
+    "price": "240 USD",
+    "price_postapoc": "50 cent",
     "to_hit": -2,
     "bashing": 5,
     "material": [ "plastic" ],
@@ -236,7 +239,7 @@
     "encumbrance": 30,
     "storage": "15 L",
     "material_thickness": 2,
-    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "case_violin",
@@ -246,8 +249,8 @@
     "description": "Useful to carry your precious musical instrument around protected from any harm.",
     "weight": "2800 g",
     "volume": "5 L",
-    "price": 24000,
-    "price_postapoc": 50,
+    "price": "240 USD",
+    "price_postapoc": "50 cent",
     "to_hit": -4,
     "bashing": 8,
     "material": [ "plastic", "steel", "leather" ],
@@ -259,7 +262,7 @@
     "encumbrance": 50,
     "storage": "3500 ml",
     "material_thickness": 5,
-    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "daypack",
@@ -273,8 +276,8 @@
     "weight": "411 g",
     "volume": "2 L",
     "//": "REI Co-op 22-liter daypack costs $54.95, so ballpark to $55",
-    "price": 5500,
-    "price_postapoc": 500,
+    "price": "55 USD",
+    "price_postapoc": "5 USD",
     "material": [ "cotton", "plastic" ],
     "covers": [ "torso" ],
     "coverage": 25,
@@ -294,8 +297,8 @@
     "description": "A lightweight mesh backpack, commonly worn by swimmers and divers.",
     "weight": "512 g",
     "volume": "1500 ml",
-    "price": 10900,
-    "price_postapoc": 500,
+    "price": "109 USD",
+    "price_postapoc": "5 USD",
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -307,6 +310,7 @@
     "max_encumbrance": 12,
     "storage": "12 L",
     "material_thickness": 1,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -316,8 +320,8 @@
     "description": "A huge duffel bag.  Provides plenty of storage, but is severely encumbering.",
     "weight": "933 g",
     "volume": "6 L",
-    "price": 12000,
-    "price_postapoc": 500,
+    "price": "120 USD",
+    "price_postapoc": "5 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "rucksack",
@@ -330,6 +334,7 @@
     "storage": "35 L",
     "warmth": 10,
     "material_thickness": 2,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -340,8 +345,8 @@
     "description": "An expandable pouch secured with straps.  Provides a bit of extra storage with minimal encumbrance.",
     "weight": "288 g",
     "volume": "500 ml",
-    "price": 4500,
-    "price_postapoc": 250,
+    "price": "45 USD",
+    "price_postapoc": "250 cent",
     "to_hit": 2,
     "bashing": 1,
     "material": [ "kevlar", "plastic" ],
@@ -353,6 +358,7 @@
     "encumbrance": 2,
     "storage": "3 L",
     "material_thickness": 1,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -363,7 +369,7 @@
     "description": "Provides a bit of extra storage, with minimal encumbrance.",
     "weight": "272 g",
     "volume": "250 ml",
-    "price": 3500,
+    "price": "35 USD",
     "to_hit": 2,
     "bashing": 1,
     "material": [ "cotton", "plastic" ],
@@ -375,6 +381,7 @@
     "encumbrance": 2,
     "storage": "3 L",
     "material_thickness": 1,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -385,8 +392,8 @@
     "description": "A tall canvas and plastic bag with fold-out legs used for golfing.  It even has straps to be worn on the back.",
     "weight": "1900 g",
     "volume": "15 L",
-    "price": 800,
-    "price_postapoc": 750,
+    "price": "8 USD",
+    "price_postapoc": "750 cent",
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
     "looks_like": "quiver_large",
@@ -419,7 +426,7 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "pink",
-    "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
+    "proportional": { "weight": 6, "volume": 6, "price": 6, "quench": 6, "calories": 6, "healthy": 6, "fun": 6 },
     "armor_data": {
       "covers": [ "arm_either", "hand_either" ],
       "coverage": 5,
@@ -427,7 +434,7 @@
       "storage": "15 L",
       "material_thickness": 1
     },
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "hide_tainted_bag",
@@ -439,8 +446,8 @@
     "symbol": "[",
     "looks_like": "hide_bag",
     "color": "pink",
-    "price_postapoc": 10,
-    "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
+    "price_postapoc": "10 cent",
+    "proportional": { "weight": 6, "volume": 6, "price": 6, "quench": 6, "calories": 6, "healthy": 6, "fun": 6 },
     "armor_data": {
       "covers": [ "arm_either", "hand_either" ],
       "coverage": 5,
@@ -448,7 +455,7 @@
       "storage": "15 L",
       "material_thickness": 1
     },
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "hk_briefcase",
@@ -459,8 +466,8 @@
     "name": { "str": "H&K operational briefcase (empty)", "str_pl": "H&K operational briefcases (empty)" },
     "description": "This is a plain, hard-sided black briefcase with a trigger in the handle and a concealed hole in the side.  Squeezing the trigger would currently do nothing, as it is empty.  Don't forget to put a suitable MP5 back inside before you try to pay any ransom fees with lead.",
     "storage": "14500 ml",
-    "price": 2000,
-    "price_postapoc": 1250,
+    "price": "20 USD",
+    "price_postapoc": "1250 cent",
     "weight": "950 g"
   },
   {
@@ -470,8 +477,8 @@
     "description": "A jerrycan modified to be worn in a similar manner to a backpack.",
     "weight": "1763 g",
     "volume": "10 L",
-    "price": 1450,
-    "price_postapoc": 250,
+    "price": "1450 cent",
+    "price_postapoc": "250 cent",
     "to_hit": -1,
     "material": [ "plastic", "cotton" ],
     "symbol": "[",
@@ -492,8 +499,8 @@
     "description": "A bag stitched together from leather scraps.  Doesn't hold an awful lot but is easy to wear.",
     "weight": "610 g",
     "volume": "500 ml",
-    "price": 1000,
-    "price_postapoc": 150,
+    "price": "10 USD",
+    "price_postapoc": "150 cent",
     "to_hit": 1,
     "bashing": 1,
     "material": [ "leather" ],
@@ -505,7 +512,7 @@
     "encumbrance": 2,
     "storage": "2 L",
     "material_thickness": 1,
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "legrig",
@@ -514,8 +521,8 @@
     "description": "A set of pouches that can be worn on the thighs using buckled straps.  This variety is favored by the military.",
     "weight": "205 g",
     "volume": "500 ml",
-    "price": 3000,
-    "price_postapoc": 250,
+    "price": "30 USD",
+    "price_postapoc": "250 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -525,7 +532,8 @@
     "encumbrance": 4,
     "storage": "3 L",
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "valid_mods": [ "resized_large" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT" ]
   },
   {
     "id": "makeshift_knapsack",
@@ -534,8 +542,8 @@
     "description": "A pair of pants with the bottom ends tied with string, and then passed through the belt loops so the knapsack can be carried on the back.",
     "weight": "560 g",
     "volume": "2 L",
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -548,6 +556,7 @@
     "storage": "5 L",
     "warmth": 5,
     "material_thickness": 1,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -557,8 +566,8 @@
     "description": "A large sheet tied into a crude, over-the-shoulder sling.",
     "weight": "771 g",
     "volume": "5 L",
-    "price": 100,
-    "price_postapoc": 10,
+    "price": "1 USD",
+    "price_postapoc": "10 cent",
     "to_hit": -2,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -583,8 +592,8 @@
     "description": "Light and easy to wear, but doesn't offer much storage.",
     "weight": "760 g",
     "volume": "1 L",
-    "price": 7900,
-    "price_postapoc": 250,
+    "price": "79 USD",
+    "price_postapoc": "250 cent",
     "to_hit": 1,
     "bashing": 1,
     "material": [ "cotton", "plastic" ],
@@ -598,7 +607,8 @@
     "max_encumbrance": 6,
     "storage": "6 L",
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "valid_mods": [ "resized_large" ],
+    "flags": [ "BELTED", "COMPACT", "WATER_FRIENDLY" ]
   },
   {
     "id": "molle_pack",
@@ -608,8 +618,8 @@
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military backpack.  Covered with pockets and straps, it strikes a fine balance between storage space and encumbrance.",
     "weight": "966 g",
     "volume": "2500 ml",
-    "price": 6700,
-    "price_postapoc": 1500,
+    "price": "67 USD",
+    "price_postapoc": "15 USD",
     "material": [ "cotton", "kevlar" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -622,6 +632,7 @@
     "storage": "12 L",
     "warmth": 10,
     "material_thickness": 2,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -631,8 +642,8 @@
     "description": "Before the Cataclysm this would allow your four-legged friend to see the world, now it's used to shield them from the world.",
     "weight": "1316 g",
     "volume": "4 L",
-    "price": 7900,
-    "price_postapoc": 250,
+    "price": "79 USD",
+    "price_postapoc": "250 cent",
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -643,8 +654,9 @@
     "storage": "4 L",
     "warmth": 8,
     "material_thickness": 2,
-    "properties": [ [ "monster_size_capacity", "SMALL" ] ],
+    "properties": [ [ "creature_size_capacity", "SMALL" ] ],
     "use_action": "CAPTURE_MONSTER_ACT",
+    "valid_mods": [ "resized_large" ],
     "flags": [ "BELTED", "WATERPROOF" ]
   },
   {
@@ -654,8 +666,8 @@
     "description": "A bag used to carry groceries home.",
     "weight": "2 g",
     "volume": "250 ml",
-    "price": 1,
-    "price_postapoc": 10,
+    "price": "1 cent",
+    "price_postapoc": "10 cent",
     "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": "[",
@@ -665,7 +677,7 @@
     "encumbrance": 60,
     "storage": "5 L",
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "purse",
@@ -675,8 +687,8 @@
     "description": "A bit cumbersome to wear, but provides some storage.",
     "weight": "297 g",
     "volume": "1 L",
-    "price": 7500,
-    "price_postapoc": 100,
+    "price": "75 USD",
+    "price_postapoc": "1 USD",
     "to_hit": 2,
     "bashing": 2,
     "material": [ "leather" ],
@@ -690,7 +702,8 @@
     "max_encumbrance": 5,
     "storage": "5 L",
     "material_thickness": 2,
-    "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ]
+    "valid_mods": [ "resized_large" ],
+    "flags": [ "FANCY", "BELTED", "COMPACT", "WATER_FRIENDLY" ]
   },
   {
     "id": "ragpouch",
@@ -699,8 +712,8 @@
     "description": "A makeshift bag, cobbled together from rags.  Really gets in the way, but provides a decent amount of storage.",
     "weight": "560 g",
     "volume": "500 ml",
-    "price": 1000,
-    "price_postapoc": 100,
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
     "to_hit": 1,
     "bashing": 1,
     "material": [ "cotton" ],
@@ -711,7 +724,7 @@
     "encumbrance": 8,
     "storage": "3 L",
     "material_thickness": 1,
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "rucksack",
@@ -721,8 +734,8 @@
     "description": "A huge military rucksack, provides a lot of storage.",
     "weight": "1140 g",
     "volume": "4 L",
-    "price": 9200,
-    "price_postapoc": 1250,
+    "price": "92 USD",
+    "price_postapoc": "1250 cent",
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -735,6 +748,7 @@
     "storage": "22 L",
     "warmth": 8,
     "material_thickness": 2,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -744,8 +758,8 @@
     "description": "The obvious choice for outdoor athletes, this ergonomic backpack is light and easy to wear, ensuring comfort when carrying heavy and bulky items.",
     "weight": "840 g",
     "volume": "1500 ml",
-    "price": 24000,
-    "price_postapoc": 500,
+    "price": "240 USD",
+    "price_postapoc": "5 USD",
     "to_hit": 1,
     "bashing": 1,
     "material": [ "cotton", "plastic" ],
@@ -760,6 +774,7 @@
     "storage": "7 L",
     "warmth": 2,
     "material_thickness": 1,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -771,8 +786,8 @@
     "description": "A simple single-sling backpack.  Easier to access than a normal backpack, but can't comfortably hold as much.",
     "weight": "566 g",
     "volume": "1500 ml",
-    "price": 2900,
-    "price_postapoc": 750,
+    "price": "29 USD",
+    "price_postapoc": "750 cent",
     "bashing": 1,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
@@ -786,6 +801,7 @@
     "storage": "8 L",
     "warmth": 2,
     "material_thickness": 1,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -795,8 +811,8 @@
     "description": "Hand made straw basket.  Carry it with you for extra storage.",
     "weight": "100 g",
     "volume": "2500 ml",
-    "price": 200,
-    "price_postapoc": 50,
+    "price": "2 USD",
+    "price_postapoc": "50 cent",
     "to_hit": -1,
     "material": [ "dry_plant" ],
     "symbol": "[",
@@ -807,7 +823,7 @@
     "encumbrance": 30,
     "storage": "2250 ml",
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "suitcase_l",
@@ -818,8 +834,8 @@
     "description": "A huge wheeled suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is neither fast nor comfortable.",
     "weight": "5000 g",
     "volume": "25 L",
-    "price": 21000,
-    "price_postapoc": 500,
+    "price": "210 USD",
+    "price_postapoc": "5 USD",
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "suitcase_m",
@@ -829,7 +845,7 @@
     "encumbrance": 100,
     "storage": "20 L",
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "suitcase_m",
@@ -839,8 +855,8 @@
     "description": "A mid-sized suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is not exactly comfortable.",
     "weight": "900 g",
     "volume": "2500 ml",
-    "price": 21000,
-    "price_postapoc": 250,
+    "price": "210 USD",
+    "price_postapoc": "250 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "briefcase",
@@ -850,7 +866,7 @@
     "encumbrance": 100,
     "storage": "10 L",
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "survivor_hiking_backpack",
@@ -859,8 +875,8 @@
     "description": "A custom-built backpack hiking.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "2500 g",
     "volume": "15000 ml",
-    "price": 15000,
-    "price_postapoc": 1500,
+    "price": "150 USD",
+    "price_postapoc": "15 USD",
     "material": [ "leather", "cotton" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -891,8 +907,8 @@
     "description": "A custom-built heavy duffel bag.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "1000 g",
     "volume": "7500 ml",
-    "price": 24000,
-    "price_postapoc": 3250,
+    "price": "240 USD",
+    "price_postapoc": "3250 cent",
     "material": [ "leather", "cotton" ],
     "symbol": "[",
     "looks_like": "rucksack",
@@ -913,8 +929,8 @@
     "description": "A custom-built backpack.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "600 g",
     "volume": "2500 ml",
-    "price": 24000,
-    "price_postapoc": 2250,
+    "price": "240 USD",
+    "price_postapoc": "2250 cent",
     "material": [ "leather", "cotton" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -926,6 +942,7 @@
     "max_encumbrance": 12,
     "storage": "16 L",
     "material_thickness": 2,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ]
   },
   {
@@ -935,8 +952,8 @@
     "description": "A custom-built heavy backpack.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "800 g",
     "volume": "5 L",
-    "price": 24000,
-    "price_postapoc": 3000,
+    "price": "240 USD",
+    "price_postapoc": "30 USD",
     "material": [ "leather", "cotton" ],
     "symbol": "[",
     "looks_like": "rucksack",
@@ -957,8 +974,8 @@
     "description": "A custom-built lightweight runner pack.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "440 g",
     "volume": "1750 ml",
-    "price": 24000,
-    "price_postapoc": 2500,
+    "price": "240 USD",
+    "price_postapoc": "25 USD",
     "material": [ "leather", "cotton" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -970,6 +987,7 @@
     "max_encumbrance": 6,
     "storage": "8 L",
     "material_thickness": 2,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ]
   },
   {
@@ -979,8 +997,8 @@
     "description": "A large canvas sack, re-purposed for makeshift storage.  Goes well with a striped shirt and a domino mask.",
     "weight": "415 g",
     "volume": "1 L",
-    "price": 0,
-    "price_postapoc": 50,
+    "price": "0 cent",
+    "price_postapoc": "50 cent",
     "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -1000,8 +1018,8 @@
     "description": "A hiking pack used for short trips.",
     "weight": "636 g",
     "volume": "3 L",
-    "price": 7000,
-    "price_postapoc": 1500,
+    "price": "70 USD",
+    "price_postapoc": "15 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -1014,6 +1032,7 @@
     "storage": "30 L",
     "warmth": 8,
     "material_thickness": 2,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "BELTED", "WATERPROOF" ]
   },
   {
@@ -1024,8 +1043,8 @@
     "description": "A light vest covered in pockets and straps for storage.",
     "weight": "516 g",
     "volume": "1 L",
-    "price": 3900,
-    "price_postapoc": 500,
+    "price": "39 USD",
+    "price_postapoc": "5 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "tank_top",

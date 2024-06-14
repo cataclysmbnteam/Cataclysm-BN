@@ -7,7 +7,7 @@
     "description": "This item, which shouldn't exist, has shrapnel range larger than the reality itself.",
     "weight": "100 g",
     "volume": "500 ml",
-    "price": 0,
+    "price": "0 cent",
     "symbol": "*",
     "color": "blue",
     "use_action": {
@@ -23,15 +23,15 @@
     "description": "This is a fragile container filled with acid.  Throw it to spill out a pool of potent acid.",
     "weight": "650 g",
     "volume": "500 ml",
-    "price": 5000,
-    "price_postapoc": 500,
+    "price": "50 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -1,
     "bashing": 4,
     "material": "glass",
     "symbol": "*",
     "color": "yellow",
     "use_action": "ACIDBOMB_ACT",
-    "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN", "GRENADE" ]
   },
   {
     "id": "can_bomb",
@@ -41,14 +41,14 @@
     "description": "This is a tin can filled with some explosives provided with a fuse.  Won't make a big explosion but you still wouldn't want to be near it.  Will explode in 5 seconds if lit.",
     "weight": "90 g",
     "volume": "250 ml",
-    "price": 2500,
-    "price_postapoc": 250,
+    "price": "25 USD",
+    "price_postapoc": "250 cent",
     "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 } },
+    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 }, "range": 5 } },
     "use_action": {
       "target": "can_bomb_act",
       "msg": "You light the fuse on the can bomb.  Throw it before it blows in your face!",
@@ -58,7 +58,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NO_REPAIR" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NO_REPAIR", "GRENADE" ]
   },
   {
     "id": "can_bomb_act",
@@ -66,18 +66,18 @@
     "type": "TOOL",
     "name": { "str": "active can bomb" },
     "description": "This is a tin can filled with some explosives and provided with a fuse.  Won't make a big explosion but you still wouldn't want to be near it.  The fuse has been lit, you should throw it.",
-    "price": 0,
+    "price": "0 cent",
     "initial_charges": 5,
     "max_charges": 5,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 } },
+    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 }, "range": 5 } },
     "use_action": {
       "type": "explosion",
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
       "sound_msg": "ssss...",
-      "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 } }
+      "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 }, "range": 5 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
   },
@@ -89,13 +89,14 @@
     "description": "This is military grade RDX composition explosive.  A label reads: \"Highly explosive, use with extreme caution!\" It comes with a small timer.",
     "weight": "1570 g",
     "volume": "1 L",
-    "price": 9000,
-    "price_postapoc": 2000,
+    "price": "90 USD",
+    "price_postapoc": "20 USD",
     "to_hit": -4,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": "C4"
+    "use_action": "C4",
+    "flags": [ "GRENADE" ]
   },
   {
     "id": "c4armed",
@@ -105,7 +106,7 @@
     "description": "This is military grade RDX composition explosive.  A label reads: \"Highly explosive, use with extreme caution!\" It comes with a small timer, which is currently ticking down.",
     "weight": "1570 g",
     "volume": "1 L",
-    "price": 0,
+    "price": "0 cent",
     "to_hit": -4,
     "material": [ "plastic" ],
     "symbol": ";",
@@ -130,8 +131,8 @@
     "description": "These are several sticks of explosives with a fuse attached.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
     "weight": "1133 g",
     "volume": "750 ml",
-    "price": 6000,
-    "price_postapoc": 1000,
+    "price": "60 USD",
+    "price_postapoc": "10 USD",
     "to_hit": -3,
     "bashing": 4,
     "material": [ "paper", "powder" ],
@@ -148,7 +149,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "dynamite_act",
@@ -158,8 +159,8 @@
     "description": "The fuse on this dynamite is lit and hissing.  It'll explode any moment now.",
     "weight": "1133 g",
     "volume": "750 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -3,
     "bashing": 4,
     "material": [ "paper", "powder" ],
@@ -185,8 +186,8 @@
     "description": "These are several sticks of explosives surrounded by shrapnel stuffed inside a metal container.  The fuse is sticking out through a small hole.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
     "weight": "2730 g",
     "volume": "2000 ml",
-    "price": 6000,
-    "price_postapoc": 1500,
+    "price": "60 USD",
+    "price_postapoc": "15 USD",
     "to_hit": -3,
     "bashing": 4,
     "material": [ "paper", "powder" ],
@@ -197,7 +198,7 @@
     "explosion": {
       "damage": 70,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
     },
     "use_action": {
       "target": "dynamite_bomb_act",
@@ -208,7 +209,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "dynamite_bomb_act",
@@ -218,8 +219,8 @@
     "description": "The fuse on this dynamite bomb is lit and hissing.  It'll explode any moment now.",
     "weight": "2730 g",
     "volume": "2000 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -3,
     "bashing": 4,
     "material": [ "paper", "powder" ],
@@ -231,7 +232,7 @@
     "explosion": {
       "damage": 70,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
     },
     "use_action": {
       "type": "explosion",
@@ -241,7 +242,7 @@
       "explosion": {
         "damage": 70,
         "radius": 6,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
       }
     },
     "flags": [ "TRADER_AVOID", "BOMB" ]
@@ -254,8 +255,8 @@
     "description": "This substantial device is a bomb that generates an electromagnetic pulse.  When this magnetic field is fed into the antenna, it creates a strong electro-magnetic pulse.  It will also create a sizable explosion, so stay clear of it.",
     "weight": "1 kg",
     "volume": "1000 ml",
-    "price": 60000,
-    "price_postapoc": 3000,
+    "price": "600 USD",
+    "price_postapoc": "30 USD",
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
@@ -281,8 +282,8 @@
     "description": "This EMP bomb is active, and will shortly detonate, creating a large EMP field that damages robots and drains bionic energy.  You may not want to be holding it much longer.  It will also create an explosion, which may hurt you.",
     "weight": "1 kg",
     "volume": "1000 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
@@ -314,7 +315,7 @@
     "description": "This is a improvised demolition charge.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  20 seconds after lighting the fuse, this item will explode, so get away!",
     "weight": "2290 g",
     "volume": "3750 ml",
-    "price": 0,
+    "price": "0 cent",
     "to_hit": -3,
     "bashing": 4,
     "material": [ "plastic", "powder" ],
@@ -330,7 +331,8 @@
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
-    }
+    },
+    "flags": [ "GRENADE" ]
   },
   {
     "id": "improvised_demolition_charge_act",
@@ -341,8 +343,8 @@
     "description": "The fuse on this primitive demolition charge is lit and hissing.  It'll explode any moment now.",
     "weight": "2290 g",
     "volume": "3750 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -3,
     "bashing": 4,
     "material": [ "plastic", "powder" ],
@@ -369,14 +371,15 @@
     "description": "A solitary firecracker with a short fuse.  Use this item to light the fuse.  Of course, you will need a lighter or some matches to do so.  Shortly after you light the fuse it will explode, so throw it quickly!",
     "weight": "3 g",
     "volume": "25 ml",
-    "price": 4,
-    "price_postapoc": 10,
+    "price": "4 cent",
+    "price_postapoc": "10 cent",
     "to_hit": -3,
     "bashing": 1,
     "material": "paper",
     "symbol": ";",
     "color": "red",
-    "use_action": "FIRECRACKER"
+    "use_action": "FIRECRACKER",
+    "flags": [ "GRENADE" ]
   },
   {
     "id": "firecracker_act",
@@ -385,8 +388,8 @@
     "description": "A firecracker that has been lit; the fuse is hissing.  Throw it quickly before it explodes.",
     "weight": "3 g",
     "volume": "10 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -3,
     "bashing": 1,
     "material": "paper",
@@ -403,8 +406,8 @@
     "description": "This is a pack of 25 firecrackers with a starter fuse.  Use this item to light the fuse.  Of course, you will need a lighter or some matches to do so.  Shortly after you light the fuse they will begin to explode, so throw them quickly!",
     "weight": "75 g",
     "volume": "50 ml",
-    "price": 100,
-    "price_postapoc": 100,
+    "price": "1 USD",
+    "price_postapoc": "1 USD",
     "to_hit": -3,
     "bashing": 1,
     "material": "paper",
@@ -413,7 +416,8 @@
     "initial_charges": 25,
     "max_charges": 25,
     "charges_per_use": 1,
-    "use_action": "FIRECRACKER_PACK"
+    "use_action": "FIRECRACKER_PACK",
+    "flags": [ "GRENADE" ]
   },
   {
     "id": "firecracker_pack_act",
@@ -422,8 +426,8 @@
     "description": "A pack of 25 firecrackers that has been lit; the fuse is hissing.  Throw them quickly before the start to explode.",
     "weight": "75 g",
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -3,
     "material": "paper",
     "symbol": "*",
@@ -440,8 +444,8 @@
     "description": "This is a military police style flashbang.  Use this item to pull the pin and light the fuse.  You will then have five turns before it detonates with intense light and sound, blinding, deafening and disorienting anyone nearby.",
     "weight": "236 g",
     "volume": "250 ml",
-    "price": 2000,
-    "price_postapoc": 250,
+    "price": "20 USD",
+    "price_postapoc": "250 cent",
     "to_hit": -1,
     "bashing": 5,
     "material": [ "steel", "plastic" ],
@@ -465,8 +469,8 @@
     "description": "This flashbang is active, and will soon detonate with intense light and sound, blinding, deafening and disorienting anyone nearby.  It may be a good idea to throw it!",
     "weight": "236 g",
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -1,
     "bashing": 5,
     "material": [ "steel", "plastic" ],
@@ -490,8 +494,8 @@
     "looks_like": "smokebomb",
     "type": "GENERIC",
     "name": { "str": "fungicidal gas grenade" },
-    "price": 3600,
-    "price_postapoc": 750,
+    "price": "36 USD",
+    "price_postapoc": "750 cent",
     "description": "This is a canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
     "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_act" }
   },
@@ -513,8 +517,8 @@
     "looks_like": "smokebomb",
     "type": "GENERIC",
     "name": { "str": "makeshift fungicidal gas grenade" },
-    "price": 3600,
-    "price_postapoc": 500,
+    "price": "36 USD",
+    "price_postapoc": "5 USD",
     "description": "This is a makeshift canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
     "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_makeshift_act" }
   },
@@ -538,8 +542,8 @@
     "description": "This is a crude gasbomb using household chemicals.  Use this item to arm it.  In three turns it will begin to expel a highly toxic gas for a short time.  This gas poisons those exposed to it, in addition to obscuring vision and scent.",
     "weight": "1264 g",
     "volume": "250 ml",
-    "price": 500,
-    "price_postapoc": 250,
+    "price": "5 USD",
+    "price_postapoc": "250 cent",
     "to_hit": -1,
     "bashing": 6,
     "material": "steel",
@@ -553,7 +557,7 @@
       "menu_text": "Arm",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "gasbomb_makeshift_act",
@@ -563,8 +567,8 @@
     "description": "This homemade canister of poison gas has been unsealed, and is (or will shortly be) expelling highly toxic gas.  You should consider getting rid of it soon.",
     "weight": "1264 g",
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -1,
     "bashing": 6,
     "material": "steel",
@@ -594,11 +598,11 @@
     "description": "This is a military-grade fragmentary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five turns before it explodes; throwing it would be a good idea.",
     "weight": "397 g",
     "volume": "250 ml",
-    "price": 1500,
-    "price_postapoc": 1000,
+    "price": "15 USD",
+    "price_postapoc": "10 USD",
     "to_hit": -1,
     "bashing": 6,
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel" ],
     "symbol": "*",
     "color": "green",
     "use_action": {
@@ -619,11 +623,11 @@
     "description": "This is an active grenade, and will explode any second now.  Better throw it!",
     "weight": "397 g",
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -1,
     "bashing": 6,
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel" ],
     "symbol": "*",
     "color": "green",
     "initial_charges": 5,
@@ -637,7 +641,7 @@
       "explosion": {
         "damage": 40,
         "radius": 3,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 80, "armor_multiplier": 3 }, "range": 6 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 3 }, "range": 6 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -650,9 +654,9 @@
     "description": "This is a grenade that generates an electromagnetic pulse with a low-inductance capacitor bank discharged into a single-loop antenna.  Use this item to pull the pin and light the fuse, turning it into an active EMP grenade.  You will then have three turns before it detonates, creating an EMP field that damages robots and drains bionic energy.",
     "weight": "400 g",
     "volume": "250 ml",
-    "price": 6000,
+    "price": "60 USD",
     "//": "Something this useful doesn't come cheap after the apocalypse",
-    "price_postapoc": 4000,
+    "price_postapoc": "40 USD",
     "to_hit": -1,
     "bashing": 5,
     "material": [ "steel", "plastic" ],
@@ -677,8 +681,8 @@
     "description": "This EMP grenade is active, and will shortly detonate, creating a large EMP field that damages robots and drains bionic energy.  You may not want to be holding it much longer.",
     "weight": "400 g",
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -1,
     "bashing": 5,
     "material": [ "steel", "plastic" ],
@@ -706,8 +710,8 @@
     "description": "This is a military-grade incendiary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five turns before it explodes into a raging inferno; throwing it would be a good idea.",
     "weight": "180 g",
     "volume": "250 ml",
-    "price": 2000,
-    "price_postapoc": 1500,
+    "price": "20 USD",
+    "price_postapoc": "15 USD",
     "to_hit": -1,
     "bashing": 6,
     "material": [ "steel" ],
@@ -731,8 +735,8 @@
     "description": "This is an active incendiary grenade, likely to burst into an inferno any second now.  Better throw it!",
     "weight": "180 g",
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -1,
     "bashing": 6,
     "material": [ "steel" ],
@@ -764,8 +768,8 @@
     "copy-from": "grenade_canister",
     "type": "GENERIC",
     "name": { "str": "tear gas grenade" },
-    "price": 3600,
-    "price_postapoc": 250,
+    "price": "36 USD",
+    "price_postapoc": "250 cent",
     "description": "This is a canister grenade filled with noxious irritant.  Use this item to pull the pin and light the fuse, turning it into an active tear gas grenade.  In five turns it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
     "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "gasbomb_act" }
   },
@@ -774,7 +778,7 @@
     "copy-from": "gasbomb",
     "type": "GENERIC",
     "name": { "str": "armed tear gas canister" },
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "description": "This smoke bomb has had its pin removed and is expelling highly toxic gas.",
     "emits": [ "emit_tear_gas_stream" ],
     "countdown_interval": 50,
@@ -787,8 +791,8 @@
     "looks_like": "smokebomb",
     "type": "GENERIC",
     "name": { "str": "insecticidal gas grenade" },
-    "price": 3600,
-    "price_postapoc": 750,
+    "price": "36 USD",
+    "price_postapoc": "750 cent",
     "description": "This is a canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to insect life forms.",
     "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_act" }
   },
@@ -798,7 +802,7 @@
     "looks_like": "smokebomb_act",
     "type": "GENERIC",
     "name": { "str": "armed insecticidal gas canister" },
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "description": "This insecticidal bomb has had its pin removed and is expelling highly toxic haze.",
     "emits": [ "emit_insecticidal_stream" ],
     "countdown_interval": 50,
@@ -811,8 +815,8 @@
     "looks_like": "smokebomb",
     "type": "GENERIC",
     "name": { "str": "makeshift insecticidal gas grenade" },
-    "price": 3600,
-    "price_postapoc": 500,
+    "price": "36 USD",
+    "price_postapoc": "5 USD",
     "description": "This is a makeshift canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to insect life forms.",
     "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_makeshift_act" }
   },
@@ -822,7 +826,7 @@
     "looks_like": "smokebomb_act",
     "type": "GENERIC",
     "name": { "str": "armed makeshift insecticidal gas canister" },
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "description": "This makeshift insecticidal bomb has had its pin removed and is expelling highly toxic haze.",
     "emits": [ "emit_small_insecticidal_stream" ],
     "countdown_interval": 50,
@@ -835,10 +839,11 @@
     "category": "guns",
     "name": { "str": "packed M72 LAW" },
     "description": "This is a M72 LAW, packed in its storage form.  Use it to pop it out and make it ready to fire.  Once it is activated, it cannot be repacked.",
-    "weight": "2500 g",
+    "//": "Combined weight of the launcher plus one round of ammo",
+    "weight": "2800 g",
     "volume": "1500 ml",
-    "price": 200000,
-    "price_postapoc": 4000,
+    "price": "2 kUSD",
+    "price_postapoc": "40 USD",
     "bashing": 6,
     "material": "aluminum",
     "symbol": ")",
@@ -858,9 +863,9 @@
     "type": "TOOL",
     "name": { "str": "improvised grenade" },
     "looks_like": "makeshift_grenade",
-    "description": "A improvised explosive device cobbled together from parts.  Use this item light the fuse.  You will then have some amount of time before it explodes; throwing it would be a good idea.",
+    "description": "A improvised explosive device cobbled together from parts.  Use this item to light the fuse.  You will then have some amount of time before it explodes; throwing it would be a good idea.",
     "weight": "400 g",
-    "price": 750,
+    "price": "750 cent",
     "material": [ "aluminum", "iron" ],
     "symbol": "*",
     "color": "green",
@@ -868,7 +873,7 @@
     "explosion": {
       "damage": 40,
       "radius": 3,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 40, "armor_multiplier": 3 }, "range": 6 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 40, "armor_multiplier": 3 }, "range": 6 }
     },
     "use_action": {
       "target": "improvised_grenade_act",
@@ -879,7 +884,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE", "GRENADE" ]
   },
   {
     "id": "improvised_grenade_act",
@@ -887,7 +892,7 @@
     "type": "TOOL",
     "name": { "str": "active improvised grenade" },
     "description": "This is an active grenade, and will explode any second now.  Better throw it!",
-    "price": 0,
+    "price": "0 cent",
     "initial_charges": 5,
     "max_charges": 5,
     "turns_per_charge": 1,
@@ -899,7 +904,7 @@
       "explosion": {
         "damage": 40,
         "radius": 3,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 40, "armor_multiplier": 3 }, "range": 6 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 40, "armor_multiplier": 3 }, "range": 6 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -913,15 +918,15 @@
     "description": "This is an extremely powerful weapon, a portable nuclear bomb.  Use it to activate the timer.  You guess that the explosion would be large enough to take out a small house.",
     "weight": "23000 g",
     "volume": "16 L",
-    "price": 180000,
-    "price_postapoc": 10000,
+    "price": "1800 USD",
+    "price_postapoc": "100 USD",
     "to_hit": -2,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "light_green",
     "use_action": "MININUKE",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "CLOSES_PORTAL" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "CLOSES_PORTAL" ]
   },
   {
     "id": "mininuke_act",
@@ -932,8 +937,8 @@
     "description": "This miniature nuclear bomb has a light blinking on the side, showing that it will soon explode.  You should probably get far, far away from it.",
     "weight": "23000 g",
     "volume": "16 L",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -2,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
@@ -950,7 +955,11 @@
       "sound_volume": 2,
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
-      "explosion": { "damage": 300, "radius": 20 }
+      "explosion": {
+        "damage": 300,
+        "radius": 20,
+        "fragment": { "impact": { "damage_type": "heat", "amount": 300, "armor_multiplier": 2 }, "range": 24 }
+      }
     },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "CLOSES_PORTAL" ]
   },
@@ -962,8 +971,8 @@
     "description": "A bottle of flammable liquid with a rag inserted.  Use this item to light the rag.  You will, of course, need a lighter or matches in your inventory to do this.  After lighting it, throw it to cause fires.",
     "weight": "742 g",
     "volume": "750 ml",
-    "price": 500,
-    "price_postapoc": 500,
+    "price": "5 USD",
+    "price_postapoc": "5 USD",
     "to_hit": 1,
     "bashing": 5,
     "material": [ "glass", "cotton" ],
@@ -981,7 +990,7 @@
       "menu_text": "Light rag",
       "type": "transform"
     },
-    "flags": [ "NPC_ACTIVATE", "NO_REPAIR" ]
+    "flags": [ "NPC_ACTIVATE", "NO_REPAIR", "GRENADE" ]
   },
   {
     "id": "molotov_lit",
@@ -991,8 +1000,8 @@
     "description": "A bottle of flammable liquid with a flaming rag stoppered in its neck.  Throwing it will shatter the bottle on impact and ignite a fireball.  Dropping it will set you on fire, so don't do that unless you want to burn to death.",
     "weight": "742 g",
     "volume": "750 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": 1,
     "bashing": 5,
     "material": [ "glass", "cotton" ],
@@ -1014,7 +1023,7 @@
     "weight": "710 g",
     "//": "Only one third (410 g) of a whole pipe is being used",
     "volume": "500 ml",
-    "price": 1500,
+    "price": "15 USD",
     "to_hit": 1,
     "bashing": 5,
     "material": "steel",
@@ -1024,7 +1033,7 @@
     "explosion": {
       "damage": 20,
       "radius": 4,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
     },
     "use_action": {
       "target": "improvised_pipebomb_act",
@@ -1035,7 +1044,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE", "GRENADE" ]
   },
   {
     "id": "improvised_pipebomb_act",
@@ -1046,7 +1055,7 @@
     "description": "This pipe bomb's fuse is lit, and it will explode any second now.  Throw it immediately!",
     "weight": "710 g",
     "volume": "500 ml",
-    "price": 0,
+    "price": "0 cent",
     "to_hit": 1,
     "bashing": 5,
     "material": "steel",
@@ -1059,7 +1068,7 @@
     "explosion": {
       "damage": 20,
       "radius": 4,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
     },
     "use_action": {
       "type": "explosion",
@@ -1069,7 +1078,7 @@
       "explosion": {
         "damage": 20,
         "radius": 4,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
@@ -1082,9 +1091,9 @@
     "description": "This is a specialized grenade, designed to scramble robots' IFF control chips.  This converts the robot to your side for a short time, before the backup systems kick in.  Use this item to pull the pin and light the fuse, turning it into an active scrambler grenade.",
     "weight": "500 g",
     "volume": "250 ml",
-    "price": 6000,
+    "price": "60 USD",
     "//": "Something this useful doesn't come cheap after the apocalypse",
-    "price_postapoc": 5000,
+    "price_postapoc": "50 USD",
     "to_hit": -1,
     "bashing": 5,
     "material": [ "steel", "plastic" ],
@@ -1108,8 +1117,8 @@
     "description": "This scrambler grenade is active, and will soon detonate, releasing a control wave that temporarily converts robots to your side.",
     "weight": "500 g",
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -1,
     "bashing": 5,
     "material": [ "steel", "plastic" ],
@@ -1135,8 +1144,8 @@
     "type": "GENERIC",
     "name": { "str": "smoke bomb" },
     "description": "This is a canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and light the fuse, turning it into an active smoke bomb.  Five turns after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
-    "price": 1800,
-    "price_postapoc": 0,
+    "price": "18 USD",
+    "price_postapoc": "0 cent",
     "weight": "569 g",
     "countdown_action": { "type": "transform", "target": "smokebomb_act" }
   },
@@ -1159,8 +1168,8 @@
     "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty turns before it explodes and creates a large fireball.",
     "weight": "77800 g",
     "volume": "50 L",
-    "price": 75000,
-    "price_postapoc": 4000,
+    "price": "750 USD",
+    "price_postapoc": "40 USD",
     "to_hit": -5,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
@@ -1181,7 +1190,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "tool_anfo_charge_act",
@@ -1191,8 +1200,8 @@
     "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  The fuse has been lit - better run like hell!",
     "weight": "77800 g",
     "volume": "50 L",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -5,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
@@ -1205,7 +1214,7 @@
     "explosion": {
       "damage": 250,
       "radius": 12,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3 }, "range": 20 }
     },
     "use_action": {
       "type": "explosion",
@@ -1229,7 +1238,7 @@
     "description": "This is a home-made explosive device, consisting of a large plastic jug filled with stable explosives and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Once you do it should explode in about 20 seconds. ",
     "weight": "6500 g",
     "volume": "4 L",
-    "price": 20000,
+    "price": "200 USD",
     "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
@@ -1238,7 +1247,7 @@
     "explosion": {
       "damage": 50,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
     },
     "use_action": {
       "target": "tool_small_improvised_fragmentation_device_act",
@@ -1248,7 +1257,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "tool_small_improvised_fragmentation_device_act",
@@ -1259,7 +1268,7 @@
     "description": "This is a home-made explosive device, consisting of a large plastic jug filled with stable explosives and scrap metal, whose fuse has been lit, its final countdown starting.",
     "weight": "6500 g",
     "volume": "4 L",
-    "price": 0,
+    "price": "0 cent",
     "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
@@ -1271,7 +1280,7 @@
     "explosion": {
       "damage": 50,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
     },
     "use_action": {
       "type": "explosion",
@@ -1281,7 +1290,7 @@
       "explosion": {
         "damage": 50,
         "radius": 6,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -1295,8 +1304,8 @@
     "description": "This is a metal keg, filled with a lot of stable explosives.  Contains a volatile explosive core so 100 seconds after the fuse has been lit the charge detonates completely and delivers its entire destructive power to everything in sight.",
     "weight": "67500 g",
     "volume": "100 L",
-    "price": 90000,
-    "price_postapoc": 4000,
+    "price": "900 USD",
+    "price_postapoc": "40 USD",
     "to_hit": -5,
     "bashing": 20,
     "material": [ "steel" ],
@@ -1306,7 +1315,7 @@
     "explosion": {
       "damage": 200,
       "radius": 15,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
     },
     "use_action": {
       "target": "tool_improvised_barrel_bomb_act",
@@ -1317,7 +1326,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "tool_improvised_barrel_bomb_act",
@@ -1328,8 +1337,8 @@
     "description": "This is a metal keg, filled with a lot of stable explosives.  The fuse has been lit and once it ignites the primary explosive, the bomb will detonate and rain fire and steel on everything in sight.",
     "weight": "67500 g",
     "volume": "100 L",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -5,
     "bashing": 20,
     "material": [ "steel" ],
@@ -1342,7 +1351,7 @@
     "explosion": {
       "damage": 200,
       "radius": 15,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
     },
     "use_action": {
       "type": "explosion",
@@ -1352,7 +1361,7 @@
       "explosion": {
         "damage": 200,
         "radius": 15,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -1365,8 +1374,8 @@
     "description": "A pear-shaped chunk of rocket candy obtained by heating saltpeter with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen - if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
     "weight": "250 g",
     "volume": "250 ml",
-    "price": 100,
-    "price_postapoc": 100,
+    "price": "1 USD",
+    "price_postapoc": "1 USD",
     "to_hit": -2,
     "bashing": 1,
     "material": [ "steel", "plastic" ],
@@ -1380,7 +1389,7 @@
       "menu_text": "Light candy",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "tool_rocket_candy_act",
@@ -1390,8 +1399,8 @@
     "description": "This is a chunk of rocket candy that has been lit on fire and burns with a loud hiss, spewing forth large amounts of smoke.",
     "weight": "250 g",
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -2,
     "bashing": 1,
     "material": [ "steel", "plastic" ],

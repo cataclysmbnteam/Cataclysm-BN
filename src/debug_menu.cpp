@@ -52,7 +52,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_location.h"
 #include "json.h"
 #include "json_export.h"
 #include "language.h"
@@ -129,6 +128,8 @@ enum debug_menu_index {
     DEBUG_SPAWN_NPC,
     DEBUG_SPAWN_MON,
     DEBUG_GAME_STATE,
+    DEBUG_REPRODUCE_AREA,
+    DEBUG_ERASE_ITEMS_AREA,
     DEBUG_KILL_AREA,
     DEBUG_KILL_NPCS,
     DEBUG_MUTATE,
@@ -172,6 +173,7 @@ enum debug_menu_index {
     DEBUG_SAVE_SCREENSHOT,
     DEBUG_BUG_REPORT,
     DEBUG_GAME_REPORT,
+    DEBUG_JOIN_DISCORD,
     DEBUG_DISPLAY_SCENTS_LOCAL,
     DEBUG_DISPLAY_SCENTS_TYPE_LOCAL,
     DEBUG_DISPLAY_TEMP,
@@ -210,6 +212,7 @@ static int info_uilist( bool display_all_entries = true )
         { uilist_entry( DEBUG_SAVE_SCREENSHOT, true, 'H', _( "Take screenshot" ) ) },
         { uilist_entry( DEBUG_BUG_REPORT, true, 'U', _( "Submit a bug report on github" ) ) },
         { uilist_entry( DEBUG_GAME_REPORT, true, 'r', _( "Generate game report" ) ) },
+        { uilist_entry( DEBUG_JOIN_DISCORD, true, 'J', _( "Join the Discord" ) ) },
     };
 
     if( display_all_entries ) {
@@ -296,6 +299,8 @@ static int map_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_REVEAL_MAP, true, 'r', _( "Reveal map" ) ) },
+        { uilist_entry( DEBUG_REPRODUCE_AREA, true, 'R', _( "Reproduce in Area" ) ) },
+        { uilist_entry( DEBUG_ERASE_ITEMS_AREA, true, 'e', _( "Erase items in Area" ) ) },
         { uilist_entry( DEBUG_KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
         { uilist_entry( DEBUG_KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
         { uilist_entry( DEBUG_MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
@@ -339,7 +344,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
         menu.insert( menu.begin() + 1, debug_menu.begin(), debug_menu.end() );
 
         if( cata::has_lua() ) {
-            menu.push_back( uilist_entry( 7, true, 'l', _( "Lua console" ) ) );
+            menu.emplace_back( 7, true, 'l', _( "Lua console" ) );
         }
     }
 
@@ -521,37 +526,37 @@ void character_edit_menu( Character &c )
     std::string nmenu_label;
     if( np != nullptr ) {
         std::stringstream data;
-        data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
+        data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << '\n';
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
              ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
              ( np->get_faction() ? np->get_faction()->currency->nname( 1 ) : _( "no currency" ) )
              << "; " <<
-             "api: " << np->get_faction_ver() << std::endl;
+             "api: " << np->get_faction_ver() << '\n';
         if( np->has_destination() ) {
             data << string_format(
                      _( "Destination: %s %s" ), np->goal.to_string(),
-                     overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
+                     overmap_buffer.ter( np->goal )->get_name() ) << '\n';
         } else {
-            data << _( "No destination." ) << std::endl;
+            data << _( "No destination." ) << '\n';
         }
         data << string_format( _( "Trust: %d" ), np->op_of_u.trust ) << " "
              << string_format( _( "Fear: %d" ), np->op_of_u.fear ) << " "
              << string_format( _( "Value: %d" ), np->op_of_u.value ) << " "
              << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << " "
-             << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << std::endl;
+             << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << '\n';
 
         data << string_format( _( "Aggression: %d" ),
                                static_cast<int>( np->personality.aggression ) ) << " "
              << string_format( _( "Bravery: %d" ), static_cast<int>( np->personality.bravery ) ) << " "
              << string_format( _( "Collector: %d" ), static_cast<int>( np->personality.collector ) ) << " "
-             << string_format( _( "Altruism: %d" ), static_cast<int>( np->personality.altruism ) ) << std::endl;
+             << string_format( _( "Altruism: %d" ), static_cast<int>( np->personality.altruism ) ) << '\n';
 
-        data << _( "Needs:" ) << std::endl;
+        data << _( "Needs:" ) << '\n';
         for( const auto &need : np->needs ) {
-            data << need << std::endl;
+            data << need << '\n';
         }
-        data << string_format( _( "Total morale: %d" ), np->get_morale_level() ) << std::endl;
+        data << string_format( _( "Total morale: %d" ), np->get_morale_level() ) << '\n';
 
         nmenu_label = data.str();
     } else {
@@ -560,7 +565,7 @@ void character_edit_menu( Character &c )
 
     enum edit_character {
         pick, desc, skills, stats, items, delete_items, item_worn,
-        hp, stamina, morale, pain, needs, healthy, status, mission_add, mission_edit,
+        hp, stamina, morale, clear_morale, pain, needs, healthy, status, mission_add, mission_edit,
         tele, mutate, bionics, npc_class, attitude, opinion, effects,
         learn_ma, unlock_recipes, learn_spells, level_spells
     };
@@ -577,6 +582,7 @@ void character_edit_menu( Character &c )
             uilist_entry( edit_character::hp, true, 'h',  _( "Set [h]it points" ) ),
             uilist_entry( edit_character::stamina, true, 'S',  _( "Set [S]tamina" ) ),
             uilist_entry( edit_character::morale, true, 'o',  _( "Set m[o]rale" ) ),
+            uilist_entry( edit_character::clear_morale, true, 'O',  _( "Clear all m[O]rale effects" ) ),
             uilist_entry( edit_character::pain, true, 'P',  _( "Cause [P]ain" ) ),
             uilist_entry( edit_character::healthy, true, 'a',  _( "Set he[a]lth" ) ),
             uilist_entry( edit_character::needs, true, 'n',  _( "Set [n]eeds" ) ),
@@ -658,23 +664,23 @@ void character_edit_menu( Character &c )
                 break;
             }
             for( auto &it : p.worn ) {
-                it.on_takeoff( p );
+                it->on_takeoff( p );
             }
             p.worn.clear();
-            p.inv.clear();
-            p.set_primary_weapon( item() );
+            p.inv_clear();
+            p.remove_primary_weapon( );
             break;
         case edit_character::item_worn: {
-            item_location loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
+            item *loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
             if( !loc ) {
                 break;
             }
             item &to_wear = *loc;
             if( to_wear.is_armor() ) {
+                p.worn.push_back( to_wear.detach() );
                 p.on_item_wear( to_wear );
-                p.worn.push_back( to_wear );
             } else if( !to_wear.is_null() ) {
-                p.set_primary_weapon( to_wear );
+                p.set_primary_weapon( to_wear.detach() );
             }
         }
         break;
@@ -767,6 +773,9 @@ void character_edit_menu( Character &c )
             }
         }
         break;
+        case edit_character::clear_morale:
+            p.clear_morale();
+            break;
         case edit_character::opinion: {
             if( np == nullptr ) {
                 // HACK: For some reason, tidy is not satisfied with simple assert(np)
@@ -1382,6 +1391,33 @@ void benchmark( const int max_difference, bench_kind kind )
              difference / 1000.0, 1000.0 * draw_counter / static_cast<double>( difference ) );
 }
 
+// prompts player to select 2 points that will form a rectangular area
+static std::optional<tripoint_range<tripoint>> select_area()
+{
+    static_popup popup;
+    popup.on_top( true );
+    popup.message( "%s", _( "Select first point." ) );
+
+    tripoint initial_pos = g->u.pos();
+    const look_around_result first = g->look_around( false, initial_pos, initial_pos,
+                                     false, true, false, false, tripoint_zero, true );
+
+    if( !first.position ) {
+        return std::nullopt;
+    }
+
+    popup.message( "%s", _( "Select second point." ) );
+    const look_around_result second = g->look_around( false, initial_pos, *first.position,
+                                      true, true, false, false, tripoint_zero, true );
+
+    if( !second.position ) {
+        return std::nullopt;
+    }
+
+    return get_map().points_in_rectangle(
+               first.position.value(), second.position.value() );
+}
+
 void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
@@ -1440,8 +1476,10 @@ void debug()
         case DEBUG_GAME_STATE: {
             std::string mfus;
             std::vector<std::pair<m_flag, int>> sorted;
+            sorted.reserve( m_flag::MF_MAX );
             for( int f = 0; f < m_flag::MF_MAX; f++ ) {
-                sorted.push_back( {static_cast<m_flag>( f ), MonsterGenerator::generator().m_flag_usage_stats[f]} );
+                sorted.emplace_back( static_cast<m_flag>( f ),
+                                     MonsterGenerator::generator().m_flag_usage_stats[f] );
             }
             std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
                 return a.second != b.second ? a.second > b.second : a.first < b.first;
@@ -1483,30 +1521,47 @@ void debug()
             g->disp_NPCs();
             break;
         }
+        case DEBUG_REPRODUCE_AREA: {
+            const std::optional<tripoint_range<tripoint>> points_opt = select_area();
+            if( !points_opt.has_value() ) {
+                break;
+            }
+
+            const tripoint_range<tripoint> points = points_opt.value();
+            std::vector<Creature *> creatures = g->get_creatures_if(
+            [&points]( const Creature & critter ) -> bool {
+                return !critter.is_avatar() && critter.is_monster() && points.is_point_inside( critter.pos() );
+            } );
+
+            for( Creature *critter : creatures ) {
+                static_cast<monster *>( critter )->reproduce();
+            }
+        }
+        break;
+        case DEBUG_ERASE_ITEMS_AREA: {
+            const std::optional<tripoint_range<tripoint>> points_opt = select_area();
+            if( !points_opt.has_value() ) {
+                break;
+            }
+
+            const tripoint_range<tripoint> points = points_opt.value();
+
+            const int count = std::accumulate( points.begin(), points.end(), 0,
+            [&m]( int sum, const tripoint & p ) {
+                const int size = m.i_at( p ).size();
+                m.i_clear( p );
+                return sum + size;
+            } );
+            add_msg( m_good, string_format( _( "Erased %d items." ), count ) );
+        }
+        break;
         case DEBUG_KILL_AREA: {
-            static_popup popup;
-            popup.on_top( true );
-            popup.message( "%s", _( "Select first point." ) );
-
-            tripoint initial_pos = g->u.pos();
-            const look_around_result first = g->look_around( false, initial_pos, initial_pos,
-                                             false, true, false, false, tripoint_zero, true );
-
-            if( !first.position ) {
+            const std::optional<tripoint_range<tripoint>> points_opt = select_area();
+            if( !points_opt.has_value() ) {
                 break;
             }
 
-            popup.message( "%s", _( "Select second point." ) );
-            const look_around_result second = g->look_around( false, initial_pos, *first.position,
-                                              true, true, false, false, tripoint_zero, true );
-
-            if( !second.position ) {
-                break;
-            }
-
-            const tripoint_range<tripoint> points = get_map().points_in_rectangle(
-                    first.position.value(), second.position.value() );
-
+            const tripoint_range<tripoint> points = points_opt.value();
             std::vector<Creature *> creatures = g->get_creatures_if(
             [&points]( const Creature & critter ) -> bool {
                 return !critter.is_avatar() && points.is_point_inside( critter.pos() );
@@ -1589,7 +1644,7 @@ void debug()
             break;
 
         case DEBUG_SPAWN_CLAIRVOYANCE:
-            u.i_add( item( "architect_cube", calendar::turn ) );
+            u.i_add( item::spawn( "architect_cube", calendar::turn ) );
             break;
 
         case DEBUG_MAP_EDITOR:
@@ -1980,21 +2035,21 @@ void debug()
             int count = 0;
             for( const auto &elem : g->faction_manager_ptr->all() ) {
                 std::cout << std::to_string( count ) << " Faction_id key in factions map = " << elem.first.str() <<
-                          std::endl;
+                          '\n';
                 std::cout << std::to_string( count ) << " Faction name associated with this id is " <<
-                          elem.second.name << std::endl;
+                          elem.second.name << '\n';
                 std::cout << std::to_string( count ) << " the id of that faction object is " << elem.second.id.str()
-                          << std::endl;
+                          << '\n';
                 count++;
             }
-            std::cout << "Player faction is " << g->u.get_faction()->id.str() << std::endl;
+            std::cout << "Player faction is " << g->u.get_faction()->id.str() << '\n';
             break;
         }
         case DEBUG_PRINT_NPC_MAGIC: {
             for( npc &guy : g->all_npcs() ) {
                 const std::vector<spell_id> spells = guy.magic->spells();
                 if( spells.empty() ) {
-                    std::cout << guy.disp_name() << " does not know any spells." << std::endl;
+                    std::cout << guy.disp_name() << " does not know any spells." << '\n';
                     continue;
                 }
                 std::cout << guy.disp_name() << "knows : ";
@@ -2004,7 +2059,7 @@ void debug()
                     if( counter < static_cast<int>( spells.size() ) ) {
                         std::cout << "and ";
                     } else {
-                        std::cout << "." << std::endl;
+                        std::cout << "." << '\n';
                     }
                     counter++;
                 }
@@ -2064,6 +2119,12 @@ void debug()
         }
         break;
 
+        case DEBUG_JOIN_DISCORD: {
+            open_url( "https://discord.gg/XW7XhXuZ89" );
+            popup( _( "Opened a link to join Bright Nights Discord." ) );
+            break;
+        }
+
         case DEBUG_VEHICLE_BATTERY_CHARGE: {
             optional_vpart_position v_part_pos = g->m.veh_at( u.pos() );
             if( !v_part_pos ) {
@@ -2121,8 +2182,8 @@ void debug()
             break;
         case DEBUG_RELOAD_TILES:
             std::ostringstream ss;
-            g->reload_tileset( [&ss]( std::string str ) {
-                ss << str << std::endl;
+            g->reload_tileset( [&ss]( const std::string & str ) {
+                ss << str << '\n';
             } );
             add_msg( ss.str() );
             break;

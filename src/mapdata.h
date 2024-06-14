@@ -37,7 +37,8 @@ struct ranged_bash_info {
         numeric_interval<int> reduction; // Damage reduction when shot. Rolled like rng(min, max).
         // As above, but for lasers. If set, lasers won't destroy us.
         std::optional<numeric_interval<int>> reduction_laser;
-        int destroy_threshold = 0; // If reduced dmg is still above this value, destroy us.
+        int destroy_threshold =
+            0; // If dmg (times 0.9 to 1.1) before reduction is above this value, destroy us.
         bool flammable = false; // If true, getting hit with any heat damage creates a fire.
         units::probability block_unaimed_chance =
             100_pct; // Chance to intercept projectiles not aimed at this tile
@@ -158,12 +159,6 @@ struct plant_data {
         return std::tie( transform, base, growth_multiplier, harvest_multiplier )
                == std::tie( rhs.transform, rhs.base, rhs.growth_multiplier, rhs.harvest_multiplier );
     }
-};
-
-struct lockpicking_open_result {
-    ter_id new_ter_type;
-    furn_id new_furn_type;
-    std::string open_message;
 };
 
 struct pry_result {
@@ -300,6 +295,7 @@ enum ter_bitflags : int {
     TFLAG_UNSTABLE,
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
+    TFLAG_WATER_CUBE,
     TFLAG_CURRENT,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
@@ -342,6 +338,84 @@ enum ter_connects : int {
     TERCONN_WATER,
     TERCONN_PAVEMENT,
     TERCONN_RAIL,
+};
+
+struct activity_byproduct {
+    itype_id item;
+    int count      = 0;
+    int random_min = 0;
+    int random_max = 0;
+
+    int roll() const;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+};
+
+class activity_data_common
+{
+    public:
+        activity_data_common() = default;
+
+        bool valid() const {
+            return valid_;
+        }
+
+        const time_duration &duration() const {
+            return duration_;
+        }
+
+        const translation &message() const {
+            return message_;
+        }
+
+        const translation &sound() const {
+            return sound_;
+        }
+
+        const std::vector<activity_byproduct> &byproducts() const {
+            return byproducts_;
+        }
+
+        bool was_loaded = false;
+        void load( const JsonObject &jo );
+
+    protected:
+        bool valid_ = false;
+        time_duration duration_;
+        translation message_;
+        translation sound_;
+        std::vector<activity_byproduct> byproducts_;
+};
+
+class activity_data_ter : public activity_data_common
+{
+    public:
+        activity_data_ter() = default;
+
+        const ter_str_id &result() const {
+            return result_;
+        }
+
+        void load( const JsonObject &jo );
+
+    private:
+        ter_str_id result_;
+};
+
+class activity_data_furn : public activity_data_common
+{
+    public:
+        activity_data_furn() = default;
+
+        const furn_str_id &result() const {
+            return result_;
+        }
+
+        void load( const JsonObject &jo );
+
+    private:
+        furn_str_id result_;
 };
 
 struct map_data_common_t {
@@ -467,6 +541,12 @@ struct ter_t : map_data_common_t {
     ter_str_id id;    // The terrain's ID. Must be set, must be unique.
     ter_str_id open;  // Open action: transform into terrain with matching id
     ter_str_id close; // Close action: transform into terrain with matching id
+    ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
+
+    cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
+    cata::value_ptr<activity_data_ter> hacksaw; // Hacksaw action data
+    cata::value_ptr<activity_data_ter> oxytorch; // Oxytorch action data
 
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
@@ -480,6 +560,8 @@ struct ter_t : map_data_common_t {
 
     static size_t count();
 
+    bool is_null() const;
+
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
     static const std::vector<ter_t> &get_all();
@@ -490,8 +572,6 @@ struct ter_t : map_data_common_t {
 void set_ter_ids();
 void finalize_furn();
 void reset_furn_ter();
-/** Gets lockpicked object and message */
-lockpicking_open_result get_lockpicking_open_result( ter_id ter_type, furn_id furn_type );
 
 /*
  * The terrain list contains the master list of  information and metadata for a given type of terrain.
@@ -505,6 +585,9 @@ struct furn_t : map_data_common_t {
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
     furn_str_id transforms_into; // Transform into what furniture?
+    furn_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
+    itype_id  provides_liquids; // The liquid that is given as liquid source
 
     std::set<itype_id> crafting_pseudo_items;
     units::volume keg_capacity = 0_ml;
@@ -517,6 +600,10 @@ struct furn_t : map_data_common_t {
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req = 0; //The amount of strength required to move through this furniture easily.
+
+    cata::value_ptr<activity_data_furn> boltcut; // Bolt cutting action data
+    cata::value_ptr<activity_data_furn> hacksaw; // Hacksaw action data
+    cata::value_ptr<activity_data_furn> oxytorch; // Oxytorch action data
 
     cata::value_ptr<furn_workbench_info> workbench;
 
@@ -625,7 +712,7 @@ extern ter_id t_null,
        t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
        // Water, lava, etc.
        t_water_moving_dp, t_water_moving_sh, t_water_sh, t_swater_sh, t_water_dp, t_swater_dp,
-       t_water_pool, t_sewage,
+       t_water_cube, t_lake_bed, t_water_pool, t_sewage,
        t_lava,
        // More embellishments than you can shake a stick at.
        t_sandbox, t_slide, t_monkey_bars, t_backboard,

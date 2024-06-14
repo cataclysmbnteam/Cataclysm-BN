@@ -1516,6 +1516,14 @@
     "entries": [ { "item": "m60", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_308" } ]
   },
   {
+    "id": "nested_m2browning",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "m2browning", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_50" } ]
+  },
+  {
     "id": "nested_rm11b_sniper_rifle",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1702,6 +1710,14 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "rifle_flintlock" }, { "group": "on_hand_flintlock" } ]
+  },
+  {
+    "id": "nested_longrifle_flintlock",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "longrifle_flintlock" }, { "group": "on_hand_flintlock" } ]
   },
   {
     "id": "nested_oa93",

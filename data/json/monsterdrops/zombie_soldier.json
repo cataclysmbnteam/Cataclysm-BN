@@ -13,9 +13,9 @@
         ]
       },
       { "group": "infantry_common_gear" },
-      { "group": "military_standard_guns", "prob": 10, "damage": [ 0, 2 ], "dirt": [ 1500, 7050 ] },
+      { "group": "military_standard_guns", "prob": 10, "damage": [ 0, 3 ], "dirt": [ 1500, 7050 ] },
       { "item": "holster" },
-      { "group": "military_standard_pistols", "prob": 30 },
+      { "group": "military_standard_pistols", "prob": 30, "damage": [ 0, 2 ], "dirt": [ 0, 1500 ] },
       { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },
       { "group": "military_patrol_food" },
       { "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ], "prob": 25 },
@@ -43,9 +43,9 @@
         ]
       },
       { "group": "infantry_common_gear" },
-      { "group": "military_standard_guns", "prob": 10, "damage": [ 0, 2 ], "dirt": [ 1500, 7050 ] },
+      { "group": "military_specops_guns", "prob": 10, "damage": [ 0, 3 ], "dirt": [ 1500, 7050 ] },
       { "item": "holster" },
-      { "group": "military_standard_pistols", "prob": 30 },
+      { "group": "carried_guns_pistol_milspec", "prob": 30, "damage": [ 0, 2 ], "dirt": [ 0, 1500 ] },
       { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },
       { "group": "military_patrol_food" },
       {
@@ -60,11 +60,27 @@
     "id": "military_standard_guns",
     "type": "item_group",
     "subtype": "distribution",
+    "//": "80% of spawns represent the typical roles of a fireteam in rough proportion, while the remaining 20% has more specialist stuff",
     "entries": [
-      { "group": "military_standard_assault_rifles", "prob": 70 },
-      { "group": "military_standard_lmgs", "prob": 10 },
+      { "group": "military_standard_assault_rifles", "prob": 40 },
+      { "group": "military_standard_grenadier", "prob": 20 },
+      { "group": "military_standard_lmgs", "prob": 20 },
       { "group": "military_standard_sniper_rifles", "prob": 10 },
-      { "group": "military_standard_shotguns", "prob": 5 }
+      { "group": "military_standard_shotguns", "prob": 5 },
+      { "group": "military_standard_antitank", "prob": 5 }
+    ]
+  },
+  {
+    "id": "military_specops_guns",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Pick something normal half the time, otherwise explore the full breadth of relevant guns_milspec itemgroups",
+    "entries": [
+      { "group": "military_standard_guns", "prob": 50 },
+      { "group": "carried_guns_rifle_milspec", "prob": 25 },
+      { "group": "carried_guns_smg_milspec", "prob": 15 },
+      { "group": "carried_guns_shotgun_milspec", "prob": 5 },
+      { "group": "guns_launcher_milspec", "prob": 5 }
     ]
   }
 ]

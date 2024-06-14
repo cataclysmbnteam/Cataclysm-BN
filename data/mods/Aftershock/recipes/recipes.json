@@ -103,27 +103,6 @@
   },
   {
     "type": "recipe",
-    "result": "afs_survivor_belt",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_OTHER",
-    "skill_used": "fabrication",
-    "time": 1000,
-    "autolearn": true,
-    "components": [ [ [ "survivor_belt", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "survivor_belt",
-    "id_suffix": "form_afs",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_OTHER",
-    "skill_used": "fabrication",
-    "time": 1000,
-    "autolearn": true,
-    "components": [ [ [ "afs_survivor_belt", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "afs_basin",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -290,28 +269,6 @@
     "components": [ [ [ "iv_purifier", 3 ] ], [ [ "royal_jelly", 1 ] ], [ [ "slime_scrap", 1 ] ], [ [ "syringe", 1 ] ] ]
   },
   {
-    "result": "laser_rifle_cheap",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "electronics",
-    "difficulty": 5,
-    "time": 300000,
-    "reversible": true,
-    "autolearn": [ [ "electronics", 4 ] ],
-    "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 200 ], [ "toolset", 200 ] ] ],
-    "components": [
-      [ [ "amplifier", 2 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "cable", 100 ] ],
-      [ [ "e_scrap", 10 ] ],
-      [ [ "lens", 2 ] ],
-      [ [ "plastic_chunk", 6 ] ]
-    ]
-  },
-  {
     "result": "plut_cell",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
@@ -388,6 +345,7 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
@@ -426,6 +384,7 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
@@ -460,6 +419,7 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],

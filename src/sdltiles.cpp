@@ -33,7 +33,6 @@
 #endif
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "cata_tiles.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -51,6 +50,7 @@
 #include "input.h"
 #include "runtime_handlers.h"
 #include "json.h"
+#include "make_static.h"
 #include "mapbuffer.h"
 #include "mission.h"
 #include "npc.h"
@@ -350,8 +350,12 @@ static void WinCreate()
     if( !software_renderer ) {
         dbg( DL::Info ) << "Attempting to initialize accelerated SDL renderer.";
 
-        renderer.reset( SDL_CreateRenderer( ::window.get(), renderer_id, SDL_RENDERER_ACCELERATED |
-                                            SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE ) );
+        int init_flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE;
+        if( get_option<bool>( "VSYNC" ) ) {
+            init_flags |= SDL_RENDERER_PRESENTVSYNC;
+        }
+
+        renderer.reset( SDL_CreateRenderer( ::window.get(), renderer_id, init_flags ) );
         if( printErrorIf( !renderer,
                           "Failed to initialize accelerated renderer, falling back to software rendering" ) ) {
             software_renderer = true;
@@ -496,12 +500,12 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
     // draw it at the top of the screen so it doesn't get covered up
     // by the virtual keyboard. Otherwise just center it.
     SDL_Rect dstrect;
-    float DisplayBufferAspect = DisplayBufferWidth / ( float )DisplayBufferHeight;
-    float WindowHeightLessShortcuts = ( float )WindowHeight;
+    float DisplayBufferAspect = DisplayBufferWidth / static_cast<float>( DisplayBufferHeight );
+    float WindowHeightLessShortcuts = static_cast<float>( WindowHeight );
     if( !get_option<bool>( "ANDROID_SHORTCUT_OVERLAP" ) && quick_shortcuts_enabled ) {
         WindowHeightLessShortcuts -= get_option<int>( "ANDROID_SHORTCUT_HEIGHT" );
     }
-    float WindowAspect = WindowWidth / ( float )WindowHeightLessShortcuts;
+    float WindowAspect = WindowWidth / static_cast<float>( WindowHeightLessShortcuts );
     if( WindowAspect < DisplayBufferAspect ) {
         dstrect.x = 0;
         dstrect.y = 0;
@@ -546,7 +550,7 @@ void refresh_display()
 #if defined(__ANDROID__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
-    RenderCopy( renderer, display_buffer, NULL, &dstrect );
+    RenderCopy( renderer, display_buffer, nullptr, &dstrect );
 #else
     RenderCopy( renderer, display_buffer, nullptr, nullptr );
 #endif
@@ -778,7 +782,7 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
     oter_id ot_id = oter_at( omp );
     const oter_t &ot = *ot_id;
     oter_type_id ot_type_id = ot.get_type_id();
-    oter_type_t ot_type = *ot_type_id;
+    const oter_type_t &ot_type = *ot_type_id;
 
     if( ot_type.has_connections() ) {
         // This would be for connected terrain
@@ -1011,7 +1015,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                              lit_level::LOW, true, 0 );
     }
     if( uistate.place_special ) {
-        for( const overmap_special_terrain &s_ter : uistate.place_special->terrains ) {
+        for( const overmap_special_terrain &s_ter : uistate.place_special->preview_terrains() ) {
             if( s_ter.p.z == 0 ) {
                 // TODO: fix point types
                 const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
@@ -1105,14 +1109,6 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
             const tripoint_abs_omt city_center = coords::project_to<coords::omt>( city.abs_sm_pos );
             if( overmap_buffer.seen( city_center ) && overmap_area.contains( city_center.raw() ) ) {
                 label_bg( city.abs_sm_pos, city.city->name );
-            }
-        }
-
-        for( const camp_reference &camp : overmap_buffer.get_camps_near(
-                 coords::project_to<coords::sm>( center_abs_omt ), radius ) ) {
-            const tripoint_abs_omt camp_center = coords::project_to<coords::omt>( camp.abs_sm_pos );
-            if( overmap_buffer.seen( camp_center ) && overmap_area.contains( camp_center.raw() ) ) {
-                label_bg( camp.abs_sm_pos, camp.camp->name );
             }
         }
     }
@@ -1637,7 +1633,7 @@ static int HandleDPad()
                     return 0;
                 }
 
-                last_input = input_event( lc, CATA_INPUT_GAMEPAD );
+                last_input = input_event( lc, input_event_t::gamepad );
                 lastdpad = lc;
                 queued_dpad = ERR;
 
@@ -1657,7 +1653,7 @@ static int HandleDPad()
         // If we didn't hold it down for a while, just
         // fire the last registered press.
         if( queued_dpad != ERR ) {
-            last_input = input_event( queued_dpad, CATA_INPUT_GAMEPAD );
+            last_input = input_event( queued_dpad, input_event_t::gamepad );
             queued_dpad = ERR;
             return 1;
         }
@@ -1990,8 +1986,8 @@ std::string get_quick_shortcut_name( const std::string &category )
 
 float android_get_display_density()
 {
-    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    JNIEnv *env = static_cast< JNIEnv *>( SDL_AndroidGetJNIEnv() );
+    jobject activity = static_cast<jobject>( SDL_AndroidGetActivity() );
     jclass clazz( env->GetObjectClass( activity ) );
     jmethodID method_id = env->GetMethodID( clazz, "getDisplayDensity", "()F" );
     jfloat ans = env->CallFloatMethod( activity, method_id );
@@ -2028,7 +2024,7 @@ input_event *get_quick_shortcut_under_finger( bool down = false )
 {
 
     if( !quick_shortcuts_enabled ) {
-        return NULL;
+        return nullptr;
     }
 
     quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name(
@@ -2039,7 +2035,7 @@ input_event *get_quick_shortcut_under_finger( bool down = false )
 
     float finger_y = down ? finger_down_y : finger_curr_y;
     if( finger_y < WindowHeight - height ) {
-        return NULL;
+        return nullptr;
     }
 
     int i = 0;
@@ -2062,7 +2058,7 @@ input_event *get_quick_shortcut_under_finger( bool down = false )
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 // when pre-populating a quick shortcut list with defaults, ignore these actions (since they're all handleable by native touch operations)
@@ -2143,7 +2139,7 @@ int choose_best_key_for_action( const std::string &action, const std::string &ca
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action, category );
     int best_key = -1;
     for( const auto &events_event : events ) {
-        if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 ) {
+        if( events_event.type == input_event_t::keyboard && events_event.sequence.size() == 1 ) {
             bool is_ascii_char = isprint( events_event.sequence.front() ) &&
                                  events_event.sequence.front() < 0xFF;
             bool is_best_ascii_char = best_key >= 0 && isprint( best_key ) && best_key < 0xFF;
@@ -2159,7 +2155,7 @@ bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back
 {
     if( key > 0 ) {
         quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name( category )];
-        input_event event = input_event( key, CATA_INPUT_KEYBOARD );
+        input_event event = input_event( key, input_event_t::keyboard );
         quick_shortcuts_t::iterator it = std::find( qsl.begin(), qsl.end(), event );
         if( it != qsl.end() ) { // already exists
             ( *it ).shortcut_last_used_action_counter =
@@ -2239,11 +2235,11 @@ void remove_stale_inventory_quick_shortcuts()
             valid = inv_chars.valid( key );
             in_inventory = false;
             if( valid ) {
-                in_inventory = g->u.inv.invlet_to_position( key ) != INT_MIN;
+                in_inventory = g->u.inv_invlet_to_position( key ) != INT_MIN;
                 if( !in_inventory ) {
                     // We couldn't find this item in the inventory, let's check worn items
                     for( const auto &item : g->u.worn ) {
-                        if( item.invlet == key ) {
+                        if( item->invlet == key ) {
                             in_inventory = true;
                             break;
                         }
@@ -2332,7 +2328,7 @@ void draw_quick_shortcuts()
             std::vector<input_context::manual_key> &registered_manual_keys =
                 touch_input_context.get_registered_manual_keys();
             for( const auto &manual_key : registered_manual_keys ) {
-                input_event event( manual_key.key, CATA_INPUT_KEYBOARD );
+                input_event event( manual_key.key, input_event_t::keyboard );
                 add_quick_shortcut( qsl, event, !shortcut_right, true );
             }
         }
@@ -2372,12 +2368,12 @@ void draw_quick_shortcuts()
         if( show_hint ) {
             if( touch_input_context.get_category() == "INVENTORY" && inv_chars.valid( key ) ) {
                 // Special case for inventory items - show the inventory item name as help text
-                hint_text = g->u.inv.find_item( g->u.inv.invlet_to_position( key ) ).display_name();
+                hint_text = g->u.inv_find_item( g->u.inv_invlet_to_position( key ) ).display_name();
                 if( hint_text == "none" ) {
                     // We couldn't find this item in the inventory, let's check worn items
                     for( const auto &item : g->u.worn ) {
-                        if( item.invlet == key ) {
-                            hint_text = item.display_name();
+                        if( item->invlet == key ) {
+                            hint_text = item->display_name();
                             break;
                         }
                     }
@@ -2400,9 +2396,9 @@ void draw_quick_shortcuts()
             }
         }
         if( shortcut_right )
-            rect = { WindowWidth - ( int )( ( i + 1 ) * width + border ), ( int )( WindowHeight - height ), ( int )( width - border * 2 ), ( int )( height ) };
+            rect = { WindowWidth - static_cast<int>( ( i + 1 ) * width + border ), static_cast<int>( WindowHeight - height ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
         else
-            rect = { ( int )( i * width + border ), ( int )( WindowHeight - height ), ( int )( width - border * 2 ), ( int )( height ) };
+            rect = { static_cast<int>( i * width + border ), static_cast<int>( WindowHeight - height ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
         if( hovered ) {
             SetRenderDrawColor( renderer, 0, 0, 0, 255 );
         } else {
@@ -2414,15 +2410,15 @@ void draw_quick_shortcuts()
         if( hovered ) {
             // draw a second button hovering above the first one
             if( shortcut_right )
-                rect = { WindowWidth - ( int )( ( i + 1 ) * width + border ), ( int )( WindowHeight - height * 2.2f ), ( int )( width - border * 2 ), ( int )( height ) };
+                rect = { WindowWidth - static_cast<int>( ( i + 1 ) * width + border ), static_cast<int>( WindowHeight - height * 2.2f ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
             else
-                rect = { ( int )( i * width + border ), ( int )( WindowHeight - height * 2.2f ), ( int )( width - border * 2 ), ( int )( height ) };
+                rect = { static_cast<int>( i * width + border ), static_cast<int>( WindowHeight - height * 2.2f ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
             SetRenderDrawColor( renderer, 0, 0, 196, 255 );
             RenderFillRect( renderer, &rect );
 
             if( show_hint ) {
                 // draw a backdrop for the hint text
-                rect = { 0, ( int )( ( WindowHeight - height ) * 0.5f ), ( int )WindowWidth, ( int )height };
+                rect = { 0, static_cast<int>( ( WindowHeight - height ) * 0.5f ), static_cast<int>( WindowWidth ), static_cast<int>( height ) };
                 SetRenderDrawColor( renderer, 0, 0, 0,
                                     get_option<int>( "ANDROID_SHORTCUT_OPACITY_BG" ) * 0.01f * 255.0f );
                 RenderFillRect( renderer, &rect );
@@ -2503,20 +2499,20 @@ void draw_virtual_joystick()
     dstrect.w = dstrect.h = ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) ) * longest_window_edge * 2;
     dstrect.x = finger_down_x - dstrect.w / 2;
     dstrect.y = finger_down_y - dstrect.h / 2;
-    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
+    RenderCopy( renderer, touch_joystick, nullptr, &dstrect );
 
     // Draw repeat delay range
     dstrect.w = dstrect.h = ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) +
                               get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge * 2;
     dstrect.x = finger_down_x - dstrect.w / 2;
     dstrect.y = finger_down_y - dstrect.h / 2;
-    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
+    RenderCopy( renderer, touch_joystick, nullptr, &dstrect );
 
     // Draw current touch position (50% size of repeat delay range)
     dstrect.w = dstrect.h = dstrect.w / 2;
     dstrect.x = finger_down_x + ( finger_curr_x - finger_down_x ) / 2 - dstrect.w / 2;
     dstrect.y = finger_down_y + ( finger_curr_y - finger_down_y ) / 2 - dstrect.h / 2;
-    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
+    RenderCopy( renderer, touch_joystick, nullptr, &dstrect );
 
 }
 
@@ -2577,56 +2573,56 @@ void handle_finger_input( uint32_t ticks )
                  WindowHeight ) ) ) {
         if( !handle_diagonals ) {
             if( delta_x >= 0 && delta_y >= 0 ) {
-                last_input = input_event( delta_x > delta_y ? KEY_RIGHT : KEY_DOWN, CATA_INPUT_KEYBOARD );
+                last_input = input_event( delta_x > delta_y ? KEY_RIGHT : KEY_DOWN, input_event_t::keyboard );
             } else if( delta_x < 0 && delta_y >= 0 ) {
-                last_input = input_event( -delta_x > delta_y ? KEY_LEFT : KEY_DOWN, CATA_INPUT_KEYBOARD );
+                last_input = input_event( -delta_x > delta_y ? KEY_LEFT : KEY_DOWN, input_event_t::keyboard );
             } else if( delta_x >= 0 && delta_y < 0 ) {
-                last_input = input_event( delta_x > -delta_y ? KEY_RIGHT : KEY_UP, CATA_INPUT_KEYBOARD );
+                last_input = input_event( delta_x > -delta_y ? KEY_RIGHT : KEY_UP, input_event_t::keyboard );
             } else if( delta_x < 0 && delta_y < 0 ) {
-                last_input = input_event( -delta_x > -delta_y ? KEY_LEFT : KEY_UP, CATA_INPUT_KEYBOARD );
+                last_input = input_event( -delta_x > -delta_y ? KEY_LEFT : KEY_UP, input_event_t::keyboard );
             }
         } else {
             if( delta_x > 0 ) {
                 if( std::abs( delta_y ) < delta_x * 0.5f ) {
                     // swipe right
-                    last_input = input_event( KEY_RIGHT, CATA_INPUT_KEYBOARD );
+                    last_input = input_event( KEY_RIGHT, input_event_t::keyboard );
                 } else if( std::abs( delta_y ) < delta_x * 2.0f ) {
                     if( delta_y < 0 ) {
                         // swipe up-right
-                        last_input = input_event( JOY_RIGHTUP, CATA_INPUT_GAMEPAD );
+                        last_input = input_event( JOY_RIGHTUP, input_event_t::gamepad );
                     } else {
                         // swipe down-right
-                        last_input = input_event( JOY_RIGHTDOWN, CATA_INPUT_GAMEPAD );
+                        last_input = input_event( JOY_RIGHTDOWN, input_event_t::gamepad );
                     }
                 } else {
                     if( delta_y < 0 ) {
                         // swipe up
-                        last_input = input_event( KEY_UP, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( KEY_UP, input_event_t::keyboard );
                     } else {
                         // swipe down
-                        last_input = input_event( KEY_DOWN, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( KEY_DOWN, input_event_t::keyboard );
                     }
                 }
             } else {
                 if( std::abs( delta_y ) < -delta_x * 0.5f ) {
                     // swipe left
-                    last_input = input_event( KEY_LEFT, CATA_INPUT_KEYBOARD );
+                    last_input = input_event( KEY_LEFT, input_event_t::keyboard );
                 } else if( std::abs( delta_y ) < -delta_x * 2.0f ) {
                     if( delta_y < 0 ) {
                         // swipe up-left
-                        last_input = input_event( JOY_LEFTUP, CATA_INPUT_GAMEPAD );
+                        last_input = input_event( JOY_LEFTUP, input_event_t::gamepad );
 
                     } else {
                         // swipe down-left
-                        last_input = input_event( JOY_LEFTDOWN, CATA_INPUT_GAMEPAD );
+                        last_input = input_event( JOY_LEFTDOWN, input_event_t::gamepad );
                     }
                 } else {
                     if( delta_y < 0 ) {
                         // swipe up
-                        last_input = input_event( KEY_UP, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( KEY_UP, input_event_t::keyboard );
                     } else {
                         // swipe down
-                        last_input = input_event( KEY_DOWN, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( KEY_DOWN, input_event_t::keyboard );
                     }
                 }
             }
@@ -2638,13 +2634,13 @@ void handle_finger_input( uint32_t ticks )
             // We only allow repeats for waiting, not confirming in menus as that's a bit silly
             if( is_default_mode ) {
                 last_input = input_event( get_key_event_from_string( get_option<std::string>( "ANDROID_TAP_KEY" ) ),
-                                          CATA_INPUT_KEYBOARD );
+                                          input_event_t::keyboard );
             }
         } else {
             if( last_tap_time > 0 &&
                 ticks - last_tap_time < static_cast<uint32_t>( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
                 // Double tap
-                last_input = input_event( is_default_mode ? KEY_ESCAPE : KEY_ESCAPE, CATA_INPUT_KEYBOARD );
+                last_input = input_event( is_default_mode ? KEY_ESCAPE : KEY_ESCAPE, input_event_t::keyboard );
                 last_tap_time = 0;
             } else {
                 // First tap detected, waiting to decide whether it's a single or a double tap input
@@ -2656,8 +2652,8 @@ void handle_finger_input( uint32_t ticks )
 
 bool android_is_hardware_keyboard_available()
 {
-    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    JNIEnv *env = static_cast<JNIEnv *>( SDL_AndroidGetJNIEnv() );
+    jobject activity = static_cast<jobject>( SDL_AndroidGetActivity() );
     jclass clazz( env->GetObjectClass( activity ) );
     jmethodID method_id = env->GetMethodID( clazz, "isHardwareKeyboardAvailable", "()Z" );
     jboolean ans = env->CallBooleanMethod( activity, method_id );
@@ -2670,8 +2666,8 @@ void android_vibrate()
 {
     int vibration_ms = get_option<int>( "ANDROID_VIBRATION" );
     if( vibration_ms > 0 && !android_is_hardware_keyboard_available() ) {
-        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        JNIEnv *env = static_cast<JNIEnv *>( SDL_AndroidGetJNIEnv() );
+        jobject activity = static_cast<jobject>( SDL_AndroidGetActivity() );
         jclass clazz( env->GetObjectClass( activity ) );
         jmethodID method_id = env->GetMethodID( clazz, "vibrate", "(I)V" );
         env->CallVoidMethod( activity, method_id, vibration_ms );
@@ -2710,8 +2706,8 @@ static void CheckMessages()
         needs_sdl_surface_visibility_refresh = false;
 
         // Call Java show_sdl_surface()
-        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        JNIEnv *env = static_cast<JNIEnv *>( SDL_AndroidGetJNIEnv() );
+        jobject activity = static_cast<jobject>( SDL_AndroidGetActivity() );
         jclass clazz( env->GetObjectClass( activity ) );
         jmethodID method_id = env->GetMethodID( clazz, "show_sdl_surface", "()V" );
         env->CallVoidMethod( activity, method_id );
@@ -2765,7 +2761,8 @@ static void CheckMessages()
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( g->u.primary_weapon().is_gun() || g->u.primary_weapon().has_flag( "REACH_ATTACK" ) ) {
+                    if( g->u.primary_weapon().is_gun() ||
+                        g->u.primary_weapon().has_flag( STATIC( flag_id( "REACH_ATTACK" ) ) ) ) {
                         actions.insert( ACTION_FIRE );
                     }
                 }
@@ -2930,8 +2927,8 @@ static void CheckMessages()
 
                 // Display an Android toast message
                 {
-                    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-                    jobject activity = ( jobject )SDL_AndroidGetActivity();
+                    JNIEnv *env = static_cast<JNIEnv *>( SDL_AndroidGetJNIEnv() );
+                    jobject activity = static_cast<jobject>( SDL_AndroidGetActivity() );
                     jclass clazz( env->GetObjectClass( activity ) );
                     jstring toast_message = env->NewStringUTF( quick_shortcuts_enabled ? "Shortcuts visible" :
                                             "Shortcuts hidden" );
@@ -2973,7 +2970,7 @@ static void CheckMessages()
             // Single tap
             last_tap_time = ticks;
             last_input = input_event( is_default_mode ? get_key_event_from_string(
-                                          get_option<std::string>( "ANDROID_TAP_KEY" ) ) : '\n', CATA_INPUT_KEYBOARD );
+                                          get_option<std::string>( "ANDROID_TAP_KEY" ) ) : '\n', input_event_t::keyboard );
             last_tap_time = 0;
             return;
         }
@@ -3067,7 +3064,7 @@ static void CheckMessages()
                 } else if( add_alt_code( lc ) ) {
                     // key was handled
                 } else {
-                    last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                    last_input = input_event( lc, input_event_t::keyboard );
 #if defined(__ANDROID__)
                     if( !android_is_hardware_keyboard_available() ) {
                         if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
@@ -3076,7 +3073,7 @@ static void CheckMessages()
                             }
 
                             // add a quick shortcut
-                            if( !last_input.text.empty() || !inp_mngr.get_keyname( lc, CATA_INPUT_KEYBOARD ).empty() ) {
+                            if( !last_input.text.empty() || !inp_mngr.get_keyname( lc, input_event_t::keyboard ).empty() ) {
                                 qsl.remove( last_input );
                                 add_quick_shortcut( qsl, last_input, false, true );
                                 refresh_display();
@@ -3110,7 +3107,7 @@ static void CheckMessages()
                 if( ev.key.keysym.sym == SDLK_LALT || ev.key.keysym.sym == SDLK_RALT ) {
                     int code = end_alt_code();
                     if( code ) {
-                        last_input = input_event( code, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( code, input_event_t::keyboard );
                         last_input.text = utf32_to_utf8( code );
                     }
                 }
@@ -3120,7 +3117,7 @@ static void CheckMessages()
                 if( !add_alt_code( *ev.text.text ) ) {
                     if( strlen( ev.text.text ) > 0 ) {
                         const unsigned lc = UTF8_getch( ev.text.text );
-                        last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( lc, input_event_t::keyboard );
 #if defined(__ANDROID__)
                         if( !android_is_hardware_keyboard_available() ) {
                             if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
@@ -3143,7 +3140,7 @@ static void CheckMessages()
                     } else {
                         // no key pressed in this event
                         last_input = input_event();
-                        last_input.type = CATA_INPUT_KEYBOARD;
+                        last_input.type = input_event_t::keyboard;
                     }
                     last_input.text = ev.text.text;
                     text_refresh = true;
@@ -3152,11 +3149,11 @@ static void CheckMessages()
             case SDL_TEXTEDITING: {
                 if( strlen( ev.edit.text ) > 0 ) {
                     const unsigned lc = UTF8_getch( ev.edit.text );
-                    last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                    last_input = input_event( lc, input_event_t::keyboard );
                 } else {
                     // no key pressed in this event
                     last_input = input_event();
-                    last_input.type = CATA_INPUT_KEYBOARD;
+                    last_input.type = input_event_t::keyboard;
                 }
                 last_input.edit = ev.edit.text;
                 last_input.edit_refresh = true;
@@ -3164,7 +3161,7 @@ static void CheckMessages()
             }
             break;
             case SDL_JOYBUTTONDOWN:
-                last_input = input_event( ev.jbutton.button, CATA_INPUT_KEYBOARD );
+                last_input = input_event( ev.jbutton.button, input_event_t::keyboard );
                 break;
             case SDL_JOYAXISMOTION:
                 // on gamepads, the axes are the analog sticks
@@ -3178,26 +3175,26 @@ static void CheckMessages()
                     }
 
                     // Only monitor motion when cursor is visible
-                    last_input = input_event( MOUSE_MOVE, CATA_INPUT_MOUSE );
+                    last_input = input_event( MOUSE_MOVE, input_event_t::mouse );
                 }
                 break;
 
             case SDL_MOUSEBUTTONUP:
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
-                        last_input = input_event( MOUSE_BUTTON_LEFT, CATA_INPUT_MOUSE );
+                        last_input = input_event( MOUSE_BUTTON_LEFT, input_event_t::mouse );
                         break;
                     case SDL_BUTTON_RIGHT:
-                        last_input = input_event( MOUSE_BUTTON_RIGHT, CATA_INPUT_MOUSE );
+                        last_input = input_event( MOUSE_BUTTON_RIGHT, input_event_t::mouse );
                         break;
                 }
                 break;
 
             case SDL_MOUSEWHEEL:
                 if( ev.wheel.y > 0 ) {
-                    last_input = input_event( SCROLLWHEEL_UP, CATA_INPUT_MOUSE );
+                    last_input = input_event( SCROLLWHEEL_UP, input_event_t::mouse );
                 } else if( ev.wheel.y < 0 ) {
-                    last_input = input_event( SCROLLWHEEL_DOWN, CATA_INPUT_MOUSE );
+                    last_input = input_event( SCROLLWHEEL_DOWN, input_event_t::mouse );
                 }
                 break;
 
@@ -3236,7 +3233,7 @@ static void CheckMessages()
                     finger_down_y = finger_curr_y = ev.tfinger.y * WindowHeight;
                     finger_down_time = ticks;
                     finger_repeat_time = 0;
-                    is_quick_shortcut_touch = get_quick_shortcut_under_finger() != NULL;
+                    is_quick_shortcut_touch = get_quick_shortcut_under_finger() != nullptr;
                     if( !is_quick_shortcut_touch ) {
                         update_finger_repeat_delay();
                     }
@@ -3293,7 +3290,7 @@ static void CheckMessages()
 
                                 if( std::max( d1, d2 ) < get_option<float>( "ANDROID_DEADZONE_RANGE" ) * longest_window_edge ) {
                                     last_input = input_event( get_key_event_from_string(
-                                                                  get_option<std::string>( "ANDROID_2_TAP_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                  get_option<std::string>( "ANDROID_2_TAP_KEY" ) ), input_event_t::keyboard );
                                 } else {
                                     float dot = ( x1 * x2 + y1 * y2 ) / ( d1 * d2 ); // dot product of two finger vectors, -1 to +1
                                     if( dot > 0.0f ) { // both fingers mostly heading in same direction, check for double-finger swipe gesture
@@ -3306,16 +3303,16 @@ static void CheckMessages()
                                             float yavg = 0.5f * ( y1 + y2 );
                                             if( xavg > 0 && xavg > std::abs( yavg ) ) {
                                                 last_input = input_event( get_key_event_from_string(
-                                                                              get_option<std::string>( "ANDROID_2_SWIPE_LEFT_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_LEFT_KEY" ) ), input_event_t::keyboard );
                                             } else if( xavg < 0 && -xavg > std::abs( yavg ) ) {
                                                 last_input = input_event( get_key_event_from_string(
-                                                                              get_option<std::string>( "ANDROID_2_SWIPE_RIGHT_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_RIGHT_KEY" ) ), input_event_t::keyboard );
                                             } else if( yavg > 0 && yavg > std::abs( xavg ) ) {
                                                 last_input = input_event( get_key_event_from_string(
-                                                                              get_option<std::string>( "ANDROID_2_SWIPE_DOWN_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_DOWN_KEY" ) ), input_event_t::keyboard );
                                             } else {
                                                 last_input = input_event( get_key_event_from_string(
-                                                                              get_option<std::string>( "ANDROID_2_SWIPE_UP_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_UP_KEY" ) ), input_event_t::keyboard );
                                             }
                                         }
                                     } else {
@@ -3331,10 +3328,10 @@ static void CheckMessages()
                                         const float zoom_ratio = 0.9f;
                                         if( curr_dist < down_dist * zoom_ratio ) {
                                             last_input = input_event( get_key_event_from_string(
-                                                                          get_option<std::string>( "ANDROID_PINCH_IN_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                          get_option<std::string>( "ANDROID_PINCH_IN_KEY" ) ), input_event_t::keyboard );
                                         } else if( curr_dist > down_dist / zoom_ratio ) {
                                             last_input = input_event( get_key_event_from_string(
-                                                                          get_option<std::string>( "ANDROID_PINCH_OUT_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                          get_option<std::string>( "ANDROID_PINCH_OUT_KEY" ) ), input_event_t::keyboard );
                                         }
                                     }
                                 }
@@ -3598,7 +3595,7 @@ void load_tileset()
         /*force=*/false,
         /*pump_events=*/true
     );
-    tilecontext->do_tile_loading_report( []( std::string str ) {
+    tilecontext->do_tile_loading_report( []( const std::string & str ) {
         DebugLog( DL::Info, DC::Main ) << str;
     } );
 }
@@ -3662,11 +3659,11 @@ input_event input_manager::get_input_event()
     if( inputdelay < 0 ) {
         do {
             CheckMessages();
-            if( last_input.type != CATA_INPUT_ERROR ) {
+            if( last_input.type != input_event_t::error ) {
                 break;
             }
             SDL_Delay( 1 );
-        } while( last_input.type == CATA_INPUT_ERROR );
+        } while( last_input.type == input_event_t::error );
     } else if( inputdelay > 0 ) {
         uint32_t starttime = SDL_GetTicks();
         uint32_t endtime = 0;
@@ -3674,29 +3671,29 @@ input_event input_manager::get_input_event()
         do {
             CheckMessages();
             endtime = SDL_GetTicks();
-            if( last_input.type != CATA_INPUT_ERROR ) {
+            if( last_input.type != input_event_t::error ) {
                 break;
             }
             SDL_Delay( 1 );
             timedout = endtime >= starttime + inputdelay;
             if( timedout ) {
-                last_input.type = CATA_INPUT_TIMEOUT;
+                last_input.type = input_event_t::timeout;
             }
         } while( !timedout );
     } else {
         CheckMessages();
     }
 
-    if( last_input.type == CATA_INPUT_MOUSE ) {
+    if( last_input.type == input_event_t::mouse ) {
         SDL_GetMouseState( &last_input.mouse_pos.x, &last_input.mouse_pos.y );
-    } else if( last_input.type == CATA_INPUT_KEYBOARD ) {
+    } else if( last_input.type == input_event_t::keyboard ) {
         previously_pressed_key = last_input.get_first_input();
 #if defined(__ANDROID__)
         android_vibrate();
 #endif
     }
 #if defined(__ANDROID__)
-    else if( last_input.type == CATA_INPUT_GAMEPAD ) {
+    else if( last_input.type == input_event_t::gamepad ) {
         android_vibrate();
     }
 #endif

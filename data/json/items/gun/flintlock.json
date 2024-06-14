@@ -3,17 +3,17 @@
     "id": "carbine_flintlock",
     "copy-from": "rifle_flintlock",
     "type": "GUN",
-    "price_postapoc": 2250,
+    "price_postapoc": "2250 cent",
     "name": { "str": "flintlock carbine" },
     "description": "This short rifle design once dominated the battlefields of ancient Europe, and may yet re-earn its feared status due to its ease of handling and ability to use easily-crafted ammunition.",
     "valid_mod_locations": [
       [ "accessories", 1 ],
       [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ],
     "volume": "2250 ml",
     "weight": "3600 g",
@@ -28,7 +28,7 @@
     "name": { "str": "handmade double-barrel flintlock" },
     "description": "This is a compact muzzle-loading rifle combining a pair of rudimentary flintlock actions and two barrels.  Whereas an antique multiple-barrel flintlock is an intricate work of gunsmithing, this weapon is simpler yet still serviceable.",
     "clip_size": 2,
-    "price_postapoc": 2750,
+    "price_postapoc": "2750 cent",
     "proportional": { "dispersion": 1.3, "weight": 1.25, "volume": 1.25 },
     "relative": { "weight": 400, "range": -1, "ranged_damage": { "damage_type": "bullet", "amount": -2 } },
     "barrel_length": "500 ml",
@@ -43,8 +43,8 @@
     "weight": "1 kg",
     "volume": "390 ml",
     "barrel_length": "50 ml",
-    "price": 35000,
-    "price_postapoc": 1750,
+    "price": "350 USD",
+    "price_postapoc": "1750 cent",
     "bashing": 5,
     "material": [ "iron", "wood" ],
     "color": "brown",
@@ -55,14 +55,7 @@
     "blackpowder_tolerance": 96,
     "clip_size": 1,
     "reload": 600,
-    "valid_mod_locations": [
-      [ "accessories", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "NEVER_JAMS" ]
   },
   {
@@ -74,8 +67,8 @@
     "weight": "4900 g",
     "volume": "2500 ml",
     "barrel_length": "500 ml",
-    "price": 41000,
-    "price_postapoc": 2250,
+    "price": "410 USD",
+    "price_postapoc": "2250 cent",
     "bashing": 15,
     "material": [ "iron", "wood" ],
     "color": "brown",
@@ -91,9 +84,9 @@
       [ "accessories", 1 ],
       [ "sling", 1 ],
       [ "underbarrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "stock", 1 ]
     ],
     "extend": { "flags": [ "DURABLE_MELEE" ] }
@@ -103,11 +96,11 @@
     "copy-from": "rifle_flintlock",
     "type": "GUN",
     "name": "flintlock rifle",
-    "description": "Also called a Pennsylvania rifle, this long barreled rifled flintlock gun has signficantly increased accuracy at the cost of taking even longer to reload.",
+    "description": "Also called a Pennsylvania rifle, this long barreled rifled flintlock gun has significantly increased accuracy at the cost of taking even longer to reload.",
     "weight": "3700 g",
     "volume": "1700 ml",
     "ammo": "flintlock",
     "relative": { "range": 14 },
-    "proportional": { "dispersion": 0.5, "reload": 2.0 }
+    "proportional": { "dispersion": 0.5, "reload": 2 }
   }
 ]

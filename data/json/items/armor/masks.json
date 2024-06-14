@@ -6,8 +6,8 @@
     "description": "A warm covering that protects the head and face from the cold.",
     "weight": "40 g",
     "volume": "250 ml",
-    "price": 3500,
-    "price_postapoc": 50,
+    "price": "35 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
@@ -17,7 +17,7 @@
     "encumbrance": 5,
     "warmth": 30,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bandana",
@@ -26,8 +26,8 @@
     "description": "A cotton bandana, worn over the mouth for warmth and minor protection from dust and other contaminants.",
     "weight": "42 g",
     "volume": "250 ml",
-    "price": 600,
-    "price_postapoc": 10,
+    "price": "6 USD",
+    "price_postapoc": "10 cent",
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -38,7 +38,8 @@
     "encumbrance": 1,
     "warmth": 5,
     "material_thickness": 1,
-    "environmental_protection": 1
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE" ]
   },
   {
     "id": "bondage_mask",
@@ -48,8 +49,8 @@
     "description": "A tight mask made of black leather.  The eyes and mouth can be closed using zippers.",
     "weight": "210 g",
     "volume": "1 L",
-    "price": 4000,
-    "price_postapoc": 50,
+    "price": "40 USD",
+    "price_postapoc": "50 cent",
     "to_hit": -3,
     "material": [ "leather" ],
     "symbol": "[",
@@ -92,8 +93,8 @@
     "description": "A tough hood made of steel mesh used by fencers.",
     "weight": "520 g",
     "volume": "1250 ml",
-    "price": 3500,
-    "price_postapoc": 250,
+    "price": "35 USD",
+    "price_postapoc": "250 cent",
     "material": [ "cotton", "steel" ],
     "symbol": "[",
     "looks_like": "balclava",
@@ -102,7 +103,8 @@
     "coverage": 90,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "valid_mods": [ "resized_large" ]
   },
   {
     "id": "mask_bal",
@@ -112,8 +114,8 @@
     "description": "A protective reinforced Kevlar mask that covers the face.  Provides excellent protection from ballistic threats.",
     "weight": "512 g",
     "volume": "750 ml",
-    "price": 20000,
-    "price_postapoc": 1250,
+    "price": "200 USD",
+    "price_postapoc": "1250 cent",
     "to_hit": -3,
     "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
@@ -168,8 +170,8 @@
     "description": "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from airborne illness and dust.",
     "weight": "168 g",
     "volume": "100 ml",
-    "price": 800,
-    "price_postapoc": 10,
+    "price": "8 USD",
+    "price_postapoc": "10 cent",
     "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -180,7 +182,8 @@
     "encumbrance": 8,
     "warmth": 5,
     "material_thickness": 1,
-    "environmental_protection": 2
+    "environmental_protection": 2,
+    "valid_mods": [ "resized_large" ]
   },
   {
     "id": "mask_guy_fawkes",
@@ -189,8 +192,8 @@
     "description": "Remember, remember, the fifth of November.",
     "weight": "45 g",
     "volume": "750 ml",
-    "price": 4000,
-    "price_postapoc": 10,
+    "price": "40 USD",
+    "price_postapoc": "10 cent",
     "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": "[",
@@ -202,7 +205,7 @@
     "warmth": 5,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "WATER_FRIENDLY" ]
   },
   {
@@ -214,8 +217,8 @@
     "description": "A protective face mask made of thick plastic.  Commonly worn by hockey goalies.",
     "weight": "228 g",
     "volume": "750 ml",
-    "price": 4000,
-    "price_postapoc": 250,
+    "price": "40 USD",
+    "price_postapoc": "250 cent",
     "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": "[",
@@ -227,7 +230,7 @@
     "warmth": 5,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "STURDY" ]
   },
   {
@@ -237,8 +240,8 @@
     "description": "This is a t-shirt with sleeves tied on the back.  These are usually worn by rioters to hide their identity.",
     "weight": "123 g",
     "volume": "500 ml",
-    "price": 800,
-    "price_postapoc": 10,
+    "price": "8 USD",
+    "price_postapoc": "10 cent",
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -250,6 +253,6 @@
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "HELMET_COMPAT" ]
+    "flags": [ "OVERSIZE", "HELMET_COMPAT" ]
   }
 ]

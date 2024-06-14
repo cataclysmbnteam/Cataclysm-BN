@@ -9,7 +9,6 @@
 #include <utility>
 
 #include "avatar.h"
-#include "bodypart.h"
 #include "damage.h"
 #include "flat_set.h"
 #include "init.h"
@@ -17,6 +16,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "loading_ui.h"
+#include "make_static.h"
 #include "material.h"
 #include "mod_manager.h"
 #include "npc.h"
@@ -24,18 +24,13 @@
 #include "ranged.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
-#include "ret_val.h"
 #include "skill.h"
-#include "stomach.h"
 #include "translations.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vitamin.h"
-
-static const std::string flag_VARSIZE( "VARSIZE" );
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -43,7 +38,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     try {
         init::load_core_bn_modfiles();
     } catch( const std::exception &err ) {
-        std::cerr << "Error loading data from json: " << err.what() << std::endl;
+        std::cerr << "Error loading data from json: " << err.what() << '\n';
         return false;
     }
 
@@ -52,24 +47,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
     int scol = 0; // sorting column
 
-    std::map<std::string, standard_npc> test_npcs;
-    test_npcs[ "S1" ] = standard_npc( "S1", { 0, 0, 2 }, { "gloves_survivor", "mask_lsurvivor" },
-                                      4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
-    test_npcs[ "S2" ] = standard_npc( "S2", { 0, 0, 3 }, { "gloves_fingerless", "sunglasses" },
-                                      4, 8, 8, 8, 10 /* PER 10 */ );
-    test_npcs[ "S3" ] = standard_npc( "S3", { 0, 0, 4 }, { "gloves_plate", "helmet_plate" },
-                                      4, 10, 8, 8, 8 /* STAT 10 */ );
-    test_npcs[ "S4" ] = standard_npc( "S4", { 0, 0, 5 }, {}, 0, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
-    test_npcs[ "S5" ] = standard_npc( "S5", { 0, 0, 6 }, {}, 4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
-    test_npcs[ "S6" ] = standard_npc( "S6", { 0, 0, 7 }, { "gloves_hsurvivor", "mask_hsurvivor" },
-                                      4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
-
-    std::map<std::string, item> test_items;
-    test_items[ "G1" ] = item( "glock_19" ).ammo_set( itype_id( "9mm" ) );
-    test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( itype_id( "9mm" ) );
-    test_items[ "G3" ] = item( "ar15" ).ammo_set( itype_id( "223" ) );
-    test_items[ "G4" ] = item( "remington_700" ).ammo_set( itype_id( "270" ) );
-    test_items[ "G4" ].put_in( item( "rifle_scope" ) );
+    standard_npc test_npc( "S1", { 0, 0, 2 }, { "gloves_survivor", "mask_lsurvivor" },
+                           4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
 
     if( what == "AMMO" ) {
         header = {
@@ -93,7 +72,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         };
         for( const itype *e : item_controller->all() ) {
             if( e->ammo ) {
-                dump( item( e, calendar::turn, item::solitary_tag {} ) );
+                dump( *item::spawn_temporary( e, calendar::turn, item::solitary_tag {} ) );
             }
         }
 
@@ -101,14 +80,15 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         header = {
             "Name", "Encumber (fit)", "Warmth", "Weight", "Storage", "Coverage", "Bash", "Cut", "Bullet", "Acid", "Fire"
         };
-        auto dump = [&rows]( const item & obj ) {
+        body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
+        auto dump = [&rows, &bp]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            r.push_back( std::to_string( obj.get_encumber( g->u ) ) );
+            r.push_back( std::to_string( obj.get_encumber( g->u, convert_bp( bp ).id() ) ) );
             r.push_back( std::to_string( obj.get_warmth() ) );
             r.push_back( std::to_string( to_gram( obj.weight() ) ) );
             r.push_back( std::to_string( obj.get_storage() / units::legacy_volume_factor ) );
-            r.push_back( std::to_string( obj.get_coverage() ) );
+            r.push_back( std::to_string( obj.get_coverage( convert_bp( bp ).id() ) ) );
             r.push_back( std::to_string( obj.bash_resist() ) );
             r.push_back( std::to_string( obj.cut_resist() ) );
             r.push_back( std::to_string( obj.bullet_resist() ) );
@@ -117,14 +97,12 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             rows.push_back( r );
         };
 
-        body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
-
         for( const itype *e : item_controller->all() ) {
             if( e->armor ) {
-                item obj( e );
-                if( bp == num_bp || obj.covers( bp ) ) {
-                    if( obj.has_flag( flag_VARSIZE ) ) {
-                        obj.set_flag( "FIT" );
+                item &obj = *item::spawn_temporary( e );
+                if( bp == num_bp || obj.covers( convert_bp( bp ).id() ) ) {
+                    if( obj.has_flag( STATIC( flag_id( "VARSIZE" ) ) ) ) {
+                        obj.set_flag( STATIC( flag_id( "FIT" ) ) );
                     }
                     dump( obj );
                 }
@@ -155,7 +133,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         };
 
         for( const itype *e : item_controller->all() ) {
-            item food( e, calendar::turn, item::solitary_tag {} );
+            item &food = *item::spawn_temporary( e, calendar::turn, item::solitary_tag {} );
 
             if( food.is_food() && g->u.can_eat( food ).success() ) {
                 dump( food );
@@ -212,17 +190,17 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         };
         for( const itype *e : item_controller->all() ) {
             if( e->gun ) {
-                item gun( e );
+                item &gun = *item::spawn_temporary( e );
                 if( !gun.magazine_integral() ) {
-                    gun.put_in( item( gun.magazine_default() ) );
+                    gun.put_in( item::spawn( gun.magazine_default() ) );
                 }
                 gun.ammo_set( gun.ammo_default( false ), gun.ammo_capacity() );
 
-                dump( test_npcs[ "S1" ], gun );
+                dump( test_npc, gun );
 
                 if( gun.type->gun->barrel_length > 0_ml ) {
-                    gun.put_in( item( "barrel_small" ) );
-                    dump( test_npcs[ "S1" ], gun );
+                    gun.put_in( item::spawn( "barrel_small" ) );
+                    dump( test_npc, gun );
                 }
             }
         }
@@ -309,7 +287,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             std::vector<std::string> r;
             r.push_back( obj.name() );
             r.push_back( obj.location );
-            int w = std::ceil( to_gram( item( obj.item ).weight() ) / 1000.0 );
+            int w = std::ceil( to_gram( item::spawn_temporary( obj.item )->weight() ) / 1000.0 );
             r.push_back( std::to_string( w ) );
             r.push_back( std::to_string( obj.size / units::legacy_volume_factor ) );
             rows.push_back( r );
@@ -319,7 +297,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         }
 
     } else {
-        std::cerr << "unknown argument: " << what << std::endl;
+        std::cerr << "unknown argument: " << what << '\n';
         return false;
     }
 

@@ -1,12 +1,13 @@
 #include "animation.h"
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "character.h"
-#include "creature.h"
 #include "cursesdef.h"
+#include "enums.h"
 #include "explosion.h"
-#include "game.h"
 #include "game_constants.h"
+#include "game.h"
 #include "line.h"
 #include "map.h"
 #include "monster.h"
@@ -764,6 +765,11 @@ void draw_line_curses( game &g, const std::vector<tripoint> &points )
 void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
 {
     draw_line_curses( *this, points );
+
+    if( test_mode ) {
+        // avoid segfault from null tilecontext in tests
+        return;
+    }
     tilecontext->init_draw_line( p, points, "line_trail", false );
 }
 #else
@@ -791,6 +797,11 @@ void game::draw_cursor( const tripoint &p )
 #if defined(TILES)
 void game::draw_highlight( const tripoint &p )
 {
+    if( test_mode ) {
+        // avoid segfault from null tilecontext in tests
+        return;
+    }
+
     tilecontext->init_draw_highlight( p );
 }
 #else
@@ -1027,7 +1038,7 @@ void game::draw_below_override( const tripoint &, const bool )
 
 #if defined(TILES)
 void game::draw_monster_override( const tripoint &p, const mtype_id &id, const int count,
-                                  const bool more, const Creature::Attitude att )
+                                  const bool more, const Attitude att )
 {
     if( use_tiles ) {
         tilecontext->init_draw_monster_override( p, id, count, more, att );
@@ -1035,7 +1046,7 @@ void game::draw_monster_override( const tripoint &p, const mtype_id &id, const i
 }
 #else
 void game::draw_monster_override( const tripoint &, const mtype_id &, const int,
-                                  const bool, const Creature::Attitude )
+                                  const bool, const Attitude )
 {
 }
 #endif

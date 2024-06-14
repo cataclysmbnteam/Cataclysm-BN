@@ -65,8 +65,8 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
-    "price": 387,
-    "price_postapoc": 300,
+    "price": "387 cent",
+    "price_postapoc": "3 USD",
     "material": [ "powder", "junk" ],
     "primary_material": "powder",
     "volume": "250 ml",
@@ -83,8 +83,8 @@
     "copy-from": "sugar",
     "container": "bottle_plastic_small",
     "description": "Known as nonpareils, sprinkles, jimmies, sugar strands or 'hundreds-and-thousands', these colorful balls, rods or flakes of sugar and starch are intended for use decorating soft surfaces of sweets.  Like sugar, they are bad for your teeth and surprisingly not very tasty on their own.",
-    "price": 399,
-    "price_postapoc": 200,
+    "price": "399 cent",
+    "price_postapoc": "2 USD",
     "calories": 20,
     "charges": 66
   },
@@ -99,14 +99,14 @@
     "quench": -1,
     "calories": 9,
     "description": "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, fireweed, and burdock.",
-    "price": 190,
-    "price_postapoc": 50,
+    "price": "190 cent",
+    "price_postapoc": "50 cent",
     "material": "veggy",
     "volume": "250 ml",
     "charges": 20,
     "flags": [ "RAW" ],
     "stack_size": 100,
-    "fun": -1
+    "fun": -15
   },
   {
     "id": "soysauce",
@@ -115,8 +115,8 @@
     "color": "brown",
     "name": { "str_sp": "soy sauce" },
     "description": "Salty fermented soybean sauce.",
-    "price": 190,
-    "price_postapoc": 25,
+    "price": "190 cent",
+    "price_postapoc": "25 cent",
     "weight": "24 g",
     "volume": "250 ml",
     "calories": 17,
@@ -127,7 +127,6 @@
     "charges": 10,
     "healthy": -1,
     "fun": -15,
-    "freezing_point": -22,
     "phase": "liquid"
   },
   {
@@ -137,15 +136,15 @@
     "description": "A stalk of thyme.  Smells delicious.",
     "comestible_type": "FOOD",
     "calories": 9,
-    "fun": -4,
+    "fun": -15,
     "weight": "40 g",
     "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 10
+    "price": "0 cent",
+    "price_postapoc": "10 cent"
   },
   {
     "id": "mustard_powder",

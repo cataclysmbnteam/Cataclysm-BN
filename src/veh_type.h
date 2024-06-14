@@ -272,7 +272,7 @@ class vpart_info
         int cargo_weight_modifier = 100;
 
         /** Flat decrease of damage of a given type. */
-        std::array<float, NUM_DT> damage_reduction = {};
+        resistances damage_reduction;
 
         /* Contains data for terrain transformer parts */
         transform_terrain_data transform_terrain;
@@ -383,10 +383,10 @@ struct vehicle_prototype {
     vehicle_prototype( const std::string &name, const std::vector<part_def> &parts,
                        const std::vector<vehicle_item_spawn> &item_spawns,
                        std::unique_ptr<vehicle> &&blueprint );
-    vehicle_prototype( vehicle_prototype && );
+    vehicle_prototype( vehicle_prototype && ) noexcept ;
     ~vehicle_prototype();
 
-    vehicle_prototype &operator=( vehicle_prototype && );
+    vehicle_prototype &operator=( vehicle_prototype && ) noexcept ;
 
     std::string name;
     std::vector<part_def> parts;

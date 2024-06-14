@@ -105,6 +105,17 @@
   },
   {
     "type": "terrain",
+    "id": "t_stairs_down_no_roof",
+    "name": "stairs",
+    "description": "A flight of stairs leading down with no roof.",
+    "symbol": ">",
+    "color": "yellow",
+    "move_cost": 2,
+    "looks_like": "t_stairs_down",
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "INDOORS", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_stairs_down",
     "name": "stairs",
     "description": "A flight of stairs leading down.",
@@ -155,13 +166,39 @@
   },
   {
     "type": "terrain",
+    "id": "t_ladder_up_down",
+    "name": "ladder",
+    "description": "A ladder leading up and down.",
+    "symbol": "H",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_floor",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_ladder_up",
     "name": "ladder",
     "description": "A ladder leading up.",
     "symbol": "<",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z" ]
+    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_floor",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -171,13 +208,21 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ]
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_floor",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
   },
   {
     "type": "terrain",
     "id": "t_ramp_down_high",
-    "name": "road ramp down (high end)",
-    "description": "The upper end of an asphalt ramp leading down.",
+    "name": "ramp down (high end)",
+    "description": "The upper end of a ramp leading down.",
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
@@ -186,8 +231,8 @@
   {
     "type": "terrain",
     "id": "t_ramp_down_low",
-    "name": "road ramp down (low end)",
-    "description": "The lower end of an asphalt ramp leading down.",
+    "name": "ramp down (low end)",
+    "description": "The lower end of a ramp leading down.",
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
@@ -196,8 +241,8 @@
   {
     "type": "terrain",
     "id": "t_ramp_up_high",
-    "name": "road ramp up (high end)",
-    "description": "The upper end of an asphalt ramp leading up.",
+    "name": "ramp up (high end)",
+    "description": "The upper end of a ramp leading up.",
     "symbol": "<",
     "color": "dark_gray",
     "move_cost": 2,
@@ -206,8 +251,8 @@
   {
     "type": "terrain",
     "id": "t_ramp_up_low",
-    "name": "road ramp up (low end)",
-    "description": "The lower end of an asphalt ramp leading up.",
+    "name": "ramp up (low end)",
+    "description": "The lower end of a ramp leading up.",
     "symbol": "<",
     "color": "dark_gray",
     "move_cost": 2,
@@ -334,6 +379,7 @@
     "description": "The upper end of rail track leading down.",
     "symbol": ">",
     "color": "cyan",
+    "looks_like": "t_railroad_track",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "RAIL", "ROAD", "Z_TRANSPARENT" ]
   },
@@ -344,6 +390,7 @@
     "description": "The lower end of rail track leading down.",
     "symbol": ">",
     "color": "cyan",
+    "looks_like": "t_railroad_track",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "RAIL", "ROAD", "RAMP_DOWN", "Z_TRANSPARENT" ]
   },
@@ -354,6 +401,7 @@
     "description": "The upper end of rail track leading up.",
     "symbol": "<",
     "color": "cyan",
+    "looks_like": "t_railroad_track",
     "move_cost": 2,
     "flags": [ "RAIL", "ROAD", "RAMP_UP" ]
   },
@@ -364,6 +412,7 @@
     "description": "The lower end of rail track leading up.",
     "symbol": "<",
     "color": "cyan",
+    "looks_like": "t_railroad_track",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "RAIL", "ROAD" ]
   }

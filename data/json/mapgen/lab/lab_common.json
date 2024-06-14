@@ -10,7 +10,7 @@
       "d": "f_desk",
       "s": "f_dresser",
       "h": "f_chair",
-      "f": "f_fridge",
+      "ḟ": "f_fridge",
       "t": "f_table",
       "i": "f_filing_cabinet",
       "c": "f_counter",
@@ -21,6 +21,7 @@
       "^": "f_rubble_rock"
     },
     "terrain": {
+      "%": "t_gates_control_concrete_lab",
       "6": "t_console",
       "x": "t_console_broken",
       "g": "t_reinforced_glass",

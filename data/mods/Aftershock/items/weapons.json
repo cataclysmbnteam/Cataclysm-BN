@@ -6,8 +6,8 @@
     "description": "A hefty black tube the size of your hand.  Activate to produce a hard-light blade, running off of UPS.",
     "weight": "240 g",
     "volume": "250 ml",
-    "price": 10000000,
-    "price_postapoc": 20000,
+    "price": "100 kUSD",
+    "price_postapoc": "200 USD",
     "material": [ "superalloy", "diamond" ],
     "symbol": "[",
     "looks_like": "flashlight",
@@ -38,7 +38,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "afs_energy_saber_on",
@@ -48,8 +48,8 @@
     "description": "This glittering blue saber of cyan light hums gently, extending from its superalloy handle.  Its edge is lethally sharp, and being made of light, it's weightless, and immune to being damaged.  It's not white-hot like in pop culture, so it can't cut through anything, but there's not much in the way of flesh that it won't slice through easily.",
     "weight": "240 g",
     "volume": "1 L",
-    "price": 10000000,
-    "price_postapoc": 20000,
+    "price": "100 kUSD",
+    "price_postapoc": "200 USD",
     "material": [ "superalloy", "diamond" ],
     "symbol": "[",
     "color": "light_blue",
@@ -66,7 +66,7 @@
       "target": "afs_energy_saber_off",
       "msg": "The blade dissipates into particles."
     },
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "afs_hardlight_longbow",
@@ -77,10 +77,10 @@
     "color": "white",
     "name": { "str": "hard-light longbow" },
     "description": "A sleek, stringless white metal longbow constructed of ultralight, atomic-age materials.  Rather than using ammunition, each shot uses high-tech projectors to create a string and arrow out of hard light on the spot, which provide excellent accuracy and armor penetration.  Being a bow, it's still not as powerful as conventional ballistic weapons.  It runs off of UPS power, and rather efficiently so.",
-    "price": 1000000,
-    "price_postapoc": 20000,
+    "price": "10 kUSD",
+    "price_postapoc": "200 USD",
     "material": [ "titanium", "plastic" ],
-    "flags": [ "FIRE_TWOHAND", "STR_DRAW", "PRIMITIVE_RANGED_WEAPON", "BELTED", "NO_UNLOAD" ],
+    "flags": [ "FIRE_TWOHAND", "STR_DRAW", "PRIMITIVE_RANGED_WEAPON", "BELTED", "COMPACT", "NO_UNLOAD" ],
     "skill": "archery",
     "min_strength": 4,
     "weight": "113 g",
@@ -105,8 +105,8 @@
     "description": "A huge, heavy metal gauntlet lined with tubing and gauges.  Slow and unwieldy, it uses internal pressure to deliver devastating blows, but takes tremendous strength to use effectively.  Thanks to an internal microreactor, it doesn't require power of its own.",
     "weight": "3778 g",
     "volume": "2 L",
-    "price": 10000000,
-    "price_postapoc": 20000,
+    "price": "100 kUSD",
+    "price_postapoc": "200 USD",
     "material": [ "hardsteel" ],
     "symbol": "[",
     "looks_like": "gauntlets_chitin",
@@ -124,7 +124,7 @@
     "description": "Typically used to flatten dough, this rolling pin has been repurposed as a weapon, with barbed wire adding some extra power and weight to its swing.  It has some real heft to it; perfect for the bakers of the apocalypse.",
     "weight": "923 g",
     "volume": "1500 ml",
-    "price_postapoc": 1500,
+    "price_postapoc": "15 USD",
     "material": [ "steel", "wood" ],
     "to_hit": 1,
     "bashing": 14,
@@ -147,7 +147,7 @@
     "name": { "str": "deployed grenade launcher" },
     "description": "A grenade launcher mounted onto your right-hand wrist.  Less powerful than a proper grenade launcher, but infinitely more portable, and quick to reload.",
     "volume": "2250 ml",
-    "price": 0,
+    "price": "0 cent",
     "to_hit": -2,
     "bashing": 9,
     "material": [ "steel", "plastic" ],
@@ -163,36 +163,6 @@
     "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID" ]
   },
   {
-    "id": "laser_rifle_cheap",
-    "type": "GUN",
-    "copy-from": "rifle_energy",
-    "name": { "str": "shoddy laser rifle" },
-    "description": "This is a cheap laser rifle made from common components.  Weak, but can be powered with rechargeable batteries.",
-    "weight": "8 kg",
-    "volume": "2500 ml",
-    "price": 40000,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "plastic", "copper" ],
-    "symbol": "(",
-    "looks_like": "american_180",
-    "color": "magenta",
-    "ammo": [ "battery" ],
-    "skill": "rifle",
-    "range": 10,
-    "ranged_damage": { "damage_type": "heat", "amount": 10 },
-    "dispersion": 150,
-    "durability": 10,
-    "loudness": 8,
-    "reload": 500,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "ammo_effects": [ "LASER", "DRAW_AS_LINE" ],
-    "flags": [ "NEVER_JAMS", "FIRE_20", "NON-FOULING" ],
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ]
-  },
-  {
     "id": "TANK",
     "looks_like": "m79",
     "type": "GUN",
@@ -200,7 +170,7 @@
     "color": "green",
     "name": { "str_sp": "Tankbot Main Gun" },
     "description": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!",
-    "price": 99999999,
+    "price": "99999999 cent",
     "material": [ "steel" ],
     "skill": "launcher",
     "ammo": [ "120mm" ],
@@ -229,7 +199,7 @@
     "flags": [ "DURABLE_MELEE" ],
     "volume": "1750 ml",
     "bashing": 22,
-    "price": 20000
+    "price": "200 USD"
   },
   {
     "id": "ceramic_knife",
@@ -240,7 +210,7 @@
     "description": "Designed to evade security measures, this knife is a must have for any Cataclysm dinner party.",
     "weight": "390 g",
     "volume": "250 ml",
-    "price": 4000,
+    "price": "40 USD",
     "bashing": 2,
     "cutting": 15,
     "material": [ "ceramic", "plastic" ],
@@ -259,8 +229,8 @@
     "description": "This is an x-ray laser stripped a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.  Single shot then requires reloading.  Nicknamed the 'Tin Can Killer' for it's ability to destroy power armor.",
     "weight": "5140 g",
     "volume": "1500 ml",
-    "price": 400000,
-    "price_postapoc": 8000,
+    "price": "4 kUSD",
+    "price_postapoc": "80 USD",
     "to_hit": -1,
     "bashing": 4,
     "material": [ "steel", "plastic" ],
@@ -280,13 +250,13 @@
       [ "emitter", 1 ],
       [ "lens", 1 ],
       [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   }
 ]

@@ -424,7 +424,7 @@
         [ "platinum_small", 4 ]
       ],
       [ [ "copper", 40 ] ],
-      [ [ "smrifle_primer", 1 ], [ "lgpistol_primer", 1 ] ]
+      [ [ "smrifle_primer", 40 ], [ "lgpistol_primer", 40 ] ]
     ]
   },
   {
@@ -456,7 +456,7 @@
         [ "platinum_small", 4 ]
       ],
       [ [ "copper", 80 ] ],
-      [ [ "smrifle_primer", 1 ], [ "lgpistol_primer", 1 ] ]
+      [ [ "smrifle_primer", 40 ], [ "lgpistol_primer", 40 ] ]
     ]
   },
   {
@@ -479,16 +479,17 @@
       [ [ "gunpowder", 400 ] ],
       [ [ "oxy_powder", 120 ] ],
       [ [ "lead", 80 ] ],
+      [ [ "combatnail", 40 ] ],
       [
-        [ "gold_small", 40 ],
-        [ "silver_small", 40 ],
-        [ "tin", 40 ],
-        [ "bismuth", 40 ],
-        [ "solder_wire", 40 ],
-        [ "platinum_small", 40 ]
+        [ "gold_small", 4 ],
+        [ "silver_small", 4 ],
+        [ "tin", 4 ],
+        [ "bismuth", 4 ],
+        [ "solder_wire", 4 ],
+        [ "platinum_small", 4 ]
       ],
       [ [ "copper", 80 ] ],
-      [ [ "smrifle_primer", 1 ], [ "lgpistol_primer", 1 ] ]
+      [ [ "smrifle_primer", 40 ], [ "lgpistol_primer", 40 ] ]
     ]
   },
   {
@@ -521,7 +522,7 @@
         [ "platinum_small", 4 ]
       ],
       [ [ "copper", 40 ] ],
-      [ [ "smrifle_primer", 1 ], [ "lgpistol_primer", 1 ] ]
+      [ [ "smrifle_primer", 40 ], [ "lgpistol_primer", 40 ] ]
     ]
   },
   {

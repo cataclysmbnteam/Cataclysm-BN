@@ -896,6 +896,18 @@
     "entries": [ { "item": "m4a1", "charges-min": 0, "charges-max": 30 }, { "item": "stanag30" }, { "item": "stanag30", "prob": 50 } ]
   },
   {
+    "id": "everyday_m4a1_grenadier",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack.  Grenadier variant",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "m4a1", "charges-min": 0, "charges-max": 30, "contents-group": "military_accessories_grenadier" },
+      { "item": "stanag30" },
+      { "item": "stanag30", "prob": 50 }
+    ]
+  },
+  {
     "id": "everyday_m1918",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -940,6 +952,18 @@
     ]
   },
   {
+    "id": "everyday_h&k416a5_grenadier",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack.  Grenadier variant",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "h&k416a5", "charges-min": 0, "charges-max": 30, "contents-group": "military_accessories_grenadier" },
+      { "item": "stanag30" },
+      { "item": "stanag30", "prob": 50 }
+    ]
+  },
+  {
     "id": "everyday_m27iar",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -947,6 +971,30 @@
     "ammo": 100,
     "entries": [
       { "item": "m27iar", "charges-min": 0, "charges-max": 30 },
+      { "item": "stanag30" },
+      { "item": "stanag30", "prob": 50 }
+    ]
+  },
+  {
+    "id": "everyday_m27iar_fire_support",
+    "type": "item_group",
+    "//": "Currently speculative but has been floated as a potential idea for the fire support role",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "stanag100", "ammo-item": "556_incendiary", "container-item": "m27iar", "charges-min": 0, "charges-max": 100 },
+      { "item": "stanag100", "ammo-item": "556_incendiary" },
+      { "item": "stanag100", "prob": 50, "ammo-item": "556_incendiary" }
+    ]
+  },
+  {
+    "id": "everyday_m27iar_grenadier",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack.  Grenadier variant",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "m27iar", "charges-min": 0, "charges-max": 30, "contents-group": "military_accessories_grenadier" },
       { "item": "stanag30" },
       { "item": "stanag30", "prob": 50 }
     ]
@@ -1071,6 +1119,18 @@
     "ammo": 100,
     "entries": [
       { "item": "scar_h", "charges-min": 0, "charges-max": 20 },
+      { "item": "scarhmag" },
+      { "item": "scarhmag", "prob": 50 }
+    ]
+  },
+  {
+    "id": "everyday_scar_h_grenadier",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack.  Grenadier variant",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "scar_h", "charges-min": 0, "charges-max": 20, "contents-group": "military_accessories_grenadier" },
       { "item": "scarhmag" },
       { "item": "scarhmag", "prob": 50 }
     ]
@@ -1465,7 +1525,10 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "m134", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_308" } ]
+    "entries": [
+      { "item": "m134", "ammo-item": "762_51_incendiary", "charges-min": 0, "charges-max": 100 },
+      { "group": "on_hand_308" }
+    ]
   },
   {
     "id": "everyday_m240",
@@ -1473,7 +1536,10 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "m240", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_308" } ]
+    "entries": [
+      { "item": "m240", "ammo-item": "762_51_incendiary", "charges-min": 0, "charges-max": 100 },
+      { "group": "on_hand_308" }
+    ]
   },
   {
     "id": "everyday_m249",
@@ -1481,7 +1547,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "m249", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_223" } ]
+    "entries": [ { "item": "m249", "ammo-item": "556_incendiary", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_223" } ]
   },
   {
     "id": "everyday_m60",
@@ -1489,7 +1555,21 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "m60", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_308" } ]
+    "entries": [
+      { "item": "m60", "ammo-item": "762_51_incendiary", "charges-min": 0, "charges-max": 100 },
+      { "group": "on_hand_308" }
+    ]
+  },
+  {
+    "id": "everyday_m2browning",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "m2browning", "ammo-item": "50_incendiary", "charges-min": 0, "charges-max": 100 },
+      { "group": "on_hand_50" }
+    ]
   },
   {
     "id": "everyday_bh_m89",
@@ -1522,6 +1602,14 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "rifle_flintlock" }, { "group": "on_hand_flintlock" } ]
+  },
+  {
+    "id": "everyday_longrifle_flintlock",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "longrifle_flintlock" }, { "group": "on_hand_flintlock" } ]
   },
   {
     "id": "everyday_trex_gun",
@@ -1818,5 +1906,13 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "rm120c", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_20x66mm" } ]
+  },
+  {
+    "id": "everyday_mgl",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "mgl", "charges-min": 0, "charges-max": 6 }, { "group": "on_hand_40x46mm" } ]
   }
 ]

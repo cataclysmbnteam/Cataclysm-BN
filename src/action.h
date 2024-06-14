@@ -245,6 +245,8 @@ enum action_id : int {
     ACTION_MORALE,
     /** Display messages screen */
     ACTION_MESSAGES,
+    /** Open external Wiki webpage */
+    ACTION_OPEN_WIKI,
     /** Display help screen */
     ACTION_HELP,
     /** Display main menu */

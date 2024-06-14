@@ -32,8 +32,8 @@
       { "item": "bot_flashbang_hack", "prob": 2 },
       { "item": "bot_gasbomb_hack", "prob": 2 },
       { "item": "bot_haulerbot", "prob": 2 },
-      { "item": "bot_rifleturret", "prob": 2 },
-      { "item": "bot_antimateriel", "prob": 2 }
+      { "item": "bot_turret_medium", "prob": 2 },
+      { "item": "bot_turret_longrange", "prob": 2 }
     ]
   },
   {
@@ -112,15 +112,30 @@
     "id": "cyborg_harvest",
     "type": "item_group",
     "subtype": "distribution",
+    "//": "Higher-tier bionic harvests have a 1/4 chance of generating nothing, 1/4 components, 1/2 CBMs",
     "entries": [
+      { "item": "null", "prob": 25 },
+      { "item": "burnt_out_bionic", "prob": 10 },
       { "group": "bionic_salvage_junk", "prob": 15 },
-      { "item": "bio_armor_head", "prob": 2 },
-      { "item": "bio_armor_torso", "prob": 2 },
-      { "item": "bio_armor_arms", "prob": 2 },
-      { "item": "bio_armor_legs", "prob": 2 },
-      { "item": "bio_armor_eyes", "prob": 2 },
-      { "item": "bio_razors", "prob": 2 },
-      { "item": "bio_torsionratchet", "prob": 1 }
+      { "group": "bionics_broken_cyborg", "prob": 50 }
+    ]
+  },
+  {
+    "id": "cyborg_harvest_uncommon",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Lab mutant spawns, 40% of them will roll for either components or a single CBM, effectively 20% odds of getting a bionic.",
+    "entries": [
+      { "item": "null", "prob": 60 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk", "prob": 25 },
+          { "item": "burnt_out_bionic", "prob": 25 },
+          { "group": "bionic_power_storage_civ", "prob": 10 },
+          { "group": "bionics_broken_cyborg", "prob": 40 }
+        ],
+        "prob": 40
+      }
     ]
   },
   {
@@ -128,16 +143,228 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "burnt_out_bionic", "prob": 25 },
       { "item": "scrap", "prob": 15, "charges": [ 1, 5 ] },
-      { "item": "alloy_sheet", "prob": 10 },
-      { "item": "cable", "prob": 15, "charges": [ 5, 10 ] },
+      { "item": "light_battery_cell", "prob": 10, "charges": [ 1, 100 ] },
+      { "item": "alloy_sheet", "prob": 15 },
+      { "item": "cable", "prob": 20, "charges": [ 5, 10 ] },
       { "item": "e_scrap", "prob": 10, "charges": [ 1, 5 ] },
+      { "item": "power_supply", "prob": 5 },
       { "item": "processor", "prob": 5 },
       { "item": "RAM", "prob": 5 },
       { "item": "amplifier", "prob": 5 },
       { "item": "receiver", "prob": 5 },
       { "item": "circuit", "prob": 5 }
+    ]
+  },
+  {
+    "id": "bionic_salvage_junk_mil",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "bionic_salvage_junk", "prob": 50 },
+      { "item": "alloy_sheet", "prob": 25, "count": [ 1, 3 ] },
+      { "item": "plut_cell", "prob": 5, "charges": [ 1, 3 ] },
+      { "item": "nanomaterial", "prob": 5, "charges": [ 1, 10 ] },
+      { "item": "lens_small", "prob": 5 },
+      { "item": "sensor_module", "prob": 5 },
+      { "item": "targeting_module", "prob": 5 }
+    ]
+  },
+  {
+    "id": "harvest_power_storage_civ",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 33 },
+      { "group": "bionic_salvage_junk", "prob": 33 },
+      { "group": "bionic_power_storage_civ", "prob": 33 }
+    ]
+  },
+  {
+    "id": "harvest_power_storage_mil",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 25 },
+      { "group": "bionic_salvage_junk_mil", "prob": 25 },
+      { "group": "bionic_power_storage_mil", "prob": 50 }
+    ]
+  },
+  {
+    "id": "harvest_bionics_common",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Lower-tier bionic harvests have a 1/3 chance of generating nothing, 1/3 components, 1/3 CBMs",
+    "entries": [
+      { "item": "null", "prob": 33 },
+      { "group": "bionic_salvage_junk", "prob": 33 },
+      { "group": "bionics_common", "prob": 33 }
+    ]
+  },
+  {
+    "id": "harvest_bionics_op",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 25 },
+      { "group": "bionic_salvage_junk_mil", "prob": 25 },
+      { "group": "bionics_op", "prob": 50 }
+    ]
+  },
+  {
+    "id": "harvest_bionics_op2_def",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 25 },
+      { "group": "bionic_salvage_junk_mil", "prob": 25 },
+      { "group": "bionics_op2_def", "prob": 50 }
+    ]
+  },
+  {
+    "id": "harvest_bionics_op2_off",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 25 },
+      { "group": "bionic_salvage_junk_mil", "prob": 25 },
+      { "group": "bionics_op2_off", "prob": 50 }
+    ]
+  },
+  {
+    "id": "harvest_bionics_op2_utl",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 25 },
+      { "group": "bionic_salvage_junk_mil", "prob": 25 },
+      { "group": "bionics_op2_utl", "prob": 50 }
+    ]
+  },
+  {
+    "id": "harvest_bionics_sci",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 33 },
+      { "group": "bionic_salvage_junk", "prob": 33 },
+      { "group": "bionics_sci", "prob": 33 }
+    ]
+  },
+  {
+    "id": "harvest_bionics_subs",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 25 },
+      { "group": "bionic_salvage_junk", "prob": 25 },
+      { "group": "bionics_subs", "prob": 50 }
+    ]
+  },
+  {
+    "id": "harvest_bionics_tech",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 33 },
+      { "group": "bionic_salvage_junk", "prob": 33 },
+      { "group": "bionics_tech", "prob": 33 }
+    ]
+  },
+  {
+    "id": "harvest_maybe_sci",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Non-cyborg medical/science spawns, 20% of them will roll for either components or a single CBM, effectively 10% odds of getting a bionic.",
+    "entries": [
+      { "item": "null", "prob": 80 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk", "prob": 50 },
+          { "group": "bionic_power_storage_civ", "prob": 10 },
+          { "group": "bionics_sci", "prob": 40 }
+        ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "id": "harvest_maybe_tech",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Non-cyborg industrial/technician spawns, effective chance of getting a CBM is 10%.",
+    "entries": [
+      { "item": "null", "prob": 80 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk", "prob": 50 },
+          { "group": "bionic_power_storage_civ", "prob": 10 },
+          { "group": "bionics_tech", "prob": 40 }
+        ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "id": "harvest_maybe_survivalist",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Non-cyborg survivalist/police spawns, effective chance of getting a CBM is 10%.",
+    "entries": [
+      { "item": "null", "prob": 80 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk", "prob": 50 },
+          { "group": "bionic_power_storage_civ", "prob": 10 },
+          { "group": "bionics_survivalist", "prob": 40 }
+        ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "id": "harvest_bionics_zapper",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 33 },
+      { "group": "bionic_salvage_junk", "prob": 33 },
+      { "group": "bionics_zapper", "prob": 33 }
+    ]
+  },
+  {
+    "id": "harvest_maybe_military",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Non-cyborg military spawns, effective chance of getting a CBM is 10%.",
+    "entries": [
+      { "item": "null", "prob": 80 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk_mil", "prob": 50 },
+          { "group": "bionic_power_storage_mil", "prob": 10 },
+          { "group": "bionics_mil", "prob": 20 },
+          { "group": "bionics_heavy_mil", "prob": 20 }
+        ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "id": "harvest_maybe_military_heavy",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Non-cyborg heavy military spawns, effectively 20% chance of spawning a CBM.",
+    "entries": [
+      { "item": "null", "prob": 60 },
+      {
+        "distribution": [
+          { "group": "bionic_salvage_junk_mil", "prob": 50 },
+          { "group": "bionic_power_storage_mil", "prob": 10 },
+          { "group": "bionics_heavy_mil", "prob": 40 }
+        ],
+        "prob": 40
+      }
     ]
   }
 ]

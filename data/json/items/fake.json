@@ -63,7 +63,7 @@
     "to_hit": 2,
     "cutting": 8,
     "techniques": "PRECISE",
-    "flags": [ "TRADER_AVOID", "NO_DROP", "UNBREAKABLE_MELEE", "SPEAR" ],
+    "flags": [ "TRADER_AVOID", "NO_DROP", "UNBREAKABLE_MELEE", "STAB" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
   },
   {
@@ -71,7 +71,8 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic razor" },
-    "qualities": [ [ "BUTCHER", 8 ] ]
+    "//": "Bonus unarmed damage for having Fingertip Razors installed is applied in melee.cpp, see function Character::roll_cut_damage",
+    "qualities": [ [ "BUTCHER", 15 ], [ "CUT", 1 ], [ "CUT_FINE", 2 ] ]
   },
   {
     "id": "clairvoyance_plus_rod",
@@ -80,7 +81,7 @@
     "color": "red",
     "name": { "str": "clairvoyance rod" },
     "description": "Item to test aep_clairvoyance_plus flag.  If this spawns randomly, then it's a bug.",
-    "price": 5000,
+    "price": "50 USD",
     "material": [ "steel" ],
     "weight": "150 g",
     "volume": "750 ml",
@@ -109,7 +110,7 @@
     "color": "yellow",
     "name": { "str": "reach bow" },
     "description": "A test item that is both a ranged weapon and a reach weapon",
-    "price": 16000,
+    "price": "160 USD",
     "material": "steel",
     "flags": [ "REACH_ATTACK" ],
     "weight": "340 g",
@@ -171,12 +172,14 @@
   {
     "id": "fake_autoclave",
     "copy-from": "fake_item",
+    "looks_like": "autoclave",
     "type": "TOOL",
     "name": "laboratory autoclave"
   },
   {
     "id": "fake_centrifuge",
     "copy-from": "fake_item",
+    "looks_like": "microcentrifuge",
     "type": "TOOL",
     "name": "centrifuge",
     "qualities": [ [ "CONCENTRATE", 1 ], [ "SEPARATE", 1 ], [ "ANALYSIS", 1 ] ]
@@ -215,6 +218,7 @@
   {
     "id": "fake_gridsolderingiron",
     "copy-from": "fake_item",
+    "looks_like": "soldering_iron",
     "type": "TOOL",
     "name": { "str": "grid soldering iron" },
     "sub": "soldering_iron",
@@ -307,6 +311,7 @@
   {
     "id": "fake_gridwater_purifier",
     "copy-from": "fake_item",
+    "looks_like": "water_purifier",
     "type": "TOOL",
     "name": { "str": "grid water purifier" },
     "sub": "water_purifier",
@@ -325,6 +330,7 @@
   {
     "id": "fake_chemistry_set",
     "copy-from": "fake_item",
+    "looks_like": "chemistry_set_basic",
     "type": "TOOL",
     "name": { "str": "grid chemistry set" },
     "sub": "chemistry_set_basic",
@@ -335,6 +341,7 @@
   {
     "id": "gridautoclave",
     "copy-from": "fake_item",
+    "looks_like": "autoclave",
     "type": "TOOL",
     "name": { "str": "grid autoclave" },
     "sub": "autoclave",

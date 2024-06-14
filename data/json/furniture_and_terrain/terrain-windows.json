@@ -9,7 +9,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 3,
@@ -20,7 +20,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ],
-      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 0, 5 ] }
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 3 }
     }
   },
   {
@@ -34,7 +35,12 @@
     "move_cost": 0,
     "coverage": 95,
     "delete": { "flags": [ "TRANSPARENT", "BARRICADABLE_WINDOW" ] },
-    "bash": { "str_min": 6, "str_max": 12, "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 1, 10 ] } }
+    "bash": {
+      "str_min": 6,
+      "str_max": 12,
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 6 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 6 }
+    }
   },
   {
     "type": "terrain",
@@ -57,7 +63,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": 4 },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -130,7 +136,11 @@
     "move_cost": 4,
     "extend": { "flags": [ "OPENCLOSE_INSIDE", "MOUNTABLE", "BLOCK_WIND", "THIN_OBSTACLE", "SMALL_PASSAGE", "PERMEABLE" ] },
     "close": "t_window_no_curtains",
-    "bash": { "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ] }
+    "bash": {
+      "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ],
+      "//": "This is purely to override hidden inherited range data so open windows won't catch bullets that should fly through uninterrupted",
+      "ranged": { "block_unaimed_chance": "0%" }
+    }
   },
   {
     "type": "terrain",
@@ -142,12 +152,9 @@
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
-    "delete": { "flags": [ "TRANSPARENT", "REDUCE_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL" ] },
+    "delete": { "flags": [ "TRANSPARENT", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL" ] },
     "extend": { "flags": [ "WALL" ] },
-    "bash": {
-      "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ],
-      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 1, 10 ] }
-    }
+    "bash": { "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ] }
   },
   {
     "type": "terrain",
@@ -168,8 +175,7 @@
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
-      ],
-      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 1, 10 ] }
+      ]
     }
   },
   {
@@ -182,7 +188,7 @@
     "color": "light_gray",
     "move_cost": 4,
     "extend": { "flags": [ "OPENCLOSE_INSIDE", "MOUNTABLE", "THIN_OBSTACLE", "SMALL_PASSAGE", "WINDOW" ] },
-    "delete": { "flags": [ "REDUCE_SCENT", "BARRICADABLE_WINDOW", "BLOCK_WIND" ] },
+    "delete": { "flags": [ "NO_SCENT", "BARRICADABLE_WINDOW", "BLOCK_WIND" ] },
     "curtain_transform": "t_window_no_curtains",
     "examine_action": "curtains",
     "close": "t_window_domestic",
@@ -192,7 +198,9 @@
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
-      ]
+      ],
+      "//": "This is purely to override hidden inherited range data so open windows won't catch bullets that should fly through uninterrupted",
+      "ranged": { "block_unaimed_chance": "0%" }
     }
   },
   {
@@ -206,7 +214,7 @@
     "move_cost": 0,
     "coverage": 95,
     "extend": { "flags": [ "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "WINDOW" ] },
-    "delete": { "flags": [ "TRANSPARENT", "REDUCE_SCENT", "BARRICADABLE_WINDOW" ] },
+    "delete": { "flags": [ "TRANSPARENT", "BARRICADABLE_WINDOW" ] },
     "curtain_transform": "t_window_no_curtains",
     "open": "t_window_domestic",
     "examine_action": "curtains",
@@ -226,8 +234,7 @@
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
-      ],
-      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 1, 10 ] }
+      ]
     },
     "pry": {
       "success_message": "You pry open the window.",
@@ -347,7 +354,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [ { "item": "splinter", "count": [ 0, 2 ] }, { "item": "glass_shard", "count": [ 1, 4 ] } ],
-      "ranged": { "reduction": [ 10, 30 ] }
+      "ranged": { "reduction": [ 2, 3 ], "destroy_threshold": 30 }
     }
   },
   {
@@ -361,7 +368,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "NO_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 3,
       "str_max": 30,
@@ -370,7 +377,8 @@
       "sound_vol": 14,
       "sound_fail_vol": 10,
       "ter_set": "t_window_empty",
-      "items": [ { "item": "splinter", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "splinter", "count": [ 0, 2 ] } ],
+      "ranged": { "reduction": [ 2, 3 ], "destroy_threshold": 30 }
     }
   },
   {
@@ -384,14 +392,15 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "NO_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 30,
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_window_boarded",
-      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ]
+      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 30 }
     }
   },
   {
@@ -412,7 +421,8 @@
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_window_boarded_noglass",
-      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ]
+      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 30 }
     }
   },
   {
@@ -426,14 +436,26 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "hacksaw": {
+      "result": "t_window_reinforced",
+      "duration": "5 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 4 ] } ]
+    },
+    "flags": [ "NOITEM", "NO_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_window_empty",
+      "duration": "4 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 40,
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_window_reinforced",
-      "items": [ { "item": "spike", "count": [ 0, 2 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
+      "items": [ { "item": "spike", "count": [ 0, 2 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -448,13 +470,25 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_window_empty",
+      "duration": "4 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
+    },
+    "hacksaw": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "5 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 4 ] } ]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 40,
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_window_reinforced_noglass",
-      "items": [ { "item": "spike", "count": [ 0, 2 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
+      "items": [ { "item": "spike", "count": [ 0, 2 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -468,6 +502,7 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "PERMEABLE" ],
+    "oxytorch": { "result": "t_window_empty", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 60,
       "str_max": 250,
@@ -491,8 +526,15 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
+    "hacksaw": {
+      "result": "t_window_alarm",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
+    },
     "delete": { "flags": [ "FLAMMABLE", "BARRICADABLE_WINDOW" ] },
     "extend": { "flags": [ "ALARMED" ] },
+    "oxytorch": { "result": "t_window_alarm", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": { "ter_set": "t_window_bars" }
   },
   {
@@ -505,16 +547,15 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 95,
+    "hacksaw": {
+      "result": "t_window_domestic",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
+    },
     "roof": "t_flat_roof",
-    "flags": [
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
-    ],
+    "oxytorch": { "result": "t_window_domestic", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
+    "flags": [ "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "NO_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
     "open": "t_window_bars_domestic",
@@ -531,7 +572,9 @@
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
-      ]
+      ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 3 }
     }
   },
   {
@@ -543,13 +586,20 @@
     "looks_like": "t_window_bars",
     "color": "light_gray",
     "move_cost": 0,
+    "hacksaw": {
+      "result": "t_window_domestic",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
+    },
     "roof": "t_flat_roof",
+    "oxytorch": { "result": "t_window_domestic", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "flags": [
       "TRANSPARENT",
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -569,7 +619,9 @@
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
-      ]
+      ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 3 }
     }
   },
   {
@@ -581,14 +633,16 @@
     "color": "light_green",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
+      "//": "Treated as laminated glass in terms of reduction and threshold",
+      "ranged": { "reduction": [ 20, 20 ], "reduction_laser": [ 1, 10 ], "destroy_threshold": 20 }
     }
   },
   {
@@ -600,14 +654,16 @@
     "color": "light_red",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
+      "//": "Treated as laminated glass in terms of reduction and threshold",
+      "ranged": { "reduction": [ 20, 20 ], "reduction_laser": [ 1, 10 ], "destroy_threshold": 20 }
     }
   },
   {
@@ -619,26 +675,39 @@
     "color": "light_blue",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
+      "//": "Treated as laminated glass in terms of reduction and threshold",
+      "ranged": { "reduction": [ 20, 20 ], "reduction_laser": [ 1, 10 ], "destroy_threshold": 20 }
     }
   },
   {
     "type": "terrain",
     "id": "t_metal_grate_window",
     "name": "Window with metal grate",
-    "description": "Metal bars made into a grate for a window, Highly durability and will stand against any foe",
+    "description": "Metal bars made into a grate for a window, highly durable and will stand against any foe.",
     "looks_like": "t_window_bars",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "oxytorch": {
+      "result": "t_window_reinforced",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
+    "hacksaw": {
+      "result": "t_window_reinforced",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "flags": [
       "TRANSPARENT",
       "NOITEM",
@@ -646,7 +715,7 @@
       "BARRICADABLE_WINDOW",
       "THIN_OBSTACLE",
       "BLOCK_WIND",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "WINDOW"
     ],
     "deconstruct": {
@@ -664,20 +733,32 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 5, 12 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 50, 75 ], "destroy_threshold": 75 }
     }
   },
   {
     "type": "terrain",
     "id": "t_metal_grate_window_with_curtain",
     "name": "Window with metal grate",
-    "description": "Metal bars made into a grate for a window with a closed curtain, Highly durability and will stand against any foe",
+    "description": "Metal bars made into a grate for a window with a closed curtain, highly durable and will stand against any foe.",
     "looks_like": "t_window_bars_curtains",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "oxytorch": {
+      "result": "t_window_reinforced",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
+    "hacksaw": {
+      "result": "t_window_reinforced",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "NO_SCENT", "WINDOW" ],
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
     "open": "t_metal_grate_window_with_curtain_open",
@@ -696,14 +777,15 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 5, 12 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 75 }
     }
   },
   {
     "type": "terrain",
     "id": "t_metal_grate_window_with_curtain_open",
     "name": "Window with metal grate",
-    "description": "Metal bars made into a grate for a window with a opened curtain, Highly durability and will stand against any foe",
+    "description": "Metal bars made into a grate for a window with a opened curtain, highly durable and will stand against any foe.",
     "looks_like": "t_window_bars_domestic",
     "symbol": "#",
     "color": "light_gray",
@@ -716,9 +798,20 @@
       "THIN_OBSTACLE",
       "BARRICADABLE_WINDOW_CURTAINS",
       "BLOCK_WIND",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "WINDOW"
     ],
+    "oxytorch": {
+      "result": "t_window_reinforced",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
+    "hacksaw": {
+      "result": "t_window_reinforced",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
@@ -737,20 +830,32 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 5, 12 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 50, 75 ], "destroy_threshold": 75 }
     }
   },
   {
     "type": "terrain",
     "id": "t_metal_grate_window_noglass",
     "name": "Window with metal grate",
-    "description": "Metal bars made into a grate for a window, Highly durability and will stand against any foe",
+    "description": "Metal bars made into a grate for a window, highly durable and will stand against any foe.",
     "looks_like": "t_window_bars",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "hacksaw": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "WINDOW" ],
+    "oxytorch": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "deconstruct": {
       "ter_set": "t_window_reinforced",
       "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
@@ -766,22 +871,34 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 5, 12 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 50, 75 ], "destroy_threshold": 75 }
     }
   },
   {
     "type": "terrain",
     "id": "t_metal_grate_window_with_curtain_noglass",
     "name": "Window with metal grate",
-    "description": "Metal bars made into a grate for a window with a closed curtain, Highly durability and will stand against any foe",
+    "description": "Metal bars made into a grate for a window with a closed curtain, highly durable and will stand against any foe.",
     "looks_like": "t_window_bars_curtains",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "hacksaw": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
+    "oxytorch": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "open": "t_metal_grate_window_with_curtain_open",
     "deconstruct": {
       "ter_set": "t_window_reinforced",
@@ -798,7 +915,8 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 5, 12 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 50, 75 ], "destroy_threshold": 75 }
     }
   },
   {
@@ -821,6 +939,17 @@
       "REDUCE_SCENT",
       "WINDOW"
     ],
+    "oxytorch": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
+    "hacksaw": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
@@ -839,7 +968,8 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 5, 12 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 50, 75 ], "destroy_threshold": 75 }
     }
   },
   {
@@ -859,7 +989,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -878,7 +1008,9 @@
         { "item": "stick", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "glass_shard", "count": [ 3, 8 ] }
-      ]
+      ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 2 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 2 }
     }
   },
   {
@@ -937,7 +1069,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -963,7 +1095,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 2 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 2 }
     }
   },
   {
@@ -983,7 +1117,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1009,7 +1143,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 2 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 2 }
     }
   },
   {
@@ -1076,7 +1212,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1095,7 +1231,9 @@
         { "item": "stick", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "glass_shard", "count": [ 3, 8 ] }
-      ]
+      ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 12 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 12 }
     }
   },
   {
@@ -1154,7 +1292,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -1180,7 +1318,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 12 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 12 }
     }
   },
   {
@@ -1200,7 +1340,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1226,7 +1366,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 12 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 12 }
     }
   },
   {
@@ -1293,7 +1435,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1312,7 +1454,9 @@
         { "item": "stick", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "glass_shard", "count": [ 3, 8 ] }
-      ]
+      ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 3 }
     }
   },
   {
@@ -1371,7 +1515,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -1397,7 +1541,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 3 }
     }
   },
   {
@@ -1417,7 +1563,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1443,7 +1589,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 3 }
     }
   },
   {
@@ -1510,7 +1658,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1529,7 +1677,9 @@
         { "item": "stick", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "glass_shard", "count": [ 3, 8 ] }
-      ]
+      ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 12 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 12 }
     }
   },
   {
@@ -1589,7 +1739,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -1615,7 +1765,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 12 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 12 }
     }
   },
   {
@@ -1626,7 +1778,7 @@
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_cyan",
-    "move_cost": 4,
+    "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
     "flags": [
@@ -1635,6 +1787,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "MOUNTABLE",
+      "NO_SCENT",
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
@@ -1663,7 +1816,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 12 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 12 }
     }
   },
   {
@@ -1730,7 +1885,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1749,7 +1904,9 @@
         { "item": "stick", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "glass_shard", "count": [ 5, 12 ] }
-      ]
+      ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 4 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 4 }
     }
   },
   {
@@ -1808,7 +1965,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -1834,7 +1991,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 12 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 5, 12 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 4 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 4 }
     }
   },
   {
@@ -1854,7 +2013,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1880,13 +2039,15 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 4 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 4 }
     }
   },
   {
     "type": "terrain",
     "id": "t_triple_pane_glass_with_curtain_open",
-    "name": "Triple-pane glass window With a curtain",
+    "name": "Triple-pane glass window with a curtain",
     "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -1947,7 +2108,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -1966,7 +2127,9 @@
         { "item": "stick", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "glass_shard", "count": [ 5, 12 ] }
-      ]
+      ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 12 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 12 }
     }
   },
   {
@@ -2025,7 +2188,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -2051,7 +2214,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 12 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 5, 12 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 12 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 12 }
     }
   },
   {
@@ -2062,7 +2227,7 @@
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_cyan",
-    "move_cost": 4,
+    "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
     "flags": [
@@ -2071,6 +2236,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "MOUNTABLE",
+      "NO_SCENT",
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
@@ -2099,7 +2265,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 12 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 12 }
     }
   },
   {
@@ -2166,7 +2334,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -2185,7 +2353,9 @@
         { "item": "stick", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "glass_shard", "count": [ 10, 20 ] }
-      ]
+      ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 5 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 5 }
     }
   },
   {
@@ -2242,7 +2412,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -2268,7 +2438,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 10, 20 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 10, 20 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 5 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 5 }
     }
   },
   {
@@ -2288,7 +2460,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -2314,13 +2486,15 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 5 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 5 }
     }
   },
   {
     "type": "terrain",
     "id": "t_quadruple_pane_glass_with_curtain_open",
-    "name": "Quadruple glazed glass window With a curtain",
+    "name": "Quadruple glazed glass window with a curtain",
     "description": "A quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -2381,7 +2555,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -2400,7 +2574,9 @@
         { "item": "stick", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "glass_shard", "count": [ 10, 20 ] }
-      ]
+      ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 12 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 12 }
     }
   },
   {
@@ -2459,7 +2635,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -2485,7 +2661,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 10, 20 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 10, 20 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 12 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 12 }
     }
   },
   {
@@ -2496,7 +2674,7 @@
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_cyan",
-    "move_cost": 4,
+    "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
     "flags": [
@@ -2533,13 +2711,15 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 12 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 12 }
     }
   },
   {
     "type": "terrain",
     "id": "t_reinforced_quadruple_pane_glass_with_curtain_open",
-    "name": "Reinforced quadruple glazed glass window With a curtain",
+    "name": "Reinforced quadruple glazed glass window with a curtain",
     "description": "A reinforced quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -2553,6 +2733,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "MOUNTABLE",
+      "NO_SCENT",
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
@@ -2615,7 +2796,8 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ],
+      "ranged": { "reduction": [ 2, 3 ], "destroy_threshold": 5 }
     }
   },
   {
@@ -2658,7 +2840,7 @@
     "type": "terrain",
     "id": "t_plastic_window_with_curtain",
     "name": "Plastic window with a curtain",
-    "description": "A makeshift window with a closed curtain.  comprising a sheet of translucent, rigid plastic secured in a wooden frame.  There are sheets drawn across it to block the light.  It'll do in a pinch.",
+    "description": "A makeshift window with a closed curtain.  Comprising a sheet of translucent, rigid plastic secured in a wooden frame.  There are sheets drawn across it to block the light.  It'll do in a pinch.",
     "looks_like": "t_curtains",
     "symbol": "|",
     "color": "light_blue",
@@ -2696,14 +2878,15 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ],
+      "ranged": { "reduction": [ 2, 3 ], "destroy_threshold": 5 }
     }
   },
   {
     "type": "terrain",
     "id": "t_plastic_window_with_curtain_open_window_closed",
     "name": "Plastic window with a curtain",
-    "description": "A makeshift window with a opened curtain.  comprising a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
+    "description": "A makeshift window with a opened curtain.  Comprising a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_blue",
@@ -2742,14 +2925,15 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ],
+      "ranged": { "reduction": [ 2, 3 ], "destroy_threshold": 5 }
     }
   },
   {
     "type": "terrain",
     "id": "t_plastic_window_with_curtain_open",
-    "name": "Plastic window With a curtain",
-    "description": "An opened makeshift window with a opened curtain.  comprising a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
+    "name": "Plastic window with a curtain",
+    "description": "An opened makeshift window with a opened curtain.  Comprising a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_blue",
@@ -2828,7 +3012,8 @@
         { "item": "stick", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "plastic_sheet", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 15 }
     }
   },
   {
@@ -2868,14 +3053,15 @@
         { "item": "stick", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "plastic_sheet", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 15 }
     }
   },
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain",
     "name": "Reinforced plastic window with a curtain",
-    "description": "A makeshift window with a closed curtain.  comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
+    "description": "A makeshift window with a closed curtain.  Comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_curtains",
     "symbol": "|",
     "color": "light_blue",
@@ -2917,14 +3103,15 @@
         { "item": "stick", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "plastic_sheet", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 15 }
     }
   },
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain_open_window_closed",
     "name": "Reinforced plastic window with a curtain",
-    "description": "A makeshift window with a opened curtain.  comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
+    "description": "A makeshift window with a opened curtain.  Comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_blue",
@@ -2967,14 +3154,15 @@
         { "item": "stick", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "plastic_sheet", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 15 }
     }
   },
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain_open",
     "name": "Reinforced plastic window With a curtain",
-    "description": "An open makeshift window with a opened curtain.  comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
+    "description": "An open makeshift window with a opened curtain.  Comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_blue",
@@ -3057,7 +3245,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -3076,7 +3264,9 @@
         { "item": "stick", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "glass_shard", "count": [ 3, 8 ] }
-      ]
+      ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 15 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 15 }
     }
   },
   {
@@ -3134,7 +3324,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
       "WINDOW"
@@ -3160,7 +3350,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 15 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 15 }
     }
   },
   {
@@ -3180,7 +3372,7 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND"
     ],
@@ -3206,7 +3398,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 15 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 15 }
     }
   },
   {
@@ -3254,6 +3448,32 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_porthole",
+    "name": "porthole",
+    "description": "A thick round window surrounded with a strong metal frame, the window is sealed closed.",
+    "looks_like": "t_laminated_glass",
+    "symbol": "o",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_metal_flat_roof",
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BLOCK_WIND", "NO_SCENT" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 75,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor",
+      "items": [
+        { "item": "steel_lump", "prob": 55 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "glass_shard", "count": [ 20, 50 ] }
+      ],
+      "ranged": { "reduction": [ 25, 50 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 75 }
     }
   }
 ]

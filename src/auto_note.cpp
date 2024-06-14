@@ -157,8 +157,8 @@ auto_note_manager_gui::auto_note_manager_gui()
 
         bool isAutoNoteEnabled = settings.has_auto_note_enabled( extra.id );
 
-        mapExtraCache.emplace( std::make_pair( extra.id, std::make_pair( extra,
-                                               isAutoNoteEnabled ) ) );
+        mapExtraCache.emplace( extra.id, std::make_pair( extra,
+                               isAutoNoteEnabled ) );
 
         if( settings.was_discovered( extra.id ) ) {
             displayCache.push_back( extra.id );

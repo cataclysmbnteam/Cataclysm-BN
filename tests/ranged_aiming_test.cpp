@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "calendar.h"
 #include "game.h"
 #include "map.h"
@@ -16,7 +17,6 @@
 #include "monster.h"
 #include "npc.h"
 #include "item.h"
-#include "item_location.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -24,8 +24,6 @@
 #include "state_helpers.h"
 #include "vehicle.h"
 #include "vehicle_part.h"
-
-extern bool can_fire_turret( avatar &you, const map &m, const turret_data &turret );
 
 static constexpr tripoint shooter_pos( 60, 60, 0 );
 
@@ -213,7 +211,7 @@ TEST_CASE( "Aiming a turret from a solid vehicle", "[ranged][aiming]" )
                 turret_data turret = veh->turret_query( shooter_pos );
                 REQUIRE( static_cast<bool>( turret ) );
                 REQUIRE( turret.query() == turret_data::status::ready );
-                REQUIRE( can_fire_turret( shooter, g->m, turret ) );
+                REQUIRE( avatar_action::can_fire_turret( shooter, g->m, turret ) );
                 THEN( "The list of targets inclues the target" ) {
                     std::vector<Creature *> t = ranged::targetable_creatures( shooter, max_range, turret );
                     CHECK( std::count( t.begin(), t.end(), &z ) > 0 );
@@ -223,7 +221,7 @@ TEST_CASE( "Aiming a turret from a solid vehicle", "[ranged][aiming]" )
     }
 }
 
-TEST_CASE( "Aiming at a target partially covered by a wall", "[.][ranged][aiming][slow]" )
+TEST_CASE( "Aiming at a target partially covered by a wall", "[.][ranged][aiming][slow][!mayfail]" )
 {
     clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 8 );

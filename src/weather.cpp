@@ -12,7 +12,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "enums.h"
@@ -38,6 +37,7 @@
 #include "units_temperature.h"
 #include "vpart_position.h"
 #include "weather_gen.h"
+#include "profile.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
@@ -54,7 +54,9 @@ static const itype_id itype_water_acid_weak( "water_acid_weak" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
-static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
+static const flag_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
+static const flag_id json_flag_RAINPROOF( "RAINPROOF" );
+static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -76,7 +78,7 @@ void glare( const weather_type_id &w )
 {
     //General prepequisites for glare
     if( !is_player_outside() || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
-        g->u.worn_with_flag( flag_SUN_GLASSES ) ||
+        g->u.worn_with_flag( json_flag_SUN_GLASSES ) ||
         g->u.has_bionic( bio_sunglasses ) ||
         g->u.is_blind() ) {
         return;
@@ -120,6 +122,9 @@ inline void proc_weather_sum( const weather_type_id wtype, weather_sum &data,
                 break;
             case precip_class::light:
                 amount = 4 * to_turns<int>( tick_size );
+                break;
+            case precip_class::medium:
+                amount = 6 * to_turns<int>( tick_size );
                 break;
             case precip_class::heavy:
                 amount = 8 * to_turns<int>( tick_size );
@@ -213,16 +218,16 @@ void item::add_rain_to_container( bool acid, int charges )
     if( charges <= 0 ) {
         return;
     }
-    item ret( acid ? itype_water_acid : itype_water, calendar::turn );
-    const int capa = get_remaining_capacity_for_liquid( ret, true );
+    detached_ptr<item> ret = item::spawn( acid ? itype_water_acid : itype_water, calendar::turn );
+    const int capa = get_remaining_capacity_for_liquid( *ret, true );
     if( contents.empty() ) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if( !acid ) {
             // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
-            ret.poison = one_in( 10 ) ? 1 : 0;
+            ret->poison = one_in( 10 ) ? 1 : 0;
         }
-        ret.charges = std::min( charges, capa );
-        put_in( ret );
+        ret->charges = std::min( charges, capa );
+        put_in( std::move( ret ) );
     } else {
         // The container already has a liquid.
         item &liq = contents.front();
@@ -232,7 +237,7 @@ void item::add_rain_to_container( bool acid, int charges )
             liq.charges += added;
         }
 
-        if( liq.typeId() == ret.typeId() || liq.typeId() == itype_water_acid_weak ) {
+        if( liq.typeId() == ret->typeId() || liq.typeId() == itype_water_acid_weak ) {
             // The container already contains this liquid or weakly acidic water.
             // Don't do anything special -- we already added liquid.
         } else {
@@ -248,7 +253,7 @@ void item::add_rain_to_container( bool acid, int charges )
             const bool transmute = x_in_y( 2 * added, liq.charges );
 
             if( transmute ) {
-                contents.front() = item( itype_water_acid_weak, calendar::turn, liq.charges );
+                contents.front().convert( itype_water_acid_weak );
             } else if( liq.typeId() == itype_water ) {
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
@@ -277,7 +282,8 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
 
     // Calculate once, because that part is expensive
     // FIXME: make non-static
-    static const item water( itype_water, calendar::start_of_cataclysm );
+    //TODO!: yeah... push up
+    item &water = *item::spawn_temporary( itype_water, calendar::start_of_cataclysm );
     // 250ml
     static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
                                     water.charges;
@@ -333,14 +339,14 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
             auto container = items.end();
             for( auto candidate_container = items.begin(); candidate_container != items.end();
                  ++candidate_container ) {
-                if( candidate_container->is_funnel_container( maxcontains ) ) {
+                if( ( *candidate_container )->is_funnel_container( maxcontains ) ) {
                     container = candidate_container;
                 }
             }
 
             if( container != items.end() ) {
-                container->add_rain_to_container( acid, 1 );
-                container->set_age( 0_turns );
+                ( *container )->add_rain_to_container( acid, 1 );
+                ( *container )->set_age( 0_turns );
             }
         }
     }
@@ -374,8 +380,8 @@ void weather_effect::wet_player( int amount )
     Character &target = get_avatar();
     if( !is_player_outside() ||
         target.has_trait( trait_FEATHERS ) ||
-        target.primary_weapon().has_flag( "RAIN_PROTECT" ) ||
-        ( !one_in( 50 ) && target.worn_with_flag( "RAINPROOF" ) ) ) {
+        target.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) ||
+        ( !one_in( 50 ) && target.worn_with_flag( json_flag_RAINPROOF ) ) ) {
         return;
     }
     // Coarse correction to get us back to previously intended soaking rate.
@@ -386,13 +392,13 @@ void weather_effect::wet_player( int amount )
     for( const bodypart_id &bp : target.get_all_body_parts() ) {
         clothing_map.emplace( bp, std::vector<const item *>() );
     }
-    for( const item &it : target.worn ) {
+    for( const item * const &it : target.worn ) {
         // TODO: Port body part set id changes
-        const body_part_set &covered = it.get_covered_body_parts();
+        const body_part_set &covered = it->get_covered_body_parts();
         for( size_t i = 0; i < num_bp; i++ ) {
             body_part token = static_cast<body_part>( i );
-            if( covered.test( token ) ) {
-                clothing_map[convert_bp( token )].emplace_back( &it );
+            if( covered.test( convert_bp( token ) ) ) {
+                clothing_map[convert_bp( token )].emplace_back( it );
             }
         }
     }
@@ -406,10 +412,10 @@ void weather_effect::wet_player( int amount )
 
     const auto &wet = g->u.body_wetness;
     const auto &capacity = g->u.drench_capacity;
-    body_part_set drenched_parts{ { bp_torso, bp_arm_l, bp_arm_r, bp_head } };
+    body_part_set drenched_parts{ { bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ) } };
     if( wet[bp_torso] * 100 >= capacity[bp_torso] * 50 ) {
         // Once upper body is 50%+ drenched, start soaking the legs too
-        drenched_parts |= { { bp_leg_l, bp_leg_r } };
+        drenched_parts.unify_set( { { bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } } );
     }
 
     g->u.drench( amount, drenched_parts, false );
@@ -461,10 +467,10 @@ void weather_effect::lightning( int intensity )
 void weather_effect::light_acid( int intensity )
 {
     if( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) {
-        if( g->u.primary_weapon().has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
+        if( g->u.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && !one_in( 3 ) ) {
             add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.primary_weapon().tname() );
         } else {
-            if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 4 ) ) {
+            if( g->u.worn_with_flag( json_flag_RAINPROOF ) && !one_in( 4 ) ) {
                 add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
             } else {
                 bool has_helmet = false;
@@ -492,11 +498,11 @@ void weather_effect::acid( int intensity )
     }
 
     auto &you = get_avatar();
-    if( you.primary_weapon().has_flag( "RAIN_PROTECT" ) && one_in( 4 ) ) {
+    if( you.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && one_in( 4 ) ) {
         return add_msg( _( "Your umbrella protects you from the acid rain." ) );
     }
 
-    if( you.worn_with_flag( "RAINPROOF" ) && one_in( 2 ) ) {
+    if( you.worn_with_flag( json_flag_RAINPROOF ) && one_in( 2 ) ) {
         return add_msg( _( "Your clothing protects you from the acid rain." ) );
     }
 
@@ -517,13 +523,15 @@ double precip_mm_per_hour( precip_class const p )
 {
     return
         p == precip_class::very_light ? 0.5 :
-        p == precip_class::light ? 1.5 :
-        p == precip_class::heavy ? 3   :
+        p == precip_class::light ? 1 :
+        p == precip_class::medium ? 2 :
+        p == precip_class::heavy ? 4 :
         0;
 }
 
 void handle_weather_effects( const weather_type_id &w )
 {
+    ZoneScoped;
     if( w->rains && w->precip != precip_class::none ) {
         fill_water_collectors( precip_mm_per_hour( w->precip ),
                                w->acidic );
@@ -535,6 +543,9 @@ void handle_weather_effects( const weather_type_id &w )
         } else if( w->precip == precip_class::light ) {
             wetness = 30;
             decay_time = 15_turns;
+        } else if( w->precip == precip_class::medium ) {
+            wetness = 45;
+            decay_time = 30_turns;
         } else if( w->precip == precip_class::heavy ) {
             decay_time = 45_turns;
             wetness = 60;
@@ -563,15 +574,6 @@ static std::string to_string( const weekdays &d )
     return _( weekday_names[ static_cast<int>( d ) ] );
 }
 
-static std::string print_time_just_hour( const time_point &p )
-{
-    const int hour = to_hours<int>( time_past_midnight( p ) );
-    int hour_param = hour % 12;
-    if( hour_param == 0 ) {
-        hour_param = 12;
-    }
-    return string_format( hour < 12 ? _( "%d AM" ) : _( "%d PM" ), hour_param );
-}
 
 constexpr int NUM_FORECAST_PERIODS = 6;
 
@@ -616,15 +618,14 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
     std::string weather_report;
     // Local conditions
     const auto cref = overmap_buffer.closest_city( tripoint_abs_sm( abs_sm_pos, 0 ) );
-    const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
+    const std::string city_name = cref ? cref.city->name : std::string( _( "#####" ) );
     // Current time
     const weather_manager &weather = get_weather();
     weather_report += string_format(
                           //~ %1$s: time of day, %2$s: hour of day, %3$s: city name, %4$s: weather name, %5$s: temperature value
-                          _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
-                          to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
+                          _( "for %1$s:\nCurrently %2$s, %3$s.\nLater " ),
                           city_name,
-                          get_weather().weather_id->name, print_temperature( get_weather().temperature )
+                          print_temperature( get_weather().temperature ), get_weather().weather_id->name
                       );
 
     //weather_report += ", the dewpoint ???, and the relative humidity ???.  ";
@@ -689,9 +690,9 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
         std::string day;
         if( i == 0 ) {
             if( period.is_day ) {
-                day = _( "Today" );
+                day = _( "today" );
             } else {
-                day = _( "Tonight" );
+                day = _( "tonight" );
             }
         } else {
             if( period.is_day ) {
@@ -704,7 +705,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
         weather_report += string_format(
                               //~ %1 is day or night of week (e.g. "Monday", or "Friday Night"),
                               //~ %2 is weather type, %3 and %4 are temperatures.
-                              _( "%1$s… %2$s. Highs of %3$s. Lows of %4$s. " ),
+                              _( "%1$s, between %3$s and %4$s, %2$s.\n" ),
                               day, period.type->name,
                               print_temperature( period.temp_high ),
                               print_temperature( period.temp_low )
@@ -729,7 +730,7 @@ std::string print_temperature( units::temperature temperature, int decimals )
     };
 
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
-        return string_format( pgettext( "temperature in Celsius", "%sC" ),
+        return string_format( pgettext( "temperature in Celsius", "%s°C" ),
                               text( units::to_celsius<double>( temperature ) ) );
     } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
         return string_format( pgettext( "temperature in Kelvin", "%sK" ),
@@ -975,7 +976,7 @@ std::string get_wind_desc( double windpower )
 {
     std::string winddesc;
     if( windpower < 1 ) {
-        winddesc = _( "Calm" );
+        winddesc = _( "Calm Air" );
     } else if( windpower <= 3 ) {
         winddesc = _( "Light Air" );
     } else if( windpower <= 7 ) {
@@ -1030,12 +1031,12 @@ rl_vec2d convert_wind_to_coord( const int angle )
 bool warm_enough_to_plant( const tripoint &pos )
 {
     // semi-appropriate temperature for most plants
-    return get_weather().get_temperature( pos ) >= 50;
+    return get_weather().get_temperature( pos ) >= 10_c;
 }
 
 bool warm_enough_to_plant( const tripoint_abs_omt &pos )
 {
-    return get_weather().get_temperature( pos ) >= 50;
+    return get_weather().get_temperature( pos ) >= 10_c;
 }
 
 weather_manager::weather_manager()
@@ -1043,7 +1044,7 @@ weather_manager::weather_manager()
     lightning_active = false;
     weather_override = weather_type_id::NULL_ID();
     nextweather = calendar::before_time_starts;
-    temperature = 0;
+    temperature = 0_c;
     weather_id = weather_type_id::NULL_ID();
 }
 
@@ -1058,6 +1059,8 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
 
 void weather_manager::update_weather()
 {
+    ZoneScoped;
+
     w_point &w = weather_precise;
     winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
     windspeed = windspeed_override ? *windspeed_override : w.windpower;
@@ -1074,7 +1077,7 @@ void weather_manager::update_weather()
     }
 
     sfx::do_ambient();
-    temperature = units::to_fahrenheit( w.temperature );
+    temperature = w.temperature;
     lightning_active = false;
     // Check weather every few turns, instead of every turn.
     // TODO: predict when the weather changes and use that time.
@@ -1098,10 +1101,9 @@ void weather_manager::update_weather()
         get_map().set_seen_cache_dirty( tripoint_zero );
     }
 
-    water_temperature = units::to_fahrenheit(
-                            weather_gen.get_water_temperature(
-                                tripoint_abs_ms( g->u.global_square_location() ),
-                                calendar::turn, calendar::config, g->get_seed() ) );
+    water_temperature = weather_gen.get_water_temperature(
+                            tripoint_abs_ms( g->u.global_square_location() ),
+                            calendar::turn, calendar::config, g->get_seed() ) ;
 }
 
 void weather_manager::set_nextweather( time_point t )
@@ -1110,7 +1112,7 @@ void weather_manager::set_nextweather( time_point t )
     update_weather();
 }
 
-int weather_manager::get_temperature( const tripoint &location ) const
+auto weather_manager::get_temperature( const tripoint &location ) const -> units::temperature
 {
     const auto &cached = temperature_cache.find( location );
     if( cached != temperature_cache.end() ) {
@@ -1124,29 +1126,28 @@ int weather_manager::get_temperature( const tripoint &location ) const
         temp_mod += get_heat_radiation( location, false );
         temp_mod += get_convection_temperature( location );
     }
-    const int temp = ( location.z < 0
-                       ? units::to_fahrenheit( temperatures::annual_average )
-                       : temperature ) +
-                     ( g->new_game
-                       ? 0
-                       : g->m.get_temperature( location ) + temp_mod );
 
-    temperature_cache.emplace( std::make_pair( location, temp ) );
-    return temp;
+    const int added_f = g->new_game ? 0 : g->m.get_temperature( location ) + temp_mod;
+    const int base_f = units::to_fahrenheit(
+                           location.z < 0 ? temperatures::annual_average : temperature );
+
+    // Hack: adding temperatures between temperatures makes no sense
+    return units::from_celsius( std::round( units::fahrenheit_to_celsius( base_f + added_f ) ) );
 }
 
-int weather_manager::get_temperature( const tripoint_abs_omt &location )
+auto weather_manager::get_temperature( const tripoint_abs_omt &location ) const ->
+units::temperature
 {
     if( location.z() < 0 ) {
-        return units::to_fahrenheit( temperatures::annual_average );
+        return temperatures::annual_average;
     }
 
     tripoint abs_ms = project_to<coords::ms>( location ).raw();
     w_point w = get_cur_weather_gen().get_weather( abs_ms, calendar::turn, g->get_seed() );
-    return units::to_fahrenheit( w.temperature );
+    return w.temperature;
 }
 
-int weather_manager::get_water_temperature( const tripoint & ) const
+auto weather_manager::get_water_temperature( const tripoint & ) const -> units::temperature
 {
     return water_temperature;
 }
@@ -1172,7 +1173,7 @@ bool is_in_sunlight( const map &m, const tripoint &p, const weather_type_id &wea
 {
     // TODO: Remove that game reference and include light in weather data
     return m.is_outside( p ) && g->light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
-           weather->sun_intensity >= sun_intensity_type::normal;
+           weather->sun_intensity >= sun_intensity_type::light;
 }
 
 } // namespace weather

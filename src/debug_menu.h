@@ -3,6 +3,7 @@
 #define CATA_SRC_DEBUG_MENU_H
 
 #include <optional>
+#include <string>
 
 struct tripoint;
 
@@ -34,6 +35,53 @@ void mutation_wish();
 void benchmark( int max_difference, bench_kind kind );
 
 void debug();
+
+/* Splits a string by @param delimiter and push_back's the elements into _Container */
+template<typename Container>
+Container string_to_iterable( const std::string_view str, const std::string_view delimiter )
+{
+    Container res;
+
+    size_t pos = 0;
+    size_t start = 0;
+    while( ( pos = str.find( delimiter, start ) ) != std::string::npos ) {
+        if( pos > start ) {
+            res.emplace_back( str.substr( start, pos - start ) );
+        }
+        start = pos + delimiter.length();
+    }
+    if( start != str.length() ) {
+        res.emplace_back( str.substr( start, str.length() - start ) );
+    }
+
+    return res;
+}
+
+/* Merges iterable elements into std::string with
+ * @param delimiter between them
+ * @param f is callable that is called to transform each value
+ * */
+template<typename Container, typename Mapper>
+std::string iterable_to_string( const Container &values, const std::string_view delimiter,
+                                const Mapper &f )
+{
+    std::string res;
+    for( auto iter = values.begin(); iter != values.end(); ++iter ) {
+        if( iter != values.begin() ) {
+            res += delimiter;
+        }
+        res += f( *iter );
+    }
+    return res;
+}
+
+template<typename Container>
+std::string iterable_to_string( const Container &values, const std::string_view delimiter )
+{
+    return iterable_to_string( values, delimiter, []( const std::string_view f ) {
+        return f;
+    } );
+}
 
 } // namespace debug_menu
 

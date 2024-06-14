@@ -58,7 +58,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
         REQUIRE( dummy.base_height() == init_height );
 
         WHEN( "they are normal-sized (MEDIUM)" ) {
-            REQUIRE( dummy.get_size() == MS_MEDIUM );
+            REQUIRE( dummy.get_size() == creature_size::medium );
 
             THEN( "height is initial height" ) {
                 CHECK( dummy.height() == init_height );
@@ -67,7 +67,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
 
         WHEN( "they become SMALL" ) {
             set_single_trait( dummy, "SMALL" );
-            REQUIRE( dummy.get_size() == MS_SMALL );
+            REQUIRE( dummy.get_size() == creature_size::small );
 
             THEN( "they are 50cm shorter" ) {
                 CHECK( dummy.height() == init_height - 50 );
@@ -76,7 +76,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
 
         WHEN( "they become LARGE" ) {
             set_single_trait( dummy, "LARGE" );
-            REQUIRE( dummy.get_size() == MS_LARGE );
+            REQUIRE( dummy.get_size() == creature_size::large );
 
             THEN( "they are 50cm taller" ) {
                 CHECK( dummy.height() == init_height + 50 );
@@ -85,7 +85,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
 
         WHEN( "they become HUGE" ) {
             set_single_trait( dummy, "HUGE" );
-            REQUIRE( dummy.get_size() == MS_HUGE );
+            REQUIRE( dummy.get_size() == creature_size::huge );
 
             THEN( "they are 100cm taler" ) {
                 CHECK( dummy.height() == init_height + 100 );

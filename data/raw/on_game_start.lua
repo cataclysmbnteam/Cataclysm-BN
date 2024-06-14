@@ -1,1 +1,1 @@
-print('Lua online.')
+print("Lua online.")

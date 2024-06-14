@@ -2,16 +2,15 @@
   {
     "type": "monstergroup",
     "name": "GROUP_MAYBE_MIL",
-    "//": "50% chance military zombie or robot",
+    "//": "50% chance military zombies",
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_zombie_soldier", "freq": 35, "cost_multiplier": 1 },
-      { "monster": "mon_haulerbot", "freq": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dispatch", "freq": 10, "cost_multiplier": 50 },
-      { "monster": "mon_dispatch_military", "freq": 5, "cost_multiplier": 80 },
-      { "monster": "mon_talon_m202a1", "freq": 15, "cost_multiplier": 50 },
-      { "monster": "mon_zombie_flamer", "freq": 10, "cost_multiplier": 50 },
-      { "monster": "mon_zombie_military_pilot", "freq": 0, "cost_multiplier": 1 }
+      { "monster": "mon_zombie_soldier", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_military_pilot", "freq": 75, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_flamer", "freq": 50, "cost_multiplier": 30 },
+      { "monster": "mon_zombie_bio_op", "freq": 15, "cost_multiplier": 50 },
+      { "monster": "mon_zombie_armored", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_feral_soldier", "freq": 100, "cost_multiplier": 1 }
     ]
   },
   {
@@ -85,7 +84,9 @@
       { "monster": "mon_zombie_scorched", "freq": 25, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier", "freq": 200, "cost_multiplier": 2 },
       { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_flamer", "freq": 1, "cost_multiplier": 30 }
+      { "monster": "mon_zombie_flamer", "freq": 1, "cost_multiplier": 30 },
+      { "monster": "mon_zombie_necro", "freq": 8, "cost_multiplier": 20, "starts": 500 },
+      { "monster": "mon_zombie_master", "freq": 2, "cost_multiplier": 25, "starts": 1000 }
     ]
   },
   {
@@ -117,6 +118,52 @@
       { "monster": "mon_zombie_military_pilot", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_zombie_flamer", "freq": 1, "cost_multiplier": 30 },
       { "monster": "mon_zombie_scientist", "freq": 100, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_AIRCRAFT_CARRIER",
+    "type": "monstergroup",
+    "//": "no children, 40% tech personel 20% civilian personel (med, fire, cook, clercs etc), 20% uniformed zombie, 10% army pilots, and 10% military zeds",
+    "default": "mon_zombie_technician",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "freq": 90, "cost_multiplier": 1 },
+      { "monster": "mon_feral_human_tool", "freq": 90, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_tough", "freq": 36, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_static", "freq": 60, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fireman", "freq": 36, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fat", "freq": 36, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_rot", "freq": 36, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_crawler", "freq": 36, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_brainless", "freq": 36, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_military_pilot", "freq": 106, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_soldier", "freq": 36, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_flamer", "freq": 72, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_military_pilot", "freq": 36, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_soldier", "freq": 90, "cost_multiplier": 5, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_zombie_bio_op", "freq": 12, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_bio_op2", "freq": 12, "cost_multiplier": 10, "starts": 1440 },
+      { "monster": "mon_feral_human_pipe", "freq": 36, "cost_multiplier": 1 },
+      { "monster": "mon_feral_human_crowbar", "freq": 36, "cost_multiplier": 1 },
+      { "monster": "mon_feral_human_axe", "freq": 36, "cost_multiplier": 1 },
+      { "monster": "mon_feral_human_pipe", "freq": 36, "cost_multiplier": 1 },
+      { "monster": "mon_feral_soldier", "freq": 36, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_AIRCRAFT_CARRIER_TECHNICIANS",
+    "type": "monstergroup",
+    "default": "mon_zombie_technician",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "freq": 365, "cost_multiplier": 1 },
+      { "monster": "mon_feral_human_tool", "freq": 365, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_static", "freq": 60, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fireman", "freq": 30, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fat", "freq": 30, "cost_multiplier": 1 },
+      { "monster": "mon_feral_human_pipe", "freq": 30, "cost_multiplier": 1 },
+      { "monster": "mon_feral_human_crowbar", "freq": 30, "cost_multiplier": 1 },
+      { "monster": "mon_feral_human_axe", "freq": 30, "cost_multiplier": 1 },
+      { "monster": "mon_feral_human_pipe", "freq": 30, "cost_multiplier": 1 },
+      { "monster": "mon_feral_soldier", "freq": 30, "cost_multiplier": 1 }
     ]
   }
 ]

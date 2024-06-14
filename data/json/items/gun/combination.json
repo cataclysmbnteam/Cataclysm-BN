@@ -6,8 +6,8 @@
     "color": "brown",
     "name": { "str": "combination gun" },
     "description": "A break action firearm comprised of a .30-06 barrel over two 12 gauge smooth bore barrels.  Historically used by egomaniac hunters in Africa, now used by their egomaniac descendants in New England.",
-    "price": 259500,
-    "price_postapoc": 1500,
+    "price": "2595 USD",
+    "price_postapoc": "15 USD",
     "material": [ "steel", "wood" ],
     "ammo": "3006",
     "weight": "4200 g",
@@ -28,7 +28,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
-      [ "rail mount", 1 ]
+      [ "rail", 1 ]
     ]
   },
   {
@@ -38,14 +38,14 @@
     "color": "brown",
     "name": { "str": "pipe combination gun" },
     "description": "A home-made triple-barreled firearm, one barrel chambered in .30-06 and two other for shotgun shells.  It is made from pipes and parts cannibalized from a double barrel shotgun.",
-    "price": 40000,
+    "price": "400 USD",
     "//": "Attached mod will now have weight.",
     "material": [ "steel", "wood" ],
     "skill": "shotgun",
     "ammo": "3006",
     "weight": "2267 g",
     "volume": "2 L",
-    "price_postapoc": 1250,
+    "price_postapoc": "1250 cent",
     "barrel_length": "500 ml",
     "built_in_mods": [ "combination_gun_shotgun_pipe" ],
     "extend": { "flags": "NEVER_JAMS" }

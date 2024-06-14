@@ -1,5 +1,19 @@
 [
   {
+    "id": "ac_unit_item",
+    "type": "TOOL",
+    "looks_like": "f_air_conditioner",
+    "name": "air conditioner",
+    "description": "A household AC unit, designed to be mounted in a window.",
+    "weight": "18 kg",
+    "volume": "40 L",
+    "price": "200 USD",
+    "price_postapoc": "150 cent",
+    "material": "steel",
+    "symbol": "{",
+    "color": "light_cyan"
+  },
+  {
     "id": "fridge",
     "type": "TOOL",
     "looks_like": "f_fridge",
@@ -7,8 +21,8 @@
     "description": "A large and heavy fridge.",
     "weight": "80 kg",
     "volume": "210000 ml",
-    "price": 1000,
-    "price_postapoc": 150,
+    "price": "500 USD",
+    "price_postapoc": "150 cent",
     "material": "steel",
     "symbol": "{",
     "color": "light_cyan"
@@ -21,8 +35,8 @@
     "description": "A large and heavy freezer, used in restaurants, megastores and other environments where you need a large volume of things frozen.",
     "weight": "80 kg",
     "volume": "210000 ml",
-    "price": 1000,
-    "price_postapoc": 150,
+    "price": "1000 USD",
+    "price_postapoc": "150 cent",
     "material": "steel",
     "symbol": "{",
     "color": "blue"
@@ -36,8 +50,8 @@
     "//": "Glass fridges are lighter than steel, but the volume is larger because of the furniture item.",
     "weight": "77 kg",
     "volume": "260000 ml",
-    "price": 1000,
-    "price_postapoc": 150,
+    "price": "750 USD",
+    "price_postapoc": "150 cent",
     "material": [ "steel", "glass" ],
     "symbol": "{",
     "color": "light_cyan"
@@ -50,8 +64,8 @@
     "description": "A glass freezer.  Used to display frozen goods in shops.",
     "weight": "77 kg",
     "volume": "260000 ml",
-    "price": 1000,
-    "price_postapoc": 150,
+    "price": "1250 USD",
+    "price_postapoc": "150 cent",
     "material": [ "steel", "glass" ],
     "symbol": "{",
     "color": "blue"
@@ -64,10 +78,24 @@
     "description": "A household electric oven.",
     "weight": "60 kg",
     "volume": "45000 ml",
-    "price": 1500,
-    "price_postapoc": 500,
+    "price": "600 USD",
+    "price_postapoc": "5 USD",
     "material": "steel",
     "symbol": "#",
     "color": "dark_gray"
+  },
+  {
+    "id": "plut_generator_item",
+    "type": "TOOL",
+    "looks_like": "t_plut_generator",
+    "name": "plutonium generator",
+    "description": "A generator used on large ships or submarines.  Using a compact nuclear reactor, refined nuclear fuel is sealed within and configured to provide a constant low yield of power when properly installed.  It could be taken apart to reuse the minireactor for more energy-intensive applications, or installed in a local grid to continue providing a small but limitless source of electricity.",
+    "weight": "150 kg",
+    "volume": "75 L",
+    "price": "50000 USD",
+    "price_postapoc": "5 USD",
+    "material": "steel",
+    "symbol": "0",
+    "color": "light_green"
   }
 ]

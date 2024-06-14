@@ -970,7 +970,7 @@ Any or all of the following alterations can be made to the event stream:
 
 - Add new fields to each event based on event field transformations. The event field transformations
   can be found in
-  [`event_field_transformation.cpp`](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/src/event_field_transformations.cpp).
+  [`event_field_transformation.cpp`](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/src/event_field_transformations.cpp).
 - Filter events based on the values they contain to produce a stream containing some subset of the
   input stream.
 - Drop some fields which are not of interest in the output stream.
@@ -1245,7 +1245,7 @@ wake up for the first time after 24 hours into the game.
     ]
 ],
 "stealth_modifier" : 0, // Percentage to be subtracted from player's visibility range, capped to 60. Negative values work, but are not very effective due to the way vision ranges are capped
-"night_vision_range" : 0.0, // Night range vision. Only the best and the worst value out of all mutations are added. (default: 0.0)
+"night_vision_range" : 0.0, // Night range vision. Only the best and the worst value out of all mutations are added. A value of 8 or higher will allow reading in complete darkness as though the player were in dim lighting. (default: 0.0)
 "active" : true, //When set the mutation is an active mutation that the player needs to activate (default: false)
 "starts_active" : true, //When true, this 'active' mutation starts active (default: false, requires 'active')
 "cost" : 8, // Cost to activate this mutation. Needs one of the hunger, thirst, or fatigue values set to true. (default: 0)
@@ -1282,6 +1282,8 @@ wake up for the first time after 24 hours into the game.
                "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
                "active": false , // Will the target mutation start powered ( turn ON ).
                "moves": 100 // how many moves this costs. (default: 0)
+"enchantments": [ "MEP_INK_GLAND_SPRAY" ], // Applies this enchantment to the player. See magic.md and effects_json.md
+"mutagen_target_modifier": 5         // Increases or decreases how mutations prefer to balance out when mutating from mutant toxins, negative values push the target value lower (default: 0)
 }
 ```
 
@@ -1476,7 +1478,7 @@ See also VEHICLE_JSON.md
       "damage_type": "acid",                 // Type of damage dealt.
       "amount": 10                           // Amount of damage dealt.
       "armor_penetration": 4                 // Amount of armor ignored. Applied per armor piece, not in total.
-      "armor_multiplier": 2.5                // Multiplier on effective armor value. Applied after armor penetration.
+      "armor_multiplier": 2.5                // Multiplies remaining damage reduction from armor, applied after armor penetration (if present). Higher numbers make armor stop fragments from this explosion more effectively, lower numbers act as a percentage reduction in remaining armor.
     }
   }
 },
@@ -1536,6 +1538,7 @@ Armor can be defined like this:
 "material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "power_armor" : false, // If this is a power armor item (those are special).
 "valid_mods" : ["steel_padded"] // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
+"resistance": { "cut": 0, "bullet": 1000 } // If set, overrides usual resistance calculation. Values are for undamaged item, thickness affects scaling with damage - 1 thickness means no reduction from damage, 2 means it's halved on first damage, 10 means each level of damage decreases armor by 10%
 ```
 
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
@@ -1749,7 +1752,6 @@ CBMs can be defined like this:
 "charges" : 4,              // Number of uses when spawned
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "fun" : 50                  // Morale effects when used
-"freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked" // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
@@ -1804,6 +1806,7 @@ container. It could also be written as a generic item ("type": "GENERIC") with "
 | --------------- | ---------------------------------------------------------------------------------------- |
 | FIST_WEAPONS    | Handheld weapons used to supplement fists in martial arts.                               |
 | ---             | ---                                                                                      |
+| STILETTOS       | Short, tapering 'blade' fixed onto a handle, has no cutting edge                         |
 | KNIVES          | Short blade fixed onto a handle, for cutting or as weapon.                               |
 | SHORT_SWORDS    | One handed sword of length between a large knife and a 'proper' sword.                   |
 | 1H_SWORDS       | Sword meant to be wielded with one hand.                                                 |
@@ -1827,6 +1830,8 @@ container. It could also be written as a generic item ("type": "GENERIC") with "
 | 2H_AXES         | Axes meant to be wielded with two hands.                                                 |
 | ---             | ---                                                                                      |
 | WHIPS           | Flexible tool used to strike at range.                                                   |
+| ---             | ---                                                                                      |
+| 1H_HOOKED       | One handed weapon with hooking capability. (and isn't an axe or hammer)                  |
 | ---             | ---                                                                                      |
 | HOOKED_POLES    | Polearm with hooked end (Like a shepherd's crook)                                        |
 | SPEARS          | Polearm with a long shaft and a sharp tip made of hard material.                         |
@@ -1927,7 +1932,10 @@ Gun mods can be defined like this:
 ...                            // Same entries as above for the generic item.
                                // Additionally some gunmod specific entries:
 "location": "stock",           // Mandatory. Where is this gunmod is installed?
-"mod_targets": [ "crossbow" ], // Mandatory. What kind of weapons can this gunmod be used with?
+"mod_targets": [ "crossbow" ], // Optional. What specific weapons can this gunmod be used with?
+"mod_target_category": [ [ "BOWS" ] ], // Optional. What specific weapon categories can this gunmod be used with?
+"mod_exclusions": [ "laser_rifle" ], // Optional. What specific weapons can't this gunmod be used with?
+"mod_exclusion_category": [ [ "ENERGY_WEAPONS" ] ], // Optional. What specific weapon categories can't this gunmod be used with?
 "acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
 "install_time": "30 s",        // Optional time installation takes. Installation is instantaneous if unspecified. An integer will be read as moves or a time string can be used.
 "ammo_modifier": [ "57" ],     // Optional field which if specified modifies parent gun to use these ammo types
@@ -2012,6 +2020,9 @@ can be planted:
     "grow" : 91 // A time duration: how long it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
                 // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
                 // A value 91 means 3 full seasons, a value of 30 would mean 1 season.
+    "required_terrain_flag": "PLANTABLE" // A tag that terrain and furniture would need to have in order for the seed to be plantable there.
+					 // Default is "PLANTABLE", and using this will cause any terain the plant is wrown on to turn into dirt once the plant is planted, unless furniture is used.
+					 // Using any other tag will not turn the terrain into dirt.
 }
 ```
 
@@ -2275,10 +2286,6 @@ more structured function.
     "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
 },
 "use_action": {
-    "type": "picklock", // picking a lock on a door
-    "pick_quality": 3 // "quality" of the tool, higher values mean higher success chance, and using it takes less moves.
-},
-"use_action": {
     "type": "firestarter", // Start a fire, like with a lighter.
     "moves_cost": 15 // Number of moves it takes to start the fire.
 },
@@ -2418,7 +2425,29 @@ more structured function.
     "done_message": "Place the beartrap on the %s.", // The message that appears after the trap has been placed. %s is replaced with the terrain name of the place where the trap has been put.
     "practice": 4, // How much practice to the "traps" skill placing the trap gives.
     "moves": 10 // (optional, default is 100): the move points that are used by placing the trap.
-}
+},
+"use_action": {
+  {
+    "type": "repair_item",                // Repair items. Skill, tool quality, and dexterity is checked against how hard that item is to craft/dissemble (which may be modified with repairs_like).
+    "item_action_type": "repair_fabric",  // Points to an item_action JSON entry that determines the action's name in the use menu. Vanilla examples include repair_fabric and repair_metal.
+    "materials": [                        // What materials can be repaired by this item. Materials.json defines what item is consumed when repairing items of that material.
+      "cotton",
+      "leather",
+      "nylon",
+      "wool",
+      "fur",
+      "faux_fur",
+      "nomex",
+      "kevlar",
+      "neoprene",
+      "gutskin"
+    ],
+    "skill": "tailor",    // What skill determines chance of success vs. risk of damaging the item further.
+    "tool_quality": 3,    // Bonus from tool, 1.<X> times multiplier on skill.  With 8 Dex, 10 skill plus 2 or more tool_quality allows any item in the game to be fully reinforced.
+    "cost_scaling": 0.1,  // Reduces or increases how much raw material is needed per successful repair action, also affected by the item's volume.
+    "move_cost": 800      // How long between each roll for success or failure, 100 moves is 1 turn.
+  }
+},
 "use_action": {
     "type": "sew_advanced",  // Modify clothing
     "materials": [           // materials to deal with.
@@ -2612,11 +2641,28 @@ entries.
   "examine_action": "toilet",
   "close": "f_foo_closed",
   "open": "f_foo_open",
+  "lockpick_result": "f_safe_open",
+  "lockpick_message": "With a click, you unlock the safe.",
+  "provides_liquids": "beer",
   "bash": "TODO",
   "deconstruct": "TODO",
   "max_volume": "1000 L",
   "examine_action": "workbench",
-  "workbench": { "multiplier": 1.1, "mass": 10000, "volume": "50L" }
+  "workbench": { "multiplier": 1.1, "mass": 10000, "volume": "50L" },
+  "boltcut": {
+    "result": "f_safe_open",
+    "duration": "1 seconds",
+    "message": "The safe opens.",
+    "sound": "Gachunk!",
+    "byproducts": [{ "item": "scrap", "count": 3 }]
+  },
+  "hacksaw": {
+    "result": "f_safe_open",
+    "duration": "12 seconds",
+    "message": "The safe is hacksawed open!",
+    "sound": "Gachunk!",
+    "byproducts": [{ "item": "scrap", "count": 13 }]
+  }
 }
 ```
 
@@ -2633,11 +2679,87 @@ Same as for terrain, see below in the chapter "Common to furniture and terrain".
 Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the
 underlying terrain.
 
+#### `lockpick_result`
+
+(Optional) When the furniture is successfully lockpicked, this is the furniture it will turn into.
+
+#### `lockpick_message`
+
+(Optional) When the furniture is successfully lockpicked, this is the message that will be printed
+to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
+
+#### `oxytorch`
+
+(Optional) Data for using with an oxytorch.
+
+```cpp
+oxytorch: {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
+    "message": "You quickly cut the metal", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
 #### `light_emitted`
 
 How much light the furniture produces. 10 will light the tile it's on brightly, 15 will light that
 tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from
 the source. For examples: An overhead light is 120, a utility light, 240, and a console, 10.
+
+#### `boltcut`
+
+(Optional) Data for using with an bolt cutter.
+
+```cpp
+"boltcut": {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for bolt cutting, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "sound": "Gachunk!", // ( optional ) description of the sound when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
+#### `hacksaw`
+
+(Optional) Data for using with an hacksaw.
+
+```cpp
+"hacksaw": {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for hacksawing, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
 
 #### `required_str`
 
@@ -2665,6 +2787,11 @@ also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag.
 (Optional) Surgery skill multiplier (float) applied by this furniture to survivor standing next to
 it for the purpose of surgery.
 
+#### `provides_liquids`
+
+(Optional) Dispenses infinite amounts of specified liquid item when interacted. Must be used with
+`"examine_action": "liquid_source"` to work.
+
 ### Terrain
 
 ```json
@@ -2683,13 +2810,29 @@ it for the purpose of surgery.
   "connects_to": "WALL",
   "close": "t_foo_closed",
   "open": "t_foo_open",
+  "lockpick_result": "t_door_unlocked",
+  "lockpick_message": "With a click, you unlock the door.",
   "bash": "TODO",
   "deconstruct": "TODO",
   "harvestable": "blueberries",
   "transforms_into": "t_tree_harvested",
   "harvest_season": "WINTER",
   "roof": "t_roof",
-  "examine_action": "pit"
+  "examine_action": "pit",
+  "boltcut": {
+    "result": "t_door_unlocked",
+    "duration": "1 seconds",
+    "message": "The door opens.",
+    "sound": "Gachunk!",
+    "byproducts": [{ "item": "scrap", "2x4": 3 }]
+  },
+  "hacksaw": {
+    "result": "t_door_unlocked",
+    "duration": "12 seconds",
+    "message": "The door is hacksawed open!",
+    "sound": "Gachunk!",
+    "byproducts": [{ "item": "scrap", "2x4": 13 }]
+  }
 }
 ```
 
@@ -2713,6 +2856,37 @@ How much light the terrain emits. 10 will light the tile it's on brightly, 15 wi
 and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the
 source. For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
+#### `lockpick_result`
+
+(Optional) When the terrain is successfully lockpicked, this is the terrain it will turn into.
+
+#### `lockpick_message`
+
+(Optional) When the terrain is successfully lockpicked, this is the message that will be printed to
+the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
+
+#### `oxytorch`
+
+(Optional) Data for using with an oxytorch.
+
+```cpp
+oxytorch: {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
+    "message": "You quickly cut the bars", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
 #### `trap`
 
 (Optional) Id of the build-in trap of that terrain.
@@ -2729,6 +2903,51 @@ A built-in trap prevents adding any other trap explicitly (by the player and thr
 (Optional) If defined, the terrain is harvestable. This entry defines the item type of the harvested
 fruits (or similar). To make this work, you also have to set one of the `harvest_*` `examine_action`
 functions.
+
+#### `boltcut`
+
+(Optional) Data for using with an bolt cutter.
+
+```cpp
+"boltcut": {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for bolt cutting, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "sound": "Gachunk!", // ( optional ) description of the sound when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
+#### `hacksaw`
+
+(Optional) Data for using with an hacksaw.
+
+```cpp
+"hacksaw": {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for hacksawing, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
 
 #### `transforms_into`
 
@@ -3058,6 +3277,102 @@ longer to grow, and for numbers less than one it will take less time to grow.
 A flat multiplier on the harvest count of the plant. For numbers greater than one, the plant will
 give more produce from harvest, for numbers less than one it will give less produce from harvest.
 
+### trap
+
+```json
+{
+  "type": "trap",                // Defines this as a trap
+  "id": "tr_caltrops_glass",     // Unique identifier
+  "name": "glass caltrops",      // Displayed name
+  "color": "dark_gray",          // Color of symbol displayed if tiles are disabled or if no sprite is defined for it
+  "symbol": "_",                 // Symbol display if tiles are disabled or if no sprite is defined
+  "looks_like": "tr_caltrops",   // hint to tilesets if this part has no tile, use the looks_like tile
+  "visibility": 6,               // Difficulty of spotting this trap if not placed by the player, checked against perception. 0 means the trap is never concealed from the player
+  "avoidance": 6,                // How likely the trap is to be set off when stepped into. 0 means the trap will never be set off if stepped onto
+  "difficulty": 0,               // How hard the trap is to disarm, higher is harder.
+  "action": "caltrops_glass",    // What the trap does when triggered, see trapfunc.cpp or below for more info
+  "spell_data": { "id": "spell_trap_can_alarm_trigger" },   // `id` of spell cast by a trap with the `spell` trap action
+  "map_regen": "microlab_shifting_hall",    // Used by traps with the `map_regen` action, defines what `mapgen_update` entry is used for the area it's applied to.
+  "remove_on_trigger": true,     // Does the trap remove itself after being set off? Omit if the trap is intended to stick around and trigger repeatedly, not recommended for traps generated by terrain
+  "trigger_items": [ "tripwire", "shotgun_d", { "item": "shot_hull", "quantity": 2, "charges": 1 } ],   // What items spawn when the trap is triggered, times `quantity` and of `charges` amount (used if item has a default stack size like ammo). Note that the `beartrap`, `snare_light`, `snare_heavy`, `pit_spikes`, `pit_glass`, and `crossbow` still have some items that are spawned by hardcoded behavior for various reasons.
+  "drops": [ "tripwire", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],   // That items drop when the trap is succesfully disarmed. Optional use of `quantity` or `charges` follows same conventions as with `trigger_items`
+  "vehicle_data": {              // Block of behaviors that occur when a vehicle's wheel rolls over this trap, separate from normal behaviors of traps being set off by players or monsters
+    "do_explosion": true,        // If true, create an explosion instead of simply applying damage value to the exact vehicle tile that triggered the trap
+    "damage": 1000,              // Direct damage applied to the vehicle tile that triggered it, or base damage at epicenter, depending on if `do_explosion` is true
+    "shrapnel": 8,               // Fragmentation damage if set to explode
+    "sound_volume": 10,          // Volume of sound, if specified, that plays when triggering
+    "sound": "Boom!",            // Sound description as posted in message log, in the form of "You hear %s"
+    "sound_type": "explosion",   // Possible types are: background, weather, music, movement, speech, activity, destructive_activity, alarm, combat, alert, order
+    "sound_variant": "default"   // Sound variant used
+  },
+  "benign": true,                // This means it's not a trap meant to be set off but something harmless like a rollmat or funnel, so won't ask the player if they're really sure about stepping into it, and monsters with the `PATH_AVOID_DANGER_2` monflag won't care about avoiding these. Using this with an `action` that can actually cause harm is a Bad Idea
+  "funnel_radius": 200           // Used for funnels, when it's raining this trap will collect water at a rate based on this value, automatically filling empty container items placed on the same tile as it
+  "floor_bedding_warmth": -1000, // Used for rollmats and the like, bonus warmth offered by this terrain/furniture when used to sleep.
+},
+```
+
+#### action
+
+The following actions are available as defined in trapfunc.cpp:
+
+- `none` - Does nothing, used for funnels and other things where no trap behavior is necessary.
+- `bubble` - Makes a pop sound from stepping on bubble wrap, and that's all.
+- `glass` - Deals minor cutting damage to whatever steps on it, crunchy glass noises.
+- `cot` - Perfectly safe and cozy if you're a player or NPC, but monsters will stumble over it and
+  lose a turn.
+- `beartrap` - Deals damage and keeps the victim locked to that tile until they break free. If so,
+  the item itself is dropped later on once they free themselves.
+- `board` - Deals some minor damage to whatever steps on it, and subtracts some moves from them.
+- `caltrops` - Deals damage to whatever steps on it, and subtracts some moves from them.
+- `caltrops_glass` - Same basic effect as `caltrops_glass` but with more glass crunching noises.
+- `tripwire` - Deals minor damage if it successfully trips the victim, knocking them back and
+  substracting moves from them.
+- `crossbow` - Deals piercing damage with a chance of missing, the ammunition being dropped
+  afterward is still hardcoded into this due to having a random chance to spawn.
+- `shotgun` - Deals heavy ballistic damage to whoever sets it off. If the trap's ID is specifically
+  `tr_shotgun_2`, the victim is hit twice instead of only once.
+- `blade` - Lashes out and strikes whoever sets it off with direct bashing and cutting damage.
+- `snare_light` - Deals damage and keeps the victim locked to that tile until they break free,
+  spawning the relevant items when the effect wears off.
+- `snare_heavy` - Comparable to `snare_light` but higher damage, and different item spawns when the
+  target frees themselves.
+- `landmine` - Explosion with moderate damage and heavy fragmentation.
+- `boobytrap` - Same effect as `landmine` but different message printed on trigger.
+- `telepad` - Teleports the victim to a random space within 8 tiles, with risk of teleporting into a
+  wall, and inflicts teleglow on them.
+- `goo` - Players and NPCs have a chance of taking damage and are slowed down by slime, non-slime
+  monsters take a speed debuff and non-robot monsters get turned into slimes.
+- `dissector` - Deals cutting damage to victims, creatures of species `ROBOT` are immune.
+- `pit` - Victim takes falling damage and is held in place until they climb back out.
+- `pit_spikes` - As with `pit` but additional damage from spikes. Random chance of the spikes
+  breaking, spawning additional items and converting underlying terrain to `t_pit`.
+- `pit_glass` - Similiar to `pit_spikes`, except when it decides to break it spawns glass shards
+  instead of wooden spears.
+- `lava` - High levels of heat damage dealt to whatever sets it off.
+- `portal` - Currently aliases to `telepad` and triggers the exact same effects.
+- `sinkhole` - If triggered, converts the underlying terrain to `t_pit` and triggers the effect of
+  falling into a pit. Players can attempt to prevent this if they have a grappling hook, bullwhip,
+  or long rope in their inventory, or if they have the Web Diver mutation.
+- `ledge` - Fall down a level to whatever is below, triggering potential falling damage.
+- `temple_flood` - Used in strange temples to trigger the hardcoded event that floors that converts
+  floor in the area to deep water. Only the player can set this off, not NPCs or monsters.
+- `temple_toggle` - Used in strange temples, toggles red/green/blue puzzle tiles between floor and
+  wall forms. Only the player can set this off, not NPCs or monsters.
+- `glow` - Random chance of irradiating and flashbanging players and NPCs, monsters have a chance of
+  suffering acid damage and a speed debuff instead.
+- `hum` - Makes a humming noise of a randomized volume, ranging from barely audiable to deafening.
+- `shadow` - Summons shadow monsters nearby. Only the player can set this off, not NPCs or monsters.
+- `map_regen` - Applies the mapgen update specified in the trap's `map_regen` to the map tile the
+  trap is in, for altering the map. If used, `remove_on_trigger` and `trigger_items` aren't
+  processed as the mapgen update could just as easily remove the trap, change it to something else,
+  or do any number of things that would otherwise disrupt the trap cleanup function.
+- `drain` - Deals a tiny amount of damage to the target, ignores armor and immunities.
+- `cast_spell` - Casts the spell specified by the trap's `spell_data`, centered on whatever set it
+  off. Note that the spell used generally requires a `min_aoe` defined to work successfully, and not
+  all spell effects can be expected to work properly with this.
+- `snake` - Similar to `shadow` trap effect, summons shadow snakes nearby. Main difference is NPCs
+  and monsters are capable of setting it off.
+
 ### clothing_mod
 
 ```json
@@ -3080,3 +3395,30 @@ give more produce from harvest, for numbers less than one it will give less prod
     }
 ]
 ```
+
+## Obsoletion and migration
+
+For maps, you remove the item from all the places it can spawn, remove the mapgen entries, and add
+the overmap terrain id into `data/json/obsoletion/migration_oter_ids.json`, to migrate oter_id
+`underground_sub_station` and `sewer_sub_station` into their rotatable versions, note that if mapgen
+has already generated this area this will only alter the tile shown on the overmap:
+
+```json
+{
+  "type": "oter_id_migration",
+  "//": "obsoleted in 0.4",
+  "old_directions": false,
+  "new_directions": false,
+  "oter_ids": {
+    "underground_sub_station": "underground_sub_station_north",
+    "sewer_sub_station": "sewer_sub_station_north"
+  }
+}
+```
+
+If `old_directions` option is enabled each entry will create four migrations: for `old_north`,
+`old_west`, `old_south`, and `old_east`. What they will be migrated to depends of value of
+`new_directions` option. If it is set to `true` then terrains will be migrated to same directions:
+`old_north` to `new_north`, `old_east` to `new_east` and such. If `new_directions` is set to
+`false`, then all four terrains will be migrated to one plain `new`. For both of those cases you
+only need to specify plain `old` and `new` names in `oter_ids` map, without any suffixes.

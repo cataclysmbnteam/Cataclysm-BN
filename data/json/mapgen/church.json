@@ -6,9 +6,9 @@
     "//": "New England Church",
     "weight": 1000,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_floor",
       "rows": [
-        "         ^^^^^^         ",
+        "     4   ^^^^^^   4     ",
         "     |---|--------|     ",
         "    ||dhy|.6ooo.ll||    ",
         "    |W...+.........Dsss ",
@@ -33,7 +33,7 @@
         "     ^^    ss    ^^   s ",
         "     ^^    ss    ^^   s "
       ],
-      "terrain": { "p": "t_floor", "W": "t_floor", "<": "t_stairs_up", "y": "t_floor", "r": "t_carpet_red" },
+      "terrain": { "<": "t_stairs_up", "r": "t_carpet_red", "4": "t_gutter_downspout" },
       "furniture": { "p": "f_piano", "W": "f_wardrobe" },
       "palettes": [ "church" ],
       "mapping": { "b": { "furniture": "f_brazier" } },
@@ -61,29 +61,29 @@
     "method": "json",
     "om_terrain": "church_roof",
     "object": {
-      "fill_ter": "t_open_air",
+      "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",
-        "     |2222222222223     ",
-        "    ||............33    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "   ||..............33   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |.....######.....3   ",
-        "   |--|..#____#..3--3   ",
-        "      |..#>  <#..3      ",
-        "      |..#____#..3      ",
-        "      |--######--3      ",
+        "     5------------5     ",
+        "    --............--    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "   --..............--   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -.....######.....-   ",
+        "   ----..#____#..----   ",
+        "      -..#>QQ<#..-      ",
+        "      -..#____#..-      ",
+        "      ---######---      ",
         "         O    O         ",
         "                        ",
         "                        "
@@ -95,7 +95,7 @@
         ">": "t_stairs_down",
         "<": "t_stairs_up",
         "#": "t_wall_w",
-        "Q": "t_open_air"
+        "Q": "t_open_air_rooved"
       }
     }
   },
@@ -124,7 +124,7 @@
         "                        ",
         "         ##oo##         ",
         "         #____#         ",
-        "         o>  <o         ",
+        "         o>QQ<o         ",
         "         #____#         ",
         "         ##oo##         ",
         "                        ",
@@ -132,7 +132,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "o": "t_wall_glass", "#": "t_wall_w" }
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "o": "t_wall_glass", "#": "t_wall_w", "Q": "t_open_air_rooved" }
     }
   },
   {
@@ -160,7 +160,7 @@
         "                        ",
         "         ##oo##         ",
         "         #____#         ",
-        "         o_  >o         ",
+        "         o_QQ>o         ",
         "         #____#         ",
         "         ##oo##         ",
         "                        ",
@@ -168,7 +168,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_stairs_down", "#": "t_wall_w", "o": "t_wall_glass" }
+      "terrain": { ">": "t_stairs_down", "#": "t_wall_w", "o": "t_wall_glass", "Q": "t_open_air_rooved" }
     }
   },
   {
@@ -176,7 +176,7 @@
     "method": "json",
     "om_terrain": "church_steeple_roof",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",
         "                        ",
@@ -390,7 +390,7 @@
         "+": "t_door_locked",
         "D": "t_window_domestic",
         "B": "t_window_stained_blue",
-        "_": "t_flat_roof",
+        "_": "t_rock_floor_no_roof",
         ">": "t_stairs_down",
         "G": "t_window_stained_green"
       },

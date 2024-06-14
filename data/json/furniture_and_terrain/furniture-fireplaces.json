@@ -7,16 +7,18 @@
     "description": "Ah.  The relaxation of sitting in front of a fire as the world around you crumbles.  Towards the End, you could also get this service on your television.",
     "bgcolor": "white",
     "move_cost_mod": 2,
-    "coverage": 50,
+    "coverage": 90,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MINEABLE" ],
     "examine_action": "fireplace",
     "bash": {
-      "str_min": 30,
+      "str_min": 50,
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": [ 15, 30 ] } ]
+      "items": [ { "item": "rock", "count": [ 15, 30 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 50, 100 ], "destroy_threshold": 100, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -37,7 +39,8 @@
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 3, 6 ] }, { "item": "pipe", "prob": 50 } ]
+      "items": [ { "item": "scrap", "count": [ 3, 6 ] }, { "item": "pipe", "prob": 50 } ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     },
     "deconstruct": { "items": [ { "item": "metal_tank", "count": 1 }, { "item": "pipe", "count": 1 } ] }
   },
@@ -63,7 +66,8 @@
         { "item": "scrap", "count": [ 5, 15 ] },
         { "item": "steel_chunk", "count": [ 2, 6 ] },
         { "item": "sheet_metal_small", "count": [ 2, 6 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -74,7 +78,6 @@
     "symbol": "#",
     "color": "red",
     "move_cost_mod": 2,
-    "coverage": 35,
     "required_str": 4,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "hobo_stove",
@@ -101,7 +104,7 @@
     "color": "red",
     "looks_like": "55gal_drum",
     "move_cost_mod": 2,
-    "coverage": 35,
+    "coverage": 60,
     "required_str": 8,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "55gal_firebarrel",
@@ -115,7 +118,8 @@
         { "item": "scrap", "count": [ 8, 20 ] },
         { "item": "sheet_metal_small", "count": [ 3, 10 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -141,7 +145,8 @@
         { "item": "scrap", "count": [ 4, 10 ] },
         { "item": "sheet_metal_small", "count": [ 2, 5 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
     }
   },
   {

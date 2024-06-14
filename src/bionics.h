@@ -12,6 +12,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "flat_set.h"
 #include "translations.h"
 #include "type_id.h"
@@ -134,8 +135,8 @@ struct bionic_data {
      */
     std::set<bionic_id> available_upgrades;
 
-    std::set<flag_str_id> flags;
-    bool has_flag( const flag_str_id &flag ) const;
+    std::set<flag_id> flags;
+    bool has_flag( const flag_id &flag ) const;
 
     itype_id itype() const;
 
@@ -147,9 +148,11 @@ struct bionic_data {
     static void reset();
 
     bool was_loaded = false;
-    void load( const JsonObject &obj, std::string );
+    void load( const JsonObject &obj, const std::string & );
     void check() const;
     void finalize() const;
+
+    LUA_TYPE_OPS( bionic_data, id );
 };
 
 struct bionic {

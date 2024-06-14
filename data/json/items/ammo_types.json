@@ -79,6 +79,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "shotcanister",
+    "name": "shotcanisters",
+    "default": "shotcanister_scrap"
+  },
+  {
+    "type": "ammunition_type",
     "id": "410shot",
     "name": ".410 shot",
     "default": "410shot_000"
@@ -637,9 +643,21 @@
     "default": "water"
   },
   {
+    "type": "ammunition_type",
+    "id": "cannon",
+    "name": "3-inch cannon",
+    "default": "cannon_explosive_shell"
+  },
+  {
     "id": "acid",
     "type": "ammunition_type",
     "name": "acid",
     "default": "acid"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mininuke_mod",
+    "name": "modified mininuke",
+    "default": "mininuke_mod"
   }
 ]

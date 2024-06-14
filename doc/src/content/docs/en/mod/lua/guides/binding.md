@@ -86,6 +86,88 @@ similar file. They are also spread out into functions, for the same reasons. Let
 4. That's it. Your type is now visible in Lua under name `Horde`, and you can use the binded methods
    and members.
 
+### Binding new type to Lua (using Neovim's regex)
+
+Binding classes/structs to Lua by hand can be quite tedious, which is why another way to bind a
+class is by transforming its header file. For the third step of the second part from
+[previously](#binding-new-type-to-lua), it's possible to use Neovim's built-in regex and C++ macros
+to bind the class for us.
+
+1. Make a copy of the class definition.
+2. Apply both: `%s@class \([^{]\)\+\n*{@private:@` `%s@struct \([^{]\)\+\n*{@public:@`
+3. Manually remove the constructors/unwanted methods at the beginning.
+4. Delete all `private`/`protected` methods: `%s@\(private:\|protected:\)\_.\{-}\(public:\|};\)@\2`
+5. Remove `};` at the end of the class definition.
+6. Delete `public` labels: `%s@ *public:\n@`
+7. Delete comments: `%s@\( *\/\*\_.\{-}\*\/\n\{,1\}\)\|\( *\/\/\_.\{-}\(\n\)\)@\3@g`
+8. Unindent until there is zero base indentation.
+9. Turn method definitions into declarations: `%s@ *{\(}\|\_.\{-}\n^}\)@;`
+10. Push most method declarations into a single line: `%s@\((\|,\)\n *@\1@g`
+11. Remove default values: `%s@ *= *\_.\{-}\( )\|;\|,\)@\1@g`
+12. Remove `overriden`/`static` methods/members and `using`s:
+    `%s@.*\(override\|static\|using\).*\n@@g`
+13. Remove `template`s: `%s@^template<.*>\n.*\n@@g`
+14. Remove `virtual` tag: `%s@^virtual *@`
+15. Check if all lines end in a semicolon: `%s@\([^;]\)\n@\0@gn`
+16. Count how many functions there are: `%s@\(.*(.*).*\)@@nc`
+17. Push first found function to the end: `%s@\(.*(.*).*\)\n\(\n*\)\(\_.*\)@\3\1\2`
+18. Now you'll want to repeat step 16 for the number of matches in step 15 minus one. For Neovim,
+    input the match count minus one, '@', then ':', e.g. '217@:' repeats the last command 217 times.
+19. Clean up new lines: `%s@\n\{3,}@\r\r`
+20. Wrap methods into a macro: `%s@\(.*\) \+\([^ ]\+\)\((.*\);@SET_FX_T( \2, \1\3 );`
+21. Wrap members into a macro; make sure to select which lines to affect first:
+    `s@.\{-}\([^ ]\+\);@SET_MEMB( \1 );`
+22. Make the previously multi-line method declarations span multiple lines again:
+    `%s@\(,\)\([^ ]\)@\1\r        \2@g`
+
+Now what's left to do is to take the chunk of text and use it in a Lua binding. Continuing with the
+horde example, this is how the code should look like with these macros:
+
+```cpp
+#ifdef LUA
+#include "catalua_bindings.h"
+#include "catalua_bindings_utils.h"
+
+#include "horde.h" // Replace with the header where your type is defined
+
+void cata::detail::reg_horde( sol::state &lua )
+{
+    #define UT_TYPE horde
+    sol::usertype<UT_TYPE> ut =
+    luna::new_usertype<UT_TYPE>(
+        lua,
+        luna::no_bases,
+        luna::constructors <
+            // Define your actual constructors here
+            UT_TYPE(),
+            UT_TYPE( const point & ),
+            UT_TYPE( int, int )
+            > ()
+       );
+
+    // Register all needed members
+    SET_MEMB( pos );
+    SET_MEMB( size );
+
+    // Register all needed methods
+    SET_FX_T( move_to, ... ); // Instead of ..., there'd be the type declaration of the method.
+    SET_FX_T( update, ... );
+    SET_FX_T( get_printable_name, ... );
+
+    // Add (de-)serialization functions so we can carry
+    // our horde over the save/load boundary
+    reg_serde_functions( ut );
+
+    // Add more stuff like arithmetic operators, to_string operator, etc.
+    // ...
+    #undef UT_TYPE // #define UT_TYPE horde
+}
+```
+
+This method of binding to Lua lacks template method bindings and may be broken: compiler errors,
+linker freezes, so it's best to assume these bindings will be broken by default, only needing slight
+fixes / manual additions.
+
 ### Binding new enum to Lua
 
 Binding enums is similar to binding types. Let's bind an imaginary `horde_type` enum here:
@@ -143,11 +225,17 @@ Binding these can be done separately from binding `T` itself.
 3. Ensure your type `T` implements operators `<` and `==`. It's usually easy implement them
    manually, and can be done semi-automatically with macro `LUA_TYPE_OPS` found in
    `catalua_type_operators.h`.
-4. In `catalua_bindings_ids.cpp`, add the header where your type T is defined:
+4. Ensure your type `T` has a null `string_id`. You can add one if it doesn't exist in
+   `string_id_null_ids.cpp`. Use the `MAKE_CLASS_NULL_ID` macro if `T` is defined as a class,
+   `MAKE_STRUCT_NULL_ID` macro otherwise.
+5. Ensure your type's `T` `string_id` has `obj()` and `is_valid()` methods implemented. These
+   methods are implemented on a case-by-case basis. Checking other `string_id`s as example is
+   recommended.
+6. In `catalua_bindings_ids.cpp`, add the header where your type T is defined:
    ```cpp
    #include "your_type_definition.h"
    ```
-5. In `reg_game_ids` function, register it like so:
+7. In `reg_game_ids` function, register it like so:
    ```cpp
    reg_id<T, true>( lua );
    ```

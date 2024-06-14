@@ -5,15 +5,12 @@ if (LANGUAGES STREQUAL none)
     return()
 endif ()
 
-find_package(Gettext)
-
-if (NOT GETTEXT_FOUND)
-    message(
-        FATAL_ERROR
+if(NOT GETTEXT_MSGFMT_EXECUTABLE)
+    message(FATAL_ERROR
             "Gettext not found. Install gettext package or disable \
              compilation of language files with: -DLANGUAGES=none. \
              See CMake compiling guide for details and more info.")
-endif ()
+endif()
 
 if (LANGUAGES STREQUAL all)
     set(LANGUAGES "")
@@ -27,7 +24,7 @@ if (LANGUAGES STREQUAL all)
 endif ()
 
 foreach (LANG ${LANGUAGES})
-    message(STATUS "Add translation for ${LANG}: ${LANG}.po")
+    message(VERBOSE "Add translation for ${LANG}: ${LANG}.po")
 endforeach ()
 message("\n")
 
@@ -59,5 +56,5 @@ foreach (LANG ${LANGUAGES})
                 ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-bn.mo
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     # FIXME: check if this works
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${DATA_PREFIX})
+    # install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${DATA_PREFIX})
 endforeach ()

@@ -184,6 +184,7 @@
       { "group": "tinware", "prob": 10 },
       [ "kukri", 4 ],
       [ "knife_hunting", 18 ],
+      [ "knife_heat", 10 ],
       [ "knife_rambo", 20 ],
       [ "machete", 5 ],
       [ "machete_gimmick", 5 ],
@@ -223,6 +224,7 @@
       [ "lighter", 60 ],
       [ "ref_lighter", 10 ],
       [ "matches", 60 ],
+      [ "electric_lighter", 10 ],
       [ "sewing_kit", 47 ],
       [ "tailors_kit", 3 ],
       [ "thread", 40 ],
@@ -322,6 +324,30 @@
       [ "mess_tin", 10 ],
       [ "survival_kit", 30 ],
       [ "premium_survival_kit", 3 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "games",
+    "items": [
+      [ "chess", 50 ],
+      [ "checkers", 50 ],
+      [ "deck_of_cards", 50 ],
+      [ "cards_magic", 50 ],
+      [ "pictionary", 50 ],
+      [ "monopoly", 50 ],
+      [ "dnd", 50 ],
+      [ "g_warhammer", 50 ],
+      [ "g_warhammer40k", 50 ],
+      [ "catan", 50 ],
+      [ "battleship", 50 ],
+      [ "clue", 50 ],
+      [ "metal_RPG_die", 30 ],
+      [ "RPG_die", 40 ],
+      [ "character_sheet", 20 ],
+      [ "scorecard", 10 ],
+      [ "dnd_handbook", 5 ],
+      [ "portable_game", 5 ]
     ]
   }
 ]

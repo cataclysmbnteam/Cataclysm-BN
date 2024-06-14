@@ -52,6 +52,7 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
         case mon_trigger::SOUND: return "SOUND";
         case mon_trigger::PLAYER_NEAR_BABY: return "PLAYER_NEAR_BABY";
         case mon_trigger::MATING_SEASON: return "MATING_SEASON";
+        case mon_trigger::NETHER_ATTENTION: return "NETHER_ATTENTION";
         // *INDENT-ON*
         case mon_trigger::_LAST:
             break;
@@ -179,6 +180,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_STUN_IMMUNE: return "STUN_IMMUNE";
         case MF_LOUDMOVES: return "LOUDMOVES";
         case MF_DROPS_AMMO: return "DROPS_AMMO";
+        case MF_CAN_BE_ORDERED: return "CAN_BE_ORDERED";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -263,18 +265,18 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
-static m_size volume_to_size( const units::volume &vol )
+static creature_size volume_to_size( const units::volume &vol )
 {
     if( vol <= 7500_ml ) {
-        return MS_TINY;
+        return creature_size::tiny;
     } else if( vol <= 46250_ml ) {
-        return MS_SMALL;
+        return creature_size::small;
     } else if( vol <= 77500_ml ) {
-        return MS_MEDIUM;
+        return creature_size::medium;
     } else if( vol <= 483750_ml ) {
-        return MS_LARGE;
+        return creature_size::large;
     }
-    return MS_HUGE;
+    return creature_size::huge;
 }
 
 struct monster_adjustment {
@@ -305,6 +307,8 @@ void monster_adjustment::apply( mtype &mon )
     if( !special.empty() ) {
         if( special == "nightvision" ) {
             mon.vision_night = mon.vision_day;
+        } else if( special == "no_zombify" ) {
+            mon.zombify_into = mtype_id::NULL_ID();
         }
     }
 }
@@ -353,9 +357,11 @@ void MonsterGenerator::finalize_mtypes()
         set_species_ids( mon );
         mon.size = volume_to_size( mon.volume );
 
-        // adjust for worldgen difficulty parameters
-        mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
-        mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        if( !mon.has_flag( MF_RIDEABLE_MECH ) ) {
+            // adjust for worldgen difficulty parameters
+            mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
+            mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        }
 
         for( monster_adjustment adj : adjustments ) {
             adj.apply( mon );
@@ -382,6 +388,12 @@ void MonsterGenerator::finalize_mtypes()
         }
         if( mon.armor_fire < 0 ) {
             mon.armor_fire = 0;
+        }
+        if( mon.armor_cold < 0 ) {
+            mon.armor_cold = 0;
+        }
+        if( mon.armor_electric < 0 ) {
+            mon.armor_electric = 0;
         }
 
         // Lower bound for hp scaling
@@ -749,6 +761,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_stab", armor_stab, strict, 0 );
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
+    assign( jo, "armor_cold", armor_cold, strict, 0 );
+    assign( jo, "armor_electric", armor_electric, strict, 0 );
 
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
@@ -1165,7 +1179,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
     }
 }
 
-void mtype::add_regeneration_modifier( JsonObject inner, const std::string & )
+void mtype::add_regeneration_modifier( const JsonObject &inner, const std::string & )
 {
     const std::string effect_name = inner.get_string( "effect" );
     const efftype_id effect( effect_name );
@@ -1220,8 +1234,9 @@ void MonsterGenerator::check_monster_definitions() const
         if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.empty() ) {
             debugmsg( "monster %s is flagged milkable, but has no starting ammo", mon.id.c_str() );
         }
+        //TODO!: move temporary upwards
         if( mon.has_flag( MF_MILKABLE ) && !mon.starting_ammo.empty() &&
-            !item( mon.starting_ammo.begin()->first ).made_of( LIQUID ) ) {
+            !item::spawn_temporary( mon.starting_ammo.begin()->first )->made_of( LIQUID ) ) {
             debugmsg( "monster % is flagged milkable, but starting ammo %s is not a liquid type",
                       mon.id.c_str(), mon.starting_ammo.begin()->first.str() );
         }

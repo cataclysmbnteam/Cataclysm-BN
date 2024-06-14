@@ -77,10 +77,10 @@
     "using": [ [ "soldering_standard", 35 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [
-      [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
+      [ [ "motor_small", 1 ], [ "alternator_bicycle", 2 ], [ "alternator_car", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 5 ], [ "frame_wood", 1 ] ],
       [ [ "sheet_metal_small", 3 ] ],
-      [ [ "nail", 20 ] ],
+      [ [ "nail_glue", 20, "LIST" ] ],
       [ [ "pipe", 4 ] ]
     ]
   },
@@ -111,7 +111,7 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "nail", 120 ] ],
+      [ [ "nail_glue", 120, "LIST" ] ],
       [ [ "pipe", 20 ] ]
     ]
   },
@@ -139,7 +139,7 @@
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 20 ], [ "frame_wood", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
-      [ [ "nail", 80 ] ],
+      [ [ "nail_glue", 80, "LIST" ] ],
       [ [ "pipe", 8 ] ],
       [ [ "wheel_wood_b", 2 ] ]
     ]
@@ -176,7 +176,7 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "nail", 240 ] ],
+      [ [ "nail_glue", 240, "LIST" ] ],
       [ [ "pipe", 24 ] ],
       [ [ "wheel_wood_b", 6 ] ]
     ]
@@ -219,8 +219,8 @@
     "components": [
       [ [ "frame", 1 ] ],
       [ [ "hotplate", 1 ] ],
-      [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
-      [ [ "pan", 1 ] ],
+      [ [ "pot", 1 ], [ "iron_pot", 1 ], [ "pot_copper", 1 ] ],
+      [ [ "steel_pan", 1 ], [ "pan", 1 ], [ "copper_pan", 1 ] ],
       [ [ "water_faucet", 1 ] ],
       [ [ "cable", 5 ] ]
     ]
@@ -270,7 +270,7 @@
     "decomp_learn": 4,
     "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "soldering_iron", 1 ] ], [ [ "welder", 1 ], [ "welder_crude", 2 ] ] ]
+    "components": [ [ [ "soldering_iron", 1 ] ], [ [ "welder", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -347,7 +347,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 14 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "small_storage_battery", 20 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -362,13 +362,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "medium_storage_battery", 5 ] ],
-      [ [ "small_storage_battery", 10 ] ],
-      [ [ "e_scrap", 4 ] ],
-      [ [ "scrap", 8 ] ],
-      [ [ "cable", 5 ] ]
-    ]
+    "components": [ [ [ "medium_storage_battery", 5 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -382,7 +376,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "soldering_standard", 80 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 80 ] ], [ [ "e_scrap", 16 ] ], [ [ "scrap", 32 ] ], [ [ "cable", 20 ] ] ]
+    "components": [ [ [ "small_storage_battery", 100 ] ], [ [ "e_scrap", 16 ] ], [ [ "scrap", 32 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "type": "recipe",

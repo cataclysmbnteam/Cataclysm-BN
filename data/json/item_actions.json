@@ -26,7 +26,7 @@
   },
   {
     "type": "item_action",
-    "id": "picklock",
+    "id": "PICK_LOCK",
     "name": { "str": "Pick a lock" }
   },
   {
@@ -97,7 +97,7 @@
   {
     "type": "item_action",
     "id": "GUN_CLEAN",
-    "name": { "str": "Repair/mend a gun" }
+    "name": { "str": "Clean/mend a gun" }
   },
   {
     "type": "item_action",
@@ -848,16 +848,6 @@
     "type": "item_action",
     "id": "SHAVEKIT",
     "name": { "str": "Shave" }
-  },
-  {
-    "type": "item_action",
-    "id": "SHOCKTONFA_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "SHOCKTONFA_ON",
-    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",

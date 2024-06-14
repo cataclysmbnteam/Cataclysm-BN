@@ -21,6 +21,7 @@
     "avoidance": 8,
     "difficulty": 0,
     "action": "bubble",
+    "remove_on_trigger": true,
     "drops": [ "bubblewrap" ],
     "vehicle_data": { "sound_volume": 18, "sound": "Pop!" }
   },
@@ -34,6 +35,7 @@
     "avoidance": 8,
     "difficulty": 0,
     "action": "glass",
+    "remove_on_trigger": true,
     "drops": [ "glass_shard" ],
     "vehicle_data": { "sound_volume": 10, "sound": "Crunch!" }
   },
@@ -139,7 +141,7 @@
   {
     "type": "trap",
     "id": "tr_beartrap",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "bear trap",
     "color": "blue",
     "symbol": "^",
@@ -147,6 +149,8 @@
     "avoidance": 7,
     "difficulty": 3,
     "action": "beartrap",
+    "//": "trigger_items isn't needed for this action, since trap behavior is tied to the target freeing themselves.",
+    "remove_on_trigger": true,
     "drops": [ "beartrap" ],
     "vehicle_data": {
       "damage": 300,
@@ -161,7 +165,7 @@
   {
     "type": "trap",
     "id": "tr_beartrap_buried",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "buried bear trap",
     "color": "blue",
     "symbol": "^",
@@ -169,6 +173,8 @@
     "avoidance": 8,
     "difficulty": 4,
     "action": "beartrap",
+    "//": "trigger_items isn't needed for this action, since trap behavior is tied to the target freeing themselves.",
+    "remove_on_trigger": true,
     "drops": [ "beartrap" ],
     "vehicle_data": {
       "damage": 300,
@@ -216,6 +222,8 @@
     "avoidance": 6,
     "difficulty": 0,
     "action": "caltrops_glass",
+    "remove_on_trigger": true,
+    "trigger_items": [ { "item": "glass_shard", "quantity": 3 } ],
     "drops": [ "caltrops_glass" ],
     "vehicle_data": { "damage": 300 }
   },
@@ -229,12 +237,30 @@
     "avoidance": 4,
     "difficulty": 3,
     "action": "tripwire",
-    "drops": [ "string_36" ]
+    "drops": [ "tripwire" ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_can_alarm",
+    "name": "makeshift perimeter alarm",
+    "color": "light_gray",
+    "symbol": "^",
+    "looks_like": "tr_tripwire",
+    "//": "Set to be easier to spot than a plain tripwire, but harder to avoid and disarm without jostling the cans.",
+    "visibility": 4,
+    "avoidance": 6,
+    "difficulty": 5,
+    "action": "spell",
+    "spell_data": { "id": "spell_trap_can_alarm_trigger" },
+    "remove_on_trigger": true,
+    "trigger_items": [ "can_alarm_trap" ],
+    "drops": [ "can_alarm_trap" ],
+    "vehicle_data": { "sound_volume": 25, "sound": "empty cans clattering!" }
   },
   {
     "type": "trap",
     "id": "tr_crossbow",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "crossbow trap",
     "color": "green",
     "symbol": "^",
@@ -242,7 +268,10 @@
     "avoidance": 4,
     "difficulty": 5,
     "action": "crossbow",
-    "drops": [ "string_36", "crossbow", "bolt_steel" ],
+    "remove_on_trigger": true,
+    "//": "Ammo spawn on activation is still hardcoded, as it has a randomized chance to drop intact.",
+    "trigger_items": [ "tripwire", "crossbow" ],
+    "drops": [ "tripwire", "crossbow", "bolt_steel" ],
     "vehicle_data": {
       "chance": 30,
       "damage": 300,
@@ -257,15 +286,17 @@
   {
     "type": "trap",
     "id": "tr_shotgun_2",
-    "trigger_weight": 200,
-    "name": "shotgun trap",
+    "trigger_weight": "200 g",
+    "name": "double-barrel shotgun trap",
     "color": "red",
     "symbol": "^",
     "visibility": 4,
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
+    "remove_on_trigger": true,
+    "trigger_items": [ "tripwire", "shotgun_d", { "item": "shot_hull", "quantity": 2, "charges": 1 } ],
+    "drops": [ "tripwire", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
@@ -278,31 +309,8 @@
   },
   {
     "type": "trap",
-    "id": "tr_shotgun_2_1",
-    "trigger_weight": 200,
-    "name": "shotgun trap",
-    "color": "red",
-    "symbol": "^",
-    "visibility": 4,
-    "avoidance": 5,
-    "difficulty": 6,
-    "action": "shotgun",
-    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
-    "vehicle_data": {
-      "chance": 70,
-      "damage": 300,
-      "sound_volume": 60,
-      "sound": "Bang!",
-      "sound_type": "fire_gun",
-      "sound_variant": "shotgun_d",
-      "remove_trap": true,
-      "spawn_items": [ "shotgun_d", "string_6" ]
-    }
-  },
-  {
-    "type": "trap",
     "id": "tr_shotgun_1",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "shotgun trap",
     "color": "red",
     "symbol": "^",
@@ -310,7 +318,9 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_s", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "remove_on_trigger": true,
+    "trigger_items": [ "tripwire", "shotgun_s", { "item": "shot_hull", "quantity": 1, "charges": 1 } ],
+    "drops": [ "tripwire", "shotgun_s", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
@@ -325,7 +335,7 @@
   {
     "type": "trap",
     "id": "tr_engine",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "spinning blade engine",
     "color": "light_red",
     "symbol": "_",
@@ -334,7 +344,7 @@
     "difficulty": 2,
     "trap_radius": 1,
     "action": "none",
-    "drops": [ "motor", "blade", "blade", "string_36" ]
+    "drops": [ "motor", "blade", "blade", "tripwire" ]
   },
   {
     "type": "trap",
@@ -351,7 +361,7 @@
   {
     "type": "trap",
     "id": "tr_landmine",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "land mine",
     "color": "red",
     "symbol": "^",
@@ -359,6 +369,7 @@
     "avoidance": 14,
     "difficulty": 10,
     "action": "landmine",
+    "remove_on_trigger": true,
     "drops": [ "landmine" ],
     "vehicle_data": {
       "do_explosion": true,
@@ -373,7 +384,7 @@
   {
     "type": "trap",
     "id": "tr_landmine_buried",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "buried land mine",
     "color": "red",
     "symbol": "_",
@@ -381,6 +392,7 @@
     "avoidance": 14,
     "difficulty": 10,
     "action": "landmine",
+    "remove_on_trigger": true,
     "drops": [ "landmine" ],
     "vehicle_data": {
       "do_explosion": true,
@@ -395,7 +407,7 @@
   {
     "type": "trap",
     "id": "tr_telepad",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "teleport pad",
     "color": "magenta",
     "symbol": "_",
@@ -414,7 +426,8 @@
     "visibility": 0,
     "avoidance": 15,
     "difficulty": 15,
-    "action": "goo"
+    "action": "goo",
+    "remove_on_trigger": true
   },
   {
     "type": "trap",
@@ -438,6 +451,7 @@
     "avoidance": 14,
     "difficulty": 99,
     "action": "sinkhole",
+    "remove_on_trigger": true,
     "vehicle_data": { "damage": 500 }
   },
   {
@@ -461,6 +475,7 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
+    "//": "trigger_items isn't used here since the spikes breaking occurs at random, and comes with converting the terrain type when triggered.",
     "action": "pit_spikes",
     "vehicle_data": { "damage": 500 }
   },
@@ -502,14 +517,16 @@
   {
     "type": "trap",
     "id": "tr_boobytrap",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "booby trap",
     "color": "light_cyan",
     "symbol": "^",
+    "looks_like": "tr_tripwire",
     "visibility": 5,
     "avoidance": 4,
     "difficulty": 7,
     "action": "boobytrap",
+    "remove_on_trigger": true,
     "drops": [ "boobytrap" ],
     "vehicle_data": {
       "do_explosion": true,
@@ -613,6 +630,7 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
+    "//": "trigger_items isn't used here since the spikes breaking occurs at random, and comes with converting the terrain type when triggered.",
     "action": "pit_glass",
     "vehicle_data": { "damage": 500 }
   },
@@ -719,6 +737,6 @@
     "action": "none",
     "drops": [ "tarp_raincatcher" ],
     "benign": true,
-    "funnel_radius": 342
+    "funnel_radius": 360
   }
 ]

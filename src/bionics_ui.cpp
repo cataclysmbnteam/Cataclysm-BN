@@ -25,7 +25,6 @@
 #include "uistate.h"
 #include "units.h"
 
-static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
@@ -188,6 +187,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
                                    bionic_menu_mode mode )
 {
     input_context ctxt( "BIONICS" );
+    static const flag_id json_flag_PERPETUAL( "PERPETUAL" );
 
     werase( window );
     std::string fuel_string;
@@ -196,8 +196,9 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
     for( const bionic &bio : *p->my_bionics ) {
         for( const itype_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
-            const item temp_fuel( fuel );
-            if( temp_fuel.has_flag( flag_PERPETUAL ) ) {
+            //TODO!: figure out tname so we don't need this, it's an infinite one
+            const item &temp_fuel = *item::spawn_temporary( fuel );
+            if( temp_fuel.has_flag( json_flag_PERPETUAL ) ) {
                 if( fuel == itype_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
                     continue;
                 }
@@ -210,8 +211,8 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
         if( bio.info().is_remote_fueled && p->has_active_bionic( bio.id ) ) {
             const itype_id rem_fuel = p->find_remote_fuel( true );
             if( !rem_fuel.is_empty() ) {
-                const item tmp_rem_fuel( rem_fuel );
-                if( tmp_rem_fuel.has_flag( flag_PERPETUAL ) ) {
+                const item &tmp_rem_fuel = *item::spawn_temporary( rem_fuel );
+                if( tmp_rem_fuel.has_flag( json_flag_PERPETUAL ) ) {
                     fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
                 } else {
                     fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel.str() ),
@@ -310,15 +311,15 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
                               : string_format( _( "%s/%d turns" ), units::display( bio_data.power_over_time ),
                                                bio_data.charge_time ) );
     }
-    if( bio_data.has_flag( STATIC( flag_str_id( "BIONIC_TOGGLED" ) ) ) ) {
-        properties.push_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
+    if( bio_data.has_flag( STATIC( flag_id( "BIONIC_TOGGLED" ) ) ) ) {
+        properties.emplace_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
     if( bio.incapacitated_time > 0_turns ) {
-        properties.push_back( _( "(incapacitated)" ) );
+        properties.emplace_back( _( "(incapacitated)" ) );
     }
     if( !bio.has_flag( flag_SAFE_FUEL_OFF ) && ( !bio.info().fuel_opts.empty() ||
             bio.info().is_remote_fueled ) ) {
-        properties.push_back( _( "(fuel saving ON)" ) );
+        properties.emplace_back( _( "(fuel saving ON)" ) );
     }
     if( bio.is_auto_start_on() && ( !bio.info().fuel_opts.empty() || bio.info().is_remote_fueled ) ) {
         const std::string label = string_format( _( "(auto start < %d %%)" ),
@@ -493,7 +494,7 @@ static void draw_connectors( const catacurses::window &win, point start,
 static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
-    bool is_power_source = bio.id->has_flag( STATIC( flag_str_id( "BIONIC_POWER_SOURCE" ) ) );
+    bool is_power_source = bio.id->has_flag( STATIC( flag_id( "BIONIC_POWER_SOURCE" ) ) );
     if( bio.id->activated ) {
         if( isHighlightedBionic ) {
             if( bio.powered && !is_power_source ) {
@@ -883,9 +884,10 @@ void show_bionics_ui( Character &who )
                     if( tmp->powered ) {
                         who.deactivate_bionic( *tmp );
                     } else {
-                        who.activate_bionic( *tmp );
+                        bool close_ui = false;
+                        who.activate_bionic( *tmp, false, &close_ui );
                         // Clear the menu if we are firing a bionic gun
-                        if( tmp->info().has_flag( STATIC( flag_str_id( "BIONIC_GUN" ) ) ) || tmp->ammo_count > 0 ) {
+                        if( close_ui || tmp->ammo_count > 0 ) {
                             break;
                         }
                     }

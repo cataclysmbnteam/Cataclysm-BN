@@ -21,7 +21,7 @@ class consistency_report
         ~consistency_report() = default;
 
         void warn( const char *msg ) {
-            warns.push_back( msg );
+            warns.emplace_back( msg );
         }
 
         void warn( const std::string &msg ) {

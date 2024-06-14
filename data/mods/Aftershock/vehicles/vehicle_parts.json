@@ -11,7 +11,7 @@
     "location": "center",
     "durability": 200,
     "description": "This is little more than a sheetmetal basin welded to the bottom of the vehicle, extending below it.  Though it holds a lot of stuff, its shoddiness makes it fragile.",
-    "size": 600,
+    "size": "150 L",
     "breaks_into": [ { "item": "steel_lump", "count": [ 4, 6 ] }, { "item": "scrap", "count": [ 4, 6 ] } ]
   },
   {
@@ -50,8 +50,25 @@
     "durability": 400,
     "description": "A medium-sized household refrigerator, converted to utilize vehicle power.  When turned on, food inside will be cooled, extending the time it has before spoiling.",
     "epower": -100,
-    "size": 1200,
-    "item": "afs_fridge"
+    "size": "300 L",
+    "item": "fridge"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_glass_fridge",
+    "copy-from": "minifridge",
+    "name": { "str": "glass refrigerator" },
+    "symbol": "{",
+    "categories": [ "Cargo", "Util" ],
+    "color": "white",
+    "broken_color": "white",
+    "looks_like": "minifridge",
+    "durability": 400,
+    "description": "A medium-sized glass door refrigerator, converted to utilize vehicle power.  When turned on, food inside will be cooled, extending the time it has before spoiling.",
+    "epower": -120,
+    "size": "300 L",
+    "item": "glass_fridge",
+    "delete": { "flags": [ "COVERED" ] }
   },
   {
     "type": "vehicle_part",
@@ -64,10 +81,27 @@
     "broken_color": "light_blue",
     "looks_like": "minifridge",
     "durability": 400,
-    "description": "A household fridge, converted to run at a much lower temperature and on vehicle power.  When turned on, food inside will be frozen, completely stopping it from spoiling.",
+    "description": "A medium sized commercial freezer, converted to run on vehicle power.  When turned on, food inside will be frozen, completely stopping it from spoiling.",
     "epower": -120,
-    "size": 1200,
-    "item": "afs_freezer"
+    "size": "300 L",
+    "item": "freezer"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_glass_freezer",
+    "copy-from": "minifreezer",
+    "name": { "str": "glass freezer" },
+    "symbol": "{",
+    "categories": [ "Cargo", "Util" ],
+    "color": "light_blue",
+    "broken_color": "light_blue",
+    "looks_like": "minifridge",
+    "durability": 400,
+    "description": "A medium sized glass door freezer, converted to run on vehicle power.  When turned on, food inside will be frozen, completely stopping it from spoiling.",
+    "epower": -140,
+    "size": "300 L",
+    "item": "glass_freezer",
+    "delete": { "flags": [ "COVERED" ] }
   },
   {
     "type": "vehicle_part",
@@ -82,7 +116,7 @@
     "damage_modifier": 10,
     "durability": 200,
     "description": "A welding and metalworking station, powered by the vehicle's battery.  'e'xamine the forge rig to utilize its welder or soldering iron; you'll still need glare protection.",
-    "size": 200,
+    "size": "50 L",
     "item": "afs_metal_rig",
     "location": "center",
     "requirements": {
@@ -113,7 +147,7 @@
     "damage_modifier": 10,
     "durability": 125,
     "description": "An all-in-one kitchen unit and chemistry lab.  'e'xamine it to use its hotplate to heat up food or drinks.",
-    "size": 200,
+    "size": "50 L",
     "item": "afs_cooking_rig",
     "location": "center",
     "requirements": {
@@ -145,7 +179,7 @@
     "damage_modifier": 10,
     "durability": 200,
     "description": "An all-in-one kitchen unit, chemistry lab, and food preparation area.  'e'xamine it to use its hotplate to heat up food or drinks.",
-    "size": 200,
+    "size": "50 L",
     "item": "afs_kitchen_rig",
     "location": "center",
     "requirements": {
@@ -218,7 +252,7 @@
     "name": { "str": "mounted external tank (200L)" },
     "item": "55gal_drum",
     "location": "center",
-    "size": 200000
+    "size": "50000 L"
   },
   {
     "abstract": "afs_lightweight_frame",
@@ -396,7 +430,7 @@
     "copy-from": "solar_panel",
     "name": "quantum solar panel",
     "looks_like": "solar_panel_v2",
-    "proportional": { "epower": 6.0 },
+    "proportional": { "epower": 6 },
     "item": "solar_panel_v3",
     "durability": 40,
     "description": "An extremely high performance solar panel.  Will recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed.  Extremely fragile and cannot be armored.",
@@ -424,7 +458,7 @@
     "broken_color": "dark_gray",
     "durability": 250,
     "description": "A cargo space for carrying robots.  'e'xamine it to capture a robot next to you, or to release the robot currently contained.  When selecting a robot to capture, choose its tile relative to you, not the part.",
-    "size": 800,
+    "size": "200 L",
     "item": "robot_carrier",
     "location": "center",
     "requirements": {

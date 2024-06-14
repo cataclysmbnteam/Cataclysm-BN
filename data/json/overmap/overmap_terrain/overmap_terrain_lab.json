@@ -259,40 +259,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "lab_surface_brick_basementA0",
-      "lab_surface_brick_basementA1",
-      "lab_surface_brick_basementA2",
-      "lab_surface_brick_basementA3",
-      "lab_surface_brick_basementA4",
-      "lab_surface_brick_basementB0",
-      "lab_surface_brick_basementB1",
-      "lab_surface_brick_basementB2",
-      "lab_surface_brick_basementB3",
-      "lab_surface_brick_basementB4",
-      "lab_surface_brick_basementC0",
-      "lab_surface_brick_basementC1",
-      "lab_surface_brick_basementC2",
-      "lab_surface_brick_basementC3",
-      "lab_surface_brick_basementC4",
-      "lab_surface_brick_basementD0",
-      "lab_surface_brick_basementD2",
-      "lab_surface_brick_basementD3",
-      "lab_surface_brick_basementD4",
-      "lab_surface_brick_basementE0",
-      "lab_surface_brick_basementE1",
-      "lab_surface_brick_basementE2",
-      "lab_surface_brick_basementE3",
-      "lab_surface_brick_basementE4"
-    ],
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementD1_hidden_lab_stairs",
+    "id": [ "lab_surface_brick_basementD1_hidden_lab_stairs", "lab_surface_brick_basementE1" ],
     "name": "lab basement",
     "sym": "L",
     "color": "white",
@@ -498,5 +465,13 @@
     "sym": "l",
     "color": "dark_gray",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "chemical_lab_ocu", "chemical_lab_roof_ocu" ],
+    "name": "small cabin",
+    "sym": "C",
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION", "SOURCE_PEOPLE" ]
   }
 ]

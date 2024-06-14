@@ -2,11 +2,11 @@
 
 #include <list>
 #include <memory>
-#include <string>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "creature.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "map_helpers.h"
@@ -58,9 +58,9 @@ static float dodge_with_effect( Creature &critter, std::string effect_name )
 static float dodge_wearing_item( avatar &dummy, item &clothing )
 {
     // Get nekkid and wear just this one item
-    std::list<item> temp;
+    std::vector<detached_ptr<item>> temp;
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
-    dummy.wear_item( clothing );
+    dummy.wear_item( item::spawn( clothing ) );
 
     return dummy.get_dodge();
 }
@@ -242,13 +242,13 @@ TEST_CASE( "Character::get_dodge with effects", "[player][melee][dodge][effect]"
     }
 
     SECTION( "skating: amateur or pro?" ) {
-        item skates( "rollerskates" );
-        item blades( "roller_blades" );
-        item heelys( "roller_shoes_on" );
+        item &skates = *item::spawn_temporary( "rollerskates" );
+        item &blades = *item::spawn_temporary( "roller_blades" );
+        item &heelys = *item::spawn_temporary( "roller_shoes_on" );
 
-        REQUIRE( skates.has_flag( "ROLLER_QUAD" ) );
-        REQUIRE( blades.has_flag( "ROLLER_INLINE" ) );
-        REQUIRE( heelys.has_flag( "ROLLER_ONE" ) );
+        REQUIRE( skates.has_flag( flag_ROLLER_QUAD ) );
+        REQUIRE( blades.has_flag( flag_ROLLER_INLINE ) );
+        REQUIRE( heelys.has_flag( flag_ROLLER_ONE ) );
 
         SECTION( "amateur skater: 1/5 dodge" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_id( "PROF_SKATER" ) ) );

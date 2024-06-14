@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "     ~~                 ",
+        "     ~~                ]",
         "     ~~                 ",
         "   ##++##wwww#wwww####  ",
         "   #.........y.......#  ",
@@ -140,7 +140,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "           ~~           ",
+        "           ~~          ]",
         "           ~~           ",
         "   ###0####::###ww###   ",
         "   #dh...o#..#thhyht#   ",
@@ -269,7 +269,7 @@
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
-        "    ~~                  ",
+        "    ~~                 ]",
         "    ~~                  ",
         " #0#::#0###########0### ",
         " #y......YYYt#YYYoeccS# ",
@@ -338,7 +338,7 @@
         { "item": "television", "x": 15, "y": 6, "chance": 95 },
         { "item": "soap", "x": 5, "y": 18, "chance": 95 },
         { "item": "anesthetic_kit", "x": 13, "y": 18, "chance": 75 },
-        { "group": "autodoc_installation_programs", "x": 21, "y": [ 16, 18 ], "chance": 75, "repeat": 3 }
+        { "group": "autodoc_installation_programs_basic", "x": 21, "y": [ 16, 18 ], "chance": 75, "repeat": 3 }
       ],
       "vehicles": { "W": { "vehicle": "swivel_chair", "chance": 100, "status": 1 } }
     }

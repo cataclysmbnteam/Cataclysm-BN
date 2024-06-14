@@ -347,6 +347,8 @@ to find which flags work elsewhere.
 - `NONE` Do nothing.
 - `PACK_CBM` Put CBM in special autoclave pouch so that they stay sterile once sterilized.
 - `PHEROMONE` Makes zombies ignore you.
+- `PICK_LOCK` Pick a lock on a door. Speed and success chance are determined by skill, 'LOCKPICK'
+  item quality and 'PERFECT_LOCKPICK' item flag
 - `PICKAXE` Does nothing but berate you for having it (I'm serious).
 - `PLACE_RANDOMLY` This is very much like the flag in the manhack iuse, it prevents the item from
   querying the player as to where they want the monster unloaded to, and instead choses randomly.
@@ -462,7 +464,6 @@ to find which flags work elsewhere.
   flags: BIRD, CATTLE.
 - `FERTILIZER` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function
   penalties will be reversed for plants.
-- `FREEZERBURN` First thaw is MUSHY, second is rotten
 - `FUNGAL_VECTOR` Will give a fungal infection when consumed.
 - `HIDDEN_HALLU` ... Food causes hallucinations, visible only with a certain survival skill level.
 - `HIDDEN_POISON` ... Food displays as poisonous with a certain survival skill level. Note that this
@@ -531,7 +532,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `CONSOLE` Used as a computer.
 - `CONTAINER` Items on this square are hidden until looted by the player.
 - `DECONSTRUCT` Can be deconstructed.
-- `DEEP_WATER`
+- `DEEP_WATER` Deep enough to submerge things
+- `WATER_CUBE` Water tile that is entirely water
 - `DESTROY_ITEM` Items that land here are destroyed. See also `NOITEM`
 - `DIFFICULT_Z` Most zombies will not be able to follow you up this terrain ( i.e a ladder )
 - `DIGGABLE_CAN_DEEPEN` Diggable location can be dug again to make deeper (e.g. shallow pit to deep
@@ -595,6 +597,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `SEALED` Can't use <kbd>e</kbd> to retrieve items; must smash them open first.
 - `SEEN_FROM_ABOVE` Visible from a higher level (provided the tile above has no floor)
 - `SHARP` May do minor damage to players/monsters passing through it.
+- `SHOOT_ME` Players can aim at terrain or furniture with this flag like they can with
+  `tr_practice_target` to train marksmanship.
 - `SHORT` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - `SIGN` Show written message on examine.
 - `SMALL_PASSAGE` This terrain or furniture is too small for large or huge creatures to pass
@@ -720,6 +724,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `NPC_THROWN` ... NPCs will throw this item (without activating it first) as an alternative attack.
 - `NPC_THROW_NOW` ... NPCs will try to throw this item away, preferably at enemies. Implies
   "TRADER_AVOID" and "NPC_THROWN".
+- `PERFECT_LOCKPICK` ... Item is a perfect lockpick. Takes only 5 seconds to pick a lock and never
+  fails, but using it grants only a small amount of lock picking xp. The item should have "LOCKPICK"
+  quality of at least 1.
 - `PSEUDO` ... Used internally to mark items that are referred to in the crafting inventory but are
   not actually items. They can be used as tools, but not as components. Implies "TRADER_AVOID".
 - `RADIOACTIVE` ... Is radioactive (can be used with LEAK_*).
@@ -728,6 +735,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `REDUCED_WEIGHT` ... Gunmod flag; reduces the item's base weight by 25%.
 - `REQUIRES_TINDER` ... Requires tinder to be present on the tile this item tries to start a fire
   on.
+- `SHATTERS` ... This item can potentially shatter as if it as made of glass when used as a weapon,
+  thrown, bashed, etc.
 - `SLEEP_AID` ... This item helps in sleeping.
 - `SLEEP_IGNORE` ... This item is not shown as before-sleep warning.
 - `SLOW_WIELD` ... Has an additional time penalty upon wielding. For melee weapons and guns this is
@@ -757,12 +766,15 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `DISABLE_SIGHTS` Prevents use of the base weapon sights
 - `FIRE_100` Uses 100 shots per firing.
 - `FIRE_50` Uses 50 shots per firing.
+- `HEAVY_WEAPON_SUPPORT` Wearing this will let you hip-fire heavy weapons without needing terrain
+  support, like Large or Huge mutants can.
 - `FIRE_TWOHAND` Gun can only be fired if player has two free hands.
 - `IRREMOVABLE` Makes so that the gunmod cannot be removed.
 - `MECH_BAT` This is an exotic battery designed to power military mechs.
 - `MOUNTED_GUN` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag, if you're a
   normal human. If you're an oversized mutant (Inconveniently Large, Large, Freakishly Huge, Huge),
-  you can fire it regularly in exchange for dispersion and recoil penalties.
+  you can fire it regularly in exchange for dispersion and recoil penalties. Wearing something with
+  the `HEAVY_WEAPON_SUPPORT` flag also works.
 - `NEVER_JAMS` Never malfunctions.
 - `NO_UNLOAD` Cannot be unloaded.
 - `PRIMITIVE_RANGED_WEAPON` Allows using non-gunsmith tools to repair it (but not reinforce).
@@ -875,7 +887,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   volume not bigger than 2)
 - `SHEATH_SWORD` Item can be sheathed in a sword scabbard
 - `SPEAR` When making reach attacks intervening THIN_OBSTACLE terrain is not an obstacle. Should be
-  paired with REACH_ATTACK.
+  paired with `REACH_ATTACK`.
+- `STAB` A legacy flag that converts an weapon's damage type into pierce. This is a hack as we
+  cannot use the damage object used by ammo to specify the damage type of melee weapon.
 - `UNARMED_WEAPON` Wielding this item still counts as unarmed combat.
 - `WHIP` Has a chance of disarming the opponent.
 
@@ -971,10 +985,12 @@ Multiple death functions can be used. Not all combinations make sense.
 - `BADVENOM` Attack may **severely** poison the player.
 - `BASHES` Bashes down doors.
 - `BILE_BLOOD` Makes monster bleed bile.
+- `BIOPROOF` Makes monster immune to Bio damage (A damage type mostly used by magic mods)
 - `BIRDFOOD` Becomes friendly / tamed with bird food.
 - `BLEED` Causes the player to bleed.
 - `BONES` May produce bones and sinews when butchered.
 - `BORES` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
+- `CAN_BE_ORDERED` This creature can be directed to not attack enemies, if friendly.
 - `CAN_DIG` Can dig _and_ walk.
 - `CAN_OPEN_DOORS` Can open doors on its path.
 - `CANPLAY` This creature can be played with if it's a pet.
@@ -1266,6 +1282,10 @@ These branches are also the valid entries for the categories of `dreams` in `dre
   contain any lake terrain.
 - `UNIQUE` Location is unique and will only occur once per overmap. `occurrences` is overridden to
   define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
+- `ENDGAME` Location will have highest priority during special placement, and won't be affected by
+  any occurrences normalizations.
+- `RESTRICTED` Location will never be spawned as starting locations. Intended(but not limited) to
+  use with incomplete nested specials.
 
 ### Overmap terrains
 
@@ -1278,6 +1298,9 @@ These branches are also the valid entries for the categories of `dreams` in `dre
   NOT be generated, just ID).
 - `RIVER` It's a river tile.
 - `SIDEWALK` Has sidewalks on the sides adjacent to roads.
+- `IGNORE_ROTATION_FOR_ADJACENCY` When mapgen for this OMT performs neighbour checks, the directions
+  will be treated as absolute, rather than rotated to account for the rotation of the mapgen itself.
+  Probably only useful for hardcoded mapgen.
 - `LAKE` Consider this location to be a valid lake terrain for mapgen purposes.
 - `LAKE_SHORE` Consider this location to be a valid lake shore terrain for mapgen purposes.
 - `SOURCE_FUEL` For NPC AI, this location may contain fuel for looting.
@@ -1350,7 +1373,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - `LONE_START` If starting NPC spawn option is switched to "Scenario-based", this scenario won't
   spawn a fellow NPC on game start.
 - `SCEN_ONLY` Profession can be chosen only as part of the appropriate scenario.
-- `SUR_START` Surrounded start, zombies outside the starting location.
 
 #### Season Flags
 
@@ -1479,8 +1501,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `HIDDEN_ITEM` This item cannot be seen in AIM.
 - `HOT` Item is hot (see EATEN_HOT).
 - `LITCIG` Marks a lit smoking item (cigarette, joint etc.).
-- `MUSHY` FREEZERBURN item was frozen and is now mushy and tasteless and will go bad after freezing
-  again.
 - `NO_PARASITES` Invalidates parasites count set in food->type->comestible->parasites
 - `QUARTERED` Corpse was quartered into parts. Affects butcher results, weight, volume.
 - `REVIVE_SPECIAL` ... Corpses revives when the player is nearby.

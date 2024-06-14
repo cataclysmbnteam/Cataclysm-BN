@@ -348,7 +348,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
                                  sfx::get_heard_angle( z.pos() ) );
         sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
     }
-    auto msg_type = target.attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_neutral;
+    auto msg_type = target.attitude_to( g->u ) == Attitude::A_FRIENDLY ? m_bad : m_neutral;
     const body_part bp = dealt.bp_hit;
     target.add_msg_player_or_npc( msg_type, hit_dmg_u, hit_dmg_npc, z.name(),
                                   body_part_name_accusative( bp ) );
@@ -594,7 +594,7 @@ bool gun_actor::call( monster &z ) const
     }
 
     // One last check to make sure we're not firing on a friendly
-    if( target && z.attitude_to( *target ) == Creature::A_FRIENDLY ) {
+    if( target && z.attitude_to( *target ) == Attitude::A_FRIENDLY ) {
         return false;
     }
     int dist = rl_dist( z.pos(), aim_at );
@@ -661,15 +661,15 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
 {
     z.moves -= move_cost;
 
-    item gun( gun_type );
-    gun.gun_set_mode( mode );
+    detached_ptr<item> gun = item::spawn( gun_type );
+    gun->gun_set_mode( mode );
 
-    itype_id ammo = ammo_type ? ammo_type : gun.ammo_default();
+    itype_id ammo = ammo_type ? ammo_type : gun->ammo_default();
     if( ammo ) {
-        gun.ammo_set( ammo, z.ammo[ammo] );
+        gun->ammo_set( ammo, z.ammo[ammo] );
     }
 
-    if( !gun.ammo_sufficient() ) {
+    if( !gun->ammo_sufficient() ) {
         if( !no_ammo_sound.empty() ) {
             sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( no_ammo_sound ) );
         }
@@ -688,13 +688,13 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );
     }
-
-    tmp.set_primary_weapon( gun );
-    tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
+    int qty = gun->gun_current_mode().qty;
+    tmp.set_primary_weapon( std::move( gun ) );
+    tmp.i_add( item::spawn( "UPS_off", calendar::turn, 1000 ) );
 
     if( g->u.sees( z ) ) {
         add_msg( m_warning, _( description ), z.name(), tmp.primary_weapon().tname() );
     }
 
-    z.ammo[ammo] -= ranged::fire_gun( tmp, target, gun.gun_current_mode().qty );
+    z.ammo[ammo] -= ranged::fire_gun( tmp, target, qty );
 }

@@ -14,10 +14,10 @@
 #include "activity_actor.h"
 #include "clone_ptr.h"
 #include "enums.h"
-#include "item_location.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
+#include "safe_reference.h"
 
 class activity_actor;
 class Character;
@@ -27,14 +27,22 @@ class avatar;
 class monster;
 class player;
 class translation;
+class activity_ptr;
 
 class player_activity
 {
     private:
         activity_id type;
-        cata::clone_ptr<activity_actor> actor;
+        std::unique_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions;
+
+        friend activity_ptr;
+        /** This keeps track of if the activity is currently running so we can avoid deleting it until it's done. */
+        bool active = false;
+
+        /** Unlocks the activity, or deletes it if it's already gone. */
+        void resolve_active();
 
     public:
         /** Total number of moves required to complete the activity */
@@ -53,7 +61,7 @@ class player_activity
         */
         int position = 0;
         std::string name;
-        std::vector<item_location> targets;
+        std::vector<safe_reference<item>> targets;
         std::vector<int> values;
         std::vector<std::string> str_values;
         std::vector<tripoint> coords;
@@ -68,6 +76,7 @@ class player_activity
          */
         bool auto_resume = false;
 
+
         player_activity();
         // This constructor does not work with activites using the new activity_actor system
         // TODO: delete this constructor once migration to the activity_actor system is complete
@@ -77,12 +86,11 @@ class player_activity
         /**
          * Create a new activity with the given actor
          */
-        player_activity( const activity_actor &actor );
+        // player_activity( const activity_actor &actor );
+        player_activity( std::unique_ptr<activity_actor> &&actor );
 
         player_activity( player_activity && ) = default;
-        player_activity( const player_activity & ) = default;
         player_activity &operator=( player_activity && ) = default;
-        player_activity &operator=( const player_activity & ) = default;
 
         explicit operator bool() const {
             return !type.is_null();

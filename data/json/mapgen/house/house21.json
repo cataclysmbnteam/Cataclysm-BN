@@ -94,7 +94,7 @@
         ".cgg.ggggg.gggg.g.gggg.g"
       ],
       "terrain": {
-        "#": "t_wall_half",
+        "#": "t_wall_half_domestic",
         ".": "t_dirt",
         "0": "t_window_frame",
         "C": "t_concrete",
@@ -111,6 +111,7 @@
         "|": "t_brick_wall"
       },
       "furniture": { "D": "f_dumpster", "P": "f_mailbox", "{": "f_dumpster" },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 }, "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_item": [
         { "chance": 20, "item": "toolbox", "x": 14, "y": 10 },
         { "chance": 30, "item": "glass_sheet", "x": 5, "y": 18 },
@@ -235,6 +236,7 @@
         "o": "f_oven",
         "{": "f_dumpster"
       },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 }, "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 20, "item": "kitchen_nonfood", "x": 13, "y": 10 },
         { "chance": 10, "item": "bags_trip", "x": 17, "y": 10 },
@@ -269,7 +271,8 @@
         { "chance": 80, "item": "crate_cleaning", "x": 17, "y": 11 },
         { "chance": 35, "item": "toy_box", "x": 6, "y": 13 }
       ],
-      "place_toilets": [ { "x": 19, "y": 15 } ]
+      "place_toilets": [ { "x": 19, "y": 15 } ],
+      "place_vehicles": [ { "vehicle": "os_work_vehicles", "chance": 40, "x": [ 3, 15 ], "y": [ 3, 5 ] } ]
     }
   },
   {
@@ -286,21 +289,21 @@
         "                        ",
         "                        ",
         "                        ",
-        "             |2222223   ",
-        "           22|......3   ",
-        "   |22222222........3   ",
-        "   |............X...3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |....=.......&...3   ",
-        "   |................3   ",
-        "   5.....3-----|....5   ",
-        "   |.....3     |....3   ",
-        "   |.....3     |----3   ",
-        "   |.....3              ",
-        "   |.....3              ",
-        "   |.....3              ",
-        "   |-----3              ",
+        "             --------   ",
+        "           ---......-   ",
+        "   ---------........-   ",
+        "   -............X...-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -....=.......&...-   ",
+        "   -................-   ",
+        "   5.....-------....5   ",
+        "   -.....-     -....-   ",
+        "   -.....-     ------   ",
+        "   -.....-              ",
+        "   -.....-              ",
+        "   -.....-              ",
+        "   -------              ",
         "                        ",
         "                        "
       ],

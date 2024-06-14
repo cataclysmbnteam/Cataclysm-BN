@@ -34,7 +34,6 @@ struct tripoint;
 enum hp_part : int;
 enum body_part : int;
 class JsonObject;
-class item_location;
 struct furn_t;
 struct itype;
 
@@ -449,25 +448,6 @@ class place_npc_iuse : public iuse_actor
 };
 
 /**
- * This implements lock picking.
- */
-class pick_lock_actor : public iuse_actor
-{
-    public:
-        /**
-         * How good the used tool is at picking a lock.
-         */
-        int pick_quality = 0;
-
-        pick_lock_actor() : iuse_actor( "picklock" ) {}
-
-        ~pick_lock_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        int use( player &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-/**
  * Implements deployable furniture from items
  */
 class deploy_furn_actor : public iuse_actor
@@ -591,7 +571,7 @@ class salvage_actor : public iuse_actor
         };
 
         bool try_to_cut_up( player &p, item &it ) const;
-        int cut_up( player &p, item &it, item_location &cut ) const;
+        int cut_up( player &p, item &it, item &cut ) const;
         int time_to_cut_up( const item &it ) const;
         bool valid_to_cut_up( const item &it ) const;
 
@@ -864,7 +844,7 @@ class holster_actor : public iuse_actor
         bool can_holster( const item &obj ) const;
 
         /** Store an object in the holster */
-        bool store( player &p, item &holster, item &obj ) const;
+        detached_ptr<item> store( player &p, item &holster, detached_ptr<item> &&obj ) const;
 
         holster_actor( const std::string &type = "holster" ) : iuse_actor( type ) {}
 
@@ -970,7 +950,7 @@ class repair_item_actor : public iuse_actor
         };
 
         /** Attempts to repair target item with selected tool */
-        attempt_hint repair( player &pl, item &tool, item_location &fix ) const;
+        attempt_hint repair( player &pl, item &tool, item &fix ) const;
         /** Checks if repairs on target item are possible. Excludes checks on tool.
           * Doesn't just estimate - should not return true if repairs are not possible or false if they are. */
         bool can_repair_target( player &pl, const item &fix, bool print_msg ) const;
@@ -1048,7 +1028,7 @@ class heal_actor : public iuse_actor
         itype_id used_up_item_id;
         int used_up_item_quantity = 1;
         int used_up_item_charges = 1;
-        std::set<std::string> used_up_item_flags;
+        std::set<flag_id> used_up_item_flags;
 
         /** How much hp would `healer` heal using this actor on `healed` body part. */
         int get_heal_value( const Character &healer, hp_part healed ) const;
@@ -1182,7 +1162,7 @@ class detach_gunmods_actor : public iuse_actor
 class mutagen_actor : public iuse_actor
 {
     public:
-        std::string mutation_category;
+        mutation_category_id mutation_category;
         bool is_weak = false;
         bool is_strong = false;
 
@@ -1197,7 +1177,7 @@ class mutagen_actor : public iuse_actor
 class mutagen_iv_actor : public iuse_actor
 {
     public:
-        std::string mutation_category;
+        mutation_category_id mutation_category;
 
         mutagen_iv_actor() : iuse_actor( "mutagen_iv" ) {}
 

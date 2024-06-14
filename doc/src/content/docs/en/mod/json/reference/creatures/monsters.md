@@ -280,11 +280,11 @@ was n zombies. A player with max(Str,Dex)<=n has no chance of breaking that grab
 
 Amount of cutting damage added to die roll on monster melee attack.
 
-## "armor_bash", "armor_cut", "armor_stab", "armor_acid", "armor_fire"
+## "armor_bash", "armor_cut", "armor_stab", "armor_acid", "armor_fire", "armor_cold", "armor_electric"
 
 (integer, optional)
 
-Monster protection from bashing, cutting, stabbing, acid and fire damage.
+Monster protection from bashing, cutting, stabbing, acid, fire, cold and electric damage.
 
 ## "vision_day", "vision_night"
 
@@ -317,6 +317,14 @@ see ITEM_SPAWN.md. The default subtype is "distribution".
 
 How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. One can add or
 remove entries in mods via "add:death_function" and "remove:death_function".
+
+## "harvest"
+
+(string, optional)
+
+If this monster's death function leaves a corpse behind, this defines what items will be produced
+when butchering or dissecting its corpse. If none is specified, it will default to `human`. Harvest
+entries, their yields, and mass ratios, are defined in harvest.json
 
 ## "emit_field"
 

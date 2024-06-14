@@ -73,25 +73,25 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations]" )
     for( auto &cat : mutation_category_trait::get_all() ) {
         const auto &cur_cat = cat.second;
         const auto &cat_id = cur_cat.id;
-        if( cat_id == "ANY" ) {
+        if( cat_id == mutation_category_id( "ANY" ) ) {
             continue;
         }
 
-        GIVEN( "The player has all pre-threshold mutations for " + cat_id ) {
+        GIVEN( "The player has all pre-threshold mutations for " + cat_id.str() ) {
             npc dummy;
             give_all_mutations( dummy, cur_cat, false );
 
-            THEN( cat_id + " is the strongest category" ) {
+            THEN( cat_id.str() + " is the strongest category" ) {
                 INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
                 CHECK( dummy.get_highest_category() == cat_id );
             }
         }
 
-        GIVEN( "The player has all mutations for " + cat_id ) {
+        GIVEN( "The player has all mutations for " + cat_id.str() ) {
             npc dummy;
             give_all_mutations( dummy, cur_cat, true );
 
-            THEN( cat_id + " is the strongest category" ) {
+            THEN( cat_id.str() + " is the strongest category" ) {
                 INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
                 CHECK( dummy.get_highest_category() == cat_id );
             }
@@ -108,11 +108,11 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
     for( auto &cat : mutation_category_trait::get_all() ) {
         const auto &cur_cat = cat.second;
         const auto &cat_id = cur_cat.id;
-        if( cat_id == "ANY" ) {
+        if( cat_id == mutation_category_id( "ANY" ) ) {
             continue;
         }
 
-        GIVEN( "The player has all pre-threshold mutations for " + cat_id ) {
+        GIVEN( "The player has all pre-threshold mutations for " + cat_id.str() ) {
             npc dummy;
             give_all_mutations( dummy, cur_cat, false );
 
@@ -132,7 +132,8 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
     }
 }
 
-static float sum_without_category( const std::map<trait_id, float> &chances, std::string cat )
+static float sum_without_category( const std::map<trait_id, float> &chances,
+                                   const mutation_category_id &cat )
 {
     float sum = 0.0f;
     for( const auto &c : chances ) {
@@ -151,7 +152,7 @@ TEST_CASE( "Gaining a mutation in category makes mutations from other categories
     for( auto &cat : mutation_category_trait::get_all() ) {
         const auto &cur_cat = cat.second;
         const auto &cat_id = cur_cat.id;
-        if( cat_id == "ANY" ) {
+        if( cat_id == mutation_category_id( "ANY" ) ) {
             continue;
         }
 

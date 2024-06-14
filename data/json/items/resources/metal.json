@@ -15,8 +15,9 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "500 ml",
     "bashing": 12,
-    "price": 7500,
-    "price_postapoc": 10
+    "price": "75 USD",
+    "price_postapoc": "10 cent",
+    "stackable": true
   },
   {
     "id": "scrap",
@@ -26,15 +27,16 @@
     "description": "A bulky assortment of small bits of scrap steel useful in all kinds of crafting.",
     "weight": "50 g",
     "volume": "250 ml",
-    "price": 500,
-    "price_postapoc": 10,
-    "count": 2,
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
+    "count": 1,
     "stack_size": 10,
     "//": "Density 7.60g/cm³ ~ 1.9kg/250ml @ 50g/unit ~ stack 40 but fragments stacks poorly so only 25% of this",
     "material": "steel",
     "symbol": ",",
     "color": "light_gray",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "spike",
@@ -52,7 +54,7 @@
     "cutting": 6,
     "flags": [ "STAB" ],
     "qualities": [ [ "BUTCHER", -42 ] ],
-    "price_postapoc": 10
+    "price_postapoc": "10 cent"
   },
   {
     "id": "cu_pipe",
@@ -69,8 +71,8 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "250 ml",
     "bashing": 5,
-    "price": 7500,
-    "price_postapoc": 10
+    "price": "75 USD",
+    "price_postapoc": "10 cent"
   },
   {
     "id": "material_aluminium_ingot",
@@ -81,8 +83,8 @@
     "weight": "270 g",
     "//": "Density 2.70g/cm³ = 270g/100ml",
     "volume": "100 ml",
-    "price": 500,
-    "price_postapoc": 10,
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
     "material": [ "aluminum" ],
     "symbol": ",",
     "color": "light_gray",
@@ -97,14 +99,15 @@
     "weight": "2 g",
     "//": "Density 9.78g/cm³ ~ 2.4kg/250ml @ stack 1000 = 2g/unit",
     "volume": "50 ml",
-    "price": 6500,
-    "price_postapoc": 10,
+    "price": "65 USD",
+    "price_postapoc": "10 cent",
     "count": 100,
     "stack_size": 200,
     "material": [ "lead" ],
     "symbol": "=",
     "color": "dark_gray",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "gold_small",
@@ -115,14 +118,15 @@
     "weight": "5 g",
     "//": "Density 19.32g/cm³ ~ 4.8kg/250ml @ stack 1000 = 5g/unit",
     "volume": "50 ml",
-    "price": 100000,
-    "price_postapoc": 10,
+    "price": "1 kUSD",
+    "price_postapoc": "10 cent",
     "count": 100,
     "stack_size": 200,
     "material": [ "gold" ],
     "symbol": "/",
     "color": "yellow",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "platinum_small",
@@ -133,14 +137,15 @@
     "weight": "5 g",
     "//": "Density 21.45g/cm³ ~ 5.4kg/250ml @ stack 1000 = 5g/unit",
     "volume": "50 ml",
-    "price": 100000,
-    "price_postapoc": 100,
+    "price": "1 kUSD",
+    "price_postapoc": "1 USD",
     "count": 100,
     "stack_size": 200,
     "material": [ "platinum" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "zinc_metal",
@@ -150,14 +155,15 @@
     "description": "A slightly brittle metal.  Apart from being an essential mineral that the body needs, it reacts readily with acids, alkalis and other non-metals.  It can be crushed to make zinc powder, used in the production of batteries, among other things.",
     "weight": "70 mg",
     "volume": "50 ml",
-    "price": 3000,
-    "price_postapoc": 10,
+    "price": "30 USD",
+    "price_postapoc": "10 cent",
     "count": 100,
     "stack_size": 200,
     "material": [ "zinc" ],
     "symbol": "/",
     "color": "blue",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "lead",
@@ -168,14 +174,15 @@
     "weight": "3 g",
     "//": "Density 11.34g/cm³ ~ 2.8kg/250ml @ stack 1000 = 3g/unit",
     "volume": "50 ml",
-    "price": 5000,
-    "price_postapoc": 10,
+    "price": "50 USD",
+    "price_postapoc": "10 cent",
     "count": 100,
     "stack_size": 200,
     "material": [ "lead" ],
     "symbol": "=",
     "color": "dark_gray",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "magnesium",
@@ -186,8 +193,8 @@
     "weight": "1120 mg",
     "//": "Weight should be 1.12g because magnesium is 64% less dense than aluminum (1.74g/cm³ vs 2.70g/cm³), at 250ml aluminium powder has a weight of ~0.176kg at 250ml, assuming same particle size => magnesium powder has a weight of ~0.112kg at 250ml",
     "volume": "250 ml",
-    "price": 5000,
-    "price_postapoc": 50,
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
     "count": 100,
     "stack_size": 100,
     "container": "bag_plastic",
@@ -205,14 +212,15 @@
     "weight": "3 g",
     "//": "Density 10.40g/cm³ ~ 2.6kg/250ml @ stack 1000 = 3g/unit",
     "volume": "50 ml",
-    "price": 100000,
-    "price_postapoc": 10,
+    "price": "1 kUSD",
+    "price_postapoc": "10 cent",
     "count": 100,
     "stack_size": 200,
     "material": [ "silver" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "sheet_metal_small",
@@ -223,8 +231,8 @@
     "looks_like": "sheet_metal",
     "weight": "250 g",
     "volume": "250 ml",
-    "price": 2000,
-    "price_postapoc": 10,
+    "price": "20 USD",
+    "price_postapoc": "10 cent",
     "bashing": 5,
     "to_hit": -3,
     "stack_size": 8,
@@ -232,7 +240,8 @@
     "material": "steel",
     "symbol": "]",
     "color": "light_cyan",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "stackable": true
   },
   {
     "id": "steel_chunk",
@@ -242,8 +251,8 @@
     "description": "A misshapen chunk of steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
     "weight": "250 g",
     "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "bashing": 8,
     "to_hit": -2,
     "stack_size": 4,
@@ -252,6 +261,7 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -262,8 +272,8 @@
     "description": "A heavy formed piece of steel.  Useful for some crafting recipes.",
     "weight": "1000 g",
     "volume": "250 ml",
-    "price": 2000,
-    "price_postapoc": 50,
+    "price": "20 USD",
+    "price_postapoc": "50 cent",
     "bashing": 12,
     "to_hit": -4,
     "stack_size": 2,
@@ -272,6 +282,7 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -282,8 +293,8 @@
     "description": "A small metal hinge with two metal plates with screw holes.  Useful for making doors.",
     "weight": "300 g",
     "volume": "250 ml",
-    "price": 3000,
-    "price_postapoc": 10,
+    "price": "30 USD",
+    "price_postapoc": "10 cent",
     "bashing": 5,
     "to_hit": -3,
     "stack_size": 6,
@@ -301,21 +312,23 @@
     "name": { "str_sp": "scrap copper" },
     "category": "spare_parts",
     "description": "A small chunk of copper, usable for crafting or repairs.",
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": "copper",
     "//": "Density 8.96g/cm³ ~ 2.24kg/250ml, scrap stacks at ~20-25% efficiency",
     "weight": "50 g",
     "volume": "25 ml",
     "bashing": 1,
-    "to_hit": -2
+    "to_hit": -2,
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
   },
   {
     "id": "tin",
     "type": "AMMO",
     "category": "spare_parts",
-    "price": 750,
-    "price_postapoc": 10,
+    "price": "750 cent",
+    "price_postapoc": "10 cent",
     "name": { "str_sp": "tin" },
     "symbol": "=",
     "color": "light_gray",
@@ -326,14 +339,15 @@
     "//": "Density 7.28g/cm³ ~ 1820kg/250ml @ stack 1000 = 2g/unit",
     "ammo_type": "components",
     "count": 100,
-    "stack_size": 200
+    "stack_size": 200,
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "solder_wire",
     "type": "AMMO",
     "category": "spare_parts",
-    "price": 5000,
-    "price_postapoc": 50,
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
     "name": { "str_sp": "solder" },
     "symbol": "=",
     "color": "light_gray",

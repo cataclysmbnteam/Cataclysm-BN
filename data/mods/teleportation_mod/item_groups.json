@@ -1,0 +1,22 @@
+[
+  {
+    "id": "science",
+    "type": "item_group",
+    "items": [ [ "schematics_teleportation", 1 ] ]
+  },
+  {
+    "id": "schematics",
+    "type": "item_group",
+    "items": [ [ "schematics_teleportation", 10 ] ]
+  },
+  {
+    "id": "books_bank_vault",
+    "type": "item_group",
+    "items": [ [ "schematics_teleportation", 10 ] ]
+  },
+  {
+    "id": "teleport",
+    "type": "item_group",
+    "items": [ [ "schematics_teleportation", 10 ] ]
+  }
+]

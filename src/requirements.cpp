@@ -11,6 +11,7 @@
 #include <set>
 #include <stack>
 #include <unordered_set>
+#include <utility>
 
 #include "avatar.h"
 #include "cata_utility.h"
@@ -24,6 +25,8 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "locations.h"
+#include "make_static.h"
 #include "output.h"
 #include "player.h"
 #include "point.h"
@@ -598,7 +601,7 @@ void requirement_data::reset()
 
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
         const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-        std::string hilite, requirement_display_flags flags ) const
+        const std::string &hilite, requirement_display_flags flags ) const
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
@@ -758,7 +761,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
 
 bool quality_requirement::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &, int,
-    cost_adjustment, std::function<void( int )> ) const
+    cost_adjustment, const std::function<void( int )> & ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -793,7 +796,7 @@ bool tool_comp::has(
             charges_required = crafting::charges_for_continuing( charges_required );
         }
 
-        int charges_found = crafting_inv.charges_of( type, charges_required, filter, visitor );
+        int charges_found = crafting_inv.charges_of( type, charges_required, filter, std::move( visitor ) );
         return charges_found == charges_required;
     }
 }
@@ -811,7 +814,7 @@ nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv,
 
 bool item_comp::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-    cost_adjustment, std::function<void( int )> ) const
+    cost_adjustment, const std::function<void( int )> & ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -875,7 +878,14 @@ bool requirement_data::check_enough_materials( const item_comp &comp, const inve
     }
     const int cnt = std::abs( comp.count ) * batch;
     const tool_comp *tq = find_by_type( tools, comp.type );
-    if( tq != nullptr && tq->available == available_status::a_true ) {
+    // First check is that the use case is the same (soldering iron charges
+    // being used in tools but the item itself being used as a component)
+    // If it isn't count_by_charges() any loaded versions are not considered
+    // valid components
+    // Second check is just that the tool has been considered valid,
+    // so must be offset when you count how much is available.
+    if( tq != nullptr && comp.type->count_by_charges() == tq->by_charges() &&
+        tq->available == available_status::a_true ) {
         // The very same item type is also needed as tool!
         // Use charges of it, or use it by count?
         const int tc = tq->by_charges() ? 1 : std::abs( tq->count );
@@ -1109,7 +1119,9 @@ requirement_data requirement_data::disassembly_requirements() const
     []( std::vector<item_comp> &cov ) {
         cov.erase( std::remove_if( cov.begin(), cov.end(),
         []( const item_comp & comp ) {
-            return !comp.recoverable || item( comp.type ).has_flag( "UNRECOVERABLE" );
+            //TODO!: Why are we constructing a fresh item exactly?
+            return !comp.recoverable ||
+                   item::spawn_temporary( comp.type )->has_flag( STATIC( flag_id( "UNRECOVERABLE" ) ) );
         } ), cov.end() );
         return cov.empty();
     } ), ret.components.end() );
@@ -1118,7 +1130,7 @@ requirement_data requirement_data::disassembly_requirements() const
 }
 
 requirement_data requirement_data::continue_requirements( const std::vector<item_comp>
-        &required_comps, const std::list<item> &remaining_comps )
+        &required_comps, const std::vector<item *> &remaining_comps )
 {
     // Create an empty requirement_data
     requirement_data ret;
@@ -1128,8 +1140,12 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
         ret.components.emplace_back( std::vector<item_comp>( {it} ) );
     }
 
-    inventory craft_components;
-    craft_components += remaining_comps;
+    //TODO!: oof, not sure about this tbh
+    location_inventory craft_components( new fake_item_location() );
+    std::vector<detached_ptr<item>> comps_copy;
+    for( item * const &it : remaining_comps ) {
+        craft_components.add_item( item::spawn( *it ) );
+    }
 
     // Remove requirements that are completely fulfilled by current craft components
     // For each requirement that isn't completely fulfilled, reduce the requirement by the amount
@@ -1141,22 +1157,10 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
         if( item::count_by_charges( comp.type ) && comp.count > 0 ) {
             int qty = craft_components.charges_of( comp.type, comp.count );
             comp.count -= qty;
-            // This is terrible but inventory doesn't have a use_charges() function so...
-            std::vector<item *> del;
-            craft_components.visit_items( [&comp, &qty, &del]( item * e ) {
-                std::list<item> used;
-                if( e->use_charges( comp.type, qty, used, tripoint_zero ) ) {
-                    del.push_back( e );
-                }
+            craft_components.remove_items_with( [&comp, &qty]( detached_ptr<item> &&e ) {
+                std::vector<detached_ptr<item>> used;
+                e = item::use_charges( std::move( e ), comp.type, qty, used, tripoint_zero );
                 return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
-            } );
-            craft_components.remove_items_with( [&del]( const item & e ) {
-                for( const item *it : del ) {
-                    if( it == &e ) {
-                        return true;
-                    }
-                }
-                return false;
             } );
         } else {
             int amount = craft_components.amount_of( comp.type, comp.count );

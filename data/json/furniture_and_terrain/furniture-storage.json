@@ -10,20 +10,19 @@
     "coverage": 80,
     "required_str": 9,
     "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": 12 },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "nail", "charges": [ 12, 16 ] }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": 16 } ] },
     "max_volume": "2000 L",
     "bash": {
       "str_min": 6,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 12 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 2, 6 ] },
+        { "item": "nail", "charges": [ 4, 12 ] },
+        { "item": "splinter", "count": [ 5, 10 ] }
+      ],
+      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -38,9 +37,7 @@
     "coverage": 80,
     "required_str": 10,
     "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 14 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": [ 12, 20 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 14 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": 20 } ] },
     "max_volume": "2000 L",
     "bash": {
       "str_min": 6,
@@ -52,7 +49,8 @@
         { "item": "nail", "charges": [ 4, 20 ] },
         { "item": "splinter", "count": [ 6, 10 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -81,10 +79,10 @@
     ],
     "deconstruct": {
       "items": [
-        { "item": "2x4", "count": 12 },
-        { "item": "nail", "charges": [ 12, 24 ] },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "rag", "count": [ 15, 20 ] }
+        { "item": "2x4", "count": 6 },
+        { "item": "nail", "charges": 30 },
+        { "item": "wood_panel", "count": 4 },
+        { "item": "rag", "count": 35 }
       ]
     },
     "max_volume": "875 L",
@@ -98,7 +96,8 @@
         { "item": "splinter", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 2, 10 ] },
         { "item": "rag", "count": [ 8, 12 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     },
     "pry": {
       "success_message": "You wedge open the coffin.",
@@ -122,10 +121,10 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "deconstruct": {
       "items": [
-        { "item": "2x4", "count": 12 },
-        { "item": "nail", "charges": [ 12, 24 ] },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "rag", "count": [ 15, 20 ] }
+        { "item": "2x4", "count": 6 },
+        { "item": "nail", "charges": 24 },
+        { "item": "wood_panel", "count": 4 },
+        { "item": "rag", "count": 35 }
       ]
     },
     "max_volume": "875 L",
@@ -139,7 +138,8 @@
         { "item": "splinter", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 2, 10 ] },
         { "item": "rag", "count": [ 8, 12 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -164,15 +164,14 @@
       "SHORT"
     ],
     "examine_action": "locked_object",
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 4 }, { "item": "nail", "charges": 30 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "wham!",
-      "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "nail", "charges": [ 2, 10 ] } ]
+      "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "nail", "charges": [ 2, 10 ] } ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     },
     "pry": {
       "success_message": "You pop open the crate.",
@@ -194,15 +193,14 @@
     "coverage": 60,
     "required_str": 10,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 4 }, { "item": "nail", "charges": 24 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "wham!",
-      "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "nail", "charges": [ 2, 10 ] } ]
+      "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "nail", "charges": [ 2, 10 ] } ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -251,16 +249,19 @@
     "coverage": 70,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 6 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 8 } ] },
     "max_volume": "2000 L",
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 2, 4 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "splinter", "count": [ 5, 10 ] }
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -272,7 +273,7 @@
     "description": "A tall storage cabinet with a clear glass window.",
     "color": "light_gray",
     "move_cost_mod": -1,
-    "coverage": 30,
+    "coverage": 60,
     "required_str": 8,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "BLOCKSDOOR" ],
     "deconstruct": {
@@ -296,7 +297,64 @@
         { "item": "nail", "charges": [ 4, 8 ] },
         { "item": "glass_shard", "count": [ 1, 10 ] },
         { "item": "scrap", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gunsafe_o",
+    "name": "open gun safe",
+    "description": "A large and heavy container with thick metal walls and a rotary combination lock, this is designed to securely store firearms, weapon mods, and ammunition.",
+    "symbol": "X",
+    "color": "light_gray",
+    "looks_like": "f_gunsafe_ml",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "close": "f_gunsafe_c",
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ],
+      "//": "double the expected damage reduction",
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "75%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gunsafe_c",
+    "name": "closed gun safe",
+    "description": "A large and heavy container with thick metal walls and a rotary combination lock, this is designed to securely store firearms, weapon mods, and ammunition.",
+    "symbol": "X",
+    "color": "light_gray",
+    "looks_like": "f_gunsafe_ml",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "open": "f_gunsafe_o",
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ],
+      "//": "double the expected damage reduction",
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -307,11 +365,14 @@
     "symbol": "X",
     "color": "light_gray",
     "move_cost_mod": -1,
-    "coverage": 30,
+    "coverage": 75,
     "required_str": 14,
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "lockpick_result": "f_gunsafe_o",
+    "lockpick_message": "With a satisfying click, the lock on the gun safe door opens.",
     "examine_action": "locked_object_pickable",
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -321,7 +382,9 @@
         { "item": "steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
-      ]
+      ],
+      "//": "double the expected damage reduction",
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -333,10 +396,11 @@
     "symbol": "X",
     "color": "light_gray",
     "move_cost_mod": -1,
-    "coverage": 30,
+    "coverage": 75,
     "required_str": 14,
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -346,7 +410,9 @@
         { "item": "steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
-      ]
+      ],
+      "//": "double the expected damage reduction",
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -358,10 +424,11 @@
     "symbol": "X",
     "color": "light_gray",
     "move_cost_mod": -1,
-    "coverage": 30,
+    "coverage": 75,
     "required_str": 14,
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "examine_action": "gunsafe_el",
     "bash": {
       "str_min": 40,
@@ -372,7 +439,9 @@
         { "item": "steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
-      ]
+      ],
+      "//": "double the expected damage reduction",
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -398,7 +467,8 @@
         { "item": "scrap", "count": [ 4, 8 ] },
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -411,9 +481,7 @@
     "move_cost_mod": 1,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] }, { "item": "sheet_metal", "count": 1 } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": 5 }, { "item": "sheet_metal", "count": 1 } ] },
     "max_volume": "10 L",
     "bash": {
       "str_min": 12,
@@ -473,7 +541,13 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 8,
+    "hacksaw": {
+      "duration": "2 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "steel_chunk", "count": 1 } ]
+    },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
+    "oxytorch": { "duration": "1 seconds", "byproducts": [ { "item": "steel_chunk", "count": [ 2, 6 ] } ] },
     "deconstruct": { "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal", "count": 2 } ] },
     "max_volume": "1750 L",
     "bash": {
@@ -487,7 +561,8 @@
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "pipe", "count": 1 }
-      ]
+      ],
+      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -502,20 +577,15 @@
     "required_str": 7,
     "looks_like": "f_bookcase",
     "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "TRANSPARENT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": 12 },
-        { "item": "wood_panel", "count": [ 1, 2 ] },
-        { "item": "nail", "charges": [ 32, 40 ] }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "wood_panel", "count": 4 }, { "item": "nail", "charges": 40 } ] },
     "max_volume": "1500 L",
     "bash": {
       "str_min": 6,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 20, 40 ] }, { "item": "splinter", "count": 12 } ]
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 20, 40 ] }, { "item": "splinter", "count": 12 } ],
+      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -526,10 +596,10 @@
     "symbol": "Y",
     "color": "brown",
     "move_cost_mod": -1,
-    "coverage": 30,
+    "coverage": 10,
     "required_str": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": { "items": [ { "item": "nail", "charges": [ 2, 6 ] }, { "item": "2x4", "count": 2 } ] },
+    "deconstruct": { "items": [ { "item": "nail", "charges": 8 }, { "item": "2x4", "count": 3 } ] },
     "max_volume": "30 L",
     "bash": {
       "str_min": 6,
@@ -556,7 +626,8 @@
       "str_max": 30,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "plastic_chunk", "count": [ 2, 7 ] }, { "item": "pipe", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "plastic_chunk", "count": [ 2, 7 ] }, { "item": "pipe", "count": [ 1, 2 ] } ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -583,7 +654,9 @@
         { "item": "steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
-      ]
+      ],
+      "//": "double the expected damage reduction",
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -598,6 +671,7 @@
     "coverage": 30,
     "required_str": 14,
     "max_volume": "250 L",
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "examine_action": "safe",
     "bash": {
@@ -609,7 +683,9 @@
         { "item": "steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
-      ]
+      ],
+      "//": "double the expected damage reduction",
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -635,7 +711,9 @@
         { "item": "steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
-      ]
+      ],
+      "//": "double the expected damage reduction",
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -643,18 +721,20 @@
     "id": "f_trashcan",
     "name": "trash can",
     "symbol": "&",
-    "description": "One man's trash is another man's dinner.",
+    "description": "One man's trash is another man's dinner.  Examine it to take down, if you need an improvised bucket.",
     "color": "light_cyan",
     "move_cost_mod": 1,
     "required_str": 5,
     "max_volume": "20 L",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "deployed_item": "trash_can_empty",
+    "examine_action": "deployed_furniture",
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "plastic_chunk", "count": [ 9, 18 ] } ]
     }
   },
   {
@@ -670,7 +750,12 @@
     "required_str": 9,
     "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 20 }, { "item": "nail", "charges": [ 16, 24 ] }, { "item": "pipe", "count": 2 } ]
+      "items": [
+        { "item": "2x4", "count": 10 },
+        { "item": "wood_panel", "count": 2 },
+        { "item": "nail", "charges": 24 },
+        { "item": "pipe", "count": 2 }
+      ]
     },
     "max_volume": "500 L",
     "bash": {
@@ -684,7 +769,8 @@
         { "item": "splinter", "count": [ 4, 10 ] },
         { "item": "pipe", "count": [ 0, 1 ] },
         { "item": "scrap", "count": [ 2, 5 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -712,7 +798,8 @@
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 0, 6 ] }, { "item": "sheet_metal", "count": [ 0, 4 ] } ]
+      "items": [ { "item": "scrap", "count": [ 0, 6 ] }, { "item": "sheet_metal", "count": [ 0, 4 ] } ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -745,7 +832,8 @@
         { "item": "plastic_chunk", "count": [ 1, 6 ] },
         { "item": "sheet_metal_small", "count": [ 1, 4 ] },
         { "item": "pipe", "count": 1 }
-      ]
+      ],
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -760,17 +848,11 @@
     "coverage": 95,
     "required_str": 10,
     "flags": [ "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR" ],
-    "deconstruct": {
-      "items": [
-        { "item": "pipe", "count": [ 6, 12 ] },
-        { "item": "sheet_metal", "count": [ 4, 8 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal", "count": 8 } ] },
     "max_volume": "3500 L",
     "bash": {
-      "str_min": 8,
-      "str_max": 30,
+      "str_min": 16,
+      "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
@@ -779,7 +861,8 @@
         { "item": "steel_chunk", "count": [ 3, 6 ] },
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "pipe", "count": 4 }
-      ]
+      ],
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -799,10 +882,9 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 18 },
-        { "item": "nail", "charges": [ 7, 14 ] },
+        { "item": "nail", "charges": 14 },
         { "item": "water_faucet", "count": 1 },
-        { "item": "sheet_metal_small", "count": [ 12, 20 ] },
-        { "item": "scrap", "count": [ 5, 10 ] }
+        { "item": "sheet_metal", "count": 1 }
       ]
     },
     "bash": {
@@ -817,7 +899,8 @@
         { "item": "sheet_metal_small", "count": [ 6, 12 ] },
         { "item": "scrap", "count": [ 10, 20 ] },
         { "item": "splinter", "count": 1 }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -840,7 +923,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 12,
       "furn_set": "f_displaycase_b",
-      "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ],
+      "//": "reduction matches that of the underlying broken case, destroy_threshold matches str_min since glass might shatter",
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 6, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -860,7 +945,8 @@
       "str_max": 30,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "2x4", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 2, 4 ] } ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -882,7 +968,8 @@
       "str_max": 20,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 8, 32 ] }, { "item": "water_faucet", "prob": 50 } ]
+      "items": [ { "item": "scrap", "count": [ 8, 32 ] }, { "item": "water_faucet", "prob": 50 } ],
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 20, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -893,7 +980,7 @@
     "symbol": "{",
     "color": "green",
     "move_cost_mod": 3,
-    "coverage": 70,
+    "coverage": 75,
     "required_str": 16,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "NO_SIGHT" ],
     "bash": {
@@ -905,7 +992,8 @@
         { "item": "scrap", "count": [ 2, 8 ] },
         { "item": "steel_chunk", "count": [ 1, 3 ] },
         { "item": "pipe", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 45, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -917,7 +1005,7 @@
     "color": "light_cyan",
     "crafting_pseudo_item": "butter_churn",
     "move_cost_mod": -1,
-    "coverage": 70,
+    "coverage": 30,
     "required_str": -1,
     "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT", "EASY_DECONSTRUCT" ],
     "examine_action": "keg",
@@ -935,7 +1023,37 @@
         { "item": "sheet_metal_small", "count": [ 6, 12 ] },
         { "item": "scrap", "count": [ 10, 20 ] },
         { "item": "splinter", "count": [ 1, 20 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_foot_locker",
+    "name": "metal foot locker",
+    "description": "An metal storage box, capable of holding any number of things.  The lid has has a small lock.",
+    "symbol": "O",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": 10,
+    "looks_like": "f_crate_c",
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
+    "deconstruct": {
+      "items": [ { "item": "sheet_metal_small", "count": 6 }, { "item": "lock", "count": 1 }, { "item": "hinge", "charges": 2 } ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "wham!",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 2, 4 ] },
+        { "item": "lock", "count": [ 0, 1 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "hinge", "charges": 2 }
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   }
 ]

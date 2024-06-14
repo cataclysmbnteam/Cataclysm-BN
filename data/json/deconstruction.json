@@ -5,9 +5,9 @@
     "subtype": "collection",
     "entries": [
       { "item": "rock", "count": [ 0, 4 ] },
-      { "item": "wood_panel", "count": [ 0, 2 ] },
-      { "item": "nail", "charges": [ 8, 32 ] },
-      { "item": "splinter", "count": [ 0, 4 ] }
+      { "item": "wood_panel", "count": 1 },
+      { "item": "nail", "charges": 30 },
+      { "item": "2x4", "count": 6 }
     ]
   },
   {
@@ -140,7 +140,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "10 m",
     "using": [ [ "linoleum_removal_standard", 1 ] ],
-    "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] }, { "item": "nail", "count": [ 8, 15 ] } ],
+    "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] }, { "item": "nail", "charges": [ 8, 15 ] } ],
     "pre_terrain": "t_linoleum_white",
     "post_terrain": "t_thconc_floor",
     "group": "remove_linoleum_tiles"
@@ -153,7 +153,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "10 m",
     "using": [ [ "linoleum_removal_standard", 1 ] ],
-    "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] }, { "item": "nail", "count": [ 8, 15 ] } ],
+    "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] }, { "item": "nail", "charges": [ 8, 15 ] } ],
     "pre_terrain": "t_linoleum_gray",
     "post_terrain": "t_thconc_floor",
     "group": "remove_linoleum_tiles"
@@ -788,6 +788,46 @@
     "using": [ [ "object_deconstruction_advanced", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 35, 40 ] } ],
     "pre_furniture": "f_fireplace",
+    "post_furniture": "f_null",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_electrical_conduit",
+    "//": "Breaks an electrical conduit.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "90 m",
+    "using": [ [ "object_deconstruction_advanced", 1 ] ],
+    "byproducts": [
+      { "item": "scrap", "count": [ 1, 4 ] },
+      { "item": "scrap_copper", "count": [ 10, 20 ] },
+      { "item": "cable", "charges": [ 20, 100 ] },
+      { "item": "pipe", "count": [ 1, 2 ] }
+    ],
+    "pre_furniture": "f_electrical_conduit",
+    "post_furniture": "f_null",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_capacitor_bank",
+    "//": "Removes a capacitor bank",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "mechanics", 4 ], [ "electronics", 8 ] ],
+    "time": "120 m",
+    "using": [ [ "object_deconstruction_advanced", 1 ] ],
+    "byproducts": [
+      { "item": "scrap", "count": [ 1, 4 ] },
+      { "item": "cable", "charges": [ 100, 800 ] },
+      { "item": "pipe", "count": [ 0, 4 ] },
+      { "item": "circuit", "count": [ 0, 5 ] },
+      { "item": "e_scrap", "count": [ 2, 8 ] },
+      { "item": "amplifier", "count": [ 0, 4 ] },
+      { "item": "power_supply", "count": [ 0, 2 ] },
+      { "item": "metal_tank_little", "count": [ 0, 6 ] }
+    ],
+    "pre_furniture": "f_capacitor",
     "post_furniture": "f_null",
     "group": "advanced_object_deconstruction"
   }

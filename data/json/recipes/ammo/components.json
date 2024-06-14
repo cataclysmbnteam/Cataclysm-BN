@@ -46,6 +46,29 @@
   },
   {
     "type": "recipe",
+    "result": "gunpowder",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "cooking",
+    "skills_required": [ "fabrication", 6 ],
+    "difficulty": 8,
+    "time": "2 h 40 m",
+    "charges": 200,
+    "book_learn": [ [ "textbook_anarch", 7 ], [ "adv_chemistry", 8 ], [ "textbook_chemistry", 8 ] ],
+    "batch_time_factors": [ 50, 3 ],
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 250, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
+    "components": [
+      [ [ "cotton_ball", 5 ] ],
+      [ [ "chem_nitric_acid", 3 ] ],
+      [ [ "acid", 3 ], [ "chem_sulphuric_acid", 2 ] ],
+      [ [ "ether", 125 ] ],
+      [ [ "water", 9 ], [ "water_clean", 9 ] ],
+      [ [ "edible_tallow_lard", 2, "LIST" ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "exploding_arrow_warhead",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
@@ -60,13 +83,14 @@
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ],
       [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
       [
+        [ "impact_fuze", 1 ],
         [ "smpistol_primer", 1 ],
         [ "lgpistol_primer", 1 ],
         [ "smrifle_primer", 1 ],
         [ "lgrifle_primer", 1 ],
         [ "shotgun_primer", 1 ]
       ],
-      [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ]
+      [ [ "volatile_explosive", 2, "LIST" ], [ "stable_explosive", 2, "LIST" ], [ "military_explosive", 2, "LIST" ] ]
     ],
     "delete_flags": [ "FILTHY" ],
     "flags": [ "ALLOW_FILTHY" ]
@@ -248,5 +272,44 @@
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "223_casing", 1 ] ] ]
+  },
+  {
+    "result": "cannonball_explosive",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "75 m",
+    "batch_time_factors": [ 90, 4 ],
+    "reversible": true,
+    "book_learn": [ [ "manual_launcher", 6 ], [ "textbook_anarch", 7 ] ],
+    "using": [ [ "blacksmithing_intermediate", 12 ], [ "steel_tiny", 12 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "volatile_explosive", 75, "LIST" ], [ "stable_explosive", 75, "LIST" ], [ "military_explosive", 75, "LIST" ] ],
+      [
+        [ "impact_fuze", 1 ],
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ]
+    ]
+  },
+  {
+    "result": "cannonball_4lb",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "60 m",
+    "batch_time_factors": [ 90, 4 ],
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 8 ], [ "steel_tiny", 8 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   }
 ]

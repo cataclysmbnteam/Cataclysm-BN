@@ -8,12 +8,16 @@
     "symbol": "h",
     "durability": 50,
     "description": "A light metal framework, designed to fold.  Other vehicle components can be mounted on it.  If all the frames and components of a vehicle are foldable, the vehicle can be folding into a small package and picked up as a normal item.",
-    "folded_volume": 10,
+    "folded_volume": "2500 ml",
     "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 3 ] ]
+      }
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
     "damage_reduction": { "all": 8 }
@@ -29,12 +33,12 @@
     "broken_color": "brown",
     "durability": 15,
     "description": "A light wooden framework, designed to fold.  Other vehicle components can be mounted on it.  If all the frames and components of a vehicle are foldable, the vehicle can be folding into a small package and picked up as a normal item.",
-    "folded_volume": 15,
+    "folded_volume": "3750 ml",
     "breaks_into": [ { "item": "splinter", "count": [ 0, 6 ] }, { "item": "nail", "charges": [ 1, 15 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
     "damage_reduction": { "all": 12 }
@@ -51,7 +55,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "MOUNTABLE" ],
     "damage_reduction": { "all": 52 }
@@ -70,7 +74,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
     "damage_reduction": { "all": 52 }
   },
@@ -87,7 +91,7 @@
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_small_wood", 4 ] ] }
     },
     "damage_reduction": { "all": 46 }
   },
@@ -104,7 +108,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "40 m", "using": [ [ "welding_standard", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "welding_standard", 10 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "welding_standard", 10 ], [ "steel_tiny", 2 ] ] }
     },
     "flags": [ "MOUNTABLE" ],
     "damage_reduction": { "all": 112 }
@@ -122,7 +126,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 10 ], [ "vehicle_repair_aluminium", 1 ] ]
+      }
     },
     "flags": [ "MOUNTABLE" ],
     "damage_reduction": { "all": 28 }

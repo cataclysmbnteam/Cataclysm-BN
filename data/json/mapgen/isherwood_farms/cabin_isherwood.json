@@ -4,6 +4,7 @@
     "method": "json",
     "om_terrain": "cabin_isherwood",
     "object": {
+      "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         "............//..........",

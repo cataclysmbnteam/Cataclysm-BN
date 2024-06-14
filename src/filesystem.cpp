@@ -82,7 +82,19 @@ bool file_exist( const std::string &path )
 }
 #endif
 
+std::string as_norm_dir( const std::string &path )
+{
+    std::filesystem::path dir = std::filesystem::u8path( path ) / std::filesystem::path{};
+    std::filesystem::path norm = dir.lexically_normal();
+    std::string ret = norm.generic_u8string();
+    if( "." == ret ) {
+        ret = "./"; // TODO Change the many places that use strings instead of paths
+    }
+    return ret;
+}
+
 #if defined(_WIN32)
+
 bool remove_file( const std::string &path )
 {
     return DeleteFileW( utf8_to_wstr( path ).c_str() ) != 0;
@@ -499,7 +511,7 @@ bool can_write_to_dir( const std::string &dir_path )
 
     const auto writer = []( std::ostream & s ) {
         // Write at least something to check if there is free space on disk
-        s << CBN << std::endl;
+        s << CBN << '\n';
     };
 
     if( !write_to_file( dummy_file, writer, nullptr ) ) {

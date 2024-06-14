@@ -76,7 +76,7 @@
     "using": [ [ "soldering_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "adhesive", 1, "LIST" ], [ "cordage", 1, "LIST" ] ],
       [
         [ "scrap", 3 ],
         [ "can_food_unsealed", 1 ],
@@ -145,7 +145,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "adhesive", 1, "LIST" ], [ "cordage", 1, "LIST" ] ],
       [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "oxy_powder", 75 ] ],
       [ [ "incendiary", 50 ] ]
@@ -168,7 +168,7 @@
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
       [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ],
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
-      [ [ "superglue", 1 ] ]
+      [ [ "adhesive", 1, "LIST" ] ]
     ]
   },
   {
@@ -188,7 +188,7 @@
       [ [ "fungicide", 50 ] ],
       [ [ "chem_sulphur", 150 ] ],
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
-      [ [ "superglue", 1 ] ]
+      [ [ "adhesive", 1, "LIST" ] ]
     ]
   },
   {
@@ -208,7 +208,7 @@
       [ [ "insecticide", 50 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
-      [ [ "superglue", 1 ] ]
+      [ [ "adhesive", 1, "LIST" ] ]
     ]
   },
   {
@@ -225,7 +225,7 @@
     "components": [
       [ [ "volatile_explosive", 24, "LIST" ], [ "stable_explosive", 24, "LIST" ], [ "military_explosive", 24, "LIST" ] ],
       [ [ "delay_fuze", 1 ], [ "fuse", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "adhesive", 1, "LIST" ], [ "cordage", 1, "LIST" ] ],
       [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "nail", 30 ], [ "scrap", 2 ] ]
     ]
@@ -253,8 +253,8 @@
     "time": "12 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "soldering_iron", 30 ] ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "nail", 200 ], [ "scrap", 16 ] ], [ [ "fuse", 1 ] ], [ [ "dynamite", 1 ] ] ]
   },
   {
@@ -287,10 +287,10 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "candy", 1 ], [ "cola", 1 ] ],
-      [ [ "vitamins", 10 ], [ "aspirin", 8 ], [ "chem_phenol", 80 ] ],
+      [ [ "sugar", 40 ] ],
+      [ [ "oxy_powder", 80 ], [ "chem_saltpetre", 20 ] ],
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
-      [ [ "superglue", 1 ] ]
+      [ [ "adhesive", 1, "LIST" ] ]
     ]
   },
   {
