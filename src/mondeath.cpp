@@ -210,7 +210,7 @@ void mdeath::splatter( monster &z )
         const auto area = here.points_in_radius( z.pos(), 1 );
         int number_of_gibs = std::min( std::floor( corpse_damage ) - 1, 1 + max_hp / 5.0f );
 
-        if( pulverized && z.type->size >= MS_MEDIUM ) {
+        if( pulverized && z.type->size >= creature_size::medium ) {
             number_of_gibs += rng( 1, 6 );
             sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume( z.pos() ) );
         }
@@ -587,19 +587,19 @@ void mdeath::explode( monster &z )
 {
     int size = 0;
     switch( z.type->size ) {
-        case MS_TINY:
+        case creature_size::tiny:
             size = 4;
             break;
-        case MS_SMALL:
+        case creature_size::small:
             size = 8;
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
             size = 14;
             break;
-        case MS_LARGE:
+        case creature_size::large:
             size = 20;
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             size = 26;
             break;
         default:

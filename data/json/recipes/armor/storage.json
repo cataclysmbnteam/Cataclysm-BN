@@ -59,7 +59,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ], [ "sewing_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "scrap", 3 ], [ "sheet_metal_small", 1 ] ], [ [ "nail", 4 ] ] ]
+    "components": [ [ [ "leather", 5 ] ], [ [ "scrap", 3 ], [ "sheet_metal_small", 1 ] ], [ [ "nail_glue", 4, "LIST" ] ] ]
   },
   {
     "result": "back_holster",
@@ -81,7 +81,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "50 m",
-    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 20 ] ] ]
@@ -95,6 +95,7 @@
     "difficulty": 3,
     "time": "50 m",
     "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "leather", 20 ] ], [ [ "scrap", 6 ], [ "sheet_metal_small", 2 ] ] ]
   },
@@ -109,7 +110,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_any", 12, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 8 ] ] ]
+    "components": [ [ [ "fabric_hides_any", 12, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail_glue", 8, "LIST" ] ] ]
   },
   {
     "result": "bandolier_pistol",
@@ -273,7 +274,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_any", 15, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 10 ] ] ]
+    "components": [ [ [ "fabric_hides_any", 15, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail_glue", 10, "LIST" ] ] ]
   },
   {
     "result": "chestpouch",
@@ -299,7 +300,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 25 ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "fabric_standard", 40, "LIST" ] ], [ [ "plastic_chunk", 2 ] ] ]
+    "components": [ [ [ "fabric_standard", 25, "LIST" ] ], [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "result": "duffelbag",
@@ -413,7 +414,7 @@
     "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 20 ] ], [ [ "rope_natural", 1, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 3 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "rope_natural", 1, "LIST" ] ] ]
   },
   {
     "result": "leather_belt",
@@ -433,7 +434,6 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 2,
-    "skills_required": [ "survival", 1 ],
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
@@ -446,7 +446,6 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 2,
-    "skills_required": [ "survival", 1 ],
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
@@ -533,6 +532,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "15 m",
+    "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -623,7 +623,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_any", 10, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 5 ] ] ]
+    "components": [ [ [ "fabric_hides_any", 10, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail_glue", 5, "LIST" ] ] ]
   },
   {
     "result": "sheath",
@@ -977,7 +977,6 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 2,
-    "skills_required": [ "survival", 1 ],
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 5 ] ],

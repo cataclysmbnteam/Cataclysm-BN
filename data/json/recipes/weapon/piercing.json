@@ -312,7 +312,6 @@
         [ "tanto", 1 ],
         [ "kirpan", 1 ]
       ],
-      [ [ "nail", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -328,7 +327,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "spear_knife", 1 ] ], [ [ "nail", 2 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
+    "components": [ [ [ "spear_knife", 1 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -478,7 +477,7 @@
     "components": [
       [ [ "fencing_foil_sharpened", 1 ] ],
       [ [ "fabric_hides_any", 1, "LIST" ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "tazer", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -499,7 +498,7 @@
     "components": [
       [ [ "fencing_epee_sharpened", 1 ] ],
       [ [ "fabric_hides_any", 1, "LIST" ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "tazer", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -520,7 +519,7 @@
     "components": [
       [ [ "fencing_sabre_sharpened", 1 ] ],
       [ [ "fabric_hides_any", 1, "LIST" ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "tazer", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -541,7 +540,7 @@
     "components": [
       [ [ "rapier", 1 ] ],
       [ [ "fabric_hides_any", 1, "LIST" ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "tazer", 1 ] ],
       [ [ "cable", 10 ] ]
     ]

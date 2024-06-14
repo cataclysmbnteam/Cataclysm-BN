@@ -2356,26 +2356,6 @@
     "obsolete": true
   },
   {
-    "type": "recipe",
-    "result": "shotcanister_scrap",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_flechette",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_bearing",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_pebble",
-    "obsolete": true
-  },
-  {
     "result": "ballistic_vest_esapi",
     "type": "recipe",
     "obsolete": true
@@ -3367,6 +3347,57 @@
   {
     "type": "recipe",
     "result": "barrel_big",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "id_suffix": "canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "id_suffix": "jarred_3l",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "id_suffix": "canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "id_suffix": "jarred_3l",
     "obsolete": true
   }
 ]

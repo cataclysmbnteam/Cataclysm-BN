@@ -952,8 +952,7 @@ int iuse::prozac( player *p, item *it, bool, const tripoint & )
 
 int iuse::sleep( player *p, item *it, bool, const tripoint & )
 {
-    p->mod_fatigue( 40 );
-    p->add_msg_if_player( m_warning, _( "You feel very sleepy…" ) );
+    p->add_msg_if_player( m_warning, _( "You feel sleepy…" ) );
     return it->type->charges_to_use();
 }
 
@@ -981,9 +980,8 @@ int iuse::flumed( player *p, item *it, bool, const tripoint & )
 int iuse::flusleep( player *p, item *it, bool, const tripoint & )
 {
     p->add_effect( effect_took_flumed, 12_hours );
-    p->mod_fatigue( 30 );
     p->add_msg_if_player( _( "You take some %s" ), it->tname() );
-    p->add_msg_if_player( m_warning, _( "You feel very sleepy…" ) );
+    p->add_msg_if_player( m_warning, _( "You feel sleepy…" ) );
     return it->type->charges_to_use();
 }
 
@@ -4580,18 +4578,23 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     bool drew_blood = false;
     bool acid_blood = false;
     for( auto &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
-        if( map_it->is_corpse() &&
-            query_yn( _( "Draw blood from %s?" ),
-                      colorize( map_it->tname(), map_it->color_in_inventory() ) ) ) {
-            p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it->tname() );
-            drew_blood = true;
-            auto bloodtype( map_it->get_mtype()->bloodType() );
-            if( bloodtype.obj().has_acid ) {
-                acid_blood = true;
-            } else {
-                mt = map_it->get_mtype();
+        if( map_it->is_corpse() ) {
+            if( map_it->has_flag( flag_BLED ) ) {
+                p->add_msg_if_player( m_info, _( "That %s has already been bled dry." ), it->tname() );
+                break;
             }
-            break;
+            if( query_yn( _( "Draw blood from %s?" ),
+                          colorize( map_it->tname(), map_it->color_in_inventory() ) ) ) {
+                p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it->tname() );
+                drew_blood = true;
+                auto bloodtype( map_it->get_mtype()->bloodType() );
+                if( bloodtype.obj().has_acid ) {
+                    acid_blood = true;
+                } else {
+                    mt = map_it->get_mtype();
+                }
+                break;
+            }
         }
     }
 
@@ -7440,7 +7443,8 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     monster &z = *mon;
 
                     // shoot past small monsters and hallucinations
-                    if( trajectory_point != aim_point && ( z.type->size <= MS_SMALL || z.is_hallucination() ||
+                    if( trajectory_point != aim_point && ( z.type->size <= creature_size::small ||
+                                                           z.is_hallucination() ||
                                                            z.type->in_species( HALLUCINATION ) ) ) {
                         continue;
                     }
@@ -9023,8 +9027,17 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
                                   print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
         }
     }
-
-    if( it->typeId() == itype_weather_reader ) {
+    if( it->has_flag( flag_WEATHER_FORECAST ) ) {
+        std::string message = string_format( "", message );
+        const auto tref = overmap_buffer.find_radio_station( it->frequency );
+        if( tref ) {
+            {
+                message = weather_forecast( tref.abs_sm_pos );
+            }
+            p->add_msg_if_player( m_neutral, _( "Automatic weather report %s" ), message );
+        }
+    }
+    if( it->has_flag( flag_WINDMETER ) ) {
         int vehwindspeed = 0;
         if( optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
@@ -9033,19 +9046,14 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         /* windpower defined in internal velocity units (=.01 mph) */
         const double windpower = 100 * get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
                                  p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
-
-        p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
-                              convert_velocity( windpower, VU_WIND ),
-                              velocity_units( VU_WIND ) );
-        p->add_msg_if_player(
-            m_neutral, _( "Feels Like: %s." ),
-            print_temperature(
-                get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
-                                     weatherPoint.humidity,
-                                     windpower / 100 ) +
-                units::to_fahrenheit( player_local_temp ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
-        p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
+        p->add_msg_if_player( m_neutral, _( "Wind: %.1f %2$s from the %3$s.\nFeels like: %4$s." ),
+                              convert_velocity( windpower, VU_VEHICLE ),
+                              velocity_units( VU_VEHICLE ), dirstring, print_temperature(
+                                  get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
+                                          weatherPoint.humidity,
+                                          windpower / 100 ) +
+                                  units::to_fahrenheit( player_local_temp ) ) );
     }
 
     return 0;
@@ -9169,13 +9177,13 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             return 0;
         }
     } else {
-        if( !it->has_property( "monster_size_capacity" ) ) {
-            debugmsg( "%s has no monster_size_capacity.", it->tname() );
+        if( !it->has_property( "creature_size_capacity" ) ) {
+            debugmsg( "%s has no creature_size_capacity.", it->tname() );
             return 0;
         }
-        const std::string capacity = it->get_property_string( "monster_size_capacity" );
+        const std::string capacity = it->get_property_string( "creature_size_capacity" );
         if( Creature::size_map.count( capacity ) == 0 ) {
-            debugmsg( "%s has invalid monster_size_capacity %s.",
+            debugmsg( "%s has invalid creature_size_capacity %s.",
                       it->tname(), capacity.c_str() );
             return 0;
         }

@@ -202,7 +202,7 @@
       "toilets": { "T": {  } },
       "items": {
         "o": { "item": "novels", "chance": 70 },
-        "R": { "item": "trash", "chance": 70 },
+        "R": { "item": "trash_dumpster", "chance": 80 },
         "d": { "item": "cubical_office", "chance": 70 },
         "e": { "item": "fridge", "chance": 70, "repeat": [ 2, 3 ] },
         "l": { "item": "cleaning", "chance": 70 },

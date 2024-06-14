@@ -1174,7 +1174,7 @@
         "id": "sting",
         "move_cost": 300,
         "cooldown": 5,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 25 } ],
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 15 } ],
         "min_mul": 0.5,
         "max_mul": 2
       },
@@ -1182,7 +1182,7 @@
         "type": "bite",
         "cooldown": 5,
         "move_cost": 130,
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 10, "armor_penetration": 20 } ],
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 10, "armor_penetration": 10 } ],
         "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 4 ] ],
         "min_mul": 0.5,
         "max_mul": 1.5
@@ -1245,7 +1245,7 @@
         "id": "sting",
         "cooldown": 5,
         "move_cost": 200,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 60 } ],
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 30 } ],
         "min_mul": 1,
         "max_mul": 3,
         "effects": [ { "id": "venom_weaken", "duration": 600 }, { "id": "downed", "duration": 1, "chance": 50 } ]
@@ -1254,7 +1254,7 @@
         "type": "bite",
         "cooldown": 3,
         "move_cost": 100,
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 10, "armor_penetration": 30 } ],
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 10, "armor_penetration": 15 } ],
         "min_mul": 1,
         "max_mul": 3,
         "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 4 ] ]

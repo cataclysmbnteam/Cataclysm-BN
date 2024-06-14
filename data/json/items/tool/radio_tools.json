@@ -111,7 +111,8 @@
     "color": "light_gray",
     "ammo": "battery",
     "charges_per_use": 1,
-    "use_action": "RADIO_OFF",
+    "flags": [ "WEATHER_FORECAST" ],
+    "use_action": [ "RADIO_OFF", "WEATHER_TOOL" ],
     "magazines": [
       [
         "battery",

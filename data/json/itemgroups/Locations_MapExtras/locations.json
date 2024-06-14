@@ -139,7 +139,7 @@
       { "group": "surgery", "prob": 80 },
       { "group": "drugs_emergency", "prob": 40 },
       { "group": "softdrugs", "prob": 20 },
-      { "group": "bionics_common", "prob": 5 },
+      { "group": "bionics_common", "prob": 10 },
       { "group": "harddrugs", "prob": 5 }
     ]
   },
@@ -188,7 +188,8 @@
       [ "jar_glass", 20 ],
       [ "fan", 5 ],
       [ "cleansuit", 10 ],
-      [ "pouch_autoclave", 15 ],
+      [ "pouch_autoclave", 20 ],
+      { "group": "bionics_common", "prob": 20 },
       [ "oxy_powder", 2 ],
       [ "hazmat_suit", 5 ],
       [ "fungicide", 10 ],
@@ -376,7 +377,7 @@
       [ "stereo", 10 ],
       [ "wrench", 10 ],
       [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
+      { "item": "superglue", "prob": 5, "charges": [ 5, 10 ] },
       [ "boots", 70 ],
       [ "boots_steel", 50 ],
       [ "boots_hiking", 10 ],
@@ -520,7 +521,7 @@
     "id": "library_elec",
     "type": "item_group",
     "items": [
-      [ "superglue", 30 ],
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       [ "processor", 15 ],
       [ "RAM", 22 ],
       [ "power_supply", 16 ],
@@ -664,6 +665,7 @@
       [ "canteen", 20 ],
       [ "basket_laundry", 20 ],
       [ "plastic_pot_flower", 35 ],
+      [ "trash_can_empty", 30 ],
       [ "gloves_medical", 20 ],
       [ "fitover_sunglasses", 20 ],
       [ "goggles_swim", 20 ],
@@ -1892,7 +1894,7 @@
       { "item": "mutagen", "prob": 1 },
       { "item": "purifier", "prob": 1 },
       { "item": "yeast", "prob": 3 },
-      { "item": "superglue", "prob": 30 },
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       { "item": "bottle_glass", "prob": 10 },
       { "item": "syringe", "prob": 1 },
       { "item": "adrenaline_injector", "prob": 1 },
@@ -2732,5 +2734,32 @@
     "type": "item_group",
     "id": "oa_ig_sb_water",
     "items": [ { "item": "water", "prob": 30, "charges-min": 0, "charges-max": 200, "container-item": "keg" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "os_items",
+    "items": [
+      [ "flashlight", 50 ],
+      [ "heavy_flashlight", 40 ],
+      [ "gloves_work", 30 ],
+      [ "gloves_rubber", 60 ],
+      [ "boots_rubber", 60 ],
+      [ "hat_hard", 60 ],
+      [ "shovel", 40 ],
+      [ "jackhammer", 5 ],
+      [ "elec_jackhammer", 5 ],
+      [ "folding_poncho", 40 ],
+      [ "radio", 40 ],
+      [ "well_pump", 10 ],
+      [ "toolbox", 5 ],
+      [ "wrench", 15 ],
+      [ "bag_canvas", 40 ],
+      [ "jumper_cable", 40 ],
+      [ "jumper_cable_heavy", 20 ],
+      [ "glasses_safety", 30 ],
+      [ "crowbar", 15 ],
+      [ "mask_filter", 30 ],
+      [ "electric_lantern", 30 ]
+    ]
   }
 ]

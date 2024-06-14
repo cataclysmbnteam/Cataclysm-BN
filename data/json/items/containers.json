@@ -323,7 +323,8 @@
     "contains": "250 ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "box_cigarette",
@@ -619,7 +620,8 @@
     "contains": "250 ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "clay_hydria",
@@ -1325,5 +1327,24 @@
     "symbol": "0",
     "contains": "200 L",
     "color": "yellow"
+  },
+  {
+    "id": "trash_can_empty",
+    "type": "CONTAINER",
+    "category": "container",
+    "name": { "str": "plastic trash can" },
+    "description": "A small plastic wastebasket for offices and kitchens.  Could be repurposed as an open-top container if you're desperate, or placed back down.",
+    "weight": "1 kg",
+    "volume": "20 L",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": "plastic",
+    "symbol": ")",
+    "looks_like": "plastic_pot_flower",
+    "color": "white",
+    "contains": "20 L",
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_trashcan" }
   }
 ]

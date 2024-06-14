@@ -242,7 +242,7 @@
       "items": {
         "I": { "item": "office", "chance": 30 },
         "S": { "item": "office_paper", "chance": 30 },
-        "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
+        "U": { "item": "trash_dumpster", "chance": 80 },
         "L": { "item": "cleaning", "chance": 20, "repeat": [ 2, 4 ] }
       },
       "place_items": [

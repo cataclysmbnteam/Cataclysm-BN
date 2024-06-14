@@ -190,7 +190,7 @@
         "fake_per": 10,
         "ranges": [ [ 0, 14, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "description": "The feral security guard fires their Beretta M9A1!",
+        "description": "The feral security guard fires their pistol!",
         "no_crits": true
       }
     ],

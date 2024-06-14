@@ -355,6 +355,7 @@
         "{": "f_locker",
         "|": "f_null"
       },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 55, "item": "clothing_work_gloves", "x": 19, "y": 13 },
         { "chance": 35, "item": "snacks", "x": 5, "y": 2 },

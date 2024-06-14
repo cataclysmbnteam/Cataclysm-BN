@@ -245,9 +245,9 @@ bool run(
         }
     };
     ui->mark_resize();
-    ui->on_redraw( [&]( const ui_adaptor & ) {
+    ui->on_redraw( [&]( ui_adaptor & ui ) {
         draw_item_info( w_info, data );
-        action_list.show();
+        action_list.show( ui );
     } );
 
     bool exit = false;

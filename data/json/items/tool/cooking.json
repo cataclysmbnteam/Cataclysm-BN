@@ -188,7 +188,7 @@
     "container_data": { "contains": "2 L", "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "SHATTERS" ]
   },
   {
     "id": "clay_quern",
@@ -220,7 +220,8 @@
     "symbol": ")",
     "color": "brown",
     "container_data": { "contains": "750 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "coffeemaker",
@@ -444,7 +445,8 @@
       "type": "delayed_transform",
       "transform_age": 259200,
       "not_ready_msg": "The yeast isn't done culturing yet."
-    }
+    },
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "food_processor",
