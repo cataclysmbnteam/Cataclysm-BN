@@ -33,7 +33,7 @@
       { "id": "residential_sign_18", "text": "The <family_name> Residence" },
       {
         "id": "residential_sign_19",
-        "text": "This For Sale sign has a printed note stapled over top of it that reads \"<given_name>, tried to text you. Gone to the cabin with <given_name> and <given_name>. Meet us there. Love, Mom\""
+        "text": "This For Sale sign has a printed note stapled over top of it that reads \"<given_name>, tried to text you.  Gone to the cabin with <given_name> and <given_name>. Meet us there. Love, Mom\""
       },
       { "id": "residential_sign_20", "text": "Another Home Sold - <family_name> Realtors - 555-7481" },
       { "id": "residential_sign_21", "text": "For Sale - 555-8485 - Sunset Realty" },
