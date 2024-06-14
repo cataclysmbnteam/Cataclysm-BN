@@ -865,7 +865,7 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat their head."
     },
-    "special_attacks": [ [  [ "PARROT_AT_DANGER", 0 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
     "flags": [
       "ANIMAL",
       "CANPLAY",
@@ -960,6 +960,7 @@
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_bull" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -1032,6 +1033,7 @@
     "upgrades": { "age_grow": 42, "into": "mon_dog_pitbullmix" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -1105,7 +1107,9 @@
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "mon_dog_beagle" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "death_function": [ "NORMAL" ],    "petfood": {
+    "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
+    "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat their head."
@@ -1176,6 +1180,7 @@
     "upgrades": { "age_grow": 42, "into": "mon_dog_bcollie" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -1232,6 +1237,7 @@
     "upgrades": { "age_grow": 42, "into": "mon_dog_boxer" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -1318,6 +1324,7 @@
     "upgrades": { "age_grow": 42, "into": "mon_dog_chihuahua" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -1392,6 +1399,7 @@
     "upgrades": { "age_grow": 42, "into": "mon_dog_dachshund" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -1451,6 +1459,7 @@
     "upgrades": { "age_grow": 42, "into": "mon_dog_gshepherd" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -1526,6 +1535,7 @@
     "upgrades": { "age_grow": 42, "into": "mon_dog_gpyrenees" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -1601,6 +1611,7 @@
     "upgrades": { "age_grow": 42, "into": "mon_dog_rottweiler" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -1674,6 +1685,7 @@
     "upgrades": { "age_grow": 42, "into": "mon_dog_auscattle" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -2167,6 +2179,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 20 ] ],
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you! It lets you pat its head and seems friendly."
