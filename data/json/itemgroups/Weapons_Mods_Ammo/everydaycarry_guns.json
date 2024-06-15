@@ -1921,7 +1921,11 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "carbon_pistol", "charges-min": 0, "charges-max": 15 }, { "item": "glockmag" }, { "item": "glockmag", "prob": 50 } ]
+    "entries": [
+      { "item": "carbon_pistol", "charges-min": 0, "charges-max": 15 },
+      { "item": "glockmag" },
+      { "item": "glockmag", "prob": 50 }
+    ]
   },
   {
     "id": "everyday_carbon_rifle",
@@ -1929,6 +1933,9 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "carbon_rifle", "ammo-item": "556_incendiary", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_223" } ]
+    "entries": [
+      { "item": "carbon_rifle", "ammo-item": "556_incendiary", "charges-min": 0, "charges-max": 100 },
+      { "group": "on_hand_223" }
+    ]
   }
 ]
