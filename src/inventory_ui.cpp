@@ -1941,6 +1941,7 @@ inventory_multiselector::inventory_multiselector( player &p,
 {
     ctxt.register_action( "RIGHT", to_translation( "Mark/unmark selected item" ) );
     ctxt.register_action( "DROP_NON_FAVORITE", to_translation( "Mark/unmark non-favorite items" ) );
+    ctxt.register_action( "EXAMINE" );
 
     for( auto &elem : get_all_columns() ) {
         elem->set_multiselect( true );
