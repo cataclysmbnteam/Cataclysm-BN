@@ -414,6 +414,7 @@
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
       [ "camera", 3 ],
+      [ "3d_printer_basic", 3 ],
       [ "flask_glass", 10 ],
       [ "bottle_glass", 10 ],
       [ "thermos", 5 ],

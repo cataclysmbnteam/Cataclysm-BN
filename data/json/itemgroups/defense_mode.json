@@ -11,9 +11,12 @@
       { "item": "hammer_sledge" },
       { "item": "hatchet" },
       { "item": "knife_combat" },
+      { "item": "knife_carbon" },
       { "item": "rapier" },
       { "item": "machete" },
       { "item": "katana" },
+      { "item": "sword_carbon" },
+      { "item": "spear_carbon" },
       { "item": "spear_knife" },
       { "item": "pike" },
       { "item": "chainsaw_off" }
@@ -25,6 +28,7 @@
     "subtype": "collection",
     "items": [
       { "item": "crossbow" },
+      { "item": "crossbow_carbon" },
       { "item": "marlin_9a" },
       { "item": "hk_mp5" },
       { "item": "taurus_spectrum" },
