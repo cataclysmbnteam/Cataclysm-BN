@@ -686,7 +686,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "3D printer" },
-    "description": "Although it's not nearly as fancy as the experimental nanofabricators, this civilian-grade 3D printer can produce almost any item out of plastic, polymer, or carbon fiber...  so long as you can program it.",
+    "description": "Although it's not nearly as fancy as the experimental nanofabricators, this civilian-grade 3D printer can produce almost any item out of plastic, polymer, or carbon fiber…  so long as you can program it.",
     "weight": "2000 g",
     "volume": "1500 ml",
     "price": "400 USD",
