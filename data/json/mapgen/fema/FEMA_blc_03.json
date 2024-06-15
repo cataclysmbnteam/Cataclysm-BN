@@ -35,6 +35,7 @@
       ],
       "rotation": 3,
       "palettes": [ "FEMA_camp" ],
+      "terrain": { "c": "t_region_groundcover_barren" },
       "items": { "X": { "item": "mil_surplus", "chance": 40 } }
     }
   }
