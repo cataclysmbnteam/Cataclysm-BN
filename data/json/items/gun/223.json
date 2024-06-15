@@ -614,6 +614,7 @@
   {
     "id": "carbon_rifle",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "carbon fiber assault rifle" },
     "description": "This assault rifle was made using a 3D printer, resulting in a very lightweight weapon.",

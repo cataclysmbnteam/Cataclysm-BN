@@ -644,6 +644,7 @@
   {
     "id": "carbon_pistol",
     "copy-from": "pistol_base",
+    "looks_like": "90two",
     "type": "GUN",
     "name": { "str": "carbon fiber machine pistol" },
     "description": "This 3D printed machine pistol is made completely without any metal parts.  As a result, it is very lightweight.",
