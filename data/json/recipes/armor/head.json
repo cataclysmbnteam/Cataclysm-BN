@@ -1535,7 +1535,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "computer",
-    "difficulty": 4,
+    "difficulty": 1,
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "15 m",
     "book_learn": [ [ "manual_computers", 3 ], [ "manual_electronics", 3 ], [ "recipe_melee", 3 ] ],
