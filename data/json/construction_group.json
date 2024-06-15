@@ -1011,6 +1011,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_3d_printer_basic",
+    "name": "Place 3D Printer"
+  },
+  {
+    "type": "construction_group",
     "id": "place_ac_unit",
     "name": "Place Window-Mounted AC Unit"
   },
