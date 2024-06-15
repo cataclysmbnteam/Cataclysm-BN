@@ -696,6 +696,7 @@
     "symbol": "n",
     "color": "white",
     "ammo": "battery",
+    "charges_per_use": 1,
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": [
       {
