@@ -885,7 +885,7 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "15 m",
     "autolearn": true,
-    "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
     "components": [ [ [ "plastic_chunk", 15 ] ] ]
   },
   {
@@ -898,7 +898,7 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
     "time": "25 m",
-    "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
     "components": [ [ [ "plastic_chunk", 25 ] ] ]
   },
   {
@@ -911,7 +911,7 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
     "time": "15 m",
-    "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
     "components": [ [ [ "plastic_chunk", 15 ] ] ]
   }
 ]

@@ -562,7 +562,7 @@
     "autolearn": true,
     "time": "15 m",
     "book_learn": [ [ "textbook_robots", 0 ], [ "advanced_electronics", 0 ] ],
-    "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
     "components": [ [ [ "plastic_chunk", 25 ] ] ]
   },
   {
@@ -576,7 +576,7 @@
     "autolearn": true,
     "time": "45 m",
     "book_learn": [ [ "textbook_computer", 0 ], [ "advanced_electronics", 0 ] ],
-    "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
     "components": [ [ [ "plastic_chunk", 45 ] ] ]
   }
 ]

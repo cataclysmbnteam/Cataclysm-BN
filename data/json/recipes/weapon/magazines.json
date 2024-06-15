@@ -500,7 +500,7 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ] ],
-    "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
     "components": [ [ [ "plastic_chunk", 10 ] ] ]
   },
   {
@@ -513,7 +513,7 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ] ],
-    "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
     "components": [ [ [ "plastic_chunk", 10 ] ] ]
   },
   {
@@ -526,7 +526,7 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ] ],
-    "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
     "components": [ [ [ "plastic_chunk", 10 ] ] ]
   }
 ]
