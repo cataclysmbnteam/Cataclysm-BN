@@ -91,7 +91,7 @@
     "id": "dbone_longsword",
     "name": { "str": "dragonbone longsword" },
     "description": "A variant of the longsword that is made of dragonbone.  This makes for a very powerful blade without sacrificing durability.  Even better than orichalcum, and you can sense that this isn't even its final form.",
-    "material": [ "bone" ],
+    "material": [ "dragon_bone" ],
     "proportional": { "cutting": 1.3, "price": 10, "weight": 0.8 },
     "color": "white"
   },
@@ -101,7 +101,7 @@
     "id": "dbone_battleaxe",
     "name": { "str": "dragonbone battleaxe" },
     "description": "A variant of the battleaxe that is made of dragonbone.  This makes for a very powerful blade without sacrificing durability.  Even better than orichalcum, and you can sense that this isn't even its final form.",
-    "material": [ "bone" ],
+    "material": [ "dragon_bone" ],
     "proportional": { "cutting": 1.3, "price": 10, "weight": 0.8 },
     "color": "white"
   },
@@ -111,7 +111,7 @@
     "id": "dbone_qiang",
     "name": { "str": "dragonbone qiang" },
     "description": "A variant of the qiang that is made of dragonbone.  This makes for a very powerful blade without sacrificing durability.  Even better than orichalcum, and you can sense that this isn't even its final form.",
-    "material": [ "bone" ],
+    "material": [ "dragon_bone" ],
     "proportional": { "cutting": 1.3, "price": 10, "weight": 0.8 },
     "color": "white"
   },
@@ -121,8 +121,18 @@
     "id": "dbone_tachi",
     "name": { "str": "dragonbone tachi" },
     "description": "A variant of the tachi that is made of dragonbone.  This makes for a very powerful blade without sacrificing durability.  Even better than orichalcum, and you can sense that this isn't even its final form.",
-    "material": [ "bone" ],
+    "material": [ "dragon_bone" ],
     "proportional": { "cutting": 1.3, "price": 10, "weight": 0.8 },
     "color": "white"
+  },
+  {
+    "copy-from": "warhammer",
+    "type": "TOOL",
+    "id": "gaul_maraz",
+    "name": { "str": "Gaul Maraz" },
+    "description": "An impressively ornate golden warhammer with a sapphire and a ruby embedded within.  The engraved words on it appear to be in some strange mix of ancient French and German.  You can sense a faint magic aura being emitted by it, and picking up the weapon gives you the distinct impression that there's even more power within laying dormant.  If only you could harness that power and awaken it once more...",
+    "material": [ "orichalcum_metal" ],
+    "proportional": { "bashing": 1.4, "price": 15, "weight": 1.05 },
+    "color": "yellow"
   }
 ]

@@ -408,5 +408,42 @@
       [ [ "fabric_hides_any", 2, "LIST" ] ],
       [ [ "dragon_bone", 4 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "orich_longsword",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "7 h",
+    "book_learn": [ [ "textbook_weapwest", 7 ], [ "scots_cookbook", 9 ] ],
+    "using": [ [ "blacksmithing_advanced", 16 ] ],
+    "components": [ [ [ "orichalcum_ingot", 2 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "orich_fire_ax",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "time": "7 h",
+    "book_learn": [ [ "textbook_fireman", 8 ], [ "textbook_fabrication", 9 ] ],
+    "using": [ [ "blacksmithing_intermediate", 16 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "orichalcum_ingot", 2 ] ], [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "orich_knife_combat",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "6 h",
+    "using": [ [ "blacksmithing_advanced", 4 ] ],
+    "book_learn": [ [ "manual_knives", 4 ], [ "recipe_melee", 5 ] ],
+    "components": [ [ [ "orichalcum_ingot", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   }
 ]

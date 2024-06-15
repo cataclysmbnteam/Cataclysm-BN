@@ -55,6 +55,7 @@
   {
     "type": "GENERIC",
     "id": "dragon_bone",
+    "looks_like": "bone",
     "category": "spare_parts",
     "name": { "str": "dragon bone" },
     "weight": "450 g",
@@ -63,7 +64,22 @@
     "description": "A bone from a dragon!  Even on its own, these bones make an excellent material for weapons.  However, something tells you that the bones hide more secrets than just that.",
     "price": "0 cent",
     "price_postapoc": "50 cent",
-    "material": "bone",
+    "material": "dragon_bone",
     "volume": "500 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "shard_dragon_bone",
+    "looks_like": "skewer_bone",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "dragon bone shard" },
+    "description": "A small shard of dragon bone, shaped almost like a shard of porcelain.",
+    "category": "other",
+    "material": "dragon_bone",
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
+    "weight": "10 g",
+    "volume": "25 ml",
+    "to_hit": -5
   }
 ]

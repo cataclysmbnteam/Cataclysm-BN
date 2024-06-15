@@ -17,7 +17,7 @@
     "apply_message": "You are bolstered and pushed along by the power of the wind",
     "remove_message": "The wind at your back dies down.",
     "rating": "good",
-    "base_mods": { "speed_mod": [ 20 ], "stamina_min": [ 10 ] }
+    "base_mods": { "speed_mod": [ 40 ], "stamina_min": [ 20 ] }
   },
   {
     "type": "effect_type",
@@ -125,7 +125,7 @@
     "apply_message": "Your mind accelerates.",
     "remove_message": "Your mind returns to normal speed.",
     "rating": "good",
-    "base_mods": { "dex_mod": [ 4 ], "int_mod": [ 4 ], "speed_mod": [ 30 ] }
+    "base_mods": { "dex_mod": [ 4 ], "int_mod": [ 4 ], "speed_mod": [ 5 ] }
   },
   {
     "type": "effect_type",

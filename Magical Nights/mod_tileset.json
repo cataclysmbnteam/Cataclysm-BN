@@ -1160,7 +1160,11 @@
           { "id": "novice_storm_spellbook", "fg": 950, "rotates": false },
           { "id": "cestus", "fg": 951, "bg": 3, "rotates": false },
           { "id": "mana", "fg": 952, "rotates": false },
-          { "id": "overlay_wielded_mana", "fg": 952, "rotates": false }
+          { "id": "overlay_wielded_mana", "fg": 952, "rotates": false },
+          { "id": "gaul_maraz", "fg": 953, "rotates": false },
+          { "id": "overlay_wielded_gaul_maraz", "fg": 954, "rotates": false },
+          { "id": "true_gaul_maraz", "fg": 955, "rotates": false },
+          { "id": "overlay_wielded_true_gaul_maraz", "fg": 956, "rotates": false }
         ],
         "//": "range 513 to 1280",
         "sprite_width": 32,

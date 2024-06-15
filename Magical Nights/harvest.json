@@ -4,6 +4,7 @@
     "//": "identical to mammal_large_fur except that half the fur has been replaced with feathers",
     "type": "harvest",
     "entries": [
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -26,6 +27,7 @@
     "//": "drops regular stomach",
     "type": "harvest",
     "entries": [
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -47,6 +49,7 @@
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -68,6 +71,7 @@
     "id": "demon_spider",
     "type": "harvest",
     "entries": [
+      { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "demon_chitin_piece", "type": "bone", "mass_ratio": 0.04 },
@@ -80,6 +84,7 @@
     "//": "override of vanilla harvest, includes hairballs",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.28 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -97,6 +102,7 @@
     "//": "vanilla override, includes adrenal gland",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -117,6 +123,7 @@
     "//": "vanilla override, includes adrenal gland",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -137,6 +144,7 @@
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -157,6 +165,7 @@
     "//": "drops large stomach",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -176,6 +185,7 @@
     "id": "human_large_leather",
     "type": "harvest",
     "entries": [
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_human_flesh", "type": "flesh", "mass_ratio": 0.34 },
       { "drop": "hstomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
@@ -190,6 +200,7 @@
     "//": "for those vertebrates that don't have something you can skin off of them",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -209,6 +220,7 @@
     "//": "for those vertebrates that don't have something you can skin off of them",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -334,6 +346,7 @@
     "id": "lizardfolk",
     "type": "harvest",
     "entries": [
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
