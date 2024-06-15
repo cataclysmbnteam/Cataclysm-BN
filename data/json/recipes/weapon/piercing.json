@@ -884,7 +884,7 @@
     "difficulty": 0,
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "15 m",
-    "book_learn": [ [ "manual_computers", 3 ], [ "manual_electronics", 3 ], [ "recipe_melee", 3 ] ],
+    "book_learn": [ [ "manual_computers", 0 ], [ "manual_electronics", 0 ] ],
     "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
     "components": [ [ [ "plastic_chunk", 15 ] ] ]
   },
@@ -897,7 +897,7 @@
     "difficulty": 2,
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "25 m",
-    "book_learn": [ [ "manual_computers", 3 ], [ "manual_electronics", 3 ], [ "recipe_melee", 3 ] ],
+    "book_learn": [ [ "manual_computers", 2 ], [ "manual_electronics", 2 ] ],
     "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
     "components": [ [ [ "plastic_chunk", 25 ] ] ]
   },
@@ -910,7 +910,7 @@
     "difficulty": 1,
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "15 m",
-    "book_learn": [ [ "manual_computers", 3 ], [ "manual_electronics", 3 ], [ "recipe_melee", 3 ] ],
+    "book_learn": [ [ "manual_computers", 1 ], [ "manual_electronics", 1 ] ],
     "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
     "components": [ [ [ "plastic_chunk", 15 ] ] ]
   }
