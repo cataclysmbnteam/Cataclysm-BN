@@ -559,8 +559,9 @@
     "skill_used": "computer",
     "difficulty": 0,
     "skills_required": [ [ "fabrication", 2 ] ],
+    "autolearn": true,
     "time": "15 m",
-    "book_learn": [ [ "manual_computers", 0 ], [ "manual_electronics", 0 ] ],
+    "book_learn": [ [ "textbook_robots", 0 ], [ "advanced_electronics", 0 ] ],
     "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
     "components": [ [ [ "plastic_chunk", 25 ] ] ]
   },
@@ -572,8 +573,9 @@
     "skill_used": "computer",
     "difficulty": 1,
     "skills_required": [ [ "fabrication", 2 ] ],
+    "autolearn": true,
     "time": "45 m",
-    "book_learn": [ [ "manual_computers", 1 ], [ "manual_electronics", 1 ] ],
+    "book_learn": [ [ "textbook_robots", 0 ], [ "advanced_electronics", 0 ] ],
     "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
     "components": [ [ [ "plastic_chunk", 45 ] ] ]
   }
