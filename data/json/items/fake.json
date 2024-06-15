@@ -381,7 +381,21 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy", "glass", "plastic", "carbon" ],
+        "materials": [
+          "iron",
+          "steel",
+          "hardsteel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "silver",
+          "gold",
+          "platinum",
+          "superalloy",
+          "glass",
+          "plastic",
+          "carbon"
+        ],
         "skill": "computer",
         "cost_scaling": 0.1,
         "move_cost": 1500

@@ -627,10 +627,6 @@
     "dispersion": 150,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ],
-    "magazines": [
-      [
-        "223", [ "carbonmag_223" ]
-      ]
-    ]
+    "magazines": [ [ "223", [ "carbonmag_223" ] ] ]
   }
 ]

@@ -696,7 +696,7 @@
     "symbol": "n",
     "color": "white",
     "ammo": "battery",
-    "flags": ["ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": [
       {
         "type": "repair_item",
@@ -711,12 +711,7 @@
     "magazines": [
       [
         "battery",
-        [
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_atomic_battery_cell",
-          "medium_disposable_cell"
-        ]
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
     "magazine_well": "500 ml"
