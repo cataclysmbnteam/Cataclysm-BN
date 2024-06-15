@@ -360,7 +360,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "plastic", "carbon", "steel" ],
+        "materials": [ "plastic", "carbon" ],
         "skill": "computer",
         "cost_scaling": 0.1,
         "move_cost": 1500
