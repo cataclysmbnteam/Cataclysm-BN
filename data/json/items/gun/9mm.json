@@ -658,7 +658,7 @@
     "color": "dark_gray",
     "ammo": "9mm",
     "magazine_well": "250 ml",
-    "magazines": [ [ "9mm", [ "carbonmag_9mm" ] ] ],
+    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag" ] ] ],
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ]
   }
 ]

@@ -425,7 +425,7 @@
     "id": "carbonmag_223",
     "type": "MAGAZINE",
     "name": { "str": "carbon fiber .223 30-round magazine" },
-    "description": "A standard capacity 30-round box magazine for use with 3D printed carbon fiber rifles.",
+    "description": "A standard capacity 30-round box magazine for use with 3D printed carbon fiber rifles, though it will fit with just about any STANAG rifle.",
     "weight": "145 g",
     "volume": "500 ml",
     "price": "80 USD",

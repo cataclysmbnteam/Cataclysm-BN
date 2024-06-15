@@ -34,6 +34,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -73,6 +74,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -99,7 +101,7 @@
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "carbonmag_223", "survivor223mag" ] ] ]
   },
   {
     "id": "famas",
@@ -169,6 +171,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -243,6 +246,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -273,6 +277,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -315,6 +320,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -354,6 +360,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -390,7 +397,7 @@
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "carbonmag_223", "survivor223mag" ] ] ]
   },
   {
     "id": "rifle_223",
@@ -477,6 +484,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -517,6 +525,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -595,6 +604,7 @@
         "223",
         [
           "survivor223mag",
+          "carbonmag_223",
           "stanag30",
           "stanag5",
           "stanag10",
@@ -628,6 +638,25 @@
     "dispersion": 150,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ],
-    "magazines": [ [ "223", [ "carbonmag_223" ] ] ]
+    "magazines": [ 
+      [ "223", 
+      [
+        "stanag30",
+        "stanag5",
+        "stanag10",
+        "stanag20",
+        "stanag40",
+        "stanag50",
+        "stanag60",
+        "stanag60drum",
+        "stanag90",
+        "stanag100",
+        "stanag100drum",
+        "stanag150",
+        "carbonmag_223",
+        "survivor223mag"
+        ] 
+      ] 
+    ]
   }
 ]
