@@ -380,8 +380,6 @@ const recipe *select_crafting_recipe( int &batch_size_out )
     ctxt.register_action( "SCROLL_RECIPE_INFO_DOWN" );
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
-    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
-    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "FILTER" );
@@ -753,11 +751,20 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         }
 
         ui_manager::redraw();
+        const int scroll_recipe_info_lines = catacurses::getmaxy( w_iteminfo ) - 4;
         const std::string action = ctxt.handle_input();
         if( action == "SCROLL_RECIPE_INFO_UP" ) {
             recipe_info_scroll -= dataLines;
+            item_info_scroll -= dataLines;
         } else if( action == "SCROLL_RECIPE_INFO_DOWN" ) {
             recipe_info_scroll += dataLines;
+            item_info_scroll += dataLines;
+        } else if( action == "PAGE_UP" ) {
+            recipe_info_scroll -= scroll_recipe_info_lines;
+            item_info_scroll -= scroll_recipe_info_lines;
+        } else if( action == "PAGE_DOWN" ) {
+            recipe_info_scroll += scroll_recipe_info_lines;
+            item_info_scroll += scroll_recipe_info_lines;
         } else if( action == "LEFT" ) {
             std::string start = subtab.cur();
             do {
@@ -765,10 +772,6 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             } while( subtab.cur() != start && shown_recipes.empty_category( tab.cur(),
                      subtab.cur() != "CSC_ALL" ? subtab.cur() : "" ) );
             recalc = true;
-        } else if( action == "SCROLL_UP" ) {
-            item_info_scroll--;
-        } else if( action == "SCROLL_DOWN" ) {
-            item_info_scroll++;
         } else if( action == "PREV_TAB" ) {
             tab.prev();
             // Default ALL
