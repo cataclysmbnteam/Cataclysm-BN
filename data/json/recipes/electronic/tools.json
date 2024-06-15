@@ -838,6 +838,14 @@
     "using": [ [ [ "soldering_standard", 14 ] ], [ [ "welding_standard", 10 ] ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "software_hacking", -1 ] ] ],
-    "components": [ [ [ "laptop", 1 ] ], [ [ "e_scrap", 5 ] ], [ [ "motor_micro", 2 ] ], [ [ "power_supply", 4 ] ], [ [ "amplifier", 4 ] ], [ [ "pipe", 8 ] ], [ [ "sheet_metal_small", 1 ] ] ]
+    "components": [
+      [ [ "laptop", 1 ] ],
+      [ [ "e_scrap", 5 ] ],
+      [ [ "motor_micro", 2 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "amplifier", 4 ] ],
+      [ [ "pipe", 8 ] ],
+      [ [ "sheet_metal_small", 1 ] ]
+    ]
   }
 ]
