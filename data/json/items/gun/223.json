@@ -610,5 +610,27 @@
         ]
       ]
     ]
+  },
+  {
+    "id": "carbon_rifle",
+    "copy-from": "rifle_auto",
+    "type": "GUN",
+    "name": { "str": "carbon fiber assault rifle" },
+    "description": "This assault rifle was made using a 3D printer, resulting in a very lightweight weapon.",
+    "weight": "1590 g",
+    "volume": "2 L",
+    "price": "2343 USD",
+    "price_postapoc": "60 USD",
+    "material": [ "carbon" ],
+    "color": "dark_gray",
+    "ammo": "223",
+    "dispersion": 150,
+    "min_cycle_recoil": 1350,
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ],
+    "magazines": [
+      [
+        "223", [ "carbonmag_223" ]
+      ]
+    ]
   }
 ]

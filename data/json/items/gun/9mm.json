@@ -640,5 +640,24 @@
     "ammo": "9mm",
     "magazine_well": "250 ml",
     "magazines": [ [ "9mm", [ "ccpmag" ] ] ]
+  },
+  {
+    "id": "carbon_pistol",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": { "str": "carbon fiber machine pistol" },
+    "description": "This 3D printed machine pistol is made completely without any metal parts.  As a result, it is very lightweight.",
+    "material": [ "carbon" ],
+    "durability": 3,
+    "weight": "370 g",
+    "volume": "600 ml",
+    "price": "50 USD",
+    "price_postapoc": "25 USD",
+    "to_hit": -2,
+    "color": "dark_gray",
+    "ammo": "9mm",
+    "magazine_well": "250 ml",
+    "magazines": [ [ "9mm", [ "carbonmag_9mm" ] ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ]
   }
 ]

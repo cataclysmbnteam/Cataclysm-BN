@@ -2414,5 +2414,71 @@
       ]
     },
     "active": [ "steady_consumer", { "power": -1, "consume_every": "3 s" } ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_3d_printer",
+    "looks_like": "3d_printer_basic",
+    "name": "grid 3D printer",
+    "symbol": "=",
+    "description": "A 3D printer connected to a electrical grid.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": [ "fake_3d_printer" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "3d_printer_basic", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_3d_printer_advanced",
+    "looks_like": "3d_printer_advanced",
+    "name": "grid 3D printer (advanced)",
+    "symbol": "=",
+    "description": "An advanced 3D printer connected to a electrical grid.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": [ "fake_3d_printer_advanced" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "3d_printer_advanced", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 1, 4 ] }
+      ]
+    }
   }
 ]

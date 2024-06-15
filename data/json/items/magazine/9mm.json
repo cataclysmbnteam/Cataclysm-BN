@@ -581,5 +581,23 @@
     "capacity": 8,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "carbonmag_9mm",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "carbon fiber pistol magazine" },
+    "description": "A compact light-weight polymer magazine for use with 3D printed firearms.",
+    "weight": "55 g",
+    "volume": "250 ml",
+    "price": "29 USD",
+    "price_postapoc": "1 USD",
+    "material": "carbon",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "9mm",
+    "capacity": 15,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]

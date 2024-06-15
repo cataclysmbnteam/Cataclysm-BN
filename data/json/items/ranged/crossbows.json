@@ -237,7 +237,7 @@
     "color": "green",
     "looks_like": "bolt_steel",
     "description": "A fletched carbon fiber crossbow bolt shaft with an expanding broadhead tip.  Deals impressive damage to targets.  Stands a good chance of remaining intact once fired.",
-    "material": [ "kevlar_rigid", "steel" ],
+    "material": [ "carbon", "steel" ],
     "volume": "250 ml",
     "price_postapoc": "15 USD",
     "weight": "30 g",

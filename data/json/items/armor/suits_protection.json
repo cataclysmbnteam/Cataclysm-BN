@@ -830,5 +830,14 @@
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "armor_carbonplate",
+    "type": "ARMOR",
+    "name": { "str": "carbon fiber armor" },
+    "description": "A custom suit of layered carbon fiber armor over neoprene padding made using a 3D printer.  Its rigid plates are more comparable to a suit of armor than kevlar, but it's very protective and moves surprisingly well.",
+    "copy-from": "armor_lightplate",
+    "material": [ "carbon" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   }
 ]
