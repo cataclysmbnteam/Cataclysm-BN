@@ -550,5 +550,31 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 15 ], [ "drawing_tool", 20 ] ],
     "components": [ [ [ "rag", 30 ] ] ]
+  },
+  {
+    "result": "carbon_buckler",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "computer",
+    "difficulty": 4,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "15 m",
+    "book_learn": [ [ "manual_computers", 3 ], [ "manual_electronics", 3 ], [ "recipe_melee", 3 ] ],
+    "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
+    "components": [ [ [ "plastic_chunk", 25 ] ] ]
+  },
+  {
+    "result": "carbon_shield",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "computer",
+    "difficulty": 4,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "15 m",
+    "book_learn": [ [ "manual_computers", 3 ], [ "manual_electronics", 3 ], [ "recipe_melee", 3 ] ],
+    "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
+    "components": [ [ [ "plastic_chunk", 45 ] ] ]
   }
 ]
