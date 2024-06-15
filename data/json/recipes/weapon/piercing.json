@@ -896,7 +896,7 @@
     "skill_used": "computer",
     "difficulty": 2,
     "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "15 m",
+    "time": "25 m",
     "book_learn": [ [ "manual_computers", 3 ], [ "manual_electronics", 3 ], [ "recipe_melee", 3 ] ],
     "tools": [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ],
     "components": [ [ [ "plastic_chunk", 25 ] ] ]
