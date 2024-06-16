@@ -2,12 +2,20 @@
 title: Changelog Guidelines
 ---
 
+import Conventional from "../../../../components/Conventional.astro"
+
+## PR Title Generator
+
+<Conventional />
+
+---
+
 PR title follows [Convensional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for easier
 changelog generation. The format is one of:
 
 ```
-<Category>: <PR subject>
-<Category>(<Scope>, <Scope>, ...): <PR subject>
+<Type>: <PR subject>
+<Type>(<Scope>, <Scope>, ...): <PR subject>
 ```
 
 For Example, a PR title can be:
@@ -17,9 +25,10 @@ feat: add new mutation
 feat(content, port): port mutation description from DDA
 ```
 
-## Category
 
-The category is the first word in the PR title. They specify the type of change being made. When in
+## Type
+
+The type is the first word in the PR title. They specify the type of change being made. When in
 doubt, use `feat` for new features, and `fix` for bugfixes. Here are some frequently used
 categories:
 
@@ -147,5 +156,5 @@ feat(balance): Give moose pelts instead of hides
 Example PR title:
 
 ```
-feat(content, port): game shop
+feat(content,port): game shop
 ```
