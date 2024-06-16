@@ -966,11 +966,12 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         }
 
         // Corpses that have been skinned, field dressed, or bleed do not yield that item anymore
+        // Also ensure message does not mention blood if you're not bleeding the corpse
         const bool has_any_field_dressing = corpse_item->has_flag( flag_FIELD_DRESS ) ||
                                             corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) || corpse_item->has_flag( flag_QUARTERED );
         const bool already_harvested = ( corpse_item->has_flag( flag_SKINNED ) && entry.type == "skin" ) ||
                                        ( has_any_field_dressing && entry.type == "offal" ) || ( ( has_any_field_dressing ||
-                                               corpse_item->has_flag( flag_BLED ) ) && entry.type == "blood" );
+                                               corpse_item->has_flag( flag_BLED ) || action != BLEED ) && entry.type == "blood" );
         if( already_harvested ) {
             roll = 0;
         }
@@ -1025,11 +1026,6 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             if( entry.type != "blood" ) {
                 continue;
             }
-        }
-
-        // only bother with the blood if bleeding a corpse
-        if( action != BLEED && entry.type == "blood" ) {
-            roll = 0;
         }
 
         // field dressing removed innards and bones from meatless limbs
