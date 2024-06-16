@@ -4,6 +4,7 @@
  * 1. collects list of all mod IDs
  * 2. generate list of allowed scopes using mod IDs
  * 3. write to `.github/semantic.yaml` file
+ * 4. write to `doc/src/assets/semantic.json` file
  */
 import type { Config } from "https://raw.githubusercontent.com/Ezard/semantic-prs/d6970fded0b5bcb1a2d55778e5be94a83453a897/functions/src/config.ts"
 import mod from "https://raw.githubusercontent.com/commitizen/conventional-commit-types/c3a9be4c73e47f2e8197de775f41d981701407fb/index.json" with {
@@ -84,5 +85,11 @@ if (import.meta.main) {
 
   const rootPath = resolve(import.meta.dirname!, "..")
 
-  await Deno.writeTextFile(resolve(rootPath, ".github/semantic.yml"), content)
+  await Promise.all([
+    Deno.writeTextFile(resolve(rootPath, ".github/semantic.yml"), content),
+    Deno.writeTextFile(
+      resolve(rootPath, "doc/src/assets/semantic.json"),
+      JSON.stringify({ types: config.types, scopes: config.scopes }, null, 2) + "\n",
+    ),
+  ])
 }
