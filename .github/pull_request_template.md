@@ -36,7 +36,7 @@ Please uncomment any relevant checklists, follow their steps and tick the checkb
 - [ ] I wrote the PR title in [conventional commit format](https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/).
 - [ ] I ran the [code formatter](https://docs.cataclysmbn.org/en/contribute/contributing/#code-style).
 - [ ] I linked any relevant issues using [github keyword syntax](https://docs.cataclysmbn.org/en/contribute/contributing/#pull-request-notes) so it can be closed automatically.
-- [ ] I stated why this PR needs to be merged in [Purpose of change](#purpose-of-change), not what it does (it's for [Describe the solution](#describe-the-solution)).
+- [ ] I have [committed my changes to new branch that isn't `main`](https://docs.cataclysmbn.org/en/contribute/contributing/#make-your-changes) so it won't cause conflict when updating `main` branch later.
 
 ### Optional
 
