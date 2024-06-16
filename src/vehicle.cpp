@@ -696,8 +696,9 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         } else {
             //a bit of initial damage :)
             //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged.
-            int broken = 8;
-            int unhurt = 20;
+            const float chance =  get_option<float>( "VEHICLE_DAMAGE" ) ;
+            int broken = 8 * chance;
+            int unhurt = 20 * chance;
             int roll = dice( 4, 8 );
             if( roll < unhurt ) {
                 if( roll <= broken ) {
