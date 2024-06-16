@@ -200,6 +200,7 @@ int coin_flip( player *, item *, bool, const tripoint & );
 int play_game( player *, item *, bool, const tripoint & );
 int magic_8_ball( player *, item *, bool, const tripoint & );
 int toggle_heats_food( player *, item *, bool, const tripoint & );
+int toggle_ups_charging( player *, item *, bool, const tripoint & );
 int report_grid_charge( player *, item *, bool, const tripoint & );
 int report_grid_connections( player *, item *, bool, const tripoint & );
 int modify_grid_connections( player *, item *, bool, const tripoint & );

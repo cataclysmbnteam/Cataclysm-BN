@@ -11,14 +11,17 @@
     "to_hit": 1,
     "max_charges": 200,
     "initial_charges": 200,
-    "use_action": {
-      "type": "transform",
-      "msg": "C.R.T HUD booting up…",
-      "target": "crt_gasmask_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "Power levels too low for safe boot up"
-    },
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "C.R.T HUD booting up…",
+        "target": "crt_gasmask_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "Power levels too low for safe boot up"
+      },
+      "TOGGLE_UPS_CHARGING"
+    ],
     "material": [ "plastic", "kevlar" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -51,7 +54,7 @@
       "SUN_GLASSES",
       "VARSIZE",
       "GAS_PROOF",
-      "USE_UPS",
+      "RECHARGE",
       "NO_UNLOAD",
       "SLEEP_IGNORE"
     ]
@@ -107,7 +110,7 @@
       "VARSIZE",
       "TRADER_AVOID",
       "GAS_PROOF",
-      "USE_UPS",
+      "RECHARGE",
       "NO_UNLOAD",
       "SLEEP_IGNORE"
     ]
@@ -130,14 +133,17 @@
     "max_charges": 300,
     "initial_charges": 300,
     "charges_per_use": 1,
-    "use_action": {
-      "type": "transform",
-      "msg": "C.R.I.T. EM booting up…",
-      "target": "crt_em_vest_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "Power levels too low for safe bootup…"
-    },
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "C.R.I.T. EM booting up…",
+        "target": "crt_em_vest_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "Power levels too low for safe bootup…"
+      },
+      "TOGGLE_UPS_CHARGING"
+    ],
     "relic_data": {
       "recharge_scheme": [ { "type": "solar", "interval": "10 m", "rate": 1 } ],
       "passive_effects": [
@@ -160,7 +166,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "VARSIZE", "USE_UPS", "NO_UNLOAD", "OUTER" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "VARSIZE", "RECHARGE", "NO_UNLOAD", "OUTER" ]
   },
   {
     "id": "crt_em_vest_on",
@@ -212,7 +218,7 @@
       "kevlar_padded",
       "ELECTRIC_IMMUNE",
       "TRADER_AVOID",
-      "USE_UPS",
+      "RECHARGE",
       "NO_UNLOAD",
       "OUTER",
       "HEAVY_WEAPON_SUPPORT"
@@ -231,15 +237,18 @@
     "max_charges": 100,
     "initial_charges": 100,
     "ammo": "battery",
-    "use_action": {
-      "type": "transform",
-      "msg": "You turn the %s on.",
-      "target": "crt_helmet_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The helmet's batteries are dead."
-    },
-    "flags": [ "WATERPROOF", "STURDY", "VARSIZE", "RAD_PROOF", "kevlar_padded", "TRADER_AVOID", "USE_UPS", "NO_UNLOAD", "OUTER" ]
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You turn the %s on.",
+        "target": "crt_helmet_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The helmet's batteries are dead."
+      },
+      "TOGGLE_UPS_CHARGING"
+    ],
+    "flags": [ "WATERPROOF", "STURDY", "VARSIZE", "RAD_PROOF", "kevlar_padded", "TRADER_AVOID", "RECHARGE", "NO_UNLOAD", "OUTER" ]
   },
   {
     "id": "crt_helmet_on",
@@ -254,7 +263,7 @@
       "STURDY",
       "VARSIZE",
       "kevlar_padded",
-      "USE_UPS",
+      "RECHARGE",
       "NO_UNLOAD",
       "OUTER",
       "LIGHT_35",

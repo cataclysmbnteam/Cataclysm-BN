@@ -1060,6 +1060,7 @@ void Item_factory::init()
     add_iuse( "THROWABLE_EXTINGUISHER_ACT", &iuse::throwable_extinguisher_act );
     add_iuse( "TOWEL", &iuse::towel );
     add_iuse( "TOGGLE_HEATS_FOOD", &iuse::toggle_heats_food );
+    add_iuse( "TOGGLE_UPS_CHARGING", &iuse::toggle_ups_charging );
     add_iuse( "TRIMMER_OFF", &iuse::trimmer_off );
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
