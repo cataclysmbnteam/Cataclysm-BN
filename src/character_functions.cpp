@@ -602,12 +602,16 @@ auto uncanny_dodge_result( const Character &who ) -> UncannyDodgeResult
 {
     const auto trigger_cost = bio_uncanny_dodge->power_trigger;
     if( who.get_power_level() < trigger_cost || !who.has_active_bionic( bio_uncanny_dodge ) ) {
-        return UncannyDodgeFail::NoEnergy;
+        return UncannyDodgeStatus::NoEnergy;
+    }
+
+    if( x_in_y( who.get_dodge(), 10 ) ) {
+        return UncannyDodgeStatus::DodgedWithSkill;
     }
 
     const auto adjacent = pick_safe_adjacent_tile( who );
     if( !adjacent ) {
-        return UncannyDodgeFail::NoSpace;
+        return UncannyDodgeStatus::NoSpace;
     }
 
     return *adjacent;
@@ -632,26 +636,33 @@ bool try_uncanny_dodge( Character &who )
         [&who, is_u, seen]( const tripoint & dest )
         {
             if( is_u ) {
-                add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+                add_msg( _( "Time seems to slow down and you're ejected to safe space!" ) );
             } else if( seen ) {
-                add_msg( _( "%s dodges… so fast!" ), who.disp_name() );
+                add_msg( _( "%s dodges so fast as if there's rocket attached behind!" ), who.disp_name() );
             }
             auto &here = get_map();
             here.add_field( who.pos(), fd_smoke, 1 );
             who.setpos( dest );
             return true;
         },
-        [&who, is_u, seen]( const UncannyDodgeFail fail ) -> bool {
+        [&who, is_u, seen]( const UncannyDodgeStatus fail ) -> bool {
             switch( fail )
             {
-                case UncannyDodgeFail::NoEnergy:
+                case UncannyDodgeStatus::DodgedWithSkill:
+                    if( is_u ) {
+                        add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+                    } else if( seen ) {
+                        add_msg( _( "%s dodges… so fast!" ), who.disp_name() );
+                    };
+                    return true;
+                case UncannyDodgeStatus::NoEnergy:
                     if( is_u ) {
                         add_msg( m_info, _( "You try to dodge but there's no energy left!" ) );
                     } else if( seen ) {
                         add_msg( m_info, _( "%s tries to dodge but fails with a click!" ), who.disp_name() );
                     }
                     return false;
-                case UncannyDodgeFail::NoSpace:
+                case UncannyDodgeStatus::NoSpace:
                 default:
                     if( is_u ) {
                         add_msg( _( "You try to dodge but there's no room!" ) );

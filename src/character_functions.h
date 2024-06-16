@@ -148,11 +148,12 @@ void store_in_container( Character &who, item &container, detached_ptr<item> &&p
 bool try_wield_contents( Character &who, item &container, item *internal_item, bool penalties,
                          int base_cost );
 
-enum class UncannyDodgeFail {
+enum class UncannyDodgeStatus {
+    DodgedWithSkill, //< Dodged successfully using dodge skill
     NoEnergy, //< Not enough energy
     NoSpace, //< No space to dodge
 };
-using UncannyDodgeResult = std::variant<tripoint, UncannyDodgeFail>;
+using UncannyDodgeResult = std::variant<tripoint, UncannyDodgeStatus>;
 
 /**
  * Check if it's possible to uncanny dodge bionic ability.
