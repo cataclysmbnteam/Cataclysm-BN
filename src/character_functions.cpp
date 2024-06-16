@@ -1,5 +1,7 @@
+#include <algorithm>
 #include <utility>
 #include <variant>
+#include <vector>
 
 #include "ammo.h"
 #include "bionics.h"
@@ -656,36 +658,54 @@ bool try_uncanny_dodge( Character &who )
     return std::visit( visitor, result );
 }
 
-auto pick_safe_adjacent_tile( const Character &who ) -> std::optional<tripoint>
+namespace
 {
-    std::vector<tripoint> ret;
-    int dangerous_fields = 0;
-    map &here = get_map();
-    for( const tripoint &p : here.points_in_radius( who.pos(), 1 ) ) {
-        if( p == who.pos() ) {
-            // Don't consider player position
-            continue;
-        }
-        const trap &curtrap = here.tr_at( p );
-        if( g->critter_at( p ) == nullptr && here.passable( p ) &&
-            ( curtrap.is_null() || curtrap.is_benign() ) ) {
-            // Only consider tile if unoccupied, passable and has no traps
-            dangerous_fields = 0;
-            auto &tmpfld = here.field_at( p );
-            for( auto &fld : tmpfld ) {
-                const field_entry &cur = fld.second;
-                if( cur.is_dangerous() ) {
-                    dangerous_fields++;
-                }
-            }
+auto unoccupied_adjacent_tiles( const Character &who ) -> std::vector<tripoint>
+{
+    const map &here = get_map();
+    const auto &xs = here.points_in_radius( who.pos(), 1 );
+    std::vector<tripoint> ys;
 
-            if( dangerous_fields == 0 && ! get_map().obstructed_by_vehicle_rotation( who.pos(), p ) ) {
-                ret.push_back( p );
-            }
-        }
-    }
+    // Only consider tile if unoccupied and passable
+    std::copy_if( xs.begin(), xs.end(), std::back_inserter( ys ),
+    [&]( const tripoint & p ) -> bool {
+        return p != who.pos() // Don't consider player position
+        && g->critter_at( p ) == nullptr
+        && here.passable( p )
+        && !here.obstructed_by_vehicle_rotation( who.pos(), p );
+    } );
+
+    return ys;
+}
+
+} // namespace
+
+auto pick_adjacent_tile( const Character &who ) -> std::optional<tripoint>
+{
+    const auto ret = unoccupied_adjacent_tiles( who );
 
     return random_entry_opt( ret );
+}
+
+auto pick_safe_adjacent_tile( const Character &who ) -> std::optional<tripoint>
+{
+    map &here = get_map();
+
+    std::vector<tripoint> xs = unoccupied_adjacent_tiles( who );
+    std::vector<tripoint> ys;
+
+    // Only consider tile if unoccupied, passable and has no traps
+    std::copy_if( xs.begin(), xs.end(), std::back_inserter( ys ),
+    [&]( const tripoint & p ) -> bool {
+        const trap &curtrap = here.tr_at( p );
+        const auto &fields = here.field_at( p );
+
+        return ( curtrap.is_null() || curtrap.is_benign() )
+        && std::none_of( fields.begin(), fields.end(),
+        []( const auto & fld ) -> bool { return fld.second.is_dangerous(); } );
+    } );
+
+    return random_entry_opt( ys );
 }
 
 bool is_bp_immune_to( const Character &who, body_part bp, damage_unit dam )

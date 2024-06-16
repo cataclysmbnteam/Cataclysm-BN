@@ -167,10 +167,15 @@ auto uncanny_dodge_result( const Character &who ) -> UncannyDodgeResult;
 bool try_uncanny_dodge( Character &who );
 
 /**
+ * Returns an unoccupied, adjacent point.
+ */
+auto pick_adjacent_tile( const Character &who ) -> std::optional<tripoint>;
+
+
+/**
  * Returns an unoccupied, safe adjacent point.
  *
  * @warning this won't take account of whether you're immune to dangerous fields.
- * TODO: add boolean flag to take account of player immunity?
  */
 auto pick_safe_adjacent_tile( const Character &who ) -> std::optional<tripoint>;
 
