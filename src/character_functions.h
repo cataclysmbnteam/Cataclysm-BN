@@ -174,8 +174,6 @@ auto pick_adjacent_tile( const Character &who ) -> std::optional<tripoint>;
 
 /**
  * Returns an unoccupied, safe adjacent point.
- *
- * @warning this won't take account of whether you're immune to dangerous fields.
  */
 auto pick_safe_adjacent_tile( const Character &who ) -> std::optional<tripoint>;
 

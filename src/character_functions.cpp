@@ -702,8 +702,8 @@ auto pick_safe_adjacent_tile( const Character &who ) -> std::optional<tripoint>
         const auto &fields = here.field_at( p );
 
         return ( curtrap.is_null() || curtrap.is_benign() )
-        && std::none_of( fields.begin(), fields.end(),
-        []( const auto & fld ) -> bool { return fld.second.is_dangerous(); } );
+        && std::all_of( fields.begin(), fields.end(),
+        [&who]( const auto & field ) -> bool { return who.is_immune_field( field.first ) || !field.second.is_dangerous(); } );
     } );
 
     return random_entry_opt( ys );
