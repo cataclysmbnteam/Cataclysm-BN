@@ -615,6 +615,12 @@ auto uncanny_dodge_result( const Character &who ) -> UncannyDodgeResult
 
 bool try_uncanny_dodge( Character &who )
 {
+    const bool is_active = who.has_active_bionic( bio_uncanny_dodge );
+
+    if( !is_active ) {
+        return false;
+    }
+
     const auto trigger_cost = bio_uncanny_dodge->power_trigger;
     const auto result = uncanny_dodge_result( who );
     const bool is_u = who.is_avatar();
@@ -640,7 +646,7 @@ bool try_uncanny_dodge( Character &who )
             {
                 case UncannyDodgeFail::NoEnergy:
                     if( is_u ) {
-                        add_msg( m_info, _( "You try to dodge but you don't have the energy!" ) );
+                        add_msg( m_info, _( "You try to dodge but there's no energy left!" ) );
                     } else if( seen ) {
                         add_msg( m_info, _( "%s tries to dodge but fails with a click!" ), who.disp_name() );
                     }
