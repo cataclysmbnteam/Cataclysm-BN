@@ -619,7 +619,7 @@ auto uncanny_dodge_result( const Character &who ) -> UncannyDodgeResult
         return UncannyDodgeStatus::NoEnergy;
     }
 
-    if( x_in_y( who.get_dodge(), 10 ) ) {
+    if( x_in_y( 10 + who.get_dodge(), 20 ) ) {
         return UncannyDodgeStatus::DodgedWithSkill;
     }
 
