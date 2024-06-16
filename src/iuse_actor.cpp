@@ -295,6 +295,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         p.update_bodytemp( get_map(), get_weather() );
         p.on_item_wear( it );
     }
+    p.inv_update_cache_with_item( it );
     it.item_counter = countdown > 0 ? countdown : it.type->countdown_interval;
     it.active = active || it.item_counter;
     // Check for gaining or losing night vision, eye encumbrance effects, clairvoyance from transforming relics, etc.
@@ -1017,16 +1018,20 @@ void place_monster_iuse::load( const JsonObject &obj )
     }
 }
 
-int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
+int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
 {
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( mtypeid );
     monster &newmon = *newmon_ptr;
     newmon.init_from_item( it );
+    tripoint pnt = it.active ? pos : p.pos();
     if( place_randomly ) {
         // place_critter_around returns the same pointer as its parameter (or null)
-        if( !g->place_critter_around( newmon_ptr, p.pos(), 1 ) ) {
+        // Allow position to be different from the player for tossed or launched items
+        if( !g->place_critter_around( newmon_ptr, pnt, 1 ) ) {
             p.add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
                                  newmon.name() );
+            // If remotely triggered due to ACT_ON_RANGED_HIT, set it back to being inactive so it won't spawn infinitely
+            it.active = false;
             return 0;
         }
     } else {
@@ -1041,7 +1046,11 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
             return 0;
         }
     }
-    p.moves -= moves;
+    // If it's active then we know it was triggered by ACT_ON_RANGED_HIT and did not deactivate from lack of room earlier
+    // If so, don't drain moves from remote deployment since it would trigger after the throw
+    if( !it.active ) {
+        p.moves -= moves;
+    }
     if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
         for( auto &amdef : newmon.ammo ) {
             item &ammo_item = *item::spawn_temporary( amdef.first, calendar::start_of_cataclysm );
@@ -1087,6 +1096,10 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
         if( is_pet ) {
             newmon.add_effect( effect_pet, 1_turns, num_bp );
         }
+    }
+    // Transfer label from the item to monster nickname
+    if( it.has_var( "item_label" ) ) {
+        newmon.unique_name = it.get_var( "item_label" );
     }
     // TODO: add a flag instead of monster id or something?
     if( newmon.type->id == mtype_id( "mon_laserturret" ) && !g->is_in_sunlight( newmon.pos() ) ) {
@@ -3249,7 +3262,7 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
     }
 
     const bool resizing_matters = fix.get_sizing( pl ) != item::sizing::ignore;
-    const bool small = pl.get_size() == MS_TINY;
+    const bool small = pl.get_size() == creature_size::tiny;
     const bool can_resize = small != fix.has_flag( flag_UNDERSIZE );
     if( can_be_refitted && resizing_matters && can_resize ) {
         return true;
@@ -3332,7 +3345,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
     }
 
     Character &player_character = get_player_character();
-    const bool smol = player_character.get_size() == MS_TINY;
+    const bool smol = player_character.get_size() == creature_size::tiny;
 
     const bool is_undersized = fix.has_flag( flag_UNDERSIZE );
     const bool is_oversized = fix.has_flag( flag_OVERSIZE );

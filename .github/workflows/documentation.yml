@@ -22,7 +22,7 @@ jobs:
     environment: github-pages
     steps:
       - name: Checkout your repository using git
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install, build, and upload site
         uses: withastro/action@v0
         with:

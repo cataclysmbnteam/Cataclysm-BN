@@ -48,7 +48,8 @@
     "volume": "1250 ml",
     "bashing": 14,
     "to_hit": -1,
-    "category": "spare_parts"
+    "category": "spare_parts",
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -65,7 +66,8 @@
     "looks_like": "stick",
     "bashing": 18,
     "to_hit": -1,
-    "category": "spare_parts"
+    "category": "spare_parts",
+    "stackable": true
   },
   {
     "id": "long_pole",
@@ -82,7 +84,7 @@
     "weight": "2250 g",
     "volume": "3750 ml",
     "bashing": 25,
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "STAB" ],
     "price": "40 USD",
     "price_postapoc": "50 cent",
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -162,6 +164,22 @@
     "bashing": 8,
     "price": "200 USD",
     "price_postapoc": "10 cent",
-    "flags": [ "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ],
+    "stackable": true
+  },
+  {
+    "type": "GENERIC",
+    "id": "fuel_briquette",
+    "symbol": "/",
+    "color": "brown",
+    "name": { "str": "fuel briquette" },
+    "description": "A hunk of dried plant matter condensed into a puck, then dried.  It burns well.",
+    "material": "dry_plant",
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ],
+    "weight": "240 g",
+    "volume": "3000 ml",
+    "looks_like": "straw_pile",
+    "category": "spare_parts"
   }
 ]

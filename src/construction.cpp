@@ -575,6 +575,18 @@ std::optional<construction_id> construction_menu( const bool blueprint )
                 add_folded( current_con->requirements->get_folded_tools_list( available_window_width, color_stage,
                             total_inv ) );
 
+                const auto get_folded_flags_list = [&]( const auto & flags ) ->
+                std::vector<std::string> {
+                    return foldstring(
+                        colorize( _( "Terrain needs: " ), color_stage ) + enumerate_as_string( flags.begin(), flags.end(),
+                    []( const auto & flag ) -> std::string { return colorize( flag, color_data ); },
+                    enumeration_conjunction::and_ ), available_window_width );
+                };
+
+                if( !current_con->pre_flags.empty() ) {
+                    add_folded( get_folded_flags_list( current_con->pre_flags ) );
+                }
+
                 add_folded( current_con->requirements->get_folded_components_list( available_window_width,
                             color_stage, total_inv, is_crafting_component ) );
 
@@ -631,7 +643,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
     } );
     ui.mark_resize();
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
+    ui.on_redraw( [&]( ui_adaptor & ui ) {
         draw_grid( w_con, w_list_width + w_list_x0 );
 
         // Erase existing tab selection & list of constructions
@@ -643,7 +655,6 @@ std::optional<construction_id> construction_menu( const bool blueprint )
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
-        std::optional<point> cursor_pos;
         for( size_t i = 0; static_cast<int>( i ) < w_list_height &&
              ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
@@ -651,7 +662,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
             bool highlight = ( current == select );
             const point print_from( 0, i );
             if( highlight ) {
-                cursor_pos = print_from;
+                ui.set_cursor( w_list, print_from );
             }
             const std::string group_name = is_favorite( group ) ? "* " + group->name() : group->name();
             trim_and_print( w_list, print_from, w_list_width,
@@ -709,10 +720,6 @@ std::optional<construction_id> construction_menu( const bool blueprint )
         draw_scrollbar( w_con, select, w_list_height, constructs.size(), point( 0, 3 ) );
         wnoutrefresh( w_con );
 
-        // place the cursor at the selected construction name as expected by screen readers
-        if( cursor_pos ) {
-            wmove( w_list, cursor_pos.value() );
-        }
         wnoutrefresh( w_list );
     } );
 

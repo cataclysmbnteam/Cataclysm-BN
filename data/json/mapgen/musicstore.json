@@ -104,6 +104,7 @@
         "7": "f_speaker_cabinet",
         "r": "f_rack"
       },
+      "items": { "d": { "item": "trash_dumpster", "chance": 80 } },
       "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
       "toilets": { "T": {  } },
       "place_loot": [

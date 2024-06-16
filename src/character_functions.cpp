@@ -1,5 +1,7 @@
+#include <algorithm>
 #include <utility>
 #include <variant>
+#include <vector>
 
 #include "ammo.h"
 #include "bionics.h"
@@ -63,6 +65,7 @@ static const efftype_id effect_meth( "meth" );
 
 static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
+static const bionic_id bio_uncanny_dodge_rcs( "bio_uncanny_dodge_rcs" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_UPS( "UPS" );
@@ -179,13 +182,16 @@ float fine_detail_vision_mod( const Character &who, const tripoint &p )
           !who.has_trait( trait_PER_SLIME_OK ) ) ) {
         return 11.0;
     }
+    // Regular NV trait isn't enough to help at all, while Full Night Vision allows reading at a penalty
+    float nvbonus = who.mutation_value( "night_vision_range" ) >= 8 ? 4 : 0;
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
     // Therefore give a hefty bonus relative to ambient light.
     float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - who.active_light() - 2.0f );
 
-    // Same calculation as above, but with a result 3 lower.
-    float ambient_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) + 1.0f );
+    // Same calculation as above, but with a result 3 lower, and night vision is allowed to affect it.
+    float ambient_light = std::max( 1.0f,
+                                    LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) - nvbonus + 1.0f );
 
     return std::min( own_light, ambient_light );
 }
@@ -435,7 +441,7 @@ std::string fmt_wielded_weapon( const Character &who )
     }
     const item &weapon = who.primary_weapon();
     if( weapon.is_gun() ) {
-        std::string str = string_format( "(%d) [%s] %s", weapon.ammo_remaining(),
+        std::string str = string_format( "(%d) [%s] %s", weapon.gun_current_mode()->ammo_remaining(),
                                          weapon.gun_current_mode().tname(), weapon.type_name() );
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( flag_RELOAD_AND_SHOOT );
@@ -593,49 +599,80 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
     return true;
 }
 
+constexpr int trigger_rcs_cost_kcal = 10;
+
+
 auto uncanny_dodge_result( const Character &who ) -> UncannyDodgeResult
 {
-    const auto trigger_cost = bio_uncanny_dodge->power_trigger;
-    if( who.get_power_level() < trigger_cost || !who.has_active_bionic( bio_uncanny_dodge ) ) {
-        return UncannyDodgeFail::NoEnergy;
+    const bool is_rcs_active = who.has_active_bionic( bio_uncanny_dodge_rcs );
+
+    if( is_rcs_active
+        && who.get_dodge() < 10 // pointless at 100% dodge
+        && who.get_stored_kcal() > trigger_rcs_cost_kcal ) {
+        const auto adjacent = pick_safe_adjacent_tile( who );
+        if( adjacent ) {
+            return *adjacent;
+        }
     }
 
-    const auto adjacent = pick_safe_adjacent_tile( who );
-    if( !adjacent ) {
-        return UncannyDodgeFail::NoSpace;
+    if( who.get_power_level() < bio_uncanny_dodge->power_trigger ) {
+        return UncannyDodgeStatus::NoEnergy;
     }
 
-    return *adjacent;
+    if( x_in_y( 10 + who.get_dodge(), 20 ) ) {
+        return UncannyDodgeStatus::DodgedWithSkill;
+    }
+
+    return UncannyDodgeStatus::NoSpace;
 }
 
 bool try_uncanny_dodge( Character &who )
 {
-    const auto trigger_cost = bio_uncanny_dodge->power_trigger;
+    const bool is_active = who.has_active_bionic( bio_uncanny_dodge );
+
+    if( !is_active ) {
+        return false;
+    }
+
     const auto result = uncanny_dodge_result( who );
     const bool is_u = who.is_avatar();
     const bool seen = is_u || get_player_character().sees( who );
 
-    who.mod_power_level( -trigger_cost );
+    who.mod_power_level( -bio_uncanny_dodge->power_trigger );
 
     const auto visitor = cata::match{
         [&who, is_u, seen]( const tripoint & dest )
         {
+            who.mod_stored_kcal( -trigger_rcs_cost_kcal );
             if( is_u ) {
-                add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+                add_msg( _( "Time seems to slow down and you're ejected to safe space!" ) );
             } else if( seen ) {
-                add_msg( _( "%s dodges… so fast!" ), who.disp_name() );
+                add_msg( _( "%s dodges so fast as if there's rocket attached behind!" ), who.disp_name() );
             }
             auto &here = get_map();
             here.add_field( who.pos(), fd_smoke, 1 );
             who.setpos( dest );
             return true;
         },
-        [&who, is_u, seen]( const UncannyDodgeFail fail ) -> bool {
+        [&who, is_u, seen]( const UncannyDodgeStatus fail ) -> bool {
             switch( fail )
             {
-                case UncannyDodgeFail::NoEnergy:
+                case UncannyDodgeStatus::DodgedWithSkill:
+                    if( is_u ) {
+                        add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+                    } else if( seen ) {
+                        add_msg( _( "%s dodges… so fast!" ), who.disp_name() );
+                    };
+                    return true;
+                case UncannyDodgeStatus::NoEnergy:
+                    if( is_u ) {
+                        add_msg( m_info, _( "You try to dodge but there's no energy left!" ) );
+                    } else if( seen ) {
+                        add_msg( m_info, _( "%s tries to dodge but fails with a click!" ), who.disp_name() );
+                    }
                     return false;
-                case UncannyDodgeFail::NoSpace:
+                case UncannyDodgeStatus::NoSpace:
+                default:
                     if( is_u ) {
                         add_msg( _( "You try to dodge but there's no room!" ) );
                     } else if( seen ) {
@@ -648,36 +685,54 @@ bool try_uncanny_dodge( Character &who )
     return std::visit( visitor, result );
 }
 
-auto pick_safe_adjacent_tile( const Character &who ) -> std::optional<tripoint>
+namespace
 {
-    std::vector<tripoint> ret;
-    int dangerous_fields = 0;
-    map &here = get_map();
-    for( const tripoint &p : here.points_in_radius( who.pos(), 1 ) ) {
-        if( p == who.pos() ) {
-            // Don't consider player position
-            continue;
-        }
-        const trap &curtrap = here.tr_at( p );
-        if( g->critter_at( p ) == nullptr && here.passable( p ) &&
-            ( curtrap.is_null() || curtrap.is_benign() ) ) {
-            // Only consider tile if unoccupied, passable and has no traps
-            dangerous_fields = 0;
-            auto &tmpfld = here.field_at( p );
-            for( auto &fld : tmpfld ) {
-                const field_entry &cur = fld.second;
-                if( cur.is_dangerous() ) {
-                    dangerous_fields++;
-                }
-            }
+auto unoccupied_adjacent_tiles( const Character &who ) -> std::vector<tripoint>
+{
+    const map &here = get_map();
+    const auto &xs = here.points_in_radius( who.pos(), 1 );
+    std::vector<tripoint> ys;
 
-            if( dangerous_fields == 0 && ! get_map().obstructed_by_vehicle_rotation( who.pos(), p ) ) {
-                ret.push_back( p );
-            }
-        }
-    }
+    // Only consider tile if unoccupied and passable
+    std::copy_if( xs.begin(), xs.end(), std::back_inserter( ys ),
+    [&]( const tripoint & p ) -> bool {
+        return p != who.pos() // Don't consider player position
+        && g->critter_at( p ) == nullptr
+        && here.passable( p )
+        && !here.obstructed_by_vehicle_rotation( who.pos(), p );
+    } );
+
+    return ys;
+}
+
+} // namespace
+
+auto pick_adjacent_tile( const Character &who ) -> std::optional<tripoint>
+{
+    const auto ret = unoccupied_adjacent_tiles( who );
 
     return random_entry_opt( ret );
+}
+
+auto pick_safe_adjacent_tile( const Character &who ) -> std::optional<tripoint>
+{
+    map &here = get_map();
+
+    std::vector<tripoint> xs = unoccupied_adjacent_tiles( who );
+    std::vector<tripoint> ys;
+
+    // Only consider tile if unoccupied, passable and has no traps
+    std::copy_if( xs.begin(), xs.end(), std::back_inserter( ys ),
+    [&]( const tripoint & p ) -> bool {
+        const trap &curtrap = here.tr_at( p );
+        const auto &fields = here.field_at( p );
+
+        return ( curtrap.is_null() || curtrap.is_benign() )
+        && std::all_of( fields.begin(), fields.end(),
+        [&who]( const auto & field ) -> bool { return who.is_immune_field( field.first ) || !field.second.is_dangerous(); } );
+    } );
+
+    return random_entry_opt( ys );
 }
 
 bool is_bp_immune_to( const Character &who, body_part bp, damage_unit dam )

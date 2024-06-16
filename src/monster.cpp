@@ -11,6 +11,7 @@
 #include "avatar.h"
 #include "character.h"
 #include "coordinate_conversions.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -19,6 +20,7 @@
 #include "event.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "game.h"
@@ -56,19 +58,23 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_utils.h"
+#include "submap.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
 #include "weather.h"
+#include "profile.h"
 
 static const ammo_effect_str_id ammo_effect_WHIP( "WHIP" );
 
+static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
@@ -85,6 +91,8 @@ static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_tpollen( "tpollen" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
@@ -103,6 +111,7 @@ static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
 static const species_id MAMMAL( "MAMMAL" );
 static const species_id MOLLUSK( "MOLLUSK" );
+static const species_id PLANT( "PLANT" );
 static const species_id ROBOT( "ROBOT" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
@@ -128,12 +137,12 @@ struct pathfinding_settings;
 // The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
 #define UPGRADE_MAX_ITERS 5
 
-static const std::map<m_size, translation> size_names {
-    { m_size::MS_TINY, to_translation( "size adj", "tiny" ) },
-    { m_size::MS_SMALL, to_translation( "size adj", "small" ) },
-    { m_size::MS_MEDIUM, to_translation( "size adj", "medium" ) },
-    { m_size::MS_LARGE, to_translation( "size adj", "large" ) },
-    { m_size::MS_HUGE, to_translation( "size adj", "huge" ) },
+static const std::map<creature_size, translation> size_names {
+    { creature_size::tiny, to_translation( "size adj", "tiny" ) },
+    { creature_size::small, to_translation( "size adj", "small" ) },
+    { creature_size::medium, to_translation( "size adj", "medium" ) },
+    { creature_size::large, to_translation( "size adj", "large" ) },
+    { creature_size::huge, to_translation( "size adj", "huge" ) },
 };
 
 static const std::map<monster_attitude, std::pair<std::string, color_id>> attitude_names {
@@ -458,9 +467,6 @@ void monster::try_upgrade( bool pin_time )
 
 void monster::try_reproduce()
 {
-    if( !reproduces ) {
-        return;
-    }
     // This can happen if the monster type has changed (from reproducing to non-reproducing monster)
     if( !type->baby_timer ) {
         return;
@@ -502,16 +508,38 @@ void monster::try_reproduce()
         }
 
         chance += 2;
-        if( season_match && female && one_in( chance ) ) {
-            int spawn_cnt = rng( 1, type->baby_count );
-            if( type->baby_monster ) {
-                g->m.add_spawn( type->baby_monster, spawn_cnt, pos() );
-            } else {
-                g->m.add_item_or_charges( pos(), item::spawn( type->baby_egg, *baby_timer, spawn_cnt ), true );
-            }
+
+        if( ( season_match && female && one_in( chance ) ) ) {
+            reproduce();
+        }
+        *baby_timer += *type->baby_timer;
+    }
+}
+
+void monster::reproduce()
+{
+    if( !reproduces ) {
+        return;
+    }
+
+    const int spawn_cnt = rng( 1, type->baby_count );
+    const auto birth = baby_timer && ( *baby_timer <= calendar::turn ) ? *baby_timer : calendar::turn;
+
+    // wildlife creatures that are pets of the player will spawn pet offspring
+    const spawn_disposition disposition = is_pet()
+                                          ? spawn_disposition::SpawnDisp_Pet
+                                          : spawn_disposition::SpawnDisp_Default;
+
+    if( type->baby_monster ) {
+        g->m.add_spawn( type->baby_monster, spawn_cnt, pos(), disposition );
+    } else {
+        detached_ptr<item> item_to_spawn = item::spawn( type->baby_egg, birth, spawn_cnt );
+
+        if( disposition == spawn_disposition::SpawnDisp_Pet ) {
+            item_to_spawn->set_flag( flag_SPAWN_FRIENDLY );
         }
 
-        *baby_timer += *type->baby_timer;
+        g->m.add_item_or_charges( pos(), std::move( item_to_spawn ), true );
     }
 }
 
@@ -1255,8 +1283,8 @@ Attitude monster::attitude_to( const Creature &other ) const
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
             case MATT_ZLAVE:
-                return Attitude::A_FRIENDLY;
             case MATT_FPASSIVE:
+                return Attitude::A_FRIENDLY;
             case MATT_FLEE:
             case MATT_IGNORE:
             case MATT_FOLLOW:
@@ -1343,6 +1371,11 @@ monster_attitude monster::attitude( const Character *u ) const
             if( u->has_trait( trait_PROF_FERAL ) && !u->has_effect( effect_feral_infighting_punishment ) ) {
                 return MATT_FRIEND;
             }
+        }
+
+        if( type->has_anger_trigger( mon_trigger::NETHER_ATTENTION ) &&
+            u->has_effect( effect_attention ) ) {
+            return MATT_ATTACK;
         }
 
         if( type->in_species( FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
@@ -1544,6 +1577,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
                has_flag( MF_FIREY );
     }
 
+    if( effect == effect_corroding ) {
+        return is_immune_damage( DT_ACID );
+    }
+
     if( effect == effect_bleed ) {
         return !has_flag( MF_WARM ) ||
                !made_of( material_id( "flesh" ) );
@@ -1554,6 +1591,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         effect == effect_poison ) {
         return !has_flag( MF_WARM ) ||
                ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
+    }
+
+    if( effect == effect_tpollen ) {
+        return type->in_species( PLANT );
     }
 
     if( effect == effect_stunned ) {
@@ -1646,8 +1687,8 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( target.is_player() ||
         ( target.is_npc() && g->u.attitude_to( target ) == Attitude::A_FRIENDLY ) ) {
-        // Make us a valid target for a few turns
-        add_effect( effect_hit_by_player, 3_turns );
+        // Make us a valid target
+        add_effect( effect_hit_by_player, 10_minutes );
     }
 
     if( has_flag( MF_HIT_AND_RUN ) ) {
@@ -2188,16 +2229,16 @@ float monster::stability_roll() const
 {
     int size_bonus = 0;
     switch( type->size ) {
-        case MS_TINY:
+        case creature_size::tiny:
             size_bonus -= 7;
             break;
-        case MS_SMALL:
+        case creature_size::small:
             size_bonus -= 3;
             break;
-        case MS_LARGE:
+        case creature_size::large:
             size_bonus += 5;
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             size_bonus += 10;
             break;
         default:
@@ -2252,15 +2293,15 @@ float monster::fall_damage_mod() const
     }
 
     switch( type->size ) {
-        case MS_TINY:
+        case creature_size::tiny:
             return 0.2f;
-        case MS_SMALL:
+        case creature_size::small:
             return 0.6f;
-        case MS_MEDIUM:
+        case creature_size::medium:
             return 1.0f;
-        case MS_LARGE:
+        case creature_size::large:
             return 1.4f;
-        case MS_HUGE:
+        case creature_size::huge:
             return 2.0f;
         default:
             return 1.0f;
@@ -2397,6 +2438,8 @@ void monster::decrement_summon_timer()
 
 void monster::process_turn()
 {
+    ZoneScoped;
+
     decrement_summon_timer();
     if( !is_hallucination() ) {
         for( const std::pair<const emit_id, time_duration> &e : type->emit_fields ) {
@@ -2686,6 +2729,8 @@ static void process_item_valptr( item *ptr, monster &mon )
 
 void monster::process_items()
 {
+    ZoneScoped;
+
     inv.remove_with( [this]( detached_ptr<item> &&it ) {
         if( it->needs_processing() ) {
             return item::process( std::move( it ), nullptr, pos(), false );
@@ -2813,25 +2858,23 @@ void monster::process_effects_internal()
         regeneration_amount = 0;
     }
     const int healed_amount = heal( round( regeneration_amount ) );
-    if( healed_amount > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
-        add_msg( m_debug, ( "Regen: %s" ), healed_amount );
-        std::string healing_format_string;
-        if( healed_amount >= 50 ) {
-            healing_format_string = _( "The %s is visibly regenerating!" );
-        } else if( healed_amount >= 10 ) {
-            healing_format_string = _( "The %s seems a little healthier." );
-        } else {
-            healing_format_string = _( "The %s is healing slowly." );
-        }
-        add_msg( m_warning, healing_format_string, name() );
+    if( healed_amount > 0 && g->u.sees( *this ) ) {
+        add_msg( m_warning, _( "The %1$s regenerates %2$s damage." ), name(), healed_amount );
     }
 
     if( type->regenerates_in_dark ) {
         const float light = g->m.ambient_light_at( pos() );
-        // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
-        if( heal( static_cast<int>( 50.0 *  std::exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) &&
-                  g->u.sees( *this ) ) ) {
-            add_msg( m_warning, _( "The %s uses the darkness to regenerate." ), name() );
+        add_msg( m_debug, _( "%1$s local light level: %2$s" ), name(), light );
+        // Requires standing in a properly dark tile, scales as it gets darker
+        if( light < 11.0f && one_in( 2 ) && hp < type->hp ) {
+            // Regen will max out at 50 at 6.0 light (barely able to craft), or top off to max HP
+            int dark_regen_amount = std::min( static_cast<int>( 110.0f - ( light * 10.0f ) ), type->hp - hp );
+            dark_regen_amount = std::min( dark_regen_amount, 50 );
+            heal( round( dark_regen_amount ) );
+            if( dark_regen_amount > 0 && g->u.sees( *this ) ) {
+                add_msg( m_warning, _( "The %1$s uses the darkness to regenerate %2$s damage." ), name(),
+                         dark_regen_amount );
+            }
         }
     }
 
@@ -2912,6 +2955,18 @@ void monster::make_ally( const monster &z )
     faction = z.faction;
 }
 
+void monster::make_pet()
+{
+    friendly = -1;
+    g->critter_tracker->update_faction( *this );
+    add_effect( effect_pet, 1_turns, num_bp );
+}
+
+bool monster::is_pet() const
+{
+    return ( friendly == -1 && has_effect( effect_pet ) );
+}
+
 bool monster::is_hallucination() const
 {
     return hallucination;
@@ -2932,9 +2987,9 @@ field_type_id monster::gibType() const
     return type->gibType();
 }
 
-m_size monster::get_size() const
+creature_size monster::get_size() const
 {
-    return m_size( type->size );
+    return creature_size( type->size );
 }
 
 units::mass monster::get_weight() const
@@ -3053,6 +3108,10 @@ detached_ptr<item> monster::to_item() const
     detached_ptr<item> result = item::spawn( type->revert_to_itype, calendar::turn );
     const int damfac = std::max( 1, ( result->max_damage() + 1 ) * hp / type->hp );
     result->set_damage( std::max( 0, ( result->max_damage() + 1 ) - damfac ) );
+    // If we have a nickname, save it via the item's label
+    if( !unique_name.empty() ) {
+        result->set_var( "item_label", unique_name );
+    }
     return result;
 }
 

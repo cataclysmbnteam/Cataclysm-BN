@@ -67,6 +67,7 @@
         "{": "f_fridge",
         "[": "f_freezer"
       },
+      "items": { "a": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "T": {  } },
       "place_items": [
         { "item": "groce_ingredient", "x": 3, "y": 16, "chance": 50 },

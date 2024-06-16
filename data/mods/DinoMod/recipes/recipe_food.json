@@ -31,7 +31,7 @@
     "components": [
       [ [ "water", 4 ], [ "water_clean", 4 ] ],
       [ [ "stomach_sauropod", 1 ] ],
-      [ [ "meat_offal", 4, "LIST" ] ],
+      [ [ "offals_raw", 4, "LIST" ] ],
       [ [ "oatmeal", 16 ], [ "buckwheat", 4 ] ]
     ]
   }

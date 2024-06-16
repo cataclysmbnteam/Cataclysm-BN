@@ -19,17 +19,24 @@
 #include "game_constants.h"
 #include "item.h"
 #include "type_id.h"
+#include "monster.h"
 #include "point.h"
 #include "poly_serialized.h"
 
 class JsonIn;
 class JsonOut;
-class basecamp;
 class map;
 struct trap;
 struct ter_t;
 struct furn_t;
 class vehicle;
+
+// enum defines the initial disposition of the monster that is to be spawned
+enum class spawn_disposition {
+    SpawnDisp_Default,
+    SpawnDisp_Friendly,
+    SpawnDisp_Pet,
+};
 
 struct spawn_point {
     point pos;
@@ -37,13 +44,28 @@ struct spawn_point {
     mtype_id type;
     int faction_id;
     int mission_id;
-    bool friendly;
+    spawn_disposition disposition;
     std::string name;
     spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, point P = point_zero,
-                 int FAC = -1, int MIS = -1, bool F = false,
+                 int FAC = -1, int MIS = -1, spawn_disposition DISP = spawn_disposition::SpawnDisp_Default,
                  const std::string &N = "NONE" ) :
         pos( P ), count( C ), type( T ), faction_id( FAC ),
-        mission_id( MIS ), friendly( F ), name( N ) {}
+        mission_id( MIS ), disposition( DISP ), name( N ) {}
+
+    // helper function to convert internal disposition into a binary bool value.
+    // This is required to preserve save game compatibility because submaps store/load
+    // their spawn_points using a boolean flag.
+    bool is_friendly( void ) const {
+        return disposition != spawn_disposition::SpawnDisp_Default;
+    }
+
+    // helper function to convert binary bool friendly value to internal disposition.
+    // This is required to preserve save game compatibility because submaps store/load
+    // their spawn_points using a boolean flag.
+    static spawn_disposition friendly_to_spawn_disposition( bool friendly ) {
+        return friendly ? spawn_disposition::SpawnDisp_Friendly
+               : spawn_disposition::SpawnDisp_Default;
+    }
 };
 
 template<int sx, int sy>
@@ -215,7 +237,6 @@ class submap : maptile_soa<SEEX, SEEY>
          */
         std::vector<std::unique_ptr<vehicle>> vehicles;
         std::map<tripoint, std::unique_ptr<partial_con>> partial_constructions;
-        std::unique_ptr<basecamp> camp;  // only allowing one basecamp per submap
         std::map<point_sm_ms, cata::poly_serialized<active_tile_data>> active_furniture;
 
         static void swap( submap &first, submap &second );

@@ -152,6 +152,7 @@
       [ "knife_trench", 7 ],
       [ "switchblade", 20 ],
       [ "knife_hunting", 20 ],
+      [ "knife_heat", 5 ],
       [ "knife_rambo", 5 ]
     ]
   },

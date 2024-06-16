@@ -1,0 +1,60 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "NC_res_personal_items_1X1",
+    "//": "NEST CONTAINER - Items of interest or use to a specific person (hobbies, job-related, uniforms, tools, etc), meant to add personality. Should be able to fit in a closet or corner of a bedroom. This should be the nested chunk called by each individual house file. Global spawn rates for all houses that call this chunk can be managed by editing values below. ",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "_" ],
+      "terrain": { "_": "t_null" },
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 1 ], [ "res_personal_scuba_1X1", 5 ], [ "res_personal_elecgtr_1X1", 5 ] ],
+          "x": [ 0 ],
+          "y": [ 0 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_scuba_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "wetsuit", "x": 0, "y": 0 },
+        { "item": "small_scuba_tank", "x": 0, "y": 0 },
+        { "item": "dive_bag", "x": 0, "y": 0 },
+        { "item": "swim_fins", "x": 0, "y": 0 },
+        { "item": "diving_watch", "x": 0, "y": 0, "chance": 5 },
+        { "item": "wetsuit_hood", "x": 0, "y": 0, "chance": 5 },
+        { "item": "wetsuit_spring", "x": 0, "y": 0, "chance": 5 },
+        { "item": "wetsuit_gloves", "x": 0, "y": 0, "chance": 5 },
+        { "item": "wetsuit_booties", "x": 0, "y": 0, "chance": 5 },
+        { "item": "rebreather", "x": 0, "y": 0, "chance": 5 },
+        { "item": "rebreather_filter", "x": 0, "y": 0, "chance": 5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_elecgtr_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_speaker_cabinet" },
+      "place_loot": [
+        { "item": "cable_instrument", "x": 0, "y": 0, "repeat": [ 2, 3 ] },
+        { "item": "amplifier_head", "x": 0, "y": 0 },
+        { "item": "guitar_electric", "x": 0, "y": 0 }
+      ]
+    }
+  }
+]

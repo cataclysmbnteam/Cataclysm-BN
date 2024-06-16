@@ -429,8 +429,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 {
     melee::melee_stats.attack_count += 1;
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
-    if( !t.is_player() ) {
-        // TODO: Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
+    // Old check for if the target is player retained in case you somehow hit yourself
+    if( !t.is_player() && is_player() ) {
         t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
     if( is_mounted() ) {
@@ -668,7 +668,7 @@ void Character::reach_attack( const tripoint &p )
     map &here = get_map();
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
-    int target_size = critter != nullptr ? ( critter->get_size() + 1 ) : 2;
+    const int target_size = critter != nullptr ? static_cast<int>( critter->get_size() + 1 ) : 2;
     // Reset last target pos
     as_player()->last_target_pos = std::nullopt;
     // Max out recoil
@@ -976,6 +976,11 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     float weap_dam = weap.damage_melee( DT_BASH ) + stat_bonus;
     /** @EFFECT_UNARMED caps bash damage with unarmed weapons */
 
+    if( unarmed && weap.is_null() ) {
+        /** @EFFECT_UNARMED defines weapon damage of empty-handed unarmed attacks */
+        weap_dam += skill * 2;
+    }
+
     /** @EFFECT_BASHING caps bash damage with bashing weapons */
     float bash_cap = 2 * stat + 2 * skill;
     float bash_mul = 1.0f;
@@ -1034,7 +1039,7 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             if( has_bionic( bionic_id( "bio_razors" ) ) ) {
-                per_hand += 2;
+                per_hand += 9;
             }
 
             for( const trait_id &mut : get_mutations() ) {
@@ -1116,10 +1121,6 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
                 }
 
                 per_hand += stab_bonus + unarmed_bonus;
-            }
-
-            if( has_bionic( bionic_id( "bio_razors" ) ) ) {
-                per_hand += 2;
             }
 
             stab_dam += per_hand; // First hand
@@ -1822,7 +1823,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     if( tec != tec_none && !is_dead_state() ) {
         if( get_stamina() < get_stamina_max() / 3 ) {
             add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
-        } else if( primary_weapon().made_of( material_id( "glass" ) ) ) {
+        } else if( primary_weapon().can_shatter() ) {
             add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
             melee_attack( *source, false, &tec );
@@ -1899,6 +1900,16 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
+    if( primary_weapon().has_flag( flag_SHOCKING ) ) {
+        d.add_damage( DT_ELECTRIC, rng( 1, 8 ) );
+
+        if( is_player() ) {
+            dump += string_format( _( "You shock %s." ), target ) + "\n";
+        } else {
+            add_msg_player_or_npc( _( "<npcname> shocks %s." ), target );
+        }
+    }
+
     //Hurting the wielder from poorly-chosen weapons
     if( weap.has_flag( flag_HURT_WHEN_WIELDED ) && x_in_y( 2, 3 ) ) {
         add_msg_if_player( m_bad, _( "The %s cuts your hand!" ), weap.tname() );
@@ -1911,8 +1922,8 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     }
 
     const int vol = weap.volume() / 250_ml;
-    // Glass weapons shatter sometimes
-    if( weap.made_of( material_id( "glass" ) ) &&
+    // Glass weapons and stuff with SHATTERS flag can shatter sometimes
+    if( weap.can_shatter() &&
         /** @EFFECT_STR increases chance of breaking glass weapons (NEGATIVE) */
         rng( 0, vol + 8 ) < vol + str_cur ) {
         if( is_player() ) {

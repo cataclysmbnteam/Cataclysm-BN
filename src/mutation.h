@@ -227,12 +227,14 @@ struct mutation_branch {
         std::set<bodypart_str_id> no_cbm_on_bp;
 
         // Body size from mutations, e.g. large, small, etc.
-        std::optional<m_size> body_size;
+        std::optional<creature_size> body_size;
 
         // amount of mana added or subtracted from max
         float mana_modifier = 0.0f;
         float mana_multiplier = 1.0f;
         float mana_regen_multiplier = 1.0f;
+        // Bonus or penalty when mutating from toxins, see Character::mutation_chances
+        float mutagen_target_modifier = 0;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         /** mutation enchantments */

@@ -9,7 +9,6 @@
 #include <unordered_set>
 
 #include "avatar_action.h"
-#include "basecamp.h"
 #include "bionics.h"
 #include "character.h"
 #include "color.h"
@@ -239,7 +238,7 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
 
 void Character::recalculate_size()
 {
-    size_class = MS_MEDIUM;
+    size_class = creature_size::medium;
     // Only one size-changing mutation is expected, so it will only use the first one it finds.
     for( const mutation_branch *mut : cached_mutations ) {
         if( mut->body_size ) {
@@ -731,7 +730,8 @@ std::map<trait_id, float> Character::mutation_chances() const
     int current_score = genetic_score( *this );
     // 10/10/10/10 in stats, balanced traits, plus tip
     int expected_score = 4 * 10 + 6;
-    int direction = expected_score - current_score;
+    int direction = expected_score - current_score + mutation_value( "mutagen_target_modifier" );
+    add_msg_if_player( m_debug, "Mutation target value: %s", direction );
 
     // Duplicates allowed - they'll increase chances of change
     std::vector<potential_mutation> potential;

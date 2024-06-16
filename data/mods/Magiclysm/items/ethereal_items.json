@@ -87,6 +87,7 @@
     "weight": "0 kg",
     "volume": "0 ml",
     "price": "0 cent",
+    "material": [ "concentrated_mana" ],
     "symbol": ",",
     "color": "light_green",
     "covers": [ "head" ],
@@ -276,6 +277,7 @@
     "flags": [
       "UNBREAKABLE_MELEE",
       "REACH_ATTACK",
+      "STAB",
       "SPEAR",
       "NONCONDUCTIVE",
       "SHEATH_SPEAR",

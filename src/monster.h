@@ -122,10 +122,13 @@ class monster : public Creature, public location_visitable<monster>
         int get_upgrade_time() const;
         void allow_upgrade();
         void try_upgrade( bool pin_time );
+        /// Check if monster is ready to reproduce and do so if possible, refreshing baby timer.
         void try_reproduce();
+        /// Immediatly spawn an offspring without mutating baby timer.
+        void reproduce();
         void refill_udders();
         void spawn( const tripoint &p );
-        m_size get_size() const override;
+        creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
         units::volume get_volume() const;
@@ -431,6 +434,10 @@ class monster : public Creature, public location_visitable<monster>
         void make_friendly();
         /** Makes this monster an ally of the given monster. */
         void make_ally( const monster &z );
+        // makes this monster a pet of the player
+        void make_pet();
+        // check if this monster is a pet of the player
+        bool is_pet() const;
         // Add an item to inventory
         void add_item( detached_ptr<item> &&it );
         // check mech power levels and modify it.

@@ -76,6 +76,7 @@
           ]
         }
       },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "L": {  } },
       "place_nested": [ { "chunks": [ [ "null", 2 ], [ "headshop_graffiti_snippet", 98 ] ], "x": 22, "y": 19 } ],
       "place_item": [

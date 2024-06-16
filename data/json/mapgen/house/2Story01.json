@@ -1,6 +1,6 @@
 [
   {
-    "//": "ground floor: layout a ",
+    "//": "ground floor: layout 1 ",
     "type": "mapgen",
     "om_terrain": "2Story01_1",
     "weight": 50,
@@ -15,16 +15,16 @@
       "fill_ter": "t_floor_waxed",
       "rows": [
         ".$----------............",
-        ".#¡¡¡¡¡¡¡#--..%%%....[..",
-        ".#,,,,,,,#--..%X%.......",
-        ".#U,,,,,,#--..%%%.......",
+        ".#¡¡¡¡¡¡¡#--.........[..",
+        ".#,,,,,,,#--............",
+        ".#U,,,,,,#--............",
         ".#U,,,,,,#--p.....%%%%..",
         "^#,,,,,,,#--%%%%%##oo##.",
         ".oN,,,,,,#--##oo##yyyy#.",
         ".oN,,,,,,#o*#r yyTsxs #.",
         ".#N,,,iii#y |r  E     #.",
         ".##+######L |r    lll o.",
-        ".oq q|S_|R  ?         #.",
+        ".oq q|S_|R  Ə         #.",
         ".oZ W|t_|R      ysHHHs#.",
         ".#|+|||+|R     V||||||#.",
         ".#             V|w8tSB#.",
@@ -61,12 +61,10 @@
       "furniture": {
         "i": "f_rack",
         "&": "f_piano",
-        "?": "f_table",
         "{": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "Ð": [ "f_indoor_plant", "f_indoor_plant_y" ],
         ")": "f_chair"
       },
-      "items": { "?": { "item": "table_foyer", "chance": 40 } },
       "place_loot": [
         { "group": "guns_pistol_common", "x": 17, "y": 18, "chance": 50 },
         { "item": "log", "x": [ 6, 8 ], "y": 8, "repeat": [ 2, 3 ] },
@@ -75,11 +73,12 @@
       "place_vehicles": [
         { "vehicle": "electric_car", "x": 6, "y": 5, "chance": 20, "rotation": 90 },
         { "vehicle": "swivel_chair", "x": 14, "y": 8, "chance": 100, "status": 5, "fuel": 0, "rotation": 90 }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 14, "y": 1 } ]
     }
   },
   {
-    "//": "ground floor: layout b ",
+    "//": "ground floor: layout 2 ",
     "type": "mapgen",
     "om_terrain": "2Story01_1",
     "weight": 50,
@@ -96,9 +95,9 @@
         "^#/,,,,,,#--p.000##oo##.",
         ".o/,,,,,,#--#o####B8_S#.",
         ".o/,,,,,,#o*#y|QQ|B__t#.",
-        ".#/,,NNNN#L  &|++||+||#.",
-        ".##+######b         &yo.",
-        ".#U W|}zz|R  &||||||||#.",
+        ".#/,,NNNN#L  Ə|++||+||#.",
+        ".##+######b         Əyo.",
+        ".#U W|}zz|R  Ə||||||||#.",
         ".oq Z|z z|R  V|y h h y:.",
         ".oq U|z z|R  V| hffff :.",
         ".#|+|||+||R  V|  ffffh:.",
@@ -124,12 +123,8 @@
         "/": "t_thconc_floor",
         "N": "t_thconc_floor"
       },
-      "furniture": { "{": "f_counter", "c": "f_boulder_large", "&": "f_table", "}": "f_gunsafe_ml", "=": "f_clothing_rail", "/": "f_rack" },
-      "items": {
-        "&": { "item": "table_foyer", "chance": 40 },
-        "}": { "item": "guns_pistol_common", "chance": 100 },
-        "=": { "item": "jackets", "chance": 50, "repeat": [ 2, 4 ] }
-      },
+      "furniture": { "{": "f_counter", "c": "f_boulder_large", "}": "f_gunsafe_ml", "=": "f_clothing_rail", "/": "f_rack" },
+      "items": { "}": { "item": "guns_pistol_common", "chance": 100 }, "=": { "item": "jackets", "chance": 50, "repeat": [ 2, 4 ] } },
       "place_loot": [
         { "group": "liquor_and_spirits", "x": [ 11, 14 ], "y": 16, "repeat": [ 2, 4 ] },
         { "item": "log", "x": 2, "y": [ 5, 8 ], "repeat": [ 2, 3 ] }
@@ -138,7 +133,7 @@
     }
   },
   {
-    "//": "2nd floor: layout a ",
+    "//": "2nd floor: layout 1 ",
     "type": "mapgen",
     "om_terrain": "2Story01_2",
     "weight": 50,
@@ -165,7 +160,7 @@
         ".o            xx   +_So.",
         "^#RR     y|T       |88#.",
         ".#||+|||+||||||++|+|||#.",
-        ".#r   T|    +d|QQ|  bd#.",
+        ".#r   T|    +d|ɸQ|  bd#.",
         ".orh  z|@@ b||||||    o.",
         ".#r yPP|@@¤ +D||D+ @@¤#.",
         ".###o#####o#######o####^",
@@ -180,7 +175,7 @@
         "_": "t_linoleum_gray",
         "~": "t_floor_noroof",
         "/": "t_railing_v",
-        "Q": "t_null",
+        "Q": "t_floor_waxed",
         "&": "t_shingle_flat_roof",
         "G": "t_floor_noroof",
         "K": "t_floor_noroof",
@@ -200,7 +195,7 @@
     }
   },
   {
-    "//": "2nd floor: sniper perch ",
+    "//": "2nd floor: layout 2 - sniper perch ",
     "type": "mapgen",
     "om_terrain": "2Story01_2",
     "weight": 20,
@@ -227,7 +222,7 @@
         ".o R               +_So.",
         "^#R PP   y|T xx    |88#.",
         ".#||+|||+||||||++|+|||#.",
-        ".#r   T|    +d|QQ|  bd#.",
+        ".#r   T|    +d|ɸQ|  bd#.",
         ".orh  z|@@ b||||||    o.",
         ".#r y  |@@¤ +D||D+ @@¤#.",
         ".###o#####o#######o####^",
@@ -241,7 +236,7 @@
         "~": "t_floor_noroof",
         "/": "t_railing_v",
         "%": "t_gutter_drop",
-        "Q": "t_null",
+        "Q": "t_floor_waxed",
         "&": "t_shingle_flat_roof",
         ".": "t_open_air",
         "E": "t_floor_noroof",
@@ -268,7 +263,7 @@
     }
   },
   {
-    "//": "2nd floor: layout b ",
+    "//": "2nd floor: layout 3 ",
     "type": "mapgen",
     "om_terrain": "2Story01_2",
     "weight": 50,
@@ -290,7 +285,7 @@
         ".],,,,,,,,,,,,,,,,,,,,].",
         ".],,,,,,,,,,,,,,,,,,,,].",
         ".#######o####oo####oo##.",
-        ".#||z Q|BB|Ih@@¤ |D  ¤#.",
+        ".#||ɸ Q|BB|Ih@@¤ |D  ¤#.",
         ".#>|z Q|_t|I @@  |d @@o.",
         ".o ||+||_S|d    D|d @@o.",
         "^# yb  +_8|d    D|b   #.",
@@ -307,7 +302,7 @@
         "]": "t_gutter_south",
         "_": "t_linoleum_gray",
         "%": "t_gutter_drop",
-        "Q": "t_null",
+        "Q": "t_floor_waxed",
         "&": "t_shingle_flat_roof",
         ".": "t_open_air"
       },
@@ -338,8 +333,8 @@
         "                        ",
         " ---------------------- ",
         " -....................- ",
-        " -..XXX......oooo.....- ",
-        " -..XXX......oooo.....- ",
+        " -...........oooo.....- ",
+        " -...........oooo.....- ",
         " 5...........oooo.....- ",
         " -....................- ",
         " -....................- ",
@@ -349,8 +344,11 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof", "X": "t_shingle_flat_roof", "~": "t_shingle_flat_roof" },
-      "furniture": { "X": "f_solar_unit" }
+      "terrain": { ".": "t_shingle_flat_roof", "~": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 5, "y": 14 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": 10, "y": 18 }
+      ]
     }
   }
 ]

@@ -172,7 +172,9 @@ namespace
 // TODO: add explicit action field to gun definitions
 auto defmode_name( itype &obj )
 {
-    if( obj.gun->clip == 1 ) {
+    if( obj.mod ) {
+        return translate_marker( "gunmod" ); // grenade launchers
+    } else if( obj.gun->clip == 1 ) {
         return translate_marker( "manual" ); // break-type actions
     } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.has_flag( flag_RELOAD_ONE ) ) {
         return translate_marker( "revolver" );
@@ -190,7 +192,7 @@ void Item_factory::finalize_pre( itype &obj )
         obj.item_tags.insert( flag_NO_REPAIR );
     }
 
-    if( obj.has_flag( flag_STAB ) || obj.has_flag( flag_SPEAR ) ) {
+    if( obj.has_flag( flag_STAB ) ) {
         std::swap( obj.melee[DT_CUT], obj.melee[DT_STAB] );
     }
 
@@ -577,6 +579,31 @@ void Item_factory::finalize_pre( itype &obj )
         // HACK: Legacy martial arts books rely on a hack whereby the name of the
         // martial art is derived from the item id
         obj.book->martial_art = matype_id( "style_" + obj.get_id().str().substr( 7 ) );
+    }
+
+    if( obj.armor ) {
+
+        auto set_resist = [&obj]( damage_type dt,
+        std::function<int( const material_type & )> resist_getter ) {
+            if( obj.armor->resistance.flat.find( dt ) != obj.armor->resistance.flat.end() ) {
+                return;
+            }
+            float resist = 0.0f;
+            if( !obj.materials.empty() ) {
+                for( const material_id &mat : obj.materials ) {
+                    resist += resist_getter( *mat );
+                }
+                resist /= obj.materials.size();
+            }
+
+            obj.armor->resistance.flat[dt] = std::lround( resist * obj.armor->thickness );
+        };
+        set_resist( DT_BASH, &material_type::bash_resist );
+        set_resist( DT_CUT, &material_type::cut_resist );
+        set_resist( DT_STAB, []( const material_type & t ) {
+            return t.cut_resist() * 0.8f;
+        } );
+        set_resist( DT_BULLET, &material_type::bullet_resist );
     }
 }
 
@@ -1018,8 +1045,6 @@ void Item_factory::init()
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
     add_iuse( "SHAVEKIT", &iuse::shavekit );
-    add_iuse( "SHOCKTONFA_OFF", &iuse::shocktonfa_off );
-    add_iuse( "SHOCKTONFA_ON", &iuse::shocktonfa_on );
     add_iuse( "SIPHON", &iuse::siphon );
     add_iuse( "SLEEP", &iuse::sleep );
     add_iuse( "SMOKING", &iuse::smoking );
@@ -1035,6 +1060,7 @@ void Item_factory::init()
     add_iuse( "THROWABLE_EXTINGUISHER_ACT", &iuse::throwable_extinguisher_act );
     add_iuse( "TOWEL", &iuse::towel );
     add_iuse( "TOGGLE_HEATS_FOOD", &iuse::toggle_heats_food );
+    add_iuse( "TOGGLE_UPS_CHARGING", &iuse::toggle_ups_charging );
     add_iuse( "TRIMMER_OFF", &iuse::trimmer_off );
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
@@ -1393,10 +1419,34 @@ void Item_factory::check_definitions() const
                     }
                 }
             }
+            for( const itype_id &t : type->gunmod->exclusion ) {
+                if( !t.is_valid() ) {
+                    msg += string_format( "gunmod excludes for invalid item %s\n", t.c_str() );
+                }
+                if( type->gunmod->usable.count( t ) ) {
+                    msg += string_format( "gunmod includes and excludes same item %s\n", t.c_str() );
+                }
+            }
             for( const std::unordered_set<weapon_category_id> &wv : type->gunmod->usable_category ) {
                 for( const weapon_category_id &wid : wv ) {
                     if( !wid.is_valid() ) {
                         msg += string_format( "gunmod is usable for invalid weapon category %s\n", wid.c_str() );
+                    }
+                }
+            }
+            for( const std::unordered_set<weapon_category_id> &wv : type->gunmod->exclusion_category ) {
+                for( const weapon_category_id &wid : wv ) {
+                    if( !wid.is_valid() ) {
+                        msg += string_format( "gunmod excludes for invalid weapon category %s\n", wid.c_str() );
+                    }
+                }
+                for( const std::unordered_set<weapon_category_id> &test_wv : type->gunmod->usable_category ) {
+                    if( wv == test_wv ) {
+                        std::string group_format = ( "[" ) + enumerate_as_string( wv.begin(),
+                        wv.end(), []( const weapon_category_id & wcid ) {
+                            return string_format( "%s", wcid.c_str() );
+                        }, enumeration_conjunction::none ) + ( "]" );
+                        msg += string_format( "gunmod includes and excludes weapon category group %s\n", group_format );
                     }
                 }
             }
@@ -1913,6 +1963,7 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
 {
     const bool strict = is_strict_enabled( src );
 
+    assign( jo, "resistance", slot.resistance, strict );
     assign( jo, "material_thickness", slot.thickness, strict, 0 );
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
     assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
@@ -2351,6 +2402,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
 
     assign( jo, "mod_targets", slot.usable );
     assign( jo, "mod_target_category", slot.usable_category );
+    assign( jo, "mod_exclusions", slot.exclusion );
+    assign( jo, "mod_exclusion_category", slot.exclusion_category );
 
     assign( jo, "mode_modifier", slot.mode_modifier );
     assign( jo, "reload_modifier", slot.reload_modifier );
@@ -3067,6 +3120,22 @@ bool Item_factory::load_string( std::vector<std::string> &vec, const JsonObject 
     return result;
 }
 
+namespace
+{
+auto load_active( std::vector<ItemFn> &xs, const JsonObject &obj ) -> bool
+{
+    const bool result = obj.has_bool( "active" ) && obj.get_bool( "active" );
+    if( result ) {
+        xs.emplace_back( []( detached_ptr<item> &&it ) {
+            it->activate();
+            return std::move( it );
+        } );
+    }
+    return result;
+}
+
+} // namespace
+
 void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
 {
     std::unique_ptr<Item_group> gptr;
@@ -3110,6 +3179,7 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
     use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
+    use_modifier |= load_active( modifier.postprocess_fns, obj );
 
     std::vector<std::string> custom_flags;
     use_modifier |= load_string( custom_flags, obj, "custom-flags" );

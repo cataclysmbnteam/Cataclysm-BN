@@ -27,7 +27,7 @@ struct species_type;
 template <typename E> struct enum_traits;
 
 enum body_part : int;
-enum m_size : int;
+enum creature_size : int;
 
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
@@ -50,6 +50,7 @@ enum class mon_trigger : int {
     SOUND,              // Heard a sound
     PLAYER_NEAR_BABY,   // Player/npc is near a baby monster of this type
     MATING_SEASON,      // It's the monster's mating season (defined by baby_flags)
+    NETHER_ATTENTION,   // Player/npc currently has effect_attention
 
     _LAST               // This item must always remain last.
 };
@@ -72,7 +73,7 @@ enum m_flag : int {
     MF_STUMBLES,            // Stumbles in its movement
     MF_WARM,                // Warm blooded
     MF_NOHEAD,              // Headshots not allowed!
-    MF_HARDTOSHOOT,         // It's one size smaller for ranged attacks, no less then MS_TINY
+    MF_HARDTOSHOOT,         // It's one size smaller for ranged attacks, no less then creature_size::tiny
     MF_GRABS,               // Its attacks may grab us!
     MF_BASHES,              // Bashes down doors
     MF_DESTROYS,            // Bashes down walls and more
@@ -177,6 +178,7 @@ enum m_flag : int {
     MF_CAN_OPEN_DOORS,      // This monster can open doors.
     MF_STUN_IMMUNE,         // This monster is immune to the stun effect
     MF_DROPS_AMMO,          // This monster drops ammo. Check to make sure starting_ammo paramter is present for this monster type!
+    MF_CAN_BE_ORDERED,      // If friendly, allow setting this monster to ignore hostiles and prioritize following the player.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -260,7 +262,7 @@ struct mtype {
         mfaction_id default_faction;
         bodytype_id bodytype;
         nc_color color = c_white;
-        m_size size;
+        creature_size size;
         units::volume volume;
         units::mass weight;
         phase_id phase;

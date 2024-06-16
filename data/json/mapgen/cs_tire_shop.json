@@ -70,6 +70,7 @@
       "place_vehicles": [ { "vehicle": "oa_vg_ts_vehicles", "x": 15, "y": 10, "rotation": 270, "chance": 50, "fuel": 10 } ],
       "items": {
         "h": { "item": "oa_discarded_news", "chance": 15 },
+        "u": { "item": "trash_dumpster", "chance": 80 },
         "t": { "item": "oa_ig_ts_tables", "chance": 15 },
         "r": { "item": "oa_ig_ts_tires", "chance": 70 },
         "L": { "item": "oa_ig_ts_lockers", "chance": 50 },

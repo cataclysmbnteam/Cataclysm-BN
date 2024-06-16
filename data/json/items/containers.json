@@ -86,7 +86,7 @@
     "category": "container",
     "name": { "str": "canvas sack" },
     "description": "A large and sturdy canvas sack.  Smells faintly of earth and hard work.",
-    "weight": "415 g",
+    "weight": "400 g",
     "volume": "1 L",
     "price": "0 cent",
     "price_postapoc": "10 cent",
@@ -323,7 +323,8 @@
     "contains": "250 ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "box_cigarette",
@@ -619,7 +620,8 @@
     "contains": "250 ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "clay_hydria",
@@ -1072,7 +1074,7 @@
     "category": "container",
     "name": { "str": "sealed stomach" },
     "description": "The stomach of a creature, cleaned and sealed with a string.  It can hold 1.5 liters of water.",
-    "weight": "453 g",
+    "weight": "500 g",
     "volume": "250 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
@@ -1092,7 +1094,7 @@
     "category": "container",
     "name": { "str": "small waterskin" },
     "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
-    "weight": "453 g",
+    "weight": "500 g",
     "volume": "250 ml",
     "price": "20 USD",
     "price_postapoc": "50 cent",
@@ -1325,5 +1327,24 @@
     "symbol": "0",
     "contains": "200 L",
     "color": "yellow"
+  },
+  {
+    "id": "trash_can_empty",
+    "type": "CONTAINER",
+    "category": "container",
+    "name": { "str": "plastic trash can" },
+    "description": "A small plastic wastebasket for offices and kitchens.  Could be repurposed as an open-top container if you're desperate, or placed back down.",
+    "weight": "1 kg",
+    "volume": "20 L",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": "plastic",
+    "symbol": ")",
+    "looks_like": "plastic_pot_flower",
+    "color": "white",
+    "contains": "20 L",
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_trashcan" }
   }
 ]

@@ -127,7 +127,6 @@
       "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ], [ "M_XBOWS" ] ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": "RAPID",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
@@ -311,7 +310,7 @@
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "crude dagger" },
     "description": "A medieval dagger forged from rough iron.  It is not the sharpest tool in the shed, but it is certainly one of the largest.",
-    "weight": "420 g",
+    "weight": "400 g",
     "volume": "750 ml",
     "price": "19590 cent",
     "to_hit": 1,
@@ -459,7 +458,7 @@
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "kukri" },
     "description": "This versatile implement is a modern take on a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly curved edge, it is used as both a tool and as a weapon.",
-    "weight": "450 g",
+    "weight": "500 g",
     "volume": "750 ml",
     "price": "80 USD",
     "price_postapoc": "1250 cent",
@@ -515,7 +514,7 @@
     "price_postapoc": "50 cent",
     "material": "aluminum",
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "414 g",
+    "weight": "400 g",
     "cutting": 2,
     "qualities": [  ]
   },
@@ -828,7 +827,6 @@
       ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
@@ -1089,7 +1087,7 @@
     "price": "20 USD",
     "price_postapoc": "10 cent",
     "material": "steel",
-    "weight": "450 g",
+    "weight": "500 g",
     "volume": "1250 ml",
     "bashing": 1,
     "cutting": 2,
@@ -1109,12 +1107,18 @@
     "id": "shock_foil",
     "type": "TOOL",
     "copy-from": "fencing_foil_sharpened",
-    "name": { "str": "electrified foil" },
-    "description": "The modifications made to this fencing foil may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
+    "name": { "str": "electrified foil (off)" },
+    "description": "The modifications made to this fencing foil may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Activate the switch to elecrocute your foes!",
     "ammo": "battery",
-    "charges_per_use": 100,
     "price_postapoc": "1250 cent",
-    "use_action": "TAZER",
+    "use_action": {
+      "type": "transform",
+      "msg": "You press a button and the foil crackles with electricity.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
+      "target": "shock_foil_on"
+    },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
@@ -1123,6 +1127,19 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
+    "magazine_well": "500 ml"
+  },
+  {
+    "id": "shock_foil_on",
+    "copy-from": "shock_foil",
+    "type": "TOOL",
+    "name": { "str": "electrified foil (on)", "str_pl": "electrified foils (on)" },
+    "description": "The modifications made to this fencing foil may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  It is currently turned on.",
+    "revert_to": "shock_foil",
+    "revert_msg": "The %s's batteries run dry.",
+    "use_action": { "type": "transform", "msg": "You press a button and the foil turns off.", "target": "shock_foil" },
+    "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
+    "power_draw": 5000000,
     "magazine_well": "500 ml"
   },
   {
@@ -1150,11 +1167,17 @@
     "copy-from": "fencing_epee_sharpened",
     "looks_like": "fencing_epee",
     "name": { "str": "electrified épée" },
-    "description": "The modifications made to this fencing épée may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
+    "description": "The modifications made to this fencing épée may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Activate the switch to electrocute your foes!",
     "ammo": "battery",
     "price_postapoc": "1250 cent",
-    "charges_per_use": 100,
-    "use_action": "TAZER",
+    "use_action": {
+      "type": "transform",
+      "msg": "You press a button and the epee crackles with electricity.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
+      "target": "shock_epee_on"
+    },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
@@ -1163,6 +1186,19 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
+    "magazine_well": "500 ml"
+  },
+  {
+    "id": "shock_epee_on",
+    "copy-from": "shock_epee",
+    "type": "TOOL",
+    "name": { "str": "electrified epee (on)", "str_pl": "electrified epees (on)" },
+    "description": "The modifications made to this fencing épée may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  It is currently turned on.",
+    "revert_to": "shock_epee",
+    "revert_msg": "The %s's batteries run dry.",
+    "use_action": { "type": "transform", "msg": "You press a button and the epee turns off.", "target": "shock_epee" },
+    "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
+    "power_draw": 5000000,
     "magazine_well": "500 ml"
   },
   {
@@ -1188,12 +1224,18 @@
     "type": "TOOL",
     "copy-from": "fencing_sabre_sharpened",
     "looks_like": "fencing_sabre",
-    "name": { "str": "electrified saber" },
-    "description": "The modifications made to this fencing saber may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired to the tip along the saber's groove.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
+    "name": { "str": "electrified saber (off)", "str_pl": "electrified sabers (off)" },
+    "description": "The modifications made to this fencing saber may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired to the tip along the saber's groove.  Activate the switch to electrocute your foes!",
     "ammo": "battery",
     "price_postapoc": "1250 cent",
-    "charges_per_use": 100,
-    "use_action": "TAZER",
+    "use_action": {
+      "type": "transform",
+      "msg": "You press a button and the sabre crackles with electricity.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
+      "target": "shock_sabre_on"
+    },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
@@ -1202,6 +1244,19 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
+    "magazine_well": "500 ml"
+  },
+  {
+    "id": "shock_sabre_on",
+    "copy-from": "shock_sabre",
+    "type": "TOOL",
+    "name": { "str": "electrified saber (on)", "str_pl": "electrified sabers (on)" },
+    "description": "The modifications made to this fencing saber may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  It is currently turned on.",
+    "revert_to": "shock_sabre",
+    "revert_msg": "The %s's batteries run dry.",
+    "use_action": { "type": "transform", "msg": "You press a button and the foil crackles with electricity.", "target": "shock_sabre" },
+    "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
+    "power_draw": 5000000,
     "magazine_well": "500 ml"
   },
   {
@@ -1292,6 +1347,45 @@
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
+  },
+  {
+    "id": "shock_rapier_off",
+    "type": "TOOL",
+    "copy-from": "rapier",
+    "name": { "str": "electrified rapier (off)", "str_pl": "electrified rapiers (off)" },
+    "description": "The modifications made to this rapier may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired to the tip along the saber's groove.  Activate the switch to electrocute your foes!",
+    "ammo": "battery",
+    "price_postapoc": "1250 cent",
+    "use_action": {
+      "type": "transform",
+      "msg": "You press a button and the rapier crackles with electricity.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
+      "target": "shock_rapier_on"
+    },
+    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "relative": { "volume": "250 ml", "weight": "151 g" },
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
+  },
+  {
+    "id": "shock_rapier_on",
+    "copy-from": "shock_rapier_off",
+    "type": "TOOL",
+    "name": { "str": "electrified rapier (on)", "str_pl": "electrified rapiers (on)" },
+    "description": "The modifications made to this rapier may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  It is currently turned on.",
+    "revert_to": "shock_rapier_off",
+    "revert_msg": "The %s's batteries run dry.",
+    "use_action": { "type": "transform", "msg": "You press a button and the rapier turns off.", "target": "shock_rapier_off" },
+    "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
+    "power_draw": 5000000,
+    "magazine_well": "500 ml"
   },
   {
     "id": "rapier_fake",
@@ -1644,7 +1738,7 @@
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "dagger" },
     "description": "A medieval dagger, more finely crafted than a baselard.",
-    "weight": "420 g",
+    "weight": "400 g",
     "volume": "750 ml",
     "price": "19590 cent",
     "to_hit": 1,
@@ -1668,5 +1762,17 @@
     "cutting": 16,
     "material": [ "bronze" ],
     "color": "yellow"
+  },
+  {
+    "type": "TOOL",
+    "id": "knife_heat",
+    "copy-from": "knife_combat",
+    "name": { "str": "thermoblade" },
+    "description": "This is a knife or dagger with an aftermarket modification to heat the blade.  The makeshift atomic battery means it will effectively never run out of power, but it can irradiate the wielder when damaged.",
+    "weight": "588 g",
+    "price_postapoc": "1550 cent",
+    "use_action": "HOTPLATE",
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "LEAK_DAM", "RADIOACTIVE", "FLAMING" ]
   }
 ]

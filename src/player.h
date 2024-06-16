@@ -31,7 +31,6 @@
 #include "string_id.h"
 #include "type_id.h"
 
-class basecamp;
 class craft_command;
 class effect;
 class faction;
@@ -227,8 +226,7 @@ class player : public Character
         bool craft_consume_tools( item &craft, int mulitplier, bool start_craft );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
-                            basecamp *bcp = nullptr );
+                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
         void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
                             const std::string &hotkeys = DEFAULT_HOTKEYS );
 

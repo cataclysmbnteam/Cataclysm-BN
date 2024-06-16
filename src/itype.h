@@ -261,9 +261,15 @@ struct islot_armor {
     */
     bool sided = false;
     /**
-     * TODO: document me.
+     * Multiplier on resistances provided by armor's materials.
+     * Damaged armors have lower effective thickness, low capped at 1.
+     * Note: 1 thickness means item retains full resistance when damaged.
      */
     int thickness = 0;
+    /**
+     * Damage negated by this armor. Usually calculated from materials+thickness.
+     */
+    resistances resistance;
     /**
      * Resistance to environmental effects.
      */
@@ -561,6 +567,8 @@ struct islot_gunmod : common_ranged_data {
     /** What kind of weapons can this gunmod be used with (e.g. "rifle", "crossbow")? */
     std::unordered_set<itype_id> usable;
     std::vector<std::unordered_set<weapon_category_id>> usable_category;
+    std::unordered_set<itype_id> exclusion;
+    std::vector<std::unordered_set<weapon_category_id>> exclusion_category;
 
     /** If this value is set (non-negative), this gunmod functions as a sight. A sight is only usable to aim by a character whose current @ref Character::recoil is at or below this value. */
     int sight_dispersion = -1;

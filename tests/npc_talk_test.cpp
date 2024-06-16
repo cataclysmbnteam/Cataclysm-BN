@@ -302,10 +302,6 @@ TEST_CASE( "npc_talk_location", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a om_location_field test response." );
-    change_om_type( "faction_base_camp_11" );
-    gen_response_lines( d, 2 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a faction camp any test response." );
 }
 
 TEST_CASE( "npc_talk_role", "[npc_talk]" )
@@ -433,23 +429,27 @@ TEST_CASE( "npc_talk_season", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a season spring test response." );
     calendar::turn += calendar::season_length();
-    gen_response_lines( d, 3 );
+    gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a days since Cataclysm 5 test response." );
     CHECK( d.responses[2].text == "This is a season summer test response." );
+    CHECK( d.responses[3].text == "This is a days since Cataclysm 20 test response." );
     calendar::turn += calendar::season_length();
-    gen_response_lines( d, 4 );
+    gen_response_lines( d, 6 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a days since Cataclysm 5 test response." );
     CHECK( d.responses[2].text == "This is a days since Cataclysm 20 test response." );
     CHECK( d.responses[3].text == "This is a season autumn test response." );
+    CHECK( d.responses[4].text == "This is a days since Cataclysm 35 test response." );
+    CHECK( d.responses[5].text == "This is a days since Cataclysm 50 test response." );
     calendar::turn += calendar::season_length();
-    gen_response_lines( d, 5 );
+    gen_response_lines( d, 6 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a days since Cataclysm 5 test response." );
     CHECK( d.responses[2].text == "This is a days since Cataclysm 20 test response." );
     CHECK( d.responses[3].text == "This is a days since Cataclysm 35 test response." );
     CHECK( d.responses[4].text == "This is a season winter test response." );
+    CHECK( d.responses[5].text == "This is a days since Cataclysm 50 test response." );
     calendar::turn += calendar::season_length();
     gen_response_lines( d, 6 );
     CHECK( d.responses[0].text == "This is a basic test response." );

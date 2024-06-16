@@ -39,7 +39,8 @@
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
     "allowed_locs": [ "sloc_mall_loading_area", "sloc_mall_food_court", "sloc_apartments_rooftop", "sloc_hospital", "sloc_bastion_fort" ],
     "start_name": "In Large Building",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -65,7 +66,8 @@
       "sloc_town_hall"
     ],
     "start_name": "In Town",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -332,7 +334,8 @@
       "sloc_bastion_fort"
     ],
     "start_name": "Outside Town",
-    "flags": [ "SUR_START", "WIN_START", "LONE_START" ],
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "WIN_START", "LONE_START" ],
     "add_professions": true,
     "professions": [
       "sheltered_survivor",

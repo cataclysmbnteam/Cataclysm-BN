@@ -86,6 +86,56 @@ experience you need to get to a level is below:
 
 `e ^ ( ( level + 62.5 ) * 0.146661 ) ) - 6200`
 
+#### Currently Implemented Spell Flags
+
+- `PERMANENT` - items or creatures spawned with this spell do not disappear and die as normal
+
+- `IGNORE_WALLS` - spell's aoe goes through walls
+
+- `SWAP_POS` - a projectile spell swaps the positions of the caster and target
+
+- `HOSTILE_SUMMON` - summon spell always spawns a hostile monster
+
+- `HOSTILE_50` - summoned monster spawns friendly 50% of the time
+
+- `SILENT` - spell makes no noise at target
+
+- `NO_EXPLOSION_VFX` - spell has no visual explosion
+
+- `LOUD` - spell makes extra noise at target
+
+- `VERBAL` - spell makes noise at caster location, mouth encumbrance affects fail %
+
+- `SOMATIC` - arm encumbrance affects fail % and casting time (slightly)
+
+- `NO_HANDS` - hands do not affect spell energy cost
+
+- `UNSAFE_TELEPORT` - teleport spell risks killing the caster or others
+
+- `NO_LEGS` - legs do not affect casting time
+
+- `CONCENTRATE` - focus affects spell fail %
+
+- `RANDOM_AOE` - picks random number between min+increment\*level and max instead of normal behavior
+
+- `RANDOM_DAMAGE` - picks random number between min+increment\*level and max instead of normal
+  behavior
+
+- `RANDOM_DURATION` - picks random number between min+increment\*level and max instead of normal
+  behavior
+
+- `RANDOM_TARGET` - picks a random valid target within your range instead of normal behavior.
+
+- `MUTATE_TRAIT` - overrides the mutate spell_effect to use a specific trait_id instead of a
+  category
+
+- `WONDER` - instead of casting each of the extra_spells, it picks N of them and casts them (where N
+  is std::min( damage(), number_of_spells ))
+
+- `PAIN_NORESIST` - pain altering spells can't be resisted (like with the deadened trait)
+
+- `NO_FAIL` - this spell cannot fail when you cast it
+
 #### Currently Implemented Effects and special rules
 
 - `pain_split` - makes all of your limbs' damage even out.

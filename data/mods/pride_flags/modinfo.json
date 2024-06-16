@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "pride_flags",
+    "name": "Pride Flags for BN",
+    "authors": [ "Robbietheneko" ],
+    "maintainers": [ "Robbietheneko" ],
+    "description": "Pride flags for Bright Nights, for all your roleplaying needs.",
+    "category": "content",
+    "dependencies": [ "bn" ]
+  }
+]

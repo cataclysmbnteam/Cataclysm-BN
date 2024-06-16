@@ -22,8 +22,6 @@
 #include "weather_gen.h"
 #include "weather.h"
 
-static const activity_id ACT_READ( "ACT_READ" );
-
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
@@ -180,18 +178,6 @@ int calc_focus_equilibrium( const Character &who )
 {
     int focus_equilibrium = 100;
 
-    if( who.activity->id() == ACT_READ ) {
-        safe_reference<item> loc = who.activity->targets[0];
-        if( loc && loc->is_book() ) {
-            auto &bt = *loc->type->book;
-            // apply a penalty when we're actually learning something
-            const SkillLevel &skill_level = who.get_skill_level_object( bt.skill );
-            if( skill_level.can_train() && skill_level < bt.level ) {
-                focus_equilibrium -= 50;
-            }
-        }
-    }
-
     int eff_morale = who.get_morale_level();
     // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
     // Cenobites don't mind, though
@@ -258,9 +244,9 @@ int calc_focus_change( const Character &who )
         focus_gap = -focus_gap;
     }
 
-    // for every 100 points, we have a flat gain of 1 focus.
+    // for every 10 points, we have a flat gain of 1 focus.
     // for every n points left over, we have an n% chance of 1 focus
-    int gain = focus_gap / 100;
+    int gain = focus_gap / 10;
     if( rng( 1, 100 ) <= focus_gap % 100 ) {
         gain++;
     }

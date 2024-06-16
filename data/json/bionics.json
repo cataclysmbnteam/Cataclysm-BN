@@ -534,6 +534,7 @@
     "name": { "str": "Bionic Infolink" },
     "description": "A state of the art communications and information package has been installed in your body.  While the cell phone network may be down, it can still double as a two-way radio.  Additionally tells you the time and local air temperature, provides a silent alarm clock function, and if activated will give a more detailed readout on local weather conditions.",
     "occupied_bodyparts": [ [ "torso", 1 ], [ "head", 1 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ],
     "act_cost": "10 J"
   },
   {
@@ -570,7 +571,7 @@
     "name": { "str": "Finger-Mounted Laser" },
     "description": "One of your fingers has a small high-powered laser surgically embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires.",
     "occupied_bodyparts": [ [ "hand_r", 1 ] ],
-    "act_cost": "30 kJ",
+    "act_cost": "10 kJ",
     "fake_item": "bio_laser_gun",
     "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
@@ -600,7 +601,7 @@
     "description": "The index fingers of both hands have powerful fire starters which extend from the tip.",
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "fake_item": "fake_firestarter",
-    "act_cost": "3 kJ"
+    "act_cost": "1 kJ"
   },
   {
     "id": "bio_lockpick",
@@ -829,7 +830,7 @@
     "id": "bio_razors",
     "type": "bionic",
     "name": { "str": "Fingertip Razors" },
-    "description": "You possess razor-sharp claws underneath your fingernails that do a small amount of unarmed slashing damage whenever your fingertips are uncovered.",
+    "description": "You possess razor-sharp claws underneath your fingernails that do a fair amount of unarmed slashing damage whenever your fingertips are uncovered, and which you can use with some precision to cut and butcher..",
     "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ] ],
     "fake_item": "fake_razor",
     "flags": [ "BIONIC_NPC_USABLE" ]
@@ -1081,14 +1082,23 @@
     "id": "bio_uncanny_dodge",
     "type": "bionic",
     "name": { "str": "Uncanny Dodge" },
-    "description": "Your nervous system has been augmented with bionic processors, increasing your ability to dodge while active.  Your dodge skill will also grant a chance to evade attacks beyond normal human capability, such as bullets.",
+    "description": "Your nervous system has been augmented with bionic processors, increasing your ability to dodge while active.  Your dodge skill will also grant a chance to evade attacks beyond normal human capability, such as bullets, up to 100% of the time at max level.",
     "occupied_bodyparts": [ [ "torso", 12 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 5 ], [ "leg_r", 5 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "6 J",
     "react_cost": "6 J",
     "trigger_cost": "75 kJ",
     "time": 1,
-    "enchantments": [ "ENCH_UNCANNY_DODGE" ]
+    "enchantments": [ "ENCH_UNCANNY_DODGE" ],
+    "included_bionics": [ "bio_uncanny_dodge_rcs" ]
+  },
+  {
+    "id": "bio_uncanny_dodge_rcs",
+    "type": "bionic",
+    "name": { "str": "Uncanny Dodge Thrusters Mode" },
+    "description": "Toggles your Organic Reaction Control System (RCS) Thrusters that allows the user to dodge attacks that would otherwise be impossible to avoid, as long as there's safe, empty space to move.  While active consumes additional 10 kcal per dodge and creates lots of exhaust gas.",
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_ups",

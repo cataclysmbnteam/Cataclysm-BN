@@ -128,7 +128,9 @@
       [ "chem_hexamine", 2 ],
       [ "denat_alcohol", 1 ],
       [ "remotevehcontrol", 5 ],
-      [ "bionic_scanner", 5 ]
+      [ "bionic_scanner", 5 ],
+      [ "recipe_mininuke_launch", 4 ],
+      [ "recipe_mininuke_launch", 5 ]
     ]
   },
   {
@@ -179,7 +181,7 @@
       { "item": "bleach", "prob": 20, "charges-min": 1 },
       { "item": "ammonia", "prob": 24, "charges-min": 10 },
       [ "panacea", 8 ],
-      [ "superglue", 30 ],
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       [ "bottle_glass", 10 ],
       [ "syringe", 8 ],
       [ "adrenaline_injector", 4 ],

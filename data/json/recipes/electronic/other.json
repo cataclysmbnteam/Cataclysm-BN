@@ -429,7 +429,9 @@
       [ [ "processor", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
-      [ [ "lens", 1 ] ]
+      [ [ "lens", 1 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "sheet_metal_small", 24 ], [ "sheet_metal", 1 ] ]
     ]
   },
   {
@@ -829,7 +831,7 @@
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
-      [ [ "superglue", 1 ] ],
+      [ [ "superglue", 3 ] ],
       [ [ "cable", 5 ] ],
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "ai_module_basic", 1 ], [ "ai_module", 1 ], [ "ai_module_advanced", 1 ] ],

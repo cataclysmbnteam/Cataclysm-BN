@@ -44,6 +44,7 @@
 #include "rng.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "path_display.h"
 
 #if defined(PREFIX)
 #   undef PREFIX
@@ -545,11 +546,16 @@ int main( int argc, char *argv[] )
             sizeof( second_pass_arguments ) / sizeof( second_pass_arguments[0] );
         int saved_argc = --argc; // skip program name
         const char **saved_argv = const_cast<const char **>( ++argv );
+        bool asked_game_path = false;
         while( argc ) {
             if( !strcmp( argv[0], "--help" ) ) {
                 printHelpMessage( first_pass_arguments.data(), num_first_pass_arguments,
                                   second_pass_arguments.data(), num_second_pass_arguments );
                 return 0;
+            } else if( !strcmp( argv[0], "--paths" ) ) {
+                asked_game_path = true;
+                argc--;
+                argv++;
             } else {
                 bool arg_handled = false;
                 for( size_t i = 0; i < num_first_pass_arguments; ++i ) {
@@ -599,13 +605,17 @@ int main( int argc, char *argv[] )
                 ++saved_argv;
             }
         }
+        if( asked_game_path ) {
+            cata_printf( remove_color_tags( resolved_game_paths() ) );
+            return 0;
+        }
     }
 
     std::string current_path = std::filesystem::current_path().string();
 
     if( !dir_exist( PATH_INFO::datadir() ) ) {
         std::string msg = string_format(
-                              "Can't find directory \"%s\"\n"
+                              "Can't find data directory \"%s\"\n"
                               "Current path: \"%s\"\n"
                               "Please ensure the current working directory is correct.\n"
                               "Perhaps you meant to start \"cataclysm-launcher\"?\n",
@@ -804,7 +814,14 @@ void printHelpMessage( const arg_handler *first_pass_arguments,
         help_map.insert( std::make_pair( help_group, &second_pass_arguments[i] ) );
     }
 
-    cata_printf( "Command line parameters:\n" );
+    cata_printf( R"(Info:
+--help
+    print this message and exit
+--paths
+    print the paths used by the game and exit
+
+Command line parameters:
+)" );
     std::string current_help_group;
     auto it = help_map.begin();
     auto it_end = help_map.end();

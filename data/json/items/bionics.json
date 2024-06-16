@@ -745,7 +745,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Fingertip Razors CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of ten double-edged, four centimeter long razor-sharp claws that are implanted underneath the fingernails.  These will deal a small amount of unarmed slashing damage whenever the user's fingertips are uncovered.",
+    "description": "A set of ten double-edged, four centimeter long razor-sharp claws that are implanted underneath the fingernails.  These will deal a fair amount of unarmed slashing damage whenever the user's fingertips are uncovered, and allow the user to somewhat precisely slice things apart.",
     "price": "4500 USD",
     "weight": "5 g",
     "difficulty": 4
@@ -782,6 +782,7 @@
   {
     "id": "bio_reactoroverride",
     "copy-from": "bionic_general_npc_usable",
+    "looks_like": "bio_reactor",
     "type": "BIONIC_ITEM",
     "name": { "str": "Micro Reactor Safety Override CBM" },
     "description": "Disables the radiation safety protocols allowing for much higher energy production.  While active produces 40kJ of power a turn and 1 irradiated stack every 20 turns.",
@@ -977,9 +978,20 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Uncanny Dodge CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Bionic processors that augment the user's nervous system, increasing their ability to dodge while active.  Dodge skill will also allow evading attacks beyond normal human capability, such as bullets.",
+    "description": "Bionic processors that augment the user's nervous system, increasing their ability to dodge while active.  Dodge skill will also allow evading attacks beyond normal human capability, such as bullets, up to 100% of the time at max level.",
     "price": "9500 USD",
     "weight": "1000 g",
+    "difficulty": 11
+  },
+  {
+    "id": "bio_uncanny_dodge_rcs",
+    "copy-from": "bionic_general",
+    "looks_like": "bio_int_enhancer",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Uncanny Dodge Thrusters Mode CBM" },
+    "description": "Organic Reaction Control System (RCS) thrusters that allows the user to dodge attacks that would otherwise be impossible to avoid, as long as there's safe, empty space to move.  While active consumes additional 10 kcal per dodge and creates lots of exhaust gas.",
+    "price": "9 kUSD",
+    "weight": "4 kg",
     "difficulty": 11
   },
   {
@@ -1300,7 +1312,8 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Perpetual Generator CBM" },
     "description": "Installed within you is a perpetual generator powered by nonsensoleum.  When activated its power gen doubles.  If you are seeing this, you'd better be debugging.",
-    "price": "0 cent"
+    "price": "0 cent",
+    "looks_like": "bio_int_enhancer"
   },
   {
     "id": "debug_bio_fuel_cell",
@@ -1308,6 +1321,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Debug Fuel Cell CBM" },
     "description": "The power of the sun, in the palm of my hand!  Installed within you is a perpetual generator powered by nonsensoleum.  When activated its power gen doubles.  If you are seeing this, you'd better be debugging.",
-    "price": "0 cent"
+    "price": "0 cent",
+    "looks_like": "bio_int_enhancer"
   }
 ]

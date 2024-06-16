@@ -330,6 +330,7 @@
       "O": "f_air_conditioner",
       "j": "f_standing_tank",
       "J": "f_water_heater"
-    }
+    },
+    "items": { "D": { "item": "trash_dumpster", "chance": 80 } }
   }
 ]

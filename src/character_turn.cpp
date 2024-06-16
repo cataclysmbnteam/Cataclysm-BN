@@ -30,6 +30,7 @@
 #include "vpart_position.h"
 #include "weather_gen.h"
 #include "weather.h"
+#include "profile.h"
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -455,10 +456,10 @@ void Character::process_one_effect( effect &it, bool is_new )
             if( has_trait( trait_FAT ) ) {
                 mod *= 1.5;
             }
-            if( get_size() == MS_LARGE ) {
+            if( get_size() == creature_size::large ) {
                 mod *= 2;
             }
-            if( get_size() == MS_HUGE ) {
+            if( get_size() == creature_size::huge ) {
                 mod *= 3;
             }
         }
@@ -479,10 +480,10 @@ void Character::process_one_effect( effect &it, bool is_new )
             if( has_trait( trait_FAT ) ) {
                 mod *= 1.5;
             }
-            if( get_size() == MS_LARGE ) {
+            if( get_size() == creature_size::large ) {
                 mod *= 2;
             }
-            if( get_size() == MS_HUGE ) {
+            if( get_size() == creature_size::huge ) {
                 mod *= 3;
             }
         }
@@ -839,6 +840,8 @@ void Character::environmental_revert_effect()
 
 void Character::process_items()
 {
+    ZoneScoped;
+
     auto process_item = [this]( detached_ptr<item> &&ptr ) {
         return item::process( std::move( ptr ), as_player(), pos(), false );
     };

@@ -24,11 +24,11 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ]
   },
@@ -56,7 +56,7 @@
   },
   {
     "id": "sks",
-    "copy-from": "rifle_manual",
+    "copy-from": "rifle_semi",
     "type": "GUN",
     "name": { "str": "SKS" },
     "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK47.  However, due to its superb accuracy, low recoil and deployable integrated bayonet, this gun maintains immense popularity.",
@@ -100,11 +100,11 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ]
   },
@@ -134,11 +134,11 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ]
   }

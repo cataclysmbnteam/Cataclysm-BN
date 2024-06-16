@@ -55,6 +55,132 @@ struct trap;
 
 template<typename T> struct enum_traits;
 
+using I = std::underlying_type_t<creature_size>;
+constexpr I operator+( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) + static_cast<I>( rhs );
+}
+
+constexpr I operator+( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) + rhs;
+}
+
+constexpr I operator+( const I lhs, const creature_size rhs )
+{
+    return lhs + static_cast<I>( rhs );
+}
+
+constexpr I operator-( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) - static_cast<I>( rhs );
+}
+
+constexpr I operator-( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) - rhs;
+}
+
+constexpr I operator-( const I lhs, const creature_size rhs )
+{
+    return lhs - static_cast<I>( rhs );
+}
+
+constexpr I operator*( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) * static_cast<I>( rhs );
+}
+
+constexpr I operator*( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) * rhs;
+}
+
+constexpr I operator*( const I lhs, const creature_size rhs )
+{
+    return lhs * static_cast<I>( rhs );
+}
+
+constexpr I operator/( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) / static_cast<I>( rhs );
+}
+
+constexpr I operator/( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) / rhs;
+}
+
+constexpr bool operator<=( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) <= static_cast<I>( rhs );
+}
+
+constexpr bool operator<=( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) <= rhs;
+}
+
+constexpr bool operator<=( const I lhs, const creature_size rhs )
+{
+    return lhs <= static_cast<I>( rhs );
+}
+
+constexpr bool operator<( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) < static_cast<I>( rhs );
+}
+
+constexpr bool operator<( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) < rhs;
+}
+
+constexpr bool operator<( const I lhs, const creature_size rhs )
+{
+    return lhs < static_cast<I>( rhs );
+}
+
+constexpr bool operator>=( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) >= static_cast<I>( rhs );
+}
+
+constexpr bool operator>=( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) >= rhs;
+}
+
+constexpr bool operator>=( const I lhs, const creature_size rhs )
+{
+    return lhs >= static_cast<I>( rhs );
+}
+
+constexpr bool operator>( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) > static_cast<I>( rhs );
+}
+
+constexpr bool operator>( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) > rhs;
+}
+
+constexpr bool operator>( const I lhs, const creature_size rhs )
+{
+    return lhs > static_cast<I>( rhs );
+}
+
+constexpr bool operator==( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) == rhs;
+}
+
+constexpr bool operator==( const I lhs, const creature_size rhs )
+{
+    return lhs == static_cast<I>( rhs );
+}
+
 enum FacingDirection {
     FD_NONE = 0,
     FD_LEFT = 1,
@@ -66,7 +192,7 @@ class Creature
     public:
         virtual ~Creature();
 
-        static const std::map<std::string, m_size> size_map;
+        static const std::map<std::string, creature_size> size_map;
 
         // Like disp_name, but without any "the"
         virtual std::string get_name() const = 0;
@@ -446,7 +572,7 @@ class Creature
         virtual float get_hit() const;
 
         virtual int get_speed() const;
-        virtual m_size get_size() const = 0;
+        virtual creature_size get_size() const = 0;
         virtual int get_hp( const bodypart_id &bp ) const;
         virtual int get_hp() const;
         virtual int get_hp_max( const bodypart_id &bp ) const;

@@ -9,7 +9,7 @@
     "color": "red",
     "parasites": 32,
     "vitamins": [  ],
-    "flags": [ "RAW" ]
+    "flags": [ "RAW", "UNSAFE_CONSUME" ]
   },
   {
     "id": "fish",
@@ -23,7 +23,7 @@
     "price": "5 USD",
     "price_postapoc": "50 cent",
     "spoils_in": "1 day",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "extend": { "flags": [ "SMOKABLE" ] },
     "smoking_result": "fish_smoked",
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ], [ "vitB", 154 ] ],
     "calories": 260
@@ -39,6 +39,14 @@
     "price_postapoc": "1 USD",
     "parasites": 0,
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "fish_cooked_seasoned",
+    "copy-from": "fish_cooked",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "cooked seasoned fish" },
+    "description": "Freshly cooked fish with seasoning.  Very nutritious.",
+    "fun": 2
   },
   {
     "id": "hstomach",
@@ -104,6 +112,14 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
+    "id": "human_cooked_seasoned",
+    "copy-from": "human_cooked",
+    "type": "COMESTIBLE",
+    "name": "cooked seasoned creep",
+    "description": "A freshly cooked slice of some unpleasant person.  Tastes great especially with the seasoning.",
+    "fun": 2
+  },
+  {
     "id": "meat",
     "copy-from": "flesh",
     "type": "COMESTIBLE",
@@ -138,12 +154,13 @@
     "type": "COMESTIBLE",
     "copy-from": "meat",
     "name": { "str": "chunk of mutant meat", "str_pl": "chunks of mutant meat" },
-    "description": "Meat from a heavily mutated animal.  Tough, discolored, with a somewhat chemical smell.  Still, seems digestible at least, if you cook it and remove the worst parts.",
+    "snippet_category": "mutant_meat_desc",
+    "description": "Meat from a heavily mutated animal.",
     "looks_like": "meat",
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 26 ], [ "vitB", 389 ], [ "mutant_toxin", 25 ] ],
-    "flags": [ "SMOKABLE", "BAD_TASTE", "RAW" ]
+    "extend": { "flags": [ "SMOKABLE", "BAD_TASTE" ] }
   },
   {
     "id": "mutant_meat_scrap",
@@ -181,6 +198,14 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
+    "id": "mutant_human_cooked_seasoned",
+    "copy-from": "mutant_human_cooked",
+    "type": "COMESTIBLE",
+    "name": "cooked seasoned cretin",
+    "description": "Cooked meat from a heavily mutated humanoid with added seasoning.",
+    "fun": 1
+  },
+  {
     "id": "meat_cooked",
     "copy-from": "flesh",
     "weight": "296 g",
@@ -197,16 +222,33 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
+    "id": "meat_cooked_seasoned",
+    "copy-from": "meat_cooked",
+    "type": "COMESTIBLE",
+    "name": "cooked seasoned meat",
+    "description": "This is a chunk of freshly cooked meat with added seasoning.  It's filling and nutritious.",
+    "fun": 2
+  },
+  {
     "id": "meat_scrap_cooked",
     "copy-from": "meat_scrap",
     "type": "COMESTIBLE",
     "name": { "str": "cooked scrap of meat", "str_pl": "cooked scraps of meat" },
+    "description": "This is a tiny scrap of cooked meat.  Tasty, if not exactly filling.",
     "spoils_in": "2 days",
     "parasites": 0,
     "fun": 0,
     "healthy": 0,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "calories": 51
+  },
+  {
+    "id": "meat_scrap_cooked_seasoned",
+    "copy-from": "meat_scrap_cooked",
+    "type": "COMESTIBLE",
+    "name": { "str": "cooked scrap of seasoned meat", "str_pl": "cooked scraps of seasoned meat" },
+    "description": "This is a tiny scrap of cooked meat with added seasoning.",
+    "fun": 1
   },
   {
     "id": "mutant_meat_cooked",
@@ -219,7 +261,7 @@
     "proportional": { "price": 1.5 },
     "parasites": 0,
     "healthy": 0,
-    "fun": -1,
+    "fun": -2,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
@@ -227,13 +269,30 @@
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat_scrap",
     "name": { "str": "cooked scrap of mutant meat", "str_pl": "cooked scraps of mutant meat" },
+    "description": "This is a tiny scrap of meat from a mutated animal.  Still tough and the color is wrong, but at least it smells edible now.",
     "looks_like": "meat_scrap_cooked",
     "spoils_in": "2 days",
     "parasites": 0,
     "calories": 25,
-    "fun": 0,
+    "fun": -1,
     "healthy": 0,
     "flags": [ "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "id": "mutant_meat_cooked_seasoned",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_meat_cooked",
+    "name": "cooked seasoned mutant meat",
+    "description": "This is a cooked chunk of meat from a mutated animal with added seasoning.  Still tough and the color is wrong, but at least it smells edible now.",
+    "fun": 0
+  },
+  {
+    "id": "mutant_meat_scrap_cooked_seasoned",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_meat_scrap_cooked",
+    "name": { "str": "cooked scrap of seasoned mutant meat", "str_pl": "cooked scraps of seasoned mutant meat" },
+    "description": "This is a tiny scrap of meat from a mutated animal with added seasoning.  Still tough and the color is wrong, but at least it smells edible now.",
+    "fun": 0
   },
   {
     "id": "offal",
@@ -243,6 +302,7 @@
     "description": "Offal is uncooked internal organs and entrails.  It's filled with essential vitamins, but most people consider it a bit gross unless very carefully prepared.",
     "proportional": { "parasites": 2 },
     "price_postapoc": "25 cent",
+    "calories": 100,
     "delete": { "flags": [ "SMOKABLE" ] },
     "relative": { "vitamins": [ [ "vitA", 5 ], [ "iron", 4 ] ], "fun": -5 }
   },
@@ -261,7 +321,7 @@
     "spoils_in": "2 days",
     "quench": -1,
     "fun": -1,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "UNSAFE_CONSUME" ] }
   },
   {
     "id": "offal_canned",
@@ -277,7 +337,7 @@
     "healthy": 1,
     "container": "can_food",
     "fun": -2,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "UNSAFE_CONSUME" ] }
   },
   {
     "id": "mutant_offal",
@@ -297,6 +357,17 @@
       [ "iron", 4 ],
       [ "mutant_toxin", 50 ]
     ]
+  },
+  {
+    "id": "mutant_bug_organs",
+    "type": "COMESTIBLE",
+    "copy-from": "offal",
+    "name": { "str_sp": "mutant organs" },
+    "snippet_category": "bug_organs_desc",
+    "description": "These organs came from a giant mutant bug.",
+    "looks_like": "offal",
+    "proportional": { "price": 0.1, "calories": 0.65 },
+    "extend": { "flags": [ "BAD_TASTE" ], "vitamins": [ [ "mutant_toxin", 25 ] ] }
   },
   {
     "id": "stomach",
@@ -344,7 +415,7 @@
     "fun": 4,
     "calories": 348,
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ],
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "UNSAFE_CONSUME" ] }
   },
   {
     "id": "salted_fish",
@@ -361,7 +432,7 @@
     "quench": -5,
     "fun": 4,
     "proportional": { "price": 2, "volume": 0.345, "weight": 0.345 },
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "UNSAFE_CONSUME" ] }
   },
   {
     "id": "meat_smoked",
@@ -412,6 +483,18 @@
     "fun": -10,
     "calories": 50,
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "vitB", 22 ] ]
+  },
+  {
+    "id": "mutant_bug_lungs",
+    "type": "COMESTIBLE",
+    "copy-from": "lung",
+    "name": { "str_sp": "mutant lungs" },
+    "snippet_category": "mutant_lung_desc",
+    "description": "You're pretty sure this is lung tissue.",
+    "looks_like": "lung",
+    "cooks_like": "lung_cooked",
+    "proportional": { "price": 0.1, "calories": 0.65 },
+    "extend": { "flags": [ "BAD_TASTE" ], "vitamins": [ [ "mutant_toxin", 25 ] ] }
   },
   {
     "id": "liver",
@@ -491,6 +574,67 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "animal_blood",
+    "copy-from": "blood",
+    "name": { "str_sp": "animal blood" },
+    "description": "Blood extracted from a living creature.",
+    "material": "flesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood_concentrate",
+    "copy-from": "blood",
+    "name": { "str_sp": "concentrated blood" },
+    "weight": "65 g",
+    "container": "bottle_glass",
+    "quench": 1,
+    "price_postapoc": "20 cent",
+    "description": "Blood concentrated by some means.  It just looks and feels wrong.",
+    "volume": "62 ml"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "animal_blood_concentrate",
+    "copy-from": "blood_concentrate",
+    "name": { "str_sp": "concentrated animal blood" },
+    "description": "Blood extracted from a living creature, concentrated by some means.",
+    "material": "flesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_blood",
+    "copy-from": "mutant_meat",
+    "name": { "str_sp": "mutant blood" },
+    "weight": "262 g",
+    "comestible_type": "DRINK",
+    "parasites": 0,
+    "looks_like": "blood",
+    "symbol": "~",
+    "quench": 5,
+    "healthy": -8,
+    "price_postapoc": "10 cent",
+    "calories": 43,
+    "description": "Blood extracted from a heavily mutated creature.",
+    "price": "0 cent",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "fun": -50,
+    "delete": { "flags": [ "SMOKABLE" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_blood_concentrate",
+    "copy-from": "mutant_blood",
+    "name": { "str_sp": "concentrated mutant blood" },
+    "weight": "65 g",
+    "container": "bottle_glass",
+    "quench": 1,
+    "price_postapoc": "20 cent",
+    "description": "Blood from a mutated creature, concentrated by some means.  Despite it being a liquid, some parts are thicker than the other.",
+    "volume": "62 ml"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "bone",
     "category": "spare_parts",
     "name": { "str": "bone" },
@@ -524,7 +668,8 @@
     "volume": "250 ml",
     "parasites": 32,
     "stack_size": 1,
-    "fun": -20
+    "fun": -20,
+    "flags": [ "RAW", "UNSAFE_CONSUME" ]
   },
   {
     "type": "COMESTIBLE",
@@ -604,6 +749,41 @@
     "name": "mutant humanoid lard",
     "copy-from": "mutant_human_tallow",
     "description": "A smooth white block of dry-rendered fat sourced from a mutant humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood_tainted",
+    "copy-from": "meat_tainted",
+    "name": { "str_sp": "tainted blood" },
+    "weight": "262 g",
+    "color": "red",
+    "container": "bag_iv",
+    "comestible_type": "DRINK",
+    "looks_like": "blood",
+    "symbol": "~",
+    "quench": 5,
+    "healthy": -8,
+    "price_postapoc": "10 cent",
+    "calories": 43,
+    "description": "Blood that's obviously unhealthy.  You could drink it, but it will poison you.",
+    "price": "0 cent",
+    "material": "hflesh",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "fun": -50,
+    "delete": { "flags": [ "SMOKABLE" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood_tainted_concentrate",
+    "copy-from": "blood_tainted",
+    "name": { "str_sp": "concentrated tainted blood" },
+    "weight": "65 g",
+    "container": "bottle_glass",
+    "quench": 1,
+    "price_postapoc": "20 cent",
+    "description": "Poisonous and unhealthy blood, concentrated by some means.  You swear you could see it pulsing ever so slightly.",
+    "volume": "62 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -763,7 +943,8 @@
     "price": "330 cent",
     "price_postapoc": "20 cent",
     "material": "flesh",
-    "flags": [ "RAW", "TRADER_AVOID", "UNSAFE_CONSUME" ],
+    "flags": [ "RAW", "TRADER_AVOID", "UNSAFE_CONSUME", "SMOKABLE" ],
+    "smoking_result": "cured_hide",
     "stack_size": 1,
     "fun": -12
   },
@@ -804,7 +985,8 @@
     "price": "330 cent",
     "price_postapoc": "1 USD",
     "material": [ "fur", "flesh" ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "SMOKABLE" ],
+    "smoking_result": "cured_pelt",
     "stack_size": 1,
     "fun": -24
   },
@@ -818,7 +1000,7 @@
     "description": "A carefully folded raw skin harvested from a fur-bearing unnatural creature.  It still has the fur attached and is poisonous.  You can cure it for storage and tanning.",
     "price": "0 cent",
     "price_postapoc": "50 cent",
-    "flags": [ "NO_SALVAGE", "UNSAFE_CONSUME" ]
+    "flags": [ "NO_SALVAGE", "UNSAFE_CONSUME", "SMOKABLE" ]
   },
   {
     "type": "COMESTIBLE",

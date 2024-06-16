@@ -1,7 +1,7 @@
 [
   {
     "id": "trade_writ_chemist",
-    "type": "BOOK",
+    "type": "GENERIC",
     "name": { "str": "writ of trade (chemist)", "str_pl": "writs of trade (chemist)" },
     "description": "A few sheets of paper from the chemist living out in the wilderness listing some of the chemical they're capable of making.",
     "weight": "1 g",
@@ -12,13 +12,11 @@
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_glam",
-    "color": "light_cyan",
-    "intelligence": 5,
-    "time": "10 m"
+    "color": "light_cyan"
   },
   {
     "id": "trade_writ_scrap",
-    "type": "BOOK",
+    "type": "GENERIC",
     "name": { "str": "writ of trade (scrap)", "str_pl": "writs of trade (scrap)" },
     "description": "A handwritten listing of the inventory at the scrapyard.",
     "weight": "1 g",
@@ -29,13 +27,11 @@
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_glam",
-    "color": "light_cyan",
-    "intelligence": 5,
-    "time": "10 m"
+    "color": "light_cyan"
   },
   {
     "id": "trade_writ_lumberyard",
-    "type": "BOOK",
+    "type": "GENERIC",
     "name": { "str": "writ of trade (lumberyard)", "str_pl": "writs of trade (lumberyard)" },
     "description": "A printout of the local lumberyard's latest inventory.",
     "weight": "1 g",
@@ -46,9 +42,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_glam",
-    "color": "light_cyan",
-    "intelligence": 5,
-    "time": "10 m"
+    "color": "light_cyan"
   },
   {
     "id": "magic_8_ball",
@@ -261,7 +255,7 @@
     "category": "other",
     "name": { "str": "Warships", "str_pl": "sets of Warships" },
     "description": "A game where players try to guess where the opponent placed their ships on the board.",
-    "weight": "450 g",
+    "weight": "500 g",
     "volume": "500 ml",
     "price": "20 USD",
     "price_postapoc": "10 USD",

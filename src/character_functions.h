@@ -148,11 +148,12 @@ void store_in_container( Character &who, item &container, detached_ptr<item> &&p
 bool try_wield_contents( Character &who, item &container, item *internal_item, bool penalties,
                          int base_cost );
 
-enum class UncannyDodgeFail {
+enum class UncannyDodgeStatus {
+    DodgedWithSkill, //< Dodged successfully using dodge skill
     NoEnergy, //< Not enough energy
     NoSpace, //< No space to dodge
 };
-using UncannyDodgeResult = std::variant<tripoint, UncannyDodgeFail>;
+using UncannyDodgeResult = std::variant<tripoint, UncannyDodgeStatus>;
 
 /**
  * Check if it's possible to uncanny dodge bionic ability.
@@ -167,10 +168,13 @@ auto uncanny_dodge_result( const Character &who ) -> UncannyDodgeResult;
 bool try_uncanny_dodge( Character &who );
 
 /**
+ * Returns an unoccupied, adjacent point.
+ */
+auto pick_adjacent_tile( const Character &who ) -> std::optional<tripoint>;
+
+
+/**
  * Returns an unoccupied, safe adjacent point.
- *
- * @warning this won't take account of whether you're immune to dangerous fields.
- * TODO: add boolean flag to take account of player immunity?
  */
 auto pick_safe_adjacent_tile( const Character &who ) -> std::optional<tripoint>;
 

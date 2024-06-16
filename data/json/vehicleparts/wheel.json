@@ -16,7 +16,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_LIGHT", "NEEDS_JACKING", "FOLDABLE" ],
     "breaks_into": [ { "item": "scrap", "count": [ 0, 1 ] } ],
@@ -45,7 +45,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "using": [ [ "welding_standard", 10 ], [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_MEDIUM", "NEEDS_JACKING" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "steel_chunk", "count": [ 2, 5 ] } ],
@@ -74,7 +74,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 15 ], [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "20 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_HEAVY", "NEEDS_JACKING" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "steel_chunk", "count": [ 3, 7 ] } ],
@@ -105,7 +105,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "RAIL" ],
     "damage_reduction": { "all": 66 }
@@ -215,10 +215,11 @@
       { "item": "steel_lump", "count": [ 2, 3 ] },
       { "item": "steel_chunk", "count": [ 2, 3 ] },
       { "item": "scrap", "count": [ 2, 3 ] },
-      { "item": "chunk_rubber", "count": [ 2, 3 ] }
+      { "item": "chunk_rubber", "count": [ 2, 3 ] },
+      { "item": "kevlar_plate", "prob": 50 }
     ],
     "rolling_resistance": 0.6,
-    "wheel_type": "standard",
+    "wheel_type": "off-road",
     "contact_area": 480,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_bolt", 1 ] ] },
@@ -345,7 +346,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE" ]
   },
@@ -373,7 +374,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "tire_repair", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE" ]
   },
@@ -486,7 +487,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "4 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "2 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "rolling_resistance": 10,
     "wheel_type": "standard",
@@ -613,7 +614,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ], [ "wood_structural_small", 1 ] ] }
     },
     "rolling_resistance": 2.15,
     "wheel_type": "rigid",
@@ -636,5 +637,28 @@
     "rolling_resistance": 2.05,
     "proportional": { "durability": 2, "damage_modifier": 2 },
     "damage_reduction": { "all": 20 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "wheel_mount_light_wood",
+    "name": { "str": "light wooden wheel mount" },
+    "copy-from": "wheel_mount_light",
+    "durability": 70,
+    "description": "A piece of wood with holes suitable for a bike or motorbike wheel.",
+    "item": "wheel_mount_light_wood",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "SAW_W", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "breaks_into": [ { "item": "2x4", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 0, 5 ] } ],
+    "damage_reduction": { "all": 10 }
+  },
+  {
+    "id": "wheel_mount_light_steerable_wood",
+    "copy-from": "wheel_mount_light_wood",
+    "type": "vehicle_part",
+    "name": { "str": "light wheel mount (steerable)" },
+    "extend": { "flags": [ "STEERABLE" ] }
   }
 ]

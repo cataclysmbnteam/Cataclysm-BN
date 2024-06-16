@@ -65,7 +65,7 @@
     "price": "15 USD",
     "price_postapoc": "10 cent",
     "volume": "250 ml",
-    "fun": -5
+    "fun": -15
   },
   {
     "type": "COMESTIBLE",
@@ -190,7 +190,8 @@
     "material": "powder",
     "volume": "250 ml",
     "charges": 4,
-    "fun": -10
+    "fun": -10,
+    "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -380,7 +381,6 @@
     "symbol": ".",
     "color": "yellow",
     "healthy": -5,
-    "spoils_in": "364 days",
     "calories": 56,
     "description": "Light brown beans, they have many uses, mildly toxic and not recommended, but you could eat them raw.",
     "price": "90 cent",
@@ -590,7 +590,6 @@
     "vitamins": [ [ "vitA", 20 ], [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
     "fun": 5,
     "color": "brown",
-    "spoils_in": "730 days",
     "flags": [ "INEDIBLE", "CATTLE" ],
     "use_action": "CATTLEFODDER"
   },
@@ -601,14 +600,14 @@
     "name": { "str_sp": "bird food" },
     "description": "What birds eat.  Mainly made of seeds, silage or legumes.  It's perfect for small birds.",
     "weight": "60 g",
-    "volume": "250 ml",
+    "volume": "50 ml",
     "price": "20 cent",
     "price_postapoc": "25 cent",
     "to_hit": -5,
     "material": "veggy",
     "symbol": ";",
     "healthy": 1,
-    "calories": 400,
+    "calories": 20,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
     "fun": 5,
     "color": "brown",
@@ -632,7 +631,7 @@
     "symbol": ";",
     "healthy": 2,
     "quench": 2,
-    "calories": 450,
+    "calories": 350,
     "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
     "fun": -15,
     "color": "brown",
@@ -656,7 +655,7 @@
     "symbol": ";",
     "healthy": 2,
     "quench": 2,
-    "calories": 800,
+    "calories": 600,
     "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
     "fun": -15,
     "color": "brown",

@@ -201,7 +201,7 @@ void cata::detail::reg_creature( sol::state &lua )
         SET_FX_T( get_hit, float() const );
 
         SET_FX_T( get_speed, int() const );
-        SET_FX_T( get_size, m_size() const );
+        SET_FX_T( get_size, creature_size() const );
         luna::set_fx( ut, "get_hp", []( const Creature & cr,
         sol::optional<const bodypart_id &> bpid ) -> int {
             if( bpid.has_value() )
@@ -837,7 +837,6 @@ void cata::detail::reg_npc( sol::state &lua )
         SET_FX_T( is_guarding, bool() const );
 
         SET_FX_T( is_patrolling, bool() const );
-        SET_FX_T( within_boundaries_of_camp, bool() const );
 
         SET_FX_T( has_player_activity, bool() const );
         SET_FX_T( is_travelling, bool() const );
@@ -884,7 +883,6 @@ void cata::detail::reg_npc( sol::state &lua )
         SET_FX_T( get_attitude, npc_attitude() const );
         SET_FX_T( set_attitude, void( npc_attitude new_attitude ) );
         SET_FX_T( has_activity, bool() const );
-        SET_FX_T( has_job, bool() const );
     }
 #undef UT_CLASS // #define UT_CLASS npc
 

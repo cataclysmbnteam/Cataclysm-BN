@@ -99,7 +99,26 @@
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "famas",
@@ -123,13 +142,13 @@
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "magazine", 1 ],
       [ "muzzle", 1 ],
-      [ "sights mount", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel mount", 1 ],
+      [ "underbarrel", 1 ],
       [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "223", [ "famasmag" ] ] ]
@@ -435,10 +454,10 @@
       [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "223", [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ] ] ]
   },
@@ -586,9 +605,9 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ]
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ]
     ],
     "magazines": [
       [
