@@ -646,6 +646,7 @@ bool try_uncanny_dodge( Character &who )
                     }
                     return false;
                 case UncannyDodgeFail::NoSpace:
+                default:
                     if( is_u ) {
                         add_msg( _( "You try to dodge but there's no room!" ) );
                     } else if( seen ) {
