@@ -15,6 +15,7 @@ import { SafeParseSuccess, z } from "$zod/mod.ts"
 import * as YAML from "$std/yaml/stringify.ts"
 import type {} from "$ts-reset/entrypoints/filter-boolean.d.ts"
 import { outdent } from "$outdent/mod.ts"
+import { resolve } from "$std/path/resolve.ts"
 
 type Modinfo = z.infer<typeof modinfoSchema>
 
@@ -80,5 +81,8 @@ if (import.meta.main) {
       # Validate the PR title, and ignore all commit messages
       ${setting}
     `
-  await Deno.writeTextFile(".github/semantic.yml", content)
+
+  const rootPath = resolve(import.meta.dirname!, "..")
+
+  await Deno.writeTextFile(resolve(rootPath, ".github/semantic.yml"), content)
 }
