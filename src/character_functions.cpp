@@ -65,6 +65,7 @@ static const efftype_id effect_meth( "meth" );
 
 static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
+static const bionic_id bio_uncanny_dodge_rcs( "bio_uncanny_dodge_rcs" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_UPS( "UPS" );
@@ -598,10 +599,23 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
     return true;
 }
 
+constexpr int trigger_rcs_cost_kcal = 10;
+
+
 auto uncanny_dodge_result( const Character &who ) -> UncannyDodgeResult
 {
-    const auto trigger_cost = bio_uncanny_dodge->power_trigger;
-    if( who.get_power_level() < trigger_cost || !who.has_active_bionic( bio_uncanny_dodge ) ) {
+    const bool is_rcs_active = who.has_active_bionic( bio_uncanny_dodge_rcs );
+
+    if( is_rcs_active
+        && who.get_dodge() < 10 // pointless at 100% dodge
+        && who.get_stored_kcal() > trigger_rcs_cost_kcal ) {
+        const auto adjacent = pick_safe_adjacent_tile( who );
+        if( adjacent ) {
+            return *adjacent;
+        }
+    }
+
+    if( who.get_power_level() < bio_uncanny_dodge->power_trigger ) {
         return UncannyDodgeStatus::NoEnergy;
     }
 
@@ -609,12 +623,7 @@ auto uncanny_dodge_result( const Character &who ) -> UncannyDodgeResult
         return UncannyDodgeStatus::DodgedWithSkill;
     }
 
-    const auto adjacent = pick_safe_adjacent_tile( who );
-    if( !adjacent ) {
-        return UncannyDodgeStatus::NoSpace;
-    }
-
-    return *adjacent;
+    return UncannyDodgeStatus::NoSpace;
 }
 
 bool try_uncanny_dodge( Character &who )
@@ -625,16 +634,16 @@ bool try_uncanny_dodge( Character &who )
         return false;
     }
 
-    const auto trigger_cost = bio_uncanny_dodge->power_trigger;
     const auto result = uncanny_dodge_result( who );
     const bool is_u = who.is_avatar();
     const bool seen = is_u || get_player_character().sees( who );
 
-    who.mod_power_level( -trigger_cost );
+    who.mod_power_level( -bio_uncanny_dodge->power_trigger );
 
     const auto visitor = cata::match{
         [&who, is_u, seen]( const tripoint & dest )
         {
+            who.mod_stored_kcal( -trigger_rcs_cost_kcal );
             if( is_u ) {
                 add_msg( _( "Time seems to slow down and you're ejected to safe space!" ) );
             } else if( seen ) {

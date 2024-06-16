@@ -1082,14 +1082,23 @@
     "id": "bio_uncanny_dodge",
     "type": "bionic",
     "name": { "str": "Uncanny Dodge" },
-    "description": "Your nervous system has been augmented with bionic processors, increasing your ability to dodge while active.  Your dodge skill will also grant a chance to evade attacks beyond normal human capability, such as bullets.",
+    "description": "Your nervous system has been augmented with bionic processors, increasing your ability to dodge while active.  Your dodge skill will also grant a chance to evade attacks beyond normal human capability, such as bullets, up to 100% of the time at max level.",
     "occupied_bodyparts": [ [ "torso", 12 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 5 ], [ "leg_r", 5 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "6 J",
     "react_cost": "6 J",
     "trigger_cost": "75 kJ",
     "time": 1,
-    "enchantments": [ "ENCH_UNCANNY_DODGE" ]
+    "enchantments": [ "ENCH_UNCANNY_DODGE" ],
+    "included_bionics": [ "bio_uncanny_dodge_rcs" ]
+  },
+  {
+    "id": "bio_uncanny_dodge_rcs",
+    "type": "bionic",
+    "name": { "str": "Uncanny Dodge Thrusters Mode" },
+    "description": "Toggles your Organic Reaction Control System (RCS) Thrusters that allows the user to dodge attacks that would otherwise be impossible to avoid, as long as there's safe, empty space to move.  While active consumes additional 10 kcal per dodge and creates lots of exhaust gas.",
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_ups",
