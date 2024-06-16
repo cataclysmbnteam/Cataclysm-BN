@@ -559,8 +559,8 @@ auto Creature::ranged_target_size() const -> double
 
 auto Character::ranged_target_size() const -> double
 {
-    if( std::holds_alternative<tripoint>( character_funcs::uncanny_dodge_result( *this ) ) ) {
-        return 0.0f;
+    if( const_cast<Character &>( *this ).uncanny_dodge() ) {
+        return 0.0;
     }
     return Creature::ranged_target_size();
 }
