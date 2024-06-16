@@ -891,7 +891,7 @@
     "melee_cut": 8,
     "dodge": 1,
     "armor_bash": 6,
-    "harvest": "meatslug",
+    "harvest": "mutant_meatslug",
     "special_attacks": [ [ "GENE_STING", 20 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "CAN_DIG" ]
