@@ -32,7 +32,8 @@
     "damage": { "damage_type": "bullet", "amount": 91, "armor_penetration": 78 },
     "recoil": 1000,
     "casing": "40x53mm_m169_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "extend": { "effects": [ "SHOT" ] },
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "40x53mm_m430a1",
@@ -56,7 +57,8 @@
     "damage": { "damage_type": "bullet", "amount": 130 },
     "recoil": 1200,
     "casing": "40x53mm_m169_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "extend": { "effects": [ "SHOT" ] },
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "40x53mm_slug_m169",
@@ -69,6 +71,7 @@
     "//": "Balanced as FMJ.",
     "damage": { "damage_type": "bullet", "amount": 104, "armor_penetration": 46 },
     "recoil": 1200,
-    "casing": "40x53mm_m169_casing"
+    "casing": "40x53mm_m169_casing",
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

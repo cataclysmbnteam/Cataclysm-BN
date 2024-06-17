@@ -8,7 +8,6 @@
     "volume": "250 ml",
     "price": "125 cent",
     "price_postapoc": "8 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "powder" ],
     "symbol": "+",
     "color": "green",
@@ -31,7 +30,6 @@
     "description": ".45-70 Government +P ammunition loaded with a 305 grain solid copper penetrator projectile.  Designed for maximum penetration through thick hide and bone while maintaining ideal wounding characteristics.",
     "price": "175 cent",
     "price_postapoc": "6 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
     "//": "Balanced as +P.",
     "relative": { "range": 2, "damage": { "damage_type": "bullet", "amount": 14 }, "recoil": 300 }
@@ -42,19 +40,29 @@
     "type": "AMMO",
     "name": { "str": ".45-70 LFN cowboy" },
     "description": ".45-70 Government ammunition loaded with a 405 grain lead flat nose bullet to original specifications for safe use in antique firearms.  Quite a bit less powerful than modern ammo, but still packs a punch.",
-    "price": "250 cent",
-    "price_postapoc": "4 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "relative": { "range": -8, "damage": { "damage_type": "bullet", "amount": -14, "armor_penetration": -25 }, "recoil": -900 }
+    "//": "As blackpowder except armor penetration and recoil are in between standard and BP, with price adjusted to reflect that plus lack of fouling",
+    "proportional": {
+      "price": 0.75,
+      "price_postapoc": 0.75,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.76 },
+      "recoil": 0.9,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED" ] }
   },
   {
     "id": "reloaded_4570_bp",
-    "copy-from": "4570_low",
+    "copy-from": "4570_sp",
     "type": "AMMO",
     "name": { "str": ".45-70, black powder" },
     "description": ".45-70 Government ammunition loaded with a 405 grain lead flat nose bullet using black powder to original specifications.  Quite a bit less powerful and a lot dirtier than modern ammo, but still packs a punch.  This one has been hand-loaded.",
-    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] }
   }
 ]
