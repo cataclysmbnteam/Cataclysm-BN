@@ -1144,7 +1144,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         const auto mags = obj.magazine_compatible();
         const std::set<ammotype> &ammo = obj.ammo_types();
 
-        src.visit_items( [&nested, &out, mags, empty, ammo]( item * node ) {
+        src.visit_items( [&nested, &out, mags, empty, &ammo]( item * node ) {
             if( node->is_gun() || node->is_tool() ) {
                 return VisitResponse::SKIP;
             }
