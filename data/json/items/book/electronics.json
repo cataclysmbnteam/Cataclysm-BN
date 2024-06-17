@@ -41,7 +41,7 @@
     "copy-from": "base_book",
     "name": { "str": "What's a Transistor?", "str_pl": "copies of What's a Transistor?" },
     "description": "A basic manual of electronics and circuit design.",
-    "weight": "454 g",
+    "weight": "500 g",
     "volume": "750 ml",
     "price": "22 USD",
     "price_postapoc": "250 cent",

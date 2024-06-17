@@ -1,6 +1,6 @@
 [
   {
-    "//": "Bsmt - 1: layout a ",
+    "//": "Bsmt - 1: layout 1 ",
     "type": "mapgen",
     "om_terrain": "2Story02_basement",
     "weight": 50,
@@ -20,7 +20,7 @@
         "^^|||||||||  ||||||###^^",
         "^^|$$$$|zz   |Prrr|qN#^^",
         "^^|    *     +  h +,,#^^",
-        "^^|$$$$|&&   |T   |ZW#^^",
+        "^^|$$$$|ƏƏ   |T   |ZW#^^",
         "^^||||||||   |||||||||^^",
         "^^|!lE   |    | VVV T|^^",
         "^^|!)))) +    +      |^^",
@@ -46,18 +46,17 @@
         "N": "t_thconc_floor",
         "q": "t_thconc_floor"
       },
-      "furniture": { "!": "f_speaker_cabinet", "$": "f_rack", "%": "f_counter", "&": "f_table", "0": "f_rack" },
+      "furniture": { "!": "f_speaker_cabinet", "$": "f_rack", "%": "f_counter", "0": "f_rack" },
       "items": {
         "%": { "item": "alcohol_bottled_canned", "chance": 25 },
         "$": { "item": "wines_worthy", "chance": 40 },
-        "0": { "item": "sports", "chance": 40, "repeat": [ 1, 2 ] },
-        "&": { "item": "table_foyer", "chance": 30 }
+        "0": { "item": "sports", "chance": 40, "repeat": [ 1, 2 ] }
       },
       "place_loot": [ { "item": "television", "x": 3, "y": 16 }, { "item": "laptop", "x": 16, "y": 9, "chance": 50 } ]
     }
   },
   {
-    "//": "Bsmt - 1: layout b ",
+    "//": "Bsmt - 1: layout 2 ",
     "type": "mapgen",
     "om_terrain": "2Story02_basement",
     "weight": 50,
@@ -85,7 +84,7 @@
         "^^|zz       |U      N|^^",
         "^^|v     A  |U     AN|^^",
         "^^|?0z      |U      N|^^",
-        "^^|??z  ]  b|U zz T N|^^",
+        "^^|??z  ɸ  b|U zz T N|^^",
         "^^||||||||||||||||||||^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^",
@@ -114,7 +113,6 @@
         "֎": "f_home_furnace",
         "?": "f_chair",
         "~": "f_rack",
-        "]": "f_speaker_cabinet",
         ")": "f_counter"
       },
       "items": {
@@ -128,15 +126,12 @@
         { "item": "television", "x": 5, "y": 13 },
         { "item": "laptop", "x": 18, "y": 13 },
         { "group": "hardware_books", "x": [ 17, 19 ], "y": 15, "chance": 50, "repeat": [ 2, 3 ] },
-        { "group": "hardware", "x": [ 15, 16 ], "y": 15, "chance": 50, "repeat": [ 2, 3 ] },
-        { "item": "guitar_stand", "x": 9, "y": 19 },
-        { "item": "guitar_electric", "x": 9, "y": 19 },
-        { "item": "amplifier_head", "x": 8, "y": 19 }
+        { "group": "hardware", "x": [ 15, 16 ], "y": 15, "chance": 50, "repeat": [ 2, 3 ] }
       ]
     }
   },
   {
-    "//": "ground floor: layout a ",
+    "//": "ground floor: layout 1 ",
     "type": "mapgen",
     "om_terrain": "2Story02_1",
     "weight": 50,
@@ -151,14 +146,14 @@
       "fill_ter": "t_floor",
       "rows": [
         "................p_______",
-        "....[...X.-------_______",
         "..........-------_______",
-        ".[.....%%%----%%%_______",
-        "....[..####o*o###_______",
+        "..........-------_______",
+        ".......%%%----%%%_______",
+        ".......####o*o###_______",
         ".......#L y   ii#_______",
         ".......#        #_______",
-        ".%%%%%%#§|R  &|>#%%%%%%.",
-        ".%######||R  &||##oo##%.",
+        ".%%%%%%#§|R  Ə|>#%%%%%%.",
+        ".%######||R  Ə||##oo##%.",
         ".%#QwBB|RRR        Ey#%.",
         ".%o,,,,+       ys    #%.",
         "..#tS88|y //// VH l a#..",
@@ -169,23 +164,21 @@
         "..#F,,,  |<|y    h h #..",
         "..o5,,,  |||T   hfff o..",
         ".%oO,6|  iii     fffho%.",
-        ".%#J16|y     y&  h h #%.",
+        ".%#J16|y     yƏ  h h #%.",
         ".%##oo#####¶:#####oo##%.",
         ".%%%%%%...----...%%%%%%.",
         "..[.....................",
         "......................[."
       ],
       "terrain": { "#": "t_wall_g", ",": "t_linoleum_gray", "A": "t_linoleum_gray", "/": "t_carpet_yellow" },
-      "furniture": { "§": "f_rack", "&": "f_table" },
-      "items": {
-        "§": { "item": "clothing_outdoor_shoes", "chance": 30, "repeat": [ 1, 2 ] },
-        "&": { "item": "table_foyer", "chance": 30 }
-      },
-      "place_vehicles": [ { "vehicle": "car", "x": 22, "y": 4, "chance": 15, "rotation": 90 } ]
+      "furniture": { "§": "f_rack" },
+      "items": { "§": { "item": "clothing_outdoor_shoes", "chance": 30, "repeat": [ 1, 2 ] } },
+      "place_vehicles": [ { "vehicle": "car", "x": 22, "y": 4, "chance": 15, "rotation": 90 } ],
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 2, "y": 2 } ]
     }
   },
   {
-    "//": "ground floor: layout b ",
+    "//": "ground floor: layout 2 ",
     "type": "mapgen",
     "om_terrain": "2Story02_1",
     "weight": 50,
@@ -204,11 +197,11 @@
         "_______...----........[.",
         "_______..p----..........",
         "_______####o*o###.......",
-        "_______#q|&֎֎֎+L#.[.....",
+        "_______#q|Ə֎֎֎+L#.[.....",
         "_______#$+ ֎֎b||#!!!!...",
         "..!!!!!#$+     >#!!!!...",
         "..######|||  |||##oo##..",
-        "..#BBS8|&&T    h h yy#..",
+        "..#BBS8|ƏƏT    h h yy#..",
         "..o,,,,+       fff   #..",
         "..#ww,8|RRR   hfffh a#..",
         ".^#||||||||     h   a#..",
@@ -233,17 +226,14 @@
         "A": "t_linoleum_gray",
         "/": "t_carpet_yellow"
       },
-      "furniture": { "&": "f_table", "$": "f_rack" },
-      "items": {
-        "$": { "item": "clothing_outdoor_shoes", "chance": 50, "repeat": [ 1, 2 ] },
-        "&": { "item": "table_foyer", "chance": 30 }
-      },
+      "furniture": { "$": "f_rack" },
+      "items": { "$": { "item": "clothing_outdoor_shoes", "chance": 50, "repeat": [ 1, 2 ] } },
       "place_loot": [ { "item": "television", "x": 5, "y": 13 } ],
       "place_vehicles": [ { "vehicle": "car", "x": 4, "y": 4, "chance": 20, "rotation": 90 } ]
     }
   },
   {
-    "//": "second floor: layout a ",
+    "//": "second floor: layout 1 ",
     "type": "mapgen",
     "om_terrain": "2Story02_2",
     "weight": 50,
@@ -262,7 +252,7 @@
         ".......#||b   @@#.......",
         "..##oo## +    @@##oo##..",
         "..#rh R|v|D    ¤|D  $#..",
-        "..#r  R||||+|||||D  $#..",
+        "..#r  R||||+|||||D  ɸ#..",
         ".^#| |||iii yRRR||| |#..",
         "..#b  +          +  |#..",
         "..o  y| {{{{{{{{ |  %o..",
@@ -271,7 +261,7 @@
         "..#¤  | {{>|||||||b T#^.",
         "..o@@ |    |BB_Y8|   o..",
         "..o@@ |R   +____S|@@ o..",
-        "..#¤ T|RR&&|888_t|@@¤#..",
+        "..#¤ T|RRƏƏ|888_t|@@¤#..",
         "..##o####oo##oo####o##..",
         "........................",
         "........................",
@@ -285,16 +275,15 @@
         ".": "t_open_air",
         "?": "t_open_air_rooved"
       },
-      "furniture": { "$": "f_clothing_rail", "%": "f_exercise", "&": "f_table" },
+      "furniture": { "$": "f_clothing_rail", "%": "f_exercise" },
       "items": {
-        "&": { "item": "table_foyer", "chance": 30 },
         "$": [ { "item": "dress_shop", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "jackets", "chance": 30, "repeat": [ 1, 2 ] } ]
       },
       "place_loot": [ { "item": "laptop", "x": 3, "y": 10 } ]
     }
   },
   {
-    "//": "second floor: layout b ",
+    "//": "second floor: layout 2 ",
     "type": "mapgen",
     "om_terrain": "2Story02_2",
     "weight": 50,
@@ -313,16 +302,16 @@
         ".......#I  @@  ~#.......",
         "..##oo##  ¤@@¤  ##oo##..",
         "..#rrrT|++||||   +  d#..",
-        "..#   d|DD|UU| &b|d d#..",
-        ".^#R  d||||++|+||||||#..",
+        "..#   d|DD|UU| Əb|d d#..",
+        ".^#R  D||||++|+||||||#..",
         "..#¤    +        |wQ|#..",
         "..o@@   |{{{{{{{ +  zo..",
-        "..o@@ bD|??????{ |zzzo..",
+        "..o@@ bɸ|??????{ |zzzo..",
         "..#||||||??????{ ||||#..",
         "..#II  d||>{{{{{ |S_8#^.",
         "..oh    +        +__8o..",
         "..o     |       R|___o..",
-        "..#@@¤ T|y& rrr R|BBt#..",
+        "..#@@¤ T|yƏ rrr R|BBt#..",
         "..##o####oo##oo####o##..",
         "........................",
         "........................",
@@ -337,9 +326,8 @@
         "Q": "t_floor",
         "w": "t_floor"
       },
-      "furniture": { "$": "f_clothing_rail", "&": "f_table", "~": "f_treadmill" },
+      "furniture": { "$": "f_clothing_rail", "~": "f_treadmill" },
       "items": {
-        "&": { "item": "table_foyer", "chance": 30 },
         "$": [ { "item": "dress_shop", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "jackets", "chance": 30, "repeat": [ 1, 2 ] } ]
       },
       "place_loot": [
@@ -357,7 +345,6 @@
   {
     "type": "mapgen",
     "om_terrain": "2Story02_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -388,7 +375,11 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 6, "y": 13 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": 15, "y": 11 }
+      ]
     }
   }
 ]

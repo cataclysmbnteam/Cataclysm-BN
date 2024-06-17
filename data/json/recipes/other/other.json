@@ -289,17 +289,17 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [
-        [ "meat_red", 1, "LIST" ],
+        [ "meat_sausage_raw", 1, "LIST" ],
+        [ "sausage_cooked", 1, "LIST" ],
         [ "fish", 1 ],
         [ "corn", 1 ],
         [ "irradiated_corn", 1 ],
         [ "irradiated_carrot", 1 ],
         [ "carrot", 1 ],
-        [ "bread", 1 ],
-        [ "wastebread", 1 ],
-        [ "cornbread", 1 ],
+        [ "bread_sandwich", 1, "LIST" ],
         [ "macaroni_raw", 1 ],
-        [ "spaghetti_raw", 1 ]
+        [ "spaghetti_raw", 1 ],
+        [ "noodles_fast", 1 ]
       ]
     ]
   },

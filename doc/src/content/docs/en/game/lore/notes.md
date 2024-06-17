@@ -25,11 +25,11 @@ The spread seems to halt at roughly 1% of body mass, though exact numbers are di
 thanks to the risk of mid-autopsy revivification.
 
 The reason why earlier reports confined revivification to humans was that the process requires a
-critical amount of XE-037 within the body, not as a percent but as pure weight. Around half a pound
-seems to be enough to insure a post-mortem takeover. Animals small enough that 1% of body mass falls
-below this threshold thus fail to revivify, and the infection shrinks and then dies several hours
-after it’s host organism has passed. In larger animals, expiration seems to serve only to raise the
-cap on XE-037 within the body - expiration quickly leads to the XE-037 breaking down many of the now
+critical amount of XE-037 within the body, not as a percent but as pure weight. Around 250g seems to
+be enough to insure a post-mortem takeover. Animals small enough that 1% of body mass falls below
+this threshold thus fail to revivify, and the infection shrinks and then dies several hours after
+it’s host organism has passed. In larger animals, expiration seems to serve only to raise the cap on
+XE-037 within the body - expiration quickly leads to the XE-037 breaking down many of the now
 inactive bits of it’s host until it makes up almost 4% of body mass. At some point towards the end
 of this process, the host organism revives in the manner we are all, by now, familiar with,
 seemingly under the full control of the substance.

@@ -325,7 +325,7 @@
       "BAROMETER",
       "HYGROMETER",
       "WINDMETER",
-      "USE_UPS",
+      "RECHARGE",
       "NO_UNLOAD",
       "NO_RELOAD",
       "POWERARMOR_COMPATIBLE"
@@ -336,7 +336,7 @@
     "initial_charges": 80,
     "max_charges": 120,
     "charges_per_use": 1,
-    "use_action": [ "PORTABLE_GAME", "WEATHER_TOOL" ]
+    "use_action": [ "PORTABLE_GAME", "WEATHER_TOOL", "TOGGLE_UPS_CHARGING" ]
   },
   {
     "id": "holo_cloak",
@@ -1270,7 +1270,7 @@
     "category": "clothing",
     "name": { "str": "light survivor mask" },
     "description": "A custom-built, reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
-    "weight": "466 g",
+    "weight": "500 g",
     "volume": "1250 ml",
     "price": "240 USD",
     "price_postapoc": "15 USD",

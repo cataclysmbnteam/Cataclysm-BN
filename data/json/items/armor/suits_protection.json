@@ -534,7 +534,7 @@
     "type": "ARMOR",
     "name": { "str": "gambeson" },
     "description": "A thick jacket of quilted fabric extending down to your knees, designed to be worn underneath mail or other armor.  Or worn on its own, if you can't afford proper armor.",
-    "weight": "453 g",
+    "weight": "500 g",
     "volume": "3 L",
     "price": "200 USD",
     "price_postapoc": "750 cent",

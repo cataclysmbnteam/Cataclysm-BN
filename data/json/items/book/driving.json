@@ -39,7 +39,7 @@
     "copy-from": "base_book",
     "name": { "str": "The Rules of the Road", "str_pl": "copies of The Rules of the Road" },
     "description": "A thick textbook for beginning drivers.  It contains chapters on laws, safe vehicle operation, and defensive driving concepts.",
-    "weight": "404 g",
+    "weight": "400 g",
     "volume": "500 ml",
     "price": "22 USD",
     "price_postapoc": "250 cent",

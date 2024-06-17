@@ -265,6 +265,13 @@
   },
   {
     "type": "keybinding",
+    "id": "EXAMINE",
+    "category": "INVENTORY",
+    "name": "Examine item",
+    "bindings": [ { "input_method": "keyboard", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ENABLE_MAPEXTRA_NOTE",
     "category": "AUTO_NOTES",
     "name": "Enable auto note for map extra",

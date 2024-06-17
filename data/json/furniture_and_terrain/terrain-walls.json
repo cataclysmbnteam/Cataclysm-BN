@@ -1276,6 +1276,7 @@
     "symbol": "\"",
     "color": "light_gray",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "hacksaw": {
       "result": "t_floor",
       "duration": "15 minutes",

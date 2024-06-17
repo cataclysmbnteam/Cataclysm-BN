@@ -22,7 +22,7 @@
     "copy-from": "base_book",
     "name": { "str": "The Gun Owner's Handbook", "str_pl": "copies of The Gun Owner's Handbook" },
     "description": "A thick soft-cover book that claims to be a complete guide to safely operating, maintaining, and repairing firearms.",
-    "weight": "462 g",
+    "weight": "500 g",
     "volume": "500 ml",
     "price": "38 USD",
     "price_postapoc": "1250 cent",

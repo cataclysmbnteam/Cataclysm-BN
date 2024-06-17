@@ -2325,6 +2325,7 @@ class item : public location_visitable<item>, public game_object<item>
         void add_component( detached_ptr<item> &&comp );
         const location_vector<item> &get_components() const;
         location_vector<item> &get_components();
+        const mtype *get_corpse_mon() const;
     private:
         location_vector<item> components;
         const itype *curammo = nullptr;

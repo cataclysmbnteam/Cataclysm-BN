@@ -359,6 +359,16 @@
   },
   {
     "type": "city_building",
+    "id": "bungalow29",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, -1 ], "overmap": "bungalow29_basement_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "bungalow29_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bungalow29_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "urban_1_house",
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "urban_1_1_south" },

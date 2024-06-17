@@ -578,7 +578,7 @@
   {
     "type": "item_group",
     "id": "fridge",
-    "//": "This is a terrible item group and should be phased out.  See SUS_fridge in SUS - > domestic.json for a more modern take on things.",
+    "//": "Generic fridge kept for compatibility but use should be kept to a minimum.  Ideally use SUS_fridge for household fridges.",
     "subtype": "distribution",
     "entries": [
       { "item": "water_clean", "prob": 90 },
