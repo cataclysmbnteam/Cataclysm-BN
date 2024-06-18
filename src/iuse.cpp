@@ -1604,22 +1604,24 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
 
         if( mon.type->id == mon_dog_thing ) {
             p->deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 1, 10 ) ) );
-            p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
+            p->add_msg_if_player( m_bad, _( "You want to feed it the pet food, but it bites your fingers!" ) );
             if( one_in( 5 ) ) {
                 p->add_msg_if_player(
-                    _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
+                    _( "Apparently it's more interested in your flesh than the pet food in your hand!" ) );
                 p->consume_charges( *it, 1 );
                 return 0;
             }
         }
 
-        p->add_msg_if_player( _( "You feed your % 1$s to the % 2$s." ), it->tname(), mon.get_name() );
+        p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon.get_name() );
 
         if( petfood.feed.empty() ) {
             p->add_msg_if_player( _( "The %1$s is your pet now!" ), mon.get_name() );
+        } else {
+            p->add_msg_if_player( _( petfood.feed ), mon.get_name() );
         }
 
-        mon.friendly = -1;
+        mon.make_pet();
         p->consume_charges( *it, 1 );
         return 0;
     }
