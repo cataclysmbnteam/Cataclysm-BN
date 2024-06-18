@@ -41,10 +41,10 @@
       "BLEED",
       "PUSH_MON",
       "DESTROYS",
-      "CATTLEFODDER",
       "GROUP_MORALE",
       "GOODHEARING",
       "SWARMS"
-    ]
+    ],
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
   }
 ]
