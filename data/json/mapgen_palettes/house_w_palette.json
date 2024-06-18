@@ -77,9 +77,8 @@
       "5": "t_region_groundcover_barren",
       "6": { "param": "house_w_nest_carpet_type" },
       "?": "t_console_broken"
-    },"items": {
-"v": { "item": "guns_safe", "chance": 100 }
-      },
+    },
+    "items": { "v": { "item": "guns_safe", "chance": 100 } },
     "toilets": { "t": {  } },
     "liquids": { "g": { "liquid": "water", "amount": [ 0, 100 ] } }
   },
