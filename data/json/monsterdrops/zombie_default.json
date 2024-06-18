@@ -229,12 +229,28 @@
     "groups": [
       [ "default_zombie_items_bags", 16 ],
       [ "default_zombie_items_pockets", 20 ],
-      [ "ammo_pistol_common", 2 ],
-      [ "ammo_shotgun_common", 1 ],
-      [ "carried_guns_pistol_common", 2 ],
-      [ "carried_guns_shotgun_common", 1 ],
+      [ "default_zombie_carried_guns", 6 ],
       [ "postman_gear", 5 ],
       [ "hardware_plumbing", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "default_zombie_carried_guns",
+    "entries": [
+      { "group": "carried_guns_pistol_common", "prob": 45 },
+      { "group": "carried_guns_shotgun_common", "prob": 20 },
+      { "group": "carried_guns_rifle_common", "prob": 20 },
+      { "group": "guns_pistol_improvised", "prob": 5 },
+      { "group": "guns_shotgun_improvised", "prob": 5 },
+      { "group": "guns_rifle_improvised", "prob": 5 },
+      { "group": "ammo_pistol_common", "prob": 45 },
+      { "group": "ammo_shotgun_common", "prob": 20 },
+      { "group": "ammo_rifle_common", "prob": 20 },
+      { "group": "ammo_pistol_reloaded", "prob": 5 },
+      { "group": "ammo_shotgun_reloaded", "prob": 5 },
+      { "group": "ammo_rifle_reloaded", "prob": 5 }
     ]
   },
   {
