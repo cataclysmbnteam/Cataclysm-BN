@@ -1159,11 +1159,10 @@
 	"subtype": "distribution",
     "items": [
       { "group": "guns_pistol_common", "prob": 50 },
-      { "group": "guns_pistol_common", "prob": 20 },
       { "group": "guns_pistol_rare", "prob": 10 },
       { "group": "guns_pistol_obscure", "prob": 5 },
       { "group": "guns_smg_common", "prob": 20 },
-      { "group": "guns_smg_rare", "prob": 1 },
+      { "group": "guns_smg_rare", "prob": 2 },
       { "group": "guns_smg_obscure", "prob": 1 },
       { "group": "guns_shotgun_common", "prob": 75 },
       { "group": "guns_shotgun_rare", "prob": 10 },
@@ -1172,7 +1171,7 @@
       { "group": "guns_rifle_rare", "prob": 5 },
       { "group": "guns_rifle_obscure", "prob": 1 }
     ]
-  },
+  }, 
   {
     "type": "item_group",
     "id": "guns_safe",
