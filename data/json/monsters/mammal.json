@@ -1829,7 +1829,7 @@
     "harvest": "mammal_large_leather",
     "upgrades": { "age_grow": 450, "into": "mon_horse" },
     "special_attacks": [ [ "EAT_CROP", 100 ] ],
-    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },    
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED" ]
   },
   {
@@ -2112,18 +2112,8 @@
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 38, "into": "mon_pig" },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },    
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "PET_WONT_FOLLOW",
-      "WARM",
-      "KEENNOSE",
-      "BLEED"
-    ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM", "KEENNOSE", "BLEED" ]
   },
   {
     "id": "mon_pig",
