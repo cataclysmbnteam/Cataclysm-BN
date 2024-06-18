@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "2storyModern02_basement",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
@@ -22,9 +21,9 @@
         "^^^^^^^^^^^|_h__|b__R|^^",
         "^^^^^^^^^^^|rrrv||_RR|^^",
         "^^|||||||||||||||<_|||^^",
-        "^^|UUU  ? = ZW|%||_|w|^^",
+        "^^|UUU  ? = ZW|Ə||_|w|^^",
         "^^|           |____+_|^^",
-        "^^|N          +__%%|w|^^",
+        "^^|N          +__ƏƏ|w|^^",
         "^^|N          ||||||||^^",
         "^^|   ~~ zz   |^^^^^^^^^",
         "^^|qqq~~gzzmmm|^^^^^^^^^",
@@ -42,33 +41,20 @@
         "e": "t_floor",
         "$": "t_floor",
         "r": "t_floor",
-        "%": "t_floor",
+        "Ə": "t_floor",
         "R": "t_floor",
         "V": "t_floor",
         "b": "t_floor",
         "T": "t_floor",
         "&": "t_floor"
       },
-      "furniture": {
-        "!": "f_crate_c",
-        "$": "f_counter",
-        "%": "f_table",
-        "&": "f_glass_cabinet",
-        "=": "f_sink",
-        "~": "f_chair",
-        "?": "f_home_furnace"
-      },
-      "items": {
-        "$": { "item": "beer", "chance": 15 },
-        "&": { "item": "liquor_and_spirits", "chance": 50 },
-        "%": { "item": "table_foyer", "chance": 40 }
-      }
+      "furniture": { "!": "f_crate_c", "$": "f_counter", "&": "f_glass_cabinet", "=": "f_sink", "~": "f_chair", "?": "f_home_furnace" },
+      "items": { "$": { "item": "beer", "chance": 15 }, "&": { "item": "liquor_and_spirits", "chance": 50 } }
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "2storyModern02_1",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
@@ -131,7 +117,6 @@
   {
     "type": "mapgen",
     "om_terrain": "2storyModern02_2",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
@@ -142,19 +127,19 @@
         ".........||$z|B88St||...",
         ".........|$ z|B____Q|...",
         ".........||+|||+|||||...",
-        ".........o      | !@|...",
+        ".........o      | ¤@|...",
         ".........oy     |  @o...",
         ".........||sET  +   o^..",
         "..........||o|| ||++|...",
         "..............| V|Dd||..",
         "..............| V||||||.",
-        "..||oo||......o V|   !|.",
+        "..||oo||......o V|ɸ  ¤|.",
         ".||y  d||.....| y|  @@o.",
         ".|    d||oo|oo|  |  @@o.",
-        ".|!   d|y        +   !|.",
+        ".|¤   d|y        +   ¤|.",
         ".o@@   +         ||+|||.",
         ".o@@   |RRR RRR|>|D d||.",
-        ".|!    ||||+||||o||o||..",
+        ".|¤    ||||+||||o||o||..",
         ".||+||+|     R|.........",
         ".||d||D|  h  R|.........",
         "..||||||Yrrr ||.........",
@@ -163,14 +148,13 @@
         "........................"
       ],
       "terrain": { ".": "t_open_air", "|": "t_strconc_wall", "_": "t_linoleum_gray" },
-      "furniture": { "!": "f_table", "$": "f_clothing_rail" },
-      "items": { "!": { "item": "nightstand", "chance": 30 }, "$": { "item": "clothing_outdoor_shoes", "chance": 30 } }
+      "furniture": { "$": "f_clothing_rail" },
+      "items": { "$": { "item": "clothing_outdoor_shoes", "chance": 30 } }
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "2storyModern02_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -201,7 +185,11 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof", " ": "t_open_air" }
+      "terrain": { ".": "t_shingle_flat_roof", " ": "t_open_air" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 8, "y": 15 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": 12, "y": 3 }
+      ]
     }
   }
 ]
