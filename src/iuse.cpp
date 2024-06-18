@@ -1522,135 +1522,113 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-// Types of petfood for taming each different monster.
-enum Petfood {
-    DOGFOOD,
-    CATFOOD,
-    CATTLEFODDER,
-    BIRDFOOD
-};
-
-static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const char *message )
+int iuse::petfood( player *p, item *it, bool, const tripoint & )
 {
-    if( mon.has_flag( food_flag ) ) {
-        p.add_msg_if_player( m_good, message, mon.get_name() );
-        mon.make_pet();
-        p.consume_charges( it, 1 );
-        return 0;
-    } else {
-        p.add_msg_if_player( _( "The %s doesn't want that kind of food." ), mon.get_name() );
+    if( !it->is_comestible() ) {
+        p->add_msg_if_player( _( "You doubt someone would want to eat % 1$s." ), it->tname() );
         return 0;
     }
-}
 
-static int petfood( player &p, item &it, Petfood animal_food_type )
-{
     const std::optional<tripoint> pnt_ = choose_adjacent( string_format(
             _( "Tame which animal with the %s?" ),
-            it.tname() ) );
+            it->tname() ) );
     if( !pnt_ ) {
         return 0;
     }
     const tripoint pnt = *pnt_;
-    p.moves -= to_moves<int>( 1_seconds );
+    p->moves -= to_moves<int>( 1_seconds );
 
     // First a check to see if we are trying to feed a NPC dog food.
-    if( animal_food_type == DOGFOOD && g->critter_at<npc>( pnt ) != nullptr ) {
+    if( g->critter_at<npc>( pnt ) != nullptr ) {
         if( npc *const person_ = g->critter_at<npc>( pnt ) ) {
             npc &person = *person_;
-            if( query_yn( _( "Are you sure you want to feed a person the dog food?" ) ) ) {
-                p.add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it.tname(),
-                                     person.name );
-                if( person.is_ally( p ) || x_in_y( 9, 10 ) ) {
+            if( query_yn( _( "Are you sure you want to feed a person the pet food?" ) ) ) {
+                p->add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it->tname(),
+                                      person.name );
+                if( person.is_ally( *p ) || x_in_y( 9, 10 ) ) {
                     person.say(
-                        _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
-                    p.consume_charges( it, 1 );
+                        _( "Okay, but please, don't give me this again.  I don't want to eat pet food in the cataclysm all day." ) );
+                    p->consume_charges( *it, 1 );
                     return 0;
                 } else {
-                    p.add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name );
+                    p->add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name );
                     person.make_angry();
-                    p.consume_charges( it, 1 );
+                    p->consume_charges( *it, 1 );
                     return 0;
                 }
             } else {
-                p.add_msg_if_player( _( "Never mind." ) );
+                p->add_msg_if_player( _( "Never mind." ) );
                 return 0;
             }
         }
+
         // Then monsters.
     } else if( monster *const mon_ptr = g->critter_at<monster>( pnt, true ) ) {
         monster &mon = *mon_ptr;
 
         if( mon.is_hallucination() ) {
-            p.add_msg_if_player( _( "You try to feed the %s some %s, but it vanishes!" ),
-                                 mon.type->nname(), it.tname() );
+            p->add_msg_if_player( _( "You try to feed the %s some %s, but it vanishes!" ),
+                                  mon.type->nname(), it->tname() );
             mon.die( nullptr );
             return 0;
         }
 
         // Feral survivors don't get to tame normal critters.
-        if( p.has_trait( trait_PROF_FERAL ) ) {
+        if( p->has_trait( trait_PROF_FERAL ) ) {
             // TODO: Allow player ferals to tame zombie animals, but make sure non-feral players
             // can't tame them, and for flavor possibly only allow taming with meat-based items.
-            p.add_msg_if_player( _( "You reach for the %s, but it recoils away from you!" ),
-                                 mon.type->nname() );
+            p->add_msg_if_player( _( "You reach for the %s, but it recoils away from you!" ),
+                                  mon.type->nname() );
             return 0;
         }
 
-        // This switch handles each petfood for each type of tameable monster.
-        switch( animal_food_type ) {
-            case DOGFOOD:
-                if( mon.type->id == mon_dog_thing ) {
-                    p.deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 1, 10 ) ) );
-                    p.add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
-                    if( one_in( 5 ) ) {
-                        p.add_msg_if_player(
-                            _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
-                        p.consume_charges( it, 1 );
-                        return 0;
-                    }
-                } else {
-                    return feedpet( p, mon, it, MF_DOGFOOD,
-                                    _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
+        //check to see if the item has a petfood data entry deterimine if the item can be fed to a bet
+        bool can_feed = false;
+        const pet_food_data &petfood = mon.type->petfood;
+        const std::set<std::string> &itemfood = it->get_comestible()->petfood;
+        if( !petfood.food.empty() ) {
+            for( const std::string &food : petfood.food ) {
+                if( itemfood.find( food ) != itemfood.end() ) {
+                    can_feed = true;
+                    break;
                 }
-                break;
-            case CATFOOD:
-                return feedpet( p, mon, it, MF_CATFOOD,
-                                _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ) );
-            case CATTLEFODDER:
-                return feedpet( p, mon, it, MF_CATTLEFODDER,
-                                _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
-            case BIRDFOOD:
-                return feedpet( p, mon, it, MF_BIRDFOOD,
-                                _( "The %s seems to like you!  It runs around your legs and seems friendly." ) );
+            }
         }
 
-    } else {
-        p.add_msg_if_player( _( "There is nothing to be fed here." ) );
+        //if the item cannot be fed, give a message to the player and return
+        if( !can_feed ) {
+            p->add_msg_if_player( _( "The %s doesn't want that kind of food." ),
+                                  mon.type->nname() );
+            return 0;
+        }
+
+        if( mon.type->id == mon_dog_thing ) {
+            p->deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 1, 10 ) ) );
+            p->add_msg_if_player( m_bad, _( "You want to feed it the pet food, but it bites your fingers!" ) );
+            if( one_in( 5 ) ) {
+                p->add_msg_if_player(
+                    _( "Apparently it's more interested in your flesh than the pet food in your hand!" ) );
+                p->consume_charges( *it, 1 );
+                return 0;
+            }
+        }
+
+        p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon.get_name() );
+
+        if( petfood.feed.empty() ) {
+            p->add_msg_if_player( _( "The %1$s is your pet now!" ), mon.get_name() );
+        } else {
+            p->add_msg_if_player( _( petfood.feed ), mon.get_name() );
+        }
+
+        mon.make_pet();
+        p->consume_charges( *it, 1 );
         return 0;
     }
 
-    return 1;
-}
+    p->add_msg_if_player( _( "There is nothing to be fed here." ) );
+    return 0;
 
-int iuse::dogfood( player *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, DOGFOOD );
-}
-
-int iuse::catfood( player *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, CATFOOD );
-}
-
-int iuse::feedcattle( player *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, CATTLEFODDER );
-}
-
-int iuse::feedbird( player *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, BIRDFOOD );
 }
 
 int iuse::radio_mod( player *p, item *, bool, const tripoint & )

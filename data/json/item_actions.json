@@ -356,11 +356,6 @@
   },
   {
     "type": "item_action",
-    "id": "CATFOOD",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
     "id": "CHAINSAW_OFF",
     "name": { "str": "Turn on" }
   },
@@ -441,7 +436,7 @@
   },
   {
     "type": "item_action",
-    "id": "DOGFOOD",
+    "id": "PETFOOD",
     "name": { "str": "Place" }
   },
   {
@@ -1073,16 +1068,6 @@
     "type": "item_action",
     "id": "unfold_vehicle",
     "name": { "str": "Unfold" }
-  },
-  {
-    "type": "item_action",
-    "id": "CATTLEFODDER",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
-    "id": "BIRDFOOD",
-    "name": { "str": "Place" }
   },
   {
     "type": "item_action",

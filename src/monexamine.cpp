@@ -145,8 +145,7 @@ bool monexamine::pet_menu( monster &z )
     } else if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         amenu.addentry( mon_armor_add, true, 'a', _( "Equip %s with armor" ), pet_name );
     }
-    if( z.has_flag( MF_BIRDFOOD ) || z.has_flag( MF_CATFOOD ) || z.has_flag( MF_DOGFOOD ) ||
-        z.has_flag( MF_CANPLAY ) ) {
+    if( z.has_flag( MF_CANPLAY ) ) {
         amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
     }
     if( z.has_effect( effect_tied ) ) {

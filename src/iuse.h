@@ -61,10 +61,7 @@ int marloss( player *, item *, bool, const tripoint & );
 int marloss_seed( player *, item *, bool, const tripoint & );
 int marloss_gel( player *, item *, bool, const tripoint & );
 int mycus( player *, item *, bool, const tripoint & );
-int dogfood( player *, item *, bool, const tripoint & );
-int catfood( player *, item *, bool, const tripoint & );
-int feedcattle( player *, item *, bool, const tripoint & );
-int feedbird( player *, item *, bool, const tripoint & );
+int petfood( player *, item *, bool, const tripoint & );
 int antiasthmatic( player *, item *, bool, const tripoint & );
 // TOOLS
 int extinguisher( player *, item *, bool, const tripoint & );

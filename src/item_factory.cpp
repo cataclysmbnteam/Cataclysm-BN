@@ -919,13 +919,10 @@ void Item_factory::init()
     add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
     add_iuse( "CARVER_OFF", &iuse::carver_off );
     add_iuse( "CARVER_ON", &iuse::carver_on );
-    add_iuse( "CATFOOD", &iuse::catfood );
-    add_iuse( "CATTLEFODDER", &iuse::feedcattle );
     add_iuse( "CHAINSAW_OFF", &iuse::chainsaw_off );
     add_iuse( "CHAINSAW_ON", &iuse::chainsaw_on );
     add_iuse( "CHEW", &iuse::chew );
     add_iuse( "RPGDIE", &iuse::rpgdie );
-    add_iuse( "BIRDFOOD", &iuse::feedbird );
     add_iuse( "BURROW", &iuse::burrow );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
@@ -947,7 +944,6 @@ void Item_factory::init()
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
     add_iuse( "DISASSEMBLE", &iuse::disassemble );
     add_iuse( "CRAFT", &iuse::craft );
-    add_iuse( "DOGFOOD", &iuse::dogfood );
     add_iuse( "DOG_WHISTLE", &iuse::dog_whistle );
     add_iuse( "DOLLCHAT", &iuse::talking_doll );
     add_iuse( "ECIG", &iuse::ecig );
@@ -1016,6 +1012,7 @@ void Item_factory::init()
     add_iuse( "OXYTORCH", &iuse::oxytorch );
     add_iuse( "PACK_CBM", &iuse::pack_cbm );
     add_iuse( "PACK_ITEM", &iuse::pack_item );
+    add_iuse( "PETFOOD", &iuse::petfood );
     add_iuse( "PHEROMONE", &iuse::pheromone );
     add_iuse( "PICK_LOCK", &iuse::pick_lock );
     add_iuse( "PICKAXE", &iuse::pickaxe );
@@ -2229,6 +2226,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
     assign( jo, "cooks_like", slot.cooks_like, strict );
     assign( jo, "smoking_result", slot.smoking_result, strict );
+    assign( jo, "petfood", slot.petfood, strict );
 
     for( const JsonObject &jsobj : jo.get_array( "contamination" ) ) {
         slot.contamination.emplace( diseasetype_id( jsobj.get_string( "disease" ) ),
