@@ -36,7 +36,7 @@
         "w": { "item": "casings", "chance": 60, "repeat": 4 },
         "%": { "item": "casings", "chance": 66, "repeat": 150 },
         "#": { "item": "casings", "chance": 40 },
-        "c": { "item": "ear_protection", "chance": 10 },        "X": { "group": "guns_safe", , "repeat": [ 1, 3 ] },
+        "c": { "item": "ear_protection", "chance": 10 },        "X": { "item": "guns_safe", "chance": 100  },
         "d": { "item": "ear_protection", "chance": 80 }
       },
       "rows": [

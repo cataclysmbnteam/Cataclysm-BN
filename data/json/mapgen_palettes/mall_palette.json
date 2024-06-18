@@ -246,7 +246,9 @@
       "9": "t_carpet_yellow",
       "?": "t_console_broken",
       "§": "t_water_pool_shallow_outdoors"
-    },
+    }, "items": {
+"v": { "item": "guns_safe" }
+      },
     "toilets": { "t": {  } }
   },
   {

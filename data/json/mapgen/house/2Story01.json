@@ -124,7 +124,7 @@
         "N": "t_thconc_floor"
       },
       "furniture": { "{": "f_counter", "c": "f_boulder_large", "}": "f_gunsafe_ml", "=": "f_clothing_rail", "/": "f_rack" },
-      "items": { "}": { "item": "guns_pistol_common", "chance": 100 }, "=": { "item": "jackets", "chance": 50, "repeat": [ 2, 4 ] } },
+      "items": { "}": { "item": "guns_safe", "chance": 100 }, "=": { "item": "jackets", "chance": 50, "repeat": [ 2, 4 ] } },
       "place_loot": [
         { "group": "liquor_and_spirits", "x": [ 11, 14 ], "y": 16, "repeat": [ 2, 4 ] },
         { "item": "log", "x": 2, "y": [ 5, 8 ], "repeat": [ 2, 3 ] }

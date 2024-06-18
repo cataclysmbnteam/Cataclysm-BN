@@ -1151,5 +1151,36 @@
       { "group": "everyday_sks", "prob": 10 },
       { "group": "everyday_aksemi", "prob": 5 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_safe",
+    "//": "Guns found in a gun safe.",
+	"subtype": "collection",
+    "items": [
+      { "group": "guns_pistol_common", "prob": 50 },
+      { "group": "guns_pistol_common", "prob": 20 },
+      { "group": "guns_pistol_rare", "prob": 10 },
+      { "group": "guns_pistol_obscure", "prob": 5 },
+      { "group": "guns_smg_common", "prob": 20 },
+      { "group": "guns_smg_rare", "prob": 1 },
+      { "group": "guns_smg_obscure", "prob": 1 },
+      { "group": "guns_shotgun_common", "prob": 75 },
+      { "group": "guns_shotgun_common", "prob": 25 },
+      { "group": "guns_shotgun_rare", "prob": 10 },
+      { "group": "guns_shotgun_obscure", "prob": 1 },
+      { "group": "guns_rifle_common", "prob": 75 },
+      { "group": "guns_rifle_common", "prob": 25 },
+      { "group": "guns_rifle_rare", "prob": 5 },
+      { "group": "guns_rifle_obscure", "prob": 1 },
+      { "group": "ammo_common", "prob": 95 },
+      { "group": "ammo_common", "prob": 50 },
+      { "group": "ammo_rare", "prob": 20 },
+      { "group": "ammo_obscure", "prob": 5 },
+      { "group": "ammo_pistol_reloaded", "prob": 15 },
+      { "group": "ammo_shotgun_reloaded", "prob": 15 },
+      { "group": "ammo_rifle_reloaded", "prob": 15 },
+	  { "group": "maps", "prob": 1000 }
+    ]
   }
 ]
