@@ -88,6 +88,7 @@
         "a": { "item": "trash_dumpster", "chance": 80 },
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
         "d": { "item": "office", "chance": 30 },
+        "g": { "item": "guns_safe", "chance": 100 },
         "{": [ { "item": "ranch_homebooks", "chance": 30 }, { "item": "book_survival", "chance": 30 } ],
         "^": { "item": "bed", "chance": 30 },
         "o": { "item": "oven", "chance": 30, "repeat": [ 1, 2 ] },

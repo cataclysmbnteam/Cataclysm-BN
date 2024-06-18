@@ -79,7 +79,7 @@
           { "item": "SUS_wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] }
         ],
         "]": { "item": "nightstand", "chance": 40 },
-        "c": { "item": "guns_pistol_common", "chance": 50 },
+        "c": { "item": "guns_safe", "chance": 100 },
         "(": { "item": "table_foyer", "chance": 50, "repeat": [ 1, 2 ] }
       },
       "place_loot": [ { "item": "television", "x": 4, "y": 6, "chance": 100 } ]

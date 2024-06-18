@@ -203,7 +203,7 @@
     "subtype": "collection",
     "items": [
       [ "money_bundle", 20 ],
-      { "group": "mansion_ammo", "prob": 60 },
+      { "group": "mansion_ammo", "prob": 100 },
       { "group": "mansion_guns", "prob": 40 },
       { "group": "mansion_guns", "prob": 80 },
       { "group": "mansion_guns", "prob": 95 }
