@@ -436,6 +436,11 @@
   },
   {
     "type": "item_action",
+    "id": "PETFOOD",
+    "name": { "str": "Place" }
+  },
+  {
+    "type": "item_action",
     "id": "DOG_WHISTLE",
     "name": { "str": "Blow" }
   },

@@ -592,7 +592,6 @@
     "color": "brown",
     "flags": [ "INEDIBLE", "CATTLE" ],
     "use_action": [ "PETFOOD" ],
-    "use_action": [ "PETFOOD" ],
     "petfood": [ "CATTLEFOOD", "DINOFOOD_C" ]
   },
   {
