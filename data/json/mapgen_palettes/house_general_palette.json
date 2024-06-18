@@ -156,6 +156,7 @@
         { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "maps", "chance": 2 },
         { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
       "w": [
         { "item": "shower", "chance": 20 },
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
