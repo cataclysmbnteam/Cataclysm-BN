@@ -739,10 +739,10 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
             *i, q,
             "--\n"
             "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-            "<color_c_white>Calories (kcal)</color>: <color_c_yellow>268</color>-"
+            "<color_c_white>Calories (kcal)</color>: <color_c_yellow>235</color>-"
             "<color_c_yellow>716</color>  Quench: <color_c_yellow>0</color>\n"
-            "Vitamins (RDA): Calcium (5-35%), Iron (0-98%), "
-            "Vitamin A (2-11%), Vitamin B12 (1-6%), and Vitamin C (1-85%)\n");
+            "Vitamins (RDA): Calcium (3-35%), Iron (0-98%), "
+            "Vitamin A (0-11%), Vitamin B12 (0-6%), and Vitamin C (0-85%)\n");
     }
 }
 

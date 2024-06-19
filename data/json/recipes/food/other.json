@@ -1487,7 +1487,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
-      [ [ "milk_standard", 1, "LIST" ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "milk_substitute_standard", 1, "LIST" ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [
         [ "chocolate_any", 1, "LIST" ],
         [ "candy", 1 ],
@@ -1512,7 +1512,7 @@
     "batch_time_factors": [ 50, 3 ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
-      [ [ "milk_standard", 1, "LIST" ] ],
+      [ [ "milk_substitute_standard", 1, "LIST" ] ],
       [
         [ "chocolate_any", 2, "LIST" ],
         [ "candy", 2 ],
@@ -1539,7 +1539,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
-      [ [ "milk_standard", 2, "LIST" ] ],
+      [ [ "milk_substitute_standard", 2, "LIST" ] ],
       [
         [ "chocolate_any", 1, "LIST" ],
         [ "candy", 1 ],
@@ -1570,7 +1570,7 @@
     "book_learn": [ [ "mag_cooking", 0 ] ],
     "components": [
       [ [ "water_clean", 2 ] ],
-      [ [ "milk_standard", 2, "LIST" ] ],
+      [ [ "milk_substitute_standard", 2, "LIST" ] ],
       [
         [ "chocolate_any", 1, "LIST" ],
         [ "candy", 1 ],
@@ -1628,7 +1628,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
-      [ [ "milk_standard", 2, "LIST" ] ],
+      [ [ "milk_substitute_standard", 2, "LIST" ] ],
       [
         [ "chocolate_any", 1, "LIST" ],
         [ "candy", 1 ],
@@ -1692,7 +1692,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
-      [ [ "milk_standard", 1, "LIST" ] ],
+      [ [ "milk_substitute_standard", 1, "LIST" ] ],
       [
         [ "chocolate_any", 1, "LIST" ],
         [ "candy", 1 ],
