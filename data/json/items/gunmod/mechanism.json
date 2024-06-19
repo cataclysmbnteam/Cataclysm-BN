@@ -84,7 +84,7 @@
     "symbol": ":",
     "color": "red",
     "location": "mechanism",
-    "mod_targets": [ "glock_17", "glock_19", "glock_21", "glock_22", "glock_31" ],
+    "mod_targets": [ "glock_17", "glock_19", "glock_20", "glock_21", "glock_22", "glock_31" ],
     "install_time": "10 m",
     "min_skills": [ [ "weapon", 5 ] ],
     "dispersion_modifier": 65,
