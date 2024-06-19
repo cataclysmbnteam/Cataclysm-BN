@@ -31,7 +31,7 @@
     "id": "glock20drum50rd",
     "copy-from": "glock_drum_50rd",
     "type": "MAGAZINE",
-    "name": { "str": "Glock 50-round drum magazine" },
+    "name": { "str": "Glock 20 50-round drum magazine" },
     "description": "Made to fit most Glock pistols.  This drum magazine holds 50 rounds.",
     "weight": "160 g",
     "volume": "500 ml",
