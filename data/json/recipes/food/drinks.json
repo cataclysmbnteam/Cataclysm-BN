@@ -814,11 +814,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [
-      [ [ "tea_raw", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "milk_substitute_standard", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "tea_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "milk_substitute_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -831,11 +827,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [
-      [ [ "coffee_raw", 1 ] ],
-      [ [ "milk_substitute_standard", 1, "LIST" ] ],
-      [ [ "water_clean", 1 ], [ "water", 1 ] ]
-    ]
+    "components": [ [ [ "coffee_raw", 1 ] ], [ [ "milk_substitute_standard", 1, "LIST" ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -847,11 +839,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
-    "components": [
-      [ [ "coffee_raw", 1 ] ],
-      [ [ "milk_substitute_standard", 1, "LIST" ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
-    ]
+    "components": [ [ [ "coffee_raw", 1 ] ], [ [ "milk_substitute_standard", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -969,11 +957,7 @@
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [
-      [ [ "coffee_syrup", 1 ] ],
-      [ [ "milk_substitute_standard", 1, "LIST" ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
-    ]
+    "components": [ [ [ "coffee_syrup", 1 ] ], [ [ "milk_substitute_standard", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1003,11 +987,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 5 ],
     "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
-    "components": [
-      [ [ "coffee_syrup", 1 ] ],
-      [ [ "milk_substitute_standard", 1, "LIST" ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
-    ]
+    "components": [ [ [ "coffee_syrup", 1 ] ], [ [ "milk_substitute_standard", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
