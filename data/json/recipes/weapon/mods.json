@@ -326,7 +326,7 @@
   },
   {
     "type": "recipe",
-    "result": "gswitch",
+    "result": "glockswitch",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
