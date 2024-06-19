@@ -126,7 +126,7 @@
     "replace": "pistol_medium"
   },
   {
-    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico" ],
+    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "mkg_guard" ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
