@@ -74,7 +74,7 @@
     "id": "gswitch",
     "type": "GUNMOD",
     "name": { "str": "glock switch" },
-    "description": "Patented in 1998 the Glock auto-sear or switch as it is called was illegal due to being able to turn Glock firearms full auto by applying force to a Glock's trigger bar. The switch allows for selective fire modes, a single shot or when flipped, a six round full auto fire.",
+    "description": "Patented in 1998 the Glock auto-sear or switch as it is called was illegal due to being able to turn Glock firearms full auto by applying force to a Glock's trigger bar.  The switch allows for selective fire modes, a single shot or when flipped, a six round full auto fire.",
     "weight": "20 g",
     "volume": "100 ml",
     "integral_volume": "0 ml",
