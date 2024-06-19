@@ -285,8 +285,8 @@
     "magazines": [ [ "45", [ "glock_21mag", "glock_21mag26" ] ] ]
   },
   {
-    "id":"mkg_guard",
-	"looks_like": "ar15",
+    "id": "mkg_guard",
+    "looks_like": "ar15",
     "copy-from": "rifle_semi",
     "type": "GUN",
     "name": { "str": "CMMG MkG Guard" },
