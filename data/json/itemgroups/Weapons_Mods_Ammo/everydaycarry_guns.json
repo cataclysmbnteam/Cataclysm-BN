@@ -1370,6 +1370,27 @@
     ]
   },
   {
+    "id": "everyday_colt_python",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "colt_python", "ammo-group": "on_hand_357_38mixed", "charges": [ 0, 6 ] },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "38_speedloader6", "ammo-group": "on_hand_357_38mixed" },
+              { "item": "38_speedloader6", "ammo-group": "on_hand_357_38mixed", "prob": 50 }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_357_38mixed", "prob": 50 }
+        ]
+      }
+    ]
+  },
+  {
     "id": "everyday_model_10_revolver",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
