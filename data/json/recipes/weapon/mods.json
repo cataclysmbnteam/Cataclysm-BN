@@ -326,6 +326,31 @@
   },
   {
     "type": "recipe",
+    "result": "glockswitch",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "pistol", 3 ] ],
+    "difficulty": 4,
+    "time": "1 h",
+    "//": "Slightly hard to make but worth it if you want to turn your glock full auto.",
+    "book_learn": [ [ "textbook_anarch", 3 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "tools": [
+      [
+        [ "glock_17", -1 ],
+        [ "glock_19", -1 ],
+        [ "glock_20", -1 ],
+        [ "glock_21", -1 ],
+        [ "glock_22", -1 ],
+        [ "glock_31", -1 ]
+      ],
+      [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
+    ],
+    "components": [ [ [ "sheet_metal_small", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "bow_sight",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
