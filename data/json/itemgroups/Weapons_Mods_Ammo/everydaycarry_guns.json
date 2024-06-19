@@ -22,6 +22,18 @@
     ]
   },
   {
+    "id": "everyday_glock_20",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "glock_20", "ammo-group": "on_hand_10mm", "charges": [ 0, 15 ] },
+      { "group": "nested_glock20_mag", "charges-min": 0 },
+      { "group": "nested_glock20_mag", "charges-min": 0, "prob": 50 }
+    ]
+  },
+  {
     "id": "everyday_glock_21",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

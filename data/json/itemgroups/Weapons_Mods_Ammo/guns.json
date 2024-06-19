@@ -6,6 +6,7 @@
     "items": [
       { "group": "nested_glock_17", "prob": 35 },
       { "group": "nested_glock_19", "prob": 50 },
+      { "group": "nested_glock_20", "prob": 10 },
       { "group": "nested_glock_21", "prob": 8 },
       { "group": "nested_glock_22", "prob": 35 },
       { "group": "nested_glock_31", "prob": 15 },
@@ -49,6 +50,7 @@
     "items": [
       { "group": "everyday_glock_17", "prob": 35 },
       { "group": "everyday_glock_19", "prob": 50 },
+      { "group": "everyday_glock_20", "prob": 10 },
       { "group": "everyday_glock_21", "prob": 8 },
       { "group": "everyday_glock_22", "prob": 35 },
       { "group": "everyday_glock_31", "prob": 15 },
