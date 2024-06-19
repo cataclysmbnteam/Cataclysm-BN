@@ -165,7 +165,7 @@
     "color": "light_gray",
     "price": "1599 USD",
     "price_postapoc": "20 USD",
-    "material": [ "steel", "wood" ],
+    "material": [ "steel", "wood" ], 
     "ammo": [ "357mag", "38" ],
     "magazines": [ [ "38", [ "38_speedloader6" ] ] ],
     "dispersion": 280,
