@@ -22,7 +22,7 @@
     "magazines": [ [ "10mm", [ "glock20mag", "glock20bigmag", "glock20drum50rd" ] ] ]
   },
   {
-	"id": "asr_10mm",
+    "id": "asr_10mm",
     "looks_like": "cx4",
     "copy-from": "rifle_manual",
     "type": "GUN",
