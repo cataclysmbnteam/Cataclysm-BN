@@ -71,6 +71,27 @@
     "flags": [ "INSTALL_DIFFICULT" ]
   },
   {
+    "id": "gswitch",
+    "type": "GUNMOD",
+    "name": { "str": "glock switch" },
+    "description": "The Glock auto-sear was patented in 1998 but was considered illegal as it was classified as a machine gun, however with the end of the world no one is around to stop you creating them now.",
+    "weight": "20 g",
+    "volume": "100 ml",
+    "integral_volume": "0 ml",
+    "price": "100 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "red",
+    "location": "mechanism",
+    "mod_targets": [ "glock_17", "glock_19", "glock_21", "glock_22", "glock_31" ],
+    "install_time": "10 m",
+    "min_skills": [ [ "weapon", 5 ] ],
+    "dispersion_modifier": 65,
+    "mode_modifier": [ [ "DEFAULT", "auto", 6 ] ],
+    "flags": [ "INSTALL_DIFFICULT" ]
+  },
+  {
     "id": "waterproof_gunmod",
     "type": "GUNMOD",
     "name": { "str": "firearm waterproofing" },
