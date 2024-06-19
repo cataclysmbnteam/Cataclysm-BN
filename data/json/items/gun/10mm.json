@@ -20,5 +20,29 @@
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 570,
     "magazines": [ [ "10mm", [ "glock20mag", "glock20bigmag", "glock20drum50rd" ] ] ]
+  },
+  {
+	"id": "asr_10mm",
+    "looks_like": "cx4",
+    "copy-from": "rifle_manual",
+    "type": "GUN",
+    "name": { "str": "TNW Aero Survival Rifle" },
+    "description": "A pistol caliber carbine made of aircraft aluminum.  This is the 10mm version and can use Glock 20 magazines.",
+    "weight": "2580 g",
+    "volume": "1500 ml",
+    "price": "600 USD",
+    "price_postapoc": "50 USD",
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "color": "dark_gray",
+    "ammo": "10mm",
+    "range": 20,
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
+    "dispersion": 170,
+    "durability": 10,
+    "min_cycle_recoil": 500,
+    "barrel_length": "250 ml",
+    "magazine_well": "150 ml",
+    "magazines": [ [ "10mm", [ "glock20mag", "glock20bigmag", "glock20drum50rd" ] ] ]
   }
 ]
