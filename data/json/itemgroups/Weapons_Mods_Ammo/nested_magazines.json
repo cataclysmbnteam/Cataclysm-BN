@@ -44,7 +44,8 @@
     "ammo": 100,
     "entries": [
       { "item": "glock_21mag", "ammo-group": "on_hand_45", "prob": 100 },
-      { "item": "glock_21mag26", "ammo-group": "on_hand_45", "prob": 5 }
+      { "item": "glock_21mag26", "ammo-group": "on_hand_45", "prob": 5 },
+      { "item": "glock21drum40rd", "ammo-group": "on_hand_45", "prob": 5 }
     ]
   },
   {
@@ -205,7 +206,8 @@
     "entries": [
       { "item": "tdi_mag", "ammo-group": "on_hand_45", "prob": 100 },
       { "item": "glock_21mag", "ammo-group": "on_hand_45", "prob": 5 },
-      { "item": "glock_21mag26", "ammo-group": "on_hand_45", "prob": 5 }
+      { "item": "glock_21mag26", "ammo-group": "on_hand_45", "prob": 5 },
+      { "item": "glock21drum40rd", "ammo-group": "on_hand_45", "prob": 5 }
     ]
   },
   {

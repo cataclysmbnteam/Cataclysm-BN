@@ -170,6 +170,7 @@
       [ "glock_drum_50rd", 5 ],
       [ "glock_drum_100rd", 5 ],
       [ "glock_21mag26", 5 ],
+      [ "glock21drum40rd", 5 ],
       [ "90two40mag", 5 ],
       [ "deaglemag", 40 ],
       [ "fn57mag", 80 ],
