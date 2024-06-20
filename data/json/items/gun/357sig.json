@@ -27,7 +27,7 @@
     "volume": "443 ml",
     "price_postapoc": "2250 cent",
     "ammo": [ "357sig" ],
-    "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag" ] ] ]
+    "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
   },
   {
     "id": "p320_357sig",

@@ -1225,6 +1225,19 @@
     ]
   },
   {
+    "id": "nested_mkg_banshee",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mkg_banshee", "ammo-group": "on_hand_40", "charges": [ 0, 15 ] },
+      { "group": "nested_glock22_mag" },
+      { "group": "nested_glock22_mag", "prob": 50 },
+      { "group": "on_hand_40" }
+    ]
+  },
+  {
     "id": "nested_ksub2000",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
