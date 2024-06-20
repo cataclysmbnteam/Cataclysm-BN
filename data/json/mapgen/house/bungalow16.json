@@ -16,7 +16,7 @@
         ".#R   l H#%--%#&&,,,}r#.",
         ".#R x l H#%--%#&&,,,,r#.",
         ".#    l H##o*##|,,,,,P#.",
-        ".o  |||||||L |c+,{$$,,o.",
+        ".o  |||||||L |v+,{$$,,o.",
         ".#  |BtS8Q|  |||||||+|#.",
         ".#  |B____+  ((      T#^",
         ".#  |||||||           #.",
@@ -65,7 +65,6 @@
         "0": "f_table",
         "{": "f_wardrobe",
         "}": "f_chair",
-        "c": "f_gunsafe_ml",
         "]": "f_table",
         "(": "f_table"
       },
@@ -79,7 +78,6 @@
           { "item": "SUS_wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] }
         ],
         "]": { "item": "nightstand", "chance": 40 },
-        "c": { "item": "guns_safe", "chance": 100 },
         "(": { "item": "table_foyer", "chance": 50, "repeat": [ 1, 2 ] }
       },
       "place_loot": [ { "item": "television", "x": 4, "y": 6, "chance": 100 } ]

@@ -1480,6 +1480,7 @@
       { "item": "knife_trench", "prob": 14 },
       { "item": "switchblade", "prob": 15 },
       { "item": "bondage_mask", "prob": 1 },
+      { "group": "auto_sears", "prob": 20 },
       { "item": "survnote", "prob": 5 },
       { "item": "thermos", "prob": 25 }
     ]
@@ -1548,6 +1549,7 @@
       { "item": "soap", "prob": 5 },
       { "item": "detergent", "prob": 5 },
       { "item": "knitting_needles", "prob": 1 },
+      { "group": "auto_sears", "prob": 5 },
       { "item": "survnote", "prob": 2 }
     ]
   },

@@ -1090,5 +1090,19 @@
       { "item": "ref_lighter", "prob": 10 },
       { "item": "electric_lighter", "prob": 10 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "house_safe_misc",
+    "//": "A distribution of miscellaneous items that might be stashed in a household safe, not counting guns.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "everyday_gear", "prob": 30 },
+      { "group": "home_display_case", "prob": 20 },
+      { "group": "harddrugs", "prob": 25 },
+      { "group": "homebooks", "prob": 10 },
+      { "group": "art", "prob": 10 },
+      { "group": "gemstones", "prob": 5 }
+    ]
   }
 ]
