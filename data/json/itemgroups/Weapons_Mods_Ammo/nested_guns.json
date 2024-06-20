@@ -79,6 +79,19 @@
     ]
   },
   {
+    "id": "nested_ar_357sig",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ar_357sig", "ammo-group": "on_hand_357sig", "charges": [ 0, 15 ] },
+      { "group": "nested_glock22_mag" },
+      { "group": "nested_glock22_mag", "prob": 50 },
+      { "group": "on_hand_357sig" }
+    ]
+  },
+  {
     "id": "nested_asr_10mm",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
