@@ -135,7 +135,6 @@ static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
@@ -149,7 +148,6 @@ static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_stock_small( "stock_small" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS" );
 static const itype_id itype_bio_armor( "bio_armor" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 static const itype_id itype_water( "water" );
@@ -9704,9 +9702,7 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
 
     // for items in player possession if insufficient charges within tool try UPS
     if( carrier && ( self->has_flag( flag_USE_UPS ) ) ) {
-        if( carrier->use_charges_if_avail( itype_adv_UPS_off, energy ) ) {
-            energy = 0;
-        } else if( carrier->use_charges_if_avail( itype_UPS_off, energy ) ) {
+        if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
             energy = 0;
         }
     }
