@@ -1953,5 +1953,27 @@
       "terrain": { "_": [ [ "t_window_open", 9 ], "t_window_no_curtains_open" ] },
       "furniture": { "_": "f_grid_air_conditioner_off" }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "house_chunk_spawn_firesafe",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "S" ],
+      "furniture": { "S": "f_safe_l" },
+      "items": { "S": { "item": "house_safe", "chance": 100 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "house_chunk_spawn_gunsafe",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "S" ],
+      "furniture": { "S": [ "f_gun_safe_el", "f_gunsafe_ml" ] },
+      "items": { "S": { "item": "guns_safe", "chance": 100 } }
+    }
   }
 ]

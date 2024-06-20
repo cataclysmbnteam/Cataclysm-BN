@@ -1182,9 +1182,9 @@
     "subtype": "collection",
     "items": [
       { "group": "guns_safe_pistols", "prob": 75 },
-      { "group": "guns_safe_pistols", "prob": 25 },
+      { "group": "guns_safe_pistols", "prob": 50 },
       { "group": "gunmod_common", "prob": 25 },
-      { "group": "house_safe_misc", "count": [ 2, 5 ] }
+      { "group": "house_safe_misc", "prob": 100, "count": [ 2, 5 ] }
     ]
   },
   {
@@ -1211,7 +1211,7 @@
       { "group": "gunmod_rare", "prob": 15 },
       { "item": "small_repairkit", "prob": 10 },
       { "item": "large_repairkit", "prob": 3 },
-      { "group": "house_safe_misc", "count": [ 1, 2 ] }
+      { "group": "house_safe_misc", "prob": 100, "count": [ 1, 2 ] }
     ]
   }
 ]

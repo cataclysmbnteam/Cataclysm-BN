@@ -40,7 +40,6 @@
       "r": "f_desk",
       "s": "f_table",
       "u": "f_rotary_clothesline",
-      "v": [ "f_gun_safe_el", "f_gunsafe_ml" ],
       "w": "f_rack_wood",
       "x": "f_entertainment_center",
       "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
@@ -149,14 +148,6 @@
       ],
       "r": [ { "item": "office_paper", "chance": 5 }, { "item": "office", "chance": 25 } ],
       "t": { "item": "SUS_toilet", "chance": 75 },
-      "v": [
-        { "item": "guns_safe", "chance": 100 },
-        { "item": "art", "chance": 5 },
-        { "item": "home_display_case", "chance": 30 },
-        { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
-        { "item": "maps", "chance": 2 },
-        { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] }
-      ],
       "w": [
         { "item": "shower", "chance": 20 },
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
@@ -223,7 +214,8 @@
     },
     "nested": {
       "ɸ": { "chunks": [ "NC_res_personal_items_1X1" ] },
-      "o": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] }
+      "o": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] },
+      "v": { "chunks": [ [ "house_chunk_spawn_firesafe", 50 ], [ "house_chunk_spawn_gunsafe", 50 ] ] }
     }
   },
   {
