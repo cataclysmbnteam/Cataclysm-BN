@@ -9705,7 +9705,7 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
     // for items in player possession if insufficient charges within tool try UPS
     if( carrier && ( self->has_flag( flag_USE_UPS ) ) ) {
         if( carrier->use_charges_if_avail( itype_adv_UPS_off, energy ) ) {
-                energy = 0;
+            energy = 0;
         } else if( carrier->use_charges_if_avail( itype_UPS_off, energy ) ) {
             energy = 0;
         }
