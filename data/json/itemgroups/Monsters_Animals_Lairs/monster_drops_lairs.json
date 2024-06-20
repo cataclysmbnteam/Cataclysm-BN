@@ -262,6 +262,7 @@
       { "item": "hk_mp5k", "prob": 4 },
       { "item": "briefcase_smg", "prob": 1 },
       { "item": "TDI", "prob": 4 },
+      { "item": "kriss_vector", "prob": 4 },
       { "item": "savage_111f", "prob": 10 },
       { "item": "ak47", "prob": 16 },
       { "item": "ak74", "prob": 4 },
