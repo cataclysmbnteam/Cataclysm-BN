@@ -67,6 +67,18 @@
     ]
   },
   {
+    "id": "everyday_asr_10mm",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "asr_10mm", "ammo-group": "on_hand_10mm", "charges": [ 0, 15 ] },
+      { "group": "nested_glock20_mag", "charges-min": 0 },
+      { "group": "nested_glock20_mag", "charges-min": 0, "prob": 50 }
+    ]
+  },
+  {
     "id": "everyday_m1911",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
