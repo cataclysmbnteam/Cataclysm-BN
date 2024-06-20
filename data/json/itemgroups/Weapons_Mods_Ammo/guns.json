@@ -425,7 +425,7 @@
       { "group": "nested_ar15", "prob": 30 },
       { "group": "nested_cx4", "prob": 45 },
       { "group": "nested_ar_357sig", "prob": 15 },
-      { "group": "nested_asr_10mm", "prob": 15 }, 
+      { "group": "nested_asr_10mm", "prob": 15 },
       { "group": "nested_ksub2000", "prob": 30 },
       { "group": "nested_m1a", "prob": 50 },
       { "group": "nested_marlin_9a", "prob": 80 },
