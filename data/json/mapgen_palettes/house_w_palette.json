@@ -79,9 +79,7 @@
     },
     "toilets": { "t": {  } },
     "liquids": { "g": { "liquid": "water", "amount": [ 0, 100 ] } },
-    "nested": {
-      "v": { "chunks": [ [ "house_chunk_spawn_firesafe", 50 ], [ "house_chunk_spawn_gunsafe", 50 ] ] }
-    }
+    "nested": { "v": { "chunks": [ [ "house_chunk_spawn_firesafe", 50 ], [ "house_chunk_spawn_gunsafe", 50 ] ] } }
   },
   {
     "type": "palette",
