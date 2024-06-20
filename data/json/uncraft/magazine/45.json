@@ -96,5 +96,12 @@
     "copy-from": "metal_magazine",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "result": "glock21drum40rd",
+    "type": "uncraft",
+    "copy-from": "metal_magazine",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 2 ] ] ]
   }
 ]
