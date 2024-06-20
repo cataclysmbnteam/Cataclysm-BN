@@ -196,6 +196,8 @@ class overmapbuffer
         void delete_extra( const tripoint_abs_omt &p );
         bool is_explored( const tripoint_abs_omt &p );
         void toggle_explored( const tripoint_abs_omt &p );
+        bool is_path( const tripoint_abs_omt &p );
+        void toggle_path( const tripoint_abs_omt &p );
         bool seen( const tripoint_abs_omt &p );
         void set_seen( const tripoint_abs_omt &p, bool seen = true );
         bool has_vehicle( const tripoint_abs_omt &p );

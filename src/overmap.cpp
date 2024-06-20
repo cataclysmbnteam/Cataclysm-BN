@@ -2940,6 +2940,7 @@ void overmap::init_layers()
                 layer[k].terrain[i][j] = tid;
                 layer[k].visible[i][j] = false;
                 layer[k].explored[i][j] = false;
+                layer[k].path[i][j] = false;
             }
         }
     }
@@ -3015,6 +3016,23 @@ bool overmap::is_explored( const tripoint_om_omt &p ) const
         return false;
     }
     return layer[p.z() + OVERMAP_DEPTH].explored[p.x()][p.y()];
+}
+
+bool &overmap::path( const tripoint_om_omt &p )
+{
+    if( !inbounds( p ) ) {
+        nullbool = false;
+        return nullbool;
+    }
+    return layer[p.z() + OVERMAP_DEPTH].path[p.x()][p.y()];
+}
+
+bool overmap::is_path( const tripoint_om_omt &p ) const
+{
+    if( !inbounds( p ) ) {
+        return false;
+    }
+    return layer[p.z() + OVERMAP_DEPTH].path[p.x()][p.y()];
 }
 
 bool overmap::mongroup_check( const mongroup &candidate ) const

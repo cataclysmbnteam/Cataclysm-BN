@@ -398,6 +398,20 @@ void overmapbuffer::toggle_explored( const tripoint_abs_omt &p )
     om_loc.om->explored( om_loc.local ) = !om_loc.om->explored( om_loc.local );
 }
 
+bool overmapbuffer::is_path( const tripoint_abs_omt &p )
+{
+    if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
+        return om_loc.om->is_path( om_loc.local );
+    }
+    return false;
+}
+
+void overmapbuffer::toggle_path( const tripoint_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    om_loc.om->path( om_loc.local ) = !om_loc.om->path( om_loc.local );
+}
+
 bool overmapbuffer::has_horde( const tripoint_abs_omt &p )
 {
     for( const auto &m : overmap_buffer.monsters_at( p ) ) {
@@ -769,7 +783,8 @@ static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path
         is_ot_match( "bridge_road", oter, ot_match_type::type ) ||
         is_ot_match( "bridgehead_ground", oter, ot_match_type::type ) ||
         is_ot_match( "bridgehead_ramp", oter, ot_match_type::type ) ||
-        is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) {
+        is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ||
+        overmap_buffer.is_path( omt_pos ) ) {
         return params.road_cost;
     } else if( is_ot_match( "field", oter, ot_match_type::type ) ) {
         return params.field_cost;
