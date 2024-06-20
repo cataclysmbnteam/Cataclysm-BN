@@ -52,7 +52,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": "250 ml",
-    "magazines": [ [ "40", [ "glock40mag", "glock40bigmag" ] ] ]
+    "magazines": [ [ "40", [ "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
   },
   {
     "id": "px4_40",
@@ -277,5 +277,27 @@
     "durability": 7,
     "magazine_well": "250 ml",
     "magazines": [ [ "40", [ "hptjcpmag" ] ] ]
+  },
+  {
+    "id": "mkg_banshee",
+    "looks_like": "mkg_guard",
+    "copy-from": "rifle_semi",
+    "type": "GUN",
+    "name": { "str": "CMMG MkG Banshee" },
+    "description": "A semi-automatic rifle using .40 S&W rounds.  It is also compatible with Glock 22 magazines.",
+    "weight": "2200 g",
+    "volume": "2 L",
+    "barrel_length": "250 ml",
+    "price": "1675 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "steel", "plastic" ],
+    "color": "dark_gray",
+    "ammo": "40",
+    "range": 20,
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
+    "dispersion": 170,
+    "durability": 10,
+    "min_cycle_recoil": 400,
+    "magazines": [ [ "40", [ "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
   }
 ]

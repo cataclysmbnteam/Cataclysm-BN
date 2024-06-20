@@ -55,7 +55,8 @@
     "ammo": 100,
     "entries": [
       { "item": "glock40mag", "ammo-group": "on_hand_40", "prob": 100 },
-      { "item": "glock40bigmag", "ammo-group": "on_hand_40", "prob": 5 }
+      { "item": "glock40bigmag", "ammo-group": "on_hand_40", "prob": 5 },
+      { "item": "glock40drum50rd", "ammo-group": "on_hand_40", "prob": 5 }
     ]
   },
   {
