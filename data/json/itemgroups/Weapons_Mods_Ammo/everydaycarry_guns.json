@@ -39,7 +39,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "entries": [
-      { "item": "glock_21", "ammo-group": "on_hand_45", "charges": [ 0, 15 ] },
+      { "item": "glock_21", "ammo-group": "on_hand_45", "charges": [ 0, 13 ] },
       { "group": "nested_glock21_mag", "charges-min": 0 },
       { "group": "nested_glock21_mag", "charges-min": 0, "prob": 50 }
     ]
@@ -846,6 +846,17 @@
       { "item": "cx4", "ammo-group": "on_hand_9mm", "charges": [ 0, 15 ] },
       { "group": "nested_m9_mag", "charges-min": 0 },
       { "group": "nested_m9_mag", "charges-min": 0, "prob": 50 }
+    ]
+  },
+  {
+    "id": "everyday_mkg_guard",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mkg_guard", "ammo-group": "on_hand_45", "charges": [ 0, 13 ] },
+      { "group": "nested_glock21_mag", "charges-min": 0 },
+      { "group": "nested_glock21_mag", "charges-min": 0, "prob": 50 }
     ]
   },
   {

@@ -46,7 +46,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_21", "ammo-group": "on_hand_45", "charges": [ 0, 15 ] },
+      { "item": "glock_21", "ammo-group": "on_hand_45", "charges": [ 0, 13 ] },
       { "group": "nested_glock21_mag" },
       { "group": "nested_glock21_mag", "prob": 50 },
       { "group": "on_hand_45" }
@@ -1209,6 +1209,19 @@
       { "group": "nested_m9_mag" },
       { "group": "nested_m9_mag", "prob": 50 },
       { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_mkg_guard",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mkg_guard", "ammo-group": "on_hand_45", "charges": [ 0, 13 ] },
+      { "group": "nested_glock21_mag" },
+      { "group": "nested_glock21_mag", "prob": 50 },
+      { "group": "on_hand_45" }
     ]
   },
   {
