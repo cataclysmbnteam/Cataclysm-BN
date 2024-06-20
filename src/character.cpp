@@ -10245,7 +10245,7 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
             // (eg: if 5, consumes either 2 or 3)
             std::vector<detached_ptr<item>> found = use_charges( itype_adv_UPS_off, adv - adv_odd );
             res.insert( res.end(), std::make_move_iterator( found.begin() ),
-                    std::make_move_iterator( found.end() ) );
+                        std::make_move_iterator( found.end() ) );
             qty -= std::min( qty, static_cast<int>( adv / 0.5 ) );
         }
 
