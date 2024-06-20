@@ -26,7 +26,6 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
-    "ammo": 100,
     "entries": [
       { "item": "glock_20", "ammo-group": "on_hand_10mm", "charges": [ 0, 15 ] },
       { "group": "nested_glock20_mag", "charges-min": 0 },
@@ -71,7 +70,6 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
-    "ammo": 100,
     "entries": [
       { "item": "asr_10mm", "ammo-group": "on_hand_10mm", "charges": [ 0, 15 ] },
       { "group": "nested_glock20_mag", "charges-min": 0 },
@@ -173,8 +171,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "p226_357sig", "ammo-group": "on_hand_357sig", "charges": [ 0, 12 ] },
-      { "item": "p226mag_12rd_357sig", "ammo-group": "on_hand_357sig" },
-      { "item": "p226mag_12rd_357sig", "ammo-group": "on_hand_357sig", "prob": 50 }
+      { "item": "p226mag_12rd_357sig", "charges-min": 0, "ammo-group": "on_hand_357sig" },
+      { "item": "p226mag_12rd_357sig", "charges-min": 0, "ammo-group": "on_hand_357sig", "prob": 50 }
     ]
   },
   {
@@ -184,8 +182,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "p320_357sig", "ammo-group": "on_hand_357sig", "charges": [ 0, 13 ] },
-      { "item": "p320mag_13rd_357sig", "ammo-group": "on_hand_357sig" },
-      { "item": "p320mag_13rd_357sig", "ammo-group": "on_hand_357sig", "prob": 50 }
+      { "item": "p320mag_13rd_357sig", "charges-min": 0, "ammo-group": "on_hand_357sig" },
+      { "item": "p320mag_13rd_357sig", "charges-min": 0, "ammo-group": "on_hand_357sig", "prob": 50 }
     ]
   },
   {
@@ -415,8 +413,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "m1911a1_38super", "ammo-group": "on_hand_38super", "charges": [ 0, 9 ] },
-      { "item": "m1911mag_10rd_38super", "ammo-group": "on_hand_38super" },
-      { "item": "m1911mag_10rd_38super", "ammo-group": "on_hand_38super", "prob": 50 }
+      { "item": "m1911mag_10rd_38super", "charges-min": 0, "ammo-group": "on_hand_38super" },
+      { "item": "m1911mag_10rd_38super", "charges-min": 0, "ammo-group": "on_hand_38super", "prob": 50 }
     ]
   },
   {
@@ -492,8 +490,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "m17", "charges": [ 0, 17 ] },
-      { "item": "p320mag_17rd_9x19mm", "ammo-group": "on_hand_9mm" },
-      { "item": "p320mag_17rd_9x19mm", "ammo-group": "on_hand_9mm", "prob": 50 }
+      { "item": "p320mag_17rd_9x19mm", "charges-min": 0, "ammo-group": "on_hand_9mm" },
+      { "item": "p320mag_17rd_9x19mm", "charges-min": 0, "ammo-group": "on_hand_9mm", "prob": 50 }
     ]
   },
   {
@@ -569,8 +567,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "m1911-460", "charges": [ 0, 7 ] },
-      { "group": "nested_m1911_mag_460" },
-      { "group": "nested_m1911_mag_460", "prob": 50 }
+      { "group": "nested_m1911_mag_460", "charges-min": 0 },
+      { "group": "nested_m1911_mag_460", "charges-min": 0, "prob": 50 }
     ]
   },
   {
@@ -811,8 +809,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "garand", "ammo-group": "on_hand_3006", "charges": [ 0, 8 ] },
-      { "item": "garandclip", "ammo-group": "on_hand_3006" },
-      { "item": "garandclip", "ammo-group": "on_hand_3006", "prob": 50 }
+      { "item": "garandclip", "charges-min": 0, "ammo-group": "on_hand_3006" },
+      { "item": "garandclip", "charges-min": 0, "ammo-group": "on_hand_3006", "prob": 50 }
     ]
   },
   {
@@ -822,8 +820,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "ar10", "ammo-group": "on_hand_308", "charges": [ 0, 20 ] },
-      { "item": "ar10mag_20rd", "ammo-group": "on_hand_308" },
-      { "item": "ar10mag_20rd", "ammo-group": "on_hand_308", "prob": 50 }
+      { "item": "ar10mag_20rd", "charges-min": 0, "ammo-group": "on_hand_308" },
+      { "item": "ar10mag_20rd", "charges-min": 0, "ammo-group": "on_hand_308", "prob": 50 }
     ]
   },
   {
@@ -1014,8 +1012,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "iwi_tavor_x95_300blk", "ammo-group": "on_hand_300BLK", "charges": [ 0, 30 ] },
-      { "group": "nested_stanag_mag_300" },
-      { "group": "nested_stanag_mag_300", "prob": 50 }
+      { "group": "nested_stanag_mag_300", "charges-min": 0 },
+      { "group": "nested_stanag_mag_300", "charges-min": 0, "prob": 50 }
     ]
   },
   {
@@ -1063,8 +1061,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "stanag100", "ammo-group": "on_hand_223", "container-item": "m27iar", "charges": [ 0, 100 ] },
-      { "item": "stanag100", "ammo-group": "on_hand_223" },
-      { "item": "stanag100", "prob": 50, "ammo-group": "on_hand_223" }
+      { "item": "stanag100", "charges-min": 0, "ammo-group": "on_hand_223" },
+      { "item": "stanag100", "charges-min": 0, "prob": 50, "ammo-group": "on_hand_223" }
     ]
   },
   {
@@ -1238,8 +1236,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "acr_300blk", "charges": [ 0, 30 ] },
-      { "group": "nested_stanag_mag_300" },
-      { "group": "nested_stanag_mag_300", "prob": 50 }
+      { "group": "nested_stanag_mag_300", "charges-min": 0 },
+      { "group": "nested_stanag_mag_300", "charges-min": 0, "prob": 50 }
     ]
   },
   {
@@ -1352,8 +1350,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "38_speedloader5", "ammo-group": "on_hand_38" },
-              { "item": "38_speedloader5", "ammo-group": "on_hand_38", "prob": 50 }
+              { "item": "38_speedloader5", "charges-min": 0, "ammo-group": "on_hand_38" },
+              { "item": "38_speedloader5", "charges-min": 0, "ammo-group": "on_hand_38", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1373,8 +1371,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "40_speedloader6", "ammo-group": "on_hand_40sw_or_10mm" },
-              { "item": "40_speedloader6", "ammo-group": "on_hand_40sw_or_10mm", "prob": 50 }
+              { "item": "40_speedloader6", "charges-min": 0, "ammo-group": "on_hand_40sw_or_10mm" },
+              { "item": "40_speedloader6", "charges-min": 0, "ammo-group": "on_hand_40sw_or_10mm", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1394,8 +1392,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "38_speedloader", "ammo-group": "on_hand_357_38mixed" },
-              { "item": "38_speedloader", "ammo-group": "on_hand_357_38mixed", "prob": 50 }
+              { "item": "38_speedloader", "charges-min": 0, "ammo-group": "on_hand_357_38mixed" },
+              { "item": "38_speedloader", "charges-min": 0, "ammo-group": "on_hand_357_38mixed", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1415,8 +1413,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "38_speedloader6", "ammo-group": "on_hand_357_38mixed" },
-              { "item": "38_speedloader6", "ammo-group": "on_hand_357_38mixed", "prob": 50 }
+              { "item": "38_speedloader6", "charges-min": 0, "ammo-group": "on_hand_357_38mixed" },
+              { "item": "38_speedloader6", "charges-min": 0, "ammo-group": "on_hand_357_38mixed", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1436,8 +1434,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "38_speedloader6", "ammo-group": "on_hand_38" },
-              { "item": "38_speedloader6", "ammo-group": "on_hand_38", "prob": 50 }
+              { "item": "38_speedloader6", "charges-min": 0, "ammo-group": "on_hand_38" },
+              { "item": "38_speedloader6", "charges-min": 0, "ammo-group": "on_hand_38", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1467,8 +1465,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "22_speedloader8", "ammo-group": "on_hand_22" },
-              { "item": "22_speedloader8", "ammo-group": "on_hand_22", "prob": 50 }
+              { "item": "22_speedloader8", "charges-min": 0, "ammo-group": "on_hand_22" },
+              { "item": "22_speedloader8", "charges-min": 0, "ammo-group": "on_hand_22", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1488,8 +1486,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "44_speedloader6", "ammo-group": "on_hand_44" },
-              { "item": "44_speedloader6", "ammo-group": "on_hand_44", "prob": 50 }
+              { "item": "44_speedloader6", "charges-min": 0, "ammo-group": "on_hand_44" },
+              { "item": "44_speedloader6", "charges-min": 0, "ammo-group": "on_hand_44", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1509,8 +1507,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "500_speedloader5", "ammo-group": "on_hand_500" },
-              { "item": "500_speedloader5", "ammo-group": "on_hand_500", "prob": 50 }
+              { "item": "500_speedloader5", "charges-min": 0, "ammo-group": "on_hand_500" },
+              { "item": "500_speedloader5", "charges-min": 0, "ammo-group": "on_hand_500", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1530,8 +1528,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "44_speedloader6", "ammo-group": "on_hand_44" },
-              { "item": "44_speedloader6", "ammo-group": "on_hand_44", "prob": 50 }
+              { "item": "44_speedloader6", "charges-min": 0, "ammo-group": "on_hand_44" },
+              { "item": "44_speedloader6", "charges-min": 0, "ammo-group": "on_hand_44", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1565,8 +1563,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "454_speedloader5", "ammo-group": "on_hand_454_mixed" },
-              { "item": "454_speedloader5", "ammo-group": "on_hand_454_mixed", "prob": 50 }
+              { "item": "454_speedloader5", "charges-min": 0, "ammo-group": "on_hand_454_mixed" },
+              { "item": "454_speedloader5", "charges-min": 0, "ammo-group": "on_hand_454_mixed", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1586,8 +1584,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "454_speedloader6", "ammo-group": "on_hand_454_mixed" },
-              { "item": "454_speedloader6", "ammo-group": "on_hand_454_mixed", "prob": 50 }
+              { "item": "454_speedloader6", "charges-min": 0, "ammo-group": "on_hand_454_mixed" },
+              { "item": "454_speedloader6", "charges-min": 0, "ammo-group": "on_hand_454_mixed", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1642,8 +1640,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "marlin_tubeloader", "ammo-group": "on_hand_22" },
-              { "item": "marlin_tubeloader", "ammo-group": "on_hand_22", "prob": 50 }
+              { "item": "marlin_tubeloader", "charges-min": 0, "ammo-group": "on_hand_22" },
+              { "item": "marlin_tubeloader", "charges-min": 0, "ammo-group": "on_hand_22", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1663,8 +1661,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "762R_clip", "ammo-group": "on_hand_762R" },
-              { "item": "762R_clip", "ammo-group": "on_hand_762R", "prob": 50 }
+              { "item": "762R_clip", "charges-min": 0, "ammo-group": "on_hand_762R" },
+              { "item": "762R_clip", "charges-min": 0, "ammo-group": "on_hand_762R", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1684,8 +1682,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "762R_clip", "ammo-group": "on_hand_762R" },
-              { "item": "762R_clip", "ammo-group": "on_hand_762R", "prob": 50 }
+              { "item": "762R_clip", "charges-min": 0, "ammo-group": "on_hand_762R" },
+              { "item": "762R_clip", "charges-min": 0, "ammo-group": "on_hand_762R", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1719,8 +1717,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "762x39_clip", "ammo-group": "on_hand_762" },
-              { "item": "762x39_clip", "ammo-group": "on_hand_762", "prob": 50 }
+              { "item": "762x39_clip", "charges-min": 0, "ammo-group": "on_hand_762" },
+              { "item": "762x39_clip", "charges-min": 0, "ammo-group": "on_hand_762", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1775,8 +1773,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "3006_clip", "ammo-group": "on_hand_3006" },
-              { "item": "3006_clip", "ammo-group": "on_hand_3006", "prob": 50 }
+              { "item": "3006_clip", "charges-min": 0, "ammo-group": "on_hand_3006" },
+              { "item": "3006_clip", "charges-min": 0, "ammo-group": "on_hand_3006", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1796,8 +1794,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "762R_clip", "ammo-group": "on_hand_762R" },
-              { "item": "762R_clip", "ammo-group": "on_hand_762R", "prob": 50 }
+              { "item": "762R_clip", "charges-min": 0, "ammo-group": "on_hand_762R" },
+              { "item": "762R_clip", "charges-min": 0, "ammo-group": "on_hand_762R", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1817,8 +1815,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "762R_clip", "ammo-group": "on_hand_762R" },
-              { "item": "762R_clip", "ammo-group": "on_hand_762R", "prob": 50 }
+              { "item": "762R_clip", "charges-min": 0, "ammo-group": "on_hand_762R" },
+              { "item": "762R_clip", "charges-min": 0, "ammo-group": "on_hand_762R", "prob": 50 }
             ],
             "prob": 50
           },
@@ -1857,7 +1855,7 @@
       { "item": "m134", "ammo-group": "on_hand_308", "charges": [ 0, 100 ] },
       {
         "distribution": [
-          { "item": "belt308", "ammo-group": "on_hand_308", "charges": 100, "prob": 50 },
+          { "item": "belt308", "ammo-group": "on_hand_308", "charges": [ 1, 100 ], "prob": 50 },
           { "group": "on_hand_308", "prob": 50 }
         ]
       }
@@ -1872,7 +1870,7 @@
       { "item": "m240", "ammo-group": "on_hand_308", "charges": [ 0, 100 ] },
       {
         "distribution": [
-          { "item": "belt308", "ammo-group": "on_hand_308", "charges": 100, "prob": 50 },
+          { "item": "belt308", "ammo-group": "on_hand_308", "charges": [ 1, 100 ], "prob": 50 },
           { "group": "on_hand_308", "prob": 50 }
         ]
       }
@@ -1887,7 +1885,7 @@
       { "item": "m249", "ammo-group": "on_hand_223", "charges": [ 0, 100 ] },
       {
         "distribution": [
-          { "item": "belt223", "ammo-group": "on_hand_223", "charges": 100, "prob": 50 },
+          { "item": "belt223", "ammo-group": "on_hand_223", "charges": [ 1, 100 ], "prob": 50 },
           { "group": "on_hand_223", "prob": 50 }
         ]
       }
@@ -1902,7 +1900,7 @@
       { "item": "m60", "ammo-group": "on_hand_308", "charges": [ 0, 100 ] },
       {
         "distribution": [
-          { "item": "belt308", "ammo-group": "on_hand_308", "charges": 100, "prob": 50 },
+          { "item": "belt308", "ammo-group": "on_hand_308", "charges": [ 1, 100 ], "prob": 50 },
           { "group": "on_hand_308", "prob": 50 }
         ]
       }
@@ -1916,7 +1914,10 @@
     "entries": [
       { "item": "m2browning", "ammo-group": "on_hand_50", "charges": [ 0, 100 ] },
       {
-        "distribution": [ { "item": "belt50", "ammo-group": "on_hand_50", "charges": 100, "prob": 50 }, { "group": "on_hand_50", "prob": 50 } ]
+        "distribution": [
+          { "item": "belt50", "ammo-group": "on_hand_50", "charges": [ 1, 100 ], "prob": 50 },
+          { "group": "on_hand_50", "prob": 50 }
+        ]
       }
     ]
   },
@@ -2173,8 +2174,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "8x40_speedloader5", "ammo-group": "on_hand_8x40" },
-              { "item": "8x40_speedloader5", "ammo-group": "on_hand_8x40", "prob": 50 }
+              { "item": "8x40_speedloader5", "charges-min": 0, "ammo-group": "on_hand_8x40" },
+              { "item": "8x40_speedloader5", "charges-min": 0, "ammo-group": "on_hand_8x40", "prob": 50 }
             ],
             "prob": 50
           },
@@ -2234,8 +2235,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "ar15_retool_300blk", "ammo-group": "on_hand_300BLK", "charges": [ 0, 30 ] },
-      { "group": "nested_stanag_mag_300", "ammo-group": "on_hand_300BLK" },
-      { "group": "nested_stanag_mag_300", "ammo-group": "on_hand_300BLK", "prob": 50 }
+      { "group": "nested_stanag_mag_300", "charges-min": 0, "ammo-group": "on_hand_300BLK" },
+      { "group": "nested_stanag_mag_300", "charges-min": 0, "ammo-group": "on_hand_300BLK", "prob": 50 }
     ]
   },
   {
