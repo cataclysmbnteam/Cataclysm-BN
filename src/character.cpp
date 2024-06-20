@@ -10238,10 +10238,10 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
             qty -= std::min( qty, bio );
         }
 
-        int adv = charges_of( itype_adv_UPS_off, static_cast<int>( qty * 0.5 ) );
-        adv += x_in_y( static_cast<int>( qty * 5 ) % 10, 10 ) ? 1 : 0;
+        int adv_odd = x_in_y( qty % 2, 2 );
+        int adv = charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.5 ) ) );
         if( adv > 0 ) {
-            std::vector<detached_ptr<item>> found = use_charges( itype_adv_UPS_off, adv );
+            std::vector<detached_ptr<item>> found = use_charges( itype_adv_UPS_off, adv - adv_odd );
             res.insert( res.end(), std::make_move_iterator( found.begin() ),
                         std::make_move_iterator( found.end() ) );
             qty -= std::min( qty, static_cast<int>( adv / 0.5 ) );
