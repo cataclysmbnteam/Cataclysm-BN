@@ -322,6 +322,6 @@
     "min_cycle_recoil": 540,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 6 ] ],
     "magazine_well": "500 ml",
-    "magazines": [ [ "40", [ "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
+    "magazines": [ [ "40", [ "kriss_mag", "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
   }
 ]
