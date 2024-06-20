@@ -1142,12 +1142,22 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
         const auto mags = obj.magazine_compatible();
+        const std::set<ammotype> &ammo = obj.ammo_types();
 
-        src.visit_items( [&nested, &out, mags, empty]( item * node ) {
+        src.visit_items( [&nested, &out, mags, empty, &ammo]( item * node ) {
             if( node->is_gun() || node->is_tool() ) {
                 return VisitResponse::SKIP;
             }
             if( node->is_magazine() ) {
+
+                if( !node->contents.empty() ) {
+                    for( const ammotype &at : ammo ) {
+                        if( node->contents.front().ammo_type() != at ) {
+                            return VisitResponse::SKIP;
+                        }
+                    }
+                }
+
                 if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
                     out = node;
                 }

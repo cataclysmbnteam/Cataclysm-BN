@@ -20,7 +20,7 @@
     "min_cycle_recoil": 540,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 6 ] ],
     "magazine_well": "500 ml",
-    "magazines": [ [ "45", [ "tdi_mag", "glock_21mag", "glock_21mag26" ] ] ]
+    "magazines": [ [ "45", [ "tdi_mag", "glock_21mag", "glock_21mag26", "glock21drum40rd" ] ] ]
   },
   {
     "id": "hk_ump45",
@@ -278,10 +278,32 @@
     "to_hit": -2,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": [ "45" ],
+    "ammo": "45",
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 450,
     "magazine_well": "250 ml",
-    "magazines": [ [ "45", [ "glock_21mag", "glock_21mag26" ] ] ]
+    "magazines": [ [ "45", [ "glock_21mag", "glock_21mag26", "glock21drum40rd" ] ] ]
+  },
+  {
+    "id": "mkg_guard",
+    "looks_like": "ar15",
+    "copy-from": "rifle_semi",
+    "type": "GUN",
+    "name": { "str": "CMMG MkG Guard" },
+    "description": "A semi-automatic rifle using .45 ACP rounds.  It is also compatible with Glock 21 magazines.",
+    "weight": "2300 g",
+    "volume": "2 L",
+    "barrel_length": "250 ml",
+    "price": "1650 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "steel", "plastic" ],
+    "color": "dark_gray",
+    "ammo": "45",
+    "range": 20,
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
+    "dispersion": 170,
+    "durability": 10,
+    "min_cycle_recoil": 400,
+    "magazines": [ [ "45", [ "glock_21mag", "glock_21mag26", "glock21drum40rd" ] ] ]
   }
 ]

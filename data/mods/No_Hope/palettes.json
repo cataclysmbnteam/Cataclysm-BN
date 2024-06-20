@@ -71,7 +71,8 @@
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",
       "ʭ": "f_ladder",
-      "¤": "f_table"
+      "¤": "f_table",
+      "Ə": "f_table"
     },
     "terrain": {
       "a": "t_thconc_floor",
@@ -204,6 +205,7 @@
       ],
       "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
       "@": { "item": "bed", "chance": 20 },
+      "Ə": { "item": "table_foyer", "chance": 40 },
       "Z": { "item": "laundry", "chance": 20 },
       "W": { "item": "laundry", "chance": 20 },
       "z": [

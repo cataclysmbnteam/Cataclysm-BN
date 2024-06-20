@@ -2315,6 +2315,11 @@ void options_manager::add_options_world_default()
          -1, 18, 6
        );
 
+    add( "VEHICLE_DAMAGE", world_default, translate_marker( "Vehicle damage modifier" ),
+         translate_marker( "A scaling factor that determines how damaged vehicles are." ),
+         0.0, 10.0, 1, 0.1
+       );
+
     add( "SPAWN_DENSITY", world_default, translate_marker( "Spawn rate scaling factor" ),
          translate_marker( "A scaling factor that determines density of monster spawns." ),
          0.0, 50.0, 1.0, 0.1

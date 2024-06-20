@@ -71,7 +71,7 @@
     "replace": "pistol_magnum_pipe"
   },
   {
-    "id": [ "rm228", "sw_619", "ruger_redhawk", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
+    "id": [ "rm228", "sw_619", "colt_python", "ruger_redhawk", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
   },
@@ -92,6 +92,7 @@
       "tokarev",
       "rm103a_pistol",
       "glock_19",
+      "glock_20",
       "m9",
       "usp_9mm",
       "m17",
@@ -125,7 +126,7 @@
     "replace": "pistol_medium"
   },
   {
-    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico" ],
+    "id": [ "asr_10mm", "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "mkg_guard", "mkg_banshee" ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },

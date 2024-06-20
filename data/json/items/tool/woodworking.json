@@ -233,7 +233,7 @@
     "type": "GENERIC",
     "category": "tools",
     "weapon_category": [ "2H_AXES" ],
-    "name": { "str": "primtitive axe" },
+    "name": { "str": "primitive axe" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "rock", "name": "stone axe" },
       { "type": "COMPONENT_ID", "condition": "ceramic", "name": "ceramic axe" }

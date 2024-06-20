@@ -375,6 +375,11 @@ to find which flags work elsewhere.
 - `SURVIVORMAP` Learn of local points-of-interest that can help you survive, and show roads.
 - `TAZER` Shock someone or something.
 - `TELEPORT` Teleport.
+- `TOGGLE_HEATS_FOOD` Gives the item the HEATS_FOOD flag if it lacks it, or vice-versa. Used to
+  enable/disable automatically reheating food with that item when eating.
+- `TOGGLE_UPS_CHARGING` Gives the item the USE_UPS flag if it lacks it, or vice-versa. Used to
+  enable/disable recharging that item from a UPS, advanced UPS, Unified Power System CBM, etc.
+- `TELEPORT` Teleport.
 - `TORCH` Light a torch.
 - `TOURISTMAP` Learn of local points-of-interest that a tourist would like to visit, and show roads.
 - `TOWEL` Dry your character using the item as towel.

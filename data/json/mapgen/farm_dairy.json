@@ -151,14 +151,17 @@
         "b": "f_toilet",
         "c": "f_cupboard",
         "d": "f_desk",
-        "g": "f_gunsafe_ml",
         "o": "f_oven",
         "s": "f_shower",
         "t": "f_trashcan",
         "w": "f_washer",
         "{": "f_bookcase"
       },
-      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] }, "a": { "item": "trash_dumpster", "chance": 80 } },
+      "items": {
+        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
+        "a": { "item": "trash_dumpster", "chance": 80 },
+        "g": { "item": "guns_safe", "chance": 100 }
+      },
       "item": { "S": { "item": "salt_lick", "chance": 80, "repeat": [ 1, 4 ] } },
       "place_items": [
         { "item": "bed", "x": 12, "y": 16, "chance": 70 },
@@ -199,7 +202,8 @@
         { "vehicle": "cube_van_cheap", "x": 7, "y": 5, "chance": 50, "fuel": 300, "status": -1, "rotation": 0 },
         { "vehicle": "quad_bike", "x": 15, "y": 6, "chance": 30, "fuel": 200, "status": -1, "rotation": 0 },
         { "vehicle": "bicycle", "x": 13, "y": 8, "chance": 80, "fuel": 0, "status": 0, "rotation": 0 }
-      ]
+      ],
+      "nested": { "g": { "chunks": [ [ "house_chunk_spawn_firesafe", 50 ], [ "house_chunk_spawn_gunsafe", 50 ] ] } }
     }
   },
   {
