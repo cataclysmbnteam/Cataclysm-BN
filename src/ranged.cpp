@@ -3781,7 +3781,7 @@ auto ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
 
     if( gmode->get_gun_ups_drain() > 0 ) {
         const int ups_drain = gmode->get_gun_ups_drain();
-        const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
+        const int adv_ups_drain = std::max( 1, ups_drain / 2 );
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = get_player_character().mounted_creature.get();
