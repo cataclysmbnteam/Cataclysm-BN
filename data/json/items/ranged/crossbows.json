@@ -237,7 +237,7 @@
     "color": "green",
     "looks_like": "bolt_steel",
     "description": "A fletched carbon fiber crossbow bolt shaft with an expanding broadhead tip.  Deals impressive damage to targets.  Stands a good chance of remaining intact once fired.",
-    "material": [ "carbon", "steel" ],
+    "material": [ "carbon_fiber", "steel" ],
     "volume": "250 ml",
     "price_postapoc": "15 USD",
     "weight": "30 g",
@@ -443,7 +443,7 @@
     "copy-from": "rep_crossbow",
     "name": { "str": "carbon fiber repeating crossbow" },
     "description": "A custom 3D-printed pump-action repeating crossbow made out of carbon fiber and synthetic fabric.  This expensive hunting weapon is surprisingly lightweight thanks to its construction, but it can only be repaired using a 3D printer.",
-    "material": [ "carbon" ],
+    "material": [ "carbon_fiber" ],
     "valid_mod_locations": [
       [ "grip", 1 ],
       [ "mechanism", 4 ],

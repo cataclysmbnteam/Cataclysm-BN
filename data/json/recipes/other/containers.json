@@ -608,7 +608,6 @@
     "subcategory": "CSC_OTHER_CONTAINERS",
     "id_suffix": "printed",
     "skill_used": "computer",
-    "difficulty": 0,
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
     "time": "5 m",

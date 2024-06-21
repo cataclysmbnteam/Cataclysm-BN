@@ -881,7 +881,6 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "computer",
-    "difficulty": 0,
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "15 m",
     "autolearn": true,

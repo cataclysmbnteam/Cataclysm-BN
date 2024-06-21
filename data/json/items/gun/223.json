@@ -652,7 +652,7 @@
     "volume": "2 L",
     "price": "2343 USD",
     "price_postapoc": "60 USD",
-    "material": [ "carbon" ],
+    "material": [ "carbon_fiber" ],
     "color": "dark_gray",
     "ammo": "223",
     "dispersion": 150,

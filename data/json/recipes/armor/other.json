@@ -557,7 +557,6 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "computer",
-    "difficulty": 0,
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
     "time": "15 m",

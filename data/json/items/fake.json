@@ -353,14 +353,14 @@
     "copy-from": "fake_item",
     "looks_like": "3d_printer_basic",
     "type": "TOOL",
-    "name": { "str": "3D Printer" },
+    "name": { "str": "Grid 3D Printer" },
     "sub": "3d_printer_basic",
     "max_charges": 2500,
     "use_action": [
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "plastic", "carbon" ],
+        "materials": [ "plastic", "carbon_fiber" ],
         "skill": "computer",
         "cost_scaling": 0.1,
         "move_cost": 1500
@@ -373,7 +373,7 @@
     "copy-from": "fake_item",
     "looks_like": "3d_printer_advanced",
     "type": "TOOL",
-    "name": { "str": "3D Printer" },
+    "name": { "str": "Advanced Grid 3D Printer" },
     "sub": "3d_printer_advanced",
     "charges_per_use": 1,
     "max_charges": 2500,
@@ -394,7 +394,7 @@
           "superalloy",
           "glass",
           "plastic",
-          "carbon"
+          "carbon_fiber"
         ],
         "skill": "computer",
         "cost_scaling": 0.1,

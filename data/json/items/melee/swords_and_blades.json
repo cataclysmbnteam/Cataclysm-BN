@@ -1782,7 +1782,7 @@
     "name": { "str": "carbon fiber knife" },
     "description": "A custom 3D-printed combat knife made out of carbon fiber.  It is more lightweight than a normal knife thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
     "weight": "300 g",
-    "material": [ "carbon" ]
+    "material": [ "carbon_fiber" ]
   },
   {
     "id": "sword_carbon",
@@ -1790,7 +1790,7 @@
     "copy-from": "katana",
     "name": { "str": "carbon fiber sword" },
     "description": "A custom 3D-printed single-bladed sword made out of carbon fiber.  It is more lightweight than a normal sword thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
-    "material": [ "carbon" ],
+    "material": [ "carbon_fiber" ],
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   }
 ]

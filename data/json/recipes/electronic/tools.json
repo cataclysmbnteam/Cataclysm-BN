@@ -835,7 +835,7 @@
     "difficulty": 7,
     "time": "25 m",
     "book_learn": [ [ "textbook_computer", 7 ], [ "advanced_electronics", 7 ], [ "textbook_anarch", 7 ] ],
-    "using": [ [ [ "soldering_standard", 14 ] ], [ [ "welding_standard", 10 ] ] ],
+    "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "software_hacking", -1 ] ] ],
     "components": [

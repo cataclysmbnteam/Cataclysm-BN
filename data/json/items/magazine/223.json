@@ -430,7 +430,7 @@
     "volume": "500 ml",
     "price": "80 USD",
     "price_postapoc": "250 cent",
-    "material": "carbon",
+    "material": "carbon_fiber",
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
