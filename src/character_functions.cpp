@@ -69,6 +69,8 @@ static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_UPS( "UPS" );
 
+static const skill_id skill_dodge( "dodge" );
+
 namespace character_funcs
 {
 
@@ -605,7 +607,7 @@ auto uncanny_dodge_result( const Character &who ) -> UncannyDodgeResult
         return UncannyDodgeStatus::NoEnergy;
     }
 
-    if( x_in_y( 10 + who.get_dodge(), 20 ) ) {
+    if( x_in_y( 10 + who.get_skill_level( skill_dodge ), 20 ) ) {
         return UncannyDodgeStatus::DodgedWithSkill;
     }
 
@@ -636,7 +638,7 @@ bool try_uncanny_dodge( Character &who )
         [&who, is_u, seen]( const tripoint & dest )
         {
             if( is_u ) {
-                add_msg( _( "Time seems to slow down and you're ejected to safe space!" ) );
+                add_msg( _( "Time seems to slow down and you're ejected to a safe space!" ) );
             } else if( seen ) {
                 add_msg( _( "%s dodges so fast as if there's rocket attached behind!" ), who.disp_name() );
             }
