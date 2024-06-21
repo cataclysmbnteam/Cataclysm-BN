@@ -183,5 +183,40 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
+  },
+  {
+    "id": "marlin_1894c",
+    "copy-from": "rifle_manual",
+    "type": "GUN",
+    "name": { "str_sp": "Marlin 1894C" },
+    "description": "The Marlin Model 1894 is a lever-action repeating rifle.  It comes with a walnut stock and foreend.  The C version is chambered in .357 Magnum/.38 Special.",
+    "weight": "2748 g",
+    "volume": "2500 ml",
+    "price": "1230 USD",
+    "price_postapoc": "20 USD",
+    "ascii_picture": "marlin_39a",
+    "material": [ "iron", "wood" ],
+    "color": "brown",
+    "ammo": [ "357mag", "38" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
+    "dispersion": 160,
+    "blackpowder_tolerance": 56,
+    "clip_size": 9,
+    "range": 10,
+    "flags": [ "RELOAD_ONE" ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
+    ]
   }
 ]
