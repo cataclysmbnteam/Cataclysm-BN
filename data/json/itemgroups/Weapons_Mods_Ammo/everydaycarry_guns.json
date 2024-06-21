@@ -2281,8 +2281,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "carbon_pistol", "charges-min": 0, "charges-max": 15 },
-      { "item": "nested_glock17_mag", "charges-min": 0 },
-      { "item": "nested_glock17_mag", "charges-min": 0, "prob": 50 }
+      { "group": "nested_glock17_mag", "charges-min": 0 },
+      { "group": "nested_glock17_mag", "charges-min": 0, "prob": 50 }
     ]
   },
   {
