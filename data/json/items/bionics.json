@@ -978,20 +978,9 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Uncanny Dodge CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Bionic processors that augment the user's nervous system, increasing their ability to dodge while active.  Dodge skill will also allow evading attacks beyond normal human capability, such as bullets, up to 100% of the time at max level.",
+    "description": "Bionic processors that augment the user's nervous system, increasing their ability to dodge while active.  Dodge skill will also allow evading attacks beyond normal human capability, such as bullets.",
     "price": "9500 USD",
     "weight": "1000 g",
-    "difficulty": 11
-  },
-  {
-    "id": "bio_uncanny_dodge_rcs",
-    "copy-from": "bionic_general",
-    "looks_like": "bio_int_enhancer",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Uncanny Dodge Thrusters Mode CBM" },
-    "description": "Organic Reaction Control System (RCS) thrusters that allows the user to dodge attacks that would otherwise be impossible to avoid, as long as there's safe, empty space to move.  While active consumes additional 10 kcal per dodge and creates lots of exhaust gas.",
-    "price": "9 kUSD",
-    "weight": "4 kg",
     "difficulty": 11
   },
   {
