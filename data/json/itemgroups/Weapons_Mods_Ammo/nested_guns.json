@@ -1399,6 +1399,17 @@
     "entries": [ { "item": "1895sbl", "ammo-group": "on_hand_4570", "charges": [ 0, 6 ] }, { "group": "on_hand_4570" } ]
   },
   {
+    "id": "nested_marlin_1894c",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "marlin_1894c", "ammo-group": "on_hand_357_38mixed", "charges": [ 0, 9 ] },
+      { "group": "on_hand_357_38mixed" }
+    ]
+  },
+  {
     "id": "nested_aksemi",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

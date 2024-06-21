@@ -442,6 +442,7 @@
       { "group": "nested_sks", "prob": 40 },
       { "group": "nested_win70", "prob": 15 },
       { "group": "nested_1895sbl", "prob": 15 },
+      { "group": "nested_marlin_1894c", "prob": 25 },
       { "group": "nested_aksemi", "prob": 35 }
     ]
   },
@@ -471,6 +472,7 @@
       { "group": "everyday_sks", "prob": 40 },
       { "group": "everyday_win70", "prob": 15 },
       { "group": "everyday_1895sbl", "prob": 15 },
+      { "group": "everyday_marlin_1894c", "prob": 25 },
       { "group": "everyday_aksemi", "prob": 35 }
     ]
   },
@@ -499,6 +501,7 @@
       { "item": "sks", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "win70", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "marlin_1894c", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "aksemi", "prob": 35, "charges-min": 0, "charges-max": 0 }
     ]
   },
