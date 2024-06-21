@@ -1781,7 +1781,10 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
-    "entries": [ { "item": "marlin_1894c", "ammo-group": "on_hand_357_38mixed", "charges": [ 0, 9 ] }, { "group": "on_hand_357_38mixed" } ]
+    "entries": [
+      { "item": "marlin_1894c", "ammo-group": "on_hand_357_38mixed", "charges": [ 0, 9 ] },
+      { "group": "on_hand_357_38mixed" }
+    ]
   },
   {
     "id": "everyday_colt_lightning",
