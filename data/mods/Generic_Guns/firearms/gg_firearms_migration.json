@@ -126,7 +126,7 @@
     "replace": "pistol_medium"
   },
   {
-    "id": [ "asr_10mm", "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "mkg_guard", "mkg_banshee" ],
+    "id": [ "asr_10mm", "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "mkg_guard", "mkg_banshee", "ar_357sig" ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },

@@ -26,7 +26,7 @@
     "ascii_picture": "glock_20",
     "volume": "443 ml",
     "price_postapoc": "2250 cent",
-    "ammo": [ "357sig" ],
+    "ammo": "357sig",
     "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
   },
   {
@@ -47,5 +47,27 @@
     "durability": 6,
     "magazine_well": "250 ml",
     "magazines": [ [ "357sig", [ "p320mag_13rd_357sig" ] ] ]
+  },
+  {
+    "id": "ar_357sig",
+    "looks_like": "ar15",
+    "copy-from": "rifle_semi",
+    "type": "GUN",
+    "name": { "str": "Moriarti AR .357sig" },
+    "description": "A semi-automatic rifle using .357 SIG rounds, also known as Moriarti MA-357Sig-16.  It is also compatible with Glock 31 magazines.",
+    "weight": "3000 g",
+    "volume": "2 L",
+    "barrel_length": "250 ml",
+    "price": "1000 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "steel", "plastic" ],
+    "color": "dark_gray",
+    "ammo": "357sig",
+    "range": 20,
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
+    "dispersion": 170,
+    "durability": 10,
+    "min_cycle_recoil": 400,
+    "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
   }
 ]
