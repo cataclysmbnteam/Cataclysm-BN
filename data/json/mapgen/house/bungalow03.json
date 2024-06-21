@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow03",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [
@@ -23,13 +22,13 @@
         ".: ff   ||+|||||||+|#--.",
         ".:hffh  |y         yo--.",
         ".: h       y#########--.",
-        ".:y        Lo,,!!....--.",
+        ".:y        Lo,,¥¥....--.",
         ".#sHHHT   ==*,,,-------.",
         ".#H       ==*,,,-------.",
-        ".oH l      &o,,!!.......",
+        ".oH l      Əo,,¥¥.......",
         ".#H l EVV  $#%%%%%%%%%..",
         "^#|||||||  b#########%..",
-        ".#rh  +     TRR| ddD#%..",
+        ".#rh  +     TRR|ɸddD#%..",
         ".#r  P|RRR     |    #%..",
         ".#||||||||     +  @@o...",
         ".#RR    +  y|+||  @@o...",
@@ -43,20 +42,19 @@
         "_": "t_linoleum_gray",
         ",": "t_floor_noroof",
         "~": "t_shrub_lilac",
-        "!": "t_railing_v",
+        "¥": "t_railing_v",
         "=": "t_carpet_green",
         "W": "t_linoleum_gray",
         "Z": "t_linoleum_gray"
       },
-      "furniture": { "$": "f_rack", "&": "f_table" },
-      "items": { "$": { "item": "clothing_outdoor_shoes", "chance": 50 }, "&": { "item": "table_foyer", "chance": 50 } },
+      "furniture": { "$": "f_rack" },
+      "items": { "$": { "item": "clothing_outdoor_shoes", "chance": 50 } },
       "place_loot": [ { "item": "laptop", "x": 5, "y": 21, "chance": 50 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "bungalow03_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -87,7 +85,11 @@
         " --------------------   ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 11, "y": 4 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 3, 8 ], "y": [ 10, 14 ] }
+      ]
     }
   }
 ]

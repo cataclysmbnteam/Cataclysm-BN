@@ -73,8 +73,21 @@
     "ammo": 100,
     "entries": [
       { "item": "glock_31", "ammo-group": "on_hand_357sig", "charges": [ 0, 15 ] },
-      { "group": "nested_glock22_mag" },
-      { "group": "nested_glock22_mag", "prob": 50 },
+      { "group": "nested_glock31_mag" },
+      { "group": "nested_glock31_mag", "prob": 50 },
+      { "group": "on_hand_357sig" }
+    ]
+  },
+  {
+    "id": "nested_ar_357sig",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ar_357sig", "ammo-group": "on_hand_357sig", "charges": [ 0, 15 ] },
+      { "group": "nested_glock31_mag" },
+      { "group": "nested_glock31_mag", "prob": 50 },
       { "group": "on_hand_357sig" }
     ]
   },
@@ -1056,6 +1069,18 @@
     ]
   },
   {
+    "id": "nested_kriss_vector",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "kriss_vector", "ammo-group": "on_hand_40", "charges": [ 0, 30 ] },
+      { "group": "nested_kriss_vector_mag", "charges-min": 0 },
+      { "group": "nested_kriss_vector_mag", "charges-min": 0, "prob": 50 },
+      { "group": "on_hand_40" }
+    ]
+  },
+  {
     "id": "nested_american_180",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1222,6 +1247,19 @@
       { "group": "nested_glock21_mag" },
       { "group": "nested_glock21_mag", "prob": 50 },
       { "group": "on_hand_45" }
+    ]
+  },
+  {
+    "id": "nested_mkg_banshee",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mkg_banshee", "ammo-group": "on_hand_40", "charges": [ 0, 15 ] },
+      { "group": "nested_glock22_mag" },
+      { "group": "nested_glock22_mag", "prob": 50 },
+      { "group": "on_hand_40" }
     ]
   },
   {

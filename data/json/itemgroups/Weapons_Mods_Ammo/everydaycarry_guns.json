@@ -61,8 +61,19 @@
     "subtype": "collection",
     "entries": [
       { "item": "glock_31", "ammo-group": "on_hand_357sig", "charges": [ 0, 15 ] },
-      { "group": "nested_glock22_mag", "charges-min": 0 },
-      { "group": "nested_glock22_mag", "charges-min": 0, "prob": 50 }
+      { "group": "nested_glock31_mag", "charges-min": 0 },
+      { "group": "nested_glock31_mag", "charges-min": 0, "prob": 50 }
+    ]
+  },
+  {
+    "id": "everyday_ar_357sig",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ar_357sig", "ammo-group": "on_hand_357sig", "charges": [ 0, 15 ] },
+      { "group": "nested_glock31_mag", "charges-min": 0 },
+      { "group": "nested_glock31_mag", "charges-min": 0, "prob": 50 }
     ]
   },
   {
@@ -715,6 +726,17 @@
     ]
   },
   {
+    "id": "everyday_kriss_vector",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "kriss_vector", "ammo-group": "on_hand_40", "charges": [ 0, 30 ] },
+      { "group": "nested_kriss_vector_mag", "charges-min": 0 },
+      { "group": "nested_kriss_vector_mag", "charges-min": 0, "prob": 50 }
+    ]
+  },
+  {
     "id": "everyday_american_180",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -855,6 +877,17 @@
       { "item": "mkg_guard", "ammo-group": "on_hand_45", "charges": [ 0, 13 ] },
       { "group": "nested_glock21_mag", "charges-min": 0 },
       { "group": "nested_glock21_mag", "charges-min": 0, "prob": 50 }
+    ]
+  },
+  {
+    "id": "everyday_mkg_banshee",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mkg_banshee", "ammo-group": "on_hand_40", "charges": [ 0, 15 ] },
+      { "group": "nested_glock22_mag", "charges-min": 0 },
+      { "group": "nested_glock22_mag", "charges-min": 0, "prob": 50 }
     ]
   },
   {
