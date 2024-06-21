@@ -275,6 +275,19 @@
     ]
   },
   {
+    "id": "nested_hipoint_3895",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "hipoint_3895", "ammo-group": "on_hand_380", "charges": [ 0, 10 ] },
+      { "item": "hipoint_3895mag", "ammo-group": "on_hand_380" },
+      { "item": "hipoint_3895mag", "ammo-group": "on_hand_380", "prob": 50 },
+      { "group": "on_hand_380" }
+    ]
+  },
+  {
     "id": "nested_p226_357sig",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
