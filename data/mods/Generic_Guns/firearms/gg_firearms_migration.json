@@ -157,7 +157,7 @@
     "replace": "pistol_smg"
   },
   {
-    "id": [ "american_180", "ruger_1022", "marlin_9a" ],
+    "id": [ "american_180", "ruger_1022", "marlin_9a", "hipoint_3895" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_rifle"
   },

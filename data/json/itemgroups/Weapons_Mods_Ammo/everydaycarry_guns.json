@@ -178,6 +178,17 @@
     ]
   },
   {
+    "id": "everyday_hipoint_3895",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hipoint_3895", "ammo-group": "on_hand_380", "charges": [ 0, 10 ] },
+      { "item": "hipoint_3895mag", "charges-min": 0, "ammo-group": "on_hand_380" },
+      { "item": "hipoint_3895mag", "charges-min": 0, "ammo-group": "on_hand_380", "prob": 50 }
+    ]
+  },
+  {
     "id": "everyday_p226_357sig",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
