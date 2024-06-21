@@ -299,5 +299,29 @@
     "durability": 10,
     "min_cycle_recoil": 400,
     "magazines": [ [ "40", [ "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
+  },
+  {
+    "id": "kriss_vector",
+    "copy-from": "smg_base",
+    "looks_like": "TDI",
+    "type": "GUN",
+    "name": { "str": "KRISS Vector" },
+    "description": "The KRISS Vector is a submachine gun with a unique, in-line design that makes recoil very manageable.  It is a evolution of the formally known TDI Vector, this particullar model uses .40 S&W.",
+    "weight": "3100 g",
+    "volume": "1750 ml",
+    "barrel_length": "150 ml",
+    "price": "3100 USD",
+    "price_postapoc": "35 USD",
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "steel", "plastic" ],
+    "color": "dark_gray",
+    "ammo": "40",
+    "dispersion": 280,
+    "durability": 7,
+    "min_cycle_recoil": 540,
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 6 ] ],
+    "magazine_well": "500 ml",
+    "magazines": [ [ "40", [ "kriss_mag", "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
   }
 ]

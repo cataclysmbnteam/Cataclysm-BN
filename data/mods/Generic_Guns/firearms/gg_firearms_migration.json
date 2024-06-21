@@ -152,7 +152,7 @@
     "replace": "pistol_revolver"
   },
   {
-    "id": [ "ppsh", "hk_mp5", "hk_mp5sd", "uzi", "TDI", "hk_ump45", "fn_p90", "needlegun", "rm2000_smg", "sten" ],
+    "id": [ "ppsh", "hk_mp5", "hk_mp5sd", "uzi", "TDI", "kriss_vector", "hk_ump45", "fn_p90", "needlegun", "rm2000_smg", "sten" ],
     "type": "MIGRATION",
     "replace": "pistol_smg"
   },
