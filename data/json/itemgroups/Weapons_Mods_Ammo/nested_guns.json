@@ -1736,7 +1736,7 @@
     "ammo": 100,
     "entries": [
       { "item": "m249", "ammo-group": "on_hand_223", "charges": [ 0, 100 ] },
-      { "item": "belt223", "ammo-group": "on_hand_308", "charges": 100, "prob": 50 },
+      { "item": "belt223", "ammo-group": "on_hand_223", "charges": 100, "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
