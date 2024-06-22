@@ -299,7 +299,7 @@
     "ammo": "battery",
     "charges_per_use": 5,
     "use_action": "WEATHER_TOOL",
-    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER" ],
+    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "WINDMETER" ],
     "magazines": [
       [
         "battery",
@@ -418,7 +418,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "voltmeter" },
-    "description": "This device has two probes that let you measure the electrical potential between two points.",
+    "description": "This device has two probes that let you measure the electrical potential between two points.  Activate to check the status of any local grid connections or battery charge in your surroundings, as well as make modifications to grid connections",
     "weight": "500 g",
     "volume": "750 ml",
     "price": 6000,

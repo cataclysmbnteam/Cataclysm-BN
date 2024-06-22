@@ -554,7 +554,7 @@
     "healthy": -50,
     "addiction_potential": 5,
     "calories": 87,
-    "description": "A frothing slurry of alcohol-soaked zombie flesh and rotten blood, it smells almost as bad as it looks.  Will make you mutate uncontrollably.",
+    "description": "A frothing slurry of alcohol-soaked zombie rotten blood, it smells almost as bad as it looks.  Will make you mutate uncontrollably.",
     "material": [ "alcohol", "flesh" ],
     "volume": "250 ml",
     "phase": "liquid",

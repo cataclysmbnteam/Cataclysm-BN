@@ -318,6 +318,14 @@ see ITEM_SPAWN.md. The default subtype is "distribution".
 How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. One can add or
 remove entries in mods via "add:death_function" and "remove:death_function".
 
+## "harvest"
+
+(string, optional)
+
+If this monster's death function leaves a corpse behind, this defines what items will be produced
+when butchering or dissecting its corpse. If none is specified, it will default to `human`. Harvest
+entries, their yields, and mass ratios, are defined in harvest.json
+
 ## "emit_field"
 
 (array of objects of emit_id and time_duration, optional) "emit_fields": [ { "emit_id":

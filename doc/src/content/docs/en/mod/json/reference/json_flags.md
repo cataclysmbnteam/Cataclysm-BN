@@ -375,6 +375,11 @@ to find which flags work elsewhere.
 - `SURVIVORMAP` Learn of local points-of-interest that can help you survive, and show roads.
 - `TAZER` Shock someone or something.
 - `TELEPORT` Teleport.
+- `TOGGLE_HEATS_FOOD` Gives the item the HEATS_FOOD flag if it lacks it, or vice-versa. Used to
+  enable/disable automatically reheating food with that item when eating.
+- `TOGGLE_UPS_CHARGING` Gives the item the USE_UPS flag if it lacks it, or vice-versa. Used to
+  enable/disable recharging that item from a UPS, advanced UPS, Unified Power System CBM, etc.
+- `TELEPORT` Teleport.
 - `TORCH` Light a torch.
 - `TOURISTMAP` Learn of local points-of-interest that a tourist would like to visit, and show roads.
 - `TOWEL` Dry your character using the item as towel.
@@ -597,6 +602,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `SEALED` Can't use <kbd>e</kbd> to retrieve items; must smash them open first.
 - `SEEN_FROM_ABOVE` Visible from a higher level (provided the tile above has no floor)
 - `SHARP` May do minor damage to players/monsters passing through it.
+- `SHOOT_ME` Players can aim at terrain or furniture with this flag like they can with
+  `tr_practice_target` to train marksmanship.
 - `SHORT` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - `SIGN` Show written message on examine.
 - `SMALL_PASSAGE` This terrain or furniture is too small for large or huge creatures to pass
@@ -733,6 +740,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `REDUCED_WEIGHT` ... Gunmod flag; reduces the item's base weight by 25%.
 - `REQUIRES_TINDER` ... Requires tinder to be present on the tile this item tries to start a fire
   on.
+- `SHATTERS` ... This item can potentially shatter as if it as made of glass when used as a weapon,
+  thrown, bashed, etc.
 - `SLEEP_AID` ... This item helps in sleeping.
 - `SLEEP_IGNORE` ... This item is not shown as before-sleep warning.
 - `SLOW_WIELD` ... Has an additional time penalty upon wielding. For melee weapons and guns this is
@@ -883,7 +892,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   volume not bigger than 2)
 - `SHEATH_SWORD` Item can be sheathed in a sword scabbard
 - `SPEAR` When making reach attacks intervening THIN_OBSTACLE terrain is not an obstacle. Should be
-  paired with REACH_ATTACK.
+  paired with `REACH_ATTACK`.
+- `STAB` A legacy flag that converts an weapon's damage type into pierce. This is a hack as we
+  cannot use the damage object used by ammo to specify the damage type of melee weapon.
 - `UNARMED_WEAPON` Wielding this item still counts as unarmed combat.
 - `WHIP` Has a chance of disarming the opponent.
 
@@ -979,10 +990,12 @@ Multiple death functions can be used. Not all combinations make sense.
 - `BADVENOM` Attack may **severely** poison the player.
 - `BASHES` Bashes down doors.
 - `BILE_BLOOD` Makes monster bleed bile.
+- `BIOPROOF` Makes monster immune to Bio damage (A damage type mostly used by magic mods)
 - `BIRDFOOD` Becomes friendly / tamed with bird food.
 - `BLEED` Causes the player to bleed.
 - `BONES` May produce bones and sinews when butchered.
 - `BORES` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
+- `CAN_BE_ORDERED` This creature can be directed to not attack enemies, if friendly.
 - `CAN_DIG` Can dig _and_ walk.
 - `CAN_OPEN_DOORS` Can open doors on its path.
 - `CANPLAY` This creature can be played with if it's a pet.
@@ -1365,7 +1378,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - `LONE_START` If starting NPC spawn option is switched to "Scenario-based", this scenario won't
   spawn a fellow NPC on game start.
 - `SCEN_ONLY` Profession can be chosen only as part of the appropriate scenario.
-- `SUR_START` Surrounded start, zombies outside the starting location.
 
 #### Season Flags
 

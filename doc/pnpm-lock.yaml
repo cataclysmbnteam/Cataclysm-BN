@@ -12,8 +12,8 @@ dependencies:
     specifier: ^3.0.12
     version: 3.0.12(@types/node@20.5.9)
   sharp:
-    specifier: ^0.32.5
-    version: 0.32.5
+    specifier: ^0.32.6
+    version: 0.32.6
   starlight-links-validator:
     specifier: ^0.3.0
     version: 0.3.0(@astrojs/starlight@0.9.1)(astro@3.0.12)
@@ -32,8 +32,8 @@ devDependencies:
     specifier: ^3.0.0
     version: 3.0.0
   vite:
-    specifier: ^4.4.12
-    version: 4.4.12(@types/node@20.5.9)
+    specifier: ^4.5.3
+    version: 4.5.3(@types/node@20.5.9)
 
 packages:
 
@@ -152,7 +152,7 @@ packages:
       dset: 3.1.2
       is-docker: 3.0.0
       is-wsl: 3.0.0
-      undici: 5.26.3
+      undici: 5.28.4
       which-pm-runs: 1.1.0
     transitivePeerDependencies:
       - supports-color
@@ -1162,16 +1162,16 @@ packages:
       string-width: 6.1.0
       strip-ansi: 7.1.0
       tsconfig-resolver: 3.0.1
-      undici: 5.26.3
+      undici: 5.28.4
       unist-util-visit: 4.1.2
       vfile: 5.3.7
-      vite: 4.4.12(@types/node@20.5.9)
-      vitefu: 0.2.4(vite@4.4.12)
+      vite: 4.5.3(@types/node@20.5.9)
+      vitefu: 0.2.4(vite@4.5.3)
       which-pm: 2.1.1
       yargs-parser: 21.1.1
       zod: 3.21.1
     optionalDependencies:
-      sharp: 0.32.5
+      sharp: 0.32.6
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -1246,11 +1246,11 @@ packages:
       wrap-ansi: 8.1.0
     dev: false
 
-  /braces@3.0.2:
-    resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==}
+  /braces@3.0.3:
+    resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
     dependencies:
-      fill-range: 7.0.1
+      fill-range: 7.1.1
     dev: false
 
   /browserslist@4.21.10:
@@ -1326,7 +1326,7 @@ packages:
     engines: {node: '>= 8.10.0'}
     dependencies:
       anymatch: 3.1.3
-      braces: 3.0.2
+      braces: 3.0.3
       glob-parent: 5.1.2
       is-binary-path: 2.1.0
       is-glob: 4.0.3
@@ -1729,8 +1729,8 @@ packages:
       format: 0.2.2
     dev: false
 
-  /fill-range@7.0.1:
-    resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}
+  /fill-range@7.1.1:
+    resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
     engines: {node: '>=8'}
     dependencies:
       to-regex-range: 5.0.1
@@ -2857,7 +2857,7 @@ packages:
     resolution: {integrity: sha512-DMy+ERcEW2q8Z2Po+WNXuw3c5YaUSFjAO5GsJqfEl7UjvtIuFKO6ZrKvcItdy98dwFI2N1tg3zNIdKaQT+aNdA==}
     engines: {node: '>=8.6'}
     dependencies:
-      braces: 3.0.2
+      braces: 3.0.3
       picomatch: 2.3.1
     dev: false
 
@@ -3426,8 +3426,8 @@ packages:
     resolution: {integrity: sha512-rb+9B5YBIEzYcD6x2VKidaa+cqYBJQKnU4oe4E3ANwRRN56yk/ua1YCJT1n21NTS8w6CcOclAKNP3PhdCXKYtQ==}
     dev: false
 
-  /sharp@0.32.5:
-    resolution: {integrity: sha512-0dap3iysgDkNaPOaOL4X/0akdu0ma62GcdC2NBQ+93eqpePdDdr2/LM0sFdDSMmN7yS+odyZtPsb7tx/cYBKnQ==}
+  /sharp@0.32.6:
+    resolution: {integrity: sha512-KyLTWwgcR9Oe4d9HwCwNM2l7+J0dUQwn/yf7S0EnTtb0eVS4RxO0eUSvxPtzT4F3SY+C4K6fqdv/DO27sJ/v/w==}
     engines: {node: '>=14.15.0'}
     requiresBuild: true
     dependencies:
@@ -3732,8 +3732,8 @@ packages:
     engines: {node: '>=12.20'}
     dev: false
 
-  /undici@5.26.3:
-    resolution: {integrity: sha512-H7n2zmKEWgOllKkIUkLvFmsJQj062lSm3uA4EYApG8gLuiOM0/go9bIoC3HVaSnfg4xunowDE2i9p8drkXuvDw==}
+  /undici@5.28.4:
+    resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
     engines: {node: '>=14.0'}
     dependencies:
       '@fastify/busboy': 2.0.0
@@ -3924,8 +3924,8 @@ packages:
       vfile-message: 4.0.2
     dev: false
 
-  /vite@4.4.12(@types/node@20.5.9):
-    resolution: {integrity: sha512-KtPlUbWfxzGVul8Nut8Gw2Qe8sBzWY+8QVc5SL8iRFnpnrcoCaNlzO40c1R6hPmcdTwIPEDkq0Y9+27a5tVbdQ==}
+  /vite@4.5.3(@types/node@20.5.9):
+    resolution: {integrity: sha512-kQL23kMeX92v3ph7IauVkXkikdDRsYMGTVl5KY2E9OY4ONLvkHf04MDTbnfo6NKxZiDLWzVpP5oTa8hQD8U3dg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
@@ -3959,7 +3959,7 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
 
-  /vitefu@0.2.4(vite@4.4.12):
+  /vitefu@0.2.4(vite@4.5.3):
     resolution: {integrity: sha512-fanAXjSaf9xXtOOeno8wZXIhgia+CZury481LsDaV++lSvcU2R9Ch2bPh3PYFyoHW+w9LqAeYRISVQjUIew14g==}
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0
@@ -3967,7 +3967,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.4.12(@types/node@20.5.9)
+      vite: 4.5.3(@types/node@20.5.9)
     dev: false
 
   /vscode-oniguruma@1.7.0:

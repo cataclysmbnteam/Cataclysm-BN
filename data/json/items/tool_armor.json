@@ -324,7 +324,8 @@
       "THERMOMETER",
       "BAROMETER",
       "HYGROMETER",
-      "USE_UPS",
+      "WINDMETER",
+      "RECHARGE",
       "NO_UNLOAD",
       "NO_RELOAD",
       "POWERARMOR_COMPATIBLE"
@@ -335,7 +336,7 @@
     "initial_charges": 80,
     "max_charges": 120,
     "charges_per_use": 1,
-    "use_action": [ "PORTABLE_GAME", "WEATHER_TOOL" ]
+    "use_action": [ "PORTABLE_GAME", "WEATHER_TOOL", "TOGGLE_UPS_CHARGING" ]
   },
   {
     "id": "holo_cloak",
@@ -1269,7 +1270,7 @@
     "category": "clothing",
     "name": { "str": "light survivor mask" },
     "description": "A custom-built, reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
-    "weight": "466 g",
+    "weight": "500 g",
     "volume": "1250 ml",
     "price": "240 USD",
     "price_postapoc": "15 USD",
@@ -1661,50 +1662,6 @@
     "material_thickness": 1,
     "flags": [ "BELTED", "COMPACT", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
     "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
-  },
-  {
-    "type": "ARMOR",
-    "id": "survivor_belt",
-    "name": { "str": "survivor utility belt" },
-    "weight": "3390 g",
-    "color": "brown",
-    "covers": [ "torso" ],
-    "storage": "500 ml",
-    "symbol": "[",
-    "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
-    "price": 50000,
-    "price_postapoc": 1000,
-    "material": [ "leather", "iron" ],
-    "volume": "4 L",
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
-    "coverage": 15,
-    "encumbrance": 4,
-    "material_thickness": 2,
-    "use_action": [
-      {
-        "type": "holster",
-        "holster_prompt": "Sheath blade",
-        "holster_msg": "You sheath your %s",
-        "min_volume": "250 ml",
-        "max_volume": "1 L",
-        "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
-      },
-      "CROWBAR",
-      "HAMMER"
-    ],
-    "qualities": [
-      [ "HAMMER", 3 ],
-      [ "PRY", 1 ],
-      [ "SAW_M", 2 ],
-      [ "SAW_W", 2 ],
-      [ "WRENCH", 2 ],
-      [ "AXE", 1 ],
-      [ "SCREW", 1 ],
-      [ "HAMMER_FINE", 1 ],
-      [ "SAW_M_FINE", 1 ],
-      [ "WRENCH_FINE", 1 ],
-      [ "SCREW_FINE", 1 ]
-    ]
   },
   {
     "id": "hairpin",
@@ -3029,5 +2986,18 @@
       "need_worn": true
     },
     "delete": { "flags": [ "DEAF" ] }
+  },
+  {
+    "id": "mask_halfsurvivor",
+    "type": "ARMOR",
+    "name": { "str": "survivor half-mask" },
+    "copy-from": "mask_lsurvivor",
+    "description": "A custom-built, reinforced gas mask that covers just the mouth.  Provides excellent protection from smoke.  It must be prepared before use.",
+    "weight": "250 g",
+    "volume": "750 ml",
+    "looks_like": "mask_filter",
+    "covers": [ "mouth" ],
+    "flags": [ "VARSIZE", "STURDY", "SLEEP_IGNORE" ],
+    "delete": { "qualities": [ [ "GLARE", 1 ] ] }
   }
 ]

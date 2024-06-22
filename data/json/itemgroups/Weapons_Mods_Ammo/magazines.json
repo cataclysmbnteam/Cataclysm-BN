@@ -119,6 +119,7 @@
       [ "px4_40mag", 6 ],
       [ "glockmag", 33 ],
       [ "glock40mag", 7 ],
+      [ "glock20mag", 7 ],
       [ "m1911mag", 25 ],
       [ "mosquitomag", 10 ],
       [ "kpf9mag", 5 ],
@@ -169,11 +170,15 @@
       [ "glock_drum_50rd", 5 ],
       [ "glock_drum_100rd", 5 ],
       [ "glock_21mag26", 5 ],
+      [ "glock21drum40rd", 5 ],
       [ "90two40mag", 5 ],
       [ "deaglemag", 40 ],
       [ "fn57mag", 80 ],
       [ "glockbigmag", 60 ],
       [ "glock40bigmag", 30 ],
+      [ "glock40drum50rd", 5 ],
+      [ "glock20bigmag", 30 ],
+      [ "glock20drum50rd", 5 ],
       [ "m1911bigmag", 40 ],
       [ "m1911mag_10rd_38super", 10 ],
       [ "m9bigmag", 20 ],
@@ -197,6 +202,7 @@
       [ "stenmag", 5 ],
       [ "tec9mag", 10 ],
       [ "tdi_mag", 5 ],
+      [ "kriss_mag", 5 ],
       [ "thompson_mag", 5 ],
       [ "ump45mag", 5 ],
       [ "uzimag", 10 ]
@@ -277,7 +283,7 @@
     "type": "item_group",
     "id": "mags_shotgun_common",
     "//": "Factory specification shotgun magazines commonly owned by citizens.",
-    "items": [  ]
+    "items": [ [ "shot_speedloader6", 15 ], [ "shot_speedloader8", 15 ] ]
   },
   {
     "type": "item_group",
@@ -295,9 +301,7 @@
       [ "USAS10mag", 20 ],
       [ "USAS20mag", 5 ],
       [ "saiga410mag_10rd", 30 ],
-      [ "saiga410mag_30rd", 10 ],
-      [ "shot_speedloader6", 15 ],
-      [ "shot_speedloader8", 15 ]
+      [ "saiga410mag_30rd", 10 ]
     ]
   },
   {
@@ -310,7 +314,7 @@
     "type": "item_group",
     "id": "mags_other_makeshift",
     "//": "Makeshift or otherwise poor quality magazines that have no better category.",
-    "items": [ [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ] ]
+    "items": [ [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ], [ "nailmag", 20 ] ]
   },
   {
     "type": "item_group",

@@ -12,7 +12,6 @@
 
 #include "achievement.h"
 #include "avatar.h"
-#include "basecamp.h"
 #include "cata_io.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
@@ -313,7 +312,7 @@ void game::load_shortcuts( std::istream &fin )
             for( const JsonMember &member : data.get_object( "quick_shortcuts" ) ) {
                 std::list<input_event> &qslist = quick_shortcuts_map[member.name()];
                 for( const int i : member.get_array() ) {
-                    qslist.push_back( input_event( i, CATA_INPUT_KEYBOARD ) );
+                    qslist.push_back( input_event( i, input_event_t::keyboard ) );
                 }
             }
         }
@@ -560,13 +559,6 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                     new_npc->set_fac( new_npc->get_fac_id() );
                 }
                 npcs.push_back( new_npc );
-            }
-        } else if( name == "camps" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                basecamp new_camp;
-                new_camp.deserialize( jsin );
-                camps.push_back( new_camp );
             }
         } else if( name == "overmap_special_placements" ) {
             jsin.start_array();
@@ -973,14 +965,6 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : npcs ) {
         json.write( *i );
-    }
-    json.end_array();
-    fout << '\n';
-
-    json.member( "camps" );
-    json.start_array();
-    for( auto &i : camps ) {
-        json.write( i );
     }
     json.end_array();
     fout << '\n';

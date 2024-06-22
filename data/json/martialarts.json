@@ -395,7 +395,7 @@
       "tec_eskrima_low",
       "tec_eskrima_combination"
     ],
-    "weapon_category": [ "KNIVES", "SHORT_SWORDS", "BATONS", "TONFAS", "QUARTERSTAVES", "FIST_WEAPONS" ]
+    "weapon_category": [ "STILETTOS", "KNIVES", "SHORT_SWORDS", "BATONS", "TONFAS", "QUARTERSTAVES", "FIST_WEAPONS" ]
   },
   {
     "type": "martial_art",
@@ -501,7 +501,7 @@
       "tec_medievalpole_execute",
       "tec_medievalpole_break"
     ],
-    "weapon_category": [ "HOOKED_POLES", "1H_AXES", "2H_AXES", "1H_HAMMERS", "2H_HAMMERS", "GLAIVES" ]
+    "weapon_category": [ "1H_HOOKED", "HOOKED_POLES", "1H_AXES", "2H_AXES", "1H_HAMMERS", "2H_HAMMERS", "GLAIVES" ]
   },
   {
     "type": "martial_art",
@@ -589,6 +589,7 @@
     "name": { "str": "Krav Maga" },
     "description": "Originating in Israel, Krav Maga is based on taking down an enemy quickly and effectively.  It focuses on applicable attacks rather than showy or complex moves.  Popular among police and armed forces everywhere.",
     "initiate": [ "You assume a practical combat stance.", "%s assumes a practical combat stance." ],
+    "primary_skill": "melee",
     "learn_difficulty": 6,
     "arm_block": 2,
     "leg_block": 4,
@@ -828,7 +829,7 @@
       }
     ],
     "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
-    "weapon_category": [ "KNIVES", "SHORT_SWORDS", "1H_SWORDS", "JAPANESE_SWORDS", "BATONS", "QUARTERSTAVES", "BIONIC_WEAPONRY" ],
+    "weapon_category": [ "STILETTOS", "KNIVES", "SHORT_SWORDS", "1H_SWORDS", "JAPANESE_SWORDS", "BATONS", "QUARTERSTAVES", "BIONIC_WEAPONRY" ],
     "weapons": [ "sickle" ]
   },
   {
@@ -995,7 +996,7 @@
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
     "weapon_category": [ "KNIVES", "BATONS", "TONFAS", "QUARTERSTAVES", "SPEARS", "GLAIVES" ],
-    "weapons": [ "sickle", "scythe", "hockey_stick", "golf_club" ]
+    "weapons": [ "machete", "makeshift_machete", "survivor_machete", "sickle", "scythe", "hockey_stick", "golf_club" ]
   },
   {
     "type": "martial_art",

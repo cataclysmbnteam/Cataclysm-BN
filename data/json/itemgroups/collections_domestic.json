@@ -114,6 +114,7 @@
       { "item": "roller_blades", "prob": 20 },
       { "item": "duct_tape", "prob": 100 },
       { "item": "lawnmower", "prob": 25 },
+      { "item": "trash_can_empty", "prob": 25 },
       { "item": "lawn_dart", "prob": 10 },
       { "item": "dehydrator", "prob": 15 },
       { "item": "jar_glass", "prob": 25, "count": [ 1, 12 ] },
@@ -155,7 +156,7 @@
       { "item": "bleach", "prob": 20, "charges-min": 1 },
       { "item": "ammonia", "prob": 24, "charges-min": 1 },
       { "item": "yeast", "prob": 2 },
-      { "item": "superglue", "prob": 20 },
+      { "item": "superglue", "prob": 20, "charges": [ 5, 10 ] },
       { "item": "bottle_glass", "prob": 10 },
       { "item": "syringe", "prob": 4 },
       { "item": "adrenaline_injector", "prob": 2 },
@@ -182,7 +183,8 @@
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
       { "item": "chem_potassium_chloride", "prob": 5, "charges-min": 100 },
       { "item": "chem_muriatic_acid", "prob": 15 },
-      { "item": "denat_alcohol", "prob": 10 }
+      { "item": "denat_alcohol", "prob": 10 },
+      { "item": "chem_peptone_broth", "prob": 15 }
     ]
   },
   {
@@ -227,10 +229,12 @@
       [ "holy_symbol", 5 ],
       [ "pills_sleep", 5 ],
       [ "nyquil", 5 ],
-      { "group": "mansion_guns", "prob": 3 },
       { "group": "harddrugs", "prob": 1 },
       [ "joint", 1 ],
-      [ "hairbrush", 5 ]
+      [ "hairbrush", 5 ],
+      { "group": "ammo_pistol_common", "prob": 5 },
+      { "group": "guns_pistol_common", "prob": 1 },
+      { "group": "mags_pistol_common", "prob": 1 }
     ]
   },
   {
@@ -251,7 +255,7 @@
       { "item": "lemonlime", "prob": 10, "container-item": "bottle_plastic" },
       { "item": "orangesoda", "prob": 15, "container-item": "bottle_plastic" },
       { "item": "colamdew", "prob": 10, "container-item": "bottle_plastic" },
-      { "item": "sponge", "prob": 5 },
+      { "group": "tools_cleaning_small", "prob": 5 },
       { "group": "tobacco_products", "prob": 151 },
       { "item": "weed", "prob": 10 },
       { "item": "joint", "prob": 10 },
@@ -398,7 +402,16 @@
       { "item": "yukata", "prob": 1 },
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "reading_light", "prob": 9 },
-      { "item": "balloon", "prob": 5 }
+      { "item": "balloon", "prob": 5 },
+      { "group": "ammo_common", "prob": 20 },
+      { "group": "guns_rifle_common", "prob": 2 },
+      { "group": "guns_pistol_common", "prob": 5 },
+      { "group": "guns_smg_common", "prob": 3 },
+      { "group": "guns_shotgun_common", "prob": 3 },
+      { "group": "mags_rifle_common", "prob": 2 },
+      { "group": "mags_pistol_common", "prob": 5 },
+      { "group": "mags_smg_common", "prob": 3 },
+      { "group": "mags_shotgun_common", "prob": 3 }
     ]
   },
   {
@@ -417,7 +430,8 @@
       { "item": "hat_chef", "prob": 2 },
       { "item": "jacket_chef", "prob": 2 },
       { "item": "pot", "prob": 25 },
-      { "item": "sponge", "prob": 30 },
+      { "group": "tools_cleaning_small", "prob": 50 },
+      { "group": "supplies_household_cleaning", "prob": 150 },
       { "item": "pot_copper", "prob": 15 },
       { "item": "pot_canning", "prob": 15 },
       { "item": "pressure_cooker", "prob": 5 },
@@ -428,14 +442,11 @@
       { "group": "pantry_liquids", "prob": 160 },
       { "item": "knife_butcher", "prob": 10 },
       { "item": "cookbook", "prob": 35 },
-      { "item": "rag", "prob": 1 },
       { "item": "popcan_stove", "prob": 5 },
       { "group": "alcohol", "prob": 101 },
       { "item": "sweet_sausage", "prob": 2 },
       { "item": "roasted_coffee_bean", "prob": 10 },
       { "item": "bacon", "prob": 25 },
-      { "item": "bleach", "prob": 20, "charges-min": 1 },
-      { "item": "ammonia", "prob": 24, "charges-min": 1 },
       { "item": "milk_powder", "prob": 15 },
       { "item": "powder_eggs", "prob": 20 },
       {
@@ -499,6 +510,7 @@
       { "item": "broth", "prob": 15 },
       { "item": "soup_veggy", "prob": 15 },
       { "item": "soup_meat", "prob": 15 },
+      { "item": "soup_blood", "prob": 2 },
       { "item": "soup_chicken", "prob": 15 },
       { "item": "soup_mushroom", "prob": 15 },
       { "item": "soup_tomato", "prob": 15 },
@@ -536,7 +548,6 @@
       { "item": "tongs", "prob": 25 },
       { "item": "lawn_dart", "prob": 10 },
       { "item": "flask_hip", "prob": 5 },
-      { "item": "lye_powder", "prob": 5 },
       { "item": "atomic_light", "prob": 1 },
       { "item": "atomic_lamp", "prob": 1 },
       { "item": "smart_lamp", "prob": 2 },
@@ -544,8 +555,6 @@
       { "item": "dogfood", "prob": 20, "container-item": "can_medium" },
       { "item": "catfood", "prob": 20, "container-item": "can_food" },
       { "item": "charcoal", "prob": 5 },
-      { "item": "soap", "prob": 70 },
-      { "item": "detergent", "prob": 50 },
       { "item": "survnote", "prob": 1 },
       { "item": "cookbook_sushi", "prob": 5 },
       { "item": "scots_cookbook", "prob": 6 },
@@ -562,13 +571,14 @@
       { "item": "fish_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "sauce_red", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "group": "big_canned_food", "prob": 4 }
+      { "group": "big_canned_food", "prob": 4 },
+      { "group": "ammo_common", "prob": 20 }
     ]
   },
   {
     "type": "item_group",
     "id": "fridge",
-    "//": "This is a terrible item group and should be phased out.  See SUS_fridge in SUS - > domestic.json for a more modern take on things.",
+    "//": "Generic fridge kept for compatibility but use should be kept to a minimum.  Ideally use SUS_fridge for household fridges.",
     "subtype": "distribution",
     "entries": [
       { "item": "water_clean", "prob": 90 },
@@ -658,7 +668,6 @@
       { "item": "sloppyjoe", "prob": 8 },
       { "item": "hotdogs_frozen", "prob": 8 },
       { "item": "corndogs_frozen", "prob": 8 },
-      { "item": "blt", "prob": 8 },
       { "item": "cheese", "prob": 10 },
       { "item": "cheese_fresh", "prob": 5 },
       { "item": "cheese_hard", "prob": 5 },
@@ -752,6 +761,7 @@
       { "item": "fish_smoked", "prob": 8 },
       { "item": "bologna", "prob": 6 },
       { "item": "sausage", "prob": 6 },
+      { "item": "sausage_blood", "prob": 2 },
       { "item": "bratwurst_sausage", "prob": 5 },
       { "item": "lunchmeat", "prob": 10 },
       { "item": "meat", "prob": 15 }
@@ -940,7 +950,16 @@
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "bodypillow", "prob": 2 },
       { "item": "reading_light", "prob": 8 },
-      { "item": "condom", "prob": 50, "count": [ 1, 5 ] }
+      { "item": "condom", "prob": 50, "count": [ 1, 5 ] },
+      { "group": "ammo_common", "prob": 20 },
+      { "group": "guns_rifle_common", "prob": 2 },
+      { "group": "guns_pistol_common", "prob": 5 },
+      { "group": "guns_smg_common", "prob": 3 },
+      { "group": "guns_shotgun_common", "prob": 3 },
+      { "group": "mags_rifle_common", "prob": 2 },
+      { "group": "mags_pistol_common", "prob": 5 },
+      { "group": "mags_smg_common", "prob": 3 },
+      { "group": "mags_shotgun_common", "prob": 3 }
     ]
   },
   {
@@ -965,32 +984,20 @@
     "id": "cleaning",
     "subtype": "distribution",
     "entries": [
+      { "group": "supplies_household_cleaning", "prob": 250 },
+      { "group": "tools_cleaning_common", "prob": 150 },
+      { "group": "clothing_cleaning", "prob": 100 },
       { "item": "salt_water", "prob": 20 },
-      { "item": "bleach", "prob": 20, "charges-min": 1 },
-      { "item": "ammonia", "prob": 24, "charges-min": 1 },
-      { "item": "broom", "prob": 30 },
-      { "item": "mop", "prob": 30 },
-      { "item": "sponge", "prob": 30 },
-      { "item": "gloves_rubber", "prob": 20 },
-      { "item": "mask_dust", "prob": 65 },
-      { "item": "towel", "prob": 40 },
       { "item": "bottle_plastic", "prob": 10 },
       { "item": "bottle_plastic_small", "prob": 5 },
       { "item": "sewing_kit", "prob": 47 },
       { "item": "tailors_kit", "prob": 3 },
       { "item": "thread", "prob": 40 },
-      { "item": "rag", "prob": 1 },
       { "item": "scissors", "prob": 50 },
       { "item": "string_36", "prob": 40 },
-      { "item": "vinegar", "prob": 10 },
-      { "item": "lye_powder", "prob": 5 },
-      { "item": "oxy_powder", "prob": 5 },
-      { "item": "boots_rubber", "prob": 20 },
       { "item": "charcoal", "prob": 5 },
       { "item": "fungicide", "prob": 2 },
       { "item": "insecticide", "prob": 2 },
-      { "item": "soap", "prob": 80 },
-      { "item": "detergent", "prob": 80 },
       { "item": "chem_hydrogen_peroxide", "prob": 20 }
     ]
   },
@@ -1076,12 +1083,26 @@
       { "item": "paper", "prob": 75, "charges": [ 40, 60 ] },
       { "item": "string_36", "prob": 75, "count": [ 1, 4 ] },
       { "item": "string_6", "prob": 50, "count": [ 1, 4 ] },
-      { "item": "superglue", "prob": 40 },
+      { "item": "superglue", "prob": 40, "charges": [ 5, 10 ] },
       { "item": "duct_tape", "prob": 20 },
       { "item": "matches", "prob": 45 },
       { "item": "lighter", "prob": 45 },
       { "item": "ref_lighter", "prob": 10 },
       { "item": "electric_lighter", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "house_safe_misc",
+    "//": "A distribution of miscellaneous items that might be stashed in a household safe, not counting guns.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "everyday_gear", "prob": 30 },
+      { "group": "home_display_case", "prob": 20 },
+      { "group": "harddrugs", "prob": 25 },
+      { "group": "homebooks", "prob": 10 },
+      { "group": "art", "prob": 10 },
+      { "group": "gemstones", "prob": 5 }
     ]
   }
 ]

@@ -48,6 +48,7 @@ class player;
 class recipe;
 class relic;
 class relic_recharge;
+struct resistances;
 struct armor_portion_data;
 struct islot_comestible;
 struct itype;
@@ -76,7 +77,6 @@ struct use_function;
 enum art_effect_passive : int;
 enum phase_id : int;
 enum body_part : int;
-enum m_size : int;
 enum class side : int;
 class body_part_set;
 class map;
@@ -1070,6 +1070,11 @@ class item : public location_visitable<item>, public game_object<item>
         int damage_resist( damage_type dt, bool to_self = false ) const;
 
         /**
+         * @returns damage resistance override, if set.
+         */
+        std::optional<resistances> damage_resistance_override() const;
+
+        /**
          * Returns resistance to being damaged by attack against the item itself.
          * Calculated from item's materials.
          * @param worst If this is true, the worst resistance is used. Otherwise the best one.
@@ -1528,6 +1533,9 @@ class item : public location_visitable<item>, public game_object<item>
 
         /**Does this item have the specified fault*/
         bool has_fault( const fault_id &fault ) const;
+
+        /**If item made out of glass, or has the SHATTERS flag?*/
+        bool can_shatter() const;
 
         /**
          * @name Item properties
@@ -2317,6 +2325,7 @@ class item : public location_visitable<item>, public game_object<item>
         void add_component( detached_ptr<item> &&comp );
         const location_vector<item> &get_components() const;
         location_vector<item> &get_components();
+        const mtype *get_corpse_mon() const;
     private:
         location_vector<item> components;
         const itype *curammo = nullptr;

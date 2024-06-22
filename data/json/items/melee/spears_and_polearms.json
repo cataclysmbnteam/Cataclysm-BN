@@ -15,7 +15,7 @@
     "bashing": 5,
     "cutting": 23,
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ],
     "price": "20 USD",
     "price_postapoc": "5 USD"
   },
@@ -34,7 +34,7 @@
     "bashing": 5,
     "cutting": 11,
     "price_postapoc": "10 cent",
-    "flags": [ "SPEAR" ],
+    "flags": [ "STAB" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -66,10 +66,10 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": "WBLOCK_1",
-    "volume": "1250 ml",
+    "volume": "1750 ml",
     "bashing": 4,
     "cutting": 13,
-    "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR", "STAB" ],
     "price": "40 USD",
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -81,7 +81,7 @@
     "name": { "str": "spike on a stick" },
     "description": "A flimsy pole made of wood with a basic metal spike tied to it.  It's barely sharp, and crudely constructed, but it will keep the zombies out of arm's reach until you can find something better.",
     "weight": "1487 g",
-    "volume": "1250 ml",
+    "volume": "1750 ml",
     "price": "4 USD",
     "price_postapoc": "50 cent",
     "bashing": 4,
@@ -91,7 +91,7 @@
     "color": "brown",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ]
   },
   {
     "id": "spear_knife",
@@ -101,7 +101,7 @@
     "name": { "str": "simple knife spear" },
     "description": "A flimsy pole made of wood with a knife bound to the end.  It's long enough to slice from a distance, but the knife isn't that well attached.  You could take a bit more time to carefully split the shaft and attach the knife blade more permanently.",
     "weight": "1487 g",
-    "volume": "1250 ml",
+    "volume": "1750 ml",
     "price": "7 USD",
     "price_postapoc": "150 cent",
     "to_hit": 1,
@@ -112,7 +112,7 @@
     "color": "brown",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ]
   },
   {
     "id": "spear_knife_superior",
@@ -132,7 +132,7 @@
     "name": { "str": "homemade halfpike" },
     "description": "A short do-it-yourself spear made out of a smooth wooden shaft with a metal spike seated and bound into place at its tip.  Its functional grip and decent construction makes it a usable, if not effective, weapon.",
     "weight": "1814 g",
-    "volume": "1500 ml",
+    "volume": "1750 ml",
     "price": "14 USD",
     "price_postapoc": "750 cent",
     "bashing": 6,
@@ -141,7 +141,7 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ]
   },
   {
     "id": "spear_forked",
@@ -156,10 +156,10 @@
     "symbol": "/",
     "material": [ "wood", "steel" ],
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
-    "volume": "1500 ml",
+    "volume": "1750 ml",
     "bashing": 6,
     "cutting": 18,
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ],
     "price": "49 USD",
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -171,17 +171,17 @@
     "name": { "str": "pipe spear" },
     "description": "A stout metal pole with a sharp point.",
     "weight": "1398 g",
-    "volume": "1250 ml",
+    "volume": "1750 ml",
     "price": "80 USD",
     "price_postapoc": "50 cent",
     "symbol": "/",
     "color": "light_gray",
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1", "IMPALE" ],
-    "to_hit": -1,
+    "to_hit": 1,
     "bashing": 6,
     "cutting": 25,
-    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "STAB" ],
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -191,15 +191,14 @@
     "name": { "str": "copper spear" },
     "description": "A stout wooden pole with a spearhead worked from copper.",
     "weight": "1450 g",
-    "volume": "1500 ml",
+    "volume": "1750 ml",
     "price": "14 USD",
     "price_postapoc": "1250 cent",
     "color": "light_red",
     "material": [ "copper", "wood" ],
     "techniques": [ "WBLOCK_1", "IMPALE" ],
-    "to_hit": 1,
     "cutting": 20,
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ],
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -208,14 +207,13 @@
     "copy-from": "spear_pipe",
     "name": { "str": "steel spear" },
     "description": "A stout wooden pole with a hand-forged steel spearhead.",
-    "weight": "1498 g",
-    "volume": "3 L",
+    "weight": "1298 g",
+    "volume": "1750 ml",
     "price": "160 USD",
     "price_postapoc": "55 USD",
     "material": [ "steel", "wood" ],
-    "to_hit": 1,
     "cutting": 30,
-    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ]
   },
   {
     "id": "spear_rebar",
@@ -227,12 +225,11 @@
     "price": "5 USD",
     "price_postapoc": "50 cent",
     "material": "iron",
-    "weight": "908 g",
-    "volume": "1500 ml",
+    "volume": "1750 ml",
     "bashing": 5,
     "cutting": 15,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "STAB" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
   },
   {
@@ -241,8 +238,8 @@
     "category": "weapons",
     "name": { "str": "stone spear" },
     "description": "A stout wooden pole with a sharp stone spearhead.",
-    "weight": "1098 g",
-    "volume": "1250 ml",
+    "weight": "1398 g",
+    "volume": "1750 ml",
     "price": "13 USD",
     "price_postapoc": "50 cent",
     "to_hit": 1,
@@ -253,7 +250,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "STAB" ]
   },
   {
     "id": "qiang",
@@ -262,16 +259,16 @@
     "weapon_category": [ "SPEARS" ],
     "name": { "str": "qiang" },
     "description": "An ancient Chinese spear, typically with a tassel just below the spearhead.  One of the four major weapons in folklore, alongside the dao sabre, jian sword, and gun staff.",
-    "weight": "1398 g",
+    "weight": "1298 g",
     "price_postapoc": "35 USD",
     "color": "light_gray",
     "symbol": "/",
     "material": [ "steel", "wood" ],
     "techniques": [ "WBLOCK_1", "PRECISE", "IMPALE" ],
-    "volume": "2500 ml",
+    "volume": "1750 ml",
     "bashing": 5,
     "cutting": 31,
-    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ],
     "price": "800 USD",
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -293,7 +290,7 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
+    "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK" ]
   },
   {
     "type": "GENERIC",
@@ -302,8 +299,8 @@
     "id": "scythe_war",
     "name": { "str": "war scythe" },
     "description": "A pole weapon with a curving single-edged blade.  Its blade bears some superficial resemblance to that of an agricultural scythe from which it likely evolved.",
-    "weight": "3013 g",
-    "volume": "3250 ml",
+    "weight": "1298 g",
+    "volume": "1750 ml",
     "price": "160 USD",
     "price_postapoc": "25 USD",
     "bashing": 6,
@@ -313,7 +310,7 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK" ]
   },
   {
     "id": "makeshift_halberd",
@@ -322,8 +319,8 @@
     "name": { "str": "makeshift glaive" },
     "//": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
     "description": "This is a large blade attached to a long stick.  It could do a considerable amount of damage.",
-    "weight": "1800 g",
-    "volume": "3 L",
+    "weight": "1400 g",
+    "volume": "1750 ml",
     "price": "50 USD",
     "price_postapoc": "250 cent",
     "to_hit": 2,
@@ -334,7 +331,7 @@
     "color": "light_gray",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
-    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
+    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE", "SPEAR" ]
   },
   {
     "id": "glaive",
@@ -348,10 +345,10 @@
     "price": "500 USD",
     "material": [ "steel", "wood" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
-    "weight": "2100 g",
-    "volume": "2500 ml",
+    "weight": "1298 g",
+    "volume": "1750 ml",
     "bashing": 14,
     "cutting": 38,
     "price_postapoc": "80 USD"
@@ -363,16 +360,16 @@
     "weapon_category": [ "GLAIVES" ],
     "name": { "str_sp": "naginata" },
     "description": "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  Occasionally used by samurai in early periods, or by their wives in defense of the household.",
-    "weight": "1700 g",
+    "weight": "1298 g",
     "color": "light_gray",
     "symbol": "/",
     "material": [ "steel", "wood" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
-    "volume": "2500 ml",
+    "volume": "1750 ml",
     "bashing": 7,
     "cutting": 45,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR" ],
     "price": "800 USD",
     "price_postapoc": "95 USD"
   },
@@ -385,7 +382,7 @@
     "material": [ "budget_steel", "wood" ],
     "bashing": 29,
     "cutting": 11,
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR" ],
     "price_postapoc": "15 USD"
   },
   {
@@ -394,12 +391,12 @@
     "copy-from": "naginata",
     "name": { "str": "naginata fake" },
     "description": "This is a dull, slightly floppy replica of a Japanese polearm with a curved blade.  With a little difficulty, you could use it administer a solid slap from a distance.",
-    "weight": "1400 g",
+    "weight": "1000 g",
     "material": [ "aluminum", "wood" ],
     "bashing": 12,
     "cutting": 2,
     "to_hit": 1,
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "FRAGILE_MELEE", "SPEAR" ],
     "price": "80 USD",
     "price_postapoc": "5 USD",
     "qualities": [  ]
@@ -411,16 +408,16 @@
     "weapon_category": [ "GLAIVES" ],
     "name": { "str_sp": "survivor naginata" },
     "description": "This sturdy steel shaft with a sword blade at the end is good for both slashing and stabbing.",
-    "weight": "1700 g",
-    "to_hit": -1,
+    "weight": "1250 g",
+    "to_hit": 1,
     "color": "light_gray",
     "symbol": "/",
     "material": [ "steel" ],
     "techniques": [ "IMPALE", "WIDE", "WBLOCK_1" ],
-    "volume": "2250 ml",
+    "volume": "1750 ml",
     "bashing": 6,
     "cutting": 40,
-    "flags": [ "STAB", "POLEARM", "REACH_ATTACK", "SHEATH_SPEAR" ],
+    "flags": [ "STAB", "POLEARM", "REACH_ATTACK", "SHEATH_SPEAR", "SPEAR" ],
     "//": "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
     "price": "80 USD",
     "price_postapoc": "45 USD",
@@ -442,7 +439,7 @@
     "volume": "1 L",
     "cutting": 11,
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 11 } ],
-    "flags": [ "SPEAR", "SHEATH_SPEAR", "JAVELIN" ],
+    "flags": [ "SHEATH_SPEAR", "JAVELIN", "STAB" ],
     "price": "40 USD",
     "price_postapoc": "250 cent",
     "qualities": [ [ "COOK", 1 ] ]
@@ -460,7 +457,7 @@
     "bashing": 5,
     "cutting": 19,
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 17 } ],
-    "flags": [ "SPEAR", "NONCONDUCTIVE", "SHEATH_SPEAR", "JAVELIN" ],
+    "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "JAVELIN", "STAB" ],
     "price": "90 USD",
     "price_postapoc": "5 USD"
   },
@@ -507,7 +504,17 @@
     "color": "brown",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
+    "flags": [
+      "DURABLE_MELEE",
+      "POLEARM",
+      "SPEAR",
+      "REACH_ATTACK",
+      "REACH3",
+      "NONCONDUCTIVE",
+      "SHEATH_SPEAR",
+      "ALWAYS_TWOHAND",
+      "STAB"
+    ]
   },
   {
     "id": "pike_inferior",
@@ -521,7 +528,7 @@
     "cutting": 8,
     "material": [ "budget_steel", "wood" ],
     "looks_like": "pike",
-    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "STAB" ]
   },
   {
     "id": "pike_fake",
@@ -537,7 +544,7 @@
     "cutting": 2,
     "material": [ "aluminum", "wood" ],
     "looks_like": "pike",
-    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ]
+    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "STAB" ]
   },
   {
     "id": "spear_dory",
@@ -546,8 +553,8 @@
     "weapon_category": [ "SPEARS" ],
     "name": { "str": "dory", "str_pl": "dories" },
     "description": "A well-made spear with a bronze head, Greek in origin.",
-    "weight": "1598 g",
-    "volume": "3500 ml",
+    "weight": "1298 g",
+    "volume": "1750 ml",
     "price": "100 USD",
     "price_postapoc": "35 USD",
     "to_hit": 1,
@@ -558,7 +565,7 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE", "STAB" ]
   },
   {
     "id": "ji",
@@ -568,8 +575,8 @@
     "name": { "str_sp": "ji" },
     "//": "Couldn't find a good way to pluralize the transliteration.",
     "description": "This is a bronze polearm that originated in the Shang dynasty of China, if not earlier.  It combines a spear head with the perpendicular blade of the earlier ge or dagger-axe.",
-    "weight": "3175 g",
-    "volume": "3750 ml",
+    "weight": "1175 g",
+    "volume": "1750 ml",
     "price": "500 USD",
     "price_postapoc": "35 USD",
     "to_hit": 2,
@@ -579,6 +586,6 @@
     "symbol": "/",
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "ALWAYS_TWOHAND", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR" ]
   }
 ]

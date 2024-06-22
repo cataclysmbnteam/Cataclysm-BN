@@ -19,7 +19,6 @@
     "damage": { "damage_type": "bullet", "amount": 30, "armor_penetration": 26 },
     "dispersion": 60,
     "recoil": 400,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "price_postapoc": "18 USD",
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },

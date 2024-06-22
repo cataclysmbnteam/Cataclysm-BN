@@ -780,7 +780,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of geta", "str_pl": "pairs of geta" },
     "description": "Simple wooden geta.",
-    "weight": "460 g",
+    "weight": "500 g",
     "volume": "1 L",
     "price": "65 USD",
     "price_postapoc": "50 cent",

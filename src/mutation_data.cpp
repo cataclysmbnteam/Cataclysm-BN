@@ -403,6 +403,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, 1.0f );
     optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, 1.0f );
 
+    optional( jo, was_loaded, "mutagen_target_modifier", mutagen_target_modifier, 0 );
+
     if( jo.has_object( "rand_cut_bonus" ) ) {
         JsonObject sm = jo.get_object( "rand_cut_bonus" );
         rand_cut_bonus.first = sm.get_int( "min" );

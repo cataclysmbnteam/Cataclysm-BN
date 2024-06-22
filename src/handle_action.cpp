@@ -689,8 +689,8 @@ static void smash()
         }
     }
     item &weapon = u.primary_weapon();
-    if( weapon.made_of( material_id( "glass" ) ) &&
-        !query_yn( _( "Are you sure you want to smash with an item made of glass?" ) ) ) {
+    if( weapon.can_shatter() &&
+        !query_yn( _( "Are you sure you want to smash with an item that might shatter?" ) ) ) {
         return;
     }
     const int move_cost = !u.is_armed() ? 80 : weapon.attack_cost() * 0.8;
@@ -756,7 +756,8 @@ static void smash()
 
     bool should_pulp = false;
     for( const item * const &it : here.i_at( smashp ) ) {
-        if( it->is_corpse() && it->damage() < it->max_damage() && it->can_revive() ) {
+        if( it->is_corpse() && it->damage() < it->max_damage() && ( it->can_revive() ||
+                it->get_mtype()->zombify_into ) ) {
             if( it->get_mtype()->bloodType()->has_acid ) {
                 if( query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
                     should_pulp = true;
@@ -793,7 +794,7 @@ static void smash()
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
             const int vol = weapon.volume() / units::legacy_volume_factor;
-            if( weapon.made_of( material_id( "glass" ) ) &&
+            if( weapon.can_shatter() &&
                 rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), weapon.tname() );
                 weapon.spill_contents( u.pos() );
@@ -1346,7 +1347,7 @@ static void fire()
         }
 
         if( vp.part_with_feature( "CONTROLS", true ) ) {
-            if( vp->vehicle().turrets_aim_and_fire_all_manual() ) {
+            if( vp->vehicle().turrets_aim_and_fire_mult( u, turret_filter_types::MANUAL, true ) ) {
                 return;
             }
         }

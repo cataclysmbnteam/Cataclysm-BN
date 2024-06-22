@@ -270,8 +270,6 @@ static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
 static const itype_id itype_rmi2_corpse( "rmi2_corpse" );
-static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
-static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_smart_phone( "smart_phone" );
 static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
@@ -281,7 +279,6 @@ static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_soiled( "towel_soiled" );
 static const itype_id itype_towel_wet( "towel_wet" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
@@ -955,8 +952,7 @@ int iuse::prozac( player *p, item *it, bool, const tripoint & )
 
 int iuse::sleep( player *p, item *it, bool, const tripoint & )
 {
-    p->mod_fatigue( 40 );
-    p->add_msg_if_player( m_warning, _( "You feel very sleepy…" ) );
+    p->add_msg_if_player( m_warning, _( "You feel sleepy…" ) );
     return it->type->charges_to_use();
 }
 
@@ -984,9 +980,8 @@ int iuse::flumed( player *p, item *it, bool, const tripoint & )
 int iuse::flusleep( player *p, item *it, bool, const tripoint & )
 {
     p->add_effect( effect_took_flumed, 12_hours );
-    p->mod_fatigue( 30 );
     p->add_msg_if_player( _( "You take some %s" ), it->tname() );
-    p->add_msg_if_player( m_warning, _( "You feel very sleepy…" ) );
+    p->add_msg_if_player( m_warning, _( "You feel sleepy…" ) );
     return it->type->charges_to_use();
 }
 
@@ -1527,136 +1522,113 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-// Types of petfood for taming each different monster.
-enum Petfood {
-    DOGFOOD,
-    CATFOOD,
-    CATTLEFODDER,
-    BIRDFOOD
-};
-
-static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const char *message )
+int iuse::petfood( player *p, item *it, bool, const tripoint & )
 {
-    if( mon.has_flag( food_flag ) ) {
-        p.add_msg_if_player( m_good, message, mon.get_name() );
-        mon.friendly = -1;
-        mon.add_effect( effect_pet, 1_turns, num_bp );
-        p.consume_charges( it, 1 );
-        return 0;
-    } else {
-        p.add_msg_if_player( _( "The %s doesn't want that kind of food." ), mon.get_name() );
+    if( !it->is_comestible() ) {
+        p->add_msg_if_player( _( "You doubt someone would want to eat % 1$s." ), it->tname() );
         return 0;
     }
-}
 
-static int petfood( player &p, item &it, Petfood animal_food_type )
-{
     const std::optional<tripoint> pnt_ = choose_adjacent( string_format(
             _( "Tame which animal with the %s?" ),
-            it.tname() ) );
+            it->tname() ) );
     if( !pnt_ ) {
         return 0;
     }
     const tripoint pnt = *pnt_;
-    p.moves -= to_moves<int>( 1_seconds );
+    p->moves -= to_moves<int>( 1_seconds );
 
     // First a check to see if we are trying to feed a NPC dog food.
-    if( animal_food_type == DOGFOOD && g->critter_at<npc>( pnt ) != nullptr ) {
+    if( g->critter_at<npc>( pnt ) != nullptr ) {
         if( npc *const person_ = g->critter_at<npc>( pnt ) ) {
             npc &person = *person_;
-            if( query_yn( _( "Are you sure you want to feed a person the dog food?" ) ) ) {
-                p.add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it.tname(),
-                                     person.name );
-                if( person.is_ally( p ) || x_in_y( 9, 10 ) ) {
+            if( query_yn( _( "Are you sure you want to feed a person the pet food?" ) ) ) {
+                p->add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it->tname(),
+                                      person.name );
+                if( person.is_ally( *p ) || x_in_y( 9, 10 ) ) {
                     person.say(
-                        _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
-                    p.consume_charges( it, 1 );
+                        _( "Okay, but please, don't give me this again.  I don't want to eat pet food in the cataclysm all day." ) );
+                    p->consume_charges( *it, 1 );
                     return 0;
                 } else {
-                    p.add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name );
+                    p->add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name );
                     person.make_angry();
-                    p.consume_charges( it, 1 );
+                    p->consume_charges( *it, 1 );
                     return 0;
                 }
             } else {
-                p.add_msg_if_player( _( "Never mind." ) );
+                p->add_msg_if_player( _( "Never mind." ) );
                 return 0;
             }
         }
+
         // Then monsters.
     } else if( monster *const mon_ptr = g->critter_at<monster>( pnt, true ) ) {
         monster &mon = *mon_ptr;
 
         if( mon.is_hallucination() ) {
-            p.add_msg_if_player( _( "You try to feed the %s some %s, but it vanishes!" ),
-                                 mon.type->nname(), it.tname() );
+            p->add_msg_if_player( _( "You try to feed the %s some %s, but it vanishes!" ),
+                                  mon.type->nname(), it->tname() );
             mon.die( nullptr );
             return 0;
         }
 
         // Feral survivors don't get to tame normal critters.
-        if( p.has_trait( trait_PROF_FERAL ) ) {
+        if( p->has_trait( trait_PROF_FERAL ) ) {
             // TODO: Allow player ferals to tame zombie animals, but make sure non-feral players
             // can't tame them, and for flavor possibly only allow taming with meat-based items.
-            p.add_msg_if_player( _( "You reach for the %s, but it recoils away from you!" ),
-                                 mon.type->nname() );
+            p->add_msg_if_player( _( "You reach for the %s, but it recoils away from you!" ),
+                                  mon.type->nname() );
             return 0;
         }
 
-        // This switch handles each petfood for each type of tameable monster.
-        switch( animal_food_type ) {
-            case DOGFOOD:
-                if( mon.type->id == mon_dog_thing ) {
-                    p.deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 1, 10 ) ) );
-                    p.add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
-                    if( one_in( 5 ) ) {
-                        p.add_msg_if_player(
-                            _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
-                        p.consume_charges( it, 1 );
-                        return 0;
-                    }
-                } else {
-                    return feedpet( p, mon, it, MF_DOGFOOD,
-                                    _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
+        //check to see if the item has a petfood data entry deterimine if the item can be fed to a bet
+        bool can_feed = false;
+        const pet_food_data &petfood = mon.type->petfood;
+        const std::set<std::string> &itemfood = it->get_comestible()->petfood;
+        if( !petfood.food.empty() ) {
+            for( const std::string &food : petfood.food ) {
+                if( itemfood.find( food ) != itemfood.end() ) {
+                    can_feed = true;
+                    break;
                 }
-                break;
-            case CATFOOD:
-                return feedpet( p, mon, it, MF_CATFOOD,
-                                _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ) );
-            case CATTLEFODDER:
-                return feedpet( p, mon, it, MF_CATTLEFODDER,
-                                _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
-            case BIRDFOOD:
-                return feedpet( p, mon, it, MF_BIRDFOOD,
-                                _( "The %s seems to like you!  It runs around your legs and seems friendly." ) );
+            }
         }
 
-    } else {
-        p.add_msg_if_player( _( "There is nothing to be fed here." ) );
+        //if the item cannot be fed, give a message to the player and return
+        if( !can_feed ) {
+            p->add_msg_if_player( _( "The %s doesn't want that kind of food." ),
+                                  mon.type->nname() );
+            return 0;
+        }
+
+        if( mon.type->id == mon_dog_thing ) {
+            p->deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 1, 10 ) ) );
+            p->add_msg_if_player( m_bad, _( "You want to feed it the pet food, but it bites your fingers!" ) );
+            if( one_in( 5 ) ) {
+                p->add_msg_if_player(
+                    _( "Apparently it's more interested in your flesh than the pet food in your hand!" ) );
+                p->consume_charges( *it, 1 );
+                return 0;
+            }
+        }
+
+        p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon.get_name() );
+
+        if( petfood.feed.empty() ) {
+            p->add_msg_if_player( _( "The %1$s is your pet now!" ), mon.get_name() );
+        } else {
+            p->add_msg_if_player( _( petfood.feed ), mon.get_name() );
+        }
+
+        mon.make_pet();
+        p->consume_charges( *it, 1 );
         return 0;
     }
 
-    return 1;
-}
+    p->add_msg_if_player( _( "There is nothing to be fed here." ) );
+    return 0;
 
-int iuse::dogfood( player *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, DOGFOOD );
-}
-
-int iuse::catfood( player *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, CATFOOD );
-}
-
-int iuse::feedcattle( player *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, CATTLEFODDER );
-}
-
-int iuse::feedbird( player *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, BIRDFOOD );
 }
 
 int iuse::radio_mod( player *p, item *, bool, const tripoint & )
@@ -1977,6 +1949,13 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
             }
             critter.apply_damage( p, bodypart_id( "torso" ), rng( 20, 60 ) );
             critter.set_speed_base( critter.get_speed_base() / 2 );
+        }
+    }
+
+    // Whatever we sprayed, if present extinguish it too.
+    if( Creature *target = g->critter_at( dest, true ) ) {
+        if( target->has_effect( effect_onfire ) ) {
+            target->remove_effect( effect_onfire );
         }
     }
 
@@ -2302,8 +2281,6 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
 // Ugly and uses variables that shouldn't be public
 int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
 {
-    const bool possess = p->has_item( *it );
-
     if( !t ) {
         it->deactivate( p, true );
         return 0;
@@ -2333,18 +2310,6 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
                 if( maybe_cbm->is_bionic() ) {
                     cbms.push_back( maybe_cbm );
                 }
-            }
-
-            int charges = static_cast<int>( cbms.size() );
-            charges -= it->ammo_consume( charges, pos );
-            if( possess && it->has_flag( flag_USE_UPS ) ) {
-                if( p->use_charges_if_avail( itype_UPS, charges ) ) {
-                    charges = 0;
-                }
-            }
-            if( charges > 0 ) {
-                it->deactivate( p, true );
-                return 0;
             }
 
             corpse->set_var( "bionics_scanned_by", p->getID().get_value() );
@@ -4069,60 +4034,6 @@ int iuse::tazer2( player *p, item *it, bool b, const tripoint &pos )
     return 0;
 }
 
-int iuse::shocktonfa_off( player *p, item *it, bool t, const tripoint &pos )
-{
-    int choice = uilist( _( "tactical tonfa" ), {
-        _( "Zap something" ), _( "Turn on light" )
-    } );
-
-    switch( choice ) {
-        case 0: {
-            return iuse::tazer2( p, it, t, pos );
-        }
-        case 1: {
-            if( !it->units_sufficient( *p ) ) {
-                p->add_msg_if_player( m_info, _( "The batteries are dead." ) );
-                return 0;
-            } else {
-                p->add_msg_if_player( _( "You turn the light on." ) );
-                it->convert( itype_shocktonfa_on );
-                it->active = true;
-                return it->type->charges_to_use();
-            }
-        }
-    }
-    return 0;
-}
-
-int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
-{
-    if( t ) { // Effects while simply on
-
-    } else {
-        if( !it->units_sufficient( *p ) ) {
-            p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
-            it->convert( itype_shocktonfa_off );
-            it->active = false;
-        } else {
-            int choice = uilist( _( "tactical tonfa" ), {
-                _( "Zap something" ), _( "Turn off light" )
-            } );
-
-            switch( choice ) {
-                case 0: {
-                    return iuse::tazer2( p, it, t, pos );
-                }
-                case 1: {
-                    p->add_msg_if_player( _( "You turn off the light." ) );
-                    it->convert( itype_shocktonfa_off );
-                    it->active = false;
-                }
-            }
-        }
-    }
-    return 0;
-}
-
 int iuse::mp3( player *p, item *it, bool, const tripoint & )
 {
     // TODO: avoid item id hardcoding to make this function usable for pure json-defined devices.
@@ -4188,7 +4099,7 @@ void iuse::play_music( player &p, const tripoint &source, const int volume, cons
     // the other characters around should be able to profit as well.
     const bool do_effects = p.can_hear( source, volume );
     std::string sound = "music";
-    if( calendar::once_every( 5_minutes ) ) {
+    if( calendar::once_every( 1_hours ) ) {
         // Every 5 minutes, describe the music
         const std::string music = get_music_description();
         if( !music.empty() ) {
@@ -4645,18 +4556,23 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     bool drew_blood = false;
     bool acid_blood = false;
     for( auto &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
-        if( map_it->is_corpse() &&
-            query_yn( _( "Draw blood from %s?" ),
-                      colorize( map_it->tname(), map_it->color_in_inventory() ) ) ) {
-            p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it->tname() );
-            drew_blood = true;
-            auto bloodtype( map_it->get_mtype()->bloodType() );
-            if( bloodtype.obj().has_acid ) {
-                acid_blood = true;
-            } else {
-                mt = map_it->get_mtype();
+        if( map_it->is_corpse() ) {
+            if( map_it->has_flag( flag_BLED ) ) {
+                p->add_msg_if_player( m_info, _( "That %s has already been bled dry." ), it->tname() );
+                break;
             }
-            break;
+            if( query_yn( _( "Draw blood from %s?" ),
+                          colorize( map_it->tname(), map_it->color_in_inventory() ) ) ) {
+                p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it->tname() );
+                drew_blood = true;
+                auto bloodtype( map_it->get_mtype()->bloodType() );
+                if( bloodtype.obj().has_acid ) {
+                    acid_blood = true;
+                } else {
+                    mt = map_it->get_mtype();
+                }
+                break;
+            }
         }
     }
 
@@ -7505,7 +7421,8 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     monster &z = *mon;
 
                     // shoot past small monsters and hallucinations
-                    if( trajectory_point != aim_point && ( z.type->size <= MS_SMALL || z.is_hallucination() ||
+                    if( trajectory_point != aim_point && ( z.type->size <= creature_size::small ||
+                                                           z.is_hallucination() ||
                                                            z.type->in_species( HALLUCINATION ) ) ) {
                         continue;
                     }
@@ -9088,8 +9005,17 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
                                   print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
         }
     }
-
-    if( it->typeId() == itype_weather_reader ) {
+    if( it->has_flag( flag_WEATHER_FORECAST ) ) {
+        std::string message = string_format( "", message );
+        const auto tref = overmap_buffer.find_radio_station( it->frequency );
+        if( tref ) {
+            {
+                message = weather_forecast( tref.abs_sm_pos );
+            }
+            p->add_msg_if_player( m_neutral, _( "Automatic weather report %s" ), message );
+        }
+    }
+    if( it->has_flag( flag_WINDMETER ) ) {
         int vehwindspeed = 0;
         if( optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
@@ -9098,19 +9024,14 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         /* windpower defined in internal velocity units (=.01 mph) */
         const double windpower = 100 * get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
                                  p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
-
-        p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
-                              convert_velocity( windpower, VU_WIND ),
-                              velocity_units( VU_WIND ) );
-        p->add_msg_if_player(
-            m_neutral, _( "Feels Like: %s." ),
-            print_temperature(
-                get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
-                                     weatherPoint.humidity,
-                                     windpower / 100 ) +
-                units::to_fahrenheit( player_local_temp ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
-        p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
+        p->add_msg_if_player( m_neutral, _( "Wind: %.1f %2$s from the %3$s.\nFeels like: %4$s." ),
+                              convert_velocity( windpower, VU_VEHICLE ),
+                              velocity_units( VU_VEHICLE ), dirstring, print_temperature(
+                                  get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
+                                          weatherPoint.humidity,
+                                          windpower / 100 ) +
+                                  units::to_fahrenheit( player_local_temp ) ) );
     }
 
     return 0;
@@ -9234,13 +9155,13 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             return 0;
         }
     } else {
-        if( !it->has_property( "monster_size_capacity" ) ) {
-            debugmsg( "%s has no monster_size_capacity.", it->tname() );
+        if( !it->has_property( "creature_size_capacity" ) ) {
+            debugmsg( "%s has no creature_size_capacity.", it->tname() );
             return 0;
         }
-        const std::string capacity = it->get_property_string( "monster_size_capacity" );
+        const std::string capacity = it->get_property_string( "creature_size_capacity" );
         if( Creature::size_map.count( capacity ) == 0 ) {
-            debugmsg( "%s has invalid monster_size_capacity %s.",
+            debugmsg( "%s has invalid creature_size_capacity %s.",
                       it->tname(), capacity.c_str() );
             return 0;
         }
@@ -9638,6 +9559,22 @@ int iuse::toggle_heats_food( player *p, item *it, bool, const tripoint & )
     } else {
         it->item_tags.erase( json_flag_HEATS_FOOD );
         p->add_msg_if_player( _( "You will no longer use %s to heat food." ), it->tname().c_str() );
+    }
+
+    return 0;
+}
+
+int iuse::toggle_ups_charging( player *p, item *it, bool, const tripoint & )
+{
+    static const flag_id json_flag_USE_UPS( flag_USE_UPS );
+    if( !it->has_flag( json_flag_USE_UPS ) ) {
+        it->item_tags.insert( json_flag_USE_UPS );
+        p->add_msg_if_player(
+            _( "You will recharge the %s using any available Unified Power System." ),
+            it->tname().c_str() );
+    } else {
+        it->item_tags.erase( json_flag_USE_UPS );
+        p->add_msg_if_player( _( "You will no longer recharge the %s via UPS." ), it->tname().c_str() );
     }
 
     return 0;

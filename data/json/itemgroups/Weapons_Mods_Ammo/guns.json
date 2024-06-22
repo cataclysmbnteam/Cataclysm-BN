@@ -6,6 +6,7 @@
     "items": [
       { "group": "nested_glock_17", "prob": 35 },
       { "group": "nested_glock_19", "prob": 50 },
+      { "group": "nested_glock_20", "prob": 10 },
       { "group": "nested_glock_21", "prob": 8 },
       { "group": "nested_glock_22", "prob": 35 },
       { "group": "nested_glock_31", "prob": 15 },
@@ -18,6 +19,7 @@
       { "group": "nested_sw_22", "prob": 15 },
       { "group": "nested_sw_610", "prob": 20 },
       { "group": "nested_sw_619", "prob": 25 },
+      { "group": "nested_colt_python", "prob": 15 },
       { "group": "nested_model_10_revolver", "prob": 20 },
       { "group": "nested_taurus_spectrum", "prob": 15 },
       { "group": "nested_p226_357sig", "prob": 20 },
@@ -48,6 +50,7 @@
     "items": [
       { "group": "everyday_glock_17", "prob": 35 },
       { "group": "everyday_glock_19", "prob": 50 },
+      { "group": "everyday_glock_20", "prob": 10 },
       { "group": "everyday_glock_21", "prob": 8 },
       { "group": "everyday_glock_22", "prob": 35 },
       { "group": "everyday_glock_31", "prob": 15 },
@@ -60,6 +63,7 @@
       { "group": "everyday_sw_22", "prob": 15 },
       { "group": "everyday_sw_610", "prob": 20 },
       { "group": "everyday_sw_619", "prob": 25 },
+      { "group": "everyday_colt_python", "prob": 15 },
       { "group": "everyday_model_10_revolver", "prob": 20 },
       { "group": "everyday_taurus_spectrum", "prob": 15 },
       { "group": "everyday_p226_357sig", "prob": 20 },
@@ -100,6 +104,7 @@
       { "item": "sw_22", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "sw_610", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "sw_619", "prob": 25, "charges-min": 0, "charges-max": 0 },
+      { "item": "colt_python", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "model_10_revolver", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "taurus_spectrum", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "p226_357sig", "prob": 20, "charges-min": 0, "charges-max": 0 },
@@ -277,7 +282,9 @@
       { "group": "nested_tommygun", "prob": 70 },
       { "group": "nested_hk_mp5_semi_pistol", "prob": 70 },
       { "group": "nested_sten", "prob": 100 },
-      { "group": "nested_uzi", "prob": 100 }
+      { "group": "nested_uzi", "prob": 100 },
+      { "group": "nested_mac_10", "prob": 40 },
+      { "group": "nested_mac_11", "prob": 20 }
     ]
   },
   {
@@ -288,7 +295,9 @@
       { "group": "everyday_tommygun", "prob": 70 },
       { "group": "everyday_hk_mp5_semi_pistol", "prob": 70 },
       { "group": "everyday_sten", "prob": 100 },
-      { "group": "everyday_uzi", "prob": 100 }
+      { "group": "everyday_uzi", "prob": 100 },
+      { "group": "everyday_mac_10", "prob": 40 },
+      { "group": "everyday_mac_11", "prob": 20 }
     ]
   },
   {
@@ -312,9 +321,8 @@
       { "group": "nested_hk_mp5", "prob": 100 },
       { "group": "nested_hk_mp5sd", "prob": 5 },
       { "group": "nested_hk_ump45", "prob": 30 },
-      { "group": "nested_mac_10", "prob": 40 },
-      { "group": "nested_mac_11", "prob": 20 },
       { "group": "nested_TDI", "prob": 10 },
+      { "group": "nested_kriss_vector", "prob": 10 },
       { "group": "nested_american_180", "prob": 50 },
       { "group": "nested_briefcase_smg", "prob": 5 },
       { "group": "nested_tec9", "prob": 50 }
@@ -330,9 +338,8 @@
       { "group": "everyday_hk_mp5", "prob": 100 },
       { "group": "everyday_hk_mp5sd", "prob": 5 },
       { "group": "everyday_hk_ump45", "prob": 30 },
-      { "group": "everyday_mac_10", "prob": 40 },
-      { "group": "everyday_mac_11", "prob": 20 },
       { "group": "everyday_TDI", "prob": 10 },
+      { "group": "everyday_kriss_vector", "prob": 10 },
       { "group": "everyday_american_180", "prob": 50 },
       { "group": "everyday_briefcase_smg", "prob": 5 },
       { "group": "everyday_tec9", "prob": 50 }
@@ -351,6 +358,7 @@
       { "item": "mac_10", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "mac_11", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "TDI", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "kriss_vector", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "american_180", "prob": 50, "charges-min": 0, "charges-max": 0 },
       { "item": "briefcase_smg", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "tec9", "prob": 50, "charges-min": 0, "charges-max": 0 }
@@ -419,17 +427,23 @@
       { "group": "nested_ar10", "prob": 20 },
       { "group": "nested_ar15", "prob": 30 },
       { "group": "nested_cx4", "prob": 45 },
+      { "group": "nested_ar_357sig", "prob": 15 },
+      { "group": "nested_asr_10mm", "prob": 15 },
       { "group": "nested_ksub2000", "prob": 30 },
       { "group": "nested_m1a", "prob": 50 },
       { "group": "nested_marlin_9a", "prob": 80 },
+      { "group": "nested_mkg_guard", "prob": 15 },
+      { "group": "nested_mkg_banshee", "prob": 15 },
       { "group": "nested_mosin44", "prob": 15 },
       { "group": "nested_mosin91_30", "prob": 25 },
       { "group": "nested_remington700_270", "prob": 50 },
+      { "group": "nested_hipoint_3895", "prob": 30 },
       { "group": "nested_ruger_1022", "prob": 70 },
       { "group": "nested_ruger_mini", "prob": 60 },
       { "group": "nested_sks", "prob": 40 },
       { "group": "nested_win70", "prob": 15 },
       { "group": "nested_1895sbl", "prob": 15 },
+      { "group": "nested_marlin_1894c", "prob": 25 },
       { "group": "nested_aksemi", "prob": 35 }
     ]
   },
@@ -444,17 +458,23 @@
       { "group": "everyday_ar10", "prob": 20 },
       { "group": "everyday_ar15", "prob": 30 },
       { "group": "everyday_cx4", "prob": 45 },
+      { "group": "everyday_ar_357sig", "prob": 15 },
+      { "group": "everyday_asr_10mm", "prob": 15 },
       { "group": "everyday_ksub2000", "prob": 30 },
       { "group": "everyday_m1a", "prob": 50 },
       { "group": "everyday_marlin_9a", "prob": 80 },
+      { "group": "everyday_mkg_guard", "prob": 15 },
+      { "group": "everyday_mkg_banshee", "prob": 15 },
       { "group": "everyday_mosin44", "prob": 15 },
       { "group": "everyday_mosin91_30", "prob": 25 },
       { "group": "everyday_remington700_270", "prob": 50 },
       { "group": "everyday_ruger_1022", "prob": 70 },
+      { "group": "everyday_hipoint_3895", "prob": 30 },
       { "group": "everyday_ruger_mini", "prob": 60 },
       { "group": "everyday_sks", "prob": 40 },
       { "group": "everyday_win70", "prob": 15 },
       { "group": "everyday_1895sbl", "prob": 15 },
+      { "group": "everyday_marlin_1894c", "prob": 25 },
       { "group": "everyday_aksemi", "prob": 35 }
     ]
   },
@@ -468,17 +488,23 @@
       { "item": "ar10", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "ar15", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "cx4", "prob": 45, "charges-min": 0, "charges-max": 0 },
+      { "item": "ar_357sig", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "asr_10mm", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "ksub2000", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "m1a", "prob": 50, "charges-min": 0, "charges-max": 0 },
       { "item": "marlin_9a", "prob": 80, "charges-min": 0, "charges-max": 0 },
+      { "item": "mkg_banshee", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "mkg_guard", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin44", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin91_30", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "remington700_270", "prob": 50, "charges-min": 0, "charges-max": 0 },
+      { "item": "hipoint_3895", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "ruger_1022", "prob": 70, "charges-min": 0, "charges-max": 0 },
       { "item": "ruger_mini", "prob": 60, "charges-min": 0, "charges-max": 0 },
       { "item": "sks", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "win70", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "marlin_1894c", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "aksemi", "prob": 35, "charges-min": 0, "charges-max": 0 }
     ]
   },
@@ -954,7 +980,8 @@
     "//": "Makeshift or otherwise poor quality grenade and rocket launchers",
     "items": [
       { "item": "launcher_simple", "prob": 100 },
-      { "item": "triple_launcher_simple", "prob": 15, "charges-min": 0, "charges-max": 3 }
+      { "item": "triple_launcher_simple", "prob": 15, "charges-min": 0, "charges-max": 3 },
+      { "item": "slingshot_cannon", "prob": 30 }
     ]
   },
   {
@@ -1142,6 +1169,7 @@
       { "group": "everyday_mossberg_500", "prob": 5 },
       { "group": "everyday_remington_870", "prob": 5 },
       { "group": "everyday_ruger_1022", "prob": 15 },
+      { "group": "everyday_hipoint_3895", "prob": 5 },
       { "group": "everyday_shotgun_410", "prob": 10 },
       { "group": "everyday_shotgun_s", "prob": 10 },
       { "group": "everyday_shotgun_d", "prob": 10 },
@@ -1149,6 +1177,63 @@
       { "group": "everyday_sten", "prob": 20 },
       { "group": "everyday_sks", "prob": 10 },
       { "group": "everyday_aksemi", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_safe_guns",
+    "//": "Guns found in a gun safe.",
+    "subtype": "distribution",
+    "items": [
+      { "group": "guns_safe_pistols", "prob": 65 },
+      { "group": "guns_smg_common", "prob": 20 },
+      { "group": "guns_smg_rare", "prob": 2 },
+      { "group": "guns_smg_obscure", "prob": 1 },
+      { "group": "guns_shotgun_common", "prob": 75 },
+      { "group": "guns_shotgun_rare", "prob": 10 },
+      { "group": "guns_shotgun_obscure", "prob": 1 },
+      { "group": "guns_rifle_common", "prob": 75 },
+      { "group": "guns_rifle_rare", "prob": 5 },
+      { "group": "guns_rifle_obscure", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "house_safe",
+    "//": "Potential contents of a small fire safe.",
+    "subtype": "collection",
+    "items": [
+      { "group": "guns_safe_pistols", "prob": 75 },
+      { "group": "guns_safe_pistols", "prob": 50 },
+      { "group": "gunmod_common", "prob": 25 },
+      { "group": "house_safe_misc", "prob": 100, "count": [ 2, 5 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_safe_pistols",
+    "//": "Pistols that could be stored in either a small fire safe or a dedicated gun safe.",
+    "subtype": "distribution",
+    "items": [
+      { "group": "guns_pistol_common", "prob": 50 },
+      { "group": "guns_pistol_rare", "prob": 10 },
+      { "group": "guns_pistol_obscure", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_safe",
+    "//": "Guns found in a gun safe.",
+    "subtype": "collection",
+    "items": [
+      { "group": "guns_safe_guns", "prob": 100 },
+      { "group": "guns_safe_guns", "prob": 35 },
+      { "group": "guns_safe_guns", "prob": 15 },
+      { "group": "gunmod_common", "prob": 50 },
+      { "group": "gunmod_rare", "prob": 15 },
+      { "item": "small_repairkit", "prob": 10 },
+      { "item": "large_repairkit", "prob": 3 },
+      { "group": "house_safe_misc", "prob": 100, "count": [ 1, 2 ] }
     ]
   }
 ]

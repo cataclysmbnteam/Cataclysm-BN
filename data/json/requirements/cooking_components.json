@@ -45,6 +45,23 @@
     ]
   },
   {
+    "id": "eggs_insect",
+    "type": "requirement",
+    "//": "All of the different insect eggs",
+    "components": [
+      [
+        [ "ant_egg", 1 ],
+        [ "spider_egg", 4 ],
+        [ "egg_roach", 4 ],
+        [ "egg_locust", 4 ],
+        [ "egg_dragonfly", 4 ],
+        [ "egg_firefly", 4 ],
+        [ "egg_centipede", 2 ],
+        [ "egg_wasp", 4 ]
+      ]
+    ]
+  },
+  {
     "id": "eggs_small",
     "type": "requirement",
     "//": "All of the different eggs, which are small",
@@ -61,9 +78,7 @@
         [ "egg_pheasant", 1 ],
         [ "egg_cockatrice", 1 ],
         [ "egg_reptile", 1 ],
-        [ "spider_egg", 1 ],
-        [ "egg_roach", 1 ],
-        [ "egg_locust", 1 ]
+        [ "eggs_insect", 1, "LIST" ]
       ]
     ]
   },
@@ -77,7 +92,13 @@
     "id": "milk_standard",
     "type": "requirement",
     "//": "Pasteurized milk, including reconstituted",
-    "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ] ] ]
+    "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ], [ "milk_evap", 1 ] ] ]
+  },
+  {
+    "id": "milk_substitute_standard",
+    "type": "requirement",
+    "//": "Pasteurized milk, including reconstituted and substitutes",
+    "components": [ [ [ "milk_standard", 1, "LIST" ], [ "soy_milk", 1 ], [ "almond_milk", 1 ] ] ]
   },
   {
     "id": "any_butter",
@@ -95,7 +116,7 @@
     "id": "milk_standard_raw_fresh",
     "type": "requirement",
     "//": "Equivalent to milk_standard_raw, but without milk_reconstituted",
-    "components": [ [ [ "milk", 1 ], [ "milk_UHT", 1 ], [ "milk_raw", 1 ] ] ]
+    "components": [ [ [ "milk", 1 ], [ "milk_UHT", 1 ], [ "milk_raw", 1 ], [ "milk_evap", 1 ] ] ]
   },
   {
     "id": "sugar_standard",
@@ -184,67 +205,166 @@
     "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ] ] ]
   },
   {
-    "id": "meat_red_raw",
+    "id": "meat_red",
     "type": "requirement",
     "//": "Anything you might consider raw, unpreserved 'red' meat.  About 250mL of meat.",
     "components": [ [ [ "meat_raw_steak", 1, "LIST" ], [ "meat_scrap", 10 ], [ "mutant_meat_scrap", 10 ] ] ]
   },
   {
-    "id": "meat_red",
+    "id": "meat_red_cooked",
     "type": "requirement",
-    "//": "Anything you might consider raw 'red' meat.  About 250mL of meat.",
-    "components": [ [ [ "meat_red_raw", 1, "LIST" ], [ "rehydrated_meat", 1 ], [ "meat_canned", 1 ] ] ]
-  },
-  {
-    "id": "meat_nofish",
-    "type": "requirement",
-    "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
-    "components": [
-      [
-        [ "meat_red", 1, "LIST" ],
-        [ "liver", 5 ],
-        [ "kidney", 5 ],
-        [ "lung", 5 ],
-        [ "sweetbread", 5 ],
-        [ "bacon", 4 ],
-        [ "lunchmeat", 5 ],
-        [ "bologna", 5 ],
-        [ "can_spam", 2 ],
-        [ "can_chicken", 1 ],
-        [ "meat_pickled", 1 ],
-        [ "dry_meat", 1 ],
-        [ "jerky", 1 ],
-        [ "meat_smoked", 1 ],
-        [ "meat_salted", 1 ]
-      ]
-    ]
-  },
-  {
-    "id": "meat_cooked",
-    "type": "requirement",
-    "//": "meat you'd put on a sandwich",
+    "//": "cooked meat",
     "components": [
       [
         [ "meat_cooked", 1 ],
+        [ "meat_smoked", 1 ],
+        [ "meat_pickled", 1 ],
+        [ "rehydrated_meat", 1 ],
+        [ "meat_canned", 1 ],
+        [ "dry_meat", 1 ],
         [ "meat_scrap_cooked", 10 ],
         [ "mutant_meat_cooked", 1 ],
         [ "mutant_meat_scrap_cooked", 10 ],
         [ "human_cooked", 1 ],
         [ "mutant_human_cooked", 1 ],
-        [ "meat_pickled", 1 ],
-        [ "meat_smoked", 1 ],
+        [ "meat_cooked_seasoned", 1 ],
+        [ "meat_scrap_cooked_seasoned", 10 ],
+        [ "mutant_meat_cooked_seasoned", 1 ],
+        [ "mutant_meat_scrap_cooked_seasoned", 10 ],
+        [ "human_cooked_seasoned", 1 ],
+        [ "mutant_human_cooked_seasoned", 1 ],
+        [ "can_chicken", 1 ],
+        [ "jerky", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "offals_raw",
+    "type": "requirement",
+    "components": [
+      [
+        [ "offal", 1 ],
+        [ "mutant_offal", 1 ],
+        [ "mutant_bug_organs", 1 ],
+        [ "mutant_bug_lungs", 1 ],
+        [ "sweetbread", 1 ],
+        [ "liver", 1 ],
+        [ "lung", 1 ],
+        [ "kidney", 1 ],
+        [ "brain", 1 ],
+        [ "stomach", 1 ],
+        [ "stomach_large", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "fishs_cooked",
+    "type": "requirement",
+    "components": [
+      [
+        [ "fish_cooked", 1 ],
+        [ "fish_cooked_seasoned", 1 ],
+        [ "fish_smoked", 1 ],
+        [ "dry_fish", 1 ],
+        [ "fish_pickled", 1 ],
+        [ "salted_fish", 1 ],
+        [ "fish_canned", 1 ],
+        [ "can_sardine", 1 ],
+        [ "can_tuna", 1 ],
+        [ "can_salmon", 1 ],
+        [ "can_herring", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "offals_cooked",
+    "type": "requirement",
+    "//": "cooked offal",
+    "components": [
+      [
+        [ "liver_cooked", 4 ],
+        [ "brain_cooked", 4 ],
+        [ "sweetbread_cooked", 4 ],
+        [ "lung_cooked", 4 ],
+        [ "kidney_cooked", 4 ],
+        [ "fried_livers", 1 ],
+        [ "canned_liver", 1 ],
+        [ "fried_brain", 2 ],
+        [ "grilled_sweetbread", 2 ],
+        [ "offal_canned", 1 ],
+        [ "offal_cooked", 1 ],
+        [ "offal_pickled", 1 ],
+        [ "stomach_boiled", 1 ],
+        [ "small_stomach_boiled", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_nofish_raw",
+    "type": "requirement",
+    "//": "Any type of raw meat and offal except for fish.  About 300-400kcal of meat.",
+    "components": [ [ [ "meat_red", 1, "LIST" ], [ "offals_raw", 2, "LIST" ], [ "meat_salted", 1 ] ] ]
+  },
+  {
+    "id": "sausage_cooked",
+    "type": "requirement",
+    "//": "sausages for food stuff should be the same volume",
+    "components": [
+      [
+        [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "veggy_sausage", 1 ],
+        [ "veggy_sausage_cooked", 1 ],
+        [ "bratwurst_sausage", 5 ],
+        [ "sweet_sausage", 1 ],
+        [ "sausage_wasteland", 1 ],
+        [ "sausage_wasteland_cooked", 1 ],
+        [ "hotdogs_campfire", 4 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_sausage_cooked",
+    "type": "requirement",
+    "//": "sausages, spam and cooked meat for food stuff",
+    "components": [
+      [
+        [ "meat_red_cooked", 1, "LIST" ],
+        [ "sausage_cooked", 1, "LIST" ],
+        [ "bologna", 4 ],
+        [ "can_spam", 3 ],
+        [ "fried_spam", 3 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_sausage_raw",
+    "type": "requirement",
+    "//": "Any type of raw meat and sausages except for fish.  About 300-400kcal of meat.",
+    "components": [
+      [
+        [ "meat_nofish_raw", 1, "LIST" ],
+        [ "sausage_raw", 1 ],
+        [ "sausage_wasteland_raw", 1 ],
+        [ "hotdogs_frozen", 2 ],
+        [ "homemade_hotdogs", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_sandwich",
+    "type": "requirement",
+    "//": "meat you'd put on a sandwich",
+    "components": [
+      [
+        [ "meat_sausage_cooked", 1, "LIST" ],
         [ "meat_salted", 1 ],
-        [ "dry_meat", 1 ],
-        [ "rehydrated_meat", 1 ],
-        [ "jerky", 1 ],
         [ "bacon", 1 ],
         [ "lunchmeat", 2 ],
-        [ "bologna", 5 ],
-        [ "can_spam", 2 ],
-        [ "fried_spam", 2 ],
-        [ "can_chicken", 1 ],
         [ "fish_cooked", 1 ],
+        [ "fish_cooked_seasoned", 1 ],
         [ "fish_smoked", 1 ],
+        [ "dry_fish", 1 ],
         [ "can_herring", 1 ],
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
@@ -252,10 +372,64 @@
         [ "can_clams", 1 ],
         [ "fish_pickled", 1 ],
         [ "cracklins", 1 ],
-        [ "meat_aspic", 1 ],
-        [ "sausage", 1 ],
-        [ "sausage_cooked", 1 ],
-        [ "bratwurst_sausage", 1 ]
+        [ "meat_aspic", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "veggy_sandwich",
+    "type": "requirement",
+    "//": "meat you'd put on a sandwich",
+    "components": [
+      [
+        [ "veggy_sausage", 1 ],
+        [ "veggy_sausage_cooked", 1 ],
+        [ "veggy_cooked", 1 ],
+        [ "veggy_wild_cooked", 1 ],
+        [ "veggy_salted", 1 ],
+        [ "celery", 1 ],
+        [ "irradiated_celery", 1 ],
+        [ "cabbage", 1 ],
+        [ "irradiated_cabbage", 1 ],
+        [ "sauerkraut", 1 ],
+        [ "tomato", 1 ],
+        [ "can_tomato", 1 ],
+        [ "irradiated_pumpkin", 1 ],
+        [ "onion", 1 ],
+        [ "irradiated_onion", 1 ],
+        [ "broccoli", 1 ],
+        [ "irradiated_tomato", 1 ],
+        [ "irradiated_broccoli", 1 ],
+        [ "rehydrated_veggy", 1 ],
+        [ "morel_cooked", 1 ],
+        [ "mushroom_cooked", 1 ],
+        [ "sauerkraut_onions", 1 ],
+        [ "pickle", 1 ],
+        [ "veggy_canned", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "irradiated_carrot", 1 ],
+        [ "irradiated_zucchini", 1 ],
+        [ "irradiated_lettuce", 1 ],
+        [ "carrot", 1 ],
+        [ "zucchini", 1 ],
+        [ "lettuce", 1 ],
+        [ "pine_nuts", 1 ],
+        [ "morel_fried", 1 ],
+        [ "veggy_aspic", 1 ],
+        [ "dahlia_baked", 1 ],
+        [ "irradiated_cucumber", 1 ],
+        [ "cucumber", 1 ],
+        [ "veggy_pickled", 1 ],
+        [ "cooked_cattail_stalk", 1 ],
+        [ "cooked_pumpkin", 1 ],
+        [ "potato_baked", 1 ],
+        [ "irradiated_potato", 1 ],
+        [ "can_tomato", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
+        [ "chili_pepper_roasted", 1 ],
+        [ "spinach", 1 ],
+        [ "grape_leaves", 1 ]
       ]
     ]
   },
@@ -269,7 +443,7 @@
     "id": "human_meat_cooked",
     "type": "requirement",
     "//": "Cooked meat that non-cannibals would be unhappy eating.",
-    "components": [ [ [ "human_cooked", 1 ], [ "mutant_human_cooked", 1 ] ] ]
+    "components": [ [ [ "human_cooked", 1 ], [ "human_cooked_seasoned", 1 ], [ "mutant_human_cooked", 1 ] ] ]
   },
   {
     "id": "meat_soup_ingredients",
@@ -299,7 +473,7 @@
         [ "dry_lentils", 1 ],
         [ "raw_lentils", 1 ]
       ],
-      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ]
+      [ [ "meat_sausage_raw", 1, "LIST" ], [ "meat_sausage_cooked", 1, "LIST" ], [ "offals_cooked", 1, "LIST" ] ]
     ]
   },
   {
@@ -344,16 +518,7 @@
         [ "morel_cooked", 1 ],
         [ "acorns_cooked", 1 ]
       ],
-      [
-        [ "fish", 2 ],
-        [ "dry_fish", 2 ],
-        [ "fish_smoked", 2 ],
-        [ "fish_pickled", 2 ],
-        [ "salted_fish", 2 ],
-        [ "fish_canned", 2 ],
-        [ "can_salmon", 2 ],
-        [ "can_tuna", 2 ]
-      ]
+      [ [ "fish", 1 ], [ "fishs_cooked", 1, "LIST" ] ]
     ]
   },
   {
@@ -362,41 +527,43 @@
     "components": [
       [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "pine_tea", 2 ] ],
       [
-        [ "meat_nofish", 1, "LIST" ],
+        [ "meat_sausage_raw", 1, "LIST" ],
+        [ "can_chicken", 1 ],
         [ "fish", 1 ],
-        [ "fish_smoked", 1 ],
-        [ "dry_fish", 1 ],
-        [ "rehydrated_fish", 1 ],
-        [ "fish_canned", 1 ],
-        [ "can_salmon", 1 ],
-        [ "can_tuna", 1 ],
-        [ "sausage", 1 ],
-        [ "sausage_cooked", 1 ],
-        [ "bratwurst_sausage", 1 ],
-        [ "eggs_small_dry", 2, "LIST" ]
+        [ "fishs_cooked", 1, "LIST" ],
+        [ "eggs_small_dry", 2, "LIST" ],
+        [ "meat_sausage_cooked", 1, "LIST" ],
+        [ "offals_cooked", 1, "LIST" ]
       ],
       [
-        [ "veggy_wild", 2 ],
-        [ "veggy", 2 ],
-        [ "rehydrated_veggy", 2 ],
-        [ "dry_veggy", 2 ],
-        [ "dry_beans", 2 ],
-        [ "can_beans", 2 ],
-        [ "raw_beans", 2 ],
-        [ "beans_cooked", 2 ],
-        [ "dry_lentils", 2 ],
-        [ "raw_lentils", 2 ],
+        [ "veggy_any", 2, "LIST" ],
+        [ "nuts_tasty", 2, "LIST" ],
         [ "dry_rice", 2 ],
-        [ "dandelion_cooked", 2 ],
-        [ "burdock_cooked", 2 ],
         [ "mushroom", 2 ],
         [ "dry_mushroom", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "morel_cooked", 2 ],
-        [ "acorns_cooked", 2 ],
         [ "chili_pepper_roasted", 2 ]
       ]
     ]
+  },
+  {
+    "id": "edible_blood",
+    "type": "requirement",
+    "//": "Any type of edible blood.",
+    "components": [ [ [ "animal_blood", 1 ], [ "mutant_blood", 1 ], [ "blood", 1 ] ] ]
+  },
+  {
+    "id": "edible_blood_concentrate",
+    "type": "requirement",
+    "//": "Any type of edible concentrated blood.",
+    "components": [ [ [ "animal_blood_concentrate", 1 ], [ "mutant_blood_concentrate", 1 ], [ "blood_concentrate", 1 ] ] ]
+  },
+  {
+    "id": "any_blood",
+    "type": "requirement",
+    "//": "Any type of blood.",
+    "components": [ [ [ "edible_blood", 1, "LIST" ], [ "blood_tainted", 1 ] ] ]
   },
   {
     "id": "any_fat",
@@ -453,6 +620,7 @@
     "components": [
       [
         [ "pepper", 1 ],
+        [ "salt", 1 ],
         [ "seasoning_salt", 1 ],
         [ "seasoning_italian", 1 ],
         [ "wild_herbs", 1 ],
@@ -475,6 +643,42 @@
         [ "seasoning_salt", 1 ],
         [ "pepper", 2 ],
         [ "chem_saltpetre", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "nuts_cooked",
+    "type": "requirement",
+    "//": "cooked nuts ready to be eaten",
+    "components": [
+      [
+        [ "acorns_cooked", 1 ],
+        [ "acorn_roasted", 1 ],
+        [ "almond_roasted", 1 ],
+        [ "walnut_roasted", 1 ],
+        [ "chestnut_roasted", 1 ],
+        [ "hazelnut_roasted", 1 ],
+        [ "hickory_nut_roasted", 1 ],
+        [ "pecan_roasted", 1 ],
+        [ "pine_nuts", 1 ],
+        [ "pistachio_roasted", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "nuts_tasty",
+    "type": "requirement",
+    "//": "nuts that taste good enough to be eaten as is, either processed or raw.",
+    "components": [
+      [
+        [ "nuts_cooked", 1, "LIST" ],
+        [ "almond", 1 ],
+        [ "walnut", 1 ],
+        [ "peanut", 1 ],
+        [ "beech_nuts", 1 ],
+        [ "cashews", 1 ],
+        [ "pecan", 1 ],
+        [ "pistachio", 1 ]
       ]
     ]
   },
@@ -630,6 +834,8 @@
         [ "irradiated_pumpkin", 1 ],
         [ "raw_dandelion", 1 ],
         [ "raw_burdock", 1 ],
+        [ "raw_beans", 1 ],
+        [ "raw_lentils", 1 ],
         [ "rhubarb", 1 ],
         [ "irradiated_rhubarb", 1 ],
         [ "sugar_beet", 1 ],
@@ -657,7 +863,15 @@
         [ "veggy_any_uncooked", 1, "LIST" ],
         [ "veggy_canned", 1 ],
         [ "veggy_salted", 1 ],
-        [ "chili_pepper_roasted", 1 ]
+        [ "dry_veggy", 1 ],
+        [ "dry_beans", 1 ],
+        [ "can_beans", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "dry_lentils", 1 ],
+        [ "chili_pepper_roasted", 1 ],
+        [ "veggy_sausage", 1 ],
+        [ "veggy_sausage_cooked", 1 ],
+        [ "cooked_cattail_stalk", 1 ]
       ]
     ]
   },
@@ -760,31 +974,16 @@
     "components": [ [ [ "sugar", 3 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ], [ "beet_syrup", 2 ] ] ]
   },
   {
-    "id": "offal_raw",
+    "id": "condiment_lite",
     "type": "requirement",
-    "components": [ [ [ "offal", 1 ], [ "mutant_offal", 1 ], [ "sweetbread", 2 ], [ "liver", 2 ], [ "lung", 2 ], [ "kidney", 2 ] ] ]
-  },
-  {
-    "id": "meat_offal",
-    "type": "requirement",
-    "//": "Renamed to offal_raw, because that's more specific.  Requirements don't support aliases yet, so done using nesting.",
-    "components": [ [ [ "offal_raw", 1, "LIST" ] ] ]
+    "//": " condiments that go well with sausage or boiled egg",
+    "components": [ [ [ "mayonnaise", 1 ], [ "mustard", 1 ], [ "ketchup", 1 ], [ "horseradish", 1 ] ] ]
   },
   {
     "id": "condiment",
     "type": "requirement",
     "//": " Should be about a teaspoon, or smallest serving",
-    "components": [
-      [
-        [ "mayonnaise", 1 ],
-        [ "mustard", 1 ],
-        [ "soysauce", 1 ],
-        [ "ketchup", 1 ],
-        [ "horseradish", 1 ],
-        [ "sauerkraut", 1 ],
-        [ "butter", 1 ]
-      ]
-    ]
+    "components": [ [ [ "condiment_lite", 1, "LIST" ], [ "soysauce", 1 ], [ "sauerkraut", 1 ], [ "butter", 1 ] ] ]
   },
   {
     "id": "bread_sandwich",
@@ -815,5 +1014,11 @@
     "type": "requirement",
     "//": "Flour, irrespective of whether it's wheat-free or wheat-full.",
     "components": [ [ [ "flour", 1 ] ] ]
+  },
+  {
+    "id": "chocolate_any",
+    "type": "requirement",
+    "//": "Anything involving chocolate and being used as a ingredient.",
+    "components": [ [ [ "chocolate", 1 ], [ "cacao_nibs", 5 ], [ "candy2", 1 ] ] ]
   }
 ]

@@ -105,9 +105,12 @@
 #include "vehicle_part.h"
 #include "vpart_position.h"
 
+enum creature_size : int;
+
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
+static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
@@ -295,6 +298,7 @@ activity_handlers::do_turn_functions = {
     { ACT_BUTCHER_FULL, butcher_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
     { ACT_FIELD_DRESS, butcher_do_turn },
+    { ACT_BLEED, butcher_do_turn }, // unsure bout this one lol
     { ACT_SKIN, butcher_do_turn },
     { ACT_QUARTER, butcher_do_turn },
     { ACT_DISMEMBER, butcher_do_turn },
@@ -326,6 +330,7 @@ activity_handlers::finish_functions = {
     { ACT_BUTCHER_FULL, butcher_finish },
     { ACT_FIELD_DRESS, butcher_finish },
     { ACT_SKIN, butcher_finish },
+    { ACT_BLEED, butcher_finish },
     { ACT_QUARTER, butcher_finish },
     { ACT_DISMEMBER, butcher_finish },
     { ACT_DISSECT, butcher_finish },
@@ -432,7 +437,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
 static bool check_butcher_cbm( const int roll )
 {
     // Success rate for dissection rolls, simple percentage roll
-    // +10% per fine cutting quality, +10% per 2 levels of first aid, +10% per 4 levels of electronics
+    // +10% per fine cutting quality, +10% per 2 levels of first aid and electronics
     // Additional, small randomized bonus/penalty if dexterity is above/below average
     // Roll is reduced by corpse damage level (up to -4), minimum of 10% success chance
     add_msg( m_debug, _( "Roll = %i" ), roll );
@@ -503,6 +508,7 @@ enum class butcherable_rating : int {
     too_damaged,
     already_dressed,
     already_skinned,
+    already_bled,
     already_quartered,
     too_small,
     needs_dressing,
@@ -595,7 +601,7 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
                               inv.has_amount( itype_hd_tow_cable, 1 ) ||
                               inv.has_amount( itype_vine_30, 1 ) ||
                               inv.has_amount( itype_grapnel, 1 );
-        const bool big_corpse = corpse.size >= MS_MEDIUM;
+        const bool big_corpse = corpse.size >= creature_size::medium;
 
         if( big_corpse ) {
             if( has_rope && !has_tree_nearby && !b_rack_present ) {
@@ -635,7 +641,7 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
     }
 
     if( action == QUARTER ) {
-        if( corpse.size == MS_TINY ) {
+        if( corpse.size == creature_size::tiny ) {
             not_this_one( _( "This corpse is too small to quarter without damaging." ),
                           butcherable_rating::too_small );
         }
@@ -647,6 +653,21 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
             corpse_item.get_mtype()->harvest->has_entry_type( "offal" ) ) {
             not_this_one( _( "You need to perform field dressing before quartering." ),
                           butcherable_rating::needs_dressing );
+        }
+    }
+
+    if( action == BLEED ) {
+        if( corpse_item.has_flag( flag_BLED ) ) {
+            not_this_one( _( "This has already been bled." ), butcherable_rating::already_bled );
+        }
+        if( ( corpse_item.has_flag( flag_FIELD_DRESS ) ||
+              corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) &&
+            corpse_item.get_mtype()->harvest->has_entry_type( "offal" ) ) {
+            not_this_one( _( "Field dressed corpses no longer have blood." ),
+                          butcherable_rating::already_bled );
+        }
+        if( corpse_item.has_flag( flag_QUARTERED ) ) {
+            not_this_one( _( "Quartered corpses no longer have blood." ), butcherable_rating::already_bled );
         }
     }
 
@@ -721,22 +742,22 @@ static void set_up_butchery_activity( player_activity &act, player &u, const but
     act.index = false;
 }
 
-static int size_factor_in_time_to_cut( m_size size )
+static int size_factor_in_time_to_cut( creature_size size )
 {
     switch( size ) {
         // Time (roughly) in turns to cut up the corpse
-        case MS_TINY:
+        case creature_size::tiny:
             return 150;
-        case MS_SMALL:
+        case creature_size::small:
             return 300;
-        case MS_MEDIUM:
+        case creature_size::medium:
             return 450;
-        case MS_LARGE:
+        case creature_size::large:
             return 600;
-        case MS_HUGE:
+        case creature_size::huge:
             return 1800;
         default:
-            debugmsg( "Invalid m_size value for butchering corpse: %d", static_cast<int>( size ) );
+            debugmsg( "Invalid creature_size value for butchering corpse: %d", static_cast<int>( size ) );
             break;
     }
     return 0;
@@ -769,6 +790,7 @@ int butcher_time_to_cut( const Character &who, const inventory &inv, const item 
             break;
         case F_DRESS:
         case SKIN:
+        case BLEED: // Should be same with skinning?? baseless guess
             time_to_cut *= 2;
             break;
         case QUARTER:
@@ -867,6 +889,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     if( corpse_item->has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
+    if( corpse_item->has_flag( flag_BLED ) ) {
+        monster_weight = std::round( 0.90 * monster_weight );
+    }
     int practice = 4 + roll_butchery();
 
     if( mt.harvest.is_null() ) {
@@ -906,7 +931,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     continue;
                 }
                 p.add_msg_if_player( m_bad,
-                                     _( "You notice there are bionics implanted in this corpse, that careful dissection might preserve." ) );
+                                     _( "You notice there are implants in this corpse, that careful dissection might preserve." ) );
                 continue;
             }
             if( action == BUTCHER || action == BUTCHER_FULL || action == DISMEMBER ) {
@@ -928,7 +953,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                         break;
                     case 3:
                         p.add_msg_if_player( m_bad,
-                                             _( "You found some bionics in the body, but harvesting them would require more surgical approach." ) );
+                                             _( "You found some implants in the body, but harvesting them would require more surgical approach." ) );
                         break;
                 }
                 continue;
@@ -940,7 +965,14 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             roll /= 2;
         }
 
-        if( corpse_item->has_flag( flag_SKINNED ) && entry.type == "skin" ) {
+        // Corpses that have been skinned, field dressed, or bleed do not yield that item anymore
+        // Also ensure message does not mention blood if you're not bleeding the corpse
+        const bool has_any_field_dressing = corpse_item->has_flag( flag_FIELD_DRESS ) ||
+                                            corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) || corpse_item->has_flag( flag_QUARTERED );
+        const bool already_harvested = ( corpse_item->has_flag( flag_SKINNED ) && entry.type == "skin" ) ||
+                                       ( has_any_field_dressing && entry.type == "offal" ) || ( ( has_any_field_dressing ||
+                                               corpse_item->has_flag( flag_BLED ) || action != BLEED ) && entry.type == "blood" );
+        if( already_harvested ) {
             roll = 0;
         }
 
@@ -950,7 +982,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 roll = roll / 4;
             } else if( entry.type == "bone" ) {
                 roll /= 2;
-            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.type == "skin" ) ) {
+            } else if( corpse_item->get_mtype()->size >= creature_size::medium && ( entry.type == "skin" ) ) {
                 roll /= 2;
             } else if( entry.type == "offal" ) {
                 roll /= 5;
@@ -986,6 +1018,13 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
             if( corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) ) {
                 roll = rng( 0, roll );
+            }
+        }
+
+        // you only get the liquids from bleeding
+        if( action == BLEED ) {
+            if( entry.type != "blood" ) {
+                continue;
             }
         }
 
@@ -1031,7 +1070,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
 
             if( roll <= 0 ) {
-                p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ) );
+                if( !already_harvested ) {
+                    p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ) );
+                }
                 continue;
             }
             if( drop->phase == LIQUID ) {
@@ -1047,7 +1088,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     obj.faults.emplace( flt );
                 }
                 // TODO: smarter NPC liquid handling
-                if( p.is_npc() ) {
+                if( p.is_npc() || action != butcher_type::BLEED ) {
                     drop_on_map( p, item_drop_reason::deliberate, std::move( it ), p.pos() );
                 } else {
                     liquid_handler::handle_all_liquid( std::move( it ), 1 );
@@ -1094,7 +1135,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     // 20% of the original corpse weight is not an item, but liquid gore
 
     if( action != DISSECT ) {
-        p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
+        p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
+                    0 ) + 4 );
     }
 }
 
@@ -1140,6 +1182,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         action = F_DRESS;
     } else if( act->id() == ACT_QUARTER ) {
         action = QUARTER;
+    } else if( act->id() == ACT_BLEED ) {
+        action = BLEED;
     } else if( act->id() == ACT_DISSECT ) {
         action = DISSECT;
     } else if( act->id() == ACT_SKIN ) {
@@ -1166,14 +1210,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return;
     }
 
-    int skill_level = p->get_skill_level( skill_survival ) / 2;
+    int skill_level = p->get_skill_level( skill_survival );
     int factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE :
                                   qual_BUTCHER );
 
     // DISSECT has special case factor calculation and results.
     if( action == DISSECT ) {
         skill_level = p->get_skill_level( skill_firstaid ) / 2;
-        skill_level += p->get_skill_level( skill_electronics ) / 4;
+        skill_level += p->get_skill_level( skill_electronics ) / 2;
         skill_level += inv.max_quality( qual_CUT_FINE );
         add_msg( m_debug, _( "Skill: %s" ), skill_level );
     }
@@ -1252,8 +1296,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         extract_or_wreck_cbms( cbms, roll, *p );
         // those lines are for XP gain with dissecting. It depends on the size of the corpse, time to dissect the corpse and the amount of bionics you would gather.
         int time_to_cut = size_factor_in_time_to_cut( corpse->size );
-        int level_cap = std::min<int>( MAX_SKILL, ( corpse->size + ( cbms.size() * 2 + 1 ) ) );
-        int size_mult = corpse->size > MS_MEDIUM ? ( corpse->size * corpse->size ) : 8;
+        int level_cap = std::min<int>( MAX_SKILL,
+                                       ( static_cast<int>( corpse->size ) + ( cbms.size() * 2 + 1 ) ) );
+        int size_mult = corpse->size > creature_size::medium ? ( corpse->size * corpse->size ) : 8;
         int practice_amt = ( size_mult + 1 ) * ( ( time_to_cut / 150 ) + 1 ) *
                            ( cbms.size() * cbms.size() / 2 + 1 );
         p->practice( skill_firstaid, practice_amt, level_cap );
@@ -1340,6 +1385,15 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
 
             }
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
+            break;
+
+        case BLEED:
+            // Only one message variant for now
+            p->add_msg_if_player( m_good, _( "You bleed the %s." ), corpse->nname() );
+            corpse_item.set_flag( flag_BLED );
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
@@ -1926,7 +1980,8 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     map_stack corpse_pile = here.i_at( pos );
     for( item *&corpse : corpse_pile ) {
         const mtype *corpse_mtype = corpse->get_mtype();
-        if( !corpse->is_corpse() || !corpse_mtype->has_flag( MF_REVIVES ) ||
+        if( !corpse->is_corpse() || ( !corpse_mtype->has_flag( MF_REVIVES ) &&
+                                      !corpse_mtype->zombify_into ) ||
             ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
               act->str_values.end() && corpse_mtype->bloodType().obj().has_acid ) ) {
             // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping

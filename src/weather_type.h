@@ -20,6 +20,7 @@ enum class precip_class : int {
     none,
     very_light,
     light,
+    medium,
     heavy,
     last
 };

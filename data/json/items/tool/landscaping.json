@@ -62,8 +62,12 @@
     "type": "GENERIC",
     "category": "tools",
     "weapon_category": [ "CLUBS" ],
-    "name": { "str": "stone shovel" },
-    "description": "This is a flattened stone affixed to a stick.  It works passably well as a shovel but really can't compare to a real shovel.",
+    "name": { "str": "primitive shovel" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "rock", "name": "stone shovel" },
+      { "type": "COMPONENT_ID", "condition": "ceramic", "name": "ceramic shovel" }
+    ],
+    "description": "This is a flattened stone or ceramic shard affixed to a stick.  It works passably well as a shovel but really can't compare to a real shovel.",
     "weight": "1581 g",
     "volume": "4 L",
     "price": "0 cent",
@@ -121,7 +125,7 @@
     "id": "sickle",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "SHORT_SWORDS", "HOOKED_POLES" ],
+    "weapon_category": [ "1H_HOOKED" ],
     "name": { "str": "sickle" },
     "description": "This is an old-fashioned farming tool used to cut tall grass.  While it may be a massive curved blade on a handle, it is incredibly awkward to use for anything but its intended purpose.",
     "weight": "1432 g",

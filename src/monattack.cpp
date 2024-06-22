@@ -2281,21 +2281,21 @@ static bool blobify( monster &blob, monster &target )
     }
 
     switch( target.get_size() ) {
-        case MS_TINY:
+        case creature_size::tiny:
             // Just consume it
             target.set_hp( 0 );
             blob.set_speed_base( blob.get_speed_base() + 5 );
             return false;
-        case MS_SMALL:
+        case creature_size::small:
             target.poly( mon_blob_small );
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
             target.poly( mon_blob );
             break;
-        case MS_LARGE:
+        case creature_size::large:
             target.poly( mon_blob_large );
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             // No polymorphing huge stuff
             target.add_effect( effect_slimed, rng( 2_turns, 10_turns ) );
             break;
@@ -2841,7 +2841,7 @@ bool mattack::gene_sting( monster *z )
     bool hit = sting_shoot( z, target, dam, range );
     if( hit ) {
         //Add checks if previous NPC/player conditions are removed
-        dynamic_cast<player *>( target )->mutate();
+        dynamic_cast<player *>( target )->irradiate( rng( 100, 300 ) );
     }
 
     return true;
@@ -3119,9 +3119,9 @@ bool mattack::nurse_operate( monster *z )
 }
 bool mattack::check_money_left( monster *z )
 {
-    if( !z->has_effect( effect_pet ) ) {
+    if( !z->has_effect( effect_paid ) ) {
         if( z->friendly == -1 &&
-            z->has_effect( effect_paid ) ) { // if the pet effect runs out we're no longer friends
+            z->has_effect( effect_pet ) ) { // if the pet effect runs out we're no longer friends
             z->friendly = 0;
 
             if( !z->get_items().empty() ) {
@@ -3135,11 +3135,11 @@ bool mattack::check_money_left( monster *z )
             const SpeechBubble &speech_no_time = get_speech( "mon_grocerybot_friendship_done" );
             sounds::sound( z->pos(), speech_no_time.volume,
                            sounds::sound_t::electronic_speech, speech_no_time.text );
-            z->remove_effect( effect_paid );
+            z->remove_effect( effect_pet );
             return true;
         }
     } else {
-        const time_duration time_left = z->get_effect_dur( effect_pet );
+        const time_duration time_left = z->get_effect_dur( effect_paid );
         if( time_left < 1_minutes ) {
             if( calendar::once_every( 20_seconds ) ) {
                 const SpeechBubble &speech_time_low = get_speech( "mon_grocerybot_running_out_of_friendship" );

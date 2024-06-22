@@ -186,6 +186,7 @@
         "{": "f_glass_fridge",
         "7": "f_speaker_cabinet"
       },
+      "items": { "e": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 65, "item": "bar_trash", "x": [ 13, 14 ], "y": 20 },
         { "chance": 45, "item": "mussto_stringinst", "x": 7, "y": 11 },

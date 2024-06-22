@@ -63,7 +63,7 @@
     "calories": 106,
     "spoils_in": "6 days 16 hours",
     "charges": 16,
-    "fun": -1,
+    "fun": -7,
     "phase": "liquid"
   },
   {
@@ -81,9 +81,9 @@
     "comestible_type": "DRINK",
     "container": "condiment_bottle_unsealed",
     "calories": 21,
-    "spoils_in": 600,
+    "spoils_in": "15 days",
     "charges": 16,
-    "fun": -1,
+    "fun": -6,
     "phase": "liquid"
   },
   {
@@ -100,9 +100,9 @@
     "volume": "250 ml",
     "comestible_type": "DRINK",
     "container": "condiment_bottle_unsealed",
-    "fun": -1,
+    "fun": -8,
     "calories": 10,
-    "spoils_in": 600,
+    "spoils_in": "15 days",
     "charges": 48,
     "phase": "liquid",
     "vitamins": [ [ "iron", 2 ] ]
@@ -134,7 +134,6 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "brown",
-    "spoils_in": "180 days",
     "name": "peanut butter",
     "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
     "price": "195 cent",

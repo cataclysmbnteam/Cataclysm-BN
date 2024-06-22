@@ -7,7 +7,7 @@ set -exo pipefail
 
 num_jobs=3
 parallel_opts="--verbose --linebuffer"
-cata_test_opts="--min-duration 20 --use-colour yes --rng-seed time"
+cata_test_opts="--min-duration 20 --use-colour yes --rng-seed time --error-format=github-action"
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH

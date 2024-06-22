@@ -30,7 +30,10 @@
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
-    "entries": [ { "item": "45colt_jhp", "prob": 100, "charges": [ 25, 50 ] } ]
+    "entries": [
+      { "item": "45colt_jhp", "prob": 100, "charges": [ 25, 50 ] },
+      { "item": "bp_45colt_jhp", "prob": 50, "charges": [ 25, 50 ] }
+    ]
   },
   {
     "id": "on_hand_38super",
@@ -65,7 +68,10 @@
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
-    "entries": [ { "item": "flintlock_ammo", "prob": 100, "charges": [ 15, 30 ] } ]
+    "entries": [
+      { "item": "flintlock_ammo", "prob": 100, "charges": [ 15, 30 ] },
+      { "item": "flintlock_shot", "prob": 50, "charges": [ 15, 30 ] }
+    ]
   },
   {
     "id": "on_hand_454",
@@ -193,19 +199,12 @@
   {
     "id": "on_hand_357_38mixed",
     "type": "item_group",
-    "//": "a mixed collection of 357mag and 38 ammo that would be found with a gun that is compatible with both calibers. favors spawning 357mag ammo but will rarely spawn more 38",
-    "subtype": "collection",
+    "//": "Selects between .357 or .38 ammo for guns that can use both.",
+    "subtype": "distribution",
     "entries": [
-      { "distribution": [ { "item": "357mag_fmj", "charges": [ 20, 40 ] }, { "item": "357mag_jhp", "charges": [ 20, 40 ] } ] },
-      {
-        "distribution": [
-          { "item": "357mag_fmj", "charges": [ 20, 40 ], "prob": 30 },
-          { "item": "357mag_jhp", "charges": [ 20, 40 ], "prob": 30 },
-          { "item": "38_fmj", "charges": [ 20, 40 ], "prob": 15 },
-          { "item": "38_special", "charges": [ 20, 40 ], "prob": 25 }
-        ],
-        "prob": 100
-      }
+      { "item": "357mag_fmj", "prob": 100, "charges": [ 20, 40 ] },
+      { "item": "357mag_jhp", "prob": 100, "charges": [ 20, 40 ] },
+      { "group": "on_hand_38", "prob": 100 }
     ]
   },
   {
@@ -228,7 +227,8 @@
     "entries": [
       { "item": "4570_sp", "prob": 100, "charges": [ 10, 20 ] },
       { "item": "4570_pen", "prob": 100, "charges": [ 10, 20 ] },
-      { "item": "4570_low", "prob": 100, "charges": [ 10, 20 ] }
+      { "item": "4570_low", "prob": 100, "charges": [ 10, 20 ] },
+      { "item": "reloaded_4570_bp", "prob": 100, "charges": [ 10, 20 ] }
     ]
   },
   {
@@ -260,7 +260,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "3006", "prob": 100, "charges": [ 10, 20 ] },
-      { "item": "3006_incendiary", "prob": 100, "charges": [ 10, 20 ] }
+      { "item": "3006_incendiary", "prob": 100, "charges": [ 10, 20 ] },
+      { "item": "3006fmj", "prob": 50, "charges": [ 10, 20 ] }
     ]
   },
   {
@@ -387,5 +388,26 @@
       { "item": "40x46mm_m576", "prob": 10, "charges": [ 5, 10 ] },
       { "item": "40x46mm_m651", "prob": 15, "charges": [ 5, 10 ] }
     ]
+  },
+  {
+    "id": "on_hand_40sw_or_10mm",
+    "type": "item_group",
+    "//": "Used for when a gun can freely use either .40 S&W or 10mm, for example sw_610.",
+    "subtype": "distribution",
+    "entries": [ { "group": "on_hand_40", "prob": 100 }, { "group": "on_hand_10mm", "prob": 50 } ]
+  },
+  {
+    "id": "on_hand_410_or_45colt",
+    "type": "item_group",
+    "//": "Used for when a gun can freely use either .410 shotshells or .45 Colt, for example bond_410.",
+    "subtype": "distribution",
+    "entries": [ { "group": "on_hand_45colt", "prob": 100 }, { "group": "on_hand_410shot", "prob": 50 } ]
+  },
+  {
+    "id": "on_hand_454_mixed",
+    "type": "item_group",
+    "//": "Used for when a gun can freely use either .410 shotshells or .45 Colt, for example bond_410.",
+    "subtype": "distribution",
+    "entries": [ { "group": "on_hand_454", "prob": 100 }, { "group": "on_hand_410_or_45colt", "prob": 50 } ]
   }
 ]

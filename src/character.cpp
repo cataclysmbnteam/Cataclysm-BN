@@ -244,6 +244,7 @@ static const bionic_id bio_climate( "bio_climate" );
 static const bionic_id bio_cloak( "bio_cloak" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_electrosense( "bio_electrosense" );
 static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_flashlight( "bio_flashlight" );
 static const bionic_id bio_gills( "bio_gills" );
@@ -516,7 +517,6 @@ Character::Character( Character &&source )  noexcept : Creature( std::move( sour
     cash = source.cash ;
     follower_ids = std::move( source.follower_ids );
     ammo_location = std::move( source.ammo_location );
-    camps = std::move( source.camps );
     cached_time = source.cached_time ;
 
     addictions = std::move( source.addictions );
@@ -673,7 +673,6 @@ noexcept
     cash = source.cash ;
     follower_ids = std::move( source.follower_ids );
     ammo_location = std::move( source.ammo_location );
-    camps = std::move( source.camps );
     cached_time = source.cached_time ;
 
     addictions = std::move( source.addictions );
@@ -910,7 +909,7 @@ void Character::mod_stat( const std::string &stat, float modifier )
     }
 }
 
-m_size Character::get_size() const
+creature_size Character::get_size() const
 {
     return size_class;
 }
@@ -1368,6 +1367,10 @@ void Character::mount_creature( monster &z )
             add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
         }
     }
+    // Unfreeze recently-dismounted horses
+    if( z.has_effect( effect_ai_waiting ) ) {
+        z.remove_effect( effect_ai_waiting );
+    }
     // some rideable mechs have night-vision
     recalc_sight_limits();
     mod_moves( -100 );
@@ -1405,7 +1408,7 @@ bool Character::check_mount_is_spooked()
     // / 2 if horse has full tack and saddle.
     // Monster in spear reach monster and average stat (8) player on saddled horse, 14% -2% -0.8% / 2 = ~5%
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
-        const m_size mount_size = mounted_creature->get_size();
+        const creature_size mount_size = mounted_creature->get_size();
         const bool saddled = mounted_creature->has_effect( effect_saddled );
         for( const monster &critter : g->all_monsters() ) {
             double chance = 1.0;
@@ -2496,7 +2499,7 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
     }
 
     const bool was_deaf = is_deaf();
-    const bool supertinymouse = get_size() == MS_TINY;
+    const bool supertinymouse = get_size() == creature_size::tiny;
     last_item = to_wear.typeId();
 
 
@@ -4637,6 +4640,9 @@ int get_speedydex_bonus( const int dex )
 
 int Character::get_speed() const
 {
+    if( is_mounted() ) {
+        return mounted_creature.get()->get_speed();
+    }
     return Creature::get_speed();
 }
 
@@ -5400,7 +5406,7 @@ void Character::update_needs( int rate_multiplier )
     }
 
     // Huge folks take penalties for cramming themselves in vehicles
-    if( in_vehicle && ( get_size() == MS_HUGE )
+    if( in_vehicle && ( get_size() == creature_size::huge )
         && !( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) ) {
         vehicle *veh = veh_pointer_or_null( get_map().veh_at( pos() ) );
         // it's painful to work the controls, but passengers in open topped vehicles are fine
@@ -6855,7 +6861,7 @@ float Character::active_light() const
 bool Character::sees_with_specials( const Creature &critter ) const
 {
     // electroreceptors grants vision of robots and electric monsters through walls
-    if( has_trait( trait_ELECTRORECEPTORS ) &&
+    if( ( has_trait( trait_ELECTRORECEPTORS ) || has_active_bionic( bio_electrosense ) ) &&
         ( critter.in_species( ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
         return true;
     }
@@ -6868,7 +6874,9 @@ bool Character::sees_with_specials( const Creature &critter ) const
         return true;
     }
 
-    return false;
+    const int dist = rl_dist( pos(), critter.pos() );
+    return ( dist <= 5 && ( has_active_mutation( trait_ANTENNAE ) ||
+                            ( has_active_bionic( bio_ground_sonar ) && !critter.has_flag( MF_FLIES ) ) ) );
 }
 
 detached_ptr<item> Character::pour_into( item &container, detached_ptr<item> &&liquid, int limit )
@@ -6928,7 +6936,7 @@ resistances Character::mutation_armor( bodypart_id bp ) const
 {
     resistances res;
     for( const trait_id &iter : get_mutations() ) {
-        res += iter->damage_resistance( bp->token );
+        res = res.combined_with( iter->damage_resistance( bp->token ) );
     }
 
     return res;
@@ -7122,6 +7130,7 @@ mutation_value_map = {
     { "mana_modifier", calc_mutation_value_additive<&mutation_branch::mana_modifier> },
     { "mana_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_multiplier> },
     { "mana_regen_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_regen_multiplier> },
+    { "mutagen_target_modifier", calc_mutation_value_additive<&mutation_branch::mutagen_target_modifier> },
     { "speed_modifier", calc_mutation_value_multiplicative<&mutation_branch::speed_modifier> },
     { "movecost_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier> },
     { "movecost_flatground_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier> },
@@ -7336,15 +7345,15 @@ std::string Character::height_string() const
 int Character::height() const
 {
     switch( get_size() ) {
-        case MS_TINY:
+        case creature_size::tiny:
             return init_height - 100;
-        case MS_SMALL:
+        case creature_size::small:
             return init_height - 50;
-        case MS_MEDIUM:
+        case creature_size::medium:
             return init_height;
-        case MS_LARGE:
+        case creature_size::large:
             return init_height + 50;
-        case MS_HUGE:
+        case creature_size::huge:
             return init_height + 100;
         default:
             break;
@@ -10229,12 +10238,15 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
             qty -= std::min( qty, bio );
         }
 
-        int adv = charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.6 ) ) );
+        int adv = charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.5 ) ) );
         if( adv > 0 ) {
-            std::vector<detached_ptr<item>> found = use_charges( itype_adv_UPS_off, adv );
+            int adv_odd = x_in_y( qty % 2, 2 );
+            // qty % 2 returns 1 if odd and 0 if even, giving a 50% chance of consuming one less charge if odd, 0 otherwise.
+            // (eg: if 5, consumes either 2 or 3)
+            std::vector<detached_ptr<item>> found = use_charges( itype_adv_UPS_off, adv - adv_odd );
             res.insert( res.end(), std::make_move_iterator( found.begin() ),
                         std::make_move_iterator( found.end() ) );
-            qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
+            qty -= std::min( qty, static_cast<int>( adv / 0.5 ) );
         }
 
         int ups = charges_of( itype_UPS_off, qty );
@@ -10551,7 +10563,7 @@ float Character::power_rating() const
     } else if( dmg > 12 ) {
         ret = 3; // Melee weapon or weapon-y tool
     }
-    if( get_size() == MS_HUGE ) {
+    if( get_size() == creature_size::huge ) {
         ret += 1;
     }
     if( is_wearing_power_armor( nullptr ) ) {
@@ -10958,12 +10970,12 @@ Attitude Character::attitude_to( const Creature &other ) const
         switch( m->attitude( const_cast<Character *>( this ) ) ) {
             // player probably does not want to harm them, but doesn't care much at all.
             case MATT_FOLLOW:
-            case MATT_FPASSIVE:
             case MATT_IGNORE:
             case MATT_FLEE:
                 return Attitude::A_NEUTRAL;
             // player does not want to harm those.
             case MATT_FRIEND:
+            case MATT_FPASSIVE:
             case MATT_ZLAVE:
                 // Don't want to harm your zlave!
                 return Attitude::A_FRIENDLY;
@@ -11014,7 +11026,8 @@ bool Character::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
     const int dist = rl_dist( pos(), critter.pos() );
-    if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
+    if( dist <= 5 && ( has_active_mutation( trait_ANTENNAE ) ||
+                       ( has_active_bionic( bio_ground_sonar ) && !critter.has_flag( MF_FLIES ) ) ) ) {
         return true;
     }
 
@@ -11563,7 +11576,8 @@ void Character::knock_back_to( const tripoint &to )
 
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
-        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH, critter->type->size ) );
+        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH,
+                     static_cast<float>( critter->type->size ) ) );
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if( ( str_max - 6 ) / 4 > critter->type->size ) {
@@ -11582,7 +11596,8 @@ void Character::knock_back_to( const tripoint &to )
     }
 
     if( npc *const np = g->critter_at<npc>( to ) ) {
-        deal_damage( np, bodypart_id( "torso" ), damage_instance( DT_BASH, np->get_size() + 1 ) );
+        deal_damage( np, bodypart_id( "torso" ), damage_instance( DT_BASH,
+                     static_cast<float>( np->get_size() + 1 ) ) );
         add_effect( effect_stunned, 1_turns );
         np->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
@@ -11692,6 +11707,10 @@ int Character::item_reload_cost( const item &it, item &ammo, int qty ) const
         /** @EFFECT_STR over 10 reduces reload time of some weapons */
         /** maximum reduction down to 25% of reload rate */
         mv *= std::max<float>( 10.0f / std::max<float>( 10.0f, get_str() ), 0.25f );
+    } else if( it.has_flag( flag_STR_DRAW ) && it.get_min_str() > 1 ) {
+        // Threshold depends on str_req of the weapon instead of a fixed value
+        // Allow understrength characters to draw slower since base reload rate is about the same for all bows
+        mv *= std::max<float>( it.get_min_str() / std::max<float>( 1, get_str() ), 0.25f );
     }
 
     return std::max( mv, 25 );

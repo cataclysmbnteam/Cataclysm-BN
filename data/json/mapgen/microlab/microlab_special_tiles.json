@@ -201,7 +201,8 @@
         "T": [
           { "item": "bionics_sci", "chance": 100, "repeat": [ 1, 2 ] },
           { "item": "bionics", "chance": 100, "repeat": [ 1, 2 ] },
-          { "item": "bionic_power_storage_mil", "chance": 100 }
+          { "item": "bionic_power_storage_mil", "chance": 100 },
+          { "item": "autodoc_installation_programs", "chance": 50 }
         ],
         "7": { "item": "autodoc_supplies", "chance": 100 }
       },

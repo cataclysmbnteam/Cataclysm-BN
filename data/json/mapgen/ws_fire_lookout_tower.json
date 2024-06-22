@@ -68,6 +68,7 @@
     "items": [
       [ "dehydrator", 20 ],
       [ "popcan_stove", 20 ],
+      [ "soldering_ethanol", 5 ],
       [ "fire_ax", 20 ],
       [ "hatchet", 20 ],
       [ "ax", 20 ],
@@ -173,8 +174,8 @@
         "       XX      XX       ",
         "                        ",
         "          XXXX          ",
-        "          X>>X          ",
-        "          X<<X          ",
+        "          X±±X          ",
+        "          X,,X          ",
         "          XXXX          ",
         "                        ",
         "       XX      XX       ",
@@ -187,7 +188,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "X": "t_concrete_wall", "<": "t_ladder_up", ">": "t_ladder_down" }
+      "terrain": { "X": "t_concrete_wall", ",": "t_floor", "±": "t_ladder_up_down" }
     }
   },
   {
@@ -208,8 +209,8 @@
         "       XX      XX       ",
         "                        ",
         "          XXXX          ",
-        "          X<<X          ",
-        "          X>>X          ",
+        "          X±±X          ",
+        "          X,,X          ",
         "          XXXX          ",
         "                        ",
         "       XX      XX       ",
@@ -222,7 +223,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "X": "t_concrete_wall", "<": "t_ladder_up", ">": "t_ladder_down" }
+      "terrain": { "X": "t_concrete_wall", ",": "t_floor", "±": "t_ladder_up_down" }
     }
   },
   {
@@ -243,8 +244,8 @@
         "....X     XXXXt    X....",
         "....G     D TXt    G....",
         "....G    dXXXXO    G....",
-        "....G   HdX>>XS    G....",
-        "....G    dX<<XF    G....",
+        "....G   HdX±±XS    G....",
+        "....G    dX  XF    G....",
         "....G    cXDDX     G....",
         "....G              G....",
         "....X     hhhh     X....",
@@ -257,14 +258,7 @@
         "........................",
         "........................"
       ],
-      "terrain": {
-        ".": "t_open_air",
-        "X": "t_wall_log",
-        "G": "t_wall_glass",
-        "D": "t_door_locked_interior",
-        "<": "t_ladder_up",
-        ">": "t_ladder_down"
-      },
+      "terrain": { ".": "t_open_air", "X": "t_wall_log", "G": "t_wall_glass", "D": "t_door_locked_interior", "±": "t_ladder_up_down" },
       "furniture": {
         "S": "f_sink",
         "B": "f_sofa",
@@ -324,8 +318,8 @@
         "....|,s,,,,,,,,,,,,|....",
         "....|,,,,,,,,,,,,,,|....",
         "....|,,,,,XDDX,,,,,|....",
-        "....|,,,,,X++X,,,,,|....",
         "....|,,,,,X>>X,,,,,|....",
+        "....|,,,,,X++X,,,,,|....",
         "....|,,,,,XXXX,,,,,|....",
         "....|,,,,,,gg,,,,,,|....",
         "....|,,,,,,,,,,,,,,|....",

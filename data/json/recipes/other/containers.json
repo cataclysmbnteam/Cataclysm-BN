@@ -9,8 +9,8 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 6 ], [ "fur", 6 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "leather", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -22,8 +22,8 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 14 ], [ "fur", 14 ] ], [ [ "filament", 20, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "leather", 14 ] ] ]
   },
   {
     "type": "recipe",
@@ -35,8 +35,8 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 24 ], [ "fur", 24 ] ], [ [ "filament", 30, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 30 ] ],
+    "components": [ [ [ "leather", 24 ] ] ]
   },
   {
     "type": "recipe",
@@ -290,7 +290,7 @@
     "autolearn": true,
     "using": [ [ "soldering_standard", 40 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "duct_tape", 200 ], [ "superglue", 4 ] ], [ [ "jerrycan", 12 ] ] ]
+    "components": [ [ [ "adhesive", 4, "LIST" ] ], [ [ "jerrycan", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -443,14 +443,10 @@
     "skill_used": "fabrication",
     "skills_required": [ "survival", 1 ],
     "difficulty": 2,
-    "time": "20 m",
+    "time": "30 m",
     "autolearn": true,
-    "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ], [ "earthenware_firing", 40 ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "clay_lump", 4 ] ],
-      [ [ "fabric_hides_proper", 2, "LIST" ], [ "fabric_hides_untanned", 2, "LIST" ] ]
-    ]
+    "using": [ [ "glazing", 1 ], [ "earthenware_firing", 30 ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -460,14 +456,10 @@
     "skill_used": "fabrication",
     "skills_required": [ "survival", 1 ],
     "difficulty": 2,
-    "time": "30 m",
+    "time": "20 m",
     "autolearn": true,
-    "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ], [ "earthenware_firing", 60 ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "clay_lump", 2 ] ],
-      [ [ "fabric_hides_proper", 2, "LIST" ], [ "fabric_hides_untanned", 2, "LIST" ] ]
-    ]
+    "using": [ [ "glazing", 1 ], [ "earthenware_firing", 40 ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -479,12 +471,8 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "using": [ [ "cordage_short", 2 ], [ "glazing", 2 ], [ "earthenware_firing", 120 ] ],
-    "components": [
-      [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "clay_lump", 10 ] ],
-      [ [ "fabric_hides_proper", 3, "LIST" ], [ "fabric_hides_untanned", 3, "LIST" ] ]
-    ]
+    "using": [ [ "glazing", 2 ], [ "earthenware_firing", 120 ] ],
+    "components": [ [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "clay_lump", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -496,12 +484,8 @@
     "difficulty": 2,
     "time": "80 m",
     "autolearn": true,
-    "using": [ [ "cordage_short", 2 ], [ "glazing", 3 ], [ "earthenware_firing", 160 ] ],
-    "components": [
-      [ [ "water", 3 ], [ "water_clean", 3 ] ],
-      [ [ "clay_lump", 20 ] ],
-      [ [ "fabric_hides_proper", 3, "LIST" ], [ "fabric_hides_untanned", 3, "LIST" ] ]
-    ]
+    "using": [ [ "glazing", 3 ], [ "earthenware_firing", 160 ] ],
+    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "clay_lump", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -511,14 +495,10 @@
     "skill_used": "fabrication",
     "skills_required": [ "survival", 1 ],
     "difficulty": 2,
-    "time": "25 m",
+    "time": "35 m",
     "autolearn": true,
-    "using": [ [ "cordage_short", 2 ], [ "glazing", 1 ], [ "earthenware_firing", 50 ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "clay_lump", 6 ] ],
-      [ [ "fabric_hides_proper", 3, "LIST" ], [ "fabric_hides_untanned", 2, "LIST" ] ]
-    ]
+    "using": [ [ "glazing", 1 ], [ "earthenware_firing", 80 ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 6 ] ] ]
   },
   {
     "result": "keg_steel",
@@ -608,5 +588,17 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cardboard", 90 ] ], [ [ "duct_tape", 100 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "trash_can_empty",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "45 m",
+    "autolearn": true,
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 40, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 20 ] ] ]
   }
 ]

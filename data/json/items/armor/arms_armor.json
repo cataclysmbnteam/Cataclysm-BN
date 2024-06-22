@@ -82,7 +82,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of leather arm guards", "str_pl": "pairs of leather arm guards" },
     "description": "A pair of tough leather arm guards.  Light and comfortable.",
-    "weight": "430 g",
+    "weight": "400 g",
     "volume": "2 L",
     "price": "40 USD",
     "price_postapoc": "10 USD",

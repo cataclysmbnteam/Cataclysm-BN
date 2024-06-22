@@ -534,6 +534,7 @@
     "name": { "str": "Bionic Infolink" },
     "description": "A state of the art communications and information package has been installed in your body.  While the cell phone network may be down, it can still double as a two-way radio.  Additionally tells you the time and local air temperature, provides a silent alarm clock function, and if activated will give a more detailed readout on local weather conditions.",
     "occupied_bodyparts": [ [ "torso", 1 ], [ "head", 1 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ],
     "act_cost": "10 J"
   },
   {
@@ -570,7 +571,7 @@
     "name": { "str": "Finger-Mounted Laser" },
     "description": "One of your fingers has a small high-powered laser surgically embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires.",
     "occupied_bodyparts": [ [ "hand_r", 1 ] ],
-    "act_cost": "30 kJ",
+    "act_cost": "10 kJ",
     "fake_item": "bio_laser_gun",
     "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
@@ -600,7 +601,7 @@
     "description": "The index fingers of both hands have powerful fire starters which extend from the tip.",
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "fake_item": "fake_firestarter",
-    "act_cost": "3 kJ"
+    "act_cost": "1 kJ"
   },
   {
     "id": "bio_lockpick",
@@ -829,7 +830,7 @@
     "id": "bio_razors",
     "type": "bionic",
     "name": { "str": "Fingertip Razors" },
-    "description": "You possess razor-sharp claws underneath your fingernails that do a small amount of unarmed slashing damage whenever your fingertips are uncovered.",
+    "description": "You possess razor-sharp claws underneath your fingernails that do a fair amount of unarmed slashing damage whenever your fingertips are uncovered, and which you can use with some precision to cut and butcher..",
     "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ] ],
     "fake_item": "fake_razor",
     "flags": [ "BIONIC_NPC_USABLE" ]
@@ -1178,8 +1179,8 @@
   {
     "id": "bio_weight",
     "type": "bionic",
-    "name": { "str": "Titanium Skeletal Bracing" },
-    "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
+    "name": { "str": "Skeletal Bracing" },
+    "description": "A framework of lightweight alloy bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "weight_capacity_bonus": "20 kg",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
@@ -1257,6 +1258,26 @@
     "act_cost": "50 kJ",
     "fake_item": "bio_blaster_gun",
     "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
+  },
+  {
+    "id": "bio_electrosense",
+    "type": "bionic",
+    "name": { "str": "Electrosense Scanner" },
+    "description": "Activating this bionic will allow you to see robots and other electric creatures through walls, and automatically scan nearby corpses for bionics that could be harvested, at the cost of steadily draining power.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": "20 J",
+    "react_cost": "20 J",
+    "time": 1,
+    "included_bionics": [ "bio_electrosense_voltmeter" ]
+  },
+  {
+    "id": "bio_electrosense_voltmeter",
+    "type": "bionic",
+    "name": { "str": "Electrosense Voltmeter" },
+    "description": "Using this bionic allows you to check the status of any local grid connections or battery charge in your surroundings, as well as make modifications to grid connections.",
+    "act_cost": "10 J",
+    "included": true
   },
   {
     "id": "bio_perpetual_test",

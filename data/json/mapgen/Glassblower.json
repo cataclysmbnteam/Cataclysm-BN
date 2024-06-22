@@ -104,6 +104,7 @@
         "?": "f_sofa",
         "u": "f_brazier"
       },
+      "items": { "U": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "glass_shop", "x": [ 20, 20 ], "y": [ 4, 4 ], "chance": 70, "repeat": [ 2, 10 ] },

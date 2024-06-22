@@ -1902,5 +1902,22 @@
     "type": "MIGRATION",
     "replace": "leg_warmers",
     "flags": [ "resized_large" ]
+  },
+  {
+    "id": "welder_crude",
+    "type": "MIGRATION",
+    "replace": "welder",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "survivor_belt",
+    "type": "MIGRATION",
+    "replace": "survivor_belt_notools",
+    "contents": [ "screwdriver_set", "wrench", "saw", "hacksaw", "hammer" ]
+  },
+  {
+    "id": "endochitin",
+    "type": "MIGRATION",
+    "replace": "chitin_piece"
   }
 ]

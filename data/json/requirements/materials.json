@@ -3,13 +3,25 @@
     "id": "adhesive",
     "type": "requirement",
     "//": "Materials used for joining (typically non-metallic) parts",
-    "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 25 ], [ "superglue", 5 ], [ "bone_glue", 5 ] ] ]
+  },
+  {
+    "id": "nail_glue",
+    "type": "requirement",
+    "//": "Materials that connect part together tightly, nails and glue.",
+    "components": [ [ [ "nail", 1 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
     "components": [ [ [ "lead", 1 ], [ "bismuth", 3 ] ] ]
+  },
+  {
+    "id": "ammo_bullet_birdshot",
+    "type": "requirement",
+    "//": "Materials used when forming bullets for birdshot",
+    "components": [ [ [ "bb", 2 ], [ "lead", 1 ], [ "bismuth", 3 ] ] ]
   },
   {
     "id": "chem_lye",
@@ -75,7 +87,7 @@
     "id": "fabric_standard",
     "type": "requirement",
     "//": "Any valid fabric material, for when the material used shouldn't impact the material of the end product.  Excludes felt patches, since this may still be worn on skin.",
-    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "neoprene", 1 ] ] ]
   },
   {
     "id": "fabric_hides_any",
@@ -229,6 +241,42 @@
     "components": [ [ [ "chunk_rubber", 1 ] ] ]
   },
   {
+    "id": "vehicle_repair_aluminium",
+    "type": "requirement",
+    "//": "Materials used for repairing aluminum parts",
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ] ]
+  },
+  {
+    "id": "vehicle_repair_electronics",
+    "type": "requirement",
+    "//": "Materials used for repairing alternators and general electronics",
+    "components": [ [ [ "scrap", 1 ] ], [ [ "cable", 3 ] ] ]
+  },
+  {
+    "id": "vehicle_repair_glass",
+    "type": "requirement",
+    "//": "Materials used for repairing glass parts",
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+  },
+  {
+    "id": "vehicle_repair_small_metal",
+    "type": "requirement",
+    "//": "Materials used for repairing small metal vehicleparts, that don't warrant use of steel_tiny",
+    "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "id": "vehicle_repair_small_wood",
+    "type": "requirement",
+    "//": "Materials used for repairing small wooden vehicleparts, that don't warrant use of wood_structural_small",
+    "components": [ [ [ "splinter", 1 ] ] ]
+  },
+  {
+    "id": "vehicle_repair_superalloy",
+    "type": "requirement",
+    "//": "Materials used for repairing superalloy parts",
+    "components": [ [ [ "alloy_sheet", 1 ] ] ]
+  },
+  {
     "id": "wood_structural",
     "type": "requirement",
     "//": "Planks, sticks, and long sticks used in recipes, roughly 1:1 by weight.",
@@ -251,5 +299,18 @@
     "type": "requirement",
     "//": "Any kind of bones, human or not.  Tainted bones are too brittle and won't work for this purpose.",
     "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+  },
+  {
+    "id": "bandages_all",
+    "type": "requirement",
+    "//": "Any kind of bandages, improvised or not, where quality does not matter for non-medical use",
+    "components": [
+      [
+        [ "bandages", 1 ],
+        [ "bandages_makeshift", 1 ],
+        [ "bandages_makeshift_bleached", 1 ],
+        [ "bandages_makeshift_boiled", 1 ]
+      ]
+    ]
   }
 ]

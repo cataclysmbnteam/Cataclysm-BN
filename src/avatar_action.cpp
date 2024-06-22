@@ -67,6 +67,7 @@ class player;
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
@@ -79,6 +80,7 @@ static const itype_id itype_underbrush( "underbrush" );
 
 static const skill_id skill_swimming( "swimming" );
 
+static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
@@ -89,8 +91,6 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 static const std::string flag_LADDER( "LADDER" );
 
 #define dbg(x) DebugLog((x), DC::SDL)
-
-bool can_fire_turret( avatar &you, const map &m, const turret_data &turret );
 
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
@@ -289,6 +289,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                     return false;
                 }
             }
+            // Ask for confirmation before attacking a neutral creature unless we've already taken a swing at it
+            if( ( att == MATT_IGNORE || att == MATT_FLEE ) &&
+                get_option<bool>( "QUERY_BEFORE_ATTACKING_NEUTRAL" ) &&
+                !critter.has_effect( effect_hit_by_player ) &&
+                !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
+                return false;
+            }
+
             you.melee_attack( critter, true );
             if( critter.is_hallucination() ) {
                 critter.die( &you );
@@ -449,7 +457,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     // Invalid move
-    const bool waste_moves = you.is_blind() || you.has_effect( effect_stunned );
+    const bool waste_moves = ( you.is_blind() && you.clairvoyance() < 1 ) ||
+                             you.has_effect( effect_stunned );
     if( waste_moves || dest_loc.z != you.posz() ) {
         add_msg( _( "You bump into the %s!" ), m.obstacle_name( dest_loc ) );
         // Only lose movement if we're blind
@@ -653,6 +662,11 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
         return false;
     }
 
+    if( you.has_trait( trait_BRAWLER ) ) {
+        add_msg( m_good, _( "You refuse to use this ranged weapon." ) );
+        return false;
+    }
+
     if( you.has_effect( effect_relax_gas ) ) {
         if( one_in( 5 ) ) {
             add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
@@ -665,12 +679,13 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
 
     std::vector<std::string> messages;
 
-    const gun_mode &mode = weapon.gun_current_mode();
-    bool check_common = ranged::gunmode_checks_common( you, m, messages, mode );
-    bool check_weapon = ranged::gunmode_checks_weapon( you, m, messages, mode );
-    bool can_use_mode = check_common && check_weapon;
-    if( can_use_mode ) {
-        return true;
+    for( const std::pair<const gun_mode_id, gun_mode> &mode_map : weapon.gun_all_modes() ) {
+        const bool check_common = ranged::gunmode_checks_common( you, m, messages, mode_map.second );
+        const bool check_weapon = ranged::gunmode_checks_weapon( you, m, messages, mode_map.second );
+        const bool can_use_mode = check_common && check_weapon;
+        if( can_use_mode ) {
+            return true;
+        }
     }
 
     for( const std::string &message : messages ) {
@@ -679,16 +694,34 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
     return false;
 }
 
-/**
- * Checks if the turret is valid and if the player meets certain conditions for manually firing it.
- * @param turret Turret to check.
- * @return True if all conditions are true, otherwise false.
- */
-bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
+bool avatar_action::will_fire_turret( avatar &you )
+{
+    if( you.has_trait( trait_BRAWLER ) ) {
+        add_msg( m_bad, _( "You refuse to use this ranged weapon" ) );
+        return false;
+    }
+
+    if( you.has_effect( effect_relax_gas ) ) {
+        if( one_in( 5 ) ) {
+            add_msg( m_good, _( "Your eyes steel, and you aim your weapon!" ) );
+        } else {
+            you.moves -= rng( 2, 5 ) * 10;
+            add_msg( m_bad, _( "You are too pacified to aim the turret…" ) );
+            return false;
+        }
+    }
+    return true;
+}
+
+bool avatar_action::can_fire_turret( avatar &you, const map &m, const turret_data &turret )
 {
     const item &weapon = turret.base();
     if( !weapon.is_gun() ) {
         debugmsg( "Expected turret base to be a gun." );
+        return false;
+    }
+
+    if( !will_fire_turret( you ) ) {
         return false;
     }
 
@@ -707,16 +740,6 @@ bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
         default:
             debugmsg( "Unknown turret status" );
             return false;
-    }
-
-    if( you.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
-            add_msg( m_good, _( "Your eyes steel, and you aim your weapon!" ) );
-        } else {
-            you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You are too pacified to aim the turret…" ) );
-            return false;
-        }
     }
 
     std::vector<std::string> messages;
@@ -876,7 +899,7 @@ void avatar_action::eat( avatar &you, item *loc )
         loc->attempt_detach( [&you]( detached_ptr<item> &&it ) {
             return you.consume_item( std::move( it ) );
         } );
-        if( loc->is_food_container() || !you.can_consume_as_is( *loc ) ) {
+        if( !loc->is_food_container() && !you.can_consume_as_is( *loc ) ) {
             add_msg( _( "You leave the empty %s." ), loc->tname() );
         }
     }

@@ -30,6 +30,7 @@
 #include "vpart_position.h"
 #include "weather_gen.h"
 #include "weather.h"
+#include "profile.h"
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -455,10 +456,10 @@ void Character::process_one_effect( effect &it, bool is_new )
             if( has_trait( trait_FAT ) ) {
                 mod *= 1.5;
             }
-            if( get_size() == MS_LARGE ) {
+            if( get_size() == creature_size::large ) {
                 mod *= 2;
             }
-            if( get_size() == MS_HUGE ) {
+            if( get_size() == creature_size::huge ) {
                 mod *= 3;
             }
         }
@@ -479,10 +480,10 @@ void Character::process_one_effect( effect &it, bool is_new )
             if( has_trait( trait_FAT ) ) {
                 mod *= 1.5;
             }
-            if( get_size() == MS_LARGE ) {
+            if( get_size() == creature_size::large ) {
                 mod *= 2;
             }
-            if( get_size() == MS_HUGE ) {
+            if( get_size() == creature_size::huge ) {
                 mod *= 3;
             }
         }
@@ -839,6 +840,8 @@ void Character::environmental_revert_effect()
 
 void Character::process_items()
 {
+    ZoneScoped;
+
     auto process_item = [this]( detached_ptr<item> &&ptr ) {
         return item::process( std::move( ptr ), as_player(), pos(), false );
     };
@@ -871,7 +874,7 @@ void Character::process_items()
         if( identifier == itype_UPS_off ) {
             ch_UPS += it.ammo_remaining();
         } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += it.ammo_remaining() / 0.6;
+            ch_UPS += it.ammo_remaining() / 0.5;
         }
         if( it.has_flag( flag_USE_UPS ) && it.charges < it.type->maximum_charges() ) {
             active_held_items.push_back( index );
@@ -888,7 +891,7 @@ void Character::process_items()
         if( identifier == itype_UPS_off ) {
             ch_UPS += w->ammo_remaining();
         } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += w->ammo_remaining() / 0.6;
+            ch_UPS += w->ammo_remaining() / 0.5;
         }
         if( !update_required && w->encumbrance_update_ ) {
             update_required = true;

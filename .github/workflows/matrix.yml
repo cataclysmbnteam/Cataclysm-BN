@@ -147,7 +147,7 @@ jobs:
     steps:
       - name: checkout repository
         if: ${{ env.SKIP == 'false' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
@@ -181,6 +181,15 @@ jobs:
           ${{ matrix.compiler }} --version | grep -q -E "${{ matrix.grep_clang_version_rxp }}"
 
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
+
+      # problem matchers are only ran on GCC to reduce error spam
+      - name: add problem matcher
+        if: ${{ matrix.always-run == true }}
+        run: |
+          # Enable GitHub actions problem matchers
+          # (See https://github.com/actions/toolkit/blob/master/docs/problem-matchers.md)
+          echo "::add-matcher::build-scripts/problem-matchers/catch2.json"
+          echo "::add-matcher::build-scripts/problem-matchers/debugmsg.json"
 
       - name: prepare
         if: ${{ env.SKIP == 'false' }}

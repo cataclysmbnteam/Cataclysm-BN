@@ -195,7 +195,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 36 ] ] ]
+    "components": [ [ [ "2x4", 8 ] ], [ [ "nail_glue", 36, "LIST" ] ] ]
   },
   {
     "type": "recipe",

@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow08",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
@@ -12,16 +11,16 @@
         "......p!--!.............",
         ".[.....!--!.%%%%%%%%%...",
         ".......!--!.####oo###...",
-        "..jjj..!--!.#y $  RR#...",
+        ".......!--!.#y $  RR#...",
         ".......!----or     s#...",
         ".%%%%%%%----orh  l Ho.[.",
         ".##oo####*o##r   l Ho...",
-        ".#¤@@¤|(```=|T   l H#...",
+        ".#¤@@¤|Ə```=|T   l H#...",
         ".# @@ |b```L|      s#...",
         ".o    | ```    |||||#...",
         ".o    +        |w8St#...",
         ".# |++|++|     +____o...",
-        ".#d|dD|WZ|  yRR|QBB8#...",
+        ".#ɸ|dD|WZ|  yRR|QBB8#...",
         ".#||||||||  R|||||||#...",
         "^#v+  +     R|y VV y#...",
         ".#D+  ||       ,&,, #--.",
@@ -47,15 +46,15 @@
         "&": "t_carpet_yellow",
         "-": "t_concrete"
       },
-      "furniture": { "(": "f_table", "$": "f_piano", "&": "f_chair", "=": "f_rack" },
-      "items": { "(": { "item": "table_foyer", "chance": 50 }, "=": { "item": "clothing_outdoor_shoes", "chance": 50 } },
-      "place_loot": [ { "item": "laptop", "x": 14, "y": 6 } ]
+      "furniture": { "$": "f_piano", "&": "f_chair", "=": "f_rack" },
+      "items": { "=": { "item": "clothing_outdoor_shoes", "chance": 50 } },
+      "place_loot": [ { "item": "laptop", "x": 14, "y": 6 } ],
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 3, "y": 2 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "bungalow08_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -86,7 +85,11 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "terrain": { ".": "t_shingle_flat_roof", ",": "t_open_air" }
+      "terrain": { ".": "t_shingle_flat_roof", ",": "t_open_air" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 5, "y": 12 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 13, 16 ], "y": [ 4, 10 ] }
+      ]
     }
   }
 ]

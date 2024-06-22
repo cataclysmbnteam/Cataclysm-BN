@@ -108,7 +108,7 @@
         "d": { "item": "office", "chance": 80 },
         "C": { "item": "office", "chance": 20 },
         "S": { "item": "bed", "chance": 60 },
-        "r": { "item": "hospital_medical_items", "chance": 30 },
+        "r": { "item": "hospital_medical_items", "chance": 70 },
         "R": { "item": "hospital_lab", "chance": 70 },
         "l": { "item": "surgery", "chance": 80 },
         "L": { "item": "allclothes", "chance": 90 },
@@ -125,7 +125,7 @@
           { "item": "surgery", "chance": 60 }
         ]
       },
-      "place_loot": [ { "group": "autodoc_installation_programs", "x": 1, "y": [ 34, 37 ], "chance": 75, "repeat": 4 } ],
+      "place_loot": [ { "group": "autodoc_installation_programs_basic", "x": 1, "y": [ 34, 37 ], "chance": 75, "repeat": 4 } ],
       "place_monster": [
         { "group": "GROUP_HOSPITAL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 15, 20 ] },
         { "group": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 15, 20 ] },

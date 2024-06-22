@@ -5,7 +5,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "socks",
@@ -13,7 +13,39 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "tabi_dress",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "tabi_gi",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "sockmitts",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "socks_thick",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "boxer_shorts",
@@ -21,7 +53,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "boxer_briefs",
@@ -29,7 +61,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "briefs",
@@ -37,7 +69,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "bikini_top",
@@ -45,7 +77,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "bikini_bottom",
@@ -53,7 +85,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "panties",
@@ -61,7 +93,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "bra",
@@ -76,7 +108,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "arm_warmers",
@@ -84,7 +116,23 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "leg_warmers",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "leg_warmers_xlf",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fur", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "gloves_medical",
@@ -100,7 +148,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "gloves_light",
@@ -108,7 +156,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "gloves_light_fingerless",
@@ -116,7 +164,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "slippers",
@@ -124,7 +172,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "tie_bow",
@@ -132,7 +180,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "tie_clipon",
@@ -140,7 +188,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "tie_necktie",
@@ -148,7 +196,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "tie_skinny",
@@ -156,7 +204,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "veil_wedding",
@@ -164,21 +212,23 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "down_blanket",
     "type": "uncraft",
     "time": "20 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ]
+    "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "blanket",
     "type": "uncraft",
     "time": "20 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 35 ] ] ]
+    "components": [ [ [ "rag", 35 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "hat_cotton",
@@ -186,22 +236,15 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "under_armor",
+    "result": "maid_hat",
     "type": "uncraft",
-    "time": "2 m",
+    "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "nylon", 1 ] ] ]
-  },
-  {
-    "result": "under_armor_shorts",
-    "type": "uncraft",
-    "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "nylon", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "components": [ [ [ "rag", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "undershirt",
@@ -209,7 +252,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "balclava",
@@ -217,7 +260,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "headscarf",
@@ -225,21 +268,23 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "mask_ski",
     "type": "uncraft",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "felt_patch", 1 ] ] ]
+    "components": [ [ [ "felt_patch", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "mask_ski_loose",
     "type": "uncraft",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "felt_patch", 1 ] ] ]
+    "components": [ [ [ "felt_patch", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "camisole",
@@ -247,7 +292,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "tank_top",
@@ -255,7 +300,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "army_top",
@@ -263,31 +308,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
-    "result": "tshirt",
-    "type": "uncraft",
-    "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
-    "result": "tshirt_tour",
-    "type": "uncraft",
-    "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
-    "result": "linuxtshirt",
-    "type": "uncraft",
-    "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "halter_top",
@@ -295,7 +316,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "skirt",
@@ -303,7 +324,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "nanoskirt",
@@ -311,7 +332,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "sundress",
@@ -319,7 +340,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "bikini_top_leather",
@@ -327,7 +348,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "leather_collar",
@@ -335,7 +356,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "leather_belt",
@@ -343,7 +364,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "leathersandals",
@@ -351,7 +372,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "leather_cat_ears",
@@ -359,7 +380,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ], [ [ "plastic_chunk", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "leather_cat_tail",
@@ -367,7 +388,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ], [ [ "plastic_chunk", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "bikini_top_fur",
@@ -375,7 +396,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "fur", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "fur_cat_ears",
@@ -383,7 +404,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "fur", 1 ] ], [ [ "plastic_chunk", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "faux_fur_cat_ears",
@@ -391,7 +412,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "faux_fur", 1 ] ], [ [ "plastic_chunk", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "fur_cat_tail",
@@ -399,7 +420,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "fur", 1 ] ], [ [ "plastic_chunk", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "faux_fur_cat_tail",
@@ -407,7 +428,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "faux_fur", 1 ] ], [ [ "plastic_chunk", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "fur_collar",
@@ -415,7 +436,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "fur", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "faux_fur_collar",
@@ -423,7 +444,7 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "faux_fur", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "boots_steel",
@@ -431,14 +452,16 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 8 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "leather", 8 ] ], [ [ "scrap", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "rollerskates",
     "type": "uncraft",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 8 ] ], [ [ "scrap", 6 ] ] ]
+    "components": [ [ [ "leather", 8 ] ], [ [ "scrap", 6 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "socks_wool",
@@ -465,6 +488,14 @@
     "components": [ [ [ "yarn", 125 ] ] ]
   },
   {
+    "result": "patchwork_scarf_loose",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "knit_scarf",
     "type": "uncraft",
     "time": "4 m",
@@ -483,6 +514,12 @@
     "components": [ [ [ "yarn", 75 ] ] ]
   },
   {
+    "result": "scarf_loose",
+    "type": "uncraft",
+    "time": "6 m",
+    "components": [ [ [ "yarn", 75 ] ] ]
+  },
+  {
     "result": "poncho",
     "type": "uncraft",
     "time": "36 m",
@@ -493,5 +530,29 @@
     "type": "uncraft",
     "time": "18 m",
     "components": [ [ [ "yarn", 350 ] ] ]
+  },
+  {
+    "result": "bandolier_wrist",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "wristholster",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "wristsheath",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

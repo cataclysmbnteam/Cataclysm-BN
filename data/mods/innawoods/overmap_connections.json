@@ -1,0 +1,47 @@
+[
+  {
+    "type": "overmap_connection",
+    "id": "local_road",
+    "default_terrain": "road",
+    "subtypes": [ { "terrain": "road", "locations": [ "road" ] } ]
+  },
+  {
+    "type": "overmap_connection",
+    "id": "sewer_tunnel",
+    "default_terrain": "sewer",
+    "subtypes": [ { "terrain": "sewer", "locations": [ "subterranean" ], "flags": [ "ORTHOGONAL" ] } ]
+  },
+  {
+    "type": "overmap_connection",
+    "id": "subway_tunnel",
+    "layout": "p2p",
+    "default_terrain": "subway",
+    "subtypes": [
+      { "terrain": "underground_sub_station", "locations": [  ], "flags": [ "ORTHOGONAL" ] },
+      { "terrain": "subway", "locations": [ "subterranean_subway" ], "flags": [ "ORTHOGONAL" ] }
+    ]
+  },
+  {
+    "type": "overmap_connection",
+    "id": "forest_trail",
+    "default_terrain": "forest_trail",
+    "subtypes": [
+      { "terrain": "forest_trail", "locations": [ "forest_trail" ], "basic_cost": 0 },
+      { "terrain": "forest_trail", "locations": [ "forest_edge" ], "basic_cost": 2 },
+      { "terrain": "forest_trail", "locations": [ "forest_center" ], "basic_cost": 0 },
+      { "terrain": "forest_trail", "locations": [ "swamp" ], "basic_cost": 0 }
+    ]
+  },
+  {
+    "type": "overmap_connection",
+    "id": "local_railroad",
+    "default_terrain": "railroad",
+    "subtypes": [
+      { "terrain": "railroad", "locations": [ "railroad" ], "basic_cost": 1, "flags": [ "ORTHOGONAL" ] },
+      { "terrain": "railroad", "locations": [ "wilderness" ], "basic_cost": 1, "flags": [ "ORTHOGONAL" ] },
+      { "terrain": "railroad", "locations": [ "swamp" ], "basic_cost": 1, "flags": [ "ORTHOGONAL" ] },
+      { "terrain": "railroad_level_crossing", "locations": [ "railroad_level_crossing_allowed" ], "basic_cost": 1 },
+      { "terrain": "railroad_bridge", "locations": [ "water" ], "basic_cost": 1, "flags": [ "ORTHOGONAL" ] }
+    ]
+  }
+]

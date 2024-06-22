@@ -8,7 +8,6 @@
     "volume": "250 ml",
     "price": "210 cent",
     "price_postapoc": "12 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",

@@ -178,13 +178,16 @@ float fine_detail_vision_mod( const Character &who, const tripoint &p )
           !who.has_trait( trait_PER_SLIME_OK ) ) ) {
         return 11.0;
     }
+    // Regular NV trait isn't enough to help at all, while Full Night Vision allows reading at a penalty
+    float nvbonus = who.mutation_value( "night_vision_range" ) >= 8 ? 4 : 0;
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
     // Therefore give a hefty bonus relative to ambient light.
     float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - who.active_light() - 2.0f );
 
-    // Same calculation as above, but with a result 3 lower.
-    float ambient_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) + 1.0f );
+    // Same calculation as above, but with a result 3 lower, and night vision is allowed to affect it.
+    float ambient_light = std::max( 1.0f,
+                                    LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) - nvbonus + 1.0f );
 
     return std::min( own_light, ambient_light );
 }
@@ -434,7 +437,7 @@ std::string fmt_wielded_weapon( const Character &who )
     }
     const item &weapon = who.primary_weapon();
     if( weapon.is_gun() ) {
-        std::string str = string_format( "(%d) [%s] %s", weapon.ammo_remaining(),
+        std::string str = string_format( "(%d) [%s] %s", weapon.gun_current_mode()->ammo_remaining(),
                                          weapon.gun_current_mode().tname(), weapon.type_name() );
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( flag_RELOAD_AND_SHOOT );
@@ -648,7 +651,7 @@ std::optional<tripoint> pick_safe_adjacent_tile( const Character &who )
         }
     }
 
-    return random_entry( ret );
+    return random_entry_opt( ret );
 }
 
 bool is_bp_immune_to( const Character &who, body_part bp, damage_unit dam )
@@ -1139,12 +1142,22 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
         const auto mags = obj.magazine_compatible();
+        const std::set<ammotype> &ammo = obj.ammo_types();
 
-        src.visit_items( [&nested, &out, mags, empty]( item * node ) {
+        src.visit_items( [&nested, &out, mags, empty, &ammo]( item * node ) {
             if( node->is_gun() || node->is_tool() ) {
                 return VisitResponse::SKIP;
             }
             if( node->is_magazine() ) {
+
+                if( !node->contents.empty() ) {
+                    for( const ammotype &at : ammo ) {
+                        if( node->contents.front().ammo_type() != at ) {
+                            return VisitResponse::SKIP;
+                        }
+                    }
+                }
+
                 if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
                     out = node;
                 }

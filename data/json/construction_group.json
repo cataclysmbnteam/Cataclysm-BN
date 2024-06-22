@@ -301,6 +301,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_floodlight",
+    "name": "Build floodlight"
+  },
+  {
+    "type": "construction_group",
     "id": "rewire_street_light",
     "name": "Rewire Street Light"
   },
@@ -821,6 +826,21 @@
   },
   {
     "type": "construction_group",
+    "id": "plow_a_paddy_field",
+    "name": "Plow A Paddy Field"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_a_paddy_field",
+    "name": "Remove A Paddy Field"
+  },
+  {
+    "type": "construction_group",
+    "id": "gather_clay_from_dirt",
+    "name": "Gather Clay From Dirt"
+  },
+  {
+    "type": "construction_group",
     "id": "clean_broken_window",
     "name": "Clean Broken Window"
   },
@@ -991,6 +1011,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_ac_unit",
+    "name": "Place Window-Mounted AC Unit"
+  },
+  {
+    "type": "construction_group",
     "id": "place_small_space_heater",
     "name": "Place Small Space Heater"
   },
@@ -998,6 +1023,26 @@
     "type": "construction_group",
     "id": "place_large_space_heater",
     "name": "Place Large Space Heater"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_wind_turbine",
+    "name": "Install Wind Turbine"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_xl_wind_turbine",
+    "name": "Install Large Wind Turbine"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_water_wheel",
+    "name": "Install Water Wheel"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_xl_water_wheel",
+    "name": "Install Large Water Wheel"
   },
   {
     "type": "construction_group",
@@ -1373,6 +1418,11 @@
     "type": "construction_group",
     "id": "repair_wood_door",
     "name": "Repair Wood Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_door_frame",
+    "name": "Build Door Frame"
   },
   {
     "type": "construction_group",

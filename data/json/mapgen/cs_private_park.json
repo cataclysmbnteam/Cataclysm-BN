@@ -75,6 +75,7 @@
         "L": "f_locker",
         "S": "f_woodstove"
       },
+      "items": { "@": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "t": {  } },
       "place_vehicles": [ { "vehicle": "bicycle", "x": 3, "y": 2, "rotation": 0, "chance": 50 } ],
       "place_items": [

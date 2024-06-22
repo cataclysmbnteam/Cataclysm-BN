@@ -926,7 +926,8 @@
         "E": [
           { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 10 ] },
           { "item": "bionics_mil", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "bionic_power_storage_mil", "chance": 50 }
+          { "item": "bionic_power_storage_mil", "chance": 50 },
+          { "item": "autodoc_installation_programs_advanced", "chance": 50 }
         ],
         "W": [ { "item": "mil_base_iv", "chance": 70 } ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ]

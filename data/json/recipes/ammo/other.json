@@ -20,7 +20,7 @@
     "difficulty": 1,
     "time": "45 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ] ],
+    "using": [ [ "earthenware_firing", 10 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 1 ] ] ]
   },
   {
@@ -108,7 +108,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
-    "time": "180 m",
+    "time": "1 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_advanced", 1 ], [ "steel_tiny", 1 ] ]
   },
@@ -179,10 +179,7 @@
     "time": "8 m",
     "book_learn": [ [ "manual_launcher", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [
-      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "welder_crude", 45 ], [ "toolset", 45 ] ],
-      [ [ "hotplate", 50 ], [ "toolset", 50 ] ]
-    ],
+    "using": [ [ "welding_standard", 3 ] ],
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "spike", 1 ] ],
@@ -356,5 +353,26 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [ [ [ "lead", 50 ], [ "bismuth", 125 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke_mod",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 7 ],
+    "difficulty": 8,
+    "time": "95 m",
+    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "recipe_mininuke_launch", 5 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "components": [
+      [ [ "mininuke", 1 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "transponder", 1 ] ],
+      [ [ "pipe", 8 ] ],
+      [ [ "chem_rocket_fuel", 33 ] ]
+    ]
   }
 ]

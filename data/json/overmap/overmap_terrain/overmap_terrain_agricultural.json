@@ -1,6 +1,38 @@
 [
   {
     "type": "overmap_terrain",
+    "id": "special_field",
+    "copy-from": "generic_open_land",
+    "name": "field",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "special_forest",
+    "copy-from": "generic_forest",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 3,
+    "spawns": { "group": "GROUP_PARK_ANIMAL", "population": [ 0, 6 ], "chance": 5 },
+    "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "special_forest_thick",
+    "copy-from": "generic_forest",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 4,
+    "spawns": { "group": "GROUP_PARK_ANIMAL", "population": [ 0, 6 ], "chance": 15 },
+    "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_rural_road",
     "name": "rural road",
     "color": "brown",
@@ -123,6 +155,7 @@
     "id": "sugar_house",
     "copy-from": "generic_rural_building",
     "name": "sugar house",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 25 },
     "sym": "S"
   },
   {
@@ -249,6 +282,7 @@
     "type": "overmap_terrain",
     "id": [ "farm_stills_4", "farm_stills_8", "farm_stills_12" ],
     "copy-from": "generic_rural_building",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 20 },
     "name": "grape farm"
   },
   {
@@ -256,6 +290,7 @@
     "id": [ "farm_stills_7" ],
     "copy-from": "generic_rural_building",
     "name": "stills",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 15 },
     "color": "brown"
   },
   {
@@ -263,6 +298,7 @@
     "id": "farm_stills_11",
     "copy-from": "generic_rural_building",
     "name": "orchard",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 15 },
     "color": "brown"
   },
   {
@@ -272,6 +308,7 @@
     "name": "apple orchard",
     "sym": "T",
     "color": "light_green",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 10 },
     "mondensity": 3
   },
   {
@@ -285,12 +322,28 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "orchard_processing_roof",
+    "copy-from": "generic_rural_building",
+    "name": "orchard processing roof",
+    "sym": "T",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "orchard_stall",
     "copy-from": "generic_rural_building",
     "name": "orchard stall",
     "sym": "T",
     "color": "i_light_green",
     "mondensity": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "orchard_stall_roof",
+    "copy-from": "generic_rural_building",
+    "name": "orchard stall roof",
+    "sym": "T",
+    "color": "i_light_green"
   },
   {
     "type": "overmap_terrain",

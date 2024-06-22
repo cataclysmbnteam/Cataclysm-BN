@@ -10,7 +10,7 @@ CMake build is work-in-progress.
 
 ## Prerequisites
 
-- `cmake` >= 3.20.0
+- `cmake` >= 3.24.0
 - `vcpkg` from [vcpkg.io](https://vcpkg.io/en/getting-started.html)
 
 Note that starting from Visual Studio 2022 version 17.6, `vcpkg` is included with the distribution

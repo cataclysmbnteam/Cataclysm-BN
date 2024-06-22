@@ -168,14 +168,11 @@
       { "text": "Why don't you scavenge your own food?", "topic": "TALK_REFUGEE_BEGGAR_1_SCAVENGE" },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
       {
-        "condition": { "not": "u_has_camp" },
         "text": "Come with me.  Maybe you're not the greatest adventurer, but it's better than living here.",
         "topic": "TALK_REFUGEE_BEGGAR_1_JOIN"
       },
       {
-        "condition": {
-          "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
-        },
+        "condition": { "and": [ { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ] },
         "text": "I have a camp of my own, away from here.  You could come there.  There aren't many people left, we could use anyone regardless of skills.",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT1"
       },
@@ -200,14 +197,11 @@
       { "text": "Why don't you go somewhere else?", "topic": "TALK_REFUGEE_BEGGAR_1_LEAVE" },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
       {
-        "condition": { "not": "u_has_camp" },
         "text": "Come with me.  Maybe you're not the greatest adventurer, but it's better than living here.",
         "topic": "TALK_REFUGEE_BEGGAR_1_JOIN"
       },
       {
-        "condition": {
-          "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
-        },
+        "condition": { "and": [ { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ] },
         "text": "I have a camp of my own, away from here.  Maybe you can't scavenge, but we can use any warm bodies that can lift a tool.  You'd be safer and better fed there.",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT1"
       },
@@ -232,14 +226,11 @@
       { "text": "Why don't you go somewhere else?", "topic": "TALK_REFUGEE_BEGGAR_1_LEAVE" },
       { "text": "Why don't you scavenge your own food?", "topic": "TALK_REFUGEE_BEGGAR_1_SCAVENGE" },
       {
-        "condition": { "not": "u_has_camp" },
         "text": "Come with me.  Maybe you're not the greatest adventurer, but it's better than living here.",
         "topic": "TALK_REFUGEE_BEGGAR_1_JOIN"
       },
       {
-        "condition": {
-          "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
-        },
+        "condition": { "and": [ { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ] },
         "text": "I have a camp of my own, away from here.  Maybe they can't use your skills here, but I could.",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT1"
       },

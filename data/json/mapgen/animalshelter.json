@@ -222,6 +222,7 @@
         "y": "f_indoor_plant",
         "A": "f_armchair"
       },
+      "items": { "f": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "trash", "x": 7, "y": 8, "chance": 35, "repeat": [ 1, 3 ] },

@@ -421,7 +421,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
-        def.damage_reduction = load_damage_array( dred );
+        def.damage_reduction = load_resistances_instance( dred );
     }
 
     if( def.has_flag( "ENGINE" ) ) {

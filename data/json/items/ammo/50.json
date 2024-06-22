@@ -18,7 +18,6 @@
     "volume": "250 ml",
     "price": "22 USD",
     "price_postapoc": "25 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "dark_gray",
@@ -41,7 +40,9 @@
     "description": ".50 BMG FMJ lead core ammunition manufactured with tighter tolerances for long-range competition shooting or other precision rifle use.",
     "count": 10,
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -4 } },
-    "dispersion": 100
+    "dispersion": 100,
+    "//": "currently can't be crafted",
+    "extend": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "50ss",

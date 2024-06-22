@@ -36,6 +36,22 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
+    "id": "glock40drum50rd",
+    "copy-from": "glock_drum_50rd",
+    "type": "MAGAZINE",
+    "name": { "str": "Glock 22 50-round drum magazine" },
+    "description": "A 50-round drum magazine for use with Glock pistols chambered for .40 S&W or .357 SIG.",
+    "weight": "230 g",
+    "volume": "750 ml",
+    "price": "59 USD",
+    "price_postapoc": "950 cent",
+    "material": "plastic",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "40", "357sig" ],
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
     "id": "glock40bigmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
@@ -216,6 +232,24 @@
     "ammo_type": "40",
     "capacity": 10,
     "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "kriss_mag",
+    "looks_like": "tdi_mag",
+    "type": "MAGAZINE",
+    "name": { "str": "KRISS Vector magazine" },
+    "description": "A 30-round steel box magazine for use with the KRISS Vector",
+    "weight": "210 g",
+    "volume": "500 ml",
+    "price": "18 USD",
+    "price_postapoc": "1 USD",
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "40",
+    "capacity": 30,
+    "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
   }
 ]

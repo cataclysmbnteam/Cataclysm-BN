@@ -44,7 +44,7 @@
   },
   {
     "id": "moss_brownie",
-    "copy-from": "pistol_base",
+    "copy-from": "pistol_1shot",
     "type": "GUN",
     "name": { "str_sp": "Mossberg Brownie" },
     "description": "The first gun produced by O.F. Mossberg & Sons.  A small pocket pistol, marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges.",
@@ -67,9 +67,9 @@
       [ "bore", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]

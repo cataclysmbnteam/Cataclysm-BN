@@ -26,8 +26,8 @@
     "bonus_dex": { "rng": [ -2, 0 ] },
     "bonus_int": { "rng": [ -2, 0 ] },
     "bonus_per": { "rng": [ 0, 2 ] },
+    "//": "Generic arsonists are allowed to spawn and will use the carry_override, while the one at the refugee center will use the more expansive inventory",
     "shopkeeper_item_group": "NC_ARSONIST_STOCK",
-    "carry_override": "NC_ARSONIST_STOCK",
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ 0, -4 ] } ] } },
       { "skill": "gun", "bonus": { "rng": [ 1, 3 ] } },

@@ -89,6 +89,7 @@ static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
 static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
 static const ammo_effect_str_id ammo_effect_NO_CRIT( "NO_CRIT" );
+static const ammo_effect_str_id ammo_effect_NO_DAMAGE( "NO_DAMAGE" );
 static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
 static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
 static const ammo_effect_str_id ammo_effect_NON_FOULING( "NON_FOULING" );
@@ -139,6 +140,9 @@ static const bionic_id bio_ups( "bio_ups" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_NORANGEDCRIT( "NO_RANGED_CRIT" );
+
+// not to confuse with item flags (json_flag)
+static const std::string flag_SHOOT_ME( "SHOOT_ME" );
 
 // Maximum duration of aim-and-fire loop, in turns
 static constexpr int AIF_DURATION_LIMIT = 10;
@@ -510,18 +514,18 @@ target_handler::trajectory target_handler::mode_shaped( avatar &you, shape_facto
     return ui.run();
 }
 
-static double occupied_tile_fraction( m_size target_size )
+static double occupied_tile_fraction( creature_size target_size )
 {
     switch( target_size ) {
-        case MS_TINY:
+        case creature_size::tiny:
             return 0.1;
-        case MS_SMALL:
+        case creature_size::small:
             return 0.25;
-        case MS_MEDIUM:
+        case creature_size::medium:
             return 0.5;
-        case MS_LARGE:
+        case creature_size::large:
             return 0.75;
-        case MS_HUGE:
+        case creature_size::huge:
             return 1.0;
         default:
             break;
@@ -537,15 +541,15 @@ double Creature::ranged_target_size() const
     }
     if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
-            case MS_TINY:
-            case MS_SMALL:
-                return occupied_tile_fraction( MS_TINY );
-            case MS_MEDIUM:
-                return occupied_tile_fraction( MS_SMALL );
-            case MS_LARGE:
-                return occupied_tile_fraction( MS_MEDIUM );
-            case MS_HUGE:
-                return occupied_tile_fraction( MS_LARGE );
+            case creature_size::tiny:
+            case creature_size::small:
+                return occupied_tile_fraction( creature_size::tiny );
+            case creature_size::medium:
+                return occupied_tile_fraction( creature_size::small );
+            case creature_size::large:
+                return occupied_tile_fraction( creature_size::medium );
+            case creature_size::huge:
+                return occupied_tile_fraction( creature_size::large );
             default:
                 break;
         }
@@ -779,8 +783,10 @@ namespace
 auto is_mountable( const map &m, const tripoint &pos ) -> bool
 {
     // usage of any attached bipod is dependent upon terrain
-    // sandbag barricades are impassable but climbable
-    if( m.climb_difficulty( pos ) <= 5 && m.has_flag_ter_or_furn( "MOUNTABLE", pos ) ) {
+    // only allow mounting passable OR climable terrain
+    // example: sandbag barricades are impassable but climbable
+    if( ( m.climb_difficulty( pos ) <= 5 || m.passable( pos ) ) &&
+        m.has_flag_ter_or_furn( "MOUNTABLE", pos ) ) {
         return true;
     }
 
@@ -967,9 +973,10 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         // If user is currently able to fire a mounted gun freely, penalize dispersion
         // HEAVY_WEAPON_SUPPORT flag has highest penalty, Large mutants lower penalty, no penalty for Huge mutants.
         if( gun.has_flag( flag_MOUNTED_GUN ) && !can_use_heavy_weapon( shooter, here, shooter.pos() ) ) {
-            if( who.get_size() == MS_LARGE ) {
+            if( who.get_size() == creature_size::large ) {
                 gun_recoil = gun_recoil * 2;
-            } else if( who.worn_with_flag( flag_HEAVY_WEAPON_SUPPORT ) && ( who.get_size() <= MS_MEDIUM ) ) {
+            } else if( who.worn_with_flag( flag_HEAVY_WEAPON_SUPPORT ) &&
+                       ( who.get_size() <= creature_size::medium ) ) {
                 gun_recoil = gun_recoil * 3;
             }
         }
@@ -1209,7 +1216,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
-    const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
+    const bool shatter = !thrown.active && thrown.can_shatter() &&
                          rng( 0, units::to_milliliter( 2_liter - volume ) ) < who.get_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
@@ -1257,6 +1264,10 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
     // handling for tangling thrown items
     if( thrown.has_flag( flag_TANGLE ) ) {
         proj.add_effect( ammo_effect_TANGLE );
+    }
+
+    if( thrown.has_flag( flag_NO_DAMAGE ) ) {
+        proj.add_effect( ammo_effect_NO_DAMAGE );
     }
 
     Creature *critter = g->critter_at( target, true );
@@ -1968,9 +1979,10 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
     // If user is currently able to fire a mounted gun freely, penalize dispersion
     // HEAVY_WEAPON_SUPPORT flag has highest penalty, Large mutants lower penalty, no penalty for Huge mutants.
     if( obj.has_flag( flag_MOUNTED_GUN ) && !can_use_heavy_weapon( who, get_map(), who.pos() ) ) {
-        if( who.get_size() == MS_LARGE ) {
+        if( who.get_size() == creature_size::large ) {
             dispersion.add_range( 500 );
-        } else if( who.worn_with_flag( flag_HEAVY_WEAPON_SUPPORT ) && ( who.get_size() <= MS_MEDIUM ) ) {
+        } else if( who.worn_with_flag( flag_HEAVY_WEAPON_SUPPORT ) &&
+                   ( who.get_size() <= creature_size::medium ) ) {
             dispersion.add_range( 1000 );
         }
     }
@@ -2495,7 +2507,8 @@ void target_ui::init_window_and_input()
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
-    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Shape &&
+            relevant->is_gun() ) ) {
         ctxt.register_action( "SWITCH_MODE" );
         if( mode == TargetMode::TurretManual || relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) {
             // Turrets may support multiple ammo types.
@@ -2758,7 +2771,8 @@ tripoint target_ui::choose_initial_target()
     const std::vector<tripoint> nearby = closest_points_first( src, range );
     const auto target_spot = std::find_if( nearby.begin(), nearby.end(),
     [this, &here]( const tripoint & pt ) {
-        return here.tr_at( pt ).id == tr_practice_target && this->you->sees( pt );
+        return ( here.has_flag_ter_or_furn( flag_SHOOT_ME, pt ) ||
+                 here.tr_at( pt ).id == tr_practice_target ) && this->you->sees( pt );
     } );
     if( target_spot != nearby.end() ) {
         return *target_spot;
@@ -3300,7 +3314,8 @@ void target_ui::draw_ui_window()
     panel_cursor_info( text_y );
     text_y += compact ? 0 : 1;
 
-    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Shape &&
+            relevant->is_gun() ) ) {
         panel_gun_info( text_y );
         panel_recoil( text_y );
         text_y += compact ? 0 : 1;
@@ -3446,7 +3461,8 @@ void target_ui::draw_controls_list( int text_y )
         lines.push_back( { 2, colored( col_fire, aim ) } );
         lines.push_back( { 4, colored( col_fire, aim_and_fire ) } );
     }
-    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Shape &&
+            relevant->is_gun() ) ) {
         lines.push_back( { 5, colored( col_enabled, string_format( _( "[%c] to switch firing modes." ),
                                        bound_key( "SWITCH_MODE" ) ) ) } );
         lines.push_back( { 6, colored( col_enabled, string_format( _( "[%c] to switch ammo." ),
@@ -3672,7 +3688,7 @@ void target_ui::panel_fire_mode_aim( int &text_y )
     }
 
     const double target_size = dst_critter ? dst_critter->ranged_target_size() :
-                               occupied_tile_fraction( m_size::MS_MEDIUM );
+                               occupied_tile_fraction( creature_size::medium );
 
     item *load_loc = activity->reload_loc ? &*activity->reload_loc : nullptr;
     text_y = print_aim( *you, w_target, text_y, ctxt, *relevant->gun_current_mode(),
@@ -3768,7 +3784,7 @@ auto ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
 
     if( gmode->get_gun_ups_drain() > 0 ) {
         const int ups_drain = gmode->get_gun_ups_drain();
-        const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
+        const int adv_ups_drain = std::max( 1, ups_drain / 2 );
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = get_player_character().mounted_creature.get();
@@ -3797,7 +3813,8 @@ auto ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
 
     if( gmode->has_flag( flag_MOUNTED_GUN ) ) {
         const Character &shooter = you;
-        if( !can_use_heavy_weapon( shooter, m, shooter.pos() ) && !( you.get_size() > MS_MEDIUM ) &&
+        if( !can_use_heavy_weapon( shooter, m, shooter.pos() ) &&
+            !( you.get_size() > creature_size::medium ) &&
             !you.worn_with_flag( flag_HEAVY_WEAPON_SUPPORT ) ) {
             messages.push_back( string_format(
                                     _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),
