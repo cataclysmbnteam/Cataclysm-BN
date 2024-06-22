@@ -330,7 +330,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_intermediate", 1 ] ],
-    "components": [ [ [ "broadsword", 1 ], [ "scrap", 1 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
