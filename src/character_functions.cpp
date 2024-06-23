@@ -612,7 +612,7 @@ bool try_uncanny_dodge( Character &who )
             add_msg( m_good, _( "%s effortlessly dodges… so fast!" ), who.disp_name() );
         }
         return true;
-    // Didn't get a free dodge, burn dodges_left instead. If this zeros them out and there's still more attacks coming this turn the next shot will hit.
+        // Didn't get a free dodge, burn dodges_left instead. If this zeros them out and there's still more attacks coming this turn the next shot will hit.
     } else if( who.dodges_left > 0 ) {
         if( is_u ) {
             add_msg( m_mixed, _( "Time seems to slow down and you instinctively dodge!" ) );
@@ -621,7 +621,7 @@ bool try_uncanny_dodge( Character &who )
         }
         who.dodges_left--;
         return true;
-    // No dodges left, catch those hands.
+        // No dodges left, catch those hands.
     } else {
         if( is_u ) {
             add_msg( m_bad, _( "You try to dodge but fail!" ) );
