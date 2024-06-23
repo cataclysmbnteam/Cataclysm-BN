@@ -66,6 +66,8 @@ static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_UPS( "UPS" );
 
+static const skill_id skill_dodge( "dodge" );
+
 namespace character_funcs
 {
 
@@ -604,19 +606,27 @@ bool try_uncanny_dodge( Character &who )
     who.mod_power_level( -trigger_cost );
     bool is_u = who.is_avatar();
     bool seen = is_u || get_player_character().sees( who );
-    std::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
-    if( adjacent && x_in_y( who.get_dodge(), 10 ) ) {
+    // If successful, dodge for free. Otherwise, burn bonus dodges that turn, and only get hit if overwhelmed.
+    if( x_in_y( 10 + who.get_skill_level( skill_dodge ), 20 ) ) {
         if( is_u ) {
-            add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+            add_msg( m_good, _( "Time seems to slow down and you effortlessly dodge!" ) );
         } else if( seen ) {
-            add_msg( _( "%s dodges… so fast!" ), who.disp_name() );
+            add_msg( m_good, _( "%s effortlessly dodges… so fast!" ), who.disp_name() );
         }
+        return true;
+    } else if( who.dodges_left > 0 ) {
+        if( is_u ) {
+            add_msg( m_mixed, _( "Time seems to slow down and you instinctively dodge!" ) );
+        } else if( seen ) {
+            add_msg( m_mixed, _( "%s dodges… so fast!" ), who.disp_name() );
+        }
+        who.dodges_left--;
         return true;
     } else {
         if( is_u ) {
-            add_msg( _( "You try to dodge but fail!" ) );
+            add_msg( m_bad, _( "You try to dodge but fail!" ) );
         } else if( seen ) {
-            add_msg( _( "%s tries to dodge but fails!" ), who.disp_name() );
+            add_msg( m_bad, _( "%s tries to dodge but fails!" ), who.disp_name() );
         }
         return false;
     }
