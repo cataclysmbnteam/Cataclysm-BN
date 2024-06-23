@@ -104,5 +104,32 @@
       { "group": "drugs_soldier", "prob": 40, "count-min": 5, "count-max": 25 },
       { "group": "harddrugs", "prob": 10, "count-min": 5, "count-max": 25 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "vending_guns",
+    "//": "Guns/ammo and magazines found in a vending machine.",
+    "subtype": "collection",
+    "items": [
+      {
+        "group": "guns_pistol_common_display",
+        "prob": 40,
+        "count-min": 1,
+        "count-max": 3,
+        "charges-min": 0,
+        "charges-max": 0
+      },
+      {
+        "group": "mags_pistol_common",
+        "prob": 60,
+        "count-min": 1,
+        "count-max": 3,
+        "charges-min": 0,
+        "charges-max": 0
+      },
+      { "group": "mags_pistol_rare", "prob": 40, "count-min": 1, "count-max": 3, "charges-min": 0, "charges-max": 0 },
+      { "group": "vending_ammo", "prob": 100, "count": [ 3, 5 ] },
+      { "group": "gunmod_common", "prob": 20, "count": [ 1, 2 ] }
+    ]
   }
 ]
