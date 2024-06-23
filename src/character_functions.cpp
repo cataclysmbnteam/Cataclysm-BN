@@ -66,8 +66,6 @@ static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_UPS( "UPS" );
 
-static const skill_id skill_dodge( "dodge" );
-
 namespace character_funcs
 {
 
@@ -606,14 +604,15 @@ bool try_uncanny_dodge( Character &who )
     who.mod_power_level( -trigger_cost );
     bool is_u = who.is_avatar();
     bool seen = is_u || get_player_character().sees( who );
-    // If successful, dodge for free. Otherwise, burn bonus dodges that turn, and only get hit if overwhelmed.
-    if( x_in_y( 10 + who.get_skill_level( skill_dodge ), 20 ) ) {
+    // If successful, dodge for free. If we already burned bonus dodges this turn then get_dodge fails and we're overwhelmed.
+    if( x_in_y( who.get_dodge(), 10 ) ) {
         if( is_u ) {
             add_msg( m_good, _( "Time seems to slow down and you effortlessly dodge!" ) );
         } else if( seen ) {
             add_msg( m_good, _( "%s effortlessly dodges… so fast!" ), who.disp_name() );
         }
         return true;
+    // Didn't get a free dodge, burn dodges_left instead. If this zeros them out and there's still more attacks coming this turn the next shot will hit.
     } else if( who.dodges_left > 0 ) {
         if( is_u ) {
             add_msg( m_mixed, _( "Time seems to slow down and you instinctively dodge!" ) );
@@ -622,6 +621,7 @@ bool try_uncanny_dodge( Character &who )
         }
         who.dodges_left--;
         return true;
+    // No dodges left, catch those hands.
     } else {
         if( is_u ) {
             add_msg( m_bad, _( "You try to dodge but fail!" ) );
