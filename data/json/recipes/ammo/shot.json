@@ -651,21 +651,13 @@
     "skill_used": "fabrication",
     "skills_required": [ "cooking", 2 ],
     "difficulty": 8,
-    "time": 45000,
+    "time": "2 m",
     "charges": 20,
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "press", -1 ] ] ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 4 ] ],
-      [ [ "oxy_powder", 60 ] ],
-      [ [ "gunpowder", 120 ] ],
-      [ [ "lead", 160 ] ],
-      [ [ "gold_small", 5 ], [ "silver_small", 5 ], [ "tin", 5 ], [ "bismuth", 5 ], [ "solder_wire", 5 ] ],
-      [ [ "shotgun_primer", 20 ] ]
-    ]
+    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 8 ] ],
+    "components": [ [ [ "superglue", 1 ] ], [ [ "oxy_powder", 3 ] ], [ [ "gunpowder", 6 ] ], [ [ "shotgun_primer", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -675,27 +667,18 @@
     "skill_used": "fabrication",
     "skills_required": [ "cooking", 2 ],
     "difficulty": 8,
-    "time": 45000,
+    "time": "2 m",
     "charges": 20,
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "press", -1 ] ] ],
+    "using": [ [ "bullet_forming", 3 ] ],
     "components": [
-      [ [ "adhesive", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 4 ] ],
-      [ [ "oxy_powder", 60 ] ],
-      [ [ "gunpowder", 120 ] ],
-      [
-        [ "lead", 10 ],
-        [ "gold_small", 10 ],
-        [ "silver_small", 10 ],
-        [ "tin", 10 ],
-        [ "bismuth", 10 ],
-        [ "solder_wire", 10 ]
-      ],
-      [ [ "combatnail", 240 ] ],
-      [ [ "shotgun_primer", 20 ] ]
+      [ [ "superglue", 1 ] ],
+      [ [ "oxy_powder", 3 ] ],
+      [ [ "gunpowder", 6 ] ],
+      [ [ "combatnail", 12 ] ],
+      [ [ "shotgun_primer", 1 ] ]
     ]
   },
   {
@@ -706,21 +689,13 @@
     "skill_used": "fabrication",
     "skills_required": [ "cooking", 2 ],
     "difficulty": 8,
-    "time": 45000,
+    "time": "2 m",
     "charges": 20,
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "press", -1 ] ] ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 4 ] ],
-      [ [ "oxy_powder", 80 ] ],
-      [ [ "gunpowder", 160 ] ],
-      [ [ "lead", 240 ] ],
-      [ [ "gold_small", 8 ], [ "silver_small", 8 ], [ "tin", 8 ], [ "bismuth", 8 ], [ "solder_wire", 8 ] ],
-      [ [ "shotgun_primer", 20 ] ]
-    ]
+    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 12 ] ],
+    "components": [ [ [ "superglue", 1 ] ], [ [ "oxy_powder", 4 ] ], [ [ "gunpowder", 8 ] ], [ [ "shotgun_primer", 1 ] ] ]
   },
   {
     "type": "recipe",

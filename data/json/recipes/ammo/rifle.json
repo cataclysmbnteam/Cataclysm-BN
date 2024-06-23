@@ -403,28 +403,18 @@
     "skill_used": "fabrication",
     "skills_required": [ "cooking", 2 ],
     "difficulty": 8,
-    "time": 35000,
+    "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 5 ] ],
     "charges": 40,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "press", -1 ] ] ],
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "components": [
-      [ [ "adhesive", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 5 ] ],
-      [ [ "gunpowder", 280 ] ],
-      [ [ "oxy_powder", 80 ] ],
-      [ [ "lead", 80 ] ],
-      [
-        [ "gold_small", 4 ],
-        [ "silver_small", 4 ],
-        [ "tin", 4 ],
-        [ "bismuth", 4 ],
-        [ "solder_wire", 4 ],
-        [ "platinum_small", 4 ]
-      ],
-      [ [ "copper", 40 ] ],
-      [ [ "smrifle_primer", 40 ], [ "lgpistol_primer", 40 ] ]
+      [ [ "superglue", 1 ] ],
+      [ [ "gunpowder", 7 ] ],
+      [ [ "oxy_powder", 2 ] ],
+      [ [ "copper", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ]
     ]
   },
   {
@@ -435,28 +425,18 @@
     "skill_used": "fabrication",
     "skills_required": [ "cooking", 2 ],
     "difficulty": 9,
-    "time": 45000,
+    "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 5 ] ],
-    "charges": 40,
+    "charges": 1,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "press", -1 ] ] ],
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 3 ] ],
     "components": [
-      [ [ "adhesive", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 5 ] ],
-      [ [ "gunpowder", 320 ] ],
-      [ [ "oxy_powder", 80 ] ],
-      [ [ "lead", 120 ] ],
-      [
-        [ "gold_small", 4 ],
-        [ "silver_small", 4 ],
-        [ "tin", 4 ],
-        [ "bismuth", 4 ],
-        [ "solder_wire", 4 ],
-        [ "platinum_small", 4 ]
-      ],
-      [ [ "copper", 80 ] ],
-      [ [ "smrifle_primer", 40 ], [ "lgpistol_primer", 40 ] ]
+      [ [ "superglue", 1 ] ],
+      [ [ "gunpowder", 8 ] ],
+      [ [ "oxy_powder", 2 ] ],
+      [ [ "copper", 2 ] ],
+      [ [ "smrifle_primer", 1 ] ]
     ]
   },
   {
@@ -467,29 +447,19 @@
     "skill_used": "fabrication",
     "skills_required": [ "cooking", 2 ],
     "difficulty": 9,
-    "time": 55000,
+    "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 5 ] ],
-    "charges": 40,
+    "charges": 1,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "press", -1 ] ] ],
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "components": [
-      [ [ "adhesive", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 5 ] ],
-      [ [ "gunpowder", 400 ] ],
-      [ [ "oxy_powder", 120 ] ],
-      [ [ "lead", 80 ] ],
-      [ [ "combatnail", 40 ] ],
-      [
-        [ "gold_small", 4 ],
-        [ "silver_small", 4 ],
-        [ "tin", 4 ],
-        [ "bismuth", 4 ],
-        [ "solder_wire", 4 ],
-        [ "platinum_small", 4 ]
-      ],
-      [ [ "copper", 80 ] ],
-      [ [ "smrifle_primer", 40 ], [ "lgpistol_primer", 40 ] ]
+      [ [ "superglue", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "oxy_powder", 3 ] ],
+      [ [ "combatnail", 1 ] ],
+      [ [ "copper", 2 ] ],
+      [ [ "smrifle_primer", 1 ] ]
     ]
   },
   {
@@ -500,29 +470,19 @@
     "skill_used": "fabrication",
     "skills_required": [ "cooking", 2 ],
     "difficulty": 9,
-    "time": 55000,
+    "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 5 ] ],
     "charges": 40,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "press", -1 ] ] ],
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "components": [
-      [ [ "adhesive", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 5 ] ],
-      [ [ "gunpowder", 320 ] ],
-      [ [ "oxy_powder", 160 ] ],
-      [ [ "incendiary", 80 ] ],
-      [ [ "lead", 80 ] ],
-      [
-        [ "gold_small", 4 ],
-        [ "silver_small", 4 ],
-        [ "tin", 4 ],
-        [ "bismuth", 4 ],
-        [ "solder_wire", 4 ],
-        [ "platinum_small", 4 ]
-      ],
-      [ [ "copper", 40 ] ],
-      [ [ "smrifle_primer", 40 ], [ "lgpistol_primer", 40 ] ]
+      [ [ "superglue", 1 ] ],
+      [ [ "gunpowder", 8 ] ],
+      [ [ "oxy_powder", 4 ] ],
+      [ [ "incendiary", 2 ] ],
+      [ [ "copper", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ]
     ]
   },
   {
@@ -533,19 +493,13 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "skills_required": [ "gun", 5 ],
-    "time": "2 m",
+    "time": "1 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 4 ] ],
-    "charges": 8,
-    "using": [ [ "bullet_forming", 16 ], [ "ammo_bullet", 16 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [
-      [ [ "5x50_hull", 8 ] ],
-      [ [ "plastic_chunk", 1 ] ],
-      [ [ "smrifle_primer", 8 ] ],
-      [ [ "gunpowder", 24 ] ],
-      [ [ "combatnail", 8 ] ]
-    ]
+    "components": [ [ [ "5x50_hull", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "combatnail", 1 ] ] ]
   },
   {
     "result": "5x50heavy",
@@ -555,19 +509,13 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "skills_required": [ "gun", 5 ],
-    "time": "2 m",
+    "time": "1 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 4 ] ],
     "charges": 8,
-    "using": [ [ "bullet_forming", 16 ], [ "ammo_bullet", 24 ] ],
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [
-      [ [ "5x50_hull", 8 ] ],
-      [ [ "plastic_chunk", 1 ] ],
-      [ [ "smrifle_primer", 8 ] ],
-      [ [ "gunpowder", 32 ] ],
-      [ [ "scrap", 8 ] ]
-    ]
+    "components": [ [ [ "5x50_hull", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 4 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "50bmg",
