@@ -524,7 +524,8 @@
         "N": "f_sink",
         "{": "f_locker",
         "$": "f_vending_reinforced"
-      }, "vendingmachines": { "$": { "item_group": "vending_guns", "reinforced": true } },
+      },
+      "vendingmachines": { "$": { "item_group": "vending_guns", "reinforced": true } },
       "place_items": [
         { "chance": 99, "item": "corpse_male", "x": 19, "y": 12 },
         { "chance": 75, "item": "ammo_casings_bulk", "x": [ 14, 15 ], "y": 14 },
