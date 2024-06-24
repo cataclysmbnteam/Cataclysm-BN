@@ -15,9 +15,9 @@
         "_,___,___,___,___,sss___",
         "ssssssssssssssssssssssss",
         "s--5555--5555--+--55555s",
-        "s|r..rrrrrr...^.^|rrrr8s",
-        "s8r..............L...r8s",
-        "s8r..rrrrrr...###|----|_",
+        "s|$..rrrrrr...^.^|rrrr8s",
+        "s8$..............L...r8s",
+        "s8$..rrrrrr...###|----|_",
         "s8r..rrrrrr...xb.rrrrr|_",
         "s8r...........#......r|_",
         "s|r..rrrrrr...#rr....r|_",
@@ -71,9 +71,11 @@
         "d": "f_dumpster",
         "l": "f_locker",
         "r": "f_rack",
-        "t": "f_table"
+        "t": "f_table",
+        "$": "f_vending_reinforced"
       },
       "items": { "d": { "item": "trash_dumpster", "chance": 80 } },
+      "vendingmachines": { "$": { "item_group": "vending_guns", "reinforced": true } },
       "toilets": { "T": {  } },
       "place_loot": [
         { "group": "gunmod_common", "x": [ 5, 10 ], "y": 10, "chance": 100, "repeat": [ 3, 6 ] },

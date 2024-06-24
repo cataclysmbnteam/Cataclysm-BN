@@ -14,7 +14,7 @@
         "  *___*___*______*___*  ",
         "  *___*___*______*___*  ",
         "  ---:::--------:::---  ",
-        "  |{....#...........{|  ",
+        "  |$....#...........$|  ",
         "  |{..S.?...........{|  ",
         "  |{....#...{{..{...{|  ",
         "  |{....#...{{..{...{|  ",
@@ -65,6 +65,7 @@
         "l": "f_locker",
         "s": "f_sandbag_wall",
         "{": "f_rack",
+        "$": "f_vending_reinforced",
         "N": "f_sink"
       },
       "place_loot": [
@@ -214,9 +215,9 @@
         "_s|..................|s_",
         "_s|..................|s_",
         "_s|....rrr....rrr....|s_",
-        "_s|u...rrr....rrr...u|s_",
+        "_s|$...rrr....rrr...$|s_",
         "_s|^................^|s_",
-        "_||u...rrr....rrr...u|s_",
+        "_||$...rrr....rrr...$|s_",
         "_A|....rrr....rrr....|s_",
         "_||..................|s_",
         "_s|..................|s_",
@@ -258,9 +259,9 @@
         "c": "f_chair",
         "l": "f_locker",
         "r": "f_rack",
-        "u": "f_vending_reinforced"
+        "$": "f_vending_reinforced"
       },
-      "vendingmachines": { "u": { "item_group": "vending_ammo", "reinforced": true } },
+      "vendingmachines": { "$": { "item_group": "vending_guns", "reinforced": true } },
       "toilets": { ";": {  } },
       "place_loot": [
         { "group": "guns_pistol_rare_display", "x": [ 8, 10 ], "y": 19, "chance": 100, "repeat": [ 1, 2 ], "magazine": 100 },
@@ -347,7 +348,7 @@
     "method": "json",
     "om_terrain": [ "s_gun_2" ],
     "//": "Public holdout based on Home Defense Gunstore. Uses same roof as s_gunstore_1.",
-    "weight": 100,
+    "weight": 50,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -452,7 +453,7 @@
     "method": "json",
     "om_terrain": "s_gun_3",
     "type": "mapgen",
-    "weight": 200,
+    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -463,8 +464,8 @@
         "....dwWeaWwwWaffaWwwa...",
         "d....W{_Cc__^____DDDWu..",
         "d....ar__D_________Dw...",
-        ".d...|r__D_________D|u.d",
-        "...u4|__cc_________D|u..",
+        ".d...|r__D_________$|u.d",
+        "...u4|__cc_________$|u..",
         "d.||||______DDD__||||...",
         ".u|{_|||||_______+_C|u.d",
         ".u|{_+______||+|||_t|...",
@@ -521,8 +522,10 @@
         "r": "f_rack",
         "t": "f_table",
         "N": "f_sink",
-        "{": "f_locker"
+        "{": "f_locker",
+        "$": "f_vending_reinforced"
       },
+      "vendingmachines": { "$": { "item_group": "vending_guns", "reinforced": true } },
       "place_items": [
         { "chance": 99, "item": "corpse_male", "x": 19, "y": 12 },
         { "chance": 75, "item": "ammo_casings_bulk", "x": [ 14, 15 ], "y": 14 },

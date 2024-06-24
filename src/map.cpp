@@ -7302,7 +7302,7 @@ void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
     decayed_weight_grams *= rng_float( 0.5, 0.9 );
 
     for( const harvest_entry &entry : dead_monster->harvest.obj() ) {
-        if( entry.type != "bionic" && entry.type != "bionic_group" ) {
+        if( entry.type != "bionic" && entry.type != "bionic_group" && entry.type != "blood" ) {
             detached_ptr<item> harvest = item::spawn( entry.drop, it.birthday() );
             const float random_decay_modifier = rng_float( 0.0f, static_cast<float>( MAX_SKILL ) );
             const float min_num = entry.scale_num.first * random_decay_modifier + entry.base_num.first;

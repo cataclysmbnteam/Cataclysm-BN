@@ -47,5 +47,12 @@
     "copy-from": "metal_magazine",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "result": "hipoint_3895mag",
+    "type": "uncraft",
+    "copy-from": "metal_magazine",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ] ] ]
   }
 ]

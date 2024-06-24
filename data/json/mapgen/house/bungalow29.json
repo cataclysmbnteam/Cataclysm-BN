@@ -161,7 +161,7 @@
         "_____!#?L| |ɸ+  ¤#&&.~..",
         "..----#++| ||||+|#-.....",
         "...---*    hffh00*-.....",
-        "....--o$   00000Y#^.....",
+        "....--oƏ   00000Y#^.....",
         ".....!#H  R|0000F#......",
         ".....!oH  x|60005o......",
         ".....!#H  y|32JOJ#...[..",
@@ -182,12 +182,11 @@
         "f": "t_linoleum_gray",
         "0": "t_linoleum_gray"
       },
-      "furniture": { "?": "f_rack", "$": "f_table" },
+      "furniture": { "?": "f_rack" },
       "items": {
         "&": { "item": "hydro", "chance": 45 },
         "~": { "item": "tools_earthworking", "chance": 30 },
-        "?": { "item": "clothing_outdoor_shoes", "chance": 60, "repeat": [ 1, 3 ] },
-        "$": { "item": "table_foyer", "chance": 50 }
+        "?": { "item": "clothing_outdoor_shoes", "chance": 60, "repeat": [ 1, 3 ] }
       },
       "place_loot": [ { "item": "television", "x": 10, "y": 15 }, { "item": "tarp", "x": 12, "y": 18 } ],
       "place_vehicles": [

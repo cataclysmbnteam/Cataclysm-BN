@@ -1008,7 +1008,7 @@ int visitable<inventory>::charges_of( const itype_id &what, int limit,
     if( what == itype_UPS ) {
         int qty = 0;
         qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.6 ) );
+        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.5 ) );
         return std::min( qty, limit );
     }
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
@@ -1074,7 +1074,7 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
     if( what == itype_UPS ) {
         int qty = 0;
         qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.6 ) );
+        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.5 ) );
         if( p && p->has_active_bionic( bio_ups ) ) {
             qty = sum_no_wrap( qty, units::to_kilojoule( p->get_power_level() ) );
         }

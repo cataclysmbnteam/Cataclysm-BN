@@ -233,5 +233,23 @@
     "capacity": 10,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "kriss_mag",
+    "looks_like": "tdi_mag",
+    "type": "MAGAZINE",
+    "name": { "str": "KRISS Vector magazine" },
+    "description": "A 30-round steel box magazine for use with the KRISS Vector",
+    "weight": "210 g",
+    "volume": "500 ml",
+    "price": "18 USD",
+    "price_postapoc": "1 USD",
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "40",
+    "capacity": 30,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]

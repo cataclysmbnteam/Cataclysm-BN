@@ -9,7 +9,6 @@
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "5x50_hull", 1 ] ],
-      [ [ "plastic_chunk", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder", 3 ] ],
       [ [ "combatnail", 1 ] ]
@@ -23,14 +22,7 @@
     "difficulty": 5,
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 3 ] ],
-      [ [ "5x50_hull", 1 ] ],
-      [ [ "plastic_chunk", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 4 ] ],
-      [ [ "scrap", 1 ] ]
-    ],
+    "components": [ [ [ "lead", 3 ] ], [ [ "5x50_hull", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 4 ] ], [ [ "scrap", 1 ] ] ],
     "charges": 1
   }
 ]

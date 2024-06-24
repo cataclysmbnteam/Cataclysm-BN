@@ -21,6 +21,13 @@
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
+    "result": "kriss_mag",
+    "type": "uncraft",
+    "copy-from": "metal_magazine",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
     "result": "thompson_bigmag",
     "type": "uncraft",
     "copy-from": "metal_magazine",
@@ -96,5 +103,12 @@
     "copy-from": "metal_magazine",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "result": "glock21drum40rd",
+    "type": "uncraft",
+    "copy-from": "metal_magazine",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 2 ] ] ]
   }
 ]
