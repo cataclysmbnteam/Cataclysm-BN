@@ -10052,7 +10052,7 @@ bool item::is_reloadable() const
     if( has_flag( flag_NO_RELOAD ) && !has_flag( flag_VEHICLE ) ) {
         return false; // turrets ignore NO_RELOAD flag
 
-    } else if( is_bandolier() ) {
+    } else if( is_bandolier() || is_holster() ) {
         return true;
 
     } else if( is_container() ) {
