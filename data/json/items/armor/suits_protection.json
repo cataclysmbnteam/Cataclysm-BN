@@ -926,7 +926,6 @@
       "USE_UPS",
       "NAT_UPS",
       "COMPACT",
-      "WATERPROOF",
       "STURDY",
       "NO_UNLOAD",
       "NO_RELOAD",
@@ -993,7 +992,6 @@
     "flags": [
       "USE_UPS",
       "NAT_UPS",
-      "WATERPROOF",
       "STURDY",
       "ELECTRIC_IMMUNE",
       "NO_UNLOAD",
