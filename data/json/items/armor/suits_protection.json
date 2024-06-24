@@ -863,7 +863,7 @@
     "flags": [ "USE_UPS", "NAT_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "RECHARGE", "NO_UNLOAD", "NO_RELOAD", "OUTER" ]
   },
   {
-    "id": "survivor_exosuit_on",
+    "id": "exosuit_survivor_on",
     "copy-from": "exosuit_survivor",
     "repairs_like": "exosuit_survivor",
     "type": "TOOL_ARMOR",
