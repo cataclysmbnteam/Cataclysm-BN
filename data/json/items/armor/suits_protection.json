@@ -923,7 +923,7 @@
       "need_worn": true,
       "need_charges": 1
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "COMPACT", "WATERPROOF", "STURDY", "NO_UNLOAD", "NO_RELOAD", "OUTER" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "COMPACT", "WATERPROOF", "STURDY", "NO_UNLOAD", "NO_RELOAD", "BELTED" ]
   },
   {
     "id": "exosuit_military_on",
