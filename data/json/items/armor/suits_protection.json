@@ -978,7 +978,7 @@
       "need_worn": true,
       "need_charges": 1
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "NO_UNLOAD", "NO_RELOAD", "COMPACT", "OUTER" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "NO_UNLOAD", "NO_RELOAD", "COMPACT", "BELTED" ]
   },
   {
     "id": "exosuit_industrial_on",
