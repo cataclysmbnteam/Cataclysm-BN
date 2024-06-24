@@ -240,7 +240,10 @@
       "3": "t_dirtfloor",
       "4": "t_dirtfloor",
       "5": "t_dirtfloor",
-      "6": "t_dirtfloor"
+      "6": "t_dirtfloor",
+      "7": "t_dirtfloor",
+      "8": "t_dirtfloor",
+      "9": "t_dirtfloor"
     },
     "furniture": {
       "a": "f_stool",
