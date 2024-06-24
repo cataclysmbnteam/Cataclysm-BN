@@ -919,9 +919,10 @@
     "time": "3 h 40 m",
     "book_learn": [ [ "advanced_electronics", 7 ], [ "recipe_lab_elec", 7 ], [ "textbook_anarch", 7 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "soldering_standard", 200, "LIST" ] ], [ [ "welding_standard", 200, "LIST" ] ], [ [ "steel_standard", 10 ] ] ],
+    "tools": [ [ [ "soldering_standard", 200, "LIST" ] ], [ [ "welding_standard", 200, "LIST" ] ] ],
     "components": [
       [ [ "steel_plate", 3 ], [ "steel_armor", 18 ] ],
+      [ [ "steel_standard", 10, "LIST" ] ],
       [ [ "duct_tape", 600 ] ],
       [ [ "power_supply", 8 ] ],
       [ [ "amplifier", 6 ] ],
