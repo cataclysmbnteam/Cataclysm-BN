@@ -872,12 +872,7 @@
     "extend": { "flags": [ "HEAVY_WEAPON_SUPPORT", "TRADER_AVOID" ] },
     "power_draw": 500000,
     "revert_to": "exosuit_survivor",
-    "use_action": {
-      "type": "transform",
-      "menu_text": "Turn off",
-      "msg": "The %s disengages.",
-      "target": "exosuit_survivor"
-    },
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "exosuit_survivor" },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 20,
     "environmental_protection": 16,
@@ -925,12 +920,7 @@
     "extend": { "flags": [ "HEAVY_WEAPON_SUPPORT", "CLIMATE_CONTROL", "RAD_PROOF", "TRADER_AVOID" ] },
     "power_draw": 350000,
     "revert_to": "exosuit_military",
-    "use_action": {
-      "type": "transform",
-      "menu_text": "Turn off",
-      "msg": "The %s disengages.",
-      "target": "exosuit_military"
-    },
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "exosuit_military" },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 15,
     "environmental_protection": 16,
@@ -978,12 +968,7 @@
     "extend": { "flags": [ "HEAVY_WEAPON_SUPPORT", "CLIMATE_CONTROL", "RAD_PROOF", "TRADER_AVOID" ] },
     "power_draw": 350000,
     "revert_to": "exosuit_industrial",
-    "use_action": {
-      "type": "transform",
-      "menu_text": "Turn off",
-      "msg": "The %s disengages.",
-      "target": "exosuit_industrial"
-    },
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "exosuit_industrial" },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 10,
     "environmental_protection": 16,
