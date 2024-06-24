@@ -187,7 +187,6 @@
         "&": { "item": "hydro", "chance": 45 },
         "~": { "item": "tools_earthworking", "chance": 30 },
         "?": { "item": "clothing_outdoor_shoes", "chance": 60, "repeat": [ 1, 3 ] }
-      
       },
       "place_loot": [ { "item": "television", "x": 10, "y": 15 }, { "item": "tarp", "x": 12, "y": 18 } ],
       "place_vehicles": [
