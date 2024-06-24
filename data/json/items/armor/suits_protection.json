@@ -882,7 +882,6 @@
     "revert_to": "exosuit_survivor",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "exosuit_survivor" },
     "encumbrance": 10,
-    "environmental_protection": 16,
     "weight_capacity_bonus": "34 kg"
   },
   {
