@@ -907,5 +907,27 @@
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "sewing_standard", 36 ] ],
     "components": [ [ [ "nylon", 34 ] ] ]
+  },
+  {
+    "result": "exosuit_survivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ "electronics", 7 ],
+    "time": "3 h 40 m",
+    "book_learn": [ [ "advanced_electronics", 7 ], [ "recipe_lab_elec", 7 ], [ "textbook_anarch", 7 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "soldering_standard", 200, "LIST" ] ], [ [ "welding_standard", 200, "LIST" ] ] ],
+    "components": [
+      [ [ "sheet_metal", 5 ] ],
+      [ [ "duct_tape", 600 ] ],
+      [ [ "power_supply", 8 ] ],
+      [ [ "amplifier", 6 ] ],
+      [ [ "medium_battery_cell", 1 ] ],
+      [ [ "pipe", 8 ] ],
+      [ [ "cable", 20 ] ] 
+    ]
   }
 ]

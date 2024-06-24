@@ -174,7 +174,8 @@
           { "item": "modularvest", "prob": 25 },
           { "item": "modularveststeel", "prob": 10 },
           { "item": "modularvesthard", "prob": 10 },
-          { "item": "modularvestsuper", "prob": 5 }
+          { "item": "modularvestsuper", "prob": 5 },
+          { "item": "exosuit_military", "prob": 3 }
         ],
         "prob": 90
       },
@@ -215,7 +216,8 @@
           { "item": "modularvest", "prob": 25 },
           { "item": "modularveststeel", "prob": 10 },
           { "item": "modularvesthard", "prob": 10 },
-          { "item": "modularvestsuper", "prob": 5 }
+          { "item": "modularvestsuper", "prob": 5 },
+          { "item": "exosuit_military", "prob": 3 }
         ],
         "prob": 90
       },
@@ -420,6 +422,7 @@
       { "item": "modularvest", "prob": 10 },
       { "item": "modularvestceramic", "prob": 20 },
       { "item": "modularvesthard", "prob": 5 },
+      { "item": "exosuit_military", "prob": 3 },
       { "item": "helmet_army", "prob": 30 },
       { "item": "tac_helmet", "prob": 10 },
       { "item": "glasses_bal", "prob": 10 },
@@ -2056,6 +2059,7 @@
       [ "vest", 15 ],
       [ "under_armor", 20 ],
       [ "power_armor_basic", 5 ],
+      [ "exosuit_military", 3 ],
       [ "elbow_pads", 20 ]
     ]
   },
@@ -2187,6 +2191,7 @@
       { "item": "flashlight", "prob": 40 },
       { "item": "boots_rubber", "prob": 20 },
       { "item": "toolbox", "prob": 1 },
+      { "item": "exosuit_industrial", "prob": 5 },
       { "item": "apron_leather", "prob": 10 }
     ]
   },
@@ -2303,6 +2308,7 @@
       [ "armor_scrapsuit", 12 ],
       [ "armor_chitin", 2 ],
       [ "armor_lightplate", 1 ],
+      [ "exosuit_survivor", 1 ],
       [ "cuirass_lightplate", 2 ],
       [ "armor_plate", 1 ]
     ]

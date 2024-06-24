@@ -128,6 +128,7 @@
       [ "knee_pads", 5 ],
       [ "elbow_pads", 5 ],
       [ "legrig", 5 ],
+      [ "exosuit_industrial", 3 ],
       { "group": "charged_UPS", "prob": 10 },
       [ "emer_blanket", 5 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
