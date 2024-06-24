@@ -835,8 +835,8 @@
     "id": "exosuit_survivor",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": { "str": "survivor exo-suit" },
-    "description": "Although power armor took the world's militaries by storm, the technologies used to make them also allowed for smaller, less exclusive suits of armor that rely on UPS, ones designed for operatives or light infantry rather than heavy infantry.  This particular suit is cobbled together from scavenged materials, but it works for what it is.",
+    "name": { "str": "survivor power armor" },
+    "description": "Although power armor took the world's militaries by storm, not everyone has access to it.  This particular suit is cobbled together from scavenged materials, but it works for what it is.",
     "weight": "34 kg",
     "volume": "34 L",
     "price_postapoc": "100 USD",
@@ -845,7 +845,7 @@
     "looks_like": "survivor_suit",
     "color": "light_gray",
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
-    "coverage": 100,
+    "coverage": 95,
     "encumbrance": 40,
     "storage": "8 L",
     "warmth": 20,
@@ -876,8 +876,8 @@
     "copy-from": "exosuit_survivor",
     "repairs_like": "exosuit_survivor",
     "type": "TOOL_ARMOR",
-    "name": { "str": "survivor exo-suit (active)", "str_pl": "survivor exo-suits (active)" },
-    "description": "Although power armor took the world's militaries by storm, the technologies used to make them also allowed for smaller, more personalized suits of armor that rely on UPS, ones designed for operatives or light infantry rather than heavy infantry.  This particular suit is cobbled together from scavenged materials, but it works for what it is.  It is currently turned on, activate it to turn it off.",
+    "name": { "str": "survivor power armor (active)", "str_pl": "survivor power armor (active)" },
+    "description": "Although power armor took the world's militaries by storm, not everyone has access to it.  This particular suit is cobbled together from scavenged materials, but it works for what it is.  It is currently turned on, activate it to turn it off.",
     "extend": { "flags": [ "HEAVY_WEAPON_SUPPORT", "TRADER_AVOID" ] },
     "power_draw": 500000,
     "revert_to": "exosuit_survivor",
@@ -891,22 +891,20 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "military exo-suit" },
-    "description": "Although power armor took the world's militaries by storm, the technologies used to make them also allowed for smaller, less exclusive suits of armor that rely on UPS, ones designed for operatives or light infantry rather than heavy infantry.",
+    "description": "Although power armor took the world's militaries by storm, the technologies used to make them also allowed for smaller, less exclusive external rigging that rely on UPS to boost strength, ones designed for operatives or light infantry.",
     "weight": "20 kg",
     "volume": "25 L",
     "price": "7 kUSD",
     "price_postapoc": "150 USD",
-    "material": [ "superalloy", "kevlar_rigid" ],
+    "material": [ "superalloy" ],
     "symbol": "[",
-    "looks_like": "survivor_suit",
     "color": "light_gray",
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
-    "coverage": 100,
+    "coverage": 35,
     "encumbrance": 30,
     "storage": "15 L",
     "warmth": 10,
     "material_thickness": 8,
-    "environmental_protection": 10,
     "max_charges": 500,
     "relic_data": {
       "passive_effects": [
@@ -925,7 +923,7 @@
       "need_worn": true,
       "need_charges": 1
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "WATERPROOF", "STURDY", "NO_UNLOAD", "NO_RELOAD", "OUTER" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "COMPACT", "WATERPROOF", "STURDY", "NO_UNLOAD", "NO_RELOAD", "OUTER" ]
   },
   {
     "id": "exosuit_military_on",
@@ -934,13 +932,12 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "military exo-suit (active)", "str_pl": "military exo-suits (active)" },
     "description": "Although power armor took the world's militaries by storm, the technologies used to make them also allowed for smaller, more personalized suits of armor that rely on UPS, ones designed for operatives or light infantry rather than heavy infantry.  It is currently turned on, activate it to turn it off.",
-    "extend": { "flags": [ "HEAVY_WEAPON_SUPPORT", "CLIMATE_CONTROL", "RAD_PROOF", "ELECTRIC_IMMUNE", "TRADER_AVOID" ] },
+    "extend": { "flags": [ "HEAVY_WEAPON_SUPPORT", "ELECTRIC_IMMUNE", "TRADER_AVOID" ] },
     "power_draw": 350000,
     "revert_to": "exosuit_military",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "exosuit_military" },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
-    "encumbrance": 0,
-    "environmental_protection": 16,
+    "encumbrance": 5,
     "weight_capacity_bonus": "20 kg"
   },
   {
@@ -948,7 +945,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "industrial exo-suit" },
-    "description": "Although power armor took the world's militaries by storm, the technologies used to make them also allowed for smaller, industrial powered suits meant for heavy lifting and protection from industrial accidents.  These suits were sometimes seen in loading docks and construction sites before the Cataclysm struck.",
+    "description": "Although power armor took the world's militaries by storm, the technologies used to make them also allowed for smaller, industrial powered suits meant for heavy lifting.",
     "weight": "25 kg",
     "volume": "30 L",
     "price": "7 kUSD",
@@ -958,19 +955,18 @@
     "looks_like": "power_armor_light",
     "color": "light_gray",
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
-    "coverage": 100,
+    "coverage": 35,
     "encumbrance": 30,
     "storage": "30 L",
     "warmth": 10,
     "material_thickness": 8,
-    "environmental_protection": 10,
     "max_charges": 500,
     "relic_data": {
       "passive_effects": [
         {
           "has": "WORN",
           "condition": "ACTIVE",
-          "values": [ { "value": "STRENGTH", "add": 6 }, { "value": "SPEED", "add": 15 } ]
+          "values": [ { "value": "STRENGTH", "add": 6 }, { "value": "SPEED", "add": 10 } ]
         }
       ]
     },
@@ -982,7 +978,7 @@
       "need_worn": true,
       "need_charges": 1
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "NO_UNLOAD", "NO_RELOAD", "OUTER" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "NO_UNLOAD", "NO_RELOAD", "COMPACT", "OUTER" ]
   },
   {
     "id": "exosuit_industrial_on",
@@ -990,14 +986,13 @@
     "repairs_like": "exosuit_industrial",
     "type": "TOOL_ARMOR",
     "name": { "str": "industrial exo-suit (active)", "str_pl": "industrial exo-suits (active)" },
-    "description": "Although power armor took the world's militaries by storm, the technologies used to make them also allowed for industrial powered suits meant for heavy lifting and protection from industrial accidents.  It is currently turned on, activate it to turn it off.",
-    "extend": { "flags": [ "HEAVY_WEAPON_SUPPORT", "CLIMATE_CONTROL", "RAD_PROOF", "TRADER_AVOID" ] },
+    "description": "Although power armor took the world's militaries by storm, the technologies used to make them also allowed for industrial powered suits meant for heavy lifting.  It is currently turned on, activate it to turn it off.",
+    "extend": { "flags": [ "HEAVY_WEAPON_SUPPORT", "TRADER_AVOID" ] },
     "power_draw": 350000,
     "revert_to": "exosuit_industrial",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "exosuit_industrial" },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
-    "encumbrance": 0,
-    "environmental_protection": 16,
+    "encumbrance": 5,
     "weight_capacity_bonus": "25 kg"
   }
 ]
