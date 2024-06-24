@@ -604,19 +604,29 @@ bool try_uncanny_dodge( Character &who )
     who.mod_power_level( -trigger_cost );
     bool is_u = who.is_avatar();
     bool seen = is_u || get_player_character().sees( who );
-    std::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
-    if( adjacent ) {
+    // If successful, dodge for free. If we already burned bonus dodges this turn then get_dodge fails and we're overwhelmed.
+    if( x_in_y( who.get_dodge(), 10 ) ) {
         if( is_u ) {
-            add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+            add_msg( m_good, _( "Time seems to slow down and you effortlessly dodge!" ) );
         } else if( seen ) {
-            add_msg( _( "%s dodges… so fast!" ), who.disp_name() );
+            add_msg( m_good, _( "%s effortlessly dodges… so fast!" ), who.disp_name() );
         }
         return true;
+        // Didn't get a free dodge, burn dodges_left instead. If this zeros them out and there's still more attacks coming this turn the next shot will hit.
+    } else if( who.dodges_left > 0 ) {
+        if( is_u ) {
+            add_msg( m_mixed, _( "Time seems to slow down and you instinctively dodge!" ) );
+        } else if( seen ) {
+            add_msg( m_mixed, _( "%s dodges… so fast!" ), who.disp_name() );
+        }
+        who.dodges_left--;
+        return true;
+        // No dodges left, catch those hands.
     } else {
         if( is_u ) {
-            add_msg( _( "You try to dodge but there's no room!" ) );
+            add_msg( m_bad, _( "You try to dodge but fail!" ) );
         } else if( seen ) {
-            add_msg( _( "%s tries to dodge but there's no room!" ), who.disp_name() );
+            add_msg( m_bad, _( "%s tries to dodge but fails!" ), who.disp_name() );
         }
         return false;
     }
