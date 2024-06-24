@@ -7319,8 +7319,9 @@ void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
                 if( harvest->charges > 1 ) {
                     harvest->charges = 1;
                 }
-
-                add_item_or_charges( pnt, item::spawn( *harvest ) );
+                if( !harvest->rotten() ) {
+                    add_item_or_charges( pnt, item::spawn( *harvest ) );
+                }
             }
         }
     }
