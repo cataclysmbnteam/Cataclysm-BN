@@ -890,7 +890,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "military exo-suit" },
-    "description": "Although power armor took the world's militaries by storm, the technologies used to make them also allowed for smaller, less exclusive external rigging that rely on UPS to boost strength, ones designed for operatives or light infantry.",
+    "description": "Although power armor took the world's militaries by storm, the technologies used to make them also allowed for smaller, less protective external rigging that rely on UPS to boost strength, ones designed for operatives or light infantry.",
     "weight": "20 kg",
     "volume": "25 L",
     "price": "7 kUSD",
