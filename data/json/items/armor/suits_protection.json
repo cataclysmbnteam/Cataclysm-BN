@@ -932,7 +932,9 @@
       "NO_RELOAD",
       "BELTED",
       "ONLY_ONE",
-      "POWERARMOR_COMPATIBLE"
+      "POWERARMOR_COMPATIBLE",
+      "OVERSIZE",
+      "ALLOWS_NATURAL_ATTACKS"
     ]
   },
   {
@@ -999,7 +1001,9 @@
       "COMPACT",
       "BELTED",
       "ONLY_ONE",
-      "POWERARMOR_COMPATIBLE"
+      "POWERARMOR_COMPATIBLE",
+      "OVERSIZE",
+      "ALLOWS_NATURAL_ATTACKS"
     ]
   },
   {
