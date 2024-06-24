@@ -860,7 +860,7 @@
       "need_worn": true,
       "need_charges": 1
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "RECHARGE", "NO_UNLOAD", "NO_RELOAD", "OUTER" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "STURDY", "NO_UNLOAD", "NO_RELOAD", "OUTER" ]
   },
   {
     "id": "exosuit_survivor_on",
@@ -874,7 +874,7 @@
     "revert_to": "exosuit_survivor",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "exosuit_survivor" },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
-    "encumbrance": 20,
+    "encumbrance": 10,
     "environmental_protection": 16,
     "weight_capacity_bonus": "34 kg"
   },
@@ -908,7 +908,7 @@
       "need_worn": true,
       "need_charges": 1
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "RECHARGE", "NO_UNLOAD", "NO_RELOAD", "OUTER" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "WATERPROOF", "STURDY", "NO_UNLOAD", "NO_RELOAD", "OUTER" ]
   },
   {
     "id": "exosuit_military_on",
@@ -917,12 +917,12 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "military exo-suit (active)", "str_pl": "military exo-suits (active)" },
     "description": "Although power armor took the world's militaries by storm, the technologies used to make them also allowed for smaller, more personalized suits of armor that rely on UPS, ones designed for operatives or light infantry rather than heavy infantry. It is currently turned on, activate it to turn it off.",
-    "extend": { "flags": [ "HEAVY_WEAPON_SUPPORT", "CLIMATE_CONTROL", "RAD_PROOF", "TRADER_AVOID" ] },
+    "extend": { "flags": [ "HEAVY_WEAPON_SUPPORT", "CLIMATE_CONTROL", "RAD_PROOF",  "ELECTRIC_IMMUNE", "TRADER_AVOID" ] },
     "power_draw": 350000,
     "revert_to": "exosuit_military",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "exosuit_military" },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
-    "encumbrance": 15,
+    "encumbrance": 0,
     "environmental_protection": 16,
     "weight_capacity_bonus": "20 kg"
   },
@@ -943,7 +943,7 @@
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "coverage": 100,
     "encumbrance": 30,
-    "storage": "15 L",
+    "storage": "30 L",
     "warmth": 10,
     "material_thickness": 8,
     "environmental_protection": 10,
@@ -956,7 +956,7 @@
       "need_worn": true,
       "need_charges": 1
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "RECHARGE", "NO_UNLOAD", "NO_RELOAD", "OUTER" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "NO_UNLOAD", "NO_RELOAD", "OUTER" ]
   },
   {
     "id": "exosuit_industrial_on",
@@ -970,7 +970,7 @@
     "revert_to": "exosuit_industrial",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "exosuit_industrial" },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
-    "encumbrance": 10,
+    "encumbrance": 0,
     "environmental_protection": 16,
     "weight_capacity_bonus": "100 kg"
   }
