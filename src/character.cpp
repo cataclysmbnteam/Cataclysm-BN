@@ -11651,10 +11651,7 @@ bool Character::can_reload( const item &it, const itype_id &ammo ) const
     if( it.is_holster() ) {
         const holster_actor *ptr = dynamic_cast<const holster_actor *>
                                    ( it.get_use( "holster" )->get_actor_ptr() );
-        if( static_cast<int>( it.contents.num_item_stacks() ) < ptr->multi ) {
-            return true;
-        }
-        return false;
+        return static_cast<int>( it.contents.num_item_stacks() ) < ptr->multi;
     }
     if( !it.is_reloadable_with( ammo ) ) {
         return false;
