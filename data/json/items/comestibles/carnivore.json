@@ -570,7 +570,8 @@
     "material": "hflesh",
     "volume": "250 ml",
     "phase": "liquid",
-    "fun": -50
+    "fun": -50,
+    "drop_action": { "type": "emit_actor", "emits": [ "emit_drop_blood" ], "scale_qty": true }
   },
   {
     "type": "COMESTIBLE",

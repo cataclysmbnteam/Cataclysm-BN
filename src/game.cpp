@@ -8231,6 +8231,7 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
     };
     const bool enough_light = character_funcs::can_see_fine_details( you );
 
+    bool has_blood = false;
     bool has_skin = false;
     bool has_organs = false;
 
@@ -8248,6 +8249,9 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
         const mtype *dead_mon = it->get_mtype();
         if( dead_mon != nullptr ) {
             for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
+                if( entry.type == "blood" ) {
+                    has_blood = true;
+                }
                 if( entry.type == "skin" ) {
                     has_skin = true;
                 }
@@ -8282,8 +8286,10 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
                                           "(for ex. a table, a leather tarp, etc.).  "
                                           "Yields are plentiful and varied, but it is time consuming." ),
                                        msg_inv, info_on_action( BUTCHER_FULL ).c_str() ) );
-    smenu.addentry_col( BLEED, enough_light, 'l', _( "Bleed corpse" ),
-                        enough_light ? cut_time( BLEED ) : cannot_see,
+    smenu.addentry_col( BLEED, enough_light &&
+                        has_blood, 'l', _( "Bleed corpse" ),
+                        enough_light ? ( has_blood ? cut_time( BLEED ) : colorize( _( "has no blood" ),
+                                         c_red ) ) : cannot_see,
                         string_format( "%s  %s%s",
                                        _( "Bleeding involves severing the carotid arteries and jugular "
                                           "veins, or the blood vessels from which they arise.  "
