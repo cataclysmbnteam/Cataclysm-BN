@@ -849,7 +849,7 @@
     "encumbrance": 40,
     "warmth": 20,
     "material_thickness": 7,
-    "environmental_protection": 10,
+    "environmental_protection": 3,
     "max_charges": 500,
     "relic_data": {
       "passive_effects": [
