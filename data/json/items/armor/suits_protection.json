@@ -857,8 +857,7 @@
         {
           "has": "WORN",
           "condition": "ACTIVE",
-          "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "add": 15 } ],
-          "mutations": [ "C_MOVE_NOISE" ]
+          "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "add": 15 } ]
         }
       ]
     },
@@ -914,8 +913,7 @@
         {
           "has": "WORN",
           "condition": "ACTIVE",
-          "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "SPEED", "add": 25 } ],
-          "mutations": [ "C_MOVE_NOISE" ]
+          "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "SPEED", "add": 25 } ]
         }
       ]
     },
@@ -972,8 +970,7 @@
         {
           "has": "WORN",
           "condition": "ACTIVE",
-          "values": [ { "value": "STRENGTH", "add": 6 }, { "value": "SPEED", "add": 15 } ],
-          "mutations": [ "C_MOVE_NOISE" ]
+          "values": [ { "value": "STRENGTH", "add": 6 }, { "value": "SPEED", "add": 15 } ]
         }
       ]
     },
