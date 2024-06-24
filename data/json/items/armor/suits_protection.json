@@ -868,7 +868,7 @@
       "need_worn": true,
       "need_charges": 1
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "STURDY", "NO_UNLOAD", "NO_RELOAD", "OUTER" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "STURDY", "NO_UNLOAD", "NO_RELOAD", "OUTER", "ONLY_ONE" ]
   },
   {
     "id": "exosuit_survivor_on",
@@ -922,7 +922,18 @@
       "need_worn": true,
       "need_charges": 1
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "COMPACT", "WATERPROOF", "STURDY", "NO_UNLOAD", "NO_RELOAD", "BELTED" ]
+    "flags": [
+      "USE_UPS",
+      "NAT_UPS",
+      "COMPACT",
+      "WATERPROOF",
+      "STURDY",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "BELTED",
+      "ONLY_ONE",
+      "POWERARMOR_COMPATIBLE"
+    ]
   },
   {
     "id": "exosuit_military_on",
@@ -977,7 +988,19 @@
       "need_worn": true,
       "need_charges": 1
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "NO_UNLOAD", "NO_RELOAD", "COMPACT", "BELTED" ]
+    "flags": [
+      "USE_UPS",
+      "NAT_UPS",
+      "WATERPROOF",
+      "STURDY",
+      "ELECTRIC_IMMUNE",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "COMPACT",
+      "BELTED",
+      "ONLY_ONE",
+      "POWERARMOR_COMPATIBLE"
+    ]
   },
   {
     "id": "exosuit_industrial_on",
