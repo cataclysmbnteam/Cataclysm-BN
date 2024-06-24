@@ -43,7 +43,7 @@ jobs:
       - name: format JSON
         run: make style-all-json-parallel RELEASE=1
 
-      - uses: autofix-ci/action@bee19d72e71787c12ca0f29de72f2833e437e4c9
+      - uses: autofix-ci/action@v1.3
         if: ${{ always() }}
         with:
           commit-message: "style(autofix.ci): automated formatting"
