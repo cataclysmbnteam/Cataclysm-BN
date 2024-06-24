@@ -926,13 +926,14 @@
       "USE_UPS",
       "NAT_UPS",
       "COMPACT",
-      "WATERPROOF",
       "STURDY",
       "NO_UNLOAD",
       "NO_RELOAD",
       "BELTED",
       "ONLY_ONE",
-      "POWERARMOR_COMPATIBLE"
+      "POWERARMOR_COMPATIBLE",
+      "OVERSIZE",
+      "ALLOWS_NATURAL_ATTACKS"
     ]
   },
   {
@@ -991,7 +992,6 @@
     "flags": [
       "USE_UPS",
       "NAT_UPS",
-      "WATERPROOF",
       "STURDY",
       "ELECTRIC_IMMUNE",
       "NO_UNLOAD",
@@ -999,7 +999,9 @@
       "COMPACT",
       "BELTED",
       "ONLY_ONE",
-      "POWERARMOR_COMPATIBLE"
+      "POWERARMOR_COMPATIBLE",
+      "OVERSIZE",
+      "ALLOWS_NATURAL_ATTACKS"
     ]
   },
   {
