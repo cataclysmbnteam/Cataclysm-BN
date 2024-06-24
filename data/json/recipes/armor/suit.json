@@ -919,14 +919,17 @@
     "time": "3 h 40 m",
     "book_learn": [ [ "advanced_electronics", 7 ], [ "recipe_lab_elec", 7 ], [ "textbook_anarch", 7 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "soldering_standard", 200, "LIST" ] ], [ [ "welding_standard", 200, "LIST" ] ] ],
+    "tools": [ [ [ "soldering_standard", 200, "LIST" ] ], [ [ "welding_standard", 200, "LIST" ] ], [ [ "steel_standard", 10 ] ] ],
     "components": [
-      [ [ "sheet_metal", 5 ] ],
+      [ [ "steel_plate", 3 ], [ "steel_armor", 18 ] ],
       [ [ "duct_tape", 600 ] ],
       [ [ "power_supply", 8 ] ],
       [ [ "amplifier", 6 ] ],
       [ [ "medium_battery_cell", 1 ] ],
-      [ [ "pipe", 8 ] ],
+      [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ],
+      [ [ "hand_crank_charger", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
+      [ [ "hose", 4 ], [ "makeshift_hose", 4 ] ],
+      [ [ "foldframe", 2 ] ],
       [ [ "cable", 20 ] ]
     ]
   }

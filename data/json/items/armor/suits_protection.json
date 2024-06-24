@@ -852,6 +852,16 @@
     "material_thickness": 7,
     "environmental_protection": 10,
     "max_charges": 500,
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "add": 15 } ],
+          "mutations": [ "C_MOVE_NOISE" ]
+        }
+      ]
+    },
     "use_action": {
       "type": "transform",
       "msg": "The %s engages.",
@@ -873,7 +883,6 @@
     "power_draw": 500000,
     "revert_to": "exosuit_survivor",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "exosuit_survivor" },
-    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 10,
     "environmental_protection": 16,
     "weight_capacity_bonus": "34 kg"
@@ -900,6 +909,16 @@
     "material_thickness": 8,
     "environmental_protection": 10,
     "max_charges": 500,
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "SPEED", "add": 25 } ],
+          "mutations": [ "C_MOVE_NOISE" ]
+        }
+      ]
+    },
     "use_action": {
       "type": "transform",
       "msg": "The %s engages.",
@@ -948,6 +967,16 @@
     "material_thickness": 8,
     "environmental_protection": 10,
     "max_charges": 500,
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "STRENGTH", "add": 6 }, { "value": "SPEED", "add": 15 } ],
+          "mutations": [ "C_MOVE_NOISE" ]
+        }
+      ]
+    },
     "use_action": {
       "type": "transform",
       "msg": "The %s engages.",
@@ -972,6 +1001,6 @@
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 0,
     "environmental_protection": 16,
-    "weight_capacity_bonus": "100 kg"
+    "weight_capacity_bonus": "25 kg"
   }
 ]
