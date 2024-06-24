@@ -936,7 +936,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "military exo-suit (active)", "str_pl": "military exo-suits (active)" },
     "description": "Although power armor took the world's militaries by storm, the technologies used to make them also allowed for smaller, more personalized suits of armor that rely on UPS, ones designed for operatives or light infantry rather than heavy infantry. It is currently turned on, activate it to turn it off.",
-    "extend": { "flags": [ "HEAVY_WEAPON_SUPPORT", "CLIMATE_CONTROL", "RAD_PROOF",  "ELECTRIC_IMMUNE", "TRADER_AVOID" ] },
+    "extend": { "flags": [ "HEAVY_WEAPON_SUPPORT", "CLIMATE_CONTROL", "RAD_PROOF", "ELECTRIC_IMMUNE", "TRADER_AVOID" ] },
     "power_draw": 350000,
     "revert_to": "exosuit_military",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "exosuit_military" },
