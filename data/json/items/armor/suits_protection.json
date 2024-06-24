@@ -875,7 +875,7 @@
     "copy-from": "exosuit_survivor",
     "repairs_like": "exosuit_survivor",
     "type": "TOOL_ARMOR",
-    "name": { "str": "survivor power armor (active)", "str_pl": "survivor power armor (active)" },
+    "name": { "str_sp": "survivor power armor (active)" },
     "description": "Although power armor took the world's militaries by storm, not everyone has access to it.  This particular suit is cobbled together from scavenged materials, but it works for what it is.  It is currently turned on, activate it to turn it off.",
     "extend": { "flags": [ "HEAVY_WEAPON_SUPPORT", "TRADER_AVOID" ] },
     "power_draw": 500000,
