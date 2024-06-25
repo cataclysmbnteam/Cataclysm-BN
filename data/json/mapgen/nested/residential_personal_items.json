@@ -10,7 +10,17 @@
       "terrain": { "_": "t_null" },
       "place_nested": [
         {
-          "chunks": [ [ "null", 1 ], [ "res_personal_scuba_1X1", 5 ], [ "res_personal_elecgtr_1X1", 5 ] ],
+          "chunks": [
+            [ "null", 20 ],
+            [ "res_personal_scuba_1X1", 5 ],
+            [ "res_personal_elecgtr_1X1", 5 ],
+            [ "res_personal_acoustgtr_1X1", 5 ],
+            [ "res_personal_nostalgist_1X1", 5 ],
+            [ "res_personal_ergometer_1X1", 5 ],
+            [ "res_personal_comicoll_1X1", 5 ],
+            [ "res_personal_bowhunter_1X1", 5 ],
+            [ "res_personal_bodypillow_1X1", 5 ]
+          ],
           "x": [ 0 ],
           "y": [ 0 ]
         }
@@ -54,6 +64,96 @@
         { "item": "cable_instrument", "x": 0, "y": 0, "repeat": [ 2, 3 ] },
         { "item": "amplifier_head", "x": 0, "y": 0 },
         { "item": "guitar_electric", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_acoustgtr_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [ { "item": "guitar_stand", "x": 0, "y": 0 }, { "item": "acoustic_guitar", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_ergometer_1X1",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "x" ], "terrain": { "x": "t_null" }, "furniture": { "x": "f_ergometer" } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_nostalgist_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "survnote", "x": 0, "y": 0, "chance": 5 },
+        { "item": "fairy_tales", "x": 0, "y": 0, "chance": 5 },
+        { "item": "child_book", "x": 0, "y": 0, "chance": 5 },
+        { "item": "family_cookbook", "x": 0, "y": 0, "chance": 5 },
+        { "item": "veil_wedding", "x": 0, "y": 0, "chance": 5 },
+        { "item": "ring_wedding", "x": 0, "y": 0, "chance": 5 },
+        { "item": "family_photo", "x": 0, "y": 0, "repeat": [ 5, 10 ] },
+        { "item": "photo_album", "x": 0, "y": 0, "repeat": [ 3, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_comicoll_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "mag_porn", "x": 0, "y": 0, "chance": 5, "repeat": [ 2, 4 ] },
+        { "item": "mag_animecon", "x": 0, "y": 0, "repeat": [ 1, 3 ] },
+        { "item": "mag_comic", "x": 0, "y": 0, "repeat": [ 30, 50 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_bowhunter_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [
+        { "item": "knife_hunting", "x": 0, "y": 0, "chance": 10 },
+        { "item": "binoculars", "x": 0, "y": 0, "chance": 10 },
+        { "item": "quiver", "x": 0, "y": 0 },
+        { "item": "book_archery", "x": 0, "y": 0, "chance": 15 },
+        { "item": "manual_archery", "x": 0, "y": 0, "chance": 5 },
+        { "item": "mag_archery", "x": 0, "y": 0, "chance": 35 },
+        { "item": "bow_sight", "x": 0, "y": 0, "chance": 5 },
+        { "item": "bow_scope", "x": 0, "y": 0, "chance": 5 },
+        { "item": "compbow", "x": 0, "y": 0 },
+        { "item": "arrow_cf", "x": 0, "y": 0, "repeat": [ 2, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_bodypillow_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [
+        { "item": "bodypillow", "x": 0, "y": 0, "repeat": [ 1, 2 ] },
+        { "item": "mag_animecon", "x": 0, "y": 0, "chance": 25, "repeat": [ 1, 2 ] }
       ]
     }
   }
