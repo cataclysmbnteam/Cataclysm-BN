@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence06_basement",
-    "weight": 50,
+    "//": "basement - variant 1",
     "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
@@ -40,7 +40,7 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence06_basement",
-    "weight": 50,
+    "//": "basement - variant 2",
     "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
@@ -94,7 +94,7 @@
         "{....(==###o*###..[....{",
         "{....(==#>+  +<#.......{",
         "{....(==#||  ||#^......{",
-        "{..^##oo#|L &|B#####...{",
+        "{..^##oo#|L Ə|B#####...{",
         "{...#rrrP|$ y|B88 t#...{",
         "{...o h  +   +    So...{",
         "{...#||||||  ||||||#.[.{",
@@ -102,7 +102,7 @@
         "{...#H l xR   h|6 1#...{",
         "{...oH l xR  ff|6 5o...{",
         "{...os      hff|  Oo...{",
-        "{.[.#yE k     h|FJJ#...{",
+        "{...#yE k     h|FJJ#...{",
         "{...##o####o*o###o##...{",
         "{..........---.........{",
         "{......................{",
@@ -116,11 +116,10 @@
         "=": "t_floor_noroof",
         "(": "t_railing_v"
       },
-      "items": {
-        "$": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] },
-        "&": { "item": "table_foyer", "chance": 50 }
-      },
-      "place_loot": [ { "item": "laptop", "x": 6, "y": 12 }, { "item": "television", "x": 9, "y": 16 } ]
+      "items": { "$": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] } },
+      "furniture": { "$": "f_rack" },
+      "place_loot": [ { "item": "laptop", "x": 6, "y": 12 }, { "item": "television", "x": 9, "y": 16 } ],
+      "place_nested": [ { "chunks": [ "NC_res_backyard_3X3" ], "x": 18, "y": 4 } ]
     }
   },
   {
@@ -143,7 +142,7 @@
         "........#z+   >#^.......",
         "........#v+    o........",
         "....?^###||+||+###--....",
-        "....-,#dd|b |r  b#,-....",
+        "....-,#ɸd|b |r  b#,-....",
         "....-,#++|T |rh D#,-....",
         "....-,o     |r   o,-....",
         "....-,#    R||| ¤#,-....",
@@ -178,7 +177,7 @@
         "        --------        ",
         "        -......5        ",
         "        -......-        ",
-        "      5--......---      ",
+        "      ---......---      ",
         "      -..........-      ",
         "      -..........-      ",
         "      -..........-      ",
@@ -192,7 +191,11 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 13, "y": 14 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": 7, "y": 12 }
+      ]
     }
   }
 ]
