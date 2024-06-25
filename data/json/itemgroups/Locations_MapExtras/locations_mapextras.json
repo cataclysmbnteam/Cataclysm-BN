@@ -52,7 +52,7 @@
       { "group": "liquor_and_spirits", "prob": 16 },
       { "group": "salty_snacks", "prob": 135 },
       { "group": "smokedrugs", "prob": 135 },
-      { "group": "weapons", "prob": 60 },
+      { "group": "weapons", "prob": 60 }
     ]
   },
   {
