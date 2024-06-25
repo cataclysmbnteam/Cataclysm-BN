@@ -217,8 +217,8 @@
       [ "foot_l", 1 ],
       [ "foot_r", 1 ]
     ],
-    "act_cost": "100 J",
-    "react_cost": "100 J",
+    "act_cost": "25 J",
+    "react_cost": "25 J",
     "time": 1,
     "flags": [ "BIONIC_TOGGLED" ]
   },
