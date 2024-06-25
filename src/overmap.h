@@ -109,6 +109,7 @@ struct map_layer {
     oter_id terrain[OMAPX][OMAPY];
     bool visible[OMAPX][OMAPY];
     bool explored[OMAPX][OMAPY];
+    bool path[OMAPX][OMAPY];
     std::vector<om_note> notes;
     std::vector<om_map_extra> extras;
 };
@@ -236,6 +237,8 @@ class overmap
         bool seen( const tripoint_om_omt &p ) const;
         bool &explored( const tripoint_om_omt &p );
         bool is_explored( const tripoint_om_omt &p ) const;
+        bool &path( const tripoint_om_omt &p );
+        bool is_path( const tripoint_om_omt &p ) const;
 
         bool has_note( const tripoint_om_omt &p ) const;
         std::optional<int> has_note_with_danger_radius( const tripoint_om_omt &p ) const;
