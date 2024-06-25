@@ -51,6 +51,7 @@
       { "group": "guns_common_smg", "prob": 80 },
       { "group": "liquor_and_spirits", "prob": 16 },
       { "group": "salty_snacks", "prob": 135 },
+      { "group": "smokedrugs", "prob": 135 },
       { "group": "weapons", "prob": 60 },
     ]
   },
