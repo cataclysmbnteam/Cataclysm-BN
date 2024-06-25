@@ -1232,9 +1232,19 @@ void avatar_action::reload( item &loc, bool prompt, bool empty )
         use_loc = false;
     }
 
-    // for holsters and ammo pouches try to reload any contained item
-    if( it->type->can_use( "holster" ) && !it->contents.empty() ) {
-        it = &it->contents.front();
+    if( it->is_holster() ) {
+        auto ptr = dynamic_cast<const holster_actor *>
+                   ( it->type->get_use( "holster" )->get_actor_ptr() );
+        if( static_cast<int>( it->contents.num_item_stacks() ) < ptr->multi ) {
+            item *loc = game_menus::inv::holster( u, *it );
+
+            if( !loc ) {
+                u.add_msg_if_player( _( "Never mind." ) );
+                return;
+            }
+            ptr->store( u, *it, loc->detach() );
+            return;
+        }
     }
 
     // for bandoliers we currently defer to iuse_actor methods

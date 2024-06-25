@@ -12,6 +12,7 @@
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "make_static.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -1027,7 +1028,7 @@ item_reload_option select_ammo( const Character &who, item &base, bool prompt,
     const bool ammo_match_found = list_ammo( who, base, ammo_list, include_empty_mags,
                                   include_potential );
 
-    if( ammo_list.empty() ) {
+    if( ammo_list.empty() && !base.is_holster() ) {
         if( !who.is_npc() ) {
             if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
                 who.add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ),
@@ -1202,9 +1203,6 @@ std::vector<item *> find_reloadables( Character &who )
     std::vector<item *> reloadables;
 
     who.visit_items( [&]( item * node ) {
-        if( node->is_holster() ) {
-            return VisitResponse::NEXT;
-        }
         bool reloadable = false;
         if( node->is_gun() && !node->magazine_compatible().empty() ) {
             reloadable = node->magazine_current() == nullptr ||
@@ -1213,6 +1211,13 @@ std::vector<item *> find_reloadables( Character &who )
             reloadable = ( node->is_magazine() || node->is_bandolier() ||
                            ( node->is_gun() && node->magazine_integral() ) ) &&
                          node->ammo_remaining() < node->ammo_capacity();
+        }
+        if( node->is_holster() ) {
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( node->get_use( "holster" )->get_actor_ptr() );
+            if( static_cast<int>( node->contents.num_item_stacks() ) < ptr->multi ) {
+                reloadable = true;
+            }
         }
         if( reloadable ) {
             reloadables.push_back( node );
