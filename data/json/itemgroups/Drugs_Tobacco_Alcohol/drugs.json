@@ -156,6 +156,36 @@
   },
   {
     "type": "item_group",
+    "id": "baddrugs",
+    "items": [
+      [ "meth", 14 ],
+      [ "codeine", 15 ],
+      [ "oxycodone", 7 ],
+      [ "morphine", 3 ],
+      [ "adderall", 10 ],
+      [ "coke", 8 ],
+      [ "meth", 2 ],
+      [ "heroin", 1 ],
+      [ "syringe", 8 ],
+      [ "crack", 8 ],
+      [ "lsd", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "smokedrugs",
+    "items": [
+      [ "weed", 20 ],
+      [ "joint", 20 ],
+      [ "seed_weed", 20 ],
+      [ "cig", 60 ],
+      [ "tobacco", 30 ],
+      [ "chaw", 20 ],
+      [ "seed_tobacco", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "meth_ingredients",
     "items": [ [ "dayquil", 2 ], [ "aspirin", 40 ], [ "adderall", 5 ], [ "energy_drink", 2 ], [ "caffeine", 20 ] ]
   }
