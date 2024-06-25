@@ -1848,5 +1848,26 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "compacts_into": [ "zinc_metal" ]
+  },
+  {
+    "type": "material",
+    "id": "carbon_fiber",
+    "name": "Carbon Fiber",
+    "density": 8,
+    "specific_heat_liquid": 1.18,
+    "specific_heat_solid": 1.18,
+    "latent_heat": 260,
+    "bash_resist": 5,
+    "cut_resist": 6,
+    "bullet_resist": 7,
+    "acid_resist": 5,
+    "fire_resist": 3,
+    "elec_resist": 2,
+    "chip_resist": 20,
+    "repaired_with": "plastic_chunk",
+    "salvaged_into": "plastic_chunk",
+    "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched"
   }
 ]

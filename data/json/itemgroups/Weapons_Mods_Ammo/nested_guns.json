@@ -2373,5 +2373,31 @@
       { "item": "as50mag", "ammo-group": "on_hand_50", "prob": 50 },
       { "group": "on_hand_50" }
     ]
+  },
+  {
+    "id": "nested_carbon_pistol",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "carbon_pistol", "charges-min": 0, "charges-max": 15 },
+      { "item": "glockmag" },
+      { "item": "glockmag", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_carbon_rifle",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "carbon_rifle", "charges-min": 0, "charges-max": 30 },
+      { "item": "carbonmag_223" },
+      { "item": "carbonmag_223", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
   }
 ]

@@ -587,5 +587,14 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR" ]
+  },
+  {
+    "id": "spear_carbon",
+    "type": "GENERIC",
+    "copy-from": "spear_steel",
+    "name": { "str": "carbon fiber spear" },
+    "description": "A custom 3D-printed spear made out of carbon fiber.  It is more lightweight than a normal spear thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   }
 ]

@@ -1528,5 +1528,19 @@
       [ [ "fabric_standard", 3, "LIST" ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 2 ] ]
     ]
+  },
+  {
+    "result": "carbon_helmet",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "computer",
+    "difficulty": 1,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "15 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_computer", 1 ], [ "advanced_electronics", 1 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
+    "components": [ [ [ "plastic_chunk", 25 ] ] ]
   }
 ]

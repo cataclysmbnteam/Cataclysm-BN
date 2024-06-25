@@ -1325,5 +1325,18 @@
     "book_learn": [ [ "textbook_tailor", 4 ] ],
     "using": [ [ "sewing_standard", 60 ] ],
     "components": [ [ [ "rag", 40 ] ] ]
+  },
+  {
+    "result": "carbon_chestguard",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "computer",
+    "difficulty": 4,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
+    "components": [ [ [ "plastic_chunk", 40 ] ] ]
   }
 ]

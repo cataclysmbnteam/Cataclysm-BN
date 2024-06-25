@@ -909,6 +909,32 @@
     "components": [ [ [ "nylon", 34 ] ] ]
   },
   {
+    "result": "armor_carbonplate",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "computer",
+    "difficulty": 5,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "autolearn": true,
+    "time": "15 m",
+    "book_learn": [ [ "textbook_robots", 0 ], [ "advanced_electronics", 0 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
+    "components": [ [ [ "plastic_chunk", 75 ] ] ]
+  },
+  {
+    "result": "armor_carbonplate",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "id_suffix": "assembly",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "15 m",
+    "components": [ [ [ "carbon_legguard", 1 ] ], [ [ "carbon_armguard", 1 ] ], [ [ "carbon_chestguard", 1 ] ] ]
+  },
+  {
     "result": "exosuit_survivor",
     "type": "recipe",
     "category": "CC_ARMOR",

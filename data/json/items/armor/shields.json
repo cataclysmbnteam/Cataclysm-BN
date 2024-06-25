@@ -254,5 +254,24 @@
     "bashing": 10,
     "cutting": 10,
     "encumbrance": 30
+  },
+  {
+    "id": "carbon_buckler",
+    "type": "ARMOR",
+    "name": { "str": "carbon fiber buckler" },
+    "description": "A custom buckler made out of layered carbon fiber armor over synthetic fabric padding made using a 3D printer.  Its rigid plates are more comparable to a sheet of metal than kevlar, but it's very protective and lightweight.",
+    "copy-from": "shield_buckler",
+    "encumbrance": 5,
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "carbon_shield",
+    "type": "ARMOR",
+    "name": { "str": "carbon fiber ballistic shield" },
+    "description": "A custom ballistic shield made out of layered carbon fiber armor over synthetic fabric padding made using a 3D printer.  Its rigid plates are more comparable to a sheet of metal than kevlar, but it's very protective and lightweight.",
+    "copy-from": "shield_riot",
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "encumbrance": 0.7, "price": 2, "price_postapoc": 2 }
   }
 ]

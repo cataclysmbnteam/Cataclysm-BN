@@ -603,5 +603,18 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 5 ] ],
     "components": [ [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "carbon_boots",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "computer",
+    "difficulty": 2,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "book_learn": [ [ "textbook_computer", 2 ], [ "advanced_electronics", 2 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
+    "components": [ [ [ "plastic_chunk", 20 ] ] ]
   }
 ]

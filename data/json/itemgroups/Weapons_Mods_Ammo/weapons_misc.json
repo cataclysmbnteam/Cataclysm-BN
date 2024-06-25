@@ -12,8 +12,10 @@
       [ "hatchet", 10 ],
       [ "ax", 8 ],
       [ "knife_combat", 14 ],
+      [ "knife_carbon", 14 ],
       [ "kukri", 2 ],
       [ "knife_hunting", 4 ],
+      [ "knife_carbon", 4 ],
       [ "knife_heat", 2 ],
       [ "knife_rambo", 8 ],
       [ "knife_rm42", 2 ],
@@ -40,6 +42,7 @@
       [ "wakizashi", 3 ],
       [ "nodachi", 1 ],
       [ "katana", 2 ],
+      [ "sword_carbon", 2 ],
       [ "survnote", 1 ]
     ]
   },

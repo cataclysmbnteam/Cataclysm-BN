@@ -40,6 +40,7 @@
       { "group": "nested_hptjhp", "prob": 1 },
       { "group": "nested_cz75", "prob": 18 },
       { "group": "nested_walther_ccp", "prob": 8 },
+      { "group": "nested_carbon_pistol", "prob": 3 },
       { "group": "nested_walther_p22", "prob": 13 }
     ]
   },
@@ -139,6 +140,7 @@
       { "group": "nested_deagle_44", "prob": 35 },
       { "group": "nested_m1911a1_38super", "prob": 25 },
       { "group": "nested_fn57", "prob": 80 },
+      { "group": "nested_carbon_pistol", "prob": 25 },
       { "group": "nested_ruger_lcr_22", "prob": 35 },
       { "group": "nested_ruger_redhawk", "prob": 25 },
       { "group": "nested_sig_40", "prob": 35 },
@@ -161,6 +163,7 @@
       { "group": "everyday_deagle_44", "prob": 35 },
       { "group": "everyday_m1911a1_38super", "prob": 25 },
       { "group": "everyday_fn57", "prob": 80 },
+      { "group": "everyday_carbon_pistol", "prob": 25 },
       { "group": "everyday_ruger_lcr_22", "prob": 35 },
       { "group": "everyday_ruger_redhawk", "prob": 25 },
       { "group": "everyday_sig_40", "prob": 35 },
@@ -203,6 +206,7 @@
       { "group": "nested_usp_45", "prob": 15 },
       { "group": "nested_m1911_MEU", "prob": 5 },
       { "group": "nested_glock_19", "prob": 20 },
+      { "group": "nested_carbon_pistol", "prob": 15 },
       { "group": "nested_needlepistol", "prob": 45 },
       { "group": "nested_rm103a_pistol", "prob": 35 }
     ]
@@ -218,6 +222,7 @@
       { "group": "everyday_usp_45", "prob": 15 },
       { "group": "everyday_m1911_MEU", "prob": 5 },
       { "group": "everyday_glock_19", "prob": 20 },
+      { "group": "everyday_carbon_pistol", "prob": 15 },
       { "group": "everyday_needlepistol", "prob": 45 },
       { "group": "everyday_rm103a_pistol", "prob": 35 }
     ]
@@ -520,6 +525,7 @@
       { "group": "nested_hk_g36", "prob": 30 },
       { "group": "nested_henry_big_boy", "prob": 10 },
       { "group": "nested_m14ebr", "prob": 15 },
+      { "group": "nested_carbon_rifle", "prob": 25 },
       { "group": "nested_M24", "prob": 15 },
       { "group": "nested_m4a1", "prob": 45 },
       { "group": "nested_m1903", "prob": 15 },
@@ -547,6 +553,7 @@
       { "group": "everyday_hk_g36", "prob": 30 },
       { "group": "everyday_henry_big_boy", "prob": 10 },
       { "group": "everyday_m14ebr", "prob": 15 },
+      { "group": "everyday_carbon_rifle", "prob": 25 },
       { "group": "everyday_M24", "prob": 15 },
       { "group": "everyday_m4a1", "prob": 45 },
       { "group": "everyday_m1903", "prob": 15 },
@@ -570,6 +577,7 @@
       { "item": "acr", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "colt_lightning", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "fn_fal", "prob": 40, "charges-min": 0, "charges-max": 0 },
+      { "item": "carbon_rifle", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "hk_g3", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "hk_g36", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "henry_big_boy", "prob": 10, "charges-min": 0, "charges-max": 0 },
@@ -1165,6 +1173,8 @@
     "items": [
       { "group": "guns_improvised", "prob": 200 },
       { "group": "everyday_ar15", "prob": 5 },
+      { "group": "everyday_carbon_rifle", "prob": 5 },
+      { "group": "everyday_carbon_pistol", "prob": 5 },
       { "group": "everyday_ar_pistol", "prob": 3 },
       { "group": "everyday_mossberg_500", "prob": 5 },
       { "group": "everyday_remington_870", "prob": 5 },

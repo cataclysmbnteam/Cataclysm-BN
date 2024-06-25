@@ -832,6 +832,15 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
+    "id": "armor_carbonplate",
+    "type": "ARMOR",
+    "name": { "str": "carbon fiber armor" },
+    "description": "A custom suit of layered carbon fiber armor over neoprene padding made using a 3D printer.  Its rigid plates are more comparable to a suit of armor than kevlar, but it's very protective and moves surprisingly well.",
+    "copy-from": "armor_lightplate",
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
     "id": "exosuit_survivor",
     "type": "TOOL_ARMOR",
     "category": "armor",

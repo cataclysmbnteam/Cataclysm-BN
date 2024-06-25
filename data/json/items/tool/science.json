@@ -680,5 +680,50 @@
       ]
     ],
     "magazine_well": "250 ml"
+  },
+  {
+    "id": "3d_printer_basic",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "3D printer" },
+    "description": "Although it's not nearly as fancy as the experimental nanofabricators, this civilian-grade 3D printer can produce almost any item out of plastic, polymer, or carbon fiber…  so long as you can program it.",
+    "weight": "2000 g",
+    "volume": "1500 ml",
+    "price": "400 USD",
+    "price_postapoc": "20 USD",
+    "material": [ "steel", "plastic" ],
+    "looks_like": "f_centrifuge",
+    "symbol": "n",
+    "color": "white",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "carbon_fiber" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      },
+      { "flame": false, "type": "cauterize" }
+    ],
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
+  },
+  {
+    "id": "3d_printer_advanced",
+    "type": "TOOL",
+    "copy-from": "3d_printer_basic",
+    "name": { "str": "advanced 3D printer" },
+    "description": "Recent advances in 3D printing technology have resulted in the ability to quickly and cheaply 3D print metals and alloys.  Such 3D printers are highly expensive, but sought out by collectors and preppers alike.",
+    "price": "2000 USD",
+    "price_postapoc": "50 USD"
   }
 ]

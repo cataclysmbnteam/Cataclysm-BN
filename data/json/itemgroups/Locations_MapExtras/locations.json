@@ -1450,6 +1450,7 @@
       { "item": "brewing_cookbook", "prob": 3 },
       { "item": "recipe_bullets", "prob": 1 },
       { "item": "knife_combat", "prob": 14 },
+      { "item": "knife_carbon", "prob": 14 },
       { "item": "knife_rm42", "prob": 2 },
       { "item": "kukri", "prob": 2 },
       { "item": "knife_hunting", "prob": 4 },

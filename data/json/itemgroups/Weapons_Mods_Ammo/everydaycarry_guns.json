@@ -2317,5 +2317,27 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "entries": [ { "item": "mgl", "ammo-group": "on_hand_40x46mm", "charges": [ 0, 6 ] }, { "group": "on_hand_40x46mm" } ]
+  },
+  {
+    "id": "everyday_carbon_pistol",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "carbon_pistol", "charges-min": 0, "charges-max": 15 },
+      { "group": "nested_glock17_mag", "charges-min": 0 },
+      { "group": "nested_glock17_mag", "charges-min": 0, "prob": 50 }
+    ]
+  },
+  {
+    "id": "everyday_carbon_rifle",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "carbon_rifle", "ammo-item": "556_incendiary", "charges": [ 0, 30 ] },
+      { "group": "nested_stanag_mag", "charges-min": 0 },
+      { "group": "nested_stanag_mag", "charges-min": 0, "prob": 50 }
+    ]
   }
 ]

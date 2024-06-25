@@ -993,5 +993,15 @@
     "warmth": 20,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "SKINTIGHT" ]
+  },
+  {
+    "id": "carbon_gloves",
+    "type": "ARMOR",
+    "name": { "str": "carbon fiber gloves" },
+    "description": "A custom pair of fingerless armored gloves made using a 3D printer.  Its rigid plates are more comparable to metal than kevlar, but it's very protective and lightweight.",
+    "copy-from": "gloves_plate",
+    "material": [ "carbon_fiber" ],
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] },
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   }
 ]

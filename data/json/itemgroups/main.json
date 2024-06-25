@@ -250,6 +250,7 @@
     "entries": [
       { "item": "crossbow", "prob": 70 },
       { "item": "compcrossbow", "prob": 10 },
+      { "item": "crossbow_carbon", "prob": 10 },
       { "item": "bullet_crossbow", "prob": 10 },
       { "item": "hand_crossbow", "prob": 10 },
       { "item": "longbow", "prob": 40 },

@@ -202,5 +202,23 @@
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "UNARMED_WEAPON", "SHEATH_KNIFE" ]
+  },
+  {
+    "id": "jamadhar_carbon",
+    "type": "GENERIC",
+    "copy-from": "jamadhar",
+    "name": { "str": "carbon fiber jamadhar" },
+    "description": "A custom 3D-printed jamadhar made out of carbon fiber.  It is more lightweight than a normal weapon thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "katar_carbon",
+    "type": "GENERIC",
+    "copy-from": "katar",
+    "name": { "str": "carbon fiber katar" },
+    "description": "A custom 3D-printed katar made out of carbon fiber.  It is more lightweight than a normal weapon thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   }
 ]

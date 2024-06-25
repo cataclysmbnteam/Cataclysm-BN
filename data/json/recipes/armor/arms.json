@@ -229,5 +229,18 @@
     "autolearn": [ [ "fabrication", 6 ], [ "tailor", 4 ] ],
     "book_learn": [ [ "textbook_armwest", 3 ], [ "textbook_fabrication", 3 ], [ "recipe_melee", 3 ] ],
     "using": [ [ "chainmail_standard", 3 ] ]
+  },
+  {
+    "result": "carbon_armguard",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "computer",
+    "difficulty": 1,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "book_learn": [ [ "textbook_computer", 1 ], [ "advanced_electronics", 1 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
+    "components": [ [ [ "plastic_chunk", 20 ] ] ]
   }
 ]
