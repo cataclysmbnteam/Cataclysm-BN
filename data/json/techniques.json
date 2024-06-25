@@ -983,9 +983,7 @@
     "messages": [ "You quickly jab %s", "<npcname> quickly jabs at %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.7 }
-    ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ]
   },
   {
     "type": "technique",
