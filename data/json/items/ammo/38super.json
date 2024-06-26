@@ -33,5 +33,33 @@
     "count": 20,
     "//": "Hollowpoint damage increase of 25%.",
     "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 0 }
+  },
+  {
+    "id": "bp_38super_fmj",
+    "copy-from": "38super_fmj",
+    "type": "AMMO",
+    "name": { "str": ".38 Super, black powder" },
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
+  },
+  {
+    "id": "bp_38_super",
+    "copy-from": "38_super",
+    "type": "AMMO",
+    "name": { "str": ".38 Super, black powder" },
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]

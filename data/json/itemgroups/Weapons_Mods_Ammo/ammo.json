@@ -96,7 +96,8 @@
       { "item": "32_acp", "prob": 50, "charges": [ 1, 100 ] },
       { "item": "38_fmj", "prob": 30, "charges": [ 1, 100 ] },
       { "item": "38_special", "prob": 80, "charges": [ 1, 100 ] },
-      { "item": "38super_fmj", "prob": 40, "charges": [ 1, 100 ] },
+      { "item": "38_super", "prob": 20, "charges": [ 1, 100 ] },
+      { "item": "38super_fmj", "prob": 20, "charges": [ 1, 100 ] },
       { "item": "357mag_fmj", "prob": 30, "charges": [ 1, 100 ] },
       { "item": "357mag_jhp", "prob": 30, "charges": [ 1, 100 ] },
       { "item": "380_JHP", "prob": 10, "charges": [ 1, 100 ] },
@@ -140,10 +141,14 @@
       { "item": "bp_32_acp", "prob": 50, "charges": [ 1, 100 ] },
       { "item": "bp_38_fmj", "prob": 55, "charges": [ 1, 100 ] },
       { "item": "bp_38_special", "prob": 105, "charges": [ 1, 100 ] },
+      { "item": "bp_38_super", "prob": 20, "charges": [ 1, 100 ] },
+      { "item": "bp_38super_fmj", "prob": 20, "charges": [ 1, 100 ] },
       { "item": "bp_357mag_fmj", "prob": 55, "charges": [ 1, 100 ] },
       { "item": "bp_357mag_jhp", "prob": 55, "charges": [ 1, 100 ] },
       { "item": "bp_380_JHP", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "bp_380_FMJ", "prob": 15, "charges": [ 1, 100 ] },
+      { "item": "bp_357sig_fmj", "prob": 70, "charges": [ 1, 100 ] },
+      { "item": "bp_357sig_jhp", "prob": 70, "charges": [ 1, 100 ] },
       { "item": "bp_40fmj", "prob": 20, "charges": [ 1, 100 ] },
       { "item": "bp_40sw", "prob": 50, "charges": [ 1, 100 ] },
       { "item": "bp_44magnum", "prob": 85, "charges": [ 1, 100 ] },
@@ -325,6 +330,8 @@
       { "item": "reloaded_4570_bp", "prob": 60, "charges": [ 1, 100 ] },
       { "item": "bp_762_51", "prob": 35, "charges": [ 1, 100 ] },
       { "item": "bp_762_51_incendiary", "prob": 30, "charges": [ 1, 100 ] },
+      { "item": "bp_762_54R", "prob": 60, "charges": [ 1, 100 ] },
+      { "item": "bp_762_m43", "prob": 20, "charges": [ 1, 100 ] },
       { "item": "bp_300blk", "prob": 10, "charges": [ 1, 100 ] }
     ]
   },
@@ -338,9 +345,9 @@
       { "item": "shot_bird", "prob": 70, "charges": [ 1, 100 ] },
       { "item": "shot_slug", "prob": 70, "charges": [ 1, 100 ] },
       { "item": "410shot_000", "prob": 50, "charges": [ 1, 100 ] },
-      { "item": "shot_paper_00", "prob": 30, "charges": [ 1, 100 ] },
-      { "item": "shot_paper_bird", "prob": 30, "charges": [ 1, 100 ] },
-      { "item": "shot_paper_slug", "prob": 10, "charges": [ 1, 100 ] }
+      { "item": "shot_paper_00", "prob": 15, "charges": [ 1, 100 ] },
+      { "item": "shot_paper_bird", "prob": 15, "charges": [ 1, 100 ] },
+      { "item": "shot_paper_slug", "prob": 5, "charges": [ 1, 100 ] }
     ]
   },
   {
@@ -414,8 +421,9 @@
       { "item": "bp_shot_dragon", "prob": 20, "charges": [ 1, 100 ] },
       { "item": "bp_shot_flechette", "prob": 5, "charges": [ 1, 100 ] },
       { "item": "bp_shot_slug", "prob": 55, "charges": [ 1, 100 ] },
+      { "item": "bp_410shot_000", "prob": 25, "charges": [ 1, 100 ] },
       { "item": "shot_paper_00", "prob": 15, "charges": [ 1, 100 ] },
-      { "item": "shot_paper_bird", "prob": 10, "charges": [ 1, 100 ] },
+      { "item": "shot_paper_bird", "prob": 15, "charges": [ 1, 100 ] },
       { "item": "shot_paper_slug", "prob": 5, "charges": [ 1, 100 ] }
     ]
   },
@@ -631,9 +639,9 @@
       { "item": "shot_bird", "prob": 70 },
       { "item": "shot_slug", "prob": 70 },
       { "item": "410shot_000", "prob": 50 },
-      { "item": "shot_paper_00", "prob": 30 },
-      { "item": "shot_paper_bird", "prob": 30 },
-      { "item": "shot_paper_slug", "prob": 10 }
+      { "item": "shot_paper_00", "prob": 15 },
+      { "item": "shot_paper_bird", "prob": 15 },
+      { "item": "shot_paper_slug", "prob": 5 }
     ]
   },
   {

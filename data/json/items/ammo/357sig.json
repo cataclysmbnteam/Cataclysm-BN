@@ -29,5 +29,33 @@
     "name": { "str": ".357 SIG JHP" },
     "description": "Jacketed hollow point .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
     "damage": { "damage_type": "bullet", "amount": 42, "armor_penetration": 0 }
+  },
+  {
+    "id": "bp_357sig_fmj",
+    "copy-from": "357sig_fmj",
+    "type": "AMMO",
+    "name": { "str": ".357 SIG FMJ, black powder" },
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
+  },
+  {
+    "id": "bp_357sig_jhp",
+    "copy-from": "357sig_jhp",
+    "type": "AMMO",
+    "name": { "str": ".357 SIG JHP, black powder" },
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]
