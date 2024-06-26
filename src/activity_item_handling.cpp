@@ -3365,9 +3365,29 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
     // We need to move fuel from stash to fire
     map_stack potential_fuel = here.i_at( *refuel_spot );
     item *found = nullptr;
+    item *found_tinder = nullptr;
     for( item *&it : potential_fuel ) {
         if( it->made_of( LIQUID ) ) {
             continue;
+        }
+        // If we specifically need tinder to start this fire, grab it the instant it's found and ignore any other fuel
+        if( starting_fire ) {
+            // Only track firestarter if we have an activity assigned to light a new fire, or it will implode.
+            item &firestarter = *act.targets.front();
+            if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
+                if( it->has_flag( flag_TINDER ) ) {
+                    move_item( p, *it, 1, *refuel_spot, *best_fire );
+                    return;
+                } else {
+                    continue;
+                }
+            }
+        } else {
+            // Keep track of any tinder we don't need, but don't use it if we have other options
+            if( it->has_flag( flag_TINDER ) ) {
+                found_tinder = it;
+                continue;
+            }
         }
 
         float last_fuel = fd.fuel_produced;
@@ -3377,9 +3397,14 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
             break;
         }
     }
+    // Only use tinder if we didn't find any other valid fuel to use
     if( found ) {
         const int quantity = std::max( 1, std::min( found->charges, found->charges_per_volume( 250_ml ) ) );
         // Note: move_item() handles messages (they're the generic "you drop x")
         move_item( p, *found, quantity, *refuel_spot, *best_fire );
+    } else if( found_tinder ) {
+        const int quantity = std::max( 1, std::min( found_tinder->charges,
+                                       found_tinder->charges_per_volume( 250_ml ) ) );
+        move_item( p, *found_tinder, quantity, *refuel_spot, *best_fire );
     }
 }
