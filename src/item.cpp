@@ -7014,7 +7014,13 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
     } else if( is_watertight_container() ) {
         if( ammo.is_empty() ) {
             return now ? !is_container_full() : true;
-        } else if( ammo->phase != LIQUID ) {
+        } else {
+            return now ? ( is_container_empty() || contents.front().typeId() == ammo ) : true;
+        }
+    } else if( is_container() ) {
+        if( ammo.is_empty() ) {
+            return now ? !is_container_full() : true;
+        } else if( ammo->phase == LIQUID ) {
             return false;
         } else {
             return now ? ( is_container_empty() || contents.front().typeId() == ammo ) : true;
@@ -8600,7 +8606,7 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buck
         }
         remaining_capacity = ammo_capacity() - ammo_remaining();
     } else if( is_container() ) {
-        if( !type->container->watertight ) {
+        if( !type->container->watertight && liquid.made_of( LIQUID ) ) {
             return error( string_format( _( "That %s isn't water-tight." ), tname() ) );
         } else if( !type->container->seals && ( !allow_bucket || !is_bucket() ) ) {
             return error( string_format( is_bucket() ?

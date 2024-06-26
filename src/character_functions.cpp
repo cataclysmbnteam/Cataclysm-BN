@@ -755,10 +755,6 @@ bool list_ammo( const Character &who, item &base, std::vector<item_reload_option
     for( item *e : opts ) {
         for( item *ammo : find_ammo_items_or_mags( who, *e, include_empty_mags,
                 ammo_search_range ) ) {
-            // don't try to unload frozen liquids
-            if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
-                continue;
-            }
             auto id = ( ammo->is_ammo_container() || ammo->is_container() )
                       ? ammo->contents.front().typeId()
                       : ammo->typeId();
@@ -791,7 +787,7 @@ item_reload_option select_ammo( const Character &who, item &base,
     }
 
     uilist menu;
-    menu.text = string_format( base.is_watertight_container() ? _( "Refill %s" ) :
+    menu.text = string_format( base.is_container() ? _( "Refill %s" ) :
                                base.has_flag( flag_RELOAD_AND_SHOOT ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
                                base.tname() );
 
@@ -816,7 +812,7 @@ item_reload_option select_ammo( const Character &who, item &base,
                                                   e.ammo->type_name(), e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ),
                                                   e.ammo->ammo_remaining() ) );
             }
-        } else if( e.ammo->is_watertight_container() ||
+        } else if( e.ammo->is_container() ||
                    ( e.ammo->is_ammo_container() && who.is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their contents with their location also updated below
             return e.ammo->contents.front().display_name();
@@ -1042,6 +1038,8 @@ item_reload_option select_ammo( const Character &who, item &base, bool prompt,
                     name = base.ammo_data()->nname( 1 );
                 } else if( base.is_watertight_container() ) {
                     name = base.is_container_empty() ? "liquid" : base.contents.front().tname();
+                } else if( base.is_container() ) {
+                    name = base.is_container_empty() ? "items" : base.contents.front().tname();
                 } else {
                     name = enumerate_as_string( base.ammo_types().begin(),
                     base.ammo_types().end(), []( const ammotype & at ) {
@@ -1087,7 +1085,7 @@ std::vector<item *> get_ammo_items( const Character &who, const ammotype &at )
 template <typename T, typename Output>
 void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nested )
 {
-    if( obj.is_watertight_container() ) {
+    if( obj.is_container() ) {
         if( !obj.is_container_empty() ) {
             auto contents_id = obj.contents.front().typeId();
 
@@ -1105,9 +1103,9 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
             } );
         } else {
-            // Look for containers with any liquid
+            // Look for containers with any contents we can hold
             src.visit_items( [&nested, &out]( item * node ) {
-                if( node->is_container() && node->contents_made_of( LIQUID ) ) {
+                if( node->is_container() && !node->is_container_empty() ) {
                     out = node;
                 }
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
