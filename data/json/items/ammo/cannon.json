@@ -11,11 +11,11 @@
     "price": "200 USD",
     "price_postapoc": "20 USD",
     "looks_like": "cannon_round_ball",
-    "//2": "Base damage of 544, rounded down to 450 to be close to 25% that of round shot, balanced as FMJ.",
-    "damage": { "damage_type": "bullet", "amount": 450, "armor_penetration": 215 },
+    "//2": "balanced as +P with blackpowder levels of arpen.",
+    "damage": { "damage_type": "bullet", "amount": 250, "armor_penetration": 50 },
     "dispersion": 500,
     "recoil": 52500,
-    "extend": { "effects": [ "EXPLOSIVE", "FRAG" ] }
+    "extend": { "effects": [ "EXPLOSIVE_BIG" ] }
   },
   {
     "id": "cannon_round_ball",
@@ -35,8 +35,8 @@
     "stack_size": 1,
     "ammo_type": "cannon",
     "range": 50,
-    "//2": "Base damage of 352, rounded down to 350, balanced as FMJ.",
-    "damage": { "damage_type": "bullet", "amount": 350, "armor_penetration": 150 },
+    "//2": "Balanced as FMJ with blackpowder levels of arpen.",
+    "damage": { "damage_type": "bullet", "amount": 200, "armor_penetration": 50 },
     "dispersion": 620,
     "recoil": 26250,
     "loudness": 900,

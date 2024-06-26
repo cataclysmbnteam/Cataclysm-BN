@@ -15,7 +15,7 @@
     "bashing": 1,
     "ammo_type": "atgm",
     "casing": "atgm_spent",
-    "damage": { "damage_type": "bullet", "amount": 250, "armor_multiplier": 0.1 },
+    "damage": { "damage_type": "bullet", "amount": 450, "armor_multiplier": 0.1 },
     "range": 100,
     "recoil": 6000,
     "effects": [ "EXPLOSIVE_HUGE", "NEVER_MISFIRES" ]
