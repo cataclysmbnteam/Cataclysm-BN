@@ -575,6 +575,66 @@
     ]
   },
   {
+    "result": "bp_50bmg",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ "gun", 7 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 6 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
+    "components": [ [ [ "50_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 45 ] ], [ [ "copper", 6 ] ] ]
+  },
+  {
+    "result": "bp_50_incendiary",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ "gun", 7 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 8 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 21 ], [ "ammo_bullet", 15 ] ],
+    "components": [
+      [ [ "50_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "chem_black_powder", 45 ] ],
+      [ [ "copper", 6 ] ],
+      [ [ "incendiary", 20 ] ]
+    ]
+  },
+  {
+    "result": "bp_50ss",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ "gun", 7 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 7 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 21 ] ],
+    "components": [
+      [ [ "50_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "chem_black_powder", 45 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "copper", 6 ] ]
+    ]
+  },
+  {
     "result": "545",
     "type": "recipe",
     "category": "CC_AMMO",
@@ -603,6 +663,38 @@
     "charges": 1,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
     "components": [ [ [ "545_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "copper", 1 ] ] ]
+  },
+  {
+    "result": "bp_545",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 2 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "components": [ [ [ "545_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 8 ] ], [ [ "copper", 1 ] ] ]
+  },
+  {
+    "result": "bp_545_ap",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 3 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "components": [ [ [ "545_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 9 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "300blk",
@@ -725,6 +817,22 @@
     "components": [ [ [ "700nx_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 30 ] ], [ [ "copper", 5 ] ] ]
   },
   {
+    "result": "bp_700nx",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "skills_required": [ "gun", 7 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 7 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 10 ] ],
+    "components": [ [ [ "700nx_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 45 ] ], [ [ "copper", 5 ] ] ]
+  },
+  {
     "result": "762_51",
     "type": "recipe",
     "category": "CC_AMMO",
@@ -824,6 +932,22 @@
     "components": [ [ [ "762R_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 10 ] ], [ [ "copper", 3 ] ] ]
   },
   {
+    "result": "bp_762_54R",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 4 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 10 ], [ "ammo_bullet", 7 ] ],
+    "components": [ [ [ "762R_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 15 ] ], [ [ "copper", 3 ] ] ]
+  },
+  {
     "result": "762_m43",
     "type": "recipe",
     "category": "CC_AMMO",
@@ -852,5 +976,37 @@
     "charges": 1,
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
     "components": [ [ [ "762_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 8 ] ], [ [ "copper", 1 ] ] ]
+  },
+  {
+    "result": "bp_762_m43",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
+    "components": [ [ [ "762_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 12 ] ], [ [ "copper", 1 ] ] ]
+  },
+  {
+    "result": "bp_762_m87",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
+    "components": [ [ [ "762_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 12 ] ], [ [ "copper", 1 ] ] ]
   }
 ]

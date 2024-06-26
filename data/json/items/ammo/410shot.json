@@ -20,5 +20,19 @@
     "recoil": 1350,
     "loudness": 90,
     "effects": [ "COOKOFF", "SHOT" ]
+  },
+  {
+    "id": "bp_410shot_000",
+    "copy-from": "410shot_000",
+    "type": "AMMO",
+    "name": { "str": ".410 000 shot, black powder" },
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]

@@ -21,5 +21,20 @@
     "dispersion": 15,
     "recoil": 12100,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "bp_700nx",
+    "copy-from": "700nx",
+    "type": "AMMO",
+    "name": { "str": ".700 NX, black powder" },
+    "description": "The .700 Nitro Express is a very powerful rifle round designed for long-range use.  The \"Nitro\" in the name isn't very applicable to this blackpowder load, but it still has plenty of Express.",
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]

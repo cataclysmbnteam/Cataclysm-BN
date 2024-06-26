@@ -34,5 +34,33 @@
     "color": "yellow",
     "//": "Balanced as AP, 7/8 damage, arpen 6/7 that value.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -5, "armor_penetration": 12 } }
+  },
+  {
+    "id": "bp_545",
+    "copy-from": "545",
+    "type": "AMMO",
+    "name": { "str": "5.45x39mm 7N10, black powder" },
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
+  },
+  {
+    "id": "bp_545_ap",
+    "copy-from": "545_ap",
+    "type": "AMMO",
+    "name": { "str": "5.45x39mm 7N22, black powder" },
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]

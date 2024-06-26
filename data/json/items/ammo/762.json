@@ -31,5 +31,35 @@
     "price": "150 cent",
     "price_postapoc": "68 USD",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 2 } }
+  },
+  {
+    "id": "bp_762_m43",
+    "copy-from": "762_m43",
+    "type": "AMMO",
+    "name": { "str": "7.62x39mm 57-N-231, black powder" },
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_762_m87",
+    "copy-from": "762_m87",
+    "type": "AMMO",
+    "name": { "str": "7.62x39mm M67, black powder" },
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }
 ]
