@@ -1824,7 +1824,8 @@
   {
     "id": "REQUIRES_TINDER",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item <bad>requires adequate tinder</bad> to be provided as fuel when starting a fire."
   },
   {
     "id": "SAFECRACK",
@@ -1910,7 +1911,8 @@
   {
     "id": "TINDER",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item can be used as tinder in a firewood source, <info>automatically being used</info> to light fires if using a a firestarting tool that requires it."
   },
   {
     "id": "TOBACCO",
