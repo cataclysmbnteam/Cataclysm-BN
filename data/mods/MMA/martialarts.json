@@ -115,7 +115,7 @@
         "name": "Combat Acrobat",
         "description": "Always stay light on your feet.  It is better to evade than be hit.\n\n+1.0 Dodging skill.",
         "melee_allowed": true,
-        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
       },
       {
         "id": "mma_buff_hylian_static2",
