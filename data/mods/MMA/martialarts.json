@@ -178,11 +178,7 @@
     ],
     "techniques": [ "mma_tec_hylian_spin", "mma_tec_hylian_wide" ],
     "weapon_category": [ "BATONS", "2H_SWORDS", "1H_SWORDS" ],
-    "weapons": [
-      "stick",
-      "torch",
-      "torch_lit"
-    ]
+    "weapons": [ "stick", "torch", "torch_lit" ]
   },
   {
     "type": "martial_art",
