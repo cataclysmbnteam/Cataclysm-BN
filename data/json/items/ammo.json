@@ -995,7 +995,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "bashing": 1,
-    "material": "wood",
+    "material": "dry_plant",
     "flags": [ "NO_SALVAGE", "TINDER" ],
     "symbol": "=",
     "color": "brown",
