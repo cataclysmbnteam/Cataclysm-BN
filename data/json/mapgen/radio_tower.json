@@ -281,10 +281,10 @@
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "radio_tower_2x2_map", 40 ],
+            [ "null", 100 ],
+            [ "radio_tower_2x2_map", 30 ],
             [ "radio_tower_2x2_holdout", 10 ],
-            [ "radio_tower_2x2_sniper", 10 ],
+            [ "radio_tower_2x2_sniper", 5 ],
             [ "radio_tower_wasp", 20 ]
           ],
           "x": 10,
@@ -322,8 +322,7 @@
         { "group": "mon_zombie_soldier_death_drops", "x": 1, "y": 0 },
         { "item": "survivor_scope", "x": 1, "y": 0, "chance": 70 },
         { "item": "can_drink_unsealed", "x": 1, "y": [ 0, 1 ], "chance": 70, "repeat": [ 2, 3 ] },
-        { "item": "3006", "x": 1, "y": 0, "chance": 40 },
-        { "item": "remington_700", "x": 1, "y": 0, "chance": 80, "ammo": 100 }
+        { "group": "carried_guns_rifle_rare", "x": 1, "y": 0, "chance": 80, "ammo": 100 }
       ]
     }
   },
@@ -334,9 +333,9 @@
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_loot": [
-        { "item": "survivor_scope", "x": 1, "y": 0 },
+        { "item": "survivor_scope", "x": 1, "y": 0, "chance": 40 },
         { "item": "survivormap", "x": 1, "y": 0 },
-        { "item": "3006", "x": 1, "y": 0, "chance": 40 }
+        { "group": "carried_guns_rifle_common", "x": 1, "y": 0, "chance": 20, "ammo": 100 }
       ]
     }
   },
