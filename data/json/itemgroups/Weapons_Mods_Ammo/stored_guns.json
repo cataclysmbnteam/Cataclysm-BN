@@ -62,12 +62,14 @@
     "//": "Guns and other tools found in a cabin locker.",
     "subtype": "collection",
     "items": [
-      { "item": "tools_earthworking", "chance": 40 },
+      { "item": "tools_earthworking", "chance": 100 },
       { "item": "tools_earthworking", "chance": 30 },
-      { "item": "tools_home", "chance": 40 },
+      { "item": "tools_home", "chance": 100 },
       { "item": "tools_home", "chance": 30 },
-      { "item": "guns_rifle_common", "chance": 15 },
+      { "item": "guns_rifle_common", "chance": 25 },
       { "item": "guns_rifle_common", "chance": 5 },
+      { "item": "guns_shotgun_common", "chance": 15 },
+      { "item": "guns_pistol_common", "chance": 15 },
       { "item": "gunmod_common", "chance": 5 }
     ]
   }
