@@ -57,7 +57,7 @@
       {
         "id": "mma_buff_diamond_mind_static",
         "name": "Stance of Alacrity",
-        "description": "You move slightly faster than normal due to a combination of confidence, raining, and clarity of mind.  This slight edge adds up with each action.\n\n-10% move cost",
+        "description": "You move slightly faster than normal due to a combination of confidence, raining, and clarity of mind.  This slight edge adds up with each action.\n\n-15% move cost",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "mult_bonuses": [ { "stat": "movecost", "scale": 0.85 } ]
