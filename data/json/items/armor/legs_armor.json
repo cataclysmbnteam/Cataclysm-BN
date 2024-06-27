@@ -72,7 +72,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "leather chaps" },
     "description": "A pair of black leather chaps.  Very tough and light, but doesn't offer any storage.",
-    "weight": "1414 g",
+    "weight": "714 g",
     "volume": "1250 ml",
     "price": "210 USD",
     "price_postapoc": "250 cent",
