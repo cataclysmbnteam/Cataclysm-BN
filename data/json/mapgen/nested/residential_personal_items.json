@@ -19,7 +19,19 @@
             [ "res_personal_ergometer_1X1", 5 ],
             [ "res_personal_comicoll_1X1", 5 ],
             [ "res_personal_bowhunter_1X1", 5 ],
-            [ "res_personal_bodypillow_1X1", 5 ]
+            [ "res_personal_bodypillow_1X1", 5 ],
+            [ "res_personal_dresses_1X1", 5 ],
+            [ "res_personal_fencing_1X1", 5 ],
+            [ "res_personal_clown_1X1", 5 ],
+            [ "res_personal_mascot_1X1", 5 ],
+            [ "res_personal_fisher_1X1", 5 ],
+            [ "res_personal_gobag_1X1", 2 ],
+            [ "res_personal_histreenactor_1X1", 2 ],
+            [ "res_personal_horrornovels_1X1", 5 ],
+            [ "res_personal_LARPer_1X1", 2 ],
+            [ "res_personal_esotericist_1X1", 5 ],
+            [ "res_personal_dungeonmaster_1X1", 5 ],
+            [ "res_personal_boardgames_1X1", 5 ]
           ],
           "x": [ 0 ],
           "y": [ 0 ]
@@ -82,7 +94,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "res_personal_ergometer_1X1",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ "x" ], "terrain": { "x": "t_null" }, "furniture": { "x": "f_ergometer" } }
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "x" ], "terrain": { "x": "t_null" }, "furniture": { "x": [ "f_ergometer" ] } }
   },
   {
     "type": "mapgen",
@@ -154,6 +166,229 @@
       "place_loot": [
         { "item": "bodypillow", "x": 0, "y": 0, "repeat": [ 1, 2 ] },
         { "item": "mag_animecon", "x": 0, "y": 0, "chance": 25, "repeat": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_dresses_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_clothing_rail" },
+      "place_loot": [
+        { "item": "dress", "x": 0, "y": 0, "repeat": [ 5, 7 ] },
+        { "item": "skirt", "x": 0, "y": 0, "repeat": [ 2, 3 ] },
+        { "item": "sundress", "x": 0, "y": 0, "repeat": [ 2, 4 ] },
+        { "item": "skirt_leather", "x": 0, "y": 0, "chance": 10, "repeat": [ 2, 4 ] },
+        { "item": "nanoskirt", "x": 0, "y": 0, "chance": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_mascot_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_clothing_rail" },
+      "place_loot": [ { "item": "whistle", "x": 0, "y": 0 }, { "item": "jersey", "x": 0, "y": 0 }, { "item": "wolfsuit", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_clown_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_clothing_rail" },
+      "place_loot": [
+        { "item": "airhorn", "x": 0, "y": 0 },
+        { "item": "clown_nose", "x": 0, "y": 0 },
+        { "item": "clown_wig", "x": 0, "y": 0 },
+        { "item": "clownshoes", "x": 0, "y": 0 },
+        { "item": "clown_suit", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_fencing_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_clothing_rail" },
+      "place_loot": [
+        { "item": "duffelbag", "x": 0, "y": 0 },
+        { "item": "fencing_pants", "x": 0, "y": 0 },
+        { "item": "fencing_mask", "x": 0, "y": 0 },
+        { "item": "fencing_jacket", "x": 0, "y": 0 },
+        { "item": "gauntlet_fencing", "x": 0, "y": 0 },
+        { "item": "plastron_cotton", "x": 0, "y": 0 },
+        { "item": "fencing_epee", "x": 0, "y": 0 },
+        { "item": "fencing_foil", "x": 0, "y": 0 },
+        { "item": "manual_fencing", "x": 0, "y": 0, "chance": 10 },
+        { "item": "fencing_jacket", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_gobag_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [ { "item": "personal_gobag", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_fisher_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "fishing_waders", "x": 0, "y": 0 },
+        { "item": "vest", "x": 0, "y": 0 },
+        { "item": "hat_boonie", "x": 0, "y": 0 },
+        { "item": "jacket_flannel", "x": 0, "y": 0 },
+        { "item": "fishing_rod_professional", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_histreenactor_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_clothing_rail" },
+      "place_loot": [
+        { "item": "knee_high_boots", "x": 0, "y": 0 },
+        { "item": "breeches", "x": 0, "y": 0 },
+        { "item": "waistcoat", "x": 0, "y": 0 },
+        { "item": "peacoat", "x": 0, "y": 0 },
+        { "item": "leather_belt", "x": 0, "y": 0 },
+        { "item": "knit_scarf", "x": 0, "y": 0 },
+        { "item": "tricorne", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_horrornovels_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_bookcase" },
+      "place_loot": [
+        { "item": "novel_horror", "x": 0, "y": 0, "repeat": [ 15, 20 ] },
+        { "item": "novel_crime", "x": 0, "y": 0, "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "novel_thriller", "x": 0, "y": 0, "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "novel_fantasy", "x": 0, "y": 0, "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "novel_scifi", "x": 0, "y": 0, "chance": 5, "repeat": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_LARPer_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "broadsword_fake", "x": 0, "y": 0, "chance": 5 },
+        { "item": "cloak", "x": 0, "y": 0 },
+        { "item": "novel_fantasy", "x": 0, "y": 0 },
+        { "item": "tunic", "x": 0, "y": 0 },
+        { "item": "breeches", "x": 0, "y": 0 },
+        { "item": "longsword_fake", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_esotericist_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_bookcase" },
+      "place_loot": [
+        { "item": "novel_experimental", "x": 0, "y": 0, "chance": 80, "repeat": [ 4, 6 ] },
+        { "item": "poetry_book", "x": 0, "y": 0, "chance": 50, "repeat": [ 2, 3 ] },
+        { "item": "novel_erotic", "x": 0, "y": 0, "chance": 50, "repeat": [ 2, 3 ] },
+        { "item": "philosophy_book", "x": 0, "y": 0, "chance": 50, "repeat": [ 4, 6 ] },
+        { "item": "essay_book", "x": 0, "y": 0, "chance": 50, "repeat": [ 4, 6 ] },
+        { "group": "religious_books", "x": 0, "y": 0, "chance": 20, "repeat": [ 4, 6 ] },
+        { "group": "exotic_books", "x": 0, "y": 0, "chance": 10, "repeat": [ 2, 3 ] },
+        { "item": "cookbook_human", "x": 0, "y": 0, "chance": 1 },
+        { "item": "textbook_robots", "x": 0, "y": 0, "chance": 5 },
+        { "item": "textbook_anarch", "x": 0, "y": 0, "chance": 5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_dungeonmaster_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "cloak", "x": 0, "y": 0, "chance": 5 },
+        { "item": "catan", "x": 0, "y": 0, "chance": 25 },
+        { "item": "g_warhammer", "x": 0, "y": 0, "chance": 30 },
+        { "item": "g_warhammer40k", "x": 0, "y": 0, "chance": 30 },
+        { "item": "dnd", "x": 0, "y": 0, "chance": 40 },
+        { "item": "novel_fantasy", "x": 0, "y": 0, "chance": 20, "repeat": [ 2, 3 ] },
+        { "item": "dnd_handbook", "x": 0, "y": 0, "chance": 100, "repeat": [ 2, 3 ] },
+        { "item": "character_sheet", "x": 0, "y": 0, "chance": 100, "repeat": [ 4, 8 ] },
+        { "item": "metal_RPG_die", "x": 0, "y": 0, "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "RPG_die", "x": 0, "y": 0, "chance": 100, "repeat": [ 2, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_boardgames_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "chess", "x": 0, "y": 0, "chance": 100 },
+        { "item": "catan", "x": 0, "y": 0, "chance": 50 },
+        { "item": "deck_of_cards", "x": 0, "y": 0, "chance": 100, "repeat": [ 2, 3 ] },
+        { "item": "pictionary", "x": 0, "y": 0, "chance": 100 },
+        { "item": "checkers", "x": 0, "y": 0, "chance": 100 },
+        { "item": "battleship", "x": 0, "y": 0, "chance": 100 },
+        { "item": "clue", "x": 0, "y": 0, "chance": 100 }
       ]
     }
   }
