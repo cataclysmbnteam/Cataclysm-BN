@@ -60,7 +60,7 @@
     "type": "item_group",
     "id": "locker_cabin",
     "//": "Guns and other tools found in a cabin locker.",
-    "subtype": "collection",
+    "subtype": "distribution",
     "items": [
       { "item": "tools_earthworking", "prob": 100 },
       { "item": "tools_earthworking", "prob": 30 },
