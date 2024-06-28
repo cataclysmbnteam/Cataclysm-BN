@@ -25,14 +25,14 @@
     "subtype": "collection",
     "id": "map_extra_college_camping",
     "entries": [
-      { "group": "underwear", "damage-min": 1, "damage-max": 3 },
-      { "group": "shirts", "damage-min": 1, "damage-max": 4 },
-      { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
-      { "group": "pants", "damage-min": 1, "damage-max": 4 },
-      { "group": "shoes", "damage-min": 1, "damage-max": 4 },
-      { "group": "hatstore_hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
-      { "group": "college_camping", "prob": 50 },
-      { "group": "college_camping", "prob": 80 },
+      { "group": "default_zombie_clothes" },
+      { "group": "bags", "damage": [ 1, 4 ] },
+      { "group": "default_zombie_items_pockets", "prob": 50 },
+      { "group": "camping", "prob": 75, "count": [ 1, 2 ] },
+      {
+        "distribution": [ { "group": "fridge_alcohol_random", "prob": 75 }, { "group": "smokedrugs", "prob": 25 } ],
+        "prob": 50
+      },
       { "item": "corpse", "damage": 3 }
     ]
   },
@@ -41,14 +41,14 @@
     "subtype": "collection",
     "id": "map_extra_college_sports",
     "entries": [
-      { "group": "underwear", "damage-min": 1, "damage-max": 3 },
-      { "group": "shirts", "damage-min": 1, "damage-max": 4 },
-      { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
-      { "group": "pants", "damage-min": 1, "damage-max": 4 },
-      { "group": "shoes", "damage-min": 1, "damage-max": 4 },
-      { "group": "hatstore_hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
-      { "group": "college_sports", "prob": 50 },
-      { "group": "college_sports", "prob": 90 },
+      { "group": "default_zombie_clothes" },
+      { "group": "bags", "damage": [ 1, 4 ] },
+      { "group": "default_zombie_items_pockets", "prob": 50 },
+      { "group": "sports", "prob": 75, "count": [ 1, 2 ] },
+      {
+        "distribution": [ { "group": "fridge_alcohol_random", "prob": 75 }, { "group": "smokedrugs", "prob": 25 } ],
+        "prob": 50
+      },
       { "item": "corpse", "damage": 3 }
     ]
   },
@@ -57,14 +57,28 @@
     "subtype": "collection",
     "id": "map_extra_college_lake",
     "entries": [
-      { "group": "underwear", "damage-min": 1, "damage-max": 3 },
-      { "group": "shirts", "damage-min": 1, "damage-max": 4 },
-      { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
-      { "group": "pants", "damage-min": 1, "damage-max": 4 },
-      { "group": "shoes", "damage-min": 1, "damage-max": 4 },
-      { "group": "hatstore_hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
-      { "group": "college_lake", "prob": 50 },
-      { "group": "college_lake", "prob": 70 },
+      {
+        "distribution": [
+          { "group": "default_zombie_clothes", "prob": 50 },
+          { "group": "swimmer_wetsuit", "damage": [ 1, 4 ], "prob": 5 },
+          {
+            "collection": [
+              { "group": "swimmer_head", "damage": [ 1, 4 ], "prob": 75 },
+              { "group": "swimmer_torso", "damage": [ 1, 4 ], "prob": 33 },
+              { "group": "swimmer_pants", "damage": [ 1, 4 ] },
+              { "group": "swimmer_shoes", "damage": [ 1, 4 ], "prob": 25 }
+            ],
+            "prob": 45
+          }
+        ]
+      },
+      { "group": "bags", "damage": [ 1, 4 ] },
+      { "group": "default_zombie_items_pockets", "prob": 50 },
+      { "group": "fishing_items", "prob": 75, "count": [ 1, 2 ] },
+      {
+        "distribution": [ { "group": "fridge_alcohol_random", "prob": 75 }, { "group": "smokedrugs", "prob": 25 } ],
+        "prob": 50
+      },
       { "item": "corpse", "damage": 3 }
     ]
   },
