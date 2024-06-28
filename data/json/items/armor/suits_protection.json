@@ -860,6 +860,7 @@
     "material_thickness": 7,
     "environmental_protection": 3,
     "max_charges": 500,
+    "ammo": "battery",
     "relic_data": {
       "passive_effects": [
         {
@@ -914,6 +915,7 @@
     "warmth": 10,
     "material_thickness": 8,
     "max_charges": 500,
+    "ammo": "battery",
     "relic_data": {
       "passive_effects": [
         {
@@ -981,6 +983,7 @@
     "warmth": 10,
     "material_thickness": 8,
     "max_charges": 500,
+    "ammo": "battery",
     "relic_data": {
       "passive_effects": [
         {
