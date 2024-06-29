@@ -18,13 +18,15 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "friendly": [ "blob", "cult", "zombie_aquatic" ],
-    "by_mood": [ "small_animal", "insect", "fish", "nether" ]
+    "neutral": [ "nether" ],
+    "by_mood": [ "small_animal", "insect", "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "zombie_aquatic",
     "friendly": [ "blob", "cult", "zombie" ],
-    "by_mood": [ "small_animal", "insect", "fish", "nether" ]
+    "neutral": [ "nether" ],
+    "by_mood": [ "small_animal", "insect", "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
