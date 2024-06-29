@@ -8214,8 +8214,7 @@ void item_reload_option::qty( int val )
     item &ammo_obj = ( ammo_in_container || ammo_in_liquid_container ) ?
                      ammo->contents.front() : *ammo;
 
-    if( ( ammo_in_container && !ammo_obj.is_ammo() ) ||
-        ( ammo_in_liquid_container && !ammo_obj.made_of( LIQUID ) ) ) {
+    if( ammo_in_container && !ammo_obj.is_ammo() ) {
         debugmsg( "Invalid reload option: %s", ammo_obj.tname() );
         return;
     }
@@ -8327,11 +8326,7 @@ bool item::reload( player &u, item &loc, int qty )
             // NOLINTNEXTLINE(bugprone-use-after-move)
             put_in( std::move( to_reload ) );
         }
-    } else if( is_watertight_container() ) {
-        if( !ammo->made_of( LIQUID ) ) {
-            debugmsg( "Tried to reload liquid container with non-liquid." );
-            return false;
-        }
+    } else if( is_container() ) {
         if( container ) {
             container->on_contents_changed();
         }
