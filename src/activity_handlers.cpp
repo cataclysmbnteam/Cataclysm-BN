@@ -2148,7 +2148,10 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
 void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
 {
     map &here = get_map();
-    if( !here.is_flammable( act->placement ) ) {
+    item &firestarter = *act->targets.front();
+    // Try fueling the fire if we don't already have fuel, OR if the tool needs to look for tinder to work
+    if( !here.is_flammable( act->placement ) || ( firestarter.has_flag( flag_REQUIRES_TINDER ) &&
+            !here.tinder_at( act->placement ) ) ) {
         try_fuel_fire( *act, *p, true );
         if( !here.is_flammable( act->placement ) ) {
             p->add_msg_if_player( m_info, _( "There's nothing to light there." ) );
@@ -2157,7 +2160,6 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
         }
     }
 
-    item &firestarter = *act->targets.front();
     if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
         if( !here.tinder_at( act->placement ) ) {
             p->add_msg_if_player( m_info, _( "This item requires tinder to light." ) );
