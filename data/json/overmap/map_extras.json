@@ -102,7 +102,7 @@
     "type": "map_extra",
     "name": "Military",
     "description": "Several corpses of soldiers are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_military" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_military" },
     "sym": "m",
     "color": "light_red",
     "autonote": true
@@ -122,7 +122,7 @@
     "type": "map_extra",
     "name": "Scientists",
     "description": "Several corpses of scientists are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_science" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_science" },
     "sym": "s",
     "color": "light_red",
     "autonote": true
