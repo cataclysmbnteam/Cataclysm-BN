@@ -1664,6 +1664,8 @@ class Character : public Creature, public location_visitable<Character>
         int focus_pool = 0;
         int cash = 0;
         std::set<character_id> follower_ids;
+        weak_ptr_fast<Creature> last_target;
+        std::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         safe_reference<item> ammo_location;
         /* crafting inventory cached time */

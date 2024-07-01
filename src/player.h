@@ -239,8 +239,6 @@ class player : public Character
         bool random_start_location = false;
         start_location_id start_location;
 
-        weak_ptr_fast<Creature> last_target;
-        std::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         //TODO!: check this
         safe_reference<item> ammo_location;
