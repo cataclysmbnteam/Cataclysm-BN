@@ -210,9 +210,9 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     aim_actor->initial_view_offset = this->initial_view_offset;
 
     // if invalid target or it's dead - reset it so a new one is acquired
-    shared_ptr_fast<Creature> last_target = who.as_player()->last_target.lock();
+    shared_ptr_fast<Creature> last_target = who.last_target.lock();
     if( last_target && last_target->is_dead_state() ) {
-        who.as_player()->last_target.reset();
+        who.last_target.reset();
     }
     who.assign_activity( std::make_unique<player_activity>( std::move( aim_actor ) ), false );
 }
