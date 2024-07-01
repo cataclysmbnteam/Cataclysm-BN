@@ -87,6 +87,7 @@
     "subtype": "collection",
     "id": "map_extra_drugdeal",
     "entries": [
+      { "distribution": [ { "group": "baddrugs", "prob": 75 }, { "group": "meth_ingredients", "prob": 25 } ], "prob": 50 },
       { "group": "drugdealer", "prob": 75 },
       { "item": "pants_cargo", "damage-min": 1, "damage-max": 4 },
       { "group": "lab_shoes", "damage-min": 1, "damage-max": 4, "prob": 50 },
