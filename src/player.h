@@ -244,7 +244,6 @@ class player : public Character
         // Save favorite ammo location
         //TODO!: check this
         safe_reference<item> ammo_location;
-        int scent = 0;
         int cash = 0;
         int movecounter = 0;
 

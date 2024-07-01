@@ -529,13 +529,6 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     recalc_hp();
 
-    if( has_trait( trait_SMELLY ) ) {
-        scent = 800;
-    }
-    if( has_trait( trait_WEAKSCENT ) ) {
-        scent = 300;
-    }
-
     remove_primary_weapon( );
 
     // Grab the skills from the profession, if there are any
