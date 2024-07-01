@@ -75,8 +75,6 @@ static const std::string flag_SECRET( "SECRET" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 static const flag_id json_flag_auto_wield( "auto_wield" );
 
-static const trait_id trait_SMELLY( "SMELLY" );
-static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
 
