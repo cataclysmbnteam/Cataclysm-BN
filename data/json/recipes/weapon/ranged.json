@@ -160,7 +160,7 @@
     "components": [
       [ [ "stick", 3 ], [ "2x4", 2 ] ],
       [ [ "bone_sturdy", 3, "LIST" ] ],
-      [ [ "adhesive", 5, "LIST" ] ],
+      [ [ "adhesive_proper", 5, "LIST" ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
     ]
   },
@@ -179,7 +179,7 @@
     "components": [
       [ [ "stick_long", 1 ], [ "2x4", 3 ] ],
       [ [ "bone_sturdy", 4, "LIST" ] ],
-      [ [ "adhesive", 5, "LIST" ] ],
+      [ [ "adhesive_proper", 5, "LIST" ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
     ]
   },
@@ -217,7 +217,12 @@
       { "id": "ANVIL", "level": 1 },
       { "id": "SAW_W", "level": 1 }
     ],
-    "components": [ [ [ "log", 1 ] ], [ [ "steel_tiny", 5, "LIST" ] ], [ [ "rope_superior_short", 1, "LIST" ] ] ]
+    "components": [
+      [ [ "log", 1 ] ],
+      [ [ "steel_tiny", 5, "LIST" ] ],
+      [ [ "adhesive_proper", 10, "LIST" ] ],
+      [ [ "rope_superior_short", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -332,7 +337,12 @@
       [ "textbook_armschina", 6 ]
     ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "stick", 5 ], [ "2x4", 3 ] ], [ [ "bone_sturdy", 3, "LIST" ] ], [ [ "cordage_superior", 1, "LIST" ] ] ]
+    "components": [
+      [ [ "stick", 5 ], [ "2x4", 3 ] ],
+      [ [ "bone_sturdy", 3, "LIST" ] ],
+      [ [ "adhesive_proper", 5, "LIST" ] ],
+      [ [ "cordage_superior", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",

@@ -262,7 +262,7 @@
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_welding", 1 ], [ "glasses_safety", 1 ] ],
       [ [ "duct_tape", 120 ], [ "medical_tape", 120 ] ],
-      [ [ "superglue", 3 ] ]
+      [ [ "adhesive_proper", 3, "LIST" ] ]
     ]
   },
   {
