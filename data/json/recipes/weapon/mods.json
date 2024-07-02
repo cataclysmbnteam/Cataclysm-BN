@@ -844,7 +844,7 @@
     "time": "1 m 30 s",
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1 ], [ "fur", 1 ] ], [ [ "superglue", 3 ], [ "bone_glue", 3 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ], [ "fur", 1 ] ], [ [ "adhesive_proper", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",

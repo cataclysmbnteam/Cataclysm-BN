@@ -452,11 +452,10 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "8 m",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ] ],
-    "tools": [  ],
-    "components": [ [ [ "rock", 5 ], [ "ceramic_shard", 5 ], [ "sharp_rock", 5 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "using": [ [ "adhesive_proper", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "rock", 5 ], [ "ceramic_shard", 5 ], [ "sharp_rock", 5 ] ], [ [ "wood_structural_small", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
