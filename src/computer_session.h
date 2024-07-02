@@ -102,6 +102,7 @@ class computer_session
         void action_miss_disarm();
         void action_open();
         void action_open_disarm();
+        void action_open_locker();
         void action_portal();
         void action_radio_archive();
         void action_release();

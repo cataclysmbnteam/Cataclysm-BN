@@ -713,6 +713,7 @@ ter_id t_null,
        t_sewage_pipe, t_sewage_pump,
        t_centrifuge,
        t_column,
+       t_secure_locker_l, t_secure_locker_o,
        t_vat,
        t_rootcellar,
        t_cvdbody, t_cvdmachine,
@@ -888,6 +889,8 @@ void set_ter_ids()
     t_paper = ter_id( "t_paper" );
     t_rock_wall = ter_id( "t_rock_wall" );
     t_rock_wall_half = ter_id( "t_rock_wall_half" );
+    t_secure_locker_l = ter_id( "t_secure_locker_l" );
+    t_secure_locker_o = ter_id( "t_secure_locker_o" );
     t_tree = ter_id( "t_tree" );
     t_tree_young = ter_id( "t_tree_young" );
     t_tree_apple = ter_id( "t_tree_apple" );
