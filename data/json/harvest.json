@@ -912,7 +912,7 @@
     "id": "human_maybe_mil_bionics",
     "type": "harvest",
     "entries": [
-      { "drop": "harvest_maybe_military", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "harvest_maybe_military", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
@@ -950,7 +950,7 @@
     "id": "human_maybe_tech_bionics",
     "type": "harvest",
     "entries": [
-      { "drop": "harvest_maybe_tech", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "harvest_maybe_tech", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
@@ -976,7 +976,7 @@
     "id": "human_maybe_survivalist_bionics",
     "type": "harvest",
     "entries": [
-      { "drop": "harvest_maybe_survivalist", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "harvest_maybe_survivalist", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
@@ -1026,7 +1026,7 @@
     "id": "CBM_SCI_FERAL",
     "type": "harvest",
     "entries": [
-      { "drop": "harvest_bionics_sci", "type": "bionic_group", "faults": [ "fault_bionic_salvaged" ] },
+      { "drop": "harvest_bionics_sci", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
