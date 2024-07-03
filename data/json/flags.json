@@ -388,9 +388,9 @@
     "inherit": false
   },
   {
-  "id": "MUSHROOM_PLANTABLE",
-  "context": [  ],
-  "type": "json_flag"
+    "id": "MUSHROOM_PLANTABLE",
+    "context": [  ],
+    "type": "json_flag"
   },
   {
     "id": "NO_CVD",
