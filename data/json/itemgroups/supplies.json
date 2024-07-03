@@ -128,7 +128,7 @@
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "pilot_light", 50 ],
       [ "duct_tape", 200 ],
-      [ "superglue", 100 ],
+      { "item": "superglue", "prob": 100, "charges": [ 5, 10 ] },
       [ "string_6", 100 ],
       [ "string_36", 100 ],
       [ "rope_6", 100 ],
@@ -217,7 +217,7 @@
       { "item": "rebar", "prob": 20, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
       [ "solder_wire", 20 ],
-      [ "superglue", 30 ],
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       [ "chain", 20 ],
       [ "rope_6", 4 ],
       [ "rope_30", 35 ],
@@ -261,7 +261,8 @@
       [ "recharge_station", 10 ],
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],
-      [ "rigid_plastic_sheet", 30 ]
+      [ "rigid_plastic_sheet", 30 ],
+      [ "trash_can_empty", 25 ]
     ]
   },
   {
@@ -446,6 +447,18 @@
       [ "pump_complex", 10 ],
       [ "well_pump", 50 ]
     ]
+  },
+  {
+    "id": "spares_drivebelts",
+    "type": "item_group",
+    "//": "belts used for the MISSION_GET_DRIVEBELTS quest",
+    "items": [ [ "drivebelt", 200 ], [ "drivebelt_makeshift", 100 ] ]
+  },
+  {
+    "id": "blankets",
+    "type": "item_group",
+    "//": "Blankets used for the MISSION_LUMBERMILL_GET_6_BLANKETS quest",
+    "items": [ [ "blanket", 100 ], [ "fur_blanket", 100 ], [ "electric_blanket", 100 ], [ "down_blanket", 100 ] ]
   },
   {
     "id": "file_room",

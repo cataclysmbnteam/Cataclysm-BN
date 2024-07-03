@@ -70,7 +70,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": { "str": "Hi-Point CF-380" },
-    "description": "The Hi-Point CF-380 is a blowback operated semi-automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
+    "description": "The Hi-Point CF-380 is a blowback operated semi-automatic pistol designed by Hi-Point Firearms.  Hi-Points have slides made with a zinc pot-metal.",
     "weight": "820 g",
     "volume": "539 ml",
     "price": "75 USD",
@@ -102,5 +102,27 @@
     "min_cycle_recoil": 225,
     "magazine_well": "250 ml",
     "magazines": [ [ "380", [ "taurus_spectrum_mag" ] ] ]
+  },
+  {
+    "id": "hipoint_3895",
+    "copy-from": "rifle_base",
+    "looks_like": "cx4",
+    "type": "GUN",
+    "name": { "str_sp": "Hi-Point 3895" },
+    "description": "A .380 carbine, fun to shoot, not so much useful against anything larger.  Usually good for training.  Also available in pink camo.",
+    "weight": "3000 g",
+    "volume": "2500 ml",
+    "price": "270 USD",
+    "price_postapoc": "750 cent",
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": "380",
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
+    "dispersion": 250,
+    "range": 15,
+    "min_cycle_recoil": 180,
+    "barrel_length": "500 ml",
+    "magazine_well": "250 ml",
+    "magazines": [ [ "380", [ "hipoint_3895mag" ] ] ]
   }
 ]

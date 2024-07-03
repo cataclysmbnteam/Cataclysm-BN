@@ -3,7 +3,19 @@
     "id": "adhesive",
     "type": "requirement",
     "//": "Materials used for joining (typically non-metallic) parts",
-    "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 25 ], [ "adhesive_proper", 5, "LIST" ] ] ]
+  },
+  {
+    "id": "adhesive_proper",
+    "type": "requirement",
+    "//": "Materials used for joining (typically non-metallic) parts, excluding tape",
+    "components": [ [ [ "superglue", 1 ], [ "bone_glue", 2 ] ] ]
+  },
+  {
+    "id": "nail_glue",
+    "type": "requirement",
+    "//": "Materials that connect part together tightly, nails and glue.",
+    "components": [ [ [ "nail", 1 ], [ "adhesive_proper", 1, "LIST" ] ] ]
   },
   {
     "id": "ammo_bullet",
@@ -81,7 +93,7 @@
     "id": "fabric_standard",
     "type": "requirement",
     "//": "Any valid fabric material, for when the material used shouldn't impact the material of the end product.  Excludes felt patches, since this may still be worn on skin.",
-    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "neoprene", 1 ] ] ]
   },
   {
     "id": "fabric_hides_any",

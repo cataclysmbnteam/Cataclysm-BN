@@ -175,6 +175,7 @@
       "ḵ": { "item": "office", "chance": 75, "repeat": 2 },
       "o": { "item": "homebooks", "chance": 50, "repeat": 2 },
       "o̱": { "item": "manuals", "chance": 75, "repeat": [ 1, 2 ] }
-    }
+    },
+    "nested": { "v": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] } }
   }
 ]

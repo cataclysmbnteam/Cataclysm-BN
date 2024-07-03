@@ -620,11 +620,15 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
 
         for( const vpart_reference &vp : get_parts_including_carried( "FRIDGE" ) ) {
-            vp.part().enabled = true;
+            if( one_in( 2 ) ) {
+                vp.part().enabled = true;
+            }
         }
 
         for( const vpart_reference &vp : get_parts_including_carried( "FREEZER" ) ) {
-            vp.part().enabled = true;
+            if( one_in( 2 ) ) {
+                vp.part().enabled = true;
+            }
         }
 
         for( const vpart_reference &vp : get_parts_including_carried( "WATER_PURIFIER" ) ) {
@@ -637,8 +641,8 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         const size_t p = vp.part_index();
         vehicle_part &pt = vp.part();
 
-        if( vp.has_feature( VPFLAG_REACTOR ) ) {
-            // De-hardcoded reactors. Should always start active
+        if( vp.has_feature( VPFLAG_REACTOR ) && one_in( 4 ) ) {
+            // De-hardcoded reactors, may or may not start active
             pt.enabled = true;
         }
 
@@ -692,8 +696,9 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         } else {
             //a bit of initial damage :)
             //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged.
-            int broken = 8;
-            int unhurt = 20;
+            const float chance =  get_option<float>( "VEHICLE_DAMAGE" ) ;
+            int broken = 8 * chance;
+            int unhurt = 20 * chance;
             int roll = dice( 4, 8 );
             if( roll < unhurt ) {
                 if( roll <= broken ) {
@@ -733,6 +738,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
                 set_hp( pt, 0 );
             }
 
+            // An added 5% chance to bust each windshield
+            if( vp.has_feature( "WINDSHIELD" ) && one_in( 20 ) ) {
+                set_hp( pt, 0 );
+            }
+
             /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
             * the "front" of the vehicle (since the driver's seat is at (0, 0).
             * We'll be generous with the blood, since some may disappear before
@@ -761,6 +771,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
                     blood_inside_pos.emplace( vp.mount() );
                 }
             }
+
+            // Potentially bust a single tire if not already wrecking them
+            if( !destroyTires && !wheelcache.empty() && one_in( 20 ) ) {
+                set_hp( parts[random_entry( wheelcache )], 0 );
+            }
         }
         //sets the vehicle to locked, if there is no key and an alarm part exists
         if( vp.has_feature( "SECURITY" ) && has_no_key && pt.is_available() ) {
@@ -772,11 +787,12 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             }
         }
     }
-    // destroy tires until the vehicle is not drivable
+    // destroy a random number of tires, vehicles with more wheels are more likely to survive
     if( destroyTires && !wheelcache.empty() ) {
         int tries = 0;
-        while( valid_wheel_config() && tries < 100 ) {
-            // wheel config is still valid, destroy the tire.
+        int maxtries = wheelcache.size();
+        while( valid_wheel_config() && tries < maxtries ) {
+            // keep going until either we've ruined all wheels or made one attempt for every wheel
             set_hp( parts[random_entry( wheelcache )], 0 );
             tries++;
         }

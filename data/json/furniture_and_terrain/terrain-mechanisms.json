@@ -324,6 +324,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
     "examine_action": "cardreader_robofac",
     "bash": {
@@ -344,6 +345,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
     "examine_action": "cardreader",
     "bash": {
@@ -364,6 +366,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
     "examine_action": "cardreader",
     "bash": {
@@ -385,6 +388,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
     "examine_action": "cardreader",
     "bash": {
@@ -406,6 +410,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
     "examine_action": "cardreader_fp",
     "bash": {
@@ -425,6 +430,7 @@
     "symbol": "6",
     "color": "light_gray",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "MINEABLE" ],
     "bash": {
       "str_min": 200,

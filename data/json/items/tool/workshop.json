@@ -43,6 +43,49 @@
     "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE" ]
   },
   {
+    "id": "clay_pallet_full",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "pallet of wet ceramic", "str_pl": "pallets of wet ceramic" },
+    "description": "A pallet full of crushed wet ceramic, which needs to dry slowly to be usable.",
+    "weight": "35000 g",
+    "volume": "12500 ml",
+    "price": "1 USD",
+    "price_postapoc": "0 cent",
+    "to_hit": -2,
+    "material": [ "ceramic", "wood" ],
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "frame_wood_light",
+    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE" ],
+    "use_action": {
+      "target": "clay_pallet_done",
+      "msg": "You test the ceramic, and it's the right consistency to use.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 43000,
+      "not_ready_msg": "The ceramic is still too damp to be used."
+    }
+  },
+  {
+    "id": "clay_pallet_done",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "pallet of ceramic clay", "str_pl": "pallets of ceramic clay" },
+    "description": "A pallet of ceramic clay which is now ready to be made into pottery.  Disassemble it to retrieve your sheet, frame and crafting supplies.",
+    "weight": "30000 g",
+    "volume": "12500 ml",
+    "price": "400 USD",
+    "price_postapoc": "250 cent",
+    "to_hit": -3,
+    "material": [ "freshclay", "wood" ],
+    "symbol": "#",
+    "color": "brown_yellow",
+    "looks_like": "frame_wood_light",
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE" ]
+  },
+  {
     "id": "acetylene_machine",
     "type": "GENERIC",
     "category": "tools",
@@ -253,7 +296,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "electric jackhammer" },
-    "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on a cell compatible with UPS.  Use it to blast a hole in adjacent solid terrain.",
+    "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on a rechargeable cell, optionally compatible with UPS.  Use it to blast a hole in adjacent solid terrain.",
     "weight": "40000 g",
     "volume": "5 L",
     "price": "400 USD",
@@ -268,8 +311,8 @@
     "initial_charges": 5000,
     "max_charges": 10000,
     "charges_per_use": 200,
-    "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+    "use_action": [ "JACKHAMMER", "TOGGLE_UPS_CHARGING" ],
+    "flags": [ "STAB", "DIG_TOOL", "POWERED", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "hacksaw",

@@ -16,7 +16,8 @@
     "volume": "500 ml",
     "bashing": 12,
     "price": "75 USD",
-    "price_postapoc": "10 cent"
+    "price_postapoc": "10 cent",
+    "stackable": true
   },
   {
     "id": "scrap",
@@ -239,7 +240,8 @@
     "material": "steel",
     "symbol": "]",
     "color": "light_cyan",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "stackable": true
   },
   {
     "id": "steel_chunk",
@@ -318,7 +320,8 @@
     "volume": "25 ml",
     "bashing": 1,
     "to_hit": -2,
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
   },
   {
     "id": "tin",

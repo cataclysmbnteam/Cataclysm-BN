@@ -74,6 +74,7 @@
       "vendingmachines": { "W": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } },
       "toilets": { "B": {  } },
       "items": {
+        "U": { "item": "trash_dumpster", "chance": 80 },
         "J": { "item": "office", "chance": 30 },
         "K": { "item": "office_paper", "chance": 30 },
         "L": { "item": "cleaning", "chance": 20, "repeat": [ 2, 4 ] }

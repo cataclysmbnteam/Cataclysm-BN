@@ -5,6 +5,7 @@
 #include <map>
 #include <optional>
 #include <set>
+#include <array>
 #include <string>
 #include <vector>
 
@@ -27,7 +28,7 @@ struct species_type;
 template <typename E> struct enum_traits;
 
 enum body_part : int;
-enum m_size : int;
+enum creature_size : int;
 
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
@@ -73,7 +74,7 @@ enum m_flag : int {
     MF_STUMBLES,            // Stumbles in its movement
     MF_WARM,                // Warm blooded
     MF_NOHEAD,              // Headshots not allowed!
-    MF_HARDTOSHOOT,         // It's one size smaller for ranged attacks, no less then MS_TINY
+    MF_HARDTOSHOOT,         // It's one size smaller for ranged attacks, no less then creature_size::tiny
     MF_GRABS,               // Its attacks may grab us!
     MF_BASHES,              // Bashes down doors
     MF_DESTROYS,            // Bashes down walls and more
@@ -159,13 +160,10 @@ enum m_flag : int {
     MF_AVOID_FALL,          // This monster will path around cliffs instead of off of them.
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
-    MF_CATFOOD,             // This monster will become friendly when fed cat food.
-    MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.
-    MF_BIRDFOOD,            // This monster will become friendly when fed bird food.
     MF_CANPLAY,             // This monster can be played with if it's a pet.
     MF_PET_MOUNTABLE,       // This monster can be mounted and ridden when tamed.
     MF_PET_HARNESSABLE,     // This monster can be harnessed when tamed.
-    MF_DOGFOOD,             // This monster will become friendly when fed dog food.
+    MF_DOGFOOD,             // This monster will respond to the `dog whistle` item.
     MF_MILKABLE,            // This monster is milkable.
     MF_SHEARABLE,           // This monster is shearable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
@@ -201,6 +199,18 @@ struct mon_effect_data {
                      int nchance, bool perm ) :
         id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ),
         chance( nchance ), permanent( perm ) {}
+};
+
+
+/** Pet food data */
+struct pet_food_data {
+    std::set<std::string> food;
+    std::string pet;
+    std::string feed;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct regen_modifier {
@@ -262,7 +272,7 @@ struct mtype {
         mfaction_id default_faction;
         bodytype_id bodytype;
         nc_color color = c_white;
-        m_size size;
+        creature_size size;
         units::volume volume;
         units::mass weight;
         phase_id phase;
@@ -293,6 +303,9 @@ struct mtype {
         int melee_sides = 0;    /** number of sides those dice have */
 
         int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
+
+        // Pet food category this monster is in
+        pet_food_data petfood;
 
         std::set<scenttype_id> scents_tracked; /**Types of scent tracked by this mtype*/
         std::set<scenttype_id> scents_ignored; /**Types of scent ignored by this mtype*/

@@ -45,8 +45,8 @@
       "rows": [
         "....p---................",
         "..###o*o##o##...........",
-        "..#RR      !#......%%%..",
-        "[.#     y$L|#o##...%%%..",
+        "..#RR      !#...........",
+        "[.#     yƏL|#o##........",
         "..o&E,,,V|||F 5#........",
         "..#H,l,,  66J Jo........",
         "..#H,l,,      O#........",
@@ -62,8 +62,8 @@
         "....o¤@@ d|R hr#..(*((..",
         "....# @@ d|R  ro........",
         "....#     +    o........",
-        "....o D  b|y   #........",
-        "....##o##o### $#........",
+        "....o D ɸb|y   #........",
+        "....##o##o### Ə#........",
         ".[.........^#¶o#........",
         "........................",
         "........................"
@@ -80,13 +80,10 @@
         "E": "t_carpet_purple",
         "&": "t_carpet_purple"
       },
-      "furniture": { "!": "f_rack", "$": "f_table", "&": [ "f_indoor_plant", "f_indoor_plant_y" ] },
-      "items": {
-        "$": { "item": "table_foyer", "chance": 50 },
-        "!": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] }
-      },
+      "furniture": { "!": "f_rack", "&": [ "f_indoor_plant", "f_indoor_plant_y" ] },
+      "items": { "!": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] } },
       "place_loot": [ { "item": "lawnmower", "x": [ 19 ], "y": [ 14 ], "chance": 20 } ],
-      "place_nested": [ { "chunks": [ "NC_res_backyard_3X3" ], "x": 18, "y": 20 } ]
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 18, "y": 2 }, { "chunks": [ "NC_res_backyard_3X3" ], "x": 18, "y": 20 } ]
     }
   },
   {
@@ -122,7 +119,11 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 5, "y": 14 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 3, 8 ], "y": [ 2, 8 ] }
+      ]
     }
   }
 ]

@@ -272,8 +272,8 @@
     "price": "18 USD",
     "price_postapoc": "1 USD",
     "material": "plastic",
-    "weight": "45 g",
-    "volume": "250 ml",
+    "weight": "4500 mg",
+    "volume": "25 ml",
     "to_hit": -2,
     "flags": [ "UNRECOVERABLE" ],
     "stackable": true
@@ -289,10 +289,11 @@
     "price": "18 USD",
     "price_postapoc": "50 cent",
     "material": "bone",
-    "weight": "45 g",
-    "volume": "250 ml",
+    "weight": "4500 mg",
+    "volume": "25 ml",
     "to_hit": -2,
-    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
+    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ],
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -333,26 +334,11 @@
     "material": "chitin",
     "flags": [ "NO_SALVAGE" ],
     "milling": { "into": "meal_chitin_piece", "conversion_rate": 4 },
+    "stackable": true,
     "weight": "89 g",
     "volume": "250 ml",
     "bashing": 1,
     "to_hit": -2
-  },
-  {
-    "type": "GENERIC",
-    "id": "endochitin",
-    "category": "spare_parts",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": { "str": "strand of endochitin", "str_pl": "strands of endochitin" },
-    "snippet_category": "endochitin_desc",
-    "description": "A piece of an insect's endoskeleton.",
-    "price": 0,
-    "material": "chitin",
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "89 g",
-    "volume": "300 ml",
-    "bashing": 1
   },
   {
     "type": "GENERIC",
@@ -363,6 +349,7 @@
     "name": { "str": "cluster of gas sacs", "str_pl": "clusters of gas sacs" },
     "description": "This is a cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons, and are likely full of a lighter-than-air gas helping the bug to fly.",
     "price": 0,
+    "stackable": true,
     "material": "flesh",
     "flags": [ "NO_SALVAGE" ],
     "weight": "50 g",
@@ -516,7 +503,7 @@
     "price": "200 USD",
     "price_postapoc": "10 USD",
     "material": "stone",
-    "weight": "493 g",
+    "weight": "500 g",
     "volume": "250 ml",
     "bashing": 6,
     "to_hit": -1,
@@ -1460,7 +1447,7 @@
     "price": "140 USD",
     "price_postapoc": "10 cent",
     "material": [ "aluminum", "plastic" ],
-    "weight": "480 g",
+    "weight": "500 g",
     "volume": "250 ml",
     "to_hit": -1
   },
@@ -1656,6 +1643,7 @@
     "material": "aluminum",
     "weight": "14 g",
     "volume": "5 ml",
+    "stackable": true,
     "to_hit": 2
   },
   {
@@ -1925,7 +1913,7 @@
     "id": "sunflower",
     "name": { "str": "sunflower" },
     "description": "The top of a sunflower, with yellow pedals and some seeds that have yet to be eaten by animals.",
-    "weight": "450 g",
+    "weight": "500 g",
     "to_hit": -2,
     "color": "yellow",
     "symbol": ",",
@@ -2309,7 +2297,8 @@
     "price_postapoc": "0 cent",
     "material": [ "dry_plant" ],
     "weight": "80 g",
-    "volume": "500 ml"
+    "volume": "500 ml",
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -2380,7 +2369,7 @@
     "price": "2 USD",
     "price_postapoc": "10 cent",
     "material": [ "cotton" ],
-    "weight": "444 g",
+    "weight": "400 g",
     "volume": "850 ml",
     "flags": [ "SLEEP_AID" ]
   },
@@ -2520,7 +2509,7 @@
     "price": "20 USD",
     "price_postapoc": "50 cent",
     "material": "veggy",
-    "weight": "420 g",
+    "weight": "400 g",
     "volume": "1 L"
   },
   {
@@ -2789,14 +2778,15 @@
     "category": "other",
     "name": { "str": "clay flower pot" },
     "description": "A nice looking clay pot used for planting.",
-    "weight": "480 g",
+    "weight": "500 g",
     "volume": "2500 ml",
     "price": "6 USD",
     "price_postapoc": "10 cent",
     "bashing": 1,
     "material": "clay",
     "symbol": ")",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "plastic_pot_flower",
@@ -2836,7 +2826,7 @@
     "category": "spare_parts",
     "name": { "str": "evaporator coil" },
     "description": "A set of long, snakelike tubes for evaporating refrigerant.",
-    "weight": "20000 g",
+    "weight": "4 kg",
     "volume": "2 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
@@ -2848,9 +2838,9 @@
     "id": "condensor_coil",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "condensor coil" },
+    "name": { "str": "condenser coil" },
     "description": "A compressor and a fan work together to cool down the refrigerant.",
-    "weight": "20000 g",
+    "weight": "4 kg",
     "volume": "2 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
@@ -2863,7 +2853,7 @@
     "type": "GENERIC",
     "name": { "str": "refrigerant tank" },
     "description": "A small tank containing some sort of refrigerant often used in devices such as freezers.  Hermetically sealed to prevent evaporation - cannot be opened without prior connection to compatible valve.",
-    "weight": "410 g",
+    "weight": "400 g",
     "volume": "1 L",
     "price": "30 USD",
     "price_postapoc": "50 cent",
@@ -3161,5 +3151,21 @@
     "name": { "str": "wool pillow" },
     "description": "A pillow to rest your head on when sleeping.  This one is made entirely of fluffy wool!",
     "material": [ "wool" ]
+  },
+  {
+    "id": "kevlar_plate",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Kevlar plate" },
+    "description": "This is a plate of reinforced Kevlar.  It could be used to repair items made of Kevlar.",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "price": "10 USD",
+    "price_postapoc": "25 cent",
+    "material": "kevlar",
+    "symbol": ",",
+    "color": "green",
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
   }
 ]

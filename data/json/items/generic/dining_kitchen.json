@@ -60,7 +60,8 @@
     "weight": "322 g",
     "volume": "250 ml",
     "bashing": 3,
-    "to_hit": -1
+    "to_hit": -1,
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "base_glass_dish",
@@ -382,7 +383,8 @@
     "weight": "650 g",
     "volume": "2 L",
     "bashing": 4,
-    "container_data": { "contains": "2 L", "watertight": true }
+    "container_data": { "contains": "2 L", "watertight": true },
+    "extend": { "flags": [ "SHATTERS" ] }
   },
   {
     "type": "GENERIC",

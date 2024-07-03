@@ -377,7 +377,7 @@
       [ "stereo", 10 ],
       [ "wrench", 10 ],
       [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
+      { "item": "superglue", "prob": 5, "charges": [ 5, 10 ] },
       [ "boots", 70 ],
       [ "boots_steel", 50 ],
       [ "boots_hiking", 10 ],
@@ -521,7 +521,7 @@
     "id": "library_elec",
     "type": "item_group",
     "items": [
-      [ "superglue", 30 ],
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       [ "processor", 15 ],
       [ "RAM", 22 ],
       [ "power_supply", 16 ],
@@ -665,6 +665,7 @@
       [ "canteen", 20 ],
       [ "basket_laundry", 20 ],
       [ "plastic_pot_flower", 35 ],
+      [ "trash_can_empty", 30 ],
       [ "gloves_medical", 20 ],
       [ "fitover_sunglasses", 20 ],
       [ "goggles_swim", 20 ],
@@ -1449,6 +1450,7 @@
       { "item": "brewing_cookbook", "prob": 3 },
       { "item": "recipe_bullets", "prob": 1 },
       { "item": "knife_combat", "prob": 14 },
+      { "item": "knife_carbon", "prob": 14 },
       { "item": "knife_rm42", "prob": 2 },
       { "item": "kukri", "prob": 2 },
       { "item": "knife_hunting", "prob": 4 },
@@ -1479,6 +1481,7 @@
       { "item": "knife_trench", "prob": 14 },
       { "item": "switchblade", "prob": 15 },
       { "item": "bondage_mask", "prob": 1 },
+      { "group": "auto_sears", "prob": 20 },
       { "item": "survnote", "prob": 5 },
       { "item": "thermos", "prob": 25 }
     ]
@@ -1547,6 +1550,7 @@
       { "item": "soap", "prob": 5 },
       { "item": "detergent", "prob": 5 },
       { "item": "knitting_needles", "prob": 1 },
+      { "group": "auto_sears", "prob": 5 },
       { "item": "survnote", "prob": 2 }
     ]
   },
@@ -1893,7 +1897,7 @@
       { "item": "mutagen", "prob": 1 },
       { "item": "purifier", "prob": 1 },
       { "item": "yeast", "prob": 3 },
-      { "item": "superglue", "prob": 30 },
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       { "item": "bottle_glass", "prob": 10 },
       { "item": "syringe", "prob": 1 },
       { "item": "adrenaline_injector", "prob": 1 },
@@ -2733,5 +2737,32 @@
     "type": "item_group",
     "id": "oa_ig_sb_water",
     "items": [ { "item": "water", "prob": 30, "charges-min": 0, "charges-max": 200, "container-item": "keg" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "os_items",
+    "items": [
+      [ "flashlight", 50 ],
+      [ "heavy_flashlight", 40 ],
+      [ "gloves_work", 30 ],
+      [ "gloves_rubber", 60 ],
+      [ "boots_rubber", 60 ],
+      [ "hat_hard", 60 ],
+      [ "shovel", 40 ],
+      [ "jackhammer", 5 ],
+      [ "elec_jackhammer", 5 ],
+      [ "folding_poncho", 40 ],
+      [ "radio", 40 ],
+      [ "well_pump", 10 ],
+      [ "toolbox", 5 ],
+      [ "wrench", 15 ],
+      [ "bag_canvas", 40 ],
+      [ "jumper_cable", 40 ],
+      [ "jumper_cable_heavy", 20 ],
+      [ "glasses_safety", 30 ],
+      [ "crowbar", 15 ],
+      [ "mask_filter", 30 ],
+      [ "electric_lantern", 30 ]
+    ]
   }
 ]

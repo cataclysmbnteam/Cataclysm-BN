@@ -87,6 +87,7 @@
         "g": "f_stool",
         "Y": "f_trashcan"
       },
+      "items": { "a": { "item": "trash_dumpster", "chance": 80 } },
       "vendingmachines": { "M": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "sealed_item": { "1": { "item": { "item": "seed_tobacco" }, "furniture": "f_planter_harvest" } },
       "toilets": { "&": {  } }
@@ -233,6 +234,7 @@
         "g": "f_stool",
         "Y": "f_trashcan"
       },
+      "items": { "a": { "item": "trash_dumpster", "chance": 80 } },
       "vendingmachines": { "M": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "sealed_item": { "1": { "item": { "item": "seed_tobacco" }, "furniture": "f_planter_harvest" } },
       "toilets": { "&": {  } }

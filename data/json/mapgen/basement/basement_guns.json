@@ -80,6 +80,7 @@
         { "group": "gunmod_rare", "x": 18, "y": 13, "chance": 30 },
         { "group": "gunmod_rare", "x": 19, "y": 13, "chance": 100 }
       ],
+      "items": { "X": { "item": "guns_safe", "chance": 100 } },
       "place_monsters": [
         { "monster": "GROUP_PREPPER_HOUSE", "x": [ 3, 20 ], "y": [ 1, 8 ], "chance": 2 },
         { "monster": "GROUP_PREPPER_HOUSE", "x": [ 14, 20 ], "y": [ 10, 13 ], "chance": 4 }

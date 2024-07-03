@@ -91,7 +91,7 @@
     "encumbrance": 4,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "WAIST", "COMPACT" ],
-    "use_action": { "type": "holster", "max_volume": "5 L", "min_volume": "500 ml", "skills": [ "archery" ] }
+    "use_action": { "type": "holster", "max_volume": "10 L", "min_volume": "500 ml", "skills": [ "archery" ] }
   },
   {
     "id": "holster",

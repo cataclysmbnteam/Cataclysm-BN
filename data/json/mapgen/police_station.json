@@ -331,14 +331,19 @@
       "place_loot": [ { "item": "television", "x": 14, "y": 12, "chance": 100 }, { "item": "family_photo", "x": 5, "y": 4, "chance": 100 } ],
       "items": {
         "3": [
-          { "item": "ammo_swat", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "guns_swat", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_common", "chance": 20, "repeat": [ 1, 2 ] }
+          { "item": "ammo_swat", "chance": 100 },
+          { "item": "guns_swat", "chance": 100 },
+          { "item": "ammo_swat", "chance": 50 },
+          { "item": "guns_swat", "chance": 50 },
+          { "item": "ammo_common", "chance": 100 }
         ],
         "9": [
-          { "item": "guns_cop", "chance": 50, "repeat": [ 1, 3 ] },
-          { "item": "ammo_cop", "chance": 50, "repeat": [ 1, 3 ] },
-          { "item": "guns_common", "chance": 20, "repeat": [ 1, 3 ] }
+          { "item": "guns_cop", "chance": 100 },
+          { "item": "ammo_cop", "chance": 100 },
+          { "item": "guns_cop", "chance": 50 },
+          { "item": "ammo_cop", "chance": 50 },
+          { "item": "guns_common", "chance": 100 },
+          { "item": "guns_common", "chance": 30 }
         ],
         "7": [
           { "item": "jewelry_front", "chance": 50, "repeat": [ 2, 3 ] },

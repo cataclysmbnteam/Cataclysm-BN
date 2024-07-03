@@ -472,7 +472,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "ski pants" },
     "description": "A pair of pants meant for alpine skiing.",
-    "weight": "450 g",
+    "weight": "500 g",
     "volume": "2 L",
     "price": "65 USD",
     "price_postapoc": "250 cent",

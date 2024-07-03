@@ -71,8 +71,8 @@ backups.
 
 ### Common symptoms
 
-1. Whenever you load a save, something weird but non-game-breaking happens (you die, or lose 10
-   pounds, or your NPC companion teleports around)
+1. Whenever you load a save, something weird but non-game-breaking happens (you die, or lose 10kg,
+   or your NPC companion teleports around)
 2. Whenever you load a save, the game screams at your about lost item locations
 
 ### Common causes and ways to avoid

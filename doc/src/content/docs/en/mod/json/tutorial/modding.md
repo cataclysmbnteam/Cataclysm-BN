@@ -290,6 +290,23 @@ specific mod. The format is as follows:
 Valid values for `subtype` are `whitelist` and `blacklist`. `scenarios` is an array of the scenario
 ids that you want to blacklist or whitelist.
 
+### Monster Adjustment
+
+```json
+[
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "REVIVES", "value": false },
+    // Any flag will work here.
+    "stat": { "name": "speed", "modifier": 10 },
+    // stat only allows speed and HP as stat names.
+    "special": "nightvision",
+    // nightvision gives all monsters of this type night vision.
+    // no_zombify removes any "zombify_into" entries for the monster.
+  }
+```
+
 ## Important note on json files
 
 The following characters: `[ { , } ] : "` are _very_ important when adding or modifying JSON files.
@@ -320,29 +337,3 @@ game (just drag-and-drop the .json file on it).
 ## Addendum
 
 <!-- I really don't know if this should be here or not. Please let me know. -->
-
-### No Zombie Revival
-
-This mod is very simple, but it's worth a special section because it does things a little
-differently than other mods, and documentation on it is tricky to find.
-
-The entire mod can fit into fifteen lines of JSON, and it's presented below. Just copy/paste that
-into a modinfo.json file, and put it in a new folder in your mods directory.
-
-```json
-[
-  {
-    "type": "MOD_INFO",
-    "id": "no_reviving_zombies",
-    "name": "Prevent Zombie Revivication",
-    "description": "Disables zombie revival.",
-    "category": "rebalance",
-    "dependencies": ["bn"]
-  },
-  {
-    "type": "monster_adjustment",
-    "species": "ZOMBIE",
-    "flag": { "name": "REVIVES", "value": false }
-  }
-]
-```

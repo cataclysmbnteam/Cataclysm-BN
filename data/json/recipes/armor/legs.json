@@ -698,5 +698,18 @@
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "sewing_standard", 10 ], [ "steel_tiny", 2 ] ],
     "components": [ [ [ "skirt_armor_leather", 1 ] ] ]
+  },
+  {
+    "result": "carbon_legguard",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "computer",
+    "difficulty": 3,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
+    "components": [ [ [ "plastic_chunk", 25 ] ] ]
   }
 ]

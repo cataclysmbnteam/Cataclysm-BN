@@ -71,7 +71,7 @@
     "replace": "pistol_magnum_pipe"
   },
   {
-    "id": [ "rm228", "sw_619", "ruger_redhawk", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
+    "id": [ "rm228", "sw_619", "colt_python", "ruger_redhawk", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
   },
@@ -92,6 +92,7 @@
       "tokarev",
       "rm103a_pistol",
       "glock_19",
+      "glock_20",
       "m9",
       "usp_9mm",
       "m17",
@@ -125,7 +126,7 @@
     "replace": "pistol_medium"
   },
   {
-    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico" ],
+    "id": [ "asr_10mm", "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "mkg_guard", "mkg_banshee", "ar_357sig" ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
@@ -151,12 +152,12 @@
     "replace": "pistol_revolver"
   },
   {
-    "id": [ "ppsh", "hk_mp5", "hk_mp5sd", "uzi", "TDI", "hk_ump45", "fn_p90", "needlegun", "rm2000_smg", "sten" ],
+    "id": [ "ppsh", "hk_mp5", "hk_mp5sd", "uzi", "TDI", "kriss_vector", "hk_ump45", "fn_p90", "needlegun", "rm2000_smg", "sten" ],
     "type": "MIGRATION",
     "replace": "pistol_smg"
   },
   {
-    "id": [ "american_180", "ruger_1022", "marlin_9a" ],
+    "id": [ "american_180", "ruger_1022", "marlin_9a", "hipoint_3895" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_rifle"
   },
@@ -254,6 +255,7 @@
       "hk_g3",
       "ar10",
       "1895sbl",
+      "marlin_1894c",
       "arx160",
       "ar15",
       "oa93",

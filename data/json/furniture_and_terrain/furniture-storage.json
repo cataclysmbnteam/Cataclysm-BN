@@ -721,18 +721,20 @@
     "id": "f_trashcan",
     "name": "trash can",
     "symbol": "&",
-    "description": "One man's trash is another man's dinner.",
+    "description": "One man's trash is another man's dinner.  Examine it to take down, if you need an improvised bucket.",
     "color": "light_cyan",
     "move_cost_mod": 1,
     "required_str": 5,
     "max_volume": "20 L",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "deployed_item": "trash_can_empty",
+    "examine_action": "deployed_furniture",
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "plastic_chunk", "count": [ 9, 18 ] } ]
     }
   },
   {

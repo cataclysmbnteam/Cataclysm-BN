@@ -452,11 +452,10 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "8 m",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ] ],
-    "tools": [  ],
-    "components": [ [ [ "rock", 5 ], [ "ceramic_shard", 5 ], [ "sharp_rock", 5 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "using": [ [ "adhesive_proper", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "rock", 5 ], [ "ceramic_shard", 5 ], [ "sharp_rock", 5 ] ], [ [ "wood_structural_small", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -678,5 +677,31 @@
         [ "felt_patch", 1 ]
       ]
     ]
+  },
+  {
+    "result": "sword_carbon",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "computer",
+    "difficulty": 3,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
+    "components": [ [ [ "plastic_chunk", 25 ] ] ]
+  },
+  {
+    "result": "katar_carbon",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "computer",
+    "difficulty": 4,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "book_learn": [ [ "textbook_computer", 4 ], [ "advanced_electronics", 4 ] ],
+    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
+    "components": [ [ [ "plastic_chunk", 20 ] ] ]
   }
 ]

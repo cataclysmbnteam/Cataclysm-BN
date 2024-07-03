@@ -70,7 +70,7 @@
       "place_vehicles": [ { "vehicle": "oa_vg_cs_vehicles", "x": 16, "y": 7, "rotation": 270, "chance": 100, "status": 0 } ],
       "items": {
         "c": { "item": "oa_custom_trash", "chance": 70 },
-        "C": { "item": "oa_custom_trash", "chance": 70 },
+        "C": { "item": "trash_dumpster", "chance": 80 },
         "d": { "item": "oa_ig_cs_desks", "chance": 70 },
         "L": { "item": "oa_ig_cs_lockers", "chance": 70 },
         "V": { "item": "vending_food_items", "chance": 70 },

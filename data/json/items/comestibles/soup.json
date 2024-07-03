@@ -101,6 +101,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "soup_blood",
+    "copy-from": "soup_meat",
+    "name": "blood soup",
+    "healthy": 0,
+    "calories": 150,
+    "description": "Soup made of animal blood and vinegar.  Not something everyone likes, but a delicacy in parts of Germany, also named \"Schwarzsauer\".",
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "soup_fish",
     "name": "fish soup",
     "weight": "265 g",

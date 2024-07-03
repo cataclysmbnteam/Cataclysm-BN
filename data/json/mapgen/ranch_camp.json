@@ -696,7 +696,7 @@
         "O": { "item": "oven", "chance": 30 },
         "c": { "item": "kitchen", "chance": 40 },
         "d": { "item": "allclothes", "chance": 60 },
-        "f": { "item": "fridge", "chance": 60 },
+        "f": { "item": "SUS_fridge", "chance": 60 },
         "n": { "item": "hardware", "chance": 30 },
         "r": { "item": "home_hw", "chance": 60 }
       },

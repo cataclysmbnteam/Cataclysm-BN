@@ -227,7 +227,7 @@ struct mutation_branch {
         std::set<bodypart_str_id> no_cbm_on_bp;
 
         // Body size from mutations, e.g. large, small, etc.
-        std::optional<m_size> body_size;
+        std::optional<creature_size> body_size;
 
         // amount of mana added or subtracted from max
         float mana_modifier = 0.0f;

@@ -831,7 +831,7 @@
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
-      [ [ "superglue", 1 ] ],
+      [ [ "superglue", 3 ] ],
       [ [ "cable", 5 ] ],
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "ai_module_basic", 1 ], [ "ai_module", 1 ], [ "ai_module_advanced", 1 ] ],

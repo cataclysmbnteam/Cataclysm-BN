@@ -146,6 +146,7 @@
     "items": [
       [ "knife_butcher", 20 ],
       [ "knife_combat", 35 ],
+      [ "knife_carbon", 35 ],
       [ "throwing_knife", 10 ],
       [ "pockknife", 50 ],
       [ "punch_dagger", 10 ],

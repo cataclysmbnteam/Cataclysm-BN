@@ -42,9 +42,9 @@ scopes:
   - mods/No_Ferals
   - mods/No_Fungi
   - mods/No_Rail_Stations
+  - mods/No_Wasps
   - mods/Old_Mutations
   - mods/Only_Wildlife
-  - mods/pride_flags
   - mods/RL_Classes
   - mods/StatsThroughSkills
   - mods/UDP_BN_FAKE_SNOW
@@ -61,6 +61,7 @@ scopes:
   - mods/elevated_bridges
   - mods/fuji_mpp
   - mods/generic_guns
+  - mods/innawoods
   - mods/limit_fungal_growth
   - mods/magiclysm
   - mods/manualbionicinstall
@@ -79,7 +80,9 @@ scopes:
   - mods/no_rivtech_guns
   - mods/no_scifi
   - mods/no_survivor_armor
+  - mods/no_zombify
   - mods/novitamins
+  - mods/pride_flags
   - mods/ruralbiome
   - mods/saveload_lua_test
   - mods/sees_player_hitbutton

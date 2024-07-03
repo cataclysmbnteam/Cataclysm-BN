@@ -385,7 +385,7 @@
     "weapon_category": [ "BATONS" ],
     "name": { "str": "heavy duty flashlight (off)", "str_pl": "heavy duty flashlights (off)" },
     "description": "This is a heavy duty tubular aluminum LED flashlight as often used by security guards.  Makes for a passable melee weapon.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
-    "weight": "450 g",
+    "weight": "500 g",
     "volume": "500 ml",
     "price": "950 cent",
     "price_postapoc": "2 USD",

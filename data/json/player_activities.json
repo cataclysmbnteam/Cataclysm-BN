@@ -164,6 +164,12 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_BLEED",
+    "type": "activity_type",
+    "verb": "bleeding",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_SKIN",
     "type": "activity_type",
     "verb": "skinning",

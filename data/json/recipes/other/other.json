@@ -224,7 +224,7 @@
       [ [ "large_stomach_sealed", 1 ], [ "leather", 10 ], [ "fur", 10 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "fabric_standard", 3, "LIST" ] ],
-      [ [ "adhesive", 1, "LIST" ], [ "medical_tape", 50 ] ]
+      [ [ "adhesive", 1, "LIST" ] ]
     ]
   },
   {
@@ -238,7 +238,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 12 ] ], [ [ "sheet_metal", 1 ] ] ]
+    "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail_glue", 12, "LIST" ] ], [ [ "sheet_metal", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -276,7 +276,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ]
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ]
   },
   {
     "result": "fish_bait",
@@ -289,17 +289,17 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [
-        [ "meat_red", 1, "LIST" ],
+        [ "meat_sausage_raw", 1, "LIST" ],
+        [ "sausage_cooked", 1, "LIST" ],
         [ "fish", 1 ],
         [ "corn", 1 ],
         [ "irradiated_corn", 1 ],
         [ "irradiated_carrot", 1 ],
         [ "carrot", 1 ],
-        [ "bread", 1 ],
-        [ "wastebread", 1 ],
-        [ "cornbread", 1 ],
+        [ "bread_sandwich", 1, "LIST" ],
         [ "macaroni_raw", 1 ],
-        [ "spaghetti_raw", 1 ]
+        [ "spaghetti_raw", 1 ],
+        [ "noodles_fast", 1 ]
       ]
     ]
   },
@@ -353,6 +353,31 @@
     "book_learn": [ [ "welding_book", 2 ] ],
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
     "components": [ [ [ "weldtank", 1 ] ], [ [ "oxyacetylene", 240 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "ac_unit_item",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 5,
+    "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "sheet_metal_small", 10 ] ],
+      [ [ "steel_chunk", 2 ] ],
+      [ [ "cable", 5 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "condensor_coil", 1 ] ],
+      [ [ "evaporator_coil", 1 ] ],
+      [ [ "refrigerant_tank", 1 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "motor_tiny", 1 ] ]
+    ]
   },
   {
     "type": "recipe",

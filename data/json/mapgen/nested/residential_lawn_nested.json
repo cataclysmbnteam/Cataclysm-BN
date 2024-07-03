@@ -12,7 +12,31 @@
         "___"
       ],
       "terrain": { "_": "t_null" },
-      "place_nested": [ { "chunks": [ [ "null", 5 ], [ "res_frontlawn_bbath", 5 ], [ "res_frontlawn_tree_stump", 5 ] ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "res_frontlawn_bbath", 5 ],
+            [ "res_frontlawn_tree_stump", 5 ],
+            [ "garden_3x3_1", 5 ],
+            [ "garden_3x3_2", 5 ],
+            [ "garden_3x3_3", 5 ],
+            [ "res_frontlawn_yard_sign", 20 ],
+            [ "res_lawn_trash", 5 ],
+            [ "res_lawn_catrat", 5 ],
+            [ "res_lawn_loggarden", 5 ],
+            [ "res_lawn_lawndarts", 5 ],
+            [ "res_lawn_mower", 5 ],
+            [ "res_lawn_flowerpots", 5 ],
+            [ "res_lawn_tablechairs", 5 ],
+            [ "res_lawn_suitcase", 5 ],
+            [ "res_roof_crows", 5 ],
+            [ "res_roof_frisb_bball", 5 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
     }
   },
   {
@@ -49,6 +73,153 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "res_frontlawn_yard_sign",
+    "//": "common signs you might find in a residential front yard",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "_x_",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "signs": { "x": { "snippet": "residential_yard_signs" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_trash",
+    "//": "a couple pieces of trash littering a yard",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_loot": [ { "group": "trash", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 50, "repeat": 4 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_catrat",
+    "//": "cats chasing a rat",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "x__",
+        "__!",
+        "x__"
+      ],
+      "terrain": { "_": "t_null" },
+      "monster": { "x": { "monster": "mon_cat" }, "!": { "monster": "mon_black_rat" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_loggarden",
+    "//": "small garden area with log marker",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "xxx",
+        "xxx",
+        "==="
+      ],
+      "terrain": { "_": "t_null", "x": "t_dirtmound", "=": "t_trunk" },
+      "items": { "x": { "item": "hydro", "chance": 50 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_lawndarts",
+    "//": "some lawn darts that have been left out",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_loot": [ { "item": "lawn_dart", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 60, "repeat": 4 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_mower",
+    "//": "a lawnmower that's been left out",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_loot": [ { "item": "lawnmower", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_flowerpots",
+    "//": "some empty flowerpots",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_loot": [ { "item": "clay_pot_flower", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 60, "repeat": 4 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_suitcase",
+    "//": "a suitcase, clothes spilling out behind as if packed in a hurry, then abruptly abandoned",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_loot": [
+        { "item": "suitcase_m", "x": [ 0, 2 ], "y": [ 0, 2 ] },
+        { "group": "dresser", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 75, "repeat": 6 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_tablechairs",
+    "//": "a table and some chairs ",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "yxy",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "furniture": { "x": "f_tourist_table", "y": "f_camp_chair" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "NC_res_backyard_3X3",
     "//": "NEST CONTAINER - house spawns should call this chunk. Global spawn rates can be adjusted, and additional chunks can be added here, which will affect any house spawn that calls this nest container. These are scenes and decorations you might find on a residential backyard",
     "object": {
@@ -59,7 +230,36 @@
         "___"
       ],
       "terrain": { "_": "t_null" },
-      "place_nested": [ { "chunks": [ [ "null", 5 ], [ "res_backyard_ptable", 5 ], [ "res_backyard_laundry", 5 ] ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "res_backyard_ptable", 5 ],
+            [ "res_backyard_laundry", 5 ],
+            [ "garden_3x3_1", 5 ],
+            [ "garden_3x3_2", 5 ],
+            [ "garden_3x3_3", 5 ],
+            [ "res_backyard_kayaks", 5 ],
+            [ "res_backyard_wheelbarrow", 5 ],
+            [ "res_lawn_trash", 5 ],
+            [ "res_lawn_catrat", 5 ],
+            [ "res_backyard_bike", 5 ],
+            [ "res_backyard_scooter", 5 ],
+            [ "res_backyard_kidslide", 5 ],
+            [ "res_lawn_loggarden", 5 ],
+            [ "res_backyard_firepit", 5 ],
+            [ "res_lawn_lawndarts", 5 ],
+            [ "res_lawn_mower", 5 ],
+            [ "res_lawn_flowerpots", 5 ],
+            [ "res_lawn_tablechairs", 5 ],
+            [ "res_lawn_suitcase", 5 ],
+            [ "res_roof_crows", 5 ],
+            [ "res_roof_frisb_bball", 5 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
     }
   },
   {
@@ -102,6 +302,107 @@
       "furniture": { "x": "f_rotary_clothesline" },
       "place_loot": [ { "item": "basket_laundry", "x": 0, "y": 2 } ],
       "place_items": [ { "item": "laundry", "x": 0, "y": 2, "chance": 40, "repeat": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_backyard_wheelbarrow",
+    "//": "wheelbarrow and shovel ",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "_x_",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_loot": [ { "item": "shovel", "x": [ 0, 2 ], "y": 0, "chance": 40 } ],
+      "vehicles": { "x": { "vehicle": "wheelbarrow", "chance": 50, "status": 1, "rotation": 0 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_backyard_firepit",
+    "//": "firepit and chairs ",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "y_y",
+        "_x_",
+        "y_y"
+      ],
+      "terrain": { "_": "t_null" },
+      "furniture": { "x": "f_firering", "y": "f_camp_chair" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_backyard_kayaks",
+    "//": "kayaks with tarps ",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_vehicles": [
+        { "vehicle": "kayak", "x": 0, "y": 0, "chance": 75, "status": 1, "rotation": 0 },
+        { "vehicle": "kayak", "x": 0, "y": 3, "chance": 50, "status": 1, "rotation": 0 }
+      ],
+      "place_loot": [ { "item": "tarp", "x": 1, "y": 0 }, { "item": "tarp", "x": 1, "y": 3 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_backyard_bike",
+    "//": "bicycle ",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_vehicles": [ { "vehicle": "bicycle", "x": 0, "y": 3, "chance": 50, "status": 1, "rotation": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_backyard_scooter",
+    "//": "tarped up scooter ",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_vehicles": [ { "vehicle": "scooter_electric", "x": 0, "y": 3, "chance": 50, "status": 1, "rotation": 0 } ],
+      "place_loot": [ { "item": "tarp", "x": 1, "y": 3 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_backyard_kidslide",
+    "//": "a kid's slide ",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "_x_",
+        "_x_"
+      ],
+      "terrain": { "_": "t_null", "x": "t_slide" }
     }
   }
 ]

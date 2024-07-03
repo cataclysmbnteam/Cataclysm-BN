@@ -81,7 +81,7 @@
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ],
-      [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "adhesive_proper", 1, "LIST" ], [ "cordage", 1, "LIST" ] ],
       [
         [ "impact_fuze", 1 ],
         [ "smpistol_primer", 1 ],

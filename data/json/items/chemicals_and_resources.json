@@ -313,7 +313,6 @@
     "material": "powder",
     "volume": "125ml",
     "charges": 400,
-    "//2": "Previously 10 doses to a gram, so about 400 to the pound.",
     "stack_size": 200,
     "fun": -15
   },

@@ -72,7 +72,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "leather chaps" },
     "description": "A pair of black leather chaps.  Very tough and light, but doesn't offer any storage.",
-    "weight": "1414 g",
+    "weight": "714 g",
     "volume": "1250 ml",
     "price": "210 USD",
     "price_postapoc": "250 cent",
@@ -95,7 +95,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "fencing pants" },
     "description": "A pair of reinforced pants used by fencers to prevent injuries.",
-    "weight": "450 g",
+    "weight": "500 g",
     "volume": "2 L",
     "price": "25 USD",
     "price_postapoc": "5 USD",
@@ -386,5 +386,14 @@
     "material": [ "leather", "iron" ],
     "price_postapoc": "175 cent",
     "encumbrance": 6
+  },
+  {
+    "id": "carbon_legguard",
+    "type": "ARMOR",
+    "name": { "str": "carbon fiber leg guards" },
+    "description": "Custom legs of layered carbon fiber armor made using a 3D printer.  Its rigid plates are more comparable to a suit of armor than kevlar, but it's very protective and lightweight.",
+    "copy-from": "legguard_lightplate",
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   }
 ]

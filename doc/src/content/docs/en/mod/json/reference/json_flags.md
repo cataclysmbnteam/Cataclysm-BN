@@ -375,6 +375,11 @@ to find which flags work elsewhere.
 - `SURVIVORMAP` Learn of local points-of-interest that can help you survive, and show roads.
 - `TAZER` Shock someone or something.
 - `TELEPORT` Teleport.
+- `TOGGLE_HEATS_FOOD` Gives the item the HEATS_FOOD flag if it lacks it, or vice-versa. Used to
+  enable/disable automatically reheating food with that item when eating.
+- `TOGGLE_UPS_CHARGING` Gives the item the USE_UPS flag if it lacks it, or vice-versa. Used to
+  enable/disable recharging that item from a UPS, advanced UPS, Unified Power System CBM, etc.
+- `TELEPORT` Teleport.
 - `TORCH` Light a torch.
 - `TOURISTMAP` Learn of local points-of-interest that a tourist would like to visit, and show roads.
 - `TOWEL` Dry your character using the item as towel.
@@ -735,6 +740,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `REDUCED_WEIGHT` ... Gunmod flag; reduces the item's base weight by 25%.
 - `REQUIRES_TINDER` ... Requires tinder to be present on the tile this item tries to start a fire
   on.
+- `SHATTERS` ... This item can potentially shatter as if it as made of glass when used as a weapon,
+  thrown, bashed, etc.
 - `SLEEP_AID` ... This item helps in sleeping.
 - `SLEEP_IGNORE` ... This item is not shown as before-sleep warning.
 - `SLOW_WIELD` ... Has an additional time penalty upon wielding. For melee weapons and guns this is

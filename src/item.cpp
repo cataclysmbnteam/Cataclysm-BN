@@ -1313,8 +1313,8 @@ item::sizing item::get_sizing( const Character &p ) const
     if( to_ignore ) {
         return sizing::ignore;
     } else {
-        const bool small = p.get_size() == MS_TINY;
-        const bool big = p.get_size() == MS_HUGE;
+        const bool small = p.get_size() == creature_size::tiny;
+        const bool big = p.get_size() == creature_size::huge;
 
         // due to the iterative nature of these features, something can fit and be undersized/oversized
         // but that is fine because we have separate logic to adjust encumberance per each. One day we
@@ -3678,6 +3678,12 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
 
     insert_separation_line( info );
 
+    if( can_shatter() ) {
+        info.emplace_back( "BASE",
+                           _( "* This item will potentially <info>shatter</info> if used as a weapon"
+                              " or thrown, instantly <bad>destroying it and spilling any contents</bad>." ) );
+    }
+
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
         if( const islot_armor *armor = find_armor_data() ) {
             if( !type->rigid ) {
@@ -5344,6 +5350,11 @@ int item::reach_range( const Character &guy ) const
     return std::max( 1, res );
 }
 
+bool item::can_shatter() const
+{
+    return made_of( material_id( "glass" ) ) || has_flag( flag_SHATTERS );
+}
+
 void item::unset_flags()
 {
     item_tags.clear();
@@ -6177,7 +6188,10 @@ static int phys_resist( const item &it, damage_type dt, clothing_mod_type cmt,
             base_resistance = iter->second;
         }
 
-        float damaged_resistance = base_resistance * eff_thickness / it.get_thickness();
+        // We can have 0 thickness items, so need to check for it to ensure we don't get NaN in calcs
+        const int thickness = it.get_thickness();
+        const float damaged_resistance = ( thickness == 0 ) ? 0.0f : base_resistance * eff_thickness /
+                                         thickness;
 
         return std::lround( damaged_resistance + mod );
     }
@@ -9905,11 +9919,15 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
     }
     // All foods that go bad have temperature
     if( ( self->is_food() || self->is_corpse() ) ) {
-        bool comestible = self->is_comestible();
         item &obj = *self;
         self = process_rot( std::move( self ), seals, pos, carrier, flag, weather_generator );
-        if( comestible && !self ) {
-            here.rotten_item_spawn( obj, pos );
+        // If the item has rotted away, then self becomes a null pointer.
+        if( !self ) {
+            if( obj.is_comestible() ) {
+                here.rotten_item_spawn( obj, pos );
+            } else if( obj.is_corpse() ) {
+                here.handle_decayed_corpse( obj, pos );
+            }
         }
     }
     return std::move( self );
@@ -10034,7 +10052,7 @@ bool item::is_reloadable() const
     if( has_flag( flag_NO_RELOAD ) && !has_flag( flag_VEHICLE ) ) {
         return false; // turrets ignore NO_RELOAD flag
 
-    } else if( is_bandolier() ) {
+    } else if( is_bandolier() || is_holster() ) {
         return true;
 
     } else if( is_container() ) {
@@ -10111,6 +10129,11 @@ std::string item::type_name( unsigned int quantity ) const
     }
 
     return ret_name;
+}
+
+const mtype *item::get_corpse_mon() const
+{
+    return corpse;
 }
 
 std::string item::get_corpse_name()

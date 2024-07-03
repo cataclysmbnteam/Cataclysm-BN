@@ -3,17 +3,13 @@
     "id": "MISSION_GET_DRIVEBELTS",
     "type": "mission_definition",
     "name": "Find Drive Belts",
-    "description": "Obtain 3 drive belts in exchange for credit with the loggers.",
-    "goal": "MGOAL_CONDITION",
+    "description": "Obtain 3 drive belts or makeshift drive belts in exchange for credit with the loggers.",
+    "goal": "MGOAL_FIND_ITEM_GROUP",
     "difficulty": 2,
     "value": 4000,
-    "goal_condition": {
-      "or": [
-        { "u_has_items": { "item": "drivebelt", "count": 3 } },
-        { "u_has_items": { "item": "drivebelt_makeshift", "count": 3 } }
-      ]
-    },
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "item_group": "spares_drivebelts",
+    "count": 3,
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_LUMBERMILL_GET_1000_NAILS",
     "has_generic_rewards": true,
     "dialogue": {
@@ -38,7 +34,7 @@
     "count": 1000,
     "difficulty": 5,
     "value": 300000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_LUMBERMILL_GET_6800_NAILS",
     "has_generic_rewards": true,
     "dialogue": {
@@ -65,7 +61,7 @@
     "count": 6800,
     "difficulty": 32,
     "value": 2000000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
       "update_mapgen": [
         { "om_terrain": "lumbermill_0_0_ocu", "place_nested": [ { "chunks": [ "occupied_lum_wall_0_0" ], "x": 0, "y": 0 } ] },
@@ -100,22 +96,13 @@
     "id": "MISSION_LUMBERMILL_GET_6_BLANKETS",
     "type": "mission_definition",
     "name": "Find 6 Blankets",
-    "description": "Obtain 6 blankets or quilts in exchange for credit with the loggers.",
-    "goal": "MGOAL_CONDITION",
+    "description": "Obtain 6 blankets, fur blankets, electric blankets etc in exchange for credit with the loggers.",
+    "goal": "MGOAL_FIND_ITEM_GROUP",
     "difficulty": 5,
     "value": 4000,
-    "//": "Dynamic response dialogs would be more natural to accept so many alternate items here.",
-    "goal_condition": {
-      "or": [
-        { "u_has_items": { "item": "blanket", "count": 6 } },
-        { "u_has_items": { "item": "fur_blanket", "count": 6 } },
-        { "u_has_items": { "item": "electric_blanket", "count": 6 } },
-        { "u_has_items": { "item": "fur_blanket", "count": 6 } },
-        { "u_has_items": { "item": "quilt", "count": 6 } },
-        { "u_has_items": { "item": "quilt_patchwork", "count": 6 } }
-      ]
-    },
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "item_group": "blankets",
+    "count": 6,
+    "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
       "update_mapgen": [
         { "om_terrain": "lumbermill_1_1_ocu", "place_nested": [ { "chunks": [ "occupied_lum_hotel_1_1" ], "x": 0, "y": 0 } ] },
@@ -129,8 +116,8 @@
     "has_generic_rewards": true,
     "dialogue": {
       "describe": "I need 6 blankets.",
-      "offer": "Now that we should be safe from harm, I decided to start adding a few things to this place.  Right now, we don't have anywhere to comfortably sleep, so we're building a small sleeping quarter.  We just need 6 big, warm blankets or quilts to finish our project.",
-      "advice": "I figure any hotel or motel in town should have lots of blankets.",
+      "offer": "Now that we should be safe from harm, I decided to start adding a few things to this place.  Right now, we don't have anywhere to comfortably sleep, so we're building a small sleeping quarter.  We just need 6 big, warm blankets to finish our project.",
+      "advice": "I figure any hotel or motel in town should have lots of blankets, whatever types you can find for us.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Well, someone's got to do it.",
       "inquire": "Did you find us some bedding yet?",
@@ -149,7 +136,7 @@
     "count": 1,
     "difficulty": 35,
     "value": 4000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "start": { "assign_mission_target": { "om_terrain": "evac_center_18", "om_special": "evac_center", "reveal_radius": 0 } },
     "has_generic_rewards": true,
     "dialogue": {

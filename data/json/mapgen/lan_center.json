@@ -98,7 +98,7 @@
         "I": { "item": "office", "chance": 30 },
         "S": { "item": "office_paper", "chance": 30 },
         "R": { "item": "softdrugs", "chance": 30 },
-        "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
+        "U": { "item": "trash_dumpster", "chance": 80 },
         "{": { "item": "fridge", "chance": 20, "repeat": [ 2, 4 ] },
         "v": { "item": "vending_drink_items", "chance": 20, "repeat": [ 2, 4 ] },
         "W": { "item": "vending_food_items", "chance": 20, "repeat": [ 2, 4 ] }

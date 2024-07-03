@@ -420,5 +420,22 @@
     "name": { "str": "Ruger makeshift magazine" },
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the Ruger Mini-14 rifle.",
     "ammo_type": "223"
+  },
+  {
+    "id": "carbonmag_223",
+    "type": "MAGAZINE",
+    "name": { "str": "carbon fiber .223 30-round magazine" },
+    "description": "A standard capacity 30-round box magazine for use with 3D printed carbon fiber rifles, though it will fit with just about any STANAG rifle.",
+    "weight": "145 g",
+    "volume": "500 ml",
+    "price": "80 USD",
+    "price_postapoc": "250 cent",
+    "material": "carbon_fiber",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "223", "300blk" ],
+    "capacity": 30,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]
