@@ -1495,27 +1495,5 @@
       "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
-  },
-  {
-    "id": "t_rack_mushroom",
-    "name": "mushroom rack",
-    "description": "A rack specifically made for raising mushrooms.  You can plant mushroom cultures in here.",
-    "type": "terrain",
-    "symbol": "}",
-    "color": "brown",
-    "move_cost": 2,
-    "coverage": 0,
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 6 }, { "item": "bag_canvas", "count": 1 }, { "item": "nail", "charges": 8 } ],
-      "ter_set": "t_dirt"
-    },
-    "bash": {
-      "str_min": 5,
-      "str_max": 15,
-      "sound": "crack.",
-      "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 0, 6 ] }, { "item": "nail", "charges": [ 0, 8 ] }, { "item": "rag", "count": [ 0, 12 ] } ]
-    },
-    "flags": [ "FLAMMABLE", "ORGANIC", "PERMEABLE", "TRANSPARENT", "EASY_DECONSTRUCT", "MUSHROOM_PLANTABLE" ]
   }
 ]
