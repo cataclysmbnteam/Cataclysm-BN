@@ -5340,5 +5340,29 @@
     "ammo_type": "thread",
     "count": 50,
     "stack_size": 200
+  },
+  {
+    "abstract": "seed_mushroom_base",
+    "type": "COMESTIBLE",
+    "copy-from": "seed",
+    "name": { "str_sp": "mushroom spores" },
+    "description": "Some mushroom spores.",
+    "charges": 2,
+    "color": "green"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_mushroom",
+    "copy-from": "seed_mushroom_base",
+    "name": { "str_sp": "mushroom spores" },
+    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "grow": "14 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_mushroom_morel",
+    "copy-from": "seed_mushroom_base",
+    "name": { "str_sp": "morel mushroom spores" },
+    "description": "Some morel mushroom spores.",
+    "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": "14 days" }
   }
 ]
