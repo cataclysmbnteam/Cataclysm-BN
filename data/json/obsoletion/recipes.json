@@ -62,6 +62,21 @@
   },
   {
     "type": "recipe",
+    "result": "seed_mushroom",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "seed_mushroom",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cooked_burrito",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "milk",
     "id_suffix": "from_condensed",
     "obsolete": true
