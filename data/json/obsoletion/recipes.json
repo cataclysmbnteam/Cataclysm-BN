@@ -67,12 +67,7 @@
   },
   {
     "type": "recipe",
-    "result": "seed_mushroom",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "cooked_burrito",
+    "result": "seed_mushroom_morel",
     "obsolete": true
   },
   {
