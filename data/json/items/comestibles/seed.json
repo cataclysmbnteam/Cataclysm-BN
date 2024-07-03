@@ -26,15 +26,6 @@
     "material": "fruit"
   },
   {
-    "abstract": "seed_mushroom_base",
-    "type": "COMESTIBLE",
-    "copy-from": "seed",
-    "name": { "str_sp": "mushroom spores" },
-    "description": "Some mushroom spores.",
-    "charges": 2,
-    "color": "green"
-  },
-  {
     "id": "seed_hops",
     "copy-from": "seed",
     "type": "COMESTIBLE",
@@ -602,21 +593,6 @@
     "description": "Some rhubarb stems.",
     "charges": 2,
     "seed_data": { "plant_name": "rhubarb", "fruit": "rhubarb", "byproducts": [ "withered" ], "grow": "14 days" }
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "seed_mushroom",
-    "copy-from": "seed_mushroom_base",
-    "name": { "str_sp": "mushroom spores" },
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "grow": "14 days" }
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "seed_mushroom_morel",
-    "copy-from": "seed_mushroom_base",
-    "name": { "str_sp": "morel mushroom spores" },
-    "description": "Some morel mushroom spores.",
-    "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": "14 days" }
   },
   {
     "id": "datura_seed",
