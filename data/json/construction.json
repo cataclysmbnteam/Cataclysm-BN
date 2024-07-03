@@ -3770,7 +3770,7 @@
   {
     "type": "construction",
     "id": "constr_mushroom_rack",
-	"group": "build_mushroom_rack",
+    "group": "build_mushroom_rack",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "5 m",
