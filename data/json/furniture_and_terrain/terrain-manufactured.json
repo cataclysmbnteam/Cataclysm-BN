@@ -1499,7 +1499,7 @@
   {
     "id": "t_rack_mushroom",
     "name": "mushroom rack",
-    "description": "A rack specifically made for raising mushrooms. You can plant mushroom cultures in here.",
+    "description": "A rack specifically made for raising mushrooms.  You can plant mushroom cultures in here.",
     "type": "terrain",
     "symbol": "}",
     "color": "brown",

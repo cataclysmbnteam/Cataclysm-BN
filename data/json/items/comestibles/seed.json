@@ -795,7 +795,7 @@
     "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "UNSAFE_CONSUME" ],
     "id": "mushroom_culture",
     "copy-from": "seed",
-    "description": "A wet plant chunk, suitable for growing your own mushrooms. You need to \"plant\" it on logs or racks to grow though.",
+    "description": "A wet plant chunk, suitable for growing your own mushrooms.  You need to \"plant\" it on logs or racks to grow though.",
     "seed_data": {
       "plant_name": "mushroom",
       "fruit": "mushroom",
@@ -823,7 +823,7 @@
     "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "UNSAFE_CONSUME" ],
     "id": "mushroom_morel_culture",
     "copy-from": "seed",
-    "description": "A wet plant chunk, suitable for growing your own morel mushrooms. You need to \"plant\" it on logs or racks to grow.",
+    "description": "A wet plant chunk, suitable for growing your own morel mushrooms.  You need to \"plant\" it on logs or racks to grow.",
     "seed_data": {
       "plant_name": "morel mushroom",
       "required_terrain_flag": "MUSHROOM_PLANTABLE",
