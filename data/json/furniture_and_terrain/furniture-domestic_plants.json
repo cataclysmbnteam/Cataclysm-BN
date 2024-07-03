@@ -308,9 +308,7 @@
     "move_cost_mod": 1,
     "required_str": 10,
     "flags": [ "TRANSPARENT", "FLAT", "MOUNTABLE", "EASY_DECONSTRUCT", "MUSHROOM_PLANTABLE" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 6 }, { "item": "bag_canvas", "count": 1 }, { "item": "nail", "charges": 8 } ]
-    },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "bag_canvas", "count": 1 }, { "item": "nail", "charges": 8 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 15,
