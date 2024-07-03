@@ -1485,12 +1485,14 @@ double item::effective_dps( const player &guy, const monster &mon ) const
     double num_hits = num_all_hits - num_crits;
     // sum average damage past armor and return the number of moves required to achieve
     // that damage
+    // @todo Update for attack_statblock
+    const attack_statblock default_attack = melee::default_attack( *this );
     const auto calc_effective_damage = [ &, moves_per_attack]( const double num_strikes,
     const bool crit, const player & guy, const monster & mon ) {
         monster temp_mon( mon );
         double subtotal_damage = 0;
         damage_instance base_damage;
-        melee::roll_all_damage( guy, crit, base_damage, true, *this );
+        melee::roll_all_damage( guy, crit, base_damage, true, *this, default_attack );
         damage_instance dealt_damage = base_damage;
         temp_mon.absorb_hit( bodypart_id( "torso" ), dealt_damage );
         dealt_damage_instance dealt_dams;
@@ -1509,7 +1511,7 @@ double item::effective_dps( const player &guy, const monster &mon ) const
         if( has_technique( rapid_strike ) ) {
             monster temp_rs_mon( mon );
             damage_instance rs_base_damage;
-            melee::roll_all_damage( guy, crit, rs_base_damage, true, *this );
+            melee::roll_all_damage( guy, crit, rs_base_damage, true, *this, default_attack );
             damage_instance dealt_rs_damage = rs_base_damage;
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
@@ -3513,10 +3515,11 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 
     if( ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) || debug_mode ) {
+        const attack_statblock &default_attack = melee::default_attack( *this );
         damage_instance non_crit;
-        melee::roll_all_damage( you, false, non_crit, true, *this );
+        melee::roll_all_damage( you, false, non_crit, true, *this, default_attack );
         damage_instance crit;
-        melee::roll_all_damage( you, true, crit, true, *this );
+        melee::roll_all_damage( you, true, crit, true, *this, default_attack );
         int attack_cost = you.attack_cost( *this );
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
@@ -5248,13 +5251,18 @@ int item::attack_cost() const
 
 int item::damage_melee( damage_type dt ) const
 {
+    return damage_melee( melee::default_attack( *this ), dt );
+}
+
+int item::damage_melee( const attack_statblock &attack, damage_type dt ) const
+{
     assert( dt >= DT_NULL && dt < NUM_DT );
     if( is_null() ) {
         return 0;
     }
 
     // effectiveness is reduced by 10% per damage level
-    int res = type->melee[ dt ];
+    int res = attack.damage.type_damage( dt );
     res -= res * std::max( damage_level( 4 ), 0 ) * 0.1;
 
     // apply type specific flags
@@ -5276,6 +5284,7 @@ int item::damage_melee( damage_type dt ) const
             break;
     }
 
+    // @todo: This probably breaks attack_statblock logic completely...
     // consider any melee gunmods
     if( is_gun() ) {
         const std::vector<const item *> &mods = gunmods();

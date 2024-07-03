@@ -196,7 +196,9 @@ void Item_factory::finalize_pre( itype &obj )
         std::swap( obj.melee[DT_CUT], obj.melee[DT_STAB] );
     }
 
-    if( obj.attacks.empty() ) {
+    // We want to recalculate DEFAULT attack, because it defaults to 0
+    // But if it doesn't exist, we want to keep it that way
+    if( obj.attacks.empty() || obj.attacks.count( "DEFAULT" ) ) {
         attack_statblock att;
         att.to_hit = obj.m_to_hit;
         for( size_t i = 0; i < NUM_DT; i++ ) {

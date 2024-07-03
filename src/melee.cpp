@@ -352,7 +352,7 @@ float Character::get_melee_hit( const item &weapon, const attack_statblock &atta
     return hit;
 }
 
-float Character::hit_roll(const item &weapon, const attack_statblock &attack ) const
+float Character::hit_roll( const item &weapon, const attack_statblock &attack ) const
 {
     return melee::melee_hit_range( get_melee_hit( weapon, attack ) );
 }
@@ -453,7 +453,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
     }
     item &cur_weapon = allow_unarmed ? used_weapon() : primary_weapon();
     const attack_statblock &attack = melee::default_attack( cur_weapon );
-    int hit_spread = t.deal_melee_attack( this, hit_roll(cur_weapon, attack) );
+    int hit_spread = t.deal_melee_attack( this, hit_roll( cur_weapon, attack ) );
 
     if( cur_weapon.attack_cost() > attack_cost( cur_weapon ) * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
@@ -764,9 +764,10 @@ int stumble( Character &u, const item &weap )
            ( weap.weight() / ( u.str_cur * 10_gram + 13.0_gram ) );
 }
 
-bool Character::scored_crit( float target_dodge, const item &weap, const attack_statblock &attack ) const
+bool Character::scored_crit( float target_dodge, const item &weap,
+                             const attack_statblock &attack ) const
 {
-    return rng_float( 0, 1.0 ) < crit_chance( hit_roll(weap, attack), target_dodge, weap );
+    return rng_float( 0, 1.0 ) < crit_chance( hit_roll( weap, attack ), target_dodge, weap );
 }
 
 /**
@@ -974,7 +975,7 @@ void melee::roll_bash_damage( const Character &c, bool crit, damage_instance &di
     }
 
     /** @EFFECT_STR increases bashing damage */
-    float weap_dam = weap.damage_melee( DT_BASH ) + stat_bonus;
+    float weap_dam = weap.damage_melee( attack, DT_BASH ) + stat_bonus;
     /** @EFFECT_UNARMED caps bash damage with unarmed weapons */
 
     if( unarmed && weap.is_null() ) {
@@ -1023,7 +1024,7 @@ void melee::roll_bash_damage( const Character &c, bool crit, damage_instance &di
 void melee::roll_cut_damage( const Character &c, bool crit, damage_instance &di, bool average,
                              const item &weap, const attack_statblock &attack )
 {
-    float cut_dam = c.mabuff_damage_bonus( DT_CUT ) + weap.damage_melee( DT_CUT );
+    float cut_dam = c.mabuff_damage_bonus( DT_CUT ) + weap.damage_melee( attack, DT_CUT );
     float cut_mul = 1.0f;
 
     int cutting_skill = c.get_skill_level( skill_cutting );
@@ -1098,7 +1099,7 @@ void melee::roll_cut_damage( const Character &c, bool crit, damage_instance &di,
 void melee::roll_stab_damage( const Character &c, bool crit, damage_instance &di, bool /*average*/,
                               const item &weap, const attack_statblock &attack )
 {
-    float stab_dam = c.mabuff_damage_bonus( DT_STAB ) + weap.damage_melee( DT_STAB );
+    float stab_dam = c.mabuff_damage_bonus( DT_STAB ) + weap.damage_melee( attack, DT_STAB );
 
     int unarmed_skill = c.get_skill_level( skill_unarmed );
     int stabbing_skill = c.get_skill_level( skill_stabbing );
@@ -1849,9 +1850,9 @@ void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dea
         }
 
         const item &cur_weapon = used_weapon();
-        const attack_statblock &attack = melee::default_attack(cur_weapon);
+        const attack_statblock &attack = melee::default_attack( cur_weapon );
         // TODO: Make this hit roll use unarmed skill, not weapon skill + weapon to_hit
-        int hit_spread = t.deal_melee_attack( this, hit_roll(cur_weapon, attack) * 0.8 );
+        int hit_spread = t.deal_melee_attack( this, hit_roll( cur_weapon, attack ) * 0.8 );
         if( hit_spread >= 0 ) {
             t.deal_melee_hit( this, hit_spread, false, att.damage, dealt_dam );
             if( !practiced ) {
@@ -2407,7 +2408,7 @@ void avatar_funcs::try_disarm_npc( avatar &you, npc &target )
     item &it = target.primary_weapon();
 
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
-    int hitspread = target.deal_melee_attack( &you, you.hit_roll(it, melee::default_attack(it)) );
+    int hitspread = target.deal_melee_attack( &you, you.hit_roll( it, melee::default_attack( it ) ) );
     if( hitspread < 0 ) {
         add_msg( _( "You lunge for the %s, but miss!" ), it.tname() );
         you.mod_moves( -100 - stumble( you,
@@ -2541,11 +2542,20 @@ double melee::expected_damage( const Character &c, const item &weapon,
 
     // TODO: Proper calculation here
     // TODO: Crits
-    float reduced_damage_sum = std::accumulate(attack.damage.begin(), attack.damage.end(), 0.0, [&resists](double acc, const damage_unit &du) {
-        return acc + std::max(0.0f, du.amount - resists.get_effective_resist(du));
-    });
+    float reduced_damage_sum = std::accumulate( attack.damage.begin(), attack.damage.end(),
+    0.0, [&resists]( double acc, const damage_unit & du ) {
+        return acc + std::max( 0.0f, du.amount - resists.get_effective_resist( du ) );
+    } );
 
     return chance * reduced_damage_sum;
+
+
+}
+
+const attack_statblock &melee::default_attack( const item &it )
+{
+    assert( !it.type->attacks.empty() );
+    return it.type->attacks.begin()->second;
 }
 
 namespace melee

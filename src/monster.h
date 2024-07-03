@@ -384,7 +384,7 @@ class monster : public Creature, public location_visitable<monster>
 
         float  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
         float  get_melee() const override;
-        float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
+        float  hit_roll() const;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
 
         int get_grab_strength() const; // intensity of grabbed effect
