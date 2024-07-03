@@ -1975,7 +1975,7 @@
     "color": "brown",
     "move_cost": 4,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "MUSHROOM_PLANTABLE" ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
