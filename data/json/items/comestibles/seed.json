@@ -802,37 +802,31 @@
     }
   },
   {
-  "type": "COMESTIBLE",
-  "comestible_type": "FOOD",
-  "name": {
-    "str_sp": "mushroom culture"
-  },
-  "category": "seeds",
-  "volume": "250 ml",
-  "weight": "100 g",
-  "price": "200 cent",
-  "price_postapoc": "25 cent",
-  "charges": 1,
-  "stack_size": 100,
-  "material": "veggy",
-  "primary_material": "mushroom",
-  "symbol": ".",
-  "color": "light_gray",
-  "flags": [
-    "NUTRIENT_OVERRIDE",
-    "PLANTABLE_SEED",
-    "UNSAFE_CONSUME"
-  ],
-  "id": "mushroom_culture",
-  "copy-from": "seed",
-  "description": "A wet plant chunk, suitable for growing your own mushrooms. You need to \"plant\" it on logs or racks to grow though.",
-  "seed_data": {
-    "plant_name": "mushroom",
-    "fruit": "mushroom",
-	"fruit_div": 2,
-	"seeds":false,
-	"required_terrain_flag": "MUSHROOM_PLANTABLE",
-    "grow": "28 days"
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "mushroom culture" },
+    "category": "seeds",
+    "volume": "250 ml",
+    "weight": "100 g",
+    "price": "200 cent",
+    "price_postapoc": "25 cent",
+    "charges": 1,
+    "stack_size": 100,
+    "material": "veggy",
+    "primary_material": "mushroom",
+    "symbol": ".",
+    "color": "light_gray",
+    "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "UNSAFE_CONSUME" ],
+    "id": "mushroom_culture",
+    "copy-from": "seed",
+    "description": "A wet plant chunk, suitable for growing your own mushrooms. You need to \"plant\" it on logs or racks to grow though.",
+    "seed_data": {
+      "plant_name": "mushroom",
+      "fruit": "mushroom",
+      "fruit_div": 2,
+      "seeds": false,
+      "required_terrain_flag": "MUSHROOM_PLANTABLE",
+      "grow": "28 days"
+    }
   }
-}
 ]
