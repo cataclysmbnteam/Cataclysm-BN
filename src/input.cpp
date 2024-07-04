@@ -649,6 +649,7 @@ void input_context::clear_conflicting_keybindings( const input_event &event )
 
 const std::string CATA_ERROR = "ERROR";
 const std::string ANY_INPUT = "ANY_INPUT";
+const std::string ANY_PRINTABLE = "ANY_PRINTABLE";
 const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
 const std::string COORDINATE = "COORDINATE";
 const std::string TIMEOUT = "TIMEOUT";
@@ -705,6 +706,9 @@ void input_context::register_action( const std::string &action_descriptor,
 {
     if( action_descriptor == "ANY_INPUT" ) {
         registered_any_input = true;
+    } else if( action_descriptor == "ANY_PRINTABLE" ) {
+        // ANY_PRINTABLE accepts any input, but will only print printable characters
+        registered_any_printable = true;
     } else if( action_descriptor == "COORDINATE" ) {
         handling_coordinate_input = true;
     }
@@ -942,7 +946,12 @@ const std::string &input_context::handle_input( const int timeout )
 
         // If we registered to receive any input, return ANY_INPUT
         // to signify that an unregistered key was pressed.
-        if( registered_any_input ) {
+        // ANY_PRINTABLE and ANY_INPUT are mutually exclusive,
+        // they both define how unregistered keys are handled.
+        if( registered_any_printable ) {
+            result = &ANY_PRINTABLE;
+            break;
+        } else if( registered_any_input ) {
             result = &ANY_INPUT;
             break;
         }
@@ -1133,12 +1142,12 @@ action_id input_context::display_menu( const bool permit_execute_action )
     input_manager::t_action_contexts old_action_contexts( inp_mngr.action_contexts );
     // current status: adding/removing/executing/showing keybindings
     enum { s_remove, s_add, s_add_global, s_execute, s_show } status = s_show;
-    // copy of registered_actions, but without the ANY_INPUT and COORDINATE, which should not be shown
+    // copy of registered_actions, but without the ANY_INPUT, COORDINATE and ANY_PRINTABLE, which should not be shown
     std::vector<std::string> org_registered_actions( registered_actions );
     org_registered_actions.erase( std::remove_if( org_registered_actions.begin(),
                                   org_registered_actions.end(),
     []( const std::string & a ) {
-        return a == ANY_INPUT || a == COORDINATE;
+        return a == ANY_INPUT || a == COORDINATE || a == ANY_PRINTABLE;
     } ), org_registered_actions.end() );
 
     // colors of the keybindings

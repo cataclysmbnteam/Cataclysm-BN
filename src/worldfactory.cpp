@@ -14,7 +14,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "catalua.h"
-#include "char_validity_check.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -1389,7 +1388,9 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 #endif
     ctxt.register_action( "TEXT.INPUT_FROM_FILE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "ANY_INPUT" );
+    // Literally the only place this is used right now
+    // Basically makes sure you can't have unprintable unicode chars in your world name.
+    ctxt.register_action( "ANY_PRINTABLE" );
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         const int iTooltipHeight = 1;
@@ -1590,25 +1591,7 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated )
     } else if( has_world( name ) ) {
         msg = string_format( _( "A world named %s already exists!" ), name );
     } else {
-        // just check the raw bytes because unicode characters are always acceptable
-        bool allowed = true;
-        for( const char ch : name ) {
-            // Convert to unsigned char because `std::isprint` is undefined for
-            // values unrepresentable by unsigned char which is not EOF.
-            const unsigned char uc = static_cast<unsigned char>( ch );
-            if( !is_char_allowed( uc ) ) {
-                if( std::isprint( uc ) ) {
-                    msg = string_format( _( "World name contains invalid character: '%c'" ), uc );
-                } else {
-                    msg = string_format( _( "World name contains invalid character: 0x%x" ), uc );
-                }
-                allowed = false;
-                break;
-            }
-        }
-        if( allowed ) {
-            return true;
-        }
+        return true;
     }
     if( !automated ) {
         popup( msg, PF_GET_KEY );

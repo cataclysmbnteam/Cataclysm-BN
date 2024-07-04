@@ -409,8 +409,12 @@ std::pair<bool, std::string> string_editor_window::query_string()
 
         const std::string action = ctxt->handle_input();
 
+        if( action != "ANY_INPUT" ) {
+            continue;
+        }
+
         const input_event ev = ctxt->get_raw_input();
-        ch = ev.get_first_input();
+        ch = ev.type == input_event_t::keyboard ? ev.get_first_input() : 0;
 
         if( action == "TEXT.QUIT" ) {
             return { false, _utext.str() };
