@@ -2380,9 +2380,16 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
         return;
     }
 
+    map &here = get_map();
+    // The plant furniture has the NOITEM token which prevents adding items on that square,
+    // spawned items are moved to an adjacent field instead, but the fertilizer token
+    // must be on the square of the plant, therefore this hack:
+    const auto old_furn = here.furn( tile );
+    here.furn_set( tile, f_null );
+    here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
+    here.furn_set( tile, old_furn );
     std::vector<detached_ptr<item>> planted = p.use_charges( fertilizer, 1 );
 
-    map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( tile );
     map_stack::iterator seed_it = std::find_if( items.begin(),
@@ -2401,17 +2408,8 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
     // Reduce the amount of time it takes until the next stage of growth
     // by 60% of the seed's stage duration, or 20% of its overall growth time
     const time_duration fertilized_boost = seed->get_plant_epoch() * 0.6;
-
     seed->set_birthday( seed->birthday() - fertilized_boost );
-    // The plant furniture has the NOITEM token which prevents adding items on that square,
-    // spawned items are moved to an adjacent field instead, but the fertilizer token
-    // must be on the square of the plant, therefore this hack:
-    const auto old_furn = here.furn( tile );
-    here.furn_set( tile, f_null );
-    here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
-    here.furn_set( tile, old_furn );
     p.mod_moves( -to_moves<int>( 10_seconds ) );
-
     //~ %1$s: plant name, %2$s: fertilizer name
     add_msg( m_info, _( "You fertilize the %1$s with the %2$s." ), seed->get_plant_name(),
              planted.front()->tname() );
