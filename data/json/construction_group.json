@@ -451,6 +451,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_mushroom_rack",
+    "name": "Build Mushroom Rack"
+  },
+  {
+    "type": "construction_group",
     "id": "build_palisade_gate",
     "name": "Build Palisade Gate"
   },

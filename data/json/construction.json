@@ -3769,6 +3769,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_mushroom_rack",
+    "group": "build_mushroom_rack",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "bag_canvas", 1 ] ], [ [ "nail", 8 ] ] ],
+    "pre_special": "check_empty",
+    "post_furniture": "f_rack_mushroom"
+  },
+  {
+    "type": "construction",
     "id": "constr_pit",
     "group": "dig_a_deep_pit",
     "category": "CONSTRUCT",

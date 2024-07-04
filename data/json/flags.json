@@ -388,6 +388,11 @@
     "inherit": false
   },
   {
+    "id": "MUSHROOM_PLANTABLE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
     "id": "NO_CVD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],

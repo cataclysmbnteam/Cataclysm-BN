@@ -26,15 +26,6 @@
     "material": "fruit"
   },
   {
-    "abstract": "seed_mushroom_base",
-    "type": "COMESTIBLE",
-    "copy-from": "seed",
-    "name": { "str_sp": "mushroom spores" },
-    "description": "Some mushroom spores.",
-    "charges": 2,
-    "color": "green"
-  },
-  {
     "id": "seed_hops",
     "copy-from": "seed",
     "type": "COMESTIBLE",
@@ -604,21 +595,6 @@
     "seed_data": { "plant_name": "rhubarb", "fruit": "rhubarb", "byproducts": [ "withered" ], "grow": "14 days" }
   },
   {
-    "type": "COMESTIBLE",
-    "id": "seed_mushroom",
-    "copy-from": "seed_mushroom_base",
-    "name": { "str_sp": "mushroom spores" },
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "grow": "14 days" }
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "seed_mushroom_morel",
-    "copy-from": "seed_mushroom_base",
-    "name": { "str_sp": "morel mushroom spores" },
-    "description": "Some morel mushroom spores.",
-    "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": "14 days" }
-  },
-  {
     "id": "datura_seed",
     "type": "COMESTIBLE",
     "copy-from": "seed",
@@ -799,6 +775,48 @@
       "byproducts": [ "straw_pile" ],
       "grow": "14 days",
       "required_terrain_flag": "SHALLOW_WATER"
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "mushroom culture" },
+    "weight": "100 g",
+    "price": "2 USD",
+    "charges": 1,
+    "primary_material": "mushroom",
+    "color": "light_gray",
+    "id": "mushroom_culture",
+    "copy-from": "seed",
+    "description": "A wet plant chunk, suitable for growing your own mushrooms.  You need to \"plant\" it on logs or racks to grow though.",
+    "seed_data": {
+      "plant_name": "mushroom",
+      "fruit": "mushroom",
+      "fruit_div": 2,
+      "seeds": false,
+      "required_terrain_flag": "MUSHROOM_PLANTABLE",
+      "grow": "28 days"
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "morel mushroom culture" },
+    "weight": "100 g",
+    "price": "250 cent",
+    "price_postapoc": "40 cent",
+    "charges": 1,
+    "material": "veggy",
+    "primary_material": "mushroom",
+    "symbol": ".",
+    "color": "light_gray",
+    "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "UNSAFE_CONSUME" ],
+    "id": "mushroom_morel_culture",
+    "copy-from": "seed",
+    "description": "A wet plant chunk, suitable for growing your own morel mushrooms.  You need to \"plant\" it on logs or racks to grow.",
+    "seed_data": {
+      "plant_name": "morel mushroom",
+      "required_terrain_flag": "MUSHROOM_PLANTABLE",
+      "fruit": "mushroom_morel",
+      "grow": "42 days"
     }
   }
 ]
