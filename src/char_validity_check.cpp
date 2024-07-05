@@ -41,19 +41,19 @@ bool is_char_allowed( int ch )
     }
 
 #if !defined(__linux__)
+#if defined(MACOSX)
     if( ch == ':' ) {
         // not valid in macOS (Specific cases, best to be safe) and Windows filenames
         return false;
     }
-
-#if !defined(MACOSX) || !defined(__linux__)
-    if( ch == '<' || ch == '>' || ch == '"' || ch == '\\' || ch == '?' || ch == '|' || ch == '*' ) {
+#else
+    if( ch == ':' || ch == '<' || ch == '>' || ch == '"' || ch == '\\' || ch == '?' || ch == '|' ||
+        ch == '*' ) {
         // not valid in Windows filenames
         return false;
     }
 
 #endif
-
 #endif
     return true;
 }

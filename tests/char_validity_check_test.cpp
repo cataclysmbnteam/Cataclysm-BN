@@ -22,8 +22,7 @@ TEST_CASE( "char_validity_check" )
     CHECK( is_char_allowed( '?' ) == true );
     CHECK( is_char_allowed( '|' ) == true );
     CHECK( is_char_allowed( '*' ) == true );
-#endif
-#if defined(MACOSX)
+#elif defined(MACOSX)
     CHECK( is_char_allowed( ':' ) == false );
     CHECK( is_char_allowed( '<' ) == true );
     CHECK( is_char_allowed( '>' ) == true );
@@ -32,8 +31,7 @@ TEST_CASE( "char_validity_check" )
     CHECK( is_char_allowed( '?' ) == true );
     CHECK( is_char_allowed( '|' ) == true );
     CHECK( is_char_allowed( '*' ) == true );
-#endif
-#if !defined(__linux__) || !defined(MACOSX) // Catches Windows and Android(+unknown cases)
+#else
     CHECK( is_char_allowed( ':' ) == false );
     CHECK( is_char_allowed( '<' ) == false );
     CHECK( is_char_allowed( '>' ) == false );

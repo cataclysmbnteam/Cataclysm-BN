@@ -1590,6 +1590,8 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated )
         msg = string_format( _( "%s is a reserved name!" ), name );
     } else if( has_world( name ) ) {
         msg = string_format( _( "A world named %s already exists!" ), name );
+    } else if( name.front() == ' ' || name.back() == ' ' ) {
+        msg = string_format( _( "A world name cannot start or end with spaces!" ) );
     } else {
         return true;
     }
