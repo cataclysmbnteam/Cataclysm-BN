@@ -416,7 +416,7 @@
     "volume": "100 ml",
     "stack_size": 10,
     "fun": 30,
-    "flags": [ "UNSAFE_CONSUME" ],
+    "flags": [ "UNSAFE_CONSUME", "CAN_PLANT_UNDERGROUND" ],
     "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "marloss berry", "grow": "14 days" }
   },
   {
@@ -788,7 +788,8 @@
     "id": "mushroom_culture",
     "copy-from": "seed",
     "description": "A chunk of compost laden with spores and mycelium, for growing your own mushrooms.  You'll need to \"plant\" these on tree trunks, or dedicated mushroom racks, for it to grow.",
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "required_terrain_flag": "MUSHROOM_PLANTABLE", "grow": "14 days" }
+    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "required_terrain_flag": "MUSHROOM_PLANTABLE", "grow": "14 days" },
+    "extend": { "flags": [ "CAN_PLANT_UNDERGROUND" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -801,7 +802,6 @@
     "primary_material": "mushroom",
     "symbol": ".",
     "color": "light_gray",
-    "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "UNSAFE_CONSUME" ],
     "id": "mushroom_morel_culture",
     "copy-from": "seed",
     "description": "A chunk of compost laden with spores and mycelium, for growing your own morel mushrooms.  You'll need to \"plant\" these on tree trunks, or dedicated mushroom racks, for it to grow.",
@@ -810,6 +810,7 @@
       "required_terrain_flag": "MUSHROOM_PLANTABLE",
       "fruit": "mushroom_morel",
       "grow": "14 days"
-    }
+    },
+    "extend": { "flags": [ "CAN_PLANT_UNDERGROUND" ] }
   }
 ]

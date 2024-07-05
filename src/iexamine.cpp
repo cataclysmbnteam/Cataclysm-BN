@@ -2218,6 +2218,11 @@ void iexamine::dirtmound( player &p, const tripoint &examp )
     }
     const auto &seed_id = std::get<0>( seed_entries[seed_index] );
 
+    if( !seed_id.obj().has_flag( flag_CAN_PLANT_UNDERGROUND ) && examp.z < 0 ) {
+        add_msg( _( "You can't plant this type of seed underground." ) );
+        return;
+    }
+
     if( !here.has_flag_ter_or_furn( seed_id->seed->required_terrain_flag, examp ) ) {
         add_msg( _( "This type of seed can not be planted in this location." ) );
         return;

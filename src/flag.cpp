@@ -49,6 +49,7 @@ const flag_id flag_BUTCHER_RACK( "BUTCHER_RACK" );
 const flag_id flag_BYPRODUCT( "BYPRODUCT" );
 const flag_id flag_CABLE_SPOOL( "CABLE_SPOOL" );
 const flag_id flag_CAMERA_PRO( "CAMERA_PRO" );
+const flag_id flag_CAN_PLANT_UNDERGROUND( "CAN_PLANT_UNDERGROUND" );
 const flag_id flag_CANNIBAL( "CANNIBAL" );
 const flag_id flag_CANNIBALISM( "CANNIBALISM" );
 const flag_id flag_CANT_HEAL_EVERYONE( "CANT_HEAL_EVERYONE" );
