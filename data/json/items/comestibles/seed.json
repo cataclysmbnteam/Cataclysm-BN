@@ -787,15 +787,8 @@
     "color": "light_gray",
     "id": "mushroom_culture",
     "copy-from": "seed",
-    "description": "A wet plant chunk, suitable for growing your own mushrooms.  You need to \"plant\" it on logs or racks to grow though.",
-    "seed_data": {
-      "plant_name": "mushroom",
-      "fruit": "mushroom",
-      "fruit_div": 2,
-      "seeds": false,
-      "required_terrain_flag": "MUSHROOM_PLANTABLE",
-      "grow": "28 days"
-    }
+    "description": "A chunk of compost laden with spores and mycelium, for growing your own mushrooms.  You'll need to \"plant\" these on tree trunks, or dedicated mushroom racks, for it to grow.",
+    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "required_terrain_flag": "MUSHROOM_PLANTABLE", "grow": "14 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -811,12 +804,12 @@
     "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "UNSAFE_CONSUME" ],
     "id": "mushroom_morel_culture",
     "copy-from": "seed",
-    "description": "A wet plant chunk, suitable for growing your own morel mushrooms.  You need to \"plant\" it on logs or racks to grow.",
+    "description": "A chunk of compost laden with spores and mycelium, for growing your own morel mushrooms.  You'll need to \"plant\" these on tree trunks, or dedicated mushroom racks, for it to grow.",
     "seed_data": {
       "plant_name": "morel mushroom",
       "required_terrain_flag": "MUSHROOM_PLANTABLE",
       "fruit": "mushroom_morel",
-      "grow": "42 days"
+      "grow": "14 days"
     }
   }
 ]

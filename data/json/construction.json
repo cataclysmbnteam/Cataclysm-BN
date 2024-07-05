@@ -3775,7 +3775,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "5 m",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 6 ] ], [ [ "bag_canvas", 1 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 6 ], [ "log", 1 ] ], [ [ "nail_glue", 8, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_furniture": "f_rack_mushroom"
   },
