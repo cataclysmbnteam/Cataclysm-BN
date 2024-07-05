@@ -22,6 +22,11 @@
   },
   {
     "type": "item_group",
+    "id": "exotic_books",
+    "items": [ { "group": "magic_recipe_basic", "prob": 3 }, { "group": "dragon_books", "prob": 2 } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_pistol_rare",
     "items": [ { "item": "m47a1", "prob": 25, "charges-min": 0, "charges-max": 6 } ]
   },
@@ -39,7 +44,7 @@
       { "group": "spell_scroll_tier_1", "prob": 60 },
       { "group": "spell_scroll_tier_2", "prob": 30 },
       { "group": "magic_recipe_basic", "prob": 50 },
-      { "group": "magic_recipe_advanced", "prob": 16 }
+      { "group": "magic_recipe_advanced", "prob": 15 }
     ]
   },
   {

@@ -886,5 +886,14 @@
     "name": { "str": "Scroll of Create Hydrochloric Acid", "str_pl": "Scrolls of Create Hydrochloric Acid" },
     "description": "Produces usable Hydrochloric Acid for you.",
     "use_action": { "type": "learn_spell", "spells": [ "bio_create_acid" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_lemon",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Summon... Demon(?)", "str_pl": "Scrolls of Summon... Demon(?)" },
+    "description": "You can tell this is an authentic magic scroll by all the cursive writing.  It does make it a bit hard to read, though...",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_lemon" ] }
   }
 ]

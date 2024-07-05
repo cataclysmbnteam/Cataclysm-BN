@@ -252,7 +252,11 @@
       "furniture": { "&": "f_magic_bench" },
       "items": {
         "&": [ { "item": "magic_tools_and_loot", "chance": 35, "repeat": [ 1, 2 ] }, { "item": "magic_shop_potions", "chance": 30 } ],
-        "R": [ { "item": "magic_shop_books", "chance": 30 } ]
+        "R": [
+          { "item": "magic_shop_books", "chance": 30 },
+          { "group": "magic_recipe_basic", "prob": 50 },
+          { "group": "magic_recipe_advanced", "prob": 15 }
+        ]
       },
       "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 1, 3 ] } ]
     }
@@ -294,7 +298,11 @@
       "furniture": { "&": "f_magic_bench" },
       "items": {
         "&": [ { "item": "magic_tools_and_loot", "chance": 35 }, { "item": "magic_shop_potions", "chance": 30 } ],
-        "R": [ { "item": "magic_shop_books", "chance": 30 } ]
+        "R": [
+          { "item": "magic_shop_books", "chance": 30 },
+          { "group": "magic_recipe_basic", "prob": 50 },
+          { "group": "magic_recipe_advanced", "prob": 15 }
+        ]
       },
       "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 1, 3 ] } ]
     }
@@ -433,7 +441,8 @@
           { "item": "alchemy_items", "chance": 35, "repeat": [ 1, 2 ] },
           { "item": "magic_shop_potions", "chance": 30 },
           { "item": "magic_recipe_basic", "chance": 40 },
-          { "item": "magic_shop_wands", "chance": 5 }
+          { "item": "magic_shop_wands", "chance": 5 },
+          { "group": "magic_recipe_basic", "prob": 25 }
         ],
         "?": [ { "item": "alchemy_items", "chance": 45 }, { "item": "magic_shop_potions", "chance": 30 } ]
       },

@@ -256,5 +256,26 @@
     "base_casting_time": 200,
     "base_energy_cost": 250,
     "min_duration": 1800000
+  },
+  {
+    "id": "summon_lemon",
+    "type": "SPELL",
+    "name": { "str": "Summon... Lemon?" },
+    "description": "While at first this spell may appear to be \"Summon Demon\", in reality it appears to be a spell to summon a lemon.  Cursive truly is the bane of your existence.",
+    "valid_targets": [ "none" ],
+    "effect": "spawn_item",
+    "effect_str": "lemon",
+    "energy_source": "MANA",
+    "spell_class": "NONE",
+    "flags": [ "CONCENTRATE", "NO_LEGS", "NO_EXPLOSION_VFX" ],
+    "difficulty": 3,
+    "max_level": 10,
+    "base_casting_time": 250,
+    "base_energy_cost": 300,
+    "min_duration": 6000,
+    "max_duration": 360000,
+    "duration_increment": 35400,
+    "min_damage": 1,
+    "max_damage": 1
   }
 ]
