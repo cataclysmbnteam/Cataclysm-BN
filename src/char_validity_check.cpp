@@ -36,7 +36,7 @@ bool is_char_allowed( int ch )
     }
 
     if( ch == '/' ) {
-        // not valid in filenames for most operating systems
+        // not valid in filenames for most operating systems (Linux, MacOs, Windows, Android)
         return false;
     }
 
@@ -46,12 +46,11 @@ bool is_char_allowed( int ch )
         return false;
     }
 
-#if !defined(MACOSX)
+#if !defined(MACOSX) || !defined(__linux__)
     if( ch == '<' || ch == '>' || ch == '"' || ch == '\\' || ch == '?' || ch == '|' || ch == '*' ) {
         // not valid in Windows filenames
         return false;
     }
-    return true;
 
 #endif
 
