@@ -522,26 +522,26 @@
     "skills_required": [ "cooking", 4 ],
     "difficulty": 4,
     "time": "15 m",
-    "autolearn": false,
-    "book_learn": [ [ "pocket_survival", 4 ], [ "textbook_survival", 4 ], [ "atomic_survival", 4 ], [ "survival_book", 4 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "pocket_survival", 3 ], [ "textbook_survival", 3 ], [ "atomic_survival", 3 ], [ "survival_book", 3 ] ],
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [
-        [ "stick", 2 ],
+        [ "stick", 1 ],
         [ "2x4", 1 ],
         [ "splinter", 8 ],
-        [ "paper", 1000 ],
-        [ "cardboard", 200 ],
-        [ "tinder", 200 ],
-        [ "withered", 100 ],
-        [ "fertilizer_liquid", 3 ],
+        [ "paper", 100 ],
+        [ "cardboard", 20 ],
+        [ "withered", 10 ],
+        [ "straw_pile", 10 ],
+        [ "fertilizer_liquid", 1 ],
         [ "fertilizer_commercial", 1 ],
         [ "cattlefodder", 1 ]
       ],
-      [ [ "mushroom", 5 ] ],
-      [ [ "water_clean", 30 ], [ "water", 30 ] ]
+      [ [ "mushroom", 1 ] ],
+      [ [ "water_clean", 3 ], [ "water", 3 ] ]
     ]
   },
   {
@@ -553,8 +553,8 @@
     "skills_required": [ "cooking", 5 ],
     "difficulty": 6,
     "time": "15 m",
-    "autolearn": false,
-    "book_learn": [ [ "pocket_survival", 6 ], [ "textbook_survival", 6 ], [ "atomic_survival", 6 ], [ "survival_book", 6 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "pocket_survival", 5 ], [ "textbook_survival", 5 ], [ "atomic_survival", 5 ], [ "survival_book", 5 ] ],
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
@@ -571,8 +571,8 @@
         [ "fertilizer_commercial", 1 ],
         [ "cattlefodder", 1 ]
       ],
-      [ [ "mushroom_morel", 2 ] ],
-      [ [ "water_clean", 30 ], [ "water", 30 ] ]
+      [ [ "mushroom_morel", 1 ] ],
+      [ [ "water_clean", 3 ], [ "water", 3 ] ]
     ]
   }
 ]

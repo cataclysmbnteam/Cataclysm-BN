@@ -9,6 +9,7 @@
     "price": "150 cent",
     "price_postapoc": "50 cent",
     "fun": 1,
+    "charges": 1,
     "vitamins": [ [ "vitC", 4 ], [ "iron", 7 ] ],
     "delete": { "flags": [ "RAW" ] }
   },
@@ -30,6 +31,7 @@
     "material": "mushroom",
     "volume": "250 ml",
     "fun": 1,
+    "charges": 6,
     "flags": [ "SMOKABLE", "UNSAFE_CONSUME" ],
     "smoking_result": "dry_mushroom",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ]
@@ -45,6 +47,7 @@
     "price": 1500,
     "price_postapoc": 50,
     "fun": 4,
+    "charges": 1,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ],
     "delete": { "flags": [ "UNSAFE_CONSUME" ] }
   },
@@ -98,6 +101,7 @@
     "material": "mushroom",
     "volume": "250 ml",
     "fun": -3,
+    "charges": 10,
     "flags": [ "SMOKABLE", "FORAGE_POISON", "FORAGE_HALLU", "RAW" ],
     "smoking_result": "dry_mushroom",
     "vitamins": [ [ "vitC", 2 ], [ "iron", 2 ] ]
