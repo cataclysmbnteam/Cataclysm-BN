@@ -1649,7 +1649,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 } else if( !warm_enough_to_plant( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::NEEDS_WARM_WEATHER );
                     // Plants underground need to be either valid to plant underground, or given artificial heating
-                } else if( !seed.obj().has_flag( flag_CAN_PLANT_UNDERGROUND ) && src_loc.z < 0 && get_weather().get_temperature( src_loc ) < 10_c ) {
+                } else if( !seed.obj().has_flag( flag_CAN_PLANT_UNDERGROUND ) && src_loc.z < 0 &&
+                           get_weather().get_temperature( src_loc ) < 10_c ) {
                     return activity_reason_info::fail( do_activity_reason::NEEDS_ABOVE_GROUND );
                 } else {
                     // do we have the required seed on our person?
@@ -2722,7 +2723,8 @@ static requirement_check_result generic_multi_activity_check_requirement( player
         } else if( reason == do_activity_reason::NEEDS_WARM_WEATHER ) {
             p.add_msg_if_player( m_info, _( "It is too cold to plant anything now." ) );
         } else if( reason == do_activity_reason::NEEDS_ABOVE_GROUND ) {
-            p.add_msg_if_player( m_info, _( "It's too cold down here to plant this type of seed underground." ) );
+            p.add_msg_if_player( m_info,
+                                 _( "It's too cold down here to plant this type of seed underground." ) );
         }
         return SKIP_LOCATION;
     } else if( reason == do_activity_reason::NO_COMPONENTS ||
