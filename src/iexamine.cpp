@@ -2218,8 +2218,9 @@ void iexamine::dirtmound( player &p, const tripoint &examp )
     }
     const auto &seed_id = std::get<0>( seed_entries[seed_index] );
 
-    if( !seed_id.obj().has_flag( flag_CAN_PLANT_UNDERGROUND ) && examp.z < 0 ) {
-        add_msg( _( "You can't plant this type of seed underground." ) );
+    // Separate temp check because for now we permit growing regular plants underground with artificial heating
+    if( !seed_id.obj().has_flag( flag_CAN_PLANT_UNDERGROUND ) && examp.z < 0 && get_weather().get_temperature( examp ) < 10_c ) {
+        add_msg( _( "It's too cold down here to plant this type of seed underground." ) );
         return;
     }
 
