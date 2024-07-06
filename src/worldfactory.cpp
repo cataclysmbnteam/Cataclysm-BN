@@ -1388,9 +1388,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 #endif
     ctxt.register_action( "TEXT.INPUT_FROM_FILE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    // Literally the only place this is used right now
-    // Basically makes sure you can't have unprintable unicode chars in your world name.
-    ctxt.register_action( "ANY_PRINTABLE" );
+    ctxt.register_action( "ANY_INPUT" );
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         const int iTooltipHeight = 1;
@@ -1446,7 +1444,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
     do {
         ui_manager::redraw();
 
-        worldname = spopup.query_string( false );
+        worldname = spopup.query_string( false, false, true );
         const std::string action = ctxt.input_to_action( ctxt.get_raw_input() );
         if( action == "NEXT_TAB" ) {
             if( worldname.empty() ) {

@@ -350,7 +350,8 @@ int64_t string_input_popup::query_int64_t( const bool loop, const bool draw_only
     return std::atoll( query_string( loop, draw_only ).c_str() );
 }
 
-const std::string &string_input_popup::query_string( const bool loop, const bool draw_only )
+const std::string &string_input_popup::query_string( const bool loop, const bool draw_only,
+        const bool printable )
 {
     if( !custom_window && !w_full ) {
         create_window();
@@ -529,7 +530,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                 desc_view_ptr->page_down();
             }
         } else if( action == "TEXT.PASTE" || action == "TEXT.INPUT_FROM_FILE"
-                   || ( ( action == "ANY_INPUT" || action == "ANY_PRINTABLE" ) && !ev.text.empty() ) ) {
+                   || ( action == "ANY_INPUT" && !ev.text.empty() ) ) {
             // paste, input from file, or text input
             // bail out early if already at length limit
             if( _max_length <= 0 || ret.display_width() < static_cast<size_t>( _max_length ) ) {
@@ -562,7 +563,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                         if( _only_digits ? ch == '-' || isdigit( ch ) : mk_wcwidth( ch ) >= 0 ) {
                             const int newwidth = mk_wcwidth( ch );
                             // Filter out non-printable characters if necessary
-                            if( action == "ANY_PRINTABLE" && !is_char_allowed( ch ) ) {
+                            if( printable && !is_char_allowed( ch ) ) {
                                 break;
                             }
                             if( _max_length <= 0 || width + newwidth <= _max_length ) {

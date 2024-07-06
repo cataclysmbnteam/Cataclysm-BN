@@ -398,8 +398,8 @@ class input_context
         static std::list<input_context *> input_context_stack;
 #endif
 
-        input_context() : registered_any_input( false ), registered_any_printable( false ),
-            category( "default" ), coordinate_input_received( false ), handling_coordinate_input( false ) {
+        input_context() : registered_any_input( false ), category( "default" ),
+            coordinate_input_received( false ), handling_coordinate_input( false ) {
 #if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
@@ -407,9 +407,8 @@ class input_context
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
-        input_context( const std::string &category ) : registered_any_input( false ),
-            registered_any_printable( false ), category( category ), coordinate_input_received( false ),
-            handling_coordinate_input( false ) {
+        input_context( const std::string &category ) : registered_any_input( false ), category( category ),
+            coordinate_input_received( false ), handling_coordinate_input( false ) {
 #if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
@@ -714,8 +713,6 @@ class input_context
         const std::string &input_to_action( const input_event &inp ) const;
     private:
         bool registered_any_input;
-        // Only used in world factory to prevent unprintable names (that cannot be saved).
-        bool registered_any_printable;
         std::string category; // The input category this context uses.
         point coordinate;
         bool coordinate_input_received;
