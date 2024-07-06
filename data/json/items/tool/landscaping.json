@@ -7,7 +7,7 @@
     "name": { "str": "digging stick" },
     "description": "This is a large stick, with the end carved into a broad blade for digging.  It could be used to dig shallow pits, but not deep ones.",
     "weight": "1133 g",
-    "volume": "1500 ml",
+    "volume": "1250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "bashing": 8,

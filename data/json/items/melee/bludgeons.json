@@ -417,7 +417,7 @@
     "name": { "str": "L-stick (off)", "str_pl": "L-sticks (off)" },
     "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the L-stick or light stick as it is commonly called, batteries last longer than other light sources.",
     "weight": "1000 g",
-    "volume": "3 L",
+    "volume": "2 L",
     "price": "50 USD",
     "price_postapoc": "30 USD",
     "to_hit": 3,
