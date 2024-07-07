@@ -51,6 +51,11 @@ if (TILES)
 
     if (LUA)
         target_compile_definitions(cataclysm-tiles-common PUBLIC LUA)
+            if (UNIX)
+                target_compile_definitions(cataclysm-tiles-common PUBLIC LUA_USE_LINUX)
+            elseif (APPLE)
+                target_compile_definitions(cataclysm-tiles-common PUBLIC LUA_USE_MACOSX)
+            endif()
         target_link_libraries(cataclysm-tiles-common PUBLIC libsol)
     endif ()
 
@@ -162,6 +167,11 @@ if (CURSES)
 
     if (LUA)
         target_compile_definitions(cataclysm-common PUBLIC LUA)
+        if (UNIX)
+            target_compile_definitions(cataclysm-common PUBLIC LUA_USE_LINUX)
+        elseif (APPLE)
+            target_compile_definitions(cataclysm-common PUBLIC LUA_USE_MACOSX)
+        endif()
         target_link_libraries(cataclysm-common PUBLIC libsol)
     endif ()
 
