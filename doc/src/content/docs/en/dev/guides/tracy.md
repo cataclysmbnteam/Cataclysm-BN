@@ -30,8 +30,11 @@ $ git checkout 6d1deb5640ed11da01995fb1791115cfebe54dbf # the commit used by BN 
 1. Clone <https://github.com/wolfpld/tracy>.
 
 ```sh
-# for ubuntu
+# for ubuntu (X11)
 $ sudo apt install cmake clang git libcapstone-dev xorg-dev dbus libgtk-3-dev
+
+# for ubuntu (wayland)
+$ sudo apt install libglfw-dev libgtk-3-dev libfreetype6-dev libtbb-dev debuginfod libwayland-dev dbus libxkbcommon-dev libglvnd-dev meson cmake git wayland-protocols
 
 # for arch, copied from https://github.com/wolfpld/tracy/blob/master/.github/workflows/linux.yml#L16C12-L16C163
 $ pacman -Syu --noconfirm && pacman -S --noconfirm --needed freetype2 tbb debuginfod wayland dbus libxkbcommon libglvnd meson cmake git wayland-protocols
