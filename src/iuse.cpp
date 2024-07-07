@@ -8262,10 +8262,9 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         if( cooktime <= 0 ) {
 
             it->active = false;
-            it->erase_var( "DISH" );
             it->erase_var( "COOKTIME" );
             it->put_in( item::spawn( it->get_var( "DISH" ) ) );
-
+            it->erase_var( "DISH" );
             //~ sound of a multi-cooker finishing its cycle!
             sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
 
