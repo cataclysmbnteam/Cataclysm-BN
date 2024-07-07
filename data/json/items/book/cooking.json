@@ -378,7 +378,10 @@
     "price_postapoc": "20 USD",
     "bashing": 7,
     "color": "light_green",
-    "intelligence": 4,
+    "skill": "cooking",
+    "required_level": 6,
+    "max_level": 10,
+    "intelligence": 12,
     "time": "30 m",
     "fun": -2
   },

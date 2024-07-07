@@ -918,7 +918,7 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
     "time": "2 h 15 m",
-    "book_learn": [ [ "textbook_robots", 0 ], [ "advanced_electronics", 0 ] ],
+    "book_learn": [ [ "textbook_robots", 0 ], [ "advanced_electronics", 0 ], [ "reference_fabrication1", 0 ] ],
     "using": [ [ "3d_printing_standard", 135 ] ]
   },
   {

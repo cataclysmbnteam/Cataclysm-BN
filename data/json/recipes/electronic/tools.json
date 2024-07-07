@@ -663,7 +663,7 @@
     "skills_required": [ "electronics", 5 ],
     "difficulty": 6,
     "time": "45 m",
-    "book_learn": [ [ "adv_chemistry", 6 ] ],
+    "book_learn": [ [ "adv_chemistry", 6 ], [ "reference_cooking", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
@@ -683,7 +683,7 @@
     "skills_required": [ "electronics", 5 ],
     "difficulty": 6,
     "time": "1 h",
-    "book_learn": [ [ "adv_chemistry", 6 ] ],
+    "book_learn": [ [ "adv_chemistry", 6 ], [ "reference_cooking", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
@@ -703,7 +703,7 @@
     "skills_required": [ "electronics", 5 ],
     "difficulty": 6,
     "time": "1 h 20 m",
-    "book_learn": [ [ "adv_chemistry", 6 ] ],
+    "book_learn": [ [ "adv_chemistry", 6 ], [ "reference_cooking", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
@@ -723,7 +723,7 @@
     "skills_required": [ "electronics", 5 ],
     "difficulty": 6,
     "time": "1 h 45 m",
-    "book_learn": [ [ "adv_chemistry", 6 ] ],
+    "book_learn": [ [ "adv_chemistry", 6 ], [ "reference_cooking", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
@@ -834,7 +834,7 @@
     "skills_required": [ "computer", 4 ],
     "difficulty": 7,
     "time": "25 m",
-    "book_learn": [ [ "textbook_computer", 7 ], [ "advanced_electronics", 7 ], [ "textbook_anarch", 7 ] ],
+    "book_learn": [ [ "textbook_computer", 7 ], [ "advanced_electronics", 7 ], [ "textbook_anarch", 7 ], [ "reference_fabrication1", 7 ] ],
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "software_hacking", -1 ] ] ],

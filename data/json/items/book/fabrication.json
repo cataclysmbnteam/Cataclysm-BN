@@ -432,7 +432,10 @@
     "price_postapoc": "15 USD",
     "bashing": 7,
     "color": "blue",
-    "intelligence": 4,
+    "skill": "fabrication",
+    "required_level": 7,
+    "max_level": 9,
+    "intelligence": 10,
     "time": "30 m",
     "fun": -2
   },

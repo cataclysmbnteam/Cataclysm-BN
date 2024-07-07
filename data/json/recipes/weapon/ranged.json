@@ -1247,7 +1247,7 @@
     "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
     "//": "Increased time just to make and headspace the barrel",
     "time": "60 m",
-    "book_learn": [ [ "textbook_robots", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ] ],
+    "book_learn": [ [ "textbook_robots", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ], [ "reference_fabrication1", 6 ] ],
     "using": [ [ "3d_printing_standard", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ] ]
@@ -1261,7 +1261,7 @@
     "difficulty": 5,
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "50 m",
-    "book_learn": [ [ "textbook_computer", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ] ],
+    "book_learn": [ [ "textbook_computer", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ], [ "reference_fabrication1", 6 ] ],
     "using": [ [ "3d_printing_standard", 50 ] ],
     "components": [ [ [ "cordage_superior", 3, "LIST" ] ] ]
   },
@@ -1275,7 +1275,7 @@
     "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
     "//": "Increased time just to make and headspace the barrel",
     "time": "1 h 30 m",
-    "book_learn": [ [ "textbook_computer", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ] ],
+    "book_learn": [ [ "textbook_computer", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ], [ "reference_fabrication1", 6 ] ],
     "using": [ [ "3d_printing_standard", 20 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ] ]
