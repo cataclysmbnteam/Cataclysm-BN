@@ -288,7 +288,6 @@ if (USE_TRACY)
         tracy
         GIT_REPOSITORY https://github.com/wolfpld/tracy.git
         GIT_TAG "${TRACY_VERSION}"
-        GIT_SHALLOW TRUE
         GIT_PROGRESS TRUE)
 
     FetchContent_MakeAvailable(tracy)
