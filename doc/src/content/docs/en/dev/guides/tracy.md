@@ -15,7 +15,7 @@ Both the game and profiler have to be built with same version of tracy to work p
 [numerous issues](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3253#discussion_r1545267113),
 The windows version uses [`v0.10`](https://github.com/wolfpld/tracy/releases/tag/v0.10) wheras the
 linux version uses
-[`30f1b90`](https://github.com/wolfpld/tracy/commit/30f1b901a9bab40a193c97c77ec82ac70805164d).
+[`6d1deb5640ed11da01995fb1791115cfebe54dbf`](https://github.com/wolfpld/tracy/commit/6d1deb5640ed11da01995fb1791115cfebe54dbf).
 
 :::
 
@@ -24,7 +24,7 @@ linux version uses
 ```sh
 $ git clone https://github.com/wolfpld/tracy
 $ cd tracy
-$ git checkout 30f1b901a9bab40a193c97c77ec82ac70805164d # the commit used by BN tracy client
+$ git checkout 6d1deb5640ed11da01995fb1791115cfebe54dbf # the commit used by BN tracy client
 ```
 
 1. Clone <https://github.com/wolfpld/tracy>.
