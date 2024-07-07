@@ -40,7 +40,8 @@ Please uncomment any relevant checklists, follow their steps and tick the checkb
 
 ### Optional
 
-<!-- please remove sections irrelevant to this PR. -->
+<!--
+please remove sections irrelevant to this PR.
 
 - [ ] This PR ports commits from DDA or other cataclysm forks.
   - [ ] I have attributed original authors in the commit messages adding [`Co-Authored-By`](https://docs.github.com/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/creating-a-commit-with-multiple-authors) in the commit message.
@@ -58,7 +59,7 @@ Please uncomment any relevant checklists, follow their steps and tick the checkb
 
 - [ ] This is a PR that removes JSON entities.
   - [ ] The removed JSON entities have new entries in `data/json/obsoletion/` folder or use some other migration process for existing saves.
-
+-->
 
 ## Purpose of change
 
