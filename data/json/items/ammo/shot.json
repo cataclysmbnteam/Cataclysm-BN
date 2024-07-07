@@ -96,7 +96,9 @@
     "copy-from": "shot_abstract",
     "type": "AMMO",
     "name": { "str": "00 shot" },
-    "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces."
+    "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
+    "range": 0,
+    "shape": [ "cone", { "half_angle": 10, "length": 12 } ]
   },
   {
     "id": "shot_beanbag",
