@@ -2381,7 +2381,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "carbon_pistol", "charges": [ 0, 15 ] },
+      { "item": "carbon_pistol", "ammo-group": "on_hand_9mm", "charges": [ 0, 15 ] },
       { "group": "nested_glock19_mag", "ammo-group": "on_hand_9mm" },
       { "group": "nested_glock19_mag", "ammo-group": "on_hand_9mm", "prob": 50 },
       { "group": "on_hand_9mm" }
@@ -2394,7 +2394,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "carbon_rifle", "charges": [ 0, 30 ] },
+      { "item": "carbon_rifle", "ammo-group": "on_hand_223", "charges": [ 0, 30 ] },
       { "group": "nested_stanag_carbon_mag", "ammo-group": "on_hand_223" },
       { "group": "nested_stanag_carbon_mag", "ammo-group": "on_hand_223", "prob": 50 },
       { "group": "on_hand_223" }
