@@ -882,10 +882,10 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "computer",
     "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "15 m",
+    "//": "Increased time since some forging incorporated into material for the edge",
+    "time": "30 m",
     "autolearn": true,
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 15 ] ] ]
+    "using": [ [ "3d_printing_standard", 5 ], [ "steel_tiny", 2 ], [ "blacksmithing_standard", 2 ] ]
   },
   {
     "result": "spear_carbon",
@@ -896,9 +896,9 @@
     "difficulty": 2,
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
-    "time": "25 m",
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 25 ] ] ]
+    "//": "Increased time since some forging incorporated into material for the edge",
+    "time": "45 m",
+    "using": [ [ "3d_printing_standard", 10 ], [ "steel_tiny", 2 ], [ "blacksmithing_standard", 2 ] ]
   },
   {
     "result": "jamadhar_carbon",
@@ -909,8 +909,8 @@
     "difficulty": 1,
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
+    "//": "Increased time since some forging for the spearhead",
     "time": "15 m",
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 15 ] ] ]
+    "using": [ [ "3d_printing_standard", 5 ], [ "steel_standard", 2 ], [ "blacksmithing_standard", 8 ] ]
   }
 ]

@@ -30,19 +30,30 @@ bool is_char_allowed( int ch )
     }
 #endif
 
-    // Values outside 0-127 are unicode values (either part of a utf-8 sequence
-    // or a unicode codepoint), therefore OK. Negative values are allowed because
-    // `char` is usually signed. Also ensures that the argument to `std::isprint`
-    // is within 0-127 to avoid undefined behavior.
-    if( ch < 0 || ch >= 128 ) {
-        return true;
-    }
-    if( !std::isprint( ch ) ) {
+    if( !std::isprint( ch ) && ch <= 127 ) {
+        // above 127 are non-ASCII, therefore Unicode, therefore OK
         return false;
     }
-    if( ch == '\\' || ch == '/' ) {
-        // not valid in file names
+
+    if( ch == '/' ) {
+        // not valid in filenames for most operating systems (Linux, MacOs, Windows, Android)
         return false;
     }
+
+#if !defined(__linux__)
+#if defined(MACOSX)
+    if( ch == ':' ) {
+        // not valid in macOS (Specific cases, best to be safe) and Windows filenames
+        return false;
+    }
+#else
+    if( ch == ':' || ch == '<' || ch == '>' || ch == '"' || ch == '\\' || ch == '?' || ch == '|' ||
+        ch == '*' ) {
+        // not valid in Windows filenames
+        return false;
+    }
+
+#endif
+#endif
     return true;
 }
