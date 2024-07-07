@@ -1475,5 +1475,17 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "nail_glue", 4, "LIST" ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ] ]
+  },
+  {
+    "result": "carbonfiber_boat_hull",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "computer",
+    "difficulty": 2,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "10 m",
+    "book_learn": [ [ "textbook_computer", 1 ], [ "advanced_electronics", 1 ] ],
+    "using": [ [ "3d_printing_standard", 10 ] ]
   }
 ]

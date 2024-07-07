@@ -610,9 +610,8 @@
     "skill_used": "computer",
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
-    "time": "5 m",
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 2 ] ] ]
+    "time": "2 m",
+    "using": [ [ "3d_printing_standard", 2 ] ]
   },
   {
     "result": "jug_plastic",
@@ -624,9 +623,8 @@
     "difficulty": 1,
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
-    "time": "10 m",
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 15 ] ] ]
+    "time": "15 m",
+    "using": [ [ "3d_printing_standard", 15 ] ]
   },
   {
     "result": "jerrycan",
@@ -638,8 +636,7 @@
     "difficulty": 2,
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
-    "time": "10 m",
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 40 ] ] ]
+    "time": "40 m",
+    "using": [ [ "3d_printing_standard", 40 ] ]
   }
 ]

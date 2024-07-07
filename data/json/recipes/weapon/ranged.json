@@ -1244,11 +1244,13 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "computer",
     "difficulty": 5,
-    "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
+    "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
+    "//": "Increased time just to make and headspace the barrel",
+    "time": "60 m",
     "book_learn": [ [ "textbook_robots", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ] ],
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 15 ] ] ]
+    "using": [ [ "3d_printing_standard", 5 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ] ]
   },
   {
     "result": "crossbow_carbon",
@@ -1258,10 +1260,10 @@
     "skill_used": "computer",
     "difficulty": 5,
     "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
+    "time": "50 m",
     "book_learn": [ [ "textbook_computer", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ] ],
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 25 ] ] ]
+    "using": [ [ "3d_printing_standard", 50 ] ],
+    "components": [ [ [ "cordage_superior", 3, "LIST" ] ] ]
   },
   {
     "result": "carbon_rifle",
@@ -1270,10 +1272,12 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "computer",
     "difficulty": 6,
-    "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "45 m",
+    "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
+    "//": "Increased time just to make and headspace the barrel",
+    "time": "1 h 30 m",
     "book_learn": [ [ "textbook_computer", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ] ],
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 25 ] ] ]
+    "using": [ [ "3d_printing_standard", 20 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ] ]
   }
 ]

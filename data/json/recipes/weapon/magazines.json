@@ -498,10 +498,9 @@
     "skill_used": "computer",
     "difficulty": 3,
     "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
+    "time": "3 m",
     "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ] ],
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 10 ] ] ]
+    "using": [ [ "3d_printing_standard", 3 ] ]
   },
   {
     "result": "glockbigmag",
@@ -511,10 +510,9 @@
     "skill_used": "computer",
     "difficulty": 3,
     "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
+    "time": "5 m",
     "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ] ],
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 10 ] ] ]
+    "using": [ [ "3d_printing_standard", 5 ] ]
   },
   {
     "result": "carbonmag_223",
@@ -524,9 +522,8 @@
     "skill_used": "computer",
     "difficulty": 3,
     "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
+    "time": "3 m",
     "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ] ],
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 10 ] ] ]
+    "using": [ [ "3d_printing_standard", 3 ] ]
   }
 ]

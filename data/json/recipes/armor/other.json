@@ -559,10 +559,9 @@
     "skill_used": "computer",
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
-    "time": "15 m",
+    "time": "20 m",
     "book_learn": [ [ "textbook_robots", 0 ], [ "advanced_electronics", 0 ] ],
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 25 ] ] ]
+    "using": [ [ "3d_printing_standard", 20 ] ]
   },
   {
     "result": "carbon_shield",
@@ -573,9 +572,8 @@
     "difficulty": 1,
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
-    "time": "45 m",
+    "time": "30 m",
     "book_learn": [ [ "textbook_computer", 0 ], [ "advanced_electronics", 0 ] ],
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 45 ] ] ]
+    "using": [ [ "3d_printing_standard", 30 ] ]
   }
 ]

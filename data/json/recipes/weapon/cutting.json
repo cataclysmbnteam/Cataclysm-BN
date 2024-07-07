@@ -686,10 +686,10 @@
     "skill_used": "computer",
     "difficulty": 3,
     "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
+    "//": "Increased time since some forging incorporated into material for the edge",
+    "time": "60 m",
     "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ] ],
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 25 ] ] ]
+    "using": [ [ "3d_printing_standard", 10 ], [ "steel_standard", 1 ], [ "blacksmithing_standard", 4 ] ]
   },
   {
     "result": "katar_carbon",
@@ -699,9 +699,9 @@
     "skill_used": "computer",
     "difficulty": 4,
     "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
+    "//": "Increased time since some forging incorporated into material for the edge",
+    "time": "45 m",
     "book_learn": [ [ "textbook_computer", 4 ], [ "advanced_electronics", 4 ] ],
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 20 ] ] ]
+    "using": [ [ "3d_printing_standard", 5 ], [ "steel_tiny", 6 ], [ "blacksmithing_standard", 6 ] ]
   }
 ]
