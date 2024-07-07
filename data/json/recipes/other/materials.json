@@ -498,7 +498,6 @@
     "difficulty": 3,
     "time": "12 m",
     "charges": 10,
-    "autolearn": false,
     "batch_time_factors": [ 75, 4 ],
     "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "reference_cooking", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],

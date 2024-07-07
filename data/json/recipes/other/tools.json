@@ -879,7 +879,7 @@
     "difficulty": 3,
     "time": "20 m",
     "autolearn": true,
-    "book_learn": [ [ "fun_survival", 2 ], [ "manual_fabrication", 2 ], [ "reference_fabrication1", 3 ] ],
+    "book_learn": [ [ "fun_survival", 2 ], [ "manual_fabrication", 2 ], [ "reference_fabrication1", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
