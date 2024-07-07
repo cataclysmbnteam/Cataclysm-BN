@@ -466,10 +466,11 @@
     "skill_used": "computer",
     "difficulty": 2,
     "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "5 m",
+    "//": "Increased time since in this case you still have to forge arrowheads",
+    "time": "30 m",
     "book_learn": [ [ "textbook_robots", 2 ], [ "advanced_electronics", 2 ] ],
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 15 ] ] ]
+    "using": [ [ "3d_printing_standard", 5 ], [ "blacksmithing_standard", 1 ] ],
+    "components": [ [ [ "steel_tiny", 1, "LIST" ], [ "scrap_bronze", 1 ] ] ]
   },
   {
     "result": "arrow_cf",
@@ -479,9 +480,10 @@
     "skill_used": "computer",
     "difficulty": 2,
     "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "5 m",
+    "//": "Increased time since in this case you still have to forge arrowheads",
+    "time": "30 m",
     "book_learn": [ [ "textbook_computer", 2 ], [ "advanced_electronics", 2 ] ],
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 15 ] ] ]
+    "using": [ [ "3d_printing_standard", 5 ], [ "blacksmithing_standard", 1 ] ],
+    "components": [ [ [ "steel_tiny", 1, "LIST" ], [ "scrap_bronze", 1 ] ] ]
   }
 ]

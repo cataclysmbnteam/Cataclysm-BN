@@ -613,9 +613,8 @@
     "skill_used": "computer",
     "difficulty": 4,
     "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
+    "time": "15 m",
     "book_learn": [ [ "textbook_computer", 4 ], [ "advanced_electronics", 4 ] ],
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 10 ] ] ]
+    "using": [ [ "3d_printing_standard", 15 ] ]
   }
 ]
