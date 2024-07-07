@@ -264,6 +264,27 @@
     ]
   },
   {
+    "id": "nested_stanag_carbon_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "stanag30", "ammo-group": "on_hand_223", "prob": 170 },
+      { "item": "carbonmag_223", "ammo-group": "on_hand_223", "prob": 170 },
+      { "item": "stanag5", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag10", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag20", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag40", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag50", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag60", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag60drum", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag90", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag100", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag100drum", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag150", "ammo-group": "on_hand_223", "prob": 5 }
+    ]
+  },
+  {
     "id": "nested_stanag_mag_300",
     "type": "item_group",
     "subtype": "distribution",
