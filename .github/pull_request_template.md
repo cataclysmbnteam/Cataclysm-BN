@@ -28,7 +28,7 @@ If the PR is a port or adaptation of DDA content, please indicate it by adding "
 <!--
 Certain common types of PRs may need additional code or documentation changes that are easy to forget about or may not be obvious if you're a new contributor.  The checklists below should help you track down what else may need to be done.
 
-Please uncomment any relevant checklists, follow their steps and tick the checkboxes once you're done.  If your PR does not fall under these categories, you can ignore these lists.  If you have any questions or advice on how to improve these, feel free to contact us on our Discord server.  
+Please uncomment any relevant checklists, follow their steps and tick the checkboxes once you're done.  If your PR does not fall under these categories, you can ignore these lists.  If you have any questions or advice on how to improve these, feel free to contact us on our Discord server.
 --->
 
 ### Required
@@ -63,8 +63,10 @@ please remove sections irrelevant to this PR.
 
 ## Purpose of change
 
-<!-- 
-With a few sentences, describe your reasons for making this change.  If it relates to an existing issue, you can link it with a # followed by the Github issue number, like #1234.
+<!--
+With a few sentences, describe your reasons for making this change. If it relates to an existing issue, you can link it with a # followed by the Github issue number, like #1234.
+
+Please note that describing what's done does not satisfy as the purpose of change! That's for `Describe the solution` section.
 
 If your pull request *fully* resolves an issue, include the word "Fix" or "Fixes" before the issue number, like: "Fixes #1234".  This will make GitHub automatically close the issue once the PR is merged.  For multiple issues, repeat 'Fixes' multiple times: "Fixes #1234, Fixes #5678".
 
