@@ -162,6 +162,12 @@
     "context": [ "GENERIC" ]
   },
   {
+    "id": "CAN_PLANT_UNDERGROUND",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This seed can be <good>planted underground</good>."
+  },
+  {
     "id": "CANT_HEAL_EVERYONE",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],

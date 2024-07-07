@@ -1031,12 +1031,13 @@ rl_vec2d convert_wind_to_coord( const int angle )
 bool warm_enough_to_plant( const tripoint &pos )
 {
     // semi-appropriate temperature for most plants
-    return get_weather().get_temperature( pos ) >= 10_c;
+    // exclude underground areas as we check that later
+    return ( get_weather().get_temperature( pos ) >= 10_c || pos.z < 0 );
 }
 
 bool warm_enough_to_plant( const tripoint_abs_omt &pos )
 {
-    return get_weather().get_temperature( pos ) >= 10_c;
+    return ( get_weather().get_temperature( pos ) >= 10_c || pos.z() < 0 );
 }
 
 weather_manager::weather_manager()

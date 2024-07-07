@@ -52,6 +52,7 @@ extern const flag_id flag_BUTCHER_RACK;
 extern const flag_id flag_BYPRODUCT;
 extern const flag_id flag_CABLE_SPOOL;
 extern const flag_id flag_CAMERA_PRO;
+extern const flag_id flag_CAN_PLANT_UNDERGROUND;
 extern const flag_id flag_CANNIBAL;
 extern const flag_id flag_CANNIBALISM;
 extern const flag_id flag_CANT_HEAL_EVERYONE;

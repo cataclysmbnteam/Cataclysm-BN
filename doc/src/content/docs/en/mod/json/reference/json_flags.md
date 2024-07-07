@@ -461,6 +461,8 @@ to find which flags work elsewhere.
 
 - `ACID` when consumed using the BLECH function, penalties are reduced if acidproof.
 - `CARNIVORE_OK` Can be eaten by characters with the Carnivore mutation.
+- `CAN_PLANT_UNDERGROUND` If this is a seed, it can be planted when below z-level zero, regardless
+  of the ambient temperature.
 - `CANT_HEAL_EVERYONE` This med can't be used by everyone, it require a special mutation. See
   `can_heal_with` in mutation.
 - `EATEN_COLD` Morale bonus for eating cold.
