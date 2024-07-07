@@ -1030,7 +1030,12 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 2,
     "time": "60 m",
-    "book_learn": [ [ "textbook_fabrication", 4 ], [ "textbook_mechanics", 2 ], [ "manual_mechanics", 2 ], [ "reference_fabrication1", 4 ] ],
+    "book_learn": [
+      [ "textbook_fabrication", 4 ],
+      [ "textbook_mechanics", 2 ],
+      [ "manual_mechanics", 2 ],
+      [ "reference_fabrication1", 4 ]
+    ],
     "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 8 ] ], [ [ "wire", 8 ] ] ]
@@ -1431,7 +1436,8 @@
       [ "textbook_carpentry", 6 ],
       [ "book_icef", 4 ],
       [ "textbook_mechanics", 4 ],
-      [ "manual_mechanics", 4 ], [ "reference_fabrication1", 6 ]
+      [ "manual_mechanics", 4 ],
+      [ "reference_fabrication1", 6 ]
     ],
     "using": [ [ "welding_standard", 10 ], [ "adhesive", 4 ] ],
     "qualities": [

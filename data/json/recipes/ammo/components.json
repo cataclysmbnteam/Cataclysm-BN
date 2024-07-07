@@ -13,7 +13,8 @@
       [ "recipe_labchem", 4 ],
       [ "textbook_chemistry", 5 ],
       [ "textbook_armschina", 5 ],
-      [ "book_icef", 5 ], [ "reference_cooking", 5 ]
+      [ "book_icef", 5 ],
+      [ "reference_cooking", 5 ]
     ],
     "charges": 10,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
@@ -37,7 +38,8 @@
       [ "manual_shotgun", 3 ],
       [ "manual_pistol", 3 ],
       [ "adv_chemistry", 3 ],
-      [ "textbook_chemistry", 3 ], [ "reference_cooking", 4 ]
+      [ "textbook_chemistry", 3 ],
+      [ "reference_cooking", 4 ]
     ],
     "charges": 10,
     "qualities": [ { "id": "CHEM", "level": 2 } ],

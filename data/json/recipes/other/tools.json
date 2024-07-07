@@ -69,7 +69,8 @@
       [ "textbook_mechanics", 2 ],
       [ "advanced_electronics", 4 ],
       [ "textbook_electronics", 4 ],
-      [ "textbook_carpentry", 5 ], [ "reference_fabrication1", 5 ]
+      [ "textbook_carpentry", 5 ],
+      [ "reference_fabrication1", 5 ]
     ],
     "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 20 ] ],
     "qualities": [
@@ -1366,7 +1367,13 @@
     "time": "35 m",
     "reversible": true,
     "decomp_learn": 5,
-    "book_learn": [ [ "textbook_mechanics", 5 ], [ "textbook_carpentry", 5 ], [ "book_icef", 5 ], [ "textbook_electronics", 5 ], [ "reference_fabrication1", 6 ] ],
+    "book_learn": [
+      [ "textbook_mechanics", 5 ],
+      [ "textbook_carpentry", 5 ],
+      [ "book_icef", 5 ],
+      [ "textbook_electronics", 5 ],
+      [ "reference_fabrication1", 6 ]
+    ],
     "using": [ [ "welding_standard", 15 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
@@ -2876,7 +2883,12 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "2 h",
     "autolearn": true,
-    "book_learn": [ [ "textbook_mechanics", 4 ], [ "manual_mechanics", 4 ], [ "textbook_fabrication", 4 ], [ "reference_fabrication1", 5 ] ],
+    "book_learn": [
+      [ "textbook_mechanics", 4 ],
+      [ "manual_mechanics", 4 ],
+      [ "textbook_fabrication", 4 ],
+      [ "reference_fabrication1", 5 ]
+    ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "CUT_FINE", "level": 1 },

@@ -124,7 +124,8 @@
     "book_learn": [
       [ "textbook_gaswarfare", 8, "" ],
       [ "textbook_anarch", 7, "Stuff THE MAN doesn't want you to know" ],
-      [ "recipe_labchem", 6 ], [ "reference_cooking", 7 ]
+      [ "recipe_labchem", 6 ],
+      [ "reference_cooking", 7 ]
     ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
