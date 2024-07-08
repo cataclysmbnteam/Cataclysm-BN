@@ -327,7 +327,6 @@
     "difficulty": 5,
     "time": "180 m",
     "reversible": true,
-    "autolearn": false,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "welding_standard", 50 ] ],
     "qualities": [
@@ -356,7 +355,6 @@
     "skills_required": [ "electronics", 4 ],
     "difficulty": 5,
     "time": "5 h",
-    "autolearn": false,
     "book_learn": [
       [ "manual_electronics", 3 ],
       [ "textbook_electronics", 3 ],
@@ -433,7 +431,6 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": "30 m",
-    "autolearn": false,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],

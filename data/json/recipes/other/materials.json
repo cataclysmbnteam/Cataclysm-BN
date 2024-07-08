@@ -512,7 +512,6 @@
     "skills_required": [ "cooking", 3 ],
     "difficulty": 4,
     "time": "1 h 30 m",
-    "autolearn": false,
     "book_learn": [ [ "concrete_book", 4 ] ],
     "batch_time_factors": [ 75, 3 ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
