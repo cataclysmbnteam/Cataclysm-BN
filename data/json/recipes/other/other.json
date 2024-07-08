@@ -312,7 +312,7 @@
     "difficulty": 4,
     "time": "45 m",
     "charges": 120,
-    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 5 ], [ "atomic_survival", 3 ] ],
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 5 ], [ "atomic_survival", 3 ], [ "reference_cooking", 6 ] ],
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
     "tools": [ [ [ "smoxygen_tank", 3 ], [ "oxygen_tank", 3 ], [ "oxygen_cylinder", 25 ] ] ],
     "components": [ [ [ "acetylene", 95 ] ] ]
@@ -326,7 +326,7 @@
     "difficulty": 4,
     "time": "60 m",
     "charges": 12,
-    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 5 ], [ "atomic_survival", 3 ] ],
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 5 ], [ "atomic_survival", 3 ], [ "reference_cooking", 6 ] ],
     "tools": [ [ [ "acetylene_machine", -1 ] ] ],
     "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "chem_carbide", 326 ] ] ]
   },

@@ -499,7 +499,7 @@
     "difficulty": 3,
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "3 m",
-    "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ] ],
+    "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ], [ "reference_fabrication1", 3 ] ],
     "using": [ [ "3d_printing_standard", 3 ] ]
   },
   {
@@ -511,7 +511,7 @@
     "difficulty": 3,
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "5 m",
-    "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ] ],
+    "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ], [ "reference_fabrication1", 3 ] ],
     "using": [ [ "3d_printing_standard", 5 ] ]
   },
   {
@@ -523,7 +523,7 @@
     "difficulty": 3,
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "3 m",
-    "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ] ],
+    "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ], [ "reference_fabrication1", 3 ] ],
     "using": [ [ "3d_printing_standard", 3 ] ]
   }
 ]

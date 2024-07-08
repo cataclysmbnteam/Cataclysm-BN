@@ -124,7 +124,8 @@
     "book_learn": [
       [ "textbook_gaswarfare", 8, "" ],
       [ "textbook_anarch", 7, "Stuff THE MAN doesn't want you to know" ],
-      [ "recipe_labchem", 6 ]
+      [ "recipe_labchem", 6 ],
+      [ "reference_cooking", 7 ]
     ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
@@ -385,7 +386,7 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "//": "Increased time since in this case you still have to forge spearheads",
     "time": "30 m",
-    "book_learn": [ [ "textbook_computer", 2 ], [ "advanced_electronics", 2 ] ],
+    "book_learn": [ [ "textbook_computer", 2 ], [ "advanced_electronics", 2 ], [ "reference_fabrication1", 2 ] ],
     "using": [ [ "3d_printing_standard", 5 ], [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ]
   }
 ]

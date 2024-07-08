@@ -614,7 +614,7 @@
     "difficulty": 4,
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "15 m",
-    "book_learn": [ [ "textbook_computer", 4 ], [ "advanced_electronics", 4 ] ],
+    "book_learn": [ [ "textbook_computer", 4 ], [ "advanced_electronics", 4 ], [ "reference_fabrication1", 4 ] ],
     "using": [ [ "3d_printing_standard", 15 ] ]
   }
 ]

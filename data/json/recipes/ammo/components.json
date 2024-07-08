@@ -13,7 +13,8 @@
       [ "recipe_labchem", 4 ],
       [ "textbook_chemistry", 5 ],
       [ "textbook_armschina", 5 ],
-      [ "book_icef", 5 ]
+      [ "book_icef", 5 ],
+      [ "reference_cooking", 5 ]
     ],
     "charges": 10,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
@@ -37,7 +38,8 @@
       [ "manual_shotgun", 3 ],
       [ "manual_pistol", 3 ],
       [ "adv_chemistry", 3 ],
-      [ "textbook_chemistry", 3 ]
+      [ "textbook_chemistry", 3 ],
+      [ "reference_cooking", 4 ]
     ],
     "charges": 10,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
@@ -54,7 +56,7 @@
     "difficulty": 8,
     "time": "2 h 40 m",
     "charges": 200,
-    "book_learn": [ [ "textbook_anarch", 7 ], [ "adv_chemistry", 8 ], [ "textbook_chemistry", 8 ] ],
+    "book_learn": [ [ "textbook_anarch", 7 ], [ "adv_chemistry", 8 ], [ "textbook_chemistry", 8 ], [ "reference_cooking", 8 ] ],
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 250, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
@@ -103,7 +105,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "15 m",
-    "book_learn": [ [ "textbook_chemistry", 4 ], [ "recipe_bullets", 3 ], [ "textbook_anarch", 0 ] ],
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "recipe_bullets", 3 ], [ "textbook_anarch", 0 ], [ "reference_cooking", 4 ] ],
     "using": [ [ "surface_heat", 25 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "components": [ [ [ "magnesium", 100 ], [ "chem_aluminium_powder", 100 ] ], [ [ "oxy_powder", 200 ] ] ]
