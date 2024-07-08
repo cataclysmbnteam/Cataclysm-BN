@@ -46,7 +46,9 @@ You can obtain the source code tarball for the latest version from
 Obtain packages specified above with your system package manager.
 
 - For Fedora-based distros:
-  `sudo dnf install SDL2 SDL2_image SDL2_ttf SDL2_mixer freetype cmake glibc bzip2 gcc zlib-ng libvorbis ncurses gettext`
+```sh
+$ sudo dnf install SDL2 SDL2_image SDL2_ttf SDL2_mixer freetype cmake glibc bzip2 gcc zlib-ng libvorbis ncurses gettext
+```
 
 ### Windows Environment (MSYS2)
 
