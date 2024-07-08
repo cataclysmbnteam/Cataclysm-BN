@@ -465,6 +465,7 @@
       [ "elbow_pads", 10 ],
       [ "cu_pipe", 5 ],
       [ "e_tool", 5 ],
+      [ "shovel_short", 1 ],
       [ "knife_trench", 7 ],
       [ "sm_extinguisher", 10 ],
       [ "switchblade", 6 ],

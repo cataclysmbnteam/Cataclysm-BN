@@ -290,6 +290,7 @@
       [ "runner_bag", 15 ],
       [ "pur_tablets", 10 ],
       [ "e_tool", 10 ],
+      [ "shovel_short", 2 ],
       [ "knife_trench", 7 ],
       [ "flaregun", 20 ],
       [ "signal_flare", 25 ],

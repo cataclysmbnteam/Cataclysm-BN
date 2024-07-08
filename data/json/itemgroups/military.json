@@ -400,6 +400,7 @@
       { "item": "5x50heavy", "prob": 4 },
       { "item": "hazmat_suit", "prob": 5 },
       { "item": "e_tool", "prob": 20 },
+      { "item": "shovel_short", "prob": 5 },
       { "item": "knife_trench", "prob": 14 },
       { "item": "flaregun", "prob": 20 },
       { "item": "signal_flare", "prob": 25 },

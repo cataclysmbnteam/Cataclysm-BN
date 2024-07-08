@@ -250,7 +250,7 @@
         { "item": "office", "x": 10, "y": [ 4, 5 ], "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "office", "x": 6, "y": 11, "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "office", "x": 4, "y": 13, "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "doctors_books", "x": 4, "y": 13, "chance": 15, "repeat": [ 1, 2 ] }
+        { "item": "vet_clinic_books", "x": 4, "y": 13, "chance": 25, "repeat": [ 2, 4 ] }
       ],
       "place_monsters": [
         { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 4, "chance": 20, "density": 0.05 },
