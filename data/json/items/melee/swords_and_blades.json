@@ -1628,6 +1628,17 @@
     "price": "59 USD"
   },
   {
+    "id": "razor_macuahuitl",
+    "copy-from": "glass_macuahuitl",
+    "type": "GENERIC",
+    "name": { "str": "razorblade macuahuitl" },
+    "description": "A flat wooden club with razor blades set into the edges.  Significantly sharper than using stone blades.",
+    "weight": "900 g",
+    "price_postapoc": "3 USD",
+    "material": [ "wood", "steel" ],
+    "cutting": 21
+  },
+  {
     "type": "GENERIC",
     "category": "weapons",
     "id": "lajatang",

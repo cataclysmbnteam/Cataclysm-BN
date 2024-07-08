@@ -146,11 +146,11 @@
     "looks_like": "vest_leather",
     "color": "yellow",
     "covers": [ "torso" ],
-    "coverage": 40,
+    "coverage": 85,
     "encumbrance": 40,
     "warmth": 5,
     "material_thickness": 4,
-    "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "FLOTATION", "WATER_FRIENDLY", "OUTER" ]
   },
   {
     "id": "flotation_vest_ms",
@@ -168,11 +168,11 @@
     "looks_like": "vest_leather",
     "color": "brown",
     "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 50,
+    "coverage": 85,
+    "encumbrance": 45,
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+    "flags": [ "FLOTATION", "WATER_FRIENDLY", "OUTER", "OVERSIZE" ]
   },
   {
     "id": "gown",

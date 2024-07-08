@@ -122,6 +122,18 @@
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
+    "id": "shovel_short",
+    "type": "GENERIC",
+    "copy-from": "shovel",
+    "name": { "str": "short shovel" },
+    "description": "This digging tool has had its handle cut shorter to be easier to carry.  Digs holes just like any other shovel, but less effective as a weapon.",
+    "bashing": 12,
+    "cutting": 25,
+    "to_hit": -1,
+    "proportional": { "weight": 0.75, "volume": 0.5, "price_postapoc": 0.5 },
+    "extend": { "flags": [ "BELT_CLIP" ] }
+  },
+  {
     "id": "sickle",
     "type": "GENERIC",
     "category": "tools",
