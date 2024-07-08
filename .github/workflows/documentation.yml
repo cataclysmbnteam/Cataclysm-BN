@@ -28,8 +28,7 @@ jobs:
         with:
           path: doc
           node-version: 20
-          package-manager: pnpm
-          pnpm-version: 8.7.x
+          package-manager: pnpm@8.7.x
         env:
           CUSTOM_SITE_URL: ${{ vars.CUSTOM_SITE_URL }}
           CUSTOM_REPO_URL: ${{ vars.CUSTOM_REPO_URL }}
