@@ -388,6 +388,7 @@
     "entries": [
       { "item": "legpouch", "prob": 25 },
       { "item": "legpouch_large", "prob": 75 },
+      { "item": "mag_satchel_leg", "prob": 25 },
       { "item": "legrig", "prob": 50 },
       { "item": "dump_pouch", "prob": 50 },
       { "item": "grenade_pouch", "prob": 25 },
@@ -2145,8 +2146,9 @@
       [ "sholster", 4 ],
       [ "bootstrap", 2 ],
       [ "wristholster", 1 ],
-      [ "legpouch", 12 ],
+      [ "legpouch", 6 ],
       [ "legpouch_large", 6 ],
+      [ "mag_satchel_leg", 6 ],
       [ "chestpouch", 9 ],
       [ "ammo_satchel", 4 ],
       { "group": "used_UPS", "prob": 5 },

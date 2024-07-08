@@ -80,7 +80,7 @@
     "id": "ammo_satchel",
     "type": "ARMOR",
     "name": { "str": "magazine satchel" },
-    "description": "A fabric ammo bag worn at the waist which is capable of holding two magazines or speedloader close at hand, of nearly any size.",
+    "description": "A fabric ammo bag worn at the waist which is capable of holding two magazines, ammo belts, speedloaders of nearly any size close at hand.",
     "weight": "180 g",
     "volume": "500 ml",
     "price": "20 USD",
@@ -94,15 +94,16 @@
     "encumbrance": 1,
     "max_encumbrance": 4,
     "material_thickness": 2,
+    "//": "Able to hold up to a fully-loaded .308 or .50 BMG ammo belt",
     "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",
       "holster_msg": "You stash your %s.",
       "min_volume": "250 ml",
-      "max_volume": "2 L",
+      "max_volume": "2500 ml",
       "multi": 2,
       "draw_cost": 40,
-      "flags": [ "MAG_COMPACT", "MAG_BULKY", "SPEEDLOADER" ]
+      "flags": [ "MAG_COMPACT", "MAG_BULKY", "MAG_BELT", "SPEEDLOADER" ]
     },
     "valid_mods": [ "resized_large" ],
     "flags": [ "WATER_FRIENDLY", "WAIST", "COMPACT" ]
@@ -111,7 +112,7 @@
     "id": "chestpouch",
     "type": "ARMOR",
     "name": { "str": "chest magazine pouch", "str_pl": "chest magazine pouches" },
-    "description": "A fabric ammo pouch that can be strapped to your chest which is capable of holding two magazines or speedloader close at hand.",
+    "description": "A fabric ammo pouch that can be strapped to your chest which is capable of holding two magazines or speedloaders close at hand.",
     "weight": "140 g",
     "volume": "250 ml",
     "price": "1250 cent",
@@ -232,7 +233,7 @@
     "type": "ARMOR",
     "id": "legpouch_large",
     "name": { "str": "leg magazine pouch", "str_pl": "leg magazine pouches" },
-    "description": "A fabric ammo pouch that can be strapped to your leg and capable of holding two magazine close at hand.",
+    "description": "A fabric ammo pouch that can be strapped to your leg and capable of holding two magazines close at hand.",
     "weight": "120 g",
     "volume": "250 ml",
     "price": "20 USD",
@@ -256,6 +257,25 @@
       "max_volume": "500 ml",
       "draw_cost": 40,
       "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]
+    },
+    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED", "COMPACT" ]
+  },
+  {
+    "type": "ARMOR",
+    "id": "mag_satchel_leg",
+    "copy-from": "legpouch_large",
+    "name": { "str": "leg magazine satchel" },
+    "description": "A fabric ammo pouch that can be strapped to the leg, capable of holding a single magazine, ammo belt, or speedloader of modest size.",
+    "//": "Able to hold up to a fully-loaded .223 ammo belt or 100-round STANAG magazine",
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Stash ammo",
+      "holster_msg": "You stash your %s.",
+      "multi": 2,
+      "min_volume": "50 ml",
+      "max_volume": "1250 ml",
+      "draw_cost": 40,
+      "flags": [ "MAG_COMPACT", "MAG_BULKY", "MAG_BELT", "SPEEDLOADER" ]
     },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED", "COMPACT" ]
   },
