@@ -114,7 +114,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "A handful of New England sand.  If you had a stoked furnace, you could turn it into glass.  Otherwise, it's only good for making cement.",
-    "material": "powder_nonflam",
+    "material": "soil",
     "volume": "250 ml",
     "weight": "8 g",
     "bashing": 1,
@@ -1304,7 +1304,7 @@
     "volume": "16L",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "cotton", "powder" ],
+    "material": [ "cotton", "soil" ],
     "symbol": ")",
     "color": "brown",
     "looks_like": "bag_canvas"
@@ -1319,7 +1319,7 @@
     "volume": "16L",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "cotton", "powder" ],
+    "material": [ "cotton", "soil" ],
     "symbol": ")",
     "color": "brown",
     "looks_like": "bag_canvas"

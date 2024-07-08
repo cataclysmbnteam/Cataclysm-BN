@@ -349,6 +349,19 @@
     "components": [ [ [ "fabric_hides_any", 56, "LIST" ] ], [ [ "rope_natural_short", 2, "LIST" ] ] ]
   },
   {
+    "result": "flotation_vest_sandbag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "1 h",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "sewing_standard", 60 ] ],
+    "components": [ [ [ "flotation_vest", 1 ], [ "flotation_vest_ms", 1 ] ], [ [ "material_sand", 3000 ], [ "material_soil", 3 ] ] ]
+  },
+  {
     "result": "greatcoat",
     "type": "recipe",
     "category": "CC_ARMOR",
