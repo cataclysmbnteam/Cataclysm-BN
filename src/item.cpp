@@ -5210,6 +5210,10 @@ units::volume item::volume( bool integral ) const
 
     // Non-rigid items add the volume of the content
     if( !type->rigid ) {
+        // Disintegrating belts should exactly match contents volume, don't enforce the 1_ml minimum
+        if( type->has_flag( flag_MAG_BELT ) && type->has_flag( flag_MAG_DESTROY ) ) {
+            ret = 0_ml;
+        }
         ret += contents.item_size_modifier();
     }
 

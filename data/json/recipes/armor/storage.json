@@ -476,6 +476,18 @@
     "components": [ [ [ "fabric_standard", 13, "LIST" ] ] ]
   },
   {
+    "result": "mag_satchel_leg",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "fabric_standard", 13, "LIST" ] ] ]
+  },
+  {
     "result": "legrig",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -980,7 +992,7 @@
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 5 ] ],
-    "components": [ [ [ "fabric_standard", 3, "LIST" ], [ "fabric_hides_any", 3, "LIST" ] ] ]
+    "components": [ [ [ "fabric_standard", 3, "LIST" ], [ "fabric_standard", 3, "LIST" ] ] ]
   },
   {
     "result": "bandolier_grenade",

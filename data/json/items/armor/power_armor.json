@@ -463,7 +463,7 @@
     "id": "power_armor_chest_rig",
     "type": "ARMOR",
     "name": { "str": "power armor magazine carrier" },
-    "description": "A set of compartments capable of carrying two magazines close at hand, including larger drum mags or UPS batteries.  Designed to interface with a military exoskeleton.  Activate to store/retrieve your magazines.",
+    "description": "A set of compartments capable of carrying two magazines close at hand, including larger drum mags, ammo belts, or UPS batteries.  Designed to interface with a military exoskeleton.  Activate to store/retrieve your magazines.",
     "looks_like": "chestrig",
     "weight": "500 g",
     "volume": "500 ml",
@@ -476,15 +476,16 @@
     "color": "dark_gray",
     "coverage": 5,
     "material_thickness": 2,
+    "//": "Able to hold up to a fully-loaded .308 or .50 BMG ammo belt",
     "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",
       "holster_msg": "You stash your %s.",
       "multi": 2,
       "min_volume": "250 ml",
-      "max_volume": "1500 ml",
+      "max_volume": "2500 ml",
       "draw_cost": 80,
-      "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
+      "flags": [ "MAG_COMPACT", "MAG_BULKY", "MAG_BELT" ]
     },
     "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "STURDY", "BELTED", "WAIST" ]
   },
