@@ -143,7 +143,8 @@
       { "item": "textbook_biodiesel", "prob": 10 },
       { "item": "book_icef", "prob": 8 },
       { "item": "textbook_fabrication", "prob": 12 },
-      { "item": "concrete_book", "prob": 12 }
+      { "item": "concrete_book", "prob": 12 },
+      { "item": "reference_fabrication1", "prob": 5 }
     ]
   },
   {
@@ -626,8 +627,15 @@
       { "item": "recipe_serum", "prob": 10 },
       { "item": "recipe_labchem", "prob": 100 },
       { "item": "recipe_augs", "prob": 100 },
-      { "item": "reference_firstaid1", "prob": 15 }
+      { "item": "reference_cooking", "prob": 5 },
+      { "item": "reference_firstaid1", "prob": 25 }
     ]
+  },
+  {
+    "id": "vet_clinic_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "reference_firstaid2", "prob": 5 }, { "group": "doctors_books", "prob": 95 } ]
   },
   {
     "id": "record_patient",

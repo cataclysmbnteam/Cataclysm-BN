@@ -116,7 +116,7 @@
         "9": { "item": "produce", "chance": 40 },
         "T": { "item": "snacks", "chance": 50 },
         "2": { "item": "hospital_samples", "chance": 50 },
-        "k": { "item": "doctors_books", "chance": 60 },
+        "k": { "item": "doctors_books", "chance": 75, "repeat": 4 },
         "H": [
           { "item": "harddrugs", "chance": 60 },
           { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },

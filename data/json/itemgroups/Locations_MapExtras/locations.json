@@ -1280,6 +1280,7 @@
       [ "oil_lamp", 5 ],
       [ "lamp_oil", 5 ],
       [ "shovel", 10 ],
+      [ "shovel_short", 5 ],
       [ "e_tool", 5 ],
       [ "miner_hat", 40 ],
       [ "bucket", 10 ],
