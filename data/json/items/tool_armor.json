@@ -817,6 +817,7 @@
     "volume": "9 L",
     "to_hit": -3,
     "max_charges": 5000,
+    "charges_per_use": 5,
     "initial_charges": 5000,
     "ammo": "plutonium",
     "use_action": {
