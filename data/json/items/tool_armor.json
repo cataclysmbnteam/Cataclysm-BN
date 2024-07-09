@@ -818,8 +818,16 @@
     "to_hit": -3,
     "max_charges": 5000,
     "charges_per_use": 5,
+    "initial_charges": 5000,
     "ammo": "plutonium",
-    "use_action": "RM13ARMOR_OFF",
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your RM13 combat armor.",
+      "target": "rm13_armor_on",
+      "active": true,
+      "need_charges": 5,
+      "need_charges_msg": "It seems like this device needs power."
+    },
     "covers": [ "head", "mouth", "eyes", "torso", "arms", "hands", "legs", "feet" ],
     "storage": "8 L",
     "warmth": 30,
@@ -851,9 +859,8 @@
       "CLIMATE_CONTROL"
     ],
     "turns_per_charge": 18,
-    "charges_per_use": 0,
     "revert_to": "rm13_armor",
-    "use_action": "RM13ARMOR_ON",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your RM13 combat armor turns off.", "target": "rm13_armor" },
     "environmental_protection": 40,
     "encumbrance": 10,
     "qualities": [ [ "GLARE", 2 ] ],
