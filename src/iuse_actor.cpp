@@ -220,38 +220,9 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     const bool possess = p.has_item( it ) ||
                          ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p.pos(), pos ) == 1 );
 
-    if( possess && need_worn && !p.is_worn( it ) ) {
-        p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
-        return 0;
-    }
-    if( possess && need_wielding && !p.is_wielding( it ) ) {
-        p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
-        return 0;
-    }
-    if( need_charges ) {
-        if( it.has_flag( flag_POWERARMOR_MOD ) && character_funcs::can_interface_armor( p ) ) {
-            if( !p.has_power() ) {
-                if( possess ) {
-                    p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
-                }
-                return 0;
-            }
-        } else if( it.units_remaining( p ) < need_charges ) {
-            if( possess ) {
-                p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
-            }
-            return 0;
-        }
-    }
-
-
     if( need_fire && possess ) {
         if( !p.use_charges_if_avail( itype_fire, need_fire ) ) {
-            p.add_msg_if_player( m_info, need_fire_msg, it.tname() );
-            return 0;
-        }
-        if( p.is_underwater() ) {
-            p.add_msg_if_player( m_info, _( "You can't do that while underwater" ) );
+            debugmsg( "%s iuse_transform passed can_use but has no nearby fire.", it.tname() );
             return 0;
         }
     }
@@ -304,31 +275,62 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     return 0;
 }
 
-ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
-                                       const tripoint & ) const
+ret_val<bool> iuse_transform::can_use( const Character &p, const item &it, bool,
+                                       const tripoint &pos ) const
 {
-    if( qualities_needed.empty() ) {
-        return ret_val<bool>::make_success();
+    const bool possess = p.has_item( it ) ||
+                         ( it.has_flag( "ALLOWS_REMOTE_USE" ) && square_dist( p.pos(), pos ) == 1 );
+
+    if( !qualities_needed.empty() ) {
+        std::map<quality_id, int> unmet_reqs;
+        inventory inv;
+        inv.form_from_map( p.pos(), 1, &p, true, true );
+        for( const auto &quality : qualities_needed ) {
+            if( !p.has_quality( quality.first, quality.second ) &&
+                !inv.has_quality( quality.first, quality.second ) ) {
+                unmet_reqs.insert( quality );
+            }
+        }
+        if( !unmet_reqs.empty() ) {
+            std::string unmet_reqs_string;
+            unmet_reqs_string = enumerate_as_string( unmet_reqs.begin(), unmet_reqs.end(),
+            [&]( const std::pair<quality_id, int> &unmet_req ) {
+                return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
+            } );
+            return ret_val<bool>::make_failure( vgettext( "You need a tool with %s.", "You need tools with %s.",
+                                                unmet_reqs.size() ), unmet_reqs_string );
+        }
+
     }
 
-    std::map<quality_id, int> unmet_reqs;
-    inventory inv;
-    inv.form_from_map( p.pos(), 1, &p, true, true );
-    for( const auto &quality : qualities_needed ) {
-        if( !p.has_quality( quality.first, quality.second ) &&
-            !inv.has_quality( quality.first, quality.second ) ) {
-            unmet_reqs.insert( quality );
+    if( possess && need_worn && !p.is_worn( it ) ) {
+        return ret_val<bool>::make_failure( _( "You need to wear the %s before activating it." ),
+                                            it.tname() );
+    }
+    if( possess && need_wielding && !p.is_wielding( it ) ) {
+        return  ret_val<bool>::make_failure( _( "You need to wield the %1$s before activating it." ),
+                                             it.tname() );
+    }
+    if( need_charges ) {
+        if( it.has_flag( flag_POWERARMOR_MOD ) && character_funcs::can_interface_armor( p ) &&
+            units::to_kilojoule( p.get_power_level() ) < need_charges ) {
+            return ret_val<bool>::make_failure( need_charges_msg.translated(), it.tname() );
+        } else if( it.units_remaining( p ) < need_charges ) {
+            return ret_val<bool>::make_failure( need_charges_msg.translated(), it.tname() );
         }
     }
-    if( unmet_reqs.empty() ) {
-        return ret_val<bool>::make_success();
+
+
+    if( need_fire && possess ) {
+        if( !p.has_charges( itype_fire, need_fire ) ) {
+            return ret_val<bool>::make_failure( need_fire_msg.translated(), it.tname() );
+        }
+        if( p.is_underwater() ) {
+            return ret_val<bool>::make_failure( _( "You can't do that while underwater" ) );
+        }
     }
-    std::string unmet_reqs_string = enumerate_as_string( unmet_reqs.begin(), unmet_reqs.end(),
-    [&]( const std::pair<quality_id, int> &unmet_req ) {
-        return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
-    } );
-    return ret_val<bool>::make_failure( vgettext( "You need a tool with %s.", "You need tools with %s.",
-                                        unmet_reqs.size() ), unmet_reqs_string );
+
+    return ret_val<bool>::make_success();
 }
 
 std::string iuse_transform::get_name() const
