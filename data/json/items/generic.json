@@ -2524,7 +2524,8 @@
     "price_postapoc": "50 cent",
     "material": "veggy",
     "weight": "100 g",
-    "volume": "250 ml"
+    "volume": "250 ml",
+	  "smoking_result": "tobacco"
   },
   {
     "id": "cash_card",
