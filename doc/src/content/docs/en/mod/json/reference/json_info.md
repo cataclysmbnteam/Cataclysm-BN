@@ -2203,7 +2203,8 @@ more structured function.
     "msg": "You turn the lamp on.", // Message to display when activated.
     "need_fire": 1,                 // Whether fire is needed to activate.
     "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
-    "need_charges": 1,                      // Number of charges the item needs to transform.
+    "transform_charges": 1,         // Number of charges used by item when it transforms.
+    "need_charges": 1,                      // Number of charges the item needs to transform. Just a check, nothing is consumed.
     "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges.
     "need_worn": true;                        // Whether the item needs to be worn to be transformed, is false by default.
     "target_charges" : 3, // Number of charges the transformed item has.
