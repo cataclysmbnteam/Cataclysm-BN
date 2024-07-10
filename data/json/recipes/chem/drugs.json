@@ -31,10 +31,10 @@
     "subcategory": "CSC_CHEM_DRUGS",
     "skill_used": "cooking",
     "difficulty": 4,
-	"charges":10,
+    "charges": 10,
     "time": "30 m",
     "autolearn": false,
-	"book_learn": [
+    "book_learn": [
       [ "pocket_survival", 3 ],
       [ "atomic_survival", 2 ],
       [ "textbook_survival", 2 ],
@@ -43,8 +43,8 @@
     ],
     "batch_time_factors": [ 80, 5 ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
-	"qualities": [ { "id": "COOK", "level": 3 } ],
-    "components": [ [ [ "tobacco_raw", 10 ] ], [["sugar_standard",2,"LIST"] ],[["juice",3]],[["salt",5]]]
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "components": [ [ [ "tobacco_raw", 10 ] ], [ [ "sugar_standard", 2, "LIST" ] ], [ [ "juice", 3 ] ], [ [ "salt", 5 ] ] ]
   },
   {
     "type": "recipe",

@@ -2514,7 +2514,7 @@
   },
   {
     "type": "COMESTIBLE",
-	  "comestible_type": "MED",
+    "comestible_type": "MED",
     "id": "tobacco_raw",
     "symbol": "%",
     "color": "light_green",
@@ -2525,9 +2525,9 @@
     "price_postapoc": "50 cent",
     "material": "veggy",
     "weight": "100 g",
-	  "flags":["SMOKABLE"],
+    "flags": [ "SMOKABLE" ],
     "volume": "250 ml",
-	  "smoking_result": "tobacco"
+    "smoking_result": "tobacco"
   },
   {
     "id": "cash_card",
