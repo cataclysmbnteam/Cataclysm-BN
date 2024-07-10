@@ -638,5 +638,33 @@
     "autolearn": true,
     "time": "40 m",
     "using": [ [ "3d_printing_standard", 40 ] ]
+  },
+  {
+    "result": "power_armor_canteen",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "mechanics",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 1 ] ],
+    "components": [ [ [ "canteen", 1 ] ] ]
+  },
+  {
+    "result": "power_armor_2lcanteen",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "mechanics",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 1 ] ],
+    "components": [ [ [ "2lcanteen", 1 ] ] ]
   }
 ]

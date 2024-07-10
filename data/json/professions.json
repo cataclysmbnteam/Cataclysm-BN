@@ -1128,12 +1128,18 @@
     ],
     "items": {
       "both": {
-        "items": [ "power_armor_light", "power_armor_helmet_light", "power_armor_frame" ],
+        "items": [
+          "power_armor_light",
+          "power_armor_helmet_light",
+          "power_armor_frame",
+          "power_armor_back_hardpoint",
+          "power_armor_canteen"
+        ],
         "entries": [
           { "item": "heavy_plus_battery_cell", "charges": 1500, "container-item": "UPS_off" },
           { "item": "two_way_radio", "contents-item": [ "battery_ups" ] },
           { "item": "power_armor_chest_rig", "contents-group": "army_mags_power_armor" },
-          { "item": "knife_combat", "container-item": "power_armor_sheath" },
+          { "item": "knife_combat", "container-item": "power_armor_leg_hardpoint" },
           {
             "item": "stanag100",
             "ammo-item": "556_incendiary",
