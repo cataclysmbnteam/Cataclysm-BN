@@ -151,13 +151,13 @@
     "weight": "1196 g",
     "volume": "3 L",
     "bashing": 6,
-    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You turn the helmet on.",
       "target": "miner_hat_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The helmet's batteries are dead."
     },
@@ -401,13 +401,13 @@
     "material": [ "cotton" ],
     "weight": "182 g",
     "volume": "750 ml",
-    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_socks_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -459,13 +459,13 @@
     "material": [ "cotton" ],
     "weight": "864 g",
     "volume": "2 L",
-    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_suit_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -517,13 +517,13 @@
     "material": [ "cotton" ],
     "weight": "210 g",
     "volume": "750 ml",
-    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_gloves_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -575,13 +575,13 @@
     "material": [ "cotton" ],
     "weight": "196 g",
     "volume": "1 L",
-    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_mask_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -656,13 +656,13 @@
     "weight": "520 g",
     "volume": "500 ml",
     "bashing": 1,
-    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You turn the headlamp on.",
       "target": "wearable_light_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The headlamp batteries are dead."
     },
@@ -721,6 +721,7 @@
       "msg": "You turn the survivor headlamp on.",
       "target": "survivor_light_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The survivor headlamp batteries are dead."
     },
@@ -888,6 +889,7 @@
       "msg": "A LED light in the %s LED flickers on.",
       "target": "dimensional_anchor_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "It seems like this device needs power."
     },
@@ -940,6 +942,7 @@
       "msg": "Initiating\nRunning suit integrity diagnostics…\nAll systems operational.",
       "target": "phase_immersion_suit_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "Warning: Operating on minimal power.  Protection compromised."
     },
@@ -1014,13 +1017,13 @@
     "to_hit": -3,
     "max_charges": 60,
     "initial_charges": 60,
-    "charges_per_use": 1,
     "ammo": "rebreather_filter",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "rebreather_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The %s's filter is used up."
     },
@@ -1062,13 +1065,13 @@
     "to_hit": -3,
     "max_charges": 60,
     "initial_charges": 60,
-    "charges_per_use": 1,
     "ammo": "rebreather_filter",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "rebreather_xl_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The %s's filter is used up."
     },
@@ -1371,13 +1374,13 @@
     "weight": "1020 g",
     "volume": "1 L",
     "to_hit": -3,
-    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "goggles_nv_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -1434,13 +1437,13 @@
     "weight": "1240 g",
     "volume": "1 L",
     "to_hit": -3,
-    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "goggles_ir_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -1539,13 +1542,13 @@
     "volume": "1500 ml",
     "to_hit": -3,
     "max_charges": 120,
-    "charges_per_use": 1,
     "ammo": "rebreather_filter",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "mask_h20survivor_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The %s's filter is used up."
     },
@@ -2188,13 +2191,13 @@
     "material": [ "cotton" ],
     "weight": "1452 g",
     "volume": "4500 ml",
-    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_outfit_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -2549,13 +2552,13 @@
     "material": [ "plastic" ],
     "weight": "179 g",
     "volume": "1 L",
-    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You turn the earmuffs on.",
       "target": "powered_earmuffs_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The earmuff's batteries are dead."
     },
@@ -2879,13 +2882,13 @@
     "warmth": 50,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You turn the blanket's heating elements on.",
       "target": "electric_blanket_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The blanket's batteries are dead."
     },
@@ -2932,7 +2935,6 @@
     "warmth": 50,
     "material_thickness": 5,
     "environmental_protection": 2,
-    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
       "type": "transform",
@@ -2940,6 +2942,7 @@
       "target": "foodperson_mask_on",
       "active": true,
       "need_worn": true,
+      "transform_charges": 1,
       "need_charges": 1,
       "need_charges_msg": "The mask's batteries are dead."
     },

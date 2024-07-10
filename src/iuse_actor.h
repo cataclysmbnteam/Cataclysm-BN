@@ -95,6 +95,9 @@ class iuse_transform : public iuse_actor
         /** displayed if item is in player possession with %s replaced by item name */
         translation need_charges_msg;
 
+        /** charges needed for process of transforming item */
+        int transform_charges = 0;
+
         /** Tool qualities needed, e.g. "fine bolt turning 1". **/
         std::map<quality_id, int> qualities_needed;
 
