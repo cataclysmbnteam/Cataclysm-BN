@@ -27,7 +27,7 @@
     "name": { "str": "power armor 2.5L canteen" },
     "description": "A large plastic water canteen, with a 2.5 liter capacity.  It's been converted to clip onto power armor.",
     "material": [ "plastic", "steel" ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 8, "material_thickness": 2 },
+    "armor_data": { "encumbrance": 8 },
     "relative": { "weight": "500 g" },
     "extend": { "flags": [ "POWERARMOR_MOD" ] }
   },
@@ -604,7 +604,7 @@
     "name": { "str": "power armor canteen" },
     "description": "A military-style water canteen with a 1.5 liter capacity.  Commonly worn at the hip, it's been converted to clip onto power armor.",
     "material": [ "plastic", "steel" ],
-    "armor_data": { "covers": [ "leg_either" ], "coverage": 5, "encumbrance": 4, "material_thickness": 2 },
+    "armor_data": { "encumbrance": 4 },
     "relative": { "weight": "500 g" },
     "extend": { "flags": [ "POWERARMOR_MOD" ] }
   },
