@@ -7952,12 +7952,6 @@ bool Character::consume_charges( item &used, int qty )
         return false;
     }
 
-    // Tools which don't require ammo are instead destroyed
-    if( used.is_tool() && !used.ammo_required() ) {
-        used.detach();
-        return true;
-    }
-
     if( used.is_power_armor() ) {
         if( used.charges >= qty ) {
             used.ammo_consume( qty, pos() );
@@ -7968,7 +7962,8 @@ bool Character::consume_charges( item &used, int qty )
         }
     }
 
-    // USE_UPS never occurs on base items but is instead added by the UPS tool mod
+    // USE_UPS may occur on base items and is added by the UPS tool mod
+    // If an item has the flag, then it should not be consumed on use.
     if( used.has_flag( flag_USE_UPS ) ) {
         // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
         // The usage of the item was already approved, so drain item if possible, otherwise use UPS
@@ -7977,6 +7972,11 @@ bool Character::consume_charges( item &used, int qty )
         } else {
             use_charges( itype_UPS, qty );
         }
+    } else if( used.is_tool() && used.units_remaining( *this ) == 0 && !used.ammo_required() ) {
+        // Tools which don't require ammo are instead destroyed.
+        // Put here cause tools may have use actions that require charges without charges_per_use
+        used.detach();
+        return true;
     } else {
         used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
     }
