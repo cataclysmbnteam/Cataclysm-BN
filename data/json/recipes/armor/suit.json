@@ -946,8 +946,9 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "soldering_standard", 200, "LIST" ] ], [ [ "welding_standard", 200, "LIST" ] ] ],
     "components": [
-      [ [ "steel_plate", 3 ], [ "steel_armor", 18 ] ],
+      [ [ "steel_plate", 1 ], [ "steel_armor", 6 ] ],
       [ [ "steel_standard", 10, "LIST" ] ],
+      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
       [ [ "duct_tape", 600 ] ],
       [ [ "power_supply", 8 ] ],
       [ [ "amplifier", 6 ] ],

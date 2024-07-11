@@ -2006,11 +2006,9 @@
     "items": [
       [ "power_armor_frame", 25 ],
       [ "power_armor_chest_rig", 25 ],
-      [ "power_armor_back_holster", 10 ],
-      [ "power_armor_holster", 10 ],
-      [ "power_armor_bscabbard", 10 ],
-      [ "power_armor_scabbard", 10 ],
-      [ "power_armor_sheath", 10 ]
+      [ "power_armor_back_hardpoint", 20 ],
+      [ "power_armor_leg_hardpoint", 20 ],
+      [ "power_armor_canteen", 10 ]
     ]
   },
   {
