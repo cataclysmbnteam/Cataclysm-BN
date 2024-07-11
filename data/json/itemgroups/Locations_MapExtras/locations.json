@@ -1095,6 +1095,8 @@
       [ "ceramic_bowl", 90 ],
       [ "clay_hydria", 50 ],
       [ "ceramic_cup", 90 ],
+      [ "retort_clay", 10 ],
+      [ "retort_copper", 10 ],
       { "group": "tinware", "prob": 50 },
       [ "crown_golden", 10 ],
       [ "fluid_preserved_brain", 20 ]
@@ -2511,6 +2513,7 @@
     "items": [
       [ "moonshine", 60 ],
       [ "still", 20 ],
+      [ "retort_copper", 5 ],
       [ "thermometer", 20 ],
       [ "brew_moonshine", 5 ],
       [ "cornbread", 35 ],

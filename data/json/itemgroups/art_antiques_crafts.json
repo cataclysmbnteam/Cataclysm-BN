@@ -201,7 +201,9 @@
       { "item": "bronze_medal", "prob": 1 },
       { "item": "silver_medal", "prob": 1 },
       { "item": "gold_medal", "prob": 1 },
-      { "item": "clay_fish_trap", "prob": 1 }
+      { "item": "clay_fish_trap", "prob": 1 },
+      { "item": "retort_clay", "prob": 1 },
+      { "item": "retort_copper", "prob": 1 }
     ]
   },
   {
@@ -324,7 +326,8 @@
       { "item": "ceramic_plate", "prob": 15 },
       { "item": "ceramic_bowl", "prob": 15 },
       { "item": "ceramic_cup", "prob": 15 },
-      { "item": "jug_clay", "prob": 15 }
+      { "item": "jug_clay", "prob": 15 },
+      { "item": "retort_clay", "prob": 5 }
     ]
   }
 ]
