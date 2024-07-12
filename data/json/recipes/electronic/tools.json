@@ -109,8 +109,8 @@
     "book_learn": [ [ "manual_electronics", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "e_scrap", 2 ], [ "glowplug", 1 ] ],
-      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
+      [ [ "element", 1 ], [ "glowplug", 1 ], [ "e_scrap", 2 ] ],
+      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ], [ "spike", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "adhesive", 1, "LIST" ] ],
       [ [ "cable", 5 ] ]
