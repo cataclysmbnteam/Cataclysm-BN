@@ -48,7 +48,9 @@ Obtain packages specified above with your system package manager.
 - For Fedora-based distros:
 
 ```sh
-$ sudo dnf install SDL2 SDL2_image SDL2_ttf SDL2_mixer freetype cmake glibc bzip2 gcc gcc-c++ zlib-ng libvorbis ncurses gettext
+$ sudo dnf install git cmake ninja-build mold clang17 ccache \
+  SDL2-devel SDL2_image-devel SDL2_ttf-devel SDL2_mixer-devel \
+  freetype glibc bzip2 zlib-ng libvorbis ncurses gettext flac-devel
 ```
 
 ### Windows Environment (MSYS2)
