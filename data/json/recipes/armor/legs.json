@@ -380,7 +380,7 @@
       [
         [ "legrig", 1 ],
         [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
+        [ "ragpouch", 3 ],
         [ "leather_pouch", 2 ],
         [ "dump_pouch", 1 ],
         [ "purse", 2 ],
@@ -487,7 +487,7 @@
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
+        [ "ragpouch", 3 ],
         [ "leather_pouch", 2 ],
         [ "dump_pouch", 1 ],
         [ "purse", 2 ],
