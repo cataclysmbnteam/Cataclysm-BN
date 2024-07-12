@@ -136,6 +136,37 @@ $ ccmake ..
 $ cmake-gui ..
 ```
 
+A CMake build with almost all options with build optimizations (ccache, ninja, mold) + tracy
+profiler may look like:
+
+```sh
+mkdir -p build
+cmake \
+  -B build-fedora \
+  -G Ninja \
+  -DCATA_CCACHE=ON \
+  -DCMAKE_C_COMPILER=clang-17 \
+  -DCMAKE_CXX_COMPILER=clang++-17 \
+  -DCMAKE_INSTALL_PREFIX=$HOME/.local/share \
+  -DJSON_FORMAT=ON \
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  -DCURSES=OFF \
+  -DTILES=ON \
+  -DSOUND=ON \
+  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+  -DCATA_CLANG_TIDY_PLUGIN=OFF \
+  -DLUA=ON \
+  -DBACKTRACE=ON \
+  -DLINKER=mold \
+  -DUSE_XDG_DIR=ON \
+  -DUSE_HOME_DIR=OFF \
+  -DUSE_PREFIX_DATA_DIR=OFF \
+  -DUSE_TRACY=ON \
+  -DTRACY_VERSION=master \
+  -DTRACY_ON_DEMAND=ON \
+  -DTRACY_ONLY_IPV4=ON
+```
+
 ## Build for MSYS2 (MinGW)
 
 **NOTE**: For development purposes it is preferred to use `MinGW Win64 Shell` or `MinGW Win32 Shell`
