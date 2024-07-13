@@ -1495,5 +1495,48 @@
       "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_wind_turbine_rotor",
+    "name": "wind turbine rotor assembly",
+    "description": "A large, bladed turbine meant for generating power from wind.  Spinning idly in the breeze trying to power a grid that's since gone dark, the turbine could be salvaged for local power generation instead.",
+    "symbol": "$",
+    "color": "yellow",
+    "looks_like": "vp_heavy_duty_military_rotor",
+    "move_cost": 8,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "deconstruct": {
+      "ter_set": "t_metal_floor_no_roof",
+      "items": [
+        { "item": "frame", "prob": 80 },
+        { "item": "chain", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet_metal", "count": [ 1, 3 ] },
+        { "item": "steel_lump", "count": [ 1, 3 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "xl_wind_turbine", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "crash!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor_no_roof",
+      "items": [
+        { "item": "sheet_metal", "prob": 75 },
+        { "item": "sheet_metal_small", "count": [ 10, 20 ] },
+        { "item": "steel_lump", "count": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 6, 12 ] },
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "pipe", "count": [ 0, 3 ] }
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 16, 32 ], "destroy_threshold": 32, "block_unaimed_chance": "50%" }
+    }
   }
 ]
