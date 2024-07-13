@@ -4,6 +4,6 @@
     "type": "requirement",
     "//": "Connect two grid tiles. Cost is multiplied by number of elements in resulting grid.",
     "components": [ [ [ "cable", 2 ] ] ],
-    "tools": [ [ [ "soldering_ethanol", 30 ], [ "soldering_iron", 3 ], [ "toolset", 1 ] ] ]
+    "tools": [ [ [ "soldering_iron", 3 ], [ "soldering_ethanol", 30 ], [ "toolset", 1 ] ] ]
   }
 ]

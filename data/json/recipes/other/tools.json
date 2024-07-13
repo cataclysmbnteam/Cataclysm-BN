@@ -866,7 +866,14 @@
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_fabrication", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "can_medium_unsealed", 1 ], [ "bottle_plastic", 1 ], [ "jar_glass", 1 ] ],
+      [
+        [ "can_medium_unsealed", 1 ],
+        [ "bottle_plastic", 1 ],
+        [ "jar_glass", 1 ],
+        [ "can_drink_unsealed", 2 ],
+        [ "can_food_unsealed", 2 ],
+        [ "bottle_plastic_small", 2 ]
+      ],
       [ [ "scrap", 1 ], [ "steel_chunk", 1 ] ]
     ]
   },
@@ -882,8 +889,17 @@
     "book_learn": [ [ "fun_survival", 2 ], [ "manual_fabrication", 2 ], [ "reference_fabrication1", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
-      [ [ "can_medium_unsealed", 1 ], [ "bottle_plastic", 1 ], [ "jar_glass", 1 ] ],
+      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ], [ "spike", 1 ] ],
+      [
+        [ "can_medium_unsealed", 1 ],
+        [ "bottle_plastic", 1 ],
+        [ "jar_glass", 1 ],
+        [ "can_drink_unsealed", 2 ],
+        [ "can_food_unsealed", 2 ],
+        [ "bottle_plastic_small", 2 ],
+        [ "canister_empty", 2 ],
+        [ "clay_canister", 2 ]
+      ],
       [ [ "scrap", 1 ], [ "steel_chunk", 1 ] ]
     ]
   },
