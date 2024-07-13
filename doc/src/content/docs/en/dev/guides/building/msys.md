@@ -123,7 +123,7 @@ switches, but `MSYS2=1` and `DYNAMIC_LINKING=1` are required to compile without 
 1. Run inside MSYS2 from Cataclysm's directory with the following command:
 
 ```bash
-./cataclysm-tiles
+./cataclysm-bn-tiles
 ```
 
 **Note:** If you want to run the compiled executable outside of MSYS2, you will also need to update
