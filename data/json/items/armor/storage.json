@@ -509,7 +509,7 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 8,
-    "encumbrance": 3,
+    "encumbrance": 2,
     "max_encumbrance": 6,
     "storage": "3 L",
     "material_thickness": 1,
