@@ -366,7 +366,7 @@
     "description": "This is a bronze claw hammer with a wooden grip, commonly used where sparks from a steel hammer might be a safety hazard.  You could board up adjacent doors and windows, among myriad other uses.",
     "weight": "750 g",
     "bashing": 12,
-    "material": [ "steel", "wood" ],
+    "material": [ "bronze", "wood" ],
     "color": "yellow"
   },
   {
