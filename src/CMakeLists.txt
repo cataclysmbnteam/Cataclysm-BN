@@ -144,78 +144,78 @@ endif ()
 
 # Build curses version if requested
 if (CURSES)
-    add_library(cataclysm-common OBJECT
+    add_library(cataclysm-bn-common OBJECT
             ${CATACLYSM_BN_SOURCES}
             ${CATACLYSM_BN_HEADERS})
-    target_include_directories(cataclysm-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
+    target_include_directories(cataclysm-bn-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
     if (NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
-        target_precompile_headers(cataclysm-common PRIVATE
+        target_precompile_headers(cataclysm-bn-common PRIVATE
             ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
     endif ()
 
     if (WIN32)
-        add_executable(cataclysm
+        add_executable(cataclysm-bn
                 ${MAIN_CPP}
                 ${MESSAGES_CPP}
                 ${RESOURCE_RC})
     else ()
-        add_executable(cataclysm
+        add_executable(cataclysm-bn
                 ${MAIN_CPP}
                 ${MESSAGES_CPP})
     endif ()
 
     if (LUA)
-        target_compile_definitions(cataclysm-common PUBLIC LUA)
+        target_compile_definitions(cataclysm-bn-common PUBLIC LUA)
         if (UNIX)
-            target_compile_definitions(cataclysm-common PUBLIC LUA_USE_LINUX)
+            target_compile_definitions(cataclysm-bn-common PUBLIC LUA_USE_LINUX)
         elseif (APPLE)
-            target_compile_definitions(cataclysm-common PUBLIC LUA_USE_MACOSX)
+            target_compile_definitions(cataclysm-bn-common PUBLIC LUA_USE_MACOSX)
         endif()
-        target_link_libraries(cataclysm-common PUBLIC libsol)
+        target_link_libraries(cataclysm-bn-common PUBLIC libsol)
     endif ()
 
-    add_dependencies(cataclysm-common get_version)
-    target_link_libraries(cataclysm PRIVATE cataclysm-common)
+    add_dependencies(cataclysm-bn-common get_version)
+    target_link_libraries(cataclysm-bn PRIVATE cataclysm-bn-common)
 
-    target_include_directories(cataclysm-common PUBLIC ${CURSES_INCLUDE_DIR})
-    target_link_libraries(cataclysm-common PUBLIC ${CURSES_LIBRARIES})
+    target_include_directories(cataclysm-bn-common PUBLIC ${CURSES_INCLUDE_DIR})
+    target_link_libraries(cataclysm-bn-common PUBLIC ${CURSES_LIBRARIES})
 
     if (CMAKE_USE_PTHREADS_INIT)
-        target_compile_options(cataclysm-common PUBLIC "-pthread")
+        target_compile_options(cataclysm-bn-common PUBLIC "-pthread")
     endif ()
 
     if (CMAKE_THREAD_LIBS_INIT)
-        target_link_libraries(cataclysm-common PUBLIC ${CMAKE_THREAD_LIBS_INIT})
+        target_link_libraries(cataclysm-bn-common PUBLIC ${CMAKE_THREAD_LIBS_INIT})
     endif ()
 
     if (WIN32)
         # Global settings for Windows targets (at end)
-        target_link_libraries(cataclysm-common PUBLIC gdi32.lib)
-        target_link_libraries(cataclysm-common PUBLIC winmm.lib)
-        target_link_libraries(cataclysm-common PUBLIC imm32.lib)
-        target_link_libraries(cataclysm-common PUBLIC ole32.lib)
-        target_link_libraries(cataclysm-common PUBLIC oleaut32.lib)
-        target_link_libraries(cataclysm-common PUBLIC version.lib)
+        target_link_libraries(cataclysm-bn-common PUBLIC gdi32.lib)
+        target_link_libraries(cataclysm-bn-common PUBLIC winmm.lib)
+        target_link_libraries(cataclysm-bn-common PUBLIC imm32.lib)
+        target_link_libraries(cataclysm-bn-common PUBLIC ole32.lib)
+        target_link_libraries(cataclysm-bn-common PUBLIC oleaut32.lib)
+        target_link_libraries(cataclysm-bn-common PUBLIC version.lib)
         if (BACKTRACE)
-            target_link_libraries(cataclysm-common PUBLIC dbghelp.lib)
+            target_link_libraries(cataclysm-bn-common PUBLIC dbghelp.lib)
         endif ()
     elseif (APPLE)
-        target_link_libraries(cataclysm-common PUBLIC "-framework CoreFoundation")
+        target_link_libraries(cataclysm-bn-common PUBLIC "-framework CoreFoundation")
     endif ()
 
     if (LIBBACKTRACE)
-        target_link_libraries(cataclysm-common PUBLIC backtrace)
+        target_link_libraries(cataclysm-bn-common PUBLIC backtrace)
     endif ()
 
     if (USE_TRACY)
-        target_link_libraries(cataclysm-common PUBLIC TracyClient)
-        target_include_directories(cataclysm-common SYSTEM PUBLIC ${tracy_SOURCE_DIR}/public)
-        target_compile_definitions(cataclysm-common PUBLIC USE_TRACY)
+        target_link_libraries(cataclysm-bn-common PUBLIC TracyClient)
+        target_include_directories(cataclysm-bn-common SYSTEM PUBLIC ${tracy_SOURCE_DIR}/public)
+        target_compile_definitions(cataclysm-bn-common PUBLIC USE_TRACY)
     endif ()
 
     if (RELEASE)
-        install(TARGETS cataclysm RUNTIME)
+        install(TARGETS cataclysm-bn RUNTIME)
     endif ()
 endif ()
 
