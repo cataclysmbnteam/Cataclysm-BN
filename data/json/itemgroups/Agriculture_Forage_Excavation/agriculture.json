@@ -42,7 +42,8 @@
     "id": "farming_tools",
     "items": [
       [ "hoe", 60 ],
-      [ "shovel", 60 ],
+      [ "shovel", 50 ],
+      [ "shovel_short", 10 ],
       [ "g_shovel", 60 ],
       [ "trimmer_off", 60 ],
       [ "boots", 60 ],

@@ -7,7 +7,6 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "10 m",
-    "autolearn": false,
     "book_learn": [ [ "concrete_book", 4 ] ],
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 25 ] ], [ [ "pebble", 20 ] ] ]
@@ -187,7 +186,6 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "10 m",
-    "autolearn": false,
     "book_learn": [ [ "concrete_book", 2 ] ],
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ] ]
@@ -312,7 +310,7 @@
     "difficulty": 4,
     "time": "45 m",
     "charges": 120,
-    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 5 ], [ "atomic_survival", 3 ] ],
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 5 ], [ "atomic_survival", 3 ], [ "reference_cooking", 6 ] ],
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
     "tools": [ [ [ "smoxygen_tank", 3 ], [ "oxygen_tank", 3 ], [ "oxygen_cylinder", 25 ] ] ],
     "components": [ [ [ "acetylene", 95 ] ] ]
@@ -326,7 +324,7 @@
     "difficulty": 4,
     "time": "60 m",
     "charges": 12,
-    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 5 ], [ "atomic_survival", 3 ] ],
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 5 ], [ "atomic_survival", 3 ], [ "reference_cooking", 6 ] ],
     "tools": [ [ [ "acetylene_machine", -1 ] ] ],
     "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "chem_carbide", 326 ] ] ]
   },
@@ -389,7 +387,6 @@
     "time": "40 m",
     "reversible": true,
     "decomp_learn": 5,
-    "autolearn": false,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
@@ -436,7 +433,6 @@
     "time": "40 m",
     "reversible": true,
     "decomp_learn": 5,
-    "autolearn": false,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],

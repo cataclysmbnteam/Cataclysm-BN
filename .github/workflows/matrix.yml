@@ -8,6 +8,7 @@ on:
     branches: [main]
     paths-ignore: [doc/**, scripts/**]
     types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:    
 
 # Cancel all previous instances in favor of latest revision of a PR.
 # Allow running main builds to complete to help with ccache refreshes.
@@ -173,14 +174,22 @@ jobs:
       #     sudo mkdir -p /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu
       #     sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/11 /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu/11
 
-      - name: install dependencies (mac)
+      - name: install runtime dependencies (mac)
+      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
+      uses: BrettDong/setup-sdl2-frameworks@v1
+      with:
+        sdl2: latest
+        sdl2-ttf: latest
+        sdl2-image: latest
+        sdl2-mixer: latest
+    - name: install build dependencies (mac)
         if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
         run: |
           ${{ matrix.compiler }} --version
           # Ensure that it is actually needed version
           ${{ matrix.compiler }} --version | grep -q -E "${{ matrix.grep_clang_version_rxp }}"
 
-          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel
 
       # problem matchers are only ran on GCC to reduce error spam
       - name: add problem matcher

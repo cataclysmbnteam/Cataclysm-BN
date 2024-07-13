@@ -920,6 +920,35 @@
     "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "retort_clay",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "clay retort" },
+    "description": "This is a primitive distillation tool made from clay, with a long neck that acts as a condenser.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "price": "50 USD",
+    "price_postapoc": "250 cent",
+    "to_hit": -2,
+    "bashing": 10,
+    "material": "clay",
+    "symbol": ";",
+    "color": "brown",
+    "looks_like": "clay_pot",
+    "qualities": [ [ "DISTILL", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "retort_copper",
+    "copy-from": "retort_clay",
+    "type": "GENERIC",
+    "name": { "str": "copper retort" },
+    "description": "This is a primitive distillation tool made from copper, with a long neck that acts as a condenser.",
+    "weight": "300 g",
+    "material": "copper",
+    "color": "light_red",
+    "looks_like": "pot_copper"
+  },
+  {
     "id": "survivor_mess_kit",
     "type": "TOOL",
     "category": "tools",

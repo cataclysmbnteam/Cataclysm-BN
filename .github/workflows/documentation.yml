@@ -24,12 +24,11 @@ jobs:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
       - name: Install, build, and upload site
-        uses: withastro/action@v0
+        uses: withastro/action@v2
         with:
           path: doc
           node-version: 20
-          package-manager: pnpm
-          pnpm-version: 8.7.x
+          package-manager: pnpm@8.7.x
         env:
           CUSTOM_SITE_URL: ${{ vars.CUSTOM_SITE_URL }}
           CUSTOM_REPO_URL: ${{ vars.CUSTOM_REPO_URL }}
@@ -43,4 +42,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4

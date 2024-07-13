@@ -1648,6 +1648,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
                 } else if( !warm_enough_to_plant( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::NEEDS_WARM_WEATHER );
+                    // Plants underground need to be either valid to plant underground, or given artificial heating
+                } else if( !seed.obj().has_flag( flag_CAN_PLANT_UNDERGROUND ) && src_loc.z < 0 &&
+                           get_weather().get_temperature( src_loc ) < 10_c ) {
+                    return activity_reason_info::fail( do_activity_reason::NEEDS_ABOVE_GROUND );
                 } else {
                     // do we have the required seed on our person?
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
@@ -2709,6 +2713,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
         reason == do_activity_reason::ALREADY_DONE ||
         reason == do_activity_reason::BLOCKING_TILE ||
         reason == do_activity_reason::NEEDS_WARM_WEATHER ||
+        reason == do_activity_reason::NEEDS_ABOVE_GROUND ||
         reason == do_activity_reason::UNKNOWN_ACTIVITY ) {
         // we can discount this tile, the work can't be done.
         if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
@@ -2717,6 +2722,9 @@ static requirement_check_result generic_multi_activity_check_requirement( player
             p.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
         } else if( reason == do_activity_reason::NEEDS_WARM_WEATHER ) {
             p.add_msg_if_player( m_info, _( "It is too cold to plant anything now." ) );
+        } else if( reason == do_activity_reason::NEEDS_ABOVE_GROUND ) {
+            p.add_msg_if_player( m_info,
+                                 _( "It's too cold down here to plant this type of seed underground." ) );
         }
         return SKIP_LOCATION;
     } else if( reason == do_activity_reason::NO_COMPONENTS ||

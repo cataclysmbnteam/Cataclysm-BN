@@ -85,7 +85,7 @@
     "skills_required": [ "firstaid", 1 ],
     "difficulty": 4,
     "time": "1 m 12 s",
-    "book_learn": [ [ "textbook_firstaid", 3 ], [ "adv_chemistry", 4 ], [ "emergency_book", 4 ] ],
+    "book_learn": [ [ "textbook_firstaid", 3 ], [ "adv_chemistry", 4 ], [ "emergency_book", 4 ], [ "reference_firstaid2", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
     "components": [ [ [ "chitin_piece", 6 ], [ "meal_chitin_piece", 6 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
@@ -99,7 +99,13 @@
     "skills_required": [ "firstaid", 1 ],
     "difficulty": 6,
     "time": "1 m 12 s",
-    "book_learn": [ [ "textbook_firstaid", 8 ], [ "textbook_chemistry", 7 ], [ "adv_chemistry", 6 ], [ "emergency_book", 8 ] ],
+    "book_learn": [
+      [ "textbook_firstaid", 8 ],
+      [ "textbook_chemistry", 7 ],
+      [ "adv_chemistry", 6 ],
+      [ "emergency_book", 8 ],
+      [ "reference_firstaid2", 9 ]
+    ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
     "components": [
@@ -140,7 +146,8 @@
       [ "atomic_survival", 4 ],
       [ "textbook_chemistry", 5 ],
       [ "adv_chemistry", 4 ],
-      [ "emergency_book", 3 ]
+      [ "emergency_book", 3 ],
+      [ "reference_cooking", 4 ]
     ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
@@ -156,7 +163,7 @@
     "batch_time_factors": [ 99, 1 ],
     "//": "This difficulty assumes that anaesthesia administration will be handled by the autodoc or the person using the kit. The included amount of ether is an estimate, based on average body size.",
     "time": "2 m 30 s",
-    "book_learn": [ [ "textbook_firstaid", 6 ], [ "emergency_book", 5 ] ],
+    "book_learn": [ [ "textbook_firstaid", 6 ], [ "emergency_book", 5 ], [ "reference_firstaid1", 5 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
       [ [ "ether", 540 ] ],
@@ -225,7 +232,13 @@
     "difficulty": 4,
     "skills_required": [ "firstaid", 2 ],
     "time": "24 m",
-    "book_learn": [ [ "textbook_firstaid", 2 ], [ "manual_first_aid", 2 ], [ "emergency_book", 2 ], [ "pocket_firstaid", 2 ] ],
+    "book_learn": [
+      [ "textbook_firstaid", 2 ],
+      [ "manual_first_aid", 2 ],
+      [ "emergency_book", 2 ],
+      [ "pocket_firstaid", 2 ],
+      [ "reference_firstaid2", 4 ]
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "oxy_powder", 10 ] ], [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ] ]

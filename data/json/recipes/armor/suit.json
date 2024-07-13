@@ -917,10 +917,9 @@
     "difficulty": 5,
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
-    "time": "15 m",
-    "book_learn": [ [ "textbook_robots", 0 ], [ "advanced_electronics", 0 ] ],
-    "tools": [ [ [ "3d_printer_basic", 100 ], [ "3d_printer_advanced", 100 ] ] ],
-    "components": [ [ [ "plastic_chunk", 75 ] ] ]
+    "time": "2 h 15 m",
+    "book_learn": [ [ "textbook_robots", 0 ], [ "advanced_electronics", 0 ], [ "reference_fabrication1", 0 ] ],
+    "using": [ [ "3d_printing_standard", 135 ] ]
   },
   {
     "result": "armor_carbonplate",
@@ -947,8 +946,9 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "soldering_standard", 200, "LIST" ] ], [ [ "welding_standard", 200, "LIST" ] ] ],
     "components": [
-      [ [ "steel_plate", 3 ], [ "steel_armor", 18 ] ],
+      [ [ "steel_plate", 1 ], [ "steel_armor", 6 ] ],
       [ [ "steel_standard", 10, "LIST" ] ],
+      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
       [ [ "duct_tape", 600 ] ],
       [ [ "power_supply", 8 ] ],
       [ [ "amplifier", 6 ] ],

@@ -14,7 +14,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "catalua.h"
-#include "char_validity_check.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -1445,7 +1444,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
     do {
         ui_manager::redraw();
 
-        worldname = spopup.query_string( false );
+        worldname = spopup.query_string( false, false, true );
         const std::string action = ctxt.input_to_action( ctxt.get_raw_input() );
         if( action == "NEXT_TAB" ) {
             if( worldname.empty() ) {
@@ -1589,26 +1588,10 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated )
         msg = string_format( _( "%s is a reserved name!" ), name );
     } else if( has_world( name ) ) {
         msg = string_format( _( "A world named %s already exists!" ), name );
+    } else if( name.front() == ' ' || name.back() == ' ' ) {
+        msg = string_format( _( "A world name cannot start or end with spaces!" ) );
     } else {
-        // just check the raw bytes because unicode characters are always acceptable
-        bool allowed = true;
-        for( const char ch : name ) {
-            // Convert to unsigned char because `std::isprint` is undefined for
-            // values unrepresentable by unsigned char which is not EOF.
-            const unsigned char uc = static_cast<unsigned char>( ch );
-            if( !is_char_allowed( uc ) ) {
-                if( std::isprint( uc ) ) {
-                    msg = string_format( _( "World name contains invalid character: '%c'" ), uc );
-                } else {
-                    msg = string_format( _( "World name contains invalid character: 0x%x" ), uc );
-                }
-                allowed = false;
-                break;
-            }
-        }
-        if( allowed ) {
-            return true;
-        }
+        return true;
     }
     if( !automated ) {
         popup( msg, PF_GET_KEY );

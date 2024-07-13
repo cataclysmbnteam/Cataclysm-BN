@@ -2427,6 +2427,7 @@
     "coverage": 10,
     "required_str": -1,
     "crafting_pseudo_item": [ "fake_3d_printer" ],
+    "examine_action": "use_furn_fake_item",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
@@ -2460,6 +2461,7 @@
     "coverage": 10,
     "required_str": -1,
     "crafting_pseudo_item": [ "fake_3d_printer_advanced" ],
+    "examine_action": "use_furn_fake_item",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [

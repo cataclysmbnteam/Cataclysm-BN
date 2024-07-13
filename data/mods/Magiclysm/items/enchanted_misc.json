@@ -17,7 +17,6 @@
     "flags": [ "ALLOWS_REMOTE_USE", "FIRE" ],
     "initial_charges": 60,
     "max_charges": 60,
-    "charges_per_use": 1,
     "sub": "hotplate",
     "artifact_data": { "charge_type": "ARTC_TIME" },
     "use_action": [
@@ -27,6 +26,7 @@
         "type": "transform",
         "target": "heat_cube_torch_on",
         "active": true,
+        "transform_charges": 1,
         "msg": "You push the torch button and the cube emits a large flame from the top, one that does radiate heat, but won't burn anything.",
         "menu_text": "Activate torch mode",
         "moves": 150

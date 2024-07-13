@@ -1,5 +1,13 @@
 [
   {
+    "id": "3d_printing_standard",
+    "type": "requirement",
+    "//": "For working with an printing items made from plastic using a 3D printer.",
+    "//2": "Time is typically 1 minute per plastic chunk used.",
+    "tools": [ [ [ "3d_printer_basic", 4 ], [ "3d_printer_advanced", 2 ] ] ],
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
     "id": "bullet_forming",
     "type": "requirement",
     "//": "Forming of bullets from raw materials",
@@ -89,7 +97,7 @@
     "id": "soldering_standard",
     "type": "requirement",
     "//": "Soldering metal items",
-    "tools": [ [ [ "soldering_ethanol", 10 ], [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
+    "tools": [ [ [ "soldering_iron", 1 ], [ "soldering_ethanol", 10 ], [ "toolset", 1 ] ] ],
     "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {

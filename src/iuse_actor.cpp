@@ -202,6 +202,7 @@ void iuse_transform::load( const JsonObject &obj )
     if( !obj.read( "need_fire_msg", need_fire_msg ) ) {
         need_fire_msg = to_translation( "You need a source of fire!" );
     }
+    obj.read( "transform_charges", transform_charges );
 
     obj.read( "need_worn", need_worn );
     obj.read( "need_wielding", need_wielding );
@@ -228,19 +229,24 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return 0;
     }
-    if( need_charges ) {
+    // No charge consumption at this point, there are still points of failure later.
+    if( need_charges || transform_charges ) {
         if( it.has_flag( flag_POWERARMOR_MOD ) && character_funcs::can_interface_armor( p ) ) {
-            if( !p.has_power() ) {
-                if( possess ) {
+            if( possess ) {
+                const int bio_power = units::to_kilojoule( p.get_power_level() );
+                if( bio_power < need_charges || bio_power < transform_charges ) {
                     p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
+                    return 0;
                 }
+            } else {
                 return 0;
             }
-        } else if( it.units_remaining( p ) < need_charges ) {
-            if( possess ) {
+        } else {
+            const int item_charges = it.units_remaining( p );
+            if( item_charges < need_charges || item_charges < transform_charges ) {
                 p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
+                return 0;
             }
-            return 0;
         }
     }
 
@@ -254,6 +260,13 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
             p.add_msg_if_player( m_info, _( "You can't do that while underwater" ) );
             return 0;
         }
+    }
+
+    // All checks complete the damn thing can finally transform
+    // Consume charges if necessary at this point.
+    // Cannot use consume_charges as that requires charge_per_use true.
+    if( transform_charges ) {
+        p.consume_charges( it, transform_charges );
     }
 
     if( possess && !msg_transform.empty() ) {

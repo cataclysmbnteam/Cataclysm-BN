@@ -388,6 +388,7 @@
     "entries": [
       { "item": "legpouch", "prob": 25 },
       { "item": "legpouch_large", "prob": 75 },
+      { "item": "mag_satchel_leg", "prob": 25 },
       { "item": "legrig", "prob": 50 },
       { "item": "dump_pouch", "prob": 50 },
       { "item": "grenade_pouch", "prob": 25 },
@@ -2005,11 +2006,9 @@
     "items": [
       [ "power_armor_frame", 25 ],
       [ "power_armor_chest_rig", 25 ],
-      [ "power_armor_back_holster", 10 ],
-      [ "power_armor_holster", 10 ],
-      [ "power_armor_bscabbard", 10 ],
-      [ "power_armor_scabbard", 10 ],
-      [ "power_armor_sheath", 10 ]
+      [ "power_armor_back_hardpoint", 20 ],
+      [ "power_armor_leg_hardpoint", 20 ],
+      [ "power_armor_canteen", 10 ]
     ]
   },
   {
@@ -2032,6 +2031,7 @@
       [ "mask_bal", 5 ],
       [ "shield_ballistic", 2 ],
       [ "e_tool", 10 ],
+      [ "shovel_short", 2 ],
       [ "waterproof_gunmod", 8 ],
       [ "grapnel", 3 ],
       [ "glasses_bal", 30 ],
@@ -2109,6 +2109,7 @@
       [ "sleeveless_duster", 2 ],
       [ "sleeveless_duster_leather", 5 ],
       [ "kevlar", 30 ],
+      [ "flotation_vest_sandbag", 15 ],
       [ "modularvest", 12 ],
       [ "modularvestceramic", 8 ],
       [ "modularveststeel", 5 ],
@@ -2145,8 +2146,9 @@
       [ "sholster", 4 ],
       [ "bootstrap", 2 ],
       [ "wristholster", 1 ],
-      [ "legpouch", 12 ],
+      [ "legpouch", 6 ],
       [ "legpouch_large", 6 ],
+      [ "mag_satchel_leg", 6 ],
       [ "chestpouch", 9 ],
       [ "ammo_satchel", 4 ],
       { "group": "used_UPS", "prob": 5 },
@@ -2323,6 +2325,7 @@
       [ "sleeveless_duster_survivor", 2 ],
       [ "vest", 40 ],
       [ "kevlar", 16 ],
+      [ "flotation_vest_sandbag", 8 ],
       [ "jacket_army", 28 ],
       [ "trenchcoat", 12 ],
       [ "trenchcoat_leather", 10 ],
@@ -2516,6 +2519,7 @@
       [ "pickaxe", 1 ],
       [ "makeshift_machete", 4 ],
       [ "machete_gimmick", 3 ],
+      [ "razor_macuahuitl", 1 ],
       [ "flamethrower_crude", 6 ],
       [ "fungicide", 10 ],
       [ "insecticide", 10 ],

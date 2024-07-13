@@ -7,7 +7,7 @@
     "name": { "str": "digging stick" },
     "description": "This is a large stick, with the end carved into a broad blade for digging.  It could be used to dig shallow pits, but not deep ones.",
     "weight": "1133 g",
-    "volume": "1500 ml",
+    "volume": "1250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "bashing": 8,
@@ -120,6 +120,18 @@
     "qualities": [ [ "DIG", 3 ], [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE" ]
+  },
+  {
+    "id": "shovel_short",
+    "type": "GENERIC",
+    "copy-from": "shovel",
+    "name": { "str": "short shovel" },
+    "description": "This digging tool has had its handle cut shorter to be easier to carry.  Digs holes just like any other shovel, but less effective as a weapon.",
+    "bashing": 12,
+    "cutting": 25,
+    "to_hit": -1,
+    "proportional": { "weight": 0.75, "volume": 0.5, "price_postapoc": 0.5 },
+    "extend": { "flags": [ "BELT_CLIP" ] }
   },
   {
     "id": "sickle",

@@ -465,6 +465,7 @@
       [ "elbow_pads", 10 ],
       [ "cu_pipe", 5 ],
       [ "e_tool", 5 ],
+      [ "shovel_short", 1 ],
       [ "knife_trench", 7 ],
       [ "sm_extinguisher", 10 ],
       [ "switchblade", 6 ],
@@ -1640,6 +1641,26 @@
       [ "software_useless", 25 ],
       [ "software_medical", 5 ],
       [ "software_hacking", 1 ]
+    ]
+  },
+  {
+    "id": "home_improvement_housewares",
+    "type": "item_group",
+    "//": "General mix of appliances, storage, and/or small furniture items that might be sold under the blanket category of housewares",
+    "items": [
+      [ "microwave", 10 ],
+      [ "toaster", 5 ],
+      [ "coffeemaker", 5 ],
+      [ "minifridge", 5 ],
+      [ "trash_can_empty", 15 ],
+      [ "basket_laundry", 10 ],
+      [ "clock", 15 ],
+      [ "alarmclock", 5 ],
+      [ "radio", 5 ],
+      [ "small_space_heater", 10 ],
+      [ "large_space_heater", 5 ],
+      [ "fan", 5 ],
+      [ "ac_unit_item", 5 ]
     ]
   },
   {

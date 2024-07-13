@@ -397,7 +397,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ], [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 5, "LIST" ] ] ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 5, "LIST" ] ] ]
   },
   {
     "type": "recipe",

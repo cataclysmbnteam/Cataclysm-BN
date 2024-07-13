@@ -21,6 +21,17 @@
     "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
+    "id": "power_armor_2lcanteen",
+    "copy-from": "2lcanteen",
+    "type": "CONTAINER",
+    "name": { "str": "power armor 2.5L canteen" },
+    "description": "A large plastic water canteen, with a 2.5 liter capacity.  It's been converted to clip onto power armor.",
+    "material": [ "plastic", "steel" ],
+    "armor_data": { "encumbrance": 8 },
+    "relative": { "weight": "500 g" },
+    "extend": { "flags": [ "POWERARMOR_MOD" ] }
+  },
+  {
     "id": "30gal_barrel",
     "type": "CONTAINER",
     "category": "container",
@@ -585,6 +596,17 @@
     "watertight": true,
     "armor_data": { "covers": [ "leg_either" ], "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
     "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "power_armor_canteen",
+    "copy-from": "canteen",
+    "type": "CONTAINER",
+    "name": { "str": "power armor canteen" },
+    "description": "A military-style water canteen with a 1.5 liter capacity.  Commonly worn at the hip, it's been converted to clip onto power armor.",
+    "material": [ "plastic", "steel" ],
+    "armor_data": { "encumbrance": 4 },
+    "relative": { "weight": "500 g" },
+    "extend": { "flags": [ "POWERARMOR_MOD" ] }
   },
   {
     "id": "thermos",

@@ -6,7 +6,7 @@
     "type": "MAGAZINE",
     "name": { "str": "5.56x45mm ammo belt" },
     "ammo_type": "223",
-    "capacity": 500,
+    "capacity": 200,
     "count": 100,
     "default_ammo": "556",
     "linkage": "ammolink223"

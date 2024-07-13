@@ -277,7 +277,7 @@ if (USE_TRACY)
 
     if (NOT TRACY_VERSION)
         if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
-            set(TRACY_VERSION 30f1b901a9bab40a193c97c77ec82ac70805164d)
+            set(TRACY_VERSION 6d1deb5640ed11da01995fb1791115cfebe54dbf)
         else()
             set(TRACY_VERSION v0.10)
         endif()
@@ -288,7 +288,6 @@ if (USE_TRACY)
         tracy
         GIT_REPOSITORY https://github.com/wolfpld/tracy.git
         GIT_TAG "${TRACY_VERSION}"
-        GIT_SHALLOW TRUE
         GIT_PROGRESS TRUE)
 
     FetchContent_MakeAvailable(tracy)

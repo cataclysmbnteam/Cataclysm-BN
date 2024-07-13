@@ -2513,7 +2513,8 @@
     "volume": "1 L"
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
     "id": "tobacco_raw",
     "symbol": "%",
     "color": "light_green",
@@ -2524,7 +2525,9 @@
     "price_postapoc": "50 cent",
     "material": "veggy",
     "weight": "100 g",
-    "volume": "250 ml"
+    "flags": [ "SMOKABLE" ],
+    "volume": "250 ml",
+    "smoking_result": "tobacco"
   },
   {
     "id": "cash_card",

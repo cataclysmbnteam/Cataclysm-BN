@@ -1942,7 +1942,11 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     p->add_msg_player_or_npc( m_good,
                               _( "You finish digging." ),
                               _( "<npcname> finishes digging." ) );
-    here.destroy( pos, true );
+    if( here.has_flag_furn( TFLAG_MINEABLE, pos ) ) {
+        here.destroy_furn( pos, true );
+    } else {
+        here.destroy( pos, true );
+    }
     if( !act->targets.empty() ) {
         item &it = *act->targets.front();
         p->consume_charges( it, it.ammo_required() );
@@ -4165,7 +4169,11 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     map &here = get_map();
     const tripoint &pos = here.getlocal( act->placement );
 
-    here.destroy( pos, true );
+    if( here.has_flag_furn( TFLAG_MINEABLE, pos ) ) {
+        here.destroy_furn( pos, true );
+    } else {
+        here.destroy( pos, true );
+    }
 
     if( p->is_avatar() ) {
         const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();

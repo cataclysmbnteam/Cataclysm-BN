@@ -131,7 +131,8 @@
     "items": [
       [ "binoculars", 15 ],
       [ "canteen", 25 ],
-      [ "e_tool", 20 ],
+      [ "e_tool", 10 ],
+      [ "shovel_short", 10 ],
       [ "flashlight", 20 ],
       [ "goggles_nv", 5 ],
       [ "hand_crank_charger", 15 ],
@@ -175,7 +176,8 @@
       [ "pitchfork", 60 ],
       [ "trimmer_off", 20 ],
       [ "scythe", 40 ],
-      [ "shovel", 120 ],
+      [ "shovel", 100 ],
+      [ "shovel_short", 20 ],
       [ "sickle", 40 ]
     ]
   },
@@ -342,7 +344,8 @@
     "items": [
       [ "binoculars", 30 ],
       [ "canteen", 15 ],
-      [ "e_tool", 10 ],
+      [ "e_tool", 5 ],
+      [ "shovel_short", 5 ],
       [ "flaregun", 20 ],
       [ "handflare", 20 ],
       [ "hatchet", 10 ],

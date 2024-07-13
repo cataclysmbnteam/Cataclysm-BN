@@ -3,7 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "NC_res_frontlawn_3X3",
-    "//": "NEST CONTAINER - house spawns should call this chunk. Global spawn rates can be adjusted, and additional chunks can be added here, which will affect any house spawn that calls this nest container. These are scenes and decorations you might find on a residential front lawn",
+    "//": "NEST CONTAINER - house spawns should call this chunk. Global spawn rates can be adjusted, and additional chunks can be added here, which will affect any house spawn that calls this nest container. These are scenes and decorations you might find in a residential front lawn",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rows": [
@@ -31,7 +31,20 @@
             [ "res_lawn_tablechairs", 5 ],
             [ "res_lawn_suitcase", 5 ],
             [ "res_roof_crows", 5 ],
-            [ "res_roof_frisb_bball", 5 ]
+            [ "res_roof_frisb_bball", 5 ],
+            [ "res_lawn_gardennative", 5 ],
+            [ "res_lawn_fertilizerbucket", 5 ],
+            [ "res_lawn_lilacbushes", 5 ],
+            [ "res_lawn_straydog", 5 ],
+            [ "res_lawn_ladder", 5 ],
+            [ "res_lawn_deckchairbeer", 5 ],
+            [ "res_lawn_shopping_cart", 5 ],
+            [ "res_lawn_bench", 5 ],
+            [ "res_lawn_corpse", 5 ],
+            [ "res_lawn_trimmings", 5 ],
+            [ "res_lawn_bloodpool", 5 ],
+            [ "res_lawn_randomnpc", 1 ],
+            [ "res_lawn_boulder", 5 ]
           ],
           "x": 0,
           "y": 0
@@ -67,7 +80,7 @@
         "_x_",
         "___"
       ],
-      "terrain": { "_": "t_null", "x": [ "t_stump", "t_region_tree_fruit", "t_region_tree_nut", "t_region_tree_shade" ] }
+      "terrain": { "_": "t_null", "x": [ [ "t_stump", 3 ], "t_region_tree_fruit", "t_region_tree_nut", "t_region_tree_shade" ] }
     }
   },
   {
@@ -115,7 +128,21 @@
         "x__"
       ],
       "terrain": { "_": "t_null" },
-      "monster": { "x": { "monster": "mon_cat" }, "!": { "monster": "mon_black_rat" } }
+      "monster": {
+        "x": {
+          "monster": [
+            "mon_cat",
+            "mon_cat_tabby",
+            "mon_cat_longhair",
+            "mon_cat_siamese",
+            "mon_cat_persian",
+            "mon_cat_calico",
+            "mon_cat_maine_coon",
+            "mon_cat_bengal"
+          ]
+        },
+        "!": { "monster": "mon_black_rat" }
+      }
     }
   },
   {
@@ -132,6 +159,252 @@
       ],
       "terrain": { "_": "t_null", "x": "t_dirtmound", "=": "t_trunk" },
       "items": { "x": { "item": "hydro", "chance": 50 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_straydog",
+    "//": "a former pet dog, now faced with horrible freedom.",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "_x_",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "monster": {
+        "x": {
+          "monster": [
+            "mon_dog_gshepherd",
+            "mon_dog_boxer",
+            "mon_dog_bcollie",
+            "mon_dog_beagle",
+            "mon_dog_pitbullmix",
+            "mon_dog_bull",
+            "mon_dog"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_deckchairbeer",
+    "//": "a deckchair set up on a lawn, surrounded by beer cans. almost like someone had just given up and decided to watch it all go to hell.",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "_x_",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "furniture": { "x": "f_deckchair" },
+      "place_loot": [
+        { "item": "can_drink_unsealed", "x": [ 0, 2 ], "y": [ 0, 2 ], "repeat": [ 5, 8 ] },
+        { "item": "beer", "x": 0, "y": 1, "repeat": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_ladder",
+    "//": "a folded ladder, discarded on a lawn.",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_loot": [ { "item": "stepladder", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_shopping_cart",
+    "//": "a shopping cart abandoned on someone's lawn, provisions spilled all around. ",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_loot": [
+        { "group": "cannedfood", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 40, "repeat": [ 5, 10 ] },
+        { "group": "groce_cereal", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 40, "repeat": [ 2, 3 ] },
+        { "group": "groce_ingredient", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 40, "repeat": [ 2, 3 ] },
+        { "group": "groce_softdrink", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 40, "repeat": [ 2, 3 ] },
+        { "group": "softdrugs", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 40, "repeat": [ 2, 3 ] },
+        { "group": "groce_pasta", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 40, "repeat": [ 2, 3 ] },
+        { "group": "snacks", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 40, "repeat": [ 3, 5 ] }
+      ],
+      "place_vehicles": [ { "vehicle": "shopping_cart", "x": 1, "y": 1, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_bench",
+    "//": "a peaceful spot to sit.",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "xxx",
+        "yyy",
+        "___"
+      ],
+      "terrain": { "_": "t_null", "x": "t_dirtmound" },
+      "furniture": { "x": "f_region_flower", "y": "f_bench" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_corpse",
+    "//": "an untimely end.",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_loot": [
+        { "group": "clothing_outdoor_set", "x": 1, "y": 1 },
+        { "group": "everyday_gear", "x": 1, "y": 1, "chance": 20, "repeat": [ 1, 2 ] },
+        { "group": "corpses", "x": 1, "y": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_trimmings",
+    "//": "a pile of lawn trimmings and plant matter.",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_loot": [
+        { "item": "stick", "x": 1, "y": 1, "repeat": [ 3, 5 ] },
+        { "item": "acorns", "x": 1, "y": 1, "repeat": [ 4, 7 ] },
+        { "group": "newspaper", "x": 1, "y": 1, "chance": 10 },
+        { "item": "withered", "x": 1, "y": 1, "repeat": [ 2, 4 ] },
+        { "item": "splinter", "x": 1, "y": 1, "repeat": [ 1, 2 ] },
+        { "item": "plant_fibre", "x": 1, "y": 1, "repeat": [ 1, 2 ] },
+        { "item": "feather", "x": 1, "y": 1, "chance": 10 },
+        { "item": "withered", "x": 1, "y": 1, "repeat": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_bloodpool",
+    "//": "a pool of blood, signs of a struggle",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 2 ], "y": [ 0, 2 ], "repeat": [ 2, 4 ] } ],
+      "place_loot": [ { "item": "9mm_casing", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 40, "repeat": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_gardennative",
+    "//": "small garden area with native plants",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "xxx",
+        "xyx",
+        "xxx"
+      ],
+      "terrain": { "_": "t_null", "x": "t_dirtmound", "y": [ [ "t_fern", 3 ], "t_shrub_huckleberry" ] },
+      "furniture": { "x": [ "f_black_eyed_susan", "f_sunflower", "f_mustard", "f_bluebell" ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_randomnpc",
+    "//": "friend or foe?",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_npcs": [ { "class": "survivor_camper", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_lilacbushes",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "xxx",
+        "xxx",
+        "___"
+      ],
+      "terrain": { "_": "t_null", "x": "t_shrub_lilac" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_fertilizerbucket",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_loot": [
+        { "item": "fertilizer_commercial", "x": [ 0, 2 ], "y": [ 0, 2 ] },
+        { "item": "bucket", "x": [ 0, 2 ], "y": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_lawn_boulder",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "_x_",
+        "___"
+      ],
+      "terrain": { "_": "t_dirtmound" },
+      "furniture": { "x": "f_boulder_medium", "_": "f_region_flower" }
     }
   },
   {
@@ -221,7 +494,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "NC_res_backyard_3X3",
-    "//": "NEST CONTAINER - house spawns should call this chunk. Global spawn rates can be adjusted, and additional chunks can be added here, which will affect any house spawn that calls this nest container. These are scenes and decorations you might find on a residential backyard",
+    "//": "NEST CONTAINER - house spawns should call this chunk. Global spawn rates can be adjusted, and additional chunks can be added here, which will affect any house spawn that calls this nest container. These are scenes and decorations you might find in a residential backyard",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rows": [
@@ -254,7 +527,20 @@
             [ "res_lawn_tablechairs", 5 ],
             [ "res_lawn_suitcase", 5 ],
             [ "res_roof_crows", 5 ],
-            [ "res_roof_frisb_bball", 5 ]
+            [ "res_roof_frisb_bball", 5 ],
+            [ "res_lawn_fertilizerbucket", 5 ],
+            [ "res_lawn_gardennative", 5 ],
+            [ "res_lawn_lilacbushes", 5 ],
+            [ "res_lawn_straydog", 5 ],
+            [ "res_lawn_ladder", 5 ],
+            [ "res_lawn_deckchairbeer", 5 ],
+            [ "res_lawn_bench", 5 ],
+            [ "res_lawn_corpse", 5 ],
+            [ "res_lawn_trimmings", 5 ],
+            [ "res_backyard_dirtpatch", 5 ],
+            [ "res_lawn_bloodpool", 5 ],
+            [ "res_lawn_randomnpc", 1 ],
+            [ "res_lawn_boulder", 5 ]
           ],
           "x": 0,
           "y": 0
@@ -403,6 +689,21 @@
         "_x_"
       ],
       "terrain": { "_": "t_null", "x": "t_slide" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_backyard_dirtpatch",
+    "//": "a patch of dirt and dead lawn, as if a large, stationary object has been recently removed.",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": [ [ "t_dirt", 4 ], "t_grass" ] }
     }
   }
 ]
