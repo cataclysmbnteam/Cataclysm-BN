@@ -151,7 +151,7 @@ ifndef VERBOSE
   VERBOSE = 0
 endif
 
-TARGET_NAME = cataclysm
+TARGET_NAME = cataclysm-bn
 TILES_TARGET_NAME = $(TARGET_NAME)-tiles
 
 TARGET = $(BUILD_PREFIX)$(TARGET_NAME)
