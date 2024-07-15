@@ -254,7 +254,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
-    "calories": 275,
+    "calories": 400,
     "//": "Somewhat-average calories based on components",
     "description": "A filling and nutritious New England classic that has been improved with the addition of extra wholesome ingredients.",
     "price": "550 cent",
