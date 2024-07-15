@@ -12,7 +12,7 @@ if (BUILD_TESTING)
 
     if (TILES)
         add_executable(cata_test-tiles ${CATACLYSM_BN_TEST_SOURCES})
-        target_link_libraries(cata_test-tiles PRIVATE cataclysm-tiles-common)
+        target_link_libraries(cata_test-tiles PRIVATE cataclysm-bn-tiles-common)
         add_test(
             NAME test-tiles
             COMMAND sh -c "$<TARGET_FILE:cata_test-tiles> --rng-seed time"
