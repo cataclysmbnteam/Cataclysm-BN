@@ -225,6 +225,7 @@
     "looks_like": "down_mattress",
     "name": { "str": "wool mattress", "str_pl": "wool mattresses" },
     "description": "A mattress made of wool.  It is quite soft and comfortable.",
-    "material": [ "wool" ]
+    "material": [ "wool" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_wool_mattress" }
   }
 ]
