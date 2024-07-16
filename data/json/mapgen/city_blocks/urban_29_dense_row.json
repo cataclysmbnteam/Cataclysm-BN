@@ -127,7 +127,7 @@
         "@": { "item": "magazines", "chance": 10 },
         "A": { "item": "livingroom", "chance": 15 },
         "C": { "item": "kitchen", "chance": 25 },
-        "Q": { "item": "trash", "chance": 50 },
+        "Q": { "item": "trash_dumpster", "chance": 80 },
         "c": { "item": "livingroom", "chance": 25 },
         "f": { "item": "SUS_fridge", "chance": 70 },
         "j": { "item": "dining", "chance": 50 },

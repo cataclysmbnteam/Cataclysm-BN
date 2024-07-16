@@ -130,7 +130,7 @@
         "C": { "item": "kitchen", "chance": 20 },
         "L": { "item": "cleaning", "chance": 90, "repeat": 3 },
         "O": { "item": "homebooks", "chance": 60 },
-        "Q": { "item": "trash", "chance": 50, "repeat": 5 },
+        "Q": { "item": "trash_dumpster", "chance": 80 },
         "f": { "item": "restaur_fridge", "chance": 50, "repeat": 4 },
         "g": { "item": "produce", "chance": 50, "repeat": 2 },
         "o": { "item": "oven", "chance": 30, "repeat": 2 },

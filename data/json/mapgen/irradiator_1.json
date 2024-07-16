@@ -207,7 +207,7 @@
         "]": { "item": "file_room", "chance": 80 },
         "q": { "item": "supplies_electronics", "chance": 70, "repeat": [ 1, 4 ] },
         "K": { "item": "pre_irradiated_food", "chance": 20, "repeat": [ 1, 4 ] },
-        "[": { "item": "pre_irradiated_food", "chance": 10, "repeat": [ 1, 4 ] },
+        "[": { "item": "trash_dumpster", "chance": 80 },
         "J": { "item": "irradiated_food", "chance": 20, "repeat": [ 1, 4 ] },
         "A": { "item": "radiation_equipment", "chance": 20, "repeat": [ 1, 2 ] },
         "W": { "item": "packaging", "chance": 80, "repeat": [ 1, 15 ] },

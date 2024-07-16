@@ -166,7 +166,7 @@
       "(": { "item": "pantry", "chance": 50, "repeat": 3 },
       "@": { "item": "bed", "chance": 50, "repeat": 2 },
       ".": { "item": "field", "chance": 1 },
-      "d̲": { "item": "trash", "chance": 65, "repeat": 4 },
+      "d̲": { "item": "trash_dumpster", "chance": 80 },
       "D": { "item": "floor_trash", "chance": 90, "repeat": 3 },
       "O": { "item": "oven", "chance": 50, "repeat": 2 },
       "d": { "item": "dresser", "chance": 50, "repeat": 3 },
