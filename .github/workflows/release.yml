@@ -74,16 +74,8 @@ jobs:
           toTag: ${{ needs.metadata.outputs.tag_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Show Changelog
-        run: |
-          OUTPUT=$(cat << EOF
-            ${{ steps.build_changelog.outputs.changelog }} 
-            EOF
-            )
-          echo "$OUTPUT" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Create release
-        if: ${{ steps.tag_check.outputs.exists == 'false' }}
         id: create_release
         uses: softprops/action-gh-release@v2.0.2
         env:
