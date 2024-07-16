@@ -74,6 +74,8 @@ jobs:
           toTag: ${{ needs.metadata.outputs.tag_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Show Changelog
+        run: echo ${{ steps.build_changelog.outputs.changelog }} >> "$GITHUB_STEP_SUMMARY"
 
       - name: Create release
         if: ${{ steps.tag_check.outputs.exists == 'false' }}
