@@ -553,18 +553,19 @@
     "//": "Rifles including those only used by police/paramilitary forces or owned illegally.",
     "items": [
       { "group": "nested_acr", "prob": 25 },
-      { "group": "nested_m14ebr", "prob": 15 },
-      { "group": "nested_carbon_rifle", "prob": 25 },
-      { "group": "nested_M24", "prob": 15 },
-      { "group": "nested_m4a1", "prob": 45 },
-      { "group": "nested_m1918", "prob": 30 },
-      { "group": "nested_hk417_13", "prob": 40 },
+      { "group": "nested_acr_300blk", "prob": 15 },
       { "group": "nested_ar15_retool_300blk", "prob": 15 },
+      { "group": "nested_carbon_rifle", "prob": 25 },
       { "group": "nested_h&k416a5", "prob": 10 },
+      { "group": "nested_hk417_13", "prob": 40 },
+      { "group": "nested_m110a1", "prob": 5 },
+      { "group": "nested_m14ebr", "prob": 15 },
+      { "group": "nested_m1918", "prob": 30 },
       { "group": "nested_m2010", "prob": 20 },
+      { "group": "nested_M24", "prob": 15 },
       { "group": "nested_m27iar", "prob": 5 },
-      { "group": "nested_sig552", "prob": 10 },
-      { "group": "nested_m110a1", "prob": 5 }
+      { "group": "nested_m4a1", "prob": 45 },
+      { "group": "nested_sig552", "prob": 10 }
     ]
   },
   {
@@ -573,18 +574,19 @@
     "//": "Rifles including those only used by police/paramilitary forces or owned illegally.  Served with mags or a side of loose ammo.",
     "items": [
       { "group": "everyday_acr", "prob": 25 },
-      { "group": "everyday_m14ebr", "prob": 15 },
-      { "group": "everyday_carbon_rifle", "prob": 25 },
-      { "group": "everyday_M24", "prob": 15 },
-      { "group": "everyday_m4a1", "prob": 45 },
-      { "group": "everyday_m1918", "prob": 30 },
-      { "group": "everyday_hk417_13", "prob": 40 },
+      { "group": "everyday_acr_300blk", "prob": 15 },
       { "group": "everyday_ar15_retool_300blk", "prob": 15 },
+      { "group": "everyday_carbon_rifle", "prob": 25 },
       { "group": "everyday_h&k416a5", "prob": 10 },
+      { "group": "everyday_hk417_13", "prob": 40 },
+      { "group": "everyday_m110a1", "prob": 5 },
+      { "group": "everyday_m14ebr", "prob": 15 },
+      { "group": "everyday_m1918", "prob": 30 },
       { "group": "everyday_m2010", "prob": 20 },
+      { "group": "everyday_M24", "prob": 15 },
       { "group": "everyday_m27iar", "prob": 5 },
-      { "group": "everyday_sig552", "prob": 10 },
-      { "group": "everyday_m110a1", "prob": 5 }
+      { "group": "everyday_m4a1", "prob": 45 },
+      { "group": "everyday_sig552", "prob": 10 }
     ]
   },
   {
@@ -691,19 +693,18 @@
       { "group": "nested_ak47", "prob": 50 },
       { "group": "nested_ak74", "prob": 50 },
       { "group": "nested_an94", "prob": 40 },
+      { "group": "nested_arx160", "prob": 40 },
       { "group": "nested_bfg50", "prob": 5 },
       { "group": "nested_carbine_flintlock", "prob": 140 },
       { "group": "nested_famas", "prob": 30 },
-      { "group": "nested_rifle_flintlock", "prob": 90 },
-      { "group": "nested_longrifle_flintlock", "prob": 90 },
-      { "group": "nested_steyr_aug", "prob": 40 },
-      { "group": "nested_trex_gun", "prob": 20 },
-      { "group": "nested_arx160", "prob": 40 },
-      { "group": "nested_iwi_tavor_x95_300blk", "prob": 20 },
-      { "group": "nested_acr_300blk", "prob": 15 },
       { "group": "nested_fn_fal", "prob": 40 },
       { "group": "nested_hk_g3", "prob": 40 },
-      { "group": "nested_hk_g36", "prob": 40 }
+      { "group": "nested_hk_g36", "prob": 40 },
+      { "group": "nested_iwi_tavor_x95_300blk", "prob": 20 },
+      { "group": "nested_longrifle_flintlock", "prob": 90 },
+      { "group": "nested_rifle_flintlock", "prob": 90 },
+      { "group": "nested_steyr_aug", "prob": 40 },
+      { "group": "nested_trex_gun", "prob": 20 }
     ]
   },
   {
@@ -714,19 +715,18 @@
       { "group": "everyday_ak47", "prob": 50 },
       { "group": "everyday_ak74", "prob": 50 },
       { "group": "everyday_an94", "prob": 40 },
+      { "group": "everyday_arx160", "prob": 40 },
       { "group": "everyday_bfg50", "prob": 5 },
       { "group": "everyday_carbine_flintlock", "prob": 140 },
       { "group": "everyday_famas", "prob": 30 },
-      { "group": "everyday_rifle_flintlock", "prob": 90 },
-      { "group": "everyday_longrifle_flintlock", "prob": 90 },
-      { "group": "everyday_steyr_aug", "prob": 40 },
-      { "group": "everyday_trex_gun", "prob": 20 },
-      { "group": "everyday_arx160", "prob": 40 },
-      { "group": "everyday_iwi_tavor_x95_300blk", "prob": 20 },
-      { "group": "everyday_acr_300blk", "prob": 15 },
       { "group": "everyday_fn_fal", "prob": 40 },
       { "group": "everyday_hk_g3", "prob": 40 },
-      { "group": "everyday_hk_g36", "prob": 40 }
+      { "group": "everyday_hk_g36", "prob": 40 },
+      { "group": "everyday_iwi_tavor_x95_300blk", "prob": 20 },
+      { "group": "everyday_longrifle_flintlock", "prob": 90 },
+      { "group": "everyday_rifle_flintlock", "prob": 90 },
+      { "group": "everyday_steyr_aug", "prob": 40 },
+      { "group": "everyday_trex_gun", "prob": 20 }
     ]
   },
   {
