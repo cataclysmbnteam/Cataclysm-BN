@@ -37,7 +37,7 @@ jobs:
     name: Create Release
     runs-on: ubuntu-22.04
 
-    if: github.event_name == "workflow_dispatch" || fromJson(needs.metadata.outputs.count) > 0
+    if: github.event_name == 'workflow_dispatch' || fromJson(needs.metadata.outputs.count) > 0
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       release_already_exists: ${{ steps.tag_check.outputs.exists }}
