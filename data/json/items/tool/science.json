@@ -692,7 +692,7 @@
     "price": "400 USD",
     "price_postapoc": "20 USD",
     "material": [ "steel", "plastic" ],
-    "looks_like": "f_centrifuge",
+    "looks_like": "f_heavy_lathe",
     "symbol": "n",
     "color": "white",
     "ammo": "battery",

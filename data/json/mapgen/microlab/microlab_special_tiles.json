@@ -388,18 +388,18 @@
         "  cc | cc |  | h h| c c ",
         "     |    |  |6666|     ",
         "||22|||||||22||||||2||||",
-        "    c|Y          Y| ccc ",
-        "   Yr|            |     ",
-        "    r|  dd SS CC  |     ",
-        "    c|  6h SS CC  |FFrr ",
-        "||2|||  6  SS CC  ||||||",
-        "     2        h7  2     ",
-        "     2         7  2     ",
-        "||2|||  877P8778  ||||2|",
-        "    F|     6h     |ccr  ",
-        "    F|  GG 6  99  |c    ",
+        "    c|SSS Y  Y    | ccc ",
+        "   Yr|6h          |     ",
+        "    r|6    CC h8  |     ",
+        "    c|     CC  7  |FFrr ",
+        "||2|||     CC  7  ||||||",
+        "     2  GGGtt  7  2     ",
+        "     2  999tt  7  2     ",
+        "||2|||        67  ||||2|",
+        "    F|  h    h67  |ccr  ",
+        "    F|  877777P8  |c    ",
         "   YF|            |c    ",
-        "    F|Y          Y|cc   ",
+        "    F|    Y  Y    |cc   ",
         "||22|||||||22|||||||||2|",
         "Fc   |ccc |YY( UUU|ccc  ",
         "  Y  |c   2  2    |c    ",
@@ -408,10 +408,13 @@
         "   cc|    |  |    |     "
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "G": "t_generator_broken", "7": "t_conveyor", "7": "t_machinery_heavy", "9": "t_machinery_electronic" },
+      "terrain": { "G": "t_generator_broken", "7": "t_conveyor", "8": "t_machinery_heavy", "9": "t_machinery_electronic" },
       "furniture": { "C": "f_crate_c", "P": "f_3d_printer_advanced", "S": "f_server" },
       "mapping": {
-        "C": { "items": [ { "item": "3d_printing_raw_materials", "chance": 100 }, { "item": "supplies_metal", "chance": 50, "repeat": 2 } ] }
+        "C": {
+          "items": [ { "item": "3d_printing_raw_materials", "chance": 100 }, { "item": "supplies_metal", "chance": 50, "repeat": 2 } ]
+        },
+        "t": { "items": { "item": "tools_electronics", "chance": 50, "repeat": 2 } }
       }
     }
   }

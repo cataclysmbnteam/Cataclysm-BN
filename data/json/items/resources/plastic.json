@@ -28,7 +28,7 @@
     "material": "carbon_fiber",
     "symbol": "=",
     "color": "dark_gray",
-    "looks_like": "solder",
+    "looks_like": "solder_wire",
     "flags": [ "NO_SALVAGE" ],
     "stackable": true
   },
