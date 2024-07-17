@@ -190,7 +190,7 @@
   {
     "type": "item_group",
     "id": "carried_guns_pistol_rare",
-    "//": "Less common pistols including those only used by police/paramilitary forces. As these are carried, they either have mags OR loose ammo rather than both",
+    "//": "Pistols including those only used by police/paramilitary forces. As these are carried, they either have mags OR loose ammo rather than both",
     "items": [
       { "group": "everyday_carbon_pistol", "prob": 25 },
       { "group": "everyday_carbon_pistol", "prob": 3 },
@@ -290,12 +290,16 @@
     "id": "guns_smg_common",
     "//": "SMGs commonly owned by citizens and found in many locations.",
     "items": [
-      { "group": "nested_tommygun", "prob": 70 },
+      { "group": "nested_american_180", "prob": 20 },
       { "group": "nested_hk_mp5_semi_pistol", "prob": 70 },
-      { "group": "nested_sten", "prob": 100 },
-      { "group": "nested_uzi", "prob": 100 },
+      { "group": "nested_kriss_vector", "prob": 40 },
       { "group": "nested_mac_10", "prob": 40 },
-      { "group": "nested_mac_11", "prob": 20 }
+      { "group": "nested_mac_11", "prob": 20 },
+      { "group": "nested_sten", "prob": 100 },
+      { "group": "nested_TDI", "prob": 40 },
+      { "group": "nested_tec9", "prob": 20 },
+      { "group": "nested_tommygun", "prob": 70 },
+      { "group": "nested_uzi", "prob": 100 }
     ]
   },
   {
@@ -303,12 +307,16 @@
     "id": "carried_guns_smg_common",
     "//": "SMGs commonly owned by citizens and carried. Also has either mags or loose ammo.",
     "items": [
-      { "group": "everyday_tommygun", "prob": 70 },
+      { "group": "everyday_american_180", "prob": 20 },
       { "group": "everyday_hk_mp5_semi_pistol", "prob": 70 },
-      { "group": "everyday_sten", "prob": 100 },
-      { "group": "everyday_uzi", "prob": 100 },
+      { "group": "everyday_kriss_vector", "prob": 40 },
       { "group": "everyday_mac_10", "prob": 40 },
-      { "group": "everyday_mac_11", "prob": 20 }
+      { "group": "everyday_mac_11", "prob": 20 },
+      { "group": "everyday_sten", "prob": 100 },
+      { "group": "everyday_TDI", "prob": 40 },
+      { "group": "everyday_tec9", "prob": 20 },
+      { "group": "everyday_tommygun", "prob": 70 },
+      { "group": "everyday_uzi", "prob": 100 }
     ]
   },
   {
@@ -316,63 +324,42 @@
     "id": "guns_smg_common_display",
     "//": "Empty SMGs exclusively found in gun stores.",
     "items": [
-      { "item": "tommygun", "prob": 70, "charges-min": 0, "charges-max": 0 },
+      { "item": "american_180", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "hk_mp5_semi_pistol", "prob": 70, "charges-min": 0, "charges-max": 0 },
+      { "item": "kriss_vector", "prob": 40, "charges-min": 0, "charges-max": 0 },
+      { "item": "mac_10", "prob": 40, "charges-min": 0, "charges-max": 0 },
+      { "item": "mac_11", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "sten", "prob": 100, "charges-min": 0, "charges-max": 0 },
+      { "item": "TDI", "prob": 40, "charges-min": 0, "charges-max": 0 },
+      { "item": "tec9", "prob": 20, "charges-min": 0, "charges-max": 0 },
+      { "item": "tommygun", "prob": 70, "charges-min": 0, "charges-max": 0 },
       { "item": "uzi", "prob": 100, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_smg_rare",
-    "//": "Less common SMGs including those only used by police/paramilitary forces.",
+    "//": "SMGs including those only used by police/paramilitary forces.",
     "items": [
       { "group": "nested_calico", "prob": 30 },
       { "group": "nested_fn_p90", "prob": 50 },
       { "group": "nested_hk_mp5", "prob": 100 },
-      { "group": "nested_hk_mp5sd", "prob": 5 },
-      { "group": "nested_hk_ump45", "prob": 30 },
-      { "group": "nested_TDI", "prob": 10 },
-      { "group": "nested_kriss_vector", "prob": 10 },
-      { "group": "nested_american_180", "prob": 50 },
-      { "group": "nested_briefcase_smg", "prob": 5 },
-      { "group": "nested_tec9", "prob": 50 }
+      { "group": "nested_hk_mp5sd", "prob": 10 },
+      { "group": "nested_hk_mp7", "prob": 60 },
+      { "group": "nested_hk_ump45", "prob": 30 }
     ]
   },
   {
     "type": "item_group",
     "id": "carried_guns_smg_rare",
-    "//": "Less common SMGs including those only carried by police/paramilitary forces. Either mags or loose ammo are included.",
+    "//": "SMGs including those only carried by police/paramilitary forces. Either mags or loose ammo are included.",
     "items": [
       { "group": "everyday_calico", "prob": 30 },
       { "group": "everyday_fn_p90", "prob": 50 },
       { "group": "everyday_hk_mp5", "prob": 100 },
-      { "group": "everyday_hk_mp5sd", "prob": 5 },
-      { "group": "everyday_hk_ump45", "prob": 30 },
-      { "group": "everyday_TDI", "prob": 10 },
-      { "group": "everyday_kriss_vector", "prob": 10 },
-      { "group": "everyday_american_180", "prob": 50 },
-      { "group": "everyday_briefcase_smg", "prob": 5 },
-      { "group": "everyday_tec9", "prob": 50 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_smg_rare_display",
-    "//": "Less common SMGs found exclusively in gun stores.",
-    "items": [
-      { "item": "calico", "prob": 30, "charges-min": 0, "charges-max": 0 },
-      { "item": "fn_p90", "prob": 50, "charges-min": 0, "charges-max": 0 },
-      { "item": "hk_mp5", "prob": 100, "charges-min": 0, "charges-max": 0 },
-      { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 0 },
-      { "item": "hk_ump45", "prob": 30, "charges-min": 0, "charges-max": 0 },
-      { "item": "mac_10", "prob": 40, "charges-min": 0, "charges-max": 0 },
-      { "item": "mac_11", "prob": 20, "charges-min": 0, "charges-max": 0 },
-      { "item": "TDI", "prob": 10, "charges-min": 0, "charges-max": 0 },
-      { "item": "kriss_vector", "prob": 10, "charges-min": 0, "charges-max": 0 },
-      { "item": "american_180", "prob": 50, "charges-min": 0, "charges-max": 0 },
-      { "item": "briefcase_smg", "prob": 5, "charges-min": 0, "charges-max": 0 },
-      { "item": "tec9", "prob": 50, "charges-min": 0, "charges-max": 0 }
+      { "group": "everyday_hk_mp5sd", "prob": 10 },
+      { "group": "everyday_hk_mp7", "prob": 60 },
+      { "group": "everyday_hk_ump45", "prob": 30 }
     ]
   },
   {
@@ -406,6 +393,7 @@
     "id": "guns_smg_obscure",
     "//": "Imported or otherwise very obscure SMGs.",
     "items": [
+      { "group": "nested_briefcase_smg", "prob": 80 },
       { "group": "nested_ppsh", "prob": 150 },
       { "group": "nested_skorpion_61", "prob": 100 },
       { "group": "nested_skorpion_82", "prob": 100 }
@@ -416,6 +404,7 @@
     "id": "carried_guns_smg_obscure",
     "//": "Imported or otherwise very obscure SMGs. Just mags, no loose ammo.",
     "items": [
+      { "group": "everyday_briefcase_smg", "prob": 80 },
       { "group": "everyday_ppsh", "prob": 150 },
       { "group": "everyday_skorpion_61", "prob": 100 },
       { "group": "everyday_skorpion_82", "prob": 100 }
