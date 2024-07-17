@@ -39,6 +39,7 @@ cata_test-tiles
 cataclysm
 cataclysm-tiles
 cataclysm-tiles.exe.manifest
+cataclysm-bn-tiles.exe.manifest
 cataclysm-vcpkg
 cataclysmdda-*
 debug.log
