@@ -80,7 +80,7 @@
     "id": "aksemi",
     "copy-from": "rifle_auto",
     "type": "GUN",
-    "name": { "str": "AK-47" },
+    "name": { "str": "AK-47 semi" },
     "description": "Civilian-legal clones of the iconic Kalashnikov, like this one, were manufactured and imported by many different firms.  Even without full-auto function, their solid firepower and reliability in harsh conditions make them valuable weapons in this new world.",
     "weight": "3402 g",
     "volume": "4414 ml",
