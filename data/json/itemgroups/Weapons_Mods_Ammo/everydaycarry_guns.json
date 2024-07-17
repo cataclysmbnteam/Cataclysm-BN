@@ -1623,6 +1623,16 @@
     ]
   },
   {
+    "id": "everyday_taurus_judge",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "taurus_judge", "ammo-group": "on_hand_410_or_45colt", "charges": [ 0, 6 ] },
+      { "group": "on_hand_410_or_45colt", "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+    ]
+  },
+  {
     "id": "everyday_ruger_lcr_22",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2208,6 +2218,26 @@
     "subtype": "collection",
     "entries": [
       { "item": "mossberg_500", "ammo-group": "on_hand_shot", "charges": [ 0, 6 ] },
+      { "group": "on_hand_shot", "charges": [ 5, 10 ], "count": [ 2, 3 ] }
+    ]
+  },
+  {
+    "id": "everyday_winchester_1887",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "winchester_1887", "ammo-group": "on_hand_shot", "charges": [ 0, 6 ] },
+      { "group": "on_hand_shot", "charges": [ 5, 10 ], "count": [ 2, 3 ] }
+    ]
+  },
+  {
+    "id": "everyday_winchester_1897",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "winchester_1897", "ammo-group": "on_hand_shot", "charges": [ 0, 6 ] },
       { "group": "on_hand_shot", "charges": [ 5, 10 ], "count": [ 2, 3 ] }
     ]
   },

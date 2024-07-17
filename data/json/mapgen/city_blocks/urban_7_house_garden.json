@@ -8,13 +8,13 @@
       "fill_ter": "t_floor",
       "rows": [
         "########################",
-        "#,,,,,qq|---|-----------",
-        "#,,,,,;;|W D|ffCoCSC2   ",
+        "#,,,,,,,|---|-----------",
+        "#,,,,#;;|W D|ffCoCSC2   ",
         "#,,,;;;;!   +22222222   ",
         "#,,,;#;;|rrr|22CCC222   ",
         "#,,,;,,,|---|22CCC222   ",
         "#,,,;,,,|AtA 22222222 |-",
-        "#,,,;,,,w             |,",
+        "#,,,;,,,w             |#",
         "#,##;,,,w     A       w#",
         "#,##;##,w    At       w#",
         "#,,,;##,|             w#",
@@ -33,6 +33,11 @@
         "########################"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
+      "terrain": {
+        "#": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        ";": "t_concrete",
+        ",": "t_region_groundcover_urban"
+      },
       "toilets": { "T": {  } },
       "items": {
         " ": { "item": "livingroom", "chance": 2 },
@@ -78,12 +83,21 @@
         ",,,,,,##;;;;;;;##,,,,,,#",
         ",,,,,,,,,;;;;;,,,,,,,,,#",
         ",,,,,,,,,,;;;,,,,,,,,,,#",
-        ";;;;;;;;;;;;;,,,,,,,,,,#",
+        ";;;;;;;;;;;;;p̄,,,,,,,,,#",
         ",,,,,,,,,,;;;,,,,,,,,,,#",
         "##########;;;###########"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
+      "terrain": {
+        "#": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        ";": "t_concrete",
+        ",": "t_region_groundcover_urban",
+        "p̄": "t_region_groundcover_urban",
+        "^": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ]
+      },
+      "furniture": { "p̄": "f_mailbox" },
       "items": {
+        "p̄": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         " ": { "item": "livingroom", "chance": 2 },
         "O": { "item": "homebooks", "chance": 60 },
         "r": { "item": "farming_seeds", "chance": 60 }
