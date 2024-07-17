@@ -129,20 +129,7 @@
         "[[[[[[[[[[[[[[[[[[[[[[[[[[[|_______::_______|[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[["
       ],
       "palettes": [ "industrial_center_palette" ],
-
-
-      "place_nested": [
-        {
-          "chunks": [
-            [ "industrial_center_workroom_1", 50 ],
-            [ "industrial_center_workroom_2", 50 ]
-          ],
-          "x": 29,
-          "y": 3
-        }
-      ],
-
-
+      "place_nested": [ { "chunks": [ [ "industrial_center_workroom_1", 50 ], [ "industrial_center_workroom_2", 50 ] ], "x": 29, "y": 3 } ],
       "place_loot": [
         { "group": "office_breakroom", "x": 20, "y": [ 3, 4 ], "chance": 25, "repeat": 4 },
         { "group": "tools_common", "x": 22, "y": [ 5, 7 ], "chance": 30, "repeat": 6 },
