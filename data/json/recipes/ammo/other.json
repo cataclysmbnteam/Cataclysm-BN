@@ -387,6 +387,7 @@
     "//": "Increased time since in this case you still have to forge spearheads",
     "time": "30 m",
     "book_learn": [ [ "textbook_computer", 2 ], [ "advanced_electronics", 2 ], [ "reference_fabrication1", 2 ] ],
-    "using": [ [ "3d_printing_standard", 5 ], [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ]
+    "using": [ [ "3d_printing_standard", 1 ], [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 5 ] ] ]
   }
 ]

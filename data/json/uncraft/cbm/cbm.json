@@ -54,6 +54,15 @@
   },
   {
     "type": "uncraft",
+    "result": "bio_carbon",
+    "skill_used": "electronics",
+    "difficulty": 7,
+    "time": "50 m",
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "components": [ [ [ "carbon_fiber_filament", 200 ] ], [ [ "cable", 5 ] ], [ [ "plastic_chunk", 5 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
     "result": "bio_weight",
     "skill_used": "electronics",
     "difficulty": 9,

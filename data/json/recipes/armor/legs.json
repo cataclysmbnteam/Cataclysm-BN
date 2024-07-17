@@ -707,8 +707,9 @@
     "skill_used": "computer",
     "difficulty": 3,
     "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "50 m",
+    "time": "49 m",
     "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "reference_fabrication1", 3 ] ],
-    "using": [ [ "3d_printing_standard", 50 ] ]
+    "using": [ [ "3d_printing_standard", 49 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 490 ] ] ]
   }
 ]

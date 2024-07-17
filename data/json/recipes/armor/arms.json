@@ -238,8 +238,9 @@
     "skill_used": "computer",
     "difficulty": 1,
     "skills_required": [ [ "fabrication", 2 ] ],
-    "time": "35 m",
+    "time": "33 m",
     "book_learn": [ [ "textbook_computer", 1 ], [ "advanced_electronics", 1 ], [ "reference_fabrication1", 1 ] ],
-    "using": [ [ "3d_printing_standard", 35 ] ]
+    "using": [ [ "3d_printing_standard", 33 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 330 ] ] ]
   }
 ]

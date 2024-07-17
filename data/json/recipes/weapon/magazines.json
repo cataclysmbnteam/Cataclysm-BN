@@ -500,7 +500,8 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "3 m",
     "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ], [ "reference_fabrication1", 3 ] ],
-    "using": [ [ "3d_printing_standard", 3 ] ]
+    "using": [ [ "3d_printing_standard", 3 ] ],
+    "components": [ [ [ "plastic_chunk", 3 ] ] ]
   },
   {
     "result": "glockbigmag",
@@ -512,7 +513,8 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "5 m",
     "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ], [ "reference_fabrication1", 3 ] ],
-    "using": [ [ "3d_printing_standard", 5 ] ]
+    "using": [ [ "3d_printing_standard", 5 ] ],
+    "components": [ [ [ "plastic_chunk", 5 ] ] ]
   },
   {
     "result": "carbonmag_223",
@@ -524,6 +526,7 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "time": "3 m",
     "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ], [ "reference_fabrication1", 3 ] ],
-    "using": [ [ "3d_printing_standard", 3 ] ]
+    "using": [ [ "3d_printing_standard", 3 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 30 ] ] ]
   }
 ]

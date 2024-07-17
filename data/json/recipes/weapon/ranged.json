@@ -1250,7 +1250,7 @@
     "book_learn": [ [ "textbook_robots", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ], [ "reference_fabrication1", 6 ] ],
     "using": [ [ "3d_printing_standard", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ] ]
+    "components": [ [ [ "carbon_fiber_filament", 50 ] ], [ [ "pipe", 1 ] ] ]
   },
   {
     "result": "crossbow_carbon",
@@ -1263,7 +1263,7 @@
     "time": "50 m",
     "book_learn": [ [ "textbook_computer", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ], [ "reference_fabrication1", 6 ] ],
     "using": [ [ "3d_printing_standard", 50 ] ],
-    "components": [ [ [ "cordage_superior", 3, "LIST" ] ] ]
+    "components": [ [ [ "carbon_fiber_filament", 500 ] ], [ [ "cordage_superior", 3, "LIST" ] ] ]
   },
   {
     "result": "carbon_rifle",
@@ -1278,6 +1278,6 @@
     "book_learn": [ [ "textbook_computer", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ], [ "reference_fabrication1", 6 ] ],
     "using": [ [ "3d_printing_standard", 20 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ] ]
+    "components": [ [ [ "carbon_fiber_filament", 200 ] ], [ [ "pipe", 1 ] ] ]
   }
 ]

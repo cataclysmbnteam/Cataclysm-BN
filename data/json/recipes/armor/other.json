@@ -559,9 +559,10 @@
     "skill_used": "computer",
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
-    "time": "20 m",
+    "time": "17 m",
     "book_learn": [ [ "textbook_robots", 0 ], [ "advanced_electronics", 0 ], [ "reference_fabrication1", 0 ] ],
-    "using": [ [ "3d_printing_standard", 20 ] ]
+    "using": [ [ "3d_printing_standard", 17 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 170 ] ] ]
   },
   {
     "result": "carbon_shield",
@@ -574,6 +575,7 @@
     "autolearn": true,
     "time": "30 m",
     "book_learn": [ [ "textbook_computer", 0 ], [ "advanced_electronics", 0 ], [ "reference_fabrication1", 0 ] ],
-    "using": [ [ "3d_printing_standard", 30 ] ]
+    "using": [ [ "3d_printing_standard", 30 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 300 ] ] ]
   }
 ]

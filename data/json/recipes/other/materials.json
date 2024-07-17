@@ -1436,5 +1436,22 @@
       { "id": "SCREW_FINE", "level": 1 }
     ],
     "components": [ [ [ "steel_tiny", 3, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "carbon_fiber_filament",
+    "//": "Requires advanced printer specifically, makes half its mass in product",
+    "//2": "TODO: If pitch is ever mainlined from MST Extra, or rosin has its mass sanity-checked, allow that as an alternative",
+    "result_mult": 5,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "computer",
+    "difficulty": 4,
+    "skills_required": [ [ "fabrication", 3 ], [ "cooking", 5 ] ],
+    "time": "5 m",
+    "batch_time_factors": [ 80, 4 ],
+    "book_learn": [ [ "textbook_computer", 5 ], [ "advanced_electronics", 5 ], [ "adv_chemistry", 4 ], [ "reference_fabrication1", 4 ] ],
+    "tools": [ [ [ "3d_printer_advanced", 5 ] ] ],
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
   }
 ]

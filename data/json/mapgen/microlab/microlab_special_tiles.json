@@ -373,5 +373,46 @@
         }
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic" ] ],
+    "method": "json",
+    "weight": 2500,
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "     |    |  | cc |     ",
+        "     | cc |  | cc | c c ",
+        "  cc | cc 2  2    | c c ",
+        "  cc | cc |  | h h| c c ",
+        "     |    |  |6666|     ",
+        "||22|||||||22||||||2||||",
+        "    c|Y          Y| ccc ",
+        "   Yr|            |     ",
+        "    r|  dd SS CC  |     ",
+        "    c|  6h SS CC  |FFrr ",
+        "||2|||  6  SS CC  ||||||",
+        "     2        h7  2     ",
+        "     2         7  2     ",
+        "||2|||  877P8778  ||||2|",
+        "    F|     6h     |ccr  ",
+        "    F|  GG 6  99  |c    ",
+        "   YF|            |c    ",
+        "    F|Y          Y|cc   ",
+        "||22|||||||22|||||||||2|",
+        "Fc   |ccc |YY( UUU|ccc  ",
+        "  Y  |c   2  2    |c    ",
+        "     |c   2  2    |F cc ",
+        "     |ccc |  |2(((|F cc ",
+        "   cc|    |  |    |     "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "G": "t_generator_broken", "7": "t_conveyor", "7": "t_machinery_heavy", "9": "t_machinery_electronic" },
+      "furniture": { "C": "f_crate_c", "P": "f_3d_printer_advanced", "S": "f_server" },
+      "mapping": {
+        "C": { "items": [ { "item": "3d_printing_raw_materials", "chance": 100 }, { "item": "supplies_metal", "chance": 50, "repeat": 2 } ] }
+      }
+    }
   }
 ]

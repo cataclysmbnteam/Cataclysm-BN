@@ -311,7 +311,8 @@
       [ "salt", 10 ],
       [ "sugar", 10 ],
       [ "chem_ethanol", 10 ],
-      [ "oxygen_cylinder", 8 ]
+      [ "oxygen_cylinder", 8 ],
+      { "item": "carbon_fiber_filament", "prob": 10, "count": [ 25, 50 ] }
     ]
   },
   {
@@ -593,5 +594,19 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "item": "FMCNote", "prob": 80, "count": [ 1, 8 ] }, { "item": "RobofacCoin", "prob": 20, "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "3d_printing_raw_materials",
+    "subtype": "collection",
+    "entries": [
+      { "item": "plastic_chunk", "count": [ 5, 10 ] },
+      { "item": "plastic_scrap", "prob": 50, "count": [ 10, 20 ] },
+      { "item": "carbon_fiber_filament", "prob": 50, "count": [ 50, 100 ] },
+      {
+        "distribution": [ { "item": "rigid_plastic_sheet", "prob": 50 }, { "item": "plastic_sheet", "prob": 50 } ],
+        "prob": 50
+      }
+    ]
   }
 ]
