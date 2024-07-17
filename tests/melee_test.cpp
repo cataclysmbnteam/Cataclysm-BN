@@ -7,6 +7,7 @@
 #include "creature.h"
 #include "game_constants.h"
 #include "item.h"
+#include "itype.h"
 #include "melee.h"
 #include "monattack.h"
 #include "monster.h"
@@ -253,5 +254,28 @@ TEST_CASE( "Hulk smashing a character", "[.], [melee], [monattack]" )
         const float prob = brute_special_probability( zed, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
         check_near( prob, 0.2f, 0.05f );
+    }
+}
+
+TEST_CASE( "Character selects best attack against creature", "[melee]" )
+{
+    SECTION( "Monster with huge bash armor" ) {
+        monster target( mtype_id( "mon_test_bash" ) );
+        standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+        dude.set_primary_weapon( item::spawn( "test_lucern_hammer" ) );
+        const item &weapon = dude.primary_weapon();
+        const attack_statblock &attack = melee::pick_attack( dude, weapon, target );
+        REQUIRE( weapon.type->attacks.count( "THRUST" ) == 1 );
+        CHECK( attack.damage == weapon.type->attacks.at( "THRUST" ).damage );
+    }
+
+    SECTION( "Monster with huge stab armor" ) {
+        monster target( mtype_id( "mon_test_stab" ) );
+        standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+        dude.set_primary_weapon( item::spawn( "test_lucern_hammer" ) );
+        const item &weapon = dude.primary_weapon();
+        const attack_statblock &attack = melee::pick_attack( dude, weapon, target );
+        REQUIRE( weapon.type->attacks.count( "BASH" ) == 1 );
+        CHECK( attack.damage == weapon.type->attacks.at( "BASH" ).damage );
     }
 }

@@ -57,6 +57,9 @@ void roll_stab_damage( const Character &c, bool crit, damage_instance &di, bool 
 // TODO: Remove
 const attack_statblock &default_attack( const item &it );
 
+const attack_statblock &pick_attack( const Character &c, const item &weapon,
+                                     const monster &target );
+
 } // namespace melee
 
 #endif // CATA_SRC_MELEE_H

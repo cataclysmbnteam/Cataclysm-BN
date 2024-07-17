@@ -2558,6 +2558,27 @@ const attack_statblock &melee::default_attack( const item &it )
     return it.type->attacks.begin()->second;
 }
 
+const attack_statblock &melee::pick_attack( const Character &c, const item &weapon,
+        const monster &target )
+{
+    if( weapon.type->attacks.size() < 2 ) {
+        return default_attack( weapon );
+    }
+
+    double best_dmg = 0.0;
+    const attack_statblock *best_attack = nullptr;
+    for( const auto &pr : weapon.type->attacks ) {
+        double attack_dmg = melee::expected_damage( c, weapon, pr.second, target );
+        if( attack_dmg > best_dmg ) {
+            best_dmg = attack_dmg;
+            best_attack = &pr.second;
+        }
+    }
+
+    assert( best_attack != nullptr );
+    return *best_attack;
+}
+
 namespace melee
 {
 melee_statistic_data melee_stats;
