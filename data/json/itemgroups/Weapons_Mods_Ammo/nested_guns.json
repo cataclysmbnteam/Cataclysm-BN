@@ -572,6 +572,17 @@
     ]
   },
   {
+    "id": "nested_taurus_judge",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "taurus_judge", "ammo-group": "on_hand_410_or_45colt", "charges": [ 0, 6 ] },
+      { "group": "on_hand_410_or_45colt" }
+    ]
+  },
+  {
     "id": "nested_deagle_44",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2023,6 +2034,22 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "mossberg_500", "ammo-group": "on_hand_shot", "charges": [ 0, 6 ] }, { "group": "on_hand_shot" } ]
+  },
+  {
+    "id": "nested_winchester_1897",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "winchester_1897", "ammo-group": "on_hand_shot", "charges": [ 0, 6 ] }, { "group": "on_hand_shot" } ]
+  },
+  {
+    "id": "nested_winchester_1887",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "winchester_1887", "ammo-group": "on_hand_shot", "charges": [ 0, 6 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_remington_870",

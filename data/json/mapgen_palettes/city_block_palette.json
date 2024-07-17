@@ -78,6 +78,8 @@
     "toilets": { "t": {  } },
     "liquids": { "g": { "liquid": "water", "amount": [ 0, 100 ] } },
     "items": {
+      "p": { "item": "trash_dumpster", "chance": 80 },
+      "p̄": { "item": "trash_dumpster", "chance": 80 },
       "O": [ { "item": "SUS_wardrobe_mens", "chance": 50 }, { "item": "SUS_wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
       "Q": [
         { "item": "preserved_food", "chance": 20, "repeat": [ 1, 2 ] },

@@ -110,7 +110,7 @@
         "chance": 60
       },
       "L": { "item": "SUS_janitors_closet", "chance": 60 },
-      "U": { "item": "trash" }
+      "U": { "item": "trash_dumpster", "chance": 80 }
     },
     "toilets": { "&": {  } }
   }

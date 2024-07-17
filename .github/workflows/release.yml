@@ -15,6 +15,7 @@ jobs:
       count: ${{ steps.env_vars.outputs.count }}
       tag_name: ${{ steps.env_vars.outputs.tag_name }}
       release_name: ${{ steps.env_vars.outputs.release_name }}
+      last_tag_name: ${{ steps.env_vars.outputs.last_tag_name }}
       yesterday_tag_name: ${{ steps.env_vars.outputs.yesterday_tag_name }}
     steps:
       - uses: actions/checkout@v4
@@ -22,6 +23,7 @@ jobs:
         run: |
           TAG_NAME=$(date -u --iso-8601 --date='1 day ago')
           YESTERDAY_TAG_NAME=$(date -u --iso-8601 --date='2 day ago')
+          LAST_TAG_NAME=$(git for-each-ref --sort=-creatordate --format '%(creatordate:short)' refs/tags | head -n 1)
           COMMITS=$(git log --oneline --since="$TAG_NAME" | wc -l)
           RELEASE_NAME="Experimental $TAG_NAME"
 
@@ -29,6 +31,7 @@ jobs:
 
           echo "count=$COMMITS" >> "$GITHUB_OUTPUT"
           echo "tag_name=$TAG_NAME" >> "$GITHUB_OUTPUT"
+          echo "last_tag_name=$LAST_TAG_NAME" >> "$GITHUB_OUTPUT"
           echo "yesterday_tag_name=$YESTERDAY_TAG_NAME" >> "$GITHUB_OUTPUT"
           echo "release_name=$RELEASE_NAME" >> "$GITHUB_OUTPUT"
 
@@ -37,7 +40,7 @@ jobs:
     name: Create Release
     runs-on: ubuntu-22.04
 
-    if: fromJson(needs.metadata.outputs.count) > 0
+    if: github.event_name == 'workflow_dispatch' || fromJson(needs.metadata.outputs.count) > 0
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       release_already_exists: ${{ steps.tag_check.outputs.exists }}
@@ -67,13 +70,12 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v4.2.0
         with:
           configuration: "changelog.json"
-          fromTag: ${{ needs.metadata.outputs.yesterday_tag_name }}
+          fromTag: ${{ needs.metadata.outputs.last_tag_name }}
           toTag: ${{ needs.metadata.outputs.tag_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create release
-        if: ${{ steps.tag_check.outputs.exists == 'false' }}
         id: create_release
         uses: softprops/action-gh-release@v2.0.2
         env:
@@ -306,7 +308,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           source ./venv/bin/activate
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=11 FRAMEWORK=1 dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LUA=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=11 FRAMEWORK=1 dmgdist
           mv CataclysmBN-unstable.dmg cbn-${{ matrix.artifact }}-${{ needs.metadata.outputs.tag_name }}.dmg
 
       - name: Set up JDK 11 (android)
