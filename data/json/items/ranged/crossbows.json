@@ -338,7 +338,7 @@
     "dispersion": 375,
     "durability": 6,
     "reload": 800,
-    "valid_mod_locations": [ [ "sling", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "dampening", 1 ], [ "accessories", 1 ], [ "mechanism", 1 ] ]
   },
   {
     "id": "compositecrossbow",
