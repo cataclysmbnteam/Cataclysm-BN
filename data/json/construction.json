@@ -3160,7 +3160,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
-    "pre_terrain": "t_sand",
+    "pre_flags": "SOURCE_SAND",
     "dark_craftable": true,
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
@@ -3173,7 +3173,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ] } ],
-    "pre_terrain": "t_clay",
+    "pre_flags": "SOURCE_CLAY",
     "dark_craftable": true,
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
@@ -3186,7 +3186,7 @@
     "time": "45 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "iron_ore", "count": [ 1, 4 ] } ],
-    "pre_terrain": "t_bog_iron",
+    "pre_flags": "SOURCE_IRON",
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
   {

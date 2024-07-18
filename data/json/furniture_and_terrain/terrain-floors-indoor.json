@@ -708,7 +708,7 @@
     "looks_like": "t_sand",
     "move_cost": 3,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "DIGGABLE" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "DIGGABLE", "SOURCE_SAND" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -749,7 +749,7 @@
     "color": "light_red",
     "move_cost": 2,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "SUPPORTS_ROOF", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "SUPPORTS_ROOF", "INDOORS", "SOURCE_CLAY" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -762,13 +762,13 @@
     "color": "brown",
     "move_cost": 5,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "BURROWABLE", "SUPPORTS_ROOF", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "BURROWABLE", "SUPPORTS_ROOF", "INDOORS", "SOURCE_CLAY" ],
     "bash": {
-      "str_min": 2,
-      "str_max": 4,
-      "sound": "splosh!",
-      "sound_fail": "splosh!",
-      "ter_set": "t_water_dp",
+      "sound": "thump",
+      "sound_fail": "thump!",
+      "str_min": 20,
+      "str_max": 40,
+      "ter_set": "t_dirt_underground",
       "items": [ { "item": "clay_lump", "count": [ 6, 12 ] } ]
     }
   },
