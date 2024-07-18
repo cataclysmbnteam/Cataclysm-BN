@@ -610,6 +610,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `SIGN` Show written message on examine.
 - `SMALL_PASSAGE` This terrain or furniture is too small for large or huge creatures to pass
   through.
+- `SOURCE_CLAY` Enables the `Extract Clay` Construction entry.
+- `SOURCE_IRON` Enables the `Extract Iron` Construction entry.
+- `SOURCE_SAND` Enables the `Extract Sand` Construction entry.
 - `SUN_ROOF_ABOVE` This furniture (terrain is not supported currently) has a "fake roof" above, that
   blocks sunlight. Special hack for #44421, to be removed later.
 - `SUPPORTS_ROOF` Used as a boundary for roof construction.

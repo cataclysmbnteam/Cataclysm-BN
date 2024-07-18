@@ -18,7 +18,7 @@
     "symbol": ".",
     "color": "yellow",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "VEH_TREAT_AS_BASH_BELOW" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "VEH_TREAT_AS_BASH_BELOW", "SOURCE_SAND" ],
     "bash": {
       "sound": "thump",
       "ter_set": "t_pit_shallow",
@@ -48,7 +48,7 @@
     "symbol": ".",
     "color": "light_red",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "SOURCE_CLAY" ],
     "bash": {
       "sound": "thump",
       "ter_set": "t_pit_shallow",
@@ -67,13 +67,13 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "BURROWABLE", "SOURCE_CLAY" ],
     "bash": {
-      "str_min": 2,
-      "str_max": 4,
-      "sound": "splosh!",
-      "sound_fail": "splosh!",
-      "ter_set": "t_water_dp",
+      "sound": "thump",
+      "sound_fail": "thump!",
+      "str_min": 20,
+      "str_max": 40,
+      "ter_set": "t_dirt",
       "items": [ { "item": "clay_lump", "count": [ 6, 12 ] } ]
     }
   },
@@ -86,13 +86,13 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "BURROWABLE", "SOURCE_SAND" ],
     "bash": {
-      "str_min": 2,
-      "str_max": 4,
-      "sound": "splosh!",
-      "sound_fail": "splosh!",
-      "ter_set": "t_water_dp",
+      "sound": "thump!",
+      "sound_fail": "thump!",
+      "str_min": 20,
+      "str_max": 40,
+      "ter_set": "t_dirt",
       "items": [ { "item": "material_sand", "charges": [ 300, 600 ] } ]
     }
   },
@@ -105,7 +105,7 @@
     "looks_like": "t_claymound",
     "color": "brown",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "BURROWABLE", "SOURCE_IRON" ],
     "bash": {
       "str_min": 20,
       "str_max": 40,
