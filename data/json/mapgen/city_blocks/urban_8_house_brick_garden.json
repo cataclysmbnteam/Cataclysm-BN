@@ -12,8 +12,8 @@
         ",N,,,,,,,,,,,,,,,,,,,`|r",
         ",N,,,,,,,,,,,,,,,##,,,wr",
         ",N,,,,,,,,,,,,,,,##,,,|r",
-        ",N,,,,,#|vv+vv|,,,,,,,|-",
-        ",N,,,,,#v:::::v,,,,^,,,,",
+        ",N,,##,,|vv+vv|,,,,,,,|-",
+        ",N,,##,,v:::::v,,,,^,,,,",
         ",N,,,,,,v:::::v,,,,,,,,,",
         ",N,,,,,,v:::::v,,,,,,,,,",
         ",N,,,,,`|:::::|,,,,,,,,,",
@@ -33,6 +33,12 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
+      "terrain": {
+        "#": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        ";": "t_concrete",
+        ",": "t_region_groundcover_urban",
+        "^": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ]
+      },
       "items": { ":": { "item": "farming_tools", "chance": 8 }, "r": { "item": "farming_tools", "chance": 60 } },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.09 } ]
     }
@@ -54,8 +60,8 @@
         ",;,,,,,,mmmmm,,,,,,,,,N,",
         ",;,,,,,,,,,,,,,,,,,,,,N,",
         ",;,,`,,,,,,,,,,,,,,`,,N,",
-        ",;,qIiYiiiiiiYiiiiiI,,N,",
-        ",;,qICSCoC|u|  bbe I,,N,",
+        ",;,,IiYiiiiiiYiiiiiI,,N,",
+        ",;,,ICSCoC|u|  bbe I,,N,",
         ";;;;!22222|+|  bb  Y,,N,",
         ",,,,I22222  +     eY,,N,",
         ",,,,If2Wjj| |     eI,,N,",
@@ -67,12 +73,21 @@
         ",,,`IiiiYYii!iIiiiiI,,N,",
         ",,,,,,,,,,;;;;;,,,,,,,N,",
         ";;;;;;;;;;;;;;;,,,,,,,N,",
-        "nnnnnnnnnnnn;nnnnnnnnnN,",
-        ",,,,,,,,,,,,;,,,,,,,,,,,"
+        "nnnnnnnnnnnnṉnnnnnnnnnN,",
+        ",,,,,,,,,,,p̄;,,,,,,,,,,,"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
+      "terrain": {
+        ";": "t_concrete",
+        ",": "t_region_groundcover_urban",
+        "p̄": "t_region_groundcover_urban",
+        "^": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "ṉ": "t_chaingate_c"
+      },
+      "furniture": { "p̄": "f_mailbox" },
       "toilets": { "T": {  } },
       "items": {
+        "p̄": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         " ": { "item": "livingroom", "chance": 2 },
         "@": { "item": "magazines", "chance": 10 },
         "A": { "item": "livingroom", "chance": 15 },
