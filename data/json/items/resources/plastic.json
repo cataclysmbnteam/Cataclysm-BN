@@ -16,6 +16,23 @@
     "stackable": true
   },
   {
+    "id": "carbon_fiber_filament",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "carbon fiber filament" },
+    "description": "A spool of fine carbon filament, used to make lightweight yet strong items.  Very useful if you can get your hands on a 3D printer, more advanced models might even allow you to make more.",
+    "weight": "5 g",
+    "volume": "10 ml",
+    "price": "1 USD",
+    "price_postapoc": "20 cent",
+    "material": "carbon_fiber",
+    "symbol": "=",
+    "color": "dark_gray",
+    "looks_like": "solder_wire",
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
+  },
+  {
     "id": "nylon",
     "type": "GENERIC",
     "category": "spare_parts",

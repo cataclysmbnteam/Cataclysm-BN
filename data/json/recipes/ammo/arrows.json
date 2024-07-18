@@ -469,8 +469,8 @@
     "//": "Increased time since in this case you still have to forge arrowheads",
     "time": "30 m",
     "book_learn": [ [ "textbook_computer", 2 ], [ "advanced_electronics", 2 ], [ "reference_fabrication1", 2 ] ],
-    "using": [ [ "3d_printing_standard", 5 ], [ "blacksmithing_standard", 1 ] ],
-    "components": [ [ [ "steel_tiny", 1, "LIST" ], [ "scrap_bronze", 1 ] ] ]
+    "using": [ [ "3d_printing_standard", 3 ], [ "blacksmithing_standard", 1 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 30 ] ], [ [ "steel_tiny", 1, "LIST" ], [ "scrap_bronze", 1 ] ] ]
   },
   {
     "result": "arrow_cf",
@@ -483,7 +483,7 @@
     "//": "Increased time since in this case you still have to forge arrowheads",
     "time": "30 m",
     "book_learn": [ [ "textbook_computer", 2 ], [ "advanced_electronics", 2 ], [ "reference_fabrication1", 2 ] ],
-    "using": [ [ "3d_printing_standard", 5 ], [ "blacksmithing_standard", 1 ] ],
-    "components": [ [ [ "steel_tiny", 1, "LIST" ], [ "scrap_bronze", 1 ] ] ]
+    "using": [ [ "3d_printing_standard", 3 ], [ "blacksmithing_standard", 1 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 30 ] ], [ [ "steel_tiny", 1, "LIST" ], [ "scrap_bronze", 1 ] ] ]
   }
 ]

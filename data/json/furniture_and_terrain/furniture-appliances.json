@@ -2418,7 +2418,7 @@
   {
     "type": "furniture",
     "id": "f_3d_printer",
-    "looks_like": "3d_printer_basic",
+    "looks_like": "f_heavy_lathe",
     "name": "grid 3D printer",
     "symbol": "=",
     "description": "A 3D printer connected to a electrical grid.",
@@ -2452,7 +2452,7 @@
   {
     "type": "furniture",
     "id": "f_3d_printer_advanced",
-    "looks_like": "3d_printer_advanced",
+    "looks_like": "f_heavy_lathe",
     "name": "grid 3D printer (advanced)",
     "symbol": "=",
     "description": "An advanced 3D printer connected to a electrical grid.",

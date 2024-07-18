@@ -611,7 +611,8 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
     "time": "2 m",
-    "using": [ [ "3d_printing_standard", 2 ] ]
+    "using": [ [ "3d_printing_standard", 2 ] ],
+    "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "result": "jug_plastic",
@@ -624,7 +625,8 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
     "time": "15 m",
-    "using": [ [ "3d_printing_standard", 15 ] ]
+    "using": [ [ "3d_printing_standard", 15 ] ],
+    "components": [ [ [ "plastic_chunk", 15 ] ] ]
   },
   {
     "result": "jerrycan",
@@ -637,7 +639,8 @@
     "skills_required": [ [ "fabrication", 2 ] ],
     "autolearn": true,
     "time": "40 m",
-    "using": [ [ "3d_printing_standard", 40 ] ]
+    "using": [ [ "3d_printing_standard", 40 ] ],
+    "components": [ [ [ "plastic_chunk", 40 ] ] ]
   },
   {
     "result": "power_armor_canteen",

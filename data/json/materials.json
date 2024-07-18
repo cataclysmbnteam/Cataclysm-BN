@@ -1866,8 +1866,8 @@
     "fire_resist": 3,
     "elec_resist": 2,
     "chip_resist": 20,
-    "repaired_with": "plastic_chunk",
-    "salvaged_into": "plastic_chunk",
+    "repaired_with": "carbon_fiber_filament",
+    "salvaged_into": "carbon_fiber_filament",
     "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched"

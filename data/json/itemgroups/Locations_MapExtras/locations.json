@@ -1930,7 +1930,8 @@
       { "item": "chem_manganese_dioxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_saltpetre", "prob": 10 },
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
-      { "item": "denat_alcohol", "prob": 10 }
+      { "item": "denat_alcohol", "prob": 10 },
+      { "item": "carbon_fiber_filament", "prob": 10, "count": [ 25, 50 ] }
     ]
   },
   {

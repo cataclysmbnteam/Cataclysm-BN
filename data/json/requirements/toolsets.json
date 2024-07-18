@@ -2,10 +2,9 @@
   {
     "id": "3d_printing_standard",
     "type": "requirement",
-    "//": "For working with an printing items made from plastic using a 3D printer.",
+    "//": "For working with an printing items made from plastic using a 3D printer, per 50 grams material.",
     "//2": "Time is typically 1 minute per plastic chunk used.",
-    "tools": [ [ [ "3d_printer_basic", 4 ], [ "3d_printer_advanced", 2 ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [ [ [ "3d_printer_basic", 4 ], [ "3d_printer_advanced", 2 ] ] ]
   },
   {
     "id": "bullet_forming",

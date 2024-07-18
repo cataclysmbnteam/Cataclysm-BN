@@ -130,7 +130,8 @@
       [ "remotevehcontrol", 5 ],
       [ "bionic_scanner", 5 ],
       [ "recipe_mininuke_launch", 4 ],
-      [ "recipe_mininuke_launch", 5 ]
+      [ "recipe_mininuke_launch", 5 ],
+      { "item": "carbon_fiber_filament", "prob": 10, "count": [ 25, 50 ] }
     ]
   },
   {

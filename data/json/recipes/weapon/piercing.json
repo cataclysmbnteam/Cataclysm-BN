@@ -885,7 +885,8 @@
     "//": "Increased time since some forging incorporated into material for the edge",
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "3d_printing_standard", 5 ], [ "steel_tiny", 2 ], [ "blacksmithing_standard", 2 ] ]
+    "using": [ [ "3d_printing_standard", 5 ], [ "steel_tiny", 2 ], [ "blacksmithing_standard", 2 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 50 ] ] ]
   },
   {
     "result": "spear_carbon",
@@ -898,7 +899,8 @@
     "autolearn": true,
     "//": "Increased time since some forging incorporated into material for the edge",
     "time": "45 m",
-    "using": [ [ "3d_printing_standard", 10 ], [ "steel_tiny", 2 ], [ "blacksmithing_standard", 2 ] ]
+    "using": [ [ "3d_printing_standard", 10 ], [ "steel_tiny", 2 ], [ "blacksmithing_standard", 2 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 100 ] ] ]
   },
   {
     "result": "jamadhar_carbon",
@@ -911,6 +913,7 @@
     "autolearn": true,
     "//": "Increased time since some forging for the spearhead",
     "time": "15 m",
-    "using": [ [ "3d_printing_standard", 5 ], [ "steel_standard", 2 ], [ "blacksmithing_standard", 8 ] ]
+    "using": [ [ "3d_printing_standard", 5 ], [ "steel_standard", 2 ], [ "blacksmithing_standard", 8 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 50 ] ] ]
   }
 ]
