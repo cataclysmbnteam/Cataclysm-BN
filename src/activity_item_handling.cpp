@@ -2464,9 +2464,11 @@ static bool mine_activity( player &p, const tripoint &src_loc )
     if( chosen_item == nullptr ) {
         return false;
     }
-    int moves = to_moves<int>( powered ? 30_minutes : 20_minutes );
-    if( !powered ) {
-        moves += ( ( MAX_STAT + 4 ) - std::min( p.str_cur, MAX_STAT ) ) * to_moves<int>( 5_minutes );
+    int moves = to_moves<int>( powered ? 10_minutes : 30_minutes );
+    if( powered ) {
+        moves += ( ( MAX_STAT + 4 ) - std::min( p.str_cur, MAX_STAT ) ) * to_moves<int>( 75_seconds );
+    } else {
+        moves += ( ( MAX_STAT + 4 ) - std::min( p.str_cur, MAX_STAT ) ) * to_moves<int>( 225_seconds );
     }
     if( here.move_cost( src_loc ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
