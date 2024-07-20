@@ -255,7 +255,6 @@ static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
 static const std::string flag_PLANTABLE( "PLANTABLE" );
-static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 static const std::string flag_TREE( "TREE" );
 
 using namespace activity_handlers;
