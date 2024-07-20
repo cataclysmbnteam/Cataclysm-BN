@@ -2,10 +2,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_7_1" ],
-    "weight": 250,
+    "om_terrain": [ "urban_7_2" ],
     "object": {
       "fill_ter": "t_floor",
+      "rotation": 2,
       "rows": [
         "########################",
         "#,,,,,,,|---|-----------",
@@ -57,10 +57,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_7_2" ],
-    "weight": 250,
+    "om_terrain": [ "urban_7_1" ],
     "object": {
       "fill_ter": "t_floor",
+      "rotation": 2,
       "rows": [
         "########################",
         "--|-----|#,,,,,,,,,,,,,#",
@@ -108,10 +108,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_7_3" ],
-    "weight": 250,
+    "om_terrain": [ "urban_7_4" ],
     "object": {
       "fill_ter": "t_floor",
+      "rotation": 2,
       "rows": [
         "........................",
         "........|-w-w-|-|---|-|-",
@@ -156,10 +156,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_7_4" ],
-    "weight": 250,
+    "om_terrain": [ "urban_7_3" ],
     "object": {
       "fill_ter": "t_floor",
+      "rotation": 2,
       "rows": [
         "........................",
         "vvvvvvv-|...............",
@@ -198,10 +198,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_7_5" ],
-    "weight": 250,
+    "om_terrain": [ "urban_7_6" ],
     "object": {
       "fill_ter": "t_floor",
+      "rotation": 2,
       "rows": [
         "........................",
         "........1111111111111111",
@@ -234,10 +234,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_7_6" ],
-    "weight": 250,
+    "om_terrain": [ "urban_7_5" ],
     "object": {
       "fill_ter": "t_floor",
+      "rotation": 2,
       "rows": [
         "........................",
         "111111112...............",
