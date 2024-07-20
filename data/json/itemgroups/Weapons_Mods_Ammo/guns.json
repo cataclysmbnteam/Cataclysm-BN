@@ -642,6 +642,33 @@
   },
   {
     "type": "item_group",
+    "id": "carried_guns_archery",
+    "//": "Crossbows, bows, slingshots carried by zombies.",
+    "items": [
+      { "group": "everyday_crossbow", "prob": 25 },
+      { "group": "everyday_rep_crossbow", "prob": 10 },
+      { "group": "everyday_hand_crossbow", "prob": 10 },
+      { "group": "everyday_huge_crossbow", "prob": 5 },
+      { "group": "everyday_crossbow_carbon", "prob": 15 },
+      { "group": "everyday_compcrossbow", "prob": 15 },
+      { "group": "everyday_compositecrossbow", "prob": 15 },
+      { "group": "everyday_compgreatbow", "prob": 5 },
+      { "group": "everyday_compositebow", "prob": 15 },
+      { "group": "everyday_compositebow_short", "prob": 15 },
+      { "group": "everyday_compbow", "prob": 5 },
+      { "group": "everyday_compbow_high", "prob": 5 },
+      { "group": "everyday_compbow_low", "prob": 5 },
+      { "group": "everyday_longbow", "prob": 15 },
+      { "group": "everyday_selfbow", "prob": 10 },
+      { "group": "everyday_shortbow", "prob": 15 },
+      { "group": "everyday_woodgreatbow", "prob": 10 },
+      { "group": "everyday_wristrocket", "prob": 15 },
+      { "group": "everyday_slingshot", "prob": 30 },
+      { "group": "everyday_bullet_crossbow", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_bank_vault",
     "//": "Rare guns for bank vaults. No heavy weapons and LMGs.",
     "items": [
