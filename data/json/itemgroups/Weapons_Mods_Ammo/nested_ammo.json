@@ -426,7 +426,6 @@
       { "item": "arrow_metal_bodkin", "prob": 20, "charges": [ 5, 20 ] },
       { "item": "arrow_wood_heavy", "prob": 15, "charges": [ 5, 20 ] },
       { "item": "arrow_exploding", "prob": 5, "charges": [ 5, 20 ] },
-      { "item": "flamable_arrow", "prob": 5, "charges": [ 5, 20 ] },
       { "item": "arrow_plastic", "prob": 15, "charges": [ 5, 20 ] },
       { "item": "arrow_metal", "prob": 20, "charges": [ 5, 20 ] },
       { "item": "arrow_wood", "prob": 15, "charges": [ 5, 20 ] },
