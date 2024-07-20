@@ -65,6 +65,8 @@
       { "group": "tools_earthworking", "prob": 130 },
       { "group": "tools_home", "prob": 130 },
       { "group": "guns_rifle_common", "prob": 30 },
+      { "group": "carried_guns_archery", "prob": 15 },
+      { "group": "archery_mods", "prob": 5 },
       { "group": "guns_shotgun_common", "prob": 15 },
       { "group": "guns_pistol_common", "prob": 5 },
       { "group": "gunmod_common", "prob": 5 }
