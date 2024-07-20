@@ -2860,11 +2860,12 @@ source. For examples: An overhead light is 120, a utility light, 240, and a cons
 
 #### `digging_result`
 
-(Optional) String defining the ID of what itemgroup this terrain will produce when a pit is dug here.
+(Optional) String defining the ID of what itemgroup this terrain will produce when a pit is dug
+here.
 
 Only relevant for terrain with the `DIGGABLE` flag. If not specificed, default is itemgroup
-`digging_soil_loam_50L`. Note as well that this group will be called 4 times by default, 8 times
-if the terrain has the `DIGGABLE_CAN_DEEPEN` flag.
+`digging_soil_loam_50L`. Note as well that this group will be called 4 times by default, 8 times if
+the terrain has the `DIGGABLE_CAN_DEEPEN` flag.
 
 #### `lockpick_result`
 
