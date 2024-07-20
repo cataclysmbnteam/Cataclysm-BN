@@ -1586,20 +1586,26 @@ static bool mx_minefield( map &/*m_orig*/, const tripoint &abs_sub )
 
 static bool mx_crater( map &m, const tripoint &abs_sub )
 {
-    int size = rng( 2, 6 );
+    int size = rng( 5, 8 );
     int size_squared = size * size;
+    int size_center = rng( 1, 3 );
+    int size_center_squared = size_center * size_center;
     point p{ rng( size, SEEX * 2 - 1 - size ), rng( size, SEEY * 2 - 1 - size ) };
     for( int i = p.x - size; i <= p.x + size; i++ ) {
         for( int j = p.y - size; j <= p.y + size; j++ ) {
             //If we're using circular distances, make circular craters
             //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
             if( !trigdist || ( i - p.x ) * ( i - p.x ) + ( j - p.y ) * ( j - p.y ) <= size_squared ) {
-                m.destroy( tripoint( i,  j, abs_sub.z ), true );
-                // Make the resulting crater a bit more shallow if needed.
-                if( m.ter( tripoint( i, j, abs_sub.z ) ) == t_pit ) {
-                    m.ter_set( tripoint( i,  j, abs_sub.z ), t_pit_shallow );
-                }
+                m.bash( tripoint( i,  j, abs_sub.z ), 999, true );
                 m.adjust_radiation( point( i, j ), rng( 20, 40 ) );
+            }
+        }
+    }
+    //Hit 'em again
+    for( int i = p.x - size_center; i <= p.x + size_center; i++ ) {
+        for( int j = p.y - size_center; j <= p.y + size_center; j++ ) {
+            if( !trigdist || ( i - p.x ) * ( i - p.x ) + ( j - p.y ) * ( j - p.y ) <= size_center_squared ) {
+                m.bash( tripoint( i,  j, abs_sub.z ), 999, true );
             }
         }
     }
