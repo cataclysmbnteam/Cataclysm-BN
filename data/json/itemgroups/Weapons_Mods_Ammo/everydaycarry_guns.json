@@ -2617,5 +2617,653 @@
       { "group": "nested_stanag_carbon_mag", "charges-min": 0, "prob": 50 },
       { "group": "on_hand_223", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
     ]
+  },
+  {
+    "id": "everyday_compgreatbow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "compgreatbow", "charges": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_arrows", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_compositebow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "compositebow", "charges": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_arrows", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_compositebow_short",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "compositebow_short", "charges": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_arrows", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_compbow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "compbow", "charges": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_arrows", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_compbow_high",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "compbow_high", "charges": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_arrows", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_compbow_low",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "compbow_low", "charges": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_arrows", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_longbow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "longbow", "charges": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_arrows", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_selfbow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "selfbow", "charges": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_arrows", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_shortbow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "shortbow", "charges": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_arrows", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_woodgreatbow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "woodgreatbow", "charges": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_arrows", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_arrows", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_crossbow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "crossbow", "ammo-group": "on_hand_bolts", "charges-min": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_bolts", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_rep_crossbow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "rep_crossbow", "ammo-group": "on_hand_bolts", "charges-min": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_bolts", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_hand_crossbow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hand_crossbow", "ammo-group": "on_hand_bolts", "charges-min": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_bolts", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_huge_crossbow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "huge_crossbow", "ammo-group": "on_hand_bolts", "charges-min": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_bolts", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_crossbow_carbon",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "crossbow_carbon", "ammo-group": "on_hand_bolts", "charges-min": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_bolts", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_compcrossbow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "compcrossbow", "ammo-group": "on_hand_bolts", "charges-min": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_bolts", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_compositecrossbow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "compositecrossbow", "ammo-group": "on_hand_bolts", "charges-min": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_bolts", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_compositecrossbow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "compositecrossbow", "ammo-group": "on_hand_bolts", "charges-min": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_bolts", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_wristrocket",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "wristrocket", "charges": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_pebbles", "charges": [ 0, 30 ] }, { "item": "ammo_satchel_leg" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_pebbles", "charges": [ 0, 60 ] }, { "item": "ammo_pouch" } ],
+                "prob": 15
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_pebbles", "prob": 50, "charges": [ 10, 20 ], "count": [ 2, 3 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_slingshot",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "slingshot", "charges": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_pebbles", "charges": [ 0, 30 ] }, { "item": "ammo_satchel_leg" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_pebbles", "charges": [ 0, 60 ] }, { "item": "ammo_pouch" } ],
+                "prob": 15
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_pebbles", "prob": 50, "charges": [ 10, 20 ], "count": [ 2, 3 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_bullet_crossbow",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bullet_crossbow", "ammo-group": "on_hand_pebbles", "charges-min": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_pebbles", "charges": [ 0, 30 ] }, { "item": "ammo_satchel_leg" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_pebbles", "charges": [ 0, 60 ] }, { "item": "ammo_pouch" } ],
+                "prob": 15
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_pebbles", "prob": 50, "charges": [ 10, 20 ], "count": [ 2, 3 ] }
+        ]
+      }
+    ]
   }
 ]

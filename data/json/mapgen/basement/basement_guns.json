@@ -67,6 +67,7 @@
         { "group": "ammo_rifle_reloaded", "x": 10, "y": 5, "chance": 40, "repeat": [ 1, 2 ] },
         { "group": "ammo_rifle_common", "x": 11, "y": 5, "chance": 90, "repeat": [ 1, 2 ] },
         { "group": "ammo_smg_common", "x": 12, "y": 5, "chance": 40, "repeat": [ 1, 2 ] },
+        { "group": "archery_ammo", "x": 12, "y": 5, "chance": 40, "repeat": [ 1, 2 ] },
         { "group": "ammo_pistol_common", "x": 13, "y": 5, "chance": 90, "repeat": [ 1, 2 ] },
         { "group": "ammo_rifle_common", "x": 14, "y": 5, "chance": 40, "repeat": [ 1, 2 ] },
         { "group": "ammo_pistol_common", "x": 15, "y": 5, "chance": 40, "repeat": [ 1, 2 ] },
