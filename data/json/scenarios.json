@@ -144,7 +144,7 @@
     "id": "bad_day",
     "name": "Challenge - Really Bad Day",
     "points": -8,
-    "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, and sick with the flu.  This day went downhill really fast.",
+    "description": "You start drunk to the point of incapacitation, depressed, infected, and surrounded by fire.  This day went downhill really fast.",
     "start_name": "In Town",
     "allowed_locs": [
       "sloc_house",
