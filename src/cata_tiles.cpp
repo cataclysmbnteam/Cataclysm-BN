@@ -645,9 +645,9 @@ void cata_tiles::set_draw_scale( int scale )
 }
 
 std::optional<tile_search_result> cata_tiles::tile_type_search(
-            const std::string &id, TILE_CATEGORY category,
-            const std::string &subcategory, int subtile, int rota
-        )
+    const std::string &id, TILE_CATEGORY category,
+    const std::string &subcategory, int subtile, int rota
+)
 {
     std::optional<tile_lookup_res> res = find_tile_looks_like( id, category );
     const tile_type *tt = nullptr;

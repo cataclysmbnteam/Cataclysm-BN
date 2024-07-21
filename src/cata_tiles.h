@@ -347,7 +347,7 @@ using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<poi
 struct tile_render_info;
 
 struct tile_search_result {
-    const tile_type* tt;
+    const tile_type *tt;
     std::string found_id;
 };
 
@@ -363,9 +363,9 @@ class cata_tiles
 
         /** Tries to find tile with specified parameters and return it if exists **/
         std::optional<tile_search_result> tile_type_search(
-                    const std::string &id, TILE_CATEGORY category, const std::string &subcategory,
-                    int subtile, int rota
-                );
+            const std::string &id, TILE_CATEGORY category, const std::string &subcategory,
+            int subtile, int rota
+        );
 
         void on_options_changed();
 
