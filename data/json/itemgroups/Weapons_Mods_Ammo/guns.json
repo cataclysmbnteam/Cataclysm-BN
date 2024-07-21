@@ -1133,22 +1133,13 @@
     "id": "guns_survival",
     "//": "Guns typically carried by survivors, either improvised or thematically appropriate.",
     "items": [
+      { "group": "carried_guns_archery", "prob": 200 },
       { "group": "guns_improvised", "prob": 200 },
-      { "group": "everyday_ar15", "prob": 5 },
+      { "group": "carried_guns_rifle_common", "prob": 100 },
       { "group": "everyday_carbon_rifle", "prob": 5 },
       { "group": "everyday_carbon_pistol", "prob": 5 },
-      { "group": "everyday_ar_pistol", "prob": 3 },
-      { "group": "everyday_mossberg_500", "prob": 5 },
-      { "group": "everyday_remington_870", "prob": 5 },
-      { "group": "everyday_ruger_1022", "prob": 15 },
-      { "group": "everyday_hipoint_3895", "prob": 5 },
-      { "group": "everyday_shotgun_410", "prob": 10 },
-      { "group": "everyday_shotgun_s", "prob": 10 },
-      { "group": "everyday_shotgun_d", "prob": 10 },
-      { "group": "everyday_shotgun_paper", "prob": 10 },
-      { "group": "everyday_sten", "prob": 20 },
-      { "group": "everyday_sks", "prob": 10 },
-      { "group": "everyday_aksemi", "prob": 5 }
+      { "group": "carried_guns_shotgun_common", "prob": 60 },
+      { "group": "carried_guns_pistol_common", "prob": 40 }
     ]
   }
 ]
