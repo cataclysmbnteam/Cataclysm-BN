@@ -709,6 +709,7 @@
     "move_cost": 3,
     "roof": "t_rock_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "DIGGABLE", "SOURCE_SAND" ],
+    "digging_result": "digging_sand_50L",
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -750,6 +751,7 @@
     "move_cost": 2,
     "roof": "t_rock_roof",
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "SUPPORTS_ROOF", "INDOORS", "SOURCE_CLAY" ],
+    "digging_result": "digging_clay_50L",
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {

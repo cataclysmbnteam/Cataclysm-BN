@@ -2808,6 +2808,7 @@ it for the purpose of surgery.
   "trap": "spike_pit",
   "max_volume": "1000 L",
   "flags": ["TRANSPARENT", "DIGGABLE"],
+  "digging_result": "digging_sand_50L",
   "connects_to": "WALL",
   "close": "t_foo_closed",
   "open": "t_foo_open",
@@ -2856,6 +2857,15 @@ uses `2 * 50 = 100` move points when moving across the terrain.
 How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile
 and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the
 source. For examples: An overhead light is 120, a utility light, 240, and a console, 10.
+
+#### `digging_result`
+
+(Optional) String defining the ID of what itemgroup this terrain will produce when a pit is dug
+here.
+
+Only relevant for terrain with the `DIGGABLE` flag. If not specificed, default is itemgroup
+`digging_soil_loam_50L`. Note as well that this group will be called 4 times by default, 8 times if
+the terrain has the `DIGGABLE_CAN_DEEPEN` flag.
 
 #### `lockpick_result`
 

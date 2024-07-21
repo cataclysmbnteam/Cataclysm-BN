@@ -69,6 +69,32 @@
     ]
   },
   {
+    "id": "digging_clay_50L",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "~50L, 10% volume clay, for digging in clay terrain",
+    "items": [
+      { "item": "material_soil", "count": [ 7, 11 ] },
+      { "item": "clay_lump", "count": [ 10, 30 ] },
+      { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
+      { "item": "rock", "count": [ 1, 4 ], "prob": 15 },
+      { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
+    ]
+  },
+  {
+    "id": "digging_sand_50L",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "~50L, 10% volume sand, for digging in sand terrain",
+    "items": [
+      { "item": "material_soil", "count": [ 7, 11 ] },
+      { "item": "material_sand", "charges": [ 500, 1500 ] },
+      { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
+      { "item": "rock", "count": [ 1, 4 ], "prob": 15 },
+      { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
+    ]
+  },
+  {
     "id": "office_paper",
     "type": "item_group",
     "subtype": "collection",
