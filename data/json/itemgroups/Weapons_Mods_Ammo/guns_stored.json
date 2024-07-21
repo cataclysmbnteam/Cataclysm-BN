@@ -78,7 +78,7 @@
     "subtype": "distribution",
     "items": [
       { "group": "tools_earthworking", "prob": 150 },
-      { "group": "tools_home", "prob": 150 }, 
+      { "group": "tools_home", "prob": 150 },
       { "group": "guns_hunting", "prob": 50 },
       { "group": "archery_hunting", "prob": 50 },
       { "group": "archery_mods", "prob": 5 },
