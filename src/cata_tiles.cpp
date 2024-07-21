@@ -644,7 +644,7 @@ void cata_tiles::set_draw_scale( int scale )
     tile_ratioy = ( static_cast<float>( tile_height ) / static_cast<float>( fontheight ) );
 }
 
-std::optional<std::tuple<const tile_type *, std::string>> cata_tiles::tile_type_search(
+std::optional<tile_search_result> cata_tiles::tile_type_search(
             const std::string &id, TILE_CATEGORY category,
             const std::string &subcategory, int subtile, int rota
         )
@@ -833,7 +833,7 @@ std::optional<std::tuple<const tile_type *, std::string>> cata_tiles::tile_type_
         return std::nullopt;
     }
 
-    return std::optional{std::tuple{tt, found_id}};
+    return std::optional{tile_search_result{tt, found_id}};
 }
 
 void tileset_loader::load( const std::string &tileset_id, const bool precheck,
@@ -2161,15 +2161,14 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     }
 
     // Trying to search for tile type
-    std::optional<std::tuple<const tile_type *, std::string>> optional_tt;
-    optional_tt = tile_type_search( id, category, subcategory, subtile, rota );
-    if( optional_tt == std::nullopt ) {
+    std::optional<tile_search_result> search_result;
+    search_result = tile_type_search( id, category, subcategory, subtile, rota );
+    if( search_result == std::nullopt ) {
         return false;
     }
 
-    const tile_type *tt;
-    std::string found_id;
-    std::tie( tt, found_id ) = optional_tt.value();
+    const tile_type *tt = search_result.value().tt;
+    std::string found_id = search_result.value().found_id;
 
     const tile_type &display_tile = *tt;
     // check to see if the display_tile is multitile, and if so if it has the key related to subtile
