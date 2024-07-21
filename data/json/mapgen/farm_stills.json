@@ -48,7 +48,7 @@
         " F        ,,,,        F ####### ,,   ?#l______#  F DDDDDDDDDDDDDDDDDDD,,,,DDDDDDDDDDDDDDDDDDD F ",
         " F $$$$$$$,,,,$$$$$$$ F  ?      ,,    #l______W  F,             ,     ,,,,                    F ",
         " F        ,,,,        F         ,,,   #l______#  F DDDDDDDDDDDDDDDDDDD,,,,DDDDDDDDDDDDDDDDDDD F ",
-        " F        ,,,,        F     ?    ,,   #_______#  F     ,              ,,,,   ,        ,       F ",
+        " F        ,,,,        F     ?    ,,   #ü______#  F     ,              ,,,,   ,        ,       F ",
         " F $$$$$$$,,,,$$$$$$$ F ?        ,,?  #########  F DDDDDDDDDDDDDDDDDDD,,,,DDDDDDDDDDDDDDDDDDD F ",
         " F        ,,,,        F          ,,              F         ,          ,,,,                    F ",
         " F        ,,,,        IFFFFFFFFFI,,IFFFFFFFFFFFFFI DDDDDDDDDDDDDDDDDDD,,,,DDDDDDDDDDDDDDDDDDD F ",
@@ -151,7 +151,8 @@
         "L": [ "f_rack" ],
         "o": [ "f_oven" ],
         "u": [ "f_cupboard" ],
-        "x": [ "f_indoor_plant" ]
+        "x": [ "f_indoor_plant" ],
+        "ü": "f_gunsafe_ml"
       },
       "toilets": { "T": {  } },
       "items": {
@@ -176,6 +177,7 @@
           { "item": "cannedfood", "chance": 65, "repeat": [ 1, 3 ] },
           { "item": "moonshine_brew", "chance": 65 }
         ],
+        "ü": { "item": "guns_hunting_safe", "chance": 100 },
         "Q": { "item": "farming_tools", "chance": 15 }
       },
       "place_items": [  ],

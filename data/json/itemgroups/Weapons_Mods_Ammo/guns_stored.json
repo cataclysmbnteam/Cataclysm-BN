@@ -58,17 +58,30 @@
   },
   {
     "type": "item_group",
+    "id": "guns_hunting_safe",
+    "//": "Guns found in a gun safe.",
+    "subtype": "collection",
+    "items": [
+      { "group": "guns_hunting", "prob": 100 },
+      { "group": "guns_hunting", "prob": 35 },
+      { "group": "guns_hunting", "prob": 15 },
+      { "group": "gunmod_common", "prob": 50 },
+      { "group": "gunmod_rare", "prob": 15 },
+      { "item": "small_repairkit", "prob": 10 },
+      { "item": "large_repairkit", "prob": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "locker_cabin",
     "//": "Guns and other tools found in a cabin locker.",
     "subtype": "distribution",
     "items": [
-      { "group": "tools_earthworking", "prob": 130 },
-      { "group": "tools_home", "prob": 130 },
-      { "group": "guns_rifle_common", "prob": 30 },
-      { "group": "carried_guns_archery", "prob": 15 },
+      { "group": "tools_earthworking", "prob": 150 },
+      { "group": "tools_home", "prob": 150 },
+      { "group": "guns_hunting", "prob": 50 },
+      { "group": "archery_hunting", "prob": 50 },
       { "group": "archery_mods", "prob": 5 },
-      { "group": "guns_shotgun_common", "prob": 15 },
-      { "group": "guns_pistol_common", "prob": 5 },
       { "group": "gunmod_common", "prob": 5 }
     ]
   }
