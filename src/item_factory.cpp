@@ -3459,9 +3459,9 @@ void item_group::debug_spawn()
         if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
             break;
         }
-        // Spawn items from the group 100 times
+        // Spawn items from the group 1000 times
         std::map<std::string, int> itemnames;
-        for( size_t a = 0; a < 100; a++ ) {
+        for( size_t a = 0; a < 1000; a++ ) {
             const auto items = items_from( groups[index], calendar::turn );
             for( auto &it : items ) {
                 itemnames[it->display_name()]++;
@@ -3473,7 +3473,7 @@ void item_group::debug_spawn()
             itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
         }
         uilist menu2;
-        menu2.text = _( "Result of 100 spawns:" );
+        menu2.text = _( "Result of 1000 spawns:" );
         for( const auto &e : itemnames2 ) {
             menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
                                         string_format( _( "%d x %s" ), e.first, e.second ) );
