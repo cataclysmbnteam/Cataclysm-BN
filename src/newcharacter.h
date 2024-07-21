@@ -4,6 +4,7 @@
 
 #include <string>
 
+#include "cursesdef.h"
 #include "cursesport.h"
 #include "type_id.h"
 
