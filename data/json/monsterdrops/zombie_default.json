@@ -251,7 +251,7 @@
       { "group": "carried_guns_smg_common", "prob": 8 },
       { "group": "guns_smg_improvised", "prob": 1 },
       { "group": "carried_guns_smg_rare", "prob": 1 },
-      { "group": "carried_guns_archery", "prob": 20 }
+      { "group": "carried_guns_archery", "prob": 5 }
     ]
   },
   {

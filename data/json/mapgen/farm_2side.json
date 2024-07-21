@@ -78,7 +78,7 @@
         " F DDDDDDD,,,,,DDDDDDDD F wo......nnn........6|  F DDDDDDDDDDDDDDDDDDD,,,,,DDDDDDDDDDDDDDDDDD F ",
         " F        ,,,,,         F wS......hhh....3----|  F         ,          ,,,,,        ,          F ",
         " F DDDDDDD,,,,,DDDDDDDD F ||-----........H-S'T|  F DDDDDDDDDDDDDDDDDDD,,,,,DDDDDDDDDDDDDDDDDD F ",
-        " F,       ,,,,,    ,    F 4|d..3-AAA-H....+'''w  F,                   ,,,,,  ,               ,F ",
+        " F,       ,,,,,    ,    F 4|d..ü-AAA-H....+'''w  F,                   ,,,,,  ,               ,F ",
         " F DDDDDDD,,,,,DDDDDDDD F  wBB..-----....H-'bb|  F DDDDDDDDDDDDDDDDDDD,,,,,DDDDDDDDDDDDDDDDDD F ",
         " F        ,,,,,        ,F  wBB...99.+.--+-----|  F     Q           ,, ,,,,,       ,           F ",
         " F DDDDDDD,,,,,DDDDDDDD F  |d.......|+|.....BB|  F DDDDDDDDDDDDDDDDDDD,,,,,DDDDDDDDDDDDDDDDDD F ",
@@ -182,7 +182,8 @@
         "l": [ "f_locker" ],
         "o": [ "f_oven" ],
         "u": [ "f_cupboard" ],
-        "y": [ "f_hay" ]
+        "y": [ "f_hay" ],
+        "ü": "f_gunsafe_ml"
       },
       "toilets": { "T": {  } },
       "sealed_item": {
@@ -237,6 +238,7 @@
           { "item": "SUS_junk_drawer", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "SUS_cookware", "chance": 20 }
         ],
+        "ü": { "item": "guns_hunting_safe", "chance": 100 },
         "Q": { "item": "farming_tools", "chance": 15 }
       },
       "item": {

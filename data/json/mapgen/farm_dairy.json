@@ -160,7 +160,7 @@
       "items": {
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
         "a": { "item": "trash_dumpster", "chance": 80 },
-        "g": { "item": "guns_safe", "chance": 100 }
+        "g": { "item": "guns_hunting_safe", "chance": 100 }
       },
       "item": { "S": { "item": "salt_lick", "chance": 80, "repeat": [ 1, 4 ] } },
       "place_items": [

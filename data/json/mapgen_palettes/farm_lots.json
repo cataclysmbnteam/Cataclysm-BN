@@ -109,7 +109,8 @@
       "g": "f_floor_lamp",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "b": "f_rotary_clothesline",
-      "q": "f_birdbath"
+      "q": "f_birdbath",
+      "ü": "f_gunsafe_ml"
     },
     "toilets": { "t": {  } },
     "items": {
@@ -124,7 +125,8 @@
         { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
       ],
       "u": [ { "item": "kitchen_counters", "chance": 30 }, { "item": "restaur_kitchen", "chance": 50, "repeat": [ 2, 4 ] } ],
-      "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+      "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
+      "ü": { "item": "guns_hunting_safe", "chance": 100 }
     },
     "nested": { "v": { "chunks": [ [ "null", 90 ], [ "house_place_air_conditioner", 10 ] ] } }
   }
