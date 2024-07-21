@@ -3267,7 +3267,7 @@ void character_preview_window::display() const
 #if defined(TILES)
     // Drawing UI across character tile
     werase( w_preview );
-    draw_border( w_preview, BORDER_COLOR, _("CHARACTER PREVIEW"), BORDER_COLOR );
+    draw_border( w_preview, BORDER_COLOR, _( "CHARACTER PREVIEW" ), BORDER_COLOR );
     wnoutrefresh( w_preview );
 
     // Drawing character itself
