@@ -459,7 +459,14 @@
     "id": "blankets",
     "type": "item_group",
     "//": "Blankets used for the MISSION_LUMBERMILL_GET_6_BLANKETS quest",
-    "items": [ [ "blanket", 100 ], [ "fur_blanket", 100 ], [ "electric_blanket", 100 ], [ "down_blanket", 100 ] ]
+    "items": [
+      [ "blanket", 100 ],
+      [ "fur_blanket", 100 ],
+      [ "electric_blanket", 100 ],
+      [ "down_blanket", 100 ],
+      [ "afs_quilt", 100 ],
+      [ "afs_quilt_patchwork", 100 ]
+    ]
   },
   {
     "id": "file_room",
