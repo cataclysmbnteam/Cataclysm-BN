@@ -1766,6 +1766,7 @@
       [ "jedi_cloak", 4 ],
       [ "glowstick", 60 ],
       [ "blanket", 10 ],
+      [ "afs_quilt", 5 ],
       [ "house_coat", 25 ],
       [ "talking_doll", 5 ],
       [ "marble", 5 ],
