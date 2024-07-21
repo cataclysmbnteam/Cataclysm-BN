@@ -357,10 +357,10 @@ class cata_tiles
         void set_draw_scale( int scale );
 
         /** Tries to find tile with specified parameters and return it if exists **/
-        std::optional<std::tuple<const tile_type*, std::string>> tile_type_search(
-            const std::string &id, TILE_CATEGORY category, const std::string &subcategory,
-            int subtile, int rota
-        );
+        std::optional<std::tuple<const tile_type *, std::string>> tile_type_search(
+                    const std::string &id, TILE_CATEGORY category, const std::string &subcategory,
+                    int subtile, int rota
+                );
 
         void on_options_changed();
 

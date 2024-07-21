@@ -64,11 +64,13 @@ int OVERMAP_LEGEND_WIDTH;
 
 scrollingcombattext SCT;
 
-int termx_to_pixel_value() {
+int termx_to_pixel_value()
+{
     return projected_window_width() / TERMX;
 }
 
-int termy_to_pixel_value() {
+int termy_to_pixel_value()
+{
     return projected_window_height() / TERMY;
 }
 

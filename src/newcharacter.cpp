@@ -1111,14 +1111,14 @@ tab_direction set_traits( avatar &u, points_left &points )
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
-        const int int_page_width = static_cast<int>(page_width);
+        const int int_page_width = static_cast<int>( page_width );
 
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
         character_preview.init(
             &u,
             TERMY - 9, TERMX - int_page_width * 3 - 3,
-            point(int_page_width * 3, 5)
+            point( int_page_width * 3, 5 )
         );
 
         ui.position_from_window( w );
@@ -1259,10 +1259,10 @@ tab_direction set_traits( avatar &u, points_left &points )
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
 #if defined(TILES)
-        if ( action == "zoom_in" ) {
+        if( action == "zoom_in" ) {
             character_preview.zoom_in();
         }
-        if ( action == "zoom_out" ) {
+        if( action == "zoom_out" ) {
             character_preview.zoom_out();
         }
 #endif
@@ -3215,10 +3215,12 @@ std::string points_left::to_string()
     }
 }
 
-void character_preview_window::init(avatar* player, const int nlines, const int ncols, const point begin) {
+void character_preview_window::init( avatar *player, const int nlines, const int ncols,
+                                     const point begin )
+{
 #if defined(TILES)
-    tilecontext->set_draw_scale(zoom);
-    w_preview = catacurses::newwin(nlines, ncols, begin);
+    tilecontext->set_draw_scale( zoom );
+    w_preview = catacurses::newwin( nlines, ncols, begin );
     win_preview = w_preview.get<cata_cursesport::WINDOW>();
     termx_pixels = termx_to_pixel_value();
     termy_pixels = termy_to_pixel_value();
@@ -3226,47 +3228,51 @@ void character_preview_window::init(avatar* player, const int nlines, const int 
 #endif
 }
 
-point character_preview_window::calc_character_pos() const {
+point character_preview_window::calc_character_pos() const
+{
 #if defined(TILES)
     const int t_width = tilecontext->get_tile_width();
     const int t_height = tilecontext->get_tile_height();
     return point(
-        win_preview->pos.x * termx_pixels + win_preview->width * termx_pixels / 2 - t_width / 2,
-        win_preview->pos.y * termy_pixels + win_preview->height * termy_pixels / 2 - t_height / 2
-    );
+               win_preview->pos.x * termx_pixels + win_preview->width * termx_pixels / 2 - t_width / 2,
+               win_preview->pos.y * termy_pixels + win_preview->height * termy_pixels / 2 - t_height / 2
+           );
 #endif
 }
 
-void character_preview_window::zoom_in() {
+void character_preview_window::zoom_in()
+{
 #if defined(TILES)
-    zoom = zoom * 2 % (MAX_ZOOM * 2);
-    if (zoom == 0) {
+    zoom = zoom * 2 % ( MAX_ZOOM * 2 );
+    if( zoom == 0 ) {
         zoom = MIN_ZOOM;
     }
-    tilecontext->set_draw_scale(zoom);
+    tilecontext->set_draw_scale( zoom );
 #endif
 }
 
-void character_preview_window::zoom_out() {
+void character_preview_window::zoom_out()
+{
 #if defined(TILES)
     zoom = zoom / 2;
-    if (zoom < MIN_ZOOM) {
+    if( zoom < MIN_ZOOM ) {
         zoom = MAX_ZOOM;
     }
-    tilecontext->set_draw_scale(zoom);
+    tilecontext->set_draw_scale( zoom );
 #endif
 }
 
-void character_preview_window::display() const {
+void character_preview_window::display() const
+{
 #if defined(TILES)
     // Drawing UI across character tile
-    werase(w_preview);
-    draw_border(w_preview, BORDER_COLOR, "CHARACTER PREVIEW", BORDER_COLOR);
-    wnoutrefresh(w_preview);
+    werase( w_preview );
+    draw_border( w_preview, BORDER_COLOR, "CHARACTER PREVIEW", BORDER_COLOR );
+    wnoutrefresh( w_preview );
 
     // Drawing character itself
     const point pos = calc_character_pos();
-    tilecontext->display_character(*u, pos);
+    tilecontext->display_character( *u, pos );
 #endif
 }
 

@@ -644,10 +644,11 @@ void cata_tiles::set_draw_scale( int scale )
     tile_ratioy = ( static_cast<float>( tile_height ) / static_cast<float>( fontheight ) );
 }
 
-std::optional<std::tuple<const tile_type*, std::string>> cata_tiles::tile_type_search(
-        const std::string &id, TILE_CATEGORY category,
-        const std::string &subcategory, int subtile, int rota
-    ) {
+std::optional<std::tuple<const tile_type *, std::string>> cata_tiles::tile_type_search(
+            const std::string &id, TILE_CATEGORY category,
+            const std::string &subcategory, int subtile, int rota
+        )
+{
     std::optional<tile_lookup_res> res = find_tile_looks_like( id, category );
     const tile_type *tt = nullptr;
     if( res ) {
@@ -1946,7 +1947,7 @@ bool cata_tiles::terrain_requires_animation() const
 void cata_tiles::display_character( const Character &ch, const point &p )
 {
     int height_3d = 0;
-    draw_entity_with_overlays(ch, tripoint(p.x, p.y, 0), lit_level::BRIGHT, height_3d, true);
+    draw_entity_with_overlays( ch, tripoint( p.x, p.y, 0 ), lit_level::BRIGHT, height_3d, true );
 }
 
 void cata_tiles::draw_minimap( point dest, const tripoint &center, int width, int height )
@@ -2160,15 +2161,15 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     }
 
     // Trying to search for tile type
-    std::optional<std::tuple<const tile_type*, std::string>> optional_tt;
-    optional_tt = tile_type_search(id, category, subcategory, subtile, rota);
-    if (optional_tt == std::nullopt) {
+    std::optional<std::tuple<const tile_type *, std::string>> optional_tt;
+    optional_tt = tile_type_search( id, category, subcategory, subtile, rota );
+    if( optional_tt == std::nullopt ) {
         return false;
     }
 
-    const tile_type* tt;
+    const tile_type *tt;
     std::string found_id;
-    std::tie(tt, found_id) = optional_tt.value();
+    std::tie( tt, found_id ) = optional_tt.value();
 
     const tile_type &display_tile = *tt;
     // check to see if the display_tile is multitile, and if so if it has the key related to subtile
@@ -3232,9 +3233,11 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
 
     // depending on the toggle flip sprite left or right
     if( ch.facing == FD_RIGHT ) {
-        draw_from_id_string( ent_name, C_NONE, "", p, corner, 0, ll, false, height_3d, 0, as_independent_entity );
+        draw_from_id_string( ent_name, C_NONE, "", p, corner, 0, ll, false, height_3d, 0,
+                             as_independent_entity );
     } else if( ch.facing == FD_LEFT ) {
-        draw_from_id_string( ent_name, C_NONE, "", p, corner, 4, ll, false, height_3d, 0, as_independent_entity );
+        draw_from_id_string( ent_name, C_NONE, "", p, corner, 4, ll, false, height_3d, 0,
+                             as_independent_entity );
     }
 
     // next up, draw all the overlays
@@ -3244,9 +3247,11 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
         if( find_overlay_looks_like( ch.male, overlay, draw_id ) ) {
             int overlay_height_3d = prev_height_3d;
             if( ch.facing == FD_RIGHT ) {
-                draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 0, ll, false, overlay_height_3d, 0, as_independent_entity );
+                draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 0, ll, false, overlay_height_3d, 0,
+                                     as_independent_entity );
             } else if( ch.facing == FD_LEFT ) {
-                draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 4, ll, false, overlay_height_3d, 0, as_independent_entity );
+                draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 4, ll, false, overlay_height_3d, 0,
+                                     as_independent_entity );
             }
             // the tallest height-having overlay is the one that counts
             height_3d = std::max( height_3d, overlay_height_3d );
