@@ -1142,11 +1142,11 @@
       { "group": "carried_guns_pistol_common", "prob": 40 }
     ]
   },
+
   {
     "type": "item_group",
-    "id": "guns_hunting",
+    "id": "archery_hunting",
     "//": "Guns typically used by hunters, be it rifles, shotguns or archery.",
-    "items": [
       { "group": "everyday_crossbow", "prob": 20 },
       { "group": "everyday_rep_crossbow", "prob": 10 },
       { "group": "everyday_crossbow_carbon", "prob": 10 },
@@ -1158,6 +1158,13 @@
       { "group": "everyday_compbow_high", "prob": 10 },
       { "group": "everyday_compbow_low", "prob": 10 },
       { "group": "everyday_woodgreatbow", "prob": 10 },
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_hunting",
+    "//": "Guns typically used by hunters, be it rifles, shotguns or archery.",
+    "items": [
       { "group": "nested_trex_gun", "prob": 5 },
       { "group": "nested_remington_700", "prob": 20 },
       { "group": "nested_remington700_270", "prob": 10 },
