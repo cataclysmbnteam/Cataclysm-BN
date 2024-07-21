@@ -9,6 +9,7 @@
 #include "type_id.h"
 
 class Character;
+class avatar;
 
 struct points_left {
     int stat_points = 0;
