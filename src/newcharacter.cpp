@@ -528,7 +528,9 @@ bool avatar::create( character_type type, const std::string &tempname )
 
 #if defined(TILES)
     // Reseting zoom just in case it was changed during character preview window
-    g->reset_zoom();
+    if (!test_mode) {
+        g->reset_zoom();
+    }
 #endif
 
     save_template( _( "Last Character" ), points );
