@@ -12,6 +12,21 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "hitman_pistol",
+    "entries": [ { "item": "walther_ppq_45", "ammo-item": "45_super", "charges": 12, "contents-item": [ "suppressor", "pistol_grip" ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "hitman_mags_ppq",
+    "entries": [
+      { "item": "ppq45mag", "ammo-item": "45_super", "charges": 12 },
+      { "item": "ppq45mag", "ammo-item": "45_super", "charges": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_m14",
     "entries": [
       { "item": "m14mag", "ammo-item": "762_51", "charges": 20 },
@@ -4918,11 +4933,10 @@
     ],
     "items": {
       "both": {
-        "items": [ "fancy_sunglasses", "platinum_watch", "suppressor", "tele_sight_pistol" ],
+        "items": [ "fancy_sunglasses", "platinum_watch" ],
         "entries": [
-          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
-          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
-          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 }
+          { "item": "shoulder_holster", "contents-group": "hitman_pistol" },
+          { "item": "legpouch_large", "contents-group": "hitman_mags_ppq" }
         ]
       },
       "male": [
