@@ -12,6 +12,23 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "hitman_pistol",
+    "entries": [
+      { "item": "walther_ppq_45", "ammo-item": "45_super", "charges": 12, "contents-item": [ "suppressor", "pistol_grip" ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "hitman_mags_ppq",
+    "entries": [
+      { "item": "ppq45mag", "ammo-item": "45_super", "charges": 12 },
+      { "item": "ppq45mag", "ammo-item": "45_super", "charges": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_m14",
     "entries": [
       { "item": "m14mag", "ammo-item": "762_51", "charges": 20 },
@@ -137,6 +154,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "mags_m9_security",
+    "entries": [ { "item": "m9mag", "ammo-item": "9mm", "charges": 15 }, { "item": "m9mag", "ammo-item": "9mm", "charges": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "mags_waste_ranger",
     "entries": [ { "item": "blrmag", "ammo-item": "3006", "charges": 4 }, { "item": "blrmag", "ammo-item": "3006", "charges": 4 } ]
   },
@@ -147,6 +170,24 @@
     "entries": [
       { "item": "38_speedloader", "ammo-item": "357mag_jhp", "charges": 7 },
       { "item": "38_speedloader", "ammo-item": "357mag_jhp", "charges": 7 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "speedloaders_44_detective",
+    "entries": [
+      { "item": "44_speedloader6", "ammo-item": "44fmj", "charges": 6 },
+      { "item": "44_speedloader6", "ammo-item": "44fmj", "charges": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "speedloaders_38_archaeologist",
+    "entries": [
+      { "item": "38_speedloader", "ammo-item": "38_special", "charges": 7 },
+      { "item": "38_speedloader", "ammo-item": "38_special", "charges": 7 }
     ]
   },
   {
@@ -1296,8 +1337,7 @@
         "entries": [
           { "group": "charged_flashlight" },
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
-          { "item": "m9mag", "ammo-item": "9mm", "charges": 15 },
-          { "item": "m9mag", "ammo-item": "9mm", "charges": 15 }
+          { "item": "legpouch_large", "contents-group": "mags_m9_security" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1666,8 +1706,9 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 6, "container-item": "holster" },
-          { "item": "357mag_fmj", "charges": 24 }
+          { "item": "sw629", "ammo-item": "44fmj", "charges": 6, "container-item": "shoulder_holster" },
+          { "item": "legpouch_large", "contents-group": "speedloaders_44_detective" },
+          { "item": "44fmj", "charges": 12 }
         ]
       },
       "male": [ "briefs" ],
@@ -2765,7 +2806,7 @@
     "description": "All you ever wanted was to make people laugh.  Dropping out of school and performing at kids' parties was a dream come true until the world ended.  There's precious few balloon animals in your future now.",
     "points": -1,
     "items": {
-      "both": { "items": [ "clown_wig", "clown_suit", "smart_phone", "clown_nose", "socks", "clownshoes", "airhorn" ] },
+      "both": { "items": [ "clown_wig", "clown_suit", "smart_phone", "clown_nose", "socks", "clownshoes", "airhorn", "balloon" ] },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2820,6 +2861,20 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "prof_fursuiter",
+    "name": "Fursuiter",
+    "description": "You had plans to attend a local convention after your custom order finally arrived, only to find the world is ending.  You're starting to wish the company you bought this from made something armored and scaly instead.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 2, "name": "tailor" } ],
+    "items": {
+      "both": { "items": [ "socks", "tank_top", "wolfsuit", "mbag", "sewing_kit", "water_clean", "smart_phone" ] },
+      "//": "underarmor-style underwear is more common irl for comfort but warmth management would make that less ideal in-game",
+      "male": [ "briefs" ],
+      "female": [ "sports_bra", "boy_shorts" ]
     }
   },
   {
@@ -3438,7 +3493,8 @@
         ],
         "entries": [
           { "item": "sw_619", "ammo-item": "38_special", "charges": 7, "container-item": "holster" },
-          { "item": "38_special", "charges": 33 }
+          { "item": "legpouch_large", "contents-group": "speedloaders_38_archaeologist" },
+          { "item": "38_special", "charges": 19 }
         ]
       },
       "male": [ "briefs" ],
@@ -4879,11 +4935,10 @@
     ],
     "items": {
       "both": {
-        "items": [ "fancy_sunglasses", "platinum_watch", "suppressor", "tele_sight_pistol" ],
+        "items": [ "fancy_sunglasses", "platinum_watch" ],
         "entries": [
-          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
-          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
-          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 }
+          { "item": "shoulder_holster", "contents-group": "hitman_pistol" },
+          { "item": "legpouch_large", "contents-group": "hitman_mags_ppq" }
         ]
       },
       "male": [
