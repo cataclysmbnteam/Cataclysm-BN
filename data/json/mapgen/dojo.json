@@ -251,9 +251,7 @@
         "x": "f_birdbath"
       },
       "toilets": { "T": {  } },
-      "place_items": [
-        { "item": "dojo_manuals", "x": [ 3, 4 ], "y": [ 21, 21 ], "chance": 100 }
-      ],
+      "place_items": [ { "item": "dojo_manuals", "x": [ 3, 4 ], "y": [ 21, 21 ], "chance": 100 } ],
       "items": {
         "X": { "item": "judo_belts", "chance": 100 },
         "L": { "item": "gi", "chance": 80, "repeat": [ 5, 8 ] },
