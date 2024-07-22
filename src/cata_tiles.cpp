@@ -1947,7 +1947,7 @@ bool cata_tiles::terrain_requires_animation() const
 void cata_tiles::display_character( const Character &ch, const point &p )
 {
     int height_3d = 0;
-    draw_entity_with_overlays( ch, tripoint( p.x, p.y, 0 ), lit_level::BRIGHT, height_3d, true );
+    draw_entity_with_overlays( ch, tripoint( p, 0 ), lit_level::BRIGHT, height_3d, true );
 }
 
 void cata_tiles::draw_minimap( point dest, const tripoint &center, int width, int height )
