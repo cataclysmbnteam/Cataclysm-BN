@@ -4,9 +4,12 @@
 
 #include <string>
 
+#include "cursesdef.h"
+#include "cursesport.h"
 #include "type_id.h"
 
 class Character;
+class avatar;
 
 struct points_left {
     int stat_points = 0;
@@ -31,6 +34,27 @@ struct points_left {
     bool is_valid();
     bool has_spare();
     std::string to_string();
+};
+
+struct character_preview_window {
+        catacurses::window w_preview;
+
+        void init( avatar *player, int nlines, int ncols, point begin );
+        void zoom_in();
+        void zoom_out();
+        void display() const;
+
+    private:
+        cata_cursesport::WINDOW *win_preview = nullptr;
+        point pos;
+        int termx_pixels = 0;
+        int termy_pixels = 0;
+        const int MIN_ZOOM = 32;
+        const int MAX_ZOOM = 256;
+        int zoom = 128;
+        avatar *u = nullptr;
+
+        point calc_character_pos() const;
 };
 
 namespace newcharacter

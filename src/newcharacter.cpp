@@ -22,6 +22,7 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "cata_tiles.h"
 #include "character.h"
 #include "character_martial_arts.h"
 #include "color.h"
@@ -35,6 +36,7 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "json.h"
+#include "lightmap.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
@@ -54,6 +56,7 @@
 #include "recipe_dictionary.h"
 #include "rng.h"
 #include "scenario.h"
+#include "sdltiles.h"
 #include "skill.h"
 #include "start_location.h"
 #include "string_formatter.h"
@@ -522,6 +525,13 @@ bool avatar::create( character_type type, const std::string &tempname )
     if( points.limit == points_left::TRANSFER ) {
         return true;
     }
+
+#if defined(TILES)
+    // Reseting zoom just in case it was changed during character preview window
+    if( !test_mode ) {
+        g->reset_zoom();
+    }
+#endif
 
     save_template( _( "Last Character" ), points );
 
@@ -1099,11 +1109,22 @@ tab_direction set_traits( avatar &u, points_left &points )
     ui_adaptor ui;
     catacurses::window w;
     catacurses::window w_description;
+    character_preview_window character_preview;
+
     const auto init_windows = [&]( ui_adaptor & ui ) {
+        page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
+        const int int_page_width = static_cast<int>( page_width );
+
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
+        character_preview.init(
+            &u,
+            TERMY - 9, TERMX - int_page_width * 3 - 3,
+            point( int_page_width * 3, 5 )
+        );
+
         ui.position_from_window( w );
-        page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
+
         iContentHeight = TERMY - 9;
 
         for( int i = 0; i < 3; i++ ) {
@@ -1123,6 +1144,11 @@ tab_direction set_traits( avatar &u, points_left &points )
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
+#if defined(TILES)
+    ctxt.register_action( "zoom_in" );
+    ctxt.register_action( "zoom_out" );
+#endif
+
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
@@ -1224,14 +1250,24 @@ tab_direction set_traits( avatar &u, points_left &points )
             draw_scrollbar( w, iCurrentLine[iCurrentPage], iContentHeight, traits_size[iCurrentPage],
                             point( page_width * iCurrentPage, 5 ) );
         }
-
+        // Draws main window, traits description window and character preview window
         wnoutrefresh( w );
         wnoutrefresh( w_description );
+        // Draws character preview
+        character_preview.display();
     } );
 
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
+#if defined(TILES)
+        if( action == "zoom_in" ) {
+            character_preview.zoom_in();
+        }
+        if( action == "zoom_out" ) {
+            character_preview.zoom_out();
+        }
+#endif
         if( action == "LEFT" ) {
             iCurWorkingPage--;
             if( iCurWorkingPage < 0 ) {
@@ -3179,6 +3215,67 @@ std::string points_left::to_string()
     } else {
         return _( "Freeform" );
     }
+}
+
+void character_preview_window::init( avatar *player, const int nlines, const int ncols,
+                                     const point begin )
+{
+#if defined(TILES)
+    tilecontext->set_draw_scale( zoom );
+    w_preview = catacurses::newwin( nlines, ncols, begin );
+    win_preview = w_preview.get<cata_cursesport::WINDOW>();
+    termx_pixels = termx_to_pixel_value();
+    termy_pixels = termy_to_pixel_value();
+    u = player;
+#endif
+}
+
+point character_preview_window::calc_character_pos() const
+{
+#if defined(TILES)
+    const int t_width = tilecontext->get_tile_width();
+    const int t_height = tilecontext->get_tile_height();
+    return point(
+               win_preview->pos.x * termx_pixels + win_preview->width * termx_pixels / 2 - t_width / 2,
+               win_preview->pos.y * termy_pixels + win_preview->height * termy_pixels / 2 - t_height / 2
+           );
+#endif
+}
+
+void character_preview_window::zoom_in()
+{
+#if defined(TILES)
+    zoom = zoom * 2 % ( MAX_ZOOM * 2 );
+    if( zoom == 0 ) {
+        zoom = MIN_ZOOM;
+    }
+    tilecontext->set_draw_scale( zoom );
+#endif
+}
+
+void character_preview_window::zoom_out()
+{
+#if defined(TILES)
+    zoom = zoom / 2;
+    if( zoom < MIN_ZOOM ) {
+        zoom = MAX_ZOOM;
+    }
+    tilecontext->set_draw_scale( zoom );
+#endif
+}
+
+void character_preview_window::display() const
+{
+#if defined(TILES)
+    // Drawing UI across character tile
+    werase( w_preview );
+    draw_border( w_preview, BORDER_COLOR, _( "CHARACTER PREVIEW" ), BORDER_COLOR );
+    wnoutrefresh( w_preview );
+
+    // Drawing character itself
+    const point pos = calc_character_pos();
+    tilecontext->display_character( *u, pos );
+#endif
 }
 
 namespace newcharacter

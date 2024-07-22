@@ -108,6 +108,11 @@ extern int OVERMAP_WINDOW_TERM_WIDTH; // width of the overmap window in terminal
 extern int OVERMAP_WINDOW_TERM_HEIGHT; // same for height
 extern int OVERMAP_LEGEND_WIDTH; // width of overmap window legend
 
+/** Gets size of single width terminal unit size value in pixels **/
+int termx_to_pixel_value();
+/** Gets size of single height terminal unit size value in pixels **/
+int termy_to_pixel_value();
+
 nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
 
 /**
