@@ -895,6 +895,8 @@
       { "item": "glowstick", "prob": 60 },
       { "item": "handflare", "prob": 40 },
       { "item": "blanket", "prob": 10 },
+      { "item": "afs_quilt", "prob": 4 },
+      { "item": "afs_quilt_patchwork", "prob": 2 },
       { "item": "electric_blanket", "prob": 4 },
       { "item": "house_coat", "prob": 25 },
       { "item": "talking_doll", "prob": 65 },
