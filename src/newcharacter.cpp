@@ -528,7 +528,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
 #if defined(TILES)
     // Reseting zoom just in case it was changed during character preview window
-    if (!test_mode) {
+    if( !test_mode ) {
         g->reset_zoom();
     }
 #endif
