@@ -164,7 +164,18 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "professions": [ "svictim", "naked", "tweaker", "crackhead", "convict_ratman", "broken_cyborg" ],
+    "professions": [
+      "svictim",
+      "naked",
+      "tweaker",
+      "crackhead",
+      "homeless",
+      "convict_ratman",
+      "prof_fursuiter",
+      "clown",
+      "broken_cyborg",
+      "true_foodperson"
+    ],
     "flags": [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START" ]
   },
   {
@@ -239,7 +250,9 @@
       "broken_cyborg",
       "faulty_bionic",
       "cykotic",
-      "convict_political"
+      "convict_political",
+      "homeless",
+      "convict_ratman"
     ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "traits": [
@@ -303,7 +316,7 @@
     "points": -8,
     "description": "You were deemed non-essential and made to stay behind during the lab evacuation.  Find a way to escape or starve to death.",
     "start_name": "Locked Lab",
-    "professions": [ "labtech", "security", "medic", "bionic_installer", "bio_medic" ],
+    "professions": [ "labtech", "security", "medic", "bionic_installer", "bio_medic", "bionic_mentat", "bionic_spy" ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
@@ -474,16 +487,7 @@
     "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not.  Once the Cataclysm struck, you left the lab, and wandered aimlessly, ending up in a forest.",
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_forest", "sloc_field" ],
-    "professions": [
-      "unemployed",
-      "mutant_patient",
-      "mutant_volunteer",
-      "labtech",
-      "broken_cyborg",
-      "faulty_bionic",
-      "cykotic",
-      "convict_political"
-    ],
+    "professions": [ "unemployed", "mutant_patient", "mutant_volunteer", "broken_cyborg", "faulty_bionic", "cykotic", "convict_political" ],
     "traits": [
       "ELFAEYES",
       "NIGHTVISION2",
@@ -608,7 +612,18 @@
     "description": "Your mission required you to eliminate a certain high-ranking individual in hiding. Your mark seems to have turned feral while escaping and the world appears to be ending, but not even that can stop you from finishing your mission.",
     "allowed_locs": [ "sloc_shelter", "sloc_shelter_vandalized" ],
     "start_name": "Evac Shelter",
-    "professions": [ "assassin", "hitman", "scoundrel", "gangster", "specops", "bionic_hitman", "bio_gangster", "razorgirl", "bio_sniper" ],
+    "professions": [
+      "assassin",
+      "hitman",
+      "scoundrel",
+      "gangster",
+      "specops",
+      "bionic_spy",
+      "bionic_hitman",
+      "bio_gangster",
+      "razorgirl",
+      "bio_sniper"
+    ],
     "flags": [ "CITY_START" ],
     "missions": [ "MISSION_ASSASSINATION" ]
   },
