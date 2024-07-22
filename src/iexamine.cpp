@@ -4685,7 +4685,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             break;
         }
         default:
-            popup( _( "You decided to step back from the ledge." ) );
+            p.add_msg_if_player( _( "You decided to step back from the ledge." ) );
             break;
     }
 }
