@@ -1119,8 +1119,8 @@ tab_direction set_traits( avatar &u, points_left &points )
         w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
         character_preview.init(
             &u,
-            TERMY - 9, TERMX - int_page_width * 3 - 3,
-            point( int_page_width * 3, 5 )
+            TERMY - 9, TERMX - int_page_width * 3 - 4,
+            point( int_page_width * 3 + 2, 5 )
         );
 
         ui.position_from_window( w );
