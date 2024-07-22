@@ -13,7 +13,9 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "hitman_pistol",
-    "entries": [ { "item": "walther_ppq_45", "ammo-item": "45_super", "charges": 12, "contents-item": [ "suppressor", "pistol_grip" ] } ]
+    "entries": [
+      { "item": "walther_ppq_45", "ammo-item": "45_super", "charges": 12, "contents-item": [ "suppressor", "pistol_grip" ] }
+    ]
   },
   {
     "type": "item_group",
