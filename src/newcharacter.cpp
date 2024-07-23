@@ -3242,7 +3242,7 @@ void character_preview_window::init( Character *character )
                                  character->get_mutations() );
     for( detached_ptr<item> &it : prof_items ) {
         if( it->is_armor() ) {
-            clothes.push_back( *std::move(it) );
+            clothes.push_back( *std::move( it ) );
         }
     }
     toggle_clothes();
