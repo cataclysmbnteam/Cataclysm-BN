@@ -60,7 +60,7 @@ struct character_preview_window {
         void zoom_out();
         void toggle_clothes();
         void display() const;
-        /** Use it as you done with **/
+        /** Use it as you done with preview **/
         void clear() const;
 
     private:
