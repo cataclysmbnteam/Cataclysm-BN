@@ -2116,7 +2116,8 @@ float Character::get_vision_threshold( float light_level ) const
 
     return std::min( {static_cast<float>( LIGHT_AMBIENT_LOW ),
                       vision::threshold_for_nv_range( nv_range - 1 ) * dimming_from_light,
-                      threshold_cap} );
+                      threshold_cap
+                     } );
 }
 
 void Character::flag_encumbrance()
@@ -2789,6 +2790,12 @@ void Character::rust_iron_items()
 void Character::inv_clear()
 {
     inv.clear();
+}
+
+void Character::worn_clear()
+{
+    worn.clear();
+    worn = new worn_item_location( this );
 }
 
 void Character::dump_inv( std::vector<item *> &to )

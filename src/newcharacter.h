@@ -53,11 +53,15 @@ struct character_preview_window {
 
         catacurses::window w_preview;
 
-        void init( Character *character, int nlines, int ncols, const Orientation *orientation,
-                   int hide_below_ncols = 0 );
+        void init( Character *character );
+        /** Window preparations before displaying. Sets desirable position. Could also be usefull for ui-rescale **/
+        void prepare( int nlines, int ncols, const Orientation *orientation, int hide_below_ncols );
         void zoom_in();
         void zoom_out();
+        void toggle_clothes();
         void display() const;
+        /** Use it as you done with **/
+        void clear() const;
 
     private:
         point pos;
@@ -71,6 +75,8 @@ struct character_preview_window {
         int ncols_width = 0;
         int nlines_width = 0;
         Character *character = nullptr;
+        std::vector<item> clothes;
+        bool show_clothes = true;
 
         point calc_character_pos() const;
 };

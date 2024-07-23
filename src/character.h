@@ -1234,6 +1234,7 @@ class Character : public Creature, public location_visitable<Character>
         void inv_unsort();
 
         void inv_clear();
+        void worn_clear();
         void dump_inv( std::vector<item *> &to );
 
         std::map<char, itype_id> &inv_assigned_invlet();

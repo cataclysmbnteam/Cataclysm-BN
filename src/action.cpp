@@ -349,6 +349,8 @@ std::string action_ident( action_id act )
             return "open_world_mods";
         case ACTION_DISTRACTION_MANAGER:
             return "open_distraction_manager";
+        case ACTION_TOGGLE_CHARACTER_PREVIEW_CLOTHES:
+            return "TOGGLE_CHARACTER_PREVIEW_CLOTHES";
         case ACTION_NULL:
             return "null";
         default:
@@ -399,6 +401,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_COLOR:
         case ACTION_WORLD_MODS:
         case ACTION_DISTRACTION_MANAGER:
+        case ACTION_TOGGLE_CHARACTER_PREVIEW_CLOTHES:
         // Debug Functions
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
