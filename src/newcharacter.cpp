@@ -1117,10 +1117,19 @@ tab_direction set_traits( avatar &u, points_left &points )
 
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
+
+        constexpr int preview_nlines_min = 7;
+        constexpr int preview_ncols_min = 10;
+        const int preview_nlines = std::max( ( TERMY - 9 ) / 3, preview_nlines_min );
+        const int preview_ncols = std::max( ( TERMX - int_page_width * 3 - 4 ) / 3 - 5, preview_ncols_min );
+        constexpr auto orientation = character_preview_window::Orientation{
+            character_preview_window::TOP_RIGHT,
+            character_preview_window::Margin{0, 2, 5, 0}
+        };
         character_preview.init(
             &u,
-            TERMY - 9, TERMX - int_page_width * 3 - 4,
-            point( int_page_width * 3 + 2, 5 )
+            preview_nlines, preview_ncols,
+            &orientation, int_page_width * 3 + 5
         );
 
         ui.position_from_window( w );
@@ -3217,16 +3226,55 @@ std::string points_left::to_string()
     }
 }
 
-void character_preview_window::init( avatar *player, const int nlines, const int ncols,
-                                     const point begin )
+void character_preview_window::init( Character *character, const int nlines, const int ncols,
+                                     const Orientation *orientation, const int hide_below_ncols )
 {
 #if defined(TILES)
+    zoom = DEFAULT_ZOOM;
     tilecontext->set_draw_scale( zoom );
-    w_preview = catacurses::newwin( nlines, ncols, begin );
-    win_preview = w_preview.get<cata_cursesport::WINDOW>();
     termx_pixels = termx_to_pixel_value();
     termy_pixels = termy_to_pixel_value();
-    u = player;
+    this->character = character;
+    this->hide_below_ncols = hide_below_ncols;
+
+    // Trying to ensure that tile will fit in border
+    const int win_width = ncols * termx_pixels;
+    const int win_height = nlines * termy_pixels;
+    int t_width = tilecontext->get_tile_width();
+    int t_height = tilecontext->get_tile_height();
+    while( zoom != MIN_ZOOM && ( win_width < t_width || win_height < t_height ) ) {
+        zoom_out();
+        t_width = tilecontext->get_tile_width();
+        t_height = tilecontext->get_tile_height();
+    }
+
+    // Final size of character preview window
+    const int box_ncols = t_width / termx_pixels + 4;
+    const int box_nlines = t_height / termy_pixels + 3;
+
+    // Setting window just a little bit more than a tile itself
+    point start;
+    switch( orientation->type ) {
+        case( TOP_LEFT ):
+            start = point{0, 0};
+            break;
+        case( TOP_RIGHT ):
+            start = point{TERMX - box_ncols, 0};
+            break;
+        case( BOTTOM_LEFT ):
+            start = point{0, TERMY - box_nlines};
+            break;
+        case( BOTTOM_RIGHT ):
+            start = point{TERMX - box_ncols, TERMY - box_nlines};
+            break;
+    }
+
+    start.x += orientation->margin.left - orientation->margin.right;
+    start.y += orientation->margin.top - orientation->margin.bottom;
+    w_preview = catacurses::newwin( box_nlines, box_ncols, start );
+    ncols_width = box_ncols;
+    nlines_width = box_nlines;
+    pos = start;
 #endif
 }
 
@@ -3236,8 +3284,8 @@ point character_preview_window::calc_character_pos() const
     const int t_width = tilecontext->get_tile_width();
     const int t_height = tilecontext->get_tile_height();
     return point(
-               win_preview->pos.x * termx_pixels + win_preview->width * termx_pixels / 2 - t_width / 2,
-               win_preview->pos.y * termy_pixels + win_preview->height * termy_pixels / 2 - t_height / 2
+               pos.x * termx_pixels + ncols_width * termx_pixels / 2 - t_width / 2,
+               pos.y * termy_pixels + nlines_width * termy_pixels / 2 - t_height / 2
            );
 #endif
 }
@@ -3267,6 +3315,11 @@ void character_preview_window::zoom_out()
 void character_preview_window::display() const
 {
 #if defined(TILES)
+    // If device width is too small - ignore display
+    if( TERMX - ncols_width < hide_below_ncols ) {
+        return;
+    }
+
     // Drawing UI across character tile
     werase( w_preview );
     draw_border( w_preview, BORDER_COLOR, _( "CHARACTER PREVIEW" ), BORDER_COLOR );
@@ -3274,7 +3327,7 @@ void character_preview_window::display() const
 
     // Drawing character itself
     const point pos = calc_character_pos();
-    tilecontext->display_character( *u, pos );
+    tilecontext->display_character( *character, pos );
 #endif
 }
 
