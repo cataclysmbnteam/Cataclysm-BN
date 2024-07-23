@@ -334,7 +334,7 @@
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 3 },
       { "item": "sweets_book", "prob": 8 },
-      { "item": "dojo_manuals", "prob": 20 }
+      { "group": "dojo_manuals", "prob": 20 }
     ]
   },
   {
@@ -509,7 +509,7 @@
       { "item": "manual_barbaran", "prob": 15 },
       { "item": "manual_sealing", "prob": 190 },
       { "item": "baking_book", "prob": 190 },
-      { "item": "dojo_manuals", "prob": 20 }
+      { "group": "dojo_manuals", "prob": 20 }
     ]
   },
   {
