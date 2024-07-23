@@ -1168,7 +1168,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
-    "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -1188,7 +1187,8 @@
         [ "birchbark", 1 ],
         [ "willowbark", 1 ]
       ]
-    ]
+    ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "type": "recipe",
