@@ -571,6 +571,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "fun": -50,
+    "flags": [ "IS_BLOOD" ],
     "drop_action": { "type": "emit_actor", "emits": [ "emit_drop_blood" ], "scale_qty": true }
   },
   {
@@ -599,7 +600,9 @@
     "copy-from": "blood_concentrate",
     "name": { "str_sp": "concentrated animal blood" },
     "description": "Blood extracted from a living creature, concentrated by some means.",
-    "material": "flesh"
+    "material": "flesh",
+    "//": "Wouldn't be good to run it through a centrifuge",
+    "delete": { "flags": [ "IS_BLOOD" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -620,7 +623,9 @@
     "volume": "250 ml",
     "phase": "liquid",
     "fun": -50,
-    "delete": { "flags": [ "SMOKABLE" ] }
+    "extend": { "flags": [ "IS_BLOOD" ] },
+    "delete": { "flags": [ "SMOKABLE" ] },
+    "drop_action": { "type": "emit_actor", "emits": [ "emit_drop_blood" ], "scale_qty": true }
   },
   {
     "type": "COMESTIBLE",
@@ -632,7 +637,8 @@
     "quench": 1,
     "price_postapoc": "20 cent",
     "description": "Blood from a mutated creature, concentrated by some means.  Despite it being a liquid, some parts are thicker than the other.",
-    "volume": "62 ml"
+    "volume": "62 ml",
+    "delete": { "flags": [ "IS_BLOOD" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -772,7 +778,9 @@
     "volume": "250 ml",
     "phase": "liquid",
     "fun": -50,
-    "delete": { "flags": [ "SMOKABLE" ] }
+    "extend": { "flags": [ "IS_BLOOD" ] },
+    "delete": { "flags": [ "SMOKABLE" ] },
+    "drop_action": { "type": "emit_actor", "emits": [ "emit_drop_blood" ], "scale_qty": true }
   },
   {
     "type": "COMESTIBLE",
@@ -784,7 +792,8 @@
     "quench": 1,
     "price_postapoc": "20 cent",
     "description": "Poisonous and unhealthy blood, concentrated by some means.  You swear you could see it pulsing ever so slightly.",
-    "volume": "62 ml"
+    "volume": "62 ml",
+    "delete": { "flags": [ "IS_BLOOD" ] }
   },
   {
     "type": "COMESTIBLE",
