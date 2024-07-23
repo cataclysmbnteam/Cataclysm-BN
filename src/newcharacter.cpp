@@ -3257,7 +3257,6 @@ void character_preview_window::prepare( const int nlines, const int ncols,
     tilecontext->set_draw_scale( zoom );
     termx_pixels = termx_to_pixel_value();
     termy_pixels = termy_to_pixel_value();
-    this->character = character;
     this->hide_below_ncols = hide_below_ncols;
 
     // Trying to ensure that tile will fit in border
