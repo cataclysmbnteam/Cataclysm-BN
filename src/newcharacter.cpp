@@ -3242,7 +3242,7 @@ void character_preview_window::init( Character *character )
                                  character->get_mutations() );
     for( detached_ptr<item> &it : prof_items ) {
         if( it->is_armor() ) {
-            clothes.push_back( std::move(it) );
+            clothes.push_back( std::move( it ) );
         }
     }
     toggle_clothes();
@@ -3341,7 +3341,7 @@ void character_preview_window::toggle_clothes()
         character->worn_clear();
     } else {
         for( detached_ptr<item> &it : clothes ) {
-            character->wear_item( item::spawn( *std::move(it) ), false );
+            character->wear_item( item::spawn( *std::move( it ) ), false );
         }
     }
     show_clothes = !show_clothes;
