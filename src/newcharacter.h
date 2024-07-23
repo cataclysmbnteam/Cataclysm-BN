@@ -75,7 +75,7 @@ struct character_preview_window {
         int ncols_width = 0;
         int nlines_width = 0;
         Character *character = nullptr;
-        std::vector<item> clothes;
+        std::vector<detached_ptr<item>> clothes;
         bool show_clothes = true;
 
         point calc_character_pos() const;
