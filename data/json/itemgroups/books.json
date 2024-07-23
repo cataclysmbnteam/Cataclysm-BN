@@ -62,7 +62,7 @@
       { "item": "manual_eskrima", "prob": 100 },
       { "item": "manual_krav_maga", "prob": 100 },
       { "item": "manual_ninjutsu", "prob": 100 },
-      { "item": "manual_pankration", "prob": 5 },
+      { "item": "manual_pankration", "prob": 100 },
       { "item": "manual_silat", "prob": 100 },
       { "item": "manual_taekwondo", "prob": 100 },
       { "item": "manual_wingchun", "prob": 100 },
@@ -333,7 +333,8 @@
       { "item": "baking_book", "prob": 80 },
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 3 },
-      { "item": "sweets_book", "prob": 8 }
+      { "item": "sweets_book", "prob": 8 },
+      { "group": "dojo_manuals", "prob": 20 }
     ]
   },
   {
@@ -507,7 +508,8 @@
       { "item": "manual_canning", "prob": 80 },
       { "item": "manual_barbaran", "prob": 15 },
       { "item": "manual_sealing", "prob": 190 },
-      { "item": "baking_book", "prob": 190 }
+      { "item": "baking_book", "prob": 190 },
+      { "group": "dojo_manuals", "prob": 20 }
     ]
   },
   {
@@ -574,6 +576,7 @@
       { "item": "manual_fencing", "prob": 15 },
       { "item": "manual_eskrima", "prob": 15 },
       { "item": "manual_krav_maga", "prob": 15 },
+      { "item": "manual_boxing", "prob": 15 },
       { "item": "manual_ninjutsu", "prob": 15 },
       { "item": "manual_silat", "prob": 15 },
       { "item": "manual_taekwondo", "prob": 15 },
@@ -583,7 +586,7 @@
       { "item": "manual_niten", "prob": 15 },
       { "item": "manual_sojutsu", "prob": 15 },
       { "item": "manual_capoeira", "prob": 15 },
-      { "group": "rare_martial_arts_books", "prob": 8 },
+      { "group": "rare_martial_arts_books", "prob": 15 },
       { "item": "mag_melee", "prob": 5 },
       { "item": "manual_melee", "prob": 5 },
       { "item": "mag_unarmed", "prob": 5 },
@@ -592,7 +595,8 @@
       { "item": "textbook_weapeast", "prob": 12 },
       { "item": "manual_wingchun", "prob": 15 },
       { "item": "manual_barbaran", "prob": 15 },
-      { "item": "manual_medievalpole", "prob": 15 }
+      { "item": "manual_medievalpole", "prob": 15 },
+      { "item": "manual_swordsmanship", "prob": 15 }
     ]
   },
   {
@@ -606,7 +610,12 @@
       { "item": "manual_leopard", "prob": 1 },
       { "item": "manual_snake", "prob": 1 },
       { "item": "manual_tiger", "prob": 1 },
-      { "item": "manual_zui_quan", "prob": 1 }
+      { "item": "manual_zui_quan", "prob": 1 },
+      { "item": "manual_venom_snake", "prob": 1 },
+      { "item": "manual_toad", "prob": 1 },
+      { "item": "manual_scorpion", "prob": 1 },
+      { "item": "manual_lizard", "prob": 1 },
+      { "item": "manual_centipede", "prob": 1 }
     ]
   },
   {
