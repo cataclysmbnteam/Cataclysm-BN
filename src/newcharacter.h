@@ -4,12 +4,9 @@
 
 #include <string>
 
-#include "cursesdef.h"
-#include "cursesport.h"
 #include "type_id.h"
 
 class Character;
-class avatar;
 
 struct points_left {
     int stat_points = 0;
@@ -37,22 +34,43 @@ struct points_left {
 };
 
 struct character_preview_window {
+        enum OrientationType : std::uint8_t {
+            TOP_LEFT,
+            TOP_RIGHT,
+            BOTTOM_LEFT,
+            BOTTOM_RIGHT
+        };
+        struct Margin {
+            int left = 0;
+            int right = 0;
+            int top = 0;
+            int bottom = 0;
+        };
+        struct Orientation {
+            OrientationType type = TOP_RIGHT;
+            Margin margin = Margin{};
+        };
+
         catacurses::window w_preview;
 
-        void init( avatar *player, int nlines, int ncols, point begin );
+        void init( Character *character, int nlines, int ncols, const Orientation *orientation,
+                   int hide_below_ncols = 0 );
         void zoom_in();
         void zoom_out();
         void display() const;
 
     private:
-        cata_cursesport::WINDOW *win_preview = nullptr;
         point pos;
         int termx_pixels = 0;
         int termy_pixels = 0;
         const int MIN_ZOOM = 32;
-        const int MAX_ZOOM = 256;
-        int zoom = 128;
-        avatar *u = nullptr;
+        const int MAX_ZOOM = 128;
+        const int DEFAULT_ZOOM = 128;
+        int zoom = DEFAULT_ZOOM;
+        int hide_below_ncols = 0;
+        int ncols_width = 0;
+        int nlines_width = 0;
+        Character *character = nullptr;
 
         point calc_character_pos() const;
 };
