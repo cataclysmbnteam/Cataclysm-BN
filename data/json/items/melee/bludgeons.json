@@ -735,7 +735,7 @@
     "price": "60 USD",
     "price_postapoc": "15 USD",
     "material": [ "wood", "iron" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "weight": "1275 g",
     "bashing": 30,
     "qualities": [ [ "HAMMER", 1 ] ]
