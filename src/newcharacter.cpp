@@ -3256,7 +3256,7 @@ void character_preview_window::init( Character *character, const int nlines, con
     point start;
     switch( orientation->type ) {
         case( TOP_LEFT ):
-            start = point{0, 0};
+            start = point_zero;
             break;
         case( TOP_RIGHT ):
             start = point{TERMX - box_ncols, 0};
