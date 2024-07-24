@@ -476,6 +476,7 @@ to find which flags work elsewhere.
 - `HIDDEN_POISON` ... Food displays as poisonous with a certain survival skill level. Note that this
   doesn't make items poisonous on its own, consider adding `"use_action": "POISON"` as well, or
   using `FORAGE_POISON` instead.
+- `IS_BLOOD` Will be scanned if placed in a centrifuge, in hospitals, labs, etc.
 - `MELTS` Provides half fun unless frozen. Edible when frozen.
 - `MILLABLE` Can be placed inside a mill, to turn into flour.
 - `MYCUS_OK` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by
