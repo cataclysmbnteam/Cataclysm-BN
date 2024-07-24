@@ -62,6 +62,7 @@ struct character_preview_window {
         void display() const;
         /** Use it as you done with preview **/
         void clear() const;
+        bool clothes_showing() const;
 
     private:
         point pos;
