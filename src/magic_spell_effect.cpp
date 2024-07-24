@@ -1130,11 +1130,4 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
         --walk_point;
     }
     caster.moves = cur_moves;
-
-    tripoint far_target;
-    calc_ray_end( coord_to_angle( source, target ), sp.aoe(), here.getlocal( *walk_point ),
-                  far_target );
-    const std::set<tripoint> hit_area = spell_effect_cone_range_override(
-                                            source, far_target, 45, sp.has_flag( spell_flag::IGNORE_WALLS ), sp.aoe() );
-    damage_targets( sp, caster, hit_area );
 }
