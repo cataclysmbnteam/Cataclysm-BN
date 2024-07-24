@@ -1562,7 +1562,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggles character clothes for preview window on character creation menu",
+    "name": "Show/Hide Preview Outfit",
     "category": "NEW_CHAR_TRAITS",
     "id": "TOGGLE_CHARACTER_PREVIEW_CLOTHES",
     "bindings": [ { "input_method": "keyboard", "key": "c" }, { "input_method": "keyboard", "key": "C" } ]
