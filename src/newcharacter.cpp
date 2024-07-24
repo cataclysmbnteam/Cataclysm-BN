@@ -22,7 +22,9 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#if defined(TILES)
 #include "cata_tiles.h"
+#endif
 #include "character.h"
 #include "character_martial_arts.h"
 #include "color.h"
