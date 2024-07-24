@@ -251,5 +251,27 @@
     "base_energy_cost": 350,
     "max_level": 35,
     "energy_source": "MANA"
+  },
+  {
+    "type": "SPELL",
+    "id": "debug_dash",
+    "name": "Debug Dash",
+    "description": "You can teleport instantaneously forward.",
+    "valid_targets": [ "ground", "hostile" ],
+    "effect": "dash",
+    "//": "As of writing, damage doesn't work but it's good to keep it for when it does",
+    "min_damage": 80,
+    "max_damage": 80,
+    "damage_increment": 10,
+    "damage_type": "bash",
+    "field_id": "fd_fire",
+    "min_field_intensity": 2,
+    "max_field_intensity": 2,
+    "min_range": 8,
+    "max_range": 8,
+    "base_casting_time": 300,
+    "base_energy_cost": 350,
+    "max_level": 1,
+    "energy_source": "MANA"
   }
 ]
