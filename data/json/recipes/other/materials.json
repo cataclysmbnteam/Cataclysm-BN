@@ -1133,20 +1133,55 @@
   },
   {
     "type": "recipe",
+    "result": "plastic_sheet",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h",
+    "autolearn": true,
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 40, "LIST" ] ], [ [ "tool_flat_press_large", 1, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "plastic_sheet",
+    "id_suffix": "printed",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "computer",
+    "difficulty": 2,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "20 m",
+    "autolearn": true,
+    "using": [ [ "3d_printing_standard", 20 ] ],
+    "components": [ [ [ "plastic_chunk", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "rigid_plastic_sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "1 h",
+    "time": "2 h 30 m",
     "autolearn": true,
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "tool_flat_press_large", 1, "LIST" ] ],
-      [ [ "forge", 75 ] ]
-    ],
-    "components": [ [ [ "plastic_chunk", 200 ] ] ]
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 250, "LIST" ] ], [ [ "tool_flat_press_large", 1, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 125 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rigid_plastic_sheet",
+    "id_suffix": "printed",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "computer",
+    "difficulty": 3,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "2 h 5 m",
+    "autolearn": true,
+    "using": [ [ "3d_printing_standard", 125 ] ],
+    "components": [ [ [ "plastic_chunk", 125 ] ] ]
   },
   {
     "type": "recipe",
