@@ -1562,6 +1562,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Show/Hide Preview Outfit",
+    "category": "NEW_CHAR_TRAITS",
+    "id": "TOGGLE_CHARACTER_PREVIEW_CLOTHES",
+    "bindings": [ { "input_method": "keyboard", "key": "c" }, { "input_method": "keyboard", "key": "C" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Toggle Map Memory",
     "category": "DEFAULTMODE",
     "id": "toggle_map_memory"

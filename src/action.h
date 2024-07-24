@@ -271,6 +271,11 @@ enum action_id : int {
     ACTION_DISTRACTION_MANAGER,
     /**@}*/
 
+    // Additional UI action
+    /**@{*/
+    ACTION_TOGGLE_CHARACTER_PREVIEW_CLOTHES,
+    /**@}*/
+
     // Debug Functions
     /**@{*/
     /** Toggle full-screen mode */

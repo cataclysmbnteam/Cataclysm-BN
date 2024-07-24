@@ -526,13 +526,6 @@ bool avatar::create( character_type type, const std::string &tempname )
         return true;
     }
 
-#if defined(TILES)
-    // Reseting zoom just in case it was changed during character preview window
-    if( !test_mode ) {
-        g->reset_zoom();
-    }
-#endif
-
     save_template( _( "Last Character" ), points );
 
     recalc_hp();
@@ -1110,6 +1103,9 @@ tab_direction set_traits( avatar &u, points_left &points )
     catacurses::window w;
     catacurses::window w_description;
     character_preview_window character_preview;
+    character_preview.init( &u );
+    const bool use_character_preview = get_option<bool>( "USE_CHARACTER_PREVIEW" ) &&
+                                       get_option<bool>( "USE_TILES" );
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
@@ -1118,19 +1114,20 @@ tab_direction set_traits( avatar &u, points_left &points )
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
 
-        constexpr int preview_nlines_min = 7;
-        constexpr int preview_ncols_min = 10;
-        const int preview_nlines = std::max( ( TERMY - 9 ) / 3, preview_nlines_min );
-        const int preview_ncols = std::max( ( TERMX - int_page_width * 3 - 4 ) / 3 - 5, preview_ncols_min );
-        constexpr auto orientation = character_preview_window::Orientation{
-            character_preview_window::TOP_RIGHT,
-            character_preview_window::Margin{0, 2, 5, 0}
-        };
-        character_preview.init(
-            &u,
-            preview_nlines, preview_ncols,
-            &orientation, int_page_width * 3 + 5
-        );
+        if( use_character_preview ) {
+            constexpr int preview_nlines_min = 7;
+            constexpr int preview_ncols_min = 10;
+            const int preview_nlines = std::max( ( TERMY - 9 ) / 3, preview_nlines_min );
+            const int preview_ncols = std::max( ( TERMX - int_page_width * 3 - 4 ) / 3 - 5, preview_ncols_min );
+            constexpr auto orientation = character_preview_window::Orientation{
+                character_preview_window::TOP_RIGHT,
+                character_preview_window::Margin{0, 2, 5, 0}
+            };
+            character_preview.prepare(
+                preview_nlines, preview_ncols,
+                &orientation, int_page_width * 3 + 5
+            );
+        }
 
         ui.position_from_window( w );
 
@@ -1156,6 +1153,7 @@ tab_direction set_traits( avatar &u, points_left &points )
 #if defined(TILES)
     ctxt.register_action( "zoom_in" );
     ctxt.register_action( "zoom_out" );
+    ctxt.register_action( "TOGGLE_CHARACTER_PREVIEW_CLOTHES" );
 #endif
 
 
@@ -1263,18 +1261,23 @@ tab_direction set_traits( avatar &u, points_left &points )
         wnoutrefresh( w );
         wnoutrefresh( w_description );
         // Draws character preview
-        character_preview.display();
+        if( use_character_preview ) {
+            character_preview.display();
+        }
     } );
 
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
 #if defined(TILES)
-        if( action == "zoom_in" ) {
+        if( action == "zoom_in" && use_character_preview ) {
             character_preview.zoom_in();
         }
-        if( action == "zoom_out" ) {
+        if( action == "zoom_out" && use_character_preview ) {
             character_preview.zoom_out();
+        }
+        if( action == "TOGGLE_CHARACTER_PREVIEW_CLOTHES" && use_character_preview ) {
+            character_preview.toggle_clothes();
         }
 #endif
         if( action == "LEFT" ) {
@@ -1365,10 +1368,13 @@ tab_direction set_traits( avatar &u, points_left &points )
 
             recalc_display_cache();
         } else if( action == "PREV_TAB" ) {
+            character_preview.clear();
             return tab_direction::BACKWARD;
         } else if( action == "NEXT_TAB" ) {
+            character_preview.clear();
             return tab_direction::FORWARD;
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
+            character_preview.clear();
             return tab_direction::QUIT;
         }
     } while( true );
@@ -3226,15 +3232,31 @@ std::string points_left::to_string()
     }
 }
 
-void character_preview_window::init( Character *character, const int nlines, const int ncols,
-                                     const Orientation *orientation, const int hide_below_ncols )
+void character_preview_window::init( Character *character )
+{
+#if defined(TILES)
+    this->character = character;
+
+    // Collecting profession clothes
+    std::vector<detached_ptr<item>> prof_items = character->prof->items( character->male,
+                                 character->get_mutations() );
+    for( detached_ptr<item> &it : prof_items ) {
+        if( it->is_armor() ) {
+            clothes.push_back( std::move( it ) );
+        }
+    }
+    toggle_clothes();
+#endif
+}
+
+void character_preview_window::prepare( const int nlines, const int ncols,
+                                        const Orientation *orientation, const int hide_below_ncols )
 {
 #if defined(TILES)
     zoom = DEFAULT_ZOOM;
     tilecontext->set_draw_scale( zoom );
     termx_pixels = termx_to_pixel_value();
     termy_pixels = termy_to_pixel_value();
-    this->character = character;
     this->hide_below_ncols = hide_below_ncols;
 
     // Trying to ensure that tile will fit in border
@@ -3312,6 +3334,18 @@ void character_preview_window::zoom_out()
 #endif
 }
 
+void character_preview_window::toggle_clothes()
+{
+    if( !show_clothes ) {
+        character->worn_clear();
+    } else {
+        for( detached_ptr<item> &it : clothes ) {
+            character->wear_item( item::spawn( *std::move( it ) ), false );
+        }
+    }
+    show_clothes = !show_clothes;
+}
+
 void character_preview_window::display() const
 {
 #if defined(TILES)
@@ -3330,6 +3364,13 @@ void character_preview_window::display() const
     tilecontext->display_character( *character, pos );
 #endif
 }
+
+void character_preview_window::clear() const
+{
+    character->worn_clear();
+    tilecontext->set_draw_scale( DEFAULT_TILESET_ZOOM );
+}
+
 
 namespace newcharacter
 {
