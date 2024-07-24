@@ -3243,6 +3243,11 @@ void character_preview_window::init( Character *character )
 #if defined(TILES)
     this->character = character;
 
+    // Setting bionics
+    for( const bionic_id &bio : character->prof->CBMs() ) {
+        character->add_bionic( bio );
+    }
+
     // Collecting profession clothes
     std::vector<detached_ptr<item>> prof_items = character->prof->items( character->male,
                                  character->get_mutations() );
@@ -3374,6 +3379,7 @@ void character_preview_window::display() const
 void character_preview_window::clear() const
 {
     character->worn.clear();
+    character->clear_bionics();
     tilecontext->set_draw_scale( DEFAULT_TILESET_ZOOM );
 }
 
