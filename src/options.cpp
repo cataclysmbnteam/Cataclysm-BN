@@ -1967,8 +1967,8 @@ void options_manager::add_options_graphics()
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
     add( "USE_CHARACTER_PREVIEW", graphics, translate_marker( "Enable character preview window" ),
-         translate_marker( "If true, shows character preview window in traits tab on character creation. "
-                           "While having a window press 'z'/'Z' to perform zoom-in/zoom-out. "
+         translate_marker( "If true, shows character preview window in traits tab on character creation.  "
+                           "While having a window press 'z'/'Z' to perform zoom-in/zoom-out.  "
                            "Press 'C' to toggle clothes preview" ),
          true, COPT_CURSES_HIDE
        );
