@@ -1532,6 +1532,11 @@
     "context": [  ]
   },
   {
+    "id": "IS_BLOOD",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
     "id": "IS_EXPLOSION_PROPELLED",
     "type": "json_flag",
     "context": [  ]

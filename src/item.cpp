@@ -136,7 +136,6 @@ static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
 static const itype_id itype_barrel_small( "barrel_small" );
-static const itype_id itype_blood( "blood" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_cig_butt( "cig_butt" );
 static const itype_id itype_cig_lit( "cig_lit" );
@@ -4660,7 +4659,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     std::string maintext;
-    if( is_corpse() || typeId() == itype_blood || item_vars.find( "name" ) != item_vars.end() ) {
+    if( is_corpse() || item_vars.find( "name" ) != item_vars.end() ) {
         maintext = type_name( quantity );
     } else if( is_craft() ) {
         maintext = string_format( _( "in progress %s" ), craft_data_->making->result_name() );
@@ -10076,15 +10075,7 @@ std::string item::type_name( unsigned int quantity ) const
 {
     const auto iter = item_vars.find( "name" );
     std::string ret_name;
-    if( typeId() == itype_blood ) {
-        if( corpse == nullptr || corpse->id.is_null() ) {
-            return vpgettext( "item name", "human blood", "human blood", quantity );
-        } else {
-            return string_format( vpgettext( "item name", "%s blood",
-                                             "%s blood",  quantity ),
-                                  corpse->nname() );
-        }
-    } else if( iter != item_vars.end() ) {
+    if( iter != item_vars.end() ) {
         return iter->second;
     } else {
         ret_name = type->nname( quantity );

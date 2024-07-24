@@ -56,6 +56,7 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
+#include "harvest.h"
 #include "iexamine.h"
 #include "int_id.h"
 #include "inventory.h"
@@ -4525,19 +4526,51 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     bool acid_blood = false;
     for( auto &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
         if( map_it->is_corpse() ) {
+            bool has_blood = false;
+            mt = map_it->get_mtype();
+            if( mt != nullptr ) {
+                for( const harvest_entry &entry : mt->harvest.obj() ) {
+                    if( entry.type == "blood" ) {
+                        has_blood = true;
+                    }
+                }
+            }
+            if( !has_blood ) {
+                p->add_msg_if_player( m_info, _( "The %s doesn't seem to have any blood to draw." ),
+                                      map_it->tname() );
+                break;
+            }
             if( map_it->has_flag( flag_BLED ) ) {
-                p->add_msg_if_player( m_info, _( "That %s has already been bled dry." ), it->tname() );
+                p->add_msg_if_player( m_info, _( "That %s has already been bled dry." ), map_it->tname() );
                 break;
             }
             if( query_yn( _( "Draw blood from %s?" ),
                           colorize( map_it->tname(), map_it->color_in_inventory() ) ) ) {
-                p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it->tname() );
+                // No real way to track and deplete the max potential yield of blood so just randomize
+                if( one_in( 10 ) ) {
+                    map_it->set_flag( flag_BLED );
+                    p->add_msg_if_player( m_info, _( "You drained the last dregs of blood from the %s…" ),
+                                          map_it->tname() );
+                } else {
+                    p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it->tname() );
+                }
                 drew_blood = true;
                 auto bloodtype( map_it->get_mtype()->bloodType() );
                 if( bloodtype.obj().has_acid ) {
                     acid_blood = true;
                 } else {
-                    mt = map_it->get_mtype();
+                    // Checking again here to actually get the detached_ptr
+                    for( const harvest_entry &entry : mt->harvest.obj() ) {
+                        if( entry.type == "blood" ) {
+                            detached_ptr<item> blood = item::spawn( entry.drop, map_it->birthday() );
+
+                            if( !liquid_handler::handle_liquid( std::move( blood ), 1 ) ) {
+                                // NOLINTNEXTLINE(bugprone-use-after-move)
+                                it->put_in( std::move( blood ) );
+                            }
+                            return it->type->charges_to_use();
+                        }
+                    }
                 }
                 break;
             }
@@ -4547,12 +4580,18 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
         p->add_msg_if_player( m_info, _( "You drew your own blood…" ) );
         drew_blood = true;
+        detached_ptr<item> blood = item::spawn( "blood", calendar::turn );
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
         p->mod_stored_nutr( 10 );
         p->mod_thirst( 10 );
         p->mod_pain( 3 );
+        if( !liquid_handler::handle_liquid( std::move( blood ), 1 ) ) {
+            // NOLINTNEXTLINE(bugprone-use-after-move)
+            it->put_in( std::move( blood ) );
+        }
+        return it->type->charges_to_use();
     }
 
     if( acid_blood ) {
@@ -4573,18 +4612,6 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
         return it->type->charges_to_use();
     }
 
-    if( !drew_blood ) {
-        return it->type->charges_to_use();
-    }
-
-    detached_ptr<item> blood = item::spawn( "blood", calendar::turn );
-    if( mt != nullptr ) {
-        blood->set_mtype( mt );
-    }
-    if( !liquid_handler::handle_liquid( std::move( blood ), 1 ) ) {
-        // NOLINTNEXTLINE(bugprone-use-after-move)
-        it->put_in( std::move( blood ) );
-    }
     return it->type->charges_to_use();
 }
 
