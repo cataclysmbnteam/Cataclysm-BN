@@ -92,7 +92,11 @@
       "str_max": 15,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "paper", "count": [ 50, 100 ] } ]
+      "items": [
+        { "item": "cardboard", "charges": [ 30, 60 ] },
+        { "item": "plastic_chunk", "charges": [ 5, 10 ] },
+        { "item": "rag", "charges": [ 20, 40 ] }
+      ]
     }
   },
   {
@@ -127,7 +131,7 @@
         { "item": "box_medium", "count": [ 0, 2 ] },
         { "item": "box_small", "count": [ 0, 4 ] },
         { "item": "rag", "count": [ 20, 50 ] },
-        { "item": "paper", "count": [ 30, 80 ] },
+        { "item": "paper", "count": [ 20, 40 ] },
         { "item": "plastic_chunk", "count": [ 5, 20 ] },
         { "item": "plastic_sheet", "count": [ 0, 2 ] }
       ]
