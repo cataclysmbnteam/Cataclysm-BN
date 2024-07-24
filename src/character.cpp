@@ -2792,12 +2792,6 @@ void Character::inv_clear()
     inv.clear();
 }
 
-void Character::worn_clear()
-{
-    worn.clear();
-    worn = new worn_item_location( this );
-}
-
 void Character::dump_inv( std::vector<item *> &to )
 {
     inv.dump( to );

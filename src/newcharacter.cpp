@@ -1308,8 +1308,9 @@ tab_direction set_traits( avatar &u, points_left &points )
 
             // Look through the profession bionics, and see if any of them conflict with this trait
             std::vector<bionic_id> cbms_blocking_trait = bionics_cancelling_trait( u.prof->CBMs(), cur_trait );
+            const bool has_trait = u.has_trait( cur_trait );
 
-            if( u.has_trait( cur_trait ) ) {
+            if( has_trait ) {
 
                 inc_type = -1;
 
@@ -1358,6 +1359,11 @@ tab_direction set_traits( avatar &u, points_left &points )
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if( inc_type != 0 ) {
                 u.toggle_trait( cur_trait );
+                // If character had trait - it's now removed. Trait could blocked some clothes, need to retoggle
+                if( has_trait && character_preview.clothes_showing() ) {
+                    character_preview.toggle_clothes();
+                    character_preview.toggle_clothes();
+                }
                 points.trait_points -= mdata.points * inc_type;
                 if( iCurWorkingPage == 0 ) {
                     num_good += mdata.points * inc_type;
@@ -3237,6 +3243,11 @@ void character_preview_window::init( Character *character )
 #if defined(TILES)
     this->character = character;
 
+    // Setting bionics
+    for( const bionic_id &bio : character->prof->CBMs() ) {
+        character->add_bionic( bio );
+    }
+
     // Collecting profession clothes
     std::vector<detached_ptr<item>> prof_items = character->prof->items( character->male,
                                  character->get_mutations() );
@@ -3337,7 +3348,7 @@ void character_preview_window::zoom_out()
 void character_preview_window::toggle_clothes()
 {
     if( !show_clothes ) {
-        character->worn_clear();
+        character->worn.clear();
     } else {
         for( detached_ptr<item> &it : clothes ) {
             character->wear_item( item::spawn( *std::move( it ) ), false );
@@ -3367,10 +3378,15 @@ void character_preview_window::display() const
 
 void character_preview_window::clear() const
 {
-    character->worn_clear();
+    character->worn.clear();
+    character->clear_bionics();
     tilecontext->set_draw_scale( DEFAULT_TILESET_ZOOM );
 }
 
+bool character_preview_window::clothes_showing() const
+{
+    return !show_clothes;
+}
 
 namespace newcharacter
 {
