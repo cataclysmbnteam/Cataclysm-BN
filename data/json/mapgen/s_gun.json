@@ -10,7 +10,7 @@
         "  BBBBBBBBBBBBBBBBBBBB '",
         "  B|A|A|BBBBBBBBBBBBBB  ",
         "  |------  BB  --:::-|  ",
-        "  |T...{:  BB  :..S..|  ",
+        "  |T...{:  BB  :..h..|  ",
         "  |T...{:  BB  :.T#T.|  ",
         "  |T...{|--++--|.....|  ",
         "  |T.................|  ",
@@ -20,7 +20,7 @@
         "  |T....{{..{{..{{..T|  ",
         "  |---..............T|  ",
         "  |&N|..............T|  ",
-        "  |..D...TTTTTT.....T|  ",
+        "  |..D...SSSSSS.....T|  ",
         "  |----::::::::::+-+-|  ",
         " 4|l~~~~~~~~~~~~~~|.<|  ",
         "  |--H--H--H--H--H-+-|  ",
@@ -60,15 +60,17 @@
         "'": "f_street_light",
         "#": "f_counter",
         "H": "f_counter",
-        "S": "f_stool",
+        "h": "f_stool",
         "l": "f_locker",
         "s": "f_sandbag_wall",
         "{": "f_rack",
         "$": "f_vending_reinforced",
         "N": "f_sink",
-        "T": "f_displaycase"
+        "S": "f_displaycase",
+        "T": "f_displaycase",
+        "U": "f_dumpster"
       },
-      "mapping": { "U": { "terrain": "t_dirt", "furniture": "f_dumpster" } },
+      "vendingmachines": { "$": { "item_group": "vending_guns", "reinforced": true } },
       "items": {
         "{": {
           "item": {
@@ -88,6 +90,14 @@
           },
           "chance": 70,
           "repeat": [ 1, 3 ]
+        },
+        "S": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [ { "group": "ammo_common", "prob": 15 }, { "group": "ammo_rare", "prob": 5 }, { "group": "ammo_obscure", "prob": 1 } ]
+          },
+          "chance": 70,
+          "repeat": [ 2, 5 ]
         },
         "T": { "item": "guns_common_display", "chance": 70 },
         "l": { "item": "SUS_janitors_closet", "chance": 60 },
@@ -174,7 +184,7 @@
         "_s@@@@@@@_ssss_@@@@@@@s_",
         "_s|-:::-|_ssss_|-:::-|s_",
         "_s|TTTTT:_ssss_:TTTTT|s_",
-        "_s|..S..:_ssss_:..S..|s_",
+        "_s|..h..:_ssss_:..h..|s_",
         "_s|.T?#.:_ssss_:.T?#.|s_",
         "_s|.....|::++::|.....|s_",
         "_s:..................:s_",
@@ -189,7 +199,7 @@
         "_s||D|+|..{{{{..||+|||s_",
         "_s|;.|.|..{{{{..|..cE|s_",
         "_s|..|.|........|...E|s_",
-        "_s|N.|<|TTTTTTTT|l...|4_",
+        "_s|N.|<|SSTTTTSS|l...|4_",
         "_s|--|-|:::--:::---+-|s_",
         "_ssUUssssssssssssssssss_",
         "________________________",
@@ -219,7 +229,7 @@
       "furniture": {
         "'": "f_street_light",
         "#": "f_counter",
-        "S": "f_stool",
+        "h": "f_stool",
         "E": "f_desk",
         "N": "f_sink",
         "^": "f_indoor_plant",
@@ -227,6 +237,7 @@
         "l": "f_locker",
         "{": "f_rack",
         "$": "f_vending_reinforced",
+        "S": "f_displaycase",
         "T": "f_displaycase"
       },
       "vendingmachines": { "$": { "item_group": "vending_guns", "reinforced": true } },
@@ -250,6 +261,14 @@
           },
           "chance": 70,
           "repeat": [ 1, 2 ]
+        },
+        "S": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [ { "group": "ammo_common", "prob": 15 }, { "group": "ammo_rare", "prob": 5 }, { "group": "ammo_obscure", "prob": 1 } ]
+          },
+          "chance": 70,
+          "repeat": [ 2, 5 ]
         },
         "T": { "item": "guns_common_display", "chance": 70 },
         "l": { "item": "SUS_janitors_closet", "chance": 60 },
