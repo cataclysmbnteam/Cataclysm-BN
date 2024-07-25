@@ -345,6 +345,20 @@
     "components": [ [ [ "plastic_chunk", 10 ] ] ]
   },
   {
+    "result": "hat_hard",
+    "type": "recipe",
+    "id_suffix": "printed",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "computer",
+    "difficulty": 2,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "10 m",
+    "autolearn": true,
+    "using": [ [ "3d_printing_standard", 10 ] ],
+    "components": [ [ [ "plastic_chunk", 10 ] ] ]
+  },
+  {
     "result": "hat_hard_hooded",
     "type": "recipe",
     "category": "CC_ARMOR",

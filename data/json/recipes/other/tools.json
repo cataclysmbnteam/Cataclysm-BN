@@ -1923,6 +1923,20 @@
   },
   {
     "type": "recipe",
+    "result": "funnel",
+    "id_suffix": "printed",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "computer",
+    "difficulty": 1,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "3 m",
+    "autolearn": true,
+    "using": [ [ "3d_printing_standard", 3 ] ],
+    "components": [ [ [ "plastic_chunk", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "leather_funnel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
