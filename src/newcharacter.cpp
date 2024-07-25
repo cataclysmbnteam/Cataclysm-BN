@@ -23,7 +23,8 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #if defined(TILES)
-#include "cata_tiles.h"
+#   include "character_preview.h"
+#   include "cata_tiles.h"
 #endif
 #include "character.h"
 #include "character_martial_arts.h"
@@ -1104,17 +1105,21 @@ tab_direction set_traits( avatar &u, points_left &points )
     ui_adaptor ui;
     catacurses::window w;
     catacurses::window w_description;
+
+#if defined(TILES)
     character_preview_window character_preview;
     character_preview.init( &u );
     const bool use_character_preview = get_option<bool>( "USE_CHARACTER_PREVIEW" ) &&
                                        get_option<bool>( "USE_TILES" );
+#endif
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
-        const int int_page_width = static_cast<int>( page_width );
-
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
+        page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
+
+#if defined(TILES)
+        const int int_page_width = static_cast<int>( page_width );
 
         if( use_character_preview ) {
             constexpr int preview_nlines_min = 7;
@@ -1130,6 +1135,7 @@ tab_direction set_traits( avatar &u, points_left &points )
                 &orientation, int_page_width * 3 + 5
             );
         }
+#endif
 
         ui.position_from_window( w );
 
@@ -1262,10 +1268,12 @@ tab_direction set_traits( avatar &u, points_left &points )
         // Draws main window, traits description window and character preview window
         wnoutrefresh( w );
         wnoutrefresh( w_description );
+#if defined(TILES)
         // Draws character preview
         if( use_character_preview ) {
             character_preview.display();
         }
+#endif
     } );
 
     do {
@@ -1361,11 +1369,13 @@ tab_direction set_traits( avatar &u, points_left &points )
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if( inc_type != 0 ) {
                 u.toggle_trait( cur_trait );
+#if defined(TILES)
                 // If character had trait - it's now removed. Trait could blocked some clothes, need to retoggle
                 if( has_trait && character_preview.clothes_showing() ) {
                     character_preview.toggle_clothes();
                     character_preview.toggle_clothes();
                 }
+#endif
                 points.trait_points -= mdata.points * inc_type;
                 if( iCurWorkingPage == 0 ) {
                     num_good += mdata.points * inc_type;
@@ -1375,6 +1385,7 @@ tab_direction set_traits( avatar &u, points_left &points )
             }
 
             recalc_display_cache();
+#if defined(TILES)
         } else if( action == "PREV_TAB" ) {
             character_preview.clear();
             return tab_direction::BACKWARD;
@@ -1385,7 +1396,11 @@ tab_direction set_traits( avatar &u, points_left &points )
             character_preview.clear();
             return tab_direction::QUIT;
         }
-    } while( true );
+#else
+        }
+#endif
+    }
+    while( true );
 }
 
 struct {
@@ -3238,156 +3253,6 @@ std::string points_left::to_string()
     } else {
         return _( "Freeform" );
     }
-}
-
-void character_preview_window::init( Character *character )
-{
-#if defined(TILES)
-    this->character = character;
-
-    // Setting bionics
-    for( const bionic_id &bio : character->prof->CBMs() ) {
-        character->add_bionic( bio );
-    }
-
-    // Collecting profession clothes
-    std::vector<detached_ptr<item>> prof_items = character->prof->items( character->male,
-                                 character->get_mutations() );
-    for( detached_ptr<item> &it : prof_items ) {
-        if( it->is_armor() ) {
-            clothes.push_back( std::move( it ) );
-        }
-    }
-    toggle_clothes();
-#endif
-}
-
-void character_preview_window::prepare( const int nlines, const int ncols,
-                                        const Orientation *orientation, const int hide_below_ncols )
-{
-#if defined(TILES)
-    zoom = DEFAULT_ZOOM;
-    tilecontext->set_draw_scale( zoom );
-    termx_pixels = termx_to_pixel_value();
-    termy_pixels = termy_to_pixel_value();
-    this->hide_below_ncols = hide_below_ncols;
-
-    // Trying to ensure that tile will fit in border
-    const int win_width = ncols * termx_pixels;
-    const int win_height = nlines * termy_pixels;
-    int t_width = tilecontext->get_tile_width();
-    int t_height = tilecontext->get_tile_height();
-    while( zoom != MIN_ZOOM && ( win_width < t_width || win_height < t_height ) ) {
-        zoom_out();
-        t_width = tilecontext->get_tile_width();
-        t_height = tilecontext->get_tile_height();
-    }
-
-    // Final size of character preview window
-    const int box_ncols = t_width / termx_pixels + 4;
-    const int box_nlines = t_height / termy_pixels + 3;
-
-    // Setting window just a little bit more than a tile itself
-    point start;
-    switch( orientation->type ) {
-        case( TOP_LEFT ):
-            start = point_zero;
-            break;
-        case( TOP_RIGHT ):
-            start = point{TERMX - box_ncols, 0};
-            break;
-        case( BOTTOM_LEFT ):
-            start = point{0, TERMY - box_nlines};
-            break;
-        case( BOTTOM_RIGHT ):
-            start = point{TERMX - box_ncols, TERMY - box_nlines};
-            break;
-    }
-
-    start.x += orientation->margin.left - orientation->margin.right;
-    start.y += orientation->margin.top - orientation->margin.bottom;
-    w_preview = catacurses::newwin( box_nlines, box_ncols, start );
-    ncols_width = box_ncols;
-    nlines_width = box_nlines;
-    pos = start;
-#endif
-}
-
-point character_preview_window::calc_character_pos() const
-{
-#if defined(TILES)
-    const int t_width = tilecontext->get_tile_width();
-    const int t_height = tilecontext->get_tile_height();
-    return point(
-               pos.x * termx_pixels + ncols_width * termx_pixels / 2 - t_width / 2,
-               pos.y * termy_pixels + nlines_width * termy_pixels / 2 - t_height / 2
-           );
-#endif
-}
-
-void character_preview_window::zoom_in()
-{
-#if defined(TILES)
-    zoom = zoom * 2 % ( MAX_ZOOM * 2 );
-    if( zoom == 0 ) {
-        zoom = MIN_ZOOM;
-    }
-    tilecontext->set_draw_scale( zoom );
-#endif
-}
-
-void character_preview_window::zoom_out()
-{
-#if defined(TILES)
-    zoom = zoom / 2;
-    if( zoom < MIN_ZOOM ) {
-        zoom = MAX_ZOOM;
-    }
-    tilecontext->set_draw_scale( zoom );
-#endif
-}
-
-void character_preview_window::toggle_clothes()
-{
-    if( !show_clothes ) {
-        character->worn.clear();
-    } else {
-        for( detached_ptr<item> &it : clothes ) {
-            character->wear_item( item::spawn( *std::move( it ) ), false );
-        }
-    }
-    show_clothes = !show_clothes;
-}
-
-void character_preview_window::display() const
-{
-#if defined(TILES)
-    // If device width is too small - ignore display
-    if( TERMX - ncols_width < hide_below_ncols ) {
-        return;
-    }
-
-    // Drawing UI across character tile
-    werase( w_preview );
-    draw_border( w_preview, BORDER_COLOR, _( "CHARACTER PREVIEW" ), BORDER_COLOR );
-    wnoutrefresh( w_preview );
-
-    // Drawing character itself
-    const point pos = calc_character_pos();
-    tilecontext->display_character( *character, pos );
-#endif
-}
-
-void character_preview_window::clear() const
-{
-    character->worn.clear();
-    character->clear_bionics();
-    tilecontext->set_draw_scale( DEFAULT_TILESET_ZOOM );
-}
-
-bool character_preview_window::clothes_showing() const
-{
-    return !show_clothes;
 }
 
 namespace newcharacter
