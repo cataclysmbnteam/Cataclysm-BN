@@ -1385,22 +1385,23 @@ tab_direction set_traits( avatar &u, points_left &points )
             }
 
             recalc_display_cache();
-#if defined(TILES)
         } else if( action == "PREV_TAB" ) {
+#if defined(TILES)
             character_preview.clear();
+#endif
             return tab_direction::BACKWARD;
         } else if( action == "NEXT_TAB" ) {
+#if defined(TILES)
             character_preview.clear();
+#endif
             return tab_direction::FORWARD;
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
+#if defined(TILES)
             character_preview.clear();
+#endif
             return tab_direction::QUIT;
         }
-#else
-        }
-#endif
-    }
-    while( true );
+    } while( true );
 }
 
 struct {
