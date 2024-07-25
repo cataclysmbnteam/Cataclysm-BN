@@ -3437,7 +3437,7 @@ bool character_preview_window::clothes_showing() const
 #else
 bool character_preview_window::clothes_showing() const
 {
-
+    return false;
 }
 #endif
 
