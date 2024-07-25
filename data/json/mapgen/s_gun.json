@@ -91,7 +91,7 @@
         },
         "T": { "item": "guns_common_display", "chance": 70 },
         "l": { "item": "SUS_janitors_closet", "chance": 60 },
-        "H": { "item": "ear_protection", "chance": 80 }, 
+        "H": { "item": "ear_protection", "chance": 80 },
         "U": { "item": "trash_dumpster", "chance": 80 }
       },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 2, 21 ], "y": 0, "chance": 2, "repeat": [ 2, 3 ] } ]
