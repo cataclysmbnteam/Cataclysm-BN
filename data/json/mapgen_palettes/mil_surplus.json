@@ -14,6 +14,7 @@
       "/": "t_door_curtain_c",
       "Y": "t_concrete",
       "U": "t_concrete",
+      "Ü": "t_concrete",
       "4": "t_gutter_downspout",
       "<": "t_ladder_up",
       "_": "t_grass",
@@ -23,7 +24,7 @@
     "furniture": {
       "!": "f_street_light",
       "#": "f_counter",
-      "U": [ "f_dumpster", "f_recycle_bin" ],
+      "Ü": "f_dumpster",
       "h": "f_chair",
       "%": "f_sink",
       "@": "f_mannequin",
@@ -113,7 +114,7 @@
         "chance": 60
       },
       "L": { "item": "SUS_janitors_closet", "chance": 60 },
-      "U": { "item": "trash_dumpster", "chance": 80 },
+      "Ü": { "item": "trash_dumpster", "chance": 80 },
       "#": { "item": "mil_surplus", "chance": 30 }
     },
     "toilets": { "&": {  } }
