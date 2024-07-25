@@ -1,3 +1,4 @@
+#if defined(TILES)
 #include "character_preview.h"
 #include "type_id.h"
 #include "character.h"
@@ -156,3 +157,5 @@ auto character_preview_window::clothes_showing() const -> bool
 {
     return !show_clothes;
 }
+
+#endif // TILES

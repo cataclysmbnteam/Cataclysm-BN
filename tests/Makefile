@@ -7,7 +7,8 @@
 SOURCES = $(wildcard *.cpp)
 OBJS = $(sort $(SOURCES:%.cpp=$(ODIR)/%.o))
 
-CATA_LIB=../$(BUILD_PREFIX)cataclysm.a
+TARGET_NAME = cataclysm-benchmarks
+CATA_LIB=../$(BUILD_PREFIX)$(TARGET_NAME).a
 
 # If you invoke this makefile directly and the parent directory was
 # built with BUILD_PREFIX set, you must set it for this invocation as well.
@@ -23,7 +24,7 @@ DEFINES += -DCATCH_CONFIG_ENABLE_BENCHMARKING
 # Add no-sign-compare to fix MXE issue when compiling
 # Catch also uses "#pragma gcc diagnostic", which is not recognized on some supported compilers.
 # Clang and mingw are warning about Catch macros around perfectly normal boolean operations.
-CXXFLAGS += -I../src -I../src/lua -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP 
+CXXFLAGS += -I../src -I../src/lua -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
 CXXFLAGS += -Wall -Wextra \
   -Wno-range-loop-analysis # TODO: Fix warnings instead of disabling
 
