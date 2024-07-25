@@ -3240,9 +3240,9 @@ std::string points_left::to_string()
     }
 }
 
+#if defined(TILES)
 void character_preview_window::init( Character *character )
 {
-#if defined(TILES)
     this->character = character;
 
     // Setting bionics
@@ -3259,13 +3259,18 @@ void character_preview_window::init( Character *character )
         }
     }
     toggle_clothes();
-#endif
 }
+#else
+void character_preview_window::init( Character *character )
+{
 
+}
+#endif
+
+#if defined(TILES)
 void character_preview_window::prepare( const int nlines, const int ncols,
                                         const Orientation *orientation, const int hide_below_ncols )
 {
-#if defined(TILES)
     zoom = DEFAULT_ZOOM;
     tilecontext->set_draw_scale( zoom );
     termx_pixels = termx_to_pixel_value();
@@ -3310,43 +3315,64 @@ void character_preview_window::prepare( const int nlines, const int ncols,
     ncols_width = box_ncols;
     nlines_width = box_nlines;
     pos = start;
-#endif
 }
+#else
+void character_preview_window::prepare( const int nlines, const int ncols,
+                                        const Orientation *orientation, const int hide_below_ncols )
+{
+}
+#endif
 
+#if defined(TILES)
 point character_preview_window::calc_character_pos() const
 {
-#if defined(TILES)
     const int t_width = tilecontext->get_tile_width();
     const int t_height = tilecontext->get_tile_height();
     return point(
                pos.x * termx_pixels + ncols_width * termx_pixels / 2 - t_width / 2,
                pos.y * termy_pixels + nlines_width * termy_pixels / 2 - t_height / 2
            );
-#endif
 }
+#else
+point character_preview_window::calc_character_pos() const
+{
 
+}
+#endif
+
+#if defined(TILES)
 void character_preview_window::zoom_in()
 {
-#if defined(TILES)
     zoom = zoom * 2 % ( MAX_ZOOM * 2 );
     if( zoom == 0 ) {
         zoom = MIN_ZOOM;
     }
     tilecontext->set_draw_scale( zoom );
-#endif
 }
+#else
+void character_preview_window::zoom_in()
+{
 
+}
+#endif
+
+#if defined(TILES)
 void character_preview_window::zoom_out()
 {
-#if defined(TILES)
     zoom = zoom / 2;
     if( zoom < MIN_ZOOM ) {
         zoom = MAX_ZOOM;
     }
     tilecontext->set_draw_scale( zoom );
-#endif
 }
+#else
+void character_preview_window::zoom_out()
+{
 
+}
+#endif
+
+#if defined(TILES)
 void character_preview_window::toggle_clothes()
 {
     if( !show_clothes ) {
@@ -3358,10 +3384,16 @@ void character_preview_window::toggle_clothes()
     }
     show_clothes = !show_clothes;
 }
+#else
+void character_preview_window::toggle_clothes()
+{
 
+}
+#endif
+
+#if defined(TILES)
 void character_preview_window::display() const
 {
-#if defined(TILES)
     // If device width is too small - ignore display
     if( TERMX - ncols_width < hide_below_ncols ) {
         return;
@@ -3375,20 +3407,39 @@ void character_preview_window::display() const
     // Drawing character itself
     const point pos = calc_character_pos();
     tilecontext->display_character( *character, pos );
-#endif
 }
+#else
+void character_preview_window::display() const
+{
 
+}
+#endif
+
+#if defined(TILES)
 void character_preview_window::clear() const
 {
     character->worn.clear();
     character->clear_bionics();
     tilecontext->set_draw_scale( DEFAULT_TILESET_ZOOM );
 }
+#else
+void character_preview_window::clear() const
+{
 
+}
+#endif
+
+#if defined(TILES)
 bool character_preview_window::clothes_showing() const
 {
     return !show_clothes;
 }
+#else
+bool character_preview_window::clothes_showing() const
+{
+
+}
+#endif
 
 namespace newcharacter
 {
