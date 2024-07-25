@@ -203,7 +203,9 @@
       { "item": "gold_medal", "prob": 1 },
       { "item": "clay_fish_trap", "prob": 1 },
       { "item": "retort_clay", "prob": 1 },
-      { "item": "retort_copper", "prob": 1 }
+      { "item": "retort_copper", "prob": 1 },
+      { "item": "steam_triple_small", "prob": 1 },
+      { "item": "steam_triple_medium", "prob": 1 }
     ]
   },
   {
