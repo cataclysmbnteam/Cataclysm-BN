@@ -110,8 +110,6 @@
     "id": "vending_guns",
     "//": "Ammo found in a vending machine.",
     "subtype": "collection",
-    "items": [
-      { "group": "vending_ammo", "prob": 100, "count": [ 2, 6 ] }
-    ]
+    "items": [ { "group": "vending_ammo", "prob": 100, "count": [ 2, 6 ] } ]
   }
 ]

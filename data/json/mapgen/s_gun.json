@@ -69,7 +69,8 @@
         "N": "f_sink",
         "S": "f_displaycase",
         "T": "f_displaycase",
-        "U": "f_dumpster", "@": "f_target"
+        "U": "f_dumpster",
+        "@": "f_target"
       },
       "vendingmachines": { "$": { "item_group": "vending_guns", "reinforced": true } },
       "items": {
@@ -104,7 +105,7 @@
         "l": { "item": "SUS_janitors_closet", "chance": 60 },
         "H": { "item": "ear_protection", "chance": 80 },
         "U": { "item": "trash_dumpster", "chance": 80 },
-"C": { "item": "casings", "chance": 50, "repeat": [ 10, 100 ] }
+        "C": { "item": "casings", "chance": 50, "repeat": [ 10, 100 ] }
       },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 2, 21 ], "y": 0, "chance": 2, "repeat": [ 2, 3 ] } ]
     }
