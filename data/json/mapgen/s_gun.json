@@ -8,11 +8,11 @@
       "fill_ter": "t_floor",
       "rows": [
         "  BBBBBBBBBBBBBBBBBBBB '",
-        "  B|A|BBBBBBBBBBBBBBUU  ",
-        "  |-:::--  BB  --:::-|  ",
-        "  |T...{|  BB  |..S..|  ",
-        "  |T...{|--++--|.T#T.|  ",
-        "  |T.................|  ",
+        "  B|A|A|BBBBBBBBBBBBBB  ",
+        "  |------  BB  --:::-|  ",
+        "  |T....:  BB  :..S..|  ",
+        "  |T....:  BB  :.T#T.|  ",
+        "  |T....|--++--|.....|  ",
         "  |T.................|  ",
         "  |T....{{..{{..{{..$|  ",
         "  :T....{{..{{..{{..$|  ",
@@ -28,9 +28,9 @@
         "  |~~~~~~~~~~~~~~~~~~|  ",
         "  |~~~~~~~~~~~~~~~~~~|  ",
         "  |~~~~~~~~~~~~~~~~~~|  ",
-        "  |~~~~~~~~~~~~~~~~~~|  ",
         "  |ssssssssssssssssss|  ",
-        "  ====================  "
+        "  ====================  ",
+        "                  UUU   "
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
@@ -50,7 +50,10 @@
         "D": "t_door_c",
         "?": "t_console_broken",
         "<": "t_ladder_up",
-        "4": "t_gutter_downspout", "A": "t_atm", "B": "t_sidewalk" , "U": "t_sidewalk"
+        "4": "t_gutter_downspout",
+        "A": "t_atm",
+        "B": "t_sidewalk",
+        "U": [ "t_grass", "t_grass", "t_grass", "t_dirt" ]
       },
       "toilets": { "&": {  } },
       "furniture": {
@@ -78,7 +81,9 @@
               { "group": "mags_rifle_common", "prob": 3 },
               { "group": "mags_rifle_rare", "prob": 1 },
               { "group": "mags_shotgun_common", "prob": 3 },
-              { "group": "mags_shotgun_rare", "prob": 1 },               { "group": "gunmod_common", "prob": 2 },               { "group": "gunmod_rare", "prob": 1 }
+              { "group": "mags_shotgun_rare", "prob": 1 },
+              { "group": "gunmod_common", "prob": 2 },
+              { "group": "gunmod_rare", "prob": 1 }
             ]
           },
           "chance": 70,
@@ -87,8 +92,9 @@
         "T": { "item": "guns_common_display", "chance": 70 },
         "l": { "item": "SUS_janitors_closet", "chance": 60 },
         "U": { "item": "trash_dumpster", "chance": 80 }
-      },       "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 2, 21 ], "y": 0, "chance": 2, "repeat": [ 2, 3 ] } ]
-    } 
+      },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 2, 21 ], "y": 0, "chance": 2, "repeat": [ 2, 3 ] } ]
+    }
   },
   {
     "type": "mapgen",
@@ -203,12 +209,12 @@
         "'": "t_pavement",
         "s": "t_sidewalk",
         "|": "t_wall_w",
-		        "-": "t_wall_w",
+        "-": "t_wall_w",
         "?": "t_console_broken",
         "<": "t_ladder_up",
         "4": "t_gutter_downspout"
       },
-	        "mapping": { "U": { "terrain": "t_sidewalk", "furniture": "f_dumpster" } },
+      "mapping": { "U": { "terrain": "t_sidewalk", "furniture": "f_dumpster" } },
       "furniture": {
         "'": "f_street_light",
         "#": "f_counter",
@@ -236,7 +242,9 @@
               { "group": "mags_rifle_common", "prob": 3 },
               { "group": "mags_rifle_rare", "prob": 1 },
               { "group": "mags_shotgun_common", "prob": 3 },
-              { "group": "mags_shotgun_rare", "prob": 1 },               { "group": "gunmod_common", "prob": 2 },               { "group": "gunmod_rare", "prob": 1 }
+              { "group": "mags_shotgun_rare", "prob": 1 },
+              { "group": "gunmod_common", "prob": 2 },
+              { "group": "gunmod_rare", "prob": 1 }
             ]
           },
           "chance": 70,
@@ -245,9 +253,7 @@
         "T": { "item": "guns_common_display", "chance": 70 },
         "l": { "item": "SUS_janitors_closet", "chance": 60 },
         "U": { "item": "trash_dumpster", "chance": 80 }
-      }
-    
-  ,
+      },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 2, 21 ], "y": 0, "chance": 2, "repeat": [ 2, 3 ] } ]
     }
   },
