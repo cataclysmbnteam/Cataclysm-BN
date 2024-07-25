@@ -328,6 +328,24 @@ void uilist::filterlist()
     }
 }
 
+void uilist::filterpredicate( const std::function<bool( int )> &predicate )
+{
+    fentries.clear();
+    fselected = -1;
+
+    int num_entries = entries.size();
+    for( int i = 0; i < num_entries; i++ ) {
+        if( predicate( i ) ) {
+            fentries.push_back( i );
+        }
+    }
+    if( !fentries.empty() ) {
+        selected = fentries[0];
+        fselected = 0;
+        vshift = 0;
+    }
+}
+
 void uilist::clear_filter()
 {
     filter.clear();

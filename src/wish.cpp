@@ -52,6 +52,8 @@ class wish_mutate_callback: public uilist_callback
         bool started = false;
         std::vector<trait_id> vTraits;
         std::map<trait_id, bool> pTraits;
+        // Traits by mutation category
+        std::unordered_map<mutation_category_id, std::set<mutation_branch>> category_mutations;
         player *p;
 
         nc_color mcolor( const trait_id &m ) {
@@ -63,7 +65,8 @@ class wish_mutate_callback: public uilist_callback
 
         wish_mutate_callback() = default;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
-            if( event.get_first_input() == 't' && p->has_trait( vTraits[ entnum ] ) ) {
+            const int input = event.get_first_input();
+            if( input == 't' && p->has_trait( vTraits[ entnum ] ) ) {
                 if( p->has_base_trait( vTraits[ entnum ] ) ) {
                     p->toggle_trait( vTraits[ entnum ] );
                     p->unset_mutation( vTraits[ entnum ] );
@@ -83,15 +86,59 @@ class wish_mutate_callback: public uilist_callback
                 entry.extratxt.txt = p->has_base_trait( vTraits[ entnum ] ) ? "T" : "";
                 return true;
             }
+            if( input == 'c' || input == 'C' ) {
+                // Building menu with mutation category entries (first entry - 'ALL' for cancell purposes)
+                uilist category_menu;
+                // We'll keep vector of values to map it later from user input
+                std::vector<std::pair<const string_id<mutation_category_trait>, std::set<mutation_branch>>*>
+                        entries;
+                int c = 0;
+                auto ch = '0';
+                category_menu.addentry( c, true, ch, "ALL" );
+                for( auto &it : category_mutations ) {
+                    c++;
+                    ch++;
+                    category_menu.addentry( c, true, ch, it.first.str() );
+                    entries.push_back( &it );
+                }
+                // Waiting for user input
+                category_menu.query();
+                int ret = category_menu.ret;
+                if( ret < 0 ) {
+                    return true;
+                }
+                if( ret == 0 ) {
+                    // If 'ALL' chosen - clearing filter
+                    menu->clear_filter();
+                    return true;
+                }
+                ret -= 1;
+                // Extracting selected option & filtering traits on category presence
+                const auto entry = entries[ret];
+                auto predicate = [&]( const int idx ) {
+                    return entry->second.find( *vTraits[idx] ) != entry->second.end();
+                };
+                menu->filterpredicate( predicate );
+                return true;
+            }
             return false;
         }
 
         void refresh( uilist *menu ) override {
+            // If it is our first time in menu - collect some data to map with uilist entry later
             if( !started ) {
+                int c = 0;
                 started = true;
                 for( auto &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.id );
                     pTraits[traits_iter.id] = p->has_trait( traits_iter.id );
+                    for( auto &category : traits_iter.category ) {
+                        if( category_mutations.find( category ) == category_mutations.end() ) {
+                            category_mutations[category] = std::set<mutation_branch>();
+                        }
+                        category_mutations[category].insert( traits_iter );
+                    }
+                    c++;
                 }
             }
 
@@ -224,7 +271,7 @@ class wish_mutate_callback: public uilist_callback
             msg.clear();
             input_context ctxt( menu->input_category );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
-                       _( "[%s] find, [%s] quit, [t] toggle base trait" ),
+                       _( "[%s] find, [%s] quit, [t] toggle base trait, [c] mutation categories menu" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
 
             wnoutrefresh( menu->window );

@@ -248,6 +248,10 @@ class uilist // NOLINT(cata-xy)
          */
         void filterlist();
         /**
+         * Filter by predicate. Index of uilist_entry in a vector will be passed in.
+         */
+        void filterpredicate( const std::function<bool( int )> &predicate );
+        /**
          * Clear current filter string and repopulate filtered entries.
          */
         void clear_filter();
