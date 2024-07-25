@@ -86,27 +86,28 @@ class wish_mutate_callback: public uilist_callback
                 entry.extratxt.txt = p->has_base_trait( vTraits[ entnum ] ) ? "T" : "";
                 return true;
             }
-            if ( input == 'c' || input == 'C' ) {
+            if( input == 'c' || input == 'C' ) {
                 // Building menu with mutation category entries (first entry - 'ALL' for cancell purposes)
                 uilist category_menu;
                 // We'll keep vector of values to map it later from user input
-                std::vector<std::pair<const string_id<mutation_category_trait>, std::set<mutation_branch>>*> entries;
+                std::vector<std::pair<const string_id<mutation_category_trait>, std::set<mutation_branch>>*>
+                        entries;
                 int c = 0;
                 auto ch = '0';
                 category_menu.addentry( c, true, ch, "ALL" );
-                for (auto &it: category_mutations) {
+                for( auto &it : category_mutations ) {
                     c++;
                     ch++;
                     category_menu.addentry( c, true, ch, it.first.str() );
-                    entries.push_back(&it);
+                    entries.push_back( &it );
                 }
                 // Waiting for user input
                 category_menu.query();
                 int ret = category_menu.ret;
-                if (ret < 0) {
+                if( ret < 0 ) {
                     return true;
                 }
-                if (ret == 0) {
+                if( ret == 0 ) {
                     // If 'ALL' chosen - clearing filter
                     menu->clear_filter();
                     return true;
@@ -114,10 +115,10 @@ class wish_mutate_callback: public uilist_callback
                 ret -= 1;
                 // Extracting selected option & filtering traits on category presence
                 const auto entry = entries[ret];
-                auto predicate = [&](const int idx) {
-                    return entry->second.find(*vTraits[idx]) != entry->second.end();
+                auto predicate = [&]( const int idx ) {
+                    return entry->second.find( *vTraits[idx] ) != entry->second.end();
                 };
-                menu->filterpredicate(predicate);
+                menu->filterpredicate( predicate );
                 return true;
             }
             return false;
@@ -131,11 +132,11 @@ class wish_mutate_callback: public uilist_callback
                 for( auto &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.id );
                     pTraits[traits_iter.id] = p->has_trait( traits_iter.id );
-                    for (auto &category: traits_iter.category) {
-                        if (category_mutations.find(category) == category_mutations.end()) {
+                    for( auto &category : traits_iter.category ) {
+                        if( category_mutations.find( category ) == category_mutations.end() ) {
                             category_mutations[category] = std::set<mutation_branch>();
                         }
-                        category_mutations[category].insert(traits_iter);
+                        category_mutations[category].insert( traits_iter );
                     }
                     c++;
                 }
