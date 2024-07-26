@@ -984,8 +984,8 @@
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP", "DURABLE_MELEE", "STAB" ],
     "techniques": [ "SWEEP", "WBLOCK_1" ],
     "material": [ "wood", "iron" ],
-    "bashing": 15,
-    "cutting": 15,
+    "bashing": 22,
+    "cutting": 8,
     "to_hit": 1,
     "price": "500 USD",
     "price_postapoc": "15 USD"
