@@ -91,6 +91,7 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const std::string flag_FLAT( "FLAT" );
+static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 
@@ -1307,12 +1308,15 @@ void construct::done_grave( const tripoint &p )
 {
     map &here = get_map();
     map_stack its = here.i_at( p );
+    // Don't remove furniture when digging shallow graves, but also don't give full morale bonus
+    const bool proper_burial = here.furn( p )->has_flag( flag_SEALED );
+    const int burial_morale = proper_burial ? 50 : 25;
     for( item * const &it : its ) {
         if( it->is_corpse() ) {
             if( it->get_corpse_name().empty() ) {
                 if( it->get_mtype()->has_flag( MF_HUMAN ) ) {
                     if( g->u.has_trait( trait_SPIRITUAL ) ) {
-                        g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                        g->u.add_morale( MORALE_FUNERAL, burial_morale, 75, 1_days, 1_hours );
                         add_msg( m_good,
                                  _( "You feel relieved after providing last rites for this human being, whose name is lost in the Cataclysm." ) );
                     } else {
@@ -1321,7 +1325,7 @@ void construct::done_grave( const tripoint &p )
                 }
             } else {
                 if( g->u.has_trait( trait_SPIRITUAL ) ) {
-                    g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                    g->u.add_morale( MORALE_FUNERAL, burial_morale, 75, 1_days, 1_hours );
                     add_msg( m_good,
                              _( "You feel sadness, but also relief after providing last rites for %s, whose name you will keep in your memory." ),
                              it->get_corpse_name() );
@@ -1342,7 +1346,9 @@ void construct::done_grave( const tripoint &p )
                  _( "Unfortunately you don't have anything sharp to place an inscription on the grave." ) );
     }
 
-    here.destroy_furn( p, true );
+    if( proper_burial ) {
+        here.destroy_furn( p, true );
+    }
 }
 
 static vpart_id vpart_from_item( const itype_id &item_id )

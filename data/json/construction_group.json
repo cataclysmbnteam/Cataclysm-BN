@@ -891,6 +891,11 @@
   },
   {
     "type": "construction_group",
+    "id": "dig_shallow_grave",
+    "name": "Fill Shallow Grave"
+  },
+  {
+    "type": "construction_group",
     "id": "extract_clay",
     "name": "Extract Clay"
   },
