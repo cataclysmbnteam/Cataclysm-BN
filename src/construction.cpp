@@ -1309,8 +1309,8 @@ void construct::done_grave( const tripoint &p )
     map &here = get_map();
     map_stack its = here.i_at( p );
     // Don't remove furniture when digging shallow graves, but also don't give full morale bonus
-    bool proper_burial = here.furn( p )->has_flag( flag_SEALED );
-    int burial_morale = proper_burial ? 50 : 25;
+    const bool proper_burial = here.furn( p )->has_flag( flag_SEALED );
+    const int burial_morale = proper_burial ? 50 : 25;
     for( item * const &it : its ) {
         if( it->is_corpse() ) {
             if( it->get_corpse_name().empty() ) {
