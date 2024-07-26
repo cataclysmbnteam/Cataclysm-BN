@@ -15,7 +15,7 @@
       [ "chemistry_set", 2 ],
       [ "chestguard_hard", 20 ],
       [ "colamdew", 60 ],
-      [ "cotton_ball", 50 ],
+      { "item": "cotton_ball", "prob": 50, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       [ "electric_lighter", 2 ],
       [ "energy_drink_atomic", 8 ],
       [ "energy_drink", 55 ],

@@ -445,7 +445,7 @@
       [ "test_tube_micro", 5 ],
       [ "syringe", 4 ],
       [ "xacto", 4 ],
-      [ "cotton_ball", 4 ],
+      { "item": "cotton_ball", "prob": 4, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       { "group": "ammo_any_batteries_full", "prob": 50 },
       [ "acetylene_machine", 1 ]
     ]

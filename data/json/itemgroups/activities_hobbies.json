@@ -4,7 +4,7 @@
     "id": "sports",
     "items": [
       [ "bandages", 50 ],
-      [ "cotton_ball", 50 ],
+      { "item": "cotton_ball", "prob": 50, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       [ "aspirin", 85 ],
       [ "bat", 60 ],
       [ "bat_nerf", 60 ],

@@ -464,11 +464,10 @@
     "name": { "str_sp": "cotton balls" },
     "description": "Fluffy balls of clean white cotton.  Can serve as makeshift bandages in an emergency.",
     "category": "spare_parts",
-    "weight": "22 g",
-    "volume": "250 ml",
+    "weight": "2 g",
+    "volume": "50 ml",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "charges": 2,
     "material": "cotton",
     "symbol": "*",
     "color": "white",
@@ -1775,9 +1774,9 @@
     "comestible_type": "MED",
     "name": { "str_sp": "antiseptic soaked cotton balls" },
     "description": "Fluffy balls of clean white cotton.  Now soaked with antiseptic, they are somewhat useful to disinfect a wound.",
-    "weight": "25 g",
+    "weight": "3 g",
     "//": "Can't copy-from cotton_ball, breaks volume",
-    "volume": "125 ml",
+    "volume": "50 ml",
     "price": "250 cent",
     "price_postapoc": "50 cent",
     "material": "cotton",
@@ -1790,7 +1789,7 @@
       "disinfectant_power": 3,
       "bite": 0.66,
       "move_cost": 300,
-      "used_up_item": { "id": "cotton_ball", "quantity": 1, "charges": 1 }
+      "used_up_item": { "id": "cotton_ball", "quantity": 2 }
     }
   },
   {

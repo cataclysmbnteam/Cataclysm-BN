@@ -269,7 +269,7 @@
       { "item": "knuckle_brass", "prob": 15 },
       { "item": "battery_ups", "prob": 10 },
       { "item": "bandages", "prob": 50 },
-      { "item": "cotton_ball", "prob": 20 },
+      { "item": "cotton_ball", "prob": 20, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       { "item": "iodine", "prob": 5 },
       { "item": "prussian_blue", "prob": 5 },
       { "item": "adrenaline_injector", "prob": 4 },

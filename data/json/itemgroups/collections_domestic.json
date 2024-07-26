@@ -213,7 +213,7 @@
       [ "novel_romance", 40 ],
       [ "novel_mystery", 40 ],
       [ "glasses_bifocal", 20 ],
-      [ "cotton_ball", 20 ],
+      { "item": "cotton_ball", "prob": 20, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       [ "contacts", 20 ],
       [ "vitamins", 20 ],
       [ "aspirin", 20 ],

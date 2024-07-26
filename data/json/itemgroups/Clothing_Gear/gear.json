@@ -88,7 +88,7 @@
       [ "halligan", 50 ],
       [ "1st_aid", 10 ],
       [ "bandages", 5 ],
-      [ "cotton_ball", 2 ],
+      { "item": "cotton_ball", "prob": 2, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       [ "crowbar", 15 ],
       [ "entry_suit", 10 ],
       [ "hammer_sledge", 5 ],

@@ -90,6 +90,7 @@
     "skill_used": "tailor",
     "time": "54 m",
     "autolearn": true,
+    "charges": 4,
     "byproducts": [ [ "seed_cotton_boll", 2 ] ],
     "components": [ [ [ "cotton_boll", 1 ] ] ]
   },
@@ -101,6 +102,7 @@
     "skill_used": "tailor",
     "time": "9 m",
     "autolearn": true,
+    "charges": 4,
     "byproducts": [ [ "seed_cotton_boll", 2 ] ],
     "tools": [ [ [ "carding_paddles", -1 ] ] ],
     "components": [ [ [ "cotton_boll", 1 ] ] ]
