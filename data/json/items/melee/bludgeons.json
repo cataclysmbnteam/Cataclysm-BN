@@ -976,7 +976,7 @@
     "looks_like": "mace",
     "weapon_category": [ "CLUBS", "MORNINGSTARS" ],
     "name": "spiked club",
-    "description": "A wooden club with bands of iron and spikes carefully hammered onto it. While it's not as effective or fancy as a proper mace, its history throughout medieval battlefields is noteworthy.",
+    "description": "A wooden club with bands of iron and spikes carefully hammered onto it.  While it's not as effective or fancy as a proper mace, its history throughout medieval battlefields is noteworthy.",
     "volume": "1450 ml",
     "weight": "1500 g",
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP", "DURABLE_MELEE", "STAB" ],
