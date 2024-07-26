@@ -326,6 +326,6 @@
     "autolearn": true,
     "charges": 4,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "cotton_ball", 4 ] ], [ [ "disinfectant", 1 ] ] ]
+    "components": [ [ [ "cotton_ball", 8 ] ], [ [ "disinfectant", 1 ] ] ]
   }
 ]
