@@ -478,7 +478,7 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id":"SAW_M", "level":1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "using": [ [ "steel_tiny", 2 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ], [ "cudgel", 1 ] ], [ [ "spike", 4 ], [ "steel_chunk", 4 ] ] ]
   }
