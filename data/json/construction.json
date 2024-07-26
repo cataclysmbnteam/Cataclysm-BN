@@ -1692,8 +1692,22 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 20 ], [ "2x4", 2 ] ] ],
+    "components": [ [ [ "rock", 20 ], [ "wood_structural_small", 2, "LIST" ] ] ],
     "pre_furniture": "f_coffin_c",
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_grave_new",
+    "post_special": "done_grave"
+  },
+  {
+    "type": "construction",
+    "id": "constr_shallow_grave",
+    "group": "dig_shallow_grave",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "rock", 20 ], [ "wood_structural_small", 2, "LIST" ] ] ],
+    "pre_terrain": "t_pit_shallow",
     "post_flags": [ "keep_items" ],
     "post_terrain": "t_grave_new",
     "post_special": "done_grave"
