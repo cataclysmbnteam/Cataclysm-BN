@@ -1177,8 +1177,8 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
     who.mod_moves( -move_cost );
 
     const int throwing_skill = who.get_skill_level( skill_throw );
-    units::volume volume = thrown.volume();
-    units::mass weight = thrown.weight();
+    const units::volume volume = thrown.volume();
+    const units::mass weight = thrown.weight();
 
     // Previously calculated as 2_gram * std::max( 1, str_cur )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
