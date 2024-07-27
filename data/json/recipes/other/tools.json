@@ -2693,7 +2693,7 @@
     "difficulty": 3,
     "time": "1 h",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ], [ "reference_cooking", 5 ] ],
-    "autolearn": [ [ "fabrication", 3 ], [ "cooking", 5 ], [ "survival", 3 ] ],
+    "autolearn": [ [ "fabrication", 4 ], [ "cooking", 4 ], [ "survival", 3 ] ],
     "using": [ [ "glazing", 1 ], [ "earthenware_firing", 50 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 3 ] ] ]
   },
@@ -2707,7 +2707,7 @@
     "difficulty": 3,
     "time": "1 h",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ], [ "reference_cooking", 5 ] ],
-    "autolearn": [ [ "fabrication", 3 ], [ "cooking", 5 ], [ "survival", 3 ] ],
+    "autolearn": [ [ "fabrication", 4 ], [ "cooking", 4 ], [ "survival", 3 ] ],
     "using": [ [ "surface_heat", 10 ], [ "copper_scrap_equivalent", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ]
   },
