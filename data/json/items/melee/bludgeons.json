@@ -973,7 +973,7 @@
   {
     "id": "club_spiked",
     "type": "GENERIC",
-    "looks_like": "mace",
+    "looks_like": "morningstar",
     "weapon_category": [ "CLUBS", "MORNINGSTARS" ],
     "name": "spiked club",
     "description": "A wooden club with bands of iron and spikes carefully hammered onto it.  While it's not as effective or fancy as a proper mace, its history throughout medieval battlefields is noteworthy.",
@@ -984,7 +984,7 @@
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP", "DURABLE_MELEE", "STAB" ],
     "techniques": [ "SWEEP", "WBLOCK_1" ],
     "material": [ "wood", "iron" ],
-    "bashing": 22,
+    "bashing": 27,
     "cutting": 8,
     "to_hit": 1,
     "price": "500 USD",
