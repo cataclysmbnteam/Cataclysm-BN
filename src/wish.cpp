@@ -127,7 +127,6 @@ class wish_mutate_callback: public uilist_callback
         void refresh( uilist *menu ) override {
             // If it is our first time in menu - collect some data to map with uilist entry later
             if( !started ) {
-                int c = 0;
                 started = true;
                 for( auto &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.id );
@@ -138,7 +137,6 @@ class wish_mutate_callback: public uilist_callback
                         }
                         category_mutations[category].insert( traits_iter );
                     }
-                    c++;
                 }
             }
 
