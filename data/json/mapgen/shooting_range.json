@@ -101,7 +101,7 @@
         { "chance": 5, "item": "guns_smg_common", "x": 8, "y": 9 },
         { "chance": 10, "item": "guns_pistol_common", "x": 5, "y": 9 },
         { "chance": 5, "item": "guns_pistol_common", "x": 2, "y": 9 },
-        { "chance": 25, "item": "office", "x": 3, "y": 4 }
+        { "chance": 25, "item": "office", "x": 4, "y": 3 }
       ],
       "items": {
         "w": { "item": "casings", "chance": 60, "repeat": 4 },
