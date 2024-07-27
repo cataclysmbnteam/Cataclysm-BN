@@ -7,7 +7,7 @@
 SOURCES = $(wildcard *.cpp)
 OBJS = $(sort $(SOURCES:%.cpp=$(ODIR)/%.o))
 
-TARGET_NAME = cataclysm-benchmarks
+TARGET_NAME = cataclysm-bn
 CATA_LIB=../$(BUILD_PREFIX)$(TARGET_NAME).a
 
 # If you invoke this makefile directly and the parent directory was
