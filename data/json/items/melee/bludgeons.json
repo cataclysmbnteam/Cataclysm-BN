@@ -593,7 +593,7 @@
     "name": { "str": "morningstar" },
     "description": "A medieval weapon consisting of a wood handle with a heavy, spiked iron ball on the end.  It deals devastating crushing damage, with a small amount of piercing to boot.",
     "weight": "1400 g",
-    "to_hit": -1,
+    "to_hit": 1,
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "iron", "wood" ],
@@ -930,6 +930,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "STAB", "NONCONDUCTIVE", "BELT_CLIP" ],
     "volume": "1250 ml",
+    "to_hit": 1,
     "bashing": 22,
     "cutting": 23,
     "price": "160 USD",
@@ -968,5 +969,25 @@
     "bashing": 30,
     "to_hit": 3,
     "use_action": { "menu_text": "Retract", "type": "transform", "target": "qstaff_retracted", "msg": "You retract your staff." }
+  },
+  {
+    "id": "club_spiked",
+    "type": "GENERIC",
+    "looks_like": "morningstar",
+    "weapon_category": [ "CLUBS", "MORNINGSTARS" ],
+    "name": "spiked club",
+    "description": "A wooden club with bands of iron and spikes carefully hammered onto it.  While it's not as effective or fancy as a proper mace, its history throughout medieval battlefields is noteworthy.",
+    "volume": "1450 ml",
+    "weight": "1500 g",
+    "color": "dark_gray",
+    "symbol": "/",
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP", "DURABLE_MELEE", "STAB" ],
+    "techniques": [ "SWEEP", "WBLOCK_1" ],
+    "material": [ "wood", "iron" ],
+    "bashing": 27,
+    "cutting": 8,
+    "to_hit": 1,
+    "price": "500 USD",
+    "price_postapoc": "15 USD"
   }
 ]
