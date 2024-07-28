@@ -393,13 +393,13 @@ listed below. Example:
 ]
 ```
 
-One can add entries (when doing inheritance) via the "extend" field.
+One can add entries (when doing inheritance) via the `"extend"` field.
 
 ```json
 "extend": { "special_attacks": [ [ "PARROT", 50 ] ] }
 ```
 
-Entries can be removed via the "delete" field. However, unlike adding a special attack (manually or
+Entries can be removed via the `"delete"` field. However, unlike adding a special attack (manually or
 via extends), the syntax is slightly different. There is no need for a second set of brackets, and
 you should not include the cooldown.
 
