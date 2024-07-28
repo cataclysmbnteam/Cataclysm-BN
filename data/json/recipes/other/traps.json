@@ -106,7 +106,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "nailboard", 3 ] ], [ [ "nail", 2 ] ] ]
+    "components": [ [ [ "nailboard", 3 ] ], [ [ "nail_glue", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
