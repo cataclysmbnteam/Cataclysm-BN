@@ -42,7 +42,7 @@
     "name": "FUNGUS_SPORE_CHANCE",
     "info": "Chance (0 to 1) to trigger spore creation on fungal_effects::fungalize method (for character; infested furniture/terrain bash; FUNGUS death function, FUNGUS_ADVANCED attack function) (note: change for FUNGUS_ADVANCED attack function will be affected by random radius change (1~2) and will proportionally decrease as FUNGUS_ADVANCED_CREATURES_THRESHOLD is passed)",
     "stype": "float",
-    "value": 0.20
+    "value": 0.2
   },
   {
     "type": "EXTERNAL_OPTION",
