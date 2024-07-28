@@ -3476,6 +3476,19 @@ void options_manager::load()
     cache_to_globals();
 }
 
+void options_manager::cache_balance_options()
+{
+    mon_fungaloid_young_allowed = ::get_option<bool>( "MON_FUNGALOID_YOUNG_ALLOWED" );
+    fungus_spread_on_flat_tiles_allowed = ::get_option<bool>( "FUNGUS_SPREAD_ON_FLAT_TILES_ALLOWED" );
+    mon_fungaloid_young_spawn_base_rate = ::get_option<int>( "MON_FUNGALOID_YOUNG_SPAWN_BASE_RATE" );
+    mon_fungaloid_young_spawn_bubble_creatures_divider
+        = ::get_option<int>( "MON_FUNGALOID_YOUNG_SPAWN_BUBBLE_CREATURES_DIVIDER" );
+    fungus_spore_chance = ::get_option<float>( "FUNGUS_SPORE_CHANCE" );
+    fungus_advanced_creatures_threshold = ::get_option<int>( "FUNGUS_ADVANCED_CREATURES_THRESHOLD" );
+    fungus_spore_creatures_threshold = ::get_option<int>( "FUNGUS_SPORE_CREATURES_THRESHOLD" );
+}
+
+
 bool options_manager::has_option( const std::string &name ) const
 {
     return options.count( name );

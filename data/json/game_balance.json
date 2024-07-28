@@ -176,6 +176,55 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "MON_FUNGALOID_YOUNG_ALLOWED",
+    "info": "Enables fungal stalk to be spawned on infested terrain from 'PLANT' attack function.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "FUNGUS_SPREAD_ON_FLAT_TILES_ALLOWED",
+    "info": "Enables fungal infestation on FLAT tiles (indoors houses/asphalt/etc..).",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MON_FUNGALOID_YOUNG_SPAWN_BASE_RATE",
+    "info": "Base rate to spawn fungal stalk from 'PLANT' attack function. Chance to spawn: 1 / (MON_FUNGALOID_YOUNG_SPAWN_BASE_RATE + num_creatures_in_bubble / MON_FUNGALOID_YOUNG_SPAWN_BUBBLE_CREATURES_DIVIDER)",
+    "stype": "int",
+    "value": 10
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MON_FUNGALOID_YOUNG_SPAWN_BUBBLE_CREATURES_DIVIDER",
+    "info": "Number of creatures in bubble will be divided on that number to calculate chance to spawn fungal stalk from 'PLANT' attack function. Chance to spawn: 1 / (MON_FUNGALOID_YOUNG_SPAWN_BASE_RATE + num_creatures_in_bubble / MON_FUNGALOID_YOUNG_SPAWN_BUBBLE_CREATURES_DIVIDER)",
+    "stype": "int",
+    "value": 5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "FUNGUS_SPORE_CHANCE",
+    "info": "Chance (0 to 1) to trigger spore creation on fungal_effects::fungalize method (for character; infested furniture/terrain bash; FUNGUS death function, FUNGUS_ADVANCED attack function) (note: change for FUNGUS_ADVANCED attack function will be affected by random radius change (1~2) and will proportionally decrease as FUNGUS_ADVANCED_CREATURES_THRESHOLD is passed)",
+    "stype": "float",
+    "value": 0.25
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "FUNGUS_ADVANCED_CREATURES_THRESHOLD",
+    "info": "If number of creatures nearby will pass this threshold - chance to spawn spore by FUNGUS_ADVANCED attack will be proportionally decreased",
+    "stype": "int",
+    "value": 25
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "FUNGUS_SPORE_CREATURES_THRESHOLD",
+    "info": "Global value that affects ability of fungal_effects::fungalize to spawn spores. If there is more creature nearby than specified value - spore will not spawn",
+    "stype": "int",
+    "value": 250
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "INT_BASED_LEARNING_BASE_VALUE",
     "info": "The amount of INT which is used as base point for focus adjustments",
     "stype": "int",
