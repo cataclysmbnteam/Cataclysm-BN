@@ -2,6 +2,7 @@
   {
     "result": "300blk_ss",
     "type": "uncraft",
+    "skill_used": "fabrication",
     "difficulty": 5,
     "skills_required": [ "gun", 5 ],
     "time": "2 m",
