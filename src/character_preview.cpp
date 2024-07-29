@@ -1,5 +1,8 @@
 #if defined(TILES)
 #include "character_preview.h"
+#include "bionics.h"
+#include "magic.h"
+#include "messages.h"
 #include "type_id.h"
 #include "character.h"
 #include "profession.h"
@@ -26,6 +29,13 @@ void character_preview_window::init( Character *character )
     // Setting bionics
     for( const bionic_id &bio : character->prof->CBMs() ) {
         character->add_bionic( bio );
+        // Saving possible spells to cancell them later
+        for( const std::pair<const spell_id, int> &spell_pair : bio->learned_spells ) {
+            const spell_id learned_spell = spell_pair.first;
+            if( learned_spell->spell_class != trait_id( "NONE" ) ) {
+                spells.push_back( learned_spell->spell_class );
+            }
+        }
     }
 
     // Collecting profession clothes
@@ -150,6 +160,16 @@ void character_preview_window::clear() const
 {
     character->worn.clear();
     character->clear_bionics();
+    character->set_max_power_level( 0_kJ );
+    character->set_power_level( character->get_max_power_level() );
+    character->magic = pimpl<known_magic>();
+    for( const trait_id &spell : spells ) {
+        if( character->has_trait( spell ) ) {
+            character->remove_mutation( spell );
+        }
+    }
+    character->clear_morale();
+    Messages::clear_messages();
     tilecontext->set_draw_scale( DEFAULT_TILESET_ZOOM );
 }
 
