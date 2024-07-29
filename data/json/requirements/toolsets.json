@@ -16,7 +16,8 @@
     "id": "shot_forming",
     "type": "requirement",
     "//": "Forming of shot from raw materials, allows use of makeshift press",
-    "tools": [ [ [ "press", -1 ], [ "press_dowel", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+    "//2": "Shotshell press being first on the list makes it require cutting quality to reverse instead of pulling",
+    "tools": [ [ [ "press_dowel", -1 ], [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
   },
   {
     "id": "earthenware_firing",

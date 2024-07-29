@@ -21,13 +21,13 @@
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
-    "components": [ [ [ "lead", 1 ], [ "bismuth", 3 ] ] ]
+    "components": [ [ [ "lead", 1 ], [ "bismuth", 2 ] ] ]
   },
   {
     "id": "ammo_bullet_birdshot",
     "type": "requirement",
     "//": "Materials used when forming bullets for birdshot",
-    "components": [ [ [ "bb", 2 ], [ "lead", 1 ], [ "bismuth", 3 ] ] ]
+    "components": [ [ [ "bb", 2 ], [ "lead", 1 ], [ "bismuth", 2 ] ] ]
   },
   {
     "id": "chem_lye",
