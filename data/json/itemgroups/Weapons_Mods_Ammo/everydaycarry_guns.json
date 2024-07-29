@@ -54,8 +54,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "glock_22", "ammo-group": "on_hand_40", "charges": [ 0, 15 ] },
-      { "group": "nested_glock22_mag", "charges-min": 0, "prob": 80 },
-      { "group": "nested_glock22_mag", "charges-min": 0, "prob": 50 },
+      { "group": "nested_glock22_mag", "ammo-group": "on_hand_40", "charges-min": 0, "prob": 80 },
+      { "group": "nested_glock22_mag", "ammo-group": "on_hand_40", "charges-min": 0, "prob": 50 },
       { "group": "on_hand_40", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
     ]
   },
@@ -66,8 +66,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "glock_31", "ammo-group": "on_hand_357sig", "charges": [ 0, 15 ] },
-      { "group": "nested_glock31_mag", "charges-min": 0, "prob": 80 },
-      { "group": "nested_glock31_mag", "charges-min": 0, "prob": 50 },
+      { "group": "nested_glock31_mag", "ammo-group": "on_hand_357sig", "charges-min": 0, "prob": 80 },
+      { "group": "nested_glock31_mag", "ammo-group": "on_hand_357sig", "charges-min": 0, "prob": 50 },
       { "group": "on_hand_357sig", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
     ]
   },
@@ -78,8 +78,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "ar_357sig", "ammo-group": "on_hand_357sig", "charges": [ 0, 15 ] },
-      { "group": "nested_glock31_mag", "charges-min": 0, "prob": 80 },
-      { "group": "nested_glock31_mag", "charges-min": 0, "prob": 50 },
+      { "group": "nested_glock31_mag", "ammo-group": "on_hand_357sig", "charges-min": 0, "prob": 80 },
+      { "group": "nested_glock31_mag", "ammo-group": "on_hand_357sig", "charges-min": 0, "prob": 50 },
       { "group": "on_hand_357sig", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
     ]
   },
@@ -978,8 +978,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "mkg_banshee", "ammo-group": "on_hand_40", "charges": [ 0, 15 ] },
-      { "group": "nested_glock22_mag", "charges-min": 0, "prob": 80 },
-      { "group": "nested_glock22_mag", "charges-min": 0, "prob": 50 },
+      { "group": "nested_glock22_mag", "ammo-group": "on_hand_40", "charges-min": 0, "prob": 80 },
+      { "group": "nested_glock22_mag", "ammo-group": "on_hand_40", "charges-min": 0, "prob": 50 },
       { "group": "on_hand_40", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
     ]
   },
