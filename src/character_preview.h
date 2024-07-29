@@ -4,6 +4,7 @@
 
 #include "cursesdef.h"
 #include "detached_ptr.h"
+#include "type_id.h"
 
 class item;
 class Character;
@@ -57,6 +58,7 @@ struct character_preview_window {
         int nlines_width = 0;
         Character *character = nullptr;
         std::vector<detached_ptr<item>> clothes;
+        std::vector<trait_id> spells;
         bool show_clothes = true;
 
         auto calc_character_pos() const -> point ;
