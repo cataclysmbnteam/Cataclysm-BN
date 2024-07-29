@@ -1,0 +1,101 @@
+[
+  {
+    "type": "mutation",
+    "id": "THRESH_NEKO",
+    "name": { "str": "Nekomimi" },
+    "points": 1,
+    "description": "The age of man has ended, the age of catgirls is upon us!  After becoming a neko, you've found yourself wanting to... open a bakery?",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "mutagen_target_modifier": 10
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_DOGGIRL",
+    "name": { "str": "Inumimi" },
+    "points": 1,
+    "description": "Humanity has gone from taming dogs to becoming them!  You've acquired a sudden desire to... become a witch?",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "mutagen_target_modifier": 10
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_COWGIRL",
+    "name": { "str": "Ushimimi" },
+    "points": 1,
+    "description": "Becoming so cow-like has rendered you unable to even think about eating meat, especially beef.  You occaisonally find yourself wishing you had a human pal to protect, and maybe more.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "mutagen_target_modifier": 10
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_BEARGIRL",
+    "name": { "str": "Kumamimi" },
+    "points": 1,
+    "description": "Some part of you is telling you to just go in a cave and sleep this whole cataclysm thing off.  But the rest of you knows very well that you need to use your newfound strength for good.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "mutagen_target_modifier": 10
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_MOUSEGIRL",
+    "name": { "str": "Nezumimi" },
+    "points": 1,
+    "description": "You initially found yourself worried about what others might think of you now... fortunately, they're very cheesed to meet you!",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "mutagen_target_modifier": 10
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_SPIDERGIRL",
+    "name": { "str": "Arachnae" },
+    "points": 1,
+    "description": "The spider part of you is perfectly happy with your substitution of zombies for flies, and so is your human side.  You've found yourself wanting to open an underground bakery after this is all over.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "mutagen_target_modifier": 10
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_HARPY",
+    "name": { "str": "Harpy" },
+    "points": 1,
+    "description": "Sadly, it looks like all those myths got it wrong about flying.  Well, at least you *think* so.  Maybe with some extra practice and some dieting, you can one day take to the sky unaided!",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "mutagen_target_modifier": 10
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_DRYAD",
+    "name": { "str": "Drayd" },
+    "points": 1,
+    "description": "You've found yourself enjoying and communing with nature even more since you became so intertwined with it and the nature talks back.  Once this is all over and natural order has been restored, you'll *have* to start a conservationist group.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "mutagen_target_modifier": 10
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_SLIMEGIRL",
+    "name": { "str": "Slime" },
+    "points": 1,
+    "description": "Your anything-but-newtonian body is soo bendy and stretchy!  It gives you plenty of mischevious ideas of what to do with them later... but for now, you'll have to settle for having fun returning those zombies to their grave.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "mutagen_target_modifier": 10
+  }
+]
