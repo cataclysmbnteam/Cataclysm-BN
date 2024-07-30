@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 userInput = input("Please input a valid filename/path below:\n")
 
@@ -8,10 +9,7 @@ inputSep[0] += "converted"
 convertName = '.'.join(inputSep)
 
 # Opens user's file as JSON
-userFile = open(userInput)
-userJson = json.load(userFile)
-# We don't need the user's file once it's been loaded in
-userFile.close()
+userJson = json.loads(Path(userInput).read_text())
 
 # List to hold the dictionaries that are the converted entries
 tempList = []
@@ -29,6 +27,4 @@ for item in userJson:
         tempList.append(tempDict)
 
 # Output the finished converted JSON
-convertFile = open(convertName, "w")
-json.dump(tempList, convertFile, indent = 2)
-convertFile.close()
+Path(convertName).write_text(json.dumps(tempList, indent=2))

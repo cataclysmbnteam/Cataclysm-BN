@@ -1,12 +1,10 @@
 import json
+from pathlib import Path
 
 # This inputted file should be the one with all the "delete"s and "extend"s
 preInput = input("Please input the file you want to base off of:\n")
 
-# Open, load, and close since we don't need it right now
-preFile = open(preInput)
-preJson = json.load(preFile)
-preFile.close()
+preJson = json.loads(Path(preInput).read_text())
 
 # List for holding the entries in the above file, and loop to extract all of them
 preList = []
@@ -18,10 +16,7 @@ for entry in preJson:
 userInput = input("Please input a valid filename/path below for processing:\n")
 
 # Opens above file as JSON
-userFile = open(userInput)
-userJson = json.load(userFile)
-# We don't need the file once it's been loaded in
-userFile.close()
+userJson = json.loads(Path(userInput).read_text())
 
 # Dictionary for converting vanilla threshreqs to monstergirl ones.
 threshConvDict = {
@@ -39,7 +34,7 @@ threshConvDict = {
 # Storage for the results in the form of a dictionary
 resultDict = {}
 
-# For each entry in the vanilla file: if it is also in the monstergirl file 
+# For each entry in the vanilla file: if it is also in the monstergirl file
 # and it has at least one threshreq that matches a monstergirl one,
 #  use the conversion dictionary
 for item in userJson:
@@ -58,6 +53,4 @@ for entry in preJson:
         entry["extend"]["threshreq"] = resultDict[entry["id"]]
 
 # Dump the json into the original file
-preFile = open(preInput, 'w')
-json.dump(preJson, preFile, indent = 2)
-preFile.close()
+Path(preInput).write_text(json.dumps(preJson, indent=2))
