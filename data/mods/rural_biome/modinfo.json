@@ -8,6 +8,6 @@
     "category": "content",
     "dependencies": [ "bn" ],
     "version": "0.1",
-    "obsolete": false
+    "obsolete": true
   }
 ]
