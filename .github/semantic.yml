@@ -83,7 +83,6 @@ scopes:
   - mods/no_zombify
   - mods/novitamins
   - mods/pride_flags
-  - mods/ruralbiome
   - mods/saveload_lua_test
   - mods/sees_player_hitbutton
   - mods/sees_player_retro
