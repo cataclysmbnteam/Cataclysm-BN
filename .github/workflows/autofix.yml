@@ -43,6 +43,12 @@ jobs:
       - name: format JSON
         run: make style-all-json-parallel RELEASE=1
 
+      - name: lint and test typescript files
+        run: |
+          deno lint
+          deno test
+          deno run --allow-read --allow-write scripts/semantic.ts
+
       - uses: autofix-ci/action@v1.3
         if: ${{ always() }}
         with:
@@ -68,9 +74,3 @@ jobs:
             If you don't do this, your following commits will be based on the old commit, and cause **MERGE CONFLICT**.
 
             [code-style]: https://docs.cataclysmbn.org/en/contribute/contributing/#code-style
-
-      - name: lint and test typescript files
-        run: |
-          deno lint
-          deno test
-          deno run --allow-read --allow-write scripts/semantic.ts
