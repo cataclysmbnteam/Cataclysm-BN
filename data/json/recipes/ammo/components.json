@@ -313,5 +313,19 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ], [ "steel_tiny", 8 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "22_casing_new",
+    "//": "Realistically this would be limited by how many times it's been struck, but would be a hassle to track variations on casings based on how many times it's been re-used.",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 4,
+    "time": "30 s",
+    "charges": 1,
+    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
+    "components": [ [ [ "22_casing", 1 ] ], [ [ "oxy_powder", 1 ], [ "chem_match_head_powder", 1 ] ] ]
   }
 ]
