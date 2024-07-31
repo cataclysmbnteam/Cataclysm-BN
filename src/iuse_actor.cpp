@@ -264,7 +264,6 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
 
     // All checks complete the damn thing can finally transform
     // Consume charges if necessary at this point.
-    // Cannot use consume_charges as that requires charge_per_use true.
     if( transform_charges ) {
         p.consume_charges( it, transform_charges );
     }
