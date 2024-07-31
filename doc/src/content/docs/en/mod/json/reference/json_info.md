@@ -1487,19 +1487,21 @@ See also VEHICLE_JSON.md
 ### Ammo
 
 ```json
-"type" : "AMMO",      // Defines this as ammo
-...                   // same entries as above for the generic item.
-                      // additional some ammo specific entries:
-"ammo_type" : "shot", // Determines what it can be loaded in
-"damage" : 18,        // Ranged damage when fired
-"prop_damage": 2,     // Multiplies the damage of weapon by amount (overrides damage field)
-"pierce" : 0,         // Armor piercing ability when fired
-"range" : 5,          // Range when fired
-"dispersion" : 0,     // Inaccuracy of ammo, measured in quarter-degrees
-"recoil" : 18,        // Recoil caused when firing
-"count" : 25,         // Number of rounds that spawn together
-"stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
-"show_stats" : true,  // (Optional) Force stat display for combat ammo. (for projectiles lacking both damage and prop_damage)
+"type" : "AMMO",            // Defines this as ammo
+...                         // same entries as above for the generic item.
+                            // additional some ammo specific entries:
+"ammo_type" : "shot",       // Determines what it can be loaded in
+"damage" : 18,              // Ranged damage when fired
+"prop_damage": 2,           // Multiplies the damage of weapon by amount (overrides damage field)
+"pierce" : 0,               // Armor piercing ability when fired
+"range" : 5,                // Range when fired
+"dispersion" : 0,           // Inaccuracy of ammo, measured in quarter-degrees
+"recoil" : 18,              // Recoil caused when firing
+"count" : 25,               // Number of rounds that spawn together
+"stack_size" : 50,          // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
+"show_stats" : true,        // (Optional) Force stat display for combat ammo. (for projectiles lacking both damage and prop_damage)
+"dont_recover_one_in": 1    // (Optional) 1 in x chance of not recovering the ammo (100 means you have a 99% chance of getting it back)
+"drop": "nail"              // (Optional) Defines an object that drops at the projectile location at a 100% chance.
 "effects" : ["COOKOFF", "SHOT"]
 ```
 
