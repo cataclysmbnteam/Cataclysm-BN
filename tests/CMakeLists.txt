@@ -13,6 +13,8 @@ if (BUILD_TESTING)
     if (TILES)
         add_executable(cata_test-tiles ${CATACLYSM_BN_TEST_SOURCES})
         target_link_libraries(cata_test-tiles PRIVATE cataclysm-bn-tiles-common)
+        target_include_directories(cata_test-tiles PRIVATE ${CMAKE_SOURCE_DIR}/src)
+
         add_test(
             NAME test-tiles
             COMMAND sh -c "$<TARGET_FILE:cata_test-tiles> --rng-seed time"
@@ -29,6 +31,8 @@ if (BUILD_TESTING)
     if (CURSES)
         add_executable(cata_test ${CATACLYSM_BN_TEST_SOURCES})
         target_link_libraries(cata_test PRIVATE cataclysm-common)
+        target_include_directories(cata_test PRIVATE ${CMAKE_SOURCE_DIR}/src)
+
         add_test(
             NAME test
             COMMAND sh -c "$<TARGET_FILE:cata_test> --rng-seed time"
