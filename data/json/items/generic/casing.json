@@ -35,7 +35,7 @@
     "copy-from": "22_casing",
     "type": "GENERIC",
     "name": { "str": "primed .22 casing" },
-    "description": "A like-new .22 round casing, with the primer inserted.",
+    "description": "A like-new .22 rimfire casing, with fresh primer in the rim.",
     "material": [ "powder", "brass" ],
     "volume": "3 ml",
     "weight": "1 g"
