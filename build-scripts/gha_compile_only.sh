@@ -27,6 +27,9 @@ ccache --zero-stats
 ccache -M 5G
 ccache --show-stats
 
+echo "CMAKE: $CMAKE, COMPILER: $COMPILER, OS: $OS, TILES: $TILES, SOUND: $SOUND, LUA: $LUA, TEST_STAGE: $TEST_STAGE"
+echo "LANGUAGES: $LANGUAGES, LIBBACKTRACE: $LIBBACKTRACE, NATIVE: $NATIVE, RELEASE: $RELEASE, CROSS_COMPILATION: $CROSS_COMPILATION"
+
 if [ "$CMAKE" = "1" ]
 then
     if [ "$RELEASE" = "1" ]
@@ -36,19 +39,23 @@ then
         build_type=Debug
     fi
 
-    mkdir build
-    cd build
+    echo "Building with CMake"
+    TILES="${TILES:-0}"
+    CURSES=$((1 - TILES))
+
+    mkdir -p build
     cmake \
+        -B build \
         -DBACKTRACE=ON \
         ${COMPILER:+-DCMAKE_CXX_COMPILER=$COMPILER} \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
         -DCMAKE_BUILD_TYPE="$build_type" \
-        -DTILES=${TILES:-0} \
-        -DSOUND=${SOUND:-0} \
-        -DLUA=${LUA:-0} \
-        ..
+        -DTILES="${TILES}" \
+        -DCURSES="${CURSES}" \
+        -DSOUND="${SOUND:-0}" \
+        -DLUA="${LUA:-0}"
 
-    make -j$num_jobs
+    make -j$num_jobs -C build
 else
     if [ "$OS" == "macos-12" ]
     then
@@ -66,7 +73,7 @@ else
     if [[ ! -z "$OS" && "$OS" = "macos-12" ]]
     then
         file tests/cata_test
-        install_name_tool -add_rpath $HOME/Library/Frameworks tests/cata_test
+        install_name_tool -add_rpath "$HOME"/Library/Frameworks tests/cata_test
     fi
 fi
 
