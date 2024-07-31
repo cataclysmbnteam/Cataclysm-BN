@@ -26,7 +26,7 @@
     "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": { "str": ".22 casing" },
-    "description": "An used, empty casing from a .22 round.",
+    "description": "A used, empty casing from a .22 round.",
     "weight": "2 g",
     "volume": "3 ml"
   },
