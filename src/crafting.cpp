@@ -2277,16 +2277,9 @@ void crafting::complete_disassemble( Character &who, const iuse_location &target
 
     if( !dis.learn_by_disassembly.empty() && !who.knows_recipe( &dis ) ) {
         if( who.can_learn_by_disassembly( dis ) ) {
-            // TODO: make this depend on intelligence
-            if( one_in( 4 ) ) {
-                // TODO: change to forward an id or a reference
-                who.learn_recipe( &dis.ident().obj() );
+               who.learn_recipe( &dis.ident().obj() );
                 add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
                          dis_item.tname() );
-            } else {
-                add_msg( m_info, _( "You might be able to learn a recipe for %s if you disassemble another." ),
-                         dis_item.tname() );
-            }
         } else {
             add_msg( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
         }
