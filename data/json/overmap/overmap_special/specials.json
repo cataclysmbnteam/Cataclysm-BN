@@ -794,7 +794,7 @@
       { "point": [ 0, 0, 6 ], "overmap": "wasp_tower_top_north" },
       { "point": [ 0, 0, 7 ], "overmap": "wasp_tower_roof_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "connections": [ { "point": [ 0, 1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 0, 20 ],
     "occurrences": [ 80, 100 ],
