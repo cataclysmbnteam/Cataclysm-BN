@@ -5,6 +5,7 @@
     "om_terrain": [ "pwr_sub_s" ],
     "object": {
       "fill_ter": "t_floor",
+      "rotation": 2,
       "rows": [
         "........................",
         "------------------------",
@@ -87,6 +88,7 @@
     "om_terrain": "pwr_sub_s_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
+      "rotation": 2,
       "rows": [
         "                        ",
         "                        ",
