@@ -25,8 +25,8 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "GENERIC",
-    "name": { "str": ".22 LR casing" },
-    "description": "An empty casing from a .22 LR round.  These can't be hand-reloaded.",
+    "name": { "str": ".22 casing" },
+    "description": "A used, empty casing from a .22 round.",
     "weight": "2 g",
     "volume": "3 ml"
   },
@@ -34,8 +34,8 @@
     "id": "22_casing_new",
     "copy-from": "22_casing",
     "type": "GENERIC",
-    "name": { "str": "unused .22 casing" },
-    "description": "An unfired, like-new .22 round casing, with the primer still intact.",
+    "name": { "str": "primed .22 casing" },
+    "description": "A like-new .22 rimfire casing, with fresh primer in the rim.",
     "material": [ "powder", "brass" ],
     "volume": "3 ml",
     "weight": "1 g"
