@@ -3875,8 +3875,8 @@
     "name": { "str": "Dextrous" },
     "points": 1,
     "description": "You are a little nimbler.  +1 Dexterity.",
-    "changes_to": [ "DEX_UP_2", "DEX_ALPHA" ],
-    "category": [ "INSECT", "SLIME", "ALPHA" ],
+    "changes_to": [ "DEX_UP_2" ],
+    "category": [ "INSECT", "SLIME" ],
     "passive_mods": { "dex_mod": 1 }
   },
   {
@@ -3886,8 +3886,8 @@
     "points": 2,
     "description": "You are nimbler.  +2 Dexterity.",
     "prereqs": [ "DEX_UP" ],
-    "changes_to": [ "DEX_UP_3" ],
-    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "MOUSE" ],
+    "changes_to": [ "DEX_UP_3", "DEX_ALPHA" ],
+    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "MOUSE", "ALPHA" ],
     "passive_mods": { "dex_mod": 2 }
   },
   {
@@ -3919,10 +3919,10 @@
     "points": 6,
     "description": "You're perfectly coordinated.",
     "valid": false,
-    "prereqs": [ "DEX_UP" ],
+    "prereqs": [ "DEX_UP_2" ],
     "threshreq": [ "THRESH_ALPHA" ],
     "category": [ "ALPHA" ],
-    "passive_mods": { "dex_mod": 1 }
+    "passive_mods": { "dex_mod": 2 }
   },
   {
     "type": "mutation",
@@ -3930,8 +3930,8 @@
     "name": { "str": "Smart" },
     "points": 1,
     "description": "You are a little smarter.  +1 Intelligence.",
-    "changes_to": [ "INT_UP_2", "INT_ALPHA", "INT_SLIME" ],
-    "category": [ "SLIME", "ALPHA" ],
+    "changes_to": [ "INT_UP_2", "INT_SLIME" ],
+    "category": [ "SLIME" ],
     "passive_mods": { "int_mod": 1 }
   },
   {
@@ -3941,7 +3941,8 @@
     "points": 2,
     "description": "You are smarter.  +2 Intelligence.",
     "prereqs": [ "INT_UP" ],
-    "changes_to": [ "INT_UP_3" ],
+    "changes_to": [ "INT_UP_3", "INT_ALPHA" ],
+    "category": [ "ALPHA" ],
     "passive_mods": { "int_mod": 2 }
   },
   {
@@ -3977,10 +3978,10 @@
     "points": 6,
     "description": "You understand almost everything about which you think, with minimal effort.",
     "valid": false,
-    "prereqs": [ "INT_UP" ],
+    "prereqs": [ "INT_UP_2" ],
     "threshreq": [ "THRESH_ALPHA" ],
     "category": [ "ALPHA" ],
-    "passive_mods": { "int_mod": 1 }
+    "passive_mods": { "int_mod": 2 }
   },
   {
     "type": "mutation",
