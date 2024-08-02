@@ -44,6 +44,8 @@
       "2Story01_2",
       "2Story02_1",
       "2Story02_2",
+      "2Story03_1",
+      "2Story03_2",
       "2storyModern01_first",
       "2storyModern01_second",
       "2storyModern02_1",
@@ -284,6 +286,7 @@
     "id": [
       "2Story01_roof",
       "2Story02_roof",
+      "2Story03_roof",
       "2storyModern01_roof",
       "2storyModern02_roof",
       "2StoryModern03_roof",
