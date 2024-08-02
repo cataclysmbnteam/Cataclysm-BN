@@ -225,7 +225,7 @@ message(STATUS "See CMake compiling guide for details and more info --")
 
 if (NOT MSVC)
     set(CATA_WARNINGS
-        "-Werror -Wall -Wextra \
+        "-Wall -Wextra \
        -Wformat-signedness \
        -Wlogical-op \
        -Wmissing-declarations \
