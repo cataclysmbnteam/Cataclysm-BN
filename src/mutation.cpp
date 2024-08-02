@@ -302,7 +302,11 @@ void Character::mutation_effect( const trait_id &mut )
                                _( "Your %s is pushed off!" ),
                                _( "<npcname>'s %s is pushed off!" ),
                                armor->tname() );
-        get_map().add_item_or_charges( pos(), std::move( armor ) );
+        // It could cause segmentation fault if mutation change will trigger clothes removal on character creation
+        // with preview clothes toggled on. So checking if game started.
+        if( g->w_terrain ) {
+            get_map().add_item_or_charges( pos(), std::move( armor ) );
+        }
         return detached_ptr<item>();
     } );
 

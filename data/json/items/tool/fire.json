@@ -166,6 +166,7 @@
         "target": "ref_lighter_on",
         "msg": "You flick the lighter.",
         "active": true,
+        "transform_charges": 1,
         "need_charges": 1,
         "need_charges_msg": "Nothing happens.",
         "menu_text": "Light up",

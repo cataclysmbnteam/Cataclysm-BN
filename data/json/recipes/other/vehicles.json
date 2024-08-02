@@ -95,7 +95,7 @@
     "time": "40 m",
     "autolearn": true,
     "reversible": true,
-    "book_learn": [ [ "textbook_fabrication", 4 ], [ "welding_book", 4 ], [ "textbook_carpentry", 4 ] ],
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "welding_book", 4 ], [ "textbook_carpentry", 4 ], [ "reference_fabrication1", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [
       [ [ "drivebelt", 2 ], [ "drivebelt_makeshift", 2 ] ],
@@ -121,7 +121,7 @@
     "time": "40 m",
     "reversible": true,
     "autolearn": true,
-    "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 5 ], [ "textbook_carpentry", 5 ] ],
+    "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 5 ], [ "textbook_carpentry", 5 ], [ "reference_fabrication1", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [
       [ [ "drivebelt", 2 ], [ "drivebelt_makeshift", 2 ] ],
@@ -148,7 +148,7 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "60 m",
     "reversible": true,
-    "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 5 ], [ "textbook_carpentry", 5 ] ],
+    "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 5 ], [ "textbook_carpentry", 5 ], [ "reference_fabrication1", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [
       [ [ "drivebelt", 2 ], [ "drivebelt_makeshift", 2 ] ],
@@ -173,7 +173,7 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "60 m",
     "reversible": true,
-    "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 5 ], [ "textbook_carpentry", 5 ] ],
+    "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 5 ], [ "textbook_carpentry", 5 ], [ "reference_fabrication1", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [
       [ [ "drivebelt", 2 ], [ "drivebelt_makeshift", 2 ] ],
@@ -327,7 +327,6 @@
     "difficulty": 5,
     "time": "180 m",
     "reversible": true,
-    "autolearn": false,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "welding_standard", 50 ] ],
     "qualities": [
@@ -356,7 +355,6 @@
     "skills_required": [ "electronics", 4 ],
     "difficulty": 5,
     "time": "5 h",
-    "autolearn": false,
     "book_learn": [
       [ "manual_electronics", 3 ],
       [ "textbook_electronics", 3 ],
@@ -433,7 +431,6 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": "30 m",
-    "autolearn": false,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -581,10 +578,24 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "5 m",
+    "time": "45 m",
     "autolearn": true,
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 50, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 50 ] ] ]
+    "components": [ [ [ "plastic_chunk", 30 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "plastic_boat_hull",
+    "id_suffix": "printed",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "computer",
+    "difficulty": 3,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "3d_printing_standard", 30 ] ],
+    "components": [ [ [ "plastic_chunk", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -1016,7 +1027,7 @@
     "skills_required": [ "fabrication", 3 ],
     "difficulty": 5,
     "time": "3 h",
-    "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
+    "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ], [ "reference_fabrication1", 6 ] ],
     "using": [ [ "welding_standard", 10 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 32 ] ], [ [ "chain", 1 ] ] ]
@@ -1030,7 +1041,12 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 2,
     "time": "60 m",
-    "book_learn": [ [ "textbook_fabrication", 4 ], [ "textbook_mechanics", 2 ], [ "manual_mechanics", 2 ] ],
+    "book_learn": [
+      [ "textbook_fabrication", 4 ],
+      [ "textbook_mechanics", 2 ],
+      [ "manual_mechanics", 2 ],
+      [ "reference_fabrication1", 4 ]
+    ],
     "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 8 ] ], [ [ "wire", 8 ] ] ]
@@ -1057,7 +1073,7 @@
     "skill_used": "mechanics",
     "difficulty": 2,
     "time": "2 m",
-    "book_learn": [ [ "mag_fieldrepair", 1 ] ],
+    "book_learn": [ [ "mag_fieldrepair", 1 ], [ "reference_fabrication1", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 4 ], [ "leather_belt", 1 ], [ "rope_superior_short", 1, "LIST" ] ], [ [ "duct_tape", 20 ] ] ]
   },
@@ -1069,7 +1085,7 @@
     "skill_used": "mechanics",
     "difficulty": 2,
     "time": "2 m",
-    "book_learn": [ [ "mag_fieldrepair", 2 ] ],
+    "book_learn": [ [ "mag_fieldrepair", 2 ], [ "reference_fabrication1", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "bottle_plastic", 1 ] ], [ [ "paper", 50 ] ], [ [ "duct_tape", 20 ] ] ]
   },
@@ -1081,7 +1097,7 @@
     "skill_used": "mechanics",
     "difficulty": 2,
     "time": "2 m",
-    "book_learn": [ [ "mag_fieldrepair", 2 ] ],
+    "book_learn": [ [ "mag_fieldrepair", 2 ], [ "reference_fabrication1", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ],
@@ -1431,7 +1447,8 @@
       [ "textbook_carpentry", 6 ],
       [ "book_icef", 4 ],
       [ "textbook_mechanics", 4 ],
-      [ "manual_mechanics", 4 ]
+      [ "manual_mechanics", 4 ],
+      [ "reference_fabrication1", 6 ]
     ],
     "using": [ [ "welding_standard", 10 ], [ "adhesive", 4 ] ],
     "qualities": [
@@ -1475,5 +1492,18 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "nail_glue", 4, "LIST" ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ] ]
+  },
+  {
+    "result": "carbonfiber_boat_hull",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "computer",
+    "difficulty": 2,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "10 m",
+    "book_learn": [ [ "textbook_computer", 1 ], [ "advanced_electronics", 1 ], [ "reference_fabrication1", 1 ] ],
+    "using": [ [ "3d_printing_standard", 10 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 100 ] ] ]
   }
 ]

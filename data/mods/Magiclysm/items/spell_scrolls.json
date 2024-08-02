@@ -4,7 +4,7 @@
     "name": { "str": "Spell Scroll" },
     "type": "GENERIC",
     "category": "spellbooks",
-    "weight": "475 g",
+    "weight": "500 g",
     "volume": "500 ml",
     "price": "40 USD",
     "material": [ "paper" ],

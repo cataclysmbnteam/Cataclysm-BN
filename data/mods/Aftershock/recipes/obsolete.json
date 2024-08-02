@@ -70,11 +70,6 @@
     "obsolete": true
   },
   {
-    "result": "afs_quilt_patchwork",
-    "type": "recipe",
-    "obsolete": true
-  },
-  {
     "result": "afs_boot_quiver",
     "type": "recipe",
     "obsolete": true

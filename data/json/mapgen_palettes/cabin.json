@@ -129,10 +129,7 @@
       ],
       "F": { "item": "SUS_fridge", "chance": 35 },
       "h": { "item": "shower", "chance": 20 },
-      "L": [
-        { "item": "tools_earthworking", "chance": 30, "repeat": [ 1, 4 ] },
-        { "item": "tools_home", "chance": 30, "repeat": [ 1, 4 ] }
-      ],
+      "L": [ { "item": "locker_cabin", "chance": 90 }, { "item": "locker_cabin", "chance": 30 } ],
       "O": { "item": "livingroom", "chance": 20 },
       "S": { "item": "stash_wood", "chance": 60, "repeat": [ 2, 4 ] },
       "&": { "item": "trash", "chance": 20 },

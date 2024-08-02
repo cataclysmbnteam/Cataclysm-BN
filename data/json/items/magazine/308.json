@@ -5,7 +5,7 @@
     "type": "MAGAZINE",
     "name": { "str": "7.62x51mm ammo belt" },
     "ammo_type": "308",
-    "capacity": 500,
+    "capacity": 200,
     "count": 100,
     "default_ammo": "762_51",
     "linkage": "ammolink308"

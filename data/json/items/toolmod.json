@@ -25,10 +25,21 @@
     "type": "TOOLMOD",
     "category": "spare_parts",
     "name": { "str": "battery compartment mod" },
-    "description": "A battery compartment mod that allows using vehicle batteries and small storage batteries in regular tools.",
+    "description": "A battery compartment mod that allows using vehicle and storage batteries in regular tools, up to the size of a car battery.",
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
-    "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "battery_car", "battery_motorbike", "battery_motorbike_small" ] ] ]
+    "magazine_adaptor": [
+      [
+        "battery",
+        [
+          "medium_storage_battery",
+          "small_storage_battery",
+          "battery_car",
+          "battery_motorbike",
+          "battery_motorbike_small"
+        ]
+      ]
+    ]
   },
   {
     "id": "magazine_battery_light_mod",

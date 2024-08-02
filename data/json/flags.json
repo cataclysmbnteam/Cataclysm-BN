@@ -162,6 +162,12 @@
     "context": [ "GENERIC" ]
   },
   {
+    "id": "CAN_PLANT_UNDERGROUND",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This seed can be <good>planted underground</good>."
+  },
+  {
     "id": "CANT_HEAL_EVERYONE",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
@@ -386,6 +392,11 @@
     "context": [ "GUNMOD" ],
     "info": "This item is a component of the gun it is attached to.  It can't be removed without destroying it.",
     "inherit": false
+  },
+  {
+    "id": "MUSHROOM_PLANTABLE",
+    "context": [  ],
+    "type": "json_flag"
   },
   {
     "id": "NO_CVD",
@@ -1521,6 +1532,11 @@
     "context": [  ]
   },
   {
+    "id": "IS_BLOOD",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
     "id": "IS_EXPLOSION_PROPELLED",
     "type": "json_flag",
     "context": [  ]
@@ -1824,7 +1840,8 @@
   {
     "id": "REQUIRES_TINDER",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item <bad>requires adequate tinder</bad> to be provided as fuel when starting a fire."
   },
   {
     "id": "SAFECRACK",
@@ -1910,7 +1927,8 @@
   {
     "id": "TINDER",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item can be used as tinder in a firewood source, <info>automatically being used</info> to light fires if using a a firestarting tool that requires it."
   },
   {
     "id": "TOBACCO",

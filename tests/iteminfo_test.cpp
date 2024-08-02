@@ -739,10 +739,10 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
             *i, q,
             "--\n"
             "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-            "<color_c_white>Calories (kcal)</color>: <color_c_yellow>268</color>-"
+            "<color_c_white>Calories (kcal)</color>: <color_c_yellow>235</color>-"
             "<color_c_yellow>716</color>  Quench: <color_c_yellow>0</color>\n"
-            "Vitamins (RDA): Calcium (5-35%), Iron (0-98%), "
-            "Vitamin A (2-11%), Vitamin B12 (1-6%), and Vitamin C (1-85%)\n");
+            "Vitamins (RDA): Calcium (3-35%), Iron (0-98%), "
+            "Vitamin A (0-11%), Vitamin B12 (0-6%), and Vitamin C (0-85%)\n");
     }
 }
 
@@ -878,11 +878,11 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 
     test_info_contains(
         *item::spawn( "test_halligan" ), q,
-        "<color_c_white>Repair</color> using charcoal forge, grid forge, grid welder, electric forge, extended toolset, arc welder, or makeshift arc welder.\n" );
+        "<color_c_white>Repair</color> using charcoal forge, Advanced Grid 3D Printer, grid forge, grid welder, electric forge, extended toolset, arc welder, or makeshift arc welder.\n" );
 
     test_info_contains(
         *item::spawn( "test_hazmat_suit" ), q,
-        "<color_c_white>Repair</color> using grid soldering iron, alcohol-fueled soldering iron, electric soldering iron, TEST soldering iron, or extended toolset.\n" );
+        "<color_c_white>Repair</color> using advanced 3D printer, 3D printer, Grid 3D Printer, Advanced Grid 3D Printer, grid soldering iron, alcohol-fueled soldering iron, electric soldering iron, TEST soldering iron, or extended toolset.\n" );
 
     test_info_contains(
         *item::spawn( "test_rock" ), q, "* This item is <color_c_red>not repairable</color>.\n" );

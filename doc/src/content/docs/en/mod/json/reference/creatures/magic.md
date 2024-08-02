@@ -206,6 +206,8 @@ experience you need to get to a level is below:
 
 - `bash` - bashes the terrain at the target. uses damage() as the strength of the bash.
 
+- `dash` - moves the player to the target tile, can leave behind fields.
+
 - `WONDER` - Unlike the above, this is not an "effect" but a "flag". This alters the behavior of the
   parent spell drastically: The spell itself doesn't cast, but its damage and range information is
   used in order to cast the extra_effects. N of the extra_effects will be chosen at random to be

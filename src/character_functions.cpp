@@ -12,6 +12,7 @@
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "make_static.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -604,19 +605,29 @@ bool try_uncanny_dodge( Character &who )
     who.mod_power_level( -trigger_cost );
     bool is_u = who.is_avatar();
     bool seen = is_u || get_player_character().sees( who );
-    std::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
-    if( adjacent ) {
+    // If successful, dodge for free. If we already burned bonus dodges this turn then get_dodge fails and we're overwhelmed.
+    if( x_in_y( who.get_dodge(), 10 ) ) {
         if( is_u ) {
-            add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+            add_msg( m_good, _( "Time seems to slow down and you effortlessly dodge!" ) );
         } else if( seen ) {
-            add_msg( _( "%s dodges… so fast!" ), who.disp_name() );
+            add_msg( m_good, _( "%s effortlessly dodges… so fast!" ), who.disp_name() );
         }
         return true;
+        // Didn't get a free dodge, burn dodges_left instead. If this zeros them out and there's still more attacks coming this turn the next shot will hit.
+    } else if( who.dodges_left > 0 ) {
+        if( is_u ) {
+            add_msg( m_mixed, _( "Time seems to slow down and you instinctively dodge!" ) );
+        } else if( seen ) {
+            add_msg( m_mixed, _( "%s dodges… so fast!" ), who.disp_name() );
+        }
+        who.dodges_left--;
+        return true;
+        // No dodges left, catch those hands.
     } else {
         if( is_u ) {
-            add_msg( _( "You try to dodge but there's no room!" ) );
+            add_msg( m_bad, _( "You try to dodge but fail!" ) );
         } else if( seen ) {
-            add_msg( _( "%s tries to dodge but there's no room!" ), who.disp_name() );
+            add_msg( m_bad, _( "%s tries to dodge but fails!" ), who.disp_name() );
         }
         return false;
     }
@@ -1017,7 +1028,7 @@ item_reload_option select_ammo( const Character &who, item &base, bool prompt,
     const bool ammo_match_found = list_ammo( who, base, ammo_list, include_empty_mags,
                                   include_potential );
 
-    if( ammo_list.empty() ) {
+    if( ammo_list.empty() && !base.is_holster() ) {
         if( !who.is_npc() ) {
             if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
                 who.add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ),
@@ -1142,12 +1153,22 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
         const auto mags = obj.magazine_compatible();
+        const std::set<ammotype> &ammo = obj.ammo_types();
 
-        src.visit_items( [&nested, &out, mags, empty]( item * node ) {
+        src.visit_items( [&nested, &out, mags, empty, &ammo]( item * node ) {
             if( node->is_gun() || node->is_tool() ) {
                 return VisitResponse::SKIP;
             }
             if( node->is_magazine() ) {
+
+                if( !node->contents.empty() ) {
+                    for( const ammotype &at : ammo ) {
+                        if( node->contents.front().ammo_type() != at ) {
+                            return VisitResponse::SKIP;
+                        }
+                    }
+                }
+
                 if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
                     out = node;
                 }
@@ -1182,9 +1203,6 @@ std::vector<item *> find_reloadables( Character &who )
     std::vector<item *> reloadables;
 
     who.visit_items( [&]( item * node ) {
-        if( node->is_holster() ) {
-            return VisitResponse::NEXT;
-        }
         bool reloadable = false;
         if( node->is_gun() && !node->magazine_compatible().empty() ) {
             reloadable = node->magazine_current() == nullptr ||
@@ -1193,6 +1211,13 @@ std::vector<item *> find_reloadables( Character &who )
             reloadable = ( node->is_magazine() || node->is_bandolier() ||
                            ( node->is_gun() && node->magazine_integral() ) ) &&
                          node->ammo_remaining() < node->ammo_capacity();
+        }
+        if( node->is_holster() ) {
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( node->get_use( "holster" )->get_actor_ptr() );
+            if( static_cast<int>( node->contents.num_item_stacks() ) < ptr->multi ) {
+                reloadable = true;
+            }
         }
         if( reloadable ) {
             reloadables.push_back( node );

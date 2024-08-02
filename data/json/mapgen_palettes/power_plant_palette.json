@@ -73,7 +73,7 @@
     },
     "mapping": {
       "8": { "item": { "item": "eyedrops", "chance": 50, "repeat": 2 } },
-      "A": { "items": { "item": "trash", "chance": 50, "repeat": 3 } },
+      "A": { "items": { "item": "trash_dumpster", "chance": 80 } },
       "E": { "item": { "item": "eyedrops", "chance": 50, "repeat": 2 } },
       "F": { "items": [ { "item": "file_room", "chance": 50, "repeat": 5 }, { "item": "office_supplies", "chance": 50 } ] },
       "a": {

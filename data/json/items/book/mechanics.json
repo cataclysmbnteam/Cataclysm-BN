@@ -50,7 +50,7 @@
     "copy-from": "base_book",
     "name": { "str": "Under the Hood", "str_pl": "copies of Under the Hood" },
     "description": "An advanced mechanics manual, covering all sorts of topics.",
-    "weight": "454 g",
+    "weight": "500 g",
     "volume": "750 ml",
     "price": "55 USD",
     "price_postapoc": "5 USD",

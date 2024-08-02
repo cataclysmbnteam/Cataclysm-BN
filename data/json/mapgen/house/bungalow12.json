@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow12",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [
@@ -28,7 +27,7 @@
         ".%o,,,,+ E/ll/H |d    o.",
         ".%#t8S8| /////H +     #.",
         ".%#||||| ////// ||||++#.",
-        "..#dD  +  RxxRR |dd|00#.",
+        "..#dDɸ +  RxxRR |dd|00#.",
         ".^#    ||+|||||+|++||##.",
         ".%#¤   b| RRRR|    xx#^.",
         ".%o@@  I| ??? |      o%.",
@@ -72,7 +71,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow12_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -103,7 +101,11 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "terrain": { ".": "t_shingle_flat_roof", ",": "t_open_air" }
+      "terrain": { ".": "t_shingle_flat_roof", ",": "t_open_air" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": [ 7, 15 ], "y": [ 13, 16 ] },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 4, 12 ], "y": [ 3, 7 ] }
+      ]
     }
   }
 ]

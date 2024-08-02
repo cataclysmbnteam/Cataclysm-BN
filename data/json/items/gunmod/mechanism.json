@@ -71,6 +71,27 @@
     "flags": [ "INSTALL_DIFFICULT" ]
   },
   {
+    "id": "glockswitch",
+    "type": "GUNMOD",
+    "name": { "str": "glock switch" },
+    "description": "Patented in 1998 the Glock auto-sear or switch as it is called was illegal due to being able to turn Glock firearms full auto by applying force to a Glock's trigger bar.  The switch allows for selective fire modes, a single shot or when flipped, a six round full auto fire.",
+    "weight": "20 g",
+    "volume": "100 ml",
+    "integral_volume": "0 ml",
+    "price": "100 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "red",
+    "location": "mechanism",
+    "mod_targets": [ "glock_17", "glock_19", "glock_20", "glock_21", "glock_22", "glock_31" ],
+    "install_time": "10 m",
+    "min_skills": [ [ "weapon", 5 ] ],
+    "dispersion_modifier": 65,
+    "mode_modifier": [ [ "semi-auto", "auto", 6 ] ],
+    "flags": [ "INSTALL_DIFFICULT" ]
+  },
+  {
     "id": "waterproof_gunmod",
     "type": "GUNMOD",
     "name": { "str": "firearm waterproofing" },

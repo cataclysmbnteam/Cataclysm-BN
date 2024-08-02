@@ -1966,6 +1966,15 @@ void options_manager::add_options_graphics()
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
+    add( "USE_CHARACTER_PREVIEW", graphics, translate_marker( "Enable character preview window" ),
+         translate_marker( "If true, shows character preview window in traits tab on character creation.  "
+                           "While having a window press 'z'/'Z' to perform zoom-in/zoom-out.  "
+                           "Press 'C' to toggle clothes preview" ),
+         true, COPT_CURSES_HIDE
+       );
+
+    get_option( "USE_CHARACTER_PREVIEW" ).setPrerequisite( "USE_TILES" );
+
     add_empty_line();
 
     add( "MEMORY_MAP_MODE", graphics, translate_marker( "Memory map drawing mode" ),
@@ -2313,6 +2322,11 @@ void options_manager::add_options_world_default()
     add( "SPECIALS_SPACING", world_default, translate_marker( "Overmap specials spacing" ),
          translate_marker( "A number determing minimum distance between overmap specials.  -1 allows intersections of specials." ),
          -1, 18, 6
+       );
+
+    add( "VEHICLE_DAMAGE", world_default, translate_marker( "Vehicle damage modifier" ),
+         translate_marker( "A scaling factor that determines how damaged vehicles are." ),
+         0.0, 10.0, 1, 0.1
        );
 
     add( "SPAWN_DENSITY", world_default, translate_marker( "Spawn rate scaling factor" ),

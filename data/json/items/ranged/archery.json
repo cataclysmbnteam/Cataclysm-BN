@@ -271,7 +271,7 @@
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
     "description": "A fletched carbon fiber arrow shaft with an expanding broadhead tip.  Deals impressive damage to targets.  Stands a good chance of remaining intact once fired.",
-    "material": [ "kevlar_rigid", "steel" ],
+    "material": [ "carbon_fiber", "steel" ],
     "volume": "250 ml",
     "price_postapoc": "10 USD",
     "weight": "30 g",

@@ -265,6 +265,13 @@
   },
   {
     "type": "keybinding",
+    "id": "EXAMINE",
+    "category": "INVENTORY",
+    "name": "Examine item",
+    "bindings": [ { "input_method": "keyboard", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ENABLE_MAPEXTRA_NOTE",
     "category": "AUTO_NOTES",
     "name": "Enable auto note for map extra",
@@ -870,6 +877,13 @@
     "category": "OVERMAP",
     "name": "Toggle Explored",
     "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_MARK_PATH",
+    "category": "OVERMAP",
+    "name": "Mark/unmark Travel Path",
+    "bindings": [ { "input_method": "keyboard", "key": "P" } ]
   },
   {
     "type": "keybinding",
@@ -1545,6 +1559,13 @@
     "category": "DEFAULTMODE",
     "id": "pause",
     "bindings": [ { "input_method": "keyboard", "key": "." }, { "input_method": "keyboard", "key": "5" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Show/Hide Preview Outfit",
+    "category": "NEW_CHAR_TRAITS",
+    "id": "TOGGLE_CHARACTER_PREVIEW_CLOTHES",
+    "bindings": [ { "input_method": "keyboard", "key": "c" }, { "input_method": "keyboard", "key": "C" } ]
   },
   {
     "type": "keybinding",

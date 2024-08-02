@@ -229,12 +229,29 @@
     "groups": [
       [ "default_zombie_items_bags", 16 ],
       [ "default_zombie_items_pockets", 20 ],
-      [ "ammo_pistol_common", 2 ],
-      [ "ammo_shotgun_common", 1 ],
-      [ "carried_guns_pistol_common", 2 ],
-      [ "carried_guns_shotgun_common", 1 ],
+      [ "default_zombie_carried_guns", 3 ],
       [ "postman_gear", 5 ],
       [ "hardware_plumbing", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "default_zombie_carried_guns",
+    "entries": [
+      { "group": "carried_guns_pistol_common", "prob": 40 },
+      { "group": "guns_pistol_improvised", "prob": 5 },
+      { "group": "carried_guns_pistol_rare", "prob": 5 },
+      { "group": "carried_guns_shotgun_common", "prob": 16 },
+      { "group": "guns_shotgun_improvised", "prob": 2 },
+      { "group": "carried_guns_shotgun_rare", "prob": 2 },
+      { "group": "carried_guns_rifle_common", "prob": 16 },
+      { "group": "guns_rifle_improvised", "prob": 2 },
+      { "group": "carried_guns_rifle_rare", "prob": 2 },
+      { "group": "carried_guns_smg_common", "prob": 8 },
+      { "group": "guns_smg_improvised", "prob": 1 },
+      { "group": "carried_guns_smg_rare", "prob": 1 },
+      { "group": "carried_guns_archery", "prob": 5 }
     ]
   },
   {

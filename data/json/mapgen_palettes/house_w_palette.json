@@ -55,7 +55,6 @@
       "r": "f_wood_keg",
       "s": "f_metal_butcher_rack",
       "u": "f_rotary_clothesline",
-      "v": [ "f_gun_safe_el", "f_safe_l" ],
       "w": "f_rack_wood",
       "x": "f_entertainment_center",
       "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
@@ -79,7 +78,8 @@
       "?": "t_console_broken"
     },
     "toilets": { "t": {  } },
-    "liquids": { "g": { "liquid": "water", "amount": [ 0, 100 ] } }
+    "liquids": { "g": { "liquid": "water", "amount": [ 0, 100 ] } },
+    "nested": { "v": { "chunks": [ [ "house_chunk_spawn_firesafe", 50 ], [ "house_chunk_spawn_gunsafe", 50 ] ] } }
   },
   {
     "type": "palette",
@@ -202,7 +202,7 @@
       "T": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
       "n": { "item": "SUS_kitchen_sink", "chance": 10, "repeat": [ 1, 2 ] },
       "i": { "item": "oven", "chance": 75, "repeat": [ 1, 2 ] },
-      "l": { "item": "fridge", "chance": 90, "repeat": [ 1, 2 ] },
+      "l": { "item": "SUS_fridge", "chance": 90 },
       "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
       "R": { "item": "homebooks", "chance": 70, "repeat": [ 3, 8 ] }
     },
@@ -240,7 +240,10 @@
       "3": "t_dirtfloor",
       "4": "t_dirtfloor",
       "5": "t_dirtfloor",
-      "6": "t_dirtfloor"
+      "6": "t_dirtfloor",
+      "7": "t_dirtfloor",
+      "8": "t_dirtfloor",
+      "9": "t_dirtfloor"
     },
     "furniture": {
       "a": "f_stool",

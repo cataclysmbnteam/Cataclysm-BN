@@ -34,7 +34,8 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
-          "survivor223mag"
+          "survivor223mag",
+          "carbonmag_223"
         ]
       ]
     ]
@@ -85,6 +86,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]

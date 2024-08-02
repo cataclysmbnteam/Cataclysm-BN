@@ -13,7 +13,8 @@
       { "group": "robofac_id_cards", "prob": 100 },
       { "group": "robofac_basic_grenades", "prob": 100 },
       { "group": "cop_armory", "prob": 100 },
-      { "group": "ammo_any_batteries_full", "prob": 100 }
+      { "group": "ammo_any_batteries_full", "prob": 100 },
+      { "group": "robofac_3d_printing", "prob": 100 }
     ]
   },
   {
@@ -33,5 +34,15 @@
     "id": "robofac_basic_robots",
     "subtype": "distribution",
     "items": [ [ "bot_manhack", 40 ], [ "bot_skitterbot", 25 ], [ "bot_haulerbot", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_3d_printing",
+    "subtype": "distribution",
+    "items": [
+      [ "3d_printer_basic", 5 ],
+      [ "3d_printer_advanced", 5 ],
+      { "item": "carbon_fiber_filament", "prob": 90, "count": [ 25, 50 ] }
+    ]
   }
 ]

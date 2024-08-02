@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow01_1",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [
@@ -23,13 +22,13 @@
         ".#d  ¤@@¤ d#,,,,,,,,G{..",
         ".#d   @@  d#o*###oo###..",
         ".#y        |L RH     #%.",
-        ".#|+|||+|| |  RH l  x#%.",
+        ".#|+|||+|| |Ə RH l  x#%.",
         ".#w D|v D| |  RH l  x#%.",
         ".#||||||||+|  RH     #%.",
         ".ot______+ |   s E  y#%.",
         ".#BB8S|ZW|          To%.",
         ".#||||||||  AA       o%.",
-        ".#zz|D |Q+ |12Y_|T   #%.",
+        ".#zɸ|D |Q+ |12Y_|T   #%.",
         ".#|+||+|||+|n___|   h#%.",
         ".#¤    dd  |F_J_|  ff#^.",
         ".#@@       |5_J_| hff#%.",
@@ -52,13 +51,13 @@
         "w": "t_null",
         "q": "t_floor_noroof"
       },
-      "place_loot": [ { "item": "television", "x": 20, "y": 10 } ]
+      "place_loot": [ { "item": "television", "x": 20, "y": 10 } ],
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 17, "y": 0 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "bungalow01_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -89,7 +88,11 @@
         "`---------------------``",
         "````````````````````````"
       ],
-      "terrain": { ".": "t_shingle_flat_roof", "`": "t_open_air" }
+      "terrain": { ".": "t_shingle_flat_roof", "`": "t_open_air" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 7, "y": 11 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 14, 18 ], "y": [ 9, 12 ] }
+      ]
     }
   }
 ]

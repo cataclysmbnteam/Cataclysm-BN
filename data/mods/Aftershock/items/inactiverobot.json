@@ -192,6 +192,7 @@
       "monster_id": "afs_mon_sentinel_lx",
       "difficulty": 4,
       "moves": 100,
+      "is_pet": true,
       "skills": [ "computer" ]
     }
   },

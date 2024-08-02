@@ -102,7 +102,11 @@
         "t": "f_table"
       },
       "toilets": { "T": {  } },
-      "items": { "P": { "item": "pool_table", "chance": 80 }, "e": { "item": "fridge", "chance": 80, "repeat": 2 } },
+      "items": {
+        "P": { "item": "pool_table", "chance": 80 },
+        "e": { "item": "fridge", "chance": 80, "repeat": 2 },
+        "o": [ { "item": "hardware_books", "chance": 50, "repeat": 2 }, { "item": "magazines", "chance": 50, "repeat": 3 } ]
+      },
       "place_items": [
         { "item": "hardware", "x": [ 2, 2 ], "y": [ 3, 8 ], "chance": 85, "repeat": 2 },
         { "item": "hardware", "x": [ 6, 13 ], "y": [ 2, 2 ], "chance": 85, "repeat": 2 },

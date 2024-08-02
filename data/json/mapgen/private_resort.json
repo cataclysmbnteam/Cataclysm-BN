@@ -37,6 +37,7 @@
         { "signage": "Private property.  No trespassing!", "x": 4, "y": 0 },
         { "signage": "Private property.  No trespassing!", "x": 18, "y": 0 }
       ],
+      "items": { "g": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 40, "item": "alcohol", "x": 7, "y": 13, "repeat": [ 2, 8 ] },
         { "chance": 100, "item": "snacks", "x": 7, "y": 13, "repeat": [ 3, 5 ] },

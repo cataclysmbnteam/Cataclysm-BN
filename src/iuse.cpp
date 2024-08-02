@@ -56,6 +56,7 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
+#include "harvest.h"
 #include "iexamine.h"
 #include "int_id.h"
 #include "inventory.h"
@@ -1522,135 +1523,113 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-// Types of petfood for taming each different monster.
-enum Petfood {
-    DOGFOOD,
-    CATFOOD,
-    CATTLEFODDER,
-    BIRDFOOD
-};
-
-static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const char *message )
+int iuse::petfood( player *p, item *it, bool, const tripoint & )
 {
-    if( mon.has_flag( food_flag ) ) {
-        p.add_msg_if_player( m_good, message, mon.get_name() );
-        mon.make_pet();
-        p.consume_charges( it, 1 );
-        return 0;
-    } else {
-        p.add_msg_if_player( _( "The %s doesn't want that kind of food." ), mon.get_name() );
+    if( !it->is_comestible() ) {
+        p->add_msg_if_player( _( "You doubt someone would want to eat % 1$s." ), it->tname() );
         return 0;
     }
-}
 
-static int petfood( player &p, item &it, Petfood animal_food_type )
-{
     const std::optional<tripoint> pnt_ = choose_adjacent( string_format(
             _( "Tame which animal with the %s?" ),
-            it.tname() ) );
+            it->tname() ) );
     if( !pnt_ ) {
         return 0;
     }
     const tripoint pnt = *pnt_;
-    p.moves -= to_moves<int>( 1_seconds );
+    p->moves -= to_moves<int>( 1_seconds );
 
     // First a check to see if we are trying to feed a NPC dog food.
-    if( animal_food_type == DOGFOOD && g->critter_at<npc>( pnt ) != nullptr ) {
+    if( g->critter_at<npc>( pnt ) != nullptr ) {
         if( npc *const person_ = g->critter_at<npc>( pnt ) ) {
             npc &person = *person_;
-            if( query_yn( _( "Are you sure you want to feed a person the dog food?" ) ) ) {
-                p.add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it.tname(),
-                                     person.name );
-                if( person.is_ally( p ) || x_in_y( 9, 10 ) ) {
+            if( query_yn( _( "Are you sure you want to feed a person the pet food?" ) ) ) {
+                p->add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it->tname(),
+                                      person.name );
+                if( person.is_ally( *p ) || x_in_y( 9, 10 ) ) {
                     person.say(
-                        _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
-                    p.consume_charges( it, 1 );
+                        _( "Okay, but please, don't give me this again.  I don't want to eat pet food in the cataclysm all day." ) );
+                    p->consume_charges( *it, 1 );
                     return 0;
                 } else {
-                    p.add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name );
+                    p->add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name );
                     person.make_angry();
-                    p.consume_charges( it, 1 );
+                    p->consume_charges( *it, 1 );
                     return 0;
                 }
             } else {
-                p.add_msg_if_player( _( "Never mind." ) );
+                p->add_msg_if_player( _( "Never mind." ) );
                 return 0;
             }
         }
+
         // Then monsters.
     } else if( monster *const mon_ptr = g->critter_at<monster>( pnt, true ) ) {
         monster &mon = *mon_ptr;
 
         if( mon.is_hallucination() ) {
-            p.add_msg_if_player( _( "You try to feed the %s some %s, but it vanishes!" ),
-                                 mon.type->nname(), it.tname() );
+            p->add_msg_if_player( _( "You try to feed the %s some %s, but it vanishes!" ),
+                                  mon.type->nname(), it->tname() );
             mon.die( nullptr );
             return 0;
         }
 
         // Feral survivors don't get to tame normal critters.
-        if( p.has_trait( trait_PROF_FERAL ) ) {
+        if( p->has_trait( trait_PROF_FERAL ) ) {
             // TODO: Allow player ferals to tame zombie animals, but make sure non-feral players
             // can't tame them, and for flavor possibly only allow taming with meat-based items.
-            p.add_msg_if_player( _( "You reach for the %s, but it recoils away from you!" ),
-                                 mon.type->nname() );
+            p->add_msg_if_player( _( "You reach for the %s, but it recoils away from you!" ),
+                                  mon.type->nname() );
             return 0;
         }
 
-        // This switch handles each petfood for each type of tameable monster.
-        switch( animal_food_type ) {
-            case DOGFOOD:
-                if( mon.type->id == mon_dog_thing ) {
-                    p.deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 1, 10 ) ) );
-                    p.add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
-                    if( one_in( 5 ) ) {
-                        p.add_msg_if_player(
-                            _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
-                        p.consume_charges( it, 1 );
-                        return 0;
-                    }
-                } else {
-                    return feedpet( p, mon, it, MF_DOGFOOD,
-                                    _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
+        //check to see if the item has a petfood data entry deterimine if the item can be fed to a bet
+        bool can_feed = false;
+        const pet_food_data &petfood = mon.type->petfood;
+        const std::set<std::string> &itemfood = it->get_comestible()->petfood;
+        if( !petfood.food.empty() ) {
+            for( const std::string &food : petfood.food ) {
+                if( itemfood.find( food ) != itemfood.end() ) {
+                    can_feed = true;
+                    break;
                 }
-                break;
-            case CATFOOD:
-                return feedpet( p, mon, it, MF_CATFOOD,
-                                _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ) );
-            case CATTLEFODDER:
-                return feedpet( p, mon, it, MF_CATTLEFODDER,
-                                _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
-            case BIRDFOOD:
-                return feedpet( p, mon, it, MF_BIRDFOOD,
-                                _( "The %s seems to like you!  It runs around your legs and seems friendly." ) );
+            }
         }
 
-    } else {
-        p.add_msg_if_player( _( "There is nothing to be fed here." ) );
+        //if the item cannot be fed, give a message to the player and return
+        if( !can_feed ) {
+            p->add_msg_if_player( _( "The %s doesn't want that kind of food." ),
+                                  mon.type->nname() );
+            return 0;
+        }
+
+        if( mon.type->id == mon_dog_thing ) {
+            p->deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 1, 10 ) ) );
+            p->add_msg_if_player( m_bad, _( "You want to feed it the pet food, but it bites your fingers!" ) );
+            if( one_in( 5 ) ) {
+                p->add_msg_if_player(
+                    _( "Apparently it's more interested in your flesh than the pet food in your hand!" ) );
+                p->consume_charges( *it, 1 );
+                return 0;
+            }
+        }
+
+        p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon.get_name() );
+
+        if( petfood.feed.empty() ) {
+            p->add_msg_if_player( _( "The %1$s is your pet now!" ), mon.get_name() );
+        } else {
+            p->add_msg_if_player( _( petfood.feed ), mon.get_name() );
+        }
+
+        mon.make_pet();
+        p->consume_charges( *it, 1 );
         return 0;
     }
 
-    return 1;
-}
+    p->add_msg_if_player( _( "There is nothing to be fed here." ) );
+    return 0;
 
-int iuse::dogfood( player *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, DOGFOOD );
-}
-
-int iuse::catfood( player *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, CATFOOD );
-}
-
-int iuse::feedcattle( player *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, CATTLEFODDER );
-}
-
-int iuse::feedbird( player *p, item *it, bool, const tripoint & )
-{
-    return petfood( *p, *it, BIRDFOOD );
 }
 
 int iuse::radio_mod( player *p, item *, bool, const tripoint & )
@@ -1989,50 +1968,6 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
         g->m.mod_field_intensity( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
     }
 
-    return it->type->charges_to_use();
-}
-
-int iuse::rm13armor_off( player *p, item *it, bool, const tripoint & )
-{
-    // This allows it to turn on for a turn, because ammo_sufficient assumes non-tool non-weapons need zero ammo, for some reason.
-    if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player( m_info, _( "The RM13 combat armor's fuel cells are dead." ) );
-        return 0;
-    } else {
-        std::string oname = it->typeId().str() + "_on";
-        p->add_msg_if_player( _( "You activate your RM13 combat armor." ) );
-        p->add_msg_if_player( _( "Rivtech Model 13 RivOS v2.19:   ONLINE." ) );
-        p->add_msg_if_player( _( "CBRN defense system:            ONLINE." ) );
-        p->add_msg_if_player( _( "Acoustic dampening system:      ONLINE." ) );
-        p->add_msg_if_player( _( "Thermal regulation system:      ONLINE." ) );
-        p->add_msg_if_player( _( "Vision enhancement system:      ONLINE." ) );
-        p->add_msg_if_player( _( "Electro-reactive armor system:  ONLINE." ) );
-        p->add_msg_if_player( _( "All systems nominal." ) );
-        it->convert( itype_id( oname ) );
-        it->active = true;
-        p->reset_encumbrance();
-        return it->type->charges_to_use();
-    }
-}
-
-int iuse::rm13armor_on( player *p, item *it, bool t, const tripoint & )
-{
-    if( t ) { // Normal use
-    } else { // Turning it off
-        std::string oname = it->typeId().str();
-        if( string_ends_with( oname, "_on" ) ) {
-            oname.erase( oname.length() - 3, 3 );
-        } else {
-            debugmsg( "no item type to turn it into (%s)!", oname );
-            return 0;
-        }
-        p->add_msg_if_player( _( "RivOS v2.19 shutdown sequence initiated." ) );
-        p->add_msg_if_player( _( "Shutting down." ) );
-        p->add_msg_if_player( _( "Your RM13 combat armor turns off." ) );
-        it->convert( itype_id( oname ) );
-        it->active = false;
-        p->reset_encumbrance();
-    }
     return it->type->charges_to_use();
 }
 
@@ -2606,7 +2541,7 @@ struct digging_moves_and_byproducts {
 };
 
 static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, item *it, bool deep,
-        bool channel )
+        bool channel, const tripoint &pos )
 {
     // Vastly simplified version of DDA's version, which had a 77-line-long explanation.
     //
@@ -2645,7 +2580,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
         result_terrain = deep ? ter_id( "t_pit" ) : ter_id( "t_pit_shallow" );
     }
 
-    return { moves, static_cast<int>( dig_minutes / 15 ), "digging_soil_loam_50L", result_terrain };
+    return { moves, static_cast<int>( dig_minutes / 15 ), g->m.ter( pos )->digging_result, result_terrain };
 }
 
 int iuse::dig( player *p, item *it, bool t, const tripoint & )
@@ -2724,7 +2659,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
 
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
-            can_deepen, false );
+            can_deepen, false, dig_point );
 
     const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
@@ -2791,7 +2726,7 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     }
 
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, false,
-            true );
+            true, dig_point );
 
     const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
@@ -3211,7 +3146,9 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    int moves = to_moves<int>( 30_minutes );
+    // Base time of 30 minutes at 8 strength
+    int moves = to_moves<int>( 10_minutes );
+    moves += ( 24 - std::min( p->str_cur, 24 ) ) * to_moves<int>( 75_seconds );
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
@@ -3301,8 +3238,9 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    int moves = to_moves<int>( 20_minutes );
-    moves += ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * to_moves<int>( 5_minutes );
+    // Base time of 90 minutes at 8 strength
+    int moves = to_moves<int>( 30_minutes );
+    moves += ( 24 - std::min( p->str_cur, 24 ) ) * to_moves<int>( 225_seconds );
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
@@ -3355,12 +3293,21 @@ int iuse::burrow( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    int moves = to_moves<int>( 5_minutes );
-    moves += ( ( MAX_STAT + 3 ) - std::min( p->str_cur, MAX_STAT ) ) * to_moves<int>( 2_minutes );
+    // Base time of 60 minutes at 8 strength
+    int moves = to_moves<int>( 20_minutes );
+    moves += ( 24 - std::min( p->str_cur, 24 ) ) * to_moves<int>( 150_seconds );
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
     }
+
+    // For consistency, makes as much sense as NPCs helping you mine faster when you're the only one with the tool
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task…" ), np->name );
+    }
+    moves = moves * ( 10 - helpers.size() ) / 10;
+
     p->assign_activity( ACT_BURROW, moves, -1, 0 );
     p->activity->placement = pnt;
     p->add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
@@ -4579,19 +4526,51 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     bool acid_blood = false;
     for( auto &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
         if( map_it->is_corpse() ) {
+            bool has_blood = false;
+            mt = map_it->get_mtype();
+            if( mt != nullptr ) {
+                for( const harvest_entry &entry : mt->harvest.obj() ) {
+                    if( entry.type == "blood" ) {
+                        has_blood = true;
+                    }
+                }
+            }
+            if( !has_blood ) {
+                p->add_msg_if_player( m_info, _( "The %s doesn't seem to have any blood to draw." ),
+                                      map_it->tname() );
+                break;
+            }
             if( map_it->has_flag( flag_BLED ) ) {
-                p->add_msg_if_player( m_info, _( "That %s has already been bled dry." ), it->tname() );
+                p->add_msg_if_player( m_info, _( "That %s has already been bled dry." ), map_it->tname() );
                 break;
             }
             if( query_yn( _( "Draw blood from %s?" ),
                           colorize( map_it->tname(), map_it->color_in_inventory() ) ) ) {
-                p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it->tname() );
+                // No real way to track and deplete the max potential yield of blood so just randomize
+                if( one_in( 10 ) ) {
+                    map_it->set_flag( flag_BLED );
+                    p->add_msg_if_player( m_info, _( "You drained the last dregs of blood from the %s…" ),
+                                          map_it->tname() );
+                } else {
+                    p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it->tname() );
+                }
                 drew_blood = true;
                 auto bloodtype( map_it->get_mtype()->bloodType() );
                 if( bloodtype.obj().has_acid ) {
                     acid_blood = true;
                 } else {
-                    mt = map_it->get_mtype();
+                    // Checking again here to actually get the detached_ptr
+                    for( const harvest_entry &entry : mt->harvest.obj() ) {
+                        if( entry.type == "blood" ) {
+                            detached_ptr<item> blood = item::spawn( entry.drop, map_it->birthday() );
+
+                            if( !liquid_handler::handle_liquid( std::move( blood ), 1 ) ) {
+                                // NOLINTNEXTLINE(bugprone-use-after-move)
+                                it->put_in( std::move( blood ) );
+                            }
+                            return it->type->charges_to_use();
+                        }
+                    }
                 }
                 break;
             }
@@ -4601,12 +4580,18 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
         p->add_msg_if_player( m_info, _( "You drew your own blood…" ) );
         drew_blood = true;
+        detached_ptr<item> blood = item::spawn( "blood", calendar::turn );
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
         p->mod_stored_nutr( 10 );
         p->mod_thirst( 10 );
         p->mod_pain( 3 );
+        if( !liquid_handler::handle_liquid( std::move( blood ), 1 ) ) {
+            // NOLINTNEXTLINE(bugprone-use-after-move)
+            it->put_in( std::move( blood ) );
+        }
+        return it->type->charges_to_use();
     }
 
     if( acid_blood ) {
@@ -4627,18 +4612,6 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
         return it->type->charges_to_use();
     }
 
-    if( !drew_blood ) {
-        return it->type->charges_to_use();
-    }
-
-    detached_ptr<item> blood = item::spawn( "blood", calendar::turn );
-    if( mt != nullptr ) {
-        blood->set_mtype( mt );
-    }
-    if( !liquid_handler::handle_liquid( std::move( blood ), 1 ) ) {
-        // NOLINTNEXTLINE(bugprone-use-after-move)
-        it->put_in( std::move( blood ) );
-    }
     return it->type->charges_to_use();
 }
 
@@ -8284,10 +8257,9 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         if( cooktime <= 0 ) {
 
             it->active = false;
-            it->erase_var( "DISH" );
             it->erase_var( "COOKTIME" );
             it->put_in( item::spawn( it->get_var( "DISH" ) ) );
-
+            it->erase_var( "DISH" );
             //~ sound of a multi-cooker finishing its cycle!
             sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
 
@@ -9581,6 +9553,22 @@ int iuse::toggle_heats_food( player *p, item *it, bool, const tripoint & )
     } else {
         it->item_tags.erase( json_flag_HEATS_FOOD );
         p->add_msg_if_player( _( "You will no longer use %s to heat food." ), it->tname().c_str() );
+    }
+
+    return 0;
+}
+
+int iuse::toggle_ups_charging( player *p, item *it, bool, const tripoint & )
+{
+    static const flag_id json_flag_USE_UPS( flag_USE_UPS );
+    if( !it->has_flag( json_flag_USE_UPS ) ) {
+        it->item_tags.insert( json_flag_USE_UPS );
+        p->add_msg_if_player(
+            _( "You will recharge the %s using any available Unified Power System." ),
+            it->tname().c_str() );
+    } else {
+        it->item_tags.erase( json_flag_USE_UPS );
+        p->add_msg_if_player( _( "You will no longer recharge the %s via UPS." ), it->tname().c_str() );
     }
 
     return 0;

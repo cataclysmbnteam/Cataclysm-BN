@@ -177,36 +177,6 @@
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
-    "id": "afs_quilt",
-    "type": "ARMOR",
-    "name": "quilt",
-    "description": "A big, comfy quilt made of thick wool in a triangle pattern.  Extremely cozy!",
-    "weight": "1814 g",
-    "volume": "5 L",
-    "price": "55 USD",
-    "to_hit": -1,
-    "material": [ "wool" ],
-    "symbol": "[",
-    "color": "white",
-    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
-    "coverage": 100,
-    "encumbrance": 40,
-    "warmth": 100,
-    "material_thickness": 3,
-    "environmental_protection": 2,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
-    "looks_like": "down_blanket"
-  },
-  {
-    "id": "afs_quilt_patchwork",
-    "type": "ARMOR",
-    "copy-from": "afs_quilt",
-    "name": "patchwork quilt",
-    "description": "A huge, patchwork wool quilt.  Very, very warm.",
-    "encumbrance": 50,
-    "warmth": 90
-  },
-  {
     "id": "afs_survivor_belt",
     "type": "MIGRATION",
     "replace": "survivor_belt_notools",

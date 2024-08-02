@@ -1380,7 +1380,7 @@ npc_action npc::method_of_attack()
 
     // if the best mode is within the confident range try for a shot
     if( g_mode && sees( *critter ) && has_los &&
-        confident_gun_mode_range( g_mode, cur_recoil ) >= dist ) {
+        g_mode->gun_range( true ) >= dist && confident_gun_mode_range( g_mode, cur_recoil ) >= dist ) {
         if( wont_hit_friend( tar, *g_mode, false ) ) {
             add_msg( m_debug, "%s is trying to shoot someone", disp_name() );
             return npc_shoot;

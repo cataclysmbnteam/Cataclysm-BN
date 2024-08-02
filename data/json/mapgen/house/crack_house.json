@@ -59,6 +59,7 @@
         ";": "t_chainfence_posts"
       },
       "furniture": { "&": "f_wreckage", "=": "f_toilet", "{": "f_dumpster", "?": "f_beaded_door", "!": "f_region_flower" },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 35, "item": "harddrugs", "x": 9, "y": 6 },
         { "chance": 45, "item": "harddrugs", "x": 11, "y": [ 5, 6 ] },
@@ -184,6 +185,7 @@
         "/": "t_window_boarded"
       },
       "furniture": { "&": "f_wreckage", "=": "f_toilet", "{": "f_dumpster", "!": "f_region_flower" },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_item": [
         { "item": "cannabis", "repeat": 1, "x": 5, "y": 15 },
         { "item": "lawnmower", "repeat": 1, "x": 20, "y": 17 },
@@ -268,6 +270,7 @@
         ",": "t_window_bars"
       },
       "furniture": { "&": "f_wreckage", "=": "f_toilet", "{": "f_dumpster", "?": "f_beaded_door", "!": "f_region_flower" },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 15, "item": "child_items", "x": 15, "y": 18 },
         { "chance": 15, "item": "child_items", "x": 6, "y": 16 },

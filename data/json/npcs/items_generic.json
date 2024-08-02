@@ -297,7 +297,8 @@
       [ "kevlar", 10 ],
       [ "modularvest", 5 ],
       [ "waistcoat", 5 ],
-      [ "flotation_vest", 10 ],
+      [ "flotation_vest", 5 ],
+      [ "flotation_vest_sandbag", 5 ],
       [ "chainmail_vest", 5 ]
     ]
   },
@@ -1053,7 +1054,8 @@
       [ "sheath", 8 ],
       [ "shot_hull", 1 ],
       [ "shotgun_primer", 2 ],
-      [ "shovel", 8 ],
+      [ "shovel", 4 ],
+      [ "shovel_short", 4 ],
       [ "sickle", 3 ],
       [ "sleeping_bag_roll", 10 ],
       [ "sloppyjoe", 3 ],

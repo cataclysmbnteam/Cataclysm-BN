@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow06",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [
@@ -15,10 +14,10 @@
       "rows": [
         "..........---p..........",
         "....,,,,,,,,,####oo###..",
-        ".%%%,iiiii,,,#z+ II b#..",
+        ".%%%,iiiii,,,#ɸ+ II b#..",
         ".%####oo###o*#v+    ¤#..",
         ".## h h  y|L |||   @@o..",
-        ".:y fff  V|& |D+   @@o..",
+        ".:y fff  V|Ə |D+   @@o..",
         ".: hfffh V|  |D+    ¤#..",
         ".:  h h      |||+||||#..",
         ".:               |t_S#..",
@@ -51,15 +50,13 @@
         "K": "t_floor_noroof",
         "₸": "t_floor_noroof"
       },
-      "furniture": { "$": "f_exercise", "&": "f_table" },
-      "items": { "&": { "item": "table_foyer", "chance": 50 } },
+      "furniture": { "$": "f_exercise" },
       "place_loot": [ { "item": "television", "x": 6, "y": 17 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "bungalow06_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -90,7 +87,11 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "terrain": { ",": "t_open_air", ".": "t_shingle_flat_roof" }
+      "terrain": { ",": "t_open_air", ".": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 15, "y": 15 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 8, 14 ], "y": [ 5, 8 ] }
+      ]
     }
   }
 ]

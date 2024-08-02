@@ -375,6 +375,11 @@ to find which flags work elsewhere.
 - `SURVIVORMAP` Learn of local points-of-interest that can help you survive, and show roads.
 - `TAZER` Shock someone or something.
 - `TELEPORT` Teleport.
+- `TOGGLE_HEATS_FOOD` Gives the item the HEATS_FOOD flag if it lacks it, or vice-versa. Used to
+  enable/disable automatically reheating food with that item when eating.
+- `TOGGLE_UPS_CHARGING` Gives the item the USE_UPS flag if it lacks it, or vice-versa. Used to
+  enable/disable recharging that item from a UPS, advanced UPS, Unified Power System CBM, etc.
+- `TELEPORT` Teleport.
 - `TORCH` Light a torch.
 - `TOURISTMAP` Learn of local points-of-interest that a tourist would like to visit, and show roads.
 - `TOWEL` Dry your character using the item as towel.
@@ -456,6 +461,8 @@ to find which flags work elsewhere.
 
 - `ACID` when consumed using the BLECH function, penalties are reduced if acidproof.
 - `CARNIVORE_OK` Can be eaten by characters with the Carnivore mutation.
+- `CAN_PLANT_UNDERGROUND` If this is a seed, it can be planted when below z-level zero, regardless
+  of the ambient temperature.
 - `CANT_HEAL_EVERYONE` This med can't be used by everyone, it require a special mutation. See
   `can_heal_with` in mutation.
 - `EATEN_COLD` Morale bonus for eating cold.
@@ -469,6 +476,7 @@ to find which flags work elsewhere.
 - `HIDDEN_POISON` ... Food displays as poisonous with a certain survival skill level. Note that this
   doesn't make items poisonous on its own, consider adding `"use_action": "POISON"` as well, or
   using `FORAGE_POISON` instead.
+- `IS_BLOOD` Will be scanned if placed in a centrifuge, in hospitals, labs, etc.
 - `MELTS` Provides half fun unless frozen. Edible when frozen.
 - `MILLABLE` Can be placed inside a mill, to turn into flour.
 - `MYCUS_OK` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by
@@ -603,6 +611,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `SIGN` Show written message on examine.
 - `SMALL_PASSAGE` This terrain or furniture is too small for large or huge creatures to pass
   through.
+- `SOURCE_CLAY` Enables the `Extract Clay` Construction entry.
+- `SOURCE_IRON` Enables the `Extract Iron` Construction entry.
+- `SOURCE_SAND` Enables the `Extract Sand` Construction entry.
 - `SUN_ROOF_ABOVE` This furniture (terrain is not supported currently) has a "fake roof" above, that
   blocks sunlight. Special hack for #44421, to be removed later.
 - `SUPPORTS_ROOF` Used as a boundary for roof construction.

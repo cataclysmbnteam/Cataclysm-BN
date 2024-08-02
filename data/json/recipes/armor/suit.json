@@ -907,5 +907,58 @@
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "sewing_standard", 36 ] ],
     "components": [ [ [ "nylon", 34 ] ] ]
+  },
+  {
+    "result": "armor_carbonplate",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "computer",
+    "difficulty": 5,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "autolearn": true,
+    "time": "2 h 33 m",
+    "book_learn": [ [ "textbook_robots", 0 ], [ "advanced_electronics", 0 ], [ "reference_fabrication1", 0 ] ],
+    "using": [ [ "3d_printing_standard", 153 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 1530 ] ] ]
+  },
+  {
+    "result": "armor_carbonplate",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "id_suffix": "assembly",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "15 m",
+    "components": [ [ [ "carbon_legguard", 1 ] ], [ [ "carbon_armguard", 1 ] ], [ [ "carbon_chestguard", 1 ] ] ]
+  },
+  {
+    "result": "exosuit_survivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ "electronics", 7 ],
+    "time": "3 h 40 m",
+    "book_learn": [ [ "advanced_electronics", 7 ], [ "recipe_lab_elec", 7 ], [ "textbook_anarch", 7 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "soldering_standard", 200, "LIST" ] ], [ [ "welding_standard", 200, "LIST" ] ] ],
+    "components": [
+      [ [ "steel_plate", 1 ], [ "steel_armor", 6 ] ],
+      [ [ "steel_standard", 10, "LIST" ] ],
+      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
+      [ [ "duct_tape", 600 ] ],
+      [ [ "power_supply", 8 ] ],
+      [ [ "amplifier", 6 ] ],
+      [ [ "medium_battery_cell", 1 ] ],
+      [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ],
+      [ [ "hand_crank_charger", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
+      [ [ "hose", 4 ], [ "makeshift_hose", 4 ] ],
+      [ [ "foldframe", 2 ] ],
+      [ [ "cable", 20 ] ]
+    ]
   }
 ]

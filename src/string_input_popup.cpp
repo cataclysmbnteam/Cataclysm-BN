@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "catacharset.h"
+#include "char_validity_check.h"
 #include "ime.h"
 #include "input.h"
 #include "output.h"
@@ -349,7 +350,8 @@ int64_t string_input_popup::query_int64_t( const bool loop, const bool draw_only
     return std::atoll( query_string( loop, draw_only ).c_str() );
 }
 
-const std::string &string_input_popup::query_string( const bool loop, const bool draw_only )
+const std::string &string_input_popup::query_string( const bool loop, const bool draw_only,
+        const bool printable )
 {
     if( !custom_window && !w_full ) {
         create_window();
@@ -560,6 +562,10 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                         // Use mk_wcwidth to filter out control characters
                         if( _only_digits ? ch == '-' || isdigit( ch ) : mk_wcwidth( ch ) >= 0 ) {
                             const int newwidth = mk_wcwidth( ch );
+                            // Filter out non-printable characters if necessary
+                            if( printable && !is_char_allowed( ch ) ) {
+                                break;
+                            }
                             if( _max_length <= 0 || width + newwidth <= _max_length ) {
                                 insertion.append( utf8_wrapper( utf32_to_utf8( ch ) ) );
                                 width += newwidth;
@@ -574,22 +580,9 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                     ctxt->set_edittext( std::string() );
                 }
             }
-        } else if( !ev.text.empty() && _only_digits && !( isdigit( ev.text[0] ) || ev.text[0] == '-' ) ) {
-            // ignore non-digit (and '-' is a digit as well)
-        } else if( _max_length > 0 && static_cast<int>( ret.length() ) >= _max_length ) {
-            // no further input possible, ignore key
-        } else if( !ev.text.empty() ) {
-            const utf8_wrapper t( ev.text );
-            ret.insert( _position, t );
-            _position += t.length();
-            edit = utf8_wrapper();
-            ctxt->set_edittext( std::string() );
         } else if( ev.edit_refresh ) {
             edit = utf8_wrapper( ev.edit );
             ctxt->set_edittext( ev.edit );
-        } else if( ev.edit.empty() ) {
-            edit = utf8_wrapper();
-            ctxt->set_edittext( std::string() );
         } else {
             _handled = false;
         }

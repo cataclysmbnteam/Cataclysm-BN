@@ -432,12 +432,12 @@
       "palettes": [ "cathedral" ],
       "place_nested": [
         {
-          "chunks": [ [ "null", 180 ], [ "radio_tower_2x2_map", 30 ], [ "radio_tower_2x2_holdout", 20 ], [ "radio_tower_2x2_sniper", 10 ] ],
+          "chunks": [ [ "null", 200 ], [ "radio_tower_2x2_map", 20 ], [ "radio_tower_2x2_holdout", 20 ], [ "radio_tower_2x2_sniper", 5 ] ],
           "x": [ 7, 8 ],
           "y": [ 6, 8 ]
         },
         {
-          "chunks": [ [ "null", 180 ], [ "radio_tower_2x2_map", 30 ], [ "radio_tower_2x2_holdout", 20 ], [ "radio_tower_2x2_sniper", 10 ] ],
+          "chunks": [ [ "null", 200 ], [ "radio_tower_2x2_map", 20 ], [ "radio_tower_2x2_holdout", 20 ], [ "radio_tower_2x2_sniper", 5 ] ],
           "x": [ 37, 38 ],
           "y": [ 6, 8 ]
         }

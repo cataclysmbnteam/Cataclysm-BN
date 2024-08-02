@@ -60,6 +60,7 @@
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "U": [ "f_dumpster", "f_recycle_bin" ]
       },
+      "items": { "U": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "&": {  } },
       "place_items": [
         { "item": "plumbing_bulk", "x": [ 6, 10 ], "y": 13, "chance": 85, "repeat": [ 2, 4 ] },
@@ -207,15 +208,8 @@
       },
       "toilets": { "&": {  } },
       "items": {
-        "D": [
-          { "item": "trash", "chance": 50 },
-          { "item": "trash", "chance": 50 },
-          { "item": "trash", "chance": 50 },
-          { "item": "trash", "chance": 50 },
-          { "item": "trash", "chance": 50 },
-          { "item": "trash", "chance": 50 },
-          { "item": "trash", "chance": 50 }
-        ],
+        "D": { "item": "trash_dumpster", "chance": 80 },
+        "U": { "item": "trash_dumpster", "chance": 80 },
         "H": { "item": "hardware_bulk", "chance": 85, "repeat": [ 1, 6 ] },
         "P": { "item": "paint", "chance": 85, "repeat": [ 1, 8 ] },
         "b": { "item": "tools_construction", "chance": 65, "repeat": [ 1, 4 ] },

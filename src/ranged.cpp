@@ -536,6 +536,9 @@ static double occupied_tile_fraction( creature_size target_size )
 
 double Creature::ranged_target_size() const
 {
+    if( const_cast<Creature &>( *this ).uncanny_dodge() ) {
+        return 0.0;
+    }
     if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
             case creature_size::tiny:
@@ -1306,7 +1309,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
         who.as_player()->practice( skill_used, 5, 2 );
     }
     // Reset last target pos
-    who.as_player()->last_target_pos = std::nullopt;
+    who.last_target_pos = std::nullopt;
     who.recoil = MAX_RECOIL;
 
     return dealt_attack;
@@ -1734,7 +1737,7 @@ static projectile make_gun_projectile( const item &gun )
         }
 
         if( ammo.drop ) {
-            detached_ptr<item> drop = item::spawn( ammo.drop );
+            detached_ptr<item> drop = item::spawn( ammo.drop, calendar::turn, 1 );
             if( ammo.drop_active ) {
                 drop->activate();
             }
@@ -3781,7 +3784,7 @@ auto ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
 
     if( gmode->get_gun_ups_drain() > 0 ) {
         const int ups_drain = gmode->get_gun_ups_drain();
-        const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
+        const int adv_ups_drain = std::max( 1, ups_drain / 2 );
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = get_player_character().mounted_creature.get();

@@ -9,6 +9,11 @@
     "//": "Higher dodge due to the constantly changing fur pattern",
     "dodge": 9,
     "reproduction": { "baby_monster": "mon_cat_mutant_kitten_prism", "baby_count": 2, "baby_timer": 80 },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
+      "pet": "The %s sofly purrs as you pet it.  It demands more."
+    },
     "flags": [
       "SEES",
       "HEARS",
@@ -34,7 +39,12 @@
     "dodge": 15,
     "looks_like": "mon_cat_kitten",
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CANPLAY", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ],
-    "upgrades": { "age_grow": 120, "into": "mon_cat_mutant_prism" }
+    "upgrades": { "age_grow": 120, "into": "mon_cat_mutant_prism" },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
+      "pet": "The %s sofly purrs as you pet it.  It demands more."
+    }
   },
   {
     "id": "mon_cat_void_kitten",
@@ -43,7 +53,12 @@
     "name": { "str": "void kitten" },
     "description": "This black ball of fur seems to absorb the light from its surroundings while looking criminally cute.",
     "regenerates_in_dark": true,
-    "upgrades": { "age_grow": 120, "into": "mon_cat_void" }
+    "upgrades": { "age_grow": 120, "into": "mon_cat_void" },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
+      "pet": "The %s sofly purrs as you pet it.  It demands more."
+    }
   },
   {
     "id": "mon_cat_void",
@@ -52,7 +67,12 @@
     "name": { "str": "void cat" },
     "description": "Seeing how unnaturally dark this black cat's fur is, you are certain this is no ordinary cat.  Its fur seems to absorb light from the surroundings.",
     "regenerates_in_dark": true,
-    "reproduction": { "baby_monster": "mon_cat_void_kitten", "baby_count": 8, "baby_timer": 80 }
+    "reproduction": { "baby_monster": "mon_cat_void_kitten", "baby_count": 8, "baby_timer": 80 },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
+      "pet": "The %s sofly purrs as you pet it.  It demands more."
+    }
   },
   {
     "id": "mon_bear_armored",
@@ -403,9 +423,14 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
-      "DOGFOOD",
+      "CANPLAY",
       "GROUP_MORALE",
       "HEARS",
       "PET_MOUNTABLE",

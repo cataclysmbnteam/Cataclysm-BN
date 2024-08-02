@@ -682,7 +682,7 @@ struct HeaderSkill {
 
 int character_display::display_empty_handed_base_damage( const Character &you )
 {
-    int empty_hand_base_damage = you.get_skill_level( skill_unarmed ) * 2;
+    int empty_hand_base_damage = you.get_skill_level( skill_unarmed );
     const bool left_empty = !you.natural_attack_restricted_on( bodypart_id( "hand_l" ) );
     const bool right_empty = !you.natural_attack_restricted_on( bodypart_id( "hand_r" ) );
 

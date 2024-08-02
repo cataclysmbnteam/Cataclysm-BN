@@ -90,6 +90,7 @@
     "skill_used": "tailor",
     "time": "54 m",
     "autolearn": true,
+    "charges": 4,
     "byproducts": [ [ "seed_cotton_boll", 2 ] ],
     "components": [ [ [ "cotton_boll", 1 ] ] ]
   },
@@ -101,6 +102,7 @@
     "skill_used": "tailor",
     "time": "9 m",
     "autolearn": true,
+    "charges": 4,
     "byproducts": [ [ "seed_cotton_boll", 2 ] ],
     "tools": [ [ [ "carding_paddles", -1 ] ] ],
     "components": [ [ [ "cotton_boll", 1 ] ] ]
@@ -330,7 +332,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_intermediate", 1 ] ],
-    "components": [ [ [ "broadsword", 1 ], [ "scrap", 1 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -345,7 +347,7 @@
     "using": [ [ "filament", 50 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "superglue", 5 ] ], [ [ "fabric_standard", 6, "LIST" ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "adhesive_proper", 5, "LIST" ] ], [ [ "fabric_standard", 6, "LIST" ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -454,7 +456,7 @@
     "skills_required": [ "cooking", 4 ],
     "difficulty": 4,
     "time": "30 m",
-    "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "book_learn": [ [ "glassblowing_book", 5 ], [ "reference_cooking", 7 ] ],
     "result_mult": 4,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [
@@ -498,9 +500,8 @@
     "difficulty": 3,
     "time": "12 m",
     "charges": 10,
-    "autolearn": false,
     "batch_time_factors": [ 75, 4 ],
-    "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
+    "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "reference_cooking", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "material_limestone", 10 ] ] ]
   },
@@ -513,7 +514,6 @@
     "skills_required": [ "cooking", 3 ],
     "difficulty": 4,
     "time": "1 h 30 m",
-    "autolearn": false,
     "book_learn": [ [ "concrete_book", 4 ] ],
     "batch_time_factors": [ 75, 3 ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
@@ -955,7 +955,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "25 m",
-    "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
+    "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "reference_cooking", 5 ] ],
     "result_mult": 9,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [
@@ -1135,20 +1135,55 @@
   },
   {
     "type": "recipe",
+    "result": "plastic_sheet",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h",
+    "autolearn": true,
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 40, "LIST" ] ], [ [ "tool_flat_press_large", 1, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "plastic_sheet",
+    "id_suffix": "printed",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "computer",
+    "difficulty": 2,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "20 m",
+    "autolearn": true,
+    "using": [ [ "3d_printing_standard", 20 ] ],
+    "components": [ [ [ "plastic_chunk", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "rigid_plastic_sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "1 h",
+    "time": "2 h 30 m",
     "autolearn": true,
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "tool_flat_press_large", 1, "LIST" ] ],
-      [ [ "forge", 75 ] ]
-    ],
-    "components": [ [ [ "plastic_chunk", 200 ] ] ]
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 250, "LIST" ] ], [ [ "tool_flat_press_large", 1, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 125 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rigid_plastic_sheet",
+    "id_suffix": "printed",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "computer",
+    "difficulty": 3,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "2 h 5 m",
+    "autolearn": true,
+    "using": [ [ "3d_printing_standard", 125 ] ],
+    "components": [ [ [ "plastic_chunk", 125 ] ] ]
   },
   {
     "type": "recipe",
@@ -1170,7 +1205,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
-    "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -1190,7 +1224,8 @@
         [ "birchbark", 1 ],
         [ "willowbark", 1 ]
       ]
-    ]
+    ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "type": "recipe",
@@ -1318,7 +1353,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "autolearn": [ [ "cooking", 6 ] ],
-    "book_learn": [ [ "textbook_chemistry", 3 ], [ "textbook_fabrication", 4 ], [ "welding_book", 4 ] ],
+    "book_learn": [ [ "textbook_chemistry", 3 ], [ "textbook_fabrication", 4 ], [ "welding_book", 4 ], [ "reference_cooking", 5 ] ],
     "time": "10 m",
     "charges": 10,
     "batch_time_factors": [ 50, 2 ],
@@ -1424,7 +1459,12 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "3 h",
     "autolearn": true,
-    "book_learn": [ [ "textbook_mechanics", 4 ], [ "manual_mechanics", 4 ], [ "textbook_fabrication", 4 ] ],
+    "book_learn": [
+      [ "textbook_mechanics", 4 ],
+      [ "manual_mechanics", 4 ],
+      [ "textbook_fabrication", 4 ],
+      [ "reference_fabrication1", 4 ]
+    ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "CUT_FINE", "level": 1 },
@@ -1433,5 +1473,22 @@
       { "id": "SCREW_FINE", "level": 1 }
     ],
     "components": [ [ [ "steel_tiny", 3, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "carbon_fiber_filament",
+    "//": "Requires advanced printer specifically, makes half its mass in product",
+    "//2": "TODO: If pitch is ever mainlined from MST Extra, or rosin has its mass sanity-checked, allow that as an alternative",
+    "result_mult": 5,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "computer",
+    "difficulty": 4,
+    "skills_required": [ [ "fabrication", 3 ], [ "cooking", 5 ] ],
+    "time": "5 m",
+    "batch_time_factors": [ 80, 4 ],
+    "book_learn": [ [ "textbook_computer", 5 ], [ "advanced_electronics", 5 ], [ "adv_chemistry", 4 ], [ "reference_fabrication1", 4 ] ],
+    "tools": [ [ [ "3d_printer_advanced", 5 ] ] ],
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
   }
 ]

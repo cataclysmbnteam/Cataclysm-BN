@@ -632,7 +632,7 @@ For curses builds:
 For SDL:
 
 ```sh
-./cataclysm-tiles
+./cataclysm-bn-tiles
 ```
 
 For `app` builds, launch Cataclysm.app from Finder.

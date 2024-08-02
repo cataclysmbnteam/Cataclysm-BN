@@ -213,7 +213,7 @@
       [ "novel_romance", 40 ],
       [ "novel_mystery", 40 ],
       [ "glasses_bifocal", 20 ],
-      [ "cotton_ball", 20 ],
+      { "item": "cotton_ball", "prob": 20, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       [ "contacts", 20 ],
       [ "vitamins", 20 ],
       [ "aspirin", 20 ],
@@ -404,6 +404,7 @@
       { "item": "reading_light", "prob": 9 },
       { "item": "balloon", "prob": 5 },
       { "group": "ammo_common", "prob": 20 },
+      { "group": "carried_guns_archery", "prob": 2 },
       { "group": "guns_rifle_common", "prob": 2 },
       { "group": "guns_pistol_common", "prob": 5 },
       { "group": "guns_smg_common", "prob": 3 },
@@ -578,7 +579,7 @@
   {
     "type": "item_group",
     "id": "fridge",
-    "//": "This is a terrible item group and should be phased out.  See SUS_fridge in SUS - > domestic.json for a more modern take on things.",
+    "//": "Generic fridge kept for compatibility but use should be kept to a minimum.  Ideally use SUS_fridge for household fridges.",
     "subtype": "distribution",
     "entries": [
       { "item": "water_clean", "prob": 90 },
@@ -894,6 +895,8 @@
       { "item": "glowstick", "prob": 60 },
       { "item": "handflare", "prob": 40 },
       { "item": "blanket", "prob": 10 },
+      { "item": "afs_quilt", "prob": 4 },
+      { "item": "afs_quilt_patchwork", "prob": 2 },
       { "item": "electric_blanket", "prob": 4 },
       { "item": "house_coat", "prob": 25 },
       { "item": "talking_doll", "prob": 65 },
@@ -952,6 +955,7 @@
       { "item": "reading_light", "prob": 8 },
       { "item": "condom", "prob": 50, "count": [ 1, 5 ] },
       { "group": "ammo_common", "prob": 20 },
+      { "group": "carried_guns_archery", "prob": 2 },
       { "group": "guns_rifle_common", "prob": 2 },
       { "group": "guns_pistol_common", "prob": 5 },
       { "group": "guns_smg_common", "prob": 3 },
@@ -1053,6 +1057,7 @@
       [ "cavalry_sabre", 1 ],
       [ "cavalry_sabre_fake", 20 ],
       [ "katana", 1 ],
+      [ "sword_carbon", 20 ],
       [ "katana_fake", 20 ],
       [ "katana_inferior", 2 ],
       [ "cutlass", 1 ],
@@ -1089,6 +1094,20 @@
       { "item": "lighter", "prob": 45 },
       { "item": "ref_lighter", "prob": 10 },
       { "item": "electric_lighter", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "house_safe_misc",
+    "//": "A distribution of miscellaneous items that might be stashed in a household safe, not counting guns.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "everyday_gear", "prob": 30 },
+      { "group": "home_display_case", "prob": 20 },
+      { "group": "harddrugs", "prob": 25 },
+      { "group": "homebooks", "prob": 10 },
+      { "group": "art", "prob": 10 },
+      { "group": "gemstones", "prob": 5 }
     ]
   }
 ]

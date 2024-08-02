@@ -149,7 +149,7 @@
     "type": "COMESTIBLE",
     "id": "royal_beef",
     "name": { "str_sp": "royal beef" },
-    "weight": "446 g",
+    "weight": "400 g",
     "color": "white",
     "spoils_in": "3 days 8 hours",
     "comestible_type": "FOOD",

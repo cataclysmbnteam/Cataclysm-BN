@@ -146,6 +146,7 @@
       { "item": "ax", "prob": 20 },
       { "item": "machete", "prob": 20 },
       { "item": "knife_combat", "prob": 20 },
+      { "item": "knife_carbon", "prob": 20 },
       { "item": "katana", "prob": 20 }
     ]
   },
@@ -156,6 +157,7 @@
     "entries": [
       { "item": "spear_knife", "prob": 50 },
       { "item": "spear_steel", "prob": 10 },
+      { "item": "spear_carbon", "prob": 10 },
       { "item": "spear_forked", "prob": 10 },
       { "item": "spear_rebar", "prob": 5 }
     ]

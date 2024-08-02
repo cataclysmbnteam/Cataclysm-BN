@@ -255,7 +255,6 @@ static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
 static const std::string flag_PLANTABLE( "PLANTABLE" );
-static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 static const std::string flag_TREE( "TREE" );
 
 using namespace activity_handlers;
@@ -414,22 +413,19 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
 {
     tripoint pos = act->placement; // make a copy to avoid use-after-free
     map &here = get_map();
-    act->set_to_null(); // kill activity before inflicting pain
-    if( here.is_bashable( pos ) && here.has_flag( flag_SUPPORTS_ROOF, pos ) &&
-        here.ter( pos ) != t_tree ) {
-        // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
-        // Not quite as bad as the pickaxe, though
-        p->mod_stored_nutr( 10 );
-        p->mod_thirst( 10 );
-        p->mod_fatigue( 15 );
-        p->mod_pain( 3 * rng( 1, 3 ) );
-    } else if( here.move_cost( pos ) == 2 && g->get_levz() == 0 &&
-               here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
-        //Breaking up concrete on the surface? not nearly as bad
-        p->mod_stored_nutr( 5 );
-        p->mod_thirst( 5 );
-        p->mod_fatigue( 10 );
+    if( p->is_avatar() ) {
+        int act_exertion = act->moves_total;
+        // Impossible in vanilla since competing thresholds, but allowed in case of mods
+        if( p->has_trait( trait_STOCKY_TROGLO ) ) {
+            act_exertion /= 2;
+        }
+        // Base cost of 1 fatigue per 3 minutes, or 20 fatigue at 8 strength since 60 minutes
+        // Strength, terrain, and helpers accounted for by time calculation
+        p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 45_seconds ) ) );
+        p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 6_minutes ) ) );
+        p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 3_minutes ) ) );
     }
+    act->set_to_null();
     p->add_msg_if_player( m_good, _( "You finish burrowing." ) );
     here.destroy( pos, true );
 }
@@ -966,11 +962,12 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         }
 
         // Corpses that have been skinned, field dressed, or bleed do not yield that item anymore
+        // Also ensure message does not mention blood if you're not bleeding the corpse
         const bool has_any_field_dressing = corpse_item->has_flag( flag_FIELD_DRESS ) ||
                                             corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) || corpse_item->has_flag( flag_QUARTERED );
         const bool already_harvested = ( corpse_item->has_flag( flag_SKINNED ) && entry.type == "skin" ) ||
                                        ( has_any_field_dressing && entry.type == "offal" ) || ( ( has_any_field_dressing ||
-                                               corpse_item->has_flag( flag_BLED ) ) && entry.type == "blood" );
+                                               corpse_item->has_flag( flag_BLED ) || action != BLEED ) && entry.type == "blood" );
         if( already_harvested ) {
             roll = 0;
         }
@@ -1025,11 +1022,6 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             if( entry.type != "blood" ) {
                 continue;
             }
-        }
-
-        // only bother with the blood if bleeding a corpse
-        if( action != BLEED && entry.type == "blood" ) {
-            roll = 0;
         }
 
         // field dressing removed innards and bones from meatless limbs
@@ -1918,35 +1910,27 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 {
     map &here = get_map();
     const tripoint pos( here.getlocal( act->placement ) );
-    // Invalidate the activity early to prevent a query from mod_pain()
-    act->set_to_null();
     if( p->is_avatar() ) {
-        const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
-        if( here.is_bashable( pos ) && here.has_flag( flag_SUPPORTS_ROOF, pos ) &&
-            here.ter( pos ) != t_tree ) {
-            // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
-            // Betcha wish you'd opted for the J-Hammer ;P
-            p->mod_stored_nutr( 15 - ( helpersize * 3 ) );
-            p->mod_thirst( 15 - ( helpersize * 3 ) );
-            if( p->has_trait( trait_STOCKY_TROGLO ) ) {
-                // Yep, dwarves can dig longer before tiring
-                p->mod_fatigue( 20 - ( helpersize  * 3 ) );
-            } else {
-                p->mod_fatigue( 30 - ( helpersize  * 3 ) );
-            }
-            p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
-        } else if( here.move_cost( pos ) == 2 && g->get_levz() == 0 &&
-                   here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
-            //Breaking up concrete on the surface? not nearly as bad
-            p->mod_stored_nutr( 5 - ( helpersize ) );
-            p->mod_thirst( 5 - ( helpersize ) );
-            p->mod_fatigue( 10 - ( helpersize  * 2 ) );
+        int act_exertion = act->moves_total;
+        // Troglodyte mutants can dig longer before tiring
+        if( p->has_trait( trait_STOCKY_TROGLO ) ) {
+            act_exertion /= 2;
         }
+        // Base cost of 1 fatigue per 3 minutes, or 30 fatigue at 8 strength since 90 minutes
+        // Strength, terrain, and helpers accounted for by time calculation
+        p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 45_seconds ) ) );
+        p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 6_minutes ) ) );
+        p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 3_minutes ) ) );
     }
+    act->set_to_null();
     p->add_msg_player_or_npc( m_good,
                               _( "You finish digging." ),
                               _( "<npcname> finishes digging." ) );
-    here.destroy( pos, true );
+    if( here.has_flag_furn( TFLAG_MINEABLE, pos ) ) {
+        here.destroy_furn( pos, true );
+    } else {
+        here.destroy( pos, true );
+    }
     if( !act->targets.empty() ) {
         item &it = *act->targets.front();
         p->consume_charges( it, it.ammo_required() );
@@ -2080,7 +2064,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     std::string ammo_name = ammo.tname();
     const int qty = act->index;
     const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
-    const bool ammo_is_filthy = ammo.is_filthy();
+    const bool ammo_is_filthy = ammo.is_filthy() && !ammo.is_container();
 
     if( !reloadable.reload( *p, ammo, qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname() );
@@ -2152,7 +2136,10 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
 void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
 {
     map &here = get_map();
-    if( !here.is_flammable( act->placement ) ) {
+    item &firestarter = *act->targets.front();
+    // Try fueling the fire if we don't already have fuel, OR if the tool needs to look for tinder to work
+    if( !here.is_flammable( act->placement ) || ( firestarter.has_flag( flag_REQUIRES_TINDER ) &&
+            !here.tinder_at( act->placement ) ) ) {
         try_fuel_fire( *act, *p, true );
         if( !here.is_flammable( act->placement ) ) {
             p->add_msg_if_player( m_info, _( "There's nothing to light there." ) );
@@ -2161,7 +2148,6 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
         }
     }
 
-    item &firestarter = *act->targets.front();
     if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
         if( !here.tinder_at( act->placement ) ) {
             p->add_msg_if_player( m_info, _( "This item requires tinder to light." ) );
@@ -4167,13 +4153,23 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     map &here = get_map();
     const tripoint &pos = here.getlocal( act->placement );
 
-    here.destroy( pos, true );
+    if( here.has_flag_furn( TFLAG_MINEABLE, pos ) ) {
+        here.destroy_furn( pos, true );
+    } else {
+        here.destroy( pos, true );
+    }
 
     if( p->is_avatar() ) {
-        const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
-        p->mod_stored_nutr( 5 - helpersize );
-        p->mod_thirst( 5 - helpersize );
-        p->mod_fatigue( 10 - ( helpersize * 2 ) );
+        int act_exertion = act->moves_total;
+        // Troglodyte mutants can dig longer before tiring
+        if( p->has_trait( trait_STOCKY_TROGLO ) ) {
+            act_exertion /= 2;
+        }
+        // Base cost of 1 fatigue per 3 minutes, or 10 fatigue at 8 strength since 30 minutes
+        // Strength, terrain, and helpers accounted for by time calculation
+        p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 45_seconds ) ) );
+        p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 6_minutes ) ) );
+        p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 3_minutes ) ) );
     }
     p->add_msg_player_or_npc( m_good,
                               _( "You finish drilling." ),

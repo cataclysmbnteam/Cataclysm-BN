@@ -41,7 +41,8 @@
       [ "shot_suppressor", 10 ],
       [ "u_shotgun", 60 ],
       [ "waterproof_gunmod", 40 ],
-      [ "retool_ar15_300blk", 40 ]
+      [ "retool_ar15_300blk", 40 ],
+      { "group": "auto_sears", "prob": 40 }
     ]
   },
   {
@@ -167,5 +168,11 @@
     "id": "gunmod_archery",
     "//": "Gunmods for bows and crossbows.",
     "items": [ [ "arrowrest", 100 ], [ "bow_sight", 100 ], [ "bow_stabilizer", 100 ], [ "crossbow_lever", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "auto_sears",
+    "//": "Gunmods that enable full-auto fire, mainly in gunsmithing stores or rare registered examples, but could also spawn as contraband.",
+    "items": [ [ "dias", 25 ], [ "llink", 25 ], [ "glockswitch", 50 ] ]
   }
 ]

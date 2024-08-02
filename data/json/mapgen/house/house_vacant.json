@@ -46,6 +46,7 @@
         "|": "t_brick_wall"
       },
       "furniture": { "D": "f_dumpster", "{": "f_dumpster" },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 }, "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_item": [
         { "chance": 30, "item": "nail", "repeat": 1, "x": 7, "y": 4 },
         { "chance": 30, "item": "concrete", "repeat": 1, "x": 2, "y": 6 },
@@ -134,6 +135,7 @@
         "{": "t_dirt"
       },
       "furniture": { "d": "f_dumpster", "{": "f_dumpster" },
+      "items": { "d": { "item": "trash_dumpster", "chance": 80 }, "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_item": [
         { "chance": 30, "item": "nail", "repeat": 1, "x": 7, "y": 4 },
         { "chance": 30, "item": "concrete", "repeat": 1, "x": 2, "y": 6 },

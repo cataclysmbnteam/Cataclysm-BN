@@ -670,7 +670,7 @@ void Character::reach_attack( const tripoint &p )
     // Original target size, used when there are monsters in front of our target
     const int target_size = critter != nullptr ? static_cast<int>( critter->get_size() + 1 ) : 2;
     // Reset last target pos
-    as_player()->last_target_pos = std::nullopt;
+    last_target_pos = std::nullopt;
     // Max out recoil
     recoil = MAX_RECOIL;
 
@@ -976,9 +976,9 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     float weap_dam = weap.damage_melee( DT_BASH ) + stat_bonus;
     /** @EFFECT_UNARMED caps bash damage with unarmed weapons */
 
-    if( unarmed && weap.is_null() ) {
-        /** @EFFECT_UNARMED defines weapon damage of empty-handed unarmed attacks */
-        weap_dam += skill * 2;
+    if( unarmed ) {
+        /** @EFFECT_UNARMED defines weapon damage of unarmed attacks */
+        weap_dam += skill;
     }
 
     /** @EFFECT_BASHING caps bash damage with bashing weapons */

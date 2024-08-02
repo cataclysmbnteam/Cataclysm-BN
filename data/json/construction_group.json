@@ -301,6 +301,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_floodlight",
+    "name": "Build floodlight"
+  },
+  {
+    "type": "construction_group",
     "id": "rewire_street_light",
     "name": "Rewire Street Light"
   },
@@ -443,6 +448,11 @@
     "type": "construction_group",
     "id": "build_metal_wall",
     "name": "Build Metal Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_mushroom_rack",
+    "name": "Build Mushroom Rack"
   },
   {
     "type": "construction_group",
@@ -881,6 +891,11 @@
   },
   {
     "type": "construction_group",
+    "id": "dig_shallow_grave",
+    "name": "Fill Shallow Grave"
+  },
+  {
+    "type": "construction_group",
     "id": "extract_clay",
     "name": "Extract Clay"
   },
@@ -1003,6 +1018,16 @@
     "type": "construction_group",
     "id": "install_plut_generator",
     "name": "Install Plutonium Generator"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_3d_printer_basic",
+    "name": "Place 3D Printer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_3d_printer_advanced",
+    "name": "Place Advanced 3D Printer"
   },
   {
     "type": "construction_group",

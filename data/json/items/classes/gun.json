@@ -341,7 +341,15 @@
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "dispersion": 350,
     "reload": 600,
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "stock", 1 ], [ "rail", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "stock", 1 ],
+      [ "rail", 1 ]
+    ],
     "faults": [  ]
   },
   {

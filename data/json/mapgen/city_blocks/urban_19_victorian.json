@@ -184,7 +184,7 @@
         "A": { "item": "livingroom", "chance": 15 },
         "C": { "item": "kitchen", "chance": 25 },
         "c": { "item": "livingroom", "chance": 25 },
-        "f": { "item": "fridge", "chance": 70 },
+        "f": { "item": "SUS_fridge", "chance": 70 },
         "j": { "item": "cannedfood", "chance": 50 },
         "o": { "item": "oven", "chance": 30 },
         "r": { "item": "cleaning", "chance": 60 },
