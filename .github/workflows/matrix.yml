@@ -43,7 +43,7 @@ jobs:
           - title: GCC 12, Ubuntu, Curses
             compiler: g++-12
             os: ubuntu-22.04
-            cmake: 1
+            cmake: 0
             tiles: 0
             sound: 0
             lua: 0
