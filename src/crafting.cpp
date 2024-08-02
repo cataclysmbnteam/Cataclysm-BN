@@ -2278,7 +2278,7 @@ void crafting::complete_disassemble( Character &who, const iuse_location &target
     if( !dis.learn_by_disassembly.empty() && !who.knows_recipe( &dis ) ) {
         if( who.can_learn_by_disassembly( dis ) ) {
             const SkillLevelMap &char_skills = who.get_all_skills();
-            float skill_bonus = ( 1.0f + char_skills.exceeds_recipe_requirements( dis ) ) * std::max( 1,
+            float skill_bonus = ( 1.0f + char_skills.exceeds_recipe_requirements( dis ) ) * std::max( 1.0f,
                                 0.9f + ( who.int_cur * 0.025f ) );
             if( x_in_y( skill_bonus, 4.0 ) ) {
                 // TODO: change to forward an id or a reference
