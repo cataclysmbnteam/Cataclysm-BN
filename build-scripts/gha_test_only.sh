@@ -50,9 +50,19 @@ then
         build_type=Debug
     fi
 
-    # Run regular tests
-    [ -f "${bin_path}cata_test" ] && parallel ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
-    [ -f "${bin_path}cata_test-tiles" ] && parallel ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test-tiles' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
+    if [ -f "${bin_path}cata_test" ]
+    then
+        echo "running curses tests"
+        # shellcheck disable=SC2086
+        parallel ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
+        echo "done running curses tests"
+    elif [ -f "${bin_path}cata_test-tiles" ]
+    then
+        echo "running tiles tests"
+        # shellcheck disable=SC2086
+        parallel ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test-tiles' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
+        echo "done running tiles tests"
+    fi
 else
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
