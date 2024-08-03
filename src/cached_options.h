@@ -84,15 +84,9 @@ extern int PICKUP_RANGE;
  */
 extern bool dont_debugmsg;
 
-/* Stuct for option grouping purpuses */
-struct Options {
-    virtual ~Options() = default;
-    /* Must be called once for each Options struct */
-    virtual void init() = 0;
-};
 
 /* Options related to fungal activity */
-struct FungalOptions final : Options {
+struct FungalOptions {
     /**
     * Enables fungal stalk to be spawned on infested terrain from 'PLANT' attack function.
     */
@@ -127,9 +121,6 @@ struct FungalOptions final : Options {
     * If there is more creature nearby than specified value - spore will not spawn.
     */
     int spore_creatures_threshold;
-
-    ~FungalOptions() override = default;
-    void init() override;
 };
 
 extern FungalOptions fungal_opt;
