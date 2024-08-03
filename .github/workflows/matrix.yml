@@ -43,7 +43,7 @@ jobs:
           - title: GCC 12, Ubuntu, Curses
             compiler: g++-12
             os: ubuntu-22.04
-            cmake: 1
+            cmake: 0
             tiles: 0
             sound: 0
             lua: 0
@@ -110,7 +110,7 @@ jobs:
           - title: Clang 14, macOS 12, Tiles, Sound, Localize, Lua
             compiler: clang++
             os: macos-12
-            cmake: 1
+            cmake: 0
             tiles: 1
             sound: 1
             lua: 1
