@@ -80,7 +80,7 @@
         "F                                                                     F ",
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF "
       ],
-      "terrain": { "9": "t_gutter_downspout" },
+      "terrain": { "9": "t_gutter_downspout", "ü": "t_dirtfloor" },
       "place_item": [
         { "item": "straw_pile", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 8 ] },
         { "item": "cattlefodder", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 4 ] },
@@ -130,7 +130,7 @@
         "                        ",
         "FFFFFFFFFFFFFFFFFFFFFFFF"
       ],
-      "terrain": { "Q": "t_dirtfloor", "9": "t_gutter_downspout" },
+      "terrain": { "Q": "t_dirtfloor", "9": "t_gutter_downspout", "ü": "t_dirtfloor" },
       "items": {
         ".": { "item": "trash", "chance": 20 },
         "B": [
