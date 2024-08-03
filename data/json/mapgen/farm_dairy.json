@@ -5,7 +5,6 @@
     "om_terrain": [ [ "dairy_farm_NW", "dairy_farm_NE" ] ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
       "rows": [
         "................................................",
         ".$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$.",
@@ -53,7 +52,6 @@
     "om_terrain": [ [ "dairy_farm_NW", "dairy_farm_NE" ] ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_dirt",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
         ",$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$,",
@@ -124,13 +122,13 @@
         "*": "t_window_domestic",
         "=": "t_door_o",
         "+": "t_door_locked_interior",
-        "N": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
-        "X": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
+        "N": "t_region_soil",
+        "X": "t_region_soil",
         "O": "t_bulk_tank",
         "S": "t_floor",
         "Y": "t_floor",
         "_": "t_floor",
-        "a": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
+        "a": "t_region_soil",
         "|": "t_wall_w",
         "4": "t_gutter_downspout"
       },
@@ -148,7 +146,6 @@
         "X": "f_crate_c",
         "Y": "f_rack_coat",
         "a": "f_dumpster",
-        "b": "f_toilet",
         "c": "f_cupboard",
         "d": "f_desk",
         "o": "f_oven",
@@ -201,8 +198,9 @@
       "place_vehicles": [
         { "vehicle": "cube_van_cheap", "x": 7, "y": 5, "chance": 50, "fuel": 300, "status": -1, "rotation": 0 },
         { "vehicle": "quad_bike", "x": 15, "y": 6, "chance": 30, "fuel": 200, "status": -1, "rotation": 0 },
-        { "vehicle": "bicycle", "x": 13, "y": 8, "chance": 80, "fuel": 0, "status": 0, "rotation": 0 }
+        { "vehicle": "bicycle", "x": 13, "y": 8, "chance": 80, "fuel": 0, "status": -1, "rotation": 0 }
       ],
+      "toilets": { "b": {  } },
       "nested": { "g": { "chunks": [ [ "house_chunk_spawn_firesafe", 50 ], [ "house_chunk_spawn_gunsafe", 50 ] ] } }
     }
   },
@@ -239,8 +237,7 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof" },
-      "furniture": { "N": "f_TV_antenna" }
+      "terrain": { ".": "t_shingle_flat_roof" }
     }
   }
 ]
