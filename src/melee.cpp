@@ -452,7 +452,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
         }
     }
     item &cur_weapon = allow_unarmed ? used_weapon() : primary_weapon();
-    const attack_statblock &attack = melee::default_attack( cur_weapon );
+    const attack_statblock &attack = melee::pick_attack( *this, cur_weapon, t );
     int hit_spread = t.deal_melee_attack( this, hit_roll( cur_weapon, attack ) );
 
     if( cur_weapon.attack_cost() > attack_cost( cur_weapon ) * 20 ) {
@@ -2559,6 +2559,20 @@ const attack_statblock &melee::default_attack( const item &it )
 }
 
 const attack_statblock &melee::pick_attack( const Character &c, const item &weapon,
+        const Creature &target )
+{
+    if( weapon.type->attacks.size() < 2 ) {
+        return melee::default_attack( weapon );
+    }
+
+    if( target.is_monster() ) {
+        return melee::pick_attack( c, weapon, *target.as_monster() );
+    }
+
+    return melee::pick_attack( c, weapon, *target.as_character() );
+}
+
+const attack_statblock &melee::pick_attack( const Character &c, const item &weapon,
         const monster &target )
 {
     if( weapon.type->attacks.size() < 2 ) {
@@ -2577,6 +2591,14 @@ const attack_statblock &melee::pick_attack( const Character &c, const item &weap
 
     assert( best_attack != nullptr );
     return *best_attack;
+}
+
+const attack_statblock &melee::pick_attack( const Character &c, const item &weapon,
+        const Character &target )
+{
+    ( void )c;
+    ( void )target;
+    return default_attack( weapon );
 }
 
 namespace melee

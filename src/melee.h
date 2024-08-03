@@ -3,6 +3,7 @@
 #define CATA_SRC_MELEE_H
 
 class Character;
+class Creature;
 class monster;
 class item;
 struct damage_instance;
@@ -58,7 +59,11 @@ void roll_stab_damage( const Character &c, bool crit, damage_instance &di, bool 
 const attack_statblock &default_attack( const item &it );
 
 const attack_statblock &pick_attack( const Character &c, const item &weapon,
+                                     const Creature &target );
+const attack_statblock &pick_attack( const Character &c, const item &weapon,
                                      const monster &target );
+const attack_statblock &pick_attack( const Character &c, const item &weapon,
+                                     const Character &target );
 
 } // namespace melee
 
