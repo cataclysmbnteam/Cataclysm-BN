@@ -101,7 +101,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
         if( hit ) {
             add_msg( m_warning, _( "You're covered in tiny spores!" ) );
         }
-    } else if( static_cast<int>( gm.num_creatures() ) < fungus_spore_creatures_threshold &&
+    } else if( static_cast<int>( gm.num_creatures() ) < fungal_opt.spore_creatures_threshold &&
                x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
         if( monster *const spore = gm.place_critter_at( mon_spore, p ) ) {
             monster *origin_mon = dynamic_cast<monster *>( origin );
@@ -120,7 +120,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
 void fungal_effects::create_spores( const tripoint &p, Creature *origin )
 {
     for( const tripoint &tmp : get_map().points_in_radius( p, 1 ) ) {
-        fungalize( tmp, origin, fungus_spore_chance );
+        fungalize( tmp, origin, fungal_opt.spore_chance );
     }
 }
 
@@ -150,7 +150,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             m.ter_set( p, t_fungus );
             converted = true;
         }
-    } else if( fungus_spread_on_flat_tiles_allowed &&
+    } else if( fungal_opt.spread_on_flat_tiles_allowed &&
                m.has_flag( flag_FLAT, p ) ) {
         if( m.has_flag( flag_INDOORS, p ) ) {
             if( x_in_y( growth * 10, 500 ) ) {

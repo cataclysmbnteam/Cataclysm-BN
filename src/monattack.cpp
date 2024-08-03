@@ -1741,10 +1741,10 @@ bool mattack::fungus_advanced( monster *z )
 
     // Calculating spore spawn chance
     int radius = one_in( 4 ) ? 2 : 1;
-    double spore_chance = fungus_spore_chance;
-    double creatures_threshold = static_cast<float>( fungus_advanced_creatures_threshold );
+    double spore_chance = fungal_opt.spore_chance;
+    double creatures_threshold = static_cast<float>( fungal_opt.advanced_creatures_threshold );
     int creatures_nearby = static_cast<int>( g->num_creatures() );
-    if( creatures_nearby > fungus_advanced_creatures_threshold ) {
+    if( creatures_nearby > fungal_opt.advanced_creatures_threshold ) {
         // Number of creatures in the bubble and the resulting average number of spores per "Pouf!"
         // (assuming that spore_chance is 0.25 and creatures_threshold is 25:
         // 0-25: 2
@@ -2302,9 +2302,9 @@ bool mattack::plant( monster *z )
 
     // If terrain already infested there is chance for spore to become fungal stalk
     const bool is_fungi = g->m.has_flag_ter( ter_bitflags::TFLAG_FUNGUS, z->pos() );
-    if( mon_fungaloid_young_allowed && is_fungi ) {
-        const int base_chance = mon_fungaloid_young_spawn_base_rate;
-        const int divider = mon_fungaloid_young_spawn_bubble_creatures_divider;
+    if( fungal_opt.young_allowed && is_fungi ) {
+        const int base_chance = fungal_opt.young_spawn_base_rate;
+        const int divider = fungal_opt.young_spawn_bubble_creatures_divider;
         if( one_in( base_chance + static_cast<int>( g->num_creatures() / divider ) ) ) {
             add_msg( _( "The %s takes seed and becomes a young fungaloid!" ),
                      z->name() );
