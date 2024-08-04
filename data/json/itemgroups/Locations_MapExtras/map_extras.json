@@ -124,6 +124,12 @@
     "entries": [ { "group": "mon_zombie_cop_death_drops" }, { "item": "corpse", "damage": 3 } ]
   },
   {
+    "id": "map_extra_swat",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "mon_zombie_swat_death_drops" }, { "item": "corpse", "damage": 3 } ]
+  },
+  {
     "type": "item_group",
     "subtype": "distribution",
     "id": "underwear",
