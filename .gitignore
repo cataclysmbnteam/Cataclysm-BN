@@ -9,7 +9,11 @@
 *.zip
 /WinDepend/
 /bindist/
-/build/
+build.*
+build
+!build-scripts
+!build-data
+test_user_dir*
 /build-start-time
 /cmake-build-debug/
 /config/
