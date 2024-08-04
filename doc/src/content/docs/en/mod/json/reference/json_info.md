@@ -1494,10 +1494,10 @@ See also VEHICLE_JSON.md
 
 ```json
 {
-  "damage_type": "acid",                 // Type of damage dealt.
-  "amount": 10                           // Amount of damage dealt.
-  "armor_penetration": 4                 // Amount of armor ignored. Applied per armor piece, not in total.
-  "armor_multiplier": 2.5                // Multiplies remaining damage reduction from armor, applied after armor penetration (if present). Higher numbers make armor more effective at protecting from this attack, lower numbers act as a percentage reduction in remaining armor.
+  "damage_type": "acid", // Type of damage dealt.
+  "amount": 10, // Amount of damage dealt.
+  "armor_penetration": 4, // Amount of armor ignored. Applied per armor piece, not in total.
+  "armor_multiplier": 2.5 // Multiplies remaining damage reduction from armor, applied after armor penetration (if present). Higher numbers make armor more effective at protecting from this attack, lower numbers act as a percentage reduction in remaining armor.
 }
 ```
 
