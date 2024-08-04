@@ -64,7 +64,7 @@
                   }
                 ]
               },
-              { "item": "cable", "count": [ 1, 12 ], "prob": 50 },
+              { "item": "cable", "charges": [ 1, 12 ], "prob": 50 },
               { "item": "transponder", "prob": 50 },
               { "item": "RAM", "prob": 50 },
               { "item": "depowered_armor", "damage": [ 1, 4 ] },
