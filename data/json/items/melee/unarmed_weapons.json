@@ -12,7 +12,7 @@
     "material": [ "steel" ],
     "bashing": 2,
     "cutting": 15,
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ],
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "BELT_CLIP" ],
     "price": "200 USD",
     "price_postapoc": "250 cent",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
@@ -46,7 +46,7 @@
     "weight": "320 g",
     "bashing": 9,
     "price_postapoc": "250 cent",
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
     "id": "knuckle_katar",
@@ -64,7 +64,7 @@
     "cutting": 14,
     "price_postapoc": "5 USD",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "UNARMED_WEAPON" ],
+    "flags": [ "UNARMED_WEAPON", "BELT_CLIP" ],
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -82,7 +82,7 @@
     "bashing": 3,
     "cutting": 4,
     "price_postapoc": "50 cent",
-    "flags": [ "UNARMED_WEAPON" ]
+    "flags": [ "UNARMED_WEAPON", "BELT_CLIP" ]
   },
   {
     "id": "knuckle_steel",
@@ -162,7 +162,7 @@
     "bashing": 18,
     "price": "500 USD",
     "qualities": [ [ "HAMMER", 2 ] ],
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
     "type": "GENERIC",
