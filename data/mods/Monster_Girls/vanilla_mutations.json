@@ -2145,5 +2145,19 @@
     "copy-from": "FELINE_FLEXIBILITY",
     "delete": { "category": [ "FELINE" ] },
     "extend": { "category": [ "NEKO" ], "threshreq": [ "THRESH_NEKO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "OPTIMISTIC",
+    "copy-from": "OPTIMISTIC",
+    "delete": { "category": [ "RAT", "MOUSE" ] },
+    "extend": { "category": [ "MOUSEGIRL" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STRONGBACK",
+    "copy-from": "STRONGBACK",
+    "delete": { "category": [ "CATTLE", "URSINE" ] },
+    "extend": { "category": [ "COWGIRL", "BEARGIRL" ] }
   }
 ]
