@@ -641,7 +641,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `autoclave_full` Check on the progress of the cycle, and collect sterile CBM once cycle is
   completed.
 - `bars` Take advantage of AMORPHOUS and slip through the bars.
-- `bulletin_board` Use this to arrange tasks for your faction camp.
 - `cardreader` Use the cardreader with a valid card, or attempt to hack.
 - `chainfence` Hop over the chain fence.
 - `controls_gate` Controls the attached gate.
