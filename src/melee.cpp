@@ -2531,7 +2531,8 @@ namespace melee
 {
 double expected_damage( const Character &c, const item &weapon, const attack_statblock &attack,
                         const monster &target );
-}
+} // namespace melee
+
 double melee::expected_damage( const Character &c, const item &weapon,
                                const attack_statblock &attack, const monster &target )
 {

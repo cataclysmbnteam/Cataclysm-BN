@@ -5389,7 +5389,7 @@ std::map<std::string, attack_statblock> item::get_attacks() const
                 }
             }
         }
-        if( best_damage > 0.0f ) {
+        if( best != nullptr ) {
             attack_statblock gunmod_attack = *best;
             gunmod_attack.to_hit = type->m_to_hit;
             result["BAYONET"] = gunmod_attack;
