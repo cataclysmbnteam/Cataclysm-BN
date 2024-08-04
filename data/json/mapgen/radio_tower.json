@@ -329,6 +329,7 @@
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_loot": [
+        { "group": "map_extra_dead_hunter", "x": 1, "y": 0, "chance": 50 },
         { "item": "survivor_scope", "x": 1, "y": 0, "chance": 40 },
         { "item": "survivormap", "x": 1, "y": 0 },
         { "group": "carried_guns_rifle_common", "x": 1, "y": 0, "chance": 20, "ammo": 100 }
