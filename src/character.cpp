@@ -9302,7 +9302,7 @@ void Character::spores()
         if( sporep == pos() ) {
             continue;
         }
-        fe.fungalize( sporep, this, 0.25 );
+        fe.fungalize( sporep, this, fungal_opt.spore_chance );
     }
 }
 

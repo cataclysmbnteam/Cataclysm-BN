@@ -395,7 +395,7 @@ void mdeath::fungus( monster &z )
         }
         // z is dead, don't credit it with the kill
         // Maybe credit z's killer?
-        fe.fungalize( sporep, nullptr, 0.25 );
+        fe.fungalize( sporep, nullptr, fungal_opt.spore_chance );
     }
 }
 

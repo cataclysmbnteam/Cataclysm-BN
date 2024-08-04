@@ -194,6 +194,12 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
         { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
         { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE }, // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
+        { "FUNGUS",                   TFLAG_FUNGUS },         // Marks terrain/furniture as infected with fungus
+        { "FLOWER",                   TFLAG_FLOWER },         // Is flower
+        { "ORGANIC",                  TFLAG_ORGANIC },        // Is organic (e.g. flower)
+        { "PLANT",                    TFLAG_PLANT },          // Is fungal stalk
+        { "SHRUB",                    TFLAG_SHRUB },          // Is shrub
+        { "TREE",                     TFLAG_TREE },           // Is tree
         { "SUSPENDED",                TFLAG_SUSPENDED },      // This furniture is suspended between other terrain, and will cause a cascading failure on break.
         { "FRIDGE",                   TFLAG_FRIDGE },         // This is an active fridge.
         { "FREEZER",                  TFLAG_FREEZER },        // This is an active freezer.
