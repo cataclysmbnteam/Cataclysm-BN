@@ -1475,7 +1475,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         const int target_diff = here.has_furn( examp ) ? here.furn( examp )->pry.pry_quality : here.ter(
                                     examp )->pry.pry_quality;
         // keep going in case we have a prying tool that can't be used against the target, so we can try lockpicking
-        if( prying_tool.get()->get_quality( quality_id( "PRY" ) ) >= target_diff ) {
+        if( prying_tool->get_quality( quality_id( "PRY" ) ) >= target_diff ) {
             apply_prying_tool( p, prying_tool.get(), examp );
             return;
         }
