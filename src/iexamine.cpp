@@ -1483,13 +1483,12 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     if( lockpick_activity_actor::is_pickable( examp ) ) {
         if( !pick_lock( p, examp ) ) {
+            const auto target = here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp );
             if( prying_tool ) {
                 add_msg( m_info,
-                         _( "The %s is locked.  If only you had something to pick its lock, or a stronger prying tool…" ),
-                         here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+                         _( "The %s is locked.  If only you had something to pick its lock, or a stronger prying tool…" ), target );
             } else {
-                add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
-                         here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+                add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ), target );
             }
         }
         return;
