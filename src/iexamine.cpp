@@ -1481,9 +1481,9 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         }
     }
 
+    const auto target = here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp );
     if( lockpick_activity_actor::is_pickable( examp ) ) {
         if( !pick_lock( p, examp ) ) {
-            const auto target = here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp );
             if( prying_tool ) {
                 add_msg( m_info,
                          _( "The %s is locked.  If only you had something to pick its lock, or a stronger prying tool…" ),
@@ -1498,10 +1498,10 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     if( prying_tool ) {
         add_msg( m_info, _( "The %s is locked, and your tools aren't strong enough to pry it open…" ),
-                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+                 target );
     } else {
         add_msg( m_info, _( "The %s is locked.  If only you had something to pry it…" ),
-                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+                 target );
     }
 }
 
