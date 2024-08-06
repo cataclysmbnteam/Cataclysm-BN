@@ -1462,23 +1462,47 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 {
     map &here = get_map();
 
-    safe_reference<item> prying_tool = find_best_prying_tool( p );
-    if( prying_tool ) {
-        apply_prying_tool( p, prying_tool.get(), examp );
-        return;
+    // if the furniture/terrain is also lockpickable
+    // try lockpicking first if we're crouched
+    if( lockpick_activity_actor::is_pickable( examp ) && p.movement_mode_is( CMM_CROUCH ) ) {
+        if( pick_lock( p, examp ) ) {
+            return;
+        }
     }
 
-    // if the furniture/terrain is also lockpickable
+    safe_reference<item> prying_tool = find_best_prying_tool( p );
+    if( prying_tool ) {
+        const int target_diff = here.has_furn( examp ) ? here.furn( examp )->pry.pry_quality : here.ter(
+                                    examp )->pry.pry_quality;
+        // keep going in case we have a prying tool that can't be used against the target, so we can try lockpicking
+        if( prying_tool->get_quality( quality_id( "PRY" ) ) >= target_diff ) {
+            apply_prying_tool( p, prying_tool.get(), examp );
+            return;
+        }
+    }
+
+    const auto target = here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp );
     if( lockpick_activity_actor::is_pickable( examp ) ) {
         if( !pick_lock( p, examp ) ) {
-            add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
-                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+            if( prying_tool ) {
+                add_msg( m_info,
+                         _( "The %s is locked.  If only you had something to pick its lock, or a stronger prying tool…" ),
+                         target );
+            } else {
+                add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
+                         target );
+            }
         }
         return;
     }
 
-    add_msg( m_info, _( "The %s is locked.  If only you had something to pry it…" ),
-             here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+    if( prying_tool ) {
+        add_msg( m_info, _( "The %s is locked, and your tools aren't strong enough to pry it open…" ),
+                 target );
+    } else {
+        add_msg( m_info, _( "The %s is locked.  If only you had something to pry it…" ),
+                 target );
+    }
 }
 
 /**
