@@ -1070,7 +1070,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - `NULL` Source use only.
 - `PACIFIST` That monster will never do melee attacks.
 - `PARALYZE` Attack may paralyze the player with venom.
-- `PLASTIC` Absorbs physical damage to a great degree.
+- `PLASTIC` Reduces Bashing damage taken by 50%, 66% or 75%. Randomly selected with each hit.
 - `POISON` Poisonous to eat.
 - `PUSH_MON` Can push creatures out of its way.
 - `QUEEN` When it dies, local populations start to die off too.
