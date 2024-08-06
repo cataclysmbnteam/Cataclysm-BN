@@ -653,6 +653,18 @@
   },
   {
     "type": "recipe",
+    "result": "hairpin_picklock",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "time": "10 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "hairpin", 1 ], [ "copper_hairpin", 1 ], [ "silver_hairpin", 1 ], [ "gold_hairpin", 1 ], [ "platinum_hairpin", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "crude_picklock",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
