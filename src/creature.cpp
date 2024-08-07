@@ -1010,7 +1010,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
     }
 
     // Apply damage multiplier from skill, critical hits or grazes after all other modifications.
-    const int adjusted_damage = du.amount * du.damage_multiplier;
+    int adjusted_damage = du.amount * du.damage_multiplier;
     if( adjusted_damage <= 0 ) {
         return;
     }
@@ -1021,6 +1021,10 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
         case DT_BASH:
             // Bashing damage is less painful
             div = 5.0f;
+            // Monster only. Having PLASTIC flag cuts damage from bashing by 50%, 66% or 75%
+            if( has_flag( MF_PLASTIC ) ) {
+                adjusted_damage /= rng( 2, 4 ); // lessened effect
+            }
             break;
 
         case DT_HEAT:

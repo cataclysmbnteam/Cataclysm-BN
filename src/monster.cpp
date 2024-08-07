@@ -1868,50 +1868,6 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     }
 }
 
-void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
-                                       int &pain )
-{
-    switch( du.type ) {
-        case DT_ELECTRIC:
-            if( has_flag( MF_ELECTRIC ) ) {
-                return; // immunity
-            }
-            break;
-        case DT_COLD:
-            if( has_flag( MF_COLDPROOF ) ) {
-                return; // immunity
-            }
-            break;
-        case DT_BASH:
-            if( has_flag( MF_PLASTIC ) ) {
-                damage += du.amount / rng( 2, 4 ); // lessened effect
-                pain += du.amount / 4;
-                return;
-            }
-            break;
-        case DT_NULL:
-            debugmsg( "monster::deal_damage_handle_type: illegal damage type DT_NULL" );
-            break;
-        case DT_ACID:
-            if( has_flag( MF_ACIDPROOF ) ) {
-                // immunity
-                return;
-            }
-        case DT_TRUE:
-        // typeless damage, should always go through
-        case DT_BIOLOGICAL:
-        // internal damage, like from smoke or poison
-        case DT_CUT:
-        case DT_STAB:
-        case DT_BULLET:
-        case DT_HEAT:
-        default:
-            break;
-    }
-
-    Creature::deal_damage_handle_type( du,  bp, damage, pain );
-}
-
 int monster::heal( const int delta_hp, bool overheal )
 {
     const int maxhp = type->hp;

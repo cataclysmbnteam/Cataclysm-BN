@@ -641,7 +641,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `autoclave_full` Check on the progress of the cycle, and collect sterile CBM once cycle is
   completed.
 - `bars` Take advantage of AMORPHOUS and slip through the bars.
-- `bulletin_board` Use this to arrange tasks for your faction camp.
 - `cardreader` Use the cardreader with a valid card, or attempt to hack.
 - `chainfence` Hop over the chain fence.
 - `controls_gate` Controls the attached gate.
@@ -1071,7 +1070,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - `NULL` Source use only.
 - `PACIFIST` That monster will never do melee attacks.
 - `PARALYZE` Attack may paralyze the player with venom.
-- `PLASTIC` Absorbs physical damage to a great degree.
+- `PLASTIC` Reduces Bashing damage taken by 50%, 66% or 75%. Randomly selected with each hit.
 - `POISON` Poisonous to eat.
 - `PUSH_MON` Can push creatures out of its way.
 - `QUEEN` When it dies, local populations start to die off too.

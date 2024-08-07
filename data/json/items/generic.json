@@ -735,14 +735,14 @@
     "symbol": ",",
     "color": "white",
     "name": { "str": "bone skewer" },
-    "description": "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
+    "description": "A thin skewer carved from bone.  Can be used to cook food over a fire or as a terrible lockpick.",
     "category": "other",
     "material": "bone",
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "weight": "10 g",
     "volume": "25 ml",
     "to_hit": -5,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "LOCKPICK", 1 ] ]
   },
   {
     "type": "GENERIC",

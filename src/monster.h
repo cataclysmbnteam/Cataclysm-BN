@@ -334,8 +334,6 @@ class monster : public Creature, public location_visitable<monster>
         void melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
-        void deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
-                                      int &pain ) override;
         void apply_damage( Creature *source, bodypart_id bp, int dam,
                            bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.

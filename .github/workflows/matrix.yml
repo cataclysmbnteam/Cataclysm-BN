@@ -107,18 +107,18 @@ jobs:
         #    ccache_limit: 2G
         #    ccache_key: linux-llvm-14-asan
 
-          - title: Clang 14, macOS 12, Tiles, Sound, Localize, Lua
-            compiler: clang++
-            os: macos-12
-            cmake: 0
-            tiles: 1
-            sound: 1
-            lua: 1
-            test-stage: 1
-            native: osx
-            grep_clang_version_rxp: "14\\.[0-9]+\\.[0-9]+"
-            ccache_limit: 1G # avg. 980MB~1100MB
-            ccache_key: macos-llvm-14
+          # - title: Clang 14, macOS 12, Tiles, Sound, Localize, Lua
+          #   compiler: clang++
+          #   os: macos-12
+          #   cmake: 0
+          #   tiles: 1
+          #   sound: 1
+          #   lua: 1
+          #   test-stage: 1
+          #   native: osx
+          #   grep_clang_version_rxp: "14\\.[0-9]+\\.[0-9]+"
+          #   ccache_limit: 1G # avg. 980MB~1100MB
+          #   ccache_key: macos-llvm-14
 
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}

@@ -375,6 +375,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 4,
+    "stack_size": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 5
   },

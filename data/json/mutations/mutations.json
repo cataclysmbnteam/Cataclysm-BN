@@ -141,6 +141,7 @@
     "description": "Nothing gets you down!  You savor the joys of life, ignore its hardships, and are generally happier than most people.",
     "starting_trait": true,
     "valid": false,
+    "category": [ "RAT", "MOUSE" ],
     "cancels": [ "BADTEMPER" ]
   },
   {
@@ -329,6 +330,7 @@
     "description": "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 35%.",
     "starting_trait": true,
     "valid": false,
+    "category": [ "CATTLE", "URSINE" ],
     "cancels": [ "BADBACK" ],
     "weight_capacity_modifier": 1.35
   },
