@@ -10016,12 +10016,14 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( m.has_zlevels() && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
         !u.is_underwater() ) {
         // Climbing
-        for( const tripoint &p : here.points_in_radius( u.pos(), 2 ) ) {
-            if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_ADJACENT, p ) ) {
+
+        for( const tripoint &p : m.points_in_radius( u.pos(), 2 ) ) {
+            if( m.has_flag( TFLAG_CLIMB_ADJACENT, p ) ) {
                 adjacent_climb = true;
             }
         }
-        if( here.has_floor_or_support( stairs ) ) {
+
+        if( m.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
             return;
         }
@@ -10037,7 +10039,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         const auto cost = map_funcs::climbing_cost( m, u.pos(), stairs );
 
-        if( !cost.has_value() ) {
+        if( !cost.has_value() && !adjacent_climb ) {
             if( u.has_trait( trait_WEB_ROPE ) )  {
                 if( pts.empty() ) {
                     add_msg( m_info, _( "There is nothing above you that you can attach a web to." ) );
