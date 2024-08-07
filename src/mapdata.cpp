@@ -204,6 +204,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "FRIDGE",                   TFLAG_FRIDGE },         // This is an active fridge.
         { "FREEZER",                  TFLAG_FREEZER },        // This is an active freezer.
         { "ELEVATOR",                 TFLAG_ELEVATOR },       // This is an elevator.
+        { "SINGLE_SUPPORT"            TFLAG_SINGLE_SUPPORT},  // This is only supported from below.
+        { "CLIMB_ADJACENT"            TFLAG_CLIMB_ADJACENT},  // This is climbable when player is adjancent to it.
     }
 };
 
