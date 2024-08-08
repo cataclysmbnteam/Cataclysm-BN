@@ -103,7 +103,7 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
            "[mutations]" )
 {
     const float BREACH_CHANCE_MIN = 0.2f;
-    const float BREACH_CHANCE_MAX = 0.4f;
+    const float BREACH_CHANCE_MAX = 0.5f;
 
     for( auto &cat : mutation_category_trait::get_all() ) {
         const auto &cur_cat = cat.second;

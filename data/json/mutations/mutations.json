@@ -1178,7 +1178,7 @@
     "starting_trait": true,
     "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
     "changes_to": [ "DEFORMED" ],
-    "category": [ "RAPTOR", "FELINE", "LUPINE" ]
+    "category": [ "RAPTOR" ]
   },
   {
     "type": "mutation",
@@ -4314,7 +4314,7 @@
     "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
     "prereqs": [ "UGLY" ],
     "changes_to": [ "DEFORMED2" ],
-    "category": [ "FISH", "CATTLE", "INSECT", "CEPHALOPOD", "FELINE", "LUPINE", "SPIDER" ]
+    "category": [ "FISH", "CATTLE", "INSECT", "CEPHALOPOD", "SPIDER" ]
   },
   {
     "type": "mutation",
