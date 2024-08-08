@@ -280,3 +280,20 @@ TEST_CASE( "armor_override_damaged", "[item]" )
     armor.inc_damage();
     CHECK( armor_undamaged.bullet_resist() > armor.bullet_resist() );
 }
+
+TEST_CASE( "items_have_default_attack_statblocks", "[item]" )
+{
+    item sword( "test_balanced_sword" );
+    REQUIRE( sword.type != nullptr );
+    const itype &sword_type = *sword.type;
+
+    REQUIRE( sword_type.attacks.size() == 1 );
+    const attack_statblock &attack = sword_type.attacks.begin()->second;
+    CHECK( attack.to_hit == sword_type.m_to_hit );
+    for( const damage_unit &du : attack.damage.damage_units ) {
+        CHECK( du.amount == sword_type.melee[du.type] );
+        CHECK( du.damage_multiplier == 1.0f );
+        CHECK( du.res_mult == 1.0f );
+        CHECK( du.res_pen == 0.0f );
+    }
+}

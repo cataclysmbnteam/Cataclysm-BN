@@ -826,6 +826,11 @@ class islot_milling
         int conversion_rate_;
 };
 
+struct attack_statblock {
+    int to_hit = 0;
+    damage_instance damage;
+};
+
 struct itype {
         friend class Item_factory;
 
@@ -987,6 +992,12 @@ struct itype {
 
         /** Damage output in melee for zero or more damage types */
         std::array<int, NUM_DT> melee;
+        /**
+         * Attacks possible to execute with this weapon.
+         * Keys are attack ids (not to be translated).
+         * WIP feature, intended to replace @ref melee and @ref to_hit.
+         */
+        std::map<std::string, attack_statblock> attacks;
         /** Base damage output when thrown */
         damage_instance thrown_damage;
 

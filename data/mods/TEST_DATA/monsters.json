@@ -1,0 +1,18 @@
+[
+  {
+    "id": "mon_test_bash",
+    "copy-from": "debug_mon",
+    "type": "MONSTER",
+    "name": { "str": "unbashable monster" },
+    "description": "This monster exists only for testing purposes.",
+    "armor_bash": 1000
+  },
+  {
+    "id": "mon_test_stab",
+    "copy-from": "debug_mon",
+    "type": "MONSTER",
+    "name": { "str": "unstabbable monster" },
+    "description": "This monster exists only for testing purposes.",
+    "armor_stab": 1000
+  }
+]

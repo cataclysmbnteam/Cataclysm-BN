@@ -1457,6 +1457,12 @@ See also VEHICLE_JSON.md
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
 "to_hit": 0,                                 // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
+"attacks": [                                 // (Optional) New attack statblock, WIP feature
+  { "id": "BASH",                            // ID of the attack.  Attack with ID "DEFAULT" will be replaced by calculated data (this can be used to remove custom attacks on "copy-from" item)
+    "to_hit": 1,                             // To-hit bonus of this attack
+    "damage": { "values": [ { "damage_type": "bash", "amount": 50 } ] } }, // Damage of this attack, using `damage_instance` syntax (see below)
+  { "id": "THRUST", "damage": { "values": [ { "damage_type": "stab", "amount": 45 } ] } }
+],
 "flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
 "environmental_protection_with_filter": 6,   // the resistance to environmental effects if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
 "magazine_well": 0,                          // Volume above which the magazine starts to protrude from the item and add extra volume
@@ -1474,7 +1480,7 @@ See also VEHICLE_JSON.md
   "radius": 8,                               // Radius of the explosion. 0 means only the epicenter is affected.
   "fire": true,                              // Should the explosion leave fire
   "fragment": {                              // Projectile data of "shrapnel". This projectile will hit every target in its range and field of view exactly once.
-    "damage": {                              // Damage data of the shrapnel projectile.
+    "damage": {                              // Damage data of the shrapnel projectile.  Uses damage_instance syntax (see below)
       "damage_type": "acid",                 // Type of damage dealt.
       "amount": 10                           // Amount of damage dealt.
       "armor_penetration": 4                 // Amount of armor ignored. Applied per armor piece, not in total.
@@ -1482,6 +1488,17 @@ See also VEHICLE_JSON.md
     }
   }
 },
+```
+
+#### damage_instance
+
+```json
+{
+  "damage_type": "acid", // Type of damage dealt.
+  "amount": 10, // Amount of damage dealt.
+  "armor_penetration": 4, // Amount of armor ignored. Applied per armor piece, not in total.
+  "armor_multiplier": 2.5 // Multiplies remaining damage reduction from armor, applied after armor penetration (if present). Higher numbers make armor more effective at protecting from this attack, lower numbers act as a percentage reduction in remaining armor.
+}
 ```
 
 ### Ammo

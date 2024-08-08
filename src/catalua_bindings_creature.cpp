@@ -66,7 +66,6 @@ void cata::detail::reg_creature( sol::state &lua )
         SET_FX_T( as_character, Character * () );
         SET_FX_T( as_avatar, avatar * () );
 
-        SET_FX_T( hit_roll, float() const );
         SET_FX_T( dodge_roll, float() );
         SET_FX_T( stability_roll, float() const );
 
