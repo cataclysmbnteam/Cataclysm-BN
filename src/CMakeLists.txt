@@ -58,6 +58,7 @@ if (TILES)
             endif()
         target_link_libraries(cataclysm-bn-tiles-common PUBLIC libsol)
     endif ()
+    target_link_libraries(cataclysm-tiles-common PRIVATE cata_rust)
 
     add_dependencies(cataclysm-bn-tiles-common get_version)
 
@@ -174,6 +175,7 @@ if (CURSES)
         endif()
         target_link_libraries(cataclysm-bn-common PUBLIC libsol)
     endif ()
+    target_link_libraries(cataclysm-tiles-common PRIVATE cata_rust)
 
     add_dependencies(cataclysm-bn-common get_version)
     target_link_libraries(cataclysm-bn PRIVATE cataclysm-bn-common)
