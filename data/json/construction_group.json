@@ -301,6 +301,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_floodlight",
+    "name": "Build floodlight"
+  },
+  {
+    "type": "construction_group",
     "id": "rewire_street_light",
     "name": "Rewire Street Light"
   },
@@ -443,6 +448,11 @@
     "type": "construction_group",
     "id": "build_metal_wall",
     "name": "Build Metal Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_mushroom_rack",
+    "name": "Build Mushroom Rack"
   },
   {
     "type": "construction_group",
@@ -881,6 +891,11 @@
   },
   {
     "type": "construction_group",
+    "id": "dig_shallow_grave",
+    "name": "Fill Shallow Grave"
+  },
+  {
+    "type": "construction_group",
     "id": "extract_clay",
     "name": "Extract Clay"
   },
@@ -1006,6 +1021,21 @@
   },
   {
     "type": "construction_group",
+    "id": "place_3d_printer_basic",
+    "name": "Place 3D Printer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_3d_printer_advanced",
+    "name": "Place Advanced 3D Printer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ac_unit",
+    "name": "Place Window-Mounted AC Unit"
+  },
+  {
+    "type": "construction_group",
     "id": "place_small_space_heater",
     "name": "Place Small Space Heater"
   },
@@ -1023,6 +1053,16 @@
     "type": "construction_group",
     "id": "install_xl_wind_turbine",
     "name": "Install Large Wind Turbine"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_water_wheel",
+    "name": "Install Water Wheel"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_xl_water_wheel",
+    "name": "Install Large Water Wheel"
   },
   {
     "type": "construction_group",

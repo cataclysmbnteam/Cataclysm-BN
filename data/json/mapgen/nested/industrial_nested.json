@@ -1,0 +1,61 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "industrial_center_workroom_1",
+    "//": "Variant 1, dedicated to production of oxy-acetylene and related metalworking tasks.",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "r  zqqqq",
+        "r       ",
+        "r      n",
+        "       n",
+        "EE     n",
+        "EE     n",
+        "        ",
+        "        "
+      ],
+      "furniture": { "E": "f_table", "n": "f_bench", "q": "f_counter", "r": "f_rack", "z": "f_arcfurnace_empty" },
+      "items": {
+        "E": { "item": "acetylene_production", "chance": 50, "repeat": 3 },
+        "n": { "item": "power_tools", "chance": 50 },
+        "q": { "item": "supplies_metal", "chance": 40, "repeat": 2 },
+        "r": { "item": "supplies_electronics", "chance": 75 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "industrial_center_workroom_2",
+    "//": "Variant 2, 3D printing workshop with associated storage.",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "q  CC  r",
+        "q  CC  r",
+        "6h     r",
+        "P      r",
+        "        ",
+        "nn    nn",
+        "        ",
+        "        "
+      ],
+      "terrain": { "6": "t_console_broken" },
+      "furniture": {
+        "C": [ [ "f_crate_c", 3 ], "f_crate_o", "f_cardboard_box" ],
+        "P": [ [ "f_3d_printer", 3 ], "f_3d_printer_advanced" ],
+        "h": "f_chair",
+        "n": "f_bench",
+        "q": "f_counter",
+        "r": "f_rack"
+      },
+      "items": {
+        "C": { "item": "3d_printing_raw_materials", "chance": 100 },
+        "q": { "item": "tools_electronics", "chance": 50, "repeat": 2 },
+        "r": [ { "item": "supplies_electronics", "chance": 50 }, { "item": "supplies_metal", "chance": 50 } ]
+      }
+    }
+  }
+]

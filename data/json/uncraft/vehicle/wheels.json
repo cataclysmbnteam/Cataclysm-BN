@@ -28,6 +28,15 @@
   },
   {
     "type": "uncraft",
+    "result": "wheel_armor",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 15 ] ], [ [ "chunk_rubber", 15 ] ], [ [ "kevlar_plate", 5 ] ] ]
+  },
+  {
+    "type": "uncraft",
     "result": "wheel_slick",
     "skill_used": "fabrication",
     "difficulty": 1,
@@ -61,6 +70,33 @@
     "time": "48 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 8 ] ], [ [ "chunk_rubber", 6 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "wheel_small",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 4 ] ], [ [ "chunk_rubber", 3 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "wheel_barrow",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 4 ] ], [ [ "chunk_rubber", 3 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "wheel_tricycle",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 15 ] ] ]
   },
   {
     "type": "uncraft",

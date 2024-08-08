@@ -130,7 +130,8 @@
       [ "remotevehcontrol", 5 ],
       [ "bionic_scanner", 5 ],
       [ "recipe_mininuke_launch", 4 ],
-      [ "recipe_mininuke_launch", 5 ]
+      [ "recipe_mininuke_launch", 5 ],
+      { "item": "carbon_fiber_filament", "prob": 10, "count": [ 25, 50 ] }
     ]
   },
   {
@@ -181,7 +182,7 @@
       { "item": "bleach", "prob": 20, "charges-min": 1 },
       { "item": "ammonia", "prob": 24, "charges-min": 10 },
       [ "panacea", 8 ],
-      [ "superglue", 30 ],
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       [ "bottle_glass", 10 ],
       [ "syringe", 8 ],
       [ "adrenaline_injector", 4 ],
@@ -425,7 +426,7 @@
       [ "prussian_blue", 5 ],
       [ "autoclave", 5 ],
       [ "bandages", 50 ],
-      [ "cotton_ball", 50 ],
+      { "item": "cotton_ball", "prob": 50, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       [ "scalpel", 48 ],
       [ "syringe", 8 ],
       [ "pouch_autoclave", 15 ],
@@ -463,7 +464,7 @@
       [ "recipe_labchem", 1 ],
       { "item": "bleach", "prob": 20, "charges-min": 6 },
       [ "bandages", 50 ],
-      [ "cotton_ball", 50 ],
+      { "item": "cotton_ball", "prob": 50, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       [ "string_6", 2 ],
       [ "hacksaw", 17 ],
       [ "xacto", 10 ],

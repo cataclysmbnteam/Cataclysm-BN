@@ -116,6 +116,12 @@
     "qty": 25
   },
   {
+    "id": "emit_drop_blood",
+    "type": "emit",
+    "field": "fd_blood",
+    "intensity": 1
+  },
+  {
     "id": "emit_acid_splash",
     "type": "emit",
     "//": "Small amount of strong acid - stacks, but weak on its own",
@@ -176,6 +182,13 @@
     "field": "fd_cold_air2",
     "intensity": 3,
     "qty": 50
+  },
+  {
+    "id": "emit_cold_air2_ac",
+    "type": "emit",
+    "field": "fd_cold_air2",
+    "intensity": 3,
+    "qty": 75
   },
   {
     "id": "emit_cold_air2_blast",

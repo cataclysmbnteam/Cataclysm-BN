@@ -91,6 +91,7 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const std::string flag_FLAT( "FLAT" );
+static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 
@@ -643,7 +644,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
     } );
     ui.mark_resize();
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
+    ui.on_redraw( [&]( ui_adaptor & ui ) {
         draw_grid( w_con, w_list_width + w_list_x0 );
 
         // Erase existing tab selection & list of constructions
@@ -655,7 +656,6 @@ std::optional<construction_id> construction_menu( const bool blueprint )
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
-        std::optional<point> cursor_pos;
         for( size_t i = 0; static_cast<int>( i ) < w_list_height &&
              ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
@@ -663,7 +663,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
             bool highlight = ( current == select );
             const point print_from( 0, i );
             if( highlight ) {
-                cursor_pos = print_from;
+                ui.set_cursor( w_list, print_from );
             }
             const std::string group_name = is_favorite( group ) ? "* " + group->name() : group->name();
             trim_and_print( w_list, print_from, w_list_width,
@@ -721,10 +721,6 @@ std::optional<construction_id> construction_menu( const bool blueprint )
         draw_scrollbar( w_con, select, w_list_height, constructs.size(), point( 0, 3 ) );
         wnoutrefresh( w_con );
 
-        // place the cursor at the selected construction name as expected by screen readers
-        if( cursor_pos ) {
-            wmove( w_list, cursor_pos.value() );
-        }
         wnoutrefresh( w_list );
     } );
 
@@ -1312,12 +1308,15 @@ void construct::done_grave( const tripoint &p )
 {
     map &here = get_map();
     map_stack its = here.i_at( p );
+    // Don't remove furniture when digging shallow graves, but also don't give full morale bonus
+    const bool proper_burial = here.furn( p )->has_flag( flag_SEALED );
+    const int burial_morale = proper_burial ? 50 : 25;
     for( item * const &it : its ) {
         if( it->is_corpse() ) {
             if( it->get_corpse_name().empty() ) {
                 if( it->get_mtype()->has_flag( MF_HUMAN ) ) {
                     if( g->u.has_trait( trait_SPIRITUAL ) ) {
-                        g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                        g->u.add_morale( MORALE_FUNERAL, burial_morale, 75, 1_days, 1_hours );
                         add_msg( m_good,
                                  _( "You feel relieved after providing last rites for this human being, whose name is lost in the Cataclysm." ) );
                     } else {
@@ -1326,7 +1325,7 @@ void construct::done_grave( const tripoint &p )
                 }
             } else {
                 if( g->u.has_trait( trait_SPIRITUAL ) ) {
-                    g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                    g->u.add_morale( MORALE_FUNERAL, burial_morale, 75, 1_days, 1_hours );
                     add_msg( m_good,
                              _( "You feel sadness, but also relief after providing last rites for %s, whose name you will keep in your memory." ),
                              it->get_corpse_name() );
@@ -1347,7 +1346,9 @@ void construct::done_grave( const tripoint &p )
                  _( "Unfortunately you don't have anything sharp to place an inscription on the grave." ) );
     }
 
-    here.destroy_furn( p, true );
+    if( proper_burial ) {
+        here.destroy_furn( p, true );
+    }
 }
 
 static vpart_id vpart_from_item( const itype_id &item_id )

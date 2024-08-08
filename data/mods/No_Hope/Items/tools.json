@@ -138,12 +138,12 @@
     "color": "brown",
     "initial_charges": 25,
     "max_charges": 25,
-    "charges_per_use": 1,
     "techniques": [ "WBLOCK_1" ],
     "use_action": {
       "target": "battletorch_lit",
       "msg": "You light the Louisville Slaughterer.",
       "active": true,
+      "transform_charges": 1,
       "need_fire": 1,
       "menu_text": "Light",
       "type": "transform"

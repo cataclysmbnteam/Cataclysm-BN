@@ -114,7 +114,7 @@
       "items": {
         "@": { "item": "bed", "chance": 80 },
         "D": { "item": "trash", "chance": 60, "repeat": [ 1, 3 ] },
-        "F": { "item": "fridge", "chance": 60, "repeat": [ 1, 3 ] },
+        "F": { "item": "SUS_fridge", "chance": 60 },
         "L": { "item": "allclothes", "chance": 90, "repeat": [ 1, 5 ] },
         "c": [ { "item": "kitchen_appliances", "chance": 5 }, { "item": "dishes_utility", "chance": 5 } ],
         "d": [
@@ -148,8 +148,7 @@
         { "class": "guard", "x": 60, "y": 9 },
         { "class": "guard", "x": 54, "y": 20 },
         { "class": "guard", "x": 63, "y": 15 }
-      ],
-      "place_monsters": [ { "monster": "GROUP_REFUGEE_CENTER_BACK_ROOM", "x": [ 74, 87 ], "y": [ 4, 20 ], "density": 0.6 } ]
+      ]
     }
   },
   {

@@ -18,7 +18,7 @@
         "{..||oo|||o|*o||ooo||..{",
         "{..|Ty I| yL y|sss??|..{",
         "{..o@@ I|h    |=====o..{",
-        "{..|    |ff    =H==xo..{",
+        "{..|   ɸ|ff    =H==xo..{",
         "{..|dd  |ffh   =H==x|..{",
         "{.%|||+||||  ||=H===|..{",
         "{.%|w+    b    =l=ER|%.{",
@@ -53,7 +53,8 @@
         "&": "t_floor_noroof"
       },
       "furniture": { "&": "f_table", "?": [ "f_indoor_plant", "f_indoor_plant_y" ] },
-      "place_loot": [ { "item": "television", "x": 19, "y": 10 } ]
+      "place_loot": [ { "item": "television", "x": 19, "y": 10 } ],
+      "place_nested": [ { "chunks": [ "NC_res_backyard_3X3" ], "x": 2, "y": 20 } ]
     }
   },
   {
@@ -75,7 +76,7 @@
         "{..||oo|||o|*o||ooo||..{",
         "{..|Ty I| yL y|sss??|..{",
         "{..o@@`I|h`   |=====o..{",
-        "{..|    |ff ` `=H==xo..{",
+        "{..|   ɸ|ff ` `=H==xo..{",
         "{..|dd` |ffh   =H==x|..{",
         "{.%|||}||||  ||=H===|..{",
         "{.%|w+ `  b   `=l=ER|%.{",
@@ -114,7 +115,8 @@
       },
       "furniture": { "&": "f_table", "?": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "place_loot": [ { "item": "television", "x": 19, "y": 10 } ],
-      "monster": { "`": { "monster": "mon_cat" } }
+      "monster": { "`": { "monster": "mon_cat" } },
+      "place_nested": [ { "chunks": [ "NC_res_backyard_3X3" ], "x": 2, "y": 20 } ]
     }
   },
   {
@@ -148,7 +150,7 @@
         "{..|T@@¤|BB|J5O|q  i|..{",
         "{..||oo|||o|oo|||o¶||..{",
         "{...............----...{",
-        "{.....[.........----...{",
+        "{...............----...{",
         "{......................{",
         "{{{{{{{{{{{{{{{{{{{{{{{{"
       ],
@@ -179,13 +181,13 @@
         { "item": "g_shovel", "x": [ 7, 8 ], "y": 5 },
         { "item": "hoe", "x": [ 7, 8 ], "y": 5 },
         { "item": "shovel", "x": [ 4, 10 ], "y": 5 }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "NC_res_backyard_3X3" ], "x": 2, "y": 20 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "house_fence04_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -216,7 +218,11 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof", "=": "t_shingle_flat_roof", "X": "t_shingle_flat_roof", "N": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof", "=": "t_shingle_flat_roof", "X": "t_shingle_flat_roof", "N": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 4, "y": 7 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 14, 16 ], "y": [ 7, 14 ] }
+      ]
     }
   }
 ]

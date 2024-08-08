@@ -193,6 +193,7 @@ class options_manager
         void add_options_world_default();
         void add_options_android();
         void load();
+        static void cache_balance_options();
         bool save();
         std::string show( bool ingame = false, bool world_options_only = false,
                           const std::function<bool()> &on_quit = nullptr );

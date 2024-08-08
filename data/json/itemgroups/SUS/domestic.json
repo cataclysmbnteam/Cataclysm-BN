@@ -292,7 +292,7 @@
     "entries": [
       { "item": "soap", "count": [ 1, 4 ], "prob": 75 },
       { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 20 },
-      { "item": "cotton_ball", "prob": 50 },
+      { "item": "cotton_ball", "prob": 50, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       { "item": "bleach", "prob": 15 },
       { "item": "ammonia", "prob": 20 }
     ]

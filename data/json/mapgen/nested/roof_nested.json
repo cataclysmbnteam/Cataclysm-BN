@@ -574,7 +574,21 @@
         "___"
       ],
       "terrain": { "_": "t_null" },
-      "place_nested": [ { "chunks": [ [ "null", 30 ], [ "res_roof_frisb_bball", 5 ], [ "res_roof_crows", 5 ] ], "x": [ 0 ], "y": [ 0 ] } ]
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 50 ],
+            [ "res_roof_frisb_bball", 5 ],
+            [ "res_roof_crows", 5 ],
+            [ "res_roof_survivorbag", 2 ],
+            [ "res_roof_scope", 5 ],
+            [ "res_roof_feral", 1 ],
+            [ "res_roof_wasp", 1 ]
+          ],
+          "x": [ 0 ],
+          "y": [ 0 ]
+        }
+      ]
     }
   },
   {
@@ -608,6 +622,78 @@
       ],
       "terrain": { "_": "t_null" },
       "monster": { "x": { "monster": "mon_crow" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_roof_scope",
+    "//": "a survivor telescope. used and then hastily abandoned.",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_loot": [ { "item": "survivor_scope", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_roof_feral",
+    "//": "this human is barely recognizable as such. crazed and foaming at the mouth, it seems confused as to what its doing on the roof until it sights you. ",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "_x_",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "monster": { "x": { "monster": "mon_feral_human_pipe" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_roof_wasp",
+    "//": "wasp that seems to have strayed from its nest.",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "_x_",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "monster": { "x": { "monster": "mon_wasp" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_roof_survivorbag",
+    "//": "survivor's possessions, as if stashed for easy retrieval later",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "___",
+        "___"
+      ],
+      "terrain": { "_": "t_null" },
+      "place_loot": [
+        { "item": "survivormap", "x": 0, "y": 0 },
+        { "group": "foodintincan", "x": 0, "y": 0, "repeat": [ 4, 6 ] },
+        { "group": "nested_glock_19", "x": 0, "y": 0 },
+        { "group": "hardware_books", "x": 0, "y": 0, "chance": 20, "repeat": [ 2, 3 ] },
+        { "group": "textbooks", "x": 0, "y": 0, "chance": 10, "repeat": [ 2, 3 ] },
+        { "group": "drugs_heal_simple", "x": 0, "y": 0, "chance": 20, "repeat": [ 2, 3 ] },
+        { "item": "duffelbag", "x": 0, "y": 0 }
+      ]
     }
   }
 ]

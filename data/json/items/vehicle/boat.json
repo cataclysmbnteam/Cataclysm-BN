@@ -40,7 +40,7 @@
     "description": "A carbon fiber sheet that keeps the boat afloat.  Add boat hulls to a vehicle until it floats.  Then attach oars or a motor to get the boat to move.",
     "price": "400 USD",
     "price_postapoc": "5 USD",
-    "material": [ "kevlar_rigid" ],
+    "material": [ "carbon_fiber" ],
     "weight": "500 g",
     "volume": "12500 ml",
     "bashing": 8,

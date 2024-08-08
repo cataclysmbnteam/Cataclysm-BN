@@ -739,10 +739,10 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
             *i, q,
             "--\n"
             "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-            "<color_c_white>Calories (kcal)</color>: <color_c_yellow>282</color>-"
-            "<color_c_yellow>644</color>  Quench: <color_c_yellow>0</color>\n"
-            "Vitamins (RDA): Calcium (7-35%), Iron (0-98%), "
-            "Vitamin A (3-11%), Vitamin B12 (2-6%), and Vitamin C (1-85%)\n");
+            "<color_c_white>Calories (kcal)</color>: <color_c_yellow>235</color>-"
+            "<color_c_yellow>716</color>  Quench: <color_c_yellow>0</color>\n"
+            "Vitamins (RDA): Calcium (3-35%), Iron (0-98%), "
+            "Vitamin A (0-11%), Vitamin B12 (0-6%), and Vitamin C (0-85%)\n");
     }
 }
 
@@ -794,7 +794,7 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
     }
 
     SECTION( "liquid food is stored in a container in a fridge" ) {
-        detached_ptr<item> food_item = item::in_container( itype_id( "glass" ),
+        detached_ptr<item> food_item = item::in_container( itype_id( "can_medium_unsealed" ),
                                        item::spawn( itype_id( "milk" ) ) );
         test_info_equals(
             *food_item, q,
@@ -878,11 +878,11 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 
     test_info_contains(
         *item::spawn( "test_halligan" ), q,
-        "<color_c_white>Repair</color> using charcoal forge, grid forge, grid welder, electric forge, extended toolset, arc welder, or makeshift arc welder.\n" );
+        "<color_c_white>Repair</color> using charcoal forge, Advanced Grid 3D Printer, grid forge, grid welder, electric forge, extended toolset, arc welder, or makeshift arc welder.\n" );
 
     test_info_contains(
         *item::spawn( "test_hazmat_suit" ), q,
-        "<color_c_white>Repair</color> using grid soldering iron, alcohol-fueled soldering iron, electric soldering iron, TEST soldering iron, or extended toolset.\n" );
+        "<color_c_white>Repair</color> using advanced 3D printer, 3D printer, Grid 3D Printer, Advanced Grid 3D Printer, grid soldering iron, alcohol-fueled soldering iron, electric soldering iron, TEST soldering iron, or extended toolset.\n" );
 
     test_info_contains(
         *item::spawn( "test_rock" ), q, "* This item is <color_c_red>not repairable</color>.\n" );
@@ -903,7 +903,7 @@ TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
         "<color_c_white>Disassembly</color> takes about 20 minutes, requires 1 tool"
         " with <color_c_cyan>cutting of 1</color> or more and 1 tool with"
         " <color_c_cyan>screw driving of 1</color> or more and <color_c_white>might"
-        " yield</color>: 2 electronic scraps, copper (1), scrap metal (1), and copper"
+        " yield</color>: electronic scrap (2), copper (1), scrap metal (1), and copper"
         " wire (5).\n" );
 
     test_info_equals(

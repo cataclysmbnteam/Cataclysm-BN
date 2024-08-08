@@ -12,7 +12,7 @@
     "material": [ "steel" ],
     "bashing": 2,
     "cutting": 15,
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ],
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "BELT_CLIP" ],
     "price": "200 USD",
     "price_postapoc": "250 cent",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
@@ -46,7 +46,7 @@
     "weight": "320 g",
     "bashing": 9,
     "price_postapoc": "250 cent",
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
     "id": "knuckle_katar",
@@ -64,7 +64,7 @@
     "cutting": 14,
     "price_postapoc": "5 USD",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "UNARMED_WEAPON" ],
+    "flags": [ "UNARMED_WEAPON", "BELT_CLIP" ],
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -78,11 +78,11 @@
     "description": "A pair of knuckles consisting of two small squares of wood with several nails coming through them.  Useful in nasty street fights.",
     "material": "wood",
     "volume": "250 ml",
-    "weight": "430 g",
+    "weight": "400 g",
     "bashing": 3,
     "cutting": 4,
     "price_postapoc": "50 cent",
-    "flags": [ "UNARMED_WEAPON" ]
+    "flags": [ "UNARMED_WEAPON", "BELT_CLIP" ]
   },
   {
     "id": "knuckle_steel",
@@ -95,7 +95,7 @@
     "description": "A mass of scrap metal crudely beat into shape, with folded rags underneath to protect the wearers knuckles.  A good, quick weapon - but you have to get within punching range to use it.",
     "material": "steel",
     "volume": "250 ml",
-    "weight": "430 g",
+    "weight": "400 g",
     "bashing": 8,
     "price_postapoc": "50 cent",
     "qualities": [ [ "HAMMER", 1 ] ],
@@ -162,7 +162,7 @@
     "bashing": 18,
     "price": "500 USD",
     "qualities": [ [ "HAMMER", 2 ] ],
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
     "type": "GENERIC",
@@ -171,7 +171,7 @@
     "weapon_category": [ "FIST_WEAPONS" ],
     "name": { "str": "spiked boxing gloves" },
     "description": "Boxing gloves with nails driven through the inside.  Not exactly ring-legal, but there are no more referees.",
-    "weight": "464 g",
+    "weight": "500 g",
     "volume": "1 L",
     "price": "45 USD",
     "price_postapoc": "450 cent",
@@ -202,5 +202,23 @@
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "UNARMED_WEAPON", "SHEATH_KNIFE" ]
+  },
+  {
+    "id": "jamadhar_carbon",
+    "type": "GENERIC",
+    "copy-from": "jamadhar",
+    "name": { "str": "carbon fiber jamadhar" },
+    "description": "A custom 3D-printed jamadhar made out of carbon fiber.  It is more lightweight than a normal weapon thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "katar_carbon",
+    "type": "GENERIC",
+    "copy-from": "katar",
+    "name": { "str": "carbon fiber katar" },
+    "description": "A custom 3D-printed katar made out of carbon fiber.  It is more lightweight than a normal weapon thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   }
 ]

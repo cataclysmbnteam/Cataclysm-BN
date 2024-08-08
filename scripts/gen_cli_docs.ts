@@ -60,7 +60,7 @@ ${sections}
 }
 
 if (import.meta.main) {
-  const command = new Deno.Command("./cataclysm-tiles", { args: ["--help"] })
+  const command = new Deno.Command("./cataclysm-bn-tiles", { args: ["--help"] })
   const { stdout } = await command.output()
 
   const text = new TextDecoder().decode(stdout)

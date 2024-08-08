@@ -34,7 +34,9 @@
           { "id": "t_tree_coca_harvested_season_autumn", "fg": 17, "bg": 14, "rotates": false },
           { "id": "t_tree_coca_harvested_season_spring", "fg": 17, "bg": 14, "rotates": false },
           { "id": "t_tree_coca_harvested_season_summer", "fg": 17, "bg": 14, "rotates": false },
-          { "id": "t_tree_coca_harvested_season_winter", "fg": 17, "bg": 15, "rotates": false }
+          { "id": "t_tree_coca_harvested_season_winter", "fg": 17, "bg": 15, "rotates": false },
+          { "id": [ "f_grid_floodlight_off", "f_grid_floodlight" ], "fg": 18 },
+          { "id": "f_grid_floodlight_on", "fg": 19 }
         ],
         "sprite_width": 64,
         "sprite_height": 80,

@@ -16,7 +16,8 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_resin_hole",
-      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
+      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ],
+      "ranged": { "reduction": [ 125, 250 ], "destroy_threshold": 700 }
     }
   },
   {
@@ -27,7 +28,7 @@
     "symbol": "#",
     "color": "dark_gray",
     "move_cost": 0,
-    "coverage": 100,
+    "coverage": 60,
     "roof": "t_resin_roof",
     "flags": [ "NOITEM", "WALL", "PERMEABLE", "TRANSPARENT", "INDOORS", "NONFLAMMABLE", "MINEABLE" ],
     "bash": {
@@ -36,7 +37,8 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_floor_resin",
-      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ],
+      "ranged": { "reduction": [ 35, 70 ], "destroy_threshold": 300, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -108,7 +110,8 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_resin_hole",
-      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ],
+      "ranged": { "reduction": [ 45, 90 ], "destroy_threshold": 120 }
     }
   },
   {

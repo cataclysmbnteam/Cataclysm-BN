@@ -1,0 +1,128 @@
+[
+  {
+    "id": "iv_mutagen_neko",
+    "type": "COMESTIBLE",
+    "copy-from": "iv_mutagen_feline",
+    "name": "Nekomimi serum",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "NEKO" }
+  },
+  {
+    "id": "mutagen_neko",
+    "type": "COMESTIBLE",
+    "copy-from": "mutagen_feline",
+    "name": "Nekomimi mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "NEKO" }
+  },
+  {
+    "id": "iv_mutagen_doggirl",
+    "type": "COMESTIBLE",
+    "copy-from": "iv_mutagen_lupine",
+    "name": "Inumimi serum",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "DOGGIRL" }
+  },
+  {
+    "id": "mutagen_doggirl",
+    "type": "COMESTIBLE",
+    "copy-from": "mutagen_lupine",
+    "name": "Inumimi mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "DOGGIRL" }
+  },
+  {
+    "id": "iv_mutagen_cowgirl",
+    "type": "COMESTIBLE",
+    "copy-from": "iv_mutagen_cattle",
+    "name": "Ushimimi serum",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "COWGIRL" }
+  },
+  {
+    "id": "mutagen_cowgirl",
+    "type": "COMESTIBLE",
+    "copy-from": "mutagen_cattle",
+    "name": "Ushimimi mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "COWGIRL" }
+  },
+  {
+    "id": "iv_mutagen_beargirl",
+    "type": "COMESTIBLE",
+    "copy-from": "iv_mutagen_ursine",
+    "name": "Kumamimi serum",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "BEARGIRL" }
+  },
+  {
+    "id": "mutagen_beargirl",
+    "type": "COMESTIBLE",
+    "copy-from": "mutagen_ursine",
+    "name": "Kumamimi mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "BEARGIRL" }
+  },
+  {
+    "id": "iv_mutagen_mousegirl",
+    "type": "COMESTIBLE",
+    "copy-from": "iv_mutagen_mouse",
+    "name": "Nezumimi serum",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "MOUSEGIRL" }
+  },
+  {
+    "id": "mutagen_mousegirl",
+    "type": "COMESTIBLE",
+    "copy-from": "mutagen_mouse",
+    "name": "Nezumimi mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "MOUSEGIRL" }
+  },
+  {
+    "id": "iv_mutagen_spidergirl",
+    "type": "COMESTIBLE",
+    "copy-from": "iv_mutagen_spider",
+    "name": "Arachnae serum",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "SPIDERGIRL" }
+  },
+  {
+    "id": "mutagen_spidergirl",
+    "type": "COMESTIBLE",
+    "copy-from": "mutagen_spider",
+    "name": "Arachnae mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "SPIDERGIRL" }
+  },
+  {
+    "id": "iv_mutagen_harpy",
+    "type": "COMESTIBLE",
+    "copy-from": "iv_mutagen_bird",
+    "name": "Harpy serum",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "HARPY" }
+  },
+  {
+    "id": "mutagen_harpy",
+    "type": "COMESTIBLE",
+    "copy-from": "mutagen_bird",
+    "name": "Harpy mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "HARPY" }
+  },
+  {
+    "id": "iv_mutagen_dryad",
+    "type": "COMESTIBLE",
+    "copy-from": "iv_mutagen_plant",
+    "name": "Dryad serum",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "DRYAD" }
+  },
+  {
+    "id": "mutagen_dryad",
+    "type": "COMESTIBLE",
+    "copy-from": "mutagen_plant",
+    "name": "Dryad mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "DRYAD" }
+  },
+  {
+    "id": "iv_mutagen_slimegirl",
+    "type": "COMESTIBLE",
+    "copy-from": "iv_mutagen_slime",
+    "name": "Slime serum",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "SLIMEGIRL" }
+  },
+  {
+    "id": "mutagen_slimegirl",
+    "type": "COMESTIBLE",
+    "copy-from": "mutagen_slime",
+    "name": "Slime mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "SLIMEGIRL" }
+  }
+]

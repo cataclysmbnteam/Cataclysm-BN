@@ -472,7 +472,7 @@
         "type": "spell",
         "spell_data": { "id": "centipede_mom_summon" },
         "monster_message": "A small centipede is shaken off in the struggle!",
-        "cooldown": 2
+        "cooldown": 20
       }
     ],
     "dodge": 0,

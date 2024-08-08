@@ -164,6 +164,9 @@ struct islot_comestible {
         /**Amount of radiation you get from this comestible*/
         int radiation = 0;
 
+        //pet food category
+        std::set<std::string> petfood;
+
         /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
         int freeze_point = units::to_fahrenheit( temperatures::freezing );
 

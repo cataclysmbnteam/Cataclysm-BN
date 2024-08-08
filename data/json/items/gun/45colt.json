@@ -66,5 +66,15 @@
     "dispersion": 360,
     "blackpowder_tolerance": 56,
     "proportional": { "reload": 1.5 }
+  },
+  {
+    "id": "taurus_judge",
+    "copy-from": "raging_judge",
+    "type": "GUN",
+    "name": { "str_sp": "Taurus Judge" },
+    "description": "The Taurus Judge is a 6-shot revolver chambered in .45 Colt.  It can fire .410 shotshells as well.",
+    "ammo": [ "45colt", "410shot" ],
+    "dispersion": 360,
+    "durability": 6
   }
 ]

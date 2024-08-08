@@ -34,9 +34,26 @@ bool is_char_allowed( int ch )
         // above 127 are non-ASCII, therefore Unicode, therefore OK
         return false;
     }
-    if( ch == '\\' || ch == '/' ) {
-        // not valid in file names
+
+    if( ch == '/' ) {
+        // not valid in filenames for most operating systems (Linux, MacOs, Windows, Android)
         return false;
     }
+
+#if !defined(__linux__)
+#if defined(MACOSX)
+    if( ch == ':' ) {
+        // not valid in macOS (Specific cases, best to be safe) and Windows filenames
+        return false;
+    }
+#else
+    if( ch == ':' || ch == '<' || ch == '>' || ch == '"' || ch == '\\' || ch == '?' || ch == '|' ||
+        ch == '*' ) {
+        // not valid in Windows filenames
+        return false;
+    }
+
+#endif
+#endif
     return true;
 }

@@ -696,6 +696,20 @@ void inventory_column::on_input( const inventory_input &input )
         move_selection_page( scroll_direction::BACKWARD );
     } else if( input.action == "HOME" ) {
         select( 0, scroll_direction::FORWARD );
+    } else if( input.action == "EXAMINE" ) {
+        const auto &highlighed =  get_selected().any_item();
+
+        std::vector<iteminfo> this_item = highlighed->info();
+        item_info_data dummy( highlighed->display_name(), {}, this_item, {} );
+        dummy.handle_scrolling = true;
+        draw_item_info( []() -> catacurses::window {
+            const int width = std::min( TERMX, FULL_SCREEN_WIDTH );
+            const int height = FULL_SCREEN_HEIGHT;
+            return catacurses::newwin( height, width, point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
+        }, dummy );
+
+        // recalc = true;
+        // keepline = true;
     } else if( input.action == "END" ) {
         select( entries.size() - 1, scroll_direction::BACKWARD );
     } else if( input.action == "TOGGLE_FAVORITE" ) {
@@ -1709,6 +1723,7 @@ inventory_selector::inventory_selector( player &u, const inventory_selector_pres
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" ); // For invlets
     ctxt.register_action( "INVENTORY_FILTER" );
+    ctxt.register_action( "EXAMINE" );
 
     append_column( own_inv_column );
     append_column( map_column );

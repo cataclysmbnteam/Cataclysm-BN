@@ -89,14 +89,14 @@ jobs:
             mxe: x86_64
             mxe_apt: x86-64
             artifact: windows-tiles-x64
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             ext: zip
             content: application/zip
           - name: Windows Tiles x32
             mxe: i686
             mxe_apt: i686
             artifact: windows-tiles-x32
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             ext: zip
             content: application/zip
           - name: Linux Tiles x64
@@ -127,6 +127,20 @@ jobs:
             mxe: none
             tiles: 1
             artifact: osx-tiles-x64
+            ext: dmg
+            content: application/x-apple-diskimage
+          - name: osx-curses-arm
+            os: macos-14
+            mxe: none
+            tiles: 0
+            artifact: osx-curses-arm
+            ext: dmg
+            content: application/x-apple-diskimage
+          - name: osx-tiles-arm
+            os: macos-14
+            mxe: none
+            tiles: 1
+            artifact: osx-tiles-arm
             ext: dmg
             content: application/x-apple-diskimage
           - name: Android x64
@@ -203,7 +217,7 @@ jobs:
           sudo apt update
           sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool \
             libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl \
-            p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+            p7zip-full patch perl pkg-config python3 ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
       - name: Install MXE
         if: matrix.mxe != 'none'
         run: |
@@ -224,6 +238,8 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
+          python3 -m venv ./venv
+          source ./venv/bin/activate
           pip3 install mac_alias==2.2.0 dmgbuild==1.6.1 biplist
 
       - name: Build CBN (linux)
@@ -249,6 +265,7 @@ jobs:
       - name: Build CBN (osx)
         if: runner.os == 'macOS'
         run: |
+          source ./venv/bin/activate
           make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} LUA=1 RELEASE=1 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=11 PCH=0 dmgdist COMPILER=clang++
           mv CataclysmBN-${{ env.VERSION }}.dmg cbn-${{ matrix.artifact }}-${{ env.VERSION }}.dmg
       - name: Set up JDK 11 (android)

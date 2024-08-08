@@ -16,7 +16,8 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_bark_wall_chipped",
-      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ],
+      "ranged": { "reduction": [ 30, 60 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -36,7 +37,8 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_bark_wall_broken",
-      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 160 }
     }
   },
   {
@@ -54,7 +56,8 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_barkfloor",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -74,7 +77,8 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_barkfloor",
-      "items": [ { "item": "splinter", "count": [ 20, 25 ] } ]
+      "items": [ { "item": "splinter", "count": [ 20, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 160 }
     }
   },
   {
@@ -165,7 +169,8 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "splinter", "count": [ 2, 5 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 5 ] } ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 150 }
     }
   },
   {

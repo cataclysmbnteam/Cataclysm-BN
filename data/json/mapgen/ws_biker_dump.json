@@ -37,7 +37,7 @@
       "items": {
         ".": { "item": "trash", "chance": 5 },
         "r": { "item": "oa_ig_rd_metal_trash", "chance": 15 },
-        "U": { "item": "oa_discarded_news", "chance": 20 },
+        "U": { "item": "trash_dumpster", "chance": 80 },
         "d": { "item": "oa_ig_rd_desks", "chance": 20 },
         "L": { "item": "oa_ig_rd_lockers", "chance": 90 }
       },

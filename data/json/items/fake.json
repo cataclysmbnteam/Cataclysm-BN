@@ -347,5 +347,60 @@
     "sub": "autoclave",
     "max_charges": 1000,
     "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_3d_printer",
+    "copy-from": "fake_item",
+    "looks_like": "3d_printer_basic",
+    "type": "TOOL",
+    "name": { "str": "Grid 3D Printer" },
+    "sub": "3d_printer_basic",
+    "max_charges": 2500,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "carbon_fiber" ],
+        "skill": "computer",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_3d_printer_advanced",
+    "copy-from": "fake_item",
+    "looks_like": "3d_printer_advanced",
+    "type": "TOOL",
+    "name": { "str": "Advanced Grid 3D Printer" },
+    "sub": "3d_printer_advanced",
+    "charges_per_use": 1,
+    "max_charges": 2500,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [
+          "iron",
+          "steel",
+          "hardsteel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "silver",
+          "gold",
+          "platinum",
+          "superalloy",
+          "glass",
+          "plastic",
+          "carbon_fiber"
+        ],
+        "skill": "computer",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
   }
 ]

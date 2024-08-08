@@ -1443,6 +1443,14 @@ void options_manager::add_options_general()
 
     get_option( "AUTO_NOTES_MAP_EXTRAS" ).setPrerequisite( "AUTO_NOTES" );
 
+    add( "AUTO_NOTES_DROPPED_FAVORITES", "general",
+         translate_marker( "Auto notes (dropped favorites)" ),
+         translate_marker( "If true, automatically sets notes when player drops favorited items." ),
+         true
+       );
+
+    get_option( "AUTO_NOTES_DROPPED_FAVORITES" ).setPrerequisite( "AUTO_NOTES" );
+
     add_empty_line();
 
     add( "CIRCLEDIST", general, translate_marker( "Circular distances" ),
@@ -1958,6 +1966,15 @@ void options_manager::add_options_graphics()
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
+    add( "USE_CHARACTER_PREVIEW", graphics, translate_marker( "Enable character preview window" ),
+         translate_marker( "If true, shows character preview window in traits tab on character creation.  "
+                           "While having a window press 'z'/'Z' to perform zoom-in/zoom-out.  "
+                           "Press 'C' to toggle clothes preview" ),
+         true, COPT_CURSES_HIDE
+       );
+
+    get_option( "USE_CHARACTER_PREVIEW" ).setPrerequisite( "USE_TILES" );
+
     add_empty_line();
 
     add( "MEMORY_MAP_MODE", graphics, translate_marker( "Memory map drawing mode" ),
@@ -2258,6 +2275,16 @@ void options_manager::add_options_debug()
          false );
 
     get_option( "MADE_OF_EXPLODIUM" ).setPrerequisite( "OLD_EXPLOSIONS", "false" );
+
+    add_empty_line();
+
+    add( "MIN_AUTODRIVE_SPEED", debug, translate_marker( "Minimum auto-drive speed" ),
+         translate_marker( "Set the minimum speed for the auto-drive feature.  In tiles/s.  Default is 1 (6 km/h or 4 mph)." ),
+         1, 100, 1 );
+
+    add( "MAX_AUTODRIVE_SPEED", debug, translate_marker( "Maximum auto-drive speed" ),
+         translate_marker( "Set the maximum speed for the auto-drive feature.  In tiles/s.  Default is 9 (57 km/h or 36 mph)." ),
+         1, 100, 9 );
 }
 
 void options_manager::add_options_world_default()
@@ -2295,6 +2322,11 @@ void options_manager::add_options_world_default()
     add( "SPECIALS_SPACING", world_default, translate_marker( "Overmap specials spacing" ),
          translate_marker( "A number determing minimum distance between overmap specials.  -1 allows intersections of specials." ),
          -1, 18, 6
+       );
+
+    add( "VEHICLE_DAMAGE", world_default, translate_marker( "Vehicle damage modifier" ),
+         translate_marker( "A scaling factor that determines how damaged vehicles are." ),
+         0.0, 10.0, 1, 0.1
        );
 
     add( "SPAWN_DENSITY", world_default, translate_marker( "Spawn rate scaling factor" ),
@@ -3443,6 +3475,21 @@ void options_manager::load()
 
     cache_to_globals();
 }
+
+void options_manager::cache_balance_options()
+{
+    fungal_opt.young_allowed = ::get_option<bool>( "MON_FUNGALOID_YOUNG_ALLOWED" );
+    fungal_opt.spread_on_flat_tiles_allowed
+        = ::get_option<bool>( "FUNGUS_SPREAD_ON_FLAT_TILES_ALLOWED" );
+    fungal_opt.young_spawn_base_rate = ::get_option<int>( "MON_FUNGALOID_YOUNG_SPAWN_BASE_RATE" );
+    fungal_opt.young_spawn_bubble_creatures_divider
+        = ::get_option<int>( "MON_FUNGALOID_YOUNG_SPAWN_BUBBLE_CREATURES_DIVIDER" );
+    fungal_opt.spore_chance = ::get_option<float>( "FUNGUS_SPORE_CHANCE" );
+    fungal_opt.advanced_creatures_threshold
+        = ::get_option<int>( "FUNGUS_ADVANCED_CREATURES_THRESHOLD" );
+    fungal_opt.spore_creatures_threshold = ::get_option<int>( "FUNGUS_SPORE_CREATURES_THRESHOLD" );
+}
+
 
 bool options_manager::has_option( const std::string &name ) const
 {

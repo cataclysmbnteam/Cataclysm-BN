@@ -137,12 +137,12 @@ struct pathfinding_settings;
 // The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
 #define UPGRADE_MAX_ITERS 5
 
-static const std::map<m_size, translation> size_names {
-    { m_size::MS_TINY, to_translation( "size adj", "tiny" ) },
-    { m_size::MS_SMALL, to_translation( "size adj", "small" ) },
-    { m_size::MS_MEDIUM, to_translation( "size adj", "medium" ) },
-    { m_size::MS_LARGE, to_translation( "size adj", "large" ) },
-    { m_size::MS_HUGE, to_translation( "size adj", "huge" ) },
+static const std::map<creature_size, translation> size_names {
+    { creature_size::tiny, to_translation( "size adj", "tiny" ) },
+    { creature_size::small, to_translation( "size adj", "small" ) },
+    { creature_size::medium, to_translation( "size adj", "medium" ) },
+    { creature_size::large, to_translation( "size adj", "large" ) },
+    { creature_size::huge, to_translation( "size adj", "huge" ) },
 };
 
 static const std::map<monster_attitude, std::pair<std::string, color_id>> attitude_names {
@@ -1884,50 +1884,6 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     }
 }
 
-void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
-                                       int &pain )
-{
-    switch( du.type ) {
-        case DT_ELECTRIC:
-            if( has_flag( MF_ELECTRIC ) ) {
-                return; // immunity
-            }
-            break;
-        case DT_COLD:
-            if( has_flag( MF_COLDPROOF ) ) {
-                return; // immunity
-            }
-            break;
-        case DT_BASH:
-            if( has_flag( MF_PLASTIC ) ) {
-                damage += du.amount / rng( 2, 4 ); // lessened effect
-                pain += du.amount / 4;
-                return;
-            }
-            break;
-        case DT_NULL:
-            debugmsg( "monster::deal_damage_handle_type: illegal damage type DT_NULL" );
-            break;
-        case DT_ACID:
-            if( has_flag( MF_ACIDPROOF ) ) {
-                // immunity
-                return;
-            }
-        case DT_TRUE:
-        // typeless damage, should always go through
-        case DT_BIOLOGICAL:
-        // internal damage, like from smoke or poison
-        case DT_CUT:
-        case DT_STAB:
-        case DT_BULLET:
-        case DT_HEAT:
-        default:
-            break;
-    }
-
-    Creature::deal_damage_handle_type( du,  bp, damage, pain );
-}
-
 int monster::heal( const int delta_hp, bool overheal )
 {
     const int maxhp = type->hp;
@@ -2245,16 +2201,16 @@ float monster::stability_roll() const
 {
     int size_bonus = 0;
     switch( type->size ) {
-        case MS_TINY:
+        case creature_size::tiny:
             size_bonus -= 7;
             break;
-        case MS_SMALL:
+        case creature_size::small:
             size_bonus -= 3;
             break;
-        case MS_LARGE:
+        case creature_size::large:
             size_bonus += 5;
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             size_bonus += 10;
             break;
         default:
@@ -2309,15 +2265,15 @@ float monster::fall_damage_mod() const
     }
 
     switch( type->size ) {
-        case MS_TINY:
+        case creature_size::tiny:
             return 0.2f;
-        case MS_SMALL:
+        case creature_size::small:
             return 0.6f;
-        case MS_MEDIUM:
+        case creature_size::medium:
             return 1.0f;
-        case MS_LARGE:
+        case creature_size::large:
             return 1.4f;
-        case MS_HUGE:
+        case creature_size::huge:
             return 2.0f;
         default:
             return 1.0f;
@@ -3003,9 +2959,9 @@ field_type_id monster::gibType() const
     return type->gibType();
 }
 
-m_size monster::get_size() const
+creature_size monster::get_size() const
 {
-    return m_size( type->size );
+    return creature_size( type->size );
 }
 
 units::mass monster::get_weight() const

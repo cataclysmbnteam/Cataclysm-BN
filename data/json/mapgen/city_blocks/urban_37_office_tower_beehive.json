@@ -165,7 +165,7 @@
       "terrain": { "'": "t_sidewalk", ".": "t_pavement_y" },
       "items": {
         "'": { "item": "trash_cart", "chance": 1 },
-        "Q": { "item": "trash_cart", "chance": 90 },
+        "Q": { "item": "trash_dumpster", "chance": 80 },
         "_": { "item": "trash_cart", "chance": 1 }
       },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.3 } ],

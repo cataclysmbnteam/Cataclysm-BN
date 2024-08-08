@@ -8,7 +8,7 @@
     "copy-from": "mon_dilophosaurus",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 65, "into": "mon_dilophosaurus" },
-    "extend": { "flags": [ "CANPLAY", "CATFOOD", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_ceratosaurus_juvenile",
@@ -27,7 +27,7 @@
     "copy-from": "mon_spinosaurus",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_spinosaurus" },
-    "extend": { "flags": [ "CANPLAY", "CATFOOD", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_torvosaurus_juvenile",
@@ -38,7 +38,7 @@
     "copy-from": "mon_torvosaurus",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_torvosaurus" },
-    "extend": { "flags": [ "CANPLAY", "CATFOOD", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_allosaurus_juvenile",
@@ -51,7 +51,7 @@
     "weight": "750 kg",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 150, "into": "mon_allosaurus" },
-    "extend": { "flags": [ "CANPLAY", "CATFOOD", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_acrocanthosaurus_juvenile",
@@ -64,7 +64,7 @@
     "weight": "750 kg",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_acrocanthosaurus" },
-    "extend": { "flags": [ "CANPLAY", "CATFOOD", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_siats_juvenile",
@@ -77,7 +77,7 @@
     "weight": "750 kg",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_siats" },
-    "extend": { "flags": [ "CANPLAY", "CATFOOD", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_dryptosaurus_juvenile",
@@ -90,7 +90,7 @@
     "weight": "750 kg",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_dryptosaurus" },
-    "extend": { "flags": [ "CANPLAY", "CATFOOD", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_appalachiosaurus_juvenile",
@@ -103,7 +103,7 @@
     "weight": "750 kg",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_appalachiosaurus" },
-    "extend": { "flags": [ "CANPLAY", "CATFOOD", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_gorgosaurus_juvenile",
@@ -116,7 +116,7 @@
     "weight": "750 kg",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_gorgosaurus" },
-    "extend": { "flags": [ "CANPLAY", "CATFOOD", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_albertosaurus_juvenile",
@@ -129,7 +129,7 @@
     "weight": "750 kg",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_albertosaurus" },
-    "extend": { "flags": [ "CANPLAY", "CATFOOD", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_qianzhousaurus_juvenile",
@@ -142,7 +142,7 @@
     "weight": "750 kg",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_qianzhousaurus" },
-    "extend": { "flags": [ "CANPLAY", "CATFOOD", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_nanuqsaurus_juvenile",
@@ -155,7 +155,7 @@
     "weight": "750 kg",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_nanuqsaurus" },
-    "extend": { "flags": [ "CANPLAY", "CATFOOD", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_daspletosaurus_juvenile",
@@ -168,7 +168,7 @@
     "weight": "750 kg",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_daspletosaurus" },
-    "extend": { "flags": [ "CANPLAY", "CATFOOD", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_tyrannosaurus_juvenile",
@@ -181,7 +181,7 @@
     "weight": "750 kg",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_tyrannosaurus" },
-    "extend": { "flags": [ "CANPLAY", "CATFOOD", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
     "id": "mon_gallimimus_juvenile",
@@ -207,19 +207,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
     "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "NO_BREED",
-      "CATTLEFODDER",
-      "CATFOOD",
-      "DOGFOOD",
-      "CANPLAY"
-    ],
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ],
     "harvest": "bird_small"
   },
   {
@@ -260,7 +249,7 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "red_green",
     "upgrades": { "age_grow": 14, "into": "mon_deinonychus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CATFOOD", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_utahraptor_juvenile",
@@ -354,18 +343,8 @@
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "FRIEND_DIED" ],
     "upgrades": { "age_grow": 365, "into": "mon_amargasaurus" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "NO_BREED",
-      "CANPLAY",
-      "CATTLEFODDER",
-      "GROUP_MORALE"
-    ]
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY", "GROUP_MORALE" ]
   },
   {
     "id": "mon_apatosaurus_juvenile",
@@ -427,7 +406,7 @@
     "hp": 200,
     "volume": "1000 L",
     "weight": "1000 kg",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CATTLEFODDER", "CANPLAY" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ],
     "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" }
   },
   {
@@ -725,19 +704,8 @@
     "copy-from": "mon_gallimimus_juvenile",
     "color": "light_gray_yellow",
     "upgrades": { "age_grow": 14, "into": "mon_pteranodon" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "FLIES",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CATFOOD",
-      "CANPLAY",
-      "NO_BREED",
-      "HIT_AND_RUN"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "HIT_AND_RUN" ],
+    "petfood": { "food": [ "DINOFOOD_B" ] }
   },
   {
     "id": "mon_quetzalcoatlus_juvenile",
@@ -758,6 +726,7 @@
     "aggression": 50,
     "hp": 100,
     "upgrades": { "age_grow": 365, "into": "mon_mosasaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CATFOOD", "CANPLAY", "NO_BREED", "SWIMS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "NO_BREED", "SWIMS", "AQUATIC" ],
+    "petfood": { "food": [ "DINOFOOD_B" ] }
   }
 ]

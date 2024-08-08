@@ -62,6 +62,16 @@
   },
   {
     "type": "recipe",
+    "result": "seed_mushroom",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "seed_mushroom_morel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "milk",
     "id_suffix": "from_condensed",
     "obsolete": true
@@ -3347,6 +3357,57 @@
   {
     "type": "recipe",
     "result": "barrel_big",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "id_suffix": "canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "id_suffix": "jarred_3l",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "id_suffix": "canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "id_suffix": "jarred_3l",
     "obsolete": true
   }
 ]

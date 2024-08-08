@@ -1475,7 +1475,7 @@ int Character::consume_remote_fuel( int amount )
             use_charges( itype_UPS_off, unconsumed_amount, used_ups );
             unconsumed_amount -= 1;
         } else if( has_charges( itype_adv_UPS_off, unconsumed_amount, used_ups ) ) {
-            use_charges( itype_adv_UPS_off, roll_remainder( unconsumed_amount * 0.6 ), used_ups );
+            use_charges( itype_adv_UPS_off, roll_remainder( unconsumed_amount * 0.5 ), used_ups );
             unconsumed_amount -= 1;
         }
     }

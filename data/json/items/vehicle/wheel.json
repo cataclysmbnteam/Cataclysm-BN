@@ -93,7 +93,7 @@
     "price_postapoc": "750 cent",
     "bashing": 17,
     "to_hit": -1,
-    "material": [ "hardsteel", "ceramic" ],
+    "material": [ "hardsteel", "rubber", "kevlar" ],
     "symbol": "]",
     "color": "green",
     "diameter": 32,
@@ -283,7 +283,7 @@
     "price_postapoc": "1 USD",
     "bashing": 10,
     "to_hit": -1,
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 10,
@@ -374,5 +374,13 @@
     "name": { "str": "banded wooden cart wheel" },
     "description": "A wooden cart wheel with metal bands for durability, hand made.",
     "relative": { "weight": 500 }
+  },
+  {
+    "id": "wheel_mount_light_wood",
+    "type": "GENERIC",
+    "name": { "str": "light wooden wheel mount" },
+    "description": "A piece of wood with holes suitable for a bike or motorbike wheel.",
+    "copy-from": "wheel_mount_light",
+    "material": [ "wood" ]
   }
 ]

@@ -645,12 +645,19 @@ bool game::start_game()
     }
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
-    // Spawn the monsters
-    const bool spawn_near =
-        get_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag( "SUR_START" );
-    // Surrounded start ones
+
+    // Spawn the monsters for `Surrounded` starting scenarios
+    std::vector<std::pair<mongroup_id, float>> surround_groups = get_scenario()->surround_groups();
+    const bool surrounded_start_scenario = !surround_groups.empty();
+    const bool surrounded_start_options = get_option<bool>( "BLACK_ROAD" );
+    if( surrounded_start_options && !surrounded_start_scenario ) {
+        surround_groups.emplace_back( mongroup_id( "GROUP_BLACK_ROAD" ), 70.0f );
+    }
+    const bool spawn_near = surrounded_start_options || surrounded_start_scenario;
     if( spawn_near ) {
-        start_loc.surround_with_monsters( omtstart, mongroup_id( "GROUP_ZOMBIE" ), 70 );
+        for( const std::pair<mongroup_id, float> &sg : surround_groups ) {
+            start_loc.surround_with_monsters( omtstart, sg.first, sg.second );
+        }
     }
 
     m.spawn_monsters( !spawn_near ); // Static monsters
@@ -2034,7 +2041,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
         last_mouse_edge_scroll = now;
     }
     const input_event event = ctxt.get_raw_input();
-    if( event.type == CATA_INPUT_MOUSE ) {
+    if( event.type == input_event_t::mouse ) {
         const point threshold( projected_window_width() / 100, projected_window_height() / 100 );
         if( event.mouse_pos.x <= threshold.x ) {
             ret.first.x -= speed;
@@ -2059,7 +2066,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
             }
         }
         ret.second = ret.first;
-    } else if( event.type == CATA_INPUT_TIMEOUT ) {
+    } else if( event.type == input_event_t::timeout ) {
         ret.first = ret.second;
     }
 #endif
@@ -2920,8 +2927,8 @@ shared_ptr_fast<ui_adaptor> game::create_or_get_main_ui_adaptor()
     shared_ptr_fast<ui_adaptor> ui = main_ui_adaptor.lock();
     if( !ui ) {
         main_ui_adaptor = ui = make_shared_fast<ui_adaptor>();
-        ui->on_redraw( []( const ui_adaptor & ) {
-            g->draw();
+        ui->on_redraw( []( ui_adaptor & ui ) {
+            g->draw( ui );
         } );
         ui->on_screen_resize( [this]( ui_adaptor & ui ) {
             // remove some space for the sidebar, this is the maximal space
@@ -3090,7 +3097,7 @@ static shared_ptr_fast<game::draw_callback_t> create_trail_callback(
     } );
 }
 
-void game::draw()
+void game::draw( ui_adaptor &ui )
 {
     if( test_mode ) {
         return;
@@ -3115,6 +3122,12 @@ void game::draw()
     wnoutrefresh( w_terrain );
 
     draw_panels( true );
+
+    // Ensure that the cursor lands on the character when everything is drawn.
+    // This allows screen readers to describe the area around the player, making it
+    // much easier to play with them
+    // (e.g. for blind players)
+    ui.set_cursor( w_terrain, -u.view_offset.xy() + point( POSX, POSY ) );
 }
 
 void game::draw_panels( bool force_draw )
@@ -5063,13 +5076,13 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         if( can_see ) {
             add_msg( _( "The %1$s hits the %2$s." ), door_name, critter.name() );
         }
-        if( critter.type->size <= MS_SMALL ) {
+        if( critter.type->size <= creature_size::small ) {
             critter.die_in_explosion( nullptr );
         } else {
             critter.apply_damage( nullptr, bodypart_id( "torso" ), bash_dmg );
             critter.check_dead_state();
         }
-        if( !critter.is_dead() && critter.type->size >= MS_HUGE ) {
+        if( !critter.is_dead() && critter.type->size >= creature_size::huge ) {
             // big critters simply prevent the gate from closing
             // TODO: perhaps damage/destroy the gate
             // if the critter was really big?
@@ -5124,7 +5137,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
-            if( ( *it )->made_of( material_id( "glass" ) ) && one_in( 2 ) ) {
+            if( ( ( *it )->can_shatter() ) && one_in( 2 ) ) {
                 if( can_see ) {
                     add_msg( m_warning, _( "A %s shatters!" ), ( *it )->tname() );
                 } else {
@@ -7397,14 +7410,14 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 
     std::optional<item_filter_type> filter_type;
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
+    ui.on_redraw( [&]( ui_adaptor & ui ) {
         reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
 
+        int iStartPos = 0;
         if( ground_items.empty() ) {
             wnoutrefresh( w_items_border );
             mvwprintz( w_items, point( 2, 10 ), c_white, _( "You don't see any items around you!" ) );
         } else {
-            int iStartPos = 0;
             werase( w_items );
             calcStartPos( iStartPos, iActive, iMaxRows, iItemNum );
             int iNum = 0;
@@ -7448,15 +7461,15 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                             sText += string_format( "[%d]", iter->vIG[iThisPage].count );
                         }
 
-                        nc_color col = c_light_green;
-                        if( iNum != iActive ) {
-                            if( high ) {
-                                col = c_yellow;
-                            } else if( low ) {
-                                col = c_red;
-                            } else {
-                                col = iter->example->color_in_inventory();
-                            }
+                        nc_color col = c_light_gray;
+                        if( iNum == iActive ) {
+                            col = hilite( c_white );
+                        } else if( high ) {
+                            col = c_yellow;
+                        } else if( low ) {
+                            col = c_red;
+                        } else {
+                            col = iter->example->color_in_inventory();
                         }
                         trim_and_print( w_items, point( 1, iNum - iStartPos ), width - 9, col, sText );
                         const int numw = iItemNum > 9 ? 2 : 1;
@@ -7509,6 +7522,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             trim_and_print( w_item_info, point( 4, 0 ), width - 8, activeItem->example->color_in_inventory(),
                             activeItem->example->display_name() );
             wprintw( w_item_info, " >" );
+            // move the cursor to the selected item (for screen readers)
+            ui.set_cursor( w_items, point( 1, iActive - iStartPos ) );
         }
 
         wnoutrefresh( w_items );
@@ -8029,7 +8044,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         } else if( action == "fire" ) {
             if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
                 u.last_target = shared_from( *cCurMon );
-                add_msg( "Target_set" );
                 u.recoil = MAX_RECOIL;
                 u.view_offset = stored_view_offset;
                 return game::vmenu_ret::FIRE;
@@ -8216,6 +8230,7 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
     };
     const bool enough_light = character_funcs::can_see_fine_details( you );
 
+    bool has_blood = false;
     bool has_skin = false;
     bool has_organs = false;
 
@@ -8233,6 +8248,9 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
         const mtype *dead_mon = it->get_mtype();
         if( dead_mon != nullptr ) {
             for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
+                if( entry.type == "blood" ) {
+                    has_blood = true;
+                }
                 if( entry.type == "skin" ) {
                     has_skin = true;
                 }
@@ -8267,6 +8285,16 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
                                           "(for ex. a table, a leather tarp, etc.).  "
                                           "Yields are plentiful and varied, but it is time consuming." ),
                                        msg_inv, info_on_action( BUTCHER_FULL ).c_str() ) );
+    smenu.addentry_col( BLEED, enough_light &&
+                        has_blood, 'l', _( "Bleed corpse" ),
+                        enough_light ? ( has_blood ? cut_time( BLEED ) : colorize( _( "has no blood" ),
+                                         c_red ) ) : cannot_see,
+                        string_format( "%s  %s%s",
+                                       _( "Bleeding involves severing the carotid arteries and jugular "
+                                          "veins, or the blood vessels from which they arise.  "
+                                          "You need skill and an appropriately sharp and precise knife "
+                                          "to do a good job." ),
+                                       msg_inv, info_on_action( BLEED ).c_str() ) );
     smenu.addentry_col( F_DRESS, enough_light &&
                         has_organs, 'f', _( "Field dress corpse" ),
                         enough_light ? ( has_organs ? cut_time( F_DRESS ) : colorize( _( "has no organs" ),
@@ -8321,6 +8349,9 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
             break;
         case F_DRESS:
             you.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, true );
+            break;
+        case BLEED:
+            you.assign_activity( activity_id( "ACT_BLEED" ), 0, true );
             break;
         case SKIN:
             you.assign_activity( activity_id( "ACT_SKIN" ), 0, true );
@@ -8742,13 +8773,13 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
 {
     if( m.has_flag_ter( TFLAG_SMALL_PASSAGE, dest_loc ) ) {
-        if( u.get_size() > MS_MEDIUM ) {
+        if( u.get_size() > creature_size::medium ) {
             add_msg( m_warning, _( "You can't fit there." ) );
             return false; // character too large to fit through a tight passage
         }
         if( u.is_mounted() ) {
             monster *mount = u.mounted_creature.get();
-            if( mount->get_size() > MS_MEDIUM ) {
+            if( mount->get_size() > creature_size::medium ) {
                 add_msg( m_warning, _( "Your mount can't fit there." ) );
                 return false; // char's mount is too large for tight passages
             }
@@ -8996,18 +9027,18 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
             if( u.is_mounted() ) {
                 auto mons = u.mounted_creature.get();
                 switch( mons->get_size() ) {
-                    case MS_TINY:
+                    case creature_size::tiny:
                         volume = 0; // No sound for the tinies
                         break;
-                    case MS_SMALL:
+                    case creature_size::small:
                         volume /= 3;
                         break;
-                    case MS_MEDIUM:
+                    case creature_size::medium:
                         break;
-                    case MS_LARGE:
+                    case creature_size::large:
                         volume *= 1.5;
                         break;
-                    case MS_HUGE:
+                    case creature_size::huge:
                         volume *= 2;
                         break;
                     default:
@@ -10504,7 +10535,8 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     if( going_down_1 && mp.has_flag( TFLAG_GOES_UP, u.pos() + tripoint_below ) ) {
         stairs.emplace( u.pos() + tripoint_below );
     }
-    if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) ) {
+    if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) &&
+        !mp.has_flag( TFLAG_DEEP_WATER, u.pos() + tripoint_below ) ) {
         stairs.emplace( u.pos() + tripoint_above );
     }
     // We did not find stairs directly above or below, so search the map for them
@@ -10512,8 +10544,9 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
         for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
             if( rl_dist( u.pos(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( TFLAG_GOES_UP, dest ) ) ||
-                  ( going_up_1 && ( mp.has_flag( TFLAG_GOES_DOWN, dest ) ||
-                                    mp.ter( dest ) == t_manhole_cover ) ) ||
+                  ( ( going_up_1 && ( mp.has_flag( TFLAG_GOES_DOWN, dest ) &&
+                                      !mp.has_flag( TFLAG_DEEP_WATER, dest ) ) ) ||
+                    mp.ter( dest ) == t_manhole_cover )   ||
                   ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
                 stairs.emplace( dest );
                 best = rl_dist( u.pos(), dest );
@@ -10567,7 +10600,12 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     }
 
     if( movez > 0 ) {
-        if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
+        if( mp.has_flag( "DEEP_WATER", *stairs ) ) {
+            if( !query_yn(
+                    _( "There is a huge blob of water!  You may be unable to return back down these stairs.  Continue up?" ) ) ) {
+                return std::nullopt;
+            }
+        } else if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
             if( !query_yn( _( "You may be unable to return back down these stairs.  Continue up?" ) ) ) {
                 return std::nullopt;
             }
@@ -10701,12 +10739,12 @@ void game::vertical_notes( int z_before, int z_after )
         }
         const oter_id &ter = overmap_buffer.ter( cursp_before );
         const oter_id &ter2 = overmap_buffer.ter( cursp_after );
-        if( z_after > z_before && ter->has_flag( known_up ) &&
-            !ter2->has_flag( known_down ) ) {
+        if( z_after > z_before && ter->has_flag( oter_flags::known_up ) &&
+            !ter2->has_flag( oter_flags::known_down ) ) {
             overmap_buffer.set_seen( cursp_after, true );
             overmap_buffer.add_note( cursp_after, string_format( ">:W;%s", _( "AUTO: goes down" ) ) );
-        } else if( z_after < z_before && ter->has_flag( known_down ) &&
-                   !ter2->has_flag( known_up ) ) {
+        } else if( z_after < z_before && ter->has_flag( oter_flags::known_down ) &&
+                   !ter2->has_flag( oter_flags::known_up ) ) {
             overmap_buffer.set_seen( cursp_after, true );
             overmap_buffer.add_note( cursp_after, string_format( "<:W;%s", _( "AUTO: goes up" ) ) );
         }

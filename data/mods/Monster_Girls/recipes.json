@@ -1,0 +1,92 @@
+[
+  {
+    "type": "recipe",
+    "result": "iv_mutagen_neko",
+    "copy-from": "iv_mutagen_feline"
+  },
+  {
+    "type": "recipe",
+    "result": "mutagen_neko",
+    "copy-from": "mutagen_feline"
+  },
+  {
+    "type": "recipe",
+    "result": "iv_mutagen_doggirl",
+    "copy-from": "iv_mutagen_lupine"
+  },
+  {
+    "type": "recipe",
+    "result": "mutagen_doggirl",
+    "copy-from": "mutagen_lupine"
+  },
+  {
+    "type": "recipe",
+    "result": "iv_mutagen_cowgirl",
+    "copy-from": "iv_mutagen_cattle"
+  },
+  {
+    "type": "recipe",
+    "result": "mutagen_cowgirl",
+    "copy-from": "mutagen_cattle"
+  },
+  {
+    "type": "recipe",
+    "result": "iv_mutagen_beargirl",
+    "copy-from": "iv_mutagen_ursine"
+  },
+  {
+    "type": "recipe",
+    "result": "mutagen_beargirl",
+    "copy-from": "mutagen_ursine"
+  },
+  {
+    "type": "recipe",
+    "result": "iv_mutagen_mousegirl",
+    "copy-from": "iv_mutagen_mouse"
+  },
+  {
+    "type": "recipe",
+    "result": "mutagen_mousegirl",
+    "copy-from": "mutagen_mouse"
+  },
+  {
+    "type": "recipe",
+    "result": "iv_mutagen_spidergirl",
+    "copy-from": "iv_mutagen_spider"
+  },
+  {
+    "type": "recipe",
+    "result": "mutagen_spidergirl",
+    "copy-from": "mutagen_spider"
+  },
+  {
+    "type": "recipe",
+    "result": "iv_mutagen_harpy",
+    "copy-from": "iv_mutagen_bird"
+  },
+  {
+    "type": "recipe",
+    "result": "mutagen_harpy",
+    "copy-from": "mutagen_bird"
+  },
+  {
+    "type": "recipe",
+    "result": "iv_mutagen_dryad",
+    "copy-from": "iv_mutagen_plant"
+  },
+  {
+    "type": "recipe",
+    "result": "mutagen_dryad",
+    "copy-from": "mutagen_plant"
+  },
+  {
+    "type": "recipe",
+    "result": "iv_mutagen_slimegirl",
+    "copy-from": "iv_mutagen_slime"
+  },
+  {
+    "type": "recipe",
+    "result": "mutagen_slimegirl",
+    "copy-from": "mutagen_slime"
+  }
+]

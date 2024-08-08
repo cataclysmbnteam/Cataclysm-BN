@@ -16,6 +16,23 @@
     "stackable": true
   },
   {
+    "id": "carbon_fiber_filament",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "carbon fiber filament" },
+    "description": "A spool of fine carbon filament, used to make lightweight yet strong items.  Very useful if you can get your hands on a 3D printer, more advanced models might even allow you to make more.",
+    "weight": "5 g",
+    "volume": "10 ml",
+    "price": "1 USD",
+    "price_postapoc": "20 cent",
+    "material": "carbon_fiber",
+    "symbol": "=",
+    "color": "dark_gray",
+    "looks_like": "solder_wire",
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
+  },
+  {
     "id": "nylon",
     "type": "GENERIC",
     "category": "spare_parts",
@@ -53,7 +70,7 @@
     "category": "spare_parts",
     "name": "rigid plastic sheet",
     "description": "A large, rigid sheet of translucent plastic, useful for all manner of things; from construction to art, or even junior snowboarding.",
-    "weight": "14875 g",
+    "weight": "7500 g",
     "volume": "12500 ml",
     "price": "0 cent",
     "price_postapoc": "25 cent",
@@ -63,7 +80,7 @@
   },
   {
     "id": "plastic_scrap",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "plastic scrap" },
     "description": "This is a tiny piece of plastic.  Useless on its own, but could be melted down if you gather enough.",
@@ -74,6 +91,7 @@
     "material": "plastic",
     "symbol": ",",
     "color": "light_blue",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
   }
 ]

@@ -22,7 +22,7 @@
     "copy-from": "base_book",
     "name": { "str": "Self-Esteem for Dummies", "str_pl": "copies of Self-Esteem for Dummies" },
     "description": "Full of useful tips for showing confidence in your speech.",
-    "weight": "454 g",
+    "weight": "500 g",
     "volume": "750 ml",
     "price": "16 USD",
     "price_postapoc": "250 cent",

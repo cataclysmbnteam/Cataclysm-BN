@@ -221,6 +221,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         { "charm_monster", spell_effect::charm_monster },
         { "mutate", spell_effect::mutate },
         { "bash", spell_effect::bash },
+        { "dash", spell_effect::dash },
         { "none", spell_effect::none }
     };
 
