@@ -5133,5 +5133,33 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_3d_printer_advanced"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_lump",
+    "group": "build_concrete_lump",
+    "//": "Pours concrete over a scarred lump, its faster because we're not doing this smoothly.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "40 m",
+    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ] ] ],
+    "pre_furniture": "f_alien_scar",
+    "post_furniture": "f_concrete_lump"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_seeping",
+    "group": "build_concrete_lump",
+    "//": "Pours concrete over a seeping scar, its faster because we're not doing this smoothly.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "40 m",
+    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ] ] ],
+    "pre_furniture": "f_alien_scar_small",
+    "post_furniture": "f_concrete_lump"
   }
 ]
