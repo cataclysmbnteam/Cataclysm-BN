@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "enum_traits.h"
 #include "magic.h"
 #include "type_id.h"
 
@@ -99,6 +100,14 @@ class enchantment
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs );
 
+        void set_has( has value );
+
+        void add_value_add( enchant_vals::mod value, int add_value );
+        void add_value_mult( enchant_vals::mod value, float mult_value );
+
+        void add_hit_me( const fake_spell &sp );
+        void add_hit_you( const fake_spell &sp );
+
         int get_value_add( enchant_vals::mod value ) const;
         double get_value_multiply( enchant_vals::mod value ) const;
 
@@ -170,6 +179,23 @@ class enchantment
         // performs cooldown and distance checks before casting enchantment spells
         void cast_enchantment_spell( Character &caster, const Creature *target,
                                      const fake_spell &sp ) const;
+};
+
+template <typename E> struct enum_traits;
+
+template<>
+struct enum_traits<enchantment::has> {
+    static constexpr enchantment::has last = enchantment::has::NUM_HAS;
+};
+
+template<>
+struct enum_traits<enchantment::condition> {
+    static constexpr enchantment::condition last = enchantment::condition::NUM_CONDITION;
+};
+
+template<>
+struct enum_traits<enchant_vals::mod> {
+    static constexpr enchant_vals::mod last = enchant_vals::mod::NUM_MOD;
 };
 
 #endif // CATA_SRC_MAGIC_ENCHANTMENT_H
