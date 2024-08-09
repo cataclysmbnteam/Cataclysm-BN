@@ -3007,13 +3007,14 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             if( p != t && ( has_flag( TFLAG_SUPPORTS_ROOF, t ) && has_flag( TFLAG_COLLAPSES, t ) ) ) {
                 collapse_at( t, silent );
             }
-            // this tile used to support a roof, now it doesn't, which means there is only
-            // open air above us
-            if( zlevels ) {
-                ter_set( tz, t_open_air );
-                furn_set( tz, f_null );
-                propagate_suspension_check( tz );
-            }
+        }
+        // this tile used to support a roof, now it doesn't, which means there is only
+        // open air above us
+        if( zlevels ) {
+            const tripoint tabove( p.xy(), p.z + 1 );
+            ter_set( tabove, t_open_air );
+            furn_set( tabove, f_null );
+            propagate_suspension_check( tabove );
         }
     }
     // it would be great to check if collapsing ceilings smashed through the floor, but
