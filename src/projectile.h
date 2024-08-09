@@ -39,7 +39,7 @@ struct projectile {
         void set_custom_explosion( const explosion_data &ex );
         void unset_custom_explosion();
 
-        const std::set<ammo_effect_str_id> &get_ammo_effects() {
+        const std::set<ammo_effect_str_id> &get_ammo_effects() const {
             return proj_effects;
         }
 
