@@ -269,7 +269,7 @@
     "material": "stone",
     "ammo_type": "rock",
     "flags": [ "TRADER_AVOID" ],
-    "weight": "657 g",
+    "weight": "500 g",
     "volume": "250 ml",
     "bashing": 7,
     "damage": { "damage_type": "bash", "amount": 7 },
