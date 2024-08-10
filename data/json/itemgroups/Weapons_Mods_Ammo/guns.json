@@ -185,7 +185,6 @@
     "//": "Pistols including those only used by police/paramilitary forces, or self printed.",
     "items": [
       { "group": "nested_carbon_pistol", "prob": 25 },
-      { "group": "nested_carbon_pistol", "prob": 3 },
       { "group": "nested_glock_18c", "prob": 70 },
       { "group": "nested_m17", "prob": 100 },
       { "group": "nested_m1911_MEU", "prob": 5 },
@@ -199,7 +198,6 @@
     "//": "Pistols including those only used by police/paramilitary forces. As these are carried, they either have mags OR loose ammo rather than both",
     "items": [
       { "group": "everyday_carbon_pistol", "prob": 25 },
-      { "group": "everyday_carbon_pistol", "prob": 3 },
       { "group": "everyday_glock_18c", "prob": 70 },
       { "group": "everyday_m17", "prob": 100 },
       { "group": "everyday_m1911_MEU", "prob": 5 },
