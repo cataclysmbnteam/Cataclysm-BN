@@ -210,6 +210,19 @@
     ]
   },
   {
+    "id": "nested_j22",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "j22", "ammo-group": "on_hand_22", "charges": [ 0, 10 ] },
+      { "item": "j22mag", "ammo-group": "on_hand_22" },
+      { "item": "j22mag", "ammo-group": "on_hand_22", "prob": 50 },
+      { "group": "on_hand_22" }
+    ]
+  },
+  {
     "id": "nested_sw_610",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
