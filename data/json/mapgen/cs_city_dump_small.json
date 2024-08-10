@@ -58,7 +58,6 @@
         "o": "t_concrete"
       },
       "furniture": {
-        "c": "f_trashcan",
         "S": "f_sofa",
         "X": "f_dumpster",
         "B": "f_bathtub",
