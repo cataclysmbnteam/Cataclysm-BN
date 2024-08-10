@@ -237,7 +237,7 @@
     "//": "Factory specification rifle magazines commonly owned by citizens.",
     "items": [
       [ "3006_clip", 5 ],
-      [ "762R_clip", 70 ],
+      [ "762R_clip", 40 ],
       [ "762x39_clip", 30 ],
       [ "akmag10", 3 ],
       [ "akmag20", 2 ],
@@ -245,15 +245,9 @@
       [ "ar10mag_20rd", 20 ],
       [ "blrmag", 25 ],
       [ "garandclip", 45 ],
-      [ "glock_21mag", 15 ],
-      [ "glock20mag", 15 ],
-      [ "glock40mag", 15 ],
-      [ "glock40mag", 15 ],
-      [ "glockmag", 30 ],
       [ "hipoint_3895mag", 30 ],
       [ "m14mag", 30 ],
       [ "m14smallmag", 10 ],
-      [ "m9mag", 45 ],
       [ "marlin_tubeloader", 70 ],
       [ "ruger1022mag", 70 ],
       [ "ruger5", 10 ],
@@ -276,18 +270,17 @@
     "id": "mags_rifle_rare",
     "//": "Aftermarket or otherwise uncommon rifle magazines excluding milspec.",
     "items": [
-      [ "akmag40", 40 ],
-      [ "akdrum75", 30 ],
-      [ "m1918bigmag", 40 ],
+      [ "akmag40", 10 ],
+      [ "akdrum75", 5 ],
       [ "ruger30", 30 ],
-      [ "ruger90", 3 ],
-      [ "ruger100", 5 ],
+      [ "ruger90", 15 ],
+      [ "ruger100", 15 ],
       [ "ruger1022bigmag", 70 ],
-      [ "stanag40", 3 ],
-      [ "stanag60drum", 10 ],
-      [ "stanag90", 10 ],
-      [ "stanag100drum", 15 ],
-      [ "stanag150", 10 ]
+      [ "stanag40", 20 ],
+      [ "stanag60drum", 15 ],
+      [ "stanag90", 15 ],
+      [ "stanag100drum", 10 ],
+      [ "stanag150", 5 ]
     ]
   },
   {
@@ -306,7 +299,7 @@
     "type": "item_group",
     "id": "mags_shotgun_rare",
     "//": "Aftermarket or otherwise uncommon shotgun magazines excluding milspec.",
-    "items": []
+    "items": [  ]
   },
   {
     "type": "item_group",
@@ -380,6 +373,8 @@
       [ "g36mag_30rd", 35 ],
       [ "g3bigmag", 5 ],
       [ "g3mag", 35 ],
+      [ "m1918mag", 20 ],
+      [ "m1918bigmag", 10 ],
       [ "makarovmag", 10 ],
       [ "ppshdrum", 10 ],
       [ "ppshmag", 20 ],
