@@ -264,6 +264,18 @@
     ]
   },
   {
+    "id": "everyday_fn1910",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "fn1910", "ammo-group": "on_hand_380", "charges": [ 0, 6 ] },
+      { "item": "fn1910mag", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_380" },
+      { "item": "fn1910mag", "charges-min": 0, "ammo-group": "on_hand_380", "prob": 50 },
+      { "group": "on_hand_380", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+    ]
+  },
+  {
     "id": "everyday_kpf9",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
