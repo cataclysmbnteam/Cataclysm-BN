@@ -236,10 +236,10 @@
         "..c|c..c|c....c|c..c|c..",
         "..---..---....---..---..",
         "........................",
-        "...C....C......C....C...",
-        "........................",
         "........................",
         "...C....C......C....C...",
+        "...x....x......7....x...",
+        "........................",
         "........................",
         "..---..---.....|---+---|",
         "..c|c..c|c.....|       |",
@@ -256,11 +256,19 @@
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
         "!": [ "t_thconc_floor", "t_thconc_floor", "t_console_broken", "t_generator_broken" ],
+        "7": "t_console",
         "C": "t_thconc_floor"
       },
       "mapping": {
         "c": { "items": [ { "item": "chem_lab", "chance": 10 }, { "item": "tools_science", "chance": 10 } ] },
         "r": { "items": [ { "item": "cleaning", "chance": 30 } ] }
+      },
+      "computers": {
+        "7": {
+          "name": "Centrifuge",
+          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
+          "failures": [ { "action": "destroy_blood" } ]
+        }
       },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 15, "y": 15 },
@@ -304,16 +312,18 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "set": [
-        { "point": "terrain", "id": "t_vat", "x": 3, "y": 10 },
-        { "point": "terrain", "id": "t_vat", "x": 3, "y": 13 },
-        { "point": "terrain", "id": "t_vat", "x": 8, "y": 10 },
-        { "point": "terrain", "id": "t_vat", "x": 8, "y": 13 }
+        { "point": "terrain", "id": "t_vat", "x": 3, "y": 11 },
+        { "point": "terrain", "id": "t_vat", "x": 3, "y": 12 },
+        { "point": "terrain", "id": "t_vat", "x": 8, "y": 11 },
+        { "point": "terrain", "id": "t_vat", "x": 8, "y": 12 },
+        { "point": "furniture", "id": "f_null", "x": 3, "y": 11 },
+        { "point": "furniture", "id": "f_null", "x": 8, "y": 11 }
       ],
       "place_items": [
-        { "item": "cloning_vat", "x": 3, "y": 10, "chance": 66 },
-        { "item": "cloning_vat", "x": 3, "y": 13, "chance": 66 },
-        { "item": "cloning_vat", "x": 8, "y": 10, "chance": 66 },
-        { "item": "cloning_vat", "x": 8, "y": 13, "chance": 66 }
+        { "item": "cloning_vat", "x": 3, "y": 11, "chance": 66 },
+        { "item": "cloning_vat", "x": 3, "y": 12, "chance": 66 },
+        { "item": "cloning_vat", "x": 8, "y": 11, "chance": 66 },
+        { "item": "cloning_vat", "x": 8, "y": 12, "chance": 66 }
       ],
       "place_nested": [
         { "chunks": [ "lab_hood_windfall" ], "x": 2, "y": 2 },
@@ -505,7 +515,7 @@
       "rows": [
         "..cccccc.|...|,,,|..|,,,",
         "c........|...|,,,|.6|,,,",
-        "c..Ccxc..|...|,,,g..g,,,",
+        "c..C8cc..|...|,,,g..g,,,",
         "c........g...|,,,g..g,,,",
         "c........g...|,,,L..L,,,",
         "......llS|...|---|..|---",
@@ -536,6 +546,7 @@
         "?": "t_floor_blue",
         "/": "t_floor_blue",
         "7": "t_console",
+        "8": "t_console",
         "r": "t_floor_blue"
       },
       "place_loot": [ { "item": "anesthetic_kit", "x": 15, "y": 11 } ],
@@ -563,6 +574,11 @@
           "security": 2,
           "options": [ { "name": "UNLOCK AUTODOC DOOR", "action": "unlock", "security": 6 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        },
+        "8": {
+          "name": "Centrifuge",
+          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
+          "failures": [ { "action": "destroy_blood" } ]
         }
       },
       "place_monster": [
@@ -657,7 +673,7 @@
       "fill_ter": "t_thconc_floor",
       "rows": [
         ",,,,,|..|.....|.........",
-        ",,,,,|7.|.....|..cxcC...",
+        ",,,,,|7.|.....|..cc8C...",
         ",,,,,g..g.....g.......l.",
         ",,,,,g..g.....g.......l.",
         ",,,,,L..g.....|.......S.",
@@ -703,6 +719,11 @@
           "security": 4,
           "options": [ { "name": "EMERGENCY CONTAINMENT UNLOCK", "action": "unlock", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        },
+        "8": {
+          "name": "Centrifuge",
+          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
+          "failures": [ { "action": "destroy_blood" } ]
         }
       },
       "place_monster": [
@@ -819,7 +840,7 @@
         "...htth..g....gWWWcWWWl|",
         ".........G....LWWWcWWWW|",
         ".........g....|%WWCWWWW|",
-        "...htth..g....gWWWcWWWW|",
+        "...htth..g....gWWWxWWWW|",
         "...htth..g....gWWWWWWhd|",
         "........^|....grrrWWdxd|",
         ".........|....|---------"
