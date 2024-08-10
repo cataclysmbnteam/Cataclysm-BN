@@ -939,6 +939,14 @@
     "entries": [ { "item": "colt_army", "ammo-group": "on_hand_44paper", "charges": [ 0, 9 ] }, { "group": "on_hand_44paper" } ]
   },
   {
+    "id": "nested_colt_navy",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "colt_navy", "ammo-group": "on_hand_36paper", "charges": [ 0, 6 ] }, { "group": "on_hand_36paper" } ]
+  },
+  {
     "id": "nested_makarov",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

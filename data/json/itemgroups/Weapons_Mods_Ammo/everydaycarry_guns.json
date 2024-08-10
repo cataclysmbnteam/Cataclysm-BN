@@ -1834,6 +1834,16 @@
     ]
   },
   {
+    "id": "everyday_colt_navy",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "colt_navy", "ammo-group": "on_hand_36paper", "charges": [ 0, 6 ] },
+      { "group": "on_hand_36paper", "prob": 80, "charges": [ 5, 10 ], "count": [ 2, 3 ] }
+    ]
+  },
+  {
     "id": "everyday_pistol_flintlock",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
