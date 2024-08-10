@@ -936,10 +936,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [
-      { "item": "colt_army", "ammo-group": "on_hand_44paper", "charges": [ 0, 9 ] },
-      { "group": "on_hand_44paper" }
-    ]
+    "entries": [ { "item": "colt_army", "ammo-group": "on_hand_44paper", "charges": [ 0, 9 ] }, { "group": "on_hand_44paper" } ]
   },
   {
     "id": "nested_makarov",
