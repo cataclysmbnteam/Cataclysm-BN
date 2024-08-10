@@ -244,6 +244,7 @@
     "items": [
       { "group": "nested_af2011a1_38super", "prob": 10 },
       { "group": "nested_bond_410", "prob": 20 },
+      { "group": "nested_colt_army", "prob": 50 },
       { "group": "nested_colt_saa", "prob": 60 },
       { "group": "nested_cop_38", "prob": 30 },
       { "group": "nested_draco", "prob": 30 },
@@ -266,6 +267,7 @@
     "items": [
       { "group": "everyday_af2011a1_38super", "prob": 10 },
       { "group": "everyday_bond_410", "prob": 20 },
+      { "group": "everyday_colt_army", "prob": 50 },
       { "group": "everyday_colt_saa", "prob": 60 },
       { "group": "everyday_cop_38", "prob": 30 },
       { "group": "everyday_draco", "prob": 30 },
