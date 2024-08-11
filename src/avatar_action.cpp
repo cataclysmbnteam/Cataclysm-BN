@@ -988,21 +988,6 @@ void avatar_action::plthrow( avatar &you, item *loc,
                          ( *loc, blind_throw_from_pos ) ), false );
 }
 
-static void make_active( item &loc )
-{
-    map &here = get_map();
-    switch( loc.where() ) {
-        case item_location_type::map:
-            here.make_active( loc );
-            break;
-        case item_location_type::vehicle:
-            here.veh_at( loc.position() )->vehicle().make_active( loc );
-            break;
-        default:
-            break;
-    }
-}
-
 void avatar_action::use_item( avatar &you, item *loc )
 {
 
