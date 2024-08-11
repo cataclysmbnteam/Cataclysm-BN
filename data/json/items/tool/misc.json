@@ -313,7 +313,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You unroll the fur mat and lay it on the ground."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "grapnel",
@@ -605,7 +606,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You unroll the mat and lay it on the ground."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "safe_box",
