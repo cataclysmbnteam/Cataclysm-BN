@@ -1254,7 +1254,7 @@ class vehicle
         /**
          * Remove an item from active item processing queue as necessary
          */
-        void make_inactive( item &loc );
+        void make_inactive( item &target );
         /**
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
