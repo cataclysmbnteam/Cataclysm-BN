@@ -1042,9 +1042,11 @@ void avatar_action::use_item( avatar &you, item *loc )
     if( use_in_place ) {
         update_lum( *loc, false );
         avatar_funcs::use_item( you, *loc );
-        update_lum( *loc, true );
-
-        make_active( *loc );
+        // Don't bother with these if the item action removed it, e.g. deployables
+        if( loc->has_position() ) {
+            update_lum( *loc, true );
+            make_active( *loc );
+        }
     } else {
         avatar_funcs::use_item( you, *loc );
     }

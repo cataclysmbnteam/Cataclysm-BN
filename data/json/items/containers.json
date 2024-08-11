@@ -398,6 +398,7 @@
     "symbol": ")",
     "color": "brown",
     "contains": "5 L",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
   },
   {
@@ -1367,6 +1368,7 @@
     "contains": "20 L",
     "watertight": true,
     "qualities": [ [ "CONTAIN", 1 ] ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_trashcan" }
   }
 ]
