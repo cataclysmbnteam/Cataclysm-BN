@@ -1732,7 +1732,9 @@ static projectile make_gun_projectile( const item &gun )
 
         if( recover && !fx.has_effect( ammo_effect_IGNITE ) && !fx.has_effect( ammo_effect_EXPLOSIVE ) ) {
             detached_ptr<item> drop = item::spawn( gun.ammo_current(), calendar::turn, 1 );
-            fx.has_effect( ammo_effect_ACT_ON_RANGED_HIT ) ? drop->activate() : 0;
+            if( fx.has_effect( ammo_effect_ACT_ON_RANGED_HIT ) ) {
+                drop->activate();
+            }
             proj.set_drop( std::move( drop ) );
         }
 
