@@ -320,10 +320,13 @@ class item : public location_visitable<item>, public game_object<item>
          * @param alert whether to display any messages
          * @return same instance to allow method chaining
          */
-        void deactivate( const Character *ch = nullptr, bool alert = true );
+        void deactivate();
 
         /** Converts instance to active state */
         void activate();
+
+        /** Reverts item if able*/
+        bool revert( const Character *ch, bool alert = true );
 
         /**
          * Add or remove energy from a battery.
@@ -2121,6 +2124,7 @@ class item : public location_visitable<item>, public game_object<item>
         time_duration age() const;
         void set_age( const time_duration &age );
         void legacy_fast_forward_time();
+        bool _active() const;
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
@@ -2386,6 +2390,8 @@ class item : public location_visitable<item>, public game_object<item>
         time_point last_rot_check = calendar::turn_zero;
         /// The time the item was created.
         time_point bday;
+        // If true, it has active effects to be processed
+        bool active = false;
         // The faction that owns this item.
         mutable faction_id owner = faction_id::NULL_ID();
         // The faction that previously owned this item
@@ -2395,7 +2401,6 @@ class item : public location_visitable<item>, public game_object<item>
 
     public:
         char invlet = 0;      // Inventory letter
-        bool active = false; // If true, it has active effects to be processed
         //TODO! old safe reference type here
         player *activated_by = nullptr;
         bool is_favorite = false;

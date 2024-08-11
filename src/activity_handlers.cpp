@@ -1886,7 +1886,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 
         body->mod_damage( rng( 0, body->max_damage() - body->damage() ), DT_STAB );
         if( body->damage() == body->max_damage() ) {
-            body->active = false;
+            body->deactivate();
             p->add_msg_if_player( m_warning, _( "You cut up the corpse too much, it is thoroughly pulped." ) );
         } else {
             p->add_msg_if_player( m_warning,

@@ -574,7 +574,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     for( detached_ptr<item> &it : prof_items ) {
         if( it->has_flag( STATIC( flag_id( "WET" ) ) ) ) {
-            it->active = true;
+            it->activate();
             it->item_counter = 450; // Give it some time to dry off
         }
         if( it->is_book() ) {
