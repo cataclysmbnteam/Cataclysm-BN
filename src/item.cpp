@@ -551,6 +551,9 @@ void item::deactivate()
 
     active = false;
 
+    if( !has_position() ) {
+        return;
+    }
     switch( where() ) {
         case item_location_type::map:
             get_map().make_inactive( *this );
@@ -576,6 +579,9 @@ void item::activate()
 
     active = true;
 
+    if( !has_position() ) {
+        return;
+    }
     switch( where() ) {
         case item_location_type::map:
             get_map().make_active( *this );
