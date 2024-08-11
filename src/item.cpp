@@ -544,7 +544,7 @@ void item::convert( const itype_id &new_type )
 
 void item::deactivate()
 {
-    if( !( _active() && is_tool() ) ) {
+    if( !( is_active() && is_tool() ) ) {
         add_msg( "Already inactive" );
         return; // no-op
     }
@@ -569,7 +569,7 @@ void item::deactivate()
 
 void item::activate()
 {
-    if( _active() ) {
+    if( is_active() ) {
         return; // no-op
     }
 
@@ -1020,7 +1020,7 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     if( burnt != rhs.burnt ) {
         return false;
     }
-    if( _active() != rhs._active() ) {
+    if( is_active() != rhs.is_active() ) {
         return false;
     }
     if( item_tags != rhs.item_tags ) {
@@ -1785,7 +1785,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.emplace_back( "BASE", _( "damage: " ), "", iteminfo::lower_is_better,
                                damage_ );
             info.emplace_back( "BASE", _( "active: " ), "", iteminfo::lower_is_better,
-                               _active() );
+                               is_active() );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
 
@@ -4233,7 +4233,7 @@ nc_color item::color_in_inventory( const player &p ) const
         }
     } else if( has_flag( flag_LEAK_DAM ) && has_flag( flag_RADIOACTIVE ) && damage() > 0 ) {
         ret = c_light_green;
-    } else if( _active() && !is_food() && !is_food_container() && !is_corpse() ) {
+    } else if( is_active() && !is_food() && !is_food_container() && !is_corpse() ) {
         // Active items show up as yellow
         ret = c_yellow;
     } else if( is_corpse() && ( can_revive() || corpse->zombify_into ) && !has_flag( flag_PULPED ) ) {
@@ -4442,7 +4442,7 @@ void item::on_wear( Character &p )
         }
         flag_id transform_flag( actor->dependencies );
         for( const auto &elem : p.worn ) {
-            if( elem->has_flag( transform_flag ) && elem->_active() != _active() ) {
+            if( elem->has_flag( transform_flag ) && elem->is_active() != is_active() ) {
                 transform = true;
             }
         }
@@ -4471,7 +4471,7 @@ void item::on_takeoff( Character &p )
     }
 
     // if power armor, no power_draw and active, shut down.
-    if( type->can_use( "set_transformed" ) && _active() ) {
+    if( type->can_use( "set_transformed" ) && is_active() ) {
         const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
                                             ( this->get_use( "set_transformed" )->get_actor_ptr() );
         if( actor == nullptr ) {
@@ -4845,11 +4845,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( already_used_by_player( you ) ) {
         tagtext += _( " (used)" );
     }
-    if( _active() && ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_LITCIG ) ) ) {
+    if( is_active() && ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_LITCIG ) ) ) {
         tagtext += _( " (lit)" );
     } else if( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) {
         tagtext += _( " (plugged in)" );
-    } else if( _active() && !is_food() && !is_corpse() &&
+    } else if( is_active() && !is_food() && !is_corpse() &&
                !string_ends_with( typeId().str(), "_on" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
@@ -8493,7 +8493,7 @@ bool item::burn( fire_data &frd )
 
     if( is_corpse() ) {
         const mtype *mt = get_mtype();
-        if( _active() && mt != nullptr && burnt + burn_added > mt->hp &&
+        if( is_active() && mt != nullptr && burnt + burn_added > mt->hp &&
             !mt->burn_into.is_null() && mt->burn_into.is_valid() ) {
             corpse = &get_mtype()->burn_into.obj();
             // Delay rezing
@@ -9118,7 +9118,7 @@ uint64_t item::make_component_hash() const
 
 bool item::needs_processing() const
 {
-    return _active() || has_flag( flag_RADIO_ACTIVATION ) || has_flag( flag_ETHEREAL_ITEM ) ||
+    return is_active() || has_flag( flag_RADIO_ACTIVATION ) || has_flag( flag_ETHEREAL_ITEM ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
            is_artifact() || is_food();
 }
@@ -9397,7 +9397,7 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
     }
     self = self->process_extinguish( std::move( self ), carrier, pos );
     // process_extinguish might have extinguished the item already
-    if( !self->_active() ) {
+    if( !self->is_active() ) {
         return std::move( self );
     }
     item &it = *self;
@@ -9656,7 +9656,7 @@ detached_ptr<item> item::process_UPS( detached_ptr<item> &&self, player *carrier
         return std::move( self );
     }
     bool has_connected_cable = carrier->has_item_with( []( const item & it ) {
-        return it._active() && it.has_flag( flag_CABLE_SPOOL ) && ( it.get_var( "state" ) == "UPS_link" ||
+        return it.is_active() && it.has_flag( flag_CABLE_SPOOL ) && ( it.get_var( "state" ) == "UPS_link" ||
                 it.get_var( "state" ) == "UPS" );
     } );
     if( !has_connected_cable ) {
@@ -9702,7 +9702,7 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
                 bool active = false;
                 flag_id transform_flag( actor->dependencies );
                 for( const auto &elem : carrier->worn ) {
-                    if( elem->_active() && elem->has_flag( transform_flag ) ) {
+                    if( elem->is_active() && elem->has_flag( transform_flag ) ) {
                         active = true;
                         break;
                     }
@@ -9766,7 +9766,7 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
             }
             flag_id transformed_flag( actor->flag );
             for( auto &elem : carrier->worn ) {
-                if( elem->_active() && elem->has_flag( transformed_flag ) ) {
+                if( elem->is_active() && elem->has_flag( transformed_flag ) ) {
                     if( !elem->type->can_use( "set_transformed" ) ) {
                         debugmsg( "Expected set_transformed function" );
                         return std::move( self );
@@ -9783,7 +9783,7 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
         }
 
         // If no revert is defined, invoke the item (for use in grenades)
-        if( self->_active() && self->revert( carrier ) ) {
+        if( self->is_active() && self->revert( carrier ) ) {
             self->deactivate();
             return std::move( self );
         } else {
@@ -9886,7 +9886,7 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
     // food and as litcig and as ...
 
     // Remaining stuff is only done for active items.
-    if( !self->_active() ) {
+    if( !self->is_active() ) {
         return std::move( self );
     }
 
@@ -10274,7 +10274,7 @@ void item::legacy_fast_forward_time()
     last_rot_check = calendar::turn_zero + tmp_rot;
 }
 
-bool item::_active() const
+bool item::is_active() const
 {
     return active;
 }

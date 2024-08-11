@@ -438,7 +438,7 @@ void remove_radio_mod( item &it, player &p )
 static bool check_litcig( player &u )
 {
     auto cigs = u.items_with( []( const item & it ) {
-        return it._active() && it.has_flag( flag_LITCIG );
+        return it.is_active() && it.has_flag( flag_LITCIG );
     } );
     if( cigs.empty() ) {
         return true;
@@ -1782,7 +1782,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
 {
     if( !t ) {
         // Handle deploying fish trap.
-        if( it->_active() ) {
+        if( it->is_active() ) {
             it->deactivate();
             return 0;
         }
@@ -4173,7 +4173,7 @@ int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
     } else { // Turning it on/off
         if( it->charges == 0 ) {
             p->add_msg_if_player( _( "Your %s is empty." ), it->tname() );
-        } else if( it->_active() ) { //off
+        } else if( it->is_active() ) { //off
             p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
             it->set_var( "overwrite_env_resist", 0 );
             it->convert( itype_id( it->typeId().str().substr( 0,
@@ -6265,7 +6265,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
         const int songs = it->get_var( "EIPC_MUSIC", 0 );
         if( songs > 0 ) {
-            if( it->_active() ) {
+            if( it->is_active() ) {
                 amenu.addentry( ei_music, true, 'm', _( "Turn music off" ) );
             } else {
                 amenu.addentry( ei_music, true, 'm', _( "Turn music on [%d]" ), songs );
@@ -6355,7 +6355,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
             p->moves -= 30;
 
-            if( it->_active() ) {
+            if( it->is_active() ) {
                 it->deactivate();
                 it->erase_var( "EIPC_MUSIC_ON" );
 
@@ -7703,7 +7703,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
 
     }
 
-    if( it->_active() ) {
+    if( it->is_active() ) {
         add_msg( _( "The %s are clamped tightly on your wrists.  You can't take them off." ),
                  it->tname() );
     } else {
@@ -7919,7 +7919,7 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
 
     const char *car_action = nullptr;
 
-    if( !it->_active() ) {
+    if( !it->is_active() ) {
         car_action = _( "Take control of RC car" );
     } else {
         car_action = _( "Stop controlling RC car" );
@@ -7933,7 +7933,7 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
     if( choice < 0 ) {
         return 0;
     } else if( choice == 0 ) {
-        if( it->_active() ) {
+        if( it->is_active() ) {
             it->deactivate();
             p->remove_value( "remote_controlling" );
         } else {
@@ -8118,7 +8118,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
         return it->type->charges_to_use();
     }
 
-    bool controlling = it->_active() && remote != nullptr;
+    bool controlling = it->is_active() && remote != nullptr;
     int choice = uilist( _( "What to do with remote vehicle control:" ), {
         controlling ? _( "Stop controlling the vehicle." ) : _( "Take control of a vehicle." ),
         _( "Execute one vehicle action" )
@@ -8306,7 +8306,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             return !( it.is_toolmod() || it.is_magazine() );
         } );
 
-        if( it->_active() ) {
+        if( it->is_active() ) {
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
         } else {
             if( dish_it == nullptr ) {

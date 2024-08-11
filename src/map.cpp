@@ -3109,7 +3109,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
                 return std::move( it );
             }
         }
-        bool is_active_explosive = it->_active() && it->type->get_use( "explosion" ) != nullptr;
+        bool is_active_explosive = it->is_active() && it->type->get_use( "explosion" ) != nullptr;
         if( is_active_explosive && it->charges == 0 ) {
             return std::move( it );
         }
@@ -3665,7 +3665,7 @@ bash_results map::bash_items( const tripoint &p, const bash_params &params )
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active suppresses Molotovs smashing themselves with their own explosion
-        if( ( *bashed_item )->can_shatter() && !( *bashed_item )->_active() &&
+        if( ( *bashed_item )->can_shatter() && !( *bashed_item )->is_active() &&
             one_in( 2 ) ) {
             result.did_bash = true;
             smashed_glass = true;

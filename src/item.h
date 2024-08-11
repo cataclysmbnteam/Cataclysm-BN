@@ -2124,7 +2124,7 @@ class item : public location_visitable<item>, public game_object<item>
         time_duration age() const;
         void set_age( const time_duration &age );
         void legacy_fast_forward_time();
-        bool _active() const;
+        bool is_active() const;
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );

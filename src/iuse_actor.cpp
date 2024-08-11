@@ -463,7 +463,7 @@ int countdown_actor::use( player &p, item &it, bool t, const tripoint &pos ) con
         return 0;
     }
 
-    if( it._active() ) {
+    if( it.is_active() ) {
         return 0;
     }
 
@@ -479,7 +479,7 @@ int countdown_actor::use( player &p, item &it, bool t, const tripoint &pos ) con
 ret_val<bool> countdown_actor::can_use( const Character &, const item &it, bool,
                                         const tripoint & ) const
 {
-    if( it._active() ) {
+    if( it.is_active() ) {
         return ret_val<bool>::make_failure( _( "It's already been triggered." ) );
     }
 
@@ -958,7 +958,7 @@ int set_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) 
 
     const flag_id f( flag );
     for( auto &elem : p.worn ) {
-        if( elem->has_flag( f ) && elem->_active() == turn_off ) {
+        if( elem->has_flag( f ) && elem->is_active() == turn_off ) {
             if( elem->type->can_use( "set_transformed" ) ) {
                 const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
                                                     ( elem->get_use( "set_transformed" )->get_actor_ptr() );
@@ -1040,7 +1040,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( mtypeid );
     monster &newmon = *newmon_ptr;
     newmon.init_from_item( it );
-    tripoint pnt = it._active() ? pos : p.pos();
+    tripoint pnt = it.is_active() ? pos : p.pos();
     if( place_randomly ) {
         // place_critter_around returns the same pointer as its parameter (or null)
         // Allow position to be different from the player for tossed or launched items
@@ -1065,7 +1065,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
     }
     // If it's active then we know it was triggered by ACT_ON_RANGED_HIT and did not deactivate from lack of room earlier
     // If so, don't drain moves from remote deployment since it would trigger after the throw
-    if( !it._active() ) {
+    if( !it.is_active() ) {
         p.moves -= moves;
     }
     if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
@@ -2042,7 +2042,8 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         const mtype *mt = corpse_candidate->get_mtype();
         if( corpse_candidate->is_corpse() && mt->in_species( ZOMBIE ) &&
             mt->made_of( material_id( "flesh" ) ) &&
-            mt->in_species( HUMAN ) && corpse_candidate->_active() && !corpse_candidate->has_var( "zlave" ) ) {
+            mt->in_species( HUMAN ) && corpse_candidate->is_active() &&
+            !corpse_candidate->has_var( "zlave" ) ) {
             corpses.push_back( corpse_candidate );
         }
     }
@@ -2362,7 +2363,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
         return 0;
     }
 
-    if( !t && it._active() ) {
+    if( !t && it.is_active() ) {
         p.add_msg_player_or_npc( _( "You stop playing your %s" ),
                                  _( "<npcname> stops playing their %s" ),
                                  it.display_name() );
@@ -2393,7 +2394,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
     }
 
     // We can play the music now
-    if( !it._active() ) {
+    if( !it.is_active() ) {
         p.add_msg_player_or_npc( m_good,
                                  _( "You start playing your %s" ),
                                  _( "<npcname> starts playing their %s" ),
@@ -2667,7 +2668,7 @@ bool holster_actor::can_holster( const item &obj ) const
     if( max_weight > 0_gram && obj.weight() > max_weight ) {
         return false;
     }
-    if( obj._active() ) {
+    if( obj.is_active() ) {
         return false;
     }
     return std::any_of( flags.begin(), flags.end(), [&]( const std::string & f ) {
@@ -2702,7 +2703,7 @@ detached_ptr<item> holster_actor::store( player &p, item &holster, detached_ptr<
         return std::move( obj );
     }
 
-    if( obj->_active() ) {
+    if( obj->is_active() ) {
         p.add_msg_if_player( m_info, _( "You don't think putting your %1$s in your %2$s is a good idea" ),
                              obj->tname(), holster.tname() );
         return std::move( obj );

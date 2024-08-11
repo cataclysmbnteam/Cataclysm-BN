@@ -1216,7 +1216,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
-    const bool shatter = !thrown._active() && thrown.can_shatter() &&
+    const bool shatter = !thrown.is_active() && thrown.can_shatter() &&
                          rng( 0, units::to_milliliter( 2_liter - volume ) ) < who.get_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
@@ -1231,7 +1231,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
 
     proj.add_effect( ammo_effect_NO_ITEM_DAMAGE );
 
-    if( thrown._active() ) {
+    if( thrown.is_active() ) {
         // Can't have Molotovs embed into monsters
         // Monsters don't have inventory processing
         proj.add_effect( ammo_effect_NO_EMBED );
