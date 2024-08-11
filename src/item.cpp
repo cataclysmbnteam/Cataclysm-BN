@@ -551,6 +551,7 @@ void item::deactivate()
 
     active = false;
 
+    // Is not placed in the world, so either a template of some kind or a temporary item.
     if( !has_position() ) {
         return;
     }
@@ -579,6 +580,7 @@ void item::activate()
 
     active = true;
 
+    // Is not placed in the world, so either a template of some kind or a temporary item.
     if( !has_position() ) {
         return;
     }
