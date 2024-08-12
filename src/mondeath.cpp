@@ -872,7 +872,7 @@ void mdeath::detonate( monster &z )
     for( const auto &bombs : dets ) {
         detached_ptr<item> bomb_item = item::spawn( bombs.first, calendar::start_of_cataclysm );
         bomb_item->charges = bombs.second;
-        bomb_item->active = true;
+        bomb_item->activate();
         g->m.add_item_or_charges( z.pos(), std::move( bomb_item ) );
     }
 }

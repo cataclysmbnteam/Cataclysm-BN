@@ -159,7 +159,7 @@ detached_ptr<item> vehicle_part::properties_to_item() const
             tmp->erase_var( "source_y" );
             tmp->erase_var( "source_z" );
             tmp->erase_var( "state" );
-            tmp->active = false;
+            tmp->deactivate();
             tmp->charges = tmp->type->maximum_charges();
         } else {
             const tripoint local_pos = here.getlocal( target.first );
@@ -172,7 +172,7 @@ detached_ptr<item> vehicle_part::properties_to_item() const
             tmp->set_var( "source_y", target.first.y );
             tmp->set_var( "source_z", target.first.z );
             tmp->set_var( "state", "pay_out_cable" );
-            tmp->active = true;
+            tmp->activate();
         }
     }
 

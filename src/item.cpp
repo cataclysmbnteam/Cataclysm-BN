@@ -373,7 +373,7 @@ item::item( const recipe *rec, int qty, std::vector<detached_ptr<item>> &&items,
     craft_data_->comps_used = std::move( selections );
 
     if( is_food() ) {
-        active = true;
+        activate();
         last_rot_check = bday;
         if( goes_bad() ) {
             const item *most_rotten = get_most_rotten_component( *this );
@@ -542,26 +542,35 @@ void item::convert( const itype_id &new_type )
     relic_data = type->relic_data;
 }
 
-void item::deactivate( const Character *ch, bool alert )
+void item::deactivate()
 {
-    if( !( active && is_tool() ) ) {
+    if( !( is_active() && is_tool() ) ) {
+        add_msg( "Already inactive" );
         return; // no-op
     }
 
-    const auto &revert_to = type->tool->revert_to;
-    if( revert_to ) {
-        if( ch && alert && !type->tool->revert_msg.empty() ) {
-            ch->add_msg_if_player( m_info, _( type->tool->revert_msg ), tname() );
-        }
-        convert( *revert_to );
-        active = false;
+    active = false;
 
+    // Is not placed in the world, so either a template of some kind or a temporary item.
+    if( !has_position() ) {
+        return;
     }
+    switch( where() ) {
+        case item_location_type::map:
+            get_map().make_inactive( *this );
+            break;
+        case item_location_type::vehicle:
+            get_map().veh_at( position() )->vehicle().make_inactive( *this );
+            break;
+        default:
+            break;
+    }
+
 }
 
 void item::activate()
 {
-    if( active ) {
+    if( is_active() ) {
         return; // no-op
     }
 
@@ -571,6 +580,34 @@ void item::activate()
 
     active = true;
 
+    // Is not placed in the world, so either a template of some kind or a temporary item.
+    if( !has_position() ) {
+        return;
+    }
+    switch( where() ) {
+        case item_location_type::map:
+            get_map().make_active( *this );
+            break;
+        case item_location_type::vehicle:
+            get_map().veh_at( position() )->vehicle().make_active( *this );
+            break;
+        default:
+            break;
+    }
+}
+
+bool item::revert( const Character *ch, bool alert )
+{
+    const auto &tooldata = type->tool;
+    // Can't be reverted, prevents destruction of irrevertable items.
+    if( !tooldata->revert_to.has_value() ) {
+        return false;
+    }
+    if( ch && alert && !tooldata->revert_msg.empty() ) {
+        ch->add_msg_if_player( m_info, _( tooldata->revert_msg ), tname() );
+    }
+    convert( *tooldata->revert_to );
+    return true;
 }
 
 units::energy item::mod_energy( const units::energy &qty )
@@ -985,7 +1022,7 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     if( burnt != rhs.burnt ) {
         return false;
     }
-    if( active != rhs.active ) {
+    if( is_active() != rhs.is_active() ) {
         return false;
     }
     if( item_tags != rhs.item_tags ) {
@@ -1750,7 +1787,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.emplace_back( "BASE", _( "damage: " ), "", iteminfo::lower_is_better,
                                damage_ );
             info.emplace_back( "BASE", _( "active: " ), "", iteminfo::lower_is_better,
-                               active );
+                               is_active() );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
 
@@ -4198,7 +4235,7 @@ nc_color item::color_in_inventory( const player &p ) const
         }
     } else if( has_flag( flag_LEAK_DAM ) && has_flag( flag_RADIOACTIVE ) && damage() > 0 ) {
         ret = c_light_green;
-    } else if( active && !is_food() && !is_food_container() && !is_corpse() ) {
+    } else if( is_active() && !is_food() && !is_food_container() && !is_corpse() ) {
         // Active items show up as yellow
         ret = c_yellow;
     } else if( is_corpse() && ( can_revive() || corpse->zombify_into ) && !has_flag( flag_PULPED ) ) {
@@ -4407,7 +4444,7 @@ void item::on_wear( Character &p )
         }
         flag_id transform_flag( actor->dependencies );
         for( const auto &elem : p.worn ) {
-            if( elem->has_flag( transform_flag ) && elem->active != active ) {
+            if( elem->has_flag( transform_flag ) && elem->is_active() != is_active() ) {
                 transform = true;
             }
         }
@@ -4436,7 +4473,7 @@ void item::on_takeoff( Character &p )
     }
 
     // if power armor, no power_draw and active, shut down.
-    if( type->can_use( "set_transformed" ) && active ) {
+    if( type->can_use( "set_transformed" ) && is_active() ) {
         const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
                                             ( this->get_use( "set_transformed" )->get_actor_ptr() );
         if( actor == nullptr ) {
@@ -4811,11 +4848,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( already_used_by_player( you ) ) {
         tagtext += _( " (used)" );
     }
-    if( active && ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_LITCIG ) ) ) {
+    if( is_active() && ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_LITCIG ) ) ) {
         tagtext += _( " (lit)" );
     } else if( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) {
         tagtext += _( " (plugged in)" );
-    } else if( active && !is_food() && !is_corpse() &&
+    } else if( is_active() && !is_food() && !is_corpse() &&
                !string_ends_with( typeId().str(), "_on" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
@@ -8459,7 +8496,7 @@ bool item::burn( fire_data &frd )
 
     if( is_corpse() ) {
         const mtype *mt = get_mtype();
-        if( active && mt != nullptr && burnt + burn_added > mt->hp &&
+        if( is_active() && mt != nullptr && burnt + burn_added > mt->hp &&
             !mt->burn_into.is_null() && mt->burn_into.is_valid() ) {
             corpse = &get_mtype()->burn_into.obj();
             // Delay rezing
@@ -9084,7 +9121,7 @@ uint64_t item::make_component_hash() const
 
 bool item::needs_processing() const
 {
-    return active || has_flag( flag_RADIO_ACTIVATION ) || has_flag( flag_ETHEREAL_ITEM ) ||
+    return is_active() || has_flag( flag_RADIO_ACTIVATION ) || has_flag( flag_ETHEREAL_ITEM ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
            is_artifact() || is_food();
 }
@@ -9363,7 +9400,7 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
     }
     self = self->process_extinguish( std::move( self ), carrier, pos );
     // process_extinguish might have extinguished the item already
-    if( !self->active ) {
+    if( !self->is_active() ) {
         return std::move( self );
     }
     item &it = *self;
@@ -9426,7 +9463,7 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
                 weed_msg( *carrier );
             }
         }
-        it.active = false;
+        it.deactivate();
     }
     // Item remains
     return std::move( self );
@@ -9502,15 +9539,12 @@ detached_ptr<item> item::process_extinguish( detached_ptr<item> &&self, player *
             self->convert( itype_joint_roach );
         }
     } else { // transform (lit) items
-        const auto &revert_to = self->type->tool->revert_to;
-        if( revert_to ) {
-            self->convert( *revert_to );
-        } else {
+        if( !self->revert( carrier ) ) {
             self->type->invoke( carrier != nullptr ? *carrier : get_avatar(), *self, pos, "transform" );
         }
 
     }
-    self->active = false;
+    self->deactivate();
     // Item remains
     return std::move( self );
 }
@@ -9604,7 +9638,7 @@ void item::reset_cable( player *p )
     erase_var( "source_x" );
     erase_var( "source_y" );
     erase_var( "source_z" );
-    active = false;
+    deactivate();
     charges = max_charges;
 
     if( p != nullptr ) {
@@ -9621,16 +9655,16 @@ detached_ptr<item> item::process_UPS( detached_ptr<item> &&self, player *carrier
     }
     if( carrier == nullptr ) {
         self->erase_var( "cable" );
-        self->active = false;
+        self->deactivate();
         return std::move( self );
     }
     bool has_connected_cable = carrier->has_item_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_CABLE_SPOOL ) && ( it.get_var( "state" ) == "UPS_link" ||
+        return it.is_active() && it.has_flag( flag_CABLE_SPOOL ) && ( it.get_var( "state" ) == "UPS_link" ||
                 it.get_var( "state" ) == "UPS" );
     } );
     if( !has_connected_cable ) {
         self->erase_var( "cable" );
-        self->active = false;
+        self->deactivate();
     }
     return std::move( self );
 }
@@ -9642,7 +9676,7 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
             convert( *type->tool->revert_to );
         }
         unset_flag( flag_WET );
-        active = false;
+        deactivate();
     }
     // Always return true so our caller will bail out instead of processing us as a tool.
     return true;
@@ -9671,7 +9705,7 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
                 bool active = false;
                 flag_id transform_flag( actor->dependencies );
                 for( const auto &elem : carrier->worn ) {
-                    if( elem->active && elem->has_flag( transform_flag ) ) {
+                    if( elem->is_active() && elem->has_flag( transform_flag ) ) {
                         active = true;
                         break;
                     }
@@ -9735,7 +9769,7 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
             }
             flag_id transformed_flag( actor->flag );
             for( auto &elem : carrier->worn ) {
-                if( elem->active && elem->has_flag( transformed_flag ) ) {
+                if( elem->is_active() && elem->has_flag( transformed_flag ) ) {
                     if( !elem->type->can_use( "set_transformed" ) ) {
                         debugmsg( "Expected set_transformed function" );
                         return std::move( self );
@@ -9751,13 +9785,12 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
             }
         }
 
-        // invoking the object can convert the item to another type
-        const bool had_revert_to = self->type->tool->revert_to.has_value();
-        self->type->invoke( carrier != nullptr ? *carrier : you, *self, pos );
-        if( had_revert_to ) {
-            self->deactivate( carrier );
+        // If no revert is defined, invoke the item (for use in grenades)
+        if( self->is_active() && self->revert( carrier ) ) {
+            self->deactivate();
             return std::move( self );
         } else {
+            self->type->invoke( carrier != nullptr ? *carrier : you, *self, pos );
             return detached_ptr<item>();
         }
     }
@@ -9856,7 +9889,7 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
     // food and as litcig and as ...
 
     // Remaining stuff is only done for active items.
-    if( !self->active ) {
+    if( !self->is_active() ) {
         return std::move( self );
     }
 
@@ -10242,6 +10275,11 @@ void item::legacy_fast_forward_time()
 
     const time_duration tmp_rot = ( last_rot_check - calendar::turn_zero ) * 6;
     last_rot_check = calendar::turn_zero + tmp_rot;
+}
+
+bool item::is_active() const
+{
+    return active;
 }
 
 time_point item::birthday() const

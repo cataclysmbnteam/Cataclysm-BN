@@ -2977,7 +2977,7 @@ invlets_bitset Character::allocated_invlets() const
 bool Character::has_active_item( const itype_id &id ) const
 {
     return has_item_with( [id]( const item & it ) {
-        return it.active && it.typeId() == id;
+        return it.is_active() && it.typeId() == id;
     } );
 }
 
@@ -4324,7 +4324,7 @@ bool Character::is_wearing_power_armor( bool *hasHelmet ) const
 bool Character::is_wearing_active_power_armor() const
 {
     for( const auto &w : worn ) {
-        if( w->has_flag( flag_POWERARMOR_EXO ) && w->active ) {
+        if( w->has_flag( flag_POWERARMOR_EXO ) && w->is_active() ) {
             return true;
         }
     }
@@ -4334,7 +4334,7 @@ bool Character::is_wearing_active_power_armor() const
 bool Character::is_wearing_active_optcloak() const
 {
     for( const auto &w : worn ) {
-        if( w->active && w->has_flag( flag_ACTIVE_CLOAKING ) ) {
+        if( w->is_active() && w->has_flag( flag_ACTIVE_CLOAKING ) ) {
             return true;
         }
     }

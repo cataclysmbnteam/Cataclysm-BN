@@ -276,6 +276,9 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         p.moves -= moves;
     }
 
+    // Update Luminosity as object is "removed"
+    get_map().update_lum( it, false );
+
     if( p.is_worn( it ) ) {
         p.on_item_takeoff( it );
     }
@@ -308,8 +311,10 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         p.on_item_wear( it );
     }
     p.inv_update_cache_with_item( it );
+    // Update luminosity as object is "added"
+    get_map().update_lum( it, true );
     it.item_counter = countdown > 0 ? countdown : it.type->countdown_interval;
-    it.active = active || it.item_counter;
+    ( active || it.item_counter ) ? it.activate() : it.deactivate();
     // Check for gaining or losing night vision, eye encumbrance effects, clairvoyance from transforming relics, etc.
     p.recalc_sight_limits();
 
@@ -458,7 +463,7 @@ int countdown_actor::use( player &p, item &it, bool t, const tripoint &pos ) con
         return 0;
     }
 
-    if( it.active ) {
+    if( it.is_active() ) {
         return 0;
     }
 
@@ -467,14 +472,14 @@ int countdown_actor::use( player &p, item &it, bool t, const tripoint &pos ) con
     }
 
     it.item_counter = interval > 0 ? interval : it.type->countdown_interval;
-    it.active = true;
+    it.activate();
     return 0;
 }
 
 ret_val<bool> countdown_actor::can_use( const Character &, const item &it, bool,
                                         const tripoint & ) const
 {
-    if( it.active ) {
+    if( it.is_active() ) {
         return ret_val<bool>::make_failure( _( "It's already been triggered." ) );
     }
 
@@ -953,7 +958,7 @@ int set_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) 
 
     const flag_id f( flag );
     for( auto &elem : p.worn ) {
-        if( elem->has_flag( f ) && elem->active == turn_off ) {
+        if( elem->has_flag( f ) && elem->is_active() == turn_off ) {
             if( elem->type->can_use( "set_transformed" ) ) {
                 const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
                                                     ( elem->get_use( "set_transformed" )->get_actor_ptr() );
@@ -1035,7 +1040,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( mtypeid );
     monster &newmon = *newmon_ptr;
     newmon.init_from_item( it );
-    tripoint pnt = it.active ? pos : p.pos();
+    tripoint pnt = it.is_active() ? pos : p.pos();
     if( place_randomly ) {
         // place_critter_around returns the same pointer as its parameter (or null)
         // Allow position to be different from the player for tossed or launched items
@@ -1043,7 +1048,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
             p.add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
                                  newmon.name() );
             // If remotely triggered due to ACT_ON_RANGED_HIT, set it back to being inactive so it won't spawn infinitely
-            it.active = false;
+            it.deactivate();
             return 0;
         }
     } else {
@@ -1060,7 +1065,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
     }
     // If it's active then we know it was triggered by ACT_ON_RANGED_HIT and did not deactivate from lack of room earlier
     // If so, don't drain moves from remote deployment since it would trigger after the throw
-    if( !it.active ) {
+    if( !it.is_active() ) {
         p.moves -= moves;
     }
     if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
@@ -2037,7 +2042,8 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         const mtype *mt = corpse_candidate->get_mtype();
         if( corpse_candidate->is_corpse() && mt->in_species( ZOMBIE ) &&
             mt->made_of( material_id( "flesh" ) ) &&
-            mt->in_species( HUMAN ) && corpse_candidate->active && !corpse_candidate->has_var( "zlave" ) ) {
+            mt->in_species( HUMAN ) && corpse_candidate->is_active() &&
+            !corpse_candidate->has_var( "zlave" ) ) {
             corpses.push_back( corpse_candidate );
         }
     }
@@ -2197,7 +2203,7 @@ int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) c
         p.add_msg_if_player( _( success_message ) );
 
         it.convert( target_id );
-        it.active = true;
+        it.activate();
     } else if( !failure_message.empty() ) {
         p.add_msg_if_player( m_bad, _( failure_message ) );
     }
@@ -2254,7 +2260,8 @@ int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) co
     }
 
     if( extinguish ) {
-        it.deactivate( &p, false );
+        it.revert( &p, false );
+        it.deactivate();
 
     } else if( one_in( noise_chance ) ) {
         if( noise > 0 ) {
@@ -2335,14 +2342,14 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
     if( p.is_mounted() ) {
         p.add_msg_player_or_npc( m_bad, _( "You can't play music while mounted." ),
                                  _( "<npcname> can't play music while mounted." ) );
-        it.active = false;
+        it.deactivate();
         return 0;
     }
     if( p.is_underwater() ) {
         p.add_msg_player_or_npc( m_bad,
                                  _( "You can't play music underwater" ),
                                  _( "<npcname> can't play music underwater" ) );
-        it.active = false;
+        it.deactivate();
         return 0;
     }
 
@@ -2352,15 +2359,15 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
                                  _( "You stop playing your %s" ),
                                  _( "<npcname> stops playing their %s" ),
                                  it.display_name() );
-        it.active = false;
+        it.deactivate();
         return 0;
     }
 
-    if( !t && it.active ) {
+    if( !t && it.is_active() ) {
         p.add_msg_player_or_npc( _( "You stop playing your %s" ),
                                  _( "<npcname> stops playing their %s" ),
                                  it.display_name() );
-        it.active = false;
+        it.deactivate();
         return 0;
     }
 
@@ -2372,7 +2379,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
                                  _( "You need to hold or wear %s to play it" ),
                                  _( "<npcname> needs to hold or wear %s to play it" ),
                                  it.display_name() );
-        it.active = false;
+        it.deactivate();
         return 0;
     }
 
@@ -2382,17 +2389,17 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
                                  _( "You feel too weak to play your %s" ),
                                  _( "<npcname> feels too weak to play their %s" ),
                                  it.display_name() );
-        it.active = false;
+        it.deactivate();
         return 0;
     }
 
     // We can play the music now
-    if( !it.active ) {
+    if( !it.is_active() ) {
         p.add_msg_player_or_npc( m_good,
                                  _( "You start playing your %s" ),
                                  _( "<npcname> starts playing their %s" ),
                                  it.display_name() );
-        it.active = true;
+        it.activate();
     }
 
     if( p.get_effect_int( effect_playing_instrument ) <= speed_penalty ) {
@@ -2661,7 +2668,7 @@ bool holster_actor::can_holster( const item &obj ) const
     if( max_weight > 0_gram && obj.weight() > max_weight ) {
         return false;
     }
-    if( obj.active ) {
+    if( obj.is_active() ) {
         return false;
     }
     return std::any_of( flags.begin(), flags.end(), [&]( const std::string & f ) {
@@ -2696,7 +2703,7 @@ detached_ptr<item> holster_actor::store( player &p, item &holster, detached_ptr<
         return std::move( obj );
     }
 
-    if( obj->active ) {
+    if( obj->is_active() ) {
         p.add_msg_if_player( m_info, _( "You don't think putting your %1$s in your %2$s is a good idea" ),
                              obj->tname(), holster.tname() );
         return std::move( obj );

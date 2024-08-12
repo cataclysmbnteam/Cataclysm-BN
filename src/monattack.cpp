@@ -1000,7 +1000,7 @@ bool mattack::resurrect( monster *z )
 
         for( auto &i : g->m.i_at( p ) ) {
             const mtype *mt = i->get_mtype();
-            if( !( i->is_corpse() && i->can_revive() && i->active && mt->has_flag( MF_REVIVES ) &&
+            if( !( i->is_corpse() && i->can_revive() && i->is_active() && mt->has_flag( MF_REVIVES ) &&
                    mt->in_species( ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
                 continue;
             }
@@ -4899,7 +4899,7 @@ bool mattack::riotbot( monster *z )
 
             detached_ptr<item> handcuffs = item::spawn( "e_handcuffs", calendar::start_of_cataclysm );
             handcuffs->charges = handcuffs->type->maximum_charges();
-            handcuffs->active = true;
+            handcuffs->activate();
             handcuffs->set_var( "HANDCUFFS_X", foe->posx() );
             handcuffs->set_var( "HANDCUFFS_Y", foe->posy() );
 
@@ -5595,7 +5595,7 @@ bool mattack::kamikaze( monster *z )
             z->die( nullptr );
             // Timer is out, detonate
             detached_ptr<item> i_explodes = item::spawn( act_bomb_type, calendar::turn, 0 );
-            i_explodes->active = true;
+            i_explodes->activate();
             item::process( std::move( i_explodes ), nullptr, z->pos(), false );
             return false;
         }
