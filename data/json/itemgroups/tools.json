@@ -262,24 +262,33 @@
     "items": [
       [ "hammer_bronze", 5 ],
       { "group": "charged_UPS", "prob": 5 },
-      [ "jack", 80 ],
-      [ "jack_small", 80 ],
+      [ "jack", 50 ],
+      [ "jack_small", 50 ],
       {
-        "collection": [
-          { "item": "oxy_torch", "prob": 100 },
+        "distribution": [
           {
-            "distribution": [ { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] }, { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] } ],
-            "prob": 100
+            "collection": [
+              { "item": "oxy_torch" },
+              {
+                "distribution": [ { "item": "weldtank", "prob": 1 }, { "item": "tinyweldtank", "prob": 1, "count": [ 1, 2 ] } ],
+                "prob": 40
+              }
+            ],
+            "prob": 15
+          },
+          {
+            "collection": [ { "item": "welder", "charges-min": 0 }, { "item": "medium_plus_battery_cell", "count": [ 1, 2 ], "prob": 80 } ],
+            "prob": 10
           }
         ],
+        "prob": 60
+      },
+      [ "polisher", 30 ],
+      [ "angle_grinder", 5 ],
+      {
+        "distribution": [ { "item": "welding_mask", "prob": 1 }, { "item": "goggles_welding", "prob": 1 } ],
         "prob": 80
       },
-      [ "oxy_torch", 60 ],
-      { "item": "weldtank", "prob": 60, "count": [ 1, 2 ] },
-      { "item": "tinyweldtank", "prob": 60, "count": [ 1, 3 ] },
-      [ "polisher", 70 ],
-      [ "angle_grinder", 5 ],
-      [ "welder", 10 ],
       [ "clamp", 10 ]
     ]
   },
