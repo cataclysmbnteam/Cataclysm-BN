@@ -2331,7 +2331,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             src_veh = &vp->vehicle();
             src_part = vp->part_index();
             for( auto &it : src_veh->get_items( src_part ) ) {
-                if( !it->is_owned_by( p, true ) ) {
+                if( !it->is_owned_by( p, true ) && it->get_owner()->likes_u >= -10 ) {
                     continue;
                 }
                 it->set_owner( p );
@@ -2342,7 +2342,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             src_part = -1;
         }
         for( auto &it : here.i_at( src_loc ) ) {
-            if( !it->is_owned_by( p, true ) ) {
+            if( !it->is_owned_by( p, true ) && it->get_owner()->likes_u >= -10 ) {
                 continue;
             }
             it->set_owner( p );
@@ -3230,8 +3230,8 @@ bool find_auto_consume( player &p, const consume_type type )
         {
             return false;
         }
-        /* not ours               */
-        if( !it.is_owned_by( p, true ) )
+        /* not ours, freely steal from hostiles however  */
+        if( !it.is_owned_by( p, true ) && it.get_owner()->likes_u >= -10 )
         {
             return false;
         }
