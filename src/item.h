@@ -316,16 +316,17 @@ class item : public location_visitable<item>, public game_object<item>
         /**
          * Converts this instance to the inactive type
          * If the item is either inactive or cannot be deactivated is a no-op
-         * @param ch character currently possessing or acting upon the item (if any)
-         * @param alert whether to display any messages
-         * @return same instance to allow method chaining
          */
         void deactivate();
 
         /** Converts instance to active state */
         void activate();
 
-        /** Reverts item if able*/
+        /** Reverts item if able
+         * @param ch character currently possessing or acting upon the item (if any)
+         * @param alert whether to display any messages
+         * @return true if item reverted or false if no revert available.
+         */
         bool revert( const Character *ch, bool alert = true );
 
         /**
