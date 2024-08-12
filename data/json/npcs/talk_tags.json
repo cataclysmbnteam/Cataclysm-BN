@@ -362,10 +362,8 @@
     "category": "<name_g>",
     "//": "Friendly name pro-nouns and references",
     "text": [
-      "amigo",
       "comrade",
       "my good fellow",
-      "lad",
       "mate",
       "my fellow nomad",
       "partner",
@@ -376,8 +374,7 @@
       "fella",
       "my dude",
       "buddy",
-      "chum",
-      "bruv"
+      "chum"
     ]
   },
   {
