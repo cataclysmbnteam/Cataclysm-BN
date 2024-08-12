@@ -4521,8 +4521,9 @@ void item::handle_pickup_ownership( Character &c )
         if( !is_owned_by( c ) && &c == &you ) {
             std::vector<npc *> witnesses;
             for( npc &elem : g->all_npcs() ) {
+                // If they already want to murder you, no point in confronting you about theft
                 if( rl_dist( elem.pos(), you.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
-                    is_owned_by( elem ) && elem.sees( you.pos() ) ) {
+                    is_owned_by( elem ) && elem.sees( you.pos() ) && !elem.guaranteed_hostile() ) {
                     elem.say( "<witnessed_thievery>", 7 );
                     npc *npc_to_add = &elem;
                     witnesses.push_back( npc_to_add );
