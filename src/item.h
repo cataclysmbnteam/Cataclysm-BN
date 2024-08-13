@@ -62,6 +62,7 @@ struct tripoint;
 template<typename T>
 class ret_val;
 class item_location;
+struct attack_statblock;
 
 namespace enchant_vals
 {
@@ -638,6 +639,9 @@ class item : public location_visitable<item>, public game_object<item>
 
         /** Damage of given type caused when this item is used as melee weapon */
         int damage_melee( damage_type dt ) const;
+        int damage_melee( const attack_statblock &attack, damage_type dt ) const;
+        /** Gets @ref itype::attacks, modified by this item modifiers (gunmods, DIAMOND etc.) */
+        std::map<std::string, attack_statblock> get_attacks() const;
 
         /** All damage types this item deals when used in melee (no skill modifiers etc. applied). */
         damage_instance base_damage_melee() const;

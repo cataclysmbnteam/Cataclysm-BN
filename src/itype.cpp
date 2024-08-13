@@ -40,6 +40,7 @@ std::string enum_to_string<condition_type>( condition_type data )
 itype::itype()
 {
     melee.fill( 0 );
+    attacks["DEFAULT"] = attack_statblock();
 }
 
 itype::~itype() = default;
