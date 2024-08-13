@@ -197,17 +197,7 @@ resistances::resistances( const item &armor, bool to_self )
         }
     }
 }
-resistances::resistances( monster &monster ) : resistances()
-{
-    set_resist( DT_BASH, monster.type->armor_bash );
-    set_resist( DT_CUT,  monster.type->armor_cut );
-    set_resist( DT_STAB, monster.type->armor_stab );
-    set_resist( DT_BULLET, monster.type->armor_bullet );
-    set_resist( DT_ACID, monster.type->armor_acid );
-    set_resist( DT_HEAT, monster.type->armor_fire );
-    set_resist( DT_COLD, monster.type->armor_cold );
-    set_resist( DT_ELECTRIC, monster.type->armor_electric );
-}
+
 void resistances::set_resist( damage_type dt, float amount )
 {
     flat[dt] = amount;

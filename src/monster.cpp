@@ -1338,7 +1338,7 @@ monster_attitude monster::attitude( const Character *u ) const
         }
         // Zombies don't understand not attacking NPCs, but dogs and bots should.
         const npc *np = dynamic_cast< const npc * >( u );
-        if( np != nullptr && np->get_attitude() != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
+        if( np != nullptr && !np->guaranteed_hostile() && !type->in_species( ZOMBIE ) ) {
             return MATT_FRIEND;
         }
         if( np != nullptr && np->is_hallucination() ) {
@@ -1653,12 +1653,28 @@ bool monster::block_ranged_hit( Creature *, bodypart_id &, damage_instance & )
 
 void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
+    resistances res = resists();
     for( auto &elem : dam.damage_units ) {
         add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
                  name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
-        elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ) +
-                                 get_worn_armor_val( elem.type ), elem.amount );
+        elem.amount -= std::min( res.get_effective_resist( elem ), elem.amount );
     }
+}
+
+resistances monster::resists() const
+{
+    resistances res;
+    // TODO: Get armor resists once instead of recalculating per-type
+    res.set_resist( DT_BASH, type->armor_bash + armor_bash_bonus + get_worn_armor_val( DT_BASH ) );
+    res.set_resist( DT_CUT, type->armor_cut + armor_cut_bonus + get_worn_armor_val( DT_CUT ) );
+    res.set_resist( DT_STAB, type->armor_stab + get_worn_armor_val( DT_STAB ) );
+    res.set_resist( DT_BULLET, type->armor_bullet + armor_bullet_bonus + get_worn_armor_val(
+                        DT_BULLET ) );
+    res.set_resist( DT_ACID, type->armor_acid + get_worn_armor_val( DT_ACID ) );
+    res.set_resist( DT_HEAT, type->armor_fire + get_worn_armor_val( DT_HEAT ) );
+    res.set_resist( DT_COLD, type->armor_cold + get_worn_armor_val( DT_COLD ) );
+    res.set_resist( DT_ELECTRIC, type->armor_electric + get_worn_armor_val( DT_ELECTRIC ) );
+    return res;
 }
 
 void monster::melee_attack( Creature &target )
@@ -3067,6 +3083,10 @@ detached_ptr<item> monster::to_item() const
     // If we have a nickname, save it via the item's label
     if( !unique_name.empty() ) {
         result->set_var( "item_label", unique_name );
+    }
+    // If it's configured as a pet and not merely friendly, make sure next time we skip re-rolling for a friendly deployment.
+    if( has_effect( effect_pet ) ) {
+        result->set_flag( flag_SPAWN_FRIENDLY );
     }
     return result;
 }

@@ -1005,7 +1005,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             ctr->charges = units::to_kilojoule( get_power_level() );
             int power_use = invoke_item( ctr );
             mod_power_level( units::from_kilojoule( -power_use ) );
-            bio.powered = ctr->active;
+            bio.powered = ctr->is_active();
         } else {
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
         }
@@ -1400,7 +1400,7 @@ itype_id Character::find_remote_fuel( bool look_only )
     map &here = get_map();
 
     const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_CABLE_SPOOL );
+        return it.is_active() && it.has_flag( flag_CABLE_SPOOL );
     } );
 
     for( const item *cable : cables ) {
@@ -1452,7 +1452,7 @@ int Character::consume_remote_fuel( int amount )
 {
     int unconsumed_amount = amount;
     const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_CABLE_SPOOL );
+        return it.is_active() && it.has_flag( flag_CABLE_SPOOL );
     } );
 
     map &here = get_map();

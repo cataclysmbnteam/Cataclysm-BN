@@ -1479,7 +1479,8 @@ bool query_consume_ownership( item &target, avatar &you )
     if( you.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
         you.set_value( "THIEF_MODE", "THIEF_ASK" );
     }
-    if( !target.is_owned_by( you, true ) ) {
+    // We don't care about the opinions of NPCs that will already shoot us on sight, steal away!
+    if( !target.is_owned_by( you, true ) && target.get_owner()->likes_u >= -10 ) {
         bool choice = true;
         if( you.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             choice = pickup::query_thief();

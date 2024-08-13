@@ -24,7 +24,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_c4_hack",
@@ -51,7 +51,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_flashbang_hack",
@@ -78,7 +78,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_gasbomb_hack",
@@ -105,7 +105,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_grenade_hack",
@@ -132,7 +132,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_laserturret",
@@ -154,7 +154,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_manhack",
@@ -181,7 +182,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_mininuke_hack",
@@ -209,7 +210,7 @@
       "skills": [ "electronics", "computer" ]
     },
     "//": "Good luck tossing this one, but sure why not",
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_turret_riot",
@@ -231,7 +232,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_secubot",
@@ -255,7 +257,8 @@
       "difficulty": 6,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_talon_m202a1",
@@ -279,7 +282,8 @@
       "difficulty": 6,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_nursebot",
@@ -303,7 +307,8 @@
       "difficulty": 6,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_grocerybot",
@@ -327,7 +332,8 @@
       "difficulty": 6,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_grocerybot_busted",
@@ -351,7 +357,8 @@
       "difficulty": 4,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_broken_cyborg",
@@ -377,7 +384,8 @@
       "difficulty": 9,
       "moves": 250,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_prototype_cyborg",
@@ -403,7 +411,8 @@
       "difficulty": 9,
       "moves": 250,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_copbot",
@@ -429,7 +438,8 @@
       "difficulty": 3,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_eyebot",
@@ -458,7 +468,7 @@
       "skills": [ "electronics", "computer" ]
     },
     "//": "Few character will have the strength for this, but allow trying it anyway",
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_hazmatbot",
@@ -482,8 +492,10 @@
       "//": "Currently has no higher functions",
       "difficulty": 1,
       "moves": 100,
+      "is_pet": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_haulerbot",
@@ -509,7 +521,8 @@
       "moves": 100,
       "is_pet": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_molebot",
@@ -535,7 +548,8 @@
       "difficulty": 3,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_riotbot",
@@ -561,7 +575,8 @@
       "difficulty": 4,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_skitterbot",
@@ -587,7 +602,8 @@
       "difficulty": 4,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_science_bot",
@@ -613,7 +629,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_turret_searchlight",
@@ -638,7 +655,8 @@
       "difficulty": 4,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_dispatch",
@@ -662,7 +680,8 @@
       "difficulty": 1,
       "moves": 300,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_dispatch_military",
@@ -686,7 +705,8 @@
       "difficulty": 1,
       "moves": 300,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_turret_light",
@@ -708,7 +728,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_turret_medium",
@@ -730,7 +751,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_turret_longrange",
@@ -752,6 +774,7 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]

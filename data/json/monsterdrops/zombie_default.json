@@ -121,7 +121,7 @@
       { "group": "vending_drink_items", "prob": 25 },
       { "item": "laptop", "prob": 10, "charges-min": 0, "charges-max": 500 },
       { "item": "eink_tablet_pc", "prob": 10, "charges-min": 0, "charges-max": 50 },
-      { "item": "vibrator", "prob": 5, "charges-min": 0, "charges-max": 50 },
+      { "item": "vibrator", "prob": 1, "charges-min": 0, "charges-max": 50 },
       { "item": "teleumbrella", "prob": 10 },
       { "item": "file", "prob": 10 },
       { "item": "thermos", "prob": 10 },
@@ -132,9 +132,12 @@
       },
       {
         "distribution": [
-          { "group": "tools_carpentry", "prob": 33 },
-          { "group": "tools_home", "prob": 33 },
-          { "group": "tools_electronics", "prob": 33 }
+          { "group": "tools_carpentry", "prob": 10 },
+          { "group": "tools_home", "prob": 10 },
+          { "group": "tools_electronics", "prob": 10 },
+          { "group": "tools_mechanic", "prob": 4 },
+          { "group": "postman_gear", "prob": 2 },
+          { "group": "hardware_plumbing", "prob": 1 }
         ],
         "prob": 5
       },
@@ -175,29 +178,7 @@
         "prob": 1
       },
       {
-        "distribution": [
-          { "item": "cig", "prob": 65, "charges-min": 0, "charges-max": 20 },
-          { "item": "chaw", "prob": 5 },
-          { "item": "cigar", "prob": 10 },
-          { "item": "handrolled_cig", "prob": 10 },
-          { "item": "nic_gum", "prob": 20 },
-          { "item": "ecig", "prob": 15 },
-          { "collection": [ { "item": "weed" }, { "item": "pipe_glass", "prob": 50 } ], "prob": 10 },
-          { "distribution": [ { "item": "joint", "prob": 80 }, { "item": "joint_roach", "prob": 20 } ], "prob": 10 },
-          {
-            "collection": [
-              { "item": "tobacco" },
-              { "distribution": [ { "item": "rolling_paper", "prob": 80 }, { "item": "pipe_tobacco", "prob": 20 } ] }
-            ],
-            "prob": 10
-          },
-          { "collection": [ { "item": "advanced_ecig" }, { "item": "nicotine_liquid" } ], "prob": 10 },
-          { "collection": [ { "item": "crackpipe" }, { "item": "crack" } ], "prob": 5 }
-        ],
-        "prob": 50
-      },
-      {
-        "distribution": [ { "item": "lighter", "prob": 40 }, { "item": "ref_lighter", "prob": 40 }, { "item": "matches", "prob": 20 } ],
+        "distribution": [ { "item": "lighter", "prob": 60 }, { "item": "ref_lighter", "prob": 30 }, { "item": "matches", "prob": 20 } ],
         "prob": 30
       },
       { "distribution": [ { "item": "gum" }, { "item": "caff_gum" } ], "prob": 30 },
@@ -214,6 +195,7 @@
       { "item": "multitool", "prob": 5 },
       { "item": "permanent_marker", "prob": 10 },
       { "group": "softdrugs", "prob": 10 },
+      { "group": "smokedrugs", "prob": 35 },
       { "group": "harddrugs", "prob": 5 },
       { "group": "phones", "prob": 85 },
       { "group": "vending_food_items", "prob": 50 }
@@ -227,11 +209,15 @@
     "ammo": 30,
     "magazine": 100,
     "groups": [
-      [ "default_zombie_items_bags", 16 ],
-      [ "default_zombie_items_pockets", 20 ],
-      { "group": "default_zombie_carried_guns", "prob": 3, "damage": [ 0, 2 ], "dirt": [ 0, 1500 ] },
-      [ "postman_gear", 5 ],
-      [ "hardware_plumbing", 5 ]
+      [ "default_zombie_items_bags", 36 ],
+      [ "default_zombie_items_pockets", 40 ],
+      {
+        "distribution": [
+          { "group": "default_zombie_carried_guns", "damage": [ 0, 2 ], "dirt": [ 0, 1500 ], "prob": 2 },
+          { "group": "weapons", "damage": [ 0, 2 ], "prob": 3 }
+        ],
+        "prob": 2
+      }
     ]
   },
   {
@@ -239,13 +225,13 @@
     "subtype": "distribution",
     "id": "default_zombie_carried_guns",
     "entries": [
-      { "group": "carried_guns_pistol_common", "prob": 40 },
+      { "group": "carried_guns_pistol_common", "prob": 50 },
       { "group": "guns_pistol_improvised", "prob": 5 },
       { "group": "carried_guns_pistol_rare", "prob": 5 },
       { "group": "carried_guns_shotgun_common", "prob": 16 },
       { "group": "guns_shotgun_improvised", "prob": 2 },
       { "group": "carried_guns_shotgun_rare", "prob": 2 },
-      { "group": "carried_guns_rifle_common", "prob": 16 },
+      { "group": "carried_guns_rifle_common", "prob": 25 },
       { "group": "guns_rifle_improvised", "prob": 2 },
       { "group": "carried_guns_rifle_rare", "prob": 2 },
       { "group": "carried_guns_smg_common", "prob": 8 },

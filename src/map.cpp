@@ -3109,7 +3109,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
                 return std::move( it );
             }
         }
-        bool is_active_explosive = it->active && it->type->get_use( "explosion" ) != nullptr;
+        bool is_active_explosive = it->is_active() && it->type->get_use( "explosion" ) != nullptr;
         if( is_active_explosive && it->charges == 0 ) {
             return std::move( it );
         }
@@ -3665,7 +3665,7 @@ bash_results map::bash_items( const tripoint &p, const bash_params &params )
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active suppresses Molotovs smashing themselves with their own explosion
-        if( ( *bashed_item )->can_shatter() && !( *bashed_item )->active &&
+        if( ( *bashed_item )->can_shatter() && !( *bashed_item )->is_active() &&
             one_in( 2 ) ) {
             result.did_bash = true;
             smashed_glass = true;
@@ -4542,7 +4542,7 @@ void map::add_item( const tripoint &p, detached_ptr<item> &&new_item )
             new_item->convert( dynamic_cast<const iuse_transform *>
                                ( new_item->type->get_use( "transform" )->get_actor_ptr() )->target );
         }
-        new_item->active = true;
+        new_item->activate();
     }
 
     if( new_item->is_map() && !new_item->has_var( "reveal_map_center_omt" ) ) {
@@ -4614,6 +4614,19 @@ detached_ptr<item> map::water_from( const tripoint &p )
         return item::spawn( furn( p ).obj().provides_liquids, calendar::turn, item::INFINITE_CHARGES );
     }
     return detached_ptr<item>();
+}
+
+void map::make_inactive( item &loc )
+{
+    point l;
+    submap *const current_submap = get_submap_at( loc.position(), l );
+
+    // remove from the active items cache (if it isn't there does nothing)
+    current_submap->active_items.remove( &loc );
+    if( current_submap->active_items.empty() ) {
+        submaps_with_active_items.erase( tripoint( abs_sub.x + loc.position().x / SEEX,
+                                         abs_sub.y + loc.position().y / SEEY, loc.position().z ) );
+    }
 }
 
 void map::make_active( item &loc )
