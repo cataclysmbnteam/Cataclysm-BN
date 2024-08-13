@@ -114,7 +114,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You unfold the cot and place it on the ground."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "folding_bicycle",
@@ -136,7 +137,8 @@
       "vehicle_name": "bicycle",
       "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
       "moves": 500
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "generic_folded_vehicle",
@@ -149,7 +151,8 @@
     "price_postapoc": "0 cent",
     "symbol": "/",
     "color": "light_gray",
-    "use_action": "UNFOLD_GENERIC"
+    "use_action": "UNFOLD_GENERIC",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "metal_butcher_rack",
@@ -190,7 +193,8 @@
       "tools_needed": { "hand_pump": 1 },
       "unfold_msg": "You painstakingly unfold, inflate, and launch the %s.",
       "moves": 15000
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "metal_smoking_rack",

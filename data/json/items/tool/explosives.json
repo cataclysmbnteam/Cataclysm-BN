@@ -96,7 +96,7 @@
     "symbol": ";",
     "color": "light_gray",
     "use_action": "C4",
-    "flags": [ "GRENADE" ]
+    "flags": [ "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "c4armed",
@@ -121,7 +121,7 @@
       "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
       "explosion": { "damage": 200, "radius": 6 }
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "dynamite",
@@ -209,7 +209,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "dynamite_bomb_act",
@@ -245,7 +245,7 @@
         "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
       }
     },
-    "flags": [ "TRADER_AVOID", "BOMB" ]
+    "flags": [ "TRADER_AVOID", "BOMB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "EMPbomb",
@@ -272,7 +272,7 @@
       "menu_text": "Activate bomb",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "EMPbomb_act",
@@ -304,7 +304,7 @@
       "explosion": { "damage": 50, "radius": 7 },
       "no_deactivate_msg": "You've already activated the %s, try throwing it instead."
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "improvised_demolition_charge",
@@ -332,7 +332,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "GRENADE" ]
+    "flags": [ "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "improvised_demolition_charge_act",
@@ -362,7 +362,7 @@
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "damage": 150, "radius": 6 }
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "firecracker",
@@ -855,7 +855,8 @@
       "target_ammo": "66mm_HEAT",
       "menu_text": "Activate",
       "type": "transform"
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "improvised_grenade",
@@ -926,14 +927,22 @@
     "symbol": "*",
     "color": "light_green",
     "use_action": "MININUKE",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "CLOSES_PORTAL" ]
+    "flags": [
+      "LEAK_DAM",
+      "RADIOACTIVE",
+      "RADIO_MODABLE",
+      "RADIO_INVOKE_PROC",
+      "BOMB",
+      "GRENADE",
+      "CLOSES_PORTAL",
+      "ALLOWS_REMOTE_USE"
+    ]
   },
   {
     "id": "mininuke_act",
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "mininuke" },
-    "//": "This is based on the Davy Crockett nuclear artillery shell, all other man-portable nuclear weapons have far too high a yield.",
     "description": "This miniature nuclear bomb has a light blinking on the side, showing that it will soon explode.  You should probably get far, far away from it.",
     "weight": "23000 g",
     "volume": "16 L",
@@ -961,7 +970,8 @@
         "fragment": { "impact": { "damage_type": "heat", "amount": 300, "armor_multiplier": 2 }, "range": 24 }
       }
     },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "CLOSES_PORTAL" ]
+    "//": "Allowed to 'use' remotely so that triggering the message telling you to run won't put it back in your inventory and cause a YASD",
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "CLOSES_PORTAL", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "molotov",
@@ -1190,7 +1200,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_anfo_charge_act",
@@ -1227,7 +1237,7 @@
         "shrapnel": 12600
       }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_small_improvised_fragmentation_device",
@@ -1257,7 +1267,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_small_improvised_fragmentation_device_act",
@@ -1293,7 +1303,7 @@
         "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
       }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_improvised_barrel_bomb",
@@ -1326,7 +1336,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_improvised_barrel_bomb_act",
@@ -1364,7 +1374,7 @@
         "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
       }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_rocket_candy",
