@@ -1338,7 +1338,7 @@ monster_attitude monster::attitude( const Character *u ) const
         }
         // Zombies don't understand not attacking NPCs, but dogs and bots should.
         const npc *np = dynamic_cast< const npc * >( u );
-        if( np != nullptr && np->get_attitude() != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
+        if( np != nullptr && !np->guaranteed_hostile() && !type->in_species( ZOMBIE ) ) {
             return MATT_FRIEND;
         }
         if( np != nullptr && np->is_hallucination() ) {
@@ -3083,6 +3083,10 @@ detached_ptr<item> monster::to_item() const
     // If we have a nickname, save it via the item's label
     if( !unique_name.empty() ) {
         result->set_var( "item_label", unique_name );
+    }
+    // If it's configured as a pet and not merely friendly, make sure next time we skip re-rolling for a friendly deployment.
+    if( has_effect( effect_pet ) ) {
+        result->set_flag( flag_SPAWN_FRIENDLY );
     }
     return result;
 }

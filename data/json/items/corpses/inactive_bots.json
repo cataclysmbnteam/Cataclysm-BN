@@ -482,6 +482,7 @@
       "//": "Currently has no higher functions",
       "difficulty": 1,
       "moves": 100,
+      "is_pet": true,
       "skills": [ "electronics", "computer" ]
     }
   },

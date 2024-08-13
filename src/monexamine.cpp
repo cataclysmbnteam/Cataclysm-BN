@@ -120,9 +120,9 @@ bool monexamine::pet_menu( monster &z )
     amenu.addentry( push_zlave, true, 'p', _( "Push %s" ), pet_name );
     if( z.has_effect( effect_leashed ) ) {
         if( z.has_effect( effect_led_by_leash ) ) {
-            amenu.addentry( stop_lead, true, 'p', _( "Stop leading %s" ), pet_name );
+            amenu.addentry( stop_lead, true, 'P', _( "Stop leading %s" ), pet_name );
         } else {
-            amenu.addentry( lead, true, 'p', _( "Lead %s by the leash" ), pet_name );
+            amenu.addentry( lead, true, 'P', _( "Lead %s by the leash" ), pet_name );
         }
     }
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
@@ -451,17 +451,23 @@ bool monexamine::mech_hack( monster &z )
     itype_id card_type = ( z.has_flag( MF_MILITARY_MECH ) ? itype_id_military : itype_id_industrial );
     avatar &you = get_avatar();
     if( you.has_amount( card_type, 1 ) ) {
-        if( query_yn( _( "Swipe your %s into the mech's security port?" ), item::nname( card_type ) ) ) {
+        if( query_yn( _( "Swipe your %s into the %s's security port?" ), item::nname( card_type ),
+                      z.get_name() ) ) {
             you.mod_moves( -100 );
             z.add_effect( effect_pet, 1_turns, num_bp );
             z.friendly = -1;
-            add_msg( m_good, _( "The %s whirs into life and opens its restraints to accept a pilot." ),
-                     z.get_name() );
+            if( z.has_flag( MF_RIDEABLE_MECH ) ) {
+                add_msg( m_good, _( "The %s whirs into life and opens its restraints to accept a pilot." ),
+                         z.get_name() );
+            } else {
+                add_msg( m_good, _( "The %s begins to follow you." ),
+                         z.get_name() );
+            }
             you.use_amount( card_type, 1 );
             return true;
         }
     } else {
-        add_msg( m_info, _( "You do not have the required %s to activate this mech." ),
+        add_msg( m_info, _( "You do not have the required %s to activate this." ),
                  item::nname( card_type ) );
     }
     return false;
@@ -730,7 +736,7 @@ bool monexamine::give_items_to( monster &z )
             to_move.insert( to_move.end(), itq );
         }
     }
-    z.add_effect( effect_ai_waiting, 5_turns );
+    z.add_effect( effect_ai_waiting, 2_turns );
     you.drop( to_move, z.pos(), true );
 
     return false;
