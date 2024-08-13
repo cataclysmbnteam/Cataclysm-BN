@@ -5349,9 +5349,9 @@
     ],
     "connections": [ { "point": [ 1, 4, 0 ], "connection": "local_road" }, { "point": [ 0, -1, 0 ], "connection": "local_road" } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 8, 40 ],
+    "city_distance": [ 6, -1 ],
     "city_sizes": [ 6, -1 ],
-    "occurrences": [ 30, 100 ],
+    "occurrences": [ 50, 100 ],
     "flags": [ "CLASSIC", "URBAN", "UNIQUE", "ELECTRIC_GRID" ]
   },
   {
