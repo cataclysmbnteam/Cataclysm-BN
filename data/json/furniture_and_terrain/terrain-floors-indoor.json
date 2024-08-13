@@ -238,7 +238,7 @@
   {
     "type": "terrain",
     "id": "t_floor",
-    "name": "floor",
+    "name": "wooden floor",
     "description": "Interlocking wooden tiles that are more than likely treated against fire, with wooden posts and beams supporting a roof.",
     "symbol": ".",
     "color": "cyan",

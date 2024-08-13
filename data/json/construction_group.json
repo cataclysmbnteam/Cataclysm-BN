@@ -187,7 +187,7 @@
   {
     "type": "construction_group",
     "id": "build_concrete_roof",
-    "name": "Build Concrete Roof"
+    "name": "Build Roof Over Concrete Floor"
   },
   {
     "type": "construction_group",
@@ -357,7 +357,7 @@
   {
     "type": "construction_group",
     "id": "build_log_sod_roof",
-    "name": "Build Log & Sod Roof"
+    "name": "Build Roof Over Primitive Floor"
   },
   {
     "type": "construction_group",
@@ -442,7 +442,7 @@
   {
     "type": "construction_group",
     "id": "build_metal_roof",
-    "name": "Build Metal Roof"
+    "name": "Build Roof Over Simple Metal Floor"
   },
   {
     "type": "construction_group",
@@ -522,7 +522,7 @@
   {
     "type": "construction_group",
     "id": "build_reinforced_concrete_roof",
-    "name": "Build Reinforced Concrete Roof"
+    "name": "Build Roof Over Reinforced Concrete Floor"
   },
   {
     "type": "construction_group",
@@ -582,7 +582,7 @@
   {
     "type": "construction_group",
     "id": "build_roof",
-    "name": "Build Roof"
+    "name": "Build Roof Over Wooden Floor"
   },
   {
     "type": "construction_group",
@@ -722,7 +722,7 @@
   {
     "type": "construction_group",
     "id": "build_thatched_roof",
-    "name": "Build Thatched Roof"
+    "name": "Build Thatched Roof Over Dirt Floor"
   },
   {
     "type": "construction_group",
@@ -1177,7 +1177,7 @@
   {
     "type": "construction_group",
     "id": "constr_wall_standard",
-    "name": "Build Standard Wall"
+    "name": "Build Plastered Wooden Wall"
   },
   {
     "type": "construction_group",
@@ -1352,7 +1352,7 @@
   {
     "type": "construction_group",
     "id": "remove_a_wall",
-    "name": "Remove a wall"
+    "name": "Remove a plastered wooden wall"
   },
   {
     "type": "construction_group",
