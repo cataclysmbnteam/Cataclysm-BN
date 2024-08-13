@@ -59,7 +59,7 @@
     "price": "0 cent",
     "price_postapoc": "25 cent",
     "material": "plastic",
-    "flags": [ "FLAT_SURFACE" ],
+    "flags": [ "FLAT_SURFACE", "ALLOWS_REMOTE_USE" ],
     "symbol": ")",
     "color": "light_blue",
     "use_action": { "type": "deploy_furn", "furn_type": "f_plastic_groundsheet" }

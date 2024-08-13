@@ -1232,12 +1232,10 @@ int deploy_furn_actor::use( player &p, item &it, bool t, const tripoint &pos ) c
         return 0;
     }
     tripoint pnt = pos;
-    if( pos == p.pos() ) {
-        if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
-            pnt = *pnt_;
-        } else {
-            return 0;
-        }
+    if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
+        pnt = *pnt_;
+    } else {
+        return 0;
     }
 
     if( pnt == p.pos() ) {
