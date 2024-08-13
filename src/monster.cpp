@@ -3068,6 +3068,10 @@ detached_ptr<item> monster::to_item() const
     if( !unique_name.empty() ) {
         result->set_var( "item_label", unique_name );
     }
+    // If it's configured as a pet and not merely friendly, make sure next time we skip re-rolling for a friendly deployment.
+    if( has_effect( effect_pet ) ) {
+        result->set_flag( flag_SPAWN_FRIENDLY );
+    }
     return result;
 }
 

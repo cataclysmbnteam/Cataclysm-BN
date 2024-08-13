@@ -833,7 +833,7 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 
     monster *pet = g->critter_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-        pet->add_effect( effect_ai_waiting, 1_turns );
+        pet->add_effect( effect_ai_waiting, 2_turns );
         std::vector<detached_ptr<item>> stashed = obtain_activity_items( who, items );
         stash_on_pet( stashed, *pet, who );
         if( items.empty() ) {

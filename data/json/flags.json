@@ -498,7 +498,8 @@
     "id": "SPAWN_FRIENDLY",
     "type": "json_flag",
     "context": [ "GENERIC" ],
-    "//": "This item will spawn friendly. Used for pets and such."
+    "//": "This item will spawn friendly. Used for pets and such.",
+    "info": "Any creature spawned from this item will <info>always</info> emerge <good>friendly to you</good>."
   },
   {
     "id": "STAB",

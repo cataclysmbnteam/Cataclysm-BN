@@ -4858,6 +4858,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         // in their name, also food is active while it rots.
         tagtext += _( " (active)" );
     }
+    if( has_flag( flag_SPAWN_FRIENDLY ) ) {
+        tagtext += _( " (friendly)" );
+    }
 
     if( is_favorite ) {
         tagtext += _( " *" ); // Display asterisk for favorite items

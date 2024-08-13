@@ -534,7 +534,6 @@
       "hostile_msg": "The miner bot spins out of control and lunges at you. Make way!",
       "//": "Digging parameters need special attention but no (intentional) lethal weapons",
       "difficulty": 3,
-      "is_pet": true,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     }
