@@ -3566,7 +3566,7 @@ bool npc::alt_attack()
     }
 
     // Are we going to throw this item?
-    if( !used->active && used->has_flag( flag_NPC_ACTIVATE ) ) {
+    if( !used->is_active() && used->has_flag( flag_NPC_ACTIVATE ) ) {
         activate_item( weapon_index );
         // Note: intentional lack of return here
         // We want to ignore player-centric rules to avoid carrying live explosives

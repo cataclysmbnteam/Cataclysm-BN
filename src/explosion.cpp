@@ -1752,7 +1752,7 @@ void emp_blast( const tripoint &p )
         if( cuffs.typeId() == itype_e_handcuffs && cuffs.charges > 0 ) {
             cuffs.unset_flag( flag_NO_UNWIELD );
             cuffs.charges = 0;
-            cuffs.active = false;
+            cuffs.deactivate();
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
                      cuffs.tname() );
         }

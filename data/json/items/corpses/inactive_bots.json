@@ -492,6 +492,7 @@
       "//": "Currently has no higher functions",
       "difficulty": 1,
       "moves": 100,
+      "is_pet": true,
       "skills": [ "electronics", "computer" ]
     },
     "flags": [ "ALLOWS_REMOTE_USE" ]

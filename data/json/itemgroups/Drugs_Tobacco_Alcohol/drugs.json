@@ -181,7 +181,11 @@
       [ "cig", 60 ],
       [ "tobacco", 30 ],
       [ "chaw", 20 ],
-      [ "seed_tobacco", 5 ]
+      [ "seed_tobacco", 5 ],
+      [ "cigar", 10 ],
+      [ "handrolled_cig", 10 ],
+      [ "ecig", 20 ],
+      [ "advanced_ecig", 10 ]
     ]
   },
   {
