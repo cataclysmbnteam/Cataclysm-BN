@@ -1042,7 +1042,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - `HEARS` It can hear you.
 - `HIT_AND_RUN` Flee for several turns after a melee attack.
 - `HUMAN` It's a live human, as long as it's alive.
-- `MF_CARD_OVERRIDE` Not a mech, but can be converted to friendly using an ID card in the same way that mechs can.
+- `MF_CARD_OVERRIDE` Not a mech, but can be converted to friendly using an ID card in the same way
+  that mechs can.
 - `CONSOLE_DESPAWN` Despawns when a nearby console is properly hacked.
 - `IMMOBILE` Doesn't move (e.g. turrets)
 - `ID_CARD_DESPAWN` Despawns when a science ID card is used on a nearby console
@@ -1055,7 +1056,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - `MECH_RECON_VISION` This mech grants you night-vision and enhanced overmap sight radius when
   piloted.
 - `MECH_DEFENSIVE` This mech can protect you thoroughly when piloted.
-- `MILITARY_MECH` Will demand a military ID card instead of an industrial one. Doesn't actually have to be a mech.
+- `MILITARY_MECH` Will demand a military ID card instead of an industrial one. Doesn't actually have
+  to be a mech.
 - `MILKABLE` Produces milk when milked.
 - `NIGHT_INVISIBILITY` Monster becomes invisible if it's more than one tile away and the lighting on
   its tile is LL_LOW or less. Visibility is not affected by night vision.

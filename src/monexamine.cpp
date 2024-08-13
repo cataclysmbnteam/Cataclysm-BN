@@ -451,7 +451,8 @@ bool monexamine::mech_hack( monster &z )
     itype_id card_type = ( z.has_flag( MF_MILITARY_MECH ) ? itype_id_military : itype_id_industrial );
     avatar &you = get_avatar();
     if( you.has_amount( card_type, 1 ) ) {
-        if( query_yn( _( "Swipe your %s into the %s's security port?" ), item::nname( card_type ), z.get_name() ) ) {
+        if( query_yn( _( "Swipe your %s into the %s's security port?" ), item::nname( card_type ),
+                      z.get_name() ) ) {
             you.mod_moves( -100 );
             z.add_effect( effect_pet, 1_turns, num_bp );
             z.friendly = -1;
