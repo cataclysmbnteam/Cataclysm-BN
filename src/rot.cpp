@@ -19,6 +19,8 @@ auto temperature_flag_for_location( const map &m, const item &loc ) -> temperatu
     switch( loc.where() ) {
         case item_location_type::character:
             return temperature_flag::TEMP_NORMAL;
+        case item_location_type::monster:
+            return temperature_flag::TEMP_NORMAL;
         case item_location_type::map: {
             tripoint pos = loc.position();
             if( m.has_flag_furn( TFLAG_FREEZER, pos ) ) {
