@@ -1875,9 +1875,9 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     bool show_nutr = parts->test( iteminfo_parts::FOOD_NUTRITION ) ||
                      parts->test( iteminfo_parts::FOOD_VITAMINS );
-    if( min_nutr != max_nutr && show_nutr ) {
+    if( show_nutr && !food_item->has_flag( flag_NUTRIENT_OVERRIDE ) ) {
         info.emplace_back(
-            "FOOD", _( "Nutrition will <color_cyan>vary with chosen ingredients</color>." ) );
+            "FOOD", _( "Nutrition will <color_cyan>vary with available ingredients</color>." ) );
         if( recipe_dict.is_item_on_loop( food_item->typeId() ) ) {
             info.emplace_back(
                 "FOOD", _( "Nutrition range cannot be calculated accurately due to "

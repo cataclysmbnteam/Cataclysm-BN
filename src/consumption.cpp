@@ -338,16 +338,16 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         return {};
     }
 
+    const recipe &rec = *recipe_i;
+    int charges = comest.count();
     // if item has components, will derive calories from that instead.
-    if( comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+    if( comest.has_flag( flag_NUTRIENT_OVERRIDE ) || !g->u.can_make( &rec, charges ) ) {
         nutrients result = compute_default_effective_nutrients( comest, *this );
         return { result, result };
     }
 
     nutrients tally_min;
     nutrients tally_max;
-
-    const recipe &rec = *recipe_i;
 
     cata::flat_set<flag_id> our_extra_flags = extra_flags;
 
@@ -364,17 +364,19 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_max;
         bool first = true;
         for( const item_comp &component_option : component_options ) {
-            std::pair<nutrients, nutrients> component_option_range =
-                compute_nutrient_range( component_option.type, our_extra_flags );
-            component_option_range.first *= component_option.count;
-            component_option_range.second *= component_option.count;
+            if( component_option.has( g->u.crafting_inventory(), rec.get_component_filter(), charges ) ) {
+                std::pair<nutrients, nutrients> component_option_range =
+                    compute_nutrient_range( component_option.type, our_extra_flags );
+                component_option_range.first *= component_option.count;
+                component_option_range.second *= component_option.count;
 
-            if( first ) {
-                std::tie( this_min, this_max ) = component_option_range;
-                first = false;
-            } else {
-                this_min.min_in_place( component_option_range.first );
-                this_max.max_in_place( component_option_range.second );
+                if( first ) {
+                    std::tie( this_min, this_max ) = component_option_range;
+                    first = false;
+                } else {
+                    this_min.min_in_place( component_option_range.first );
+                    this_max.max_in_place( component_option_range.second );
+                }
             }
         }
         tally_min += this_min;
@@ -388,7 +390,6 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         tally_max -= byproduct_nutr;
     }
 
-    int charges = comest.count();
     return { tally_min / charges, tally_max / charges };
 }
 
