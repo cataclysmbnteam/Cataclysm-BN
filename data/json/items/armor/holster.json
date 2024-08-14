@@ -199,7 +199,12 @@
     "coverage": 10,
     "encumbrance": 4,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "min_volume": "750 ml", "max_volume": "1500 ml", "skills": [ "pistol", "smg", "shotgun", "rifle" ] },
+    "use_action": {
+      "type": "holster",
+      "min_volume": "750 ml",
+      "max_volume": "1500 ml",
+      "skills": [ "pistol", "smg", "shotgun", "rifle" ]
+    },
     "flags": [ "WAIST", "COMPACT", "OVERSIZE" ]
   }
 ]
