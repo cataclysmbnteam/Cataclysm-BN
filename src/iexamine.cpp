@@ -3145,9 +3145,11 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     }
 
     const std::string booze_name = brew_i.tname();
-    if( liquid_handler::handle_liquid( **items_here.begin() ) ) {
-        here.furn_set( examp, f_fvat_empty );
+    liquid_handler::handle_liquid( **items_here.begin() );
+    if( items_here.empty() ) {
         add_msg( _( "You squeeze the last drops of %s from the vat." ), booze_name );
+        here.furn_set( examp, f_fvat_empty );
+        return;
     }
 }
 
