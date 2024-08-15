@@ -2258,6 +2258,10 @@ void options_manager::add_options_debug()
          false );
 
     get_option( "MADE_OF_EXPLODIUM" ).setPrerequisite( "OLD_EXPLOSIONS", "false" );
+
+    add( "LIMITED_BAYONETS", debug, translate_marker( "New bayonet system" ),
+         translate_marker( "If true, bayonets replace weapon attack instead of adding to it.  WIP feature, weakens bayonets heavily at the moment." ),
+         false );
 }
 
 void options_manager::add_options_world_default()

@@ -5291,7 +5291,6 @@ int item::damage_melee( const attack_statblock &attack, damage_type dt ) const
         return std::accumulate( mods.begin(), mods.end(), res, [dt]( int last_max, const item * it ) {
             return it->has_flag( flag_MELEE_GUNMOD ) ? std::max( last_max, it->damage_melee( dt ) ) : last_max;
         } );
-
     }
 
     switch( dt ) {
@@ -5367,32 +5366,43 @@ std::map<std::string, attack_statblock> item::get_attacks() const
 
     // consider any melee gunmods
     if( is_gun() ) {
-        // TODO: Multiple bayonets with multiple attacks each - add all attacks, resolve id conflicts
-        const std::vector<const item *> &mods = gunmods();
-        float best_damage = 0.0f;
-        const attack_statblock *best = nullptr;
-        for( const item *gunmod_ptr : mods ) {
-            const item &gunmod = *gunmod_ptr;
-            if( gunmod.has_flag( flag_MELEE_GUNMOD ) ) {
-                // TODO: Handle multiple attacks here - add all of them as separate attacks
-                assert( !gunmod.type->attacks.empty() );
-                const attack_statblock &first_attack = gunmod.type->attacks.begin()->second;
-                float damage_sum = std::accumulate( first_attack.damage.begin(), first_attack.damage.end(),
-                                                    0.0f, []( float amount_sum,
-                const damage_unit & du ) {
-                    // Ignore multipliers for now because it's a temporary hack
-                    return amount_sum + du.amount;
-                } );
-                if( damage_sum > best_damage ) {
-                    best = &first_attack;
-                    best_damage = damage_sum;
+        if( get_option<bool>( "LIMITED_BAYONETS" ) ) {
+            // TODO: Multiple bayonets with multiple attacks each - add all attacks, resolve id conflicts
+            const std::vector<const item *> &mods = gunmods();
+            float best_damage = 0.0f;
+            const attack_statblock *best = nullptr;
+            for( const item *gunmod_ptr : mods ) {
+                const item &gunmod = *gunmod_ptr;
+                if( gunmod.has_flag( flag_MELEE_GUNMOD ) ) {
+                    // TODO: Handle multiple attacks here - add all of them as separate attacks
+                    assert( !gunmod.type->attacks.empty() );
+                    const attack_statblock &first_attack = gunmod.type->attacks.begin()->second;
+                    float damage_sum = std::accumulate( first_attack.damage.begin(), first_attack.damage.end(),
+                                                        0.0f, []( float amount_sum,
+                    const damage_unit & du ) {
+                        // Ignore multipliers for now because it's a temporary hack
+                        return amount_sum + du.amount;
+                    } );
+                    if( damage_sum > best_damage ) {
+                        best = &first_attack;
+                        best_damage = damage_sum;
+                    }
                 }
             }
-        }
-        if( best != nullptr ) {
-            attack_statblock gunmod_attack = *best;
-            gunmod_attack.to_hit = type->m_to_hit;
-            result["BAYONET"] = gunmod_attack;
+            if( best != nullptr ) {
+                attack_statblock gunmod_attack = *best;
+                gunmod_attack.to_hit = type->m_to_hit;
+                result["BAYONET"] = gunmod_attack;
+            }
+        } else {
+            // Old logic here - max dmg for each type
+            const std::vector<const item *> &mods = gunmods();
+            for( const item *it : mods ) {
+                const attack_statblock &attack = melee::default_attack( *it );
+                for( auto &dmg : attack.damage ) {
+                    result["DEFAULT"].damage.add( dmg );
+                }
+            }
         }
     }
 
