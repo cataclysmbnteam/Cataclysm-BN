@@ -2666,7 +2666,25 @@
     "time": "10 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "circuit", 1 ] ], [ [ "e_scrap", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "RAM",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "10 m",
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "circuit", 1 ] ], [ [ "e_scrap", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "circuit",
+    "skill_used": "electronics",
+    "time": "5 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "e_scrap", 1 ] ] ]
   },
   {
     "result": "radio_car",
@@ -4425,7 +4443,7 @@
     "skill_used": "fabrication",
     "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "copper", 20 ] ] ]
   },
   {
     "result": "bathroom_scale",
@@ -4807,5 +4825,23 @@
     "time": "48 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "wire", 3 ] ] ]
+  },
+  {
+    "result": "burnt_out_bionic",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "skills_required": [ [ "firstaid", 3 ], [ "mechanics", 3 ] ],
+    "time": "5 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 4 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "e_scrap", 8 ] ] ]
+  },
+  {
+    "result": "refrigerant_tank",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "30 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "canister_empty", 1 ] ], [ [ "steel_chunk", 1 ] ] ]
   }
 ]
