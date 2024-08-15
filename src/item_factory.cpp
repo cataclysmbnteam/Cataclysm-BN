@@ -933,13 +933,10 @@ void Item_factory::init()
     add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
     add_iuse( "CARVER_OFF", &iuse::carver_off );
     add_iuse( "CARVER_ON", &iuse::carver_on );
-    add_iuse( "CATFOOD", &iuse::catfood );
-    add_iuse( "CATTLEFODDER", &iuse::feedcattle );
     add_iuse( "CHAINSAW_OFF", &iuse::chainsaw_off );
     add_iuse( "CHAINSAW_ON", &iuse::chainsaw_on );
     add_iuse( "CHEW", &iuse::chew );
     add_iuse( "RPGDIE", &iuse::rpgdie );
-    add_iuse( "BIRDFOOD", &iuse::feedbird );
     add_iuse( "BURROW", &iuse::burrow );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
@@ -961,7 +958,6 @@ void Item_factory::init()
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
     add_iuse( "DISASSEMBLE", &iuse::disassemble );
     add_iuse( "CRAFT", &iuse::craft );
-    add_iuse( "DOGFOOD", &iuse::dogfood );
     add_iuse( "DOG_WHISTLE", &iuse::dog_whistle );
     add_iuse( "DOLLCHAT", &iuse::talking_doll );
     add_iuse( "ECIG", &iuse::ecig );
@@ -1030,6 +1026,7 @@ void Item_factory::init()
     add_iuse( "OXYTORCH", &iuse::oxytorch );
     add_iuse( "PACK_CBM", &iuse::pack_cbm );
     add_iuse( "PACK_ITEM", &iuse::pack_item );
+    add_iuse( "PETFOOD", &iuse::petfood );
     add_iuse( "PHEROMONE", &iuse::pheromone );
     add_iuse( "PICK_LOCK", &iuse::pick_lock );
     add_iuse( "PICKAXE", &iuse::pickaxe );
@@ -1053,8 +1050,6 @@ void Item_factory::init()
     add_iuse( "REPORT_GRID_CHARGE", &iuse::report_grid_charge );
     add_iuse( "REPORT_GRID_CONNECTIONS", &iuse::report_grid_connections );
     add_iuse( "MODIFY_GRID_CONNECTIONS", &iuse::modify_grid_connections );
-    add_iuse( "RM13ARMOR_OFF", &iuse::rm13armor_off );
-    add_iuse( "RM13ARMOR_ON", &iuse::rm13armor_on );
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
@@ -1074,6 +1069,7 @@ void Item_factory::init()
     add_iuse( "THROWABLE_EXTINGUISHER_ACT", &iuse::throwable_extinguisher_act );
     add_iuse( "TOWEL", &iuse::towel );
     add_iuse( "TOGGLE_HEATS_FOOD", &iuse::toggle_heats_food );
+    add_iuse( "TOGGLE_UPS_CHARGING", &iuse::toggle_ups_charging );
     add_iuse( "TRIMMER_OFF", &iuse::trimmer_off );
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
@@ -2242,6 +2238,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
     assign( jo, "cooks_like", slot.cooks_like, strict );
     assign( jo, "smoking_result", slot.smoking_result, strict );
+    assign( jo, "petfood", slot.petfood, strict );
 
     for( const JsonObject &jsobj : jo.get_array( "contamination" ) ) {
         slot.contamination.emplace( diseasetype_id( jsobj.get_string( "disease" ) ),
@@ -3489,9 +3486,9 @@ void item_group::debug_spawn()
         if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
             break;
         }
-        // Spawn items from the group 100 times
+        // Spawn items from the group 1000 times
         std::map<std::string, int> itemnames;
-        for( size_t a = 0; a < 100; a++ ) {
+        for( size_t a = 0; a < 1000; a++ ) {
             const auto items = items_from( groups[index], calendar::turn );
             for( auto &it : items ) {
                 itemnames[it->display_name()]++;
@@ -3503,7 +3500,7 @@ void item_group::debug_spawn()
             itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
         }
         uilist menu2;
-        menu2.text = _( "Result of 100 spawns:" );
+        menu2.text = _( "Result of 1000 spawns:" );
         for( const auto &e : itemnames2 ) {
             menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
                                         string_format( _( "%d x %s" ), e.first, e.second ) );

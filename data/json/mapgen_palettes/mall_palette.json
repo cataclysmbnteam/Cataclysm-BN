@@ -247,6 +247,7 @@
       "?": "t_console_broken",
       "§": "t_water_pool_shallow_outdoors"
     },
+    "items": { "v": { "item": "guns_safe", "chance": 100 } },
     "toilets": { "t": {  } }
   },
   {

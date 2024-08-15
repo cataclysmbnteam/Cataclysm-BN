@@ -13,7 +13,7 @@
       [ "1st_aid", 5 ],
       [ "aspirin", 50 ],
       [ "bandages", 50 ],
-      [ "cotton_ball", 40 ],
+      { "item": "cotton_ball", "prob": 40, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       [ "disinfectant", 20 ],
       [ "chem_hydrogen_peroxide", 30 ],
       [ "eyedrops", 10 ],
@@ -99,7 +99,7 @@
     "id": "softdrugs",
     "items": [
       [ "bandages", 50 ],
-      [ "cotton_ball", 50 ],
+      { "item": "cotton_ball", "prob": 50, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       [ "1st_aid", 35 ],
       [ "saline", 25 ],
       [ "contacts", 10 ],
@@ -152,6 +152,40 @@
       [ "survnote", 1 ],
       [ "diazepam", 4 ],
       [ "syringe", 8 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "baddrugs",
+    "items": [
+      [ "meth", 14 ],
+      [ "codeine", 15 ],
+      [ "oxycodone", 7 ],
+      [ "morphine", 3 ],
+      [ "adderall", 10 ],
+      [ "coke", 8 ],
+      [ "meth", 2 ],
+      [ "heroin", 1 ],
+      [ "syringe", 8 ],
+      [ "crack", 8 ],
+      [ "lsd", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "smokedrugs",
+    "items": [
+      [ "weed", 20 ],
+      [ "joint", 20 ],
+      [ "seed_weed", 20 ],
+      [ "cig", 60 ],
+      [ "tobacco", 30 ],
+      [ "chaw", 20 ],
+      [ "seed_tobacco", 5 ],
+      [ "cigar", 10 ],
+      [ "handrolled_cig", 10 ],
+      [ "ecig", 20 ],
+      [ "advanced_ecig", 10 ]
     ]
   },
   {

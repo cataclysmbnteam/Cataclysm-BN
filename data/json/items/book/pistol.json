@@ -22,7 +22,7 @@
     "copy-from": "base_book",
     "name": { "str": "The Tao of the Handgun", "str_pl": "copies of The Tao of the Handgun" },
     "description": "This introspective volume covers proper usage of handguns, from safety and stance, to maintenance and proper sighting technique.",
-    "weight": "440 g",
+    "weight": "400 g",
     "volume": "500 ml",
     "price": "22 USD",
     "price_postapoc": "1250 cent",

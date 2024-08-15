@@ -1,0 +1,86 @@
+[
+  {
+    "type": "mutation_category",
+    "id": "NEKO",
+    "name": "Nekomimi",
+    "threshold_mut": "THRESH_NEKO",
+    "mutagen_message": "As you lap up the last of the mutagen, you wonder why...",
+    "iv_message": "Your back arches as the mutagen takes hold.",
+    "memorial_message": "Realized the dream."
+  },
+  {
+    "type": "mutation_category",
+    "id": "DOGGIRL",
+    "//": "General note: animal-girl names are chosen for familiarity and simplicity",
+    "name": "Inumimi",
+    "threshold_mut": "THRESH_DOGGIRL",
+    "mutagen_message": "You feel an urge to mark your territory.  But then it passes.",
+    "iv_message": "As the mutagen hits you, your ears twitch and you stifle a yipe.",
+    "memorial_message": "Dogged out."
+  },
+  {
+    "type": "mutation_category",
+    "id": "COWGIRL",
+    "name": "Ushimimi",
+    "//": "~rBGH is a bovine growth hormone, unpopular with consumers",
+    "threshold_mut": "THRESH_COWGIRL",
+    "mutagen_message": "Your mind and body slow down.  You feel peaceful.",
+    "iv_message": "You wonder if this is what rBGH feels like...",
+    "memorial_message": "Stopped worrying and learned to love the cowbell."
+  },
+  {
+    "type": "mutation_category",
+    "id": "BEARGIRL",
+    "name": "Kumamimi",
+    "threshold_mut": "THRESH_BEARGIRL",
+    "mutagen_message": "You feel an urge to… patrol?  the forests?",
+    "iv_message": "You feel yourself quite equipped for wilderness survival.",
+    "memorial_message": "Became one with the bears."
+  },
+  {
+    "type": "mutation_category",
+    "id": "MOUSEGIRL",
+    "name": "Nezumimi",
+    "threshold_mut": "THRESH_MOUSEGIRL",
+    "mutagen_message": "You feel a desire to curl up in a nice, warm pile of… shredded paper.",
+    "iv_message": "You feel… small.  But comfortable.",
+    "memorial_message": "Found the cheese."
+  },
+  {
+    "type": "mutation_category",
+    "id": "SPIDERGIRL",
+    "name": "Arachnae",
+    "threshold_mut": "THRESH_SPIDERGIRL",
+    "mutagen_message": "You feel insidious.",
+    "iv_message": "Mmm… the *special* venom.",
+    "memorial_message": "Found a place in the web of life."
+  },
+  {
+    "type": "mutation_category",
+    "id": "HARPY",
+    "name": "Harpy",
+    "threshold_mut": "THRESH_HARPY",
+    "mutagen_message": "Your body lightens and you long for the sky.",
+    "iv_message": "Your arms spasm in an oddly wavelike motion.",
+    "memorial_message": "Broke free of humanity."
+  },
+  {
+    "type": "mutation_category",
+    "id": "DRYAD",
+    "name": "Dryad",
+    "threshold_mut": "THRESH_DRYAD",
+    "mutagen_message": "You feel much closer to nature.",
+    "iv_message": "You inject some nutrients into your phloem.",
+    "memorial_message": "Bloomed forth."
+  },
+  {
+    "type": "mutation_category",
+    "id": "SLIMEGIRL",
+    "name": "Slime",
+    "threshold_mut": "THRESH_SLIMEGIRL",
+    "mutagen_message": "Your body loses all rigidity for a moment.",
+    "iv_message": "This stuff takes you back.  Downright primordial!",
+    "memorial_message": "Gave up on rigid human norms.",
+    "junkie_message": "Maybe if you drank enough, you'd become mutagen..."
+  }
+]

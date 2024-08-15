@@ -80,6 +80,7 @@
         "l": "f_locker",
         "r": "f_oven"
       },
+      "items": { "d": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "P": {  } },
       "place_items": [
         { "item": "fast_table", "x": 8, "y": 3, "chance": 20, "repeat": [ 1, 2 ] },
@@ -243,7 +244,7 @@
       "toilets": { "P": {  } },
       "items": {
         "T": { "item": "fast_table", "chance": 20, "repeat": [ 1, 2 ] },
-        "d": { "item": "fast_trash", "chance": 60, "repeat": [ 1, 3 ] },
+        "d": { "item": "trash_dumpster", "chance": 80 },
         "c": { "item": "fast_kitchen", "chance": 75, "repeat": [ 1, 6 ] },
         "l": { "item": "fast_locker", "chance": 70, "repeat": [ 1, 2 ] },
         "e": { "item": "fast_fridge", "chance": 70, "repeat": [ 2, 8 ] },

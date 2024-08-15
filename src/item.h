@@ -78,7 +78,6 @@ struct use_function;
 enum art_effect_passive : int;
 enum phase_id : int;
 enum body_part : int;
-enum m_size : int;
 enum class side : int;
 class body_part_set;
 class map;
@@ -318,14 +317,18 @@ class item : public location_visitable<item>, public game_object<item>
         /**
          * Converts this instance to the inactive type
          * If the item is either inactive or cannot be deactivated is a no-op
-         * @param ch character currently possessing or acting upon the item (if any)
-         * @param alert whether to display any messages
-         * @return same instance to allow method chaining
          */
-        void deactivate( const Character *ch = nullptr, bool alert = true );
+        void deactivate();
 
         /** Converts instance to active state */
         void activate();
+
+        /** Reverts item if able
+         * @param ch character currently possessing or acting upon the item (if any)
+         * @param alert whether to display any messages
+         * @return true if item reverted or false if no revert available.
+         */
+        bool revert( const Character *ch, bool alert = true );
 
         /**
          * Add or remove energy from a battery.
@@ -1539,6 +1542,9 @@ class item : public location_visitable<item>, public game_object<item>
         /**Does this item have the specified fault*/
         bool has_fault( const fault_id &fault ) const;
 
+        /**If item made out of glass, or has the SHATTERS flag?*/
+        bool can_shatter() const;
+
         /**
          * @name Item properties
          *
@@ -2123,6 +2129,7 @@ class item : public location_visitable<item>, public game_object<item>
         time_duration age() const;
         void set_age( const time_duration &age );
         void legacy_fast_forward_time();
+        bool is_active() const;
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
@@ -2327,6 +2334,7 @@ class item : public location_visitable<item>, public game_object<item>
         void add_component( detached_ptr<item> &&comp );
         const location_vector<item> &get_components() const;
         location_vector<item> &get_components();
+        const mtype *get_corpse_mon() const;
     private:
         location_vector<item> components;
         const itype *curammo = nullptr;
@@ -2387,6 +2395,8 @@ class item : public location_visitable<item>, public game_object<item>
         time_point last_rot_check = calendar::turn_zero;
         /// The time the item was created.
         time_point bday;
+        // If true, it has active effects to be processed
+        bool active = false;
         // The faction that owns this item.
         mutable faction_id owner = faction_id::NULL_ID();
         // The faction that previously owned this item
@@ -2396,7 +2406,6 @@ class item : public location_visitable<item>, public game_object<item>
 
     public:
         char invlet = 0;      // Inventory letter
-        bool active = false; // If true, it has active effects to be processed
         //TODO! old safe reference type here
         player *activated_by = nullptr;
         bool is_favorite = false;

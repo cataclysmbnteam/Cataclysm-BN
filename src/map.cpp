@@ -109,8 +109,11 @@ static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
 static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
 
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
+
 static const itype_id itype_autoclave( "autoclave" );
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_chemistry_set( "chemistry_set" );
 static const itype_id itype_dehydrator( "dehydrator" );
 static const itype_id itype_electrolysis_kit( "electrolysis_kit" );
@@ -3106,7 +3109,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
                 return std::move( it );
             }
         }
-        bool is_active_explosive = it->active && it->type->get_use( "explosion" ) != nullptr;
+        bool is_active_explosive = it->is_active() && it->type->get_use( "explosion" ) != nullptr;
         if( is_active_explosive && it->charges == 0 ) {
             return std::move( it );
         }
@@ -3662,7 +3665,7 @@ bash_results map::bash_items( const tripoint &p, const bash_params &params )
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active suppresses Molotovs smashing themselves with their own explosion
-        if( ( *bashed_item )->made_of( material_id( "glass" ) ) && !( *bashed_item )->active &&
+        if( ( *bashed_item )->can_shatter() && !( *bashed_item )->is_active() &&
             one_in( 2 ) ) {
             result.did_bash = true;
             smashed_glass = true;
@@ -4539,7 +4542,7 @@ void map::add_item( const tripoint &p, detached_ptr<item> &&new_item )
             new_item->convert( dynamic_cast<const iuse_transform *>
                                ( new_item->type->get_use( "transform" )->get_actor_ptr() )->target );
         }
-        new_item->active = true;
+        new_item->activate();
     }
 
     if( new_item->is_map() && !new_item->has_var( "reveal_map_center_omt" ) ) {
@@ -4611,6 +4614,19 @@ detached_ptr<item> map::water_from( const tripoint &p )
         return item::spawn( furn( p ).obj().provides_liquids, calendar::turn, item::INFINITE_CHARGES );
     }
     return detached_ptr<item>();
+}
+
+void map::make_inactive( item &loc )
+{
+    point l;
+    submap *const current_submap = get_submap_at( loc.position(), l );
+
+    // remove from the active items cache (if it isn't there does nothing)
+    current_submap->active_items.remove( &loc );
+    if( current_submap->active_items.empty() ) {
+        submaps_with_active_items.erase( tripoint( abs_sub.x + loc.position().x / SEEX,
+                                         abs_sub.y + loc.position().y / SEEY, loc.position().z ) );
+    }
 }
 
 void map::make_active( item &loc )
@@ -7263,14 +7279,86 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
 template <typename Container>
 void map::remove_rotten_items( Container &items, const tripoint &pnt, temperature_flag temperature )
 {
-    items.remove_with( [this, &pnt, &temperature]( detached_ptr<item> &&it ) {
+    std::vector<item *> corpses_handle;
+    items.remove_with( [this, &pnt, &temperature, &corpses_handle]( detached_ptr<item> &&it ) {
         item &obj = *it;
         it = item::actualize_rot( std::move( it ), pnt, temperature, get_weather() );
-        if( !it && obj.is_comestible() ) {
-            rotten_item_spawn( obj, pnt );
+        // When !it, that means the item was removed from the world, ie: has rotted.
+        if( !it ) {
+            if( obj.is_comestible() ) {
+                rotten_item_spawn( obj, pnt );
+            } else if( obj.is_corpse() ) {
+                // Corpses cannot be handled at this stage, as it causes memory errors by adding
+                // items to the Container that haven't been accounted for.
+                corpses_handle.push_back( &obj );
+            }
         }
         return std::move( it );
     } );
+
+    // Now that all the removing is done, add items from corpse spawns.
+    for( const item *corpse : corpses_handle ) {
+        handle_decayed_corpse( *corpse, pnt );
+    }
+
+}
+
+void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
+{
+    const mtype *dead_monster = it.get_corpse_mon();
+    if( !dead_monster ) {
+        debugmsg( "Corpse at tripoint %s has no associated monster?!", getglobal( pnt ).to_string() );
+        return;
+    }
+
+    int decayed_weight_grams = to_gram( dead_monster->weight ); // corpse might have stuff in it!
+    decayed_weight_grams *= rng_float( 0.5, 0.9 );
+
+    for( const harvest_entry &entry : dead_monster->harvest.obj() ) {
+        if( entry.type != "bionic" && entry.type != "bionic_group" && entry.type != "blood" ) {
+            detached_ptr<item> harvest = item::spawn( entry.drop, it.birthday() );
+            const float random_decay_modifier = rng_float( 0.0f, static_cast<float>( MAX_SKILL ) );
+            const float min_num = entry.scale_num.first * random_decay_modifier + entry.base_num.first;
+            const float max_num = entry.scale_num.second * random_decay_modifier + entry.base_num.second;
+            int roll = 0;
+            if( entry.mass_ratio != 0.00f ) {
+                roll = static_cast<int>( std::round( entry.mass_ratio * decayed_weight_grams ) );
+                roll = std::ceil( static_cast<double>( roll ) / to_gram( harvest->weight() ) );
+            } else {
+                roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
+            }
+            for( int i = 0; i < roll; i++ ) {
+                // This sanity-checks harvest yields that have a default stack amount, e.g. copper wire from cyborgs
+                if( harvest->charges > 1 ) {
+                    harvest->charges = 1;
+                }
+                if( !harvest->rotten() ) {
+                    add_item_or_charges( pnt, item::spawn( *harvest ) );
+                }
+            }
+        }
+    }
+    for( item * const &comp : it.get_components() ) {
+        if( comp->is_bionic() ) {
+            // If CBM, decay successfully at same minimum as dissection
+            // otherwise, yield burnt-out bionic and remove non-sterile if present
+            if( !one_in( 10 ) ) {
+                comp->convert( itype_burnt_out_bionic );
+                if( comp->has_fault( fault_bionic_nonsterile ) ) {
+                    comp->faults.erase( fault_bionic_nonsterile );
+                }
+            }
+            add_item_or_charges( pnt, item::spawn( *comp ) );
+        } else {
+            // Same odds to spawn at all, clearing non-sterile if needed
+            if( one_in( 10 ) ) {
+                if( comp->has_fault( fault_bionic_nonsterile ) ) {
+                    comp->faults.erase( fault_bionic_nonsterile );
+                }
+                add_item_or_charges( pnt, item::spawn( *comp ) );
+            }
+        }
+    }
 }
 
 void map::rotten_item_spawn( const item &item, const tripoint &pnt )

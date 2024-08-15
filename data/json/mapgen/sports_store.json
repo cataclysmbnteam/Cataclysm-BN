@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_sports" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -33,8 +32,8 @@
         "........4..............."
       ],
       "terrain": {
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "?": "t_dirt",
+        ".": "t_region_groundcover_urban",
+        "?": "t_region_groundcover_urban",
         " ": "t_floor",
         "'": "t_pavement",
         "`": "t_pavement_y",

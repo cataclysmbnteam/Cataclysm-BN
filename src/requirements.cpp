@@ -43,6 +43,7 @@ static const itype_id itype_forge( "forge" );
 static const itype_id itype_mold_plastic( "mold_plastic" );
 static const itype_id itype_oxy_torch( "oxy_torch" );
 static const itype_id itype_press( "press" );
+static const itype_id itype_press_dowel( "press_dowel" );
 static const itype_id itype_sewing_kit( "sewing_kit" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_welder( "welder" );
@@ -1019,6 +1020,8 @@ requirement_data requirement_data::disassembly_requirements() const
     requirement_data ret = *this;
     auto new_qualities = std::vector<quality_requirement>();
     bool remove_fire = false;
+    bool bullet_pulling = false;
+    bool bullet_pulling_shotshell = false;
     for( auto &it : ret.tools ) {
         bool replaced = false;
         for( const auto &tool : it ) {
@@ -1043,11 +1046,20 @@ requirement_data requirement_data::disassembly_requirements() const
                 replaced = true;
                 break;
             }
-            //This ensures that you don't need a hand press to break down reloaded ammo.
+            // This ensures that you don't need a hand press to break down reloaded ammo.
+            // If the shotshell press is the first tool in the requirement, use cutting quality
+            if( type == itype_press_dowel ) {
+                replaced = true;
+                bullet_pulling = true;
+                bullet_pulling_shotshell = true;
+                remove_fire = true;
+                break;
+            }
+            // Put regular hand press first instead to use level 1 pulling quality
             if( type == itype_press ) {
                 replaced = true;
+                bullet_pulling = true;
                 remove_fire = true;
-                new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
                 break;
             }
             if( type == itype_fire && remove_fire ) {
@@ -1060,6 +1072,14 @@ requirement_data requirement_data::disassembly_requirements() const
             // Replace the entire block of variants
             // This avoids the pesky integrated toolset
             it.clear();
+        }
+    }
+
+    if( bullet_pulling ) {
+        if( bullet_pulling_shotshell ) {
+            new_qualities.emplace_back( quality_id( "CUT" ), 1, 1 );
+        } else {
+            new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
         }
     }
 

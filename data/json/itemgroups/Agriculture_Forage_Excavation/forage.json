@@ -80,13 +80,13 @@
     "id": "forage_mushroom",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "seed_mushroom", "prob": 10, "charges": [ 1, 2 ] }, { "item": "mushroom", "count": [ 1, 3 ] } ]
+    "entries": [ { "item": "mushroom_culture", "prob": 10 }, { "item": "mushroom", "charges": [ 1, 3 ] } ]
   },
   {
     "id": "forage_mushroom_morel",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "seed_mushroom_morel", "prob": 10, "charges": [ 1, 2 ] }, { "item": "mushroom_morel", "count": [ 1, 4 ] } ]
+    "entries": [ { "item": "mushroom_morel_culture", "prob": 10 }, { "item": "mushroom_morel", "charges": [ 1, 3 ] } ]
   },
   {
     "id": "forage_rhubarb",

@@ -8,7 +8,6 @@
     "volume": "250 ml",
     "price": "160 cent",
     "price_postapoc": "8 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -44,13 +43,13 @@
     "type": "AMMO",
     "name": { "str": ".30-06 Springfield, black powder" },
     "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   },
   {
     "id": "bp_3006_incendiary",
@@ -58,13 +57,13 @@
     "type": "AMMO",
     "name": { "str": ".30-06 Springfield tracer, black powder" },
     "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   },
   {
     "id": "bp_3006fmj",
@@ -72,12 +71,12 @@
     "type": "AMMO",
     "name": { "str": ".30-06 M2 AP, black powder" },
     "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]

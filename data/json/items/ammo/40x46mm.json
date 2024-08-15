@@ -53,7 +53,8 @@
     "damage": { "damage_type": "bullet", "amount": 120 },
     "recoil": 1000,
     "casing": "40x46mm_m199_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "extend": { "effects": [ "SHOT" ] },
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "40x46mm_m651",
@@ -78,7 +79,8 @@
     "damage": { "damage_type": "bullet", "amount": 120 },
     "recoil": 1000,
     "casing": "40x46mm_m118_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "extend": { "effects": [ "SHOT" ] },
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "40x46mm_slug_m118",
@@ -91,7 +93,8 @@
     "//": "Balanced as FMJ.",
     "damage": { "damage_type": "bullet", "amount": 96, "armor_penetration": 42 },
     "recoil": 1000,
-    "casing": "40x46mm_m118_casing"
+    "casing": "40x46mm_m118_casing",
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "40x46mm_slug_m199",
@@ -104,7 +107,8 @@
     "//": "Balanced as FMJ.",
     "damage": { "damage_type": "bullet", "amount": 96, "armor_penetration": 42 },
     "recoil": 1000,
-    "casing": "40x46mm_m199_casing"
+    "casing": "40x46mm_m199_casing",
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "40x46mm_flechette_m118",
@@ -118,7 +122,8 @@
     "damage": { "damage_type": "bullet", "amount": 84, "armor_penetration": 72 },
     "recoil": 1000,
     "casing": "40x46mm_m118_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "extend": { "effects": [ "SHOT" ] },
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "40x46mm_flechette_m199",
@@ -132,6 +137,7 @@
     "damage": { "damage_type": "bullet", "amount": 84, "armor_penetration": 72 },
     "recoil": 1000,
     "casing": "40x46mm_m199_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "extend": { "effects": [ "SHOT" ] },
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

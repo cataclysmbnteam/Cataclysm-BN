@@ -140,11 +140,11 @@
         "                        ",
         "                        ",
         "                        ",
-        "            |           ",
-        "           #|#          ",
-        "          ##|##         ",
-        "          #+|+#         ",
-        "          #+|+#         ",
+        "            W           ",
+        "           #+#          ",
+        "          ##+##         ",
+        "          #|+=#         ",
+        "          #|+=#         ",
         "          #&&&#         ",
         "          #I|H#         ",
         "          #E|=#         ",
@@ -171,7 +171,8 @@
         "E": "t_machinery_electronic",
         "|": "t_machinery_heavy",
         "I": "t_metal_floor_no_roof",
-        "#": "t_wall_metal"
+        "#": "t_wall_metal",
+        "W": "t_wind_turbine_rotor"
       }
     }
   },

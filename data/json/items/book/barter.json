@@ -21,7 +21,7 @@
     "copy-from": "base_book",
     "name": { "str": "How to Succeed in Business", "str_pl": "copies of How to Succeed in Business" },
     "description": "Useful if you want to get a good deal when purchasing goods.",
-    "weight": "454 g",
+    "weight": "500 g",
     "volume": "750 ml",
     "price": "19 USD",
     "price_postapoc": "250 cent",

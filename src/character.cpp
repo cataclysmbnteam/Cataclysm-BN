@@ -909,7 +909,7 @@ void Character::mod_stat( const std::string &stat, float modifier )
     }
 }
 
-m_size Character::get_size() const
+creature_size Character::get_size() const
 {
     return size_class;
 }
@@ -1367,6 +1367,10 @@ void Character::mount_creature( monster &z )
             add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
         }
     }
+    // Unfreeze recently-dismounted horses
+    if( z.has_effect( effect_ai_waiting ) ) {
+        z.remove_effect( effect_ai_waiting );
+    }
     // some rideable mechs have night-vision
     recalc_sight_limits();
     mod_moves( -100 );
@@ -1404,7 +1408,7 @@ bool Character::check_mount_is_spooked()
     // / 2 if horse has full tack and saddle.
     // Monster in spear reach monster and average stat (8) player on saddled horse, 14% -2% -0.8% / 2 = ~5%
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
-        const m_size mount_size = mounted_creature->get_size();
+        const creature_size mount_size = mounted_creature->get_size();
         const bool saddled = mounted_creature->has_effect( effect_saddled );
         for( const monster &critter : g->all_monsters() ) {
             double chance = 1.0;
@@ -2112,7 +2116,8 @@ float Character::get_vision_threshold( float light_level ) const
 
     return std::min( {static_cast<float>( LIGHT_AMBIENT_LOW ),
                       vision::threshold_for_nv_range( nv_range - 1 ) * dimming_from_light,
-                      threshold_cap} );
+                      threshold_cap
+                     } );
 }
 
 void Character::flag_encumbrance()
@@ -2495,7 +2500,7 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
     }
 
     const bool was_deaf = is_deaf();
-    const bool supertinymouse = get_size() == MS_TINY;
+    const bool supertinymouse = get_size() == creature_size::tiny;
     last_item = to_wear.typeId();
 
 
@@ -2972,7 +2977,7 @@ invlets_bitset Character::allocated_invlets() const
 bool Character::has_active_item( const itype_id &id ) const
 {
     return has_item_with( [id]( const item & it ) {
-        return it.active && it.typeId() == id;
+        return it.is_active() && it.typeId() == id;
     } );
 }
 
@@ -4319,7 +4324,7 @@ bool Character::is_wearing_power_armor( bool *hasHelmet ) const
 bool Character::is_wearing_active_power_armor() const
 {
     for( const auto &w : worn ) {
-        if( w->has_flag( flag_POWERARMOR_EXO ) && w->active ) {
+        if( w->has_flag( flag_POWERARMOR_EXO ) && w->is_active() ) {
             return true;
         }
     }
@@ -4329,7 +4334,7 @@ bool Character::is_wearing_active_power_armor() const
 bool Character::is_wearing_active_optcloak() const
 {
     for( const auto &w : worn ) {
-        if( w->active && w->has_flag( flag_ACTIVE_CLOAKING ) ) {
+        if( w->is_active() && w->has_flag( flag_ACTIVE_CLOAKING ) ) {
             return true;
         }
     }
@@ -5402,7 +5407,7 @@ void Character::update_needs( int rate_multiplier )
     }
 
     // Huge folks take penalties for cramming themselves in vehicles
-    if( in_vehicle && ( get_size() == MS_HUGE )
+    if( in_vehicle && ( get_size() == creature_size::huge )
         && !( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) ) {
         vehicle *veh = veh_pointer_or_null( get_map().veh_at( pos() ) );
         // it's painful to work the controls, but passengers in open topped vehicles are fine
@@ -7341,15 +7346,15 @@ std::string Character::height_string() const
 int Character::height() const
 {
     switch( get_size() ) {
-        case MS_TINY:
+        case creature_size::tiny:
             return init_height - 100;
-        case MS_SMALL:
+        case creature_size::small:
             return init_height - 50;
-        case MS_MEDIUM:
+        case creature_size::medium:
             return init_height;
-        case MS_LARGE:
+        case creature_size::large:
             return init_height + 50;
-        case MS_HUGE:
+        case creature_size::huge:
             return init_height + 100;
         default:
             break;
@@ -7948,12 +7953,6 @@ bool Character::consume_charges( item &used, int qty )
         return false;
     }
 
-    // Tools which don't require ammo are instead destroyed
-    if( used.is_tool() && !used.ammo_required() ) {
-        used.detach();
-        return true;
-    }
-
     if( used.is_power_armor() ) {
         if( used.charges >= qty ) {
             used.ammo_consume( qty, pos() );
@@ -7964,7 +7963,8 @@ bool Character::consume_charges( item &used, int qty )
         }
     }
 
-    // USE_UPS never occurs on base items but is instead added by the UPS tool mod
+    // USE_UPS may occur on base items and is added by the UPS tool mod
+    // If an item has the flag, then it should not be consumed on use.
     if( used.has_flag( flag_USE_UPS ) ) {
         // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
         // The usage of the item was already approved, so drain item if possible, otherwise use UPS
@@ -7973,6 +7973,11 @@ bool Character::consume_charges( item &used, int qty )
         } else {
             use_charges( itype_UPS, qty );
         }
+    } else if( used.is_tool() && used.units_remaining( *this ) == 0 && !used.ammo_required() ) {
+        // Tools which don't require ammo are instead destroyed.
+        // Put here cause tools may have use actions that require charges without charges_per_use
+        used.detach();
+        return true;
     } else {
         used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
     }
@@ -9297,7 +9302,7 @@ void Character::spores()
         if( sporep == pos() ) {
             continue;
         }
-        fe.fungalize( sporep, this, 0.25 );
+        fe.fungalize( sporep, this, fungal_opt.spore_chance );
     }
 }
 
@@ -10234,12 +10239,15 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
             qty -= std::min( qty, bio );
         }
 
-        int adv = charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.6 ) ) );
+        int adv = charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.5 ) ) );
         if( adv > 0 ) {
-            std::vector<detached_ptr<item>> found = use_charges( itype_adv_UPS_off, adv );
+            int adv_odd = x_in_y( qty % 2, 2 );
+            // qty % 2 returns 1 if odd and 0 if even, giving a 50% chance of consuming one less charge if odd, 0 otherwise.
+            // (eg: if 5, consumes either 2 or 3)
+            std::vector<detached_ptr<item>> found = use_charges( itype_adv_UPS_off, adv - adv_odd );
             res.insert( res.end(), std::make_move_iterator( found.begin() ),
                         std::make_move_iterator( found.end() ) );
-            qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
+            qty -= std::min( qty, static_cast<int>( adv / 0.5 ) );
         }
 
         int ups = charges_of( itype_UPS_off, qty );
@@ -10556,7 +10564,7 @@ float Character::power_rating() const
     } else if( dmg > 12 ) {
         ret = 3; // Melee weapon or weapon-y tool
     }
-    if( get_size() == MS_HUGE ) {
+    if( get_size() == creature_size::huge ) {
         ret += 1;
     }
     if( is_wearing_power_armor( nullptr ) ) {
@@ -11569,7 +11577,8 @@ void Character::knock_back_to( const tripoint &to )
 
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
-        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH, critter->type->size ) );
+        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH,
+                     static_cast<float>( critter->type->size ) ) );
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if( ( str_max - 6 ) / 4 > critter->type->size ) {
@@ -11588,7 +11597,8 @@ void Character::knock_back_to( const tripoint &to )
     }
 
     if( npc *const np = g->critter_at<npc>( to ) ) {
-        deal_damage( np, bodypart_id( "torso" ), damage_instance( DT_BASH, np->get_size() + 1 ) );
+        deal_damage( np, bodypart_id( "torso" ), damage_instance( DT_BASH,
+                     static_cast<float>( np->get_size() + 1 ) ) );
         add_effect( effect_stunned, 1_turns );
         np->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
@@ -11639,6 +11649,11 @@ int Character::hp_percentage() const
 
 bool Character::can_reload( const item &it, const itype_id &ammo ) const
 {
+    if( it.is_holster() ) {
+        const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                   ( it.get_use( "holster" )->get_actor_ptr() );
+        return static_cast<int>( it.contents.num_item_stacks() ) < ptr->multi;
+    }
     if( !it.is_reloadable_with( ammo ) ) {
         return false;
     }

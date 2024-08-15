@@ -689,8 +689,8 @@ static void smash()
         }
     }
     item &weapon = u.primary_weapon();
-    if( weapon.made_of( material_id( "glass" ) ) &&
-        !query_yn( _( "Are you sure you want to smash with an item made of glass?" ) ) ) {
+    if( weapon.can_shatter() &&
+        !query_yn( _( "Are you sure you want to smash with an item that might shatter?" ) ) ) {
         return;
     }
     const int move_cost = !u.is_armed() ? 80 : weapon.attack_cost() * 0.8;
@@ -794,7 +794,7 @@ static void smash()
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
             const int vol = weapon.volume() / units::legacy_volume_factor;
-            if( weapon.made_of( material_id( "glass" ) ) &&
+            if( weapon.can_shatter() &&
                 rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), weapon.tname() );
                 weapon.spill_contents( u.pos() );
@@ -1034,7 +1034,7 @@ static void sleep()
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
         if( it->has_flag( flag_LITCIG ) ||
-            ( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) && it->is_tool() &&
+            ( it->is_active() && ( it->charges > 0 || it->units_remaining( u ) > 0 ) && it->is_tool() &&
               !it->has_flag( flag_SLEEP_IGNORE ) ) ) {
             active.push_back( it->tname() );
         }
@@ -1065,10 +1065,10 @@ static void sleep()
 
     // check for deactivating any currently played music instrument.
     for( auto &item : u.inv_dump() ) {
-        if( item->active && item->get_use( "musical_instrument" ) != nullptr ) {
+        if( item->is_active() && item->get_use( "musical_instrument" ) != nullptr ) {
             u.add_msg_if_player( _( "You stop playing your %s before trying to sleep." ), item->tname() );
             // deactivate instrument
-            item->active = false;
+            item->deactivate();
         }
     }
 
@@ -1308,7 +1308,7 @@ static void read()
     if( loc ) {
         if( loc->type->can_use( "learn_spell" ) ) {
             item &spell_book = *loc;
-            spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.active, u.pos() );
+            spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.is_active(), u.pos() );
         } else {
             u.read( loc );
         }

@@ -1,0 +1,212 @@
+[
+  {
+    "id": "mutagen_alpha",
+    "type": "MIGRATION",
+    "replace": "mutagen"
+  },
+  {
+    "id": "iv_mutagen_alpha",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen"
+  },
+  {
+    "id": "mutagen_cephalopod",
+    "type": "MIGRATION",
+    "replace": "mutagen"
+  },
+  {
+    "id": "iv_mutagen_cephalopod",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen"
+  },
+  {
+    "id": "mutagen_chimera",
+    "type": "MIGRATION",
+    "replace": "mutagen"
+  },
+  {
+    "id": "iv_mutagen_chimera",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen"
+  },
+  {
+    "id": "mutagen_elfa",
+    "type": "MIGRATION",
+    "replace": "mutagen"
+  },
+  {
+    "id": "iv_mutagen_elfa",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen"
+  },
+  {
+    "id": "mutagen_medical",
+    "type": "MIGRATION",
+    "replace": "mutagen"
+  },
+  {
+    "id": "iv_mutagen_medical",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen"
+  },
+  {
+    "id": "mutagen_troglobite",
+    "type": "MIGRATION",
+    "replace": "mutagen"
+  },
+  {
+    "id": "iv_mutagen_troglobite",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen"
+  },
+  {
+    "id": "mutagen_lizard",
+    "type": "MIGRATION",
+    "replace": "mutagen"
+  },
+  {
+    "id": "iv_mutagen_lizard",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen"
+  },
+  {
+    "id": "mutagen_raptor",
+    "type": "MIGRATION",
+    "replace": "mutagen"
+  },
+  {
+    "id": "iv_mutagen_raptor",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen"
+  },
+  {
+    "id": "mutagen_insect",
+    "type": "MIGRATION",
+    "replace": "mutagen_spidergirl"
+  },
+  {
+    "id": "iv_mutagen_insect",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen_spidergirl"
+  },
+  {
+    "id": "mutagen_rat",
+    "type": "MIGRATION",
+    "replace": "mutagen_mousegirl"
+  },
+  {
+    "id": "iv_mutagen_rat",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen_mousegirl"
+  },
+  {
+    "id": "mutagen_feline",
+    "type": "MIGRATION",
+    "replace": "mutagen_neko"
+  },
+  {
+    "id": "iv_mutagen_feline",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen_neko"
+  },
+  {
+    "id": "mutagen_lupine",
+    "type": "MIGRATION",
+    "replace": "mutagen_doggirl"
+  },
+  {
+    "id": "iv_mutagen_lupine",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen_doggirl"
+  },
+  {
+    "id": "mutagen_cattle",
+    "type": "MIGRATION",
+    "replace": "mutagen_cowgirl"
+  },
+  {
+    "id": "iv_mutagen_cattle",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen_cowgirl"
+  },
+  {
+    "id": "mutagen_ursine",
+    "type": "MIGRATION",
+    "replace": "mutagen_beargirl"
+  },
+  {
+    "id": "iv_mutagen_ursine",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen_beargirl"
+  },
+  {
+    "id": "mutagen_mouse",
+    "type": "MIGRATION",
+    "replace": "mutagen_mousegirl"
+  },
+  {
+    "id": "iv_mutagen_mouse",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen_mousegirl"
+  },
+  {
+    "id": "mutagen_spider",
+    "type": "MIGRATION",
+    "replace": "mutagen_spidergirl"
+  },
+  {
+    "id": "iv_mutagen_spider",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen_spidergirl"
+  },
+  {
+    "id": "mutagen_bird",
+    "type": "MIGRATION",
+    "replace": "mutagen_harpy"
+  },
+  {
+    "id": "iv_mutagen_bird",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen_harpy"
+  },
+  {
+    "id": "mutagen_plant",
+    "type": "MIGRATION",
+    "replace": "mutagen_dryad"
+  },
+  {
+    "id": "iv_mutagen_plant",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen_dryad"
+  },
+  {
+    "id": "mutagen_slime",
+    "type": "MIGRATION",
+    "replace": "mutagen_slimegirl"
+  },
+  {
+    "id": "iv_mutagen_slime",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen_slimegirl"
+  },
+  {
+    "id": "mutagen_beast",
+    "type": "MIGRATION",
+    "replace": "mutagen"
+  },
+  {
+    "id": "iv_mutagen_beast",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen"
+  },
+  {
+    "id": "mutagen_fish",
+    "type": "MIGRATION",
+    "replace": "mutagen"
+  },
+  {
+    "id": "iv_mutagen_fish",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen"
+  }
+]

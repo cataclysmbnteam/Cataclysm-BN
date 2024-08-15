@@ -160,7 +160,7 @@
     "components": [
       [ [ "stick", 3 ], [ "2x4", 2 ] ],
       [ [ "bone_sturdy", 3, "LIST" ] ],
-      [ [ "superglue", 3 ], [ "bone_glue", 3 ] ],
+      [ [ "adhesive_proper", 5, "LIST" ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
     ]
   },
@@ -179,7 +179,7 @@
     "components": [
       [ [ "stick_long", 1 ], [ "2x4", 3 ] ],
       [ [ "bone_sturdy", 4, "LIST" ] ],
-      [ [ "superglue", 4 ], [ "bone_glue", 4 ] ],
+      [ [ "adhesive_proper", 5, "LIST" ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
     ]
   },
@@ -217,7 +217,12 @@
       { "id": "ANVIL", "level": 1 },
       { "id": "SAW_W", "level": 1 }
     ],
-    "components": [ [ [ "log", 1 ] ], [ [ "steel_tiny", 5, "LIST" ] ], [ [ "rope_superior_short", 1, "LIST" ] ] ]
+    "components": [
+      [ [ "log", 1 ] ],
+      [ [ "steel_tiny", 5, "LIST" ] ],
+      [ [ "adhesive_proper", 10, "LIST" ] ],
+      [ [ "rope_superior_short", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -291,7 +296,7 @@
       [ [ "cordage_superior_short", 1, "LIST" ] ],
       [ [ "spring", 1 ] ],
       [ [ "scrap", 4 ] ],
-      [ [ "nail", 10 ] ]
+      [ [ "nail_glue", 10, "LIST" ] ]
     ]
   },
   {
@@ -332,7 +337,12 @@
       [ "textbook_armschina", 6 ]
     ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "stick", 5 ], [ "2x4", 3 ] ], [ [ "bone_sturdy", 3, "LIST" ] ], [ [ "cordage_superior", 1, "LIST" ] ] ]
+    "components": [
+      [ [ "stick", 5 ], [ "2x4", 3 ] ],
+      [ [ "bone_sturdy", 3, "LIST" ] ],
+      [ [ "adhesive_proper", 5, "LIST" ] ],
+      [ [ "cordage_superior", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -633,7 +643,7 @@
       [ [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
-      [ [ "nail", 60 ] ]
+      [ [ "nail_glue", 60, "LIST" ] ]
     ]
   },
   {
@@ -648,7 +658,12 @@
     "decomp_learn": 4,
     "book_learn": [ [ "recipe_bows", 4 ], [ "textbook_weapeast", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ], [ [ "spring", 1 ] ], [ [ "cordage_superior", 1, "LIST" ] ], [ [ "nail", 20 ] ] ]
+    "components": [
+      [ [ "2x4", 4 ], [ "stick", 8 ] ],
+      [ [ "spring", 1 ] ],
+      [ [ "cordage_superior", 1, "LIST" ] ],
+      [ [ "nail_glue", 20, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -680,7 +695,7 @@
   },
   {
     "type": "recipe",
-    "result": "gatling_mech_laser_rebuilt",
+    "result": "recon_mech_laser_rebuilt",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "electronics",
@@ -690,7 +705,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "gatling_mech_laser_salvaged", 1 ] ], [ [ "battery_ups", 1 ] ], [ [ "cable", 25 ] ] ]
+    "components": [ [ [ "recon_mech_laser_salvaged", 1 ] ], [ [ "battery_ups", 1 ] ], [ [ "cable", 25 ] ] ]
   },
   {
     "type": "recipe",
@@ -978,7 +993,7 @@
     "components": [
       [ [ "hand_pump", 1 ] ],
       [ [ "pipe", 8 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "2x4", 1 ], [ "stick", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
@@ -998,7 +1013,7 @@
     "components": [
       [ [ "hand_pump", 1 ] ],
       [ [ "pipe", 4 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "2x4", 1 ], [ "stick", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
@@ -1018,7 +1033,7 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [
       [ [ "pipe", 3 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "2x4", 1 ], [ "stick", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
@@ -1136,8 +1151,7 @@
     "skill_used": "mechanics",
     "skills_required": [ "gun", 4 ],
     "difficulty": 6,
-    "time": 36000,
-    "reversible": true,
+    "time": "60 m",
     "autolearn": true,
     "book_learn": [ [ "manual_luty", 4 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
@@ -1151,8 +1165,7 @@
     "skill_used": "mechanics",
     "skills_required": [ "gun", 4 ],
     "difficulty": 6,
-    "time": 36000,
-    "reversible": true,
+    "time": "60 m",
     "autolearn": true,
     "book_learn": [ [ "manual_luty", 4 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
@@ -1166,8 +1179,7 @@
     "skill_used": "mechanics",
     "skills_required": [ "gun", 4 ],
     "difficulty": 6,
-    "time": 36000,
-    "reversible": true,
+    "time": "60 m",
     "autolearn": true,
     "book_learn": [ [ "manual_luty", 4 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
@@ -1221,5 +1233,48 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "scrap", 6 ] ], [ [ "cable", 20 ] ] ]
+  },
+  {
+    "result": "carbon_pistol",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "computer",
+    "difficulty": 5,
+    "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
+    "//": "Increased time just to make and headspace the barrel",
+    "time": "60 m",
+    "book_learn": [ [ "textbook_robots", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ], [ "reference_fabrication1", 6 ] ],
+    "using": [ [ "3d_printing_standard", 5 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "carbon_fiber_filament", 50 ] ], [ [ "pipe", 1 ] ] ]
+  },
+  {
+    "result": "crossbow_carbon",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "computer",
+    "difficulty": 5,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "50 m",
+    "book_learn": [ [ "textbook_computer", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ], [ "reference_fabrication1", 6 ] ],
+    "using": [ [ "3d_printing_standard", 50 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 500 ] ], [ [ "cordage_superior", 3, "LIST" ] ] ]
+  },
+  {
+    "result": "carbon_rifle",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "computer",
+    "difficulty": 6,
+    "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
+    "//": "Increased time just to make and headspace the barrel",
+    "time": "1 h 30 m",
+    "book_learn": [ [ "textbook_computer", 6 ], [ "advanced_electronics", 6 ], [ "textbook_anarch", 6 ], [ "reference_fabrication1", 6 ] ],
+    "using": [ [ "3d_printing_standard", 20 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "carbon_fiber_filament", 200 ] ], [ [ "pipe", 1 ] ] ]
   }
 ]

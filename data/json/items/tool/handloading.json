@@ -38,7 +38,7 @@
     "category": "tools",
     "name": { "str": "kinetic bullet puller" },
     "description": "This is a tool used for properly disassembling firearm ammunition.",
-    "weight": "489 g",
+    "weight": "500 g",
     "volume": "250 ml",
     "price": "10 USD",
     "price_postapoc": "20 USD",

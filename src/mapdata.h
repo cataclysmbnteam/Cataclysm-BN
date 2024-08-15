@@ -317,6 +317,13 @@ enum ter_bitflags : int {
     TFLAG_SMALL_PASSAGE,
     TFLAG_Z_TRANSPARENT,
     TFLAG_SUN_ROOF_ABOVE,
+    TFLAG_FUNGUS,
+    TFLAG_FLOWER,
+    TFLAG_ORGANIC,
+    TFLAG_PLANT,
+    TFLAG_SHRUB,
+    TFLAG_TREE,
+    TFLAG_YOUNG,
     TFLAG_SUSPENDED,
     TFLAG_FRIDGE,
     TFLAG_FREEZER,
@@ -459,6 +466,8 @@ struct map_data_common_t {
         int movecost = 0;
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
+        // What itemgroup spawns when digging a shallow pit in this terrain, defaults to standard soil yield
+        std::string digging_result = "digging_soil_loam_50L";
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = 1000_liter;
 

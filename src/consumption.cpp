@@ -169,14 +169,14 @@ struct prepared_item_consumption {
             case item_consumption_t::tool: {
                 comp_selection<tool_comp> selection = comp_selection<tool_comp>();
                 selection.comp = tool_comp( it.typeId(), it.type->charges_to_use() );
-                selection.use_from = use_from_both;
+                selection.use_from = usage_from::both;
                 p.consume_tools( selection, it.type->charges_to_use() );
                 return true;
             }
             case item_consumption_t::component: {
                 comp_selection<item_comp> selection = comp_selection<item_comp>();
                 selection.comp = item_comp( it.typeId(), 1 );
-                selection.use_from = use_from_both;
+                selection.use_from = usage_from::both;
                 return !p.consume_items( selection, 1, is_crafting_component ).empty();
             }
         }
@@ -338,16 +338,16 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         return {};
     }
 
+    const recipe &rec = *recipe_i;
+    int charges = comest.count();
     // if item has components, will derive calories from that instead.
-    if( comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+    if( comest.has_flag( flag_NUTRIENT_OVERRIDE ) || !g->u.can_make( &rec, charges ) ) {
         nutrients result = compute_default_effective_nutrients( comest, *this );
         return { result, result };
     }
 
     nutrients tally_min;
     nutrients tally_max;
-
-    const recipe &rec = *recipe_i;
 
     cata::flat_set<flag_id> our_extra_flags = extra_flags;
 
@@ -364,17 +364,19 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_max;
         bool first = true;
         for( const item_comp &component_option : component_options ) {
-            std::pair<nutrients, nutrients> component_option_range =
-                compute_nutrient_range( component_option.type, our_extra_flags );
-            component_option_range.first *= component_option.count;
-            component_option_range.second *= component_option.count;
+            if( component_option.has( g->u.crafting_inventory(), rec.get_component_filter(), charges ) ) {
+                std::pair<nutrients, nutrients> component_option_range =
+                    compute_nutrient_range( component_option.type, our_extra_flags );
+                component_option_range.first *= component_option.count;
+                component_option_range.second *= component_option.count;
 
-            if( first ) {
-                std::tie( this_min, this_max ) = component_option_range;
-                first = false;
-            } else {
-                this_min.min_in_place( component_option_range.first );
-                this_max.max_in_place( component_option_range.second );
+                if( first ) {
+                    std::tie( this_min, this_max ) = component_option_range;
+                    first = false;
+                } else {
+                    this_min.min_in_place( component_option_range.first );
+                    this_max.max_in_place( component_option_range.second );
+                }
             }
         }
         tally_min += this_min;
@@ -388,7 +390,6 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         tally_max -= byproduct_nutr;
     }
 
-    int charges = comest.count();
     return { tally_min / charges, tally_max / charges };
 }
 
@@ -819,10 +820,7 @@ bool Character::eat( item &food, bool force )
 
     int charges_used = 0;
     if( food.type->has_use() ) {
-        if( !food.type->can_use( "DOGFOOD" ) &&
-            !food.type->can_use( "CATFOOD" ) &&
-            !food.type->can_use( "BIRDFOOD" ) &&
-            !food.type->can_use( "CATTLEFODDER" ) ) {
+        if( !food.type->can_use( "PETFOOD" ) ) {
             charges_used = food.type->invoke( *this->as_player(), food, pos() );
             if( charges_used <= 0 ) {
                 return false;
@@ -1482,7 +1480,8 @@ bool query_consume_ownership( item &target, avatar &you )
     if( you.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
         you.set_value( "THIEF_MODE", "THIEF_ASK" );
     }
-    if( !target.is_owned_by( you, true ) ) {
+    // We don't care about the opinions of NPCs that will already shoot us on sight, steal away!
+    if( !target.is_owned_by( you, true ) && target.get_owner()->likes_u >= -10 ) {
         bool choice = true;
         if( you.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             choice = pickup::query_thief();

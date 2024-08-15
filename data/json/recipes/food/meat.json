@@ -27,6 +27,71 @@
   },
   {
     "type": "recipe",
+    "result": "curdled_blood",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "13 m",
+    "autolearn": true,
+    "batch_time_factors": [ 90, 1 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "edible_blood", 1, "LIST" ] ], [ [ "salt", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "blood_concentrate",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "8 m",
+    "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ], [ [ "rag", -1 ] ] ],
+    "components": [ [ [ "blood", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "animal_blood_concentrate",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "8 m",
+    "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ], [ [ "rag", -1 ] ] ],
+    "components": [ [ [ "animal_blood", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_blood_concentrate",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "8 m",
+    "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ], [ [ "rag", -1 ] ] ],
+    "components": [ [ [ "mutant_blood", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "blood_tainted_concentrate",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "8 m",
+    "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ], [ [ "rag", -1 ] ] ],
+    "components": [ [ [ "blood_tainted", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "mutant_meat_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -706,6 +771,36 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "using": [ [ "meat_soup_ingredients", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "soup_blood",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "charges": 2,
+    "autolearn": true,
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "edible_blood_concentrate", 6, "LIST" ] ],
+      [ [ "vinegar", 2 ] ],
+      [
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "pepper", 4 ],
+        [ "garlic_clove", 2 ],
+        [ "chili_pepper_roasted", 2 ],
+        [ "salt_water", 1 ],
+        [ "salt", 4 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
@@ -1615,6 +1710,93 @@
   },
   {
     "type": "recipe",
+    "result": "sausage_blood",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "charges": 2,
+    "time": "40 m",
+    "autolearn": true,
+    "book_learn": [ [ "family_cookbook", 2 ], [ "scots_cookbook", 2 ] ],
+    "batch_time_factors": [ 80, 2 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "char_smoker", 5 ] ] ],
+    "components": [
+      [ [ "edible_blood_concentrate", 6, "LIST" ] ],
+      [ [ "meat_red_cooked", 2, "LIST" ] ],
+      [ [ "sausage_casings", 1 ], [ "sausage_casings_plastic", 1 ], [ "stomach", 1 ], [ "hstomach", 1 ] ],
+      [
+        [ "salt_water", 2 ],
+        [ "saline", 4 ],
+        [ "salt", 2 ],
+        [ "chem_saltpetre", 1 ],
+        [ "soysauce", 1 ],
+        [ "seasoning_italian", 2 ],
+        [ "wild_herbs", 2 ],
+        [ "seasoning_salt", 2 ],
+        [ "pepper", 2 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "sausage_blood",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "id_suffix": "large",
+    "difficulty": 4,
+    "charges": 4,
+    "time": "40 m",
+    "autolearn": true,
+    "book_learn": [ [ "family_cookbook", 2 ], [ "scots_cookbook", 2 ] ],
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "char_smoker", 10 ] ] ],
+    "components": [
+      [ [ "edible_blood_concentrate", 12, "LIST" ] ],
+      [ [ "meat_red_cooked", 4, "LIST" ] ],
+      [
+        [ "sausage_casings", 2 ],
+        [ "sausage_casings_plastic", 2 ],
+        [ "stomach", 2 ],
+        [ "stomach_large", 1 ],
+        [ "hstomach", 2 ],
+        [ "hstomach_large", 1 ]
+      ],
+      [
+        [ "salt_water", 4 ],
+        [ "saline", 8 ],
+        [ "salt", 4 ],
+        [ "chem_saltpetre", 2 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "sausage_blood",
+    "id_suffix": "smoke",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "charges": 1,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "family_cookbook", 2 ], [ "scots_cookbook", 2 ] ],
+    "batch_time_factors": [ 83, 6 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "char_smoker", 5 ] ] ],
+    "components": [ [ [ "sausage_blood_raw", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "sausage_wasteland_raw",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -1679,6 +1861,74 @@
   },
   {
     "type": "recipe",
+    "result": "sausage_blood_raw",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "charges": 2,
+    "time": "10 m",
+    "autolearn": true,
+    "book_learn": [ [ "family_cookbook", 2 ], [ "scots_cookbook", 2 ] ],
+    "batch_time_factors": [ 50, 2 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "components": [
+      [ [ "edible_blood_concentrate", 6, "LIST" ] ],
+      [ [ "meat_red_cooked", 2, "LIST" ] ],
+      [ [ "sausage_casings", 1 ], [ "sausage_casings_plastic", 1 ], [ "stomach", 1 ], [ "hstomach", 1 ] ],
+      [
+        [ "salt_water", 2 ],
+        [ "saline", 4 ],
+        [ "salt", 2 ],
+        [ "chem_saltpetre", 1 ],
+        [ "soysauce", 1 ],
+        [ "seasoning_italian", 2 ],
+        [ "wild_herbs", 2 ],
+        [ "seasoning_salt", 2 ],
+        [ "pepper", 2 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "sausage_blood_raw",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "id_suffix": "large",
+    "difficulty": 4,
+    "charges": 4,
+    "time": "10 m",
+    "autolearn": true,
+    "book_learn": [ [ "family_cookbook", 2 ], [ "scots_cookbook", 2 ] ],
+    "batch_time_factors": [ 50, 5 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "components": [
+      [ [ "edible_blood_concentrate", 12, "LIST" ] ],
+      [ [ "meat_red_cooked", 4, "LIST" ] ],
+      [
+        [ "sausage_casings", 2 ],
+        [ "sausage_casings_plastic", 2 ],
+        [ "stomach", 2 ],
+        [ "stomach_large", 1 ],
+        [ "hstomach", 2 ],
+        [ "hstomach_large", 1 ]
+      ],
+      [
+        [ "salt_water", 4 ],
+        [ "saline", 8 ],
+        [ "salt", 4 ],
+        [ "chem_saltpetre", 2 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "sausage_wasteland_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -1690,6 +1940,19 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "sausage_wasteland_raw", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sausage_blood_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "30 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "sausage_blood_raw", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1926,6 +2189,40 @@
   },
   {
     "type": "recipe",
+    "result": "soup_blood",
+    "id_suffix": "jarred",
+    "byproducts": [ [ "water", 10 ] ],
+    "container": "jar_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "time": "30 m",
+    "charges": 2,
+    "book_learn": [ [ "manual_canning", 3 ] ],
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "components": [
+      [ [ "water", 12 ], [ "water_clean", 12 ] ],
+      [ [ "edible_blood_concentrate", 6, "LIST" ] ],
+      [ [ "vinegar", 2 ] ],
+      [
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "pepper", 4 ],
+        [ "garlic_clove", 2 ],
+        [ "chili_pepper_roasted", 2 ],
+        [ "salt_water", 1 ],
+        [ "salt", 4 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "soup_fish",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -2037,6 +2334,44 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
     "using": [ [ "meat_soup_ingredients", 1 ] ],
     "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "soup_blood",
+    "id_suffix": "canned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "24 m",
+    "book_learn": [ [ "manual_sealing", 3 ] ],
+    "contained": true,
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
+    "components": [
+      [ [ "can_medium_unsealed", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "edible_blood_concentrate", 6, "LIST" ] ],
+      [ [ "vinegar", 2 ] ],
+      [
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "pepper", 4 ],
+        [ "garlic_clove", 2 ],
+        [ "chili_pepper_roasted", 2 ],
+        [ "salt_water", 1 ],
+        [ "salt", 4 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
@@ -2153,6 +2488,40 @@
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "using": [ [ "meat_soup_ingredients", 6 ] ],
     "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "soup_blood",
+    "id_suffix": "jarred_3l",
+    "byproducts": [ [ "water", 10 ] ],
+    "container": "jar_3l_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "time": "40 m",
+    "charges": 12,
+    "book_learn": [ [ "manual_canning", 3 ] ],
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "components": [
+      [ [ "water", 22 ], [ "water_clean", 22 ] ],
+      [ [ "edible_blood_concentrate", 36, "LIST" ] ],
+      [ [ "vinegar", 12 ] ],
+      [
+        [ "seasoning_italian", 24 ],
+        [ "wild_herbs", 24 ],
+        [ "seasoning_salt", 24 ],
+        [ "soysauce", 12 ],
+        [ "pepper", 24 ],
+        [ "garlic_clove", 12 ],
+        [ "chili_pepper_roasted", 12 ],
+        [ "salt_water", 6 ],
+        [ "salt", 24 ]
+      ]
+    ]
   },
   {
     "type": "recipe",

@@ -82,9 +82,12 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
-const std::map<std::string, m_size> Creature::size_map = {
-    {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
-    {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE}
+const std::map<std::string, creature_size> Creature::size_map = {
+    {"TINY",   creature_size::tiny},
+    {"SMALL",  creature_size::small},
+    {"MEDIUM", creature_size::medium},
+    {"LARGE",  creature_size::large},
+    {"HUGE",   creature_size::huge}
 };
 
 const std::set<material_id> Creature::cmat_flesh{
@@ -305,18 +308,18 @@ bool Creature::sees( const Creature &critter ) const
             }
             float size_modifier = 1.0;
             switch( ch->get_size() ) {
-                case MS_TINY:
+                case creature_size::tiny:
                     size_modifier = 2.0;
                     break;
-                case MS_SMALL:
+                case creature_size::small:
                     size_modifier = 1.4;
                     break;
-                case MS_MEDIUM:
+                case creature_size::medium:
                     break;
-                case MS_LARGE:
+                case creature_size::large:
                     size_modifier = 0.6;
                     break;
-                case MS_HUGE:
+                case creature_size::huge:
                     size_modifier = 0.15;
                     break;
                 default:
@@ -432,7 +435,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         }
         if( critter.is_npc() ) {
             // friendly to the player, not a target for us
-            return static_cast<const npc *>( &critter )->get_attitude() == NPCATT_KILL;
+            return static_cast<const npc *>( &critter )->guaranteed_hostile();
         }
         // TODO: what about g->u?
         return false;
@@ -538,15 +541,15 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
 int Creature::size_melee_penalty() const
 {
     switch( get_size() ) {
-        case MS_TINY:
+        case creature_size::tiny:
             return 30;
-        case MS_SMALL:
+        case creature_size::small:
             return 15;
-        case MS_MEDIUM:
+        case creature_size::medium:
             return 0;
-        case MS_LARGE:
+        case creature_size::large:
             return -10;
-        case MS_HUGE:
+        case creature_size::huge:
             return -20;
         default:
             break;
@@ -726,23 +729,23 @@ dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const da
 namespace
 {
 
-auto get_stun_srength( const projectile &proj, m_size size ) -> int
+auto get_stun_srength( const projectile &proj, creature_size size ) -> int
 {
     const int stun_strength = proj.has_effect( ammo_effect_BEANBAG ) ? 4
                               : proj.has_effect( ammo_effect_LARGE_BEANBAG ) ? 16
                               : 0;
 
     switch( size ) {
-        case MS_TINY:
+        case creature_size::tiny:
             return stun_strength * 4;
-        case MS_SMALL:
+        case creature_size::small:
             return stun_strength * 2;
-        case MS_MEDIUM:
+        case creature_size::medium:
         default:
             return stun_strength;
-        case MS_LARGE:
+        case creature_size::large:
             return stun_strength / 2;
-        case MS_HUGE:
+        case creature_size::huge:
             return stun_strength / 4;
     }
 }
@@ -1007,7 +1010,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
     }
 
     // Apply damage multiplier from skill, critical hits or grazes after all other modifications.
-    const int adjusted_damage = du.amount * du.damage_multiplier;
+    int adjusted_damage = du.amount * du.damage_multiplier;
     if( adjusted_damage <= 0 ) {
         return;
     }
@@ -1018,6 +1021,10 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
         case DT_BASH:
             // Bashing damage is less painful
             div = 5.0f;
+            // Monster only. Having PLASTIC flag cuts damage from bashing by 50%, 66% or 75%
+            if( has_flag( MF_PLASTIC ) ) {
+                adjusted_damage /= rng( 2, 4 ); // lessened effect
+            }
             break;
 
         case DT_HEAT:
@@ -1953,19 +1960,19 @@ units::mass Creature::weight_capacity() const
 {
     units::mass base_carry = 13_kilogram;
     switch( get_size() ) {
-        case MS_TINY:
+        case creature_size::tiny:
             base_carry /= 4;
             break;
-        case MS_SMALL:
+        case creature_size::small:
             base_carry /= 2;
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
         default:
             break;
-        case MS_LARGE:
+        case creature_size::large:
             base_carry *= 2;
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             base_carry *= 4;
             break;
     }
@@ -2155,19 +2162,19 @@ void Creature::describe_infrared( std::vector<std::string> &buf ) const
 {
     std::string size_str;
     switch( get_size() ) {
-        case m_size::MS_TINY:
+        case creature_size::tiny:
             size_str = pgettext( "infrared size", "tiny" );
             break;
-        case m_size::MS_SMALL:
+        case creature_size::small:
             size_str = pgettext( "infrared size", "small" );
             break;
-        case m_size::MS_MEDIUM:
+        case creature_size::medium:
             size_str = pgettext( "infrared size", "medium" );
             break;
-        case m_size::MS_LARGE:
+        case creature_size::large:
             size_str = pgettext( "infrared size", "large" );
             break;
-        case m_size::MS_HUGE:
+        case creature_size::huge:
             size_str = pgettext( "infrared size", "huge" );
             break;
         default:

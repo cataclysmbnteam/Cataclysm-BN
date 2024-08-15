@@ -669,9 +669,9 @@ void Character::reach_attack( const tripoint &p )
     map &here = get_map();
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
-    int target_size = critter != nullptr ? ( critter->get_size() + 1 ) : 2;
+    const int target_size = critter != nullptr ? static_cast<int>( critter->get_size() + 1 ) : 2;
     // Reset last target pos
-    as_player()->last_target_pos = std::nullopt;
+    last_target_pos = std::nullopt;
     // Max out recoil
     recoil = MAX_RECOIL;
 
@@ -978,9 +978,9 @@ void melee::roll_bash_damage( const Character &c, bool crit, damage_instance &di
     float weap_dam = weap.damage_melee( attack, DT_BASH ) + stat_bonus;
     /** @EFFECT_UNARMED caps bash damage with unarmed weapons */
 
-    if( unarmed && weap.is_null() ) {
-        /** @EFFECT_UNARMED defines weapon damage of empty-handed unarmed attacks */
-        weap_dam += skill * 2;
+    if( unarmed ) {
+        /** @EFFECT_UNARMED defines weapon damage of unarmed attacks */
+        weap_dam += skill;
     }
 
     /** @EFFECT_BASHING caps bash damage with bashing weapons */
@@ -1829,7 +1829,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     if( tec != tec_none && !is_dead_state() ) {
         if( get_stamina() < get_stamina_max() / 3 ) {
             add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
-        } else if( primary_weapon().made_of( material_id( "glass" ) ) ) {
+        } else if( primary_weapon().can_shatter() ) {
             add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
             melee_attack( *source, false, &tec );
@@ -1930,8 +1930,8 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     }
 
     const int vol = weap.volume() / 250_ml;
-    // Glass weapons shatter sometimes
-    if( weap.made_of( material_id( "glass" ) ) &&
+    // Glass weapons and stuff with SHATTERS flag can shatter sometimes
+    if( weap.can_shatter() &&
         /** @EFFECT_STR increases chance of breaking glass weapons (NEGATIVE) */
         rng( 0, vol + 8 ) < vol + str_cur ) {
         if( is_player() ) {

@@ -841,7 +841,7 @@ bool unload_item( avatar &you, item &loc )
     }
 
     // Turn off any active tools
-    if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
+    if( target->is_tool() && target->is_active() && target->ammo_remaining() == 0 ) {
         target->type->invoke( you, *target, you.pos() );
     }
 

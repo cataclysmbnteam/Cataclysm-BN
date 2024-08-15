@@ -108,7 +108,7 @@
         "d": { "item": "office", "chance": 80 },
         "C": { "item": "office", "chance": 20 },
         "S": { "item": "bed", "chance": 60 },
-        "r": { "item": "hospital_medical_items", "chance": 30 },
+        "r": { "item": "hospital_medical_items", "chance": 70 },
         "R": { "item": "hospital_lab", "chance": 70 },
         "l": { "item": "surgery", "chance": 80 },
         "L": { "item": "allclothes", "chance": 90 },
@@ -116,7 +116,7 @@
         "9": { "item": "produce", "chance": 40 },
         "T": { "item": "snacks", "chance": 50 },
         "2": { "item": "hospital_samples", "chance": 50 },
-        "k": { "item": "doctors_books", "chance": 60 },
+        "k": { "item": "doctors_books", "chance": 75, "repeat": 4 },
         "H": [
           { "item": "harddrugs", "chance": 60 },
           { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },

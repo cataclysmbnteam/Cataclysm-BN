@@ -1259,9 +1259,16 @@ class map
             return spawn_an_item( tripoint( p, abs_sub.z ), std::move( new_item ), charges, damlevel );
         }
 
+
+        /**
+         * Remove an item from active item processing queue as necessary
+         */
+        void make_inactive( item &loc );
+
         /**
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
+         * Should be called as part of activate()
          */
         void make_active( item &loc );
 
@@ -1665,6 +1672,13 @@ class map
          * If false, monsters are not spawned in view of player character.
          */
         void spawn_monsters( bool ignore_sight );
+
+        /**
+        * Checks to see if the corpse that is rotting away generates items when it does.
+        * @param it item that is spawning creatures
+        * @param pnt The point on this map where the item is and where bones/etc will be
+        */
+        void handle_decayed_corpse( const item &it, const tripoint &pnt );
 
         /**
         * Checks to see if the item that is rotting away generates a creature when it does.

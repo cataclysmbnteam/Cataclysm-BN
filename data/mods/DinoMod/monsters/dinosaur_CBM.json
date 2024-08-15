@@ -2,7 +2,7 @@
   {
     "type": "MONSTER",
     "id": "mon_spinosaurus_bio_op",
-    "name": { "str_sp": "Spinosaurus bio-operator" },
+    "name": { "str_sp": "spinosaurus bio-operator" },
     "copy-from": "mon_spinosaurus",
     "diff": 5,
     "proportional": { "hp": 2, "speed": 1.3 },
@@ -55,7 +55,7 @@
   {
     "type": "MONSTER",
     "id": "mon_gallimimus_bio_op",
-    "name": { "str_sp": "Gallimimus bio-operator" },
+    "name": { "str_sp": "gallimimus bio-operator" },
     "copy-from": "mon_gallimimus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -82,7 +82,7 @@
   {
     "type": "MONSTER",
     "id": "mon_pachycephalosaurus_bio_op",
-    "name": { "str_sp": "Pachycephalosaurus bio-operator" },
+    "name": { "str_sp": "pachycephalosaurus bio-operator" },
     "copy-from": "mon_pachycephalosaurus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -109,7 +109,7 @@
   {
     "type": "MONSTER",
     "id": "mon_trice_bio_op",
-    "name": { "str_sp": "Triceratops bio-operator" },
+    "name": { "str_sp": "triceratops bio-operator" },
     "copy-from": "mon_triceratops",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -136,7 +136,7 @@
   {
     "type": "MONSTER",
     "id": "mon_velociraptor_bio_op",
-    "name": { "str_sp": "Velociraptor bio-operator" },
+    "name": { "str_sp": "velociraptor bio-operator" },
     "copy-from": "mon_velociraptor",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -162,7 +162,7 @@
   {
     "type": "MONSTER",
     "id": "mon_deino_bio_op",
-    "name": { "str_sp": "Deinonychus bio-operator" },
+    "name": { "str_sp": "deinonychus bio-operator" },
     "copy-from": "mon_deinonychus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -189,7 +189,7 @@
   {
     "type": "MONSTER",
     "id": "mon_dimorphodon_bio_op",
-    "name": { "str_sp": "Dimorphodon bio-operator" },
+    "name": { "str_sp": "dimorphodon bio-operator" },
     "copy-from": "mon_dimorphodon",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },

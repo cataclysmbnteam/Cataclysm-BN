@@ -189,6 +189,7 @@ static const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
 static const mtype_id mon_fungal_tendril( "mon_fungal_tendril" );
 static const mtype_id mon_fungal_wall( "mon_fungal_wall" );
 static const mtype_id mon_fungaloid( "mon_fungaloid" );
+static const mtype_id mon_fungaloid_young( "mon_fungaloid_young" );
 static const mtype_id mon_headless_dog_thing( "mon_headless_dog_thing" );
 static const mtype_id mon_hound_tindalos_afterimage( "mon_hound_tindalos_afterimage" );
 static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
@@ -999,7 +1000,7 @@ bool mattack::resurrect( monster *z )
 
         for( auto &i : g->m.i_at( p ) ) {
             const mtype *mt = i->get_mtype();
-            if( !( i->is_corpse() && i->can_revive() && i->active && mt->has_flag( MF_REVIVES ) &&
+            if( !( i->is_corpse() && i->can_revive() && i->is_active() && mt->has_flag( MF_REVIVES ) &&
                    mt->in_species( ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
                 continue;
             }
@@ -1726,6 +1727,65 @@ bool mattack::fungus( monster *z )
     return true;
 }
 
+bool mattack::fungus_advanced( monster *z )
+{
+    // TODO: Infect NPCs?
+    // It takes a while
+    z->moves -= 200;
+
+    //~ the sound of a fungus releasing spores
+    sounds::sound( z->pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
+    if( g->u.sees( *z ) ) {
+        add_msg( m_warning, _( "Spores are released from the %s!" ), z->name() );
+    }
+
+    // Calculating spore spawn chance
+    int radius = one_in( 4 ) ? 2 : 1;
+    double spore_chance = fungal_opt.spore_chance;
+    double creatures_threshold = static_cast<float>( fungal_opt.advanced_creatures_threshold );
+    int creatures_nearby = static_cast<int>( g->num_creatures() );
+    if( creatures_nearby > fungal_opt.advanced_creatures_threshold ) {
+        // Number of creatures in the bubble and the resulting average number of spores per "Pouf!"
+        // (assuming that spore_chance is 0.25 and creatures_threshold is 25:
+        // 0-25: 2
+        // 50  : 0.5
+        // 75  : 0.22
+        // 100 : 0.125
+        // Assuming all creatures in the bubble were fungaloids (unlikely), the average number of spores per generation:
+        // 25  : 50
+        // 50  : 25
+        // 75  : 17
+        // 100 : 13
+        spore_chance *= ( creatures_threshold / creatures_nearby ) *
+                        ( creatures_threshold /
+                          creatures_nearby );
+    }
+    if( radius == 2 ) {
+        const double old_area = ( ( 2 * radius + 1 ) * ( 2 * radius + 1 ) ) - 1;
+        radius++;
+        const double new_area = ( ( 2 * radius + 1 ) * ( 2 * radius + 1 ) ) - 1;
+        spore_chance *= old_area / new_area;
+    }
+
+    // Applying spore launch in certain radius
+    fungal_effects fe( *g, g->m );
+    for( const tripoint &sporep : g->m.points_in_radius( z->pos(), radius ) ) {
+        if( sporep == z->pos() ) {
+            continue;
+        }
+        const int dist = rl_dist( z->pos(), sporep );
+        if( !one_in( dist ) ||
+            g->m.impassable( sporep ) ||
+            ( dist > 1 && !g->m.clear_path( z->pos(), sporep, 2, 1, 10 ) ) ) {
+            continue;
+        }
+
+        fe.fungalize( sporep, z, spore_chance );
+    }
+
+    return true;
+}
+
 bool mattack::fungus_corporate( monster *z )
 {
     return fungus( z );
@@ -2239,6 +2299,22 @@ bool mattack::fungal_trail( monster *z )
 bool mattack::plant( monster *z )
 {
     fungal_effects fe( *g, g->m );
+
+    // If terrain already infested there is chance for spore to become fungal stalk
+    const bool is_fungi = g->m.has_flag_ter( ter_bitflags::TFLAG_FUNGUS, z->pos() );
+    if( fungal_opt.young_allowed && is_fungi ) {
+        const int base_chance = fungal_opt.young_spawn_base_rate;
+        const int divider = fungal_opt.young_spawn_bubble_creatures_divider;
+        if( one_in( base_chance + static_cast<int>( g->num_creatures() / divider ) ) ) {
+            add_msg( _( "The %s takes seed and becomes a young fungaloid!" ),
+                     z->name() );
+            z->poly( mon_fungaloid_young );
+            z->mod_moves( -to_moves<int>( 10_seconds ) ); // It takes a while
+            return false;
+        }
+    }
+
+    // Spore blows up and infest some terrain
     if( g->u.sees( *z ) ) {
         add_msg( _( "The %s suddenly splits and bursts!" ),
                  z->name() );
@@ -2281,21 +2357,21 @@ static bool blobify( monster &blob, monster &target )
     }
 
     switch( target.get_size() ) {
-        case MS_TINY:
+        case creature_size::tiny:
             // Just consume it
             target.set_hp( 0 );
             blob.set_speed_base( blob.get_speed_base() + 5 );
             return false;
-        case MS_SMALL:
+        case creature_size::small:
             target.poly( mon_blob_small );
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
             target.poly( mon_blob );
             break;
-        case MS_LARGE:
+        case creature_size::large:
             target.poly( mon_blob_large );
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             // No polymorphing huge stuff
             target.add_effect( effect_slimed, rng( 2_turns, 10_turns ) );
             break;
@@ -4823,7 +4899,7 @@ bool mattack::riotbot( monster *z )
 
             detached_ptr<item> handcuffs = item::spawn( "e_handcuffs", calendar::start_of_cataclysm );
             handcuffs->charges = handcuffs->type->maximum_charges();
-            handcuffs->active = true;
+            handcuffs->activate();
             handcuffs->set_var( "HANDCUFFS_X", foe->posx() );
             handcuffs->set_var( "HANDCUFFS_Y", foe->posy() );
 
@@ -5519,7 +5595,7 @@ bool mattack::kamikaze( monster *z )
             z->die( nullptr );
             // Timer is out, detonate
             detached_ptr<item> i_explodes = item::spawn( act_bomb_type, calendar::turn, 0 );
-            i_explodes->active = true;
+            i_explodes->activate();
             item::process( std::move( i_explodes ), nullptr, z->pos(), false );
             return false;
         }

@@ -1462,23 +1462,47 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 {
     map &here = get_map();
 
-    safe_reference<item> prying_tool = find_best_prying_tool( p );
-    if( prying_tool ) {
-        apply_prying_tool( p, prying_tool.get(), examp );
-        return;
+    // if the furniture/terrain is also lockpickable
+    // try lockpicking first if we're crouched
+    if( lockpick_activity_actor::is_pickable( examp ) && p.movement_mode_is( CMM_CROUCH ) ) {
+        if( pick_lock( p, examp ) ) {
+            return;
+        }
     }
 
-    // if the furniture/terrain is also lockpickable
+    safe_reference<item> prying_tool = find_best_prying_tool( p );
+    if( prying_tool ) {
+        const int target_diff = here.has_furn( examp ) ? here.furn( examp )->pry.pry_quality : here.ter(
+                                    examp )->pry.pry_quality;
+        // keep going in case we have a prying tool that can't be used against the target, so we can try lockpicking
+        if( prying_tool->get_quality( quality_id( "PRY" ) ) >= target_diff ) {
+            apply_prying_tool( p, prying_tool.get(), examp );
+            return;
+        }
+    }
+
+    const auto target = here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp );
     if( lockpick_activity_actor::is_pickable( examp ) ) {
         if( !pick_lock( p, examp ) ) {
-            add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
-                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+            if( prying_tool ) {
+                add_msg( m_info,
+                         _( "The %s is locked.  If only you had something to pick its lock, or a stronger prying tool…" ),
+                         target );
+            } else {
+                add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
+                         target );
+            }
         }
         return;
     }
 
-    add_msg( m_info, _( "The %s is locked.  If only you had something to pry it…" ),
-             here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+    if( prying_tool ) {
+        add_msg( m_info, _( "The %s is locked, and your tools aren't strong enough to pry it open…" ),
+                 target );
+    } else {
+        add_msg( m_info, _( "The %s is locked.  If only you had something to pry it…" ),
+                 target );
+    }
 }
 
 /**
@@ -2218,6 +2242,13 @@ void iexamine::dirtmound( player &p, const tripoint &examp )
     }
     const auto &seed_id = std::get<0>( seed_entries[seed_index] );
 
+    // Separate temp check because for now we permit growing regular plants underground with artificial heating
+    if( !seed_id.obj().has_flag( flag_CAN_PLANT_UNDERGROUND ) && examp.z < 0 &&
+        get_weather().get_temperature( examp ) < 10_c ) {
+        add_msg( _( "It's too cold down here to plant this type of seed underground." ) );
+        return;
+    }
+
     if( !here.has_flag_ter_or_furn( seed_id->seed->required_terrain_flag, examp ) ) {
         add_msg( _( "This type of seed can not be planted in this location." ) );
         return;
@@ -2380,9 +2411,16 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
         return;
     }
 
+    map &here = get_map();
+    // The plant furniture has the NOITEM token which prevents adding items on that square,
+    // spawned items are moved to an adjacent field instead, but the fertilizer token
+    // must be on the square of the plant, therefore this hack:
+    const auto old_furn = here.furn( tile );
+    here.furn_set( tile, f_null );
+    here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
+    here.furn_set( tile, old_furn );
     std::vector<detached_ptr<item>> planted = p.use_charges( fertilizer, 1 );
 
-    map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( tile );
     map_stack::iterator seed_it = std::find_if( items.begin(),
@@ -2401,17 +2439,8 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
     // Reduce the amount of time it takes until the next stage of growth
     // by 60% of the seed's stage duration, or 20% of its overall growth time
     const time_duration fertilized_boost = seed->get_plant_epoch() * 0.6;
-
     seed->set_birthday( seed->birthday() - fertilized_boost );
-    // The plant furniture has the NOITEM token which prevents adding items on that square,
-    // spawned items are moved to an adjacent field instead, but the fertilizer token
-    // must be on the square of the plant, therefore this hack:
-    const auto old_furn = here.furn( tile );
-    here.furn_set( tile, f_null );
-    here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
-    here.furn_set( tile, old_furn );
     p.mod_moves( -to_moves<int>( 10_seconds ) );
-
     //~ %1$s: plant name, %2$s: fertilizer name
     add_msg( m_info, _( "You fertilize the %1$s with the %2$s." ), seed->get_plant_name(),
              planted.front()->tname() );
@@ -3116,9 +3145,11 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     }
 
     const std::string booze_name = brew_i.tname();
-    if( liquid_handler::handle_liquid( **items_here.begin() ) ) {
-        here.furn_set( examp, f_fvat_empty );
+    liquid_handler::handle_liquid( **items_here.begin() );
+    if( items_here.empty() ) {
         add_msg( _( "You squeeze the last drops of %s from the vat." ), booze_name );
+        here.furn_set( examp, f_fvat_empty );
+        return;
     }
 }
 
@@ -4680,7 +4711,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             break;
         }
         default:
-            popup( _( "You decided to step back from the ledge." ) );
+            p.add_msg_if_player( _( "You decided to step back from the ledge." ) );
             break;
     }
 }
@@ -4843,7 +4874,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
     if( &patient == &null_player ) {
         if( cyborg != nullptr ) {
-            if( cyborg->typeId() == itype_corpse && !cyborg->active ) {
+            if( cyborg->typeId() == itype_corpse && !cyborg->is_active() ) {
                 popup( _( "Patient is dead.  Please remove corpse to proceed.  Exiting." ) );
                 return;
             } else if( cyborg->typeId() == itype_bot_broken_cyborg || cyborg->typeId() == itype_corpse ) {

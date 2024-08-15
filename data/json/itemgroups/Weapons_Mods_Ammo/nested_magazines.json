@@ -1,0 +1,512 @@
+[
+  {
+    "id": "nested_glock17_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "glock17_17", "ammo-group": "on_hand_9mm", "prob": 100 },
+      { "item": "glock17_22", "ammo-group": "on_hand_9mm", "prob": 5 },
+      { "item": "glock_drum_50rd", "ammo-group": "on_hand_9mm", "prob": 5 },
+      { "item": "glock_drum_100rd", "ammo-group": "on_hand_9mm", "prob": 5 },
+      { "item": "glockbigmag", "ammo-group": "on_hand_9mm", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_glock19_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "glockmag", "ammo-group": "on_hand_9mm", "prob": 100 },
+      { "item": "glock17_17", "ammo-group": "on_hand_9mm", "prob": 5 },
+      { "item": "glock17_22", "ammo-group": "on_hand_9mm", "prob": 5 },
+      { "item": "glock_drum_50rd", "ammo-group": "on_hand_9mm", "prob": 5 },
+      { "item": "glock_drum_100rd", "ammo-group": "on_hand_9mm", "prob": 5 },
+      { "item": "glockbigmag", "ammo-group": "on_hand_9mm", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_glock20_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "glock20mag", "ammo-group": "on_hand_10mm", "prob": 100 },
+      { "item": "glock20drum50rd", "ammo-group": "on_hand_10mm", "prob": 5 },
+      { "item": "glock20bigmag", "ammo-group": "on_hand_10mm", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_glock21_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "glock_21mag", "ammo-group": "on_hand_45", "prob": 100 },
+      { "item": "glock_21mag26", "ammo-group": "on_hand_45", "prob": 5 },
+      { "item": "glock21drum40rd", "ammo-group": "on_hand_45", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_glock22_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "glock40mag", "ammo-group": "on_hand_40", "prob": 100 },
+      { "item": "glock40bigmag", "ammo-group": "on_hand_40", "prob": 5 },
+      { "item": "glock40drum50rd", "ammo-group": "on_hand_40", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_glock31_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "glock40mag", "ammo-group": "on_hand_357sig", "prob": 100 },
+      { "item": "glock40bigmag", "ammo-group": "on_hand_357sig", "prob": 5 },
+      { "item": "glock40drum50rd", "ammo-group": "on_hand_357sig", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_m1911_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "m1911mag", "ammo-group": "on_hand_45", "prob": 100 },
+      { "item": "m1911bigmag", "ammo-group": "on_hand_45", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_m1911_mag_460",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Used so the .460 1911 spawns with correct ammo.",
+    "ammo": 100,
+    "entries": [
+      { "item": "m1911mag", "ammo-group": "on_hand_460", "prob": 100 },
+      { "item": "m1911bigmag", "ammo-group": "on_hand_460", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_m9_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "m9mag", "ammo-group": "on_hand_9mm", "prob": 100 },
+      { "item": "m9bigmag", "ammo-group": "on_hand_9mm", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_hi_power_9mm_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "bhp9mag_13rd", "ammo-group": "on_hand_9mm", "prob": 100 },
+      { "item": "bhp9mag_15rd", "ammo-group": "on_hand_9mm", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_walther_ppq_9mm_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "ppq9mag_10rd", "ammo-group": "on_hand_9mm", "prob": 100 },
+      { "item": "ppq9mag_15rd", "ammo-group": "on_hand_9mm", "prob": 5 },
+      { "item": "ppq9mag_17rd", "ammo-group": "on_hand_9mm", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_walther_ppq_40_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "ppq40mag_10rd", "ammo-group": "on_hand_40", "prob": 100 },
+      { "item": "ppq40mag_12rd", "ammo-group": "on_hand_40", "prob": 5 },
+      { "item": "ppq40mag_14rd", "ammo-group": "on_hand_40", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_hptc9_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "hptc9mag_8rd", "ammo-group": "on_hand_9mm", "prob": 100 },
+      { "item": "hptc9mag_10rd", "ammo-group": "on_hand_9mm", "prob": 5 },
+      { "item": "hptc9mag_15rd", "ammo-group": "on_hand_9mm", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_hptcf380_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "hptcf380mag_8rd", "ammo-group": "on_hand_380", "prob": 100 },
+      { "item": "hptcf380mag_10rd", "ammo-group": "on_hand_380", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_cz75_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "cz75mag_12rd", "ammo-group": "on_hand_9mm", "prob": 100 },
+      { "item": "cz75mag_20rd", "ammo-group": "on_hand_9mm", "prob": 5 },
+      { "item": "cz75mag_26rd", "ammo-group": "on_hand_9mm", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_ak47_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "akmag30", "ammo-group": "on_hand_762", "prob": 100 },
+      { "item": "akmag10", "ammo-group": "on_hand_762", "prob": 5 },
+      { "item": "akmag20", "ammo-group": "on_hand_762", "prob": 5 },
+      { "item": "akmag40", "ammo-group": "on_hand_762", "prob": 5 },
+      { "item": "akdrum75", "ammo-group": "on_hand_762", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_rm103a_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "8x40_25_mag", "ammo-group": "on_hand_8x40", "prob": 100 },
+      { "item": "8x40_10_mag", "ammo-group": "on_hand_8x40", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_mp5_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "mp5mag", "ammo-group": "on_hand_9mm", "prob": 100 },
+      { "item": "mp5bigmag", "ammo-group": "on_hand_9mm", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_tommygun_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "thompson_mag", "ammo-group": "on_hand_45", "prob": 100 },
+      { "item": "thompson_bigmag", "ammo-group": "on_hand_45", "prob": 5 },
+      { "item": "thompson_drum", "ammo-group": "on_hand_45", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_TDI_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "tdi_mag", "ammo-group": "on_hand_45", "prob": 100 },
+      { "item": "glock_21mag", "ammo-group": "on_hand_45", "prob": 5 },
+      { "item": "glock_21mag26", "ammo-group": "on_hand_45", "prob": 5 },
+      { "item": "glock21drum40rd", "ammo-group": "on_hand_45", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_kriss_vector_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "kriss_mag", "ammo-group": "on_hand_40", "prob": 100 },
+      { "item": "glock40mag", "ammo-group": "on_hand_40", "prob": 5 },
+      { "item": "glock40bigmag", "ammo-group": "on_hand_40", "prob": 5 },
+      { "item": "glock40drum50rd", "ammo-group": "on_hand_40", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_hk_mp7_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "hk46mag", "ammo-group": "on_hand_46", "prob": 100 },
+      { "item": "hk46bigmag", "ammo-group": "on_hand_46", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_stanag_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "stanag30", "ammo-group": "on_hand_223", "prob": 170 },
+      { "item": "stanag5", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag10", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag20", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag40", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag50", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag60", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag60drum", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag90", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag100", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag100drum", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag150", "ammo-group": "on_hand_223", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_stanag_carbon_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "stanag30", "ammo-group": "on_hand_223", "prob": 170 },
+      { "item": "carbonmag_223", "ammo-group": "on_hand_223", "prob": 170 },
+      { "item": "stanag5", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag10", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag20", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag40", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag50", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag60", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag60drum", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag90", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag100", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag100drum", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "stanag150", "ammo-group": "on_hand_223", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_stanag_mag_300",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Used so the retooled AR-15 spawns with correct ammo.",
+    "ammo": 100,
+    "entries": [
+      { "item": "stanag30", "ammo-group": "on_hand_300BLK", "prob": 170 },
+      { "item": "stanag5", "ammo-group": "on_hand_300BLK", "prob": 5 },
+      { "item": "stanag10", "ammo-group": "on_hand_300BLK", "prob": 5 },
+      { "item": "stanag20", "ammo-group": "on_hand_300BLK", "prob": 5 },
+      { "item": "stanag40", "ammo-group": "on_hand_300BLK", "prob": 5 },
+      { "item": "stanag50", "ammo-group": "on_hand_300BLK", "prob": 5 },
+      { "item": "stanag60", "ammo-group": "on_hand_300BLK", "prob": 5 },
+      { "item": "stanag60drum", "ammo-group": "on_hand_300BLK", "prob": 5 },
+      { "item": "stanag90", "ammo-group": "on_hand_300BLK", "prob": 5 },
+      { "item": "stanag100", "ammo-group": "on_hand_300BLK", "prob": 5 },
+      { "item": "stanag100drum", "ammo-group": "on_hand_300BLK", "prob": 5 },
+      { "item": "stanag150", "ammo-group": "on_hand_300BLK", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_m14_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "m14mag", "ammo-group": "on_hand_308", "prob": 100 },
+      { "item": "m14smallmag", "ammo-group": "on_hand_308", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_ruger_1022_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "ruger1022mag", "ammo-group": "on_hand_22", "prob": 100 },
+      { "item": "ruger1022bigmag", "ammo-group": "on_hand_22", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_ruger_mini_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "ruger20", "ammo-group": "on_hand_223", "prob": 100 },
+      { "item": "ruger5", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "ruger10", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "ruger30", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "ruger90", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "ruger100", "ammo-group": "on_hand_223", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_fn_fal_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "falmag", "ammo-group": "on_hand_308", "prob": 100 },
+      { "item": "falbigmag", "ammo-group": "on_hand_308", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_hk_g3_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "g3mag", "ammo-group": "on_hand_308", "prob": 100 },
+      { "item": "g3bigmag", "ammo-group": "on_hand_308", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_hk_g36_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "g36mag_30rd", "ammo-group": "on_hand_223", "prob": 100 },
+      { "item": "g36mag_100rd", "ammo-group": "on_hand_223", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_m1918_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "m1918mag", "ammo-group": "on_hand_3006", "prob": 100 },
+      { "item": "m1918bigmag", "ammo-group": "on_hand_3006", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_hk417_13_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "hk417mag_20rd", "ammo-group": "on_hand_308", "prob": 100 },
+      { "item": "hk417mag_10rd", "ammo-group": "on_hand_308", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_rm298_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "8x40_500_mag", "ammo-group": "on_hand_8x40", "prob": 100 },
+      { "item": "8x40_250_mag", "ammo-group": "on_hand_8x40", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_rm51_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [ { "item": "8x40_50_mag", "prob": 100 }, { "item": "8x40_100_mag", "prob": 5 } ]
+  },
+  {
+    "id": "nested_scar_h_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "scarhmag", "ammo-group": "on_hand_308", "prob": 100 },
+      { "item": "scarhbigmag", "ammo-group": "on_hand_308", "prob": 5 },
+      { "item": "scarhmag_30rd", "ammo-group": "on_hand_308", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_ak74_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "ak74mag", "ammo-group": "on_hand_545x39", "prob": 100 },
+      { "item": "rpk74mag", "ammo-group": "on_hand_545x39", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_steyr_aug_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "augmag_30rd", "ammo-group": "on_hand_223", "prob": 100 },
+      { "item": "augmag_10rd", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "augmag_42rd", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "augmag_100rd", "ammo-group": "on_hand_223", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_rm20_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "20x66_20_mag", "ammo-group": "on_hand_20x66mm", "prob": 100 },
+      { "item": "20x66_40_mag", "ammo-group": "on_hand_20x66mm", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_saiga_12_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "saiga10mag", "ammo-group": "on_hand_shot", "prob": 100 },
+      { "item": "saiga30mag", "ammo-group": "on_hand_shot", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_saiga_410_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "saiga410mag_10rd", "ammo-group": "on_hand_410shot", "prob": 100 },
+      { "item": "saiga410mag_30rd", "ammo-group": "on_hand_410shot", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_needlepistol_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "5x50_50_mag", "ammo-group": "on_hand_5x50mm", "prob": 100 },
+      { "item": "5x50_100_mag", "ammo-group": "on_hand_5x50mm", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_needlegun_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "5x50_100_mag", "ammo-group": "on_hand_5x50mm", "prob": 100 },
+      { "item": "5x50_50_mag", "ammo-group": "on_hand_5x50mm", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_ppsh_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "ppshmag", "ammo-group": "on_hand_762x25", "prob": 100 },
+      { "item": "ppshdrum", "ammo-group": "on_hand_762x25", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_USAS_12_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "USAS10mag", "ammo-group": "on_hand_shot", "prob": 100 },
+      { "item": "USAS20mag", "ammo-group": "on_hand_shot", "prob": 5 }
+    ]
+  }
+]

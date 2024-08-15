@@ -187,7 +187,7 @@
         "O": "f_oven"
       },
       "items": {
-        "D": { "item": "trash", "chance": 50 },
+        "D": { "item": "trash_dumpster", "chance": 80 },
         "g": { "item": "trash", "chance": 50 },
         "V": { "item": "behindcounter", "chance": 30 },
         "1": { "item": "m_merch_1", "chance": 30 },

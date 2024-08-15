@@ -454,7 +454,7 @@
     "category": "container",
     "name": "TEST small waterskin",
     "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
-    "weight": "453 g",
+    "weight": "500 g",
     "volume": "250 ml",
     "price": "20 USD",
     "to_hit": -1,

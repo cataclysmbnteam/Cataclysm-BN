@@ -48,6 +48,7 @@
  */
 
 #include <memory>
+#include <algorithm>
 #include <unordered_map>
 
 #include "debug.h"

@@ -14,6 +14,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_brazier" },
     "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
@@ -31,6 +32,7 @@
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_hobo_stove" }
   },
   {
@@ -49,6 +51,7 @@
     "material": [ "steel" ],
     "symbol": "0",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_55gal_firebarrel" }
   },
   {
@@ -67,6 +70,7 @@
     "material": [ "steel" ],
     "symbol": "0",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_30gal_firebarrel" }
   },
   {
@@ -85,6 +89,7 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_camp_chair" }
   },
   {
@@ -109,7 +114,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You unfold the cot and place it on the ground."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "folding_bicycle",
@@ -131,7 +137,8 @@
       "vehicle_name": "bicycle",
       "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
       "moves": 500
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "generic_folded_vehicle",
@@ -144,7 +151,8 @@
     "price_postapoc": "0 cent",
     "symbol": "/",
     "color": "light_gray",
-    "use_action": "UNFOLD_GENERIC"
+    "use_action": "UNFOLD_GENERIC",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "metal_butcher_rack",
@@ -161,7 +169,7 @@
     "material": [ "steel" ],
     "symbol": "=",
     "color": "light_gray",
-    "flags": [ "BUTCHER_RACK" ],
+    "flags": [ "BUTCHER_RACK", "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_metal_butcher_rack" }
   },
   {
@@ -185,7 +193,8 @@
       "tools_needed": { "hand_pump": 1 },
       "unfold_msg": "You painstakingly unfold, inflate, and launch the %s.",
       "moves": 15000
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "metal_smoking_rack",
@@ -202,6 +211,7 @@
     "material": [ "steel" ],
     "symbol": "=",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_metal_smoking_rack" }
   },
   {
@@ -217,7 +227,7 @@
     "to_hit": -3,
     "bashing": 5,
     "material": [ "steel" ],
-    "flags": [ "FLAT_SURFACE" ],
+    "flags": [ "FLAT_SURFACE", "ALLOWS_REMOTE_USE" ],
     "symbol": "=",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_tourist_table" }
@@ -235,7 +245,7 @@
     "to_hit": -3,
     "bashing": 2,
     "material": [ "leather" ],
-    "flags": [ "FLAT_SURFACE" ],
+    "flags": [ "FLAT_SURFACE", "ALLOWS_REMOTE_USE" ],
     "symbol": "*",
     "color": "brown",
     "use_action": { "type": "deploy_furn", "furn_type": "f_leather_tarp" }
@@ -253,7 +263,7 @@
     "to_hit": -3,
     "bashing": 1,
     "material": [ "veggy" ],
-    "flags": [ "FLAT_SURFACE" ],
+    "flags": [ "FLAT_SURFACE", "ALLOWS_REMOTE_USE" ],
     "symbol": "*",
     "color": "yellow",
     "use_action": { "type": "deploy_furn", "furn_type": "f_fiber_mat" }
@@ -274,6 +284,7 @@
     "looks_like": "f_wood_keg",
     "symbol": "u",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_butter_churn" },
     "qualities": [ [ "CONTAIN", 1 ], [ "CHURN", 1 ] ]
   },

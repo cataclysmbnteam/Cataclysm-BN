@@ -19,6 +19,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -55,7 +56,6 @@
 static const efftype_id effect_amigara( "amigara" );
 
 static const itype_id itype_black_box( "black_box" );
-static const itype_id itype_blood( "blood" );
 static const itype_id itype_c4( "c4" );
 static const itype_id itype_cobalt_60( "cobalt_60" );
 static const itype_id itype_mininuke( "mininuke" );
@@ -67,9 +67,6 @@ static const itype_id itype_usb_drive( "usb_drive" );
 static const itype_id itype_vacutainer( "vacutainer" );
 
 static const skill_id skill_computer( "computer" );
-
-static const species_id HUMAN( "HUMAN" );
-static const species_id ZOMBIE( "ZOMBIE" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_secubot( "mon_secubot" );
@@ -758,20 +755,14 @@ void computer_session::action_blood_anal()
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
             } else if( items.only_item().contents.empty() ) {
                 print_error( _( "ERROR: Please only use container with blood sample." ) );
-            } else if( items.only_item().contents.front().typeId() != itype_blood ) {
+            } else if( !items.only_item().contents.front().has_flag( flag_IS_BLOOD ) ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else { // Success!
                 const item &blood = items.only_item().contents.front();
-                const mtype *mt = blood.get_mtype();
-                if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
-                    print_line( _( "Result: Human blood, no pathogens found." ) );
-                } else if( mt->in_species( ZOMBIE ) ) {
-                    if( mt->in_species( HUMAN ) ) {
-                        print_line( _( "Result: Human blood.  Unknown pathogen found." ) );
-                    } else {
-                        print_line( _( "Result: Unknown blood type.  Unknown pathogen found." ) );
-                    }
-                    print_line( _( "Pathogen bonded to erythrocytes and leukocytes." ) );
+                if( blood.get_use( "POISON" ) ) { // Tainted blood
+                    // Could separate human and non-human zombie blood?
+                    print_line(
+                        _( "Result: Unknown pathogen found.  Pathogen bonded to erythrocytes and leukocytes." ) );
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
                             detached_ptr<item> software = item::spawn( "software_blood_data", calendar::start_of_cataclysm );
@@ -782,7 +773,9 @@ void computer_session::action_blood_anal()
                             print_error( _( "USB drive required!" ) );
                         }
                     }
-                } else {
+                } else if( blood.has_flag( flag_CANNIBALISM ) ) {  // Normal human blood
+                    print_line( _( "Result: Human blood, no pathogens found." ) );
+                } else { // Anything else
                     print_line( _( "Result: Unknown blood type.  Test non-conclusive." ) );
                 }
             }
@@ -1428,7 +1421,7 @@ void computer_session::failure_destroy_blood()
                 print_error( _( "ERROR: Please use blood-contained samples." ) );
             } else if( items.only_item().contents.empty() ) {
                 print_error( _( "ERROR: Blood draw kit, empty." ) );
-            } else if( items.only_item().contents.front().typeId() != itype_blood ) {
+            } else if( !items.only_item().contents.front().has_flag( flag_IS_BLOOD ) ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else {
                 print_error( _( "ERROR: Blood sample destroyed." ) );

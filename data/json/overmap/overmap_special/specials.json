@@ -794,7 +794,7 @@
       { "point": [ 0, 0, 6 ], "overmap": "wasp_tower_top_north" },
       { "point": [ 0, 0, 7 ], "overmap": "wasp_tower_roof_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "connections": [ { "point": [ 0, 1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "land" ],
     "city_distance": [ 0, 20 ],
     "occurrences": [ 80, 100 ],
@@ -5349,9 +5349,9 @@
     ],
     "connections": [ { "point": [ 1, 4, 0 ], "connection": "local_road" }, { "point": [ 0, -1, 0 ], "connection": "local_road" } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 8, 40 ],
+    "city_distance": [ 6, -1 ],
     "city_sizes": [ 6, -1 ],
-    "occurrences": [ 30, 100 ],
+    "occurrences": [ 50, 100 ],
     "flags": [ "CLASSIC", "URBAN", "UNIQUE", "ELECTRIC_GRID" ]
   },
   {
@@ -5766,12 +5766,12 @@
     "type": "city_building",
     "id": "urban_7_house_garden",
     "overmaps": [
-      { "point": [ 1, 0, 0 ], "overmap": "urban_7_1_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "urban_7_2_south" },
-      { "point": [ 1, 0, 1 ], "overmap": "urban_7_3_south" },
-      { "point": [ 0, 0, 1 ], "overmap": "urban_7_4_south" },
-      { "point": [ 1, 0, 2 ], "overmap": "urban_7_5_south" },
-      { "point": [ 0, 0, 2 ], "overmap": "urban_7_6_south" }
+      { "point": [ 0, 0, 0 ], "overmap": "urban_7_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "urban_7_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "urban_7_3_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "urban_7_4_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "urban_7_5_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "urban_7_6_north" }
     ],
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
@@ -6623,7 +6623,7 @@
       { "point": [ 1, 3, 0 ], "overmap": "lumbermill_dforest_north" },
       { "point": [ 2, 3, 0 ], "overmap": "lumbermill_dforest_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road" }, { "point": [ 1, -1, 0 ], "connection": "local_road" } ],
     "locations": [ "forest" ],
     "city_distance": [ 5, 60 ],
     "city_sizes": [ 4, -1 ],

@@ -257,18 +257,25 @@
       "mapgensize": [ 9, 9 ],
       "rows": [
         ".........",
-        ".C.C.C.C.",
+        ".C6...xC.",
         ".........",
-        ".C.C.C.C.",
         ".........",
-        ".C.C.C.C.",
         ".........",
-        ".C.C.C.C.",
+        ".........",
+        ".........",
+        ".Cx...xC.",
         "........."
       ],
       "palettes": [ "lab_palette" ],
       "terrain": { "C": [ "t_thconc_floor" ] },
-      "furniture": { "C": [ "f_centrifuge" ] }
+      "furniture": { "C": [ "f_centrifuge" ] },
+      "computers": {
+        "6": {
+          "name": "Centrifuge",
+          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
+          "failures": [ { "action": "destroy_blood" } ]
+        }
+      }
     }
   },
   {

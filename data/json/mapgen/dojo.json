@@ -64,7 +64,7 @@
       "place_items": [
         { "item": "gi", "x": [ 3, 11 ], "y": [ 18, 18 ], "chance": 80, "repeat": [ 5, 8 ] },
         { "item": "judo_belts", "x": [ 3, 11 ], "y": [ 18, 18 ], "chance": 80, "repeat": [ 1, 2 ] },
-        { "item": "dojo_manuals", "x": [ 17, 19 ], "y": [ 19, 19 ], "chance": 80, "repeat": [ 1, 2 ] }
+        { "item": "dojo_manuals", "x": [ 17, 19 ], "y": [ 19, 19 ], "chance": 100 }
       ],
       "place_item": [ { "item": "judo_belt_black", "x": 17, "y": 18 } ]
     }
@@ -251,8 +251,8 @@
         "x": "f_birdbath"
       },
       "toilets": { "T": {  } },
+      "place_items": [ { "item": "dojo_manuals", "x": [ 3, 4 ], "y": [ 21, 21 ], "chance": 100 } ],
       "items": {
-        "b": { "item": "dojo_manuals", "chance": 45, "repeat": [ 1, 2 ] },
         "X": { "item": "judo_belts", "chance": 100 },
         "L": { "item": "gi", "chance": 80, "repeat": [ 5, 8 ] },
         "d": { "item": "dresser", "chance": 40, "repeat": [ 1, 3 ] },

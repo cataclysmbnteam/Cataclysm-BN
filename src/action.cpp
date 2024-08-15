@@ -61,7 +61,7 @@ std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    const input_event event( ch, CATA_INPUT_KEYBOARD );
+    const input_event event( ch, input_event_t::keyboard );
     const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
@@ -349,6 +349,8 @@ std::string action_ident( action_id act )
             return "open_world_mods";
         case ACTION_DISTRACTION_MANAGER:
             return "open_distraction_manager";
+        case ACTION_TOGGLE_CHARACTER_PREVIEW_CLOTHES:
+            return "TOGGLE_CHARACTER_PREVIEW_CLOTHES";
         case ACTION_NULL:
             return "null";
         default:
@@ -399,6 +401,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_COLOR:
         case ACTION_WORLD_MODS:
         case ACTION_DISTRACTION_MANAGER:
+        case ACTION_TOGGLE_CHARACTER_PREVIEW_CLOTHES:
         // Debug Functions
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:

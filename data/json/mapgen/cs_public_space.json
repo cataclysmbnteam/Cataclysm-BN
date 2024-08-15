@@ -46,7 +46,7 @@
         "f": "t_dirtmound"
       },
       "furniture": { "!": "f_street_light", "S": "f_statue", "b": "f_bench", "D": "f_dumpster", "N": "f_bulletin", "f": "f_bluebell" },
-      "items": { "D": { "item": "oa_custom_trash", "chance": 70 }, "b": { "item": "oa_discarded_news", "chance": 5 } },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 }, "b": { "item": "oa_discarded_news", "chance": 5 } },
       "place_loot": [ { "item": "american_flag", "x": 10, "y": 1, "chance": 25 } ]
     }
   }

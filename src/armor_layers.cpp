@@ -559,7 +559,7 @@ void show_armor_layers_ui( Character &who )
     int leftListSize = 0;
     int rightListSize = 0;
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
+    ui.on_redraw( [&]( ui_adaptor & ui ) {
         draw_grid( w_sort_armor, left_w, middle_w );
 
         werase( w_sort_cat );
@@ -638,7 +638,7 @@ void show_armor_layers_ui( Character &who )
         }
 
         mvwprintz( w_encumb, point_east, c_white, _( "Encumbrance and Warmth" ) );
-        character_display::print_encumbrance( w_encumb, who, -1,
+        character_display::print_encumbrance( ui, w_encumb, who, -1,
                                               ( leftListSize > 0 ) ? *access_tmp_worn( leftListIndex ) : nullptr );
 
         // Right header

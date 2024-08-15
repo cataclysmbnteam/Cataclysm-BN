@@ -44,5 +44,23 @@
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "STURDY", "OUTER" ]
+  },
+  {
+    "id": "flotation_vest_sandbag",
+    "copy-from": "flotation_vest",
+    "type": "ARMOR",
+    "name": { "str": "makeshift ballistic vest" },
+    "description": "A flotation vest, cut open and tightly packed with sand or earth as improvised ballistic protection.  Incredibly cumbersome, it won't do much against rifle rounds but it's better than nothing.",
+    "weight": "20 kg",
+    "volume": "15 L",
+    "price": "55 USD",
+    "price_postapoc": "15 USD",
+    "//": "Mono-material as it likely would need to be taken apart to repair, plus the material of the vest is less of a factor on resistances.",
+    "material": [ "soil" ],
+    "coverage": 85,
+    "encumbrance": 45,
+    "material_thickness": 6,
+    "extend": { "flags": [ "OVERSIZE", "FRAGILE" ] },
+    "delete": { "flags": [ "FLOTATION", "WATER_FRIENDLY" ] }
   }
 ]

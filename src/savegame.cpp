@@ -312,7 +312,7 @@ void game::load_shortcuts( std::istream &fin )
             for( const JsonMember &member : data.get_object( "quick_shortcuts" ) ) {
                 std::list<input_event> &qslist = quick_shortcuts_map[member.name()];
                 for( const int i : member.get_array() ) {
-                    qslist.push_back( input_event( i, CATA_INPUT_KEYBOARD ) );
+                    qslist.push_back( input_event( i, input_event_t::keyboard ) );
                 }
             }
         }
@@ -656,6 +656,14 @@ void overmap::unserialize_view( std::istream &fin, const std::string &file_path 
                 jsin.end_array();
             }
             jsin.end_array();
+        } else if( name == "path" ) {
+            jsin.start_array();
+            for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+                jsin.start_array();
+                unserialize_array_from_compacted_sequence( jsin, layer[z].path );
+                jsin.end_array();
+            }
+            jsin.end_array();
         } else if( name == "notes" ) {
             jsin.start_array();
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
@@ -742,6 +750,16 @@ void overmap::serialize_view( std::ostream &fout ) const
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
         json.start_array();
         serialize_array_to_compacted_sequence( json, layer[z].explored );
+        json.end_array();
+        fout << '\n';
+    }
+    json.end_array();
+
+    json.member( "path" );
+    json.start_array();
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        json.start_array();
+        serialize_array_to_compacted_sequence( json, layer[z].path );
         json.end_array();
         fout << '\n';
     }

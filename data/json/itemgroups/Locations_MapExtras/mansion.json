@@ -203,7 +203,7 @@
     "subtype": "collection",
     "items": [
       [ "money_bundle", 20 ],
-      { "group": "mansion_ammo", "prob": 60 },
+      { "group": "mansion_ammo", "prob": 100 },
       { "group": "mansion_guns", "prob": 40 },
       { "group": "mansion_guns", "prob": 80 },
       { "group": "mansion_guns", "prob": 95 }
@@ -1604,7 +1604,8 @@
       [ "hoe", 50 ],
       [ "straw_hat", 50 ],
       [ "bucket", 40 ],
-      [ "shovel", 40 ],
+      [ "shovel", 35 ],
+      [ "shovel_short", 5 ],
       [ "clay_pot_flower", 40 ],
       [ "plastic_pot_flower", 60 ],
       [ "fertilizer_commercial", 30 ],

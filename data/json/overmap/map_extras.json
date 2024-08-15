@@ -18,10 +18,11 @@
   },
   {
     "id": "mx_collegekids",
+    "//": "ID retained for compatibility.",
     "type": "map_extra",
-    "name": "College Kids",
-    "description": "Several corpses of college kids are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_collegekids" },
+    "name": "Lost Campers",
+    "description": "Several corpses of college kids or hunters out camping are here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_collegekids" },
     "sym": "c",
     "color": "light_red",
     "autonote": true
@@ -31,7 +32,7 @@
     "type": "map_extra",
     "name": "Drug Deal",
     "description": "Several corpses of drug dealers are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_drugdeal" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_drugdeal" },
     "sym": "d",
     "color": "light_red",
     "autonote": true
@@ -101,7 +102,7 @@
     "type": "map_extra",
     "name": "Military",
     "description": "Several corpses of soldiers are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_military" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_military" },
     "sym": "m",
     "color": "light_red",
     "autonote": true
@@ -121,7 +122,7 @@
     "type": "map_extra",
     "name": "Scientists",
     "description": "Several corpses of scientists are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_science" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_science" },
     "sym": "s",
     "color": "light_red",
     "autonote": true

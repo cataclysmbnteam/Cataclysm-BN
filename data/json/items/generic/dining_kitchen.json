@@ -60,7 +60,8 @@
     "weight": "322 g",
     "volume": "250 ml",
     "bashing": 3,
-    "to_hit": -1
+    "to_hit": -1,
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "base_glass_dish",
@@ -382,7 +383,8 @@
     "weight": "650 g",
     "volume": "2 L",
     "bashing": 4,
-    "container_data": { "contains": "2 L", "watertight": true }
+    "container_data": { "contains": "2 L", "watertight": true },
+    "extend": { "flags": [ "SHATTERS" ] }
   },
   {
     "type": "GENERIC",
@@ -407,7 +409,7 @@
     "description": "A very large 25 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
     "weight": "5625 g",
     "volume": "25 L",
-    "price": "200 USD",
+    "price": "20 USD",
     "to_hit": -2,
     "bashing": 10,
     "material": "steel",

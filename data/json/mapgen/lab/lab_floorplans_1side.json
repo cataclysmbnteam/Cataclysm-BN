@@ -67,7 +67,7 @@
         "|,hth,|,,|....|,,|,hth,|",
         "|,hth,|-+|6...|,,|,hth,|",
         "|,,,,,|,,--LL--,,|,,,,,|",
-        "|--+---,,,,,,,,,,---+--|",
+        "|--+---,,,%,,,,,,---+--|",
         "|]a,,,,,,,,,,,,,,,,,,a]|",
         "|]a,,,hxtxh,,hxtxh,,,a]|",
         "|]a,,,,,,,,,,,,,,,,,,a]|",
@@ -134,7 +134,7 @@
         "|,,|,,|,,|...6|,,W,,,,b|",
         "|l,|l,|l,|....|,,|-----|",
         "|-W|-W|-W|-LL-|,,|l,,,b|",
-        "|,,,,,,,,,,,,x,,,W,,,,b|",
+        "|,,,,,,,,,%,,x,,,W,,,,b|",
         "|,,,,,,,,,,,,,,,,|-----|",
         "|--W-|,,,,,,,,,,,|l,,,b|",
         "|S,,,|,,,,,,,,,,,W,,,,b|",
@@ -143,7 +143,7 @@
         "|W|W-|,h7g,,,,,,,W,h,,b|",
         "|T|,T|,,cg,,,,,,,|ddd,b|",
         "|-|--|L--|-LL----|-----|",
-        "|,rrr,,,,,,,,,,rrrrrr,,|",
+        "|,rrr,,,,,,,,%,rrrrrr,,|",
         "|,,,,,,,,,,,,,,,,,,,,,,|",
         "|,,,,,,,,,,,,,,,,,,,,,,|",
         "|r,,rr,,rr,,,,rr,,rr,,r|",
@@ -222,17 +222,17 @@
       "fill_ter": "t_strconc_floor",
       "rows": [
         "|--------|-..-|--------|",
-        "|,,Ccxc,,|....|,,,,,,,,|",
+        "|,,C8cc,,|....|,,,,,,,,|",
         "|,,,,,,,,|....|r,,,,dh,|",
         "|c,,,,,,l|6...|r,,,,ddd|",
         "|S,,,,,,l|-LL-|r,,,,,,,|",
-        "|c,,,,,,,|x,,,|,,,,,,,,|",
+        "|c,,,,,,,|x,,%|,,,,,,,,|",
         "|-ggggGg-|,,,,+,,,,,dh,|",
         "|,,,,,,,,,,,,,|,,,,,ddd|",
         "|,,,,,,,,,,,,,|-ggGggg-|",
         "|,,,,,,,,,,,,,|,,,,,,,^|",
         "|,,,,,,,,,,,,,g,,,,,,,,|",
-        "|-ggg-|-ggLgg-|,,c.hc,,|",
+        "|-ggg-|-ggMgg-|,,c.hc,,|",
         "|,,,,,|,,,,,,,g,,c7cc,,|",
         "|T,,,,g,,,,,,,|-gggggg-|",
         "|,,,,,g,,,,,,,,,,,,,,,,|",
@@ -255,7 +255,7 @@
         { "monster": "mon_zombie_scientist", "x": [ 11, 12 ], "y": [ 5, 10 ], "pack_size": [ 1, 2 ], "chance": 50 }
       ],
       "furniture": { "^": "f_indoor_plant", "C": "f_centrifuge" },
-      "terrain": { "7": "t_console", "C": "t_strconc_floor" },
+      "terrain": { "7": "t_console", "8": "t_console", "C": "t_strconc_floor" },
       "mapping": {
         "X": { "items": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30 } ] },
         "r": { "items": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30 } ] },
@@ -276,6 +276,11 @@
           "security": 4,
           "options": [ { "name": "EMERGENCY CONTAINMENT RELEASE", "action": "open", "security": 5 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        },
+        "8": {
+          "name": "Centrifuge",
+          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
+          "failures": [ { "action": "destroy_blood" } ]
         }
       },
       "place_nested": [

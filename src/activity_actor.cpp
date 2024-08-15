@@ -210,9 +210,9 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     aim_actor->initial_view_offset = this->initial_view_offset;
 
     // if invalid target or it's dead - reset it so a new one is acquired
-    shared_ptr_fast<Creature> last_target = who.as_player()->last_target.lock();
+    shared_ptr_fast<Creature> last_target = who.last_target.lock();
     if( last_target && last_target->is_dead_state() ) {
-        who.as_player()->last_target.reset();
+        who.last_target.reset();
     }
     who.assign_activity( std::make_unique<player_activity>( std::move( aim_actor ) ), false );
 }
@@ -924,7 +924,8 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 
         // This is for hauling across zlevels, remove when going up and down stairs
         // is no longer teleportation
-        if( target->is_owned_by( who, true ) ) {
+        // Also ignores items owned by other NPCs, unless they'd already attack on sight
+        if( target->is_owned_by( who, true ) || target->get_owner()->likes_u < -10 ) {
             target->set_owner( who );
         } else {
             continue;

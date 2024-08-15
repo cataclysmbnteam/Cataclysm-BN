@@ -121,6 +121,18 @@
     "components": [ [ [ "rag", 30 ] ], [ [ "fur", 10 ] ] ]
   },
   {
+    "result": "afs_quilt_patchwork",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "50 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "felt_patch", 35 ] ] ]
+  },
+  {
     "result": "fur_cat_tail",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -248,7 +260,7 @@
     "components": [
       [ [ "oxy_powder", 50 ] ],
       [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
-      [ [ "superglue", 1 ] ],
+      [ [ "superglue", 2 ] ],
       [ [ "scrap", 2 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ]
     ]
   },
@@ -302,7 +314,7 @@
     "components": [
       [ [ "oxy_powder", 50 ] ],
       [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
-      [ [ "superglue", 1 ] ],
+      [ [ "superglue", 2 ] ],
       [ [ "scrap", 2 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ]
     ]
   },
@@ -334,24 +346,6 @@
     "components": [ [ [ "rag", 10 ] ], [ [ "fur", 20 ] ] ]
   },
   {
-    "result": "survivor_belt",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_OTHER",
-    "skill_used": "fabrication",
-    "time": "1 m",
-    "reversible": true,
-    "autolearn": true,
-    "components": [
-      [ [ "survivor_belt_notools", 1 ] ],
-      [ [ "screwdriver_set", 1 ] ],
-      [ [ "wrench", 1 ] ],
-      [ [ "saw", 1 ] ],
-      [ [ "hacksaw", 1 ] ],
-      [ [ "hammer", 1 ] ]
-    ]
-  },
-  {
     "result": "survivor_belt_notools",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -363,10 +357,20 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 140 ] ],
     "components": [
-      [ [ "leather", 6 ], [ "leather_belt", 1 ] ],
+      [ [ "tool_belt", 1 ] ],
       [ [ "duct_tape", 100 ] ],
-      [ [ "sheath", 1 ] ],
-      [ [ "legrig", 1 ], [ "tool_belt", 1 ], [ "dump_pouch", 1 ], [ "leather_pouch", 4 ] ]
+      [ [ "tool_belt", 1 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 3 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ]
     ]
   },
   {
@@ -402,7 +406,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "nail", 8 ] ],
+      [ [ "nail_glue", 8, "LIST" ] ],
       [ [ "2x4", 4 ], [ "wood_panel", 1 ] ],
       [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "fur", 2 ], [ "leather", 2 ] ]
     ]
@@ -418,7 +422,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "nail", 16 ] ],
+      [ [ "nail_glue", 16, "LIST" ] ],
       [ [ "2x4", 8 ], [ "wood_panel", 2 ] ],
       [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "fur", 2 ], [ "leather", 2 ] ]
     ]
@@ -558,5 +562,32 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 15 ], [ "drawing_tool", 20 ] ],
     "components": [ [ [ "rag", 30 ] ] ]
+  },
+  {
+    "result": "carbon_buckler",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "computer",
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "autolearn": true,
+    "time": "17 m",
+    "book_learn": [ [ "textbook_robots", 0 ], [ "advanced_electronics", 0 ], [ "reference_fabrication1", 0 ] ],
+    "using": [ [ "3d_printing_standard", 17 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 170 ] ] ]
+  },
+  {
+    "result": "carbon_shield",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "computer",
+    "difficulty": 1,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "autolearn": true,
+    "time": "30 m",
+    "book_learn": [ [ "textbook_computer", 0 ], [ "advanced_electronics", 0 ], [ "reference_fabrication1", 0 ] ],
+    "using": [ [ "3d_printing_standard", 30 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 300 ] ] ]
   }
 ]

@@ -320,6 +320,16 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     set_fac( fac_id );
     attitude = tguy.attitude;
     mission = tguy.mission;
+    // If we're a shopkeeper force spawn of shopkeeper items here
+    if( mission == NPC_MISSION_SHOPKEEP ) {
+        const item_group_id &from = myclass->get_shopkeeper_items();
+        if( from != item_group_id( "EMPTY_GROUP" ) ) {
+            inv_clear();
+            for( detached_ptr<item> &it : item_group::items_from( from ) ) {
+                i_add( std::move( it ) );
+            }
+        }
+    }
     chatbin.first_topic = tguy.chatbin.first_topic;
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
@@ -1808,7 +1818,7 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) || it.made_of( LIQUID ) ) {
+    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.is_active() ) || it.made_of( LIQUID ) ) {
         // NPCs won't be interested in buying active explosives or spilled liquids
         return -1000;
     }

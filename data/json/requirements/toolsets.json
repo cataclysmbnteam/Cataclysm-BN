@@ -1,5 +1,12 @@
 [
   {
+    "id": "3d_printing_standard",
+    "type": "requirement",
+    "//": "For working with an printing items made from plastic using a 3D printer, per 50 grams material.",
+    "//2": "Time is typically 1 minute per plastic chunk used.",
+    "tools": [ [ [ "3d_printer_basic", 4 ], [ "3d_printer_advanced", 2 ] ] ]
+  },
+  {
     "id": "bullet_forming",
     "type": "requirement",
     "//": "Forming of bullets from raw materials",
@@ -9,7 +16,8 @@
     "id": "shot_forming",
     "type": "requirement",
     "//": "Forming of shot from raw materials, allows use of makeshift press",
-    "tools": [ [ [ "press", -1 ], [ "press_dowel", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+    "//2": "Shotshell press being first on the list makes it require cutting quality to reverse instead of pulling",
+    "tools": [ [ [ "press_dowel", -1 ], [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
   },
   {
     "id": "earthenware_firing",
@@ -89,7 +97,7 @@
     "id": "soldering_standard",
     "type": "requirement",
     "//": "Soldering metal items",
-    "tools": [ [ [ "soldering_ethanol", 10 ], [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
+    "tools": [ [ [ "soldering_iron", 1 ], [ "soldering_ethanol", 10 ], [ "toolset", 1 ] ] ],
     "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {

@@ -71,6 +71,7 @@
         "d": "f_dumpster",
         "{": "f_rack"
       },
+      "items": { "d": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "P": {  } },
       "place_items": [
         { "item": "restaur_table", "x": [ 3, 4 ], "y": [ 7, 8 ], "chance": 25, "repeat": [ 1, 2 ] },
@@ -248,6 +249,7 @@
         " ": "f_flower_tulip",
         "{": "f_rack"
       },
+      "items": { "d": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "P": {  } },
       "place_items": [
         { "item": "restaur_table", "x": 17, "y": 10, "chance": 30, "repeat": [ 1, 2 ] },
@@ -583,6 +585,7 @@
         "d": "f_dumpster",
         "{": "f_rack"
       },
+      "items": { "d": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "P": {  } },
       "place_items": [
         { "item": "restaur_table", "x": [ 3, 4 ], "y": [ 7, 8 ], "chance": 25, "repeat": [ 1, 2 ] },
