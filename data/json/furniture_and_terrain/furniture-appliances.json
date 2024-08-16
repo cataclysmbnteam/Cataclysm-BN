@@ -2497,7 +2497,11 @@
     "crafting_pseudo_item": [ "press_workbench", "fake_oven" ],
     "flags": [ "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT", "TRANSPARENT" ],
     "deconstruct": {
-      "items": [ { "item": "solder_wire", "charges": 20 }, { "item": "press_workbench_item", "count": 1 }, { "item": "cable", "charges": 5 } ]
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "press_workbench_item", "count": 1 },
+        { "item": "cable", "charges": 5 }
+      ]
     },
     "bash": {
       "str_min": 10,
