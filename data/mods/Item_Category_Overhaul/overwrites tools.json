@@ -1993,5 +1993,19 @@
     "name": { "str": "makeshift hand drill" },
     "copy-from": "makeshift_hand_drill",
     "category": "tools_workshop"
-  }
+  },
+  {
+    "id": "duct_tape",
+    "type": "AMMO",
+    "name": { "str": "duct tape" },
+    "copy-from": "duct_tape",
+    "category": "tools_workshop"
+},
+{
+    "id": "base_kitchen_knife",
+    "type": "TOOL",
+    "name": { "str": "generic kitchen knife", "str_pl": "generic kitchen knives" },
+    "copy-from": "base_kitchen_knife",
+    "category": "tools_cooking"
+}
 ]

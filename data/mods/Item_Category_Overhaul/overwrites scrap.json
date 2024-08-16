@@ -631,7 +631,7 @@
   },
   {
     "id": "scrap_copper",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "scrap copper" },
     "copy-from": "scrap_copper",
     "category": "scrap_metal"
@@ -1321,5 +1321,110 @@
     "name": { "str_sp": "quicklime" },
     "copy-from": "material_quicklime",
     "category": "rocks"
-  }
+  },
+  {
+    "id": "nail",
+    "type": "AMMO",
+    "name": { "str": "nail" },
+    "copy-from": "nail",
+    "category": "scrap_metal"
+},
+{
+    "id": "sheet_metal",
+    "type": "GENERIC",
+    "name": { "str_sp": "sheet metal" },
+    "copy-from": "sheet_metal",
+    "category": "scrap_metal"
+},
+{
+    "id": "scrap_bronze",
+    "type": "AMMO",
+    "name": { "str_sp": "bronze" },
+    "copy-from": "scrap_bronze",
+    "category": "scrap_metal"
+},
+{
+    "id": "cable",
+    "type": "AMMO",
+    "name": { "str": "copper wire" },
+    "copy-from": "cable",
+    "category": "scrap_electronics"
+},
+{
+    "id": "thread",
+    "type": "AMMO",
+    "name": { "str_sp": "thread" },
+    "copy-from": "thread",
+    "category": "scrap_fabric"
+},
+{
+    "id": "sinew",
+    "type": "AMMO",
+    "name": { "str": "sinew" },
+    "copy-from": "sinew",
+    "category": "scrap_fabric"
+},
+{
+    "id": "plant_fibre",
+    "type": "AMMO",
+    "name": { "str": "plant fiber" },
+    "copy-from": "plant_fibre",
+    "category": "scrap_fabric"
+},
+{
+    "id": "yarn",
+    "type": "AMMO",
+    "name": { "str_sp": "yarn" },
+    "copy-from": "yarn",
+    "category": "scrap_fabric"
+},
+{
+    "id": "string_6",
+    "type": "GENERIC",
+    "name": { "str": "short string" },
+    "copy-from": "string_6",
+    "category": "scrap_fabric"
+},
+{
+    "id": "string_36",
+    "type": "GENERIC",
+    "name": { "str": "long string" },
+    "copy-from": "string_36",
+    "category": "scrap_fabric"
+},
+{
+    "id": "rolling_paper",
+    "type": "AMMO",
+    "name": { "str": "rolling paper" },
+    "copy-from": "rolling_paper",
+    "category": "scrap_wood"
+},
+{
+    "id": "copper",
+    "type": "AMMO",
+    "name": { "str": "copper" },
+    "copy-from": "copper",
+    "category": "rocks"
+},
+{
+    "id": "cac2powder",
+    "type": "AMMO",
+    "name": { "str_sp": "calcium carbide premix" },
+    "copy-from": "cac2powder",
+    "category": "chems"
+},
+{
+    "id": "tinder",
+    "type": "AMMO",
+    "name": { "str_sp": "tinder" },
+    "copy-from": "tinder",
+    "category": "rocks"
+},
+{
+    "id": "rock",
+    "type": "GENERIC",
+    "name": { "str": "rock" },
+    "copy-from": "rock",
+    "category": "rocks"
+}
 ]
