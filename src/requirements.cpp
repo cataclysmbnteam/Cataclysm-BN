@@ -1049,19 +1049,19 @@ requirement_data requirement_data::disassembly_requirements() const
                 break;
             }
             // This ensures that you don't need a hand press to break down reloaded ammo.
-            // If the shotshell press is the first tool in the requirement, use cutting quality
-            if( type == itype_press_dowel ) {
-                replaced = true;
-                bullet_pulling = true;
-                bullet_pulling_shotshell = true;
-                remove_fire = true;
-                break;
-            }
             // Put reloading bench press first instead to use level 1 pulling quality
             if( type == itype_press_workbench ) {
                 replaced = true;
                 bullet_pulling = true;
                 bullet_pulling_rifle = true;
+                remove_fire = true;
+                break;
+            }
+            // If the shotshell press is the first tool in the requirement, use cutting quality
+            if( type == itype_press_dowel ) {
+                replaced = true;
+                bullet_pulling = true;
+                bullet_pulling_shotshell = true;
                 remove_fire = true;
                 break;
             }
@@ -1089,7 +1089,7 @@ requirement_data requirement_data::disassembly_requirements() const
         if( bullet_pulling_shotshell ) {
             new_qualities.emplace_back( quality_id( "CUT" ), 1, 1 );
         } else if( bullet_pulling_rifle ) {
-            new_qualities.emplace_back( quality_id( "PULL" ), 2, 1 );
+            new_qualities.emplace_back( quality_id( "PULL" ), 1, 2 );
         } else {
             new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
         }
