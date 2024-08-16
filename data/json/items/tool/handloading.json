@@ -63,7 +63,7 @@
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
-    "color": "dark_gray"
+    "color": "dark_gray",
     "looks_like": "large_repairkit"
   }
 ]
