@@ -157,7 +157,6 @@
         "p": "f_hydraulic_press",
         "l": "f_heavy_lathe",
         "r": "f_utility_shelf",
-        "t": "f_toilet",
         "x": "f_utility_shelf",
         "h": "f_chair",
         "U": [ "f_dumpster", "f_recycle_bin" ]
