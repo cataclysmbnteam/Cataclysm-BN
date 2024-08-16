@@ -1281,6 +1281,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_reloading_press",
+    "name": "Install Grid Reloading Press"
+  },
+  {
+    "type": "construction_group",
     "id": "place_water_mill",
     "name": "Place Water Mill"
   },
