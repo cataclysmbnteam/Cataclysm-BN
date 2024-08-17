@@ -1307,44 +1307,53 @@ void iexamine::slot_machine( player &p, const tripoint & )
  * Attempt to crack safe through audio-feedback manual lock manipulation.
  *
  * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
- * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
+ *
+ * Time per attempt affected by perception and mechanics. 5 minutes per attempt minimum.
  * Small chance of just guessing the combo without listening device.
  */
 void iexamine::safe( player &p, const tripoint &examp )
 {
-    auto cracking_tool = p.crafting_inventory().items_with( []( const item & it ) -> bool {
-        //Why not just check the item
-        return it.has_flag( flag_SAFECRACK );
-    } );
+    // Requires mutant hearing, Enhanced Hearing CBM, or a stethoscope.
+    bool can_safecrack = p.hearing_ability() > 1.5f || p.has_item_with_flag( flag_SAFECRACK );
+    bool can_decode = p.get_skill_level( skill_mechanics ) >= 5;
 
-    if( !( !cracking_tool.empty() || p.has_bionic( bio_ears ) ) ) {
-        p.moves -= to_turns<int>( 10_seconds );
-        // one_in(30^3) chance of guessing
-        if( one_in( 27000 ) ) {
-            p.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
-            get_map().furn_set( examp, f_safe_o );
+    // We can skip worrying about a stethoscope if we're skilled enough.
+    if( !can_decode ) {
+        // Lack both the tools and the skills so fiddle with the dial a bit.
+        if( !can_safecrack ) {
+            p.mod_moves( -to_moves<int>( 10_seconds ) );
+            // one_in(30^3) chance of guessing
+            if( one_in( 27000 ) ) {
+                p.add_msg_if_player( m_good,
+                                     _( "Lacking the skill to crack this without tools, you mess with the dial for a little bit… and it opens!" ) );
+                get_map().furn_set( examp, f_safe_o );
+                return;
+            } else {
+                p.add_msg_if_player( m_info,
+                                     _( "Lacking the skill to crack this without tools, you mess with the dial for a little bit." ) );
+                return;
+            }
+        }
+        // We both need and have hearing enhancement, so here we rule out states that prevent us from using it.
+        if( p.is_deaf() ) {
+            add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
             return;
-        } else {
-            p.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
+        } else if( p.has_effect( effect_earphones ) ) {
+            add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
             return;
         }
     }
 
-    if( p.is_deaf() ) {
-        add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
-        return;
-    } else if( p.has_effect( effect_earphones ) ) {
-        add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
-        return;
-    } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
-        add_msg( m_info, _( "You start cracking the safe." ) );
-        // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
-        // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
-        ///\EFFECT_PER speeds up safe cracking
-
-        ///\EFFECT_MECHANICS speeds up safe cracking
-        const time_duration time = std::max( 150_minutes - 20_minutes * ( p.get_skill_level(
-                skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
+    if( query_yn(
+            _( "Attempt to crack the safe?\n\nUses a stethoscope, augmented hearing, or mechanics skill of 5 or higher." ) ) ) {
+        std::string safecracking_message = can_decode ?
+                                           _( "You begin to expertly decode the safe." ) :
+                                           _( "You start cracking the safe." );
+        add_msg( m_info, safecracking_message );
+        // 120 minutes - 10 minutes per mechanics point, - 5 per perception point above 10;
+        // capped at 5 minutes minimum.
+        const time_duration time = std::max( 120_minutes - 10_minutes * p.get_skill_level(
+                skill_mechanics ) - 5_minutes * ( std::max( p.get_per(), 10 ) - 10 ), 5_minutes );
 
         p.assign_activity( ACT_CRACKING, to_moves<int>( time ) );
         p.activity->placement = examp;

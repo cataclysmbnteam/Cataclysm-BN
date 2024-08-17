@@ -1461,9 +1461,6 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         g->m.furn_set( target, new_furn_type ) :
         static_cast<void>( g->m.ter_set( target, new_ter_type ) );
         who.add_msg_if_player( m_good, open_message );
-    } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
-        who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
-        g->m.furn_set( target, furn_str_id( "f_gunsafe_mj" ) );
     } else if( lock_roll > ( 1.5 * pick_roll ) ) {
         if( it->inc_damage() ) {
             who.add_msg_if_player( m_bad,
