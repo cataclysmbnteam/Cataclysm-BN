@@ -548,14 +548,14 @@
   {
     "id": "blue_topaz",
     "type": "GENERIC",
-    "name": { "str": "amethyst" },
+    "name": { "str": "topaz" },
     "copy-from": "blue_topaz",
     "category": "valuables"
   },
   {
     "id": "candlestick",
     "type": "GENERIC",
-    "name": { "str_sp": "gold" },
+    "name": { "str": "candlestick" },
     "copy-from": "candlestick",
     "category": "valuables"
   },
@@ -1247,7 +1247,7 @@
   },
   {
     "id": "chunk_sulfur",
-    "type": "GENERIC",
+    "type": "AMMO",
     "name": { "str": "chunk of sulfur", "str_pl": "chunks of sulfur" },
     "copy-from": "chunk_sulfur",
     "category": "chems"
@@ -1422,7 +1422,7 @@
   },
   {
     "id": "rock",
-    "type": "GENERIC",
+    "type": "AMMO",
     "name": { "str": "rock" },
     "copy-from": "rock",
     "category": "rocks"
