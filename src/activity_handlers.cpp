@@ -241,7 +241,6 @@ static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
 static const trait_flag_str_id trait_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_flag_str_id trait_flag_SAPIOVORE( "SAPIOVORE" );
 
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const itype_id itype_UPS( "UPS" );
