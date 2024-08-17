@@ -1426,5 +1426,201 @@
     "name": { "str": "rock" },
     "copy-from": "rock",
     "category": "rocks"
+  },
+  {
+      "id": "razor_shaving",
+      "type": "GENERIC",
+      "name": { "str": "shaving razor" },
+      "copy-from": "razor_shaving",
+      "category": "scrap_plastic"
+  },
+  {
+      "id": "hairbrush",
+      "type": "GENERIC",
+      "name": { "str": "hairbrush", "str_pl": "hairbrushes" },
+      "copy-from": "hairbrush",
+      "category": "scrap_plastic"
+  },
+  {
+      "id": "comb_pocket",
+      "type": "GENERIC",
+      "name": { "str": "comb" },
+      "copy-from": "comb_pocket",
+      "category": "scrap_plastic"
+  },
+  {
+      "id": "hair_dryer",
+      "type": "GENERIC",
+      "name": { "str": "hair dryer" },
+      "copy-from": "hair_dryer",
+      "category": "scrap_electronics"
+  },
+  {
+      "id": "curling_iron",
+      "type": "GENERIC",
+      "name": { "str": "curling iron" },
+      "copy-from": "curling_iron",
+      "category": "scrap_electronics"
+  },
+  {
+      "id": "ceramic_bowl",
+      "type": "GENERIC",
+      "name": { "str": "ceramic bowl" },
+      "copy-from": "ceramic_bowl",
+      "category": "scrap_ceramics"
+  },
+  {
+      "id": "ceramic_plate",
+      "type": "GENERIC",
+      "name": { "str": "ceramic plate" },
+      "copy-from": "ceramic_plate",
+      "category": "scrap_ceramics"
+  },
+  {
+      "id": "ceramic_cup",
+      "type": "GENERIC",
+      "name": { "str": "ceramic cup" },
+      "copy-from": "ceramic_cup",
+      "category": "scrap_ceramics"
+  },
+  {
+      "id": "ceramic_mug",
+      "type": "GENERIC",
+      "name": { "str": "coffee mug" },
+      "copy-from": "ceramic_mug",
+      "category": "scrap_ceramics"
+  },
+  {
+      "id": "bowl_pewter",
+      "type": "GENERIC",
+      "name": { "str": "pewter bowl" },
+      "copy-from": "bowl_pewter",
+      "category": "scrap_metal"
+  },
+  {
+      "id": "tin_plate",
+      "type": "GENERIC",
+      "name": { "str": "tin plate" },
+      "copy-from": "tin_plate",
+      "category": "scrap_metal"
+  },
+  {
+      "id": "tin_cup",
+      "type": "GENERIC",
+      "name": { "str": "tin cup" },
+      "copy-from": "tin_cup",
+      "category": "scrap_metal"
+  },
+  {
+      "id": "glass",
+      "type": "GENERIC",
+      "name": { "str": "drinking glass", "str_pl": "drinking glasses" },
+      "copy-from": "glass",
+      "category": "scrap_glass"
+  },
+  {
+      "id": "wine_glass",
+      "type": "GENERIC",
+      "name": { "str": "wine glass", "str_pl": "wine glasses" },
+      "copy-from": "wine_glass",
+      "category": "scrap_glass"
+  },
+  {
+      "id": "glass_bowl",
+      "type": "GENERIC",
+      "name": { "str": "glass bowl" },
+      "copy-from": "glass_bowl",
+      "category": "scrap_glass"
+  },
+  {
+      "id": "plastic_bowl_kids",
+      "type": "GENERIC",
+      "name": { "str": "kiddie bowl" },
+      "copy-from": "plastic_bowl_kids",
+      "category": "scrap_plastic"
+  },
+  {
+      "id": "sippy_cup",
+      "type": "GENERIC",
+      "name": { "str": "sippy cup" },
+      "copy-from": "sippy_cup",
+      "category": "scrap_plastic"
+  },
+  {
+      "id": "targeting_module",
+      "type": "GENERIC",
+      "name": { "str": "targeting module" },
+      "copy-from": "targeting_module",
+      "category": "scrap_electronics"
+  },
+  {
+      "id": "identification_module",
+      "type": "GENERIC",
+      "name": { "str": "identification module" },
+      "copy-from": "identification_module",
+      "category": "scrap_electronics"
+  },
+  {
+      "id": "pathfinding_module",
+      "type": "GENERIC",
+      "name": { "str": "pathfinding module" },
+      "copy-from": "pathfinding_module",
+      "category": "scrap_electronics"
+  },
+  {
+      "id": "memory_module",
+      "type": "GENERIC",
+      "name": { "str": "memory banks module" },
+      "copy-from": "memory_module",
+      "category": "scrap_electronics"
+  },
+  {
+      "id": "sensor_module",
+      "type": "GENERIC",
+      "name": { "str": "sensor array" },
+      "copy-from": "sensor_module",
+      "category": "scrap_electronics"
+  },
+  {
+      "id": "self_monitoring_module",
+      "type": "GENERIC",
+      "name": { "str_sp": "self monitoring sensors" },
+      "copy-from": "self_monitoring_module",
+      "category": "scrap_electronics"
+  },
+  {
+      "id": "ai_module",
+      "type": "GENERIC",
+      "name": { "str": "AI core" },
+      "copy-from": "ai_module",
+      "category": "scrap_electronics"
+  },
+  {
+      "id": "ai_module_basic",
+      "type": "GENERIC",
+      "name": { "str": "basic AI core" },
+      "copy-from": "ai_module_basic",
+      "category": "scrap_electronics"
+  },
+  {
+      "id": "ai_module_advanced",
+      "type": "GENERIC",
+      "name": { "str": "advanced AI core" },
+      "copy-from": "ai_module_advanced",
+      "category": "scrap_electronics"
+  },
+  {
+      "id": "gun_module",
+      "type": "GENERIC",
+      "name": { "str": "gun operating system" },
+      "copy-from": "gun_module",
+      "category": "scrap_electronics"
+  },
+  {
+      "id": "processor",
+      "type": "GENERIC",
+      "name": { "str": "processor board" },
+      "copy-from": "processor",
+      "category": "scrap_electronics"
   }
 ]

@@ -112,5 +112,11 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Soil",
     "description": "Destination for soil."
+  },
+  {
+    "id": "LOOT_MAP",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Information",
+    "description": "Destination for maps and memory cards."
   }
 ]
