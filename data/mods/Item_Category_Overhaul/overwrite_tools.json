@@ -2032,7 +2032,7 @@
   {
     "id": "mobile_memory_card_science",
     "type": "GENERIC",
-        "name": { "str": "Science SD-Memory card" },
+    "name": { "str": "Science SD-Memory card" },
     "copy-from": "mobile_memory_card_science",
     "category": "maps"
   },
