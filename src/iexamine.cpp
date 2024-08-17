@@ -4872,7 +4872,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
     if( &patient == &null_player ) {
         if( cyborg != nullptr ) {
-            if( cyborg->typeId() == itype_corpse && !cyborg->active ) {
+            if( cyborg->typeId() == itype_corpse && !cyborg->is_active() ) {
                 popup( _( "Patient is dead.  Please remove corpse to proceed.  Exiting." ) );
                 return;
             } else if( cyborg->typeId() == itype_bot_broken_cyborg || cyborg->typeId() == itype_corpse ) {

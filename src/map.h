@@ -1259,9 +1259,16 @@ class map
             return spawn_an_item( tripoint( p, abs_sub.z ), std::move( new_item ), charges, damlevel );
         }
 
+
+        /**
+         * Remove an item from active item processing queue as necessary
+         */
+        void make_inactive( item &loc );
+
         /**
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
+         * Should be called as part of activate()
          */
         void make_active( item &loc );
 

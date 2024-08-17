@@ -76,7 +76,7 @@
     "move_cost_mod": 4,
     "coverage": 20,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT", "EMITTER", "MINEABLE" ],
     "emissions": [ "emit_glimmer", "emit_shock_burst" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": { "str_min": 30, "str_max": 60, "sound": "splorch!", "sound_fail": "whump!", "furn_set": "f_alien_scar_small" }
@@ -91,17 +91,17 @@
     "move_cost_mod": 6,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT", "EMITTER", "MINEABLE" ],
     "emissions": [ "emit_hot_air_migo_seep", "emit_shock_burst" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": {
-      "str_min": 250,
-      "str_max": 600,
+      "str_min": 50,
+      "str_max": 120,
       "sound": "splorch!",
       "sound_fail": "splat!",
       "items": [ { "item": "fetid_goop", "count": [ 6, 13 ], "prob": 100 } ],
       "//": "reduction matches that of weakest furniture that turns into this when destroyed",
-      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 600, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 120, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -115,11 +115,11 @@
     "move_cost_mod": 4,
     "coverage": 20,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT", "EMITTER", "MINEABLE" ],
     "emissions": [ "emit_migo_atmosphere_seep", "emit_shock_burst" ],
     "bash": {
       "str_min": 50,
-      "str_max": 120,
+      "str_max": 80,
       "sound": "splorch!",
       "sound_fail": "splat!",
       "items": [ { "item": "fetid_goop", "count": [ 2, 6 ], "prob": 100 } ]
@@ -201,7 +201,7 @@
     "coverage": 40,
     "required_str": -1,
     "light_emitted": 12,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
     "bash": {
       "str_min": 45,
       "str_max": 60,

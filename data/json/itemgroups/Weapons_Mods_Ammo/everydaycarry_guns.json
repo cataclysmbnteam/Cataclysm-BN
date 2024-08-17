@@ -180,6 +180,18 @@
     ]
   },
   {
+    "id": "everyday_j22",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "j22", "ammo-group": "on_hand_22", "charges": [ 0, 10 ] },
+      { "item": "j22mag", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_22" },
+      { "item": "j22mag", "charges-min": 0, "ammo-group": "on_hand_22", "prob": 50 },
+      { "group": "on_hand_22", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+    ]
+  },
+  {
     "id": "everyday_taurus_spectrum",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -260,6 +272,18 @@
       { "item": "rugerlcp", "ammo-group": "on_hand_380", "charges": [ 0, 6 ] },
       { "item": "rugerlcpmag", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_380" },
       { "item": "rugerlcpmag", "charges-min": 0, "ammo-group": "on_hand_380", "prob": 50 },
+      { "group": "on_hand_380", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "everyday_fn1910",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "fn1910", "ammo-group": "on_hand_380", "charges": [ 0, 6 ] },
+      { "item": "fn1910mag", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_380" },
+      { "item": "fn1910mag", "charges-min": 0, "ammo-group": "on_hand_380", "prob": 50 },
       { "group": "on_hand_380", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
     ]
   },
@@ -1797,6 +1821,26 @@
       { "item": "lemat_revolver", "ammo-group": "on_hand_44paper", "charges": [ 0, 9 ] },
       { "group": "on_hand_44paper", "prob": 80, "charges": [ 5, 10 ], "count": [ 2, 3 ] },
       { "group": "on_hand_shotpaper", "charges": [ 5, 10 ], "count": [ 2, 3 ], "prob": 25 }
+    ]
+  },
+  {
+    "id": "everyday_colt_army",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "colt_army", "ammo-group": "on_hand_44paper", "charges": [ 0, 9 ] },
+      { "group": "on_hand_44paper", "prob": 80, "charges": [ 5, 10 ], "count": [ 2, 3 ] }
+    ]
+  },
+  {
+    "id": "everyday_colt_navy",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "colt_navy", "ammo-group": "on_hand_36paper", "charges": [ 0, 6 ] },
+      { "group": "on_hand_36paper", "prob": 80, "charges": [ 5, 10 ], "count": [ 2, 3 ] }
     ]
   },
   {

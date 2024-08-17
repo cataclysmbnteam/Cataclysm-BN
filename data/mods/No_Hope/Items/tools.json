@@ -19,7 +19,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_chickenbot",
@@ -43,7 +44,8 @@
       "difficulty": 9,
       "moves": 250,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_tankbot",
@@ -69,7 +71,8 @@
       "difficulty": 10,
       "moves": 500,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "broken_chickenbot",
@@ -95,7 +98,8 @@
       "difficulty": 10,
       "moves": 500,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_tripod",
@@ -120,7 +124,8 @@
       "difficulty": 15,
       "moves": 500,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "battletorch",

@@ -85,6 +85,26 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "map_extra_dead_hunter",
+    "entries": [
+      { "group": "clothing_outdoor_set" },
+      { "group": "bags", "damage": [ 1, 4 ] },
+      { "group": "default_zombie_items_pockets", "prob": 50 },
+      { "group": "tools_hunting", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "ear_protection", "prob": 25 },
+      {
+        "distribution": [
+          { "group": "guns_hunting", "prob": 75, "damage": [ 0, 2 ], "dirt": [ 0, 1000 ] },
+          { "group": "archery_hunting", "prob": 25, "damage": [ 0, 2 ] }
+        ],
+        "prob": 25
+      },
+      { "item": "corpse", "damage": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "map_extra_drugdeal",
     "entries": [
       { "distribution": [ { "group": "baddrugs", "prob": 75 }, { "group": "meth_ingredients", "prob": 25 } ], "prob": 50 },
@@ -102,6 +122,12 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "group": "mon_zombie_cop_death_drops" }, { "item": "corpse", "damage": 3 } ]
+  },
+  {
+    "id": "map_extra_swat",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "mon_zombie_swat_death_drops" }, { "item": "corpse", "damage": 3 } ]
   },
   {
     "type": "item_group",

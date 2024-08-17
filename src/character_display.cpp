@@ -19,6 +19,7 @@
 #include "effect.h"
 #include "game.h"
 #include "input.h"
+#include "melee.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
@@ -439,7 +440,8 @@ static void draw_stats_info( const catacurses::window &w_info, const Character &
                         _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
                            "gun for ranged combat, and enhances many actions that require finesse." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_melee_hit_base() ) );
+                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ),
+                                           you.get_melee_hit( you.used_weapon(), melee::default_attack( you.used_weapon() ) ) ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Ranged penalty: <color_white>%+d</color>" ),
                                            -std::abs( you.ranged_dex_mod() ) ) );

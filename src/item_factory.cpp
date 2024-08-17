@@ -196,6 +196,20 @@ void Item_factory::finalize_pre( itype &obj )
         std::swap( obj.melee[DT_CUT], obj.melee[DT_STAB] );
     }
 
+    // We want to recalculate DEFAULT attack, because it defaults to 0
+    // But if it doesn't exist, we want to keep it that way
+    if( obj.attacks.empty() || obj.attacks.count( "DEFAULT" ) ) {
+        attack_statblock att;
+        att.to_hit = obj.m_to_hit;
+        for( size_t i = 0; i < NUM_DT; i++ ) {
+            if( obj.melee[i] > 0 ) {
+                att.damage.add_damage( static_cast<damage_type>( i ), obj.melee[i] );
+            }
+        }
+
+        obj.attacks["DEFAULT"] = att;
+    }
+
     // add usage methods (with default values) based upon qualities
     // if a method was already set the specific values remain unchanged
     for( const auto &q : obj.qualities ) {
@@ -2618,6 +2632,19 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         // TODO: Move to finalization
         def.thrown_damage.clear();
         def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1.0_kilogram );
+    }
+
+    if( jo.has_member( "attacks" ) ) {
+        // TODO: Implement "proportional" and "relative"
+        JsonArray jarr = jo.get_array( "attacks" );
+        for( JsonObject jo : jarr ) {
+            std::string id = jo.get_string( "id" );
+            attack_statblock att = def.attacks[id];
+            att.to_hit = jo.get_int( "to_hit", att.to_hit );
+            JsonObject damage = jo.get_object( "damage" );
+            att.damage = load_damage_instance_inherit( damage, att.damage );
+            def.attacks[id] = att;
+        }
     }
 
     if( jo.has_member( "repairs_like" ) ) {

@@ -210,6 +210,19 @@
     ]
   },
   {
+    "id": "nested_j22",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "j22", "ammo-group": "on_hand_22", "charges": [ 0, 10 ] },
+      { "item": "j22mag", "ammo-group": "on_hand_22" },
+      { "item": "j22mag", "ammo-group": "on_hand_22", "prob": 50 },
+      { "group": "on_hand_22" }
+    ]
+  },
+  {
     "id": "nested_sw_610",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -349,6 +362,19 @@
       { "item": "rugerlcp", "ammo-group": "on_hand_380", "charges": [ 0, 6 ] },
       { "item": "rugerlcpmag", "ammo-group": "on_hand_380" },
       { "item": "rugerlcpmag", "ammo-group": "on_hand_380", "prob": 50 },
+      { "group": "on_hand_380" }
+    ]
+  },
+  {
+    "id": "nested_fn1910",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "fn1910", "ammo-group": "on_hand_380", "charges": [ 0, 6 ] },
+      { "item": "fn1910", "ammo-group": "on_hand_380" },
+      { "item": "fn1910", "ammo-group": "on_hand_380", "prob": 50 },
       { "group": "on_hand_380" }
     ]
   },
@@ -903,6 +929,22 @@
       { "group": "on_hand_44paper" },
       { "group": "on_hand_shotpaper", "prob": 50 }
     ]
+  },
+  {
+    "id": "nested_colt_army",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "colt_army", "ammo-group": "on_hand_44paper", "charges": [ 0, 9 ] }, { "group": "on_hand_44paper" } ]
+  },
+  {
+    "id": "nested_colt_navy",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "colt_navy", "ammo-group": "on_hand_36paper", "charges": [ 0, 6 ] }, { "group": "on_hand_36paper" } ]
   },
   {
     "id": "nested_makarov",

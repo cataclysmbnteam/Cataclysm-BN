@@ -332,7 +332,7 @@
     "color": "light_gray",
     "techniques": [ "SPIN", "WRAP" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_rope_up" }
   },
   {

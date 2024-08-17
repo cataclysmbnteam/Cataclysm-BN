@@ -24,6 +24,7 @@
 #include "debug.h"
 #include "drop_token.h"
 #include "enums.h"
+#include "faction.h"
 #include "game.h"
 #include "input.h"
 #include "int_id.h"
@@ -241,7 +242,8 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
     item *loc = &*selection.target;
 
     const std::optional<int> &quantity = selection.quantity;
-    if( !loc->is_owned_by( g->u, true ) ) {
+    // If the faction would murder you on sight, we no longer care about stealing from them since it can't make things worse
+    if( !loc->is_owned_by( g->u, true ) && loc->get_owner()->likes_u >= -10 ) {
         // Has the player given input on if stealing is ok?
         if( u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             pickup::query_thief();

@@ -574,7 +574,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     for( detached_ptr<item> &it : prof_items ) {
         if( it->has_flag( STATIC( flag_id( "WET" ) ) ) ) {
-            it->active = true;
+            it->activate();
             it->item_counter = 450; // Give it some time to dry off
         }
         if( it->is_book() ) {
@@ -893,7 +893,7 @@ tab_direction set_stats( avatar &u, points_left &points )
                                _( "Increasing Dex further costs 2 points." ) );
                 }
                 mvwprintz( w_description, point_zero, COL_STAT_BONUS, _( "Melee to-hit bonus: +%.2f" ),
-                           u.get_melee_hit_base() );
+                           u.get_hit_base() );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 mvwprintz( w_description, point( 0, 1 ), COL_STAT_BONUS,
                            _( "Throwing penalty per target's dodge: +%d" ),

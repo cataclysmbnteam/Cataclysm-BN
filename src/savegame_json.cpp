@@ -2265,7 +2265,7 @@ void item::io( Archive &archive )
     if( is_food() ) {
         active = true;
     }
-    if( !active && has_flag( flag_WET ) ) {
+    if( !is_active() && has_flag( flag_WET ) ) {
         // Some wet items from legacy saves may be inactive
         active = true;
     }
@@ -2292,7 +2292,7 @@ void item::io( Archive &archive )
     item_vars.erase( "item_note_type" );
 
     // Activate corpses from old saves
-    if( is_corpse() && !active ) {
+    if( is_corpse() && !is_active() ) {
         active = true;
     }
 
