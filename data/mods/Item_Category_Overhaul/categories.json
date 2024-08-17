@@ -2,7 +2,7 @@
   {
     "id": "tools",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "UNSORTED TOOLS" },
+    "name": { "str": "OTHER TOOLS" },
     "zone": "LOOT_TOOLS",
     "sort_rank": -19
   },
