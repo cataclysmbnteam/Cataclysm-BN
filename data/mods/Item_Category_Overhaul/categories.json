@@ -207,14 +207,14 @@
     "id": "scrap_ceramics",
     "type": "ITEM_CATEGORY",
     "name": { "str": "CERAMIC SCRAP" },
-    "zone": "LOOT_SCRAP_WOOD",
+    "zone": "LOOT_SCRAP_CERAMICS",
     "sort_rank": 14
   },
   {
     "id": "scrap_glass",
     "type": "ITEM_CATEGORY",
     "name": { "str": "GLASS SCRAP" },
-    "zone": "LOOT_SCRAP_CERAMICS",
+    "zone": "LOOT_SCRAP_GLASS",
     "sort_rank": 15
   },
   {
