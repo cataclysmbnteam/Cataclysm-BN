@@ -2007,5 +2007,278 @@
     "name": { "str": "generic kitchen knife", "str_pl": "generic kitchen knives" },
     "copy-from": "base_kitchen_knife",
     "category": "tools_cooking"
+  },
+  {
+    "id": "mobile_memory_card",
+    "type": "GENERIC",
+    "name": { "str": "SD-Memory card" },
+    "copy-from": "mobile_memory_card",
+    "category": "maps"
+  },
+  {
+    "id": "mobile_memory_card_used",
+    "type": "GENERIC",
+    "name": { "str": "SD-Memory card (clean)", "str_pl": "SD-Memory cards (clean)" },
+    "copy-from": "mobile_memory_card_used",
+    "category": "maps"
+  },
+  {
+    "id": "mobile_memory_card_encrypted",
+    "type": "GENERIC",
+    "name": { "str": "SD-Memory card (encrypted)", "str_pl": "SD-Memory cards (encrypted)" },
+    "copy-from": "mobile_memory_card_encrypted",
+    "category": "maps"
+  },
+  {
+    "id": "mobile_memory_card_science",
+    "type": "GENERIC",
+    "name": { "str": "SD-Memory card (encrypted)", "str_pl": "SD-Memory cards (encrypted)" },
+    "copy-from": "mobile_memory_card_science",
+    "category": "maps"
+  },
+  {
+    "id": "id_science",
+    "type": "GENERIC",
+    "name": { "str": "science ID card" },
+    "copy-from": "id_science",
+    "category": "maps"
+  },
+  {
+    "id": "id_military",
+    "type": "GENERIC",
+    "name": { "str": "military ID card" },
+    "copy-from": "id_military",
+    "category": "maps"
+  },
+  {
+    "id": "id_industrial",
+    "type": "GENERIC",
+    "name": { "str": "industrial ID card" },
+    "copy-from": "id_industrial",
+    "category": "maps"
+  },
+  {
+    "id": "usb_drive",
+    "type": "GENERIC",
+    "name": { "str": "USB drive" },
+    "copy-from": "usb_drive",
+    "category": "maps"
+  },
+  {
+    "id": "data_card",
+    "type": "GENERIC",
+    "name": { "str": "data card" },
+    "copy-from": "data_card",
+    "category": "maps"
+  },
+  {
+    "id": "fema_data",
+    "type": "GENERIC",
+    "name": { "str_sp": "FEMA data" },
+    "copy-from": "fema_data",
+    "category": "maps"
+  },
+  {
+    "id": "software_useless",
+    "type": "GENERIC",
+    "name": { "str_sp": "misc software" },
+    "copy-from": "software_useless",
+    "category": "maps"
+  },
+  {
+    "id": "software_hacking",
+    "type": "GENERIC",
+    "name": { "str_sp": "hackPRO" },
+    "copy-from": "software_hacking",
+    "category": "maps"
+  },
+  {
+    "id": "software_medical",
+    "type": "GENERIC",
+    "name": { "str_sp": "MediSoft" },
+    "copy-from": "software_medical",
+    "category": "maps"
+  },
+  {
+    "id": "software_math",
+    "type": "GENERIC",
+    "name": { "str_sp": "MatheMAX" },
+    "copy-from": "software_math",
+    "category": "maps"
+  },
+  {
+    "id": "software_blood_data",
+    "type": "GENERIC",
+    "name": { "str_sp": "infection data" },
+    "copy-from": "software_blood_data",
+    "category": "maps"
+  },
+  {
+    "id": "software_lab_data",
+    "type": "GENERIC",
+    "name": { "str_sp": "lab data" },
+    "copy-from": "software_lab_data",
+    "category": "maps"
+  },
+  {
+    "id": "software_train_data",
+    "type": "GENERIC",
+    "name": { "str_sp": "neural data" },
+    "copy-from": "software_train_data",
+    "category": "maps"
+  },
+  {
+    "id": "mind_scan_robofac",
+    "type": "GENERIC",
+    "name": { "str": "makeshift hand drill" },
+    "copy-from": "mind_scan_robofac",
+    "category": "maps"
+  },
+  {
+    "id": "software_electronics_reference",
+    "type": "GENERIC",
+    "name": { "str": "integrated circuit datasheet archives", "str_pl": "misc software" },
+    "copy-from": "software_electronics_reference",
+    "category": "maps"
+  },
+  {
+    "id": "pot",
+    "type": "GENERIC",
+    "name": { "str": "pot" },
+    "copy-from": "pot",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "iron_pot",
+    "type": "GENERIC",
+    "name": { "str": "cast-iron pot" },
+    "copy-from": "iron_pot",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "pot_copper",
+    "type": "GENERIC",
+    "name": { "str": "copper pot" },
+    "copy-from": "pot_copper",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "casserole",
+    "type": "GENERIC",
+    "name": { "str": "casserole" },
+    "copy-from": "casserole",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "stock_pot",
+    "type": "GENERIC",
+    "name": { "str": "stock pot" },
+    "copy-from": "stock_pot",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "pot_canning",
+    "type": "GENERIC",
+    "name": { "str": "canning pot" },
+    "copy-from": "pot_canning",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "pan",
+    "type": "GENERIC",
+    "name": { "str": "cast-iron frying pan" },
+    "copy-from": "pan",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "steel_pan",
+    "type": "GENERIC",
+    "name": { "str": "steel frying pan" },
+    "copy-from": "steel_pan",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "copper_pan",
+    "type": "GENERIC",
+    "name": { "str": "copper frying pan" },
+    "copy-from": "copper_pan",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "pot_makeshift",
+    "type": "GENERIC",
+    "name": { "str": "makeshift pot" },
+    "copy-from": "pot_makeshift",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "pot_makeshift_copper",
+    "type": "GENERIC",
+    "name": { "str": "makeshift copper pot" },
+    "copy-from": "pot_makeshift_copper",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "kettle",
+    "type": "GENERIC",
+    "name": { "str": "kettle" },
+    "copy-from": "kettle",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "knife_butcher",
+    "type": "GENERIC",
+    "name": { "str": "butcher knife", "str_pl": "butcher knives" },
+    "copy-from": "knife_butcher",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "knife_steak",
+    "type": "GENERIC",
+    "name": { "str": "steak knife", "str_pl": "steak knives" },
+    "copy-from": "knife_steak",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "knife_paring",
+    "type": "GENERIC",
+    "name": { "str": "paring knife", "str_pl": "paring knives" },
+    "copy-from": "knife_paring",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "knife_chef",
+    "type": "GENERIC",
+    "name": { "str": "chef knife", "str_pl": "chef knives" },
+    "copy-from": "knife_chef",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "knife_carving",
+    "type": "GENERIC",
+    "name": { "str": "carving knife", "str_pl": "carving knives" },
+    "copy-from": "knife_carving",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "knife_bread",
+    "type": "GENERIC",
+    "name": { "str": "bread knife", "str_pl": "bread knives" },
+    "copy-from": "knife_bread",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "knife_vegetable_cleaver",
+    "type": "GENERIC",
+    "name": { "str": "vegetable cleaver" },
+    "copy-from": "knife_vegetable_cleaver",
+    "category": "tools_cooking"
+  },
+  {
+    "id": "knife_meat_cleaver",
+    "type": "GENERIC",
+    "name": { "str": "meat cleaver" },
+    "copy-from": "knife_meat_cleaver",
+    "category": "tools_cooking"
   }
 ]
