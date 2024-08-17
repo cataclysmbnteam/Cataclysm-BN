@@ -422,7 +422,7 @@
   {
     "id": "bionic_scanner_on",
     "type": "TOOL",
-    "name": { "str": "bionic scanner" },
+    "name": { "str": "bionic scanner (on)" },
     "copy-from": "bionic_scanner_on",
     "category": "electronics"
   },
@@ -806,7 +806,7 @@
   },
   {
     "id": "magnifying_glass",
-    "type": "TOOL",
+    "type": "GENERIC",
     "name": { "str": "magnifying glass", "str_pl": "magnifying glasses" },
     "copy-from": "magnifying_glass",
     "category": "tools_cooking"
@@ -1016,7 +1016,7 @@
   },
   {
     "id": "trimmer_off",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "hedge trimmer (off)", "str_pl": "hedge trimmers (off)" },
     "copy-from": "trimmer_off",
     "category": "tools_farming"
@@ -1128,7 +1128,7 @@
   },
   {
     "id": "vacutainer",
-    "type": "GENERIC",
+    "type": "CONTAINER",
     "name": { "str": "blood draw kit" },
     "copy-from": "vacutainer",
     "category": "tools_chemistry"
@@ -1702,21 +1702,21 @@
   },
   {
     "id": "needle_wood",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "wooden needle" },
     "copy-from": "needle_wood",
     "category": "tools_workshop"
   },
   {
     "id": "sewing_kit",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "sewing kit" },
     "copy-from": "sewing_kit",
     "category": "tools_workshop"
   },
   {
     "id": "tailors_kit",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "tailor's kit" },
     "copy-from": "tailors_kit",
     "category": "tools_workshop"
@@ -2032,7 +2032,7 @@
   {
     "id": "mobile_memory_card_science",
     "type": "GENERIC",
-    "name": { "str": "SD-Memory card (encrypted)", "str_pl": "SD-Memory cards (encrypted)" },
+    "name": { "str": "Science SD-Memory card" },
     "copy-from": "mobile_memory_card_science",
     "category": "maps"
   },
@@ -2123,14 +2123,14 @@
   {
     "id": "software_train_data",
     "type": "GENERIC",
-    "name": { "str_sp": "neural data" },
+    "name": { "str_sp": "train data" },
     "copy-from": "software_train_data",
     "category": "maps"
   },
   {
     "id": "mind_scan_robofac",
     "type": "GENERIC",
-    "name": { "str": "makeshift hand drill" },
+    "name": { "str_sp": "neural data" },
     "copy-from": "mind_scan_robofac",
     "category": "maps"
   },
@@ -2227,56 +2227,56 @@
   },
   {
     "id": "knife_butcher",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "butcher knife", "str_pl": "butcher knives" },
     "copy-from": "knife_butcher",
     "category": "tools_cooking"
   },
   {
     "id": "knife_steak",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "steak knife", "str_pl": "steak knives" },
     "copy-from": "knife_steak",
     "category": "tools_cooking"
   },
   {
     "id": "knife_paring",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "paring knife", "str_pl": "paring knives" },
     "copy-from": "knife_paring",
     "category": "tools_cooking"
   },
   {
     "id": "knife_chef",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "chef knife", "str_pl": "chef knives" },
     "copy-from": "knife_chef",
     "category": "tools_cooking"
   },
   {
     "id": "knife_carving",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "carving knife", "str_pl": "carving knives" },
     "copy-from": "knife_carving",
     "category": "tools_cooking"
   },
   {
     "id": "knife_bread",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "bread knife", "str_pl": "bread knives" },
     "copy-from": "knife_bread",
     "category": "tools_cooking"
   },
   {
     "id": "knife_vegetable_cleaver",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "vegetable cleaver" },
     "copy-from": "knife_vegetable_cleaver",
     "category": "tools_cooking"
   },
   {
     "id": "knife_meat_cleaver",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "meat cleaver" },
     "copy-from": "knife_meat_cleaver",
     "category": "tools_cooking"
