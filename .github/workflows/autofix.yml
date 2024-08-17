@@ -72,5 +72,5 @@ jobs:
       - name: lint and test typescript files
         run: |
           deno lint
-          deno test
+          deno test --allow-read
           deno run --allow-read --allow-write scripts/semantic.ts
