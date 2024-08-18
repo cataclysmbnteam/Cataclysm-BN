@@ -2013,133 +2013,133 @@
     "type": "GENERIC",
     "name": { "str": "SD-Memory card" },
     "copy-from": "mobile_memory_card",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "mobile_memory_card_used",
     "type": "GENERIC",
     "name": { "str": "SD-Memory card (clean)", "str_pl": "SD-Memory cards (clean)" },
     "copy-from": "mobile_memory_card_used",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "mobile_memory_card_encrypted",
     "type": "GENERIC",
     "name": { "str": "SD-Memory card (encrypted)", "str_pl": "SD-Memory cards (encrypted)" },
     "copy-from": "mobile_memory_card_encrypted",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "mobile_memory_card_science",
     "type": "GENERIC",
     "name": { "str": "Science SD-Memory card" },
     "copy-from": "mobile_memory_card_science",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "id_science",
     "type": "GENERIC",
     "name": { "str": "science ID card" },
     "copy-from": "id_science",
-    "category": "maps"
+    "category": "tools_entry"
   },
   {
     "id": "id_military",
     "type": "GENERIC",
     "name": { "str": "military ID card" },
     "copy-from": "id_military",
-    "category": "maps"
+    "category": "tools_entry"
   },
   {
     "id": "id_industrial",
     "type": "GENERIC",
     "name": { "str": "industrial ID card" },
     "copy-from": "id_industrial",
-    "category": "maps"
+    "category": "tools_entry"
   },
   {
     "id": "usb_drive",
     "type": "GENERIC",
     "name": { "str": "USB drive" },
     "copy-from": "usb_drive",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "data_card",
     "type": "GENERIC",
     "name": { "str": "data card" },
     "copy-from": "data_card",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "fema_data",
     "type": "GENERIC",
     "name": { "str_sp": "FEMA data" },
     "copy-from": "fema_data",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "software_useless",
     "type": "GENERIC",
     "name": { "str_sp": "misc software" },
     "copy-from": "software_useless",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "software_hacking",
     "type": "GENERIC",
     "name": { "str_sp": "hackPRO" },
     "copy-from": "software_hacking",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "software_medical",
     "type": "GENERIC",
     "name": { "str_sp": "MediSoft" },
     "copy-from": "software_medical",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "software_math",
     "type": "GENERIC",
     "name": { "str_sp": "MatheMAX" },
     "copy-from": "software_math",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "software_blood_data",
     "type": "GENERIC",
     "name": { "str_sp": "infection data" },
     "copy-from": "software_blood_data",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "software_lab_data",
     "type": "GENERIC",
     "name": { "str_sp": "lab data" },
     "copy-from": "software_lab_data",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "software_train_data",
     "type": "GENERIC",
     "name": { "str_sp": "train data" },
     "copy-from": "software_train_data",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "mind_scan_robofac",
     "type": "GENERIC",
     "name": { "str_sp": "neural data" },
     "copy-from": "mind_scan_robofac",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "software_electronics_reference",
     "type": "GENERIC",
     "name": { "str": "integrated circuit datasheet archives", "str_pl": "misc software" },
     "copy-from": "software_electronics_reference",
-    "category": "maps"
+    "category": "valuables"
   },
   {
     "id": "pot",

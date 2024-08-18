@@ -1404,7 +1404,7 @@
     "type": "AMMO",
     "name": { "str": "copper" },
     "copy-from": "copper",
-    "category": "rocks"
+    "category": "scrap_metal"
   },
   {
     "id": "cac2powder",

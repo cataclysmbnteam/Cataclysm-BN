@@ -257,7 +257,7 @@
   {
     "id": "maps",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "INFORMATION" },
+    "name": { "str": "MAPS" },
     "zone": "LOOT_MAP",
     "//": "Mods can inject themselves before containers maps and artifacts, 19 through 47.",
     "sort_rank": 50

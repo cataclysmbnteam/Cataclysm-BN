@@ -116,7 +116,7 @@
   {
     "id": "LOOT_MAP",
     "type": "LOOT_ZONE",
-    "name": "Loot: Information",
-    "description": "Destination for maps and memory cards."
+    "name": "Loot: Maps",
+    "description": "Destination for maps."
   }
 ]
