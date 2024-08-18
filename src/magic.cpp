@@ -1373,14 +1373,16 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
                     trait_cancel += ".";
                 }
             }
-            if( query_yn(
-                    _( "Learning this spell will make you a\n\n%s: %s\n\nand lock you out of\n\n%s\n\nContinue?" ),
-                    sp->spell_class->name(), sp->spell_class->desc(), trait_cancel ) ) {
-                guy.set_mutation( sp->spell_class );
-                guy.on_mutation_gain( sp->spell_class );
-                guy.add_msg_if_player( sp->spell_class.obj().desc() );
-            } else {
-                return;
+            if( !sp->spell_class->cancels.empty() ) {
+                if( query_yn(
+                        _( "Learning this spell will make you a\n\n%s: %s\n\nand lock you out of\n\n%s\n\nContinue?" ),
+                        sp->spell_class->name(), sp->spell_class->desc(), trait_cancel ) ) {
+                    guy.set_mutation( sp->spell_class );
+                    guy.on_mutation_gain( sp->spell_class );
+                    guy.add_msg_if_player( sp->spell_class.obj().desc() );
+                } else {
+                    return;
+                }
             }
         }
     }
