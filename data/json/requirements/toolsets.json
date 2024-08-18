@@ -10,14 +10,24 @@
     "id": "bullet_forming",
     "type": "requirement",
     "//": "Forming of bullets from raw materials",
-    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+    "tools": [ [ [ "press", -1 ], [ "press_workbench", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
   },
   {
     "id": "shot_forming",
     "type": "requirement",
     "//": "Forming of shot from raw materials, allows use of makeshift press",
     "//2": "Shotshell press being first on the list makes it require cutting quality to reverse instead of pulling",
-    "tools": [ [ [ "press_dowel", -1 ], [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+    "tools": [
+      [ [ "press_dowel", -1 ], [ "press", -1 ], [ "press_workbench", -1 ] ],
+      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
+    ]
+  },
+  {
+    "id": "rifle_bullet_forming",
+    "type": "requirement",
+    "//": "Forming of rifle bullets from raw materials",
+    "//2": "Reloading bench press being first on the list makes reversal bump required pulling quality up to level 2",
+    "tools": [ [ [ "press_workbench", -1 ], [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
   },
   {
     "id": "earthenware_firing",

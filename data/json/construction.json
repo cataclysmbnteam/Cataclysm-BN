@@ -4922,6 +4922,20 @@
   },
   {
     "type": "construction",
+    "id": "constr_gridreloadingpress",
+    "group": "place_reloading_press",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "press_workbench_item", 1 ] ], [ [ "cable", 5 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_reloading_station"
+  },
+  {
+    "type": "construction",
     "id": "constr_gridrvkitchen",
     "group": "place_rv_kitchen_unit",
     "category": "WORKSHOP",

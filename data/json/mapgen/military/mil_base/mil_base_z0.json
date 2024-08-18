@@ -501,8 +501,8 @@
         "  X  ss/u................u]h..O/ss  X ss|$.OOt##t..`O-uuu-...-S...+T-c..???.???..?|ss ,,,,b ,, x",
         "  X  ss/u.....uuuuuu.....u]...O/ss  X ss|$...h##h...O-u..z...-c...---c...........?|ss  ,, b,,,,x",
         "  X  ss/]]]]((]]]]]]((]]]]]..///ss  X ssw.....##....O-..h-...-S...+T-c...........?|ss  ,, b ,, x",
-        "  X  ss/.....................(>/ss  X ss|$........Y.l-tVV--d----d----c..iiiiiii..?|ss ,,, b ,, x",
-        "  X  ss/.....................(>/ss  X ss|$..l------=------.........>-...iiiiiii..?|ss ,,, b,,,,x",
+        "  X  ss/!....................(>/ss  X ss|$........Y.l-tVV--d----d----c..iiiiiii..?|ss ,,, b ,, x",
+        "  X  ss/V....................(>/ss  X ss|$..l------=------.........>-...iiiiiii..?|ss ,,, b,,,,x",
         "  X  ss///////////////////d/////ss  X ssw...Y-......................d...iiiiiii..?|ss  ,,,b ,, x",
         "  X  ss/th..$/uuuu$$/uuuu...u/ssss  X ss|$...=......................-...iiiiiii..?|ss ,,, b ,, x",
         "  X  ss/###..D......d.......u/ssss  X ss|$$OO-......................-c..iiiiiii..?|ss  ,, b,,, x",
@@ -561,6 +561,7 @@
         "ssss{{ssssssssssssssssssssssss  _____________1112111__________________________________ ,,;b,,, x"
       ],
       "palettes": [ "mil_base_palette" ],
+      "furniture": { "!": "f_reloading_station" },
       "items": {
         "M": [ { "item": "mil_base_bed_hospital", "chance": 50, "repeat": [ 1, 2 ] } ],
         "B": [ { "item": "mil_base_table_hospital", "chance": 25, "repeat": [ 1, 3 ] } ],

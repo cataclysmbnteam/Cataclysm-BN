@@ -47,5 +47,23 @@
     "symbol": ";",
     "color": "green",
     "qualities": [ [ "PULL", 2 ] ]
+  },
+  {
+    "id": "press_workbench_item",
+    "//": "Actual tool functions are on the furniture and its associated fake items, meant to be set up before use.",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "reloading press", "str_pl": "reloading presses" },
+    "description": "This is an all-in-one handloading tool consisting of a multi-stage press, bullet molds, a hotplate, and a collet puller for disassembling cartridges.  Once installed as furniture, it can handle both making your own ammunition and taking ammo apart for materials.",
+    "weight": "6 kg",
+    "volume": "2 L",
+    "price": "100 USD",
+    "price_postapoc": "20 USD",
+    "to_hit": -2,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "looks_like": "large_repairkit"
   }
 ]
