@@ -1418,7 +1418,7 @@
     "type": "AMMO",
     "name": { "str_sp": "tinder" },
     "copy-from": "tinder",
-    "category": "rocks"
+    "category": "scrap_wood"
   },
   {
     "id": "rock",
