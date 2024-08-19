@@ -228,6 +228,7 @@ static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
@@ -240,7 +241,6 @@ static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
 static const trait_flag_str_id trait_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_flag_str_id trait_flag_SAPIOVORE( "SAPIOVORE" );
 
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const itype_id itype_UPS( "UPS" );
@@ -3160,11 +3160,9 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
 
 void activity_handlers::cracking_do_turn( player_activity *act, player *p )
 {
-    auto cracking_tool = p->crafting_inventory().items_with( []( const item & it ) -> bool {
-        return it.has_flag( flag_SAFECRACK );
-    } );
-    if( cracking_tool.empty() && !p->has_bionic( bio_ears ) ) {
-        // We lost our cracking tool somehow, bail out.
+    // We got deafened in the middle of it and can't decode by touch, so bail out
+    if( p->is_deaf() && p->get_skill_level( skill_mechanics ) < 5 ) {
+        add_msg( m_bad, _( "You can't hear the tumblers anymore, so you stop." ) );
         act->set_to_null();
         return;
     }
