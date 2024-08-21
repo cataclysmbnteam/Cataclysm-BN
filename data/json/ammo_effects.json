@@ -48,8 +48,8 @@
   {
     "id": "PYROPHORIC",
     "type": "ammo_effect",
-    "aoe": { "field_type": "fd_fire", "intensity_min": 2, "intensity_max": 2, "radius": 3 },
-    "explosion": { "damage": 20, "radius": 7, "fire": true }
+    "aoe": { "field_type": "fd_incendiary", "intensity_min": 1, "intensity_max": 3, "radius": 7, "chance": 33 },
+    "explosion": { "damage": 20, "radius": 3 }
   },
   {
     "id": "ACID_TRAIL",

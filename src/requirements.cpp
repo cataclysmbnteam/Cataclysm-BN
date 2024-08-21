@@ -44,6 +44,7 @@ static const itype_id itype_mold_plastic( "mold_plastic" );
 static const itype_id itype_oxy_torch( "oxy_torch" );
 static const itype_id itype_press( "press" );
 static const itype_id itype_press_dowel( "press_dowel" );
+static const itype_id itype_press_workbench( "press_workbench" );
 static const itype_id itype_sewing_kit( "sewing_kit" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_welder( "welder" );
@@ -1022,6 +1023,7 @@ requirement_data requirement_data::disassembly_requirements() const
     bool remove_fire = false;
     bool bullet_pulling = false;
     bool bullet_pulling_shotshell = false;
+    bool bullet_pulling_rifle = false;
     for( auto &it : ret.tools ) {
         bool replaced = false;
         for( const auto &tool : it ) {
@@ -1047,6 +1049,14 @@ requirement_data requirement_data::disassembly_requirements() const
                 break;
             }
             // This ensures that you don't need a hand press to break down reloaded ammo.
+            // Put reloading bench press first instead to use level 1 pulling quality
+            if( type == itype_press_workbench ) {
+                replaced = true;
+                bullet_pulling = true;
+                bullet_pulling_rifle = true;
+                remove_fire = true;
+                break;
+            }
             // If the shotshell press is the first tool in the requirement, use cutting quality
             if( type == itype_press_dowel ) {
                 replaced = true;
@@ -1078,6 +1088,8 @@ requirement_data requirement_data::disassembly_requirements() const
     if( bullet_pulling ) {
         if( bullet_pulling_shotshell ) {
             new_qualities.emplace_back( quality_id( "CUT" ), 1, 1 );
+        } else if( bullet_pulling_rifle ) {
+            new_qualities.emplace_back( quality_id( "PULL" ), 1, 2 );
         } else {
             new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
         }

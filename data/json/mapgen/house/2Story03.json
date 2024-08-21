@@ -1,0 +1,158 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "2Story03_1",
+    "method": "json",
+    "object": {
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "......_____________.....",
+        "..%%%.____________?p....",
+        ".######===========##....",
+        ".#UUqq|````````````#....",
+        ".o````|````````````#....",
+        ".#Z``N|````````````#....",
+        ".#W`AN|````````````#-0..",
+        ".o```N|````````````#)0..",
+        ".#````+```````````z#)0..",
+        ".#g`zz|```````````z#)0..",
+        ".#||||||+||||||||||#*#..",
+        ".#H l s   RRR VVVy ,,o..",
+        ".oH l x            LƏ#..",
+        ".#H l x   h h     ####^.",
+        "^#H      hfffh ///1#%%..",
+        ".#s E     fff  ///2o....",
+        ".oy       h h  /n/J#....",
+        ".#             /5/O#....",
+        ".#+||RR     |||/J/Jo....",
+        ".o//||| ,,, +U|///F#....",
+        ".#tS|<  ,,, +U|6643#....",
+        ".#######o¶:#####o###....",
+        "........---.............",
+        "........................"
+      ],
+      "terrain": {
+        "=": "t_door_metal_locked",
+        "0": "t_railing_v",
+        ")": "t_floor_noroof",
+        "?": "t_gates_mech_control",
+        "N": "t_thconc_floor",
+        "Z": "t_thconc_floor",
+        "W": "t_thconc_floor",
+        "U": "t_thconc_floor",
+        "q": "t_thconc_floor",
+        "g": "t_thconc_floor",
+        "z": "t_thconc_floor",
+        "A": "t_thconc_floor",
+        "/": "t_linoleum_gray",
+        ",": "t_carpet_purple",
+        "`": "t_thconc_floor"
+      },
+      "place_loot": [ { "item": "television", "x": 6, "y": 12 } ],
+      "place_nested": [ { "chunks": [ "NC_res_backyard_3X3" ], "x": 20, "y": 19 } ],
+      "place_vehicles": [
+        { "vehicle": "car_sports", "x": 15, "y": 6, "chance": 15, "fuel": 80, "status": 50, "rotation": 270 },
+        { "vehicle": "electric_car", "x": 10, "y": 6, "chance": 15, "fuel": 80, "status": 50, "rotation": 270 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "2Story03_2",
+    "method": "json",
+    "object": {
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "........................",
+        "........................",
+        ".}}}}}}}}}}}}}}}}}}}....",
+        ".}))))~~~???)))₸)K₸}....",
+        ".})))))))))))))))))}....",
+        ".##:¶###o##o##)))))}....",
+        ".#s  y|D  rrr##:¶:####..",
+        ".#H   |    h |y    dd#..",
+        ".oH  x|@@    |D     ¤#..",
+        ".#H  x|@@    |x    @@o..",
+        ".#H   |¤   dd|x    @@o..",
+        ".os   |||+||||      ¤#..",
+        ".#//         +  III b#^.",
+        "^#T/  R|++|  ||+|||###..",
+        ".#E/  R|Lz|V |__|dD#....",
+        ".#//  |||||Ə |tS|  #....",
+        ".o    +z|q+  ||||+|#....",
+        ".#   R|||||| +    R#....",
+        ".oƏ  R|w|BB|+|     o....",
+        ".#Ə  ||_+____|  @@ #....",
+        ".#y  >|Q|t8S8|ɸ @@¤#....",
+        ".##o######o####o####....",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        ".": "t_open_air",
+        "_": "t_linoleum_gray",
+        "}": "t_glass_railing",
+        ")": "t_floor_noroof",
+        "/": "t_carpet_yellow",
+        "~": "t_floor_noroof",
+        "?": "t_floor_noroof",
+        "₸": "t_floor_noroof",
+        "K": "t_floor_noroof",
+        "E": "t_carpet_yellow",
+        "T": "t_carpet_yellow"
+      },
+      "place_loot": [ { "item": "television", "x": 14, "y": 9 }, { "item": "television", "x": 5, "y": 8 } ],
+      "sealed_item": {
+        "?": { "item": { "item": "seed_tomato" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "~": { "item": { "item": "seed_cucumber" }, "furniture": "f_planter_seedling", "chance": 100 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "2Story03_roof",
+    "method": "json",
+    "object": {
+      "palettes": [ "roof_palette" ],
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |||||||||||||          ",
+        " |...........|||||||||  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...........X.......|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................5  ",
+        " 5.................|||  ",
+        " |..............N..|    ",
+        " |.................|    ",
+        " |.................|    ",
+        " |.................|    ",
+        " |.................|    ",
+        " |.................|    ",
+        " |.................|    ",
+        " |||||||||||||||||||    ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 4, "y": 10 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": 12, "y": 18 }
+      ]
+    }
+  }
+]

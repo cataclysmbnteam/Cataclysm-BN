@@ -1958,18 +1958,17 @@ void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_ma
 {
     for( std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
         bodypart &bp = get_part( part.first );
+        float hp_ratio = static_cast<float>( bp.get_hp_cur() ) / bp.get_hp_max();
         int new_max = ( part.first->base_hp + str_max * 3 + hp_adjustment ) * hp_mod;
 
         if( has_trait( trait_GLASSJAW ) && part.first == bodypart_str_id( "head" ) ) {
             new_max *= 0.8;
         }
 
-        float max_hp_ratio = static_cast<float>( new_max ) /
-                             static_cast<float>( bp.get_hp_max() );
+        new_max = std::max( new_max, 1 );
+        int new_cur = std::ceil( static_cast<float>( new_max ) * hp_ratio );
 
-        int new_cur = std::ceil( static_cast<float>( bp.get_hp_cur() ) * max_hp_ratio );
-
-        bp.set_hp_max( std::max( new_max, 1 ) );
+        bp.set_hp_max( new_max );
         bp.set_hp_cur( std::max( std::min( new_cur, new_max ), 0 ) );
     }
 }
@@ -2977,7 +2976,7 @@ invlets_bitset Character::allocated_invlets() const
 bool Character::has_active_item( const itype_id &id ) const
 {
     return has_item_with( [id]( const item & it ) {
-        return it.active && it.typeId() == id;
+        return it.is_active() && it.typeId() == id;
     } );
 }
 
@@ -4324,7 +4323,7 @@ bool Character::is_wearing_power_armor( bool *hasHelmet ) const
 bool Character::is_wearing_active_power_armor() const
 {
     for( const auto &w : worn ) {
-        if( w->has_flag( flag_POWERARMOR_EXO ) && w->active ) {
+        if( w->has_flag( flag_POWERARMOR_EXO ) && w->is_active() ) {
             return true;
         }
     }
@@ -4334,7 +4333,7 @@ bool Character::is_wearing_active_power_armor() const
 bool Character::is_wearing_active_optcloak() const
 {
     for( const auto &w : worn ) {
-        if( w->active && w->has_flag( flag_ACTIVE_CLOAKING ) ) {
+        if( w->is_active() && w->has_flag( flag_ACTIVE_CLOAKING ) ) {
             return true;
         }
     }
@@ -9302,7 +9301,7 @@ void Character::spores()
         if( sporep == pos() ) {
             continue;
         }
-        fe.fungalize( sporep, this, 0.25 );
+        fe.fungalize( sporep, this, fungal_opt.spore_chance );
     }
 }
 

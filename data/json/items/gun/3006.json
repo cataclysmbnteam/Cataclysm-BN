@@ -9,7 +9,7 @@
     "volume": "3 L",
     "price": "850 USD",
     "price_postapoc": "30 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": "3006",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },

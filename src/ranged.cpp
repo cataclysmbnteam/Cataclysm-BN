@@ -1211,12 +1211,12 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
 
     if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
         proj.add_effect( ammo_effect_ACT_ON_RANGED_HIT );
-        thrown.active = true;
+        thrown.activate();
     }
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
-    const bool shatter = !thrown.active && thrown.can_shatter() &&
+    const bool shatter = !thrown.is_active() && thrown.can_shatter() &&
                          rng( 0, units::to_milliliter( 2_liter - volume ) ) < who.get_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
@@ -1231,7 +1231,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
 
     proj.add_effect( ammo_effect_NO_ITEM_DAMAGE );
 
-    if( thrown.active ) {
+    if( thrown.is_active() ) {
         // Can't have Molotovs embed into monsters
         // Monsters don't have inventory processing
         proj.add_effect( ammo_effect_NO_EMBED );
@@ -1732,7 +1732,9 @@ static projectile make_gun_projectile( const item &gun )
 
         if( recover && !fx.has_effect( ammo_effect_IGNITE ) && !fx.has_effect( ammo_effect_EXPLOSIVE ) ) {
             detached_ptr<item> drop = item::spawn( gun.ammo_current(), calendar::turn, 1 );
-            drop->active = fx.has_effect( ammo_effect_ACT_ON_RANGED_HIT );
+            if( fx.has_effect( ammo_effect_ACT_ON_RANGED_HIT ) ) {
+                drop->activate();
+            }
             proj.set_drop( std::move( drop ) );
         }
 

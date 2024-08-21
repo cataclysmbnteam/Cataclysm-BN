@@ -988,36 +988,8 @@ void avatar_action::plthrow( avatar &you, item *loc,
                          ( *loc, blind_throw_from_pos ) ), false );
 }
 
-static void make_active( item &loc )
-{
-    map &here = get_map();
-    switch( loc.where() ) {
-        case item_location_type::map:
-            here.make_active( loc );
-            break;
-        case item_location_type::vehicle:
-            here.veh_at( loc.position() )->vehicle().make_active( loc );
-            break;
-        default:
-            break;
-    }
-}
-
-static void update_lum( item &loc, bool add )
-{
-    switch( loc.where() ) {
-        case item_location_type::map:
-            get_map().update_lum( loc, add );
-            break;
-        default:
-            break;
-    }
-}
-
 void avatar_action::use_item( avatar &you, item *loc )
 {
-    // Some items may be used without being picked up first
-    bool use_in_place = false;
 
     if( !loc ) {
         loc = game_menus::inv::use( you );
@@ -1027,9 +999,7 @@ void avatar_action::use_item( avatar &you, item *loc )
             return;
         }
 
-        if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
-            use_in_place = true;
-        } else {
+        if( !loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
             const int obtain_cost = loc->obtain_cost( you );
             loc->obtain( you );
 
@@ -1039,15 +1009,7 @@ void avatar_action::use_item( avatar &you, item *loc )
         }
     }
 
-    if( use_in_place ) {
-        update_lum( *loc, false );
-        avatar_funcs::use_item( you, *loc );
-        update_lum( *loc, true );
-
-        make_active( *loc );
-    } else {
-        avatar_funcs::use_item( you, *loc );
-    }
+    avatar_funcs::use_item( you, *loc );
 
     you.invalidate_crafting_inventory();
 }

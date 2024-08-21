@@ -2285,6 +2285,10 @@ void options_manager::add_options_debug()
     add( "MAX_AUTODRIVE_SPEED", debug, translate_marker( "Maximum auto-drive speed" ),
          translate_marker( "Set the maximum speed for the auto-drive feature.  In tiles/s.  Default is 9 (57 km/h or 36 mph)." ),
          1, 100, 9 );
+
+    add( "LIMITED_BAYONETS", debug, translate_marker( "New bayonet system" ),
+         translate_marker( "If true, bayonets replace weapon attack instead of adding to it.  WIP feature, weakens bayonets heavily at the moment." ),
+         false );
 }
 
 void options_manager::add_options_world_default()
@@ -3475,6 +3479,21 @@ void options_manager::load()
 
     cache_to_globals();
 }
+
+void options_manager::cache_balance_options()
+{
+    fungal_opt.young_allowed = ::get_option<bool>( "MON_FUNGALOID_YOUNG_ALLOWED" );
+    fungal_opt.spread_on_flat_tiles_allowed
+        = ::get_option<bool>( "FUNGUS_SPREAD_ON_FLAT_TILES_ALLOWED" );
+    fungal_opt.young_spawn_base_rate = ::get_option<int>( "MON_FUNGALOID_YOUNG_SPAWN_BASE_RATE" );
+    fungal_opt.young_spawn_bubble_creatures_divider
+        = ::get_option<int>( "MON_FUNGALOID_YOUNG_SPAWN_BUBBLE_CREATURES_DIVIDER" );
+    fungal_opt.spore_chance = ::get_option<float>( "FUNGUS_SPORE_CHANCE" );
+    fungal_opt.advanced_creatures_threshold
+        = ::get_option<int>( "FUNGUS_ADVANCED_CREATURES_THRESHOLD" );
+    fungal_opt.spore_creatures_threshold = ::get_option<int>( "FUNGUS_SPORE_CREATURES_THRESHOLD" );
+}
+
 
 bool options_manager::has_option( const std::string &name ) const
 {

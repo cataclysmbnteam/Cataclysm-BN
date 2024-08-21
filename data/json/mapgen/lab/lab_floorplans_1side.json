@@ -222,7 +222,7 @@
       "fill_ter": "t_strconc_floor",
       "rows": [
         "|--------|-..-|--------|",
-        "|,,Ccxc,,|....|,,,,,,,,|",
+        "|,,C8cc,,|....|,,,,,,,,|",
         "|,,,,,,,,|....|r,,,,dh,|",
         "|c,,,,,,l|6...|r,,,,ddd|",
         "|S,,,,,,l|-LL-|r,,,,,,,|",
@@ -255,7 +255,7 @@
         { "monster": "mon_zombie_scientist", "x": [ 11, 12 ], "y": [ 5, 10 ], "pack_size": [ 1, 2 ], "chance": 50 }
       ],
       "furniture": { "^": "f_indoor_plant", "C": "f_centrifuge" },
-      "terrain": { "7": "t_console", "C": "t_strconc_floor" },
+      "terrain": { "7": "t_console", "8": "t_console", "C": "t_strconc_floor" },
       "mapping": {
         "X": { "items": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30 } ] },
         "r": { "items": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30 } ] },
@@ -276,6 +276,11 @@
           "security": 4,
           "options": [ { "name": "EMERGENCY CONTAINMENT RELEASE", "action": "open", "security": 5 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        },
+        "8": {
+          "name": "Centrifuge",
+          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
+          "failures": [ { "action": "destroy_blood" } ]
         }
       },
       "place_nested": [

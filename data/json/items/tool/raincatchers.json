@@ -20,7 +20,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the birchbark funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "funnel",
@@ -44,7 +45,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "leather_funnel",
@@ -67,7 +69,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the leather funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "makeshift_funnel",
@@ -90,7 +93,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the makeshift funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "metal_funnel",
@@ -114,7 +118,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the metal funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tarp_raincatcher",
@@ -136,6 +141,7 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You set up the raincatcher, waiting to collect water."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]

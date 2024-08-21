@@ -641,7 +641,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `autoclave_full` Check on the progress of the cycle, and collect sterile CBM once cycle is
   completed.
 - `bars` Take advantage of AMORPHOUS and slip through the bars.
-- `bulletin_board` Use this to arrange tasks for your faction camp.
 - `cardreader` Use the cardreader with a valid card, or attempt to hack.
 - `chainfence` Hop over the chain fence.
 - `controls_gate` Controls the attached gate.
@@ -1043,6 +1042,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - `HEARS` It can hear you.
 - `HIT_AND_RUN` Flee for several turns after a melee attack.
 - `HUMAN` It's a live human, as long as it's alive.
+- `MF_CARD_OVERRIDE` Not a mech, but can be converted to friendly using an ID card in the same way
+  that mechs can.
 - `CONSOLE_DESPAWN` Despawns when a nearby console is properly hacked.
 - `IMMOBILE` Doesn't move (e.g. turrets)
 - `ID_CARD_DESPAWN` Despawns when a science ID card is used on a nearby console
@@ -1055,7 +1056,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - `MECH_RECON_VISION` This mech grants you night-vision and enhanced overmap sight radius when
   piloted.
 - `MECH_DEFENSIVE` This mech can protect you thoroughly when piloted.
-- `MILITARY_MECH` Is a military-grade mech.
+- `MILITARY_MECH` Will demand a military ID card instead of an industrial one. Doesn't actually have
+  to be a mech.
 - `MILKABLE` Produces milk when milked.
 - `NIGHT_INVISIBILITY` Monster becomes invisible if it's more than one tile away and the lighting on
   its tile is LL_LOW or less. Visibility is not affected by night vision.
@@ -1071,7 +1073,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - `NULL` Source use only.
 - `PACIFIST` That monster will never do melee attacks.
 - `PARALYZE` Attack may paralyze the player with venom.
-- `PLASTIC` Absorbs physical damage to a great degree.
+- `PLASTIC` Reduces Bashing damage taken by 50%, 66% or 75%. Randomly selected with each hit.
 - `POISON` Poisonous to eat.
 - `PUSH_MON` Can push creatures out of its way.
 - `QUEEN` When it dies, local populations start to die off too.
@@ -1515,6 +1517,9 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `NO_PARASITES` Invalidates parasites count set in food->type->comestible->parasites
 - `QUARTERED` Corpse was quartered into parts. Affects butcher results, weight, volume.
 - `REVIVE_SPECIAL` ... Corpses revives when the player is nearby.
+- `SPAWN_FRIENDLY` Applied to eggs laid by pets and to pet bots reverted to items. Any monster that
+  hatches from said egg will also spawn friendly, and deployable bots flagged with this will skip
+  checking for player skills since it's already been configured correctly once already.
 - `USE_UPS` The tool has the UPS mod and is charged from an UPS.
 - `WARM` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - `WET` Item is wet and will slowly dry off (e.g. towel).

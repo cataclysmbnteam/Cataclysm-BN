@@ -438,7 +438,7 @@ void remove_radio_mod( item &it, player &p )
 static bool check_litcig( player &u )
 {
     auto cigs = u.items_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_LITCIG );
+        return it.is_active() && it.has_flag( flag_LITCIG );
     } );
     if( cigs.empty() ) {
         return true;
@@ -579,7 +579,7 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
     }
     // If we're here, we better have a cig to light.
     p->use_charges_if_avail( itype_fire, 1 );
-    cig->active = true;
+    cig->activate();
     p->add_msg_if_player( m_neutral, _( "You light a %s." ), cig->tname() );
 
     p->i_add( std::move( cig ) );
@@ -1782,8 +1782,8 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
 {
     if( !t ) {
         // Handle deploying fish trap.
-        if( it->active ) {
-            it->active = false;
+        if( it->is_active() ) {
+            it->deactivate();
             return 0;
         }
 
@@ -1818,7 +1818,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
         if( !good_fishing_spot( pnt ) ) {
             return 0;
         }
-        it->active = true;
+        it->activate();
         it->set_age( 0_turns );
         g->m.add_item_or_charges( pnt, it->detach() );
         p->add_msg_if_player( m_info,
@@ -1829,11 +1829,11 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
     } else {
         // Handle processing fish trap over time.
         if( it->charges == 0 ) {
-            it->active = false;
+            it->deactivate();
             return 0;
         }
         if( it->age() > 3_hours ) {
-            it->active = false;
+            it->deactivate();
 
             if( !g->m.has_flag( "FISHABLE", pos ) ) {
                 return 0;
@@ -1981,7 +1981,7 @@ int iuse::unpack_item( player *p, item *it, bool, const tripoint & )
     p->moves -= to_moves<int>( 10_seconds );
     p->add_msg_if_player( _( "You unpack your %s for use." ), it->tname() );
     it->convert( itype_id( oname ) );
-    it->active = false;
+    it->deactivate();
     return 0;
 }
 
@@ -2039,7 +2039,7 @@ int iuse::pack_item( player *p, item *it, bool t, const tripoint & )
         p->moves -= to_moves<int>( 10_seconds );
         p->add_msg_if_player( _( "You pack your %s for storage." ), it->tname() );
         it->convert( itype_id( oname ) );
-        it->active = false;
+        it->deactivate();
     }
     return 0;
 }
@@ -2082,7 +2082,7 @@ int iuse::radio_off( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( _( "You turn the radio on." ) );
         it->convert( itype_radio_on );
-        it->active = true;
+        it->activate();
     }
     return it->type->charges_to_use();
 }
@@ -2199,7 +2199,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             case 1:
                 p->add_msg_if_player( _( "The radio dies." ) );
                 it->convert( itype_radio );
-                it->active = false;
+                it->deactivate();
                 sfx::fade_audio_channel( sfx::channel::radio, 300 );
                 break;
             default:
@@ -2216,7 +2216,7 @@ int iuse::noise_emitter_off( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( _( "You turn the noise emitter on." ) );
         it->convert( itype_noise_emitter_on );
-        it->active = true;
+        it->activate();
     }
     return it->type->charges_to_use();
 }
@@ -2230,7 +2230,7 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
     } else { // Turning it off
         p->add_msg_if_player( _( "The infernal racket dies as the noise emitter turns off." ) );
         it->convert( itype_noise_emitter );
-        it->active = false;
+        it->deactivate();
     }
     return it->type->charges_to_use();
 }
@@ -2239,7 +2239,7 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
 int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
 {
     if( !t ) {
-        it->deactivate( p, true );
+        it->deactivate();
         return 0;
     }
     if( !p->is_avatar() ) {
@@ -2249,7 +2249,7 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
     map &here = get_map();
 
     if( !p->has_enough_charges( *it, false ) ) {
-        it->deactivate( p, true );
+        it->deactivate();
         return 0;
     }
     for( const tripoint &pt : here.points_in_radius( pos, PICKUP_RANGE ) ) {
@@ -2926,7 +2926,7 @@ static int toolweapon_off( player &p, item &it, const bool fast_startup,
         p.add_msg_if_player( msg_success );
         // 4 is the length of "_off".
         it.convert( itype_id( it.typeId().str().substr( 0, it.typeId().str().size() - 4 ) + "_on" ) );
-        it.active = true;
+        it.activate();
         return it.type->charges_to_use();
     } else {
         if( it.typeId() == itype_chainsaw_off ) {
@@ -3025,7 +3025,7 @@ static int toolweapon_on( player &p, item &it, const bool t,
         if( !works_underwater && p.is_underwater() ) {
             p.add_msg_if_player( _( "Your %s gurgles in the water and stops." ), tname );
             it.convert( itype_id( off_type ) );
-            it.active = false;
+            it.deactivate();
         } else if( one_in( sound_chance ) ) {
             sounds::ambient_sound( p.pos(), volume, sounds::sound_t::activity, sound );
         }
@@ -3037,7 +3037,7 @@ static int toolweapon_on( player &p, item &it, const bool t,
         }
         p.add_msg_if_player( _( "Your %s goes quiet." ), tname );
         it.convert( itype_id( off_type ) );
-        it.active = false;
+        it.deactivate();
         return 0; // Don't consume charges when turning off.
     }
     return it.type->charges_to_use();
@@ -3353,7 +3353,7 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
     if( it->typeId() == itype_geiger_on ) {
         add_msg( _( "The geiger counter's SCANNING LED turns off." ) );
         it->convert( itype_geiger_off );
-        it->active = false;
+        it->deactivate();
         return 0;
     }
 
@@ -3392,7 +3392,7 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
         case 2:
             p->add_msg_if_player( _( "The geiger counter's scan LED turns on." ) );
             it->convert( itype_geiger_on );
-            it->active = true;
+            it->activate();
             break;
         default:
             return 0;
@@ -3494,7 +3494,7 @@ int iuse::throwable_extinguisher_act( player *, item *it, bool, const tripoint &
         it->charges = -1;
         return 1;
     }
-    it->active = false;
+    it->deactivate();
     return 0;
 }
 
@@ -3503,7 +3503,7 @@ int iuse::granade( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( _( "You pull the pin on the Granade." ) );
     it->convert( itype_granade_act );
     it->charges = 5;
-    it->active = true;
+    it->activate();
     return it->type->charges_to_use();
 }
 
@@ -3663,7 +3663,7 @@ int iuse::c4( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( _( "You set the timer to %d." ), time );
     it->convert( itype_c4armed );
     it->charges = time;
-    it->active = true;
+    it->activate();
     return it->type->charges_to_use();
 }
 
@@ -3761,7 +3761,7 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
         if( one_in( 5 ) ) {
             p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
             it->convert( itype_molotov );
-            it->active = false;
+            it->deactivate();
         }
         return 0;
     }
@@ -3782,7 +3782,7 @@ int iuse::firecracker_pack( player *p, item *it, bool, const tripoint & )
     it->convert( itype_firecracker_pack_act );
     it->charges = 26;
     it->set_age( 0_turns );
-    it->active = true;
+    it->activate();
     return 0; // don't use any charges at all. it has became a new item
 }
 
@@ -3822,7 +3822,7 @@ int iuse::firecracker( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( _( "You light the firecracker." ) );
     it->convert( itype_firecracker_act );
     it->charges = 2;
-    it->active = true;
+    it->activate();
     return it->type->charges_to_use();
 }
 
@@ -3856,7 +3856,7 @@ int iuse::mininuke( player *p, item *it, bool, const tripoint & )
     g->events().send<event_type::activates_mininuke>( p->getID() );
     it->convert( itype_mininuke_act );
     it->charges = time;
-    it->active = true;
+    it->activate();
     return it->type->charges_to_use();
 }
 
@@ -4016,16 +4016,16 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You put in the earbuds and start listening to music." ) );
         if( it->typeId() == itype_mp3 ) {
             it->convert( itype_mp3_on );
-            it->active = true;
+            it->activate();
         } else if( it->typeId() == itype_smart_phone ) {
             it->convert( itype_smartphone_music );
-            it->active = true;
+            it->activate();
         } else if( it->typeId() == itype_afs_atomic_smartphone ) {
             it->convert( itype_afs_atomic_smartphone_music );
-            it->active = true;
+            it->activate();
         } else if( it->typeId() == itype_afs_wraitheon_smartphone ) {
             it->convert( itype_afs_atomic_wraitheon_music );
-            it->active = true;
+            it->activate();
         }
         p->mod_moves( -200 );
     }
@@ -4104,19 +4104,19 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
         if( it->typeId() == itype_mp3_on ) {
             p->add_msg_if_player( _( "The mp3 player turns off." ) );
             it->convert( itype_mp3 );
-            it->active = false;
+            it->deactivate();
         } else if( it->typeId() == itype_smartphone_music ) {
             p->add_msg_if_player( _( "The phone turns off." ) );
             it->convert( itype_smart_phone );
-            it->active = false;
+            it->deactivate();
         } else if( it->typeId() == itype_afs_atomic_smartphone_music ) {
             p->add_msg_if_player( _( "The phone turns off." ) );
             it->convert( itype_afs_atomic_smartphone );
-            it->active = false;
+            it->deactivate();
         } else if( it->typeId() == itype_afs_atomic_wraitheon_music ) {
             p->add_msg_if_player( _( "The phone turns off." ) );
             it->convert( itype_afs_wraitheon_smartphone );
-            it->active = false;
+            it->deactivate();
         }
         p->mod_moves( -200 );
     }
@@ -4161,24 +4161,24 @@ int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
                 it->set_var( "overwrite_env_resist", 0 );
                 it->convert( itype_id( it->typeId().str().substr( 0,
                                        it->typeId().str().size() - 3 ) ) );
-                it->active = false; // 3 = "_on"
+                it->deactivate(); // 3 = "_on"
             }
         } else { // not worn = off thanks to on-demand regulator
             it->set_var( "overwrite_env_resist", 0 );
             it->convert( itype_id( it->typeId().str().substr( 0,
                                    it->typeId().str().size() - 3 ) ) );
-            it->active = false; // 3 = "_on"
+            it->deactivate(); // 3 = "_on"
         }
 
     } else { // Turning it on/off
         if( it->charges == 0 ) {
             p->add_msg_if_player( _( "Your %s is empty." ), it->tname() );
-        } else if( it->active ) { //off
+        } else if( it->is_active() ) { //off
             p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
             it->set_var( "overwrite_env_resist", 0 );
             it->convert( itype_id( it->typeId().str().substr( 0,
                                    it->typeId().str().size() - 3 ) ) );
-            it->active = false; // 3 = "_on"
+            it->deactivate(); // 3 = "_on"
         } else { //on
             if( !p->is_worn( *it ) ) {
                 p->add_msg_if_player( _( "You should wear it first." ) );
@@ -4186,7 +4186,7 @@ int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
                 p->add_msg_if_player( _( "You turn on the regulator and open the air valve." ) );
                 it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
                 it->convert( itype_id( it->typeId().str() + "_on" ) );
-                it->active = true;
+                it->activate();
             }
         }
     }
@@ -4194,7 +4194,7 @@ int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
         it->set_var( "overwrite_env_resist", 0 );
         it->convert( itype_id( it->typeId().str().substr( 0,
                                it->typeId().str().size() - 3 ) ) );
-        it->active = false; // 3 = "_on"
+        it->deactivate(); // 3 = "_on"
     }
     return it->type->charges_to_use();
 }
@@ -4239,7 +4239,7 @@ int iuse::solarpack_off( player *p, item *it, bool, const tripoint & )
     // 3 = "_on"
     it->convert( itype_id( it->typeId().str().substr( 0,
                            it->typeId().str().size() - 3 ) ) );
-    it->active = false;
+    it->deactivate();
     return 0;
 }
 
@@ -4272,13 +4272,13 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
             p->add_msg_if_player( _( "Your %s don't have a filter." ), it->tname() );
         } else {
             p->add_msg_if_player( _( "You prepared your %s." ), it->tname() );
-            it->active = true;
+            it->activate();
             it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
         }
     }
     if( it->charges == 0 ) {
         it->set_var( "overwrite_env_resist", 0 );
-        it->active = false;
+        it->deactivate();
     }
     return it->type->charges_to_use();
 }
@@ -5443,7 +5443,7 @@ int iuse::towel_common( player *p, item *it, bool t )
 
             // WET, active items have their timer decremented every turn
             it->set_flag( flag_WET );
-            it->active = true;
+            it->activate();
         }
     }
     return it ? it->type->charges_to_use() : 0;
@@ -6222,7 +6222,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             const int songs = it->get_var( "EIPC_MUSIC", 0 );
             play_music( *p, pos, 8, std::min( 25, songs ) );
         } else {
-            it->active = false;
+            it->deactivate();
             it->erase_var( "EIPC_MUSIC_ON" );
             p->add_msg_if_player( m_info, _( "Tablet's batteries are dead." ) );
         }
@@ -6265,7 +6265,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
         const int songs = it->get_var( "EIPC_MUSIC", 0 );
         if( songs > 0 ) {
-            if( it->active ) {
+            if( it->is_active() ) {
                 amenu.addentry( ei_music, true, 'm', _( "Turn music off" ) );
             } else {
                 amenu.addentry( ei_music, true, 'm', _( "Turn music on [%d]" ), songs );
@@ -6355,13 +6355,13 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
             p->moves -= 30;
 
-            if( it->active ) {
-                it->active = false;
+            if( it->is_active() ) {
+                it->deactivate();
                 it->erase_var( "EIPC_MUSIC_ON" );
 
                 p->add_msg_if_player( m_info, _( "You turned off music on your %s." ), it->tname() );
             } else {
-                it->active = true;
+                it->activate();
                 it->set_var( "EIPC_MUSIC_ON", "1" );
 
                 p->add_msg_if_player( m_info, _( "You turned on music on your %s." ), it->tname() );
@@ -7627,7 +7627,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
         if( g->m.has_flag( "SWIMMABLE", pos.xy() ) ) {
             it->unset_flag( flag_NO_UNWIELD );
             it->ammo_unset();
-            it->active = false;
+            it->deactivate();
             add_msg( m_good, _( "%s automatically turned off!" ), it->tname() );
             return it->type->charges_to_use();
         }
@@ -7636,7 +7636,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
 
             sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
             it->unset_flag( flag_NO_UNWIELD );
-            it->active = false;
+            it->deactivate();
 
             if( p->has_item( *it ) && p->primary_weapon().typeId() == itype_e_handcuffs ) {
                 add_msg( m_good, _( "%s on your hands opened!" ), it->tname() );
@@ -7652,7 +7652,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
 
                 it->unset_flag( flag_NO_UNWIELD );
                 it->ammo_unset();
-                it->active = false;
+                it->deactivate();
                 add_msg( m_good, _( "The %s crackle with electricity from your bionic, then come off your hands!" ),
                          it->tname() );
 
@@ -7703,7 +7703,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
 
     }
 
-    if( it->active ) {
+    if( it->is_active() ) {
         add_msg( _( "The %s are clamped tightly on your wrists.  You can't take them off." ),
                  it->tname() );
     } else {
@@ -7758,7 +7758,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
         }
 
         it->convert( itype_radio_car_on );
-        it->active = true;
+        it->activate();
 
         p->add_msg_if_player(
             _( "You turned on your RC car, now place it on ground, and use radio control to play." ) );
@@ -7818,7 +7818,7 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
         return it->type->charges_to_use();
     } else if( !it->ammo_sufficient() ) {
         // Deactivate since other mode has an iuse too.
-        it->active = false;
+        it->deactivate();
         return 0;
     }
 
@@ -7832,7 +7832,7 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
 
     if( choice == 0 ) {
         it->convert( itype_radio_car );
-        it->active = false;
+        it->deactivate();
 
         p->add_msg_if_player( _( "You turned off your RC car." ) );
         return it->type->charges_to_use();
@@ -7908,10 +7908,10 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
 {
     if( t ) {
         if( !it->units_sufficient( *p ) ) {
-            it->active = false;
+            it->deactivate();
             p->remove_value( "remote_controlling" );
         } else if( p->get_value( "remote_controlling" ).empty() ) {
-            it->active = false;
+            it->deactivate();
         }
 
         return it->type->charges_to_use();
@@ -7919,7 +7919,7 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
 
     const char *car_action = nullptr;
 
-    if( !it->active ) {
+    if( !it->is_active() ) {
         car_action = _( "Take control of RC car" );
     } else {
         car_action = _( "Stop controlling RC car" );
@@ -7933,8 +7933,8 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
     if( choice < 0 ) {
         return 0;
     } else if( choice == 0 ) {
-        if( it->active ) {
-            it->active = false;
+        if( it->is_active() ) {
+            it->deactivate();
             p->remove_value( "remote_controlling" );
         } else {
             std::vector<std::pair<tripoint, item *>> rc_pairs;
@@ -7974,7 +7974,7 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
             p->set_value( "remote_controlling", serialize_wrapper( [&]( JsonOut & jo ) {
                 rc_loc.serialize( jo );
             } ) );
-            it->active = true;
+            it->activate();
         }
     } else if( choice > 0 ) {
         const flag_id signal( "RADIOSIGNAL_" + std::to_string( choice ) );
@@ -8111,14 +8111,14 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
             stop = true;
         }
         if( stop ) {
-            it->active = false;
+            it->deactivate();
             g->setremoteveh( nullptr );
         }
 
         return it->type->charges_to_use();
     }
 
-    bool controlling = it->active && remote != nullptr;
+    bool controlling = it->is_active() && remote != nullptr;
     int choice = uilist( _( "What to do with remote vehicle control:" ), {
         controlling ? _( "Stop controlling the vehicle." ) : _( "Take control of a vehicle." ),
         _( "Execute one vehicle action" )
@@ -8129,7 +8129,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     }
 
     if( choice == 0 && controlling ) {
-        it->active = false;
+        it->deactivate();
         g->setremoteveh( nullptr );
         return 0;
     }
@@ -8151,7 +8151,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
             add_msg( m_info,
                      _( "Despite using a controller, you still refuse to take control of this vehicle." ) );
         } else {
-            it->active = true;
+            it->activate();
             g->setremoteveh( veh );
             p->add_msg_if_player( m_good, _( "You take control of the vehicle." ) );
             if( !veh->engine_on ) {
@@ -8237,7 +8237,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
     static const int charges_to_start = 50;
     if( t ) {
         if( !it->units_sufficient( *p ) ) {
-            it->active = false;
+            it->deactivate();
             return 0;
         }
 
@@ -8256,7 +8256,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
         if( cooktime <= 0 ) {
 
-            it->active = false;
+            it->deactivate();
             it->erase_var( "COOKTIME" );
             it->put_in( item::spawn( it->get_var( "DISH" ) ) );
             it->erase_var( "DISH" );
@@ -8306,7 +8306,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             return !( it.is_toolmod() || it.is_magazine() );
         } );
 
-        if( it->active ) {
+        if( it->is_active() ) {
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
         } else {
             if( dish_it == nullptr ) {
@@ -8345,7 +8345,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
         if( mc_stop == choice ) {
             if( query_yn( _( "Really stop cooking?" ) ) ) {
-                it->active = false;
+                it->deactivate();
                 it->erase_var( "DISH" );
                 it->erase_var( "COOKTIME" );
                 it->erase_var( "RECIPE" );
@@ -8451,7 +8451,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                                       _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
 
                 it->convert( itype_multi_cooker_filled );
-                it->active = true;
+                it->activate();
                 it->ammo_consume( charges_to_start, pos );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
@@ -8541,7 +8541,7 @@ int iuse::tow_attach( player *p, item *it, bool, const tripoint & )
     }
     const auto set_cable_active = []( player * p, item * it, const std::string & state ) {
         it->set_var( "state", state );
-        it->active = true;
+        it->activate();
         it->attempt_detach( [&p]( detached_ptr<item> &&e ) {
             return item::process( std::move( e ), p, p->pos(), false );
         } );
@@ -8684,7 +8684,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
     const auto set_cable_active = []( player * p, item * it, const std::string & state ) {
         const std::string prev_state = it->get_var( "state" );
         it->set_var( "state", state );
-        it->active = true;
+        it->activate();
         it->attempt_detach( [&p]( detached_ptr<item> &&e ) {
             return item::process( std::move( e ), p, p->pos(), false );
         } );

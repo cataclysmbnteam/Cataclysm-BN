@@ -2011,7 +2011,8 @@ static disass_prompt_result prompt_disassemble_in_seq( avatar &you, const item &
 
     const recipe &r = recipe_dictionary::get_uncraft( obj.typeId() );
     res.r = &r;
-    if( !obj.is_owned_by( you, true ) ) {
+    // Only worry about stealing from factions not already hostile
+    if( !obj.is_owned_by( you, true ) && obj.get_owner()->likes_u >= -10 ) {
         if( !query_yn( _( "Disassembling the %s may anger the people who own it, continue?" ),
                        obj.tname() ) ) {
             return res;

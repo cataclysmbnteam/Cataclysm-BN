@@ -402,5 +402,13 @@
       }
     ],
     "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "press_workbench",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "installed reloading press" },
+    "//": "Doesn't substitute for hand press because we want to define this tool in crafting requirements separately, due to disassembly code.",
+    "qualities": [ [ "PULL", 2 ] ]
   }
 ]

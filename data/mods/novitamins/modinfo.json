@@ -13,9 +13,5 @@
     "name": "NO_VITAMINS",
     "stype": "bool",
     "value": true
-  },
-  {
-    "type": "ITEM_BLACKLIST",
-    "items": [ "calcium_tablet", "vitamins" ]
   }
 ]

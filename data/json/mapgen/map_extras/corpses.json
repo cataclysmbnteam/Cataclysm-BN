@@ -6,7 +6,12 @@
     "object": {
       "place_nested": [
         {
-          "chunks": [ [ "lost_campers_chunk_1", 50 ], [ "lost_campers_chunk_2", 40 ], [ "lost_campers_chunk_3", 10 ] ],
+          "chunks": [
+            [ "lost_campers_chunk_1", 35 ],
+            [ "lost_campers_chunk_2", 30 ],
+            [ "lost_campers_chunk_3", 10 ],
+            [ "lost_campers_chunk_4", 25 ]
+          ],
           "x": 1,
           "y": 1
         }
@@ -39,6 +44,15 @@
     "object": {
       "mapgensize": [ 22, 22 ],
       "place_loot": [ { "group": "map_extra_college_lake", "chance": 100, "x": [ 0, 21 ], "y": [ 0, 21 ], "repeat": [ 2, 6 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lost_campers_chunk_4",
+    "object": {
+      "mapgensize": [ 22, 22 ],
+      "place_loot": [ { "group": "map_extra_dead_hunter", "chance": 100, "x": [ 0, 21 ], "y": [ 0, 21 ], "repeat": [ 2, 6 ] } ]
     }
   },
   {
@@ -129,6 +143,19 @@
     "update_mapgen_id": "mx_drugdeal",
     "object": {
       "place_nested": [
+        { "chunks": [ [ "nested_drugdeal_a", 60 ], [ "nested_drugdeal_b", 20 ], [ "nested_drugdeal_c", 20 ] ], "x": 0, "y": 0 }
+      ],
+      "place_monster": [ { "group": "GROUP_NETHER_CAPTURED", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nested_drugdeal_a",
+    "//": "Variant A, gang shootout.  The standard version of this map extra.",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
         {
           "chunks": [ [ "drugbust_crimescene_1", 90 ], [ "drugbust_crimescene_3", 10 ] ],
           "x": [ 0, 5 ],
@@ -141,8 +168,53 @@
           "y": [ 0, 20 ],
           "repeat": [ 3, 9 ]
         }
-      ],
-      "place_monster": [ { "group": "GROUP_NETHER_CAPTURED", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] } ]
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nested_drugdeal_b",
+    "//": "Variant B, ran into police.  Police spawn on left side, since map extra lacks full support for rotations.",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        {
+          "chunks": [ [ "drugbust_crimescene_1b", 80 ], [ "drugbust_crimescene_1c", 10 ], [ "drugbust_crimescene_3b", 10 ] ],
+          "x": [ 0, 5 ],
+          "y": [ 0, 20 ],
+          "repeat": [ 2, 6 ]
+        },
+        {
+          "chunks": [ [ "drugbust_crimescene_2", 90 ], [ "drugbust_crimescene_3", 10 ] ],
+          "x": [ 15, 20 ],
+          "y": [ 0, 20 ],
+          "repeat": [ 3, 9 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nested_drugdeal_c",
+    "//": "Variant C, same as variant B but mirrored.",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        {
+          "chunks": [ [ "drugbust_crimescene_1", 90 ], [ "drugbust_crimescene_3", 10 ] ],
+          "x": [ 0, 5 ],
+          "y": [ 0, 20 ],
+          "repeat": [ 3, 9 ]
+        },
+        {
+          "chunks": [ [ "drugbust_crimescene_2b", 80 ], [ "drugbust_crimescene_2c", 10 ], [ "drugbust_crimescene_3b", 10 ] ],
+          "x": [ 15, 20 ],
+          "y": [ 0, 20 ],
+          "repeat": [ 2, 6 ]
+        }
+      ]
     }
   },
   {
@@ -152,6 +224,32 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "place_loot": [ { "group": "map_extra_drugdeal", "chance": 100, "x": 3, "y": 3 } ],
+      "place_fields": [
+        { "x": [ 0, 2 ], "y": 3, "field": "fd_blood", "intensity": 1, "repeat": [ 1, 3 ] },
+        { "x": 3, "y": 3, "field": "fd_blood", "intensity": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "drugbust_crimescene_1b",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "place_loot": [ { "group": "map_extra_police", "chance": 100, "x": 3, "y": 3 } ],
+      "place_fields": [
+        { "x": [ 0, 2 ], "y": 3, "field": "fd_blood", "intensity": 1, "repeat": [ 1, 3 ] },
+        { "x": 3, "y": 3, "field": "fd_blood", "intensity": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "drugbust_crimescene_1c",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "place_loot": [ { "group": "map_extra_swat", "chance": 100, "x": 3, "y": 3 } ],
       "place_fields": [
         { "x": [ 0, 2 ], "y": 3, "field": "fd_blood", "intensity": 1, "repeat": [ 1, 3 ] },
         { "x": 3, "y": 3, "field": "fd_blood", "intensity": 1 }
@@ -174,6 +272,32 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "drugbust_crimescene_2b",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "place_loot": [ { "group": "map_extra_police", "chance": 100, "x": 0, "y": 3 } ],
+      "place_fields": [
+        { "x": [ 1, 3 ], "y": 3, "field": "fd_blood", "intensity": 1, "repeat": [ 1, 3 ] },
+        { "x": 0, "y": 3, "field": "fd_blood", "intensity": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "drugbust_crimescene_2c",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "place_loot": [ { "group": "map_extra_swat", "chance": 100, "x": 0, "y": 3 } ],
+      "place_fields": [
+        { "x": [ 1, 3 ], "y": 3, "field": "fd_blood", "intensity": 1, "repeat": [ 1, 3 ] },
+        { "x": 0, "y": 3, "field": "fd_blood", "intensity": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "drugbust_crimescene_3",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -185,6 +309,15 @@
           "y": [ 0, 3 ]
         }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "drugbust_crimescene_3b",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "place_monster": [ { "monster": [ [ "mon_zombie_cop", 75 ], [ "mon_zombie_swat", 25 ] ], "chance": 100, "x": [ 0, 3 ], "y": [ 0, 3 ] } ]
     }
   }
 ]

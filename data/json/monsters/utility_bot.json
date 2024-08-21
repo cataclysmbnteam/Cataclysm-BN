@@ -122,6 +122,7 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
+      "CARD_OVERRIDE",
       "PATH_AVOID_DANGER_1",
       "BIOPROOF"
     ]
@@ -159,6 +160,8 @@
       "PATH_AVOID_DANGER_2",
       "PACIFIST",
       "PET_HARNESSABLE",
+      "CARD_OVERRIDE",
+      "MILITARY_MECH",
       "BIOPROOF"
     ]
   },

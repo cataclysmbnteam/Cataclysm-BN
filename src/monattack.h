@@ -33,15 +33,28 @@ bool grow_vine( monster *z );
 bool vine( monster *z );
 bool spit_sap( monster *z );
 bool triffid_heartbeat( monster *z );
-bool fungus( monster *z );            // Generic fungal spore-launch
-bool fungus_corporate( monster *z );   // Used by Crazy Cataclysm; spawns SpOreos(tm).
-bool fungus_haze( monster *z );       // Broadly scatter aerobics
-bool fungus_big_blossom( monster *z ); // Aerobic & anaerobic, as needed
-bool fungus_inject( monster *z );     // Directly inject the spores
-bool fungus_bristle( monster *z );    // Fungal hedgerow rake & inject
-bool fungus_growth( monster *z );     // Sporeling -> fungal creature
-bool fungus_sprout( monster *z );     // Grow fungal walls
-bool fungus_fortify( monster *z );    // Grow fungal hedgerows
+/// Generic fungal spore-launch
+bool fungus( monster *z );
+/// Advanced spore-launch (for mods). Uses different spore spawn formula.
+/// Spore chance will be proportionally decreased as nearby creatures count
+/// will pass the FUNGUS_SPORE_CREATURES_THRESHOLD threshold.
+bool fungus_advanced( monster *z );
+/// Used by Crazy Cataclysm; spawns SpOreos(tm).
+bool fungus_corporate( monster *z );
+/// Broadly scatter aerobics
+bool fungus_haze( monster *z );
+/// Aerobic & anaerobic, as needed
+bool fungus_big_blossom( monster *z );
+/// Directly inject the spores
+bool fungus_inject( monster *z );
+/// Fungal hedgerow rake & inject
+bool fungus_bristle( monster *z );
+/// Sporeling -> fungal creature
+bool fungus_growth( monster *z );
+/// Grow fungal walls
+bool fungus_sprout( monster *z );
+/// Grow fungal hedgerows
+bool fungus_fortify( monster *z );
 bool impale( monster *z );
 bool dermatik( monster *z );
 bool dermatik_growth( monster *z );
@@ -69,8 +82,10 @@ bool tazer( monster *z );
 bool flamethrower( monster *z );
 bool searchlight( monster *z );
 bool copbot( monster *z );
-bool chickenbot( monster *z );        // Pick from tazer, M4, MGL
-bool multi_robot( monster *z );       // Tazer, flame, M4, MGL, or 120mm!
+/// Pick from tazer, M4, MGL
+bool chickenbot( monster *z );
+/// Tazer, flame, M4, MGL, or 120mm!
+bool multi_robot( monster *z );
 bool ratking( monster *z );
 bool generator( monster *z );
 bool upgrade( monster *z );
@@ -97,7 +112,8 @@ bool ranged_pull( monster *z );
 bool grab( monster *z );
 bool grab_drag( monster *z );
 bool suicide( monster *z );
-bool thrown_by_judo( monster *z );    //handles zombie getting thrown when u.is_throw_immune()
+/// handles zombie getting thrown when u.is_throw_immune()
+bool thrown_by_judo( monster *z );
 bool riotbot( monster *z );
 bool stretch_attack( monster *z );
 bool stretch_bite( monster *z );
@@ -108,9 +124,12 @@ bool doot( monster *z );
 bool zombie_fuse( monster *z );
 
 void taze( monster *z, Creature *target );
-void rifle( monster *z, Creature *target );             // Automated M4
-void frag( monster *z, Creature *target );              // Automated MGL
-void tankgun( monster *z, Creature *target );           // Tankbot primary.
+/// Automated M4
+void rifle( monster *z, Creature *target );
+/// Automated MGL
+void frag( monster *z, Creature *target );
+/// Tankbot primary
+void tankgun( monster *z, Creature *target );
 void flame( monster *z, Creature *target );
 
 bool dodge_check( monster *z, Creature *target );

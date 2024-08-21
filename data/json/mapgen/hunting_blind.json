@@ -48,6 +48,7 @@
         "|": "t_wall_wood"
       },
       "furniture": { "c": "f_chair", "d": "f_dandelion" },
+      "items": { "c": { "item": "map_extra_dead_hunter", "chance": 75 } },
       "place_items": [
         { "item": "ammo_rifle_common", "x": 16, "y": 14, "chance": 10 },
         { "item": "ammo_shotgun_common", "x": 15, "y": 14, "chance": 25 }
@@ -104,6 +105,7 @@
         "|": "t_wall_wood"
       },
       "furniture": { "c": "f_chair", "d": "f_dandelion" },
+      "items": { "c": { "item": "map_extra_dead_hunter", "chance": 75 } },
       "place_items": [
         { "item": "ammo_rifle_common", "x": 12, "y": 9, "chance": 10 },
         { "item": "ammo_shotgun_common", "x": 13, "y": 10, "chance": 25 }

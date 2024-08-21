@@ -175,7 +175,7 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
         return false;
     }
 
-    return is_active( guy, parent.active );
+    return is_active( guy, parent.is_active() );
 }
 
 bool enchantment::is_active( const Character &guy, const bool active ) const

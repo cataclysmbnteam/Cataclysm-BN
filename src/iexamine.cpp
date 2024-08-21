@@ -206,7 +206,6 @@ static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
@@ -1307,44 +1306,53 @@ void iexamine::slot_machine( player &p, const tripoint & )
  * Attempt to crack safe through audio-feedback manual lock manipulation.
  *
  * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
- * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
+ *
+ * Time per attempt affected by perception and mechanics. 5 minutes per attempt minimum.
  * Small chance of just guessing the combo without listening device.
  */
 void iexamine::safe( player &p, const tripoint &examp )
 {
-    auto cracking_tool = p.crafting_inventory().items_with( []( const item & it ) -> bool {
-        //Why not just check the item
-        return it.has_flag( flag_SAFECRACK );
-    } );
+    // Requires mutant hearing, Enhanced Hearing CBM, or a stethoscope.
+    bool can_safecrack = p.hearing_ability() > 1.5f || p.has_item_with_flag( flag_SAFECRACK );
+    bool can_decode = p.get_skill_level( skill_mechanics ) >= 5;
 
-    if( !( !cracking_tool.empty() || p.has_bionic( bio_ears ) ) ) {
-        p.moves -= to_turns<int>( 10_seconds );
-        // one_in(30^3) chance of guessing
-        if( one_in( 27000 ) ) {
-            p.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
-            get_map().furn_set( examp, f_safe_o );
+    // We can skip worrying about a stethoscope if we're skilled enough.
+    if( !can_decode ) {
+        // Lack both the tools and the skills so fiddle with the dial a bit.
+        if( !can_safecrack ) {
+            p.mod_moves( -to_moves<int>( 10_seconds ) );
+            // one_in(30^3) chance of guessing
+            if( one_in( 27000 ) ) {
+                p.add_msg_if_player( m_good,
+                                     _( "Lacking the skill to crack this without tools, you mess with the dial for a little bit… and it opens!" ) );
+                get_map().furn_set( examp, f_safe_o );
+                return;
+            } else {
+                p.add_msg_if_player( m_info,
+                                     _( "Lacking the skill to crack this without tools, you mess with the dial for a little bit." ) );
+                return;
+            }
+        }
+        // We both need and have hearing enhancement, so here we rule out states that prevent us from using it.
+        if( p.is_deaf() ) {
+            add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
             return;
-        } else {
-            p.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
+        } else if( p.has_effect( effect_earphones ) ) {
+            add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
             return;
         }
     }
 
-    if( p.is_deaf() ) {
-        add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
-        return;
-    } else if( p.has_effect( effect_earphones ) ) {
-        add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
-        return;
-    } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
-        add_msg( m_info, _( "You start cracking the safe." ) );
-        // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
-        // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
-        ///\EFFECT_PER speeds up safe cracking
-
-        ///\EFFECT_MECHANICS speeds up safe cracking
-        const time_duration time = std::max( 150_minutes - 20_minutes * ( p.get_skill_level(
-                skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
+    if( query_yn(
+            _( "Attempt to crack the safe?\n\nUses a stethoscope, augmented hearing, or mechanics skill of 5 or higher." ) ) ) {
+        std::string safecracking_message = can_decode ?
+                                           _( "You begin to expertly decode the safe." ) :
+                                           _( "You start cracking the safe." );
+        add_msg( m_info, safecracking_message );
+        // 120 minutes - 10 minutes per mechanics point, - 5 per perception point above 10;
+        // capped at 5 minutes minimum.
+        const time_duration time = std::max( 120_minutes - 10_minutes * p.get_skill_level(
+                skill_mechanics ) - 5_minutes * ( std::max( p.get_per(), 10 ) - 10 ), 5_minutes );
 
         p.assign_activity( ACT_CRACKING, to_moves<int>( time ) );
         p.activity->placement = examp;
@@ -1462,23 +1470,47 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 {
     map &here = get_map();
 
-    safe_reference<item> prying_tool = find_best_prying_tool( p );
-    if( prying_tool ) {
-        apply_prying_tool( p, prying_tool.get(), examp );
-        return;
+    // if the furniture/terrain is also lockpickable
+    // try lockpicking first if we're crouched
+    if( lockpick_activity_actor::is_pickable( examp ) && p.movement_mode_is( CMM_CROUCH ) ) {
+        if( pick_lock( p, examp ) ) {
+            return;
+        }
     }
 
-    // if the furniture/terrain is also lockpickable
+    safe_reference<item> prying_tool = find_best_prying_tool( p );
+    if( prying_tool ) {
+        const int target_diff = here.has_furn( examp ) ? here.furn( examp )->pry.pry_quality : here.ter(
+                                    examp )->pry.pry_quality;
+        // keep going in case we have a prying tool that can't be used against the target, so we can try lockpicking
+        if( prying_tool->get_quality( quality_id( "PRY" ) ) >= target_diff ) {
+            apply_prying_tool( p, prying_tool.get(), examp );
+            return;
+        }
+    }
+
+    const auto target = here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp );
     if( lockpick_activity_actor::is_pickable( examp ) ) {
         if( !pick_lock( p, examp ) ) {
-            add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
-                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+            if( prying_tool ) {
+                add_msg( m_info,
+                         _( "The %s is locked.  If only you had something to pick its lock, or a stronger prying tool…" ),
+                         target );
+            } else {
+                add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
+                         target );
+            }
         }
         return;
     }
 
-    add_msg( m_info, _( "The %s is locked.  If only you had something to pry it…" ),
-             here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+    if( prying_tool ) {
+        add_msg( m_info, _( "The %s is locked, and your tools aren't strong enough to pry it open…" ),
+                 target );
+    } else {
+        add_msg( m_info, _( "The %s is locked.  If only you had something to pry it…" ),
+                 target );
+    }
 }
 
 /**
@@ -3121,9 +3153,11 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     }
 
     const std::string booze_name = brew_i.tname();
-    if( liquid_handler::handle_liquid( **items_here.begin() ) ) {
-        here.furn_set( examp, f_fvat_empty );
+    liquid_handler::handle_liquid( **items_here.begin() );
+    if( items_here.empty() ) {
         add_msg( _( "You squeeze the last drops of %s from the vat." ), booze_name );
+        here.furn_set( examp, f_fvat_empty );
+        return;
     }
 }
 
@@ -4848,7 +4882,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
     if( &patient == &null_player ) {
         if( cyborg != nullptr ) {
-            if( cyborg->typeId() == itype_corpse && !cyborg->active ) {
+            if( cyborg->typeId() == itype_corpse && !cyborg->is_active() ) {
                 popup( _( "Patient is dead.  Please remove corpse to proceed.  Exiting." ) );
                 return;
             } else if( cyborg->typeId() == itype_bot_broken_cyborg || cyborg->typeId() == itype_corpse ) {

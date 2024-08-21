@@ -958,5 +958,28 @@
       ],
       "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_concrete_lump",
+    "looks_like": "f_boulder_medium",
+    "name": "concrete lump",
+    "description": "The result of you pouring concrete over mi-go gas emitters.  It's stuck to the floor.  It can be used as a primitive anvil.",
+    "symbol": "0",
+    "color": "dark_gray",
+    "move_cost_mod": 6,
+    "coverage": 60,
+    "required_str": -1,
+    "crafting_pseudo_item": "boulder_anvil",
+    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE" ],
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 35, 50 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 32, 64 ], "destroy_threshold": 64, "block_unaimed_chance": "50%" }
+    }
   }
 ]

@@ -32,7 +32,7 @@
     "book_learn": [ [ "recipe_bullets", 4 ], [ "mag_rifle", 5 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "req_rifle", 1 ], [ "bullet_forming", 4 ], [ "ammo_bullet", 4 ] ],
+    "using": [ [ "req_rifle", 1 ], [ "rifle_bullet_forming", 4 ], [ "ammo_bullet", 4 ] ],
     "components": [ [ [ "gunpowder", 6 ] ], [ [ "copper", 2 ] ] ]
   },
   {
@@ -54,7 +54,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "req_rifle", 1 ], [ "bullet_forming", 4 ], [ "ammo_bullet", 4 ] ],
+    "using": [ [ "req_rifle", 1 ], [ "rifle_bullet_forming", 4 ], [ "ammo_bullet", 4 ] ],
     "components": [ [ [ "gunpowder", 6 ] ] ]
   },
   {
@@ -76,7 +76,7 @@
     "book_learn": [ [ "recipe_bullets", 5 ], [ "mag_rifle", 6 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "req_sniper", 1 ], [ "bullet_forming", 4 ], [ "ammo_bullet", 8 ] ],
+    "using": [ [ "req_sniper", 1 ], [ "rifle_bullet_forming", 4 ], [ "ammo_bullet", 8 ] ],
     "components": [ [ [ "gunpowder", 10 ] ], [ [ "copper", 4 ] ] ]
   },
   {
@@ -98,7 +98,7 @@
     "book_learn": [ [ "recipe_bullets", 4 ], [ "mag_rifle", 5 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "req_sniper", 1 ], [ "bullet_forming", 4 ], [ "ammo_bullet", 8 ] ],
+    "using": [ [ "req_sniper", 1 ], [ "rifle_bullet_forming", 4 ], [ "ammo_bullet", 8 ] ],
     "components": [ [ [ "gunpowder", 10 ] ] ]
   },
   {
@@ -120,7 +120,7 @@
     "book_learn": [ [ "recipe_bullets", 6 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "req_rifle_huge", 1 ], [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
+    "using": [ [ "req_rifle_huge", 1 ], [ "rifle_bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
     "components": [ [ [ "gunpowder", 30 ] ], [ [ "copper", 6 ] ] ]
   },
   {
@@ -142,7 +142,7 @@
     "book_learn": [ [ "recipe_bullets", 5 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "req_rifle_huge", 1 ], [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
+    "using": [ [ "req_rifle_huge", 1 ], [ "rifle_bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
     "components": [ [ [ "gunpowder", 30 ] ] ]
   },
   {

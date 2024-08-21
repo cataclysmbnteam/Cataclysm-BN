@@ -61,6 +61,7 @@
     "price_postapoc": "40 USD",
     "color": "green",
     "skill": "gun",
+    "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
     "time": "30 m",

@@ -334,14 +334,13 @@
     "melee_cut": 4,
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "sting",
         "cooldown": 10,
         "move_cost": 115,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 2, "armor_penetration": 8 } ],
         "min_mul": 3,
         "max_mul": 5.4,
-        "//": "Bite does 6-10 dmg, armor penetration 5, 8 hits to max venom intensity",
-        "effects": [ { "id": "venom_weaken", "duration": 75, "affect_hit_bp": true } ]
+        "effects": [ { "id": "venom_weaken", "duration": 75 } ]
       }
     ],
     "dodge": 4,
@@ -488,7 +487,7 @@
     "id": "mon_centipede_mega",
     "type": "MONSTER",
     "name": { "str": "armored centipede" },
-    "description": "A huge mutated centipede covered in interlocking chitinous plates of metallic grey, reminding you more of a runaway train car than any living animal.  Its mandibles end in jagged points, seemingly specialised to hunt prey at least as well-armored as itself.  You really don't want to try if you'd fare better.",
+    "description": "A huge mutated centipede covered in interlocking chitinous plates of metallic grey, reminding you more of a runaway train car than any living animal.  Its mandibles end in jagged points, seemingly specialized to hunt prey at least as well-armored as itself.  You really don't want to try if you'd fare better.",
     "symbol": "A",
     "color": "dark_gray",
     "default_faction": "centipede",
@@ -512,7 +511,7 @@
         "type": "bite",
         "cooldown": 5,
         "move_cost": 100,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 110 } ],
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 25 } ],
         "min_mul": 0.8,
         "max_mul": 1.1,
         "no_infection_chance": 30,
@@ -558,7 +557,7 @@
     "id": "mon_dragonfly_naiad",
     "type": "MONSTER",
     "name": { "str": "huge dragonfly naiad" },
-    "description": "The predatory, aquatic larva of a dragonfly, normally barely a centimeter long and feeding on small fishes, grown to the size of a catfish.  Underneath its sharp mandibles you can see that its folded lower jaw changed into something resemblig a barbed spear.",
+    "description": "The predatory, aquatic larva of a dragonfly, normally barely a centimeter long and feeding on small fishes, has grown to the size of a catfish.  Its folded lower jaw displays sharp mandibles resembling barbed spears.",
     "species": [ "INSECT" ],
     "bodytype": "insect",
     "material": [ "iflesh" ],
@@ -571,11 +570,19 @@
     "default_faction": "aquatic_predator",
     "aggression": 40,
     "morale": 25,
-    "melee_skill": 6,
+    "melee_skill": 4,
     "melee_dice": 1,
-    "melee_dice_sides": 5,
-    "melee_cut": 5,
-    "special_attacks": [ [ "STRETCH_ATTACK", 25 ] ],
+    "melee_dice_sides": 4,
+    "melee_cut": 4,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 12,
+        "accuracy": 5,
+        "move_cost": 300,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 6 } ]
+      }
+    ],
     "armor_cut": 6,
     "armor_bullet": 5,
     "dodge": 3,

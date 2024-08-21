@@ -116,7 +116,8 @@ enum m_flag : int {
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
     MF_ID_CARD_DESPAWN,     // Despawns when a science ID card is used on a nearby console
     MF_RIDEABLE_MECH,       // A rideable mech that is immobile until ridden.
-    MF_MILITARY_MECH,       // A rideable mech that was designed for military work.
+    MF_CARD_OVERRIDE,        // Not a mech, but can be converted to friendly using an ID card in the same way that mechs can.
+    MF_MILITARY_MECH,       // Makes rideable mechs and card-scanner bots require a military ID instead of industrial to convert to friendly.
     MF_MECH_RECON_VISION,   // This mech gives you IR night-vision.
     MF_MECH_DEFENSIVE,      // This mech gives you thorough protection.
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack

@@ -203,6 +203,12 @@
     "info": "This item disappears as soon as its timer runs out whether it is food or not."
   },
   {
+    "id": "BIO_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>biological damage</info>."
+  },
+  {
     "id": "BASH_IMMUNE",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "type": "json_flag",
@@ -498,7 +504,8 @@
     "id": "SPAWN_FRIENDLY",
     "type": "json_flag",
     "context": [ "GENERIC" ],
-    "//": "This item will spawn friendly. Used for pets and such."
+    "//": "This item will spawn friendly. Used for pets and such.",
+    "info": "Any creature spawned from this item will <info>always</info> emerge <good>friendly to you</good>."
   },
   {
     "id": "STAB",

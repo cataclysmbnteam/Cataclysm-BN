@@ -1366,6 +1366,14 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
         movecost = ( ( 50 * source_cost ) + ( 50 * dest_cost ) ) / 2.0;
     }
 
+    // If we're leading a pet around by a leash, make it a bit easier for them to catch up if they fall behind too much.
+    if( has_effect( effect_led_by_leash ) && rl_dist( f, g->u.pos() ) > 4 ) {
+        // Only give a bonus if the destination gets them closer to the player
+        if( rl_dist( f, g->u.pos() ) > rl_dist( t, g->u.pos() ) ) {
+            movecost /= 2;
+        }
+    }
+
     return movecost;
 }
 

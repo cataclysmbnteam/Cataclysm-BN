@@ -327,6 +327,7 @@ class monster : public Creature, public location_visitable<monster>
         bool is_immune_effect( const efftype_id & ) const override;
         bool is_immune_damage( damage_type ) const override;
 
+        resistances resists() const;
         void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         bool block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
@@ -334,8 +335,6 @@ class monster : public Creature, public location_visitable<monster>
         void melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
-        void deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
-                                      int &pain ) override;
         void apply_damage( Creature *source, bodypart_id bp, int dam,
                            bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
@@ -383,7 +382,7 @@ class monster : public Creature, public location_visitable<monster>
 
         float  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
         float  get_melee() const override;
-        float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
+        float  hit_roll() const;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
 
         int get_grab_strength() const; // intensity of grabbed effect
