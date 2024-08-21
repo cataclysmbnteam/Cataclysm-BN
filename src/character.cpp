@@ -1964,12 +1964,13 @@ void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_ma
             new_max *= 0.8;
         }
 
+        new_max = std::max( new_max, 1 );
         float max_hp_ratio = static_cast<float>( new_max ) /
                              static_cast<float>( bp.get_hp_max() );
 
         int new_cur = std::ceil( static_cast<float>( bp.get_hp_cur() ) * max_hp_ratio );
 
-        bp.set_hp_max( std::max( new_max, 1 ) );
+        bp.set_hp_max( new_max );
         bp.set_hp_cur( std::max( std::min( new_cur, new_max ), 0 ) );
     }
 }
