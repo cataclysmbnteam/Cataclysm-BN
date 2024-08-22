@@ -1240,7 +1240,6 @@ void Character::suffer_from_radiation()
         if( calendar::once_every( 60_minutes ) ) {
             int rad_mod = 0;
             rad_mod += has_bionic( bio_reactor ) ? 3 : 0;
-            rad_mod += has_bionic( bio_advreactor ) ? 2 : 0;
 
             if( rad_mod > 1 ) {
                 mod_rad( rad_mod );
