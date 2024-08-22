@@ -45,6 +45,14 @@ You can obtain the source code tarball for the latest version from
 
 Obtain packages specified above with your system package manager.
 
+- For Ubuntu-based distros (24.04 onwards):
+
+```sh
+$ sudo apt install git cmake ninja-build mold clang-17 ccache \ 
+  libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev \ 
+  freetype glibc bzip2 zlib libvorbis ncurses gettext libflac++-dev
+```
+
 - For Fedora-based distros:
 
 ```sh
