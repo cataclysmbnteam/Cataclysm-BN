@@ -264,6 +264,7 @@
         "...................."
       ],
       "palettes": [ "FEMA_camp" ],
+      "terrain": { "c": "t_region_soil" },
       "monster": { ",": { "monster": "mon_zombie_fat", "chance": 2 } },
       "items": { "X": { "item": "stash_food", "chance": 50 }, "T": { "item": "dining", "chance": 50 } }
     }
