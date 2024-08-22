@@ -1302,6 +1302,38 @@ void iexamine::slot_machine( player &p, const tripoint & )
     }
 }
 
+static item *find_best_prying_tool( player &p )
+{
+    std::vector<item *> prying_items = p.items_with( []( const item & it ) {
+        // we want to get worn items (eg crowbar in toolbelt), so no check on item position
+        return it.has_quality( quality_id( "PRY" ), 1 );
+    } );
+
+    // Sort by their quality level.
+    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
+        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
+    } );
+
+    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
+    // changes to the original item.
+    if( prying_items.empty() ) {
+        return nullptr;
+    }
+    return prying_items[0];
+}
+
+static void apply_prying_tool( player &p, item *it, const tripoint &examp )
+{
+    map &here = get_map();
+    //~ %1$s: terrain/furniture name, %2$s: prying tool name
+    p.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
+                         here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
+
+    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
+    // changes to the original item.
+    iuse::crowbar( &p, it, false, examp );
+}
+
 /**
  * Attempt to crack safe through audio-feedback manual lock manipulation.
  *
@@ -1312,6 +1344,19 @@ void iexamine::slot_machine( player &p, const tripoint & )
  */
 void iexamine::safe( player &p, const tripoint &examp )
 {
+
+    map &here = get_map();
+    safe_reference<item> prying_tool = find_best_prying_tool( p );
+    const int target_diff = here.has_furn( examp ) ? here.furn( examp )->pry.pry_quality : here.ter(
+                                examp )->pry.pry_quality;
+    if( target_diff > 0 && prying_tool && !p.movement_mode_is( CMM_CROUCH ) ) {
+        // keep going in case we have a prying tool that can't be used against the target, so we can try lockpicking
+        if( prying_tool->get_quality( quality_id( "PRY" ) ) >= target_diff ) {
+            apply_prying_tool( p, prying_tool.get(), examp );
+            return;
+        }
+    }
+
     // Requires mutant hearing, Enhanced Hearing CBM, or a stethoscope.
     bool can_safecrack = p.hearing_ability() > 1.5f || p.has_item_with_flag( flag_SAFECRACK );
     bool can_decode = p.get_skill_level( skill_mechanics ) >= 5;
@@ -1361,32 +1406,24 @@ void iexamine::safe( player &p, const tripoint &examp )
 
 /**
  * Attempt to "hack" the gunsafe's electronic lock and open it.
+ * Also allow for trying to pry it open as an alternative.
  */
 void iexamine::gunsafe_el( player &p, const tripoint &examp )
 {
+    map &here = get_map();
+    safe_reference<item> prying_tool = find_best_prying_tool( p );
+    const int target_diff = here.has_furn( examp ) ? here.furn( examp )->pry.pry_quality : here.ter(
+                                examp )->pry.pry_quality;
+    if( target_diff > 0 && prying_tool && !p.movement_mode_is( CMM_CROUCH ) ) {
+        // keep going in case we have a prying tool that can't be used against the target, so we can try lockpicking
+        if( prying_tool->get_quality( quality_id( "PRY" ) ) >= target_diff ) {
+            apply_prying_tool( p, prying_tool.get(), examp );
+            return;
+        }
+    }
     if( query_yn( _( "Attempt to hack this safe?" ) ) ) {
         try_start_hacking( p, examp );
     }
-}
-
-static item *find_best_prying_tool( player &p )
-{
-    std::vector<item *> prying_items = p.items_with( []( const item & it ) {
-        // we want to get worn items (eg crowbar in toolbelt), so no check on item position
-        return it.has_quality( quality_id( "PRY" ), 1 );
-    } );
-
-    // Sort by their quality level.
-    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
-        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
-    } );
-
-    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
-    // changes to the original item.
-    if( prying_items.empty() ) {
-        return nullptr;
-    }
-    return prying_items[0];
 }
 
 static item *find_best_lock_picking_tool( player &p )
@@ -1406,18 +1443,6 @@ static item *find_best_lock_picking_tool( player &p )
     }
 
     return picklocks[0];
-}
-
-static void apply_prying_tool( player &p, item *it, const tripoint &examp )
-{
-    map &here = get_map();
-    //~ %1$s: terrain/furniture name, %2$s: prying tool name
-    p.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
-                         here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
-
-    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
-    // changes to the original item.
-    iuse::crowbar( &p, it, false, examp );
 }
 
 static void apply_lock_picking_tool( player &p, item *it, const tripoint &examp )

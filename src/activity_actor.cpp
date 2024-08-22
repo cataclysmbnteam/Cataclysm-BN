@@ -863,7 +863,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                 }
             } else if( type == HACK_SAFE ) {
                 who.add_msg_if_player( m_good, _( "The door on the safe swings open." ) );
-                here.furn_set( examp, furn_str_id( "f_safe_o" ) );
+                here.furn_set( examp, furn_str_id( "f_gunsafe_o" ) );
             } else if( type == HACK_DOOR ) {
                 who.add_msg_if_player( _( "You activate the panel!" ) );
                 who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
