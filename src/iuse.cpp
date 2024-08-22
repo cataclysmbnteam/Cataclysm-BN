@@ -2239,6 +2239,7 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
 int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
 {
     if( !t ) {
+        it->revert( p, true );
         it->deactivate();
         return 0;
     }
@@ -2249,6 +2250,7 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
     map &here = get_map();
 
     if( !p->has_enough_charges( *it, false ) ) {
+        it->revert( p, true );
         it->deactivate();
         return 0;
     }

@@ -545,8 +545,7 @@ void item::convert( const itype_id &new_type )
 
 void item::deactivate()
 {
-    if( !( is_active() && is_tool() ) ) {
-        add_msg( "Already inactive" );
+    if( !is_active() ) {
         return; // no-op
     }
 
