@@ -1434,7 +1434,9 @@
           { "id": "t_tree_burnt_season_winter", "fg": 1607, "bg": 1557, "rotates": false },
           { "id": "mon_resingolem_fresh", "fg": 1608, "rotates": false },
           { "id": "mon_resingolem_half", "fg": 1609, "rotates": false },
-          { "id": "mon_resingolem_cured", "fg": 1610, "rotates": false }
+          { "id": "mon_resingolem_cured", "fg": 1610, "rotates": false },
+          { "id": "mon_mithrgolem", "fg": 1611, "rotates": false },
+          { "id": "mon_orchigolem", "fg": 1612, "rotates": false }
         ],
         "//": "range 1553 to 1680",
         "sprite_width": 64,
