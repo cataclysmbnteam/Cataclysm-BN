@@ -26,6 +26,32 @@
     "components": [ [ [ "scrap_bronze", 9 ] ], [ [ "mercury", 400 ] ] ]
   },
   {
+    "result": "mithril_ingot",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "180 m",
+    "batch_time_factors": [ 50, 2 ],
+    "book_learn": [ [ "welding_book", 5 ] ],
+    "tools": [ [ [ "demon_forge", 15 ] ], [ [ "tongs", -1 ] ] ],
+    "components": [ [ [ "mithril_lump", 2 ] ], [ [ "mercury", 100 ] ] ]
+  },
+  {
+    "result": "mithril_ingot",
+    "id_suffix": "with_silver",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "180 m",
+    "batch_time_factors": [ 50, 2 ],
+    "book_learn": [ [ "welding_book", 5 ] ],
+    "tools": [ [ [ "demon_forge", 15 ] ], [ [ "tongs", -1 ] ] ],
+    "components": [ [ [ "silver_small", 9 ] ], [ [ "mercury", 400 ] ] ]
+  },
+  {
     "type": "recipe",
     "result": "fireproof_mortar",
     "category": "CC_OTHER",
