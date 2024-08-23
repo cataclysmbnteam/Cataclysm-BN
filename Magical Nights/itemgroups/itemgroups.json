@@ -397,6 +397,8 @@
     "subtype": "collection",
     "items": [
       { "item": "magi_staff_minor", "prob": 10 },
+      { "item": "magi_staff_lesser", "prob": 5 },
+      { "item": "magi_staff_greater", "prob": 1 },
       { "item": "wizard_hat", "prob": 20 },
       { "item": "mbelt_haste", "prob": 5 },
       { "item": "mbelt_thor", "prob": 1 },
