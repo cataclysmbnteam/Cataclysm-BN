@@ -2,91 +2,113 @@
   {
     "type": "recipe",
     "result": "iv_mutagen_neko",
-    "copy-from": "iv_mutagen_feline"
+    "copy-from": "iv_mutagen_feline",
+    "components": [ [ [ "mutagen_neko", 2 ] ] ]
   },
   {
     "type": "recipe",
     "result": "mutagen_neko",
-    "copy-from": "mutagen_feline"
+    "copy-from": "mutagen_feline",
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "animal_blood_concentrate", 9 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
   {
     "type": "recipe",
     "result": "iv_mutagen_doggirl",
-    "copy-from": "iv_mutagen_lupine"
+    "copy-from": "iv_mutagen_lupine",
+    "components": [ [ [ "mutagen_doggirl", 2 ] ] ]
   },
   {
     "type": "recipe",
     "result": "mutagen_doggirl",
-    "copy-from": "mutagen_lupine"
+    "copy-from": "mutagen_lupine",
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "animal_blood_concentrate", 9 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
   {
     "type": "recipe",
     "result": "iv_mutagen_cowgirl",
-    "copy-from": "iv_mutagen_cattle"
+    "copy-from": "iv_mutagen_cattle",
+    "components": [ [ [ "mutagen_cowgirl", 2 ] ] ]
   },
   {
     "type": "recipe",
     "result": "mutagen_cowgirl",
-    "copy-from": "mutagen_cattle"
+    "copy-from": "mutagen_cattle",
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "animal_blood_concentrate", 9 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
   {
     "type": "recipe",
     "result": "iv_mutagen_beargirl",
-    "copy-from": "iv_mutagen_ursine"
+    "copy-from": "iv_mutagen_ursine",
+    "components": [ [ [ "mutagen_beargirl", 2 ] ] ]
   },
   {
     "type": "recipe",
     "result": "mutagen_beargirl",
-    "copy-from": "mutagen_ursine"
+    "copy-from": "mutagen_ursine",
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "animal_blood_concentrate", 9 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
   {
     "type": "recipe",
     "result": "iv_mutagen_mousegirl",
-    "copy-from": "iv_mutagen_mouse"
+    "copy-from": "iv_mutagen_mouse",
+    "components": [ [ [ "mutagen_mousegirl", 2 ] ] ]
   },
   {
     "type": "recipe",
     "result": "mutagen_mousegirl",
-    "copy-from": "mutagen_mouse"
+    "copy-from": "mutagen_mouse",
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "animal_blood_concentrate", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
   {
     "type": "recipe",
     "result": "iv_mutagen_spidergirl",
-    "copy-from": "iv_mutagen_spider"
+    "copy-from": "iv_mutagen_spider",
+    "components": [ [ [ "mutagen_spidergirl", 2 ] ] ]
   },
   {
     "type": "recipe",
     "result": "mutagen_spidergirl",
-    "copy-from": "mutagen_spider"
+    "copy-from": "mutagen_spider",
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "spider_egg", 1 ], [ "chitin_piece", 4 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
   {
     "type": "recipe",
     "result": "iv_mutagen_harpy",
-    "copy-from": "iv_mutagen_bird"
+    "copy-from": "iv_mutagen_bird",
+    "components": [ [ [ "mutagen_harpy", 2 ] ] ]
   },
   {
     "type": "recipe",
     "result": "mutagen_harpy",
-    "copy-from": "mutagen_bird"
+    "copy-from": "mutagen_bird",
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "eggs_bird", 1, "LIST" ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
   {
     "type": "recipe",
     "result": "iv_mutagen_dryad",
-    "copy-from": "iv_mutagen_plant"
+    "copy-from": "iv_mutagen_plant",
+    "components": [ [ [ "mutagen_dryad", 2 ] ] ]
   },
   {
     "type": "recipe",
     "result": "mutagen_dryad",
-    "copy-from": "mutagen_plant"
+    "copy-from": "mutagen_plant",
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "veggy", 3 ], [ "biollante_bud", 1 ], [ "datura_seed", 16 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ]
   },
   {
     "type": "recipe",
     "result": "iv_mutagen_slimegirl",
-    "copy-from": "iv_mutagen_slime"
+    "copy-from": "iv_mutagen_slime",
+    "components": [ [ [ "mutagen_slimegirl", 2 ] ] ]
   },
   {
     "type": "recipe",
     "result": "mutagen_slimegirl",
-    "copy-from": "mutagen_slime"
+    "copy-from": "mutagen_slime",
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "sewage", 3 ], [ "slime_scrap", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   }
 ]
