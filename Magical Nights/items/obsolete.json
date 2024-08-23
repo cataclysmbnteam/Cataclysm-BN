@@ -36,5 +36,15 @@
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 10, "need_wielding": true },
     "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ],
     "magazine_well": "250 ml"
+  },
+  {
+    "id": "bio_fuel_cell_blood",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "OBSOLETE! Blood Power Generator CBM" },
+    "description": "OBSOLETE ITEM!  Only exists for save integrity",
+    "price": "4500 USD",
+    "weight": "500 g",
+    "difficulty": 8
   }
 ]

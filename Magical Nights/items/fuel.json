@@ -23,23 +23,6 @@
     }
   },
   {
-    "type": "COMESTIBLE",
-    "id": "blood_tainted",
-    "copy-from": "blood_tainted",
-    "name": { "str_sp": "tainted blood" },
-    "category": "fuel",
-    "ammo_type": "tainted_blood",
-    "fuel": { "energy": 5 }
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "blood",
-    "copy-from": "blood",
-    "category": "fuel",
-    "ammo_type": "blood",
-    "fuel": { "energy": 1 }
-  },
-  {
     "id": "mana_infused_blood",
     "type": "COMESTIBLE",
     "comestible_type": "MED",

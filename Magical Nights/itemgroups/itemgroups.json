@@ -159,7 +159,7 @@
   {
     "type": "item_group",
     "id": "magic_CBM",
-    "items": [ [ "bio_fuel_cell_blood", 10 ] ]
+    "items": [ [ "bio_sneeze_beam", 10 ] ]
   },
   {
     "type": "item_group",

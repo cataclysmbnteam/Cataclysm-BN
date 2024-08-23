@@ -1,15 +1,5 @@
 [
   {
-    "id": "bio_fuel_cell_blood",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Blood Power Generator CBM" },
-    "description": "Using the latest advancement in technomancy this bionic is able to convert the innate energy stored in blood into bionic power.  The stronger the blood the better.  It can hold up to 100 mL of blood.",
-    "price": "4500 USD",
-    "weight": "500 g",
-    "difficulty": 8
-  },
-  {
     "type": "enchantment",
     "id": "ench_bio_sneeze_beam",
     "values": [ { "value": "MANA_CAP", "add": 500 } ]
