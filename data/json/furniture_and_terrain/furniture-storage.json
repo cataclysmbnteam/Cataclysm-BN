@@ -442,8 +442,21 @@
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "oxytorch": { "result": "f_gunsafe_o", "duration": "14 seconds" },
-    "//": "Pry data to be added when this examine_action supports prying too.",
     "examine_action": "gunsafe_el",
+    "pry": {
+      "success_message": "You pry open the safe.",
+      "fail_message": "You pry, but cannot pry open the safe.",
+      "break_message": "Your clumsy attempt jams the safe!",
+      "pry_quality": 4,
+      "noise": 24,
+      "break_noise": 28,
+      "sound": "metal screeching!",
+      "difficulty": 12,
+      "alarm": true,
+      "breakable": true,
+      "new_furn_type": "f_gunsafe_o",
+      "break_furn_type": "f_gunsafe_mj"
+    },
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -687,8 +700,17 @@
     "max_volume": "250 L",
     "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
-    "//": "Pry data to be added when this examine_action supports prying too.",
     "examine_action": "safe",
+    "pry": {
+      "success_message": "You pry open the safe.",
+      "fail_message": "You pry, but cannot pry open the safe.",
+      "pry_quality": 4,
+      "noise": 24,
+      "break_noise": 28,
+      "sound": "metal screeching!",
+      "difficulty": 12,
+      "new_furn_type": "f_safe_o"
+    },
     "bash": {
       "str_min": 40,
       "str_max": 200,
