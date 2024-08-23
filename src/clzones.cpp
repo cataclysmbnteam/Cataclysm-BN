@@ -680,20 +680,16 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint &where, in
 {
     const auto &point_set = get_point_set( type, fac );
     for( auto &point : point_set ) {
-        //if( point.z == where.z ) {
         if( square_dist( point, where ) <= range ) {
             return true;
         }
-        // }
     }
 
     const auto &vzone_set = get_vzone_set( type, fac );
     for( auto &point : vzone_set ) {
-        // if( point.z == where.z ) {
         if( square_dist( point, where ) <= range ) {
             return true;
         }
-        // }
     }
 
     return false;
@@ -752,7 +748,6 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     auto near_point_set = std::unordered_set<tripoint>();
 
     for( auto &point : point_set ) {
-        //if( point.z == where.z ) {
         if( square_dist( point, where ) <= range ) {
             if( it && has( zone_LOOT_CUSTOM, point ) ) {
                 if( custom_loot_has( point, it ) ) {
@@ -762,12 +757,10 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
                 near_point_set.insert( point );
             }
         }
-        //}
     }
 
     const auto &vzone_set = get_vzone_set( type, fac );
     for( auto &point : vzone_set ) {
-        // if( point.z == where.z ) {
         if( square_dist( point, where ) <= range ) {
             if( it && has( zone_LOOT_CUSTOM, point ) ) {
                 if( custom_loot_has( point, it ) ) {
@@ -777,7 +770,6 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
                 near_point_set.insert( point );
             }
         }
-        //  }
     }
 
     return near_point_set;
