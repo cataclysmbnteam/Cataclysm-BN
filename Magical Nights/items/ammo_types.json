@@ -9,7 +9,7 @@
     "type": "ammunition_type",
     "id": "tainted_blood",
     "name": "tainted blood",
-    "default": "tainted_blood"
+    "default": "blood_tainted"
   },
   {
     "type": "ammunition_type",
