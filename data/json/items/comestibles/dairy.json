@@ -92,6 +92,7 @@
     "name": { "str_sp": "ghee" },
     "copy-from": "butter",
     "weight": "13500 mg",
+    "spoils_in": "0 days",
     "container": "jar_glass_sealed",
     "calories": 112,
     "description": "Clarified butter, free from milk solids and water.  Will last a very long time.",
