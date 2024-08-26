@@ -8,7 +8,7 @@
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
+    "book_learn": [ [ "textbook_tailor", 1 ], [ "manual_tailor", 1 ], [ "tailor_portfolio", 1 ] ],
     "using": [ [ "sewing_standard", 3 ] ],
     "components": [ [ [ "rag", 4 ] ] ]
   },
@@ -1087,7 +1087,7 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
     "using": [ [ "sewing_standard", 80 ] ],
     "components": [ [ [ "felt_patch", 8 ] ] ]
   },
