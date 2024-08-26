@@ -1734,11 +1734,7 @@
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "water", 12 ], [ "water_clean", 12 ] ],
-      [ [ "jar_glass", 1 ] ],
-      [ [ "sweet_fruit", 4, "LIST" ] ]
-    ]
+    "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "jar_glass", 1 ] ], [ [ "sweet_fruit", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2029,11 +2025,7 @@
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "water", 22 ], [ "water_clean", 22 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "sweet_fruit", 24, "LIST" ] ]
-    ]
+    "components": [ [ [ "water", 22 ], [ "water_clean", 22 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "sweet_fruit", 24, "LIST" ] ] ]
   },
   {
     "type": "recipe",
