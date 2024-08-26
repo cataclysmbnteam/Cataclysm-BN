@@ -49,7 +49,7 @@
     "components": [
       [ [ "protein_powder", 1 ] ],
       [ [ "water_clean", 1 ] ],
-      [ [ "lemonade_powder", 1 ], [ "sweet_fruit_like", 2, "LIST" ], [ "coconut", 1 ] ]
+      [ [ "lemonade_powder", 1 ], [ "sweet_fruit_like", 1, "LIST" ], [ "coconut", 1 ] ]
     ]
   },
   {
