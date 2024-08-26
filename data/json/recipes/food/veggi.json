@@ -1737,8 +1737,7 @@
     "components": [
       [ [ "water", 12 ], [ "water_clean", 12 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "sweet_fruit", 4, "LIST" ] ],
-      [ [ "sugar_standard", 2, "LIST" ] ]
+      [ [ "sweet_fruit", 4, "LIST" ] ]
     ]
   },
   {
@@ -1915,8 +1914,7 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "sweet_fruit", 2, "LIST" ] ],
-      [ [ "sugar_standard", 1, "LIST" ] ]
+      [ [ "sweet_fruit", 2, "LIST" ] ]
     ]
   },
   {
@@ -2034,8 +2032,7 @@
     "components": [
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
       [ [ "jar_3l_glass", 1 ] ],
-      [ [ "sweet_fruit", 24, "LIST" ] ],
-      [ [ "sugar_standard", 12, "LIST" ] ]
+      [ [ "sweet_fruit", 24, "LIST" ] ]
     ]
   },
   {
