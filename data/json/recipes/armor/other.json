@@ -19,6 +19,7 @@
     "difficulty": 3,
     "skills_required": [ "electronics", 2 ],
     "time": "120 m",
+    "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 35 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "element", 8 ] ], [ [ "cable", 10 ] ], [ [ "amplifier", 1 ] ] ]
@@ -31,7 +32,8 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "120 m",
-    "book_learn": [ [ "jewelry_book", 6 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "jewelry_book", 5 ] ],
     "using": [ [ "blacksmithing_advanced", 3 ] ],
     "components": [ [ [ "gold_small", 3 ] ] ]
   },
@@ -43,7 +45,8 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "120 m",
-    "book_learn": [ [ "jewelry_book", 6 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "jewelry_book", 5 ] ],
     "using": [ [ "blacksmithing_advanced", 3 ] ],
     "components": [ [ [ "gold_small", 12 ] ] ]
   },
@@ -55,7 +58,8 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "120 m",
-    "book_learn": [ [ "jewelry_book", 6 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "jewelry_book", 5 ] ],
     "using": [ [ "blacksmithing_advanced", 3 ] ],
     "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
   },
@@ -67,7 +71,8 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "120 m",
-    "book_learn": [ [ "jewelry_book", 6 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "jewelry_book", 5 ] ],
     "using": [ [ "blacksmithing_advanced", 3 ] ],
     "components": [ [ [ "silver_small", 15 ] ] ]
   },
@@ -140,7 +145,8 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "30 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 2 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
@@ -157,7 +163,8 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "30 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 2 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
@@ -174,7 +181,8 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "20 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 2 ] ],
     "using": [ [ "sewing_standard", 5 ] ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "fur", 2 ] ], [ [ "scrap", 1 ] ] ]
@@ -187,7 +195,8 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "20 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 2 ] ],
     "using": [ [ "sewing_standard", 5 ] ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "faux_fur", 2 ] ], [ [ "scrap", 1 ] ] ]
@@ -214,7 +223,8 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "30 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 2 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
@@ -231,7 +241,8 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "20 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 2 ] ],
     "using": [ [ "sewing_standard", 5 ] ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "leather", 2 ] ], [ [ "scrap", 1 ] ] ]
@@ -324,7 +335,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
-    "difficulty": 3,
+    "difficulty": 4,
     "time": "75 m",
     "reversible": true,
     "autolearn": true,
