@@ -1141,9 +1141,14 @@ class Character : public Creature, public location_visitable<Character>
 
         /**
          * Has the item enough charges to invoke its use function?
-         * Also checks if UPS from this player is used instead of item charges.
          */
         bool has_enough_charges( const item &it, bool show_msg ) const;
+
+        /**
+         * Has the item enough charges to invoke its use function?
+         * Also checks if UPS from this player is used instead of item charges.
+        */
+        bool has_enough_power( const item &it, bool show_msg ) const;
 
         /** Consume charges of a tool or comestible item, potentially destroying it in the process
          *  @param used item consuming the charges

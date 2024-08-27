@@ -225,24 +225,10 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
     if( !found_fuel ) {
         fuel_string.clear();
     }
-    std::string power_string;
-    const int curr_power = units::to_joule( p->get_power_level() );
-    const int kilo = curr_power / units::to_joule( 1_kJ );
-    const int joule = ( curr_power % units::to_joule( 1_kJ ) ) / units::to_joule( 1_J );
-    if( kilo > 0 ) {
-        power_string = std::to_string( kilo );
-        if( joule > 0 ) {
-            power_string += pgettext( "decimal separator", "." ) + std::to_string( joule );
-        }
-        power_string += pgettext( "energy unit: kilojoule", "kJ" );
-    } else {
-        power_string = std::to_string( joule );
-        power_string += pgettext( "energy unit: joule", "J" );
-    }
 
     const int pwr_str_pos = right_print( window, 1, 1, c_white,
                                          string_format( _( "Bionic Power: <color_light_blue>%s</color>/<color_light_blue>%ikJ</color>" ),
-                                                 power_string, units::to_kilojoule( p->get_max_power_level() ) ) );
+                                                 units::display( p->get_power_level() ), units::display( p->get_max_power_level() ) ) );
 
     mvwputch( window, point( pwr_str_pos - 1, 1 ), BORDER_COLOR, LINE_XOXO ); // |
     mvwputch( window, point( pwr_str_pos - 1, 2 ), BORDER_COLOR, LINE_XXOO ); // |_

@@ -2164,7 +2164,7 @@ void item::io( Archive &archive )
     archive.io( "charges", charges, 0 );
     charges = std::max( charges, 0 );
 
-    archive.io( "energy", energy, 0_J );
+    archive.io( "power", energy, 0_J );
 
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );

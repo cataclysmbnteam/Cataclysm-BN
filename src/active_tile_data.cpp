@@ -261,16 +261,11 @@ void charger_tile::update_internal( time_point to, const tripoint_abs_ms &p,
             if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                 return VisitResponse::NEXT;
             }
-            if( n.ammo_capacity() > n.ammo_remaining() ||
-                ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
+            if( n.is_battery() && n.max_energy() > n.energy_remaining() ) {
                 while( power >= 1000 || x_in_y( power, 1000 ) ) {
                     const int missing = grid.mod_resource( -1 );
                     if( missing == 0 ) {
-                        if( n.is_battery() ) {
-                            n.mod_energy( 1_kJ );
-                        } else {
-                            n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
-                        }
+                        n.mod_energy( 1_kJ );
                     }
                     power -= 1000;
                 }

@@ -7876,6 +7876,24 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
     if( !it.is_tool() || !it.ammo_required() ) {
         return true;
     }
+    if( !it.ammo_sufficient() ) {
+        if( show_msg ) {
+            add_msg_if_player( m_info,
+                               vgettext( "Your %s has %d charge but needs %d.",
+                                         "Your %s has %d charges but needs %d.",
+                                         it.ammo_remaining() ),
+                               it.tname(), it.ammo_remaining(), it.ammo_required() );
+        }
+        return false;
+    }
+    return true;
+}
+
+bool Character::has_enough_power( const item &it, bool show_msg ) const
+{
+    if( !it.is_tool() || !it.ammo_required() ) {
+        return true;
+    }
     if( it.is_power_armor() ) {
         if( ( character_funcs::can_interface_armor( *this ) &&
               has_charges( itype_bio_armor, it.ammo_required() ) ) ||

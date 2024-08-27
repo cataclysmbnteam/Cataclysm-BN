@@ -363,6 +363,7 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.magazine ) {
         // ensure default_ammo is set
         if( obj.magazine->default_ammo.is_null() ) {
+            std::string name = obj.get_id().c_str();
             obj.magazine->default_ammo = ammotype( *obj.magazine->type.begin() )->default_ammotype();
         }
 
@@ -1345,8 +1346,8 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->battery ) {
-            if( type->battery->max_capacity < 0_J ) {
-                msg += "battery cannot have negative maximum charge\n";
+            if( type->battery->max_energy < 0_J ) {
+                msg += "battery cannot have negative maximum power\n";
             }
         }
         if( type->gun ) {
@@ -2101,24 +2102,15 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
     assign( jo, "charge_factor", slot.charge_factor, strict, 1 );
     assign( jo, "turns_per_charge", slot.turns_per_charge, strict, 0 );
-    assign( jo, "power_draw", slot.power_draw, strict, 0 );
+
+    assign( jo, "power_draw", slot.energy_draw, strict, 0_kJ );
+
     assign( jo, "revert_to", slot.revert_to, strict );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
 
     if( jo.has_array( "rand_charges" ) ) {
-        if( jo.has_member( "initial_charges" ) ) {
-            jo.throw_error( "You can have a fixed initial amount of charges, or randomized.  Not both.",
-                            "rand_charges" );
-        }
-        for( const int charge : jo.get_array( "rand_charges" ) ) {
-            slot.rand_charges.push_back( charge );
-        }
-        if( slot.rand_charges.size() == 1 ) {
-            // see item::item(...) for the use of this array
-            jo.throw_error( "a rand_charges array with only one entry will be ignored, it needs at least 2 entries!",
-                            "rand_charges" );
-        }
+        jo.throw_error( "rand_charges is deprecated, and should be handled directly at mapgen/profession." );
     }
 }
 
@@ -2466,10 +2458,11 @@ void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_battery &slot, const JsonObject &jo, const std::string & )
+void Item_factory::load( islot_battery &slot, const JsonObject &jo, const std::string &src )
 {
-    slot.max_capacity = read_from_json_string<units::energy>( *jo.get_raw( "max_capacity" ),
-                        units::energy_units );
+    const bool strict = is_strict_enabled( src );
+    assign( jo, "max_power", slot.max_energy, strict, 0_J );
+    assign( jo, "initial_power", slot.def_energy, strict, 0_J );
 }
 
 void Item_factory::load_battery( const JsonObject &jo, const std::string &src )

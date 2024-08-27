@@ -109,9 +109,8 @@ struct islot_tool {
     int charge_factor = 1;
     int charges_per_use = 0;
     int turns_per_charge = 0;
-    int power_draw = 0;
 
-    std::vector<int> rand_charges;
+    units::energy energy_draw = 0_kJ;
 };
 
 struct islot_comestible {
@@ -655,8 +654,8 @@ struct islot_magazine {
 };
 
 struct islot_battery {
-    /** Maximum energy the battery can store */
-    units::energy max_capacity;
+    units::energy max_energy = 0_kJ;
+    units::energy def_energy = 0_kJ;
 };
 
 struct islot_ammo : common_ranged_data {

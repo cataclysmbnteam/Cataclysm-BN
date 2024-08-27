@@ -391,7 +391,7 @@ std::vector<detached_ptr<item>> profession::items( bool male,
     std::vector<detached_ptr<item>> result;
     auto add_legacy_items = [&result]( const itypedecvec & vec ) {
         for( const itypedec &elem : vec ) {
-            detached_ptr<item> it = item::spawn( elem.type_id, advanced_spawn_time(), item::default_charges_tag {} );
+            detached_ptr<item> it = item::spawn( elem.type_id, advanced_spawn_time() );
             if( !elem.snip_id.is_null() ) {
                 it->set_snippet( elem.snip_id );
             }
@@ -418,7 +418,7 @@ std::vector<detached_ptr<item>> profession::items( bool male,
     std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
     for( const itype_id &elem : bonus ) {
         if( elem != no_bonus ) {
-            result.push_back( item::spawn( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
+            result.push_back( item::spawn( elem, advanced_spawn_time() ) );
         }
     }
     for( auto iter = result.begin(); iter != result.end(); ) {

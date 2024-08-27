@@ -2238,6 +2238,8 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
 // Ugly and uses variables that shouldn't be public
 int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
 {
+    const bool possess = p->has_item( *it );
+
     if( !t ) {
         it->revert( p, true );
         it->deactivate();
@@ -2269,6 +2271,14 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
                 if( maybe_cbm->is_bionic() ) {
                     cbms.push_back( maybe_cbm );
                 }
+            }
+
+            units::energy charges = units::from_kilojoule( static_cast<int>( cbms.size() ) );
+            charges -= it->ammo_consume( charges, pos );
+            if( charges > 0_J ) {
+                it->revert( p, true );
+                it->deactivate();
+                return 0;
             }
 
             corpse->set_var( "bionics_scanned_by", p->getID().get_value() );
@@ -8236,7 +8246,7 @@ int iuse::autoclave( player *p, item *, bool, const tripoint &pos )
 int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 {
     static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
-    static const int charges_to_start = 50;
+    static const units::energy charges_to_start = 50_kJ;
     if( t ) {
         if( !it->units_sufficient( *p ) ) {
             it->deactivate();
@@ -8312,7 +8322,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
         } else {
             if( dish_it == nullptr ) {
-                if( it->ammo_remaining() < charges_to_start ) {
+                if( it->energy_remaining() < charges_to_start ) {
                     p->add_msg_if_player( _( "Batteries are low." ) );
                     return 0;
                 }
@@ -8423,13 +8433,13 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                     mealtime = meal->time * 2;
                 }
 
-                const int all_charges = charges_to_start + mealtime / ( it->type->tool->power_draw / 10000 );
+                const units::energy all_charges = charges_to_start + it->type->tool->energy_draw * mealtime;
 
-                if( it->ammo_remaining() < all_charges ) {
+                if( it->energy_remaining() < all_charges ) {
 
                     p->add_msg_if_player( m_warning,
-                                          _( "The multi-cooker needs %d charges to cook this dish." ),
-                                          all_charges );
+                                          _( "The multi-cooker needs %s to cook this dish." ),
+                                          units::display( all_charges ) );
 
                     return 0;
                 }

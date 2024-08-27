@@ -738,7 +738,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": "battery",
-    "power_draw": 1500000,
+    "power_draw": "1J",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "MULTICOOKER",
     "magazines": [

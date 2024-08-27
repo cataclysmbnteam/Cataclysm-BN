@@ -23,8 +23,7 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
     }
     REQUIRE( g->m.get_submaps_with_active_items().empty() );
     // An arbitrary active item.
-    item &active = *item::spawn_temporary( "firecracker_act", calendar::start_of_cataclysm,
-                                           item::default_charges_tag() );
+    item &active = *item::spawn_temporary( "firecracker_act", calendar::start_of_cataclysm );
     active.activate();
 
     // For each space in a wide area place the item and check if the cache has been updated.

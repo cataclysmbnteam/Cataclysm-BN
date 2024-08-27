@@ -272,22 +272,23 @@ item::item() : contents( this ),
     charges = 0;
 }
 
-item::item( const itype *type, time_point turn, int qty ) : type( type ),
-    contents( this ),
+item::item( const itype *type, time_point turn, const int charge,
+            const units::energy power ) : type( type ), contents( this ),
     components( new component_item_location( this ) ), bday( turn )
 {
     corpse = has_flag( flag_CORPSE ) ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
 
-    if( qty >= 0 ) {
-        charges = qty;
+    if( charge >= 0 ) {
+        charges = charge;
     } else {
-        if( type->tool && type->tool->rand_charges.size() > 1 ) {
-            const int charge_roll = rng( 1, type->tool->rand_charges.size() - 1 );
-            charges = rng( type->tool->rand_charges[charge_roll - 1], type->tool->rand_charges[charge_roll] );
-        } else {
-            charges = type->charges_default();
-        }
+        charges = type->charges_default();
+    }
+
+    if( power >= 0_kJ ) {
+        energy = power;
+    } else if( is_battery() && type->battery->def_energy > 0_kJ ) {
+        energy = type->battery->def_energy;
     }
 
     if( has_flag( flag_NANOFAB_TEMPLATE ) ) {
@@ -297,12 +298,12 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ),
 
     if( type->gun ) {
         for( const itype_id &mod : type->gun->built_in_mods ) {
-            detached_ptr<item> it = item::spawn( mod, turn, qty );
+            detached_ptr<item> it = item::spawn( mod, turn, charge );
             it->set_flag( flag_IRREMOVABLE );
             put_in( std::move( it ) );
         }
         for( const itype_id &mod : type->gun->default_mods ) {
-            put_in( item::spawn( mod, turn, qty ) );
+            put_in( item::spawn( mod, turn, charge ) );
         }
 
     } else if( type->magazine ) {
@@ -334,14 +335,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ),
     }
 }
 
-item::item( const itype_id &id, time_point turn, int qty )
-    : item( & * id, turn, qty ) {}
-
-item::item( const itype *type, time_point turn, default_charges_tag )
-    : item( type, turn, type->charges_default() ) {}
-
-item::item( const itype_id &id, time_point turn, default_charges_tag tag )
-    : item( & * id, turn, tag ) {}
+item::item( const itype_id &id, time_point turn, int charge, units::energy power )
+    : item( & * id, turn, charge, power ) {}
 
 item::item( const itype *type, time_point turn, solitary_tag )
     : item( type, turn, type->count_by_charges() ? 1 : -1 ) {}
@@ -610,22 +605,36 @@ bool item::revert( const Character *ch, bool alert )
     return true;
 }
 
-units::energy item::mod_energy( const units::energy &qty )
+void item::set_energy( const units::energy &qty )
 {
     if( !is_battery() ) {
         debugmsg( "Tried to set energy of non-battery item" );
-        return 0_J;
+        return;
+    }
+    if( qty < 0_J ) {
+        debugmsg( "Tried to set energy of item to negative value" );
+        return;
+    }
+    energy = qty;
+    return;
+}
+
+void item::mod_energy( const units::energy &qty )
+{
+    if( !is_battery() ) {
+        debugmsg( "Tried to set energy of non-battery item" );
+        return;
     }
 
     units::energy val = energy_remaining() + qty;
     if( val < 0_J ) {
-        return val;
-    } else if( val > type->battery->max_capacity ) {
-        energy = type->battery->max_capacity;
+        energy = 0_J;
+    } else if( val > max_energy() ) {
+        energy = max_energy();
     } else {
         energy = val;
     }
-    return 0_J;
+    return;
 }
 
 void item::ammo_set( const itype_id &ammo, int qty )
@@ -3123,23 +3132,22 @@ void item::container_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     info.emplace_back( "CONTAINER", container_str );
 }
 
-void item::battery_info( std::vector<iteminfo> &info, const iteminfo_query * /*parts*/,
+void item::battery_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                          int /*batch*/, bool /*debug*/ ) const
 {
     if( !is_battery() ) {
         return;
     }
-
-    std::string info_string;
-    if( type->battery->max_capacity < 1_kJ ) {
-        info_string = string_format( _( "<bold>Capacity</bold>: %dJ" ),
-                                     to_joule( type->battery->max_capacity ) );
-    } else if( type->battery->max_capacity >= 1_kJ ) {
-        info_string = string_format( _( "<bold>Capacity</bold>: %dkJ" ),
-                                     to_kilojoule( type->battery->max_capacity ) );
-    }
     insert_separation_line( info );
-    info.emplace_back( "BATTERY", info_string );
+
+    std::string battery_string;
+
+    if( parts->test( iteminfo_parts::BATTERY_ENERGY ) ) {
+        battery_string = "Power: " + units::display( energy_remaining() ) + "/" + units::display(
+                             max_energy() );
+    }
+
+    info.emplace_back( "BATTERY", battery_string );
 }
 
 void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
@@ -3150,6 +3158,20 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     insert_separation_line( info );
+
+    if( type->tool->energy_draw > 0_J && parts->test( iteminfo_parts::TOOL_ENERGYDRAW ) ) {
+        info.emplace_back( "TOOL", string_format( "<bold>Power Draw</bold>: %s per turn",
+                           units::display( type->tool->energy_draw ) ) );
+    }
+
+    if( ( ( type->tool->charges_per_use > 0 || type->tool->turns_per_charge > 0 ) &&
+          parts->test( iteminfo_parts::TOOL_CHARGEUSAGE ) ) ) {
+        int charges_per_tick = type->tool->charges_per_use > 0 ? type->tool->charges_per_use : 1;
+        int tick_length = type->tool->turns_per_charge > 0 ? type->tool->turns_per_charge : 1;
+        info.emplace_back( "TOOL", string_format(
+                               _( "<bold>Charge usage</bold>: %d charges every %d turns" ), charges_per_tick, tick_length ) );
+    }
+
     if( ammo_capacity() != 0 && parts->test( iteminfo_parts::TOOL_CHARGES ) ) {
         info.emplace_back( "TOOL", string_format( _( "<bold>Charges</bold>: %d" ),
                            ammo_remaining() ) );
@@ -4959,10 +4981,12 @@ std::string item::display_name( unsigned int quantity ) const
         // A chargeable item
         amount = charges;
         max_amount = ammo_capacity();
-    } else if( is_battery() ) {
-        show_amt = true;
-        amount = to_joule( energy_remaining() );
-        max_amount = to_joule( type->battery->max_capacity );
+    }
+
+    std::string powertext;
+    if( max_energy() > 0_J ) {
+        powertext = string_format( " (%s/%s)", units::display( energy_remaining() ),
+                                   units::display( max_energy() ) );
     }
 
     std::string ammotext;
@@ -4972,25 +4996,26 @@ std::string item::display_name( unsigned int quantity ) const
         } else {
             ammotext = ammotype( *ammo_types().begin() )->name();
         }
+        if( !ammotext.empty() ) {
+            ammotext = " " + ammotext;
+        }
     }
 
+    std::string chargetext;
     if( amount || show_amt ) {
         if( is_money() ) {
-            amt = string_format( " $%.2f", amount / 100.0 );
+            chargetext = string_format( " $%.2f", amount / 100.0 );
         } else {
-            if( !ammotext.empty() ) {
-                ammotext = " " + ammotext;
-            }
-
             if( max_amount != 0 ) {
-                amt = string_format( " (%i/%i%s)", amount, max_amount, ammotext );
+                chargetext = string_format( " (%i/%i%s)", amount, max_amount, ammotext );
             } else {
-                amt = string_format( " (%i%s)", amount, ammotext );
+                chargetext = string_format( " (%i%s)", amount, ammotext );
             }
         }
-    } else if( !ammotext.empty() ) {
-        amt = " (" + ammotext + ")";
     }
+
+    amt = chargetext.empty() ? string_format( "%s%s", powertext, ammotext ) : string_format( "%s%s",
+            chargetext, powertext );
 
     // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
     if( is_map() && calendar::turn != calendar::turn_zero ) {
@@ -7650,11 +7675,26 @@ int item::gun_range( const player *p ) const
 
 units::energy item::energy_remaining() const
 {
-    if( is_battery() ) {
-        return energy;
+    const item *mag = battery_current();
+
+    if( mag ) {
+        return mag->energy_remaining();
+    } else if( !is_battery() ) {
+        return 0_kJ;
     }
 
-    return 0_J;
+    return energy;
+}
+
+units::energy item::max_energy() const
+{
+    const item *mag = battery_current();
+    if( mag ) {
+        return mag->max_energy();
+    } else if( !is_battery() ) {
+        return 0_kJ;
+    }
+    return type->battery->max_energy;
 }
 
 int item::ammo_remaining() const
@@ -7808,6 +7848,45 @@ int item::ammo_consume( int qty, const tripoint &pos )
     return 0;
 }
 
+units::energy item::ammo_consume( units::energy power, const tripoint &pos )
+{
+    if( power < 0_J ) {
+        debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
+        return 0_J;
+    }
+
+    item *mag = magazine_current();
+    if( mag ) {
+        const units::energy res = mag->ammo_consume( power, pos );
+        if( res > 0_J && energy_remaining() == 0_J ) {
+            if( mag->has_flag( flag_MAG_DESTROY ) ) {
+                remove_item( *mag );
+            } else if( mag->has_flag( flag_MAG_EJECT ) ) {
+                get_map().add_item( pos, remove_item( *mag ) );
+            }
+        }
+        return res;
+    }
+
+    if( is_battery() ) {
+        units::energy need = std::min( energy_remaining(), power );
+        mod_energy( -need );
+        return need;
+
+    } else if( is_tool() || is_gun() ) {
+        power = std::min( power, energy_remaining() );
+        if( has_flag( flag_USES_BIONIC_POWER ) ) {
+            avatar &you = get_avatar();
+            energy = you.get_power_level();
+            you.mod_power_level( -power );
+        }
+        energy -= power;
+        return power;
+    }
+
+    return 0_J;
+}
+
 const itype *item::ammo_data() const
 {
     const item *mag = magazine_current();
@@ -7937,6 +8016,7 @@ std::string item::ammo_sort_name() const
 
 bool item::magazine_integral() const
 {
+    // We have an integral magazine if we're a gun with an ammo capacity (clip)
     if( is_gun() && type->gun->clip > 0 ) {
         return true;
     }
@@ -7946,8 +8026,8 @@ bool item::magazine_integral() const
         }
     }
 
-    // We have an integral magazine if we're a gun with an ammo capacity (clip) or we have no magazines.
-    return ( is_gun() && type->gun->clip > 0 ) || type->magazines.empty();
+    // or we have no magazines.
+    return type->magazines.empty();
 }
 
 itype_id item::magazine_default( bool conversion ) const
@@ -8008,6 +8088,19 @@ item *item::magazine_current()
 const item *item::magazine_current() const
 {
     return const_cast<item *>( this )->magazine_current();
+}
+
+item *item::battery_current()
+{
+    return contents.get_item_with(
+    []( const item & it ) {
+        return it.is_battery();
+    } );
+}
+
+const item *item::battery_current() const
+{
+    return const_cast<item *>( this )->battery_current();
 }
 
 std::vector<item *> item::gunmods()
@@ -9835,11 +9928,12 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
         to_turn<int>( calendar::turn ) % self->type->tool->turns_per_charge == 0 ) {
         energy = std::max( self->ammo_required(), 1 );
 
-    } else if( self->type->tool->power_draw > 0 ) {
-        // power_draw in mW / 1000000 to give kJ (battery unit) per second
-        energy = self->type->tool->power_draw / 1000000;
-        // energy_bat remainder results in chance at additional charge/discharge
-        energy += x_in_y( self->type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
+        // Kheir_POWER_DRAW_REWORK
+        //} else if( self->type->tool->power_draw > 0 ) {
+        //    // power_draw in mW / 1000000 to give kJ (battery unit) per second
+        //    energy = self->type->tool->power_draw / 1000000;
+        //    // energy_bat remainder results in chance at additional charge/discharge
+        //    energy += x_in_y( self->type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
     }
     energy -= self->ammo_consume( energy, pos );
 
