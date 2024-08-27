@@ -12,6 +12,7 @@
     "weight": "81500 g",
     "hp": 100,
     "speed": 80,
+    "attack_cost": 110,
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "light_green_green",
@@ -134,6 +135,7 @@
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
+    "attack_cost": 100,
     "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 10, "vision_night": 10 },
     "delete": { "flags": [ "BLEED" ], "categories": [ "CLASSIC" ] },
     "extend": {
@@ -164,6 +166,7 @@
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
+    "attack_cost": 100,
     "relative": { "hp": 40, "speed": -10, "melee_skill": 2, "armor_bash": 5 },
     "delete": { "flags": [ "BLEED" ], "categories": [ "CLASSIC" ] },
     "extend": {
