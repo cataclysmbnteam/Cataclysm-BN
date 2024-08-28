@@ -714,7 +714,7 @@
     "type": "ARMOR",
     "name": { "str": "suit" },
     "description": "A full-body cotton suit.  Makes the apocalypse a truly gentlemanly experience.",
-    "weight": "1587 g",
+    "weight": "1500 g",
     "volume": "4750 ml",
     "price": "200 USD",
     "price_postapoc": "5 USD",
