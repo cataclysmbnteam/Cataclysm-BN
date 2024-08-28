@@ -203,6 +203,29 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_BANDIT",
+    "name": { "str": "Bandit" },
+    "job_description": "I'm in it for the loot and fresh meat.",
+    "traits": [
+      { "group": "BG_survival_story_CRIMINAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "common": false,
+    "bonus_dex": { "rng": [ 1, 3 ] },
+    "bonus_per": { "rng": [ 1, 3 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -4 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "launcher", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "smg", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "shotgun", "bonus": { "rng": [ 1, 5 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_SCAVENGER",
     "name": { "str": "Scavenger" },
     "job_description": "I'm just trying to survive.",
