@@ -1471,11 +1471,9 @@ int Character::consume_remote_fuel( int amount )
         static const item_filter used_ups = [&]( const item & itm ) {
             return itm.get_var( "cable" ) == "plugged_in";
         };
-        if( has_charges( itype_UPS_off, unconsumed_amount, used_ups ) ) {
-            use_charges( itype_UPS_off, unconsumed_amount, used_ups );
+        if( use_charges_if_avail( itype_UPS_off, unconsumed_amount, used_ups ) ) {
             unconsumed_amount -= 1;
-        } else if( has_charges( itype_adv_UPS_off, unconsumed_amount, used_ups ) ) {
-            use_charges( itype_adv_UPS_off, roll_remainder( unconsumed_amount * 0.5 ), used_ups );
+        } else if( use_charges_if_avail( itype_adv_UPS_off, unconsumed_amount, used_ups ) ) {
             unconsumed_amount -= 1;
         }
     }

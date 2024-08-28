@@ -629,8 +629,8 @@ void item::mod_energy( const units::energy &qty )
     units::energy val = energy_remaining() + qty;
     if( val < 0_J ) {
         energy = 0_J;
-    } else if( val > max_energy() ) {
-        energy = max_energy();
+    } else if( val > energy_capacity() ) {
+        energy = energy_capacity();
     } else {
         energy = val;
     }
@@ -3144,7 +3144,7 @@ void item::battery_info( std::vector<iteminfo> &info, const iteminfo_query *part
 
     if( parts->test( iteminfo_parts::BATTERY_ENERGY ) ) {
         battery_string = "Power: " + units::display( energy_remaining() ) + "/" + units::display(
-                             max_energy() );
+                             energy_capacity() );
     }
 
     info.emplace_back( "BATTERY", battery_string );
@@ -4984,9 +4984,9 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     std::string powertext;
-    if( max_energy() > 0_J ) {
+    if( energy_capacity() > 0_J ) {
         powertext = string_format( " (%s/%s)", units::display( energy_remaining() ),
-                                   units::display( max_energy() ) );
+                                   units::display( energy_capacity() ) );
     }
 
     std::string ammotext;
@@ -7675,26 +7675,76 @@ int item::gun_range( const player *p ) const
 
 units::energy item::energy_remaining() const
 {
-    const item *mag = battery_current();
+    const item *bat = battery_current();
 
-    if( mag ) {
-        return mag->energy_remaining();
-    } else if( !is_battery() ) {
-        return 0_kJ;
+    if( bat ) {
+        return bat->energy_remaining();
     }
 
     return energy;
 }
 
-units::energy item::max_energy() const
+units::energy item::energy_capacity() const
 {
     const item *mag = battery_current();
     if( mag ) {
-        return mag->max_energy();
-    } else if( !is_battery() ) {
-        return 0_kJ;
+        return mag->energy_capacity();
+    } else if( is_battery() ) {
+        return type->battery->max_energy;
+    } else if( is_tool() ) {
+        units::energy res = type->tool->max_energy;
+        for( const item *e : toolmods() ) {
+            res *= e->type->mod->capacity_multiplier;
+        }
+        return res;
+    } else if( is_gun() ) {
+
     }
-    return type->battery->max_energy;
+    return 0_J;
+}
+
+units::energy item::energy_required() const
+{
+    return units::energy();
+}
+
+units::energy item::energy_consume( const units::energy power, const tripoint &pos )
+{
+    if( power < 0_J ) {
+        debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
+        return 0_J;
+    }
+
+    item *bat = battery_current();
+    if( bat ) {
+        const units::energy res = bat->energy_consume( power, pos );
+        if( res > 0_J && energy_remaining() == 0_J ) {
+            if( bat->has_flag( flag_MAG_DESTROY ) ) {
+                remove_item( *bat );
+            } else if( bat->has_flag( flag_MAG_EJECT ) ) {
+                get_map().add_item( pos, remove_item( *bat ) );
+            }
+        }
+        return res;
+    }
+
+    if( is_battery() ) {
+        units::energy need = std::min( energy_remaining(), power );
+        mod_energy( -need );
+        return need;
+    } else if( is_tool() || is_gun() ) {
+        if( has_flag( flag_USES_BIONIC_POWER ) ) {
+            avatar &you = get_avatar();
+            units::energy bio_power_used = std::min( power, you.get_power_level() );
+            you.mod_power_level( bio_power_used );
+            return bio_power_used;
+        } else {
+            units::energy need = std::min( energy_remaining(), power );
+            mod_energy( -need );
+            return need;
+        }
+    }
+    return 0_J;
 }
 
 int item::ammo_remaining() const
@@ -7846,45 +7896,6 @@ int item::ammo_consume( int qty, const tripoint &pos )
     }
 
     return 0;
-}
-
-units::energy item::ammo_consume( units::energy power, const tripoint &pos )
-{
-    if( power < 0_J ) {
-        debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
-        return 0_J;
-    }
-
-    item *mag = magazine_current();
-    if( mag ) {
-        const units::energy res = mag->ammo_consume( power, pos );
-        if( res > 0_J && energy_remaining() == 0_J ) {
-            if( mag->has_flag( flag_MAG_DESTROY ) ) {
-                remove_item( *mag );
-            } else if( mag->has_flag( flag_MAG_EJECT ) ) {
-                get_map().add_item( pos, remove_item( *mag ) );
-            }
-        }
-        return res;
-    }
-
-    if( is_battery() ) {
-        units::energy need = std::min( energy_remaining(), power );
-        mod_energy( -need );
-        return need;
-
-    } else if( is_tool() || is_gun() ) {
-        power = std::min( power, energy_remaining() );
-        if( has_flag( flag_USES_BIONIC_POWER ) ) {
-            avatar &you = get_avatar();
-            energy = you.get_power_level();
-            you.mod_power_level( -power );
-        }
-        energy -= power;
-        return power;
-    }
-
-    return 0_J;
 }
 
 const itype *item::ammo_data() const
@@ -9923,36 +9934,32 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
         }
     }
 
-    int energy = 0;
+    int charges_to_use = 0;
     if( self->type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % self->type->tool->turns_per_charge == 0 ) {
-        energy = std::max( self->ammo_required(), 1 );
-
-        // Kheir_POWER_DRAW_REWORK
-        //} else if( self->type->tool->power_draw > 0 ) {
-        //    // power_draw in mW / 1000000 to give kJ (battery unit) per second
-        //    energy = self->type->tool->power_draw / 1000000;
-        //    // energy_bat remainder results in chance at additional charge/discharge
-        //    energy += x_in_y( self->type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
+        charges_to_use = std::max( self->ammo_required(), 1 );
     }
-    energy -= self->ammo_consume( energy, pos );
+    charges_to_use -= self->ammo_consume( charges_to_use, pos );
 
-    // for power armor pieces, try to use power armor interface first.
-    if( carrier && self->is_power_armor() && character_funcs::can_interface_armor( *carrier ) ) {
-        if( carrier->use_charges_if_avail( itype_bio_armor, energy ) ) {
-            energy = 0;
+    units::energy energy_to_use = self->type->tool->energy_draw;
+    if( energy_to_use > 0_J ) {
+        // for power armor pieces, try to use power armor interface first.
+        if( carrier && self->is_power_armor() && character_funcs::can_interface_armor( *carrier ) ) {
+            if( carrier->use_energy_if_avail( itype_bio_armor, energy_to_use ) ) {
+                energy_to_use = 0_J;
+            }
         }
-    }
 
-    // for items in player possession if insufficient charges within tool try UPS
-    if( carrier && ( self->has_flag( flag_USE_UPS ) ) ) {
-        if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
-            energy = 0;
+        // for items in player possession if insufficient charges within tool try UPS
+        if( carrier && ( self->has_flag( flag_USE_UPS ) ) ) {
+            if( carrier->use_energy_if_avail( itype_UPS, energy_to_use ) ) {
+                energy_to_use = 0_J;
+            }
         }
     }
 
     // if insufficient available charges shutdown the tool
-    if( energy > 0 ) {
+    if( charges_to_use > 0 || energy_to_use > 0_J ) {
         if( carrier ) {
             if( self->is_power_armor() ) {
                 if( self->has_flag( flag_USE_UPS ) ) {

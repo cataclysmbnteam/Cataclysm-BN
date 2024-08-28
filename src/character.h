@@ -1694,18 +1694,30 @@ class Character : public Creature, public location_visitable<Character>
          */
         std::vector<item *> all_items_with_flag( const flag_id &flag ) const;
 
+        // has_charges works ONLY for charges.
+        // has_energy wokrs ONLY for energy
+
         bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const;
+        bool has_energy( const itype_id &it, units::energy amount,
+                         const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
-        // has_amount works ONLY for quantity.
-        // has_charges works ONLY for charges.
         std::vector<detached_ptr<item>> use_amount( itype_id it, int quantity,
                                      const std::function<bool( const item & )> &filter = return_true<item> );
         // Uses up charges
-        bool use_charges_if_avail( const itype_id &it, int quantity );
+        bool use_charges_if_avail( const itype_id &it, int quantity,
+                                   const std::function<bool( const item & )> &filter = return_true<item> );
 
         // Uses up charges
         std::vector<detached_ptr<item>> use_charges( const itype_id &what, int qty,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
+
+        // Uses up energy if enough is found, if not, returns false and uses no energy
+        bool use_energy_if_avail( const itype_id &it, units::energy amount,
+                                  const std::function<bool( const item & )> &filter = return_true<item> );
+
+        // Uses up energy
+        std::vector<detached_ptr<item>> use_energy( const itype_id &what, const units::energy amount,
                                      const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_fire( int quantity ) const;

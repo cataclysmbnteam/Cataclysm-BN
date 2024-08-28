@@ -110,6 +110,8 @@ struct islot_tool {
     int charges_per_use = 0;
     int turns_per_charge = 0;
 
+    units::energy max_energy = 0_kJ;
+    units::energy def_energy = 0_kJ;
     units::energy energy_draw = 0_kJ;
 };
 

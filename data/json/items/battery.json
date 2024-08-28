@@ -30,7 +30,6 @@
     "symbol": "=",
     "color": "yellow",
     "max_power": "50 kJ",
-    "initial_power": "50 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
@@ -49,7 +48,6 @@
     "symbol": "=",
     "color": "green",
     "max_power": "500 kJ",
-    "initial_power": "500 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
   },
@@ -67,7 +65,6 @@
     "symbol": "=",
     "color": "yellow",
     "max_power": "150 kJ",
-    "initial_power": "150 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   },
@@ -86,7 +83,6 @@
     "symbol": "=",
     "color": "yellow",
     "max_power": "100 kJ",
-    "initial_power": "100 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
   },
@@ -104,7 +100,6 @@
     "symbol": "=",
     "color": "yellow",
     "max_power": "150 kJ",
-    "initial_power": "150 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
   },
@@ -123,7 +118,6 @@
     "symbol": "=",
     "color": "green",
     "max_power": "1000 kJ",
-    "initial_power": "1000 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_COMPACT" ]
   },
@@ -141,7 +135,6 @@
     "symbol": "=",
     "color": "yellow",
     "max_power": "300 kJ",
-    "initial_power": "300 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_COMPACT" ]
   },
@@ -160,7 +153,6 @@
     "symbol": "=",
     "color": "yellow",
     "max_power": "500 kJ",
-    "initial_power": "500 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
   },
@@ -178,7 +170,6 @@
     "symbol": "=",
     "color": "yellow",
     "max_power": "750 kJ",
-    "initial_power": "750 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
   },
@@ -197,7 +188,6 @@
     "symbol": "=",
     "color": "green",
     "max_power": "5000 kJ",
-    "initial_power": "5000 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_COMPACT" ]
   },
@@ -215,7 +205,6 @@
     "symbol": "=",
     "color": "yellow",
     "max_power": "1500 kJ",
-    "initial_power": "1500 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_COMPACT" ]
   },
@@ -234,7 +223,6 @@
     "symbol": "=",
     "color": "yellow",
     "max_power": "1000 kJ",
-    "initial_power": "1000 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_BULKY" ]
   },
@@ -252,7 +240,6 @@
     "symbol": "=",
     "color": "yellow",
     "max_power": "1500 kJ",
-    "initial_power": "1500 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_BULKY" ]
   },
@@ -271,7 +258,6 @@
     "symbol": "=",
     "color": "green",
     "max_power": "10000 kJ",
-    "initial_power": "10000 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_BULKY" ]
   },
@@ -289,7 +275,6 @@
     "symbol": "=",
     "color": "red",
     "max_power": "100000 kJ",
-    "initial_power": "100000 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MECH_BAT", "LEAK_DAM", "RADIOACTIVE" ]
   },
@@ -307,7 +292,6 @@
     "symbol": "=",
     "color": "yellow",
     "max_power": "3000 kJ",
-    "initial_power": "3000 kJ",
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_BULKY" ]
   }

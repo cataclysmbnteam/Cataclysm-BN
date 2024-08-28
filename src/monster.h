@@ -440,7 +440,7 @@ class monster : public Creature, public location_visitable<monster>
         // Add an item to inventory
         void add_item( detached_ptr<item> &&it );
         // check mech power levels and modify it.
-        bool use_mech_power( int amt );
+        bool use_mech_power( units::energy amt );
         bool check_mech_powered() const;
         int mech_str_addition() const;
 

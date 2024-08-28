@@ -261,7 +261,7 @@ void charger_tile::update_internal( time_point to, const tripoint_abs_ms &p,
             if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                 return VisitResponse::NEXT;
             }
-            if( n.is_battery() && n.max_energy() > n.energy_remaining() ) {
+            if( n.is_battery() && n.energy_capacity() > n.energy_remaining() ) {
                 while( power >= 1000 || x_in_y( power, 1000 ) ) {
                     const int missing = grid.mod_resource( -1 );
                     if( missing == 0 ) {

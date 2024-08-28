@@ -90,6 +90,16 @@ class visitable
                         std::function<void( int )> visitor = nullptr ) const;
 
         /**
+         * Count maximum available energy from this instance and any contained items
+         * @param what ID of item to count charges of
+         * @param limit stop searching after this much energy has been found
+         * @param filter only count energy of items that match the filter
+         * @param visitor is called when UPS charge is used (parameter is the charge itself)
+         */
+        int energy_of( const itype_id &what, units::energy limit = units::energy_max,
+                       const std::function<bool( const item & )> &filter = return_true<item> ) const;
+
+        /**
          * Count items matching id including both this instance and any contained items
          * @param what ID of items to count. "any" will count all items (usually used with a filter)
          * @param pseudo whether pseudo-items (from map/vehicle tiles, bionics etc) are considered

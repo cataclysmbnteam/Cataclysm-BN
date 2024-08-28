@@ -2659,14 +2659,13 @@ void monster::die( Creature *nkiller )
     }
 }
 
-bool monster::use_mech_power( int amt )
+bool monster::use_mech_power( units::energy amt )
 {
     if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {
         return false;
     }
-    amt = -amt;
-    battery_item->ammo_consume( amt, pos() );
-    return battery_item->ammo_remaining() > 0;
+    battery_item->energy_consume( amt, pos() );
+    return battery_item->energy_remaining() > 0_J;
 }
 
 int monster::mech_str_addition() const

@@ -1836,10 +1836,20 @@ class item : public location_visitable<item>, public game_object<item>
          */
         bool is_gun() const;
 
-        /** Quantity of energy currently loaded in tool, gun or battery */
+        /** Amount of energy currently loaded in tool, gun or battery */
         units::energy energy_remaining() const;
         /** Maximum quantity of energy loadable for tool, gun or battery*/
-        units::energy max_energy() const;
+        units::energy energy_capacity() const;
+        /** Amount of power consumed per usage of tool or with each shot of gun */
+        units::energy energy_required() const;
+
+        /**
+         * Consume power(if available) and return the amount of power that was consumed
+         * @param power maximum amount of power to be consumed.
+         * @param pos current location of item, not currently used by anything, but required for the overload
+         * @return amount of power consumed which will be between 0_J and power
+        */
+        units::energy energy_consume( const units::energy power, const tripoint &pos );
 
         /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
         int ammo_remaining() const;
@@ -1871,14 +1881,6 @@ class item : public location_visitable<item>, public game_object<item>
          * @return amount of ammo consumed which will be between 0 and qty
          */
         int ammo_consume( int qty, const tripoint &pos );
-
-        /**
-         * Consume power(if available) and return the amount of power that was consumed
-         * @param power maximum amount of power to be consumed.
-         * @param pos current location of item, not currently used by anything, but required for the overload
-         * @return amount of power consumed which will be between 0_J and power
-        */
-        units::energy ammo_consume( units::energy power, const tripoint &pos );
 
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;
