@@ -2273,9 +2273,9 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
                 }
             }
 
-            units::energy charges = units::from_kilojoule( static_cast<int>( cbms.size() ) );
-            charges -= it->ammo_consume( charges, pos );
-            if( charges > 0_J ) {
+            units::energy power_needed = units::from_kilojoule( static_cast<int>( cbms.size() ) );
+            power_needed -= it->energy_consume( power_needed, pos );
+            if( power_needed > 0_J ) {
                 it->revert( p, true );
                 it->deactivate();
                 return 0;
@@ -8464,7 +8464,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
                 it->convert( itype_multi_cooker_filled );
                 it->activate();
-                it->ammo_consume( charges_to_start, pos );
+                it->energy_consume( charges_to_start, pos );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
 

@@ -9956,6 +9956,8 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
                 energy_to_use = 0_J;
             }
         }
+
+        energy_to_use -= self->energy_consume( energy_to_use, pos );
     }
 
     // if insufficient available charges shutdown the tool

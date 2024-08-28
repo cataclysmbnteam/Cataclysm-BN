@@ -1172,7 +1172,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
         if( mons->mech_str_addition() != 0 ) {
             throw_assist = true;
             throw_assist_str = mons->mech_str_addition();
-            mons->use_mech_power( -3 );
+            mons->use_mech_power( -3_kJ );
         }
     }
     if( !throw_assist ) {

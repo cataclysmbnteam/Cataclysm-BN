@@ -10170,20 +10170,24 @@ bool Character::has_energy( const itype_id &it, units::energy amount,
                             const std::function<bool( const item & )> &filter ) const
 {
     if( it == itype_UPS ) {
-        units::energy total_UPS;
+        units::energy UPS_needed = amount;
         if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
             auto mons = mounted_creature.get();
-            total_UPS += mons->get_battery_item()->energy_remaining();
-            if( total_UPS >= amount ) {
+            UPS_needed -= mons->get_battery_item()->energy_remaining();
+            if( UPS_needed == 0_J ) {
                 return true;
             }
         }
         if( has_power() && has_active_bionic( bio_ups ) ) {
-            total_UPS += get_power_level();
-            if( total_UPS >= amount ) {
+            UPS_needed -= get_power_level();
+            if( UPS_needed == 0_J ) {
                 return true;
             }
         }
+        static const item_filter is_ups = [&]( const item & itm ) {
+            return itm.has_flag( flag_IS_UPS );
+        };
+        return energy_of( itype_id( "any" ), UPS_needed, is_ups ) == UPS_needed;
     }
     if( it == itype_bio_armor ) {
         units::energy mod_power = 0_J;
@@ -10296,93 +10300,55 @@ std::vector<detached_ptr<item>> Character::use_energy( const itype_id &what,
         }
         if( has_power() && has_active_bionic( bio_ups ) ) {
             units::energy bio = std::min( get_power_level(), amount );
-            mod_power_level( units::from_kilojoule( -bio ) );
+            mod_power_level( -bio );
             power_needed -= bio;
             if( power_needed == 0_J ) {
                 return res;
             }
         }
 
-        int adv = charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.5 ) ) );
-        if( adv > 0 ) {
-            int adv_odd = x_in_y( qty % 2, 2 );
-            // qty % 2 returns 1 if odd and 0 if even, giving a 50% chance of consuming one less charge if odd, 0 otherwise.
-            // (eg: if 5, consumes either 2 or 3)
-            std::vector<detached_ptr<item>> found = use_charges( itype_adv_UPS_off, adv - adv_odd );
-            res.insert( res.end(), std::make_move_iterator( found.begin() ),
-                        std::make_move_iterator( found.end() ) );
-            qty -= std::min( qty, static_cast<int>( adv / 0.5 ) );
-        }
+        tripoint p = pos();
+        remove_items_with( [&power_needed, filter, &res, &p]( detached_ptr<item> &&e ) {
+            if( power_needed == 0_J ) {
+                // found sufficient power
+                return VisitResponse::ABORT;
+            }
+            if( !filter( *e ) ) {
+                return VisitResponse::NEXT;
+            }
+            if( e->has_flag( flag_IS_UPS ) ) {
+                units::energy power_found = std::min( e->energy_remaining(), power_needed );
+                e->energy_consume( power_found, p );
+                power_needed -= power_found;
+                return VisitResponse::SKIP;
+            }
+        } );
 
-        int ups = charges_of( itype_UPS_off, qty );
-        if( ups > 0 ) {
-            std::vector<detached_ptr<item>> found = use_charges( itype_UPS_off, ups );
-            res.insert( res.end(), std::make_move_iterator( found.begin() ),
-                        std::make_move_iterator( found.end() ) );
-            qty -= std::min( qty, ups );
-        }
         return res;
 
     }
 
-
-    bool has_tool_with_UPS = false;
     tripoint p = pos();
-    remove_items_with( [&qty, filter, &has_tool_with_UPS, &what, &res, &p]( detached_ptr<item> &&e ) {
-        if( qty == 0 ) {
+    units::energy power_needed = amount;
+    remove_items_with( [&power_needed, filter, &what, &res, &p]( detached_ptr<item> &&e ) {
+        if( power_needed == 0_J ) {
             // found sufficient charges
             return VisitResponse::ABORT;
         }
         if( !filter( *e ) ) {
             return VisitResponse::NEXT;
         }
-        if( e->typeId() == what && e->has_flag( flag_USE_UPS ) ) {
-            has_tool_with_UPS = true;
-        }
-        if( e->is_tool() ) {
-            if( e->typeId() == what ) {
-                int n = std::min( e->ammo_remaining(), qty );
-                qty -= n;
+        if( e->typeId() == what ) {
+            units::energy n = std::min( e->energy_remaining(), power_needed );
+            power_needed -= n;
+            e->energy_consume( n, p );
 
-                if( n == e->ammo_remaining() ) {
-                    res.push_back( item::spawn( *e ) );
-                    e->ammo_consume( n, p );
-                } else {
-                    detached_ptr<item> split = item::spawn( *e );
-                    split->ammo_set( e->ammo_current(), n );
-                    e->ammo_consume( n, p );
-                    res.push_back( std::move( split ) );
-                }
-            }
-            return VisitResponse::SKIP;
-
-        } else if( e->count_by_charges() ) {
-            if( e->typeId() == what ) {
-                if( e->charges > qty ) {
-                    e->charges -= qty;
-                    detached_ptr<item> split = item::spawn( *e );
-                    split->charges = qty;
-                    res.push_back( std::move( split ) );
-                    qty = 0;
-                    return VisitResponse::ABORT;
-                } else {
-                    qty -= e->charges;
-                    res.push_back( std::move( e ) );
-                }
-            }
-            // items counted by charges are not themselves expected to be containers
             return VisitResponse::SKIP;
         }
 
         // recurse through any nested containers
         return VisitResponse::NEXT;
     } );
-
-    if( has_tool_with_UPS ) {
-        std::vector<detached_ptr<item>> found = use_charges( itype_UPS, qty );
-        res.insert( res.end(), std::make_move_iterator( found.begin() ),
-                    std::make_move_iterator( found.end() ) );
-    }
 
     return res;
 }

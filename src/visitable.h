@@ -10,6 +10,7 @@
 
 #include "filter_utils.h"
 #include "type_id.h"
+#include "units.h"
 
 class item;
 template<typename T>
@@ -96,8 +97,9 @@ class visitable
          * @param filter only count energy of items that match the filter
          * @param visitor is called when UPS charge is used (parameter is the charge itself)
          */
-        int energy_of( const itype_id &what, units::energy limit = units::energy_max,
-                       const std::function<bool( const item & )> &filter = return_true<item> ) const;
+        units::energy energy_of( const itype_id &what, units::energy limit = units::energy_max,
+                                 const std::function<bool( const item & )> &filter = return_true<item>,
+                                 std::function<void( units::energy )> visitor = nullptr ) const;
 
         /**
          * Count items matching id including both this instance and any contained items
