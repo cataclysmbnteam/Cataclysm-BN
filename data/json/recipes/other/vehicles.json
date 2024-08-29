@@ -1509,6 +1509,7 @@
   {
     "result": "frame_plastic",
     "type": "recipe",
+    "id_suffix": "printed",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "computer",
