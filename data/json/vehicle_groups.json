@@ -16,7 +16,7 @@
       [ "beetle", 500 ],
       [ "bicycle", 800 ],
       [ "bicycle_dirt", 200 ],
-      [ "bicycle_plastic", 400 ],
+      [ "bicycle_plastic", 100 ],
       [ "bicycle_electric", 100 ],
       [ "bicycle_carbon", 100 ],
       [ "motorcycle", 200 ],
