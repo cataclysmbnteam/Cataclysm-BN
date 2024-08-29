@@ -710,5 +710,19 @@
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 10 ], [ "steel_standard", 1 ] ],
     "components": [ [ [ "2lcanteen", 1 ] ] ]
+  },
+  {
+    "result": "bag_plastic",
+    "type": "recipe",
+    "result_mult": 10,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "id_suffix": "printed",
+    "skill_used": "computer",
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "autolearn": true,
+    "time": "1 m",
+    "using": [ [ "3d_printing_standard", 1 ] ],
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
   }
 ]
