@@ -742,8 +742,7 @@
     "skill_used": "computer",
     "difficulty": 3,
     "skills_required": [ [ "fabrication", 2 ] ],
-    "//": "Increased time since some forging incorporated into material for the edge",
-    "time": "60 m",
+    "time": "10 m",
     "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "reference_fabrication1", 3 ] ],
     "using": [ [ "3d_printing_standard", 10 ] ],
     "components": [ [ [ "carbon_fiber_filament", 100 ] ], [ [ "blade", 1 ] ] ]
