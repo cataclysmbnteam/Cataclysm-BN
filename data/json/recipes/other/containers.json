@@ -714,6 +714,7 @@
   {
     "result": "bag_plastic",
     "type": "recipe",
+    "result_mult": 10,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "id_suffix": "printed",
