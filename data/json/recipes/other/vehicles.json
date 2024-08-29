@@ -1514,9 +1514,9 @@
     "skill_used": "computer",
     "difficulty": 1,
     "autolearn": true,
-    "time": "10 m",
+    "time": "20 m",
     "using": [ [ "3d_printing_standard", 10 ] ],
-    "components": [ [ [ "plastic_chunk", 40 ] ] ]
+    "components": [ [ [ "plastic_chunk", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -1538,7 +1538,7 @@
     "skill_used": "computer",
     "difficulty": 2,
     "autolearn": true,
-    "time": "10 m",
+    "time": "20 m",
     "using": [ [ "3d_printing_standard", 10 ] ],
     "components": [ [ [ "carbon_fiber_filament", 200 ] ] ]
   }
