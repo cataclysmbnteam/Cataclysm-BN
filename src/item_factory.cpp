@@ -1899,7 +1899,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "barrel_length", slot.barrel_length, strict, 0_ml );
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
-    assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
+    assign( jo, "power_draw", slot.energy_draw, strict, 0_J );
     assign( jo, "blackpowder_tolerance", slot.blackpowder_tolerance, strict, 0 );
     assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
@@ -2460,18 +2460,33 @@ void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_battery &slot, const JsonObject &jo, const std::string &src )
+void islot_battery::load( const JsonObject &jo )
 {
-    const bool strict = is_strict_enabled( src );
-    assign( jo, "max_power", slot.max_energy, strict, 0_J );
-    assign( jo, "initial_power", slot.def_energy, strict, slot.max_energy );
+    mandatory( jo, was_loaded, "max_power", max_energy, energy_reader() );
+    optional( jo, was_loaded, "initial_power", def_energy, energy_reader(), max_energy );
+}
+
+void islot_battery::deserialize( JsonIn &jsin )
+{
+    const JsonObject jo = jsin.get_object();
+    load( jo );
 }
 
 void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.battery, jo, src );
+        if( def.was_loaded ) {
+            if( def.battery ) {
+                def.battery->was_loaded = true;
+            } else {
+                def.battery = cata::make_value<islot_battery>();
+                def.battery->was_loaded = true;
+            }
+        } else {
+            def.battery = cata::make_value<islot_battery>();
+        }
+        def.battery->load( jo );
         load_basic_info( jo, def, src );
     }
 }
@@ -2617,6 +2632,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "min_perception", def.min_per );
     assign( jo, "emits", def.emits );
     assign( jo, "magazine_well", def.magazine_well );
+    assign( jo, "battery well", def.battery_well );
     assign( jo, "explode_in_fire", def.explode_in_fire );
     assign( jo, "solar_efficiency", def.solar_efficiency );
     assign( jo, "ascii_picture", def.picture_id );
@@ -2743,6 +2759,13 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
                 jo.throw_error( "Deleting magazines is not supported yet" );
             }
         }
+    }
+
+    bool assigned_batteries = assign( jo, "batteries", def.batteries );
+    if( assigned_batteries ) {
+        def.batteries.erase( std::unique( def.batteries.begin(), def.batteries.end() ),
+                             def.batteries.end() );
+        def.battery_default = def.batteries[0];
     }
 
     JsonArray jarr = jo.get_array( "min_skills" );

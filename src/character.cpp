@@ -11703,7 +11703,7 @@ int Character::item_reload_cost( const item &it, item &ammo, int qty ) const
         qty = std::max( std::min( ammo.charges, qty ), 1 );
     } else if( ammo.is_ammo_container() || ammo.is_container() ) {
         qty = clamp( qty, ammo.contents.front().charges, 1 );
-    } else if( ammo.is_magazine() ) {
+    } else if( ammo.is_magazine() || ammo.is_battery() ) {
         qty = 1;
     } else {
         debugmsg( "cannot determine reload cost as %s is neither ammo or magazine", ammo.tname() );

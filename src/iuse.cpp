@@ -8428,12 +8428,12 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 const recipe *meal = dishes[choice];
                 int mealtime;
                 if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
-                    mealtime = meal->time;
+                    mealtime = meal->time / 100;
                 } else {
-                    mealtime = meal->time * 2;
+                    mealtime = meal->time * 2 / 100;
                 }
 
-                const units::energy all_charges = charges_to_start + it->type->tool->energy_draw * mealtime;
+                const units::energy all_charges = charges_to_start + it->energy_required() * mealtime;
 
                 if( it->energy_remaining() < all_charges ) {
 

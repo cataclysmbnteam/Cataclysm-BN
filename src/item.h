@@ -1843,6 +1843,9 @@ class item : public location_visitable<item>, public game_object<item>
         /** Amount of power consumed per usage of tool or with each shot of gun */
         units::energy energy_required() const;
 
+        /** Check that item has sufficient energy */
+        bool energy_sufficient( units::energy p_needed ) const;
+
         /**
          * Consume power(if available) and return the amount of power that was consumed
          * @param power maximum amount of power to be consumed.
@@ -1850,6 +1853,9 @@ class item : public location_visitable<item>, public game_object<item>
          * @return amount of power consumed which will be between 0_J and power
         */
         units::energy energy_consume( const units::energy power, const tripoint &pos );
+
+        /** Does item have an integral battery (as opposed to allowing detachable batteries) */
+        bool battery_integral() const;
 
         /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
         int ammo_remaining() const;

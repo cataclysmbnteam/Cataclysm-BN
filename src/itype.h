@@ -97,6 +97,7 @@ class gunmod_location
 };
 
 struct islot_tool {
+    bool was_loaded;
     std::set<ammotype> ammo_id;
 
     std::optional<itype_id> revert_to;
@@ -513,10 +514,13 @@ struct islot_gun : common_ranged_data {
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
 
+    /** For guns with integral battery what is the capacity */
+    units::energy capacity = 0_J;
     /**
-     * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
+     * If this uses energy, how much (per shot), 0_J for no UPS charges at all.
      */
-    int ups_charges = 0;
+    units::energy energy_draw = 0_J;
+
     /**
      * One in X chance for gun to require major cleanup after firing blackpowder shot.
      */
@@ -656,8 +660,13 @@ struct islot_magazine {
 };
 
 struct islot_battery {
+    bool was_loaded;
+
     units::energy max_energy = 0_kJ;
     units::energy def_energy = 0_kJ;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_ammo : common_ranged_data {
@@ -1031,6 +1040,15 @@ struct itype {
 
         /** Volume above which the magazine starts to protrude from the item and add extra volume */
         units::volume magazine_well = 0_ml;
+
+        /** Batteries (if any) that can be used to reload this item */
+        std::vector<itype_id> batteries;
+
+        /** Default battery that can be used to reload this item */
+        itype_id battery_default;
+
+        /** Volume above which the battery starts to protrude from the item and add extra volume */
+        units::volume battery_well = 0_ml;
 
         layer_level layer = layer_level::MAX_CLOTHING_LAYER;
 

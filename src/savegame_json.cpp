@@ -2341,6 +2341,14 @@ void item::deserialize( JsonIn &jsin )
     if( contents.empty() && is_non_resealable_container() ) {
         convert( type->container->unseals_into );
     }
+
+    // Battery item migration. Items with battery type get their battery charge converted into power
+    if( is_battery() && contents.front().typeId() == itype_id( "battery" ) ) {
+        item &bat = contents.front();
+        mod_energy( units::from_kilojoule( bat.charges ) );
+        remove_item( bat );
+        bat.destroy();
+    }
 }
 
 void item::serialize( JsonOut &json ) const

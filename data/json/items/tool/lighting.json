@@ -162,19 +162,14 @@
       "need_charges_msg": "The lantern has no batteries."
     },
     "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_minus_battery_cell",
-          "light_minus_disposable_cell",
-          "light_minus_atomic_battery_cell",
-          "light_battery_cell",
-          "light_disposable_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell"
-        ]
-      ]
+    "batteries": [
+      "light_minus_battery_cell",
+      "light_minus_disposable_cell",
+      "light_minus_atomic_battery_cell",
+      "light_battery_cell",
+      "light_disposable_cell",
+      "light_plus_battery_cell",
+      "light_atomic_battery_cell"
     ],
     "magazine_well": "500 ml"
   },

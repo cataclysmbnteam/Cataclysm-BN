@@ -3159,17 +3159,31 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
     insert_separation_line( info );
 
-    if( type->tool->energy_draw > 0_J && parts->test( iteminfo_parts::TOOL_ENERGYDRAW ) ) {
+    if( energy_required() > 0_J && parts->test( iteminfo_parts::TOOL_ENERGYDRAW ) ) {
         info.emplace_back( "TOOL", string_format( "<bold>Power Draw</bold>: %s per turn",
-                           units::display( type->tool->energy_draw ) ) );
+                           units::display( energy_required() ) ) );
+    }
+
+    if( energy_capacity() != 0_J && parts->test( iteminfo_parts::TOOL_ENERGY ) ) {
+        info.emplace_back( "TOOL", string_format( _( "<bold>Power</bold>: %s/%s" ),
+                           units::display( energy_remaining() ), units::display( energy_capacity() ) ) );
+    }
+
+    if( !type->batteries.empty() && parts->test( iteminfo_parts::TOOL_BATTERIES ) ) {
+        info.emplace_back( "TOOL", _( "Compatible batteries: " ),
+        enumerate_as_string( type->batteries.begin(), type->batteries.end(), []( const itype_id & id ) {
+            return item::nname( id );
+        } ) );
     }
 
     if( ( ( type->tool->charges_per_use > 0 || type->tool->turns_per_charge > 0 ) &&
           parts->test( iteminfo_parts::TOOL_CHARGEUSAGE ) ) ) {
         int charges_per_tick = type->tool->charges_per_use > 0 ? type->tool->charges_per_use : 1;
         int tick_length = type->tool->turns_per_charge > 0 ? type->tool->turns_per_charge : 1;
+        std::string time_string = tick_length == 1 ? _( "turn" ) : string_format( _( "%d turns" ),
+                                  tick_length );
         info.emplace_back( "TOOL", string_format(
-                               _( "<bold>Charge usage</bold>: %d charges every %d turns" ), charges_per_tick, tick_length ) );
+                               _( "<bold>Charge usage</bold>: %d charges every %s" ), charges_per_tick, time_string ) );
     }
 
     if( ammo_capacity() != 0 && parts->test( iteminfo_parts::TOOL_CHARGES ) ) {
@@ -3177,7 +3191,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                            ammo_remaining() ) );
     }
 
-    if( !magazine_integral() ) {
+    if( !type->magazines.empty() ) {
         if( magazine_current() && parts->test( iteminfo_parts::TOOL_MAGAZINE_CURRENT ) ) {
             info.emplace_back( "TOOL", _( "Magazine: " ),
                                string_format( "<stat>%s</stat>", magazine_current()->tname() ) );
@@ -5290,6 +5304,11 @@ units::volume item::volume( bool integral ) const
     if( magazine_current() != nullptr ) {
         ret += std::max( magazine_current()->volume() - type->magazine_well, 0_ml );
     }
+    
+    // Some batteries sit (partly) flush with the item so add less extra volume
+    if( battery_current() != nullptr ){
+        ret+= std::max( battery_current()->volume() - type->battery_well, 0_ml );
+    }
 
     if( is_gun() ) {
         for( const item *elem : gunmods() ) {
@@ -7187,16 +7206,22 @@ bool item::is_reloadable_with( const itype_id &ammo ) const
 bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
 {
     // empty ammo is passed for listing possible ammo apparently, so it needs to return true.
+    if( ammo.is_empty() ) {
+        return true;
+    }
     if( !is_reloadable() ) {
         return false;
-    } else if( is_watertight_container() ) {
-        if( ammo.is_empty() ) {
-            return now ? !is_container_full() : true;
-        } else if( ammo->phase != LIQUID ) {
+    }
+    if( is_container() ) {
+        if( !ammo->count_by_charges() ) {
+            return false;
+        } else if( ammo->phase == LIQUID && !is_watertight_container() ) {
             return false;
         } else {
             return now ? ( is_container_empty() || contents.front().typeId() == ammo ) : true;
         }
+    } else if( !type->batteries.empty() ) {
+        return std::count( type->batteries.begin(), type->batteries.end(), ammo );
     } else if( magazine_integral() ) {
         if( !ammo.is_empty() ) {
             if( now && ammo_data() ) {
@@ -7213,7 +7238,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         }
         return now ? ( ammo_remaining() < ammo_capacity() ) : true;
     } else {
-        return ammo.is_empty() ? true : magazine_compatible().count( ammo );
+        return magazine_compatible().count( ammo );
     }
 }
 
@@ -7694,18 +7719,31 @@ units::energy item::energy_capacity() const
     } else if( is_tool() ) {
         units::energy res = type->tool->max_energy;
         for( const item *e : toolmods() ) {
-            res *= e->type->mod->capacity_multiplier;
         }
         return res;
     } else if( is_gun() ) {
-
+        units::energy res = type->gun->capacity;
+        for( const item *e : gunmods() ) {
+        }
+        return res;
     }
     return 0_J;
 }
 
 units::energy item::energy_required() const
 {
-    return units::energy();
+    if( is_tool() ) {
+        return type->tool->energy_draw;
+    }
+    if( is_gun() ) {
+        return type->gun->energy_draw;
+    }
+    return 0_J;
+}
+
+bool item::energy_sufficient( units::energy p_needed ) const
+{
+    return energy_remaining() >= p_needed;
 }
 
 units::energy item::energy_consume( const units::energy power, const tripoint &pos )
@@ -7738,13 +7776,24 @@ units::energy item::energy_consume( const units::energy power, const tripoint &p
             units::energy bio_power_used = std::min( power, you.get_power_level() );
             you.mod_power_level( bio_power_used );
             return bio_power_used;
-        } else {
+        } else if( battery_integral() ) {
             units::energy need = std::min( energy_remaining(), power );
             mod_energy( -need );
             return need;
         }
     }
     return 0_J;
+}
+
+bool item::battery_integral() const
+{
+    // We have an integral magazine if we're a gun or tool with capacity defined.
+    if( is_gun() && type->gun->capacity > 0_J ) {
+        return true;
+    } else if( is_tool() && type->tool->max_energy > 0_J ) {
+        return true;
+    }
+    return false;
 }
 
 int item::ammo_remaining() const
@@ -8037,8 +8086,8 @@ bool item::magazine_integral() const
         }
     }
 
-    // or we have no magazines.
-    return type->magazines.empty();
+    // or we have no magazines and no battery.
+    return type->magazines.empty() && type->batteries.empty();
 }
 
 itype_id item::magazine_default( bool conversion ) const
@@ -8592,12 +8641,20 @@ bool item::reload( player &u, item &loc, int qty )
         } );
     } else if( !magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
-        if( magazine_current() ) {
+        if( ammo->is_magazine() && magazine_current() ) {
             //~ %1$s: magazine name, %2$s: weapon name
             std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
                                                 magazine_current()->tname(), tname() );
 
             if( !u.dispose_item( *magazine_current(), prompt ) ) {
+                return false;
+            }
+        } else if( ammo->is_battery() && battery_current() ) {
+            //~ %1$s: magazine name, %2$s: weapon name
+            std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
+                                                battery_current()->tname(), tname() );
+
+            if( !u.dispose_item( *battery_current(), prompt ) ) {
                 return false;
             }
         }
@@ -9941,7 +9998,7 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
     }
     charges_to_use -= self->ammo_consume( charges_to_use, pos );
 
-    units::energy energy_to_use = self->type->tool->energy_draw;
+    units::energy energy_to_use = self->energy_required();
     if( energy_to_use > 0_J ) {
         // for power armor pieces, try to use power armor interface first.
         if( carrier && self->is_power_armor() && character_funcs::can_interface_armor( *carrier ) ) {
@@ -10310,14 +10367,14 @@ bool item::is_reloadable() const
     } else if( is_container() ) {
         return true;
 
-    } else if( !is_gun() && !is_tool() && !is_magazine() ) {
-        return false;
+    } else if( is_magazine() && !ammo_types().empty() ) {
+        return true;
 
-    } else if( ammo_types().empty() ) {
-        return false;
+    } else if( ( is_gun() || is_tool() ) && ( !ammo_types().empty() || !type->batteries.empty() ) ) {
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 std::string item::type_name( unsigned int quantity ) const
@@ -10408,7 +10465,7 @@ int item::get_gun_ups_drain() const
             modifier += mod->type->gunmod->ups_charges_modifier;
             multiplier *= mod->type->gunmod->ups_charges_multiplier;
         }
-        draincount = ( type->gun->ups_charges * multiplier ) + modifier;
+        draincount = ( units::to_joule( type->gun->energy_draw ) * multiplier ) + modifier;
     }
     return draincount;
 }

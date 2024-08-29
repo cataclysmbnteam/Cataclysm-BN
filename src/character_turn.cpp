@@ -864,47 +864,33 @@ void Character::process_items()
 
     // Active item processing done, now we're recharging.
     std::vector<item *> active_worn_items;
+    for( item *&w : worn ) {
+        if( w->has_flag( flag_USE_UPS ) &&
+            w->energy_remaining() < w->energy_capacity() ) {
+            active_worn_items.push_back( w );
+        }
+    }
     bool weapon_active = primary_weapon().has_flag( flag_USE_UPS ) &&
                          primary_weapon().charges < primary_weapon().type->maximum_charges();
     std::vector<size_t> active_held_items;
-    int ch_UPS = 0;
     for( size_t index = 0; index < inv.size(); index++ ) {
         item &it = inv.find_item( index );
-        itype_id identifier = it.type->get_id();
-        if( identifier == itype_UPS_off ) {
-            ch_UPS += it.ammo_remaining();
-        } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += it.ammo_remaining() / 0.5;
-        }
-        if( it.has_flag( flag_USE_UPS ) && it.charges < it.type->maximum_charges() ) {
+        if( it.has_flag( flag_USE_UPS ) && it.energy_remaining() < it.energy_capacity() ) {
             active_held_items.push_back( index );
         }
     }
-    bool update_required = get_check_encumbrance();
-    for( item *&w : worn ) {
-        if( w->has_flag( flag_USE_UPS ) &&
-            w->charges < w->type->maximum_charges() ) {
-            active_worn_items.push_back( w );
-        }
-        // Necessary for UPS in Aftershock - check worn items for charge
-        const itype_id &identifier = w->typeId();
-        if( identifier == itype_UPS_off ) {
-            ch_UPS += w->ammo_remaining();
-        } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += w->ammo_remaining() / 0.5;
-        }
-        if( !update_required && w->encumbrance_update_ ) {
-            update_required = true;
-        }
-        w->encumbrance_update_ = false;
-    }
-    if( update_required ) {
-        reset_encumbrance();
-    }
+
+    static const item_filter is_ups = [&]( const item & itm ) {
+        return itm.has_flag( flag_IS_UPS );
+    };
+
+    units::energy ch_UPS = energy_of( itype_id( "any" ), units::energy_max, is_ups );
+
     if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
-        ch_UPS += units::to_kilojoule( get_power_level() );
+        ch_UPS += get_power_level();
     }
-    int ch_UPS_used = 0;
+
+    units::energy ch_UPS_used = 0_J;
 
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
@@ -913,22 +899,22 @@ void Character::process_items()
             break;
         }
         item &it = inv.find_item( index );
-        ch_UPS_used++;
-        it.charges++;
+        ch_UPS_used += 1_kJ;
+        it.mod_energy( 1_kJ );
     }
     if( weapon_active && ch_UPS_used < ch_UPS ) {
-        ch_UPS_used++;
-        primary_weapon().charges++;
+        ch_UPS_used += 1_kJ;
+        primary_weapon().mod_energy( 1_kJ );
     }
     for( item *worn_item : active_worn_items ) {
         if( ch_UPS_used >= ch_UPS ) {
             break;
         }
-        ch_UPS_used++;
-        worn_item->charges++;
+        ch_UPS_used += 1_kJ;
+        worn_item->mod_energy( 1_kJ );
     }
-    if( ch_UPS_used > 0 ) {
-        use_charges( itype_UPS, ch_UPS_used );
+    if( ch_UPS_used > 0_J ) {
+        use_energy( itype_UPS, ch_UPS_used );
     }
 }
 
