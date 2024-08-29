@@ -1515,7 +1515,7 @@
     "difficulty": 1,
     "autolearn": true,
     "time": "20 m",
-    "using": [ [ "3d_printing_standard", 10 ] ],
+    "using": [ [ "3d_printing_standard", 20 ] ],
     "components": [ [ [ "plastic_chunk", 20 ] ] ]
   },
   {
