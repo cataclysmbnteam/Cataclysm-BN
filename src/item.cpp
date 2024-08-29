@@ -5306,12 +5306,12 @@ units::volume item::volume( bool integral ) const
     }
 
     // Some batteries sit (partly) flush with the item so add less extra volume
-    if( battery_current() != nullptr ){
-        ret+= std::max( battery_current()->volume() - type->battery_well, 0_ml );
+    if( battery_current() != nullptr ) {
+        ret += std::max( battery_current()->volume() - type->battery_well, 0_ml );
     }
 
     if( is_gun() ) {
-    for( const item *elem : gunmods() ) {
+        for( const item *elem : gunmods() ) {
             ret += elem->volume( true );
         }
 
