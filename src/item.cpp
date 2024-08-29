@@ -607,7 +607,7 @@ bool item::revert( const Character *ch, bool alert )
 
 void item::set_energy( const units::energy &qty )
 {
-    if( !is_battery() ) {
+    if( !is_battery() && !is_gun() && !is_tool() ) {
         debugmsg( "Tried to set energy of non-battery item" );
         return;
     }
@@ -621,7 +621,7 @@ void item::set_energy( const units::energy &qty )
 
 void item::mod_energy( const units::energy &qty )
 {
-    if( !is_battery() ) {
+    if( !is_battery() && !is_gun() && !is_tool() ) {
         debugmsg( "Tried to set energy of non-battery item" );
         return;
     }
