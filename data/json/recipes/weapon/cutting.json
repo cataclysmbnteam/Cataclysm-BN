@@ -786,7 +786,7 @@
     "//": "Increased time since some forging incorporated into material for the edge",
     "time": "90 m",
     "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "reference_fabrication1", 3 ] ],
-    "using": [ [ "3d_printing_standard", 10 ], [ "steel_standard", 3 ], [ "blacksmithing_standard", 12 ] ],
+    "using": [ [ "3d_printing_standard", 20 ], [ "steel_standard", 3 ], [ "blacksmithing_standard", 12 ] ],
     "components": [ [ [ "carbon_fiber_filament", 200 ] ] ]
   },
   {
