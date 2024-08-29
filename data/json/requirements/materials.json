@@ -283,12 +283,6 @@
     "components": [ [ [ "alloy_sheet", 1 ] ] ]
   },
   {
-    "id": "vehicle_repair_plastic",
-    "type": "requirement",
-    "//": "Materials used for repairing superalloy parts",
-    "components": [ [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
     "id": "vehicle_repair_carbon",
     "type": "requirement",
     "//": "Materials used for repairing superalloy parts",
