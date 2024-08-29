@@ -150,7 +150,7 @@
       "repair": {
         "skills": [ [ "mechanics", 1 ] ],
         "time": "5 m",
-        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_plastic", 1 ] ]
+        "using": [ [ "soldering_standard", 5 ], [ "plastics", 1 ] ]
       }
     },
     "flags": [ "MOUNTABLE" ],
