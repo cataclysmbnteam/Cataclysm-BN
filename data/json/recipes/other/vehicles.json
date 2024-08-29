@@ -1539,8 +1539,8 @@
     "skill_used": "computer",
     "difficulty": 2,
     "autolearn": true,
-    "time": "20 m",
-    "using": [ [ "3d_printing_standard", 10 ] ],
-    "components": [ [ [ "carbon_fiber_filament", 200 ] ] ]
+    "time": "30 m",
+    "using": [ [ "3d_printing_standard", 30 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 300 ] ] ]
   }
 ]
