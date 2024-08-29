@@ -43,6 +43,9 @@
       [ "nodachi", 1 ],
       [ "katana", 2 ],
       [ "sword_carbon", 2 ],
+      [ "broadsword_carbon", 2 ],
+      [ "nodachi_carbon", 2 ],
+      [ "greatsword_carbon", 2 ],
       [ "survnote", 1 ]
     ]
   },
