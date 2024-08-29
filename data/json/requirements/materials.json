@@ -283,6 +283,12 @@
     "components": [ [ [ "alloy_sheet", 1 ] ] ]
   },
   {
+    "id": "vehicle_repair_carbon",
+    "type": "requirement",
+    "//": "Materials used for repairing carbon fiber parts",
+    "components": [ [ [ "carbon_fiber_filament", 1 ] ] ]
+  },
+  {
     "id": "wood_structural",
     "type": "requirement",
     "//": "Planks, sticks, and long sticks used in recipes, roughly 1:1 by weight.",
